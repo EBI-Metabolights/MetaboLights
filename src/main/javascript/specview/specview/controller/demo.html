@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<script src="../../third-party/closure/closure/goog/base.js"></script>
+<script src="../deps.js"></script>
+<script src="../test/molfile.js"></script>
+<script>
+    goog.require('goog.events.EventType');
+    goog.require('goog.dom');
+    goog.require('goog.ui.Select');
+    goog.require('goog.ui.MenuItem');
+    goog.require('specview.controller.Controller');
+    goog.require('specview.controller.plugins.Highlight');
+    goog.require('specview.io.mdl');
+</script>
+
+<script>
+function initPage(){
+	// uncomment next two lines to debug to console
+	var c = new goog.debug.Console(); 
+	c.setCapturing(true); 
+	
+	var editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
+	editor.registerPlugin(new specview.controller.plugins.Highlight());
+	
+	var sdfs = sdf.split("$$$$\n");
+	editor.setModels([specview.io.mdl.readMolfile(sdfs[0])]);
+ 
+    var select1 = new goog.ui.Select();
+    select1.addItem(new goog.ui.MenuItem('0', 0));
+    select1.addItem(new goog.ui.MenuItem('1', 1));
+    select1.addItem(new goog.ui.MenuItem('2', 2));
+    select1.addItem(new goog.ui.MenuItem('3', 3));
+    select1.addItem(new goog.ui.MenuItem('4', 4));
+    select1.addItem(new goog.ui.MenuItem('5', 5));
+    select1.addItem(new goog.ui.MenuItem('6', 6));
+    select1.addItem(new goog.ui.MenuItem('7', 7));
+    select1.addItem(new goog.ui.MenuItem('8', 8));
+    select1.addItem(new goog.ui.MenuItem('9', 9));
+    select1.addItem(new goog.ui.MenuItem('10', 10));
+    select1.addItem(new goog.ui.MenuItem('11', 11));
+    select1.addItem(new goog.ui.MenuItem('12', 12));
+    
+    select1.setSelectedIndex(0);
+    select1.render(goog.dom.getElement('selectMolecule'));
+    
+        goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
+        function(e) {
+          var select = e.target;
+          var idx = select.getValue();
+          var molfile=sdfs[idx];
+          var mol=specview.io.mdl.readMolfile(molfile);
+	     editor.setModels([mol]);
+        });
+        
+        };
+
+   goog.events.listen(window, goog.events.EventType.LOAD, initPage);
+</script>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Display spectrum demo</title>
+	<link rel="stylesheet" href="../../css/specview.css" />
+	<link rel="stylesheet"  href="../../css/demo.css" />
+</head>
+
+<body>
+
+	<fieldset style="width: 600px">
+	<legend><h1>Molecule viewer</h1></legend>
+	<br>
+	<label id="selectMolecule">Select a molecule to render: </label>
+	<br>
+			<div id="moleculeContainer" style="height: 400px">
+			</div>
+	</fieldset>
+</body>
+
+</html>

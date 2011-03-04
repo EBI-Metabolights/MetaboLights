@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="specview" default="usage">
+	<property name="base.dir" location="." />
+	<property name="build.dir" value="${base.dir}/build" />
+	<property name="doc.dir" value="${base.dir}/docs" />
+	<property name="jsdoc.dir" value="${base.dir}/third-party/jsdoc-toolkit" />
+	<property name="closure-library.dir" value="${base.dir}/third-party/closure/closure" />
+	<property name="js-src.dir" value="${base.dir}/specview" />
+	
+<target name="clean" description="delete generated files">
+		<delete dir="${build.dir}" />
+		<delete dir="${doc.dir}" />
+	</target>
+
+	<target name="create-deps" description="(re)create specview/deps.js file">
+		<exec executable="python" failonerror="true" logError="true" output="${js-src.dir}/deps.js">
+			<arg value="${closure-library.dir}/bin/build/depswriter.py" />
+			<arg line='--root_with_prefix="specview ../../../../specview"' />
+		</exec>
+
+	</target>
+
+       <target name="usage" description="Display main targets by running 'ant -projecthelp'">
+                <java classname="org.apache.tools.ant.Main">
+                        <arg value="-projecthelp" />
+                </java>
+        </target>
+</project>

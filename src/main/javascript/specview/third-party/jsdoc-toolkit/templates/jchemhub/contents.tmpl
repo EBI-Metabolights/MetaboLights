@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		<title>JsDoc Reference - {+data.alias+}</title>
+
+                <link rel=StyleSheet type="text/css" href="default.css"/>
+                <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+                <script>
+                    function hideClasses() {
+                      $(".namespace").hide();
+                    }
+                </script>
+	</head>
+
+	<body onload="hideClasses();" class="contentBody">
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+	
+<div align="center">{+new Link().toFile("classindex.html").withText("Class Index")+}
+| {+new Link().toFile("files.html").withText("File Index")+}</div>
+<hr />
+<h2>Pages</h2>
+<ul class="classList">
+	<for each="thisClass" in="data.pages">
+	<li>{!
+                  output += new Link().toPage(thisClass.alias);
+	!}</li>
+	</for>
+</ul>
+<h2>Classes</h2>
+    <for each="namespaceKey" in="keys(data.namespaces).sort()">
+
+        <p><a onclick="$('#{+namespaceKey+}').slideToggle({+keys(data.namespaces).length+}*50);">
+              {+namespaceKey.replace(/_/gi, '.')+}</a></p>
+        <div id="{+namespaceKey+}" class="namespace">
+        <ul class="classList">
+        
+	<for each="thisClass" in="data.namespaces[namespaceKey]">
+	<li>{!
+                        output += new Link().toClass(thisClass.alias);
+	!}</li>
+	</for>
+
+        </ul>
+        </div>
+    </for>
+<hr />
+		
+</div>
+
+	</body>
+</html>

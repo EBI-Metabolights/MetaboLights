@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="model/|ring/|util/|math/|test/|io/|view/|controller/|controller/plugins/|graphics/|resource/" kind="src" path=""/>
+	<classpathentry excluding="plugins/" kind="src" path="controller"/>
+	<classpathentry kind="src" path="controller/plugins"/>
+	<classpathentry kind="src" path="graphics"/>
+	<classpathentry kind="src" path="io"/>
+	<classpathentry kind="src" path="math"/>
+	<classpathentry kind="src" path="model"/>
+	<classpathentry kind="src" path="resource"/>
+	<classpathentry kind="src" path="ring"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="util"/>
+	<classpathentry kind="src" path="view"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.USER_LIBRARY/closure"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--TODO: License and copyright-->
+<html>
+<script src="../../third-party/closure/closure/goog/base.js"></script>
+<script src="../deps.js"></script>
+<script>
+	goog.require('specview.io.json');
+	goog.require('goog.events.EventType');
+	goog.require('goog.dom');
+	goog.require('goog.format.JsonPrettyPrinter');
+    goog.require('specview.io.mdl');
+    goog.require('specview.controller.Controller');
+    goog.require('specview.controller.plugins.Highlight');
+</script>
+<script src="../test/molfile.js"></script>
+
+<script>
+function loadMol() {
+	molblock = document.getElementById("molblock");
+    var sdfs = sdf.split("$$$$\n");
+	molblock.value = sdfs[0];
+}
+
+function showMol(molblock) {
+	var mol = specview.io.mdl.readMolfile(molblock);
+	showJSON(mol);
+	renderMol(mol);
+}
+function showJSON(mol) {
+	var jblock = document.getElementById("jsonblock");
+	var pretty = new goog.format.JsonPrettyPrinter();
+	jblock.value = pretty.format( specview.io.json.writeMolecule(mol));
+}
+
+function renderMol(mol) {
+    editor.registerPlugin(new specview.controller.plugins.Highlight());
+    editor.setModels([mol]);
+}
+	
+</script>
+
+<head>
+	<title>Molblock to JSON with render</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+</head>
+<body onLoad="loadMol()">
+	<form>Paste molfile here and <input type=button value="render"
+		onClick="showMol(molblock.value)"><br>
+	<textarea id="molblock" name="molblock" cols=80 rows=16>Paste molblock here</textarea>
+	
+	<BR>
+	<textarea id="jsonblock" cols=80 rows=16>JSON will appear here</textarea>
+	</form>
+	
+	<div id="moleculeKontainer"
+		style="width: 400px; height: 400px; position: absolute; top: 200px; left: 600px;"></div>
+	</body>
+</html>
+
+<script>
+  var editor = new specview.controller.Controller(goog.dom.getElement('moleculeKontainer'),{background : {color : 'white'}});
+</script>
