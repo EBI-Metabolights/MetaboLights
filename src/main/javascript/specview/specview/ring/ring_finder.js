@@ -137,54 +137,6 @@ specview.ring.RingFinder.verifySSSR = function(sssr, nsssr, molecule) {
 	return Csssr;
 }
 
-    /**
-	 * Make a copy of the molecule. This is needed since we modify the molecule
-	 * to increase ring perception performance.
-	 */
-    /*
-	 * function copyMolecule(molecule) { var moleculeCopy = new
-	 * specview.model.Molecule(); for (var i = 0, li = molecule.countAtoms(); i <
-	 * li; i++) { var atomCopy = new specview.model.Atom(); atomCopy.index = i;
-	 * moleculeCopy.addAtom(atomCopy) } for (i = 0, li = molecule.countBonds();
-	 * i < li; i++) { var bond = molecule.getBond(i); var sourceIndex =
-	 * bond.source.index; var targetIndex = bond.target.index; var sourceCopy =
-	 * moleculeCopy.getAtom(sourceIndex); var targetCopy =
-	 * moleculeCopy.getAtom(targetIndex); var bondCopy = new
-	 * specview.model.Bond(sourceCopy, targetCopy); bondCopy.index = i;
-	 * moleculeCopy.addBond(bondCopy); } return moleculeCopy; }
-	 */
-
-    /**
-	 * Reduce the size of a molecule by progressively removing atoms with a
-	 * connectivity of 1. These terminal atoms can never be in a ring. The aim
-	 * of this function is to reduce the number of molecules considered during
-	 * ring perception to speed up the process.
-	 */
-    /*
-	 * function reduceMolecule(molecule) { var atomCount =
-	 * molecule.countAtoms(); var lastAtomCount = atomCount + 1; var start = 0;
-	 * while (lastAtomCount != atomCount) { lastAtomCount = atomCount;
-	 * 
-	 * for (var i = start; i < atomCount; i++) { var atom = molecule.getAtom(i);
-	 * if (atom.countBonds() < 2) { molecule.removeAtom(atom); atomCount--;
-	 * start = i; break; } } } }
-	 */
-
-/**
- * Detect ring membership of atoms and set the isInCycle property. Ring
- * membership of atoms can be computed in O(n) time by creating a spanning tree.
- * For this, a breath-first iteration is performed on the atoms and the tree is
- * constructed. During construction visited atoms and bonds are stored in
- * arrays. If a bond isn't visited yet but the atom it connects to is, the bond
- * is a ring-closure. When a closure bond is found, a backtracking loop assigns
- * the isInCycle property for all atoms in the cycle. The end of the cycle is
- * where the atoms come back together. For even rings, there is always a single
- * last (depth) atom. For odd rings, the closure bond connects two atoms of the
- * same depth. This function is has an O(n) runtime.
- * 
- * @param {specview.model.Molecule}
- *            molecule
- */
 specview.ring.RingFinder.detectRingAtoms = function(molecule) {
 	var n = molecule.countAtoms();
 	if (!n) {

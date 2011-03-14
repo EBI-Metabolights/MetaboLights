@@ -54,7 +54,7 @@ specview.view.SingleUpOrDownBondRenderer.prototype.render = function(bond,transf
     var angle_left = theta + (Math.PI / 2);
     var angle_right = theta - (Math.PI / 2);
 
-    var zzCoords = new Array();
+    zzCoords = new Array();
 	zzCoords.push(bond.source.coord);
     this.logger.fine('# coords '+zzCoords.length);
 
@@ -63,7 +63,7 @@ specview.view.SingleUpOrDownBondRenderer.prototype.render = function(bond,transf
 	var corr=0;
 
     //Loop one: create the points to zig zag to, increasingly away from the middle line by using "corr"
-    for(var z=1; z <= zigZags; z++) {
+    for(z=1; z <= zigZags; z++) {
         corr += inc;
 
 		if (z%2==0)
@@ -82,7 +82,7 @@ specview.view.SingleUpOrDownBondRenderer.prototype.render = function(bond,transf
 
     //Loop two: draw lines between zig zag points    
     bondPath.moveTo(coords[1].x, coords[1].y);
-	for (var i=2, max=coords.length-1; i<max; i++) {
+	for (i=2, max=coords.length-1; i<max; i++) {
         bondPath.lineTo(coords[i].x, coords[i].y);
         bondPath.moveTo(coords[i].x, coords[i].y);
 	}

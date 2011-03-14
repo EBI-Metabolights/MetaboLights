@@ -44,18 +44,13 @@ specview.view.SingleUpBondRenderer.prototype.render = function(bond, transform, 
 	var angle_left = theta + (Math.PI / 2);
 	var angle_right = theta - (Math.PI / 2);
 
-	var trans1 = new specview.graphics.AffineTransform(1, 0, 0, 1, Math
-			.cos(angle_left)
+	var trans1 = new specview.graphics.AffineTransform(1, 0, 0, 1, Math.cos(angle_left)
 			* strokeWidth, Math.sin(angle_left) * strokeWidth);
-
 	var target1 = trans1.transformCoords( [ bond.target.coord ])[0];
 	
-	var trans2 = new specview.graphics.AffineTransform(1, 0, 0, 1, Math
-			.cos(angle_right)
+	var trans2 = new specview.graphics.AffineTransform(1, 0, 0, 1, Math.cos(angle_right)
 			* strokeWidth, Math.sin(angle_right) * strokeWidth);
-
 	var target2 = trans2.transformCoords( [ bond.target.coord ])[0];
-
 
   //make target1 and target2 drop short of the target (prettier)
 	if (bond.target.symbol!="C" ) { //TODO -> unless all Carbons are rendered (optional?)

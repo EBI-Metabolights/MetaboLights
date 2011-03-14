@@ -95,8 +95,7 @@ specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt
 	path_up.lineTo(target_up.x, target_up.y);
 	path_up.lineTo(coords[1].x, coords[1].y);
 	path_up.close();
-// var fill = new goog.graphics.LinearGradient(coords[0].x, coords[0].y,
-// source_up.x, source_up.y, opt_color, 'white');
+
 	var fill = new goog.graphics.SolidFill(opt_color, .15);
 	opt_element_array.add(this.graphics.drawPath(path_up, stroke, fill));
 	
@@ -106,11 +105,7 @@ specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt
 	path_down.lineTo(target_down.x, target_down.y);
 	path_down.lineTo(coords[1].x, coords[1].y);
 	path_down.close();
-// var fill = new goog.graphics.LinearGradient(coords[0].x, coords[0].y,
-// source_down.x, source_down.y, opt_color, 'white');
 	opt_element_array.add(this.graphics.drawPath(path_down, stroke, fill));
-	
-	
 	return opt_element_array;
 }
 
@@ -142,7 +137,7 @@ specview.view.BondRenderer.defaultConfig = {
 			'color' : 'black'
 		}, 
 		'width-ratio' : 6,
-		'symbol-space' : 0.3,
+		'symbol-space' : 0.25,
 		'triple-dist' : 0.15,
 		'quad-dist' : 0.13
 

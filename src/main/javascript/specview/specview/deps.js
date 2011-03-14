@@ -13,13 +13,15 @@ goog.addDependency('../../../../specview/io/mdl.js', ['specview.io.mdl'], ['goog
 goog.addDependency('../../../../specview/json/json_templates.js', [], []);
 goog.addDependency('../../../../specview/math/line.js', ['specview.math.Line'], ['goog.math.Coordinate', 'specview.math.Triangle']);
 goog.addDependency('../../../../specview/math/triangle.js', ['specview.math.Triangle'], []);
-goog.addDependency('../../../../specview/model/atom.js', ['specview.model.Atom', 'specview.model.Atom.Hybridizations'], ['goog.math.Coordinate', 'goog.structs.Set', 'specview.model.Flags', 'specview.resource.Covalence']);
+goog.addDependency('../../../../specview/model/atom.js', ['specview.model.Atom', 'specview.model.Atom.Hybridizations'], ['goog.debug.Logger', 'goog.math.Coordinate', 'goog.structs.Set', 'specview.model.Flags', 'specview.resource.ImplicitHydrogens']);
 goog.addDependency('../../../../specview/model/bond.js', ['specview.model.Bond'], ['specview.model.Atom']);
 goog.addDependency('../../../../specview/model/flags.js', ['specview.model.Flags'], []);
 goog.addDependency('../../../../specview/model/molecule.js', ['specview.model.Molecule'], ['goog.array', 'goog.debug.Logger', 'goog.math.Vec2', 'specview.graphics.AffineTransform', 'specview.model.Atom', 'specview.ring.RingFinder']);
 goog.addDependency('../../../../specview/model/neighborlist.js', ['specview.model.NeighborList'], ['goog.array', 'goog.math.Line', 'goog.math.Vec2']);
 goog.addDependency('../../../../specview/model/pseudo_atom.js', ['specview.model.PseudoAtom'], ['specview.model.Atom']);
 goog.addDependency('../../../../specview/resource/covalence.js', ['specview.resource.Covalence'], []);
+goog.addDependency('../../../../specview/resource/elements.js', ['specview.resource.Elements'], []);
+goog.addDependency('../../../../specview/resource/implicith.js', ['specview.resource.ImplicitHydrogens'], []);
 goog.addDependency('../../../../specview/ring/alpha-pinene.js', [], []);
 goog.addDependency('../../../../specview/ring/azulene.js', [], []);
 goog.addDependency('../../../../specview/ring/biphenyl.js', [], []);
@@ -31,7 +33,6 @@ goog.addDependency('../../../../specview/ring/ring_finder.js', ['specview.ring.R
 goog.addDependency('../../../../specview/ring/ring_partitioner.js', ['specview.ring.RingPartitioner'], ['goog.array']);
 goog.addDependency('../../../../specview/ring/spiro_decane.js', [], []);
 goog.addDependency('../../../../specview/ring/sssr.js', ['specview.ring.SSSR'], ['goog.array', 'goog.structs.Set', 'specview.ring.Ring']);
-goog.addDependency('../../../../specview/test/molfile.js', [], []);
 goog.addDependency('../../../../specview/util/bond_util.js', ['specview.util.BondUtil', 'specview.util.BondUtil.Orders'], ['specview.model.Atom', 'specview.model.Bond', 'specview.model.PseudoAtom']);
 goog.addDependency('../../../../specview/view/aromaticity_renderer.js', ['specview.view.AromaticityRenderer'], ['specview.view.BondRenderer']);
 goog.addDependency('../../../../specview/view/arrow_renderer.js', ['specview.view.ArrowRenderer'], ['goog.graphics', 'goog.math.Vec2', 'specview.view.Renderer']);

@@ -81,8 +81,13 @@ specview.model.Molecule.prototype.resetRingCenters = function() {
  */
 
 specview.model.Molecule.prototype.addBond = function(bond) {
+
 	var sourceIndex = this.indexOfAtom(bond.source);
 	var targetIndex = this.indexOfAtom(bond.target);
+
+	
+	this.logger.info("source "+bond.source.symbol+" "+sourceIndex+" "+targetIndex )
+
 	// check if the bond connects two previously unconnected fragments
 	if (this.fragments[sourceIndex] != this.fragments[targetIndex]) {
 		var before, after;
