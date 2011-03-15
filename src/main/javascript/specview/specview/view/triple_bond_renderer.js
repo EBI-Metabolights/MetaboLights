@@ -16,6 +16,8 @@
  */
 goog.provide('specview.view.TripleBondRenderer');
 goog.require('specview.view.BondRenderer');
+goog.require('goog.debug.Logger');
+
 
 /**
  * Class to render a triple bond object to a graphics representation
@@ -57,14 +59,25 @@ specview.view.TripleBondRenderer.prototype.render = function(bond, transform, bo
 			.cos(angle_right)
 			* bondWidth, Math.sin(angle_right) * bondWidth);
 
-	var leftside = transleft.transformCoords( [ bond.source.coord,
-			bond.target.coord ]);
-	var rightside = transright.transformCoords( [ bond.source.coord,
-			bond.target.coord ]);
+	var sourceCoord = bond.source.coord;
+	var targetCoord = bond.target.coord;
 
-	var coords = transform.transformCoords( [ bond.source.coord,
-			bond.target.coord, leftside[0], leftside[1], rightside[0],
-			rightside[1] ]);
+	if (this.hasSymbol(bond.source)||this.hasSymbol(bond.target)) {
+		var bv = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.difference(bond.target.coord, bond.source.coord));
+		bv.scale(1 / this.config.get("bond")['width-ratio']);
+		var space = bv.normalize().scale(this.config.get('bond')['symbol-space']);
+		if (this.hasSymbol(bond.source)) {
+			sourceCoord = goog.math.Coordinate.sum(sourceCoord, space);
+		}
+		if (this.hasSymbol(bond.target)) {
+			targetCoord = goog.math.Coordinate.difference(targetCoord, space);
+		}
+	}
+
+	var leftside = transleft.transformCoords  ( [ sourceCoord,targetCoord ]);
+	var rightside = transright.transformCoords( [ sourceCoord,targetCoord ]);
+
+	var coords = transform.transformCoords( [ sourceCoord, targetCoord, leftside[0], leftside[1], rightside[0], rightside[1] ]);
 
 	bondPath.moveTo(coords[0].x, coords[0].y);
 	bondPath.lineTo(coords[1].x, coords[1].y);
@@ -77,3 +90,5 @@ specview.view.TripleBondRenderer.prototype.render = function(bond, transform, bo
 
 	this.graphics.drawPath(bondPath, bondStroke, bondFill);
 }
+
+specview.view.TripleBondRenderer.prototype.logger = goog.debug.Logger.getLogger('specview.view.TripleBondRenderer');

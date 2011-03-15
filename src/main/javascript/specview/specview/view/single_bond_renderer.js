@@ -45,18 +45,17 @@ specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 	// the bond coordinates
 	var coords = [ bond.source.coord, bond.target.coord ];
 	// bond vector
-	var bv = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.difference(
-			coords[1], coords[0]));
+	var bv = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.difference(coords[1], coords[0]));
 	// normalize and scale vector to length 0.2
 	bv.normalize();
 	bv.scale(this.config.get('bond')['symbol-space']);
 
 	// adjust source coord for symbol if needed
-	if (specview.view.BondRenderer.hasSymbol(bond.source)) {
+	if (this.hasSymbol(bond.source)) {
 		coords[0] = goog.math.Coordinate.sum(coords[0], bv);
 	}
 	// adjust target coord for symbol if needed
-	if (specview.view.BondRenderer.hasSymbol(bond.target)) {
+	if (this.hasSymbol(bond.target)) {
 		coords[1] = goog.math.Coordinate.difference(coords[1], bv);
 	}
 

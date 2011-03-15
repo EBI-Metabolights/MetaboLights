@@ -86,7 +86,7 @@ specview.model.Molecule.prototype.addBond = function(bond) {
 	var targetIndex = this.indexOfAtom(bond.target);
 
 	
-	this.logger.info("source "+bond.source.symbol+" "+sourceIndex+" "+targetIndex )
+	//this.logger.info("source "+bond.source.symbol+" "+sourceIndex+" "+targetIndex )
 
 	// check if the bond connects two previously unconnected fragments
 	if (this.fragments[sourceIndex] != this.fragments[targetIndex]) {
@@ -456,7 +456,7 @@ specview.model.Molecule.prototype.getBoundingBox = function() {
  * 
  */
 specview.model.Molecule.prototype.rotate = function(degrees, center) {
-	// this.logger.info('rotate ' + degrees);
+	this.logger.info('rotate ' + degrees);
 	var trans = specview.graphics.AffineTransform.getRotateInstance(goog.math
 			.toRadians(degrees), center.x, center.y);
 	goog.array.forEach(this.atoms, function(a) {
@@ -523,7 +523,7 @@ specview.model.Molecule.prototype.merge = function(fragment, frag_bond,
 	var fragment_angle = goog.math.angle(frag_atom.coord.x, frag_atom.coord.y,
 			other_frag_atom.coord.x, other_frag_atom.coord.y);
 	var angle_diff = goog.math.angleDifference(fragment_angle, target_angle);
-
+	this.logger.info("rotate");
 	fragment.rotate(180 + angle_diff, frag_atom.coord);
 	fragment.translate(position_diff);
 
@@ -643,7 +643,8 @@ specview.model.Molecule.prototype.sproutFragment = function(attachment_atom,
 		// translate fragment
 		var position_diff = goog.math.Vec2.fromCoordinate(goog.math.Coordinate
 				.difference(attachment_atom.coord, fragment_atom.coord));
-		var angle_diff = goog.math.angle()
+		var angle_diff = goog.math.angle();
+		this.logger.info("rotate");
 		fragment_atom.molecule.rotate(new_angle, fragment_atom.coord);
 		fragment_atom.molecule.translate(position_diff);
 		specview.model.Molecule.mergeMolecules(fragment_atom, attachment_atom);

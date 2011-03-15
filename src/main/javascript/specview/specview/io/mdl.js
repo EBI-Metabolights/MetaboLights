@@ -1,5 +1,6 @@
 /** 
  * Copyright 2010 Paul Novak (paul@wingu.com)
+ *           2011 Mark Rijnbeek (markr@ebi.ac.uk)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +26,7 @@ goog.require('goog.string');
 goog.require('specview.model.Molecule');
 goog.require('specview.model.Bond');
 goog.require('specview.model.Atom');
+goog.require('goog.debug.Logger');
 
 /** @const */ specview.io.mdl.SINGLE_BOND = 1;
 /** @const */ specview.io.mdl.DOUBLE_BOND = 2;
@@ -144,22 +146,18 @@ specview.io.mdl.readMolfile = function(molfile) {
 	var bond_count = parseInt(mol_lines[3].substr(3, 3), 10);
 
 	for ( var i = 1; i <= atom_count; i++) {
+
+		//            1         2         3         4         5         6  
+		//  01234567890123456789012345678901234567890123456789012345678901234567890
+		// "xxxxx.xxxxyyyyy.yyyyzzzzz.zzzz aaaddcccssshhhbbbvvvHHHrrriiimmmnnneee"
+
 		var line = mol_lines[i + 3];
-		var symbol = line.substr(30, 4).replace(/(^\s*)|(\s*$)/g, "");
-
-		var x = parseFloat(line.substr(0, 10));
-		var y = parseFloat(line.substr(10, 10));
-		// atom.z = parseFloat(line.substr(20, 10));
-
-		// see page 15 of ctfile for details
-		// http://www.symyx.com/downloads/public/ctfile/ctfile.pdf
-		var ctfile_dd = parseInt(line.substr(34, 2), 10); // TODO implement
-		// isotopic support
-		var ctfile_ccc = parseInt(line.substr(36, 3), 10);
-		// TODO support old-fashioned M ISO
+		var x=parseFloat(line.substr(0,10));
+		var y=parseFloat(line.substr(10,10));;
+		var symbol = line.substr(31,3).replace(/(^\s*)|(\s*$)/g, "")
+		var ctfile_ccc=parseInt(line.substr(36,3), 10);
 
 		var charge = 0;
-
 		if (ctfile_ccc == 0) {
 		} else if (ctfile_ccc == 1) {
 			charge = 3;
@@ -176,23 +174,24 @@ specview.io.mdl.readMolfile = function(molfile) {
 		} else if (ctfile_ccc == 7) {
 			charge = -3;
 		}
+		//this.logger.info("atom "+symbol+" charge "+charge)
 		var atom = new specview.model.Atom(symbol, x, y, charge);
 		mol.addAtom(atom);
 	}
 
 	for ( var i = 1; i <= bond_count; i++) {
 		var line = mol_lines[i + 3 + atom_count];
-		// Don't forget to -1 because molfile numbering from 1 instead of 0
 
-		var sourceAtom = mol.getAtom(parseInt(line.substr(0, 3), 10) - 1);
+		//            1         2         3         4         5         6  
+		//  01234567890123456789012345678901234567890123456789012345678901234567890
+		//  111222tttsssxxxrrrccc
+		var sourceAtom = mol.getAtom(parseInt(line.substr(0,3), 10) - 1)
+		var targetAtom = mol.getAtom(parseInt(line.substr(3,3), 10) - 1)
+		var bondType = bondType = parseInt(line.substr(6,3), 10);
+		var bondStereoType = parseInt(line.substr(9,3), 10);
 
-		var targetAtom = mol.getAtom(parseInt(line.substr(3, 3), 10) - 1);
-
-		var bondType = parseInt(line.substr(6, 3), 10);
-		var bondStereoType = parseInt(line.substr(9, 3), 10);
-		var bond = specview.io.mdl.createBond(bondType, bondStereoType,
-				sourceAtom, targetAtom);
-
+		//this.logger.info("bond type="+bondType+" stereo="+bondStereoType)
+    	var bond = specview.io.mdl.createBond(bondType, bondStereoType,sourceAtom, targetAtom);
 		mol.addBond(bond);
 
 	}
@@ -314,4 +313,4 @@ specview.io.mdl.writeMolfile = function(mol) {
 goog.exportSymbol('specview.io.mdl.writeMolfile', specview.io.mdl.writeMolfile);
 
 
-
+specview.io.mdl.logger = goog.debug.Logger.getLogger('specview.io.mdl');

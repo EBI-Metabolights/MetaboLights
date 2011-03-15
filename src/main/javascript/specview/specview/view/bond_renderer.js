@@ -119,8 +119,8 @@ specview.view.BondRenderer.getTheta = function(bond) {
 }
 
 
-specview.view.BondRenderer.hasSymbol = function(atom) {
-    return (atom.symbol != "C" || atom.countBonds() == 1);
+specview.view.BondRenderer.prototype.hasSymbol = function(atom) {
+    return (atom.symbol != "C" || atom.countBonds() == 1); // TODO should take end carbon rendering config into account though
 }
 
 

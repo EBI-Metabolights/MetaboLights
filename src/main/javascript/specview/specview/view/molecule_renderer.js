@@ -153,7 +153,7 @@ opt_color, opt_element_array) {
 specview.view.MoleculeRenderer.defaultConfig = {
     'bond': {
         'stroke': {
-            'width': 2,
+            'width': 1.5,
             'color': 'black'
         },
         'fill': {
@@ -161,7 +161,7 @@ specview.view.MoleculeRenderer.defaultConfig = {
         }
     },
     'highlight': {
-        'radius': .3,
+        'radius': .2,
         'color': 'blue'
     }
 };

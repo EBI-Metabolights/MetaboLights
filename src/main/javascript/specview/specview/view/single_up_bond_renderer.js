@@ -41,8 +41,8 @@ specview.view.SingleUpBondRenderer.prototype.render = function(bond, transform, 
 	var strokeWidth = this.config.get("bond")['stroke']['width'] / 10;
 
 	var theta = specview.view.BondRenderer.getTheta(bond);
-	var angle_left = theta + (Math.PI / 2);
-	var angle_right = theta - (Math.PI / 2);
+	var angle_left = theta + (Math.PI / 3);
+	var angle_right = theta - (Math.PI/ 3);
 
 	var trans1 = new specview.graphics.AffineTransform(1, 0, 0, 1, Math.cos(angle_left)
 			* strokeWidth, Math.sin(angle_left) * strokeWidth);
@@ -53,7 +53,7 @@ specview.view.SingleUpBondRenderer.prototype.render = function(bond, transform, 
 	var target2 = trans2.transformCoords( [ bond.target.coord ])[0];
 
   //make target1 and target2 drop short of the target (prettier)
-	if (bond.target.symbol!="C" ) { //TODO -> unless all Carbons are rendered (optional?)
+	if (this.hasSymbol(bond.target) ) { 
       var dist=goog.math.Coordinate.distance(target1, bond.source.coord); 
 	  	var correct=3*dist;
 	    target1.x= ((target1.x*(correct-1))+(bond.source.coord.x)) / correct;

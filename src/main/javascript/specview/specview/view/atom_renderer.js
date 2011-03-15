@@ -1,5 +1,6 @@
 /**
  * Copyright 2010 Paul Novak (paul@wingu.com)
+             2011 Mark Rijnbeek (markr@ebi.ac.uk)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,7 +14,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  * 
- * @author paul@wingu.com (Paul Novak)
  */
 goog.provide('specview.view.AtomRenderer');
 goog.require('specview.view.Renderer');
@@ -57,7 +57,7 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 			: atom_config['color'];
 
 	var scale = transform.getScaleX();
-	var fontSize = (scale / 3.5) > 16 ? 16 : Math.round((scale / 3.5));
+	var fontSize = (scale / 3.5) > 16 ? 16 : Math.round((scale / 3.5)); //TODO in config file o.i.d.
 
 	var font = new goog.graphics.Font(fontSize, atom_config['fontName']);
 	var stroke = new goog.graphics.Stroke(atom_config['stroke']['width'],
@@ -71,8 +71,6 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 	var w = displayElem.text.length * 0.55 * font.size;
 	var h = font.size;
 
-	//this.logger.info(displayElem.text+"  "+displayElem.justification+"  "+displayElem.subscript )
-	
 	if (displayElem.text) {
 		opt_element_array.add(graphics.drawText(displayElem.text, point.x - w / 2,
 				point.y - h / 2, w, h, displayElem.justification, null, font,
@@ -86,11 +84,6 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 							'center', null, font, stroke, fill));
 
 				}
-				if (displayElem.superscript) {
-					opt_element_array.add(graphics.drawText(displayElem.superscript,
-							point.x + w, point.y - h * 0.8, subSize, subSize,
-							'center', null, font, stroke, fill));
-				}
 			}
 		} else if (displayElem.justification == 'right') {
 			if (displayElem.subscript || displayElem.superscript) {
@@ -103,13 +96,18 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 							point.x - w * 1.8, point.y, subSize, subSize,
 							'center', null, font, stroke, fill));
 				}
-				if (displayElem.superscript) {
-					opt_element_array.add(graphics.drawText(displayElem.superscript,
-							point.x + w, point.y - h * 0.8, subSize, subSize,
-							'center', null, font, stroke, fill));
-				}
 			}
 		}
+
+		if (displayElem.superscript) {
+			if(displayElem.justification == 'center') {
+				w=w*0.8;
+			}
+			opt_element_array.add(graphics.drawText(displayElem.superscript,
+					point.x + w, point.y - h * 0.8, subSize, subSize,
+					'left', null, font, stroke, fill));
+		}
+
 	}
 	return opt_element_array;
 };
@@ -278,46 +276,46 @@ specview.view.AtomRenderer.defaultConfig = {
 	'margin' : 20,
 	'subscriptSize' : 5,
 	'N' : {
-		'color' : 'blue'
+		'color' : '#2233ff'
 	},
 	'O' : {
 
-		'color' : 'red'
+		'color' : '#ff2200'
 
 	},
 	'S' : {
 
-		'color' : 'yellow'
+		'color' : '#dddd00'
 
 	},
 	'P' : {
 
-		'color' : 'orange'
+		'color' : '#ff9900'
 
 	},
 	'Cl' : {
 
-		'color' : 'green'
+		'color' : '#55bb00'
 
 	},
 	'F' : {
 
-		'color' : 'green'
+		'color' : '#55bb00'
 
 	},
 	'Br' : {
 
-		'color' : 'DarkRed'
+		'color' : '#992200'
 
 	},
 	'I' : {
 
-		'color' : 'purple'
+		'color' : '#6600bb'
 
 	},
 	'C' : {
 
-		'color' : 'black'
+		'color' : '#222222'
 
 	},
 	'R1' : {
@@ -332,6 +330,37 @@ specview.view.AtomRenderer.defaultConfig = {
 	},
 	'H' : {
 
-		'color' : 'white'
+		'color' : '#CCCCCC'
+	},
+	'B' : {
+
+		'color' : '#ffaa77'
+	},
+
+	'Li' : {
+
+		'color' : '#7700ff'
+	},
+	'Na' : {
+
+		'color' : '#7700ff'
+	},
+	'K' : {
+
+		'color' : '#7700ff'
+	},
+	'Rb' : {
+
+		'color' : '#7700ff'
+	},
+	'Cs' : {
+
+		'color' : '#7700ff'
 	}
+	,
+	'Fe' : {
+
+		'color' : '#dd7700'
+	}
+
 };

@@ -89,10 +89,6 @@ specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 		if (!line.isSameSide(ring.getCenter(), side)) {
 			orthogonal.invert();
 		}
-		// goog.asserts.assert(goog.math.Coordinate.distance(side,
-		// ring.getCenter()) < goog.math.Coordinate.distance(bond.source.coord,
-		// ring.getCenter()));
-		// inner line coords
 		var coord1 = goog.math.Coordinate.sum(bond.source.coord, orthogonal);
 		var coord2 = goog.math.Coordinate.sum(bond.target.coord, orthogonal);
 		// outer line coords
@@ -100,13 +96,13 @@ specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 		var coord4 = bond.target.coord;
 
 		// adjust for symbols if needed
-		if (specview.view.BondRenderer.hasSymbol(bond.source)) {
+		if (this.hasSymbol(bond.source)) {
 			coord1 = goog.math.Coordinate.sum(coord1, space);
 			coord3 = goog.math.Coordinate.sum(coord3, space)
 		} else {
 			coord1 = goog.math.Coordinate.sum(coord1, bv);
 		}
-		if (specview.view.BondRenderer.hasSymbol(bond.target)) {
+		if (this.hasSymbol(bond.target)) {
 			coord2 = goog.math.Coordinate.difference(coord2, space);
 			coord4 = goog.math.Coordinate.difference(coord4, space)
 		} else {
@@ -125,11 +121,11 @@ specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 				orthogonal);
 
 		// adjust for symbols if needed
-		if (specview.view.BondRenderer.hasSymbol(bond.source)) {
+		if (this.hasSymbol(bond.source)) {
 			coord1 = goog.math.Coordinate.sum(coord1, space);
 			coord3 = goog.math.Coordinate.sum(coord3, space)
 		}
-		if (specview.view.BondRenderer.hasSymbol(bond.target)) {
+		if (this.hasSymbol(bond.target)) {
 			coord2 = goog.math.Coordinate.difference(coord2, space);
 			coord4 = goog.math.Coordinate.difference(coord4, space)
 		}

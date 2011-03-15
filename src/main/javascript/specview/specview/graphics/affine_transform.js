@@ -1,5 +1,7 @@
 goog.provide('specview.graphics.AffineTransform');
 goog.require('goog.graphics.AffineTransform');
+goog.require('goog.debug.Logger');
+
 
 /**
  * @param {number=} opt_m00 The m00 coordinate of the transform.
@@ -13,6 +15,7 @@ goog.require('goog.graphics.AffineTransform');
  */
 specview.graphics.AffineTransform = function(opt_m00, opt_m10, opt_m01,
 		opt_m11, opt_m02, opt_m12) {
+
 	goog.graphics.AffineTransform.call(this);
 	if (arguments.length == 6) {
 		this.setTransform(/** @type {number} */
@@ -30,6 +33,7 @@ specview.graphics.AffineTransform = function(opt_m00, opt_m10, opt_m01,
 	}
 };
 goog.inherits(specview.graphics.AffineTransform, goog.graphics.AffineTransform);
+
 
 /**
  * convenience method to
@@ -85,12 +89,15 @@ specview.graphics.AffineTransform.prototype.createInverse = function() {
 };
 
 specview.graphics.AffineTransform.getRotateInstance = function(theta, x, y) {
+	specview.graphics.AffineTransform.logger.info("getRotateInstance");
 	return new specview.graphics.AffineTransform().setToRotation(theta, x, y);
 };
 
 specview.graphics.AffineTransform.getScaleInstance = function(sx , sy) {
+	specview.graphics.AffineTransform.logger.info("getScaleInstance");
 	return new specview.graphics.AffineTransform().setToScale(sx, sy);
 };
 
+specview.graphics.AffineTransform.logger = goog.debug.Logger.getLogger('specview.graphics.AffineTransform');
 
 
