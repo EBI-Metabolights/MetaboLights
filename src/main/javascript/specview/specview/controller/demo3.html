@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<script src="../../third-party/closure/closure/goog/base.js"></script>
+<script src="../deps.js"></script>
+<script src="../../specviewTest/data/CMLbenzene.js"></script>
+
+<script>
+    goog.require('goog.events.EventType');
+    goog.require('goog.dom');
+    goog.require('goog.ui.Select');
+    goog.require('goog.ui.MenuItem');
+    goog.require('specview.controller.Controller');
+    goog.require('specview.controller.plugins.Highlight');
+    goog.require('specview.io.spec');
+
+</script>
+
+<script>
+function initPage(){
+    // uncomment next two lines to debug to console
+    var c = new goog.debug.Console(); 
+    c.setCapturing(true); 
+    var controller = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
+    controller.registerPlugin(new specview.controller.plugins.Highlight());
+    controller.setModels([specview.io.spec.readMolFromCmlFile(CMLbenzene)]);
+};
+
+goog.events.listen(window, goog.events.EventType.LOAD, initPage);
+
+</script>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Display spectrum demo</title>
+    <link rel="stylesheet" href="../../css/specview.css" />
+    <link rel="stylesheet"  href="../../css/demo.css" />
+</head>
+
+<body>
+
+    <fieldset style="width: 600px">
+    <legend><h1>CML viewer</h1></legend>
+    <br>
+            <div id="moleculeContainer" style="height: 400px">
+            </div>
+    </fieldset>
+</body>
+
+</html>

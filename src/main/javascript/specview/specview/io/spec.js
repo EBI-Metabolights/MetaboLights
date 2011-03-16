@@ -2,9 +2,9 @@ goog.provide('specview.io.spec');
 goog.require('specview.model.Spectrum');
 goog.require('specview.util.Smurf');
 goog.require('specview.model.Peak');
-//goog.require('specview.util.prototype.startsWith');
-//goog.require("specview.util");
-
+goog.require('specview.model.Molecule');
+goog.require('specview.model.Bond');
+goog.require('specview.model.Atom');
 
 
 /*
@@ -12,9 +12,6 @@ goog.require('specview.model.Peak');
  * It also contains some functions that are useful to deal with strings. However they should be placed in another file(under the 
  * folder util for instance)
  */
-
-
-
 
 /*
  * Input: CML file representing a spectrum
@@ -28,38 +25,24 @@ specview.io.spec.readSpecfile=function(specfile)
 	var spectrum=new specview.model.Spectrum();
 	var peaksList=new Array();
 	var k=0;
-//	alert(spectrum);
 	
 	while(k<cmlListLength)
 		{
 			tag=specview.io.spec.getSubTagBeforeCharacter(cmlList[k].substr(1)," ");
-//			alert("Phrase: "+cmlList[k]+"\n\nTag: "+tag);			
 	 		if(tag=="spectrum"){
 				var specInfo=specview.io.getSpecInfo(cmlList[k]);
 				spectrum.setMoleculeRef(specInfo.molRef);
 				spectrum.setMoleculeId(specInfo.id);
 				spectrum.setExperiment(specInfo.type);
 				}else if(tag=="metadata"){
-//				alert("Tag= "+tag+"\n\nMETADATA: "+ cmlList[k]); 
 					var NMRtype=specview.io.getMetaInfo(cmlList[k]);
 					spectrum.setNMRtype(NMRtype);
-//					alert(spectrum);
-//					alert("NMRtype: "+NMRtype);
 			}else if(tag=="peak"){
-//				alert(peakList);
 				peaksList.push(specview.io.getPeakInfo(cmlList[k]));
-//				alert(peaksList);
 			}
 			k=k+1;
-//			alert(specInfo);
 		}
 	spectrum.setPeakList(peaksList);
-/*
-	for(obj in peaksList){
-		alert(peaksList[obj].xValue+"\n\n"+peaksList[obj].peakId+"\n\n"+peaksList[obj].atomRefs);
-	}
-*/
-//	alert(spectrum);
 	return spectrum;
 };
 
@@ -70,12 +53,10 @@ specview.io.spec.readSpecfile=function(specfile)
  */
 specview.io.getPeakInfo=function(string){
 	var peak=new specview.model.Peak();
-//	alert(peak);
 	parsedString=string.split(" ");
 	var len=parsedString.length;
 	for(var k=0;k<len;k++){
 		var currentString=parsedString[k];
-//		alert(currentString);
 		switch(specview.io.spec.getSubTagBeforeCharacter(currentString,"=")){
 		case "xValue":
 			peak.setXvalue(specview.io.getSubTagAfterCharacter(currentString,"="));
@@ -89,7 +70,6 @@ specview.io.getPeakInfo=function(string){
 		}
 		peak.setIntensity(100);
 	}
-//	alert(peak);
 	return peak;
 };
 
@@ -215,6 +195,67 @@ specview.io.spec.parsedCmlWithSpace=function(string){
 	return tab;
 };
 
+
+/**
+ * Parses molecule from a CML file
+ * TODO ja revise this
+ *  
+ * @param {string} molfile string to convert
+ * @return {specview.model.Molecule}
+ */
+specview.io.spec.readMolFromCmlFile= function(cmlfile){
+	this.logger.info("molecule in the make ")
+	var cmlList=cmlfile.split("\n");
+	var atomRef=new Array();
+	var cmlListLength=cmlList.length;
+	var parsedString;
+	var molecule;
+	for(var k=0;k<cmlListLength;k++){
+		var currentString=cmlList[k];
+		var tag=specview.io.spec.getSubTagBeforeCharacter(cmlList[k].substr(1)," ");
+		switch(tag){
+		case "molecule":
+			molecule = new specview.model.Molecule(specview.io.spec.getInfOfTag("title",currentString));
+			break;
+		case "atom":
+			var id=specview.io.spec.getInfOfTag("id",currentString);
+			var xCoord=specview.io.spec.getInfOfTag("x2",currentString).replace("\"","").replace("\"","");
+			var yCoord=specview.io.spec.getInfOfTag("y2",currentString).replace("\"","").replace("\"","");
+			var symbol=specview.io.spec.getInfOfTag("elementType",currentString).replace("\"","").replace("\"","");
+			var chg=specview.io.spec.getInfOfTag("formalCharge",currentString).replace("\"","").replace("\"","");
+			this.logger.info("symbol '"+symbol+"'")
+			var atom=new specview.model.Atom(symbol, parseFloat(xCoord),parseFloat(yCoord), chg);
+			atomRef[id]=atom;
+			molecule.addAtom(atom);
+			break;
+		case "bond":
+			var bondParsedString= specview.io.spec.parsedCmlWithSpace(currentString);
+			var atomes=specview.io.spec.getInfOfTag("atomRefs2",bondParsedString).split(" ");
+			var source=atomRef[atomes[0]+"\""];
+			var target=atomRef["\""+atomes[1]];
+			var type=specview.io.spec.getInfOfTag("order",currentString);
+			var bondType;
+			switch(type){
+			case "\"S\"/>":
+				bondType=specview.model.Bond.ORDER.SINGLE;
+				break;
+			case "\"D\"/>" :
+				bondType=specview.model.Bond.ORDER.DOUBLE;
+				break;
+			}
+			
+			var newBond=new specview.model.Bond(source, target, bondType);
+			molecule.addBond(newBond);
+			break;
+		}
+	}
+	this.logger.info("molecule made "+molecule.name+"  "+molecule.bonds.length)
+	this.logger.info("__________________________________");
+	return molecule;
+};
+
+
+specview.io.spec.logger = goog.debug.Logger.getLogger('specview.io.spec');
 
 
 

@@ -131,69 +131,6 @@ specview.io.mdl.createBond = function(type, stereo, source, target) {
 	};
 };
 
-/**
- * convert a cml block string to a molecule
- *  
- * @param {string} molfile string to convert
- * @return {specview.model.Molecule}
- */
-
-
-specview.io.mdl.readCmlFile= function(cmlfile){
-	var cmlList=cmlfile.split("\n");
-	var atomRef=new Array();
-	var cmlListLength=cmlList.length;
-	var parsedString;
-	var molecule;
-	for(var k=0;k<cmlListLength;k++){
-		var currentString=cmlList[k];
-		var tag=specview.io.spec.getSubTagBeforeCharacter(cmlList[k].substr(1)," ");
-		switch(tag){
-		case "molecule":
-			molecule = new specview.model.Molecule(specview.io.spec.getInfOfTag("title",currentString));
-			break;
-		case "atom":
-			var id=specview.io.spec.getInfOfTag("id",currentString);
-			var atom=new specview.model.Atom(specview.io.spec.getInfOfTag("elementType",currentString), specview.io.spec.getInfOfTag("x2",currentString), specview.io.spec.getInfOfTag("y2",currentString), specview.io.spec.getInfOfTag("formalCharge",currentString));
-			atomRef[id]=atom;
-//			alert("id    "+id+"\n\n"+atomRef[id]);
-			molecule.addAtom(atom);
-			break;
-		case "bond":
-			var bondParsedString= specview.io.spec.parsedCmlWithSpace(currentString);
-//			alert(bondParsedString);
-			var atomes=specview.io.spec.getInfOfTag("atomRefs2",bondParsedString).split(" ");
-	//		alert(atomes);
-//			alert(specview.io.spec.getInfOfTag("atomRefs2",currentString));
-//			alert(atomRef);
-//			alert(id+"\n\n"+"\""+atomes[1]+"\n\n"+atomRef["\""+atomes[1]]);
-			var source=atomRef[atomes[0]+"\""];
-			var target=atomRef["\""+atomes[1]];
-			var type=specview.io.spec.getInfOfTag("order",currentString);
-			switch(type){
-			case "\"S\"/>":
-				type=1;
-				break;
-			case "\"D\"/>" :
-				type=2;
-				break;
-			}
-//			alert(type);
-			var stereo=specview.io.spec.getInfOfTag("stero",currentString) ? specview.io.spec.getInfOfTag("stereo",currentString) : 0 ;
-		//	alert(stereo);
-//			alert(source+" \n\n"+target);
-			var bond=new specview.io.mdl.createBond(type, stereo, source, target);
-			molecule.addBond(bond);
-		//	alert(bond);
-			break;
-		}
-	}
-//	alert(molecule);
-	return molecule;
-};
-
-
-
 
 /**
  * convert a mdl block string to a molecule
