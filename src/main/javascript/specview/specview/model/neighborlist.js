@@ -208,7 +208,9 @@ specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
 			}
 		};
 	});
+//	alert(neighbors);
 	goog.array.forEach(molecules, function(mol) {
+//		alert(molecules);
 		neighbors = goog.array.concat(neighbors, goog.array.map(mol.atoms,
 				function(a) {
 					return {
@@ -222,7 +224,7 @@ specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
 						}
 					};
 				}));
-
+//		alert(neighbors);
 		neighbors = goog.array.concat(neighbors, goog.array.map(mol.bonds,
 				function(b) {
 					return {
@@ -244,5 +246,6 @@ specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
 					};
 				}));
 	});
+//	alert(neighbors);
 	return neighbors
 };

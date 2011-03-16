@@ -123,7 +123,11 @@ specview.controller.Controller.getActiveEditorId = function() {
 	return specview.controller.Controller.activeEditorId_;
 };
 
+/*
+ * Only called to clear a molecule from the canvas
+ */
 specview.controller.Controller.prototype.clear = function() {
+//	alert("in the right function");
 	this.logger.info("Clearing graphics");
 	this.graphics.clear();
 	this.models = [new specview.model.Molecule()];
@@ -143,17 +147,25 @@ specview.controller.Controller.prototype.setScaleFactor = function(scale) {
 
 specview.controller.Controller.prototype.setModelsSilently = function(models) {
 	this.clear();
-	this.models = models;
-
+	this.models = models;//the object we wand to put on canvas
+//	alert(models);
 	var objects = goog.array.flatten(goog.array.map(models, function(model) {
 		if (model instanceof specview.model.Molecule) {
+//			alert("YOU ARE ABOUT TO DRAW A MOLECULE");
 			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
+		}else if(model instanceof  specview.model.Spectrum){
+//			alert("YOU ARE ABOUT TO DRAW A SPECTRUM");
 		}
+		
 	}));
+//	alert(objects);
+
 
 	if (objects.length > 0) {
+//		alert(objects.length);
 		this.neighborList = new specview.model.NeighborList(objects, 1, .5);
 	}
+//	alert(this.render());
 	this.render();
 };
 
@@ -254,8 +266,8 @@ specview.controller.Controller.prototype.handleChange = function() {
  * and returned.
  */
 specview.controller.Controller.prototype.findTarget = function(e) {
-	var targets = this.findTargetList(e);
-
+	var targets = this.findTargetList(e); 
+	//The molecule to which the atom belongs to.
 	var atom_targets = goog.array.filter(targets, function(t) {
 		return t instanceof specview.model.Atom;
 	});

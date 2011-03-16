@@ -81,7 +81,6 @@ specview.model.Molecule.prototype.resetRingCenters = function() {
  */
 
 specview.model.Molecule.prototype.addBond = function(bond) {
-
 	var sourceIndex = this.indexOfAtom(bond.source);
 	var targetIndex = this.indexOfAtom(bond.target);
 
@@ -108,6 +107,7 @@ specview.model.Molecule.prototype.addBond = function(bond) {
 		}
 	}
 	this.bonds.push(bond);
+//	alert(bond.source.bonds.add(bond));
 	bond.source.bonds.add(bond);
 	bond.target.bonds.add(bond);
 	this.addAtom(bond.source);
@@ -401,7 +401,7 @@ specview.model.Molecule.prototype.getConnectedBondsList = function(atom) {
  * string representation of molecule
  * 
  * @return {string}
- */
+*/ 
 specview.model.Molecule.prototype.toString = function() {
 	return 'specview.model.Molecule - name: '
 			+ this.name
@@ -423,6 +423,7 @@ specview.model.Molecule.prototype.toString = function() {
 						return ring.toString();
 					}).join("\n\t");
 };
+
 /**
  * returns center coordinates of molecule's atoms
  * 

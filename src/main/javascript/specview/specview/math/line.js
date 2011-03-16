@@ -41,7 +41,7 @@ specview.math.Line = function(source, target) {
 specview.math.Line.prototype.getTheta = function() {
 	var diff = goog.math.Coordinate.difference(this.target, this.source);
 	return Math.atan2(diff.y, diff.x);
-}
+};
 /**
  * returns true if two points are on same side of line returns false if they are
  * on opposite sides, or at least one is one the line
@@ -55,4 +55,4 @@ specview.math.Line.prototype.getTheta = function() {
 specview.math.Line.prototype.isSameSide = function(point1, point2){
 	return specview.math.Triangle.signedArea(this.source, this.target, point1) * 
 		specview.math.Triangle.signedArea(this.source, this.target, point2) > 0;
-}
+};

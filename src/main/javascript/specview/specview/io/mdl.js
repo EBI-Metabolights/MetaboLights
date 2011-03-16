@@ -93,6 +93,7 @@ specview.io.mdl.getStereoCode = function(bond){
  * @return{specview.model.Bond}
  */
 specview.io.mdl.createBond = function(type, stereo, source, target) {
+//	alert("in create bond : "+type+" "+stereo+" "+source+" "+target);
 	switch (type) {
 	case specview.io.mdl.SINGLE_BOND:
 		switch (stereo) {
@@ -131,6 +132,70 @@ specview.io.mdl.createBond = function(type, stereo, source, target) {
 };
 
 /**
+ * convert a cml block string to a molecule
+ *  
+ * @param {string} molfile string to convert
+ * @return {specview.model.Molecule}
+ */
+
+
+specview.io.mdl.readCmlFile= function(cmlfile){
+	var cmlList=cmlfile.split("\n");
+	var atomRef=new Array();
+	var cmlListLength=cmlList.length;
+	var parsedString;
+	var molecule;
+	for(var k=0;k<cmlListLength;k++){
+		var currentString=cmlList[k];
+		var tag=specview.io.spec.getSubTagBeforeCharacter(cmlList[k].substr(1)," ");
+		switch(tag){
+		case "molecule":
+			molecule = new specview.model.Molecule(specview.io.spec.getInfOfTag("title",currentString));
+			break;
+		case "atom":
+			var id=specview.io.spec.getInfOfTag("id",currentString);
+			var atom=new specview.model.Atom(specview.io.spec.getInfOfTag("elementType",currentString), specview.io.spec.getInfOfTag("x2",currentString), specview.io.spec.getInfOfTag("y2",currentString), specview.io.spec.getInfOfTag("formalCharge",currentString));
+			atomRef[id]=atom;
+//			alert("id    "+id+"\n\n"+atomRef[id]);
+			molecule.addAtom(atom);
+			break;
+		case "bond":
+			var bondParsedString= specview.io.spec.parsedCmlWithSpace(currentString);
+//			alert(bondParsedString);
+			var atomes=specview.io.spec.getInfOfTag("atomRefs2",bondParsedString).split(" ");
+	//		alert(atomes);
+//			alert(specview.io.spec.getInfOfTag("atomRefs2",currentString));
+//			alert(atomRef);
+//			alert(id+"\n\n"+"\""+atomes[1]+"\n\n"+atomRef["\""+atomes[1]]);
+			var source=atomRef[atomes[0]+"\""];
+			var target=atomRef["\""+atomes[1]];
+			var type=specview.io.spec.getInfOfTag("order",currentString);
+			switch(type){
+			case "\"S\"/>":
+				type=1;
+				break;
+			case "\"D\"/>" :
+				type=2;
+				break;
+			}
+//			alert(type);
+			var stereo=specview.io.spec.getInfOfTag("stero",currentString) ? specview.io.spec.getInfOfTag("stereo",currentString) : 0 ;
+		//	alert(stereo);
+//			alert(source+" \n\n"+target);
+			var bond=new specview.io.mdl.createBond(type, stereo, source, target);
+			molecule.addBond(bond);
+		//	alert(bond);
+			break;
+		}
+	}
+//	alert(molecule);
+	return molecule;
+};
+
+
+
+
+/**
  * convert a mdl block string to a molecule
  *  
  * @param {string} molfile string to convert
@@ -138,25 +203,23 @@ specview.io.mdl.createBond = function(type, stereo, source, target) {
  */
 specview.io.mdl.readMolfile = function(molfile) {
 
+	
+//	alert(molfile);
 	var lineDelimiter = molfile.indexOf("\r\n") > 0 ? "\r\n" : "\n";
 	var mol_lines = molfile.split(lineDelimiter);
 	var name = mol_lines[0]
 	var mol = new specview.model.Molecule(name);
-	var atom_count = parseInt(mol_lines[3].substr(0, 3), 10);
-	var bond_count = parseInt(mol_lines[3].substr(3, 3), 10);
-
+	var atom_count = parseInt(mol_lines[3].substr(0, 3), 10);//MANDATORY
+	var bond_count = parseInt(mol_lines[3].substr(3, 3), 10);//MANDATORY
 	for ( var i = 1; i <= atom_count; i++) {
-
 		//            1         2         3         4         5         6  
 		//  01234567890123456789012345678901234567890123456789012345678901234567890
 		// "xxxxx.xxxxyyyyy.yyyyzzzzz.zzzz aaaddcccssshhhbbbvvvHHHrrriiimmmnnneee"
-
 		var line = mol_lines[i + 3];
 		var x=parseFloat(line.substr(0,10));
 		var y=parseFloat(line.substr(10,10));;
 		var symbol = line.substr(31,3).replace(/(^\s*)|(\s*$)/g, "")
 		var ctfile_ccc=parseInt(line.substr(36,3), 10);
-
 		var charge = 0;
 		if (ctfile_ccc == 0) {
 		} else if (ctfile_ccc == 1) {
@@ -176,10 +239,11 @@ specview.io.mdl.readMolfile = function(molfile) {
 		}
 		//this.logger.info("atom "+symbol+" charge "+charge)
 		var atom = new specview.model.Atom(symbol, x, y, charge);
+
 		mol.addAtom(atom);
 	}
 
-	for ( var i = 1; i <= bond_count; i++) {
+	for ( var i = 1; i <= bond_count; i++) {//MANDATORY
 		var line = mol_lines[i + 3 + atom_count];
 
 		//            1         2         3         4         5         6  
@@ -190,6 +254,10 @@ specview.io.mdl.readMolfile = function(molfile) {
 		var bondType = bondType = parseInt(line.substr(6,3), 10);
 		var bondStereoType = parseInt(line.substr(9,3), 10);
 
+		var targetAtom = mol.getAtom(parseInt(line.substr(3, 3), 10) - 1);
+
+		var bondType = parseInt(line.substr(6, 3), 10);
+		var bondStereoType = parseInt(line.substr(9, 3), 10);
 		//this.logger.info("bond type="+bondType+" stereo="+bondStereoType)
     	var bond = specview.io.mdl.createBond(bondType, bondStereoType,sourceAtom, targetAtom);
 		mol.addBond(bond);
@@ -199,6 +267,8 @@ specview.io.mdl.readMolfile = function(molfile) {
 	// Read M CHG
 	var i = 4 + atom_count + bond_count, il = mol_lines.length;
 	var superseded = false;
+	
+	//For the charge.
 	while (true) {
 		var line = mol_lines[i++];
 		if (i == il || line.indexOf("M  END") >= 0) {
@@ -233,7 +303,6 @@ specview.io.mdl.readMolfile = function(molfile) {
 	}
 
 	// TODO parse Charge, SuperAtom groups, Properties....
-
 	return mol;
 
 };
