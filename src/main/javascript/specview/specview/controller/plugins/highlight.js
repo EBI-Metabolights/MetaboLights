@@ -28,53 +28,15 @@ specview.controller.plugins.Highlight.prototype.lastT=null;
 
 specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 	
-//	alert("lastAtom= "+ this.lastAtomHighlighted+"\n\nlastT: "+ this.lastT);
-
-	//if (e instanceof goog.events.BrowserEvent ) {
-	//	this.logger.info("it's an xxx event")
-	//}
-//	alert("in the highlight plugin");
-/*	
-	if(e && opt_specEvent=="move"){
-		alert("truc");
-//		alert("in the right condition, here is the editor object:\n\n"+this.editorObject);
-			var target = new specview.model.Atom('C',0.7145,0.4125);
-	//		alert(target);
-			if (target instanceof specview.model.Atom) {
-				//Highlight iff the target atom is different from the last one or if there is no last atom
-				if(this.lastAtomHighlighted==null || target!=this.lastAtomHighlighted) {
-				//	alert("going to clear the highlight 1")
-					//this.logger.info("higlight atom")
-					alert("this.lastT in the other object: "+this.lastT);
-			//		if (this.lastT!=null) {
-						alert("going to clear the highlight 2");
-						this.lastT.highlightGroup.clear();
-					}
-					this.highlightAtom(target);
-					
-					
-				//	this.lastAtomHighlighted=target;
-				//	this.lastT=e.currentTarget;
-				//	this.editorObject.addSelected(target);
-				//	e.currentTarget.highlightGroup = this.highlightAtom(target);
-					
-				}
-				return true;
-			}
-			*/
-	
 
 	if(this.editorObject.findTarget(e)) {
-//		alert("here is the editor object: \n\n"+this.editorObject+"\n\nhere is e : \n\n"+e);
 		this.editorObject.clearSelected();
 		//this.editorObject.getOriginalElement().style.cursor = 'default';
 		var target = this.editorObject.findTarget(e);
 		if (target instanceof specview.model.Atom) {
 			if(this.lastAtomHighlighted==null || target!=this.lastAtomHighlighted) {
 				//this.logger.info("higlight atom")
-//				alert("this.lastT in the atom: "+this.lastT);
 				if (this.lastT!=null) {
-//					alert(this.lastT.highlightGroup);
 					this.lastT.highlightGroup.clear();
 				}
 				this.lastAtomHighlighted=target;

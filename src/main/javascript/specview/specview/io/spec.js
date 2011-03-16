@@ -204,7 +204,6 @@ specview.io.spec.parsedCmlWithSpace=function(string){
  * @return {specview.model.Molecule}
  */
 specview.io.spec.readMolFromCmlFile= function(cmlfile){
-	this.logger.info("molecule in the make ")
 	var cmlList=cmlfile.split("\n");
 	var atomRef=new Array();
 	var cmlListLength=cmlList.length;
@@ -223,8 +222,12 @@ specview.io.spec.readMolFromCmlFile= function(cmlfile){
 			var yCoord=specview.io.spec.getInfOfTag("y2",currentString).replace("\"","").replace("\"","");
 			var symbol=specview.io.spec.getInfOfTag("elementType",currentString).replace("\"","").replace("\"","");
 			var chg=specview.io.spec.getInfOfTag("formalCharge",currentString).replace("\"","").replace("\"","");
-			this.logger.info("symbol '"+symbol+"'")
-			var atom=new specview.model.Atom(symbol, parseFloat(xCoord),parseFloat(yCoord), chg);
+			var atom
+			if (chg!="0")
+				atom=new specview.model.Atom(symbol, parseFloat(xCoord),parseFloat(yCoord), chg);
+			else
+				atom=new specview.model.Atom(symbol, parseFloat(xCoord),parseFloat(yCoord));
+			
 			atomRef[id]=atom;
 			molecule.addAtom(atom);
 			break;
@@ -249,8 +252,6 @@ specview.io.spec.readMolFromCmlFile= function(cmlfile){
 			break;
 		}
 	}
-	this.logger.info("molecule made "+molecule.name+"  "+molecule.bonds.length)
-	this.logger.info("__________________________________");
 	return molecule;
 };
 
