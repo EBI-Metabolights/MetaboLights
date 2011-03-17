@@ -22,7 +22,7 @@
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
     goog.require('specview.io.mdl');
-    goog.require('specview.io.Cmlparser');
+    goog.require('specview.model.Cmlobject');
     goog.require('specview.io.spec');
     goog.require('specview.util');
     goog.require('specview.math.Line');
@@ -34,9 +34,10 @@
 
 function initPage(){
 	
-	var essai=completebenzene;//Try it with moleculetest
+
+	var essai=moleculetest;//Try it with moleculetest
 	var objet=new specview.io.Cmlparser();
-	var truc=objet.ReadCmlFile(essai);
+	var truc=specview.io.ReadCmlFile(essai);
 	var caca=objet.createMoleculeObjectOutOfCmlParserObject();
 	var innerId=truc.ArrayOfAtoms["a1"].innerIdentifier;
 	alert(truc.ArrayOfAtoms["a1"].innerIdentifier+"--->"+truc.ArrayOfAtoms["a1"].peakMap[innerId]+"\n"+
@@ -60,7 +61,7 @@ function initPage(){
 	//  tableSpectrum.registerPlugin(new specview.controller.plugins.Highlight());
 
 	   moleculeObject=specview.io.mdl.readMolfile(benzene);
-	   moleculeObject2=specview.io.mdl.readCmlFile(CMLbenzene);
+  	  moleculeObject2=specview.io.spec.readMolFromCmlFile(CMLbenzene);
 	   var spectrumObject=specview.io.spec.readSpecfile(specAcet);
 	   spectrumObject.getTableContentOfSpectrum();
 

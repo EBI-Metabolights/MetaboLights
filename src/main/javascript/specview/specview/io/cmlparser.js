@@ -1,4 +1,4 @@
-goog.provide('specview.io.Cmlparser');
+goog.require('specview.model.Cmlobject');
 goog.require('specview.io.mdl');
 goog.require('specview.model.Spectrum');
 goog.require('specview.util.Smurf');
@@ -6,153 +6,6 @@ goog.require('specview.model.Peak');
 //goog.require('specview.io.spec');
 
 
-/*
- * This Cmlparser object contains every information to directly create :
- * Molecule object
- * Spectrum object
- * Peak object
- */
-
-specview.io.Cmlparser=function(){
-	
-	this.molecule;//A molecule object (empty, or should just contain the name)
-	
-	this.moleculeTitle="";
-	this.moleculeId="";
-	
-	this.spectrumId="";
-	this.spectrumRefMolecule="";//should be the same than moleculeId
-	this.spectrumType="";
-	this.spectrumNmrType="";//optional
-	
-	
-	this.ArrayOfAtoms=new Array();//Keys are the inner atom id. Values are the atom objects
-	this.ArrayOfBonds=new Array();
-	this.ArrayOfPeaks=new Array();
-	
-	
-	
-};
-goog.exportSymbol("specview.model.Cmlparser", specview.model.Cmlparser);
-/*
- * Modifiers
- */
-
-specview.io.Cmlparser.prototype.setMoleculId = function(moleculeId){
-	this.moleculeId=moleculeId;
-};
-
-specview.io.Cmlparser.prototype.setMoleculeTitle = function(title){
-	this.moleculeTitle=title;
-};
-
-specview.io.Cmlparser.prototype.setSpecId = function(arg){
-	this.spectrumId=arg;
-};
-
-specview.io.Cmlparser.prototype.setSpecRM = function(arg){
-	this.spectrumRefMolecule=arg;
-};
-
-specview.io.Cmlparser.prototype.setSpecType = function(arg){
-	this.spectrumType=arg;	
-};
-
-specview.io.Cmlparser.prototype.setNMRtype = function(arg){
-	this.spectrumNmrType=arg;
-};
-
-specview.io.Cmlparser.prototype.setAtoms = function(arg){
-	this.ArrayOfAtoms=arg;
-};
-
-specview.io.Cmlparser.prototype.setBonds = function(arg){
-	this.ArrayOfBonds=arg;
-	
-};
-specview.io.Cmlparser.prototype.setPeaks = function(arg){
-	this.ArrayOfPeaks=arg;
-};
-
-/*
- * Accessors
- */
-
-specview.io.Cmlparser.prototype.getMoleculId = function(moleculeId){
-	this.moleculeId;
-};
-
-specview.io.Cmlparser.prototype.getMoleculeTitle = function(title){
-	this.moleculeTitle;
-};
-
-specview.io.Cmlparser.prototype.getSpecId = function(){
-	return this.spectrumId;
-};
-
-specview.io.Cmlparser.prototype.getSpecRM = function(){
-	return this.spectrumRefMolecule;
-};
-
-specview.io.Cmlparser.prototype.getSpecType = function(){
-	return this.spectrumType;	
-};
-
-specview.io.Cmlparser.prototype.getNMRtype = function(){
-	return this.spectrumNmrType;
-};
-
-specview.io.Cmlparser.prototype.getAtoms = function(){
-	return this.ArrayOfAtoms;
-};
-
-specview.io.Cmlparser.prototype.getBonds = function(){
-	return this.ArrayOfBonds;
-	
-};
-specview.io.Cmlparser.prototype.getPeaks = function(){
-	return this.ArrayOfPeaks;
-};
-
-
-
-specview.io.Cmlparser.prototype.createMoleculeObjectOutOfCmlParserObject=function(){
-	
-	var listOfAllTheAtomsOfTheMolecule=this.ArrayOfAtoms;
-	var listOfAllTheBondsOfTheMolecule=this.ArrayOfBonds;
-	
-	//Add the atoms to the molecule
-	for(k in listOfAllTheAtomsOfTheMolecule){
-		this.molecule.addAtom(listOfAllTheAtomsOfTheMolecule[k]);
-	}
-	
-	//Add the bonds to the molecule
-	for(k in listOfAllTheBondsOfTheMolecule){
-		this.molecule.addBond(listOfAllTheBondsOfTheMolecule[k]);
-	}
-	
-	return this;
-	
-};
-
-specview.io.Cmlparser.prototype.createSpectrumObjectOutOfCmlParserObject=function(){
-	
-};
-
-
-
-
-specview.io.Cmlparser.prototype.toString=function(){
-	return ("Molecule Title: "+this.moleculeTitle+
-			"\nMolecule Id: "+this.moleculeId+
-			"\nspectrum Id: "+this.spectrumId+
-			"\nspectrum Mol: "+this.spectrumRefMolecule+
-			"\nspectrum typ: "+this.spectrumType+
-			"\nNMRTYPE: "+this.spectrumNmrType+
-			"\nAtoms number: "+this.ArrayOfAtoms["a2"]+
-			"\nBonds number:"+this.ArrayOfBonds.length
-			);
-};
 
 
 /*
@@ -160,7 +13,9 @@ specview.io.Cmlparser.prototype.toString=function(){
  */
 
 
-specview.io.Cmlparser.prototype.ReadCmlFile=function(string){
+specview.io.Cmlparser.ReadCmlFile=function(string){
+	
+	var CmlObject=new specview.model.Cmlobject();
 
 	var cmlList=string.split("\n");
 	var cmlListLength=cmlList.length;
@@ -175,45 +30,45 @@ specview.io.Cmlparser.prototype.ReadCmlFile=function(string){
 		//Creation of the empty molecule object of the graphical object
 		case "<molecule":
 			var parsedString=cmlList[k].split(" ");
-			this.moleculeId=specview.io.getSubTagAfterCharacter(parsedString[2],"=");	
-			this.moleculeTitle=specview.io.getSubTagAfterCharacter(parsedString[1],"=");
-			this.molecule=new specview.model.Molecule(this.moleculeTitle);
+			CmlObject.moleculeId=specview.io.getSubTagAfterCharacter(parsedString[2],"=");	
+			CmlObject.moleculeTitle=specview.io.getSubTagAfterCharacter(parsedString[1],"=");
+			CmlObject.molecule=new specview.model.Molecule(CmlObject.moleculeTitle);
 			break;
 		//We create avery atom objects and put it in an Array. That way, we will be  able later to create the non empty molecule
 		case "<atom":
 			var hashTableAtom=specview.io.Cmlparser.prototype.createAtomFromCmlLine(cmlList[k]);
 			var id=hashTableAtom.id;
 			var atom=hashTableAtom.atom;
-			this.ArrayOfAtoms[id]=atom;
+			CmlObject.ArrayOfAtoms[id]=atom;
 			break;
 		//We create every bond objects and put it in an Array. That way, we will be  able later to create the non empty molecule
 		case "<bond":
-			var bond=specview.io.Cmlparser.prototype.createBondFromCmlLine(cmlList[k],this.ArrayOfAtoms);
-			this.ArrayOfBonds[bondNumber]=bond;
+			var bond=specview.io.Cmlparser.prototype.createBondFromCmlLine(cmlList[k],CmlObject.ArrayOfAtoms);
+			CmlObject.ArrayOfBonds[bondNumber]=bond;
 			bondNumber++;
 			break;
 		//We create the spectrum object. It becomes an argument of the graphical object
 		case "<spectrum":
 			var parsedString=cmlList[k].split(" ");
-			this.spectrumId=specview.io.getSubTagAfterCharacter(parsedString[1],"=");
-			this.spectrumRefMolecule=specview.io.getSubTagAfterCharacter(parsedString[2],"=");
-			this.spectrumType=specview.io.getSubTagAfterCharacter(parsedString[3],"=");
+			CmlObject.spectrumId=specview.io.getSubTagAfterCharacter(parsedString[1],"=");
+			CmlObject.spectrumRefMolecule=specview.io.getSubTagAfterCharacter(parsedString[2],"=");
+			CmlObject.spectrumType=specview.io.getSubTagAfterCharacter(parsedString[3],"=");
 			break;
 		case "<metadata":
 			var parsedString=cmlList[k].split(" ");
 			if(specview.io.getSubTagAfterCharacter(parsedString[1],"=")=="nmr:OBSERVENUCLEUS"){
-				this.spectrumNmrType=specview.io.getSubTagAfterCharacter(parsedString[2],"=");
+				CmlObject.spectrumNmrType=specview.io.getSubTagAfterCharacter(parsedString[2],"=");
 			}
 			break;
 		case "<peak":
-			var peak=specview.io.Cmlparser.prototype.createPeakFromCmlLine(cmlList[k],this.ArrayOfAtoms);
+			var peak=specview.io.Cmlparser.prototype.createPeakFromCmlLine(cmlList[k],CmlObject.ArrayOfAtoms);
 			this.ArrayOfPeaks[peakNumber]=peak;
 			peakNumber++;
 			break;
 		}
 	}
 //	alert("this: \n\n\n"+this);
-	return this;
+	return CmlObject;
 };
 
 
