@@ -128,29 +128,39 @@ specview.io.getSubTagAfterCharacter=function(string,startCharacter){
 	return string.substr(string.indexOf(startCharacter)+1);
 };
 
+
+specview.io.getSubTagAfterCharacterAndBeforeCharacter=function(string,startCharacter,endCharacter){
+	var i = string.indexOf(startCharacter);
+	var e = string.indexOf(endCharacter);
+	if(e==-1){return specview.io.getSubTagAfterCharacter(string,startCharacter);}
+	var len=e-i;
+//	alert(string+"\n\n"+"start character="+i/e+len+"\n\n"+string.substr(i+1,2));
+	return string.substr(i+1,len-1);
+};
+
+
 /*
  * Return the substring before a specified character. Should be in Util
  */
 specview.io.spec.getSubTagBeforeCharacter=function(string,endCharacter){
 //	alert(string);
 	var returnWord="";
-	if(string==undefined || string.length==0)
-		{
-		return string;
-		}
 	for(k in string)
 		{
+
+		
 			if(string[k]!=endCharacter)
 				{
 //				alert(string[k]+" k is different than a space");
 				returnWord=returnWord+string[k];
 				}
-			else
+			else if (string[k]==endCharacter)
 				{
-//					alert("k is a space");
 					return returnWord;
 				}
+			else{return returnWord;}
 		}
+		
 };
 
 

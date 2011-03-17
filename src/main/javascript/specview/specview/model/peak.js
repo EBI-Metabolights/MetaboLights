@@ -4,11 +4,12 @@ goog.require('goog.math.Coordinate');
 /*
  * Constructeur of the peak
  */
-specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef){
+specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt_multiplicity){
 	this.xValue=opt_xValue;
 	this.intensity=opt_intensity;
 	this.peakId=opt_peakId;
 	this.atomRef=opt_atomRef;
+	this.multiplicity=opt_multiplicity;
 };
 goog.exportSymbol("specview.model.Peak", specview.model.Peak);
 

@@ -155,6 +155,8 @@ specview.controller.Controller.prototype.setModelsSilently = function(models) {
 			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
 		}else if(model instanceof  specview.model.Spectrum){
 //			alert("YOU ARE ABOUT TO DRAW A SPECTRUM");
+		}else if(model instanceof specview.math.Line){
+//			alert("YOU ARE ABOUT TO DRAW A LINE");
 		}
 		
 	}));

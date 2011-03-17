@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<script src="../../third-party/closure/closure/goog/base.js"></script>
+<script src="../deps.js"></script>
+<script src="../../specviewTest/data/molfile.js"></script>
+<script src="../../specviewTest/data/benzene.js"></script>
+<script src="../../specviewTest/data/CMLbenzene.js"></script>
+<script src="../../specviewTest/data/CMLbenzene2.js"></script>
+<script src="../../specviewTest/data/specData/acetonitril.js"></script>
+<script src="../../specviewTest/data/specData/C18H17NO4.js"></script>
+<script src="../../specviewTest/data/specData/completebenzene.js"></script>
+<script src="../../specviewTest/data/specData/moleculetest.js"></script>
+<script src="../../specviewTest/data/specData/test.xml"></script>
+<script src="../../specview/io/spec.js"></script>
+
+<script language="JavaScript">
+    goog.require('goog.events.EventType');
+    goog.require('goog.dom');
+    goog.require('goog.ui.Select');
+    goog.require('goog.ui.MenuItem');
+    goog.require('specview.controller.Controller');
+    goog.require('specview.controller.plugins.Highlight');
+    goog.require('specview.io.mdl');
+    goog.require('specview.io.Cmlparser');
+    goog.require('specview.io.spec');
+    goog.require('specview.util');
+    goog.require('specview.math.Line');
+    goog.require('goog.dom.xml')
+</script>
+
+<script>
+
+
+function initPage(){
+	
+	var essai=completebenzene;//Try it with moleculetest
+	var objet=new specview.io.Cmlparser();
+	var truc=objet.ReadCmlFile(essai);
+	var caca=objet.createMoleculeObjectOutOfCmlParserObject();
+	var innerId=truc.ArrayOfAtoms["a1"].innerIdentifier;
+	alert(truc.ArrayOfAtoms["a1"].innerIdentifier+"--->"+truc.ArrayOfAtoms["a1"].peakMap[innerId]+"\n"+
+			truc.ArrayOfAtoms["a2"].innerIdentifier+"--->"+truc.ArrayOfAtoms["a2"].peakMap[truc.ArrayOfAtoms["a2"].innerIdentifier]+"\n"+
+			truc.ArrayOfAtoms["a3"].innerIdentifier+"--->"+truc.ArrayOfAtoms["a3"].peakMap[truc.ArrayOfAtoms["a3"].innerIdentifier]+"\n"+
+			truc.ArrayOfAtoms["a4"].innerIdentifier+"--->"+truc.ArrayOfAtoms["a4"].peakMap[truc.ArrayOfAtoms["a4"].innerIdentifier]);
+	
+	
+	// uncomment next two lines to debug to console
+	var c = new goog.debug.Console(); 
+	c.setCapturing(true); 
+	
+	//This variable is global but it is temporary.
+	editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
+	editor.registerPlugin(new specview.controller.plugins.Highlight());
+	
+	editorSpectrum = new specview.controller.Controller(goog.dom.getElement('spectrumContainer'),{background : {color : 'white'}});
+	editorSpectrum.registerPlugin(new specview.controller.plugins.Highlight());
+    
+	var tableSpectrum= new specview.controller.Controller(goog.dom.getElement('table'));
+	//  tableSpectrum.registerPlugin(new specview.controller.plugins.Highlight());
+
+	   moleculeObject=specview.io.mdl.readMolfile(benzene);
+	   moleculeObject2=specview.io.mdl.readCmlFile(CMLbenzene);
+	   var spectrumObject=specview.io.spec.readSpecfile(specAcet);
+	   spectrumObject.getTableContentOfSpectrum();
+
+	//  var spectrumObjec2=specview.io.spec.readSpecfile(specC18H17NO4);
+	  stringTableOfSpectrum=spectrumObject.getTableContentOfSpectrum();
+	  editor.setModels([caca.molecule]);
+//	  editor.setModels([moleculeObject]);//We render the CMLmolecule one
+//	  editorSpectrum.setModels([moleculeObject]);//We render the CMLmolecule one
+
+	var line = new specview.math.Line(0.812,0.254);
+	editorSpectrum.setModels([line]);
+
+
+	var sdfs = sdf.split("$$$$\n");
+//	editor.setModels([specview.io.mdl.readMolfile(sdfs[0])]);
+ 
+    var select1 = new goog.ui.Select();
+    select1.addItem(new goog.ui.MenuItem('0', 0));
+    select1.addItem(new goog.ui.MenuItem('1', 1));
+    select1.addItem(new goog.ui.MenuItem('2', 2));
+    select1.addItem(new goog.ui.MenuItem('3', 3));
+    select1.addItem(new goog.ui.MenuItem('4', 4));
+    select1.addItem(new goog.ui.MenuItem('5', 5));
+    select1.addItem(new goog.ui.MenuItem('6', 6));
+    select1.addItem(new goog.ui.MenuItem('7', 7));
+    select1.addItem(new goog.ui.MenuItem('8', 8));
+    select1.addItem(new goog.ui.MenuItem('9', 9));
+
+    
+    select1.setSelectedIndex(0);
+    select1.render(goog.dom.getElement('selectMolecule'));
+    
+        goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
+        function(e) {
+          var select = e.target;
+          var idx = select.getValue();
+          var molfile=sdfs[idx];
+          var mol=specview.io.mdl.readMolfile(molfile);
+	     editor.setModels([mol]);
+        });
+  
+  var sdfs = sdf.split("$$$$\n");
+
+
+  var select1 = new goog.ui.Select();
+  select1.addItem(new goog.ui.MenuItem('0', 0));
+  select1.addItem(new goog.ui.MenuItem('1', 1));
+  select1.addItem(new goog.ui.MenuItem('2', 2));
+  select1.addItem(new goog.ui.MenuItem('3', 3));
+  select1.addItem(new goog.ui.MenuItem('4', 4));
+  select1.addItem(new goog.ui.MenuItem('5', 5));
+  select1.addItem(new goog.ui.MenuItem('6', 6));
+  select1.addItem(new goog.ui.MenuItem('7', 7));
+  select1.addItem(new goog.ui.MenuItem('8', 8));
+  select1.addItem(new goog.ui.MenuItem('9', 9));
+  select1.addItem(new goog.ui.MenuItem('10', 10));
+  select1.addItem(new goog.ui.MenuItem('11', 11));
+  select1.addItem(new goog.ui.MenuItem('12', 12));
+  
+  
+  // This second editor is useless for now. It is supposed to host the spectrum object that does not exist yet
+  var select2 = new goog.ui.Select();
+  select2.addItem(new goog.ui.MenuItem('0', 0));
+  select2.addItem(new goog.ui.MenuItem('1', 1));
+  select2.addItem(new goog.ui.MenuItem('2', 2));
+  select2.addItem(new goog.ui.MenuItem('3', 3));
+  select2.addItem(new goog.ui.MenuItem('4', 4));
+  select2.addItem(new goog.ui.MenuItem('5', 5));
+  select2.addItem(new goog.ui.MenuItem('6', 6));
+  select2.addItem(new goog.ui.MenuItem('7', 7));
+  select2.addItem(new goog.ui.MenuItem('8', 8));
+  select2.addItem(new goog.ui.MenuItem('9', 9));
+  select2.addItem(new goog.ui.MenuItem('10', 10));
+  select2.addItem(new goog.ui.MenuItem('11', 11));
+  select2.addItem(new goog.ui.MenuItem('12', 12));
+
+  select1.setSelectedIndex(0);
+  select1.render(goog.dom.getElement('selectMolecule'));
+
+  select2.setSelectedIndex(1);
+  select2.render(goog.dom.getElement('selectSpectrum'));
+
+
+  goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
+  function(e) {
+  var select = e.target;
+  var idx = select.getValue();
+  var molfile=sdfs[idx];
+  var mol=specview.io.mdl.readMolfile(molfile);//String to object
+  editor.setModels([mol]);//Display it
+  editorSpectrum.setModels([specview.io.mdl.readMolfile(sdfs[idx])]);
+  });
+  
+  };
+
+   goog.events.listen(window, goog.events.EventType.LOAD, initPage);
+
+	//Basically here is the idea of the current cross talking:
+	//We browse over a line of the table that contains the spectrum information.
+	//It contains a peak reference that is shared by the atoms
+   	//THe following function can retrieve the atom from a peakId(for now it is done manually, but it can easily being done automatically)
+   // For instance modifying the class atom by adding an identifier that reference a peak or by modifying the class molecule and adding an
+   // hash table that link an atom id to a peak id(process on going)
+   
+  function selectProperAtom(arg){
+		var atom;
+	   switch(arg){
+	   case "peak1":
+		   atom=new specview.model.Atom('C',0,0.825);
+		   break;
+	 case "peak2":
+		  atom= new specview.model.Atom('C',0.7145,-0.4125);
+		  break;
+	   case "peak3":
+		   atom=new specview.model.Atom('C',-0.7145,0.4125);
+		   break;
+	   case "peak4":
+		   atom=new specview.model.Atom('C',-0.7145,-0.4125);
+		   break;
+	   case "peak5":
+		   atom=new specview.model.Atom('C',0.7145,0.4125);
+		   break;
+	   case "peak6":
+		   atom=new specview.model.Atom('C',0,-0.825);
+		   break;
+	   }
+	   return editor.moleculeRenderer.atomRenderer.highlightOn(atom,"#4E9600");
+   };
+   
+   
+   //The way the unhighlighting process is actually done has to be changed!!
+     function unSelectProperAtom(arg){
+		editor.clear();
+		editor.setModels([moleculeObject]);
+		}; 
+ 
+</script>
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Display spectrum demo</title>
+	<link rel="stylesheet" href="../../css/specview.css" />
+	<link rel="stylesheet"  href="../../css/demo.css" />
+</head>
+
+<body>
+
+<!-- Concept of the table : When we create the spectrum object line 87(specview.io.spec.readSpecfile(specAcet)) we also create the following
+	 table. There is a function in the spectrum.js file that has a function named specview.model.Spectrum.prototype.getTableContentOfSpectrum.
+	 This function create the table. The function works BUT no variable created in the javascript part of the demo2.html can be accessed
+	 in the html part of the same file.. which explain why the table is created manually so far.  -->
+
+<table id="table" border="0" rules="none" onmouseout="alert("blablabla")">
+<tr bgcolor="#0000AA"><th><div style="color:white">Atom<br>No.</div></th>
+<th><div style="color:white">Mult.(coupling const.)</div></th>
+<th><div style="color:white">Meas.<br>Shift</div></th>
+</tr>
+
+<!-- The following line gnerating the table has to be generated automatically from the parsing file!!
+	 Problem: The scope of variable makes it imposible. -->
+
+<tr id="peak1" bgcolor="#D3D3D3" onMouseover="selectProperAtom(this.id);style.backgroundColor='#FF6600';"
+									onmouseout="unSelectProperAtom(this.id);style.backgroundColor=' white ';">
+<td>1</td>
+<td align="center">S</td>
+<td nowrap>103.12</td>	
+</tr>
+
+<tr id="peak2" bgcolor="#D3D3D3" onMouseover="selectProperAtom(this.id);style.backgroundColor='#FF6600';" 
+									onmouseout="unSelectProperAtom(this.id);style.backgroundColor=' #D3D3D3 ';">
+<td>2</td>
+<td align="center">S</td>
+<td nowrap>170.18</td>
+</tr>
+
+<tr id="peak3" bgcolor="#D3D3D3" onMouseover="selectProperAtom(this.id);style.backgroundColor='#FF6600';" 
+									onmouseout="unSelectProperAtom(this.id);style.backgroundColor=' #D3D3D3 ';">
+<td>3</td>
+<td align="center">S</td>
+<td nowrap>140.18</td>
+</tr>
+
+<tr id="peak4" bgcolor="#D3D3D3" onMouseover="selectProperAtom(this.id);style.backgroundColor='#FF6600';" 
+									onmouseout="unSelectProperAtom(this.id);style.backgroundColor=' #D3D3D3 ';">
+<td>4</td>
+<td align="center">S</td>
+<td nowrap>270.98</td>
+</tr>
+
+<tr id="peak5" bgcolor="#D3D3D3" onMouseover="selectProperAtom(this.id);style.backgroundColor='#FF6600';" 
+									onmouseout="unSelectProperAtom(this.id);style.backgroundColor=' #D3D3D3 ';">
+<td>5</td>
+<td align="center">S</td>
+<td nowrap>147.12</td>
+</tr>
+
+<tr id="peak6" bgcolor="#D3D3D3" onMouseover="selectProperAtom(this.id);style.backgroundColor='#FF6600';" 
+									onmouseout="unSelectProperAtom(this.id);style.backgroundColor=' #D3D3D3 ';">
+<td>6</td>
+<td align="center">S</td>
+<td nowrap>122.55</td>
+</tr>
+
+</table>
+
+
+
+
+
+	<fieldset style="width: 600px">
+	<legend><h1>Molecule viewer</h1></legend>
+	<br>
+	<label id="selectMolecule">Select a molecule to render: </label>
+	<br>
+			<div id="moleculeContainer" style="height: 400px">
+			</div>
+	</fieldset>
+
+	<fieldset style="width: 600px">
+	<legend><h1>Spectrum viewer</h1></legend>
+	<br>
+	<label id="selectSpectrum">Select a spectrum to render: </label>
+	<br>
+	<div id="spectrumContainer" style="height: 400px">
+	</div> 
+	</fieldset>
+
+
+
+
+
+</body>
+
+</html>

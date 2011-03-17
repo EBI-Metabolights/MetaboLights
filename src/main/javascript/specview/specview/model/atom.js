@@ -39,7 +39,7 @@ goog.require('goog.debug.Logger');
  *            opt_isotope, isotope, defaults to 0
  * @constructor
  */
-specview.model.Atom = function(opt_symbol, opt_x, opt_y, opt_charge, opt_aromatic, opt_isotope) {
+specview.model.Atom = function(opt_symbol, opt_x, opt_y, opt_charge, opt_aromatic, opt_isotope,opt_peakMapping,opt_innerIdentifier){
 	/**
 	 * Atom symbol
 	 * 
@@ -51,6 +51,16 @@ specview.model.Atom = function(opt_symbol, opt_x, opt_y, opt_charge, opt_aromati
 
 	var y = goog.isDef(opt_y) ? opt_y : 0;
 
+	
+	/**
+	 * Must be an array or an object
+	 * Useful for NMR/MSexperiment
+	 * Each peak is referrencedbyuann id and is mapped to at  least one atom
+	 * This attribute keeps relationships with the spectrum/table object which is associated to the  molecule
+	 */
+	this.peakMap=goog.isDef(opt_peakMapping) ? opt_peakMapping : new Array();
+	this.innerIdentifier= goog.isDef(opt_innerIdentifier) ? opt_innerIdentifier : "";
+	
 	/**
 	 * 2d coordinates
 	 * 
@@ -93,6 +103,22 @@ specview.model.Atom = function(opt_symbol, opt_x, opt_y, opt_charge, opt_aromati
 
 };
 goog.exportSymbol("specview.model.Atom", specview.model.Atom);
+
+
+specview.model.Atom.prototype.setPeakMap=function(array){
+	this.peakMap=array;
+};
+
+specview.model.Atom.prototype.initiatePeakMap=function(){
+	this.peakMap=new Array();
+};
+
+specview.model.Atom.prototype.setInnerIdentifier=function(string){
+	this.innerIdentifier=string;
+};
+
+
+
 
 /** @return {string} atomic symbol */
 specview.model.Atom.prototype.getSymbol = function() {
@@ -235,8 +261,8 @@ specview.model.Atom.Hybridizations = {
  *            flag_value true or false
  */
 specview.model.Atom.prototype.setFlag = function(flag_type, flag_value) {
-	this.flags[flag_type] = flag_value
-}
+	this.flags[flag_type] = flag_value;
+};
 /**
  * @return {string}
  */
