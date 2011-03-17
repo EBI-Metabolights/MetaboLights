@@ -5,6 +5,8 @@ goog.require('specview.model.Peak');
 goog.require('specview.model.Molecule');
 goog.require('specview.model.Bond');
 goog.require('specview.model.Atom');
+goog.require('specview.model.NMRSpec');
+goog.require('goog.array');
 
 
 /*
@@ -51,7 +53,7 @@ specview.io.spec.readSpecfile=function(specfile)
  * Input: string to the CML format containing the information on a peak
  * Output: Object Peak containing the information of a peak: its Id, its related atom and its xValue.
  */
-specview.io.getPeakInfo=function(string){
+specview.io.spec.getPeakInfo=function(string){
 	var peak=new specview.model.Peak();
 	parsedString=string.split(" ");
 	var len=parsedString.length;
@@ -78,7 +80,7 @@ specview.io.getPeakInfo=function(string){
  * Input: string to the CML format containing the information on the experiment
  * Output: String of the NMR type(1H,13C)
  */
-specview.io.getMetaInfo=function(string){
+specview.io.spec.getMetaInfo=function(string){
 	var parsedString=string.split(" ");
 	var nmrType;
 //	alert(specview.io.getSubTagAfterCharacter(parsedString[1],":"));
@@ -219,6 +221,7 @@ specview.io.spec.readMolFromCmlFile= function(cmlfile){
 	var cmlListLength=cmlList.length;
 	var parsedString;
 	var molecule;
+	var peakArray = new Array();
 	for(var k=0;k<cmlListLength;k++){
 		var currentString=cmlList[k];
 		var tag=specview.io.spec.getSubTagBeforeCharacter(cmlList[k].substr(1)," ");
@@ -256,12 +259,17 @@ specview.io.spec.readMolFromCmlFile= function(cmlfile){
 				bondType=specview.model.Bond.ORDER.DOUBLE;
 				break;
 			}
-			
 			var newBond=new specview.model.Bond(source, target, bondType);
 			molecule.addBond(newBond);
 			break;
+		case "peak":
+			goog.array.insert(peakArray, specview.io.spec.getPeakInfo(currentString));
+			break;
 		}
+			
+
 	}
+	var nmrSpec = new specview.model.NMRSpec(molecule,peakArray) 
 	return molecule;
 };
 

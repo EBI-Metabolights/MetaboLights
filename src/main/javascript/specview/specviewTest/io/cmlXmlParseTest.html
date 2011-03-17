@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Specview unit XML parsing CML</title>
+    <script src="../../third-party/closure/closure/goog/base.js"></script>
+    <script src="../../specview/deps.js"></script>
+    <script src="../data/specData/C8H2NF5.js"></script>
+    
+    <script>
+    goog.require('goog.testing.jsunit');
+    goog.require('specview.io.CmlXMLparser');
+    </script>
+    
+    <script>
+	    function testOne() {
+	    	var parser = new specview.io.CmlXMLparser();
+	        assertEquals('OK', "OKAY", parser.parseCML(specC8H2NF5));
+	    }
+    </script>
+    </head>
+    <body>
+    </body>
+</html>

@@ -3,7 +3,14 @@
 
 <script src="../../third-party/closure/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
+<!-- CML -->
+<script src="../../specviewTest/data/specData/C8H2NF5.js"></script>
 <script src="../../specviewTest/data/CMLbenzene.js"></script>
+
+<!-- MDL -->
+<script src="../../specviewTest/data/cubane.js"></script>
+<script src="../../specviewTest/data/cycloPentane.js"></script>
+
 
 <script>
     goog.require('goog.events.EventType');
@@ -13,6 +20,7 @@
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
     goog.require('specview.io.spec');
+    goog.require('specview.io.mdl');
 
 </script>
 
@@ -23,7 +31,10 @@ function initPage(){
     c.setCapturing(true); 
     var controller = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
     controller.registerPlugin(new specview.controller.plugins.Highlight());
-    controller.setModels([specview.io.spec.readMolFromCmlFile(CMLbenzene)]);
+    controller.setModels([specview.io.spec.readMolFromCmlFile(CMLbenzene) ,specview.io.spec.readMolFromCmlFile(specC8H2NF5) ]);
+    //controller.setModels([specview.io.spec.readMolFromCmlFile(specC8H2NF5) ]);
+    //controller.setModels([specview.io.spec.readMolFromCmlFile(CMLbenzene)]);
+    //controller.setModels([specview.io.mdl.readMolfile(cubane) ,specview.io.mdl.readMolfile(cycloPentane) ]);
 };
 
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);
@@ -39,10 +50,10 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
 <body>
 
-    <fieldset style="width: 600px">
+    <fieldset style="width: 900px">
     <legend><h1>CML viewer</h1></legend>
     <br>
-            <div id="moleculeContainer" style="height: 400px">
+            <div id="moleculeContainer" style="height: 300px">
             </div>
     </fieldset>
 </body>
