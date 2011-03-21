@@ -1,8 +1,7 @@
 goog.provide('specview.model.NMRdata');
-goog.require('specview.io.mdl');
+
+goog.require('specview.model.Molecule');
 goog.require('specview.model.Spectrum');
-goog.require('specview.util.Utilities');
-goog.require('specview.model.Peak');
 
 /*
  * A class to capture spectrum data as found in NMRshiftDb.

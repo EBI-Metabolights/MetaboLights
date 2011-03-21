@@ -4,6 +4,15 @@ goog.require('goog.string');
 goog.require('goog.userAgent');
 goog.require('goog.debug.Logger');
 
+goog.require('specview.model.Peak');
+goog.require('specview.model.Molecule');
+goog.require('specview.model.Atom');
+goog.require('specview.model.Bond');
+goog.require('specview.model.Spectrum');
+goog.require('specview.model.NMRdata');
+
+
+
 /**
  * Parses CML with spectrum data such as can be found in NMR Shift DB.
 **/
