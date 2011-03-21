@@ -34,8 +34,8 @@ function initPage(){
     var controller = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
 	controller.registerPlugin(new specview.controller.plugins.Highlight());
 
-    var nmrXml=specview.io.SpectrumCMLParser.parseCML(specC8H2NF5);//XML document
-    var cmlObject=specview.io.SpectrumCMLParser.CmlXMLtoGraphicalObject(nmrXml);//a cmlObject
+    var nmrXml=specview.io.SpectrumCMLParser.getDocument(specC8H2NF5);//XML document
+    var cmlObject=specview.io.SpectrumCMLParser.parseDocument(nmrXml);//a cmlObject
     cmlObject.createMoleculeObjectOutOfCmlParserObject();//This will set the molecule attribute of the cmlObject so it can be a proper molecule
     var molecule=cmlObject.molecule;
     controller.setModels([molecule ]);

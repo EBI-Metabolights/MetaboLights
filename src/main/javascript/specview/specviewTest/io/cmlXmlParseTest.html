@@ -17,8 +17,8 @@
     
     <script>
 	    function testC18H17NO4() {
-	    	var CmlXmlObject=specview.io.SpectrumCMLParser.parseCML(specC8H2NF5);//XML document
-	    	var cmlObject=specview.io.SpectrumCMLParser.CmlXMLtoGraphicalObject(CmlXmlObject);//a cmlObject
+	    	var CmlXmlObject=specview.io.SpectrumCMLParser.getDocument(specC8H2NF5);//XML document
+	    	var cmlObject=specview.io.SpectrumCMLParser.parseDocument(CmlXmlObject);//a cmlObject
 	    	cmlObject.createMoleculeObjectOutOfCmlParserObject();//This will set the molecule attribute of the cmlObject so it can be a proper molecule
 	    	var molecule=cmlObject.molecule;
 	        assertEquals('count atoms', 14, molecule.atoms.length);

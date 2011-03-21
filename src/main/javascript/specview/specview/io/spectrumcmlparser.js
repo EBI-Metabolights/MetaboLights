@@ -3,39 +3,41 @@ goog.require('goog.dom.xml');
 goog.require('goog.string');
 goog.require('goog.userAgent');
 
+/**
+ * Parses CML with spectrum data such as can be found in NMR Shift DB.
+**/
 
 /**
+ * Converts CML string to DOM
  * @param cmlString
  * @returns XMLdocument
  */
-specview.io.SpectrumCMLParser.parseCML=function(cmlString) {
+specview.io.SpectrumCMLParser.getDocument=function(cmlString) {
 	return goog.dom.xml.loadXml(cmlString);
 };
 
 
 /**
+ * Parses CML XMl document into NMRData
  * @param XMLdocument
- * @returns {___CmlGraphicalObject0}
+ * @returns {specview.model.NMRdata()}
  */
-specview.io.SpectrumCMLParser.CmlXMLtoGraphicalObject=function(XMLdocument){
+specview.io.SpectrumCMLParser.parseDocument=function(XMLdocument){
 
 	var CmlGraphicalObject= new specview.model.NMRdata();// The cmlObject that holds atoms,bonds,molecule and spectrum
 	var XMLdoc=XMLdocument;//The XML document of the string representing the molecule
-	
-	
+		
 	var atoms=XMLdoc.getElementsByTagName("atom");// All of its atoms
 	var peaks=XMLdoc.getElementsByTagName("peak");// All of its peaks
 	var mol=XMLdoc.getElementsByTagName("molecule");// The informations regarding the molecule
 	var cNodes=XMLdoc.getElementsByTagName("bondArray")[0].childNodes;// All of the bonds including the stereo informations
-
-	
 	
 	var lenAtom=atoms.length;
 	var lenBond=cNodes.length;
 	var lenPeak=peaks.length;
 		
-	var atomId; var elementType; var x; var y; var charge; var hydrogenCount; var istopeNumber; //Attribute of an Atom object
-	var peakId; var xValue; var multiplicity; var height; var atomRefs; var peakShape; var peakUnits;// Attribute of a Peak object
+	var atomId; var elementType; var x; var y; var charge; var hydrogenCount; //Attribute of an Atom object
+	var peakId; var xValue; var multiplicity; var height; var atomRefs; var peakShape; // Attribute of a Peak object
 	var bondId; var type; var source; var target; //Attribute of a Bond object
 	var stereo=null;
 	var moleculeTitle; var moleculeId;
