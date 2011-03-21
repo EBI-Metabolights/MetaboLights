@@ -44,6 +44,10 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 	var bondId; var type; var source; var target; 
 	var stereo=null;
 	
+    var ArrayOfAtoms=new Array(); // Keys are the inner atom id. Values are the atom objects
+	var ArrayOfBonds=new Array();
+	var ArrayOfPeaks=new Array();
+
 	
 	//Create the atoms and put it in the Array of Atoms of the cmlObject.
 	for(var k=0;k<lenAtom;k++){
@@ -78,7 +82,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 		currentAtom.setInnerIdentifier(atomId);//Set its inner identifier..a1,a2...
 		currentAtom.peakMap[currentAtom.getInnerIdentifier()]=new Array();//Prepare the array for the peaks..[a1=[] ; a2=[] ...]
         //this.logger.info("atom id "+currentAtom.getInnerIdentifier())
-		nmrData.ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;//Set the ArrayOfAtoms attribute of the graphical object
+		ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;//Set the ArrayOfAtoms attribute of the graphical object
 	}
 
 	
@@ -119,8 +123,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 				}
 			}
 			stereo=(stereo ? stereo : specview.io.mdl.NOT_STEREO);
-			var currentBond=new specview.io.mdl.createBond(type, stereo, nmrData.ArrayOfAtoms[source],nmrData.ArrayOfAtoms[target]);
-			nmrData.ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
+			var currentBond=new specview.io.mdl.createBond(type, stereo, ArrayOfAtoms[source],ArrayOfAtoms[target]);
+			ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
 			stereo=null;//Reset the value of stereo!
 		}
 
@@ -161,8 +165,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 		//refer the atoms to the peaks
 		for(at in atomRefs){
 			var atomRef=atomRefs[at];
-			for(s in nmrData.ArrayOfAtoms){
-				var atom=nmrData.ArrayOfAtoms[s];
+			for(s in ArrayOfAtoms){
+				var atom=ArrayOfAtoms[s];
 				var innerIdentifier=atom.innerIdentifier;
 				if(atomRef==innerIdentifier){
 					atom.peakMap[atomRef].push(peakId);
@@ -170,24 +174,29 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 			}
 		}
 		height = height ? height : 50 ; // Should be more precise on the height
-		nmrData.ArrayOfPeaks[peakId]=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity);
+		ArrayOfPeaks[peakId]=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity);
 	}
 
-	var moleculeTitle; var moleculeId;
+
+
 	//Create the molecule name : Set the name and id.
+	var moleculeTitle; var moleculeId;
 	moleculeTitle=mol.item(0).attributes[0].value;
 	moleculeId=mol.item(0).attributes[1].value;
 	nmrData.molecule=new specview.model.Molecule(moleculeTitle);
-	
+
 	//Add the atoms to the molecule
-	for(k in nmrData.ArrayOfAtoms){
-		nmrData.molecule.addAtom(nmrData.ArrayOfAtoms[k]);
+	for(k in ArrayOfAtoms){
+		nmrData.molecule.addAtom(ArrayOfAtoms[k]);
 	}
 	//Add the bonds to the molecule
-	for(k in nmrData.ArrayOfBonds){
-		nmrData.molecule.addBond(nmrData.ArrayOfBonds[k]);
+	for(k in ArrayOfBonds){
+		nmrData.molecule.addBond(ArrayOfBonds[k]);
 	}
-	
+
+    //Create a spectrum
+    nmrData.spectrum= new specview.model.Spectrum(nmrData.molecule, ArrayOfPeaks);
+
 	return nmrData;
 	
 };

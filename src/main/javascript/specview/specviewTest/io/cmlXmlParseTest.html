@@ -26,14 +26,14 @@
 	        alert("Molecule name= "+ molecule.name+
 	        		"\nNumber of atoms= "+molecule.atoms.length+
 	        		"\nNumber of bonds= "+molecule.bonds.length+
-	        		"\nNumber of peaks= "+nmrData.ArrayOfPeaks.length
+	        		"\nNumber of peaks= "+nmrData.spectrum.peakList.length
 	        		);
 	        for(var k=0;k<molecule.atoms.length;k++){
 	        	var innerId=nmrData.molecule.getAtom(k).innerIdentifier;
 	        	alert(nmrData.molecule.getAtom(k).innerIdentifier+"===reference===>"+
 	        			nmrData.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]+
-	        			"\n\n"+nmrData.molecule.getAtom(k).innerIdentifier+"==>"+nmrData.ArrayOfAtoms[nmrData.molecule.getAtom(k).innerIdentifier]+
-	        			"\n\n"+nmrData.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]+"==>"+nmrData.ArrayOfPeaks[nmrData.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]]);
+	        			"\n\n"+nmrData.molecule.getAtom(k).innerIdentifier+"==>"+nmrData.molecule.atoms[nmrData.molecule.getAtom(k).innerIdentifier]+
+	        			"\n\n"+nmrData.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]+"==>"+nmrData.spectrum.peakList[nmrData.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]]);
 	        }
 	    }
     </script>

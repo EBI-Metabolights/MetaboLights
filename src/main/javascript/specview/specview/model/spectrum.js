@@ -13,29 +13,23 @@ goog.provide('specview.model.Spectrum');
  */
 
 //We suppose there exist a function that extract all the subsequent information from a file.
-specview.model.Spectrum=function()
+specview.model.Spectrum=function(optMolecule, optPeaklist)
 {
-	this._moleculeRef="";
-	this._moleculeId="";
-	this._experiment="";
-	this._opt_NMRtype="";
-	this._opt_MS="";
-	this._peaksList=new Array();
+	this.molecule=null;
+	this.peakList=new Array();
+
+	this.experiment="";
+	this.NMRtype="";
+	this.MS="";
+
 	};
 goog.exportSymbol("specview.model.Spectrum", specview.model.Spectrum);
-
-/*
- * Return an array of objects Peak.
- */
-specview.model.Spectrum.prototype.getPeakList=function(){
-	return this._peaksList;
-};
 
 
 /*
  * Description of the object
  */
 specview.model.Spectrum.prototype.toString = function() {
-	return "=====Object of a spectrum===\n\n " + "1-"+this._moleculeRef + "\n"+"2-"+this._moleculeId+"\n"+"3-"+this._experiment+"\n"+"4-"+this._peaksList;
+	return "=====Object of a spectrum===\n\n " + "1-"+this.molecule + "\n"+"4-"+this.peakList;
 };
 
