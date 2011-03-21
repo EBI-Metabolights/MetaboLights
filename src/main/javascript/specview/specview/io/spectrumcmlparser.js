@@ -2,6 +2,7 @@ goog.provide('specview.io.SpectrumCMLParser');
 goog.require('goog.dom.xml');
 goog.require('goog.string');
 goog.require('goog.userAgent');
+goog.require('goog.debug.Logger');
 
 /**
  * Parses CML with spectrum data such as can be found in NMR Shift DB.
@@ -22,30 +23,26 @@ specview.io.SpectrumCMLParser.getDocument=function(cmlString) {
  * @param XMLdocument
  * @returns {specview.model.NMRdata()}
  */
-specview.io.SpectrumCMLParser.parseDocument=function(XMLdocument){
+specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 
-	var CmlGraphicalObject= new specview.model.NMRdata();// The cmlObject that holds atoms,bonds,molecule and spectrum
-	var XMLdoc=XMLdocument;//The XML document of the string representing the molecule
+	var nmrData= new specview.model.NMRdata();// The cmlObject that holds atoms,bonds,molecule and spectrum
 		
 	var atoms=XMLdoc.getElementsByTagName("atom");// All of its atoms
 	var peaks=XMLdoc.getElementsByTagName("peak");// All of its peaks
-	var mol=XMLdoc.getElementsByTagName("molecule");// The informations regarding the molecule
+	var mol=XMLdoc.getElementsByTagName("molecule");// The information regarding the molecule
 	var cNodes=XMLdoc.getElementsByTagName("bondArray")[0].childNodes;// All of the bonds including the stereo informations
 	
 	var lenAtom=atoms.length;
 	var lenBond=cNodes.length;
 	var lenPeak=peaks.length;
 		
-	var atomId; var elementType; var x; var y; var charge; var hydrogenCount; //Attribute of an Atom object
-	var peakId; var xValue; var multiplicity; var height; var atomRefs; var peakShape; // Attribute of a Peak object
-	var bondId; var type; var source; var target; //Attribute of a Bond object
+    //Attributes of an Atom object
+	var atomId; var elementType; var x; var y; var charge; var hydrogenCount; 
+    //Attributes of a Peak object
+	var peakId; var xValue; var multiplicity; var height; var atomRefs; var peakShape; 
+    //Attributes of a Bond object
+	var bondId; var type; var source; var target; 
 	var stereo=null;
-	var moleculeTitle; var moleculeId;
-	
-	//Create the molecule name : Set the name and id.
-	moleculeTitle=mol.item(0).attributes[0].value;
-	moleculeId=mol.item(0).attributes[1].value;
-	CmlGraphicalObject.molecule=new specview.model.Molecule(moleculeTitle);
 	
 	
 	//Create the atoms and put it in the Array of Atoms of the cmlObject.
@@ -80,7 +77,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdocument){
 		var currentAtom=new specview.model.Atom(elementType,x,y,charge);//Create the atom
 		currentAtom.setInnerIdentifier(atomId);//Set its inner identifier..a1,a2...
 		currentAtom.peakMap[currentAtom.getInnerIdentifier()]=new Array();//Prepare the array for the peaks..[a1=[] ; a2=[] ...]
-		CmlGraphicalObject.ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;//Set the ArrayOfAtoms attribute of the graphical object
+        //this.logger.info("atom id "+currentAtom.getInnerIdentifier())
+		nmrData.ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;//Set the ArrayOfAtoms attribute of the graphical object
 	}
 
 	
@@ -114,18 +112,15 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdocument){
 			}
 			if(nextTag=="bondStereo"){//DO NOT FORGET TO ADD THE REMAING STEREOSPECIFITIY
 				stereo=cNodes[k+2].attributes[0].value;
-//				alert(stereo);
 				if(stereo=="CML:W"){
 					stereo=specview.io.mdl.SINGLE_BOND_UP;
 				}else if(stereo="CML:H"){
 					stereo=specview.io.mdl.SINGLE_BOND_DOWN;
 				}
-//				alert(stereo);
 			}
 			stereo=(stereo ? stereo : specview.io.mdl.NOT_STEREO);
-		//	alert(type+"\n"+stereo+"\n"+source+"\n"+target);
-			var currentBond=new specview.io.mdl.createBond(type, stereo, CmlGraphicalObject.ArrayOfAtoms[source],CmlGraphicalObject.ArrayOfAtoms[target]);
-			CmlGraphicalObject.ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
+			var currentBond=new specview.io.mdl.createBond(type, stereo, nmrData.ArrayOfAtoms[source],nmrData.ArrayOfAtoms[target]);
+			nmrData.ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
 			stereo=null;//Reset the value of stereo!
 		}
 
@@ -135,7 +130,6 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdocument){
 	//create the peaks and put it in the Array of object of the cmlObject
 	for(var k=0;k<lenPeak;k++){
 		for(attributeIndice in peaks.item(k).attributes){
-//			alert(peaks.item(k).attributes[attributeIndice].value);		
 			var attributeName=peaks.item(k).attributes[attributeIndice].name;
 			var attributeValue=peaks.item(k).attributes[attributeIndice].value;
 			switch(attributeName){
@@ -167,8 +161,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdocument){
 		//refer the atoms to the peaks
 		for(at in atomRefs){
 			var atomRef=atomRefs[at];
-			for(s in CmlGraphicalObject.ArrayOfAtoms){
-				var atom=CmlGraphicalObject.ArrayOfAtoms[s];
+			for(s in nmrData.ArrayOfAtoms){
+				var atom=nmrData.ArrayOfAtoms[s];
 				var innerIdentifier=atom.innerIdentifier;
 				if(atomRef==innerIdentifier){
 					atom.peakMap[atomRef].push(peakId);
@@ -176,9 +170,29 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdocument){
 			}
 		}
 		height = height ? height : 50 ; // Should be more precise on the height
-		CmlGraphicalObject.ArrayOfPeaks[peakId]=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity);
+		nmrData.ArrayOfPeaks[peakId]=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity);
+	}
+
+	var moleculeTitle; var moleculeId;
+	//Create the molecule name : Set the name and id.
+	moleculeTitle=mol.item(0).attributes[0].value;
+	moleculeId=mol.item(0).attributes[1].value;
+	nmrData.molecule=new specview.model.Molecule(moleculeTitle);
+	
+	//Add the atoms to the molecule
+	for(k in nmrData.ArrayOfAtoms){
+		nmrData.molecule.addAtom(nmrData.ArrayOfAtoms[k]);
+	}
+	//Add the bonds to the molecule
+	for(k in nmrData.ArrayOfBonds){
+		nmrData.molecule.addBond(nmrData.ArrayOfBonds[k]);
 	}
 	
-	return CmlGraphicalObject;
+	return nmrData;
 	
 };
+
+/**
+ * Logging object.
+ */
+specview.io.SpectrumCMLParser.logger = goog.debug.Logger.getLogger('specview.io.SpectrumCMLParser');

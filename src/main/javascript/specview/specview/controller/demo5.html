@@ -51,7 +51,6 @@ function initPage(){
 	var cmls=cmlmolecules.split("$$END$$\n");
 	var CmlXmlObject=specview.io.SpectrumCMLParser.getDocument(cmls[0]);//XML document
 	var cmlObject=specview.io.SpectrumCMLParser.parseDocument(CmlXmlObject);//a cmlObject
-	cmlObject.createMoleculeObjectOutOfCmlParserObject();//This will set the molecule attribute of the cmlObject so it can be a proper molecule
 	var molecule=cmlObject.molecule;
 				
 	editor.setModels([molecule]);
