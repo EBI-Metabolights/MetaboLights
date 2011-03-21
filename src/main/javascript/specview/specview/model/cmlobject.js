@@ -17,7 +17,7 @@ specview.model.Cmlobject=function(){
 	
 	this.molecule="";//A molecule object (empty, or should just contain the name)
 	
-	this.moleculeTitle="";
+	this.moleculeTitle="";// USELESS
 	this.moleculeId="";
 	
 	this.spectrumId="";
