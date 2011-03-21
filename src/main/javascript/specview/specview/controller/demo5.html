@@ -24,8 +24,8 @@
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
     goog.require('specview.io.mdl');
-    goog.require('specview.model.Cmlobject');
-    goog.require('specview.io.CmlXMLparser');
+    goog.require('specview.model.NMRdata');
+    goog.require('specview.io.SpectrumCMLParser');
     goog.require('specview.io.spec');
     goog.require('specview.io.cml')
     goog.require('specview.util');
@@ -49,8 +49,8 @@ function initPage(){
 
 	//Initialisation of a molecule to display when the page is loading
 	var cmls=cmlmolecules.split("$$END$$\n");
-	var CmlXmlObject=specview.io.CmlXMLparser.parseCML(cmls[0]);//XML document
-	var cmlObject=specview.io.CmlXMLparser.CmlXMLtoGraphicalObject(CmlXmlObject);//a cmlObject
+	var CmlXmlObject=specview.io.SpectrumCMLParser.parseCML(cmls[0]);//XML document
+	var cmlObject=specview.io.SpectrumCMLParser.CmlXMLtoGraphicalObject(CmlXmlObject);//a cmlObject
 	cmlObject.createMoleculeObjectOutOfCmlParserObject();//This will set the molecule attribute of the cmlObject so it can be a proper molecule
 	var molecule=cmlObject.molecule;
 				
@@ -83,8 +83,8 @@ function initPage(){
         	  idx=0;
           }
 	      var molfile=cmls[idx];
-      	  var CmlXmlObject=specview.io.CmlXMLparser.parseCML(molfile);//XML document
-    	  var cmlObject=specview.io.CmlXMLparser.CmlXMLtoGraphicalObject(CmlXmlObject);//a cmlObject
+      	  var CmlXmlObject=specview.io.SpectrumCMLParser.parseCML(molfile);//XML document
+    	  var cmlObject=specview.io.SpectrumCMLParser.CmlXMLtoGraphicalObject(CmlXmlObject);//a cmlObject
     	  cmlObject.createMoleculeObjectOutOfCmlParserObject();//This will set the molecule attribute of the cmlObject so it can be a proper molecule
     	  var molecule=cmlObject.molecule;
     	  editor.setModels([molecule]);

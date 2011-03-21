@@ -34,7 +34,7 @@ specview.model.Neighbor;
  */
 
 specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
-	this.logger2.info("#objects= "+objects.length)
+	//this.logger2.info("#objects= "+objects.length)
 	this.cells = {};
 	this.cellSize = opt_cellSize ? opt_cellSize : 2;
 	this.tolerance = opt_tolerance ? opt_tolerance : 0.3;
@@ -165,7 +165,7 @@ specview.model.NeighborList.prototype.getNearest = function(coord) {
 specview.model.NeighborList.prototype.getNearestList = function(coord) {
 	var nearest = [];
 	var cells = this.cellsAroundCoord(coord);
-	this.logger2.info("cells nearest "+cells.length)
+	//this.logger2.info("cells nearest "+cells.length)
 	var rMin = this.tolerance;
 	for (i = 0, li = cells.length; i < li; i++) {
 		var cell = this.cells[cells[i]];
@@ -200,7 +200,7 @@ specview.model.NeighborList.prototype.getNearestList = function(coord) {
  * @return {Array.<specview.model.Neighbor>}
  */
 specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
-	this.logger.info("haha");
+	//this.logger.info("haha");
 	var neighbors = goog.array.map(molecules, function(mol) {
 		return {
 			obj : mol,

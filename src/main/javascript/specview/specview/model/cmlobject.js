@@ -1,31 +1,23 @@
-goog.provide('specview.model.Cmlobject');
+goog.provide('specview.model.NMRdata');
 goog.require('specview.io.mdl');
 goog.require('specview.model.Spectrum');
 goog.require('specview.util.Smurf');
 goog.require('specview.model.Peak');
-//goog.require('specview.io.spec');
 
 
 /*
- * This Cmlparser object contains every information to directly create :
- * Molecule object
- * Spectrum object
- * Peak object
+ * A class to cpature spectrum data as found in NMRshiftDb
  */
 
-specview.model.Cmlobject=function(){
+specview.model.NMRdata=function(){
 	
 	this.molecule="";//A molecule object (empty, or should just contain the name)
-	
 	this.moleculeTitle="";// USELESS
 	this.moleculeId="";
-	
 	this.spectrumId="";
 	this.spectrumRefMolecule="";//should be the same than moleculeId
 	this.spectrumType="";
 	this.spectrumNmrType="";//optional
-	
-	
 	this.ArrayOfAtoms=new Array();//Keys are the inner atom id. Values are the atom objects
 	this.ArrayOfBonds=new Array();
 	this.ArrayOfPeaks=new Array();
@@ -33,44 +25,44 @@ specview.model.Cmlobject=function(){
 	
 	
 };
-goog.exportSymbol("specview.model.Cmlobject", specview.model.Cmlobject);
+goog.exportSymbol("specview.model.NMRdata", specview.model.NMRdata);
 /*
  * Modifiers
  */
 
-specview.model.Cmlobject.prototype.setMoleculId = function(moleculeId){
+specview.model.NMRdata.prototype.setMoleculId = function(moleculeId){
 	this.moleculeId=moleculeId;
 };
 
-specview.model.Cmlobject.prototype.setMoleculeTitle = function(title){
+specview.model.NMRdata.prototype.setMoleculeTitle = function(title){
 	this.moleculeTitle=title;
 };
 
-specview.model.Cmlobject.prototype.setSpecId = function(arg){
+specview.model.NMRdata.prototype.setSpecId = function(arg){
 	this.spectrumId=arg;
 };
 
-specview.model.Cmlobject.prototype.setSpecRM = function(arg){
+specview.model.NMRdata.prototype.setSpecRM = function(arg){
 	this.spectrumRefMolecule=arg;
 };
 
-specview.model.Cmlobject.prototype.setSpecType = function(arg){
+specview.model.NMRdata.prototype.setSpecType = function(arg){
 	this.spectrumType=arg;	
 };
 
-specview.model.Cmlobject.prototype.setNMRtype = function(arg){
+specview.model.NMRdata.prototype.setNMRtype = function(arg){
 	this.spectrumNmrType=arg;
 };
 
-specview.model.Cmlobject.prototype.setAtoms = function(arg){
+specview.model.NMRdata.prototype.setAtoms = function(arg){
 	this.ArrayOfAtoms=arg;
 };
 
-specview.model.Cmlobject.prototype.setBonds = function(arg){
+specview.model.NMRdata.prototype.setBonds = function(arg){
 	this.ArrayOfBonds=arg;
 	
 };
-specview.model.Cmlobject.prototype.setPeaks = function(arg){
+specview.model.NMRdata.prototype.setPeaks = function(arg){
 	this.ArrayOfPeaks=arg;
 };
 
@@ -78,48 +70,48 @@ specview.model.Cmlobject.prototype.setPeaks = function(arg){
  * Accessors
  */
 
-specview.model.Cmlobject.prototype.getMoleculId = function(moleculeId){
+specview.model.NMRdata.prototype.getMoleculId = function(moleculeId){
 	this.moleculeId;
 };
 
-specview.model.Cmlobject.prototype.getMoleculeTitle = function(title){
+specview.model.NMRdata.prototype.getMoleculeTitle = function(title){
 	this.moleculeTitle;
 };
 
-specview.model.Cmlobject.prototype.getSpecId = function(){
+specview.model.NMRdata.prototype.getSpecId = function(){
 	return this.spectrumId;
 };
 
-specview.model.Cmlobject.prototype.getSpecRM = function(){
+specview.model.NMRdata.prototype.getSpecRM = function(){
 	return this.spectrumRefMolecule;
 };
 
-specview.model.Cmlobject.prototype.getSpecType = function(){
+specview.model.NMRdata.prototype.getSpecType = function(){
 	return this.spectrumType;	
 };
 
-specview.model.Cmlobject.prototype.getNMRtype = function(){
+specview.model.NMRdata.prototype.getNMRtype = function(){
 	return this.spectrumNmrType;
 };
 
-specview.model.Cmlobject.prototype.getAtoms = function(){
+specview.model.NMRdata.prototype.getAtoms = function(){
 	return this.ArrayOfAtoms;
 };
 
-specview.model.Cmlobject.prototype.getBonds = function(){
+specview.model.NMRdata.prototype.getBonds = function(){
 	return this.ArrayOfBonds;
 	
 };
-specview.model.Cmlobject.prototype.getPeaks = function(){
+specview.model.NMRdata.prototype.getPeaks = function(){
 	return this.ArrayOfPeaks;
 };
 
 
 /**
  * 
- * @returns {specview.model.Cmlobject}
+ * @returns {specview.model.NMRdata}
  */
-specview.model.Cmlobject.prototype.createMoleculeObjectOutOfCmlParserObject=function(){
+specview.model.NMRdata.prototype.createMoleculeObjectOutOfCmlParserObject=function(){
 			
 	var listOfAllTheAtomsOfTheMolecule=this.ArrayOfAtoms;
 	var listOfAllTheBondsOfTheMolecule=this.ArrayOfBonds;
@@ -139,11 +131,11 @@ specview.model.Cmlobject.prototype.createMoleculeObjectOutOfCmlParserObject=func
 };
 
 
-specview.model.Cmlobject.prototype.createSpectrumObjectOutOfCmlParserObject=function(){
+specview.model.NMRdata.prototype.createSpectrumObjectOutOfCmlParserObject=function(){
 	
 };
 
-specview.model.Cmlobject.prototype.toString=function(){
+specview.model.NMRdata.prototype.toString=function(){
 	return ("Molecule Title: "+this.moleculeTitle+
 			"\nMolecule Id: "+this.moleculeId+
 			"\nspectrum Id: "+this.spectrumId+

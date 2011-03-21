@@ -3,6 +3,7 @@
 
 <script src="../../third-party/closure/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
+
 <!-- CML -->
 <script src="../../specviewTest/data/specData/C8H2NF5.js"></script>
 <script src="../../specviewTest/data/CMLbenzene.js"></script>
@@ -19,8 +20,9 @@
     goog.require('goog.ui.MenuItem');
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
-    goog.require('specview.io.spec');
     goog.require('specview.io.mdl');
+    goog.require('specview.model.NMRdata');
+    goog.require('specview.io.SpectrumCMLParser');
 
 </script>
 
@@ -30,11 +32,13 @@ function initPage(){
     var c = new goog.debug.Console(); 
     c.setCapturing(true); 
     var controller = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
-    controller.registerPlugin(new specview.controller.plugins.Highlight());
-    controller.setModels([specview.io.spec.readMolFromCmlFile(CMLbenzene) ,specview.io.spec.readMolFromCmlFile(specC8H2NF5) ]);
-    //controller.setModels([specview.io.spec.readMolFromCmlFile(specC8H2NF5) ]);
-    //controller.setModels([specview.io.spec.readMolFromCmlFile(CMLbenzene)]);
-    //controller.setModels([specview.io.mdl.readMolfile(cubane) ,specview.io.mdl.readMolfile(cycloPentane) ]);
+	controller.registerPlugin(new specview.controller.plugins.Highlight());
+
+    var nmrXml=specview.io.SpectrumCMLParser.parseCML(specC8H2NF5);//XML document
+    var cmlObject=specview.io.SpectrumCMLParser.CmlXMLtoGraphicalObject(nmrXml);//a cmlObject
+    cmlObject.createMoleculeObjectOutOfCmlParserObject();//This will set the molecule attribute of the cmlObject so it can be a proper molecule
+    var molecule=cmlObject.molecule;
+    controller.setModels([molecule ]);
 };
 
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);

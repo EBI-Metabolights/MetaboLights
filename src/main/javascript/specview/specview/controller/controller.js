@@ -131,7 +131,7 @@ specview.controller.Controller.prototype.clear = function() {
 	this.logger.info("Clearing graphics");
 	this.graphics.clear();
 	this.models = [new specview.model.Molecule()];
-	this.neighborList = new specview.model.NeighborList( [], 1, .5);
+	this.neighborList = new specview.model.NeighborList( [], 1, .3);
 	var fill = new goog.graphics.SolidFill(this.config.get("background").color);
 	this.graphics.drawRect(0, 0, this.graphics.getSize().width, this.graphics.getSize().height, null, fill);
 }
@@ -165,7 +165,7 @@ specview.controller.Controller.prototype.setModelsSilently = function(models) {
 
 	if (objects.length > 0) {
 //		alert(objects.length);
-		this.neighborList = new specview.model.NeighborList(objects, 1, .5);
+		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
 	}
 //	alert(this.render());
 	this.render();

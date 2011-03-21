@@ -1,7 +1,6 @@
-goog.provide('specview.io.CmlXMLparser');
+goog.provide('specview.io.SpectrumCMLParser');
 goog.require('goog.dom.xml');
 goog.require('goog.string');
-goog.require('goog.testing.jsunit');
 goog.require('goog.userAgent');
 
 
@@ -9,7 +8,7 @@ goog.require('goog.userAgent');
  * @param cmlString
  * @returns XMLdocument
  */
-specview.io.CmlXMLparser.parseCML=function(cmlString) {
+specview.io.SpectrumCMLParser.parseCML=function(cmlString) {
 	return goog.dom.xml.loadXml(cmlString);
 };
 
@@ -18,9 +17,9 @@ specview.io.CmlXMLparser.parseCML=function(cmlString) {
  * @param XMLdocument
  * @returns {___CmlGraphicalObject0}
  */
-specview.io.CmlXMLparser.CmlXMLtoGraphicalObject=function(XMLdocument){
+specview.io.SpectrumCMLParser.CmlXMLtoGraphicalObject=function(XMLdocument){
 
-	var CmlGraphicalObject= new specview.model.Cmlobject();// The cmlObject that holds atoms,bonds,molecule and spectrum
+	var CmlGraphicalObject= new specview.model.NMRdata();// The cmlObject that holds atoms,bonds,molecule and spectrum
 	var XMLdoc=XMLdocument;//The XML document of the string representing the molecule
 	
 	
