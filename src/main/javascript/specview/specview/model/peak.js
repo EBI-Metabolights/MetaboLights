@@ -8,7 +8,7 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 	this.xValue=opt_xValue;
 	this.intensity=opt_intensity;
 	this.peakId=opt_peakId;
-	this.atomRef=opt_atomRef;
+	this.atomRef=opt_atomRef;// Should be an array
 	this.multiplicity=opt_multiplicity;
 };
 goog.exportSymbol("specview.model.Peak", specview.model.Peak);

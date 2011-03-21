@@ -174,6 +174,8 @@ specview.io.CmlXMLparser.CmlXMLtoGraphicalObject=function(XMLdocument){
 				}
 			}
 		}
+		height = height ? height : 50 ; // Should be more precise on the height
+		CmlGraphicalObject.ArrayOfPeaks[peakId]=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity);
 	}
 	
 	return CmlGraphicalObject;

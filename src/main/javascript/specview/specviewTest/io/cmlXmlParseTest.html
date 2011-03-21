@@ -23,7 +23,18 @@
 	    	var molecule=cmlObject.molecule;
 	        assertEquals('count atoms', 14, molecule.atoms.length);
 	        assertEquals('count bonds', 14, molecule.bonds.length);
-
+	        alert("Molecule name= "+ molecule.name+
+	        		"\nNumber of atoms= "+molecule.atoms.length+
+	        		"\nNumber of bonds= "+molecule.bonds.length+
+	        		"\nNumber of peaks= "+cmlObject.ArrayOfPeaks.length
+	        		);
+	        for(var k=0;k<molecule.atoms.length;k++){
+	        	var innerId=cmlObject.molecule.getAtom(k).innerIdentifier;
+	        	alert(cmlObject.molecule.getAtom(k).innerIdentifier+"===reference===>"+
+	        			cmlObject.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]+
+	        			"\n\n"+cmlObject.molecule.getAtom(k).innerIdentifier+"==>"+cmlObject.ArrayOfAtoms[cmlObject.molecule.getAtom(k).innerIdentifier]+
+	        			"\n\n"+cmlObject.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]+"==>"+cmlObject.ArrayOfPeaks[cmlObject.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]]);
+	        }
 	    }
     </script>
     </head>
