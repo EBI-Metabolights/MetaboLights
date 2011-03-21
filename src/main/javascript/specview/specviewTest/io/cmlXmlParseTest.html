@@ -5,6 +5,8 @@
     <script src="../../third-party/closure/closure/goog/base.js"></script>
     <script src="../../specview/deps.js"></script>
     <script src="../data/specData/C8H2NF5.js"></script>
+    <script src="../data/specData/C18H17NO4.js"></script>
+    
     
     <script>
     goog.require('goog.testing.jsunit');
@@ -14,7 +16,7 @@
     <script>
 	    function testOne() {
 	    	var parser = new specview.io.CmlXMLparser();
-	        assertEquals('OK', "OKAY", parser.parseCML(specC8H2NF5));
+	        assertEquals('OK', "OKAY", parser.parseCML(specC18H17NO4));
 	    }
     </script>
     </head>

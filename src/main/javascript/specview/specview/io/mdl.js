@@ -98,12 +98,16 @@ specview.io.mdl.createBond = function(type, stereo, source, target) {
 	case specview.io.mdl.SINGLE_BOND:
 		switch (stereo) {
 		case specview.io.mdl.NOT_STEREO:
+//			alert("NO STEREO")
 			return new specview.model.Bond(source, target);
 		case specview.io.mdl.SINGLE_BOND_UP:
+//			alert("UP STEREO")
 			return new specview.model.Bond(source, target, specview.model.Bond.ORDER.SINGLE, specview.model.Bond.STEREO.UP);
 		case specview.io.mdl.SINGLE_BOND_UP_OR_DOWN:
+//			alert("UP DOWN STEREO")
 			return new specview.model.Bond(source, target, specview.model.Bond.ORDER.SINGLE, specview.model.Bond.STEREO.UP_OR_DOWN);
 		case specview.io.mdl.SINGLE_BOND_DOWN:
+//			alert("DOWN STEREO");
 			return new specview.model.Bond(source, target, specview.model.Bond.ORDER.SINGLE, specview.model.Bond.STEREO.DOWN);
 		default:
 			throw new Error("invalid bond type/stereo [" + type + "]/["
@@ -176,7 +180,6 @@ specview.io.mdl.readMolfile = function(molfile) {
 		}
 		//this.logger.info("atom "+symbol+" charge "+charge)
 		var atom = new specview.model.Atom(symbol, x, y, charge);
-
 		mol.addAtom(atom);
 	}
 

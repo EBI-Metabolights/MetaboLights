@@ -117,7 +117,9 @@ specview.model.Atom.prototype.setInnerIdentifier=function(string){
 	this.innerIdentifier=string;
 };
 
-
+specview.model.Atom.prototype.getInnerIdentifier=function(){
+	return this.innerIdentifier;
+};
 
 
 /** @return {string} atomic symbol */

@@ -37,10 +37,10 @@ specview.io.spec.readSpecfile=function(specfile)
 				spectrum.setMoleculeId(specInfo.id);
 				spectrum.setExperiment(specInfo.type);
 				}else if(tag=="metadata"){
-					var NMRtype=specview.io.getMetaInfo(cmlList[k]);
+					var NMRtype=specview.io.spec.getMetaInfo(cmlList[k]);
 					spectrum.setNMRtype(NMRtype);
 			}else if(tag=="peak"){
-				peaksList.push(specview.io.getPeakInfo(cmlList[k]));
+				peaksList.push(specview.io.spec.getPeakInfo(cmlList[k]));
 			}
 			k=k+1;
 		}
@@ -274,7 +274,7 @@ specview.io.spec.readMolFromCmlFile= function(cmlfile){
 };
 
 
-specview.io.spec.logger = goog.debug.Logger.getLogger('specview.io.spec');
+//specview.io.spec.logger = goog.debug.Logger.getLogger('specview.io.spec');
 
 
 

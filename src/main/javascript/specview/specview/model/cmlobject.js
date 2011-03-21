@@ -15,7 +15,7 @@ goog.require('specview.model.Peak');
 
 specview.model.Cmlobject=function(){
 	
-	this.molecule;//A molecule object (empty, or should just contain the name)
+	this.molecule="";//A molecule object (empty, or should just contain the name)
 	
 	this.moleculeTitle="";
 	this.moleculeId="";
@@ -115,9 +115,12 @@ specview.model.Cmlobject.prototype.getPeaks = function(){
 };
 
 
-
+/**
+ * 
+ * @returns {specview.model.Cmlobject}
+ */
 specview.model.Cmlobject.prototype.createMoleculeObjectOutOfCmlParserObject=function(){
-	
+			
 	var listOfAllTheAtomsOfTheMolecule=this.ArrayOfAtoms;
 	var listOfAllTheBondsOfTheMolecule=this.ArrayOfBonds;
 	
@@ -131,7 +134,7 @@ specview.model.Cmlobject.prototype.createMoleculeObjectOutOfCmlParserObject=func
 		this.molecule.addBond(listOfAllTheBondsOfTheMolecule[k]);
 	}
 	
-	return this;
+	return this;//THe molecule is now created
 	
 };
 

@@ -29,6 +29,7 @@ specC8H2NF5+=
 	"<bond id=\"b7\" atomRefs2=\"a7 a8\" order=\"D\"/>\n" + 
 	"<bond id=\"b8\" atomRefs2=\"a7 a9\" order=\"S\"/>\n" + 
 	"<bond id=\"b9\" atomRefs2=\"a7 a10\" order=\"S\"/>\n" + 
+    "<bondStereo dictRef=\"cml:H\"/>\n"+
 	"<bond id=\"b10\" atomRefs2=\"a8 a12\" order=\"S\"/>\n" + 
 	"<bond id=\"b11\" atomRefs2=\"a9 a11\" order=\"D\"/>\n" + 
 	"<bond id=\"b12\" atomRefs2=\"a10 a14\" order=\"S\"/>\n" + 
@@ -50,7 +51,7 @@ specC8H2NF5+=
 	"<substance role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
 	"</substanceList>\n" + 
 	"<peakList>\n" + 
-	"<peak xValue=\"11.28\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p0\" atomRefs=\"a10\"/>\n" + 
+	"<peak xValue=\"11.28\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p0\" atomRefs=\"a10 a3\"/>\n" + 
 	"<peak xValue=\"104.79\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p1\" atomRefs=\"a7\"/>\n" + 
 	"<peak xValue=\"138.08\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p2\" atomRefs=\"a12\"/>\n" + 
 	"<peak xValue=\"141.92\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p3\" atomRefs=\"a11\"/>\n" + 
