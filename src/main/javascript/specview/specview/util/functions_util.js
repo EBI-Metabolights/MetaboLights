@@ -1,8 +1,8 @@
 
-goog.provide('specview.util.Smurf');
+goog.provide('specview.util.Utilities');
 
 
-specview.util.Smurf.startsWith=function(word,string){
+specview.util.Utilities.startsWith=function(word,string){
 	return (word==string.substr(0,word.length) ? true : false);
 };
-goog.exportSymbol("specview.util.Smurf.startsWith", specview.util.Smurf.startsWith);
+goog.exportSymbol("specview.util.Utilities.startsWith", specview.util.Utilities.startsWith);

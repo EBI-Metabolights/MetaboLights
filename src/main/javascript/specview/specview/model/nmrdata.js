@@ -1,7 +1,7 @@
 goog.provide('specview.model.NMRdata');
 goog.require('specview.io.mdl');
 goog.require('specview.model.Spectrum');
-goog.require('specview.util.Smurf');
+goog.require('specview.util.Utilities');
 goog.require('specview.model.Peak');
 
 

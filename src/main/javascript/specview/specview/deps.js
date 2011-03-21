@@ -11,17 +11,15 @@ goog.addDependency('../../../../specview/graphics/element_array.js', ['specview.
 goog.addDependency('../../../../specview/io/cmlXMLParser.js', ['specview.io.SpectrumCMLParser'], ['goog.dom.xml', 'goog.string', 'goog.userAgent']);
 goog.addDependency('../../../../specview/io/json.js', ['specview.io.json'], ['goog.array', 'goog.json', 'goog.math.Coordinate', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule']);
 goog.addDependency('../../../../specview/io/mdl.js', ['specview.io.mdl'], ['goog.debug.Logger', 'goog.i18n.DateTimeFormat', 'goog.string', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule']);
-goog.addDependency('../../../../specview/io/spec.js', ['specview.io.spec'], ['goog.array', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule', 'specview.model.NMRSpec', 'specview.model.Peak', 'specview.model.Spectrum', 'specview.util.Smurf']);
 goog.addDependency('../../../../specview/json/json_templates.js', [], []);
 goog.addDependency('../../../../specview/math/line.js', ['specview.math.Line'], ['goog.math.Coordinate', 'specview.math.Triangle']);
 goog.addDependency('../../../../specview/math/triangle.js', ['specview.math.Triangle'], []);
 goog.addDependency('../../../../specview/model/atom.js', ['specview.model.Atom', 'specview.model.Atom.Hybridizations'], ['goog.debug.Logger', 'goog.math.Coordinate', 'goog.structs.Set', 'specview.model.Flags', 'specview.resource.ImplicitHydrogens']);
 goog.addDependency('../../../../specview/model/bond.js', ['specview.model.Bond'], ['specview.model.Atom']);
-goog.addDependency('../../../../specview/model/cmlobject.js', ['specview.model.NMRdata'], ['specview.io.mdl', 'specview.model.Peak', 'specview.model.Spectrum', 'specview.util.Smurf']);
 goog.addDependency('../../../../specview/model/flags.js', ['specview.model.Flags'], []);
 goog.addDependency('../../../../specview/model/molecule.js', ['specview.model.Molecule'], ['goog.array', 'goog.debug.Logger', 'goog.math.Vec2', 'specview.graphics.AffineTransform', 'specview.model.Atom', 'specview.ring.RingFinder']);
 goog.addDependency('../../../../specview/model/neighborlist.js', ['specview.model.NeighborList'], ['goog.array', 'goog.debug.Logger', 'goog.math.Line', 'goog.math.Vec2']);
-goog.addDependency('../../../../specview/model/nmrspec.js', ['specview.model.NMRSpec'], ['goog.array', 'goog.debug.Logger', 'specview.model.Molecule', 'specview.model.Peak']);
+goog.addDependency('../../../../specview/model/nmrdata.js', ['specview.model.NMRdata'], ['specview.io.mdl', 'specview.model.Peak', 'specview.model.Spectrum', 'specview.util.Utilities']);
 goog.addDependency('../../../../specview/model/peak.js', ['specview.model.Peak'], ['goog.math.Coordinate']);
 goog.addDependency('../../../../specview/model/pseudo_atom.js', ['specview.model.PseudoAtom'], ['specview.model.Atom']);
 goog.addDependency('../../../../specview/model/spectrum.js', ['specview.model.Spectrum'], []);
@@ -40,7 +38,7 @@ goog.addDependency('../../../../specview/ring/ring_partitioner.js', ['specview.r
 goog.addDependency('../../../../specview/ring/spiro_decane.js', [], []);
 goog.addDependency('../../../../specview/ring/sssr.js', ['specview.ring.SSSR'], ['goog.array', 'goog.structs.Set', 'specview.ring.Ring']);
 goog.addDependency('../../../../specview/util/bond_util.js', ['specview.util.BondUtil', 'specview.util.BondUtil.Orders'], ['specview.model.Atom', 'specview.model.Bond', 'specview.model.PseudoAtom']);
-goog.addDependency('../../../../specview/util/functions_util.js', ['specview.util.Smurf'], []);
+goog.addDependency('../../../../specview/util/functions_util.js', ['specview.util.Utilities'], []);
 goog.addDependency('../../../../specview/util/xml.js', ['specview.dom.xml'], ['specview.dom', 'specview.dom.NodeType']);
 goog.addDependency('../../../../specview/view/aromaticity_renderer.js', ['specview.view.AromaticityRenderer'], ['specview.view.BondRenderer']);
 goog.addDependency('../../../../specview/view/atom_renderer.js', ['specview.view.AtomRenderer'], ['goog.debug.Logger', 'specview.graphics.ElementArray', 'specview.view.Renderer']);
