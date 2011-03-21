@@ -41,7 +41,7 @@ goog.inherits(specview.view.SingleUpOrDownBondRenderer,
 
 
 specview.view.SingleUpOrDownBondRenderer.prototype.render = function(bond,transform, bondPath) {
-	alert(bond+"\n"+transform+"\n"+bondPath);
+//	alert(bond+"\n"+transform+"\n"+bondPath);
 
 	this.setTransform(transform);
     var zigZags = Math.round(goog.math.Coordinate.distance(bond.source.coord, bond.target.coord)*12);

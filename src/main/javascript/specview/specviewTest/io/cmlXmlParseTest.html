@@ -5,18 +5,25 @@
     <script src="../../third-party/closure/closure/goog/base.js"></script>
     <script src="../../specview/deps.js"></script>
     <script src="../data/specData/C8H2NF5.js"></script>
-    <script src="../data/specData/C18H17NO4.js"></script>
     
     
     <script>
     goog.require('goog.testing.jsunit');
     goog.require('specview.io.CmlXMLparser');
+    goog.require('specview.model.Molecule');
+    goog.require('specview.model.Cmlobject');
+
     </script>
     
     <script>
-	    function testOne() {
-	    	var parser = new specview.io.CmlXMLparser();
-	        assertEquals('OK', "OKAY", parser.parseCML(specC18H17NO4));
+	    function testC18H17NO4() {
+	    	var CmlXmlObject=specview.io.CmlXMLparser.parseCML(specC8H2NF5);//XML document
+	    	var cmlObject=specview.io.CmlXMLparser.CmlXMLtoGraphicalObject(CmlXmlObject);//a cmlObject
+	    	cmlObject.createMoleculeObjectOutOfCmlParserObject();//This will set the molecule attribute of the cmlObject so it can be a proper molecule
+	    	var molecule=cmlObject.molecule;
+	        assertEquals('count atoms', 14, molecule.atoms.length);
+	        assertEquals('count bonds', 14, molecule.bonds.length);
+
 	    }
     </script>
     </head>

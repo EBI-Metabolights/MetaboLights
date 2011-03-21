@@ -9,7 +9,6 @@ goog.addDependency('../../../../specview/deps.js', [], []);
 goog.addDependency('../../../../specview/graphics/affine_transform.js', ['specview.graphics.AffineTransform'], ['goog.debug.Logger', 'goog.graphics.AffineTransform']);
 goog.addDependency('../../../../specview/graphics/element_array.js', ['specview.graphics.ElementArray'], ['goog.array', 'goog.debug.Logger']);
 goog.addDependency('../../../../specview/io/cmlXMLParser.js', ['specview.io.CmlXMLparser'], ['goog.dom.xml', 'goog.string', 'goog.testing.jsunit', 'goog.userAgent']);
-goog.addDependency('../../../../specview/io/cmlparser.js', ['specview.io.cml'], ['specview.io.mdl', 'specview.model.Cmlobject', 'specview.model.Peak', 'specview.model.Spectrum', 'specview.util.Smurf']);
 goog.addDependency('../../../../specview/io/json.js', ['specview.io.json'], ['goog.array', 'goog.json', 'goog.math.Coordinate', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule']);
 goog.addDependency('../../../../specview/io/mdl.js', ['specview.io.mdl'], ['goog.debug.Logger', 'goog.i18n.DateTimeFormat', 'goog.string', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule']);
 goog.addDependency('../../../../specview/io/spec.js', ['specview.io.spec'], ['goog.array', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule', 'specview.model.NMRSpec', 'specview.model.Peak', 'specview.model.Spectrum', 'specview.util.Smurf']);
