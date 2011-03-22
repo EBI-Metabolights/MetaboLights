@@ -54,14 +54,14 @@ specview.view.Renderer.prototype.renderBoundingBox = function(box){
 	boxPath.moveTo(boxCoords[0].x, boxCoords[0].y); 
     boxPath.lineTo(boxCoords[1].x,boxCoords[1].y);
 
-    boxPath.lineTo(boxCoords[1].x,boxCoords[1].y);
+    boxPath.moveTo(boxCoords[1].x,boxCoords[1].y);
     boxPath.lineTo(boxCoords[3].x,boxCoords[3].y);
 
-    boxPath.lineTo(boxCoords[3].x,boxCoords[3].y);
+    boxPath.moveTo(boxCoords[3].x,boxCoords[3].y);
     boxPath.lineTo(boxCoords[2].x,boxCoords[2].y);
 
-    boxPath.lineTo(boxCoords[2].x,boxCoords[2].y);
-	boxPath.moveTo(boxCoords[0].x, boxCoords[0].y); 
+    boxPath.moveTo(boxCoords[2].x,boxCoords[2].y);
+	boxPath.lineTo(boxCoords[0].x, boxCoords[0].y); 
 
 	var boxStroke = new goog.graphics.Stroke(1, 'blue');
 	var boxFill = null;

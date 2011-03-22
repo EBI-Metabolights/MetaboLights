@@ -42,8 +42,8 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMolecule = function(mol
     this.box = molecule.getBoundingBox();
     //this.box.top+=5;
     //this.box.bottom+=5;
-    this.box.right+=5;
-    this.box.left+=5;
+    this.box.left=this.box.right+2;
+    this.box.right+=10;
 
 
 }
