@@ -98,6 +98,28 @@ specview.graphics.AffineTransform.getScaleInstance = function(sx , sy) {
 	return new specview.graphics.AffineTransform().setToScale(sx, sy);
 };
 
+/**
+ * Creates an affine transformation based on a bounding box.
+ * 
+ * @param {goog.math.Box} fromRect
+ * @return {specview.graphics.AffineTransform}
+ */
+specview.graphics.AffineTransform.buildTransform = function(fromBox, widthScaleLimitation, graphics, scaleFactor) {
+	var size = goog.math.Rect.createFromBox(fromBox).getSize();
+	var fromWidth = size.width;
+    var graphicsSize=graphics.getSize();
+    if(widthScaleLimitation)
+        graphicsSize.width= graphicsSize.width*widthScaleLimitation;
+	size.scaleToFit(graphicsSize);
+	var toWidth = size.width;
+	var scale = scaleFactor * toWidth / fromWidth;
+	var top = Math.max(fromBox.top, fromBox.bottom);
+	var left = Math.min(fromBox.left, fromBox.right);	
+	var transform = new specview.graphics.AffineTransform(scale, 0, 0, -scale, -left * scale, top * scale);
+	return transform;
+};
+
+
 specview.graphics.AffineTransform.logger = goog.debug.Logger.getLogger('specview.graphics.AffineTransform');
 
 

@@ -24,39 +24,9 @@ specview.view.Renderer = function(graphics, opt_default_config, opt_config) {
 	}
 	
 }
-
 specview.view.Renderer.prototype.render = goog.abstractMethod;
 
-/**
- * The logger for this class.
- * 
- * @type {goog.debug.Logger}
- * @protected
- */
-specview.view.Renderer.prototype.logger = goog.debug.Logger
-		.getLogger('specview.view.Renderer');
-
-/**
- * 
- * @param {goog.math.Box}
- *            fromRect
- * @return {specview.graphics.AffineTransform}
- */
-specview.view.Renderer.prototype.buildTransform = function(fromBox) {
-
-	var size = goog.math.Rect.createFromBox(fromBox).getSize();
-	var fromWidth = size.width;
-	size.scaleToFit(this.graphics.getSize());
-	var toWidth = size.width;
-
-	var scale = this.scale_factor * toWidth / fromWidth;
-	var top = Math.max(fromBox.top, fromBox.bottom);
-	var left = Math.min(fromBox.left, fromBox.right);	
-	var transform = new specview.graphics.AffineTransform(scale, 0, 0, -scale,
-			-left * scale, top * scale);
-
-	return transform;
-};
+specview.view.Renderer.prototype.logger = goog.debug.Logger.getLogger('specview.view.Renderer');
 
 /**
  * @param {specview.graphics.AffineTransform} transform

@@ -57,7 +57,7 @@ specview.controller.Controller = function(element, opt_config) {
 	this.graphics = goog.graphics.createGraphics(element.clientWidth,element.clientHeight);
 	this.graphics.render(this.originalElement);
 	this.moleculeRenderer = new specview.view.MoleculeRenderer(this.graphics,this.config);
-	
+    this.spectrumRenderer = new specview.view.SpectrumRenderer(this.graphics, this.config);
 	
 	this.isModified_ = false;
 	this.isEverModified_ = false;
@@ -69,7 +69,7 @@ specview.controller.Controller = function(element, opt_config) {
 	this.eventRegister = new goog.events.EventHandler(this);
 	this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
 
-	// Wrappers around this conotroller, to be disposed when the controller is disposed.
+	// Wrappers around this controller, to be disposed when the controller is disposed.
 	this.wrappers_ = [];
 	this.handleControllerLoad();
 	this.loadState_ = specview.controller.Controller.LoadState_.EDITABLE;
@@ -125,7 +125,7 @@ specview.controller.Controller.getActiveControllerId = function() {
 specview.controller.Controller.prototype.clear = function() {
 	this.logger.info("Clearing graphics");
 	this.graphics.clear();
-	this.models = [new specview.model.Molecule()]; //TODO
+	this.models = []; 
 	this.neighborList = new specview.model.NeighborList( [], 1, .3);
 	var fill = new goog.graphics.SolidFill(this.config.get("background").color);
 	this.graphics.drawRect(0, 0, this.graphics.getSize().width, this.graphics.getSize().height, null, fill);
@@ -144,14 +144,7 @@ specview.controller.Controller.prototype.setScaleFactor = function(scale) {
 specview.controller.Controller.prototype.setModelsSilently = function(models) {
 	this.clear();
 
-	if(models[0] instanceof  specview.model.NMRdata){
-        this.logger.info("spectrum")
-        // We are rendering a spectrum - need to find the bounding box of the (optional?) molecule to position the graph
-        specview.view.SpectrumRenderer.getCoordsBasedOnMolecule(models[0].molecule);
-        models = [ models[0].molecule ]; //TODO INVESTIGATE, where refered?
-    }
-
-	this.models = models;//the object we wand to put on canvas
+	this.models = models; // the model objects we wand to put on canvas
 	var objects = goog.array.flatten(goog.array.map(models, function(model) {
 		if (model instanceof specview.model.Molecule) {
 			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
@@ -170,26 +163,47 @@ specview.controller.Controller.prototype.setModelsSilently = function(models) {
 specview.controller.Controller.prototype.setModels = function(models){
 	this.setModelsSilently(models);
 }
-goog.exportSymbol('specview.controller.Controller.prototype.setModels',
-		specview.controller.Controller.prototype.setModels);
+goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
 specview.controller.Controller.prototype.render = function() {
+    this.logger.info("Render..")
+
 	goog.array.forEach(this.models, function(model) {
 
 		if (model instanceof specview.model.Molecule) {
-			this.moleculeRenderer.render(model);
+            var margin = this.config.get("margin");
+            molecule=model;
+            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });
+            box = goog.math.Box.boundingBox.apply(null, atom_coords);
+            ex_box = box.expand(margin, margin, margin, margin);
+            scaleFactor = 0.95; 
+            widthScaleLimitation = 1;
+            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
+			this.moleculeRenderer.render(molecule,trans);
+		}
+
+
+		if (model instanceof specview.model.NMRdata) {
+            molecule=model.molecule;
+            spectrum=model.molecule;
+            
+            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
+            
+            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });
+            box = goog.math.Box.boundingBox.apply(null, atom_coords);
+            margin = this.config.get("margin");
+            ex_box = box.expand(margin, margin, margin, margin);
+            scaleFactor = 0.90; 
+            widthScaleLimitation = 0.5;
+            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
+			this.moleculeRenderer.render(molecule,trans);
+			this.spectrumRenderer.render(molecule,trans);
+
 		}
 	}, this);
 };
 goog.exportSymbol('specview.controller.Controller.prototype.render',
 		specview.controller.Controller.prototype.render);
-
-/**
- * gets model
- */
-specview.controller.Controller.prototype.getModels = function() {
-	return this.models;
-};
 
 
 /**
@@ -869,9 +883,6 @@ specview.controller.Controller.defaultConfig = {
 			color : '#F0FFF0'
 		},
 		margin : {
-			left : 1,
-			right : 1,
-			top : 1,
-			bottom : 1
+			left : 1, right : 1, top : 1, bottom : 1
 		}
 };

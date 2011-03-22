@@ -1,13 +1,13 @@
 goog.provide('specview.view.MoleculeRenderer');
+
 goog.require('specview.view.BondRenderer');
 goog.require('specview.view.BondRendererFactory');
 goog.require('specview.view.AtomRenderer');
 goog.require('specview.view.AromaticityRenderer');
 goog.require('specview.graphics.ElementArray');
-goog.require('goog.asserts');
 
 /**
- * Class to render a molecule object to a graphics object
+ * Class to render a molecule object onto a graphics object.
  * 
  * @constructor
  * @param graphics
@@ -17,61 +17,30 @@ goog.require('goog.asserts');
 specview.view.MoleculeRenderer = function(graphics, opt_config) {
     specview.view.Renderer.call(this, graphics,
     specview.view.MoleculeRenderer.defaultConfig, opt_config);
-    this.scale_factor = 0.9; // scales the molecule up or down
     this.bondRendererFactory = new specview.view.BondRendererFactory(graphics,
     this.config);
     this.atomRenderer = new specview.view.AtomRenderer(graphics, this.config);
     this.aromaticityRenderer = new specview.view.AromaticityRenderer(graphics, this.config);
 
-
 }
 goog.inherits(specview.view.MoleculeRenderer, specview.view.Renderer);
 
-/**
- * The logger for this class.
- * 
- * @type {goog.debug.Logger}
- * @protected
- */
 specview.view.MoleculeRenderer.prototype.logger = goog.debug.Logger.getLogger('specview.view.MoleculeRenderer');
 
 specview.view.MoleculeRenderer.prototype.setScaleFactor = function(scale) {
     this.scale_factor = scale;
 }
 
-specview.view.MoleculeRenderer.prototype.render = function(molecule, trans) {
-	this.logger.info("rendering")
-// TTD this does not belong on molecule, neighborlist should track graphic elements not just model objects
+
+specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) {
+    this.setTransform(transform);
+
 	if (!molecule._elements){
-		/** @type {specview.graphics.ElementArray} 
-		 * @private
-		*/
 	    molecule._elements = new specview.graphics.ElementArray();
 	} else {
 		molecule._elements.clear();
 	}
-
     molecule.mustRecalcSSSR = true;
-
-    var atom_coords = goog.array.map(molecule.atoms,
-    function(a) {
-        return a.coord;
-    });
-    var box = goog.math.Box.boundingBox.apply(null, atom_coords);
-
-    if (!trans) {
-        // if not part of a reaction, we need to create a transform
-        var m = this.config.get("margin");
-        var ex_box = box.expand(m, m, m, m);
-        trans = this.buildTransform(ex_box);
-    }
-    this.setTransform(trans);
-
-    var center = new goog.math.Coordinate((box.left + box.right) / 2,
-    (box.top + box.bottom) / 2);
-    var t_center = this.transform.transformCoords([center])[0];
-    var rx = Math.abs(this.transform.getScaleX() * (box.right - box.left) / 2);
-    var ry = Math.abs(this.transform.getScaleY() * (box.bottom - box.top) / 2);
 
     var bondStroke = new goog.graphics.Stroke(
     this.config.get("bond")['stroke']['width'],
@@ -81,10 +50,7 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, trans) {
     var bondPath = new goog.graphics.Path();
 
     goog.array.forEach(molecule.bonds,
-    function(bond) {
-        this.bondRendererFactory.get(bond).render(bond, trans, bondPath);
-    },
-    this);
+        function(bond) { this.bondRendererFactory.get(bond).render(bond, transform, bondPath); }, this);
 
     var aromRingRenderer = this.aromaticityRenderer;
     goog.array.forEach(molecule.getRings(),
@@ -95,21 +61,19 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, trans) {
         });
         if (aromatic_bonds.length == ring.bonds.length) {
             this._elements.add(
-            aromRingRenderer.render(ring, trans, bondPath));
+            aromRingRenderer.render(ring, transform, bondPath));
         }
     });
 
     molecule._elements.add(this.graphics.drawPath(bondPath, bondStroke, bondFill));
 
-
     goog.array.forEach(molecule.atoms,
     function(atom) {
-        this.atomRenderer.render(atom, trans, molecule._elements);
+        this.atomRenderer.render(atom, transform, molecule._elements);
     },
     this);
 
-    this.renderBoundingBox(molecule.getBoundingBox()); 
-
+    //this.renderBoundingBox(molecule.getBoundingBox()); 
 
 };
 /**
