@@ -17,13 +17,10 @@ goog.require('goog.asserts');
 specview.view.MoleculeRenderer = function(graphics, opt_config) {
     specview.view.Renderer.call(this, graphics,
     specview.view.MoleculeRenderer.defaultConfig, opt_config);
-    this.scale_factor = 0.9;
-
+    this.scale_factor = 0.9; // scales the molecule up or down
     this.bondRendererFactory = new specview.view.BondRendererFactory(graphics,
     this.config);
-
     this.atomRenderer = new specview.view.AtomRenderer(graphics, this.config);
-
     this.aromaticityRenderer = new specview.view.AromaticityRenderer(graphics, this.config);
 
 
@@ -36,8 +33,7 @@ goog.inherits(specview.view.MoleculeRenderer, specview.view.Renderer);
  * @type {goog.debug.Logger}
  * @protected
  */
-specview.view.MoleculeRenderer.prototype.logger = goog.debug.Logger
-.getLogger('specview.view.MoleculeRenderer');
+specview.view.MoleculeRenderer.prototype.logger = goog.debug.Logger.getLogger('specview.view.MoleculeRenderer');
 
 specview.view.MoleculeRenderer.prototype.setScaleFactor = function(scale) {
     this.scale_factor = scale;
@@ -106,12 +102,14 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, trans) {
     molecule._elements.add(this.graphics.drawPath(bondPath, bondStroke, bondFill));
 
 
-    // this.logger.info("molecule has " + molecule.atoms.length + " atoms");
     goog.array.forEach(molecule.atoms,
     function(atom) {
         this.atomRenderer.render(atom, trans, molecule._elements);
     },
     this);
+
+    this.renderBoundingBox(molecule.getBoundingBox()); 
+
 
 };
 /**

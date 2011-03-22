@@ -1,6 +1,6 @@
 /**
  * @license Copyright 2010 Paul Novak (paul@wingu.com)
- * 
+ *                    2011 Mark Rijnbeek (markr@ebi.ac.uk)
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
@@ -18,6 +18,7 @@
 goog.provide("specview.controller.Controller");
 goog.provide("specview.controller.Controller.EventType");
 goog.require("specview.view.MoleculeRenderer");
+goog.require("specview.view.SpectrumRenderer");
 goog.require("goog.graphics");
 goog.require('goog.events');
 goog.require('goog.editor.BrowserFeature');
@@ -27,6 +28,7 @@ goog.require('specview.model.NeighborList');
 goog.require('goog.ui.Prompt');
 goog.require('goog.debug.Console');
 goog.require('goog.ui.KeyboardShortcutHandler');
+goog.require('specview.model.NMRdata');
 
 /**
  * Controller for events on chemistry objects. 
@@ -67,19 +69,14 @@ specview.controller.Controller = function(element, opt_config) {
 	this.eventRegister = new goog.events.EventHandler(this);
 	this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
 
-	// Wrappers around this editor, to be disposed when the editor is disposed.
+	// Wrappers around this conotroller, to be disposed when the controller is disposed.
 	this.wrappers_ = [];
-
-	this.handleEditorLoad();
-
+	this.handleControllerLoad();
 	this.loadState_ = specview.controller.Controller.LoadState_.EDITABLE;
-
 	this.isModified_ = false;
 	this.isEverModified_ = false;
-
 	// currently selected model objects
 	this.selected = [];
-
 	this.neighborList = [];
 
 };
@@ -88,13 +85,12 @@ goog.exportSymbol('specview.controller.Controller',
 		specview.controller.Controller);
 
 /**
- * Sets the active editor id.
+ * Sets the active controller id.
  * 
- * @param {?string}
- *            editorId The active editor id.
+ * @param {?string} controllerId The active controller id.
  */
-specview.controller.Controller.setActiveEditorId = function(editorId) {
-	specview.controller.Controller.activeEditorId_ = editorId;
+specview.controller.Controller.setActiveControllerId = function(controllerId) {
+	specview.controller.Controller.activeControllerId_ = controllerId;
 };
 
 specview.controller.Controller.prototype.clearSelected = function() {
@@ -117,20 +113,19 @@ specview.controller.Controller.prototype.getEditableDomHelper = function() {
 };
 
 /**
- * @return {?string} The id of the active editor.
+ * @return {?string} The id of the active controller.
  */
-specview.controller.Controller.getActiveEditorId = function() {
-	return specview.controller.Controller.activeEditorId_;
+specview.controller.Controller.getActiveControllerId = function() {
+	return specview.controller.Controller.activeControllerId_;
 };
 
 /*
  * Only called to clear a molecule from the canvas
  */
 specview.controller.Controller.prototype.clear = function() {
-//	alert("in the right function");
 	this.logger.info("Clearing graphics");
 	this.graphics.clear();
-	this.models = [new specview.model.Molecule()];
+	this.models = [new specview.model.Molecule()]; //TODO
 	this.neighborList = new specview.model.NeighborList( [], 1, .3);
 	var fill = new goog.graphics.SolidFill(this.config.get("background").color);
 	this.graphics.drawRect(0, 0, this.graphics.getSize().width, this.graphics.getSize().height, null, fill);
@@ -145,29 +140,30 @@ specview.controller.Controller.prototype.setScaleFactor = function(scale) {
 	this.moleculeRenderer.setScaleFactor( scale);
 }
 
+
 specview.controller.Controller.prototype.setModelsSilently = function(models) {
 	this.clear();
+
+	if(models[0] instanceof  specview.model.NMRdata){
+        this.logger.info("spectrum")
+        // We are rendering a spectrum - need to find the bounding box of the (optional?) molecule to position the graph
+        specview.view.SpectrumRenderer.getCoordsBasedOnMolecule(models[0].molecule);
+        models = [ models[0].molecule ]; //TODO INVESTIGATE, where refered?
+    }
+
 	this.models = models;//the object we wand to put on canvas
-//	alert(models);
 	var objects = goog.array.flatten(goog.array.map(models, function(model) {
 		if (model instanceof specview.model.Molecule) {
-//			alert("YOU ARE ABOUT TO DRAW A MOLECULE");
 			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
-		}else if(model instanceof  specview.model.Spectrum){
-//			alert("YOU ARE ABOUT TO DRAW A SPECTRUM");
-		}else if(model instanceof specview.math.Line){
-//			alert("YOU ARE ABOUT TO DRAW A LINE");
+		}else if(model instanceof  specview.model.NMRdata){
+            //TODO, neighb list for spectrum thing spectrumToNeighBours
+			return specview.model.NeighborList.moleculesToNeighbors( [ model.molecule ]);
 		}
-		
 	}));
-//	alert(objects);
-
 
 	if (objects.length > 0) {
-//		alert(objects.length);
 		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
 	}
-//	alert(this.render());
 	this.render();
 };
 
@@ -251,8 +247,7 @@ specview.controller.Controller.prototype.enablePlugins = function (){
 goog.exportSymbol('specview.controller.Controller.prototype.enablePlugins', specview.controller.Controller.prototype.enablePlugins);
 
 /**
- * Handle a change in the Editor. Marks the editor as modified, dispatches the
- * change event on the editable field
+ * Handle a change in the controller. Marks the controller as modified, dispatches the change event on the editable field
  */
 specview.controller.Controller.prototype.handleChange = function() {
 	this.isModified_ = true;
@@ -424,7 +419,7 @@ specview.controller.Controller.prototype.queryCommandValueInternal_ = function(
 	for ( var i = 0; i < plugins.length; ++i) {
 		var plugin = plugins[i];
 		if (plugin.isEnabled(this) && plugin.isSupportedCommand(command)
-				&& (isEditable || plugin.activeOnUneditableEditors())) {
+				&& (isEditable || plugin.activeOnUneditableController())) {
 			return plugin.queryCommandValue(command);
 		}
 	}
@@ -449,7 +444,7 @@ specview.controller.Controller.prototype.resetQueryablePlugins = function() {
  * @param {string|Array.
  *            <string>} commands String name(s) of the command.
  * @return {*} Value of each command. Returns false (or array of falses) if
- *         designMode is off or the editor is otherwise uneditable, and there
+ *         designMode is off or the controller is otherwise uneditable, and there
  *         are no activeOnUneditable plugins for the command.
  */
 specview.controller.Controller.prototype.queryCommandValue = function(commands) {
@@ -524,7 +519,7 @@ specview.controller.Controller.prototype.execCommand = function(command,
 };
 
 /**
- * Registers the plugin with the editor.
+ * Registers the plugin with the controller.
  * 
  * @param {specview.controller.Plugin}
  *            plugin The plugin to register.
@@ -548,9 +543,9 @@ specview.controller.Controller.prototype.registerPlugin = function(plugin) {
 			this.indexedPlugins_[op].push(plugin);
 		}
 	}
-	plugin.registerEditorObject(this);
+	plugin.registerController(this);
 
-	// By default we enable all plugins for editors that are currently loaded.
+	// By default we enable all plugins for controllers that are currently loaded.
 	if (this.isLoaded()) {
 		plugin.enable(this);
 	}
@@ -559,7 +554,7 @@ goog.exportSymbol('specview.controller.Controller.prototype.registerPlugin',
 		specview.controller.Controller.prototype.registerPlugin);
 
 /**
- * Unregisters the plugin with this editor.
+ * Unregisters the plugin with this controller.
  * 
  * @param {specview.controller.Plugin}
  *            plugin The plugin to unregister.
@@ -579,18 +574,18 @@ specview.controller.Controller.prototype.unregisterPlugin = function(plugin) {
 		}
 	}
 
-	plugin.unregisterEditorObject(this);
+	plugin.unregisterController(this);
 };
 
 /**
- * @return {boolean} Whether the editor has finished loading.
+ * @return {boolean} Whether the controller has finished loading.
  */
 specview.controller.Controller.prototype.isLoaded = function() {
 	return this.loadState_ == specview.controller.Controller.LoadState_.EDITABLE;
 };
 
 /**
- * The load state of the editor.
+ * The load state of the controller.
  * 
  * @enum {number}
  * @private
@@ -622,19 +617,19 @@ specview.controller.Controller.EventType = {
 		 */
 		COMMAND_VALUE_CHANGE : 'cvc',
 		/**
-		 * Dispatched when the editor is loaded and ready to use.
+		 * Dispatched when the controller is loaded and ready to use.
 		 */
 		LOAD : 'load',
 		/**
-		 * Dispatched when the editor is fully unloaded and uneditable.
+		 * Dispatched when the controller is fully unloaded and uneditable.
 		 */
 		UNLOAD : 'unload',
 		/**
-		 * Dispatched before the editor contents are changed.
+		 * Dispatched before the controller contents are changed.
 		 */
 		BEFORECHANGE : 'beforechange',
 		/**
-		 * Dispatched when the editor contents change, in FF only. Used for internal
+		 * Dispatched when the controller contents change, in FF only. Used for internal
 		 * resizing, please do not use.
 		 */
 		CHANGE : 'change'
@@ -647,14 +642,14 @@ specview.controller.Controller.EventType = {
  */
 specview.controller.Controller.prototype.disposeInternal = function() {
 	if (this.isLoading() || this.isLoaded()) {
-		this.logger.warning('Disposing an editor that is in use.');
+		this.logger.warning('Disposing an controller that is in use.');
 	}
 
 	if (this.getOriginalElement()) {
 		this.execCommand(specview.controller.Command.CLEAR);
 	}
 
-	this.tearDownEditorObject_();
+	this.tearDownController();
 	this.clearListeners_();
 	this.originalDomHelper = null;
 
@@ -665,8 +660,8 @@ specview.controller.Controller.prototype.disposeInternal = function() {
 
 	this.removeAllWrappers();
 
-	if (specview.controller.Controller.getActiveEditorId() == this.id) {
-		specview.controller.Controller.setActiveEditorId(null);
+	if (specview.controller.Controller.getActiveControllerId() == this.id) {
+		specview.controller.Controller.setActiveControllerId(null);
 	}
 
 	for ( var classId in this.plugins_) {
@@ -692,15 +687,15 @@ specview.controller.Controller.prototype.getPluginByClassId = function(classId) 
 };
 
 /**
- * Help make the editor not editable by setting internal data structures to
- * null, and disabling this editor with all registered plugins.
+ * Help make the controller not editable by setting internal data structures to
+ * null, and disabling this controller with all registered plugins.
  * 
  * @private
  */
-specview.controller.Controller.prototype.tearDownEditorObject_ = function() {
+specview.controller.Controller.prototype.tearDownController = function() {
 	for ( var classId in this.plugins_) {
 		var plugin = this.plugins_[classId];
-		if (!plugin.activeOnUneditableEditors()) {
+		if (!plugin.activeOnUneditableController()) {
 			plugin.disable(this);
 		}
 	}
@@ -710,21 +705,21 @@ specview.controller.Controller.prototype.tearDownEditorObject_ = function() {
 };
 
 /**
- * @return {boolean} Whether the editor has finished loading.
+ * @return {boolean} Whether the controller has finished loading.
  */
 specview.controller.Controller.prototype.isLoaded = function() {
 	return this.loadState_ == specview.controller.Controller.LoadState_.EDITABLE;
 };
 
 /**
- * @return {boolean} Whether the editor is in the process of loading.
+ * @return {boolean} Whether the controller is in the process of loading.
  */
 specview.controller.Controller.prototype.isLoading = function() {
 	return this.loadState_ == specview.controller.Controller.LoadState_.LOADING;
 };
 
 /**
- * Returns original DOM element for the Editor null if that element has not yet
+ * Returns original DOM element for the controller null if that element has not yet
  * been found in the appropriate document.
  * 
  * @return {Element} The original element.
@@ -756,15 +751,10 @@ specview.controller.Controller.prototype.removeAllWrappers = function() {
 };
 
 /**
- * Handle the loading of the editor (e.g. once the editor is ready to setup).
- * 
+ * Handle the loading of the controller (e.g. once  is ready to setup).
  * @protected
  */
-specview.controller.Controller.prototype.handleEditorLoad = function() {
-
-	if (specview.controller.Controller.getActiveEditorId() != this.id) {
-		// this.execCommand(specview.controller.Command.CLEAR_EDITOR);
-	}
+specview.controller.Controller.prototype.handleControllerLoad = function() {
 
 	this.setupChangeListeners_();
 	this.dispatchLoadEvent_();
@@ -778,7 +768,7 @@ specview.controller.Controller.prototype.handleEditorLoad = function() {
 };
 
 /**
- * Signal that the editor is loaded and ready to use. Change events now are in
+ * Signal that the controller is loaded and ready to use. Change events now are in
  * effect.
  * 
  * @private
@@ -790,7 +780,7 @@ specview.controller.Controller.prototype.dispatchLoadEvent_ = function() {
 };
 
 /**
- * Registers a keyboard event listener on the editor. This is necessary for
+ * Registers a keyboard event listener on the controller. This is necessary for
  * Gecko since the fields are contained in an iFrame and there is no way to
  * auto-propagate key events up to the main window.
  * 
@@ -825,7 +815,7 @@ specview.controller.Controller.prototype.addListener = function(type,
 };
 
 /**
- * Initialize listeners on the editor.
+ * Initialize listeners on the controller.
  * 
  * @private
  */

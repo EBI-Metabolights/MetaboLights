@@ -66,6 +66,7 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 	var fill = new goog.graphics.SolidFill(color);
 
 	var point = transform.transformCoords([ atom.coord ])[0];
+    //this.logger.info("> atom point ="+point)
 	var displayElem = this.displaySettings(atom);
 	var graphics = this.graphics;
 	var w = displayElem.text.length * 0.55 * font.size;

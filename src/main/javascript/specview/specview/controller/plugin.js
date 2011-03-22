@@ -22,7 +22,7 @@ goog.require('goog.object');
 goog.require('goog.reflect');
 
 /**
- * Abstract API for editor plugins.
+ * Abstract API for controller plugins.
  * 
  * @constructor
  * @extends {goog.events.EventTarget}
@@ -36,23 +36,22 @@ specview.controller.Plugin = function() {
 	 * @type {boolean}
 	 * @private
 	 */
-	this.enabled_ = this.activeOnUneditableEditor();
+	this.enabled_ = this.activeOnUneditableController();
 };
 goog.inherits(specview.controller.Plugin, goog.events.EventTarget);
 
 /**
- * @return {boolean} If true, editor will not disable the command when the
- *         editor becomes uneditable.
+ * @return {boolean} If true, controller will not disable the command when the
+ *         controller becomes uneditable.
  */
-specview.controller.Plugin.prototype.activeOnUneditableEditor = goog.functions.FALSE;
+specview.controller.Plugin.prototype.activeOnUneditableController = goog.functions.FALSE;
 
 /**
- * Registers the editor object for use with this plugin.
+ * Registers the controller object for use with this plugin.
  * 
- * @param {specview.controller.Controller}
- *            fieldObject The editor object.
+ * @param {specview.controller.Controller}  fieldObject The controller object.
  */
-specview.controller.Plugin.prototype.registerEditorObject = function(editorObject) {
+specview.controller.Plugin.prototype.registerController = function(editorObject) {
 	this.editorObject = editorObject;
 	goog.array.forEach(this.getKeyboardShortcuts(), function(shortcut) {
 		editorObject.registerShortcut(shortcut.id, shortcut.key);
@@ -122,7 +121,7 @@ specview.controller.Plugin.prototype.isEnabled = function(editorObject) {
 /** @inheritDoc */
 specview.controller.Plugin.prototype.disposeInternal = function() {
 	if (this.editorObject) {
-		this.unregisterEditorObject(this.editorObject);
+		this.unregisterController(this.editorObject);
 	}
 
 	specview.controller.Plugin.superClass_.disposeInternal.call(this);
@@ -132,7 +131,7 @@ specview.controller.Plugin.prototype.disposeInternal = function() {
  * Unregisters and disables this plugin for the current editor object.
  * 
  */
-specview.controller.Plugin.prototype.unregisterEditorObject = function() {
+specview.controller.Plugin.prototype.unregisterController = function() {
 	if (this.editorObject) {
 		this.disable(this.editorObject);
 		this.editorObject = null;
@@ -211,7 +210,7 @@ specview.controller.Plugin.IRREPRESSIBLE_OPS = {};
  * @return {boolean} If true, editor will not disable the command when the field
  *         becomes uneditable.
  */
-specview.controller.Plugin.prototype.activeOnUneditableEditors = goog.functions.FALSE;
+specview.controller.Plugin.prototype.activeOnUneditableControllers = goog.functions.FALSE;
 
 /**
  * A map from plugin operations to the names of the methods that invoke those

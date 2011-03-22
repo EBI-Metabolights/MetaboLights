@@ -1,4 +1,5 @@
 goog.provide('specview.controller.plugins.Highlight');
+
 goog.require('specview.controller.Plugin');
 goog.require('goog.debug.Logger');
 goog.require('specview.model.Atom');

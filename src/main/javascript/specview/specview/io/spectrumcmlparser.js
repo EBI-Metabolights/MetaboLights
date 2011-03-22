@@ -1,7 +1,6 @@
 goog.provide('specview.io.SpectrumCMLParser');
+
 goog.require('goog.dom.xml');
-goog.require('goog.string');
-goog.require('goog.userAgent');
 goog.require('goog.debug.Logger');
 
 goog.require('specview.model.Peak');
@@ -10,7 +9,6 @@ goog.require('specview.model.Atom');
 goog.require('specview.model.Bond');
 goog.require('specview.model.Spectrum');
 goog.require('specview.model.NMRdata');
-
 
 
 /**
@@ -87,6 +85,10 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 				break;
 			}
 		}
+
+        if (charge=="0")
+            charge=null; // prevents charge rendering on zero charge
+            
 		var currentAtom=new specview.model.Atom(elementType,x,y,charge);//Create the atom
 		currentAtom.setInnerIdentifier(atomId);//Set its inner identifier..a1,a2...
 		currentAtom.peakMap[currentAtom.getInnerIdentifier()]=new Array();//Prepare the array for the peaks..[a1=[] ; a2=[] ...]
@@ -116,9 +118,9 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 						break;
 					case "order":
 						type=attributeValue;
-						if(type=="S"){type=specview.io.mdl.SINGLE_BOND;}
-						else if(type=="D"){type=specview.io.mdl.DOUBLE_BOND;}				
-						else if(type=="T"){type=specview.io.mdl.TRIPLE_BOND;}
+						if(type=="S"){type=specview.model.Bond.ORDER.SINGLE;}
+						else if(type=="D"){type=specview.model.Bond.ORDER.DOUBLE;}				
+						else if(type=="T"){type=specview.model.Bond.ORDER.TRIPLE}
 						break;
 					}
 				}
@@ -126,13 +128,13 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 			if(nextTag=="bondStereo"){//DO NOT FORGET TO ADD THE REMAING STEREOSPECIFITIY
 				stereo=cNodes[k+2].attributes[0].value;
 				if(stereo=="CML:W"){
-					stereo=specview.io.mdl.SINGLE_BOND_UP;
+					stereo=specview.model.Bond.STEREO.UP;
 				}else if(stereo="CML:H"){
-					stereo=specview.io.mdl.SINGLE_BOND_DOWN;
+					stereo=specview.model.Bond.STEREO.DOWN;
 				}
 			}
-			stereo=(stereo ? stereo : specview.io.mdl.NOT_STEREO);
-			var currentBond=new specview.io.mdl.createBond(type, stereo, ArrayOfAtoms[source],ArrayOfAtoms[target]);
+			stereo=(stereo ? stereo : specview.model.Bond.NOT_STEREO);
+            var currentBond=new specview.model.Bond (ArrayOfAtoms[source],ArrayOfAtoms[target],type,stereo );
 			ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
 			stereo=null;//Reset the value of stereo!
 		}

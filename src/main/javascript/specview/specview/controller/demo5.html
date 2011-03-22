@@ -13,8 +13,6 @@
 <script src="../../specviewTest/data/specData/C8H2NF5.js"></script>
 <script src="../../specviewTest/data/specData/completebenzene.js"></script>
 <script src="../../specviewTest/data/specData/moleculetest.js"></script>
-<!-- <script src="../../specviewTest/data/specData/test.xml"></script> -->
-<script src="../../specview/io/spec.js"></script>
 
 <script language="JavaScript">
     goog.require('goog.events.EventType');
@@ -26,9 +24,6 @@
     goog.require('specview.io.mdl');
     goog.require('specview.model.NMRdata');
     goog.require('specview.io.SpectrumCMLParser');
-    goog.require('specview.io.spec');
-    goog.require('specview.io.cml')
-    goog.require('specview.util');
     goog.require('specview.math.Line');
     goog.require('goog.dom.xml')
 </script>
@@ -61,17 +56,16 @@ function initPage(){
     select1.addItem(new goog.ui.MenuItem('1', 1));
     select1.addItem(new goog.ui.MenuItem('2', 2));
     select1.addItem(new goog.ui.MenuItem('3', 3));
-    select1.addItem(new goog.ui.MenuItem('4', 4));
-    select1.addItem(new goog.ui.MenuItem('5', 5));
-    select1.addItem(new goog.ui.MenuItem('6', 6));
-    select1.addItem(new goog.ui.MenuItem('7', 7));
-    select1.addItem(new goog.ui.MenuItem('8', 8));
-    select1.addItem(new goog.ui.MenuItem('9', 9));
+    //select1.addItem(new goog.ui.MenuItem('4', 4));
+    //select1.addItem(new goog.ui.MenuItem('5', 5));
+    //select1.addItem(new goog.ui.MenuItem('6', 6));
+    //select1.addItem(new goog.ui.MenuItem('7', 7));
+    //select1.addItem(new goog.ui.MenuItem('8', 8));
+    //select1.addItem(new goog.ui.MenuItem('9', 9));
 
     //Adding it to the editor
     select1.setSelectedIndex(0);
     select1.render(goog.dom.getElement('selectMolecule'));
-    
     
         goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
         function(e) {
@@ -84,12 +78,9 @@ function initPage(){
 	      var molfile=cmls[idx];
       	  var CmlXmlObject=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
     	  var cmlObject=specview.io.SpectrumCMLParser.parseDocument(CmlXmlObject);//a cmlObject
-    	  cmlObject.createMoleculeObjectOutOfCmlParserObject();//This will set the molecule attribute of the cmlObject so it can be a proper molecule
     	  var molecule=cmlObject.molecule;
     	  editor.setModels([molecule]);
         });
-  
-  var sdfs = sdf.split("$$$$\n");
   
   };
 
@@ -97,7 +88,6 @@ function initPage(){
 
  
 </script>
-
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -116,11 +106,6 @@ function initPage(){
 			<div id="moleculeContainer" style="height: 400px">
 			</div>
 	</fieldset>
-
-
-
-
-
 </body>
-
 </html>
+
