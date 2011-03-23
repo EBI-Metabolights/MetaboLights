@@ -185,7 +185,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 			}
 		}
 		height = height ? height : 50 ; // Should be more precise on the height
-		ArrayOfPeaks[peakId]=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity);
+		goog.array.insert(ArrayOfPeaks,new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity));
 	}
 
 
@@ -205,8 +205,9 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 		nmrData.molecule.addBond(ArrayOfBonds[k]);
 	}
 
-    //Create a spectrum
-    nmrData.spectrum= new specview.model.Spectrum(nmrData.molecule, ArrayOfPeaks);
+        //Create a spectrum
+        this.logger.info("ArrayOfPeaks "+ArrayOfPeaks.length);
+        nmrData.spectrum= new specview.model.Spectrum(nmrData.molecule, ArrayOfPeaks);
 
 	return nmrData;
 	

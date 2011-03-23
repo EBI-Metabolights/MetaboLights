@@ -73,7 +73,7 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) 
     },
     this);
 
-    //this.renderBoundingBox(molecule.getBoundingBox()); 
+    this.renderBoundingBox(molecule.getBoundingBox(),'green'); 
 
 };
 /**

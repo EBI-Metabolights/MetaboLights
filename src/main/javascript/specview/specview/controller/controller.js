@@ -166,11 +166,9 @@ specview.controller.Controller.prototype.setModels = function(models){
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
 specview.controller.Controller.prototype.render = function() {
-    this.logger.info("Render..")
-
-	goog.array.forEach(this.models, function(model) {
-
-		if (model instanceof specview.model.Molecule) {
+    goog.array.forEach(this.models, function(model) {
+    
+        if (model instanceof specview.model.Molecule) {
             var margin = this.config.get("margin");
             molecule=model;
             atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });
@@ -179,31 +177,30 @@ specview.controller.Controller.prototype.render = function() {
             scaleFactor = 0.95; 
             widthScaleLimitation = 1;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
-			this.moleculeRenderer.render(molecule,trans);
-		}
-
-
-		if (model instanceof specview.model.NMRdata) {
+            this.moleculeRenderer.render(molecule,trans);
+        }
+        
+        
+        if (model instanceof specview.model.NMRdata) {
             molecule=model.molecule;
-            spectrum=model.molecule;
-            
+            spectrum=model.spectrum;
+           
             this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
             
             atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });
             box = goog.math.Box.boundingBox.apply(null, atom_coords);
-            margin = this.config.get("margin");
+            margin = 0.3;//this.config.get("margin");
             ex_box = box.expand(margin, margin, margin, margin);
             scaleFactor = 0.90; 
-            widthScaleLimitation = 0.5;
+            widthScaleLimitation = 0.4;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
-			this.moleculeRenderer.render(molecule,trans);
-			this.spectrumRenderer.render(molecule,trans);
-
-		}
-	}, this);
+            this.moleculeRenderer.render(molecule,trans);
+            this.spectrumRenderer.render(spectrum,trans);
+        }
+    }, this);
 };
-goog.exportSymbol('specview.controller.Controller.prototype.render',
-		specview.controller.Controller.prototype.render);
+
+goog.exportSymbol('specview.controller.Controller.prototype.render', specview.controller.Controller.prototype.render);
 
 
 /**
