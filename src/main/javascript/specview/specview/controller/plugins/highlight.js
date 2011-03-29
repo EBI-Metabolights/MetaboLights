@@ -55,7 +55,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				var currentAtomInnerIdentifier= target.innerIdentifier;//the atom Id
 				var hypotheticalPeakIdToWhichTheCurrentAtomIsLinked=target.peakMap[currentAtomInnerIdentifier];//its peak Id
 				var peakObjectCorrespondingToThePeakId=currentMetaSpecObject.ArrayOfPeaks[hypotheticalPeakIdToWhichTheCurrentAtomIsLinked];//Peak
-				//HIGHLIGHT THE PEAK
+				//HIGHLIGHT THE PEAK PROVIDED IT EXISTS
 				if(peakObjectCorrespondingToThePeakId){
 					this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
 					e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);					
@@ -81,6 +81,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			var currentPeakIdentifier=target.peakId;
 			var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 			//NOW HIGHLIGHT THE CORRESPONDING ATOMS
+				//TODO CONSIDER HIGHLIGHTING MULTIPLE ATOMS
 //			for(var k=0;k<arrayOfAtomToWhichThePeakIsRelated.length;k++){
 				//We can retrieve the Object Atom thanks to the ArrayOfAtoms attribute of the metaSpec Object
 //				var atom=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomToWhichThePeakIsRelated[k]];
