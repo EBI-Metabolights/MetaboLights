@@ -1,0 +1,926 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<script src="../../third-party/closure/closure/goog/base.js"></script>
+<script src="../deps.js"></script>
+<script src="../../specviewTest/data/molfile.js"></script>
+
+<script src="../../specviewTest/data/specData/cmlfile.js"></script>
+
+<!-- <script src="../../specviewTest/data/specData/test.xml"></script> -->
+<script src="../../specview/io/spec.js"></script>
+
+<script language="JavaScript">
+    goog.require('goog.events.EventType');goog.require('goog.dom');goog.require('goog.ui.Select');goog.require('goog.ui.MenuItem');goog.require('specview.controller.Controller');goog.require('specview.controller.plugins.Highlight');goog.require('specview.io.mdl');
+    goog.require('specview.model.NMRdata');goog.require('specview.io.SpectrumCMLParser');goog.require('specview.io.spec');goog.require('specview.io.cml');goog.require('specview.util');goog.require('specview.math.Line');goog.require('goog.dom.xml')
+</script>
+
+<script src="../../../../../../../../webApp/pride/config/wz_jsgraphics.js"></script>
+<script src="../../../../../../../../webApp/pride/config/wz_dragdrop.js"></script>
+<script src="../../../../../../../../webApp/pride/config/AminoAcidClass.js"></script>
+
+
+<script>
+
+
+function initPage(){
+	
+
+	// uncomment next two lines to debug to console
+	var c = new goog.debug.Console(); 
+	c.setCapturing(true); 
+	
+	//Create the canvas and provide it with highlight plugins
+	var editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
+	editor.registerPlugin(new specview.controller.plugins.Highlight());
+
+	//Initialisation of a molecule to display when the page is loading
+	var cmls=cmlmolecules.split("$$END$$\n");
+	var CmlXmlObject=specview.io.SpectrumCMLParser.getDocument(cmls[3]);//XML document
+	var cmlObject=specview.io.SpectrumCMLParser.parseDocument(CmlXmlObject);//a cmlObject
+	var molecule=cmlObject.molecule;
+				
+	editor.setModels([molecule]);
+//	editor.setModels([specview.io.mdl.readMolfile(molStereo)]);
+
+	//Creation of the tool bar
+    var select1 = new goog.ui.Select();
+    select1.addItem(new goog.ui.MenuItem('0', 0));
+    select1.addItem(new goog.ui.MenuItem('1', 1));
+    select1.addItem(new goog.ui.MenuItem('2', 2));
+    select1.addItem(new goog.ui.MenuItem('3', 3));
+    select1.addItem(new goog.ui.MenuItem('4', 4));
+    select1.addItem(new goog.ui.MenuItem('5', 5));
+    select1.addItem(new goog.ui.MenuItem('6', 6));
+    select1.addItem(new goog.ui.MenuItem('7', 7));
+    select1.addItem(new goog.ui.MenuItem('8', 8));
+    select1.addItem(new goog.ui.MenuItem('9', 9));
+
+    //Adding it to the editor
+    select1.setSelectedIndex(0);
+    select1.render(goog.dom.getElement('selectMolecule'));
+    
+    
+ 
+    
+    
+        goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
+        function(e) {
+          var select = e.target;
+          var idx = select.getValue();
+          if(cmls[idx]==undefined){
+        	  alert("NO SUCH MOLECULE IN THE ARRAY! Default molecle will be displayed : ")
+        	  idx=0;
+          }
+	      var molfile=cmls[idx];
+      	  var CmlXmlObject=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
+    	  var cmlObject=specview.io.SpectrumCMLParser.parseDocument(CmlXmlObject);//a cmlObject
+    	  cmlObject.createMoleculeObjectOutOfCmlParserObject();//This will set the molecule attribute of the cmlObject so it can be a proper molecule
+    	  var molecule=cmlObject.molecule;
+    	  editor.setModels([molecule]);
+        });
+  
+  var sdfs = sdf.split("$$$$\n");
+  
+  };
+
+   goog.events.listen(window, goog.events.EventType.LOAD, initPage);
+
+ 
+</script>
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Display spectrum demo</title>
+	<link rel="stylesheet" href="../../css/specview.css" />
+	<link rel="stylesheet"  href="../../css/demo.css" />
+</head>
+
+<body>
+
+	<fieldset style="width: 1200px">
+	<legend><h1>Molecule viewer</h1></legend>
+	<br>
+	<label id="selectMolecule">Select a molecule to render: </label>
+	<br>
+			<div id="moleculeContainer" style="height: 300px">
+			</div>
+	</fieldset>
+
+
+<div id="spectrogramCanvas"></div>
+
+
+<div id="peakInfoDiv"
+     style="position:absolute;left:100px;top:100px;width:130px;padding:6px;border:1px solid #000099;background:#d6e6ff;font-family:verdana,arial,sans-serif;font-size:11;font-weight:normal;display:none;"></div>
+
+
+</body>
+
+<script>
+
+// MZ AND INTEN ARE SUPPOSED TO BE GENERATED AUTOMATICALLY BY THE JAVA PART OF PRIDE. TO US, IT CORRESPND TO ONE FIELD OF THE OBJECT 
+//METASPEC OBJECT
+var mz = new Array (84.0563,118.0872,121.7083,126.0863,127.0924,127.185,177.1116,179.1189,197.122,199.0655,199.1441,208.1847,208.4974);
+var inten = new Array (4.1905,2.1043,1.1043,223.4399,23.9887,2.542,10.5215,30.6961,5.1043,3.4535,0.9819,2.1043,2.1043,3.1746,5.2154,6.2336);
+var typeArray = null;
+var labelArray = null;
+var colourArray = null;
+var additionalArray = null;
+var graphTitle = "PRIDE Experiment: 1635 Mass Spectrum ID: 2057";
+
+
+
+/****************************************************\
+		DEFINE GLOBAL VARIABLES
+\****************************************************/
+
+// Array to hold selected peaks for de novo sequencing
+// Indexed by a String being the mz value of the peak.
+var selectedPeaksArray = new Array(2);
+
+selectedPeaksArray[0] = new Array(); // Y ion series
+selectedPeaksArray[1] = new Array(); // B ion series
+// Zoom tool dimensions (MUST be the same as the track width / height above.)
+var TRACK_WIDTH = 100;
+var TRACK_HEIGHT = 50;
+
+var deNovoAllowed = true;
+
+var MAX_INTENSITY_FACTOR = 10000;
+
+// Set up variables for zooming (Set to no zoom).
+var leftMzZoom = 0;
+var rightMzZoom = TRACK_WIDTH;
+var intensityZoom = MAX_INTENSITY_FACTOR;
+
+// Variables to hold current window size
+var winW = 0;
+var winH = 0;
+
+// Constants to hold size and number of axis ticks
+var TICK_LENGTH=5;
+var TICK_NUMBER=10;
+
+// Variables to hold current mouse position.
+var mouseX = 0;
+var mouseY = 0;
+
+// Reference to most recently selected peak.
+var lastSelectedPeak = new Array(2);
+lastSelectedPeak[0]=null;   // Y ion series
+lastSelectedPeak[1]=null;   // B ion series
+
+var currentSelectedPeakColour = new Array(2);
+currentSelectedPeakColour[0]="ff0000";
+currentSelectedPeakColour[1]="0000ff";
+
+var notCurrentSelectedPeakColour = new Array(2);
+//notCurrentSelectedPeakColour[0]="#FF9999";
+notCurrentSelectedPeakColour[0]="#ffbbbb";
+notCurrentSelectedPeakColour[1]="#bbbbff";
+
+var currentSeries = null;
+
+var currentSeriesMessageHtml = new Array(2);
+currentSeriesMessageHtml[0] = "<br/><span style='color:red;'>Y Series</span>";
+currentSeriesMessageHtml[1] = "<br/><span style='color:blue;'>B Series</span>";
+
+var hasSelectedPeak = false;
+
+// milliseconds timeout for peak details to disappear.
+var PEAK_DETAILS_TIMEOUT = 4000;
+
+// Variables holding names of all the relevant images.
+var LEFT_MZ_BOUND = "leftBound";
+var RIGHT_MZ_BOUND = "rightBound";
+var INTENSITY_BOUND = "intensityBound";
+var ZOOM_OUT = "zoomOut";
+var TRACK = "track";
+var PRINTER = "printer";
+var GRID = "grid";
+var ANNOTATION = "annotation";
+var VALUES_TEXT = "valuesText";
+var VALUES_HTML = "valuesHTML";
+var PEAK_INFO_DIV = "peakInfoDiv";
+var MASS_ERROR_TRACK = "massErrorTrack";
+var MASS_ERROR_POINTER = "massPointer";
+var MASS_ERROR_DISPLAY_DIV_ID = "errorD";
+var MASS_ERROR_DISPLAY_ID = "errorDVal"
+var RESET_SELECTED_PEAKS = "resetSelectedPeaks";
+var HELP = "help";
+var DENOVO_TEXT = "denovoText";
+var DENOVO_HTML = "denovoHTML";
+var DENOVO_HEADING = "denovoHeading";
+var PEAKLIST_HEADING = "peakListHeading";
+var HEADER_BAR = "headerBar";
+var PAN_ZOOM_WINDOW = "panZoomWindow";
+// Correction for the distance of the arrow pointer from top left of the image.
+var POINTER_CORRECTION = -11;
+
+var MASS_ERROR_TRACK_CORRECTION = 15;
+
+var ARROW_BASE_WIDTH_CORRECTION = -3;
+
+var MINIMUM_HEADING_WIDTH = 200;
+var MINIMUM_RIGHT_SIDE_WIDTH = 100;
+
+var SELECTED_PEAK_ARROW_ELEVATION = new Array(2);
+SELECTED_PEAK_ARROW_ELEVATION[0] = 68;    // Elevation for Y ion annotation
+SELECTED_PEAK_ARROW_ELEVATION[1] = 23;    // Elevation for B ion annotation
+
+// Variable indicating default state of grid.
+var grid = false;
+
+// Variable indicating if peaks should be annotated.
+var annotate = true;
+
+// Graphics object for drawing spectrum.
+var graphicsCanvas = new jsGraphics("spectrogramCanvas");
+
+// Find the smallest and largest values in the two arrays.
+var minMz = smallest (mz);
+var maxMz = largest (mz);
+var maxInten = largest (inten);
+
+var HEADING_FONT_SIZE = "18px";
+var LABEL_FONT_SIZE = "13px";
+var NUMBER_FONT_SIZE = "11px";
+
+// Slim these fonts down a bit for IE.
+if (dd.ie){
+	HEADING_FONT_SIZE = "16px";
+	LABEL_FONT_SIZE = "11px";
+	NUMBER_FONT_SIZE = "9px";
+}
+
+/****************************************************\
+		Functions to make it all work...
+\****************************************************/
+
+// Define class holding x and y coordinates of top of displayed peak and the corresponding m/z value.
+function DisplayedPeak (mz, intensity, x, y1, y2, arrayIndex){
+	this.mz = mz;
+	this.intensity = intensity;
+	this.x = x;
+	this.y1 = y1;
+	this.y2 = y2;
+    this.arrayIndex = arrayIndex;
+}
+
+// Define array that will hold all of these DisplayedPeak objects with names of form '345' where 345 is the
+// x coordinate of the plot and the value is a DisplayedPeak object.
+var mzToPeakHash;
+
+// Function to return the largest value in an array of numbers.
+function largest (myArray){
+	var biggest = null;
+	for (var counter = 0; counter < myArray.length; counter++){
+		if (biggest == null || myArray[counter] > biggest){
+			biggest = myArray[counter];
+		}
+	}
+	return biggest;
+}
+
+// Function to return the smallest value in an array of numbers.
+function smallest (myArray){
+	var smallest = null;
+	for (var counter = 0; counter < myArray.length; counter++){
+		if (smallest == null || myArray[counter] < smallest){
+			smallest = myArray[counter];
+		}
+	}
+	return smallest;
+}
+
+/*
+  Computes the mass error in the logarithmic range 0.0001 -> 10 from
+  a scale value (from the GUI widget) in the range 0 -> 100.
+*/
+function scaleToMassError (relativeScale){
+    return Math.pow(10, (relativeScale/20) -4);
+}
+
+/*
+  Computes the scale value (from the GUI widget) in the range 0 -> 100
+   from the mass error in the logarithmic range 0.0001 -> 10.
+*/
+function massErrorToScale (massError){
+    return Math.round(( (Math.log (massError) / Math.LN10) + 4) * 20);
+}
+
+//Calculate the initial relative position of the mass error pointer
+var massErrorXPos = massErrorToScale (Molecule.MASS_ERROR_DALTONS);
+
+/*
+   Sets global variables to window width / height.
+*/
+function getWindowSize(){
+	winW = dd.getWndW();
+	winH = dd.getWndH();
+}
+
+// Called to draw / redraw the spectrum based on current zoom / window size.
+// param printable - boolean - draw in printable form (slower).
+// param completeDraw - when zooming, a partial (fast) draw is performed
+// to make the zooming smoother.
+function drawSpectrogram(printable, completeDraw){
+	// Two arrays holding mz and intensity values.
+	if (printable != null){
+		 graphicsCanvas.setPrintable(printable);
+	}
+	else {
+		 graphicsCanvas.setPrintable(false);
+	}
+
+	getWindowSize();
+
+	// Define boundaries of chart (Nominally set to be 80% of the available width / height)
+	var left = Math.round(winW * 0.1);
+	var right = winW - MINIMUM_RIGHT_SIDE_WIDTH;
+	if (right - left < 50) right = left + 50;
+	var top = MINIMUM_HEADING_WIDTH;
+	var bottom = Math.round(winH * 0.9);
+
+    var lastDrawnSelectedPeak = new Array(2);
+    lastDrawnSelectedPeak[0]=null; // Y series
+    lastDrawnSelectedPeak[1]=null; // B series
+
+	// Get drawing...
+	graphicsCanvas.clear();
+	graphicsCanvas.setColor("#888888");
+	// Draw y axis
+	graphicsCanvas.drawLine(left, top, left, bottom + TICK_LENGTH);
+	// Draw x axis
+	graphicsCanvas.drawLine(left - TICK_LENGTH, bottom, right, bottom);
+
+	// Only tick the axes if this is a complete draw (do
+	// not do this while zooming for speed.)
+    if (completeDraw){
+        if (grid){
+            graphicsCanvas.drawLine(right, bottom, right, top);
+        }
+        // Tick y axis
+        for (ytick=top; ytick <= bottom; ytick+=(bottom - top) / TICK_NUMBER){
+            graphicsCanvas.drawLine (left-TICK_LENGTH ,Math.round(ytick), (grid) ? right : left , Math.round(ytick));
+        }
+        // Tick x axis
+        for (xtick=left; xtick <=right; xtick+=(right-left) / TICK_NUMBER){
+            graphicsCanvas.drawLine (Math.round(xtick), (grid) ? top : bottom, Math.round(xtick), bottom+TICK_LENGTH);
+        }
+	}
+
+	// This is just to ensure there are no nasty index out of bounds errors, caused by the sizes of the mz / intensity arrays being different.
+	lineCount = Math.min (mz.length, inten.length);
+
+	graphicsCanvas.setColor("#000000");
+
+	// Calculate the zoom limits.
+	var minMzLimit = (( maxMz - minMz) * (leftMzZoom / TRACK_WIDTH)) + minMz;
+	var maxMzLimit = (( maxMz - minMz) * (rightMzZoom / TRACK_WIDTH)) + minMz;
+	var intensityFactor =  maxInten * (intensityZoom / 10000);
+
+	// Define an array used for finding the top n intensities.
+	var topIntens = new Array();
+
+	// Reset the peak array for the new draw.
+	mzToPeakHash = new Array();
+
+    var lastPeakXCoordinate = -1;
+    var topPeakYCoordinate = bottom;
+    var lastPeakColour = null;
+    // Draw the peaks themselves.
+	for (var indexer = 0; indexer < lineCount; indexer++){
+		// Only draw them if the fall within the bounds of minMzlimit and maxMzLimit (zoom boundaries)
+		if (completeDraw || inten[indexer]/intensityFactor > 0.03){
+
+		if (mz[indexer] >= minMzLimit && mz[indexer] <= maxMzLimit){
+			y1 = Math.round( Math.max( top, (top + (((intensityFactor - inten[indexer])/intensityFactor) * (bottom - top)))));
+			x = Math.round( left + (((mz[indexer] - minMzLimit) / (maxMzLimit - minMzLimit)) * (right - left)) );
+
+            // Set the selected peaks to the Y and B ions passed in as annotation.
+            if (typeArray != null){
+                if (typeArray[indexer] == "Y"){
+                    selectedPeaksArray[0]["" + (mz[indexer])] = new DisplayedPeak (mz[indexer], inten[indexer], x, y1, bottom, indexer);
+                }
+                else if (typeArray[indexer] == "B"){
+                    selectedPeaksArray[1]["" + (mz[indexer])] = new DisplayedPeak (mz[indexer], inten[indexer], x, y1, bottom, indexer);
+                }
+            }
+
+            if (colourArray != null){
+                col = colourArray[indexer];
+            }
+            // Optimisation to ensure only one line is drawn on each pixel column.
+			if (lastPeakXCoordinate == -1){
+			    lastPeakXCoordinate = x;
+			    topPeakYCoordinate = bottom;
+                if (colourArray != null){
+                    lastPeakColour = col;
+                }
+            }
+			else if (x != lastPeakXCoordinate){
+				// OK, moved on from the last X coordinate, so draw the (previous) maximum line.
+				// .. but only if there is actually something to draw...
+				if (topPeakYCoordinate < bottom){
+                    if (colourArray != null){
+                        var switchBackColour = graphicsCanvas.color;
+                        graphicsCanvas.setColor(lastPeakColour);
+                        graphicsCanvas.drawLine (lastPeakXCoordinate, topPeakYCoordinate, lastPeakXCoordinate, bottom);
+                        graphicsCanvas.setColor(switchBackColour);
+                    }
+                    else {
+                        graphicsCanvas.drawLine (lastPeakXCoordinate, topPeakYCoordinate, lastPeakXCoordinate, bottom);
+                    }
+                }
+			    lastPeakXCoordinate = x;
+			    topPeakYCoordinate = y1;
+                if (colourArray != null){
+                    lastPeakColour = col;
+                }
+            }
+            else {
+            	if (y1 < topPeakYCoordinate){
+            	    topPeakYCoordinate = y1;
+				}
+			}
+
+			if (completeDraw){
+
+				// Store details of peak in Object hash.
+				var peakKey = "" + x;
+				existingEntry = mzToPeakHash[peakKey];
+				currentPeak = new DisplayedPeak (mz[indexer], inten[indexer], x, y1, bottom, indexer);
+
+				// Only add a peak to the array if it is the largest so far at that point.
+				if (existingEntry == null || existingEntry.y1 > y1){
+					// Ok - not recorded this x coordinate yet, or have but for a lower intensity peak.
+					mzToPeakHash[peakKey] = currentPeak;
+				}
+                for (seriesIndex = 0; seriesIndex <= 1; seriesIndex++){
+                    // Update the selectedPeaksArray for both series with the latest x, y1, bottom values.)
+                    updateSelectedPeak = selectedPeaksArray[seriesIndex]["" + (mz[indexer])];
+                    if (updateSelectedPeak != null){
+                        updateSelectedPeak.x = currentPeak.x;
+                        updateSelectedPeak.y1 = currentPeak.y1;
+                        updateSelectedPeak.bottom = currentPeak.bottom;
+                    }
+
+                    selectionLineTopY = top - SELECTED_PEAK_ARROW_ELEVATION[seriesIndex];
+                    // Draw red line above selected peak;
+                    peak = selectedPeaksArray[seriesIndex]["" + (mz[indexer])];
+                    if (peak != null){
+                        // This is a selected peak, so draw in the additional lines.
+                        if (lastSelectedPeak[seriesIndex] != null && peak.mz == lastSelectedPeak[seriesIndex].mz){
+                            graphicsCanvas.setColor(currentSelectedPeakColour[seriesIndex]);
+                            graphicsCanvas.setStroke(2);
+                        }
+                        else {
+                            graphicsCanvas.setColor(notCurrentSelectedPeakColour[seriesIndex]);
+                            graphicsCanvas.setStroke(1);
+                        }
+                        graphicsCanvas.drawLine (x, y1, x, selectionLineTopY);
+
+                        graphicsCanvas.setColor(notCurrentSelectedPeakColour[seriesIndex]);
+                        graphicsCanvas.setStroke(1);
+                        // If a previous peak was drawn, draw a connecting line and
+                        // annotate it.
+                        if (lastDrawnSelectedPeak[seriesIndex] != null){
+                            graphicsCanvas.drawLine (lastDrawnSelectedPeak[seriesIndex].x, selectionLineTopY, x, selectionLineTopY);
+                            graphicsCanvas.setStroke(1);
+                            // Draw arrows, size dependent on distance between lines.
+                            xDist = Math.abs (lastDrawnSelectedPeak[seriesIndex].x - x);
+
+                            // Determine arrow head size.
+                            var arrowSize = (xDist > 50) ?  5 :
+                                            (xDist > 40) ?  4 :
+                                            (xDist > 30) ?  3 :
+                                            (xDist > 20) ?  2 :
+                                                            0 ;
+                            // Draw the arrow heads if the line is long enough.
+                            if (arrowSize > 0){
+                                var correction = 1;
+                                if (lastDrawnSelectedPeak[seriesIndex].x - x < 0){
+                                    correction = -1;
+                                }
+
+                                graphicsCanvas.drawLine (x, selectionLineTopY, x + (correction * arrowSize), selectionLineTopY + arrowSize);
+                                graphicsCanvas.drawLine (x, selectionLineTopY, x + (correction * arrowSize), selectionLineTopY - arrowSize);
+                                graphicsCanvas.drawLine (lastDrawnSelectedPeak[seriesIndex].x, selectionLineTopY, lastDrawnSelectedPeak[seriesIndex].x - (correction * arrowSize), selectionLineTopY + arrowSize);
+                                graphicsCanvas.drawLine (lastDrawnSelectedPeak[seriesIndex].x, selectionLineTopY, lastDrawnSelectedPeak[seriesIndex].x - (correction * arrowSize), selectionLineTopY - arrowSize);
+                            }
+
+                            // Write on the details of the mass difference.
+                            graphicsCanvas.setColor("#000000");
+                            graphicsCanvas.setFont("verdana",NUMBER_FONT_SIZE,Font.BOLD);
+                            // Calculate the mass difference
+                            mzDelta = Math.abs (lastDrawnSelectedPeak[seriesIndex].mz - mz[indexer]);
+                            var type = (seriesIndex == 0) ? "Y":"B";
+                            graphicsCanvas.drawStringRect (createMatchHTML (mzDelta, type), (lastDrawnSelectedPeak[seriesIndex].x > x) ? x : lastDrawnSelectedPeak[seriesIndex].x , selectionLineTopY + 2, xDist, "left");
+
+                        }
+                        graphicsCanvas.setColor("#000000");
+                        graphicsCanvas.setStroke(1);
+                        lastDrawnSelectedPeak[seriesIndex] = peak;
+                    }
+				}
+			}
+			if (annotate && completeDraw){
+				// Add the current intensity to the bottom of the topEleven array and sort (desc)
+				topIntens[topIntens.length] = inten[indexer];
+			}
+		}
+		}
+	}
+	// Draw the last peak.
+	if (topPeakYCoordinate < bottom){
+        if (colourArray != null){
+            switchBackColour = graphicsCanvas.color;
+            graphicsCanvas.setColor(lastPeakColour);
+            graphicsCanvas.drawLine (lastPeakXCoordinate, topPeakYCoordinate, lastPeakXCoordinate, bottom);
+            graphicsCanvas.setColor(switchBackColour);
+        }
+        else{
+            graphicsCanvas.drawLine (lastPeakXCoordinate, topPeakYCoordinate, lastPeakXCoordinate, bottom);
+        }
+    }
+	// Write heading
+	var headingWidth = Math.round((Math.max (200, winW / 2)));
+	graphicsCanvas.setFont("arial",HEADING_FONT_SIZE,Font.BOLD);
+	graphicsCanvas.drawStringRect (graphTitle, 0, 105, winW, "center");
+
+	if (completeDraw){
+		// Write some labels
+		graphicsCanvas.setFont("verdana",LABEL_FONT_SIZE,Font.BOLD);
+		graphicsCanvas.drawStringRect ("Intensity", 2, top - 26, 100, "left");
+		graphicsCanvas.drawStringRect ("m/z", Math.round((winW - headingWidth)/2), Math.round((winH-bottom)/2 + bottom), headingWidth,  "center");
+
+		// Add on max and min for each axis.
+		graphicsCanvas.setFont("verdana",NUMBER_FONT_SIZE,Font.PLAIN);
+
+		// Work out a sensible frequency of tick values depending on height / width of the chart
+		var horizTickFreq = (right - left > 600) ?  1 :
+							(right - left > 400) ?  2 :
+							(right - left > 200) ?  5 :
+											10;
+
+		var verticTickFreq = (bottom - top > 300) ? 1 :
+							 (bottom - top > 150) ? 2 :
+							 (bottom - top > 100) ? 5 :
+											10;
+
+		// Tick y axis value
+		for (ytick=top; ytick <= bottom; ytick+=((bottom - top) / TICK_NUMBER) * verticTickFreq){
+			// Calculate the yTickValue and round it appropriately.
+			yTickValue = intensityFactor * (bottom - ytick) / (bottom - top);
+			if (intensityFactor < 10){
+			    yTickValue = "" + yTickValue.toFixed(3);
+            }
+            else {
+                yTickValue = "" + Math.round(yTickValue);
+            }
+			graphicsCanvas.drawStringRect (yTickValue, 0, ytick - 7, left - (TICK_LENGTH + 2), "right");
+		}
+		// Tick x axis value
+		for (xtick=left; xtick <=right; xtick+=(right-left) / TICK_NUMBER * horizTickFreq){
+			xTickValue = "" + Math.round (minMzLimit + ((maxMzLimit - minMzLimit) * (xtick - left) / (right - left)));
+			graphicsCanvas.drawStringRect (xTickValue, xtick - 40, bottom + TICK_LENGTH + 2, 80, "center");
+		}
+
+		if (annotate){
+			var annotationCount=(right - left > 700) ?  15 :
+								(right - left > 400) ?  10 :
+								(right - left > 200) ?  5 :
+												3;
+
+			topIntens.sort(function(a,b){return b-a;});  //Sort descending
+			minIntensityToLabel = topIntens[annotationCount - 1];
+			graphicsCanvas.setColor("#999999");
+			// Annotate the peaks that have intensities above the threshold.
+			for (indexer = 0; indexer < lineCount; indexer++){
+                // Add the annotation if the intensity is above the threshold, or the peak has external annotation (e.g. ion type)
+                if (mz[indexer] >= minMzLimit && mz[indexer] <= maxMzLimit &&
+					((minIntensityToLabel == null || inten[indexer] >= minIntensityToLabel) ||
+                    (labelArray != null && labelArray[indexer] != "-"))){
+					y = Math.round( Math.max( top + 35, (top + (((intensityFactor - inten[indexer]) / intensityFactor) * (bottom - top)))));
+					x = Math.round( left + (((mz[indexer] - minMzLimit) / (maxMzLimit - minMzLimit)) * (right - left)) );
+                    if (labelArray != null && labelArray[indexer] != "-"){
+                        // Have an external annotation, so display the ion label
+                        // Colour is dependent on ion type.
+                        graphicsCanvas.setColor(colourArray[indexer]);
+                        graphicsCanvas.drawStringRect (labelArray[indexer], x + 2 , y-24, 50, "left");
+                        graphicsCanvas.setColor("#999999");
+                    }
+                    graphicsCanvas.setFont("verdana",NUMBER_FONT_SIZE,Font.BOLD);
+					graphicsCanvas.drawStringRect (Math.round(mz[indexer]), x + 2, y-12, 50, "left");
+					graphicsCanvas.setFont("verdana",NUMBER_FONT_SIZE,Font.ITALIC);
+					graphicsCanvas.drawStringRect (Math.round(inten[indexer]), x + 2, y, 50, "left");
+                }
+			}
+		}
+	}
+	graphicsCanvas.paint();
+}
+
+// Place the three arrows in the correct starting (unzoomed) positions relative to the track gif.
+function resetArrowPositions(){
+	dd.elements.leftBound.moveTo(dd.elements.track.x + POINTER_CORRECTION, dd.elements.track.y + TRACK_HEIGHT - 1);
+	dd.elements.rightBound.moveTo(dd.elements.track.x + TRACK_WIDTH + POINTER_CORRECTION, dd.elements.track.y + TRACK_HEIGHT - 1);
+	dd.elements.intensityBound.moveTo(dd.elements.track.x - 20, dd.elements.track.y + POINTER_CORRECTION);
+	// Position the pan tool.
+	dd.elements.panZoomWindow.moveTo(dd.elements.track.x + ARROW_BASE_WIDTH_CORRECTION, dd.elements.track.y + TRACK_HEIGHT + 20);
+	// Change the width of the pan tool
+	dd.elements.panZoomWindow.resizeTo(dd.elements.rightBound.x - dd.elements.leftBound.x + 5, 4);
+	dd.elements.panZoomWindow.hide();
+}
+
+/*
+  CANNOT REMOVE THAT ONE BUT CAN DEFINITELY MAKE IT SIMPLER
+  Moves all of the clickable widgets to their starting positions, sets up their
+  moveable status.
+*/
+function initialiseWidgets(){
+	FIXED_CLICKABLE = CURSOR_HAND + HORIZONTAL + MAXOFFLEFT + 0 + MAXOFFRIGHT + 0;
+
+    if (deNovoAllowed){
+        SET_DHTML(LEFT_MZ_BOUND + CURSOR_HAND + HORIZONTAL + MAXOFFLEFT + 0 + MAXOFFRIGHT + TRACK_WIDTH,
+              MASS_ERROR_POINTER + CURSOR_HAND + HORIZONTAL + MAXOFFLEFT + 0 + MAXOFFRIGHT + TRACK_WIDTH,
+              RIGHT_MZ_BOUND + CURSOR_HAND + HORIZONTAL + MAXOFFLEFT + TRACK_WIDTH + MAXOFFRIGHT + 0,
+              PAN_ZOOM_WINDOW + CURSOR_HAND + HORIZONTAL + MAXOFFLEFT + 0 + MAXOFFRIGHT + 0,
+              INTENSITY_BOUND + CURSOR_HAND + VERTICAL + MAXOFFBOTTOM + TRACK_HEIGHT + MAXOFFTOP + 0,
+              ZOOM_OUT + FIXED_CLICKABLE,
+              PRINTER + FIXED_CLICKABLE,
+              GRID + FIXED_CLICKABLE,
+              ANNOTATION + FIXED_CLICKABLE,
+              VALUES_TEXT + FIXED_CLICKABLE,
+              VALUES_HTML + FIXED_CLICKABLE,
+              TRACK + FIXED_CLICKABLE,
+              PEAK_INFO_DIV,
+              MASS_ERROR_TRACK + FIXED_CLICKABLE,
+              RESET_SELECTED_PEAKS + FIXED_CLICKABLE,
+              HELP + FIXED_CLICKABLE,
+              DENOVO_TEXT + FIXED_CLICKABLE,
+              DENOVO_HTML + FIXED_CLICKABLE,
+              DENOVO_HEADING + FIXED_CLICKABLE,
+              PEAKLIST_HEADING + FIXED_CLICKABLE,
+              MASS_ERROR_DISPLAY_DIV_ID + FIXED_CLICKABLE);
+    }
+    else {
+        SET_DHTML(LEFT_MZ_BOUND + CURSOR_HAND + HORIZONTAL + MAXOFFLEFT + 0 + MAXOFFRIGHT + TRACK_WIDTH,
+			  MASS_ERROR_POINTER + CURSOR_HAND + HORIZONTAL + MAXOFFLEFT + 0 + MAXOFFRIGHT + TRACK_WIDTH,
+			  RIGHT_MZ_BOUND + CURSOR_HAND + HORIZONTAL + MAXOFFLEFT + TRACK_WIDTH + MAXOFFRIGHT + 0,
+			  PAN_ZOOM_WINDOW + CURSOR_HAND + HORIZONTAL + MAXOFFLEFT + 0 + MAXOFFRIGHT + 0,
+			  INTENSITY_BOUND + CURSOR_HAND + VERTICAL + MAXOFFBOTTOM + TRACK_HEIGHT + MAXOFFTOP + 0,
+			  ZOOM_OUT + FIXED_CLICKABLE,
+			  PRINTER + FIXED_CLICKABLE,
+			  GRID + FIXED_CLICKABLE,
+			  ANNOTATION + FIXED_CLICKABLE,
+			  VALUES_TEXT + FIXED_CLICKABLE,
+			  VALUES_HTML + FIXED_CLICKABLE,
+			  TRACK + FIXED_CLICKABLE,
+			  PEAK_INFO_DIV,
+			  MASS_ERROR_TRACK + FIXED_CLICKABLE,
+			  HELP + FIXED_CLICKABLE,
+              DENOVO_TEXT + FIXED_CLICKABLE,
+              DENOVO_HTML + FIXED_CLICKABLE,
+			  PEAKLIST_HEADING + FIXED_CLICKABLE,
+			  MASS_ERROR_DISPLAY_DIV_ID + FIXED_CLICKABLE);
+    }
+
+    resetArrowPositions();
+
+	// Make arrows children of the tracks so that they are correctly positioned
+	// and do not disappear when the background is clicked.
+	dd.elements.track.addChild(LEFT_MZ_BOUND);
+	dd.elements.track.addChild(RIGHT_MZ_BOUND);
+	dd.elements.track.addChild(PAN_ZOOM_WINDOW);
+	dd.elements.track.addChild(INTENSITY_BOUND);
+
+	dd.elements.massErrorTrack.addChild(MASS_ERROR_POINTER);
+
+	// Set the bound starting points relative to the track.
+	dd.elements.leftBound.defx = dd.elements.track.x + POINTER_CORRECTION;
+	dd.elements.panZoomWindow.defx = dd.elements.leftBound.x - POINTER_CORRECTION + ARROW_BASE_WIDTH_CORRECTION;
+	dd.elements.rightBound.defx = dd.elements.track.x + TRACK_WIDTH + POINTER_CORRECTION;
+	dd.elements.intensityBound.defy = dd.elements.track.y + POINTER_CORRECTION;
+	dd.elements.massPointer.defx = dd.elements.massErrorTrack.x + MASS_ERROR_TRACK_CORRECTION + POINTER_CORRECTION;
+
+	// Move the massPointer to the correct start position.
+	dd.elements.massPointer.moveTo(dd.elements.massErrorTrack.x + MASS_ERROR_TRACK_CORRECTION + POINTER_CORRECTION + massErrorXPos, dd.elements.massErrorTrack.y + 30);
+}
+
+
+
+/*
+  Sets up the mouse listener to listen for mouse move events (to get the
+  X / Y coordinates of the mouse) and to listen for mouse click events.
+*/
+function captureMouseMove (isOn){
+	if (isOn){
+		if (dd.ie){
+            document.attachEvent ("onmousemove", getMouseXY);
+            document.attachEvent ("onmousedown", peakSelect);
+        }
+        else {
+			document.captureEvents(Event.MOUSEMOVE)
+            document.addEventListener ("mousemove", getMouseXY, true);
+            document.addEventListener ("mousedown", peakSelect, true);
+		}
+	}
+	else {
+	    if (dd.ie){
+            document.detachEvent ("onmousemove", getMouseXY);
+            document.detachEvent ("onmousedown", peakSelect);
+        }
+        else {
+			document.captureEvents(Event.MOUSEMOVE)
+            document.removeEventListener ("mousemove", getMouseXY, true);
+            document.removeEventListener ("mousedown", peakSelect, true);
+		}
+		document.getElementById ("spectrogramCanvas").removeEventListener ("mousemove", getMouseXY, true);
+		document.getElementById("moleculeContainer").removeEventListener("mousemove",getMouseXY,true);
+	}
+}
+
+/*
+  Listener for mouse movement on the spectrum div.  stores the mouse
+  x / y coordinates and displays a pop-up window with details of the
+  peak if one is being hovered over.
+*/
+function getMouseXY(mouseEvent) {
+	  //alert(mouseEvent);
+	if (dd.ie) {
+	    // Note - +2 correction below to allow correct peak selection in IE.
+		mouseX = event.clientX + document.body.scrollLeft;
+		mouseY = event.clientY + document.body.scrollTop;
+	}
+	else {
+		mouseX = mouseEvent.pageX;
+		mouseY = mouseEvent.pageY;
+	}
+	if (mouseX < 0){mouseX = 0;}
+	if (mouseY < 0){mouseY = 0;}
+	displayedPeak = mzToPeakHash["" + mouseX];
+
+    tooltipX = mouseX + 5;
+    tooltipY = mouseY - 5;
+	if (tooltipX + 145 > winW){
+		tooltipX = mouseX - 145;
+	}
+	if (tooltipY + dd.elements.peakInfoDiv.h + 20 > winH){
+		tooltipY = mouseY - (dd.elements.peakInfoDiv.h + 20);
+	}
+	dd.elements.peakInfoDiv.moveTo (tooltipX, tooltipY);
+	if (mouseY < MINIMUM_HEADING_WIDTH || mouseY > winH * 0.9 || mouseX > winW - MINIMUM_RIGHT_SIDE_WIDTH) {
+	    dd.elements.peakInfoDiv.hide();
+	}
+
+	else if (displayedPeak != null && displayedPeak.y1 - (displayedPeak.y2 - displayedPeak.y1) < mouseY){
+		displayPeakDetails (displayedPeak);
+		if (dd.elements.peakInfoDiv.y + dd.elements.peakInfoDiv.h + 20 > winH){
+			tooltipY = mouseY - (dd.elements.peakInfoDiv.h + 20);
+			dd.elements.peakInfoDiv.moveTo (dd.elements.peakInfoDiv.x, dd.elements.peakInfoDiv.y - (dd.elements.peakInfoDiv.h + 30))
+		}
+	}
+}
+
+/*
+  If an attempt is made to click a peak, this method detects if a peak has
+  been clicked (with an error of one pixel either side of the peak.)
+
+  The status of the peak is then changed.  The transition depends on the
+  current status of the peak:
+  1. Start state NOT Selected and NOT in selectedPeaksArray -> Selected and placed into selectedPeaksArray
+  2. In selectedPeaksArray but NOT selected -> Still in selectedPeaksArray AND Selected.
+  3. Selected and in selectedPeaksArray -> NOT selected and REMOVED from selectedPeaksArray.
+
+*/
+function peakSelect(mouseEvent){
+alert(mouseEvent.pageX)
+    // Do not include any clicks above the spectrum area (for the current series).
+    if ( ! deNovoAllowed || mouseY < MINIMUM_HEADING_WIDTH - SELECTED_PEAK_ARROW_ELEVATION[currentSeries] ) return;
+
+	clickedPeak = mzToPeakHash["" + mouseX];
+    xError = 0;
+	// If not clicked on an actual peak, check if one to the left or right provides a valid peak.
+	if (clickedPeak == null || (clickedPeak.y1 > mouseY && selectedPeaksArray[currentSeries]["" + clickedPeak.mz] == null)){
+	    leftPeak = mzToPeakHash["" + (mouseX - 1)];
+	    replaced = false;
+        if (leftPeak != null && (leftPeak.y1 < mouseY || selectedPeaksArray[currentSeries]["" + leftPeak.mz] != null)){
+        	clickedPeak = leftPeak;
+        	replaced = true;
+		}
+	    rightPeak = mzToPeakHash["" + (mouseX + 1)];
+		if (rightPeak != null && (rightPeak.y1 < mouseY || selectedPeaksArray[currentSeries]["" + rightPeak.mz] != null)){
+			// If there is a valid peak on both sides, do not select either as ambiguous.
+        	if (replaced) return;
+        	replaced = true;
+        	clickedPeak = rightPeak;
+		}
+		if (!replaced) return;
+	}
+	hasSelectedPeak = true;
+	if (clickedPeak == null) return;
+	if (selectedPeaksArray[currentSeries]["" + clickedPeak.mz] != null){
+		// Already selected - if it is the 'currently selected'
+		// then de-select, othewise set to currently selected.
+		if (lastSelectedPeak[currentSeries] != null && clickedPeak.mz == lastSelectedPeak[currentSeries].mz){
+			selectedPeaksArray[currentSeries]["" + clickedPeak.mz]=null;
+			lastSelectedPeak[currentSeries] = null;
+		}
+		else {
+			lastSelectedPeak[currentSeries] = clickedPeak;
+		}
+		drawSpectrogram(false, true);  // Not printable, complete.
+	}
+	else{
+		// Not selected, and peak has been clicked, so add to selectedPeaksArray
+		displayPeakDetails (clickedPeak);
+		selectedPeaksArray[currentSeries]["" + clickedPeak.mz] = clickedPeak;
+		lastSelectedPeak[currentSeries] = clickedPeak;
+		drawSpectrogram(false, true);  // Not printable, complete.
+	}
+}
+
+/*
+  Updates the floating div (that follows the cursor around the spectrum)
+  with the mz / intensity values of the current spectrum, plus
+  details of the mass delta / amino acid matches if appropriate.
+*/
+function displayPeakDetails (displayedPeak){
+    var outputString = "";
+
+    // If there is any external annotation (label) add it here.
+    if (labelArray != null && (label = labelArray[displayedPeak.arrayIndex]) != "-"){
+        if (colourArray != null && colourArray[displayedPeak.arrayIndex] != null && colourArray[displayedPeak.arrayIndex] != ""){
+            outputString += "<span style='color:" + colourArray[displayedPeak.arrayIndex] + ";'><b>" + label + "</b></span><br/>";
+        }
+        else {
+            outputString += label + "<br/>";
+        }
+        
+    }
+
+    outputString += "<b>m/z: " + displayedPeak.mz.toFixed(3) + "<br/>Intensity: " + displayedPeak.intensity + "</b><br/>";
+
+
+    if (additionalArray != null && (additionalArray[displayedPeak.arrayIndex]) != ""){
+        outputString += additionalArray[displayedPeak.arrayIndex] + "<br/>";
+    }
+
+
+    // Look for identifiable mass differences.
+	if (hasSelectedPeak){
+		if (lastSelectedPeak[currentSeries] != null){
+			mzDelta = Math.abs(lastSelectedPeak[currentSeries].mz - displayedPeak.mz);
+            diffString = createMatchHTML (mzDelta);
+            outputString += "Delta: " + diffString;
+        }
+		else {
+			outputString += "<b><i>No Current Peak<br/>to measure delta from.</i></b>";
+		}
+		outputString += currentSeriesMessageHtml[currentSeries];
+	}
+	else if (deNovoAllowed) {
+		outputString += "<br/><b>Click on a peak<br/>to begin <i>de novo</i><br/>sequencing</b>";
+	}
+	dd.elements.peakInfoDiv.write (outputString);
+	if (dd.elements.peakInfoDiv.text == null || dd.elements.peakInfoDiv.text == "" || mouseY < MINIMUM_HEADING_WIDTH || mouseY > winH * 0.9 || mouseX > winW - MINIMUM_RIGHT_SIDE_WIDTH) {
+	    dd.elements.peakInfoDiv.hide();
+	}
+	else {
+	    dd.elements.peakInfoDiv.show();
+	}
+}
+
+
+/*
+  Function to initialize the spectrum viewer.
+*/
+function init(){
+
+	// Draw the spectrum for the first time...
+	drawSpectrogram(false, true);
+
+	// Create the widgets for zooming.
+	initialiseWidgets();
+
+
+	// Capture mouse events to allow mouse over and peak clicking to be captured.
+	captureMouseMove (true);
+}
+
+/****************************************************\
+		And finally get drawing
+\****************************************************/
+
+init();
+
+//-->
+</script>
+</body>
+</html>
+</script>
+</html>

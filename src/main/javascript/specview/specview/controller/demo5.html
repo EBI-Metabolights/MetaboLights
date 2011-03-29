@@ -44,11 +44,12 @@ function initPage(){
 
 	//Initialisation of a molecule to display when the page is loading
 	var cmls=cmlmolecules.split("$$END$$\n");
-	var CmlXmlObject=specview.io.SpectrumCMLParser.getDocument(cmls[0]);//XML document
+	var CmlXmlObject=specview.io.SpectrumCMLParser.getDocument(cmls[3]);//XML document
 	var cmlObject=specview.io.SpectrumCMLParser.parseDocument(CmlXmlObject);//a cmlObject
 	var molecule=cmlObject.molecule;
 				
 	editor.setModels([molecule]);
+//	editor.setModels([specview.io.mdl.readMolfile(molStereo)]);
 
 	//Creation of the tool bar
     var select1 = new goog.ui.Select();
@@ -98,12 +99,12 @@ function initPage(){
 
 <body>
 
-	<fieldset style="width: 600px">
+	<fieldset style="width: 1200px">
 	<legend><h1>Molecule viewer</h1></legend>
 	<br>
 	<label id="selectMolecule">Select a molecule to render: </label>
 	<br>
-			<div id="moleculeContainer" style="height: 400px">
+			<div id="moleculeContainer" style="height: 300px">
 			</div>
 	</fieldset>
 </body>

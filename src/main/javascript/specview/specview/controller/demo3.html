@@ -24,11 +24,12 @@ function initPage(){
 	//Create the canvas and provide it with highlight plugins
 	var editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
 	editor.registerPlugin(new specview.controller.plugins.Highlight());
-
+	
 	//Initialisation of a molecule to display when the page is loading
 	var cmlData=cmlmolecules.split("$$END$$\n");
 	var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[0]);//XML document
 	var spectrumData=specview.io.SpectrumCMLParser.parseDocument(xmlDoc);//a cmlObject
+	editor.setSpecObject(spectrumData);
 	//var molecule=cmlObject.molecule;
 	editor.setModels([spectrumData]);
 
@@ -71,7 +72,7 @@ function initPage(){
 
 <body>
 
-	<fieldset style="width:1000px">
+	<fieldset style="width:1200px">
         <legend><h1>Spectrum viewer</h1></legend>
         <br>
         <label id="selectMolecule">Select a spectrum to render: </label>

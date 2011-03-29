@@ -3,6 +3,8 @@ goog.require('goog.math.Vec2');
 goog.require('goog.array');
 goog.require('goog.math.Line');
 goog.require('goog.debug.Logger');
+goog.require('goog.debug.Console');
+goog.require('specview.controller.Plugin');
 
 /**
  * @typedef {{obj:Object, getCenter:(function():goog.math.Coordinate),
@@ -47,6 +49,8 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 	for ( var i = 0, li = objects.length; i < li; i++) {
 		var o = objects[i];
 		var center = o.getCenter();
+//		this.logger2.info("here is the object: ("+center.x+","+center.y+")    "+center)
+
 		if (center.x < this.xMin) {
 			this.xMin = center.x;
 		}
@@ -76,16 +80,21 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 	// }
 
 	// add the objects to the grid
+	var k=0;
 	goog.array.forEach(objects, function(o) {
-
+		k++;
 		var center = o.getCenter();
+//		this.logger2.info("HERE IS THE CENTER "+center)
 		var x = Math.floor((center.x - this.xMin) / this.cellSize);
 		var y = Math.floor((center.y - this.yMin) / this.cellSize);
+//		this.logger2.info("here are x and y "+x+","+y)
 		var key = y * this.xDim + x;
+	//	this.logger2.info(k+": "+key);
 		if (!this.cells[key]) {
 			this.cells[key] = [];
 		}
 		this.cells[key].push(o);
+//		this.logger2.info(o+" ("+k+") is in the key "+ key+" to coords: "+center)
 
 	}, this);
 
@@ -165,6 +174,8 @@ specview.model.NeighborList.prototype.getNearest = function(coord) {
 specview.model.NeighborList.prototype.getNearestList = function(coord) {
 	var nearest = [];
 	var cells = this.cellsAroundCoord(coord);
+//this.logger.info(cells)
+
 	//this.logger2.info("cells nearest "+cells.length)
 	var rMin = this.tolerance;
 	for (i = 0, li = cells.length; i < li; i++) {
@@ -174,6 +185,7 @@ specview.model.NeighborList.prototype.getNearestList = function(coord) {
 				var o = cell[j];
 				var r = o.getDistance(coord);
 				if (r < this.tolerance) {
+					this.logger2.info(o.obj);
 					nearest.push( {
 						obj : o.obj,
 						distance : r
@@ -200,7 +212,6 @@ specview.model.NeighborList.prototype.getNearestList = function(coord) {
  * @return {Array.<specview.model.Neighbor>}
  */
 specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
-	//this.logger.info("haha");
 	var neighbors = goog.array.map(molecules, function(mol) {
 		return {
 			obj : mol,
@@ -212,7 +223,6 @@ specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
 	});
 
 	goog.array.forEach(molecules, function(mol) {
-
 		//atoms
 		neighbors = goog.array.concat(neighbors, goog.array.map(mol.atoms,function(a) 
 		{
@@ -239,8 +249,72 @@ specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
 			};
 		}));
 	});
-	return neighbors
+	return neighbors;
 };
+/**
+ * 
+ * @param metaSpec object (molecule,array of atoms, peaks, bonds ...)
+ * @returns
+ */
+specview.model.NeighborList.metaSpecToNeighbors = function(metaSpec) {
+	var laMolecule=[metaSpec[0].molecule];
+	var neighbors = goog.array.map(laMolecule, function(mol) {
+		return {
+			obj : mol,
+			getCenter : function() {return mol.getCenter();
+			},
+			getDistance : function(point) {return goog.math.Coordinate.distance(mol.getCenter(), point)/4;
+			}
+		};
+	});
+
+	goog.array.forEach(laMolecule, function(mol) {
+		//atoms
+		neighbors = goog.array.concat(neighbors, goog.array.map(mol.atoms,function(a) 
+		{
+//			alert(a.coord);
+			return {
+				obj : a,
+				getCenter : function() {return a.coord;},
+				getDistance : function(point) {return goog.math.Coordinate.distance(a.coord, point);}//*10;}
+			};
+		}));
+
+		//bonds
+		neighbors = goog.array.concat(neighbors, goog.array.map(mol.bonds,function(b) 
+		{
+			return {
+				obj : b,
+				getCenter : function() {
+					var midPoint = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.sum(b.source.coord, b.target.coord));
+					return midPoint.scale(0.5);
+				},
+				getDistance : function(point) {
+					var line = new goog.math.Line(b.source.coord.x,b.source.coord.y, b.target.coord.x,b.target.coord.y);
+					return goog.math.Coordinate.distance(line.getClosestSegmentPoint(point.x, point.y),point);
+				}
+			};
+		}));
+	});
+	var leSpec=[metaSpec[0].spectrum];
+	
+	goog.array.forEach(leSpec, function(spec){
+		//peaks
+		neighbors=goog.array.concat(neighbors,goog.array.map(spec.peakList,function(s){
+//			alert(s);
+			return {
+				obj : s,
+				getCenter : function() {return s.coord;},
+				getDistance : function(point) {return goog.math.Coordinate.distance(s.coord,point);}
+			};
+		}));
+	});
+	
+	
+	return neighbors;
+};
+
+
 
 
 specview.model.NeighborList.logger = goog.debug.Logger.getLogger('specview.model.NeighborList');

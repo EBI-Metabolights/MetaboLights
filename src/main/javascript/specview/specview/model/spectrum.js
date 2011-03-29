@@ -22,6 +22,8 @@ specview.model.Spectrum=function(optMolecule, optPeaklist)
         else
             this.peakList=new Array();
 
+        
+    
 	this.experiment="";
 	this.NMRtype="";
 	this.MS="";

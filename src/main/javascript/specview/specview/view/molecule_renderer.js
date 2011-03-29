@@ -64,7 +64,7 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) 
             aromRingRenderer.render(ring, transform, bondPath));
         }
     });
-
+//    alert(bondPath+"\n"+bondStroke+"\n"+bondFill);
     molecule._elements.add(this.graphics.drawPath(bondPath, bondStroke, bondFill));
 
     goog.array.forEach(molecule.atoms,
@@ -76,6 +76,7 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) 
     this.renderBoundingBox(molecule.getBoundingBox(),'green'); 
 
 };
+
 /**
  * @param {specview.model.Molecule}
  *            molecule
@@ -84,6 +85,7 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) 
  * @param {specview.graphics.ElementArray=} opt_element_array
  * @return {specview.graphics.ElementArray}
  */
+
 specview.view.MoleculeRenderer.prototype.highlightOn = function(molecule,
 opt_color, opt_element_array) {
 

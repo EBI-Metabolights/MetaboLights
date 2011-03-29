@@ -93,7 +93,11 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 		currentAtom.setInnerIdentifier(atomId);//Set its inner identifier..a1,a2...
 		currentAtom.peakMap[currentAtom.getInnerIdentifier()]=new Array();//Prepare the array for the peaks..[a1=[] ; a2=[] ...]
         //this.logger.info("atom id "+currentAtom.getInnerIdentifier())
+		/**
+		 * THAT IS WEIRD
+		 */
 		ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;//Set the ArrayOfAtoms attribute of the graphical object
+		nmrData.ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;
 	}
 
 	
@@ -127,6 +131,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 			}
 			if(nextTag=="bondStereo"){//DO NOT FORGET TO ADD THE REMAING STEREOSPECIFITIY
 				stereo=cNodes[k+2].attributes[0].value;
+
 				if(stereo=="CML:W"){
 					stereo=specview.model.Bond.STEREO.UP;
 				}else if(stereo="CML:H"){
@@ -135,7 +140,11 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 			}
 			stereo=(stereo ? stereo : specview.model.Bond.NOT_STEREO);
             var currentBond=new specview.model.Bond (ArrayOfAtoms[source],ArrayOfAtoms[target],type,stereo );
-			ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
+            /**
+             * THAT IS WEIRD
+             */
+            ArrayOfBonds[bondId]=currentBond
+			nmrData.ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
 			stereo=null;//Reset the value of stereo!
 		}
 
@@ -185,6 +194,10 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 			}
 		}
 		height = height ? height : 50 ; // Should be more precise on the height
+		/**
+		 * THAT IS WEIRD
+		 */
+		nmrData.ArrayOfPeaks[peakId]=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity);
 		goog.array.insert(ArrayOfPeaks,new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity));
 	}
 

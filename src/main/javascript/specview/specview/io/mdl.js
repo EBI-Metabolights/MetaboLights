@@ -101,13 +101,13 @@ specview.io.mdl.createBond = function(type, stereo, source, target) {
 //			alert("NO STEREO")
 			return new specview.model.Bond(source, target);
 		case specview.io.mdl.SINGLE_BOND_UP:
-//			alert("UP STEREO")
+//			alert("UP STEREO: "+stereo)
 			return new specview.model.Bond(source, target, specview.model.Bond.ORDER.SINGLE, specview.model.Bond.STEREO.UP);
 		case specview.io.mdl.SINGLE_BOND_UP_OR_DOWN:
-//			alert("UP DOWN STEREO")
+//			alert("UP DOWN STEREO: "+stereo)
 			return new specview.model.Bond(source, target, specview.model.Bond.ORDER.SINGLE, specview.model.Bond.STEREO.UP_OR_DOWN);
 		case specview.io.mdl.SINGLE_BOND_DOWN:
-//			alert("DOWN STEREO");
+//			alert("DOWN STEREO: "+stereo+"\n"+ new specview.model.Bond(source, target, specview.model.Bond.ORDER.SINGLE, specview.model.Bond.STEREO.DOWN));
 			return new specview.model.Bond(source, target, specview.model.Bond.ORDER.SINGLE, specview.model.Bond.STEREO.DOWN);
 		default:
 			throw new Error("invalid bond type/stereo [" + type + "]/["

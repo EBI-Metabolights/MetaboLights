@@ -86,30 +86,57 @@ specview.view.SpectrumRenderer.prototype.render = function(spectrum, transform) 
     
     var xStart= this.box.left*1.1;    
     var yStart= this.box.top;    
-
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1,'black');
     var peakFill = null;
     
     goog.array.forEach(spectrum.peakList,
     function(peak) {
-
-    var peakFrom =new goog.math.Coordinate(box.left,box.top);
+//    	this.logger.info(peak)
+//    	var peakFrom =new goog.math.Coordinate(box.left,box.top);
         var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );
-        var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (this.box.top+this.box.bottom)/2 );
+//        var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (this.box.top+this.box.bottom)/2 );
+      var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (this.box.top+this.box.bottom)*peak.intensity/62  );
+
         //TODO intensity and multipl etc
-        this.logger.info("peak from "+(xStart+(peak.xValue*correct)));
+//        this.logger.info("\npeak from ("+(xStart+(peak.xValue*correct)));
         var peakCoords = this.transform.transformCoords( [peakFrom, peakTo]);
+        
+        
+        this.logger.info("\npeak from <"+peakCoords[0].x+","+peakCoords[0].y+">\nto        <"+peakCoords[1].x+","+peakCoords[1].y);
+        
         peakPath.moveTo(peakCoords[0].x, peakCoords[0].y); 
         peakPath.lineTo(peakCoords[1].x,peakCoords[1].y);
-
+        
 
     },
     this);
-
     this.graphics.drawPath(peakPath, peakStroke, peakFill);
 
 }
 
-specview.view.SpectrumRenderer.logger = goog.debug.Logger.getLogger('specview.view.SpectrumRenderer');
+specview.view.SpectrumRenderer.prototype.highlightOn = function(peak) {
+	
+    var xStart= this.box.left*1.1;    
+    var yStart= this.box.top;   
+//	this.logger.info(peak)
+	var correct=0.0298;
+	var pCoords=this.transform.transformCoords([new goog.math.Coordinate(this.box.left*1.1+(peak.xValue*correct), this.box.top )]);
+//	this.logger.info(pCoords[0])
+	var strokeWidth = 2.4;
+	opt_element_array = new specview.graphics.ElementArray();
+	var fill = new goog.graphics.SolidFill("#55bb00", .3);
+	var radius = 8.80
+//	var coords = this.transform.transformCoords([ atom.coord ])[0];//TODO
+    var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );
+    var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (this.box.top+this.box.bottom)*peak.intensity/62  );
+    var peakCoords = this.transform.transformCoords( [peakFrom, peakTo]);
+    opt_element_array.add(this.graphics.drawRect(peakCoords[0].x,peakCoords[0].y,7,peakCoords[1].y,null,fill));
+	return opt_element_array;
 
+	
+	
+};
+
+
+specview.view.SpectrumRenderer.logger = goog.debug.Logger.getLogger('specview.view.SpectrumRenderer');

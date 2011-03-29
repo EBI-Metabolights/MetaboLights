@@ -45,6 +45,8 @@ specview.controller.Controller = function(element, opt_config) {
 	this.plugins_ = {};
 	this.indexedPlugins_ = {};
 
+	this.specObject=null;
+	
 	for ( var op in specview.controller.Plugin.OPCODE) {
 		this.indexedPlugins_[op] = [];
 	}
@@ -83,7 +85,6 @@ specview.controller.Controller = function(element, opt_config) {
 goog.inherits(specview.controller.Controller, goog.events.EventTarget);
 goog.exportSymbol('specview.controller.Controller',
 		specview.controller.Controller);
-
 /**
  * Sets the active controller id.
  * 
@@ -105,9 +106,20 @@ specview.controller.Controller.prototype.addSelected = function(obj){
 	this.selected.push(obj);
 }
 
+specview.controller.Controller.prototype.setSpecObject=function(specObject){
+	this.specObject=specObject;
+}
+
+
 /**
  * @return {goog.dom.DomHelper?} The dom helper for the editable node.
  */
+
+specview.controller.Controller.prototype.getSpecObject=function(){
+	return this.specObject;
+}
+
+
 specview.controller.Controller.prototype.getEditableDomHelper = function() {
 	return this.editableDomHelper;
 };
@@ -125,6 +137,7 @@ specview.controller.Controller.getActiveControllerId = function() {
 specview.controller.Controller.prototype.clear = function() {
 	this.logger.info("Clearing graphics");
 	this.graphics.clear();
+
 	this.models = []; 
 	this.neighborList = new specview.model.NeighborList( [], 1, .3);
 	var fill = new goog.graphics.SolidFill(this.config.get("background").color);
@@ -141,15 +154,17 @@ specview.controller.Controller.prototype.setScaleFactor = function(scale) {
 }
 
 
+
+/*
 specview.controller.Controller.prototype.setModelsSilently = function(models) {
 	this.clear();
-
 	this.models = models; // the model objects we wand to put on canvas
 	var objects = goog.array.flatten(goog.array.map(models, function(model) {
 		if (model instanceof specview.model.Molecule) {
 			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
 		}else if(model instanceof  specview.model.NMRdata){
             //TODO, neighb list for spectrum thing spectrumToNeighBours
+			alert(specview.model.NeighborList.moleculesToNeighbors( [ model.molecule ]))
 			return specview.model.NeighborList.moleculesToNeighbors( [ model.molecule ]);
 		}
 	}));
@@ -159,6 +174,26 @@ specview.controller.Controller.prototype.setModelsSilently = function(models) {
 	}
 	this.render();
 };
+*/
+
+specview.controller.Controller.prototype.setModelsSilently = function(models) {
+	this.clear();
+	this.models = models; // the model objects we wand to put on canvas
+	var objects = goog.array.flatten(goog.array.map(models, function(model) {
+		if (model instanceof specview.model.Molecule) {
+			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
+		}else if(model instanceof  specview.model.NMRdata){
+			return specview.model.NeighborList.metaSpecToNeighbors([model]); 
+		}
+	}));
+
+	if (objects.length > 0) {
+		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
+//		this.logger.info("Here is the neighborlist: "+this.neighborList);
+	}
+	this.render();
+};
+
 
 specview.controller.Controller.prototype.setModels = function(models){
 	this.setModelsSilently(models);
@@ -167,7 +202,6 @@ goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview
 
 specview.controller.Controller.prototype.render = function() {
     goog.array.forEach(this.models, function(model) {
-    
         if (model instanceof specview.model.Molecule) {
             var margin = this.config.get("margin");
             molecule=model;
@@ -274,7 +308,9 @@ specview.controller.Controller.prototype.handleChange = function() {
  * and returned.
  */
 specview.controller.Controller.prototype.findTarget = function(e) {
+//	this.logger.info(e.clientX+","+e.clientY);
 	var targets = this.findTargetList(e); 
+	
 	//The molecule to which the atom belongs to.
 	var atom_targets = goog.array.filter(targets, function(t) {
 		return t instanceof specview.model.Atom;
@@ -282,6 +318,14 @@ specview.controller.Controller.prototype.findTarget = function(e) {
 	if (atom_targets.length > 0) {
 		return atom_targets[0];
 	}
+	
+	var peak_targets = goog.array.filter(targets,function(t){
+		return t instanceof specview.model.Peak;
+	});
+	if(peak_targets.length>0){
+		return peak_targets[0];
+	}
+	
 
 	var bond_targets = goog.array.filter(targets, function(t) {
 		return t instanceof specview.model.Bond;
@@ -314,7 +358,7 @@ specview.controller.Controller.prototype.findTarget = function(e) {
 }
 
 specview.controller.Controller.prototype.getAtomicCoords = function(
-		graphicsCoord) {	
+		graphicsCoord) {
 	var trans;
 	if (this.moleculeRenderer.transform){
 		trans = this.moleculeRenderer.transform
@@ -368,8 +412,9 @@ specview.controller.Controller.prototype.findTargetList = function(e) {
 	}
 
 	var pos = specview.controller.Controller.getMouseCoords(e)
-
+//	this.logger.info(pos);
 	var target = trans.transformCoords( [ pos ])[0];
+//	this.logger.info("target: "+target)
 	return this.neighborList.getNearestList( {
 		x : target.x,
 		y : target.y

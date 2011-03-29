@@ -227,9 +227,8 @@ specview.view.AtomRenderer.prototype.hPosition = function(atom) {
  */
 specview.view.AtomRenderer.prototype.highlightOn = function(atom, opt_color,
 		opt_element_array) {
-
+//	this.logger.info(atom)
 	var atom_config = this.config.get("atom");
-//	alert("atom config: "+atom_config);
 	var strokeWidth = atom_config['stroke']['width'] * 24;
 	if (!opt_color) {
 		opt_color = this.config.get(atom.symbol) ? this.config.get(atom.symbol)['color']
@@ -238,15 +237,14 @@ specview.view.AtomRenderer.prototype.highlightOn = function(atom, opt_color,
 	if (!opt_element_array) {
 		opt_element_array = new specview.graphics.ElementArray();
 	}
-
 	var fill = new goog.graphics.SolidFill(opt_color, .3);
 //	alert("fill: "+fill);
 	var radius = atom_config['highlight']['radius']
 			* this.transform.getScaleX() * 0.7;
 	var coords = this.transform.transformCoords([ atom.coord ])[0];
+//	this.logger.info("x: "+coords.x+"\ny: "+coords.y)
 	opt_element_array.add(this.graphics.drawCircle(coords.x, coords.y, radius,
 			null, fill));
-//	alert("opt_element_array   "+opt_element_array);
 	return opt_element_array;
 };
 
