@@ -51,7 +51,6 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				this.lastT=e.currentTarget;
 				this.editorObject.addSelected(target);
 				e.currentTarget.highlightGroup = this.highlightAtom(target);
-				transiantTarget=e.currentTarget.highlightGroup;
 				//LOOKING FOR THE PEAK
 				var currentMetaSpecObject=this.editorObject.getSpecObject();//The metaSpec object
 				var currentAtomInnerIdentifier= target.innerIdentifier;//the atom Id
@@ -102,10 +101,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 		
 		else 
 		if (target instanceof specview.model.Bond) {
-//			alert("bonds")
-//			this.logger.info("bond")
 			if(this.lastBondHighlighted==null || target!=this.lastBondHighlighted) {
-				//this.logger.info("higlight bond")
 				if (this.lastT!=null) {
 					this.lastT.highlightGroup.clear();
 				}
@@ -138,13 +134,14 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			if(this.lastT.highlightPeak!=undefined){
 				this.lastT.highlightPeak.clear();
 			}
+
 			this.lastAtomHighlighted=null;
 			this.lastBondHighlighted=null;
 		}
 	}
 
 	return false;
-}
+};
 
 
 specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak){
