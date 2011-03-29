@@ -83,8 +83,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			var currentMetaSpecObject=this.editorObject.getSpecObject();
 			var currentPeakIdentifier=target.peakId;
 			var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
-			//NOW HIGHLIGHT THE CORRESPONDING ATOMS
-				//TODO CONSIDER HIGHLIGHTING MULTIPLE ATOMS
+			//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
 			var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
 			for(var k=0;k<arrayOfAtomToWhichThePeakIsRelated.length;k++){
 				var atomObject=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomToWhichThePeakIsRelated[k]];
@@ -92,9 +91,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			}
 			var atomIdentifier=arrayOfAtomToWhichThePeakIsRelated[0];
 			var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];
-//			this.lastAtomHighlighted=atom;
-//			e.currentTarget.highlightGroup=this.highlightAtom(atom);
-			
+
 			this.lastArrayOfAtomHighlighted=arrayOfAtomObjectToWhichThePeakIsRelated;
 			e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtomObjectToWhichThePeakIsRelated);
 				

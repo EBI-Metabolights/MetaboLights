@@ -259,7 +259,6 @@ specview.view.AtomRenderer.prototype.highlightOnSeriesOfAtom = function(arrayOfA
 	var fill = new goog.graphics.SolidFill(opt_color, .3);
 	var radius = atom_config['highlight']['radius']
 			* this.transform.getScaleX() * 0.7;
-	//Careful working with the array of atom
 	for(var k=0;k<arrayOfAtom.length;k++){
 		var coords = this.transform.transformCoords([ arrayOfAtom[k].coord ])[0];
 		opt_element_array.add(this.graphics.drawCircle(coords.x, coords.y, radius,
