@@ -26,6 +26,8 @@ specview.controller.plugins.Highlight.prototype.lastAtomHighlighted=null;
 specview.controller.plugins.Highlight.prototype.lastBondHighlighted=null;
 specview.controller.plugins.Highlight.prototype.lastPeakHighlighted=null;
 
+specview.controller.plugins.Highlight.prototype.lastArrayOfAtomHighlighted=null;
+
 specview.controller.plugins.Highlight.prototype.lastT=null;
 
 
@@ -64,6 +66,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			return true;
 		}
 		//Peaks
+		//CAREFUL: MIGHT BE K ATOMS FOR ONE PEAK
 		else if (target instanceof specview.model.Peak){
 			if(this.lastPeakHighlighted==null || target!=this.lastPeakHighlighted){
 				if(this.lastT!=null){
@@ -82,15 +85,19 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 			//NOW HIGHLIGHT THE CORRESPONDING ATOMS
 				//TODO CONSIDER HIGHLIGHTING MULTIPLE ATOMS
-//			for(var k=0;k<arrayOfAtomToWhichThePeakIsRelated.length;k++){
-				//We can retrieve the Object Atom thanks to the ArrayOfAtoms attribute of the metaSpec Object
-//				var atom=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomToWhichThePeakIsRelated[k]];
-				var atomIdentifier=arrayOfAtomToWhichThePeakIsRelated[0];
-				var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];
-//				alert(arrayOfAtomToWhichThePeakIsRelated[0]+"\n"+atom);
-				this.lastAtomHighlighted=atom;
-				e.currentTarget.highlightGroup=this.highlightAtom(atom);
-//			}
+			var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
+			for(var k=0;k<arrayOfAtomToWhichThePeakIsRelated.length;k++){
+				var atomObject=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomToWhichThePeakIsRelated[k]];
+				arrayOfAtomObjectToWhichThePeakIsRelated.push(atomObject);
+			}
+			var atomIdentifier=arrayOfAtomToWhichThePeakIsRelated[0];
+			var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];
+//			this.lastAtomHighlighted=atom;
+//			e.currentTarget.highlightGroup=this.highlightAtom(atom);
+			
+			this.lastArrayOfAtomHighlighted=arrayOfAtomObjectToWhichThePeakIsRelated;
+			e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtomObjectToWhichThePeakIsRelated);
+				
 			}		
 		}
 		
@@ -149,6 +156,10 @@ specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak){
 
 specview.controller.plugins.Highlight.prototype.highlightAtom = function(atom) {
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOn(atom,this.HIGHLIGHT_COLOR);
+};
+
+specview.controller.plugins.Highlight.prototype.highlightSeriesOfAtom=function(arrayOfAtom){
+	return this.editorObject.moleculeRenderer.atomRenderer.highlightOnSeriesOfAtom(arrayOfAtom,this.HIGHLIGHT_COLOR);
 };
 
 specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {

@@ -249,6 +249,29 @@ specview.view.AtomRenderer.prototype.highlightOn = function(atom, opt_color,
 };
 
 
+specview.view.AtomRenderer.prototype.highlightOnSeriesOfAtom = function(arrayOfAtom, opt_color,
+		opt_element_array){
+	var atom_config = this.config.get("atom");
+	var strokeWidth = atom_config['stroke']['width'] * 24;
+	if (!opt_element_array) {
+		opt_element_array = new specview.graphics.ElementArray();
+	}
+	var fill = new goog.graphics.SolidFill(opt_color, .3);
+	var radius = atom_config['highlight']['radius']
+			* this.transform.getScaleX() * 0.7;
+	//Careful working with the array of atom
+	for(var k=0;k<arrayOfAtom.length;k++){
+		var coords = this.transform.transformCoords([ arrayOfAtom[k].coord ])[0];
+		opt_element_array.add(this.graphics.drawCircle(coords.x, coords.y, radius,
+				null, fill));
+	}
+	
+	return opt_element_array;
+	
+	
+	
+}
+
 
 /**
  * Logging object.
