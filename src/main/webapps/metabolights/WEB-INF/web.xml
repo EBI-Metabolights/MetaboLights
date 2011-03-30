@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--  
+Example taken from: http://static.springsource.org/docs/Spring-MVC-step-by-step/part1.html  
+We define a DispatcherServlet (also known as a 'Front Controller' (Crupi et al)). It is going to control where 
+all our requests are routed based on information we will enter at a later point. 
+This servlet definition also has an attendant <servlet-mapping/> entry that maps to the URL patterns 
+that we will be using. We have decided to let any URL with an '.htm' extension be routed to 
+the 'springapp' servlet (the DispatcherServlet).
+
+-->
 <web-app version="2.4"
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -24,3 +33,4 @@
   </welcome-file-list>
 
 </web-app>
+

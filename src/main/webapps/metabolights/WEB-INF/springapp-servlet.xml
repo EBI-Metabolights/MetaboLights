@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--  
+Example taken from: http://static.springsource.org/docs/Spring-MVC-step-by-step/part1.html
+
+This file contains the bean definitions (plain old Java objects) used by the DispatcherServlet. It is the WebApplicationContext where 
+all web-related components go. The name of this file is determined by the value of the <servlet-name/> element from the 'web.xml', 
+with '-servlet'  appended to it (hence 'springapp-servlet.xml'). This is the standard naming convention used with Spring's Web MVC framework. 
+We have a bean entry named '/hello.htm' and specify the class as springapp.web.HelloController. This defines the controller that our 
+application will be using to service a request with the corresponding URL mapping of '/hello.htm'. The Spring Web MVC framework uses 
+an implementation class of the interface called HandlerMapping to define the mapping between a request URL and the object that is going 
+to handle that request (the handler). Unlike the DispatcherServlet, the HelloController is responsible for handling a request for 
+a particular page of the website and is also known as a 'Page Controller' (Fowler). The default HandlerMapping that the DispatcherServlet 
+uses is the BeanNameUrlHandlerMapping; this class will use the bean name to map to the URL in the request so that the DispatcherServlet 
+knows which controller must be invoked for handling different URLs.  
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -7,6 +22,23 @@
 
   <!-- the application context definition for the springapp DispatcherServlet -->
 
-  <bean name="/hello.htm" class="uk.ac.ebi.metabolomes.HelloController"/>
+  <bean name="/hello.htm" class="uk.ac.ebi.metabolomes.springdemo.HelloController"/>
+
+   <!--  
+   
+   Map to the view using a logical name, allowing us to switch the view without having to change the controller. 
+   You can set this mapping in a properties file if you like using a ResourceBundleViewResolver and a SimpleUrlHandlerMapping class. 
+   For the basic mapping of a view to a location, simply set a prefix and a suffix on the InternalResourceViewResolver. 
+   This second approach is the one that we will implement now, so we modify the 'springapp-servlet.xml' and declare a 'viewResolver' entry. 
+   By choosing the JstlView, it will enable us to use JSTL in combination with message resource bundles as well as provide us with the 
+   support for internationalization. Burrp.
+    -->
+   <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+        <property name="prefix" value="/jsp/"></property>
+        <property name="suffix" value=".jsp"></property>        
+    </bean>
+
 
 </beans>
+
