@@ -1,44 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--  
-Example taken from: http://static.springsource.org/docs/Spring-MVC-step-by-step/part1.html
-
-This file contains the bean definitions (plain old Java objects) used by the DispatcherServlet. It is the WebApplicationContext where 
-all web-related components go. The name of this file is determined by the value of the <servlet-name/> element from the 'web.xml', 
-with '-servlet'  appended to it (hence 'springapp-servlet.xml'). This is the standard naming convention used with Spring's Web MVC framework. 
-We have a bean entry named '/hello.htm' and specify the class as springapp.web.HelloController. This defines the controller that our 
-application will be using to service a request with the corresponding URL mapping of '/hello.htm'. The Spring Web MVC framework uses 
-an implementation class of the interface called HandlerMapping to define the mapping between a request URL and the object that is going 
-to handle that request (the handler). Unlike the DispatcherServlet, the HelloController is responsible for handling a request for 
-a particular page of the website and is also known as a 'Page Controller' (Fowler). The default HandlerMapping that the DispatcherServlet 
-uses is the BeanNameUrlHandlerMapping; this class will use the bean name to map to the URL in the request so that the DispatcherServlet 
-knows which controller must be invoked for handling different URLs.  
--->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-  <!-- the application context definition for the springapp DispatcherServlet -->
+    <bean id="productManager" class="uk.ac.ebi.metabolomes.springdemo.service.SimpleProductManager">
+        <property name="products">
+            <list>
+                <ref bean="product1"/>
+                <ref bean="product2"/>
+                <ref bean="product3"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="product1" class="uk.ac.ebi.metabolomes.springdemo.domain.Product">
+        <property name="description" value="Lamp"/>
+        <property name="price" value="5.75"/>
+    </bean>
+    <bean id="product2" class="uk.ac.ebi.metabolomes.springdemo.domain.Product">
+        <property name="description" value="Table"/>
+        <property name="price" value="75.25"/>
+    </bean>
+    <bean id="product3" class="uk.ac.ebi.metabolomes.springdemo.domain.Product">
+        <property name="description" value="Chair"/>
+        <property name="price" value="22.79"/>
+    </bean>
 
-  <bean name="/hello.htm" class="uk.ac.ebi.metabolomes.springdemo.HelloController"/>
+    <bean name="/hello.htm" class="uk.ac.ebi.metabolomes.springdemo.web.InventoryController">
+        <property name="productManager" ref="productManager"/> <!--  so this line here puts the above bean with id="productManager" into the Controller? Hm. -->
+    </bean>
 
-   <!--  
-   
-   Map to the view using a logical name, allowing us to switch the view without having to change the controller. 
-   You can set this mapping in a properties file if you like using a ResourceBundleViewResolver and a SimpleUrlHandlerMapping class. 
-   For the basic mapping of a view to a location, simply set a prefix and a suffix on the InternalResourceViewResolver. 
-   This second approach is the one that we will implement now, so we modify the 'springapp-servlet.xml' and declare a 'viewResolver' entry. 
-   By choosing the JstlView, it will enable us to use JSTL in combination with message resource bundles as well as provide us with the 
-   support for internationalization. Burrp.
-    -->
-   <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
-        <property name="prefix" value="/jsp/"></property>
-        <property name="suffix" value=".jsp"></property>        
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
+    </bean>
+
+    <!-- 
+      An entry to define the new form and controller. We define objects to inject into properties for commandClass and 
+      validator. We also specify two views, a formView that is used for the form and a successView that we will go to after 
+      successful form processing. The latter can be of two types. It can be a regular view reference that is forwarded to 
+      one of our JSP pages. One disadvantage with this approach is, that if the user refreshes the page, the form data is submitted 
+      again, and you would end up with a double price increase. An alternative way is to use a redirect, where a response is sent back 
+      to the users browser instructing it to redirect to a new URL. The URL we use in this case can't be one of our JSP pages, 
+      since they are hidden from direct access. It has to be a URL that is externally reachable. We have chosen to use 'hello.htm' 
+      as my redirect URL. This URL maps to the 'hello.jsp' page, so this should work nicely.
+     -->
+    <bean name="/priceincrease.htm" class="uk.ac.ebi.metabolomes.springdemo.web.PriceIncreaseFormController">
+        <property name="sessionForm" value="false"/>
+        <property name="productManager" ref="productManager"/>
+
+        <!--  this looks to be identifying the command that will go into the controller method onSubmit(Object command) -->
+        <property name="commandName" value="priceIncrease"/> 
+        <property name="commandClass" value="uk.ac.ebi.metabolomes.springdemo.service.PriceIncrease"/>
+
+        <property name="validator"> <!--  probably called before the onSumbit method -->
+            <bean class="uk.ac.ebi.metabolomes.springdemo.service.PriceIncreaseValidator"/>
+        </property>
+
+        <property name="formView"    value="priceincrease"/> <!--  this is not consistent.. why is there no .htm suffix here?  -->
+        <property name="successView" value="hello.htm"/> <!--  target on success, via getSuccessView() -->
+    </bean>
+
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
 
 </beans>
-

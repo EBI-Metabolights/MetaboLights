@@ -31,6 +31,19 @@ the 'springapp' servlet (the DispatcherServlet).
       index.jsp
     </welcome-file>
   </welcome-file-list>
+  
+  <!-- 
+     To provide an interface in the web application to expose the price increase functionality, we add a form 
+     that will allow the user to enter a percentage value. This form uses a tag library named 'spring-form.tld' 
+     that is provided with the Spring Framework. Next we must also add a <taglib/> entry to the 'web.xml' file. 
+  -->
+  <jsp-config>
+    <taglib>
+      <taglib-uri>/spring</taglib-uri>
+      <taglib-location>/tld/spring-form.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+
 
 </web-app>
 
