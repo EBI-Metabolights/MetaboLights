@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="productManager" class="uk.ac.ebi.metabolomes.springdemo.service.SimpleProductManager">
+    <!-- bean id="productManager" class="uk.ac.ebi.metabolomes.springdemo.service.SimpleProductManager">
         <property name="products">
             <list>
                 <ref bean="product1"/>
@@ -25,15 +25,16 @@
     <bean id="product3" class="uk.ac.ebi.metabolomes.springdemo.domain.Product">
         <property name="description" value="Chair"/>
         <property name="price" value="22.79"/>
+    </bean-->
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
     </bean>
 
     <bean name="/hello.htm" class="uk.ac.ebi.metabolomes.springdemo.web.InventoryController">
         <property name="productManager" ref="productManager"/> <!--  so this line here puts the above bean with id="productManager" into the Controller? Hm. -->
     </bean>
 
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename" value="messages"/>
-    </bean>
 
     <!-- 
       An entry to define the new form and controller. We define objects to inject into properties for commandClass and 

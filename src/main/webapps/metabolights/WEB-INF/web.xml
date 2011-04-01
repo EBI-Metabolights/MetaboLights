@@ -15,6 +15,13 @@ the 'springapp' servlet (the DispatcherServlet).
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
 
+  <!-- We still need to configure the service layer and we will do that in its own application context file. 
+       This file is called 'applicationContext.xml' and it will be loaded via a servlet listener that we will 
+       define in 'web.xml'. All bean configured in this new application context will be available to reference from any servlet context-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
   <servlet>
     <servlet-name>springapp</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
