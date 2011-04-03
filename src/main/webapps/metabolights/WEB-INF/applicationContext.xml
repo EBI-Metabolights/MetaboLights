@@ -13,6 +13,8 @@
 
     <!-- the parent application context definition for the springapp application -->
 
+	<!-- foo change, to play-learn with SVN- pconesa-->
+
     <bean id="productManager" class="uk.ac.ebi.metabolomes.springdemo.service.SimpleProductManager">
         <property name="productDao" ref="productDao"/>
     </bean>
