@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<!-- 
+Here in tiles.xml we have define a template base.definition. This layout contains attributes such as Header, Title, Body, Menu and Footer. 
+The layout is then extended and new definitions for Contact page. We have overriden the default layout and changed the content for Body and Title.
+ -->
+
+<tiles-definitions>
+    <definition name="base.definition"
+        template="/WEB-INF/jsp/layout.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+    </definition>
+ 
+    <definition name="contact" extends="base.definition">
+        <put-attribute name="title" value="Contact Manager" />
+        <put-attribute name="body" value="/WEB-INF/jsp/contact.jsp" />
+    </definition>
+ 
+</tiles-definitions>
