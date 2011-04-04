@@ -34,10 +34,13 @@ specview.controller.plugins.Highlight.prototype.lastT=null;
 specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 	
 
-	if(this.editorObject.findTarget(e)) {
+	if(this.editorObject.findTarget(e)!=undefined) {
 		this.editorObject.clearSelected();
 		//this.editorObject.getOriginalElement().style.cursor = 'default';
-		var target = this.editorObject.findTarget(e);
+//		var target = this.editorObject.findTarget(e);//FORMER VERSION
+		//SAMY
+		var target=this.editorObject.findTarget(e);//SAMY. NOT SURE IF THIS IS THE BEST
+
 		var peakTarget=null;
 		if (target instanceof specview.model.Atom) {
 			if(this.lastAtomHighlighted==null || target!=this.lastAtomHighlighted) {

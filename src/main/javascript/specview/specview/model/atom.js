@@ -100,10 +100,25 @@ specview.model.Atom = function(opt_symbol, opt_x, opt_y, opt_charge, opt_aromati
 	 * Array with property flags (true/false)
 	 */
 	this.flags = new Array(specview.model.Flags.MAX_FLAG_INDEX + 1);
-
+	
+	/**
+	 * Coordinates with the pixel
+	 */
+	
+	this.xPixel=0;
+	this.yPixel=0;
+	
+	this.pixelCoordinates=new goog.math.Coordinate(this.xPixel,this.yPixel);	
+	
 };
 goog.exportSymbol("specview.model.Atom", specview.model.Atom);
 
+
+specview.model.Atom.prototype.setPixelCoordinates=function(xValue,yValue){
+	this.xPixel=xValue;
+	this.yPixel=yValue;
+	this.pixelCoordinates=new goog.math.Coordinate(this.xPixel,this.yPixel);
+};
 
 specview.model.Atom.prototype.setPeakMap=function(array){
 	this.peakMap=array;

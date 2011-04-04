@@ -24,16 +24,16 @@ specview.io.SpectrumCMLParser.getDocument=function(cmlString) {
 	return goog.dom.xml.loadXml(cmlString);
 };
 
-
 /**
  * Parses CML XMl document into NMRData
  * @param XMLdocument
  * @returns {specview.model.NMRdata()}
  */
-specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
+specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 
-	var nmrData= new specview.model.NMRdata();// The cmlObject that holds atoms,bonds,molecule and spectrum
-		
+//	var nmrData= new specview.model.NMRdata();// The cmlObject that holds atoms,bonds,molecule and spectrum
+	var nmrData=NMRdataObject;
+	
 	var atoms=XMLdoc.getElementsByTagName("atom");// All of its atoms
 	var peaks=XMLdoc.getElementsByTagName("peak");// All of its peaks
 	var mol=XMLdoc.getElementsByTagName("molecule");// The information regarding the molecule
@@ -46,7 +46,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
     //Attributes of an Atom object
 	var atomId; var elementType; var x; var y; var charge; var hydrogenCount; 
     //Attributes of a Peak object
-	var peakId; var xValue; var multiplicity; var height; var atomRefs; var peakShape; 
+	var peakId; var xValue; var multiplicity; var height; var atomRefs; var peakShape; var maxPValue=0;
     //Attributes of a Bond object
 	var bondId; var type; var source; var target; 
 	var stereo=null;
@@ -124,7 +124,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 						type=attributeValue;
 						if(type=="S"){type=specview.model.Bond.ORDER.SINGLE;}
 						else if(type=="D"){type=specview.model.Bond.ORDER.DOUBLE;}				
-						else if(type=="T"){type=specview.model.Bond.ORDER.TRIPLE}
+						else if(type=="T"){type=specview.model.Bond.ORDER.TRIPLE;}
 						break;
 					}
 				}
@@ -159,6 +159,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 			switch(attributeName){
 			case "xValue":
 				xValue=parseFloat(attributeValue);
+				maxPValue=(xValue>maxPValue ? xValue : maxPValue);
 				break;
 			case "xUnits":
 				xUnits=attributeValue;
@@ -197,8 +198,10 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 		/**
 		 * THAT IS WEIRD
 		 */
-		nmrData.ArrayOfPeaks[peakId]=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity);
-		goog.array.insert(ArrayOfPeaks,new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity));
+		var maxL=23.5;
+		var peak=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity);
+		nmrData.ArrayOfPeaks[peakId]=peak;
+		goog.array.insert(ArrayOfPeaks,peak);
 	}
 
 
@@ -219,12 +222,19 @@ specview.io.SpectrumCMLParser.parseDocument=function(XMLdoc){
 	}
 
         //Create a spectrum
-        this.logger.info("ArrayOfPeaks "+ArrayOfPeaks.length);
-        nmrData.spectrum= new specview.model.Spectrum(nmrData.molecule, ArrayOfPeaks);
-
+       // this.logger.info("ArrayOfPeaks "+ArrayOfPeaks.length);
+        var spec= new specview.model.Spectrum(nmrData.molecule, ArrayOfPeaks);
+//        spec.setXvalues(maxPValue);
+        nmrData.spectrum=spec;
+      
 	return nmrData;
 	
 };
+
+
+
+
+
 
 /**
  * Logging object.

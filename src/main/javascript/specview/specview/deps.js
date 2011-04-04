@@ -19,10 +19,10 @@ goog.addDependency('../../../../specview/model/bond.js', ['specview.model.Bond']
 goog.addDependency('../../../../specview/model/flags.js', ['specview.model.Flags'], []);
 goog.addDependency('../../../../specview/model/molecule.js', ['specview.model.Molecule'], ['goog.array', 'goog.debug.Logger', 'goog.math.Vec2', 'specview.graphics.AffineTransform', 'specview.model.Atom', 'specview.ring.RingFinder']);
 goog.addDependency('../../../../specview/model/neighborlist.js', ['specview.model.NeighborList'], ['goog.array', 'goog.debug.Console', 'goog.debug.Logger', 'goog.math.Line', 'goog.math.Vec2', 'specview.controller.Plugin']);
-goog.addDependency('../../../../specview/model/nmrdata.js', ['specview.model.NMRdata'], ['specview.model.Molecule', 'specview.model.Spectrum']);
+goog.addDependency('../../../../specview/model/nmrdata.js', ['specview.model.NMRdata'], ['specview.model.Molecule', 'specview.model.Spectrum', 'specview.view.SpectrumRenderer']);
 goog.addDependency('../../../../specview/model/peak.js', ['specview.model.Peak'], ['goog.math.Coordinate']);
 goog.addDependency('../../../../specview/model/pseudo_atom.js', ['specview.model.PseudoAtom'], ['specview.model.Atom']);
-goog.addDependency('../../../../specview/model/spectrum.js', ['specview.model.Spectrum'], ['specview.model.Molecule']);
+goog.addDependency('../../../../specview/model/spectrum.js', ['specview.model.Spectrum'], ['goog.math.Vec2', 'specview.model.Molecule']);
 goog.addDependency('../../../../specview/resource/covalence.js', ['specview.resource.Covalence'], []);
 goog.addDependency('../../../../specview/resource/elements.js', ['specview.resource.Elements'], []);
 goog.addDependency('../../../../specview/resource/implicith.js', ['specview.resource.ImplicitHydrogens'], []);

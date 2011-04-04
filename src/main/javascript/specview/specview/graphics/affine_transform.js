@@ -2,7 +2,6 @@ goog.provide('specview.graphics.AffineTransform');
 goog.require('goog.graphics.AffineTransform');
 goog.require('goog.debug.Logger');
 
-
 /**
  * @param {number=} opt_m00 The m00 coordinate of the transform.
  * @param {number=} opt_m10 The m10 coordinate of the transform.
@@ -45,6 +44,7 @@ goog.inherits(specview.graphics.AffineTransform, goog.graphics.AffineTransform);
  * @return {!Array.<goog.math.Coordinate>}
  */
 specview.graphics.AffineTransform.transformCoords = function(trans, source_coords) {
+//	this.logger.info("this is trans in affine file: "+trans);
 	var pairs = goog.array.map(source_coords, function(coord) {
 		return [coord.x, coord.y];
 	});

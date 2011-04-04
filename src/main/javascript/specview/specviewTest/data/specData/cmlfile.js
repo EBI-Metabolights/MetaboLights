@@ -64,6 +64,75 @@ cmlmolecules=cmlmolecules+
 
 
 cmlmolecules=cmlmolecules+
+"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
+"<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
+"<molecule title=\"2-(2,3,4,5,6-pentafluorophenyl)acetonitrile\" id=\"nmrshiftdb20212360\">\n" + 
+"<atomArray>\n" + 
+"<atom id=\"a1\" elementType=\"Cl\" x2=\"9.03\" y2=\"-1.17\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"19\"/>\n" + 
+"<atom id=\"a2\" elementType=\"Cl\" x2=\"7.36\" y2=\"-4.22\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"19\"/>\n" + 
+"<atom id=\"a3\" elementType=\"Cl\" x2=\"5.57\" y2=\"-3.2\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"19\"/>\n" + 
+"<atom id=\"a4\" elementType=\"Ar\" x2=\"7.37\" y2=\"-0.16\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"19\"/>\n" + 
+"<atom id=\"a5\" elementType=\"F\" x2=\"5.57\" y2=\"-1.17\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"19\"/>\n" + 
+"<atom id=\"a6\" elementType=\"N\" x2=\"8.98\" y2=\"-5.17\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"14\"/>\n" + 
+"<atom id=\"a7\" elementType=\"C\" x2=\"8.13\" y2=\"-2.7\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"<atom id=\"a8\" elementType=\"C\" x2=\"8.21\" y2=\"-1.67\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"<atom id=\"a9\" elementType=\"C\" x2=\"7.37\" y2=\"-3.22\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"<atom id=\"a10\" elementType=\"C\" x2=\"8.98\" y2=\"-3.22\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+"<atom id=\"a11\" elementType=\"C\" x2=\"6.41\" y2=\"-2.7\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"<atom id=\"a12\" elementType=\"C\" x2=\"7.37\" y2=\"-1.17\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"<atom id=\"a13\" elementType=\"C\" x2=\"6.41\" y2=\"-1.67\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"<atom id=\"a14\" elementType=\"C\" x2=\"8.98\" y2=\"-4.23\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"</atomArray>\n" + 
+"<bondArray>\n" + 
+"<bond id=\"b1\" atomRefs2=\"a1 a8\" order=\"S\"/>\n" + 
+"<bond id=\"b2\" atomRefs2=\"a2 a9\" order=\"S\"/>\n" + 
+"<bond id=\"b3\" atomRefs2=\"a3 a11\" order=\"S\"/>\n" + 
+"<bond id=\"b4\" atomRefs2=\"a4 a12\" order=\"S\"/>\n" + 
+"<bond id=\"b5\" atomRefs2=\"a5 a13\" order=\"S\"/>\n" + 
+"<bond id=\"b6\" atomRefs2=\"a6 a14\" order=\"T\"/>\n" + 
+"<bond id=\"b7\" atomRefs2=\"a7 a8\" order=\"D\"/>\n" + 
+"<bond id=\"b8\" atomRefs2=\"a7 a9\" order=\"S\"/>\n" + 
+"<bond id=\"b9\" atomRefs2=\"a7 a10\" order=\"S\"/>\n" + 
+"<bondStereo dictRef=\"cml:H\"/>\n"+
+"<bond id=\"b10\" atomRefs2=\"a8 a12\" order=\"S\"/>\n" + 
+"<bond id=\"b11\" atomRefs2=\"a9 a11\" order=\"D\"/>\n" + 
+"<bond id=\"b12\" atomRefs2=\"a10 a14\" order=\"S\"/>\n" + 
+"<bond id=\"b13\" atomRefs2=\"a11 a13\" order=\"S\"/>\n" + 
+"<bond id=\"b14\" atomRefs2=\"a12 a13\" order=\"D\"/>\n" + 
+"</bondArray>\n" + 
+"<scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 20212360</scalar>\n" + 
+"</molecule>\n" + 
+"<spectrum id=\"nmrshiftdb20219970\" moleculeRef=\"nmrshiftdb20212360\" type=\"NMR\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:nmr=\"http://www.nmrshiftdb.org/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:units=\"http://www.xml-cml.org/units/units\">\n" + 
+"<conditionList>\n" + 
+"<scalar dataType=\"xsd:string\" dictRef=\"cml:field\" units=\"siUnits:megahertz\">Unreported</scalar>\n" + 
+"<scalar dataType=\"xsd:string\" dictRef=\"cml:temp\" units=\"siUnits:k\">Unreported</scalar>\n" + 
+"</conditionList>\n" + 
+"<metadataList>\n" + 
+"<metadata name=\"nmr:assignmentMethod\" content=\"Unreported\"/>\n" + 
+"<metadata name=\"nmr:OBSERVENUCLEUS\" content=\"13C\"/>\n" + 
+"</metadataList>\n" + 
+"<substanceList>\n" + 
+"<substance role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
+"</substanceList>\n" + 
+"<peakList>\n" + 
+"<peak xValue=\"11.28\" xUnits=\"units:ppm\" height=\"5\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p0\" atomRefs=\"a1 a2\"/>\n" + 
+"<peak xValue=\"14.28\" xUnits=\"units:ppm\" height=\"15\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p1\" atomRefs=\"a3\"/>\n" + 
+"<peak xValue=\"18.28\" xUnits=\"units:ppm\" height=\"25\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p2\" atomRefs=\"a4 a5\"/>\n" + 
+"<peak xValue=\"22.28\" xUnits=\"units:ppm\" height=\"35\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p3\" atomRefs=\"a5 a6 a7\"/>\n" + 
+"<peak xValue=\"33.28\" xUnits=\"units:ppm\" height=\"45\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p4\" atomRefs=\"a8\"/>\n" + 
+"<peak xValue=\"49.28\" xUnits=\"units:ppm\" height=\"55\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p5\" atomRefs=\"a9 a10\"/>\n" + 
+"<peak xValue=\"63.28\" xUnits=\"units:ppm\" height=\"65\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p6\" atomRefs=\"a11\"/>\n" + 
+"<peak xValue=\"93.28\" xUnits=\"units:ppm\" height=\"75\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p7\" atomRefs=\"a12\"/>\n" + 
+"<peak xValue=\"113.28\" xUnits=\"units:ppm\" height=\"85\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p8\" atomRefs=\"a13\"/>\n" + 
+"<peak xValue=\"122.28\" xUnits=\"units:ppm\" height=\"95\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p9\" atomRefs=\"a14\"/>\n" + 
+
+"</peakList>\n" + 
+"</spectrum>\n" + 
+"</cml>\n"+
+"$$END$$\n" ;
+
+
+cmlmolecules=cmlmolecules+
         "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
         "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
         " <molecule title=\"3-(diisopropylamino)-1-isopropyl-4,4-dimethylazetidin-2-one\" id=\"nmrshiftdb20219841\">\n" + 
@@ -588,3 +657,109 @@ cmlmolecules=cmlmolecules+
         " </spectrum>\n" + 
         "</cml>\n"+
         "$$END$$\n" ;
+
+
+cml=cmlmolecules+
+"<?xml version=1.0 encoding=ISO-8859-1?>\n"+
+"<cml convention=nmrshiftdb-convention xmlns=http://www.xml-cml.org/schema>\n"+
+" <molecule title=Erypoegin C id=nmrshiftdb20220593>\n"+
+"  <atomArray>\n"+
+"   <atom id=a1 elementType=C x2=-2.45 y2=1.1667 formalCharge=0 hydrogenCount=1 isotopeNumber=12/>\n"+
+"   <atom id=a2 elementType=C x2=-1.151 y2=0.4167 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a3 elementType=C x2=-1.151 y2=-1.0833 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a4 elementType=C x2=-2.45 y2=-1.8333 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a5 elementType=C x2=-3.749 y2=-1.0833 formalCharge=0 hydrogenCount=1 isotopeNumber=12/>\n"+
+"   <atom id=a6 elementType=C x2=-3.749 y2=0.4167 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a7 elementType=C x2=0.1481 y2=-1.8333 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a8 elementType=C x2=1.4471 y2=-1.0833 formalCharge=0 hydrogenCount=1 isotopeNumber=12/>\n"+
+"   <atom id=a9 elementType=C x2=1.4471 y2=0.4167 formalCharge=0 hydrogenCount=2 isotopeNumber=12/>\n"+
+"   <atom id=a10 elementType=C x2=2.7462 y2=-1.8333 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a11 elementType=C x2=4.0452 y2=-1.0833 formalCharge=0 hydrogenCount=1 isotopeNumber=12/>\n"+
+"   <atom id=a12 elementType=C x2=5.3442 y2=-1.8333 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a13 elementType=C x2=5.3442 y2=-3.3333 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a14 elementType=C x2=4.0452 y2=-4.0833 formalCharge=0 hydrogenCount=1 isotopeNumber=12/>\n"+
+"   <atom id=a15 elementType=C x2=2.7462 y2=-3.3333 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a16 elementType=C x2=6.6433 y2=-1.0833 formalCharge=0 hydrogenCount=2 isotopeNumber=12/>\n"+
+"   <atom id=a17 elementType=C x2=7.9423 y2=-1.8333 formalCharge=0 hydrogenCount=1 isotopeNumber=12/>\n"+
+"   <atom id=a18 elementType=C x2=9.2413 y2=-1.0833 formalCharge=0 hydrogenCount=0 isotopeNumber=12/>\n"+
+"   <atom id=a19 elementType=C x2=10.5404 y2=-1.8333 formalCharge=0 hydrogenCount=3 isotopeNumber=12/>\n"+
+"   <atom id=a20 elementType=C x2=9.2413 y2=0.4167 formalCharge=0 hydrogenCount=3 isotopeNumber=12/>\n"+
+"   <atom id=a21 elementType=C x2=1.4471 y2=-5.5833 formalCharge=0 hydrogenCount=3 isotopeNumber=12/>\n"+
+"   <atom id=a22 elementType=O x2=0.1481 y2=1.1667 formalCharge=0 hydrogenCount=0 isotopeNumber=16/>\n"+
+"   <atom id=a23 elementType=O x2=-5.0481 y2=1.1667 formalCharge=0 hydrogenCount=1 isotopeNumber=16/>\n"+
+"   <atom id=a24 elementType=O x2=-2.45 y2=-3.3333 formalCharge=0 hydrogenCount=1 isotopeNumber=16/>\n"+
+"   <atom id=a25 elementType=O x2=0.1481 y2=-3.3333 formalCharge=0 hydrogenCount=0 isotopeNumber=16/>\n"+
+"   <atom id=a26 elementType=O x2=6.6433 y2=-4.0833 formalCharge=0 hydrogenCount=1 isotopeNumber=16/>\n"+
+"   <atom id=a27 elementType=O x2=1.4471 y2=-4.0833 formalCharge=0 hydrogenCount=0 isotopeNumber=16/>\n"+
+"  </atomArray>\n"+
+"  <bondArray>\n"+
+"   <bond id=b1 atomRefs2=a1 a2 order=D/>\n"+
+"   <bond id=b2 atomRefs2=a2 a3 order=S/>\n"+
+"   <bond id=b3 atomRefs2=a3 a4 order=D/>\n"+
+"   <bond id=b4 atomRefs2=a4 a5 order=S/>\n"+
+"   <bond id=b5 atomRefs2=a5 a6 order=D/>\n"+
+"   <bond id=b6 atomRefs2=a6 a1 order=S/>\n"+
+"   <bond id=b7 atomRefs2=a3 a7 order=S/>\n"+
+"   <bond id=b8 atomRefs2=a7 a8 order=S/>\n"+
+"   <bond id=b9 atomRefs2=a8 a9 order=S/>\n"+
+"   <bond id=b10 atomRefs2=a9 a22 order=S/>\n"+
+"   <bond id=b11 atomRefs2=a22 a2 order=S/>\n"+
+"   <bond id=b12 atomRefs2=a8 a10 order=S/>\n"+
+"   <bond id=b13 atomRefs2=a10 a11 order=D/>\n"+
+"   <bond id=b14 atomRefs2=a11 a12 order=S/>\n"+
+"   <bond id=b15 atomRefs2=a12 a13 order=D/>\n"+
+"   <bond id=b16 atomRefs2=a13 a14 order=S/>\n"+
+"   <bond id=b17 atomRefs2=a14 a15 order=D/>\n"+
+"   <bond id=b18 atomRefs2=a15 a10 order=S/>\n"+
+"   <bond id=b19 atomRefs2=a6 a23 order=S/>\n"+
+"   <bond id=b20 atomRefs2=a4 a24 order=S/>\n"+
+"   <bond id=b21 atomRefs2=a7 a25 order=D/>\n"+
+"   <bond id=b22 atomRefs2=a12 a16 order=S/>\n"+
+"   <bond id=b23 atomRefs2=a16 a17 order=S/>\n"+
+"   <bond id=b24 atomRefs2=a17 a18 order=D/>\n"+
+"   <bond id=b25 atomRefs2=a18 a19 order=S/>\n"+
+"   <bond id=b26 atomRefs2=a18 a20 order=S/>\n"+
+"   <bond id=b27 atomRefs2=a13 a26 order=S/>\n"+
+"   <bond id=b28 atomRefs2=a15 a27 order=S/>\n"+
+"   <bond id=b29 atomRefs2=a27 a21 order=S/>\n"+
+"  </bondArray>\n"+
+"  <scalar dictRef=cdk:molecularProperty title=cdk:Remark dataType=xsd:string>NMRShiftDB 20220593</scalar>\n"+
+" </molecule>\n"+
+" <spectrum id=nmrshiftdb20227082 moleculeRef=nmrshiftdb20220593 type=NMR xmlns:macie=http://www.xml-cml.org/dict/macie xmlns:nmr=http://www.nmrshiftdb.org/dict xmlns:siUnits=http://www.xml-cml.org/units/siUnits xmlns:subst=http://www.xml-cml.org/dict/substDict xmlns:cmlDict=http://www.xml-cml.org/dict/cmlDict xmlns:cml=http://www.xml-cml.org/dict/cml xmlns:units=http://www.xml-cml.org/units/units>\n"+
+"  <conditionList>\n"+
+"   <scalar dataType=xsd:string dictRef=cml:field units=siUnits:megahertz>150.8</scalar>\n"+
+"   <scalar dataType=xsd:string dictRef=cml:temp units=siUnits:k>Unreported</scalar>\n"+
+"  </conditionList>\n"+
+"  <metadataList>\n"+
+"   <metadata name=nmr:assignmentMethod content=Unreported/>\n"+
+"   <metadata name=nmr:OBSERVENUCLEUS content=13C/>\n"+
+"  </metadataList>\n"+
+"  <substanceList>\n"+
+"   <substance dictRef=cml:solvent role=subst:solvent title=Chloroform-D1 (CDCl3)/>\n"+
+"  </substanceList>\n"+
+"  <peakList>\n"+
+"   <peak xValue=55.7 xUnits=units:ppm peakShape=sharp peakMultiplicity=Q id=p0 atomRefs=a21/>\n"+
+"   <peak xValue=25.7 xUnits=units:ppm peakShape=sharp peakMultiplicity=Q id=p1 atomRefs=a19/>\n"+
+"   <peak xValue=17.8 xUnits=units:ppm peakShape=sharp peakMultiplicity=Q id=p2 atomRefs=a20/>\n"+
+"   <peak xValue=135.2 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p3 atomRefs=a18/>\n"+
+"   <peak xValue=121.8 xUnits=units:ppm peakShape=sharp peakMultiplicity=D id=p4 atomRefs=a17/>\n"+
+"   <peak xValue=29.3 xUnits=units:ppm peakShape=sharp peakMultiplicity=T id=p5 atomRefs=a16/>\n"+
+"   <peak xValue=131.4 xUnits=units:ppm peakShape=sharp peakMultiplicity=D id=p6 atomRefs=a11/>\n"+
+"   <peak xValue=118.5 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p7 atomRefs=a12/>\n"+
+"   <peak xValue=155.3 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p8 atomRefs=a13/>\n"+
+"   <peak xValue=100.2 xUnits=units:ppm peakShape=sharp peakMultiplicity=D id=p9 atomRefs=a14/>\n"+
+"   <peak xValue=156.9 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p10 atomRefs=a15/>\n"+
+"   <peak xValue=114.4 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p11 atomRefs=a10/>\n"+
+"   <peak xValue=103.4 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p12 atomRefs=a3/>\n"+
+"   <peak xValue=163.6 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p13 atomRefs=a2/>\n"+
+"   <peak xValue=95.1 xUnits=units:ppm peakShape=sharp peakMultiplicity=D id=p14 atomRefs=a1/>\n"+
+"   <peak xValue=164.6 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p15 atomRefs=a4/>\n"+
+"   <peak xValue=96.6 xUnits=units:ppm peakShape=sharp peakMultiplicity=D id=p16 atomRefs=a5/>\n"+
+"   <peak xValue=164.5 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p17 atomRefs=a6/>\n"+
+"   <peak xValue=197.6 xUnits=units:ppm peakShape=sharp peakMultiplicity=S id=p18 atomRefs=a7/>\n"+
+"   <peak xValue=46.9 xUnits=units:ppm peakShape=sharp peakMultiplicity=D id=p19 atomRefs=a8/>\n"+
+"   <peak xValue=70.4 xUnits=units:ppm peakShape=sharp peakMultiplicity=T id=p20 atomRefs=a9/>\n"+
+"  </peakList>\n"+
+" </spectrum>\n"+
+"</cml>\n"+
+"$$END$$";

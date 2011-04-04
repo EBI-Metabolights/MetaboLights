@@ -45,7 +45,7 @@ specview.controller.Controller = function(element, opt_config) {
 	this.plugins_ = {};
 	this.indexedPlugins_ = {};
 
-	this.specObject=null;
+	this.specObject=null;//the meta spec object
 	
 	for ( var op in specview.controller.Plugin.OPCODE) {
 		this.indexedPlugins_[op] = [];
@@ -135,7 +135,7 @@ specview.controller.Controller.getActiveControllerId = function() {
  * Only called to clear a molecule from the canvas
  */
 specview.controller.Controller.prototype.clear = function() {
-	this.logger.info("Clearing graphics");
+//	this.logger.info("Clearing graphics");
 	this.graphics.clear();
 
 	this.models = []; 
@@ -218,10 +218,16 @@ specview.controller.Controller.prototype.render = function() {
         if (model instanceof specview.model.NMRdata) {
             molecule=model.molecule;
             spectrum=model.spectrum;
-           
-            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
             
-            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });
+            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
+//            this.logger.info("HERE IS THE SPECTRUM BOX\n:"+ this.spectrumRenderer.box);
+//          this.spectrumRenderer.setBoundsBasedOnMetaSpecmetaSpecObject(model);
+            
+            
+            
+            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
+            peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
+//            alert(peak_coords);
             box = goog.math.Box.boundingBox.apply(null, atom_coords);
             margin = 0.3;//this.config.get("margin");
             ex_box = box.expand(margin, margin, margin, margin);
@@ -309,7 +315,9 @@ specview.controller.Controller.prototype.handleChange = function() {
  */
 specview.controller.Controller.prototype.findTarget = function(e) {
 //	this.logger.info(e.clientX+","+e.clientY);
-	var targets = this.findTargetList(e); 
+	var targets = this.findTargetList(e);
+	
+	var target= this.findTargetListPixel(e);
 	
 	//The molecule to which the atom belongs to.
 	var atom_targets = goog.array.filter(targets, function(t) {
@@ -357,6 +365,64 @@ specview.controller.Controller.prototype.findTarget = function(e) {
 
 }
 
+
+specview.controller.Controller.prototype.findTarget = function(e) {
+//	this.logger.info(e.clientX+","+e.clientY);
+	var targets = this.findTargetList(e);
+	
+	var target= this.findTargetListPixel(e);//return the object
+	
+	return target;
+	
+	//The molecule to which the atom belongs to.
+	var atom_targets = goog.array.filter(targets, function(t) {
+		return t instanceof specview.model.Atom;
+	});
+	if (atom_targets.length > 0) {
+		return atom_targets[0];
+	}
+	
+	var peak_targets = goog.array.filter(targets,function(t){
+		return t instanceof specview.model.Peak;
+	});
+	if(peak_targets.length>0){
+		return peak_targets[0];
+	}
+	
+
+	var bond_targets = goog.array.filter(targets, function(t) {
+		return t instanceof specview.model.Bond;
+	});
+	if (bond_targets.length > 0) {
+		return bond_targets[0];
+	}
+
+	var molecule_targets = goog.array.filter(targets, function(t) {
+		return t instanceof specview.model.Molecule;
+	});
+	if (molecule_targets.length > 0) {
+		return molecule_targets[0];
+	}
+
+	var arrow_targets = goog.array.filter(targets, function(t) {
+		return t instanceof specview.model.Arrow;
+	});
+	if (arrow_targets.length > 0) {
+		return arrow_targets[0];
+	}
+
+	var plus_targets = goog.array.filter(targets, function(t) {
+		return t instanceof specview.model.Plus;
+	});
+	if (plus_targets.length > 0) {
+		return plus_targets[0];
+	}
+
+}
+
+
+
+
 specview.controller.Controller.prototype.getAtomicCoords = function(
 		graphicsCoord) {
 	var trans;
@@ -367,7 +433,7 @@ specview.controller.Controller.prototype.getAtomicCoords = function(
 		trans = this.moleculeRenderer.transform.createInverse();
 	}
 	return trans.transformCoords( [  sCoord ])[0];
-}
+};
 
 specview.controller.Controller.prototype.getGraphicsCoords = function(
 		atomicCoords) {
@@ -402,9 +468,15 @@ specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
 	return new goog.math.Coordinate(posx, posy);
 }
 
+specview.controller.Controller.prototype.findTargetListPixel=function(e){
+	var pos=specview.controller.Controller.getMouseCoords(e);
+	return this.neighborList.getObjectFromCoord(pos);
+}
+
 specview.controller.Controller.prototype.findTargetList = function(e) {
 	var trans;
 	if (this.moleculeRenderer.transform){
+//		this.logger.info("HERE IS THE TRANSFORM: "+this.moleculeRenderer.transform);
 		trans = this.moleculeRenderer.transform
 		.createInverse();
 	} else {
@@ -413,13 +485,24 @@ specview.controller.Controller.prototype.findTargetList = function(e) {
 
 	var pos = specview.controller.Controller.getMouseCoords(e)
 //	this.logger.info(pos);
-	var target = trans.transformCoords( [ pos ])[0];
-//	this.logger.info("target: "+target)
+	//trans = affine object
+	//target=(24,8). Relative coordinates
+	var target = trans.transformCoords( [ pos ])[0];//POS= pixel position of the mouse
+//	this.logger.info("target: "+target);
+	
+//	var ob=this.neighborList.getObjectFromCoord(pos);
+//	alert("ob: "+ob)
+	
 	return this.neighborList.getNearestList( {
 		x : target.x,
 		y : target.y
 	});
-}
+	this.logger.info(pos);
+//	return this.neighborList.getNearestList({//HERE WE ARE PASSING THE PIXEL COORDINATES
+//		x : pos.x,
+//		y : pos.y
+//	});	
+};
 
 specview.controller.Controller.prototype.handleMouseOver_ = function(e) {
 	this.invokeShortCircuitingOp_(specview.controller.Plugin.Op.MOUSEOVER, e);
@@ -433,7 +516,7 @@ specview.controller.Controller.prototype.handleMouseMove_ = function(e) {
 	try{
 		this.invokeShortCircuitingOp_(specview.controller.Plugin.Op.MOUSEMOVE, e);
 	} catch (e) {
-		this.logger.info(e);
+//		this.logger.info(e);
 	}
 };
 
@@ -928,3 +1011,8 @@ specview.controller.Controller.defaultConfig = {
 			left : 1, right : 1, top : 1, bottom : 1
 		}
 };
+
+specview.controller.Controller.prototype.toString=function(){
+	return "This is an controller editor object";
+}
+

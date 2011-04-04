@@ -36,15 +36,16 @@ specview.model.Neighbor;
  */
 
 specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
-	//this.logger2.info("#objects= "+objects.length)
 	this.cells = {};
+	
+	this.cells_samy={};
+	
 	this.cellSize = opt_cellSize ? opt_cellSize : 2;
 	this.tolerance = opt_tolerance ? opt_tolerance : 0.3;
 	this.xMin = 100000;
 	this.yMin = 100000;
 	this.xMax = -100000;
 	this.yMax = -100000;
-
 	// find min/max values for the grid
 	for ( var i = 0, li = objects.length; i < li; i++) {
 		var o = objects[i];
@@ -75,6 +76,7 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 	this.height = this.yMax - this.yMin;
 	this.xDim = Math.ceil(this.width / this.cellSize);
 	this.yDim = Math.ceil(this.height / this.cellSize);
+
 	// for ( var i = 0, li = this.xDim * this.yDim; i < li; i++) {
 	// this.cells.push( []);
 	// }
@@ -83,35 +85,80 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 	var k=0;
 	goog.array.forEach(objects, function(o) {
 		k++;
-		var center = o.getCenter();
-//		this.logger2.info("HERE IS THE CENTER "+center)
+		var center = o.getCenter();//Coordinates of the object as it appears in the file
+		
+		
+		/**
+		 * HERE THE CENTER IS THE RELATIVE COORDINATE OF THE THE OBJECT. IT HAS TO CHANGE TO THE PIXEL COORDINATES.
+		 * TO DO SO YOU HAVE TO CHANGE THE WAY TEH NEIGHBOR OBJECT HAS BEEN CREATED. IT TAKES THE RELATIVE COORDINATES FROM THE FILE
+		 * AND IT KEEPS THEM AS A REFERENCE TO MAP TO THE KEY AND HENCE TO THE CELLS.
+		 * 
+		 * SO IT SHOULD BE DONE : CREATING ATTRIBUTES THAT HOLD THE PIXEL COORDINATES AND TAKE THEM AS A REFERENCE. THAT WAY,
+		 * IN THE FUNCTION FINDTARGETLIST WHICH IS IN THE CONTROLLER WE CAN
+		 */
+
+		
 		var x = Math.floor((center.x - this.xMin) / this.cellSize);
 		var y = Math.floor((center.y - this.yMin) / this.cellSize);
-//		this.logger2.info("here are x and y "+x+","+y)
 		var key = y * this.xDim + x;
-	//	this.logger2.info(k+": "+key);
+
 		if (!this.cells[key]) {
 			this.cells[key] = [];
 		}
 		this.cells[key].push(o);
-//		this.logger2.info(o+" ("+k+") is in the key "+ key+" to coords: "+center)
+//		if(o.obj instanceof specview.model.Atom){
+//			alert("object: "+o.obj+"\nkey: "+key+"\nx: "+x+"\ny: "+y+"\nxDim: "+this.xDim);
+//		}
+//		if(o.obj instanceof specview.model.Peak){
+//			alert("object: "+o.obj+"\nkey: "+key+"\nx: "+x+"\ny: "+y+"\nxDim: "+this.xDim);			
+//		}
+
+		//samy
+		var objet=o.obj;
+		var coord;
+		if(objet instanceof specview.model.Atom){
+			 coord=objet.pixelCoordinates;
+			var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
+			this.cells_samy[newCoord]=objet;
+		}else if(objet instanceof specview.model.Peak){
+			 coord=objet.pixelCoord;
+				var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
+				this.cells_samy[newCoord]=objet;
+				this.logger.info("one peak will be at the foollowing coordinates: "+ newCoord.x+" "+newCoord.y);
+		}
 
 	}, this);
-
-
+//alert(this.cells_samy[new goog.math.Coordinate(421,19)]);
 
 };
 
+specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
+	for(key in this.cells_samy){
+		var truc=key.substr(1).split(",")
+		var g=new goog.math.Coordinate(truc[0],parseInt(truc[1]))
+		//special case for the peaks to allow the recognition when browsing over all the peak
+		if(this.cells_samy[key] instanceof specview.model.Peak && goog.math.nearlyEquals(parseInt(truc[0]),coord.x,10)){
+			return this.cells_samy[key];
+		}
+		if(goog.math.Coordinate.distance(coord,g)<15){
+			return this.cells_samy[key];
+		}
+	}
+	
+//	return this.cells_samy[coord];
+}
+
+
+
 /**
  * 
- * @param coord
+ * @param coord=transformed coordinate. The relative ones from the file(20;5)
  * @return
  */
 specview.model.NeighborList.prototype.cellsAroundCoord = function(coord) {
 	var cells = [];
 	var x = Math.floor((coord.x - this.xMin) / this.cellSize);
-	var y = Math.floor((coord.y - this.yMin) / this.cellSize);
-
+	var y = Math.floor((coord.y - this.yMin) / this.cellSize);	
 	for ( var i = x - 1, li = x + 2; i < li; i++) {
 		if (i < 0 || i >= this.xDim) {
 			continue;
@@ -151,6 +198,7 @@ specview.model.NeighborList.prototype.triangleSign = function(a, b, c) {
 // coord.y), coord);
 // };
 
+//Receive the transformed coordinate from findTargetList(control.js)
 specview.model.NeighborList.prototype.getNearest = function(coord) {
 	var nearestList = this.getNearestList(coord);
 	if (nearestList.length > 0) {
@@ -171,27 +219,27 @@ specview.model.NeighborList.prototype.getNearest = function(coord) {
  * priority (The atom will be closer than tolerance...).
  */
 
+//coord = relative coordinates(of the file) given by the findTargetList function in control.js
 specview.model.NeighborList.prototype.getNearestList = function(coord) {
 	var nearest = [];
-	var cells = this.cellsAroundCoord(coord);
-//this.logger.info(cells)
+	var cells = this.cellsAroundCoord(coord);//find the cells arounf the relative coordinates. Cells are everywhere on the editor.
+											//data structure: array of int.
 
 	//this.logger2.info("cells nearest "+cells.length)
 	var rMin = this.tolerance;
 	for (i = 0, li = cells.length; i < li; i++) {
-		var cell = this.cells[cells[i]];
-		if (cell) {
+		var cell = this.cells[cells[i]];//cells[i] is obviously the key
+		if (cell) {// === if an object has been found at the relative coordinates
 			for (j = 0, lj = cell.length; j < lj; j++) {
-				var o = cell[j];
+				//Here we are using the neighbor object created to see whether there is a peak,bond,atom or other.
+				var o = cell[j];//o.obj is an atom a bond or a peak. It is the neighbor object
 				var r = o.getDistance(coord);
 				if (r < this.tolerance) {
-					this.logger2.info(o.obj);
 					nearest.push( {
 						obj : o.obj,
 						distance : r
 					});
 				}
-
 			}
 		}
 	}
@@ -204,6 +252,82 @@ specview.model.NeighborList.prototype.getNearestList = function(coord) {
 		return n.obj;
 	});
 };
+
+/**
+ * 
+ * @param metaSpec object (molecule,array of atoms, peaks, bonds ...)
+ * @returns
+ */
+specview.model.NeighborList.metaSpecToNeighbors = function(metaSpec) {
+	var laMolecule=[metaSpec[0].molecule];
+	var neighbors = goog.array.map(laMolecule, function(mol) {
+		return {
+			obj : mol,
+			getCenter : function() {return mol.getCenter();
+			},
+			getDistance : function(point) {return goog.math.Coordinate.distance(mol.getCenter(), point)/4;
+			}
+		};
+	});
+
+	goog.array.forEach(laMolecule, function(mol) {
+		//atoms
+		neighbors = goog.array.concat(neighbors, goog.array.map(mol.atoms,function(a) 
+		{
+//			alert("coordinates of the atom: "+a+"\n"+a.pixelCoordinates.x+" "+a.pixelCoordinates.y);
+			return {
+				obj : a,
+//				getCenter : function() {return a.pixelCoordinates;},//pixel cooridnates are not known yet
+//				getDistance : function(point) {return goog.math.Coordinate.distance(a.pixelCoordinates, point);}//*10;}
+				getCenter : function() {return a.coord;},//coord as it appears in the file
+				getDistance : function(point) {return goog.math.Coordinate.distance(a.coord, point);}//*10;}
+			};
+		}));
+
+		//bonds
+		neighbors = goog.array.concat(neighbors, goog.array.map(mol.bonds,function(b) 
+		{
+			return {
+				obj : b,
+//				getCenter : function() {
+//					var midPoint = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.sum(b.source.pixelCoordinates, b.target.pixelCoordinates));
+//					return midPoint.scale(0.5);
+//				},
+//				getDistance : function(point) {
+//					var line = new goog.math.Line(b.source.pixelCoordinates.x,b.source.pixelCoordinates.y, b.target.pixelCoordinates.x,b.target.pixelCoordinates.y);
+//					return goog.math.Coordinate.distance(line.getClosestSegmentPoint(point.x, point.y),point);
+//				}
+				getCenter : function() {
+					var midPoint = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.sum(b.source.coord, b.target.coord));
+					return midPoint.scale(0.5);
+				},
+				getDistance : function(point) {
+					var line = new goog.math.Line(b.source.coord.x,b.source.coord.y, b.target.coord.x,b.target.coord.y);
+					return goog.math.Coordinate.distance(line.getClosestSegmentPoint(point.x, point.y),point);
+				}
+			};
+		}));
+	});
+	var leSpec=[metaSpec[0].spectrum];
+	
+	goog.array.forEach(leSpec, function(spec){
+		//peaks
+		neighbors=goog.array.concat(neighbors,goog.array.map(spec.peakList,function(s){
+//			alert("One peak will be highlighted at the following coordinates:\n"+s.pixelCoord);//PIXEL COORDINATES
+			return {
+				obj : s,
+				getCenter : function() {return s.coord;},
+				getDistance : function(point) {return goog.math.Coordinate.distance(s.coord,point);}
+//				getCenter : function() {return s.pixelCoord;},
+//				gerDistance : function(point) {return goog.math.Coordinate.distance(s.pixelCoord,point);}
+			};
+		}));
+	});
+	return neighbors;
+};
+
+
+
 
 
 /**
@@ -251,71 +375,9 @@ specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
 	});
 	return neighbors;
 };
-/**
- * 
- * @param metaSpec object (molecule,array of atoms, peaks, bonds ...)
- * @returns
- */
-specview.model.NeighborList.metaSpecToNeighbors = function(metaSpec) {
-	var laMolecule=[metaSpec[0].molecule];
-	var neighbors = goog.array.map(laMolecule, function(mol) {
-		return {
-			obj : mol,
-			getCenter : function() {return mol.getCenter();
-			},
-			getDistance : function(point) {return goog.math.Coordinate.distance(mol.getCenter(), point)/4;
-			}
-		};
-	});
-
-	goog.array.forEach(laMolecule, function(mol) {
-		//atoms
-		neighbors = goog.array.concat(neighbors, goog.array.map(mol.atoms,function(a) 
-		{
-//			alert(a.coord);
-			return {
-				obj : a,
-				getCenter : function() {return a.coord;},
-				getDistance : function(point) {return goog.math.Coordinate.distance(a.coord, point);}//*10;}
-			};
-		}));
-
-		//bonds
-		neighbors = goog.array.concat(neighbors, goog.array.map(mol.bonds,function(b) 
-		{
-			return {
-				obj : b,
-				getCenter : function() {
-					var midPoint = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.sum(b.source.coord, b.target.coord));
-					return midPoint.scale(0.5);
-				},
-				getDistance : function(point) {
-					var line = new goog.math.Line(b.source.coord.x,b.source.coord.y, b.target.coord.x,b.target.coord.y);
-					return goog.math.Coordinate.distance(line.getClosestSegmentPoint(point.x, point.y),point);
-				}
-			};
-		}));
-	});
-	var leSpec=[metaSpec[0].spectrum];
-	
-	goog.array.forEach(leSpec, function(spec){
-		//peaks
-		neighbors=goog.array.concat(neighbors,goog.array.map(spec.peakList,function(s){
-//			alert("One peak will be highlighted at the following coordinates:\n"+s.coord);
-			return {
-				obj : s,
-				getCenter : function() {return s.coord;},
-				getDistance : function(point) {return goog.math.Coordinate.distance(s.coord,point);}
-			};
-		}));
-	});
-	
-	
-	return neighbors;
-};
 
 
 
 
-specview.model.NeighborList.logger = goog.debug.Logger.getLogger('specview.model.NeighborList');
-specview.model.NeighborList.prototype.logger2 = goog.debug.Logger.getLogger('specview.model.NeighborList');
+specview.model.NeighborList.prototype.logger = goog.debug.Logger.getLogger('specview.model.NeighborList');
+//specview.model.NeighborList.prototype.logger2 = goog.debug.Logger.getLogger('specview.model.NeighborList');

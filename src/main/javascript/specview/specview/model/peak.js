@@ -13,9 +13,35 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 	this.coord=new goog.math.Coordinate(this.xValue,-0.16);
 	this.atomMap=new Array();
 	this.atomMap[this.peakId]=this.atomRef;// Hence it is an array of array. Ex : ["p1":["a1","a2",...,"ai"]]
+	this.xPixel=0;
+	this.yPixel=0;
+	
+	this.xTpixel=0;
+	this.yTpixel=0;
+	
+
+	this.pixelCoord=null;
+	
 };
 goog.exportSymbol("specview.model.Peak", specview.model.Peak);
 
+
+
+
+/*
+ * This is about pixels
+ */
+specview.model.Peak.prototype.setCoordinates=function(xb,yb,xt,yt){
+	this.xPixel=xb;
+	this.yPixel=yb;
+	this.xTpixel=xt;
+	this.yTpixel=yt;
+	this.pixelCoord=new goog.math.Coordinate(this.xPixel,this.yPixel);
+};
+
+specview.model.Peak.prototype.setXvalue=function(value){
+	this.xValue=value;
+}
 
 /*
  * Description of the object

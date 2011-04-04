@@ -11,6 +11,7 @@
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
     goog.require('specview.io.SpectrumCMLParser');
+    goog.require('specview.model.NMRdata');
 </script>
 
 <script>
@@ -24,15 +25,21 @@ function initPage(){
 	//Create the canvas and provide it with highlight plugins
 	var editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
 	editor.registerPlugin(new specview.controller.plugins.Highlight());
-	
+
 	//Initialisation of a molecule to display when the page is loading
 	var cmlData=cmlmolecules.split("$$END$$\n");
 	var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[0]);//XML document
-	var spectrumData=specview.io.SpectrumCMLParser.parseDocument(xmlDoc);//a cmlObject
+	var spectrumData=new specview.model.NMRdata();
+	spectrumData.setEditor(editor);
+	spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+	spectrumData.setCoordinatesWithPixels()//PASSS the graphics
+	//CAREFUL WITH THE FOLLOWING LINE
 	editor.setSpecObject(spectrumData);
-	//var molecule=cmlObject.molecule;
 	editor.setModels([spectrumData]);
 
+
+	
+	
 	//Creation of the tool bar
     var select1 = new goog.ui.Select();
     select1.addItem(new goog.ui.MenuItem('0', 0));
@@ -40,6 +47,7 @@ function initPage(){
     select1.addItem(new goog.ui.MenuItem('2', 2));
     select1.addItem(new goog.ui.MenuItem('3', 3));
     select1.addItem(new goog.ui.MenuItem('4', 4));
+    select1.addItem(new goog.ui.MenuItem('5', 5));
 
     select1.setSelectedIndex(0);
     select1.render(goog.dom.getElement('selectMolecule'));
@@ -54,8 +62,13 @@ function initPage(){
       }
       var molfile=cmlData[idx];
       var xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
-      var spectrumData=specview.io.SpectrumCMLParser.parseDocument(xmlDoc);//a cmlObject
-      //var molecule=spectrumData.molecule;
+      var spectrumData=new specview.model.NMRdata();
+      spectrumData.setEditor(editor);	
+      spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+	  spectrumData.setCoordinatesWithPixels()
+	//CAREFUL WITH THE FOLLOWING LINE
+//	spectrumData.setCoordinatesWithPixels();
+	  editor.setSpecObject(spectrumData);
       editor.setModels([spectrumData]);
     });
   };
@@ -79,5 +92,7 @@ function initPage(){
         <br>
         <div id="moleculeContainer" style="height:400px"></div>
 	</fieldset>
+
+
 </body>
 </html>

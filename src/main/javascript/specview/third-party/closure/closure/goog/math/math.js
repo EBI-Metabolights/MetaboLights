@@ -105,6 +105,7 @@ goog.math.nearlyEquals = function(a, b, opt_tolerance) {
 };
 
 
+
 /**
  * Standardizes an angle to be in range [0-360). Negative angles become
  * positive, and values greater than 360 are returned modulo 360.

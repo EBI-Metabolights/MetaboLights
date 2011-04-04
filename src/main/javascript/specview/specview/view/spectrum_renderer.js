@@ -31,7 +31,7 @@ goog.require('goog.array');
 specview.view.SpectrumRenderer = function(graphics, opt_config, opt_box) {
 	specview.view.Renderer.call(this, graphics, specview.view.SpectrumRenderer.defaultConfig, opt_config);
     this.box= opt_box;
-}
+};
 goog.inherits(specview.view.SpectrumRenderer, specview.view.Renderer);
 
 specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMolecule = function(molecule) {
@@ -44,7 +44,13 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMolecule = function(mol
     bottom=top-size;
     left= 1.1*molBox.right;
     right=left+size;
-    this.box = new goog.math.Box(top,right,bottom,left);
+    bottom=-5.5;
+    right=23.5;
+
+     this.box = new goog.math.Box(top,right,bottom,left);
+    
+    //this.box = new goog.math.Box(top,right,bottom,left);//THIS IS THE GOOD BOX FOR INVERTING
+//   alert("top"+this.box.top+"\nleft"+this.box.left+"\nright:"+this.box.right+"\nbottom:"+this.box.bottom)
     
     /*
     var gSize=graphics.getSize();
@@ -56,20 +62,43 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMolecule = function(mol
     this.box=b;
     this.logger.info(this.box.top+" "+this.box.bottom+" "+this.box.left+" "+this.box.right+" ");
     */
-
+}
+specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=function(metaSpec){
+	var molecule=metaSpec.molecule;
+	var spectrum=metaSpec.spectrum;
+    var specBox = spectrum.getBoundingBox();
+    var molBox=molecule.getBoundingBox();
+    
+    specHeight=Math.abs(specBox.top-specBox.bottom);
+    specWidth=Math.abs(specBox.left-specBox.right);
+    size=Math.max(specHeight,specWidth);
+    top=molBox.bottom;//THE TOP IS FUNCTION OF THE MOLECULE
+    bottom=top-size;
+    left= 1.1*molBox.right;//THE LEFT IS FUNCTION OF THE MOLECULE
+    right=left+size;
+    this.box = new goog.math.Box(top,right,bottom,left);
 }
 
+
+
+
+
+
+
+
 /**
- * TODO doc
+ * The spectrum is simply the object
+ * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
 specview.view.SpectrumRenderer.prototype.render = function(spectrum, transform) {
-    this.logger.info("rendering spectrum inside "+this.box)
 
     this.setTransform(transform);
+    this.logger.info("the red box is : "+this.box);
     this.renderBoundingBox(this.box,'red'); 
 
     var minX=spectrum.peakList[0].xValue;
     var maxX=spectrum.peakList[0].xValue;
+    
     goog.array.forEach(spectrum.peakList,
     function(peak) {
         if (peak.xValue < minX)
@@ -78,33 +107,39 @@ specview.view.SpectrumRenderer.prototype.render = function(spectrum, transform) 
             maxX=peak.xValue;
     },
     this);
+
+   // this.logger.info("the max value for the peak is : \n"+maxX)
     
     var xAxisLen=(this.box.right-this.box.left)*0.8;
     this.logger.info(minX+" "+maxX +  "  "+xAxisLen);
 
     var correct = xAxisLen/(maxX-minX);
+    var rapport=23.5/maxX;
     
     var xStart= this.box.left*1.1;    
-    var yStart= this.box.top;    
+    var yStart=this.box.bottom
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1,'black');
     var peakFill = null;
-    
+    var maxValueOfPeak=spectrum.getMaxPeak();
+    var pTo=0;
+//    this.logger.info(this.box.bottom)
     goog.array.forEach(spectrum.peakList,
     function(peak) {
-//    	this.logger.info(peak)
-//    	var peakFrom =new goog.math.Coordinate(box.left,box.top);
-        var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );
-//        var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (this.box.top+this.box.bottom)/2 );
-      var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (this.box.top+this.box.bottom)*peak.intensity/62  );
-
+    	if(peak.intensity==maxValueOfPeak){
+    		pTo=this.box.top*peak.intensity/maxValueOfPeak;
+    	}else{
+    		pTo=this.box.top*maxValueOfPeak/peak.intensity
+    	}
+      var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );// MARK
+      var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), pTo);
         //TODO intensity and multipl etc
 //        this.logger.info("\npeak from ("+(xStart+(peak.xValue*correct)));
         var peakCoords = this.transform.transformCoords( [peakFrom, peakTo]);
-        
-        
-        this.logger.info("\npeak from <"+peakCoords[0].x+","+peakCoords[0].y+">\nto        <"+peakCoords[1].x+","+peakCoords[1].y);
-        
+        this.logger.info(peakCoords[1])
+      //  this.logger.info("former coordinates: \n\npeak from: "+peakFrom+"\npeakTo: "+peakTo+"\n\nnTranformed ones: \npeak from <"+peakCoords[0].x+","+peakCoords[0].y+">\nto        <"+peakCoords[1].x+","+peakCoords[1].y);
+        peak.setCoordinates(peakCoords[0].x,peakCoords[0].y,peakCoords[1].x,peakCoords[1].y);
+//        this.logger.info(peak.xPixel+" "+peak.yPixel)
         peakPath.moveTo(peakCoords[0].x, peakCoords[0].y); 
         peakPath.lineTo(peakCoords[1].x,peakCoords[1].y);
         
@@ -112,9 +147,14 @@ specview.view.SpectrumRenderer.prototype.render = function(spectrum, transform) 
     },
     this);
     this.graphics.drawPath(peakPath, peakStroke, peakFill);
+    
 
 }
 
+
+	
+
+/*
 specview.view.SpectrumRenderer.prototype.highlightOn = function(peak) {
 	
     var xStart= this.box.left*1.1;    
@@ -133,9 +173,18 @@ specview.view.SpectrumRenderer.prototype.highlightOn = function(peak) {
     var peakCoords = this.transform.transformCoords( [peakFrom, peakTo]);
     opt_element_array.add(this.graphics.drawRect(peakCoords[0].x,peakCoords[0].y,7,peakCoords[1].y,null,fill));
 	return opt_element_array;
+};
 
-	
-	
+*/
+
+specview.view.SpectrumRenderer.prototype.highlightOn = function(peak) {
+	opt_element_array = new specview.graphics.ElementArray();
+	var fill = new goog.graphics.SolidFill("#55bb00", .3);
+    var peakPath = new goog.graphics.Path();
+    peakPath.moveTo(peak.xPixel, peak.yPixel); 
+    peakPath.lineTo(peak.xTpixel,peak.yTpixel);
+    opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,'blue'),null));
+	return opt_element_array;
 };
 
 
