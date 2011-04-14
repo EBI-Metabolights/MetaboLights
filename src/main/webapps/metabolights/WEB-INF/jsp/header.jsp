@@ -1,10 +1,13 @@
        <div id="top_bar">
 		  <h1><a href="index">Metabolights metabolomics data repository</a></h1>
 		  <ul id="navigation">
-		      <li class="selected"><a href="index">home</a></li>
-		      <li><a href="about">about</a></li>
+		      <!-- li class="selected"><a href="index">home</a></li-->
+              <li><a href="index">home</a></li>
 		      <li><a href="submit">submit</a></li>
+              <li><a href="login">login</a></li>
 		      <li><a href="contact">contact</a></li>
+              <li><a href="about">about</a></li>
+
 		  </ul>  
        </div>
  

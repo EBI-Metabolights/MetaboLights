@@ -69,7 +69,7 @@ html,body {
 #top_bar #navigation li {
 	display: inline;
 	vertical-align: baseline;
-	padding-left: 30px;
+	padding-left: 10px;
 }
 #top_bar #navigation li.selected a,#top_bar #navigation li a:hover {
 	color: #FFCC33;
@@ -144,7 +144,16 @@ html,body {
 	font-weight: lighter;
 	line-height: 1.5;
 	width: 30%;
-	##border: 1px solid black;
 }
+
+#text-fullwidth
+{
+    padding: 5px 5px 5px 5px;
+    float: left;
+    color: #444444;
+    line-height: 1.5;
+    width: 100%;
+}
+
 
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/

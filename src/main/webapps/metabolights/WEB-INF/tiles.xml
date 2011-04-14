@@ -4,43 +4,49 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 
-<!-- 
-
-Here in tiles.xml we have define a template base.definition. 
-This layout contains attributes such as Header, Title, Body, Menu and Footer. 
-The layout is then extended and new definitions are added per page.
-
- -->
+<!-- Here in tiles.xml we have define a template base.definition. This layout 
+	contains attributes such as Header, Title, Body, Menu and Footer. The layout 
+	is then extended and new definitions are added per page. -->
 
 <tiles-definitions>
-    <definition name="base.definition"
-        template="/WEB-INF/jsp/layout.jsp">
-        <put-attribute name="title" value="" />
-        <put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
-        <put-attribute name="body" value="" />
-        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
-    </definition>
+	<definition name="base.definition" template="/WEB-INF/jsp/layout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+	</definition>
 
-    <definition name="index" extends="base.definition">
-        <put-attribute name="title" value="Metabolights - the Portal for all your Steamy Desires" />
-        <put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
-    </definition>
- 
-    <definition name="login" extends="base.definition">
-        <put-attribute name="title" value="Log in to Metabolights" />
-        <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
-    </definition>
+	<definition name="index" extends="base.definition">
+		<put-attribute name="title"
+			value="Metabolights - the Portal for all your Steamy Desires" />
+		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
+	</definition>
 
-    <definition name="loginsuccess" extends="base.definition">
-        <put-attribute name="title" value="Well done big boy" />
-        <put-attribute name="body" value="/WEB-INF/jsp/loginsuccess.jsp" />
-    </definition>
+	<definition name="about" extends="base.definition">
+		<put-attribute name="title" value="About Metabolights" />
+		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
+	</definition>
+
+	<definition name="login" extends="base.definition">
+		<put-attribute name="title" value="Log in to Metabolights" />
+		<put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
+	</definition>
+
+	<definition name="loginsuccess" extends="base.definition">
+		<put-attribute name="title" value="Well done big boy" />
+		<put-attribute name="body" value="/WEB-INF/jsp/loginsuccess.jsp" />
+	</definition>
+
+	<definition name="about" extends="base.definition">
+		<put-attribute name="title" value="About Metabolights" />
+		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
+	</definition>
 
 
-    <definition name="contact" extends="base.definition">
-        <put-attribute name="title" value="Contact Manager Demo application" />
-        <put-attribute name="body" value="/WEB-INF/jsp/contact.jsp" />
-    </definition>
+	<definition name="contact" extends="base.definition">
+		<put-attribute name="title" value="Contact Manager Demo application" />
+		<put-attribute name="body" value="/WEB-INF/jsp/contact.jsp" />
+	</definition>
 
- 
+
 </tiles-definitions>
