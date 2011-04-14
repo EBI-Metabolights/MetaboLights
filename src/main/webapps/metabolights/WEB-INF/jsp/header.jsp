@@ -1,22 +1,20 @@
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+       <div id="top_bar">
+		  <h1><a href="index">Metabolights metabolomics data repository</a></h1>
+		  <ul id="navigation">
+		      <li class="selected"><a href="index">home</a></li>
+		      <li><a href="about">about</a></li>
+		      <li><a href="submit">submit</a></li>
+		      <li><a href="contact">contact</a></li>
+		  </ul>  
+       </div>
  
-<h3><spring:message code="label.title"/></h3>
- 
-<!--
-One thing that we must note here is that in header.jsp file, we have specified two links to select language. 
-The link sets a request parameter ?lang= when user click on this link. Note that spring identifies this request
-parameter by using LocaleChangeInterceptor interceptor and change the local accordingly. 
-Also note that while configuring LocaleChangeInterceptor in spring-servlet.xml file, we have specified property "paramName" with value "lang".
-Thus the Spring framework will look for a parameter called "lang" from request. 
- --> 
-
-<span style="float: right">
-    <a href="?lang=en">en</a>
-    |
-    <a href="?lang=de">de</a>
-    |
-    <a href="?lang=nl">nl</a>
-    |
-    <a href="?lang=es">es</a>
-
-</span>
+		<div id="search-box">
+		   <form action="searchBii" method="get" accept-charset="utf-8">
+		   <div>
+		      <label ><b>search</b></label>
+		      <input type="text" name="search" id="search" />
+		      <button type="submit" class="search-box-button"></button>
+		      <a href="/advancedSearch">Advanced database search</a> 
+		   </div>
+		   </form>
+		</div> 

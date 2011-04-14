@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.controller;
 
+
 import java.util.Map;
 
 import uk.ac.ebi.metabolights.form.Contact;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  * The spring controller defines three methods to manipulate contact manager application.
  * listContacts method – This method uses Service interface ContactServer to fetch all the contact details in our application. 
- * It returns an array of contacts. Note that we have mapped request “/index” to this method. 
+ * It returns an array of contacts. Note that we have mapped request “/contact” to this method. 
  * Thus Spring will automatically calls this method whenever it encounters this url in request.
  * 
  * addContact method – This method adds a new contact to contact list. The contact details are fetched in Contact object 
@@ -38,30 +39,25 @@ public class ContactController {
     @Autowired
     private ContactService contactService;
  
-    @RequestMapping("/index")
+    @RequestMapping("/contact") // so: annotations are being used to map URL requests to Java classes. I'll be damned 
     public String listContacts(Map<String, Object> map) {
  
-        map.put("contact", new Contact());
-        map.put("contactList", contactService.listContact());
+        map.put("contact", new Contact());                    // "contact" is an object name for the target JSP to use
+        map.put("contactList", contactService.listContact()); //  similar for "contactList"
  
-        return "contact";
+        return "contact"; // this will be resolved to a contact.jsp file
     }
  
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addContact(@ModelAttribute("contact")
-    Contact contact, BindingResult result) {
- 
+    public String addContact(@ModelAttribute("contact") Contact contact, BindingResult result) {
         contactService.addContact(contact);
- 
-        return "redirect:/index";
+        return "redirect:/contact";
     }
  
     @RequestMapping("/delete/{contactId}")
     public String deleteContact(@PathVariable("contactId")
     Integer contactId) {
- 
         contactService.removeContact(contactId);
- 
-        return "redirect:/index";
+        return "redirect:/contact";
     }
 }
