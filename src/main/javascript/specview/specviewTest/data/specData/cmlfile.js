@@ -659,7 +659,7 @@ cmlmolecules=cmlmolecules+
         "$$END$$\n" ;
 
 
-cml=cmlmolecules+
+cmlmolecules=cmlmolecules+
 "<?xml version=1.0 encoding=ISO-8859-1?>\n"+
 "<cml convention=nmrshiftdb-convention xmlns=http://www.xml-cml.org/schema>\n"+
 " <molecule title=Erypoegin C id=nmrshiftdb20220593>\n"+
@@ -763,3 +763,556 @@ cml=cmlmolecules+
 " </spectrum>\n"+
 "</cml>\n"+
 "$$END$$";
+
+cmlmolecules=cmlmolecules+
+"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
+"<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
+" <molecule title=\"(3E)-4-(4-bromophenyl)-2-methylbut-3-enenitrile; 2-{[(E)-(4-bromophenyl)methylidene]amino}propanenitrile\" id=\"nmrshiftdb20220595\">\n" + 
+"  <atomArray>\n" + 
+"   <atom id=\"a1\" elementType=\"C\" x2=\"-1.4167\" y2=\"1.1\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a2\" elementType=\"C\" x2=\"-0.1176\" y2=\"0.35\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a3\" elementType=\"C\" x2=\"-0.1176\" y2=\"-1.15\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a4\" elementType=\"C\" x2=\"-1.4167\" y2=\"-1.9\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a5\" elementType=\"C\" x2=\"-2.7157\" y2=\"-1.15\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a6\" elementType=\"C\" x2=\"-2.7157\" y2=\"0.35\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a7\" elementType=\"C\" x2=\"1.1814\" y2=\"1.1\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a8\" elementType=\"C\" x2=\"3.7795\" y2=\"1.1\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a9\" elementType=\"C\" x2=\"5.0785\" y2=\"0.35\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a10\" elementType=\"C\" x2=\"3.7795\" y2=\"2.6\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+"   <atom id=\"a11\" elementType=\"Br\" x2=\"-4.0147\" y2=\"-1.9\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"79\"/>\n" + 
+"   <atom id=\"a12\" elementType=\"N\" x2=\"2.4804\" y2=\"0.35\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"14\"/>\n" + 
+"   <atom id=\"a13\" elementType=\"N\" x2=\"3.7795\" y2=\"4.1\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"14\"/>\n" + 
+"  </atomArray>\n" + 
+"  <bondArray>\n" + 
+"   <bond id=\"b1\" atomRefs2=\"a1 a2\" order=\"D\"/>\n" + 
+"   <bond id=\"b2\" atomRefs2=\"a2 a3\" order=\"S\"/>\n" + 
+"   <bond id=\"b3\" atomRefs2=\"a3 a4\" order=\"D\"/>\n" + 
+"   <bond id=\"b4\" atomRefs2=\"a4 a5\" order=\"S\"/>\n" + 
+"   <bond id=\"b5\" atomRefs2=\"a5 a6\" order=\"D\"/>\n" + 
+"   <bond id=\"b6\" atomRefs2=\"a6 a1\" order=\"S\"/>\n" + 
+"   <bond id=\"b7\" atomRefs2=\"a5 a11\" order=\"S\"/>\n" + 
+"   <bond id=\"b8\" atomRefs2=\"a2 a7\" order=\"S\"/>\n" + 
+"   <bond id=\"b9\" atomRefs2=\"a7 a12\" order=\"D\"/>\n" + 
+"   <bond id=\"b10\" atomRefs2=\"a12 a8\" order=\"S\"/>\n" + 
+"   <bond id=\"b11\" atomRefs2=\"a8 a9\" order=\"S\"/>\n" + 
+"   <bond id=\"b12\" atomRefs2=\"a8 a10\" order=\"S\"/>\n" + 
+"   <bond id=\"b13\" atomRefs2=\"a10 a13\" order=\"T\"/>\n" + 
+"  </bondArray>\n" + 
+"  <scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 20220595</scalar>\n" + 
+" </molecule>\n" + 
+" <spectrum id=\"nmrshiftdb20227085\" moleculeRef=\"nmrshiftdb20220595\" type=\"NMR\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:nmr=\"http://www.nmrshiftdb.org/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:units=\"http://www.xml-cml.org/units/units\">\n" + 
+"  <conditionList>\n" + 
+"   <scalar dataType=\"xsd:string\" dictRef=\"cml:temp\" units=\"siUnits:k\">298</scalar>\n" + 
+"   <scalar dataType=\"xsd:string\" dictRef=\"cml:field\" units=\"siUnits:megahertz\">75</scalar>\n" + 
+"  </conditionList>\n" + 
+"  <metadataList>\n" + 
+"   <metadata name=\"nmr:assignmentMethod\" content=\"1D shift positions\"/>\n" + 
+"   <metadata name=\"nmr:OBSERVENUCLEUS\" content=\"13C\"/>\n" + 
+"  </metadataList>\n" + 
+"  <substanceList>\n" + 
+"   <substance dictRef=\"cml:solvent\" role=\"subst:solvent\" title=\"Chloroform-D1 (CDCl3)\"/>\n" + 
+"  </substanceList>\n" + 
+"  <peakList>\n" + 
+"   <peak xValue=\"118.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p0\" atomRefs=\"a10\"/>\n" + 
+"   <peak xValue=\"21.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p1\" atomRefs=\"a9\"/>\n" + 
+"   <peak xValue=\"53.1\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p2\" atomRefs=\"a8\"/>\n" + 
+"   <peak xValue=\"161.1\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p3\" atomRefs=\"a7\"/>\n" + 
+"   <peak xValue=\"133.7\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p4\" atomRefs=\"a2\"/>\n" + 
+"   <peak xValue=\"130.1\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p5\" atomRefs=\"a1 a3\"/>\n" + 
+"   <peak xValue=\"132.1\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p6\" atomRefs=\"a4 a6\"/>\n" + 
+"   <peak xValue=\"126.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p7\" atomRefs=\"a5\"/>\n" + 
+"  </peakList>\n" + 
+" </spectrum>\n" + 
+"</cml>\n";
+
+    cmlmolecules=cmlmolecules+
+        "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
+        "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
+        " <molecule title=\"3&amp;#946;-Hydroxy-urs-12-en-28-oic acid methyl ester; Methyl 3&amp;#946;-hydroxyurs-12-en-28-oate\" id=\"nmrshiftdb2289\">\n" + 
+        "  <atomArray>\n" + 
+        "   <atom id=\"a1\" elementType=\"C\" x2=\"1.8149\" y2=\"-3.7593\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a2\" elementType=\"C\" x2=\"1.8149\" y2=\"-4.5873\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a3\" elementType=\"C\" x2=\"2.5296\" y2=\"-4.9972\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a4\" elementType=\"C\" x2=\"2.5296\" y2=\"-3.3412\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a5\" elementType=\"C\" x2=\"3.244\" y2=\"-3.7593\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a6\" elementType=\"C\" x2=\"3.9518\" y2=\"-5.0021\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a7\" elementType=\"C\" x2=\"4.6712\" y2=\"-4.5934\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a8\" elementType=\"C\" x2=\"4.6709\" y2=\"-3.7679\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a9\" elementType=\"C\" x2=\"4.6879\" y2=\"-2.1159\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a10\" elementType=\"C\" x2=\"3.9642\" y2=\"-2.5209\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a11\" elementType=\"C\" x2=\"5.3998\" y2=\"-2.5377\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a12\" elementType=\"C\" x2=\"5.3859\" y2=\"-3.3618\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a13\" elementType=\"C\" x2=\"6.0888\" y2=\"-3.7836\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a14\" elementType=\"C\" x2=\"6.8101\" y2=\"-3.3859\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a15\" elementType=\"C\" x2=\"6.8197\" y2=\"-2.5637\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a16\" elementType=\"C\" x2=\"7.5383\" y2=\"-2.1713\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a17\" elementType=\"C\" x2=\"7.5601\" y2=\"-1.3488\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a18\" elementType=\"C\" x2=\"6.857\" y2=\"-0.9203\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a19\" elementType=\"C\" x2=\"6.1322\" y2=\"-1.3144\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a20\" elementType=\"O\" x2=\"1.0985\" y2=\"-5.0024\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a21\" elementType=\"C\" x2=\"3.2366\" y2=\"-2.9313\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a22\" elementType=\"C\" x2=\"4.6626\" y2=\"-2.9085\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a23\" elementType=\"C\" x2=\"5.3777\" y2=\"-4.1858\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a24\" elementType=\"C\" x2=\"7.5314\" y2=\"-2.9774\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a25\" elementType=\"O\" x2=\"7.5288\" y2=\"-3.8054\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a26\" elementType=\"O\" x2=\"8.2496\" y2=\"-2.5656\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a27\" elementType=\"C\" x2=\"5.4245\" y2=\"-0.8845\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a28\" elementType=\"C\" x2=\"6.8774\" y2=\"-0.0926\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a29\" elementType=\"C\" x2=\"8.2445\" y2=\"-4.2215\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a30\" elementType=\"C\" x2=\"1.9362\" y2=\"-5.5826\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a31\" elementType=\"C\" x2=\"2.9355\" y2=\"-5.7123\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a32\" elementType=\"C\" x2=\"3.2405\" y2=\"-4.5873\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a33\" elementType=\"H\" x2=\"3.23847065\" y2=\"-5.41347285\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"1\"/>\n" + 
+        "   <atom id=\"a34\" elementType=\"C\" x2=\"3.9588\" y2=\"-3.3461\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a35\" elementType=\"H\" x2=\"3.24455548\" y2=\"-2.93086458\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"1\"/>\n" + 
+        "   <atom id=\"a36\" elementType=\"C\" x2=\"6.1166\" y2=\"-2.1353\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a37\" elementType=\"H\" x2=\"5.40761218\" y2=\"-1.71115148\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"1\"/>\n" + 
+        "  </atomArray>\n" + 
+        "  <bondArray>\n" + 
+        "   <bond id=\"b1\" atomRefs2=\"a12 a13\" order=\"S\"/>\n" + 
+        "   <bond id=\"b2\" atomRefs2=\"a13 a14\" order=\"S\"/>\n" + 
+        "   <bond id=\"b3\" atomRefs2=\"a14 a15\" order=\"S\"/>\n" + 
+        "   <bond id=\"b4\" atomRefs2=\"a36 a15\" order=\"S\"/>\n" + 
+        "   <bond id=\"b5\" atomRefs2=\"a32 a6\" order=\"S\"/>\n" + 
+        "   <bond id=\"b6\" atomRefs2=\"a6 a7\" order=\"S\"/>\n" + 
+        "   <bond id=\"b7\" atomRefs2=\"a7 a8\" order=\"S\"/>\n" + 
+        "   <bond id=\"b8\" atomRefs2=\"a34 a8\" order=\"S\"/>\n" + 
+        "   <bond id=\"b9\" atomRefs2=\"a3 a32\" order=\"S\"/>\n" + 
+        "   <bond id=\"b10\" atomRefs2=\"a5 a4\" order=\"S\"/>\n" + 
+        "   <bond id=\"b11\" atomRefs2=\"a36 a19\" order=\"S\"/>\n" + 
+        "   <bond id=\"b12\" atomRefs2=\"a15 a16\" order=\"S\"/>\n" + 
+        "   <bond id=\"b13\" atomRefs2=\"a16 a17\" order=\"S\"/>\n" + 
+        "   <bond id=\"b14\" atomRefs2=\"a17 a18\" order=\"S\"/>\n" + 
+        "   <bond id=\"b15\" atomRefs2=\"a18 a19\" order=\"S\"/>\n" + 
+        "   <bond id=\"b16\" atomRefs2=\"a5 a32\" order=\"S\"/>\n" + 
+        "   <bond id=\"b17\" atomRefs2=\"a2 a20\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b18\" atomRefs2=\"a5 a21\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b19\" atomRefs2=\"a34 a10\" order=\"S\"/>\n" + 
+        "   <bond id=\"b20\" atomRefs2=\"a8 a22\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b21\" atomRefs2=\"a8 a12\" order=\"S\"/>\n" + 
+        "   <bond id=\"b22\" atomRefs2=\"a12 a23\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b23\" atomRefs2=\"a11 a9\" order=\"D\"/>\n" + 
+        "   <bond id=\"b24\" atomRefs2=\"a15 a24\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b25\" atomRefs2=\"a9 a10\" order=\"S\"/>\n" + 
+        "   <bond id=\"b26\" atomRefs2=\"a24 a25\" order=\"S\"/>\n" + 
+        "   <bond id=\"b27\" atomRefs2=\"a11 a12\" order=\"S\"/>\n" + 
+        "   <bond id=\"b28\" atomRefs2=\"a24 a26\" order=\"D\"/>\n" + 
+        "   <bond id=\"b29\" atomRefs2=\"a1 a2\" order=\"S\"/>\n" + 
+        "   <bond id=\"b30\" atomRefs2=\"a19 a27\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b31\" atomRefs2=\"a1 a4\" order=\"S\"/>\n" + 
+        "   <bond id=\"b32\" atomRefs2=\"a18 a28\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b33\" atomRefs2=\"a2 a3\" order=\"S\"/>\n" + 
+        "   <bond id=\"b34\" atomRefs2=\"a25 a29\" order=\"S\"/>\n" + 
+        "   <bond id=\"b35\" atomRefs2=\"a5 a34\" order=\"S\"/>\n" + 
+        "   <bond id=\"b36\" atomRefs2=\"a3 a30\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b37\" atomRefs2=\"a11 a36\" order=\"S\"/>\n" + 
+        "   <bond id=\"b38\" atomRefs2=\"a3 a31\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b39\" atomRefs2=\"a32 a33\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b40\" atomRefs2=\"a34 a35\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "   </bond>\n" + 
+        "   <bond id=\"b41\" atomRefs2=\"a36 a37\" order=\"S\">\n" + 
+        "    <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "   </bond>\n" + 
+        "  </bondArray>\n" + 
+        "  <scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 2289</scalar>\n" + 
+        " </molecule>\n" + 
+        " <spectrum id=\"nmrshiftdb3506\" moleculeRef=\"nmrshiftdb2289\" type=\"NMR\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:nmr=\"http://www.nmrshiftdb.org/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:units=\"http://www.xml-cml.org/units/units\">\n" + 
+        "  <conditionList>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:temp\" units=\"siUnits:k\">298</scalar>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:field\" units=\"siUnits:megahertz\">50</scalar>\n" + 
+        "  </conditionList>\n" + 
+        "  <metadataList>\n" + 
+        "   <metadata name=\"nmr:OBSERVENUCLEUS\" content=\"13C\"/>\n" + 
+        "  </metadataList>\n" + 
+        "  <substanceList>\n" + 
+        "   <substance dictRef=\"cml:solvent\" role=\"subst:solvent\" title=\"Chloroform-D1 (CDCl3)\"/>\n" + 
+        "  </substanceList>\n" + 
+        "  <peakList>\n" + 
+        "   <peak xValue=\"15.3\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p0\" atomRefs=\"a21\"/>\n" + 
+        "   <peak xValue=\"15.5\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p1\" atomRefs=\"a31\"/>\n" + 
+        "   <peak xValue=\"16.7\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p2\" atomRefs=\"a22\"/>\n" + 
+        "   <peak xValue=\"16.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p3\" atomRefs=\"a27\"/>\n" + 
+        "   <peak xValue=\"18.1\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p4\" atomRefs=\"a6\"/>\n" + 
+        "   <peak xValue=\"21.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p5\" atomRefs=\"a28\"/>\n" + 
+        "   <peak xValue=\"23.1\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p6\" atomRefs=\"a10\"/>\n" + 
+        "   <peak xValue=\"23.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p7\" atomRefs=\"a23\"/>\n" + 
+        "   <peak xValue=\"24.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p8\" atomRefs=\"a14\"/>\n" + 
+        "   <peak xValue=\"27.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p9\" atomRefs=\"a1\"/>\n" + 
+        "   <peak xValue=\"27.8\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p10\" atomRefs=\"a13\"/>\n" + 
+        "   <peak xValue=\"28.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p11\" atomRefs=\"a30\"/>\n" + 
+        "   <peak xValue=\"30.5\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p12\" atomRefs=\"a17\"/>\n" + 
+        "   <peak xValue=\"32.8\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p13\" atomRefs=\"a7\"/>\n" + 
+        "   <peak xValue=\"36.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p14\" atomRefs=\"a16\"/>\n" + 
+        "   <peak xValue=\"36.7\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p15\" atomRefs=\"a5\"/>\n" + 
+        "   <peak xValue=\"38.5\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p16\" atomRefs=\"a3 a4\"/>\n" + 
+        "   <peak xValue=\"38.7\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p17\" atomRefs=\"a18\"/>\n" + 
+        "   <peak xValue=\"38.8\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p18\" atomRefs=\"a19\"/>\n" + 
+        "   <peak xValue=\"39.3\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p19\" atomRefs=\"a8\"/>\n" + 
+        "   <peak xValue=\"41.8\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p20\" atomRefs=\"a12\"/>\n" + 
+        "   <peak xValue=\"47.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p21\" atomRefs=\"a34\"/>\n" + 
+        "   <peak xValue=\"47.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p22\" atomRefs=\"a15\"/>\n" + 
+        "   <peak xValue=\"51.3\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p23\" atomRefs=\"a29\"/>\n" + 
+        "   <peak xValue=\"52.7\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p24\" atomRefs=\"a36\"/>\n" + 
+        "   <peak xValue=\"55.1\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p25\" atomRefs=\"a32\"/>\n" + 
+        "   <peak xValue=\"78.7\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p26\" atomRefs=\"a2\"/>\n" + 
+        "   <peak xValue=\"125.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p27\" atomRefs=\"a9\"/>\n" + 
+        "   <peak xValue=\"137.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p28\" atomRefs=\"a11\"/>\n" + 
+        "   <peak xValue=\"177.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p29\" atomRefs=\"a24\"/>\n" + 
+        "  </peakList>\n" + 
+        " </spectrum>\n" + 
+        "</cml>\n";
+
+
+    cmlmolecules=cmlmolecules+
+        "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
+        "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
+        " <molecule title=\"ethyl 5-chloro-1H-indole-2-carboxylate\" id=\"nmrshiftdb20207922\">\n" + 
+        "  <atomArray>\n" + 
+        "   <atom id=\"a1\" elementType=\"Cl\" x2=\"0.45\" y2=\"-2.47\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"35\"/>\n" + 
+        "   <atom id=\"a2\" elementType=\"O\" x2=\"6.14\" y2=\"-2.32\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a3\" elementType=\"O\" x2=\"6.14\" y2=\"-0.6\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a4\" elementType=\"N\" x2=\"4.03\" y2=\"-0.65\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"14\"/>\n" + 
+        "   <atom id=\"a5\" elementType=\"C\" x2=\"3.07\" y2=\"-1.96\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a6\" elementType=\"C\" x2=\"3.07\" y2=\"-1.01\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a7\" elementType=\"C\" x2=\"4.63\" y2=\"-1.51\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a8\" elementType=\"C\" x2=\"4.03\" y2=\"-2.27\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a9\" elementType=\"C\" x2=\"2.22\" y2=\"-2.47\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a10\" elementType=\"C\" x2=\"2.22\" y2=\"-0.5\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a11\" elementType=\"C\" x2=\"5.64\" y2=\"-1.51\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a12\" elementType=\"C\" x2=\"1.31\" y2=\"-1.96\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a13\" elementType=\"C\" x2=\"1.31\" y2=\"-1.01\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a14\" elementType=\"C\" x2=\"7.15\" y2=\"-2.32\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a15\" elementType=\"C\" x2=\"7.65\" y2=\"-3.17\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "  </atomArray>\n" + 
+        "  <bondArray>\n" + 
+        "   <bond id=\"b1\" atomRefs2=\"a1 a12\" order=\"S\"/>\n" + 
+        "   <bond id=\"b2\" atomRefs2=\"a2 a11\" order=\"S\"/>\n" + 
+        "   <bond id=\"b3\" atomRefs2=\"a2 a14\" order=\"S\"/>\n" + 
+        "   <bond id=\"b4\" atomRefs2=\"a3 a11\" order=\"D\"/>\n" + 
+        "   <bond id=\"b5\" atomRefs2=\"a4 a6\" order=\"S\"/>\n" + 
+        "   <bond id=\"b6\" atomRefs2=\"a4 a7\" order=\"S\"/>\n" + 
+        "   <bond id=\"b7\" atomRefs2=\"a5 a6\" order=\"D\"/>\n" + 
+        "   <bond id=\"b8\" atomRefs2=\"a5 a8\" order=\"S\"/>\n" + 
+        "   <bond id=\"b9\" atomRefs2=\"a5 a9\" order=\"S\"/>\n" + 
+        "   <bond id=\"b10\" atomRefs2=\"a6 a10\" order=\"S\"/>\n" + 
+        "   <bond id=\"b11\" atomRefs2=\"a7 a8\" order=\"D\"/>\n" + 
+        "   <bond id=\"b12\" atomRefs2=\"a7 a11\" order=\"S\"/>\n" + 
+        "   <bond id=\"b13\" atomRefs2=\"a9 a12\" order=\"D\"/>\n" + 
+        "   <bond id=\"b14\" atomRefs2=\"a10 a13\" order=\"D\"/>\n" + 
+        "   <bond id=\"b15\" atomRefs2=\"a12 a13\" order=\"S\"/>\n" + 
+        "   <bond id=\"b16\" atomRefs2=\"a14 a15\" order=\"S\"/>\n" + 
+        "  </bondArray>\n" + 
+        "  <scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 20207922</scalar>\n" + 
+        " </molecule>\n" + 
+        " <spectrum id=\"nmrshiftdb20213471\" moleculeRef=\"nmrshiftdb20207922\" type=\"NMR\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:nmr=\"http://www.nmrshiftdb.org/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:units=\"http://www.xml-cml.org/units/units\">\n" + 
+        "  <conditionList>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:field\" units=\"siUnits:megahertz\">Unreported</scalar>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:temp\" units=\"siUnits:k\">Unreported</scalar>\n" + 
+        "  </conditionList>\n" + 
+        "  <metadataList>\n" + 
+        "   <metadata name=\"nmr:assignmentMethod\" content=\"Unreported\"/>\n" + 
+        "   <metadata name=\"nmr:OBSERVENUCLEUS\" content=\"13C\"/>\n" + 
+        "  </metadataList>\n" + 
+        "  <substanceList>\n" + 
+        "   <substance dictRef=\"cml:solvent\" role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
+        "  </substanceList>\n" + 
+        "  <peakList>\n" + 
+        "   <peak xValue=\"14.37\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p0\" atomRefs=\"a15\"/>\n" + 
+        "   <peak xValue=\"61.29\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p1\" atomRefs=\"a14\"/>\n" + 
+        "   <peak xValue=\"107.96\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p2\" atomRefs=\"a8\"/>\n" + 
+        "   <peak xValue=\"113.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p3\" atomRefs=\"a10\"/>\n" + 
+        "   <peak xValue=\"121.75\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p4\" atomRefs=\"a9\"/>\n" + 
+        "   <peak xValue=\"125.83\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p5\" atomRefs=\"a13\"/>\n" + 
+        "   <peak xValue=\"126.47\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p6\" atomRefs=\"a12\"/>\n" + 
+        "   <peak xValue=\"128.42\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p7\" atomRefs=\"a5\"/>\n" + 
+        "   <peak xValue=\"128.77\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p8\" atomRefs=\"a7\"/>\n" + 
+        "   <peak xValue=\"135.13\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p9\" atomRefs=\"a6\"/>\n" + 
+        "   <peak xValue=\"161.81\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p10\" atomRefs=\"a11\"/>\n" + 
+        "  </peakList>\n" + 
+        " </spectrum>\n" + 
+        "</cml>\n";
+    cmlmolecules=cmlmolecules+
+        "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
+        "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
+        " <molecule id=\"nmrshiftdb20122455\">\n" + 
+        "  <atomArray>\n" + 
+        "   <atom id=\"a1\" elementType=\"C\" x2=\"0.8\" y2=\"-1.4\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a2\" elementType=\"C\" x2=\"0.0\" y2=\"-1.87\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a3\" elementType=\"C\" x2=\"0.0\" y2=\"-2.79\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a4\" elementType=\"C\" x2=\"1.61\" y2=\"-2.79\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a5\" elementType=\"C\" x2=\"1.61\" y2=\"-1.87\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a6\" elementType=\"C\" x2=\"2.43\" y2=\"-1.4\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a7\" elementType=\"C\" x2=\"3.23\" y2=\"0.0\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a8\" elementType=\"C\" x2=\"0.8\" y2=\"-4.19\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a9\" elementType=\"C\" x2=\"0.34\" y2=\"-5.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a10\" elementType=\"C\" x2=\"1.27\" y2=\"-5.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a11\" elementType=\"O\" x2=\"3.23\" y2=\"-1.87\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a12\" elementType=\"O\" x2=\"2.43\" y2=\"-0.47\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a13\" elementType=\"O\" x2=\"0.8\" y2=\"-0.47\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a14\" elementType=\"N\" x2=\"0.8\" y2=\"-3.26\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"14\"/>\n" + 
+        "  </atomArray>\n" + 
+        "  <bondArray>\n" + 
+        "   <bond id=\"b1\" atomRefs2=\"a1 a2\" order=\"S\"/>\n" + 
+        "   <bond id=\"b2\" atomRefs2=\"a1 a5\" order=\"S\"/>\n" + 
+        "   <bond id=\"b3\" atomRefs2=\"a1 a13\" order=\"D\"/>\n" + 
+        "   <bond id=\"b4\" atomRefs2=\"a2 a3\" order=\"D\"/>\n" + 
+        "   <bond id=\"b5\" atomRefs2=\"a3 a14\" order=\"S\"/>\n" + 
+        "   <bond id=\"b6\" atomRefs2=\"a4 a14\" order=\"S\"/>\n" + 
+        "   <bond id=\"b7\" atomRefs2=\"a4 a5\" order=\"D\"/>\n" + 
+        "   <bond id=\"b8\" atomRefs2=\"a5 a6\" order=\"S\"/>\n" + 
+        "   <bond id=\"b9\" atomRefs2=\"a6 a11\" order=\"D\"/>\n" + 
+        "   <bond id=\"b10\" atomRefs2=\"a6 a12\" order=\"S\"/>\n" + 
+        "   <bond id=\"b11\" atomRefs2=\"a7 a12\" order=\"S\"/>\n" + 
+        "   <bond id=\"b12\" atomRefs2=\"a8 a14\" order=\"S\"/>\n" + 
+        "   <bond id=\"b13\" atomRefs2=\"a8 a9\" order=\"S\"/>\n" + 
+        "   <bond id=\"b14\" atomRefs2=\"a8 a10\" order=\"S\"/>\n" + 
+        "   <bond id=\"b15\" atomRefs2=\"a9 a10\" order=\"S\"/>\n" + 
+        "  </bondArray>\n" + 
+        "  <scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 20122455</scalar>\n" + 
+        " </molecule>\n" + 
+        " <spectrum id=\"nmrshiftdb20147973\" moleculeRef=\"nmrshiftdb20122455\" type=\"NMR\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:nmr=\"http://www.nmrshiftdb.org/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:units=\"http://www.xml-cml.org/units/units\">\n" + 
+        "  <conditionList>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:field\" units=\"siUnits:megahertz\">Unreported</scalar>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:temp\" units=\"siUnits:k\">Unreported</scalar>\n" + 
+        "  </conditionList>\n" + 
+        "  <metadataList>\n" + 
+        "   <metadata name=\"nmr:assignmentMethod\" content=\"Unreported\"/>\n" + 
+        "   <metadata name=\"nmr:OBSERVENUCLEUS\" content=\"13C\"/>\n" + 
+        "  </metadataList>\n" + 
+        "  <substanceList>\n" + 
+        "   <substance dictRef=\"cml:solvent\" role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
+        "  </substanceList>\n" + 
+        "  <peakList>\n" + 
+        "   <peak xValue=\"37.6\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p0\" atomRefs=\"a8\"/>\n" + 
+        "   <peak xValue=\"122.5\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p1\" atomRefs=\"a2\"/>\n" + 
+        "   <peak xValue=\"139.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p2\" atomRefs=\"a3\"/>\n" + 
+        "   <peak xValue=\"146.8\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p3\" atomRefs=\"a4\"/>\n" + 
+        "   <peak xValue=\"52.2\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p4\" atomRefs=\"a7\"/>\n" + 
+        "   <peak xValue=\"118.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p5\" atomRefs=\"a5\"/>\n" + 
+        "   <peak xValue=\"165.5\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p6\" atomRefs=\"a6\"/>\n" + 
+        "   <peak xValue=\"175.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p7\" atomRefs=\"a1\"/>\n" + 
+        "   <peak xValue=\"7.2\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p8\" atomRefs=\"a9 a10\"/>\n" + 
+        "  </peakList>\n" + 
+        " </spectrum>\n" + 
+        "</cml>\n";
+
+    cmlmolecules=cmlmolecules+
+        "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
+        "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
+        " <molecule id=\"nmrshiftdb20050061\">\n" + 
+        "  <atomArray>\n" + 
+        "   <atom id=\"a1\" elementType=\"C\" x2=\"2.5\" y2=\"-5.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a2\" elementType=\"C\" x2=\"3.75\" y2=\"-1.25\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a3\" elementType=\"C\" x2=\"2.5\" y2=\"0.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a4\" elementType=\"C\" x2=\"1.25\" y2=\"-1.25\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a5\" elementType=\"C\" x2=\"5.0\" y2=\"0.0\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a6\" elementType=\"C\" x2=\"0.0\" y2=\"0.0\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a7\" elementType=\"N\" x2=\"3.75\" y2=\"-3.75\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"14\"/>\n" + 
+        "   <atom id=\"a8\" elementType=\"N\" x2=\"1.25\" y2=\"-3.75\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"14\"/>\n" + 
+        "  </atomArray>\n" + 
+        "  <bondArray>\n" + 
+        "   <bond id=\"b1\" atomRefs2=\"a1 a7\" order=\"D\"/>\n" + 
+        "   <bond id=\"b2\" atomRefs2=\"a1 a8\" order=\"S\"/>\n" + 
+        "   <bond id=\"b3\" atomRefs2=\"a2 a7\" order=\"S\"/>\n" + 
+        "   <bond id=\"b4\" atomRefs2=\"a2 a3\" order=\"D\"/>\n" + 
+        "   <bond id=\"b5\" atomRefs2=\"a2 a5\" order=\"S\"/>\n" + 
+        "   <bond id=\"b6\" atomRefs2=\"a3 a4\" order=\"S\"/>\n" + 
+        "   <bond id=\"b7\" atomRefs2=\"a4 a8\" order=\"D\"/>\n" + 
+        "   <bond id=\"b8\" atomRefs2=\"a4 a6\" order=\"S\"/>\n" + 
+        "  </bondArray>\n" + 
+        "  <scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 20050061</scalar>\n" + 
+        " </molecule>\n" + 
+        " <spectrum id=\"nmrshiftdb20096111\" moleculeRef=\"nmrshiftdb20050061\" type=\"NMR\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:nmr=\"http://www.nmrshiftdb.org/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:units=\"http://www.xml-cml.org/units/units\">\n" + 
+        "  <conditionList>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:field\" units=\"siUnits:megahertz\">Unreported</scalar>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:temp\" units=\"siUnits:k\">Unreported</scalar>\n" + 
+        "  </conditionList>\n" + 
+        "  <metadataList>\n" + 
+        "   <metadata name=\"nmr:assignmentMethod\" content=\"Unreported\"/>\n" + 
+        "   <metadata name=\"nmr:OBSERVENUCLEUS\" content=\"13C\"/>\n" + 
+        "  </metadataList>\n" + 
+        "  <substanceList>\n" + 
+        "   <substance dictRef=\"cml:solvent\" role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
+        "  </substanceList>\n" + 
+        "  <peakList>\n" + 
+        "   <peak xValue=\"23.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p0\" atomRefs=\"a5 a6\"/>\n" + 
+        "   <peak xValue=\"119.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p1\" atomRefs=\"a3\"/>\n" + 
+        "   <peak xValue=\"158.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p2\" atomRefs=\"a1\"/>\n" + 
+        "   <peak xValue=\"166.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p3\" atomRefs=\"a2 a4\"/>\n" + 
+        "  </peakList>\n" + 
+        " </spectrum>\n" + 
+        "</cml>\n";
+
+    cmlmolecules=cmlmolecules+
+        "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
+        "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
+        " <molecule id=\"nmrshiftdb20052958\">\n" + 
+        "  <atomArray>\n" + 
+        "   <atom id=\"a1\" elementType=\"C\" x2=\"2.0\" y2=\"-3.33\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a2\" elementType=\"C\" x2=\"4.0\" y2=\"-3.33\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a3\" elementType=\"C\" x2=\"1.0\" y2=\"-1.67\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a4\" elementType=\"C\" x2=\"2.0\" y2=\"-0.03\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a5\" elementType=\"C\" x2=\"1.0\" y2=\"-5.0\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a6\" elementType=\"O\" x2=\"4.0\" y2=\"0.0\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a7\" elementType=\"O\" x2=\"3.01\" y2=\"-4.97\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "   <atom id=\"a8\" elementType=\"N\" x2=\"0.0\" y2=\"-0.03\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"14\"/>\n" + 
+        "   <atom id=\"a9\" elementType=\"Cl\" x2=\"5.0\" y2=\"-4.97\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"35\"/>\n" + 
+        "  </atomArray>\n" + 
+        "  <bondArray>\n" + 
+        "   <bond id=\"b1\" atomRefs2=\"a1 a4\" order=\"S\"/>\n" + 
+        "   <bond id=\"b2\" atomRefs2=\"a1 a7\" order=\"S\"/>\n" + 
+        "   <bond id=\"b3\" atomRefs2=\"a1 a5\" order=\"S\"/>\n" + 
+        "   <bond id=\"b4\" atomRefs2=\"a1 a3\" order=\"S\"/>\n" + 
+        "   <bond id=\"b5\" atomRefs2=\"a2 a7\" order=\"S\"/>\n" + 
+        "   <bond id=\"b6\" atomRefs2=\"a2 a6\" order=\"D\"/>\n" + 
+        "   <bond id=\"b7\" atomRefs2=\"a2 a9\" order=\"S\"/>\n" + 
+        "   <bond id=\"b8\" atomRefs2=\"a3 a8\" order=\"T\"/>\n" + 
+        "  </bondArray>\n" + 
+        "  <scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 20052958</scalar>\n" + 
+        " </molecule>\n" + 
+        " <spectrum id=\"nmrshiftdb20098648\" moleculeRef=\"nmrshiftdb20052958\" type=\"NMR\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:nmr=\"http://www.nmrshiftdb.org/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:units=\"http://www.xml-cml.org/units/units\">\n" + 
+        "  <conditionList>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:field\" units=\"siUnits:megahertz\">Unreported</scalar>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:temp\" units=\"siUnits:k\">Unreported</scalar>\n" + 
+        "  </conditionList>\n" + 
+        "  <metadataList>\n" + 
+        "   <metadata name=\"nmr:assignmentMethod\" content=\"Unreported\"/>\n" + 
+        "   <metadata name=\"nmr:OBSERVENUCLEUS\" content=\"13C\"/>\n" + 
+        "  </metadataList>\n" + 
+        "  <substanceList>\n" + 
+        "   <substance dictRef=\"cml:solvent\" role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
+        "  </substanceList>\n" + 
+        "  <peakList>\n" + 
+        "   <peak xValue=\"26.7\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p0\" atomRefs=\"a4 a5\"/>\n" + 
+        "   <peak xValue=\"71.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p1\" atomRefs=\"a1\"/>\n" + 
+        "   <peak xValue=\"118.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p2\" atomRefs=\"a3\"/>\n" + 
+        "   <peak xValue=\"150.1\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p3\" atomRefs=\"a2\"/>\n" + 
+        "  </peakList>\n" + 
+        " </spectrum>\n" + 
+        "</cml>\n";
+
+
+    cmlmolecules=cmlmolecules+
+        "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
+        "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
+        " <molecule title=\"1,3-DIAMINO-BENZENE\" id=\"nmrshiftdb10005696\">\n" + 
+        "  <atomArray>\n" + 
+        "   <atom id=\"a1\" elementType=\"C\" x2=\"20.0\" y2=\"9.0\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a2\" elementType=\"C\" x2=\"21.0\" y2=\"18.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a3\" elementType=\"C\" x2=\"35.0\" y2=\"23.0\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a4\" elementType=\"C\" x2=\"48.0\" y2=\"18.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a5\" elementType=\"C\" x2=\"48.0\" y2=\"8.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a6\" elementType=\"C\" x2=\"34.0\" y2=\"3.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a7\" elementType=\"N\" x2=\"9.0\" y2=\"5.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"14\"/>\n" + 
+        "   <atom id=\"a8\" elementType=\"N\" x2=\"35.0\" y2=\"31.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"14\"/>\n" + 
+        "  </atomArray>\n" + 
+        "  <bondArray>\n" + 
+        "   <bond id=\"b1\" atomRefs2=\"a2 a1\" order=\"D\"/>\n" + 
+        "   <bond id=\"b2\" atomRefs2=\"a3 a2\" order=\"S\"/>\n" + 
+        "   <bond id=\"b3\" atomRefs2=\"a4 a3\" order=\"D\"/>\n" + 
+        "   <bond id=\"b4\" atomRefs2=\"a5 a4\" order=\"S\"/>\n" + 
+        "   <bond id=\"b5\" atomRefs2=\"a6 a1\" order=\"S\"/>\n" + 
+        "   <bond id=\"b6\" atomRefs2=\"a6 a5\" order=\"D\"/>\n" + 
+        "   <bond id=\"b7\" atomRefs2=\"a7 a1\" order=\"S\"/>\n" + 
+        "   <bond id=\"b8\" atomRefs2=\"a8 a3\" order=\"S\"/>\n" + 
+        "  </bondArray>\n" + 
+        "  <scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 10005696</scalar>\n" + 
+        " </molecule>\n" + 
+        " <spectrum id=\"nmrshiftdb20088770\" moleculeRef=\"nmrshiftdb10005696\" type=\"NMR\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:nmr=\"http://www.nmrshiftdb.org/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:units=\"http://www.xml-cml.org/units/units\">\n" + 
+        "  <conditionList>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:field\" units=\"siUnits:megahertz\">Unreported</scalar>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:temp\" units=\"siUnits:k\">Unreported</scalar>\n" + 
+        "  </conditionList>\n" + 
+        "  <metadataList>\n" + 
+        "   <metadata name=\"nmr:assignmentMethod\" content=\"Unreported\"/>\n" + 
+        "   <metadata name=\"nmr:OBSERVENUCLEUS\" content=\"13C\"/>\n" + 
+        "  </metadataList>\n" + 
+        "  <substanceList>\n" + 
+        "   <substance dictRef=\"cml:solvent\" role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
+        "  </substanceList>\n" + 
+        "  <peakList>\n" + 
+        "   <peak xValue=\"101.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p0\" atomRefs=\"a2\"/>\n" + 
+        "   <peak xValue=\"105.8\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p1\" atomRefs=\"a4 a6\"/>\n" + 
+        "   <peak xValue=\"130.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p2\" atomRefs=\"a5\"/>\n" + 
+        "   <peak xValue=\"147.5\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p3\" atomRefs=\"a1 a3\"/>\n" + 
+        "  </peakList>\n" + 
+        " </spectrum>\n" + 
+        "</cml>\n";
+
+    cmlmolecules=cmlmolecules+
+        "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
+        "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
+        " <molecule id=\"nmrshiftdb20181321\">\n" + 
+        "  <atomArray>\n" + 
+        "   <atom id=\"a1\" elementType=\"C\" x2=\"1.0\" y2=\"-1.15\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a2\" elementType=\"C\" x2=\"0.0\" y2=\"-1.73\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a3\" elementType=\"C\" x2=\"0.0\" y2=\"-2.89\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a4\" elementType=\"C\" x2=\"1.0\" y2=\"-3.46\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a5\" elementType=\"C\" x2=\"2.0\" y2=\"-2.89\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a6\" elementType=\"C\" x2=\"3.0\" y2=\"-3.46\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a7\" elementType=\"C\" x2=\"3.0\" y2=\"-1.15\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a8\" elementType=\"C\" x2=\"4.0\" y2=\"-1.73\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a9\" elementType=\"C\" x2=\"3.0\" y2=\"0.0\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a10\" elementType=\"N\" x2=\"5.0\" y2=\"-2.3\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"14\"/>\n" + 
+        "   <atom id=\"a11\" elementType=\"N\" x2=\"2.0\" y2=\"-1.73\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"14\"/>\n" + 
+        "  </atomArray>\n" + 
+        "  <bondArray>\n" + 
+        "   <bond id=\"b1\" atomRefs2=\"a1 a2\" order=\"S\"/>\n" + 
+        "   <bond id=\"b2\" atomRefs2=\"a1 a11\" order=\"S\"/>\n" + 
+        "   <bond id=\"b3\" atomRefs2=\"a2 a3\" order=\"S\"/>\n" + 
+        "   <bond id=\"b4\" atomRefs2=\"a3 a4\" order=\"S\"/>\n" + 
+        "   <bond id=\"b5\" atomRefs2=\"a4 a5\" order=\"S\"/>\n" + 
+        "   <bond id=\"b6\" atomRefs2=\"a5 a11\" order=\"S\"/>\n" + 
+        "   <bond id=\"b7\" atomRefs2=\"a5 a6\" order=\"S\"/>\n" + 
+        "   <bond id=\"b8\" atomRefs2=\"a7 a11\" order=\"S\"/>\n" + 
+        "   <bond id=\"b9\" atomRefs2=\"a7 a8\" order=\"S\"/>\n" + 
+        "   <bond id=\"b10\" atomRefs2=\"a7 a9\" order=\"S\"/>\n" + 
+        "   <bond id=\"b11\" atomRefs2=\"a8 a10\" order=\"T\"/>\n" + 
+        "  </bondArray>\n" + 
+        "  <scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 20181321</scalar>\n" + 
+        " </molecule>\n" + 
+        " <spectrum id=\"nmrshiftdb20192775\" moleculeRef=\"nmrshiftdb20181321\" type=\"NMR\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:nmr=\"http://www.nmrshiftdb.org/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:units=\"http://www.xml-cml.org/units/units\">\n" + 
+        "  <conditionList>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:field\" units=\"siUnits:megahertz\">Unreported</scalar>\n" + 
+        "   <scalar dataType=\"xsd:string\" dictRef=\"cml:temp\" units=\"siUnits:k\">Unreported</scalar>\n" + 
+        "  </conditionList>\n" + 
+        "  <metadataList>\n" + 
+        "   <metadata name=\"nmr:assignmentMethod\" content=\"Unreported\"/>\n" + 
+        "   <metadata name=\"nmr:OBSERVENUCLEUS\" content=\"13C\"/>\n" + 
+        "  </metadataList>\n" + 
+        "  <substanceList>\n" + 
+        "   <substance dictRef=\"cml:solvent\" role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
+        "  </substanceList>\n" + 
+        "  <peakList>\n" + 
+        "   <peak xValue=\"18.8\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"Q\" id=\"p0\" atomRefs=\"a9\"/>\n" + 
+        "   <peak xValue=\"24.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p1\" atomRefs=\"a3\"/>\n" + 
+        "   <peak xValue=\"24.7\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p2\" atomRefs=\"a2\"/>\n" + 
+        "   <peak xValue=\"32.5\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p3\" atomRefs=\"a4\"/>\n" + 
+        "   <peak xValue=\"42.8\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p4\" atomRefs=\"a1\"/>\n" + 
+        "   <peak xValue=\"52.2\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p5\" atomRefs=\"a7\"/>\n" + 
+        "   <peak xValue=\"55.2\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"D\" id=\"p6\" atomRefs=\"a5\"/>\n" + 
+        "   <peak xValue=\"118.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p7\" atomRefs=\"a8\"/>\n" + 
+        "  </peakList>\n" + 
+        " </spectrum>\n" + 
+        "</cml>\n";
