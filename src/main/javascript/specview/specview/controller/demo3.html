@@ -18,6 +18,7 @@
     goog.require('goog.math');
     goog.require('goog.ui.DragDropDetector');
     goog.require('goog.style');
+    goog.require('goog.graphics');
 </script>
 
 <script>
@@ -46,8 +47,8 @@ function initPage(){
 	//CAREFUL WITH THE FOLLOWING LINE
 	editor.setSpecObject(spectrumData);
 	editor.setModels([spectrumData]);
-	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
+//	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+//	editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
 	
 	//Creation of the tool bar
     var select1 = new goog.ui.Select();
@@ -132,8 +133,36 @@ var redrawSpectra=function(zoom){
   <style>
     #slider {
       position: absolute;
-      right: 25px;
-      top: 98px;
+      left: 775px;
+      top: 75px;
+      width: 30px;
+      height: 13px;
+      font: normal 10px verdana;
+      background-color: #EEE;
+      color: #000;
+      text-align:center;
+      border: 1px solid #999;
+      cursor: default;
+    }
+    
+        #slider2 {
+      position: absolute;
+      left: 625px;
+      top: 75px;
+      width: 30px;
+      height: 13px;
+      font: normal 10px verdana;
+      background-color: #EEE;
+      color: #000;
+      text-align:center;
+      border: 1px solid #999;
+      cursor: default;
+    }
+    
+        #slider3 {
+      position: absolute;
+      left: 590px;
+      top: 15px;
       width: 30px;
       height: 13px;
       font: normal 10px verdana;
@@ -151,27 +180,51 @@ var redrawSpectra=function(zoom){
 <body>
 
   <div id="slider">0</div>
-
+  <div id="slider2">x</div>
+  <div id="slider3">y</div>
   <script>
-  goog.ui.DragDropDetector.ImageDropEvent("../../images/uparrow.gif", new goog.math.Coordinate(500,500)); 
     var $ = goog.dom.getElement;
     var Z = 5;
-    var limits = new goog.math.Rect(100, 100, 500, 400) ;
-    var slider = new goog.fx.Dragger($('slider'), null, new goog.math.Rect(1324, 98, 0, 490));
+    var limits = new goog.math.Rect(625,75, 148, 0);
+    var limits2 = new goog.math.Rect(590,15,0,60);
+    var limits3 = new goog.math.Rect(625,75,123,0);
+    
+   var sliderY=new goog.fx.Dragger($('slider3'),null,limits2) 
+    goog.events.listen(sliderY,'drag',function(e){
+        var percent = Math.round(100 * (e.top - e.dragger.limits.top) /
+  	          e.dragger.limits.height);
+  
+          $('slider3').innerHTML = percent;
+    })
+    
+    var sliderXleft = new goog.fx.Dragger($('slider2'),null,limits3);
+    goog.events.listen(sliderXleft,'drag',function(e){
+        var percent = Math.round(100 * (e.left - e.dragger.limits.left) /
+  	          e.dragger.limits.width);
+  
+          $('slider2').innerHTML = percent;
+    })
+    
+    
+    var slider = new goog.fx.Dragger($('slider'), null, limits);
     goog.events.listen(slider, 'drag', function(e) {
-      var percent = Math.round(100 * (e.top - e.dragger.limits.top) /
-          e.dragger.limits.height);
+      var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
+    	          e.dragger.limits.width)-100);
+    
+            $('slider').innerHTML = percent;
+
       if(typeof percent == 'number' && percent % 1 == 0){
     	  redrawSpectra(percent);
       }
-      $('slider').innerHTML = percent;
     });
   </script>
-   
- <img name="track" style="position:absolute;left:370px;top:46px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
+ <img name="track" style="position:absolute;left:665px;top:25px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
+
+<!-- 
  <img name="leftBound" src="../../images/uparrow.gif" style="position:absolute;left:460px;top:95px;display:block;z-index:10;" width="20" height="20" alt="Left m/z Zoom"  title="Left m/z Zoom"/>
  <img name="rightBound" src="../../images/uparrow.gif" style="position:absolute;left:365px;top:95px;display:block;z-index:10;" width="20" height="20" alt="Right m/z Zoom"  title="Right m/z Zoom"/>
  <img name="rightBound" src="../../images/rightarrow.gif" style="position:absolute;left:350px;top:35px;display:block;z-index:10;" width="20" height="20" alt="Right m/z Zoom" title="Right m/z Zoom"/>
+ -->
 
 	<fieldset style="width:1200px">
         <legend><h1>Spectrum viewer</h1></legend>
