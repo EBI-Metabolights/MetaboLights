@@ -25,6 +25,7 @@ goog.provide('goog.graphics.CanvasImageElement');
 goog.provide('goog.graphics.CanvasPathElement');
 goog.provide('goog.graphics.CanvasRectElement');
 goog.provide('goog.graphics.CanvasTextElement');
+goog.provide('goog.grapgics.CanvasGridElement');
 
 
 goog.require('goog.array');
@@ -39,7 +40,6 @@ goog.require('goog.graphics.TextElement');
 
 
 /**
- * Object representing a group of objects in a canvas.
  * This is an implementation of the goog.graphics.GroupElement interface.
  * You should not construct objects from this constructor. The graphics
  * will return the object for you.
@@ -276,6 +276,16 @@ goog.graphics.CanvasRectElement = function(element, graphics, x, y, w, h,
   this.h_ = h;
 };
 goog.inherits(goog.graphics.CanvasRectElement, goog.graphics.RectElement);
+
+goog.graphics.CanvasGridElement = function(element,graphics,x1,y1,x2,y2,stroke,fill){
+	goog.graphics.GridElement.call(this,element,graphics,stroke,fill);
+	
+	this.x1=x1;
+	this.y1=y1;
+	this.x2=x2;
+	this.y2=y2;
+}
+goog.inherits(goog.graphics.CanvasGridElement,goog.graphics.GridElement);
 
 
 /**

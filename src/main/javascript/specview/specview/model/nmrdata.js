@@ -3,6 +3,7 @@ goog.provide('specview.model.NMRdata');
 goog.require('specview.model.Molecule');
 goog.require('specview.model.Spectrum');
 goog.require('specview.view.SpectrumRenderer');
+goog.require('goog.debug.Logger');
 
 /*
  * A class to capture spectrum data as found in NMRshiftDb.
@@ -21,7 +22,12 @@ specview.model.NMRdata=function(){
 	this.ArrayOfPeaks=new Array();
 	
 	this.editor=null;
+	
+	
 };
+
+specview.model.NMRdata.prototype.logger = goog.debug.Logger.getLogger('specview.model.NMRdata');
+
 
 specview.model.NMRdata.prototype.setEditor=function(controllerEditor){
 	this.editor=controllerEditor;
@@ -32,14 +38,14 @@ specview.model.NMRdata.prototype.toString = function() {
 	return "=Object of a spectrum==\n\n " + "1-"+this.molecule + "\n"+"4-"+this.spectrum;
 };
 
-specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(){
+specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpectrum,zoomX){
     //Set the coordinates to the pixel
     
 	var molecule=this.molecule;
 	var spectrum=this.spectrum;
-	var editor=this.editor;
+	var editor=editorSpectrum;
 	
-	/*TO THIS STAGE NOTHING SETMODELS HAS NOT BEEN CALLED. IT WAS AT THIS TIME THAT THE PIXEL COORDINATES WERE SETTLED ACCORDING
+	/*TO THIS STAGE NO SETMODELS HAS NOT BEEN CALLED. IT WAS AT THIS TIME THAT THE PIXEL COORDINATES WERE SETTLED ACCORDING
 	TO THE COORDINATES OF THE  MOLECULES. SO NOW WHAT WE DO IS  THAT AFTER CREATING THE METASPEC OBJECT WE INDEPENDANTLY(FROM THE
 	SETMODEL CALL) CREATE THE BOUNDINGBOX WHICH ALLOW TO ALREADY KNOW WHAT WILL BE THE PIXEL COORDINATES OF EACH OBJECT.
 	THE BOX.
@@ -68,12 +74,13 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(){
   	var widthScaleLimitation = 0.4;
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
     
-    goog.array.forEach(molecule.atoms,
-    		function(atom){
-    	var point = trans.transformCoords([ atom.coord ])[0];//point is the coordonates with pixelS
-    	atom.setPixelCoordinates(point.x, point.y);
-    });
-    
+  	if(!zoomX){
+  	    goog.array.forEach(molecule.atoms,
+  	    		function(atom){
+  	    	var point = trans.transformCoords([ atom.coord ])[0];//point is the coordonates with pixelS
+  	    	atom.setPixelCoordinates(point.x, point.y);
+  	    });	
+  	}
     
     //----------------------------NOW WE SET TE PIXEL COORDINATES OF THE PEAKS------------------------------\\
   var minX=spectrum.peakList[0].xValue;
@@ -91,21 +98,79 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(){
   var correct = xAxisLen/(maxX-minX);
   var rapport=23.5/maxX;
   var xStart= boxxx.left*1.1;    
-  var yStart= boxxx.top;    
+  var yStart= boxxx.bottom;
     
-  goog.array.forEach(spectrum.peakList,
-  function(peak) {
-    var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );// MARK
-    var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (boxxx.top+molBox.bottom)*peak.intensity/62); 
-    var peakCoords = trans.transformCoords([peakFrom, peakTo]);
-    peak.setCoordinates(peakCoords[0].x,peakCoords[0].y,peakCoords[1].x,peakCoords[1].y);
-  },
-  this);
+  var maxHeightOfPeak=spectrum.getMaxHeightPeak();
+//  var maxValueOfPeak=spectrum.getMaxValuePeak();
+  var maxValueOfPeak;
+  var pTo=0;
+  var pFrom=0;
+  
+  var adjustValue;
+  var adjustYvalue;
+  var boxCoords=trans.transformCoords([new goog.math.Coordinate(boxxx.left,boxxx.top),new goog.math.Coordinate(boxxx.right,boxxx.bottom)]);
+
+  var sortedArray=spectrum.sortXvalues();
+//  this.logger.info("before: "+spectrum.getXpixel());
+  var arrayOfPeakSorted=spectrum.mapPeakToxValue(sortedArray);
+//  var ecart=spectrum.getEcart();
+//  var ecart=arrayOfPeakSorted[arrayOfPeakSorted.length-1].xPixel-arrayOfPeakSorted[0].xPixel;
+  if(zoomX==0){
+	  maxValueOfPeak=spectrum.getMaxValuePeak();
+	  goog.array.forEach(spectrum.peakList,
+		  function(peak) {
+		    var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );
+		    var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (boxxx.top+molBox.bottom)*peak.intensity/62); 
+		    var peakCoords = trans.transformCoords([peakFrom, peakTo]);
+		   
+			if(peak.intensity==maxHeightOfPeak){
+				  adjustYvalue=boxCoords[0].y-2;
+			}else{
+				  adjustYvalue=boxCoords[1].y-(peak.intensity/maxHeightOfPeak)*(boxCoords[1].y-boxCoords[0].y);
+			}
+			
+			var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );
+			var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), adjustYvalue);
+			//TODO intensity and multipl etc
+			var peakCoords = trans.transformCoords( [peakFrom, peakTo]);
+			
+			if(peak.xValue==maxValueOfPeak){
+				adjustValue=boxCoords[1].x-5;
+			}else{
+				adjustValue=boxCoords[0].x+(peak.xValue/maxValueOfPeak)*(boxCoords[1].x-boxCoords[0].x);
+			}
+			peakCoords[0].x=adjustValue;
+			peakCoords[1].x=adjustValue;
+			peak.setCoordinates(adjustValue,peakCoords[0].y,adjustValue,adjustYvalue);  
+		  },
+		  this);
+	  spectrum.setExtremePixelValues();
+
+  }else if(zoomX>1){
+	  var ecart=spectrum.maxXpixel-spectrum.minXpixel;
+	  
+	  var array=[];
+	  var valueToComputeTheRapport=arrayOfPeakSorted[0].xPixel;
+	  var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100)
+	  arrayOfPeakSorted[0].setCoordinates(newMinXvalue,arrayOfPeakSorted[0].yPixel,newMinXvalue,arrayOfPeakSorted[0].yTpixel);
+	  this.logger.info("at zoom "+zoomX+": "+newMinXvalue);
+//	  array.push(newMinXvalue);
+	  for(var k=1;k<arrayOfPeakSorted.length;k++){
+		  var rapp=arrayOfPeakSorted[k].xPixel/valueToComputeTheRapport;
+		  var newXvalue=arrayOfPeakSorted[k].xPixel*rapp;
+		  arrayOfPeakSorted[k].setCoordinates(newXvalue,arrayOfPeakSorted[k].yPixel,newXvalue,arrayOfPeakSorted[k].yTpixel);
+		  array.push(newXvalue);
+	  }
+//	  this.logger.info(array)
+  }
+  
+  var maxPeakToDisplay=0;
+ 
 }; 
   
-  
-  
-specview.model.NMRdata.logger = goog.debug.Logger.getLogger('specview.model.NMRdata');
+ 
+
+
 
 
 

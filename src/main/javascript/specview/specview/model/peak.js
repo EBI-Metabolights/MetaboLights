@@ -37,6 +37,7 @@ specview.model.Peak.prototype.setCoordinates=function(xb,yb,xt,yt){
 	this.xTpixel=xt;
 	this.yTpixel=yt;
 	this.pixelCoord=new goog.math.Coordinate(this.xPixel,this.yPixel);
+//	alert("pixel coordinates have been set: "+parseInt(xb))
 };
 
 specview.model.Peak.prototype.setXvalue=function(value){

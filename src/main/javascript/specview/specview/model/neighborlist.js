@@ -124,7 +124,7 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 			 coord=objet.pixelCoord;
 				var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
 				this.cells_samy[newCoord]=objet;
-				this.logger.info("one peak will be at the foollowing coordinates: "+ newCoord.x+" "+newCoord.y);
+//				this.logger.info("one peak will be at the foollowing coordinates: "+ newCoord.x+" "+newCoord.y);
 		}
 
 	}, this);
@@ -133,6 +133,7 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 };
 
 specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
+//	this.logger.info(coord);
 	for(key in this.cells_samy){
 		var truc=key.substr(1).split(",")
 		var g=new goog.math.Coordinate(truc[0],parseInt(truc[1]))
@@ -144,9 +145,7 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
 			return this.cells_samy[key];
 		}
 	}
-	
-//	return this.cells_samy[coord];
-}
+};
 
 
 

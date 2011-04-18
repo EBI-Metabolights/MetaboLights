@@ -28,6 +28,7 @@ goog.require('goog.events.EventType');
 goog.require('goog.graphics.AbstractGraphics');
 goog.require('goog.graphics.CanvasEllipseElement');
 goog.require('goog.graphics.CanvasGroupElement');
+goog.require('goog.graphics.CanvasGridElement');
 goog.require('goog.graphics.CanvasImageElement');
 goog.require('goog.graphics.CanvasPathElement');
 goog.require('goog.graphics.CanvasRectElement');
@@ -431,6 +432,13 @@ goog.graphics.CanvasGraphics.prototype.drawEllipse = function(cx, cy, rx, ry,
       cx, cy, rx, ry, stroke, fill);
   this.append_(element, opt_group);
   return element;
+};
+
+
+goog.graphics.CanvasGraphics.prototype.drawGrid = function (x1,y1,x2,y2,stroke,fill,opt_group){	
+	var element=new goog.graphics.CanvasGridElement();
+	this.append(element,opt_group);
+	return element;
 };
 
 

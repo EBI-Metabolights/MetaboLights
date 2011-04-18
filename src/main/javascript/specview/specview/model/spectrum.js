@@ -28,6 +28,9 @@ specview.model.Spectrum=function(optMolecule, optPeaklist)
 	this.experiment="";
 	this.NMRtype="";
 	this.MS="";
+	
+	this.maxXpixel=0;
+	this.minXpixel=0;
 
 	};
 goog.exportSymbol("specview.model.Spectrum", specview.model.Spectrum);
@@ -57,15 +60,101 @@ specview.model.Spectrum.prototype.getBoundingBox = function() {
 };
 
 
-specview.model.Spectrum.prototype.getMaxPeak=function(){
+specview.model.Spectrum.prototype.getMaxHeightPeak=function(){
 	var max=0;
 	goog.array.forEach(this.peakList,function(peak){
-		if(peak.xValue>max){
+		if(peak.intensity>max){
 			max=peak.intensity;
 		}
 	});
 	return max;
+};
+
+
+specview.model.Spectrum.prototype.getMaxValuePeak=function(){
+	var max=0;
+	goog.array.forEach(this.peakList,function(peak){
+		if(peak.xValue>max){
+			max=peak.xValue;
+		}
+	});
+	return max;
+};
+
+
+specview.model.Spectrum.prototype.getXvalues=function(){
+	var array=[];
+	goog.array.forEach(this.peakList,function(peak){
+		array.push(parseFloat(peak.xValue));
+	});
+	return array;
+};
+
+specview.model.Spectrum.prototype.sortXvalues=function(){
+	var array=this.getXvalues();
+//	array=array.sort().reverse();
+	array=array.sort(function(a,b){return a - b});
+	return array;
+};
+
+specview.model.Spectrum.prototype.getPeakFromxValue=function(xValue){
+	goog.array.forEach(this.peakList,function(peak){
+		if(peak.xValue==xValue){
+			return peak;
+		}
+	},this);
+	return 0;
+};
+
+specview.model.Spectrum.prototype.mapPeakToxValue=function(array){
+	var arrayOfPeaks=[];
+	for(k in array){
+		for(p in this.peakList){
+			if(this.peakList[p].xValue==array[k]){
+				arrayOfPeaks.push(this.peakList[p]);
+			}
+		}
+	}
+	return arrayOfPeaks;
+};
+
+specview.model.Spectrum.prototype.getNthMaxValueOfPeak=function(zoom,sortedArrayOfPeak){
+	var l=this.peakList.length;
+	if(zoom<=l){
+		return sortedArrayOfPeak[zoom].xValue;
+	}
+};
+
+specview.model.Spectrum.prototype.getXpixel=function(){
+	var array=[];
+	goog.array.forEach(this.peakList,function(peak){
+		array.push(peak.xPixel);
+	});
+	return array;
+};
+
+specview.model.Spectrum.prototype.getMaxAndMinXpixelValue=function(){
+	var array=new Object();
+	var arrayOfPixel=this.getXpixel();
+	var max=0;
+	var min=1.7976931348623157E+10308;
+	for(k in arrayOfPixel){
+		
+		var value=arrayOfPixel[k];
+		max=(arrayOfPixel[k]>max) ? arrayOfPixel[k] : max;
+		min=(arrayOfPixel[k]<min) ? arrayOfPixel[k] : min;
+	}
+	array.maxPixel=max;
+	array.minPixel=min;
+	return array;
 }
+
+specview.model.Spectrum.prototype.setExtremePixelValues=function(){
+	var extremeValue=this.getMaxAndMinXpixelValue();
+	this.maxXpixel=extremeValue.maxPixel;
+	this.minXpixel=extremeValue.minPixel;
+}
+
 
 
 

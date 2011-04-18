@@ -200,7 +200,7 @@ specview.controller.Controller.prototype.setModels = function(models){
 }
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
-specview.controller.Controller.prototype.render = function() {
+specview.controller.Controller.prototype.render = function(zoom) {
     goog.array.forEach(this.models, function(model) {
         if (model instanceof specview.model.Molecule) {
             var margin = this.config.get("margin");
@@ -217,14 +217,8 @@ specview.controller.Controller.prototype.render = function() {
         
         if (model instanceof specview.model.NMRdata) {
             molecule=model.molecule;
-            spectrum=model.spectrum;
-            
+            spectrum=model.spectrum;            
             this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
-//            this.logger.info("HERE IS THE SPECTRUM BOX\n:"+ this.spectrumRenderer.box);
-//          this.spectrumRenderer.setBoundsBasedOnMetaSpecmetaSpecObject(model);
-            
-            
-            
             atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
             peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
 //            alert(peak_coords);
@@ -235,7 +229,8 @@ specview.controller.Controller.prototype.render = function() {
             widthScaleLimitation = 0.4;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
             this.moleculeRenderer.render(molecule,trans);
-            this.spectrumRenderer.render(spectrum,trans);
+//            this.spectrumRenderer.render(spectrum,trans);
+            this.spectrumRenderer.render(model,trans);
         }
     }, this);
 };

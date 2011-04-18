@@ -115,7 +115,7 @@ cmlmolecules=cmlmolecules+
 "<substance role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
 "</substanceList>\n" + 
 "<peakList>\n" + 
-"<peak xValue=\"11.28\" xUnits=\"units:ppm\" height=\"5\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p0\" atomRefs=\"a1 a2\"/>\n" + 
+"<peak xValue=\"4.28\" xUnits=\"units:ppm\" height=\"5\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p0\" atomRefs=\"a1 a2\"/>\n" + 
 "<peak xValue=\"14.28\" xUnits=\"units:ppm\" height=\"15\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p1\" atomRefs=\"a3\"/>\n" + 
 "<peak xValue=\"18.28\" xUnits=\"units:ppm\" height=\"25\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p2\" atomRefs=\"a4 a5\"/>\n" + 
 "<peak xValue=\"22.28\" xUnits=\"units:ppm\" height=\"35\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p3\" atomRefs=\"a5 a6 a7\"/>\n" + 
@@ -124,7 +124,7 @@ cmlmolecules=cmlmolecules+
 "<peak xValue=\"63.28\" xUnits=\"units:ppm\" height=\"65\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p6\" atomRefs=\"a11\"/>\n" + 
 "<peak xValue=\"93.28\" xUnits=\"units:ppm\" height=\"75\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p7\" atomRefs=\"a12\"/>\n" + 
 "<peak xValue=\"113.28\" xUnits=\"units:ppm\" height=\"85\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p8\" atomRefs=\"a13\"/>\n" + 
-"<peak xValue=\"122.28\" xUnits=\"units:ppm\" height=\"95\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p9\" atomRefs=\"a14\"/>\n" + 
+"<peak xValue=\"256.28\" xUnits=\"units:ppm\" height=\"95\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p9\" atomRefs=\"a14\"/>\n" + 
 
 "</peakList>\n" + 
 "</spectrum>\n" + 

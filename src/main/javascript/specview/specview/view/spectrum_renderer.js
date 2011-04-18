@@ -47,7 +47,7 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMolecule = function(mol
     bottom=-5.5;
     right=23.5;
 
-     this.box = new goog.math.Box(top,right,bottom,left);
+    this.box = new goog.math.Box(top,right,bottom,left);
     
     //this.box = new goog.math.Box(top,right,bottom,left);//THIS IS THE GOOD BOX FOR INVERTING
 //   alert("top"+this.box.top+"\nleft"+this.box.left+"\nright:"+this.box.right+"\nbottom:"+this.box.bottom)
@@ -90,25 +90,25 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
  * The spectrum is simply the object
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
-specview.view.SpectrumRenderer.prototype.render = function(spectrum, transform) {
-
+specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform) {
+	var spectrum=metaSpecObject.spectrum;
     this.setTransform(transform);
-    this.logger.info("the red box is : "+this.box);
-    this.renderBoundingBox(this.box,'red'); 
-
+    this.renderBoundingBox(this.box,'white'); 
+    var peakPath = new goog.graphics.Path();
+    var peakStroke = new goog.graphics.Stroke(1.05,'black');
+    var peakFill = null;   
+/*
     var minX=spectrum.peakList[0].xValue;
     var maxX=spectrum.peakList[0].xValue;
     
-    goog.array.forEach(spectrum.peakList,
-    function(peak) {
-        if (peak.xValue < minX)
-            minx=peak.xValue;
-        if (peak.xValue > maxX)
+   goog.array.forEach(spectrum.peakList,
+  function(peak) {
+     if (peak.xValue < minX)
+        minx=peak.xValue;
+       if (peak.xValue > maxX)
             maxX=peak.xValue;
     },
     this);
-
-   // this.logger.info("the max value for the peak is : \n"+maxX)
     
     var xAxisLen=(this.box.right-this.box.left)*0.8;
     this.logger.info(minX+" "+maxX +  "  "+xAxisLen);
@@ -118,40 +118,25 @@ specview.view.SpectrumRenderer.prototype.render = function(spectrum, transform) 
     
     var xStart= this.box.left*1.1;    
     var yStart=this.box.bottom
-    var peakPath = new goog.graphics.Path();
-    var peakStroke = new goog.graphics.Stroke(1,'black');
-    var peakFill = null;
-    var maxValueOfPeak=spectrum.getMaxPeak();
+
+    var maxHeightOfPeak=spectrum.getMaxHeightPeak();
+    var maxValueOfPeak=spectrum.getMaxValuePeak();
     var pTo=0;
-//    this.logger.info(this.box.bottom)
+    var pFrom=0;
+    
+    var adjustXvalue;
+    var boxCoords=this.transform.transformCoords([new goog.math.Coordinate(this.box.left,this.box.top),new goog.math.Coordinate(this.box.right,this.box.bottom)]);
+    */
+    //Draw the peaks
     goog.array.forEach(spectrum.peakList,
     function(peak) {
-    	if(peak.intensity==maxValueOfPeak){
-    		pTo=this.box.top*peak.intensity/maxValueOfPeak;
-    	}else{
-    		pTo=this.box.top*maxValueOfPeak/peak.intensity
-    	}
-      var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );// MARK
-      var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), pTo);
-        //TODO intensity and multipl etc
-//        this.logger.info("\npeak from ("+(xStart+(peak.xValue*correct)));
-        var peakCoords = this.transform.transformCoords( [peakFrom, peakTo]);
-        this.logger.info(peakCoords[1])
-      //  this.logger.info("former coordinates: \n\npeak from: "+peakFrom+"\npeakTo: "+peakTo+"\n\nnTranformed ones: \npeak from <"+peakCoords[0].x+","+peakCoords[0].y+">\nto        <"+peakCoords[1].x+","+peakCoords[1].y);
-        peak.setCoordinates(peakCoords[0].x,peakCoords[0].y,peakCoords[1].x,peakCoords[1].y);
-//        this.logger.info(peak.xPixel+" "+peak.yPixel)
-        peakPath.moveTo(peakCoords[0].x, peakCoords[0].y); 
-        peakPath.lineTo(peakCoords[1].x,peakCoords[1].y);
-        
-
+        peakPath.moveTo(peak.xPixel, peak.yPixel); 
+        peakPath.lineTo(peak.xTpixel,peak.yTpixel);
     },
     this);
     this.graphics.drawPath(peakPath, peakStroke, peakFill);
-    
 
-}
-
-
+};
 	
 
 /*
@@ -177,13 +162,14 @@ specview.view.SpectrumRenderer.prototype.highlightOn = function(peak) {
 
 */
 
-specview.view.SpectrumRenderer.prototype.highlightOn = function(peak) {
+specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
 	opt_element_array = new specview.graphics.ElementArray();
 	var fill = new goog.graphics.SolidFill("#55bb00", .3);
     var peakPath = new goog.graphics.Path();
     peakPath.moveTo(peak.xPixel, peak.yPixel); 
     peakPath.lineTo(peak.xTpixel,peak.yTpixel);
     opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,'blue'),null));
+//    opt_element_array.add(this.graphics.drawText(50, 150, 100, 500, 600,'center', null, font, stroke, fill));
 	return opt_element_array;
 };
 

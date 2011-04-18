@@ -10,7 +10,7 @@ goog.require('specview.model.Atom');
  */
 specview.controller.plugins.Highlight = function() {
 	specview.controller.Plugin.call(this);
-}
+};
 goog.inherits(specview.controller.plugins.Highlight,specview.controller.Plugin);
 goog.exportSymbol('specview.controller.plugins.Highlight',specview.controller.plugins.Highlight);
 specview.controller.plugins.Highlight.prototype.getTrogClassId = goog.functions.constant('highlight');
@@ -70,6 +70,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 		//Peaks
 		//CAREFUL: MIGHT BE K ATOMS FOR ONE PEAK
 		else if (target instanceof specview.model.Peak){
+			var currentMetaSpecObject=this.editorObject.getSpecObject();
 			if(this.lastPeakHighlighted==null || target!=this.lastPeakHighlighted){
 				if(this.lastT!=null){
 					this.lastT.highlightPeak.clear();
@@ -80,7 +81,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			this.lastPeakHighlighted=target;
 			this.lastT=e.currentTarget;
 			this.editorObject.addSelected(target);
-			e.currentTarget.highlightPeak=this.highlightPeak(target);
+			e.currentTarget.highlightPeak=this.highlightPeak(target,currentMetaSpecObject.editor);
 			//LOOKING FOR THE ATOM(S)
 			var currentMetaSpecObject=this.editorObject.getSpecObject();
 			var currentPeakIdentifier=target.peakId;
@@ -147,8 +148,8 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 };
 
 
-specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak){
-	return this.editorObject.spectrumRenderer.highlightOn(peak);
+specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak,editor){
+	return this.editorObject.spectrumRenderer.highlightOn(peak,editor);
 };
 
 specview.controller.plugins.Highlight.prototype.highlightAtom = function(atom) {
