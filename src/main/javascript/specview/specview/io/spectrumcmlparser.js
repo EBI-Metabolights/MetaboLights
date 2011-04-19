@@ -39,6 +39,10 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	var mol=XMLdoc.getElementsByTagName("molecule");// The information regarding the molecule
 	var cNodes=XMLdoc.getElementsByTagName("bondArray")[0].childNodes;// All of the bonds including the stereo informations
 	
+	
+	
+	
+	
 	var lenAtom=atoms.length;
 	var lenBond=cNodes.length;
 	var lenPeak=peaks.length;
@@ -143,7 +147,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
             /**
              * THAT IS WEIRD
              */
-            ArrayOfBonds[bondId]=currentBond
+            ArrayOfBonds[bondId]=currentBond;
 			nmrData.ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
 			stereo=null;//Reset the value of stereo!
 		}
@@ -207,7 +211,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 
 
 	//Create the molecule name : Set the name and id.
-	var moleculeTitle; var moleculeId;
+	var moleculeTitle=""; var moleculeId=0;
 	moleculeTitle=mol.item(0).attributes[0].value;
 	moleculeId=mol.item(0).attributes[1].value;
 	nmrData.molecule=new specview.model.Molecule(moleculeTitle);
