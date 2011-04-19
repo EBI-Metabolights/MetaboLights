@@ -9,6 +9,17 @@ goog.require('specview.model.Atom');
 goog.require('specview.model.Bond');
 goog.require('specview.model.Spectrum');
 goog.require('specview.model.NMRdata');
+goog.require('specview.util.Utilities');
+
+
+specview.io.SpectrumCMLParser=function(){}
+
+
+
+/**
+ * Logging object.
+ */
+specview.io.SpectrumCMLParser.prototype.logger = goog.debug.Logger.getLogger('specview.io.SpectrumCMLParser');
 
 
 /**
@@ -39,8 +50,13 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	var mol=XMLdoc.getElementsByTagName("molecule");// The information regarding the molecule
 	var cNodes=XMLdoc.getElementsByTagName("bondArray")[0].childNodes;// All of the bonds including the stereo informations
 	
+	var reactionList="";
 	
-	
+	var experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[1].attributes[0].value;
+	if(specview.util.Utilities.startsWith("ms",experimentType)){
+		productList=XMLdoc.getElementsByTagName("productList")[0].childNodes;
+		this.logger.info(productList.length);
+	}
 	
 	
 	var lenAtom=atoms.length;
@@ -212,8 +228,12 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 
 	//Create the molecule name : Set the name and id.
 	var moleculeTitle=""; var moleculeId=0;
-	moleculeTitle=mol.item(0).attributes[0].value;
-	moleculeId=mol.item(0).attributes[1].value;
+	try{
+		moleculeTitle=mol.item(0).attributes[0].value;
+		moleculeId=mol.item(0).attributes[1].value;		
+	}catch(err){
+		this.logger.info(err.description);
+	}
 	nmrData.molecule=new specview.model.Molecule(moleculeTitle);
 
 	//Add the atoms to the molecule
@@ -238,9 +258,3 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 
 
 
-
-
-/**
- * Logging object.
- */
-specview.io.SpectrumCMLParser.logger = goog.debug.Logger.getLogger('specview.io.SpectrumCMLParser');
