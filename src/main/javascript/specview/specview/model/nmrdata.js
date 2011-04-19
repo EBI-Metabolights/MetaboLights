@@ -21,6 +21,13 @@ specview.model.NMRdata=function(){
 	this.ArrayOfBonds=new Array();
 	this.ArrayOfPeaks=new Array();
 	
+	/*
+	 * TODO Consider the case of mass spectras 
+	 * Should include: 
+	 * this.experienceType
+	 * this.ArrayOfSecondaryMolecules
+	 */
+	
 	this.editor=null;
 	
 	

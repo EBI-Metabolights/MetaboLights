@@ -59,7 +59,7 @@ cmlmolecules=cmlmolecules+
 "<peak xValue=\"145.37\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p4\" atomRefs=\"a8\"/>\n" + 
 "</peakList>\n" + 
 "</spectrum>\n" + 
-"</cml>\n"+
+"</cml>"+
 "$$END$$\n" ;
 
 
@@ -128,7 +128,7 @@ cmlmolecules=cmlmolecules+
 
 "</peakList>\n" + 
 "</spectrum>\n" + 
-"</cml>\n"+
+"</cml>"+
 "$$END$$\n" ;
 
 
@@ -199,7 +199,7 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"-331.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p1\" atomRefs=\"a17\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n"+
+        "</cml>"+
         "$$END$$\n" ;
 
 cmlmolecules=cmlmolecules+
@@ -270,7 +270,7 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"9.034\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakHeight=\"0.5\" peakMultiplicity=\"s\" id=\"p4\" atomRefs=\"a17\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n"+
+        "</cml>"+
         "$$END$$\n" ;
 
 
@@ -447,7 +447,7 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"177.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p31\" atomRefs=\"a1\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n"+
+        "</cml>"+
         "$$END$$\n" ;
 
 cmlmolecules=cmlmolecules+
@@ -655,7 +655,7 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"38.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p34\" atomRefs=\"a18 a44\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n"+
+        "</cml>"+
         "$$END$$\n" ;
 
 
@@ -761,8 +761,8 @@ cmlmolecules=cmlmolecules+
 "   <peak xValue=70.4 xUnits=units:ppm peakShape=sharp peakMultiplicity=T id=p20 atomRefs=a9/>\n"+
 "  </peakList>\n"+
 " </spectrum>\n"+
-"</cml>\n"+
-"$$END$$";
+"</cml>"+
+"$$END$$\n";
 
 cmlmolecules=cmlmolecules+
 "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
@@ -823,7 +823,8 @@ cmlmolecules=cmlmolecules+
 "   <peak xValue=\"126.4\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p7\" atomRefs=\"a5\"/>\n" + 
 "  </peakList>\n" + 
 " </spectrum>\n" + 
-"</cml>\n";
+"</cml>"+
+"$$END$$\n";
 
     cmlmolecules=cmlmolecules+
         "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
@@ -981,7 +982,8 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"177.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p29\" atomRefs=\"a24\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n";
+        "</cml>"+
+        "$$END$$\n";
 
 
     cmlmolecules=cmlmolecules+
@@ -1051,7 +1053,9 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"161.81\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p10\" atomRefs=\"a11\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n";
+        "</cml>"+
+        "$$END$$\n";
+        
     cmlmolecules=cmlmolecules+
         "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
         "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
@@ -1115,7 +1119,8 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"7.2\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p8\" atomRefs=\"a9 a10\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n";
+        "</cml>"+
+        "$$END$$\n";
 
     cmlmolecules=cmlmolecules+
         "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
@@ -1162,7 +1167,8 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"166.0\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p3\" atomRefs=\"a2 a4\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n";
+        "</cml>"+
+        "$$END$$\n";
 
     cmlmolecules=cmlmolecules+
         "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
@@ -1210,7 +1216,8 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"150.1\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p3\" atomRefs=\"a2\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n";
+        "</cml>"+
+        "$$END$$\n";
 
 
     cmlmolecules=cmlmolecules+
@@ -1258,7 +1265,8 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"147.5\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p3\" atomRefs=\"a1 a3\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n";
+        "</cml>"+
+        "$$END$$\n";
 
     cmlmolecules=cmlmolecules+
         "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
@@ -1315,4 +1323,5 @@ cmlmolecules=cmlmolecules+
         "   <peak xValue=\"118.9\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p7\" atomRefs=\"a8\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
-        "</cml>\n";
+        "</cml>"+
+        "$$END$$\n";

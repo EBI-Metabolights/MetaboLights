@@ -19,6 +19,10 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 	this.xTpixel=0;
 	this.yTpixel=0;
 	
+	
+	/*TODO Consider the case of MS spectras
+		this.arrayOfSecondaryMolecules
+	*/
 
 	this.pixelCoord=null;
 	
