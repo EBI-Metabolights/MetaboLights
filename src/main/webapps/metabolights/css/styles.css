@@ -61,6 +61,8 @@ html,body {
 	float: right;
 	font-size: 13px;
 	font-weight: bold;
+    color: #ffffff;
+	
 }
 #top_bar #navigation a {
 	color: #ffffff;

@@ -1,12 +1,22 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+       
        <div id="top_bar">
 		  <h1><a href="index">Metabolights metabolomics data repository</a></h1>
 		  <ul id="navigation">
 		      <!-- li class="selected"><a href="index">home</a></li-->
               <li><a href="index">home</a></li>
 		      <li><a href="submit">submit</a></li>
-              <li><a href="login">login</a></li>
-		      <li><a href="contact">contact</a></li>
               <li><a href="about">about</a></li>
+              <sec:authorize ifNotGranted="ROLE_SUBMITTER" >
+                 <!--  <li><a href="spring_security_login">login</a></li> -->
+                 <li><a href="login">login</a></li>
+              </sec:authorize> 
+ 
+              <sec:authorize ifAnyGranted="ROLE_SUBMITTER" >
+                <!--  li><a href="j_spring_security_logout">logout</a> (<sec:authentication property="principal.userId"/>)  </li> -->
+                <li><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />">logout</a> (<sec:authentication property="principal.userName"/>) </li>  
+              </sec:authorize> 
 
 		  </ul>  
        </div>

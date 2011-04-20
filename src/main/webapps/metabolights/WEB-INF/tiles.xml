@@ -18,7 +18,7 @@
 
 	<definition name="index" extends="base.definition">
 		<put-attribute name="title"
-			value="Metabolights - the Portal for all your Steamy Desires" />
+			value="Metabolights - Metabolomics Portal" />
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
 	</definition>
 
@@ -27,26 +27,20 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
 	</definition>
 
-	<definition name="login" extends="base.definition">
-		<put-attribute name="title" value="Log in to Metabolights" />
-		<put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
-	</definition>
+    <definition name="login" extends="base.definition">
+        <put-attribute name="title" value="Log in to Metabolights" />
+        <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
+    </definition>
 
-	<definition name="loginsuccess" extends="base.definition">
-		<put-attribute name="title" value="Well done big boy" />
-		<put-attribute name="body" value="/WEB-INF/jsp/loginsuccess.jsp" />
-	</definition>
+    <definition name="loggedout" extends="base.definition">
+        <put-attribute name="title" value="Logged out of Metabolights" />
+        <put-attribute name="body" value="/WEB-INF/jsp/loggedout.jsp" />
+    </definition>
 
-	<definition name="about" extends="base.definition">
-		<put-attribute name="title" value="About Metabolights" />
-		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
-	</definition>
-
-
-	<definition name="contact" extends="base.definition">
-		<put-attribute name="title" value="Contact Manager Demo application" />
-		<put-attribute name="body" value="/WEB-INF/jsp/contact.jsp" />
-	</definition>
+    <definition name="timeout" extends="base.definition">
+        <put-attribute name="title" value="Timed out of Metabolights" />
+        <put-attribute name="body" value="/WEB-INF/jsp/timeout.jsp" />
+    </definition>
 
 
 </tiles-definitions>

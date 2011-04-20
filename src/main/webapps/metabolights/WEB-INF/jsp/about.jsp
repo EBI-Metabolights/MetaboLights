@@ -8,7 +8,7 @@
                </div>
                 <div id="text-column">
                     We will provide search services around spectral similarities and chemical structures.  We will also offer user-submission tools and have strong reporting capabilities.
-                    We will utilise and further develop de-facto standard formats where various components are encapsulated, such as the encoded spectral and chromatographic data, and associated information about the chemical structure, as well as metadata describing assays and the study as a whole
+                    We will utilise and further develop de-facto standard formats where various components are encapsulated, such as the encoded spectral and chromatographic data, and associated information about the chemical structure, as well as metadata describing assays and the study as a whole.
                </div>
                 <div id="text-column">
                   Metabolights's semantic quality will be based on various controlled vocabularies linking data to existing resources such as BRENDA (tissue ontology) and other established ontologies.

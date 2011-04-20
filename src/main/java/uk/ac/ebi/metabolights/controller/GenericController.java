@@ -15,15 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class GenericController {
 
 	/** 
-	 * Forwards to the jsp contained in the last part of the requested URL. 
+	 * Forwards to the jsp based on the last part of the requested URL.
+	 *  
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	@RequestMapping(value={"/index","/about"})
+	@RequestMapping(value={"/index","/about", "/timeout", "/loggedout", "login"})
 	public String useMoreDeodorant (HttpServletRequest request) {
 		String requestUrl = request.getRequestURL().toString();
 		// strip out the last bit of the URL (like 'about' and forward to that
-		return requestUrl.replaceFirst("^(.)*/", ""); 
+		String target=requestUrl.replaceFirst("^(.)*/", "");
+		System.out.println("generic controller forwarding to "+target);
+		return target!=null&&!target.equals("")?target:"index"; 
 	}
 
 }

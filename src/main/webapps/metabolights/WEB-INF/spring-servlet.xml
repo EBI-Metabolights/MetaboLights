@@ -9,6 +9,7 @@
     xmlns:tx="http://www.springframework.org/schema/tx"
     xmlns:util="http://www.springframework.org/schema/util"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:sec="http://www.springframework.org/schema/security"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
@@ -16,10 +17,11 @@
         http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
  
-    <context:annotation-config />
     <context:component-scan base-package="uk.ac.ebi.metabolights" />
+    <context:annotation-config/>
     
     <!--  this makes references to picture and style sheets work -->
     <mvc:annotation-driven/>
@@ -92,6 +94,13 @@
         p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
         p:password="${jdbc.password}" />
  
+ 
+    <tx:annotation-driven />
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
@@ -108,12 +117,33 @@
             </props>
         </property>
     </bean>
- 
-    <tx:annotation-driven />
-    <bean id="transactionManager"
-        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
+
+
+
+
+    <sec:http use-expressions="true" auto-config='true'>
+
+        <sec:intercept-url pattern="/secure/**" access="isAuthenticated()" /> <!-- requires-channel="https" -->
+        <sec:intercept-url pattern="/login" access="permitAll"/> <!-- requires-channel="https" -->  
+        <sec:intercept-url pattern="/**" access="permitAll"/> <!-- requires-channel="http" -->
+
+        <sec:logout logout-success-url="/loggedout" delete-cookies="JSESSIONID" />
+        <!--remember-me/-->
+
+        <!-- Uncomment to enable X509 client authentication support <x509 /> -->
+
+        <sec:session-management invalid-session-url="/timeout">
+            <sec:concurrency-control max-sessions="1" />  <!--  error-if-maximum-exceeded="true"  -->
+        </sec:session-management>
+
+        <!--  <form-login /> -->
+        <sec:form-login login-page='/login' authentication-failure-url="/login?login_error=1"  />
+    </sec:http>
+
+    <sec:authentication-manager>
+        <sec:authentication-provider ref="isaTabAuthenticationProvider" />
+    </sec:authentication-manager>
+    <bean id="isaTabAuthenticationProvider" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
 
 
 </beans>
