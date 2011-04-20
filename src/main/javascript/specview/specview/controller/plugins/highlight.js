@@ -32,7 +32,7 @@ specview.controller.plugins.Highlight.prototype.lastT=null;
 
 
 specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
-	
+	var newMoleculeToDisplay;
 
 	if(this.editorObject.findTarget(e)!=undefined) {
 		this.editorObject.clearSelected();
@@ -70,6 +70,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 		//Peaks
 		//CAREFUL: MIGHT BE K ATOMS FOR ONE PEAK
 		else if (target instanceof specview.model.Peak){
+			
 			var currentMetaSpecObject=this.editorObject.getSpecObject();
 			if(this.lastPeakHighlighted==null || target!=this.lastPeakHighlighted){
 				if(this.lastT!=null){
@@ -84,7 +85,17 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			e.currentTarget.highlightPeak=this.highlightPeak(target,currentMetaSpecObject.editor);
 			//LOOKING FOR THE ATOM(S)
 			var currentMetaSpecObject=this.editorObject.getSpecObject();
+//			alert(currentMetaSpecObject.experienceType)
 			var currentPeakIdentifier=target.peakId;
+		//	alert(currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules]);
+			if(currentMetaSpecObject.experienceType=="ms"){
+				newMoleculeToDisplay=currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules];
+			}
+//			alert(currentMetaSpecObject.experienceType)			
+			if(currentMetaSpecObject.experienceType=="ms" && newMoleculeToDisplay!=undefined){
+//				alert("the molecule: \n"+newMoleculeToDisplay);
+				this.drawNewMolecule(newMoleculeToDisplay,currentMetaSpecObject.transform);
+			}
 			var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 			//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
 			var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
@@ -94,10 +105,11 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			}
 			var atomIdentifier=arrayOfAtomToWhichThePeakIsRelated[0];
 			var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];
-
+			
 			this.lastArrayOfAtomHighlighted=arrayOfAtomObjectToWhichThePeakIsRelated;
 			e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtomObjectToWhichThePeakIsRelated);
-				
+
+			
 			}		
 		}
 		
@@ -166,6 +178,12 @@ specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
 			.highlightOn(bond,this.HIGHLIGHT_COLOR);
  
 };
+
+specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(molecule,trans) {
+//	alert(molecule);
+//	alert(trans)
+	return this.editorObject.moleculeRenderer.render(molecule,trans);
+}
 
 
 /*

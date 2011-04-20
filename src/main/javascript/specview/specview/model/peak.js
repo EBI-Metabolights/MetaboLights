@@ -4,7 +4,7 @@ goog.require('goog.math.Coordinate');
 /*
  * Constructeur of the peak
  */
-specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt_multiplicity){
+specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt_multiplicity,opt_molRefs){
 	this.xValue=opt_xValue;
 	this.intensity=opt_intensity;
 	this.peakId=opt_peakId;
@@ -19,12 +19,14 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 	this.xTpixel=0;
 	this.yTpixel=0;
 	
+
+	this.pixelCoord=null;
 	
 	/*TODO Consider the case of MS spectras
 		this.arrayOfSecondaryMolecules
 	*/
-
-	this.pixelCoord=null;
+	this.arrayOfSecondaryMolecules=opt_molRefs;//normally just one molecule
+	
 	
 };
 goog.exportSymbol("specview.model.Peak", specview.model.Peak);
@@ -52,7 +54,7 @@ specview.model.Peak.prototype.setXvalue=function(value){
  * Description of the object
  */
 specview.model.Peak.prototype.toString = function() {
-	return "===Object of type Peak====\n " + "--"+this.xValue + "\n"+"--"+this.intensity+"\n"+"--"+this.peakId+"\n"+"--"+this.atomRef+"\n\n";
+	return "===Object of type Peak====\n " + "--"+this.xValue + "\n"+"--"+this.intensity+"\n"+"--"+this.peakId+"\n"+"--"+this.atomRef+"\n\n"+"--"+this.arrayOfSecondaryMolecules;
 };
 
 

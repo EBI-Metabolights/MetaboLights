@@ -115,16 +115,16 @@ cmlmolecules=cmlmolecules+
 "<substance role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
 "</substanceList>\n" + 
 "<peakList>\n" + 
-"<peak xValue=\"4.28\" xUnits=\"units:ppm\" height=\"5\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p0\" atomRefs=\"a1 a2\"/>\n" + 
-"<peak xValue=\"14.28\" xUnits=\"units:ppm\" height=\"15\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p1\" atomRefs=\"a3\"/>\n" + 
-"<peak xValue=\"18.28\" xUnits=\"units:ppm\" height=\"25\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p2\" atomRefs=\"a4 a5\"/>\n" + 
-"<peak xValue=\"22.28\" xUnits=\"units:ppm\" height=\"35\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p3\" atomRefs=\"a5 a6 a7\"/>\n" + 
-"<peak xValue=\"33.28\" xUnits=\"units:ppm\" height=\"45\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p4\" atomRefs=\"a8\"/>\n" + 
-"<peak xValue=\"49.28\" xUnits=\"units:ppm\" height=\"55\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p5\" atomRefs=\"a9 a10\"/>\n" + 
-"<peak xValue=\"63.28\" xUnits=\"units:ppm\" height=\"65\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p6\" atomRefs=\"a11\"/>\n" + 
-"<peak xValue=\"93.28\" xUnits=\"units:ppm\" height=\"75\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p7\" atomRefs=\"a12\"/>\n" + 
-"<peak xValue=\"113.28\" xUnits=\"units:ppm\" height=\"85\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p8\" atomRefs=\"a13\"/>\n" + 
-"<peak xValue=\"256.28\" xUnits=\"units:ppm\" height=\"95\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p9\" atomRefs=\"a14\"/>\n" + 
+"<peak xValue=\"4.28\" xUnits=\"units:ppm\" yValue=\"5\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p0\" atomRefs=\"a1 a2\"/>\n" + 
+"<peak xValue=\"14.28\" xUnits=\"units:ppm\" yValue=\"15\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p1\" atomRefs=\"a3\"/>\n" + 
+"<peak xValue=\"18.28\" xUnits=\"units:ppm\" yValue=\"25\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p2\" atomRefs=\"a4 a5\"/>\n" + 
+"<peak xValue=\"22.28\" xUnits=\"units:ppm\" yValue=\"35\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p3\" atomRefs=\"a5 a6 a7\"/>\n" + 
+"<peak xValue=\"33.28\" xUnits=\"units:ppm\" yValue=\"45\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p4\" atomRefs=\"a8\"/>\n" + 
+"<peak xValue=\"49.28\" xUnits=\"units:ppm\" yValue=\"55\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p5\" atomRefs=\"a9 a10\"/>\n" + 
+"<peak xValue=\"63.28\" xUnits=\"units:ppm\" yValue=\"65\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p6\" atomRefs=\"a11\"/>\n" + 
+"<peak xValue=\"93.28\" xUnits=\"units:ppm\" yValue=\"75\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p7\" atomRefs=\"a12\"/>\n" + 
+"<peak xValue=\"113.28\" xUnits=\"units:ppm\" yValue=\"85\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p8\" atomRefs=\"a13\"/>\n" + 
+"<peak xValue=\"256.28\" xUnits=\"units:ppm\" yValue=\"95\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p9\" atomRefs=\"a14\"/>\n" + 
 
 "</peakList>\n" + 
 "</spectrum>\n" + 
@@ -263,11 +263,11 @@ cmlmolecules=cmlmolecules+
         "   <substance dictRef=\"cml:solvent\" role=\"subst:solvent\" title=\"Dimethylsulphoxide-D6 (DMSO-D6, C2D6SO))\"/>\n" + 
         "  </substanceList>\n" + 
         "  <peakList>\n" + 
-        "   <peak xValue=\"3.189\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakHeight=\"1.0\" peakMultiplicity=\"s\" id=\"p0\" atomRefs=\"a13 a14\"/>\n" + 
-        "   <peak xValue=\"4.198\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakHeight=\"1.0\" peakMultiplicity=\"s\" id=\"p1\" atomRefs=\"a18 a19\"/>\n" + 
-        "   <peak xValue=\"6.225\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakHeight=\"1.0\" peakMultiplicity=\"s\" id=\"p2\" atomRefs=\"a12\"/>\n" + 
-        "   <peak xValue=\"6.868\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakHeight=\"1.0\" peakMultiplicity=\"s\" id=\"p3\" atomRefs=\"a15 a16\"/>\n" + 
-        "   <peak xValue=\"9.034\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakHeight=\"0.5\" peakMultiplicity=\"s\" id=\"p4\" atomRefs=\"a17\"/>\n" + 
+        "   <peak xValue=\"3.189\" xUnits=\"units:ppm\" peakShape=\"sharp\" yValue=\"1.0\" peakMultiplicity=\"s\" id=\"p0\" atomRefs=\"a13 a14\"/>\n" + 
+        "   <peak xValue=\"4.198\" xUnits=\"units:ppm\" peakShape=\"sharp\" yValue=\"1.0\" peakMultiplicity=\"s\" id=\"p1\" atomRefs=\"a18 a19\"/>\n" + 
+        "   <peak xValue=\"6.225\" xUnits=\"units:ppm\" peakShape=\"sharp\" yValue=\"1.0\" peakMultiplicity=\"s\" id=\"p2\" atomRefs=\"a12\"/>\n" + 
+        "   <peak xValue=\"6.868\" xUnits=\"units:ppm\" peakShape=\"sharp\" yValue=\"1.0\" peakMultiplicity=\"s\" id=\"p3\" atomRefs=\"a15 a16\"/>\n" + 
+        "   <peak xValue=\"9.034\" xUnits=\"units:ppm\" peakShape=\"sharp\" yValue=\"0.5\" peakMultiplicity=\"s\" id=\"p4\" atomRefs=\"a17\"/>\n" + 
         "  </peakList>\n" + 
         " </spectrum>\n" + 
         "</cml>"+
@@ -1549,43 +1549,6 @@ cmlmolecules=cmlmolecules+
               "<cml:bond id=\"b77\" atomRefs2=\"a64 a67\" order=\"S\"/>\n"+
               "<cml:bond id=\"b78\" atomRefs2=\"a67 a65\" order=\"D\"/>\n"+
               "<cml:bond id=\"b79\" atomRefs2=\"a66 a69\" order=\"D\"/>\n"+
-            "</bondArray>\n"+
-          "</cml:molecule>\n"+
-        "</product>\n"+
-        "<product>\n"+
-          "<cml:molecule id=\"m7\" xmlns:cml=\"http://www.xml-cml.org/schema\">\n"+
-            "<atomArray>\n"+
-              "<cml:atom id=\"a71\" elementType=\"C\" x2=\"707.904\" y2=\"738.069\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a72\" elementType=\"C\" x2=\"676.864\" y2=\"719.626\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a73\" elementType=\"C\" x2=\"707.454\" y2=\"774.174\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a74\" elementType=\"C\" x2=\"645.371\" y2=\"737.29\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a75\" elementType=\"C\" x2=\"675.96\" y2=\"791.833\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a76\" elementType=\"C\" x2=\"738.495\" y2=\"792.62\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a77\" elementType=\"C\" x2=\"644.9169999999999\" y2=\"773.39\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a78\" elementType=\"O\" x2=\"614.3340000000001\" y2=\"718.845\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"16\"/>\n"+
-              "<cml:atom id=\"a79\" elementType=\"C\" x2=\"738.039\" y2=\"828.719\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a80\" elementType=\"O\" x2=\"771.0\" y2=\"773.0\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n"+
-              "<cml:atom id=\"a81\" elementType=\"C\" x2=\"800.0\" y2=\"791.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a82\" elementType=\"C\" x2=\"826.0\" y2=\"772.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a83\" elementType=\"C\" x2=\"854.0\" y2=\"792.0\" formalCharge=\"1\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n"+
-              "<cml:atom id=\"a84\" elementType=\"O\" x2=\"882.0\" y2=\"770.0\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n"+
-            "</atomArray>\n"+
-            "<bondArray>\n"+
-              "<cml:bond id=\"b81\" atomRefs2=\"a72 a71\" order=\"S\"/>\n"+
-              "<cml:bond id=\"b82\" atomRefs2=\"a73 a71\" order=\"D\"/>\n"+
-              "<cml:bond id=\"b83\" atomRefs2=\"a74 a72\" order=\"D\"/>\n"+
-              "<cml:bond id=\"b84\" atomRefs2=\"a73 a75\" order=\"S\"/>\n"+
-              "<cml:bond id=\"b85\" atomRefs2=\"a76 a73\" order=\"S\"/>\n"+
-              "<cml:bond id=\"b86\" atomRefs2=\"a74 a77\" order=\"S\"/>\n"+
-              "<cml:bond id=\"b87\" atomRefs2=\"a78 a74\" order=\"S\"/>\n"+
-              "<cml:bond id=\"b88\" atomRefs2=\"a74 a77\" order=\"S\"/>\n"+
-              "<cml:bond id=\"b89\" atomRefs2=\"a77 a75\" order=\"D\"/>\n"+
-              "<cml:bond id=\"b90\" atomRefs2=\"a76 a79\" order=\"D\"/>\n"+
-              "<cml:bond id=\"b91\" atomRefs2=\"a76 a80\" order=\"S\"/>\n"+
-              "<cml:bond id=\"b92\" atomRefs2=\"a80 a81\" order=\"S\"/>\n"+
-              "<cml:bond id=\"b93\" atomRefs2=\"a81 a82\" order=\"D\"/>\n"+
-              "<cml:bond id=\"b94\" atomRefs2=\"a82 a83\" order=\"S\"/>\n"+
-              "<cml:bond id=\"b95\" atomRefs2=\"a83 a84\" order=\"D\"/>\n"+
             "</bondArray>\n"+
           "</cml:molecule>\n"+
         "</product>\n"+

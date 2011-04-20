@@ -32,6 +32,7 @@ specview.view.MoleculeRenderer.prototype.setScaleFactor = function(scale) {
 }
 
 
+
 specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) {
     this.setTransform(transform);
 

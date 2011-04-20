@@ -498,44 +498,7 @@ ms=ms+
         "              <cml:bond id=\"b79\" atomRefs2=\"a66 a69\" order=\"D\"/>\n" + 
         "            </bondArray>\n" + 
         "          </cml:molecule>\n" + 
-        "        </product>\n" + 
-        "        <product>\n" + 
-        "          <cml:molecule id=\"m7\" xmlns:cml=\"http://www.xml-cml.org/schema\">\n" + 
-        "            <atomArray>\n" + 
-        "              <cml:atom id=\"a71\" elementType=\"C\" x2=\"707.904\" y2=\"738.069\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a72\" elementType=\"C\" x2=\"676.864\" y2=\"719.626\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a73\" elementType=\"C\" x2=\"707.454\" y2=\"774.174\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a74\" elementType=\"C\" x2=\"645.371\" y2=\"737.29\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a75\" elementType=\"C\" x2=\"675.96\" y2=\"791.833\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a76\" elementType=\"C\" x2=\"738.495\" y2=\"792.62\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a77\" elementType=\"C\" x2=\"644.9169999999999\" y2=\"773.39\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a78\" elementType=\"O\" x2=\"614.3340000000001\" y2=\"718.845\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"16\"/>\n" + 
-        "              <cml:atom id=\"a79\" elementType=\"C\" x2=\"738.039\" y2=\"828.719\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a80\" elementType=\"O\" x2=\"771.0\" y2=\"773.0\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
-        "              <cml:atom id=\"a81\" elementType=\"C\" x2=\"800.0\" y2=\"791.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a82\" elementType=\"C\" x2=\"826.0\" y2=\"772.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a83\" elementType=\"C\" x2=\"854.0\" y2=\"792.0\" formalCharge=\"1\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "              <cml:atom id=\"a84\" elementType=\"O\" x2=\"882.0\" y2=\"770.0\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\"/>\n" + 
-        "            </atomArray>\n" + 
-        "            <bondArray>\n" + 
-        "              <cml:bond id=\"b81\" atomRefs2=\"a72 a71\" order=\"S\"/>\n" + 
-        "              <cml:bond id=\"b82\" atomRefs2=\"a73 a71\" order=\"D\"/>\n" + 
-        "              <cml:bond id=\"b83\" atomRefs2=\"a74 a72\" order=\"D\"/>\n" + 
-        "              <cml:bond id=\"b84\" atomRefs2=\"a73 a75\" order=\"S\"/>\n" + 
-        "              <cml:bond id=\"b85\" atomRefs2=\"a76 a73\" order=\"S\"/>\n" + 
-        "              <cml:bond id=\"b86\" atomRefs2=\"a74 a77\" order=\"S\"/>\n" + 
-        "              <cml:bond id=\"b87\" atomRefs2=\"a78 a74\" order=\"S\"/>\n" + 
-        "              <cml:bond id=\"b88\" atomRefs2=\"a74 a77\" order=\"S\"/>\n" + 
-        "              <cml:bond id=\"b89\" atomRefs2=\"a77 a75\" order=\"D\"/>\n" + 
-        "              <cml:bond id=\"b90\" atomRefs2=\"a76 a79\" order=\"D\"/>\n" + 
-        "              <cml:bond id=\"b91\" atomRefs2=\"a76 a80\" order=\"S\"/>\n" + 
-        "              <cml:bond id=\"b92\" atomRefs2=\"a80 a81\" order=\"S\"/>\n" + 
-        "              <cml:bond id=\"b93\" atomRefs2=\"a81 a82\" order=\"D\"/>\n" + 
-        "              <cml:bond id=\"b94\" atomRefs2=\"a82 a83\" order=\"S\"/>\n" + 
-        "              <cml:bond id=\"b95\" atomRefs2=\"a83 a84\" order=\"D\"/>\n" + 
-        "            </bondArray>\n" + 
-        "          </cml:molecule>\n" + 
-        "        </product>\n" + 
+        "        </product>\n" +
         "      </productList>\n" + 
         "      <substanceList/>\n" + 
         "    </reaction>\n" + 

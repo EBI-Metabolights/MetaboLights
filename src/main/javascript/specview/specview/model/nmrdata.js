@@ -14,6 +14,8 @@ specview.model.NMRdata=function(){
 	this.molecule=null;            // A molecule object (empty, or should just contain the name)
 	this.spectrum=null;            // A molecule object (empty, or should just contain the name)
 
+	this.secondaryMolecule=null;
+	
 	/**
 	 * Why in mary this was uncommented ??
 	 */
@@ -30,6 +32,15 @@ specview.model.NMRdata=function(){
 	
 	this.editor=null;
 	
+	this.transform;
+	
+	this.experienceType="";
+	this.ArrayOfSecondaryMolecules=new Array();//{m1:molecule1;m2:moleucle2...}
+	
+};
+
+specview.model.NMRdata.prototype.toString = function() {
+	return "experiment type: "+this.experienceType+"\nnumber of sfragments: "+this.ArrayOfSecondaryMolecules.length;
 	
 };
 
@@ -41,9 +52,7 @@ specview.model.NMRdata.prototype.setEditor=function(controllerEditor){
 };
 
 
-specview.model.NMRdata.prototype.toString = function() {
-	return "=Object of a spectrum==\n\n " + "1-"+this.molecule + "\n"+"4-"+this.spectrum;
-};
+
 
 specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpectrum,zoomX){
     //Set the coordinates to the pixel
@@ -81,6 +90,8 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   	var widthScaleLimitation = 0.4;
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
     
+  	this.transform=trans;
+  	
   	if(!zoomX){
   	    goog.array.forEach(molecule.atoms,
   	    		function(atom){
