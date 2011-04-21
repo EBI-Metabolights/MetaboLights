@@ -6,7 +6,14 @@ import java.util.HashSet;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-
+/**
+ * For ISATab authentication in the Metabolights website.<br> 
+ * Represents the token for an authentication request or for an authenticated principal once the request has been processed 
+ * by the AuthenticationManager.authenticate(Authentication) method.
+ * Once the request has been authenticated, the Authentication will usually be stored in a thread-local SecurityContext 
+ * managed by the SecurityContextHolder by the authentication mechanism which is being used.  
+ *
+ */
 public class IsaTabAuthentication implements Authentication {
 	private static final long serialVersionUID = 1593454290845634907L;
 
@@ -15,6 +22,7 @@ public class IsaTabAuthentication implements Authentication {
     private boolean authenticated;
 
     public IsaTabAuthentication(MetabolightsUser principal, Object details) {
+    	System.out.println("creating new authentication");
         this.principal = principal;
         this.details = details;
         authenticated = true;

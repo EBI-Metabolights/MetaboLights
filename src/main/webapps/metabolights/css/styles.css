@@ -131,7 +131,6 @@ html,body {
 
 
 
-
 #text_header { 
 	padding: 10px 0px 5px 15px;
 	background-color: #CC9933;
@@ -157,5 +156,13 @@ html,body {
     width: 100%;
 }
 
+
+.messageBox {
+	border: 1px solid #999900;
+	padding: 3px 3px 3px 3px;
+	float: left;
+    margin-top: 3px;
+	
+}
 
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/

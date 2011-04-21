@@ -5,6 +5,9 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
 
 /**
  * Forwards the request for an entry to the BII inv website
@@ -15,8 +18,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class EntryController {
 
+	/*
 	@RequestMapping(value="/entry/{metabolightsId}")
 	public String showEntry(@PathVariable("metabolightsId") String mtblId, Map<String, Object> map) {
-		return "redirect:http://172.22.69.119:8080/bioinvindex/study.seam?studyId="+mtblId;
+    	String biiUrlPrefix = PropertyLookup.getMessage("url.bii.prefix.study");
+    	String redirect="redirect:"+biiUrlPrefix+"?studyId="+mtblId;
+    	return redirect;
 	}
+	*/
+
+	@RequestMapping(value="/entry={metabolightsId}")
+	public ModelAndView  showEntry(@PathVariable("metabolightsId") String mtblId, Map<String, Object> map) {
+    	String biiUrlPrefix = PropertyLookup.getMessage("url.bii.prefix.study");
+    	String biiUrl=biiUrlPrefix+"?studyId="+mtblId;
+		return new ModelAndView("entry", "biiUrl", biiUrl);
+	}
+
+
 } 

@@ -132,12 +132,13 @@
 
         <!-- Uncomment to enable X509 client authentication support <x509 /> -->
 
-        <sec:session-management invalid-session-url="/timeout">
+        <!--sec:session-management invalid-session-url="/timeout"-->
+        <sec:session-management invalid-session-url="/index">
             <sec:concurrency-control max-sessions="1" />  <!--  error-if-maximum-exceeded="true"  -->
         </sec:session-management>
 
         <!--  <form-login /> -->
-        <sec:form-login login-page='/login' authentication-failure-url="/login?login_error=1"  />
+        <sec:form-login login-page='/login' authentication-failure-url="/login?login_error=1" default-target-url="/login-success"  />
     </sec:http>
 
     <sec:authentication-manager>

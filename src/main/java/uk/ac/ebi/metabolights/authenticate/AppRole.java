@@ -2,8 +2,14 @@ package uk.ac.ebi.metabolights.authenticate;
 
 import org.springframework.security.core.GrantedAuthority;
 
+/**
+ * Represents an authority granted to a Spring Authentication object. 
+ */
 public enum AppRole implements GrantedAuthority {
-    ROLE_SUBMITTER (0),
+    
+	ROLE_SUBMITTER (0),
+
+    // not used:
     ROLE_SUPER_USER (1),
     ROLE_WANKER (2);
 

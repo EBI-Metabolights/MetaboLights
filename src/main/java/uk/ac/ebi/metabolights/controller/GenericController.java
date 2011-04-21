@@ -20,14 +20,25 @@ public class GenericController {
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	@RequestMapping(value={"/index","/about", "/timeout", "/loggedout", "login"})
+	@RequestMapping(value={"/index","/about"})
 	public String useMoreDeodorant (HttpServletRequest request) {
-		String requestUrl = request.getRequestURL().toString();
-		// strip out the last bit of the URL (like 'about' and forward to that
-		String target=requestUrl.replaceFirst("^(.)*/", "");
-		System.out.println("generic controller forwarding to "+target);
-		return target!=null&&!target.equals("")?target:"index"; 
+		return lastPartOfUrl(request);
 	}
 
+	/** 
+	 * Forwards to the jsp based on the last part of the requested URL.
+	 *  
+	 * @param request
+	 * @return String indicating JSP target
+	 */
+	public static String lastPartOfUrl (HttpServletRequest request) {
+		String requestUrl = request.getRequestURL().toString();
+		String target=requestUrl.replaceFirst("^(.)*/", "");
+		System.out.println("target is "+target);
+
+		return target!=null&&!target.equals("")?target:"index"; 
+
+	}
 }
+
 

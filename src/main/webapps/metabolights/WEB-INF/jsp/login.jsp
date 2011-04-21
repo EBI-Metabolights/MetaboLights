@@ -2,15 +2,15 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <br/>
+<b><spring:message code="msg.credentials" /></b>
 <br/>
-
 <c:if test="${not empty param.login_error}">
-	<font color="red"> Your login attempt was not successful, try
-		again.<br /> Reason: <c:out
-			value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />. </font>
+    <font color="red"> Your login attempt was not successful, try
+        again.<br /> Reason: <c:out
+            value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />. </font>
 </c:if>
-
-<form name="f" action="<c:url value='j_spring_security_check'/>" method="POST">
+<br>
+<form name="loginForm" action="<c:url value='j_spring_security_check'/>" method="POST">
 	<table cellpadding="3px">
 		<tr>
 			<td><spring:message code="label.username" />:</td>
@@ -36,3 +36,6 @@
 	</table>
 </form>
 
+<script type="text/javascript" language="javascript">
+   document.loginForm.j_username.focus();
+</script>

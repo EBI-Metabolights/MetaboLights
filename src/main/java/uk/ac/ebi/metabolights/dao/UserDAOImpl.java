@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import uk.ac.ebi.metabolights.authenticate.MetabolightsUser;
 
+/**
+ * DAO implementation for MetabolightsUsers.
+ */
 @Repository
 public class UserDAOImpl implements UserDAO {
  

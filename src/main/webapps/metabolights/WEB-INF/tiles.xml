@@ -32,10 +32,8 @@
         <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
     </definition>
 
-    <definition name="loggedout" extends="base.definition">
-        <put-attribute name="title" value="Logged out of Metabolights" />
-        <put-attribute name="body" value="/WEB-INF/jsp/loggedout.jsp" />
-    </definition>
+
+    <definition name="entry" template="WEB-INF/jsp/entry.jsp"/>
 
     <definition name="timeout" extends="base.definition">
         <put-attribute name="title" value="Timed out of Metabolights" />
