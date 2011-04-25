@@ -93,8 +93,9 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			}
 //			alert(currentMetaSpecObject.experienceType)			
 			if(currentMetaSpecObject.experienceType=="ms" && newMoleculeToDisplay!=undefined){
-//				alert("the molecule: \n"+newMoleculeToDisplay);
-				this.drawNewMolecule(newMoleculeToDisplay,currentMetaSpecObject.transform);
+				currentMetaSpecObject.molecule=newMoleculeToDisplay;
+				this.editorObject.setModels([currentMetaSpecObject]);
+//				this.drawNewMolecule(newMoleculeToDisplay,currentMetaSpecObject.transform,currentMetaSpecObject.editor);
 			}
 			var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 			//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
@@ -180,7 +181,7 @@ specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
 };
 
 specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(molecule,trans) {
-//	alert(molecule);
+	//	alert(molecule);
 //	alert(trans)
 	return this.editorObject.moleculeRenderer.render(molecule,trans);
 }

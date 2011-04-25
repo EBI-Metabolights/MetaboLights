@@ -126,7 +126,12 @@ specview.view.Renderer.prototype.renderBoundingBox = function(box, opt_color){
     var boxBotLeftCoord =new goog.math.Coordinate(box.left,box.bottom);
     var boxBotRightCoord =new goog.math.Coordinate(box.right,box.bottom);
 
+    boxTopRightCoord=(boxTopRightCoord.x<boxTopLeftCoord.x ? new goog.math.Coordinate(1169,box.top) : boxTopRightCoord);
+    boxBotRightCoord=(boxBotRightCoord.x<boxBotLeftCoord.x ? new goog.math.Coordinate(1169,box.bottom) : boxBotRightCoord);
+    
     var boxCoords = this.transform.transformCoords( [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord]);
+//    alert("box:\n"+box+"\n\nboxCoords: \n"+boxCoords)
+    
     //var boxCoords = [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord];
     var boxPath = new goog.graphics.Path();
     

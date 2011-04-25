@@ -61,13 +61,15 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 	var spectrum=this.spectrum;
 	var editor=editorSpectrum;
 	
-	/*TO THIS STAGE NO SETMODELS HAS NOT BEEN CALLED. IT WAS AT THIS TIME THAT THE PIXEL COORDINATES WERE SETTLED ACCORDING
+	/*
+	TO THIS STAGE NO SETMODELS HAS NOT BEEN CALLED. IT WAS AT THIS TIME THAT THE PIXEL COORDINATES WERE SETTLED ACCORDING
 	TO THE COORDINATES OF THE  MOLECULES. SO NOW WHAT WE DO IS  THAT AFTER CREATING THE METASPEC OBJECT WE INDEPENDANTLY(FROM THE
 	SETMODEL CALL) CREATE THE BOUNDINGBOX WHICH ALLOW TO ALREADY KNOW WHAT WILL BE THE PIXEL COORDINATES OF EACH OBJECT.
 	THE BOX.
 	*/
 	
     var molBox = molecule.getBoundingBox();//CREATE THE MOLECULE BOX. THIS WILL ALLOW TO SET THE PARAMETER FOR EVERY OTHER OBJECTS
+    this.logger.info("limit of the molecule(molecule_rederer): "+molBox)
     var molHeight=Math.abs(molBox.top-molBox.bottom);
     var molWidth=Math.abs(molBox.left-molBox.right);
     var size=Math.max(molHeight,molWidth);
@@ -126,6 +128,9 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   
   var adjustValue;
   var adjustYvalue;
+  
+  boxxx.right=(boxxx.right<boxxx.left ? 1169 : boxxx.right);
+  
   var boxCoords=trans.transformCoords([new goog.math.Coordinate(boxxx.left,boxxx.top),new goog.math.Coordinate(boxxx.right,boxxx.bottom)]);
 
   var sortedArray=spectrum.sortXvalues();
@@ -171,7 +176,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 	  var valueToComputeTheRapport=arrayOfPeakSorted[0].xPixel;
 	  var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100)
 	  arrayOfPeakSorted[0].setCoordinates(newMinXvalue,arrayOfPeakSorted[0].yPixel,newMinXvalue,arrayOfPeakSorted[0].yTpixel);
-	  this.logger.info("at zoom "+zoomX+": "+newMinXvalue);
+//	  this.logger.info("at zoom "+zoomX+": "+newMinXvalue);
 //	  array.push(newMinXvalue);
 	  for(var k=1;k<arrayOfPeakSorted.length;k++){
 		  var rapp=arrayOfPeakSorted[k].xPixel/valueToComputeTheRapport;

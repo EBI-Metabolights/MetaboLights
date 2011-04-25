@@ -85,7 +85,7 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 			if (displayElem.subscript || displayElem.superscript) {
 				var subSize = this.config.get("subscriptSize");
 				if (displayElem.subscript) {
-					alert("left: "+point.x)
+//					alert("left: "+point.x)
 
 					opt_element_array.add(graphics.drawText(displayElem.subscript,
 							point.x + w * 0.9, point.y, subSize, subSize,
@@ -97,7 +97,7 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 			if (displayElem.subscript || displayElem.superscript) {
 				var subSize = this.config.get("subscriptSize");
 				if (displayElem.subscript) {
-					alert("right: "+point.x)
+		//			alert("right: "+point.x)
 					opt_element_array.add(graphics.drawText('H', point.x - w
 							* 3, point.y - h / 2, w, h, 'center', null, font,
 							stroke, fill));
@@ -112,7 +112,7 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 			if(displayElem.justification == 'center') {
 				w=w*0.8;
 			}
-			alert("ceter: "+point.x);
+		//	alert("ceter: "+point.x);
 			opt_element_array.add(graphics.drawText(displayElem.superscript,
 					point.x + w, point.y - h * 0.8, subSize, subSize,
 					'left', null, font, stroke, fill));

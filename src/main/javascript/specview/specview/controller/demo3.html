@@ -189,7 +189,6 @@ var redrawSpectra=function(zoom){
 
 
 <body>
-
   <div id="slider">0</div>
   <div id="slider2">x</div>
   <div id="slider3">y</div>
@@ -216,7 +215,6 @@ var redrawSpectra=function(zoom){
           $('slider2').innerHTML = percent;
     })
     
-    
     var slider = new goog.fx.Dragger($('slider'), null, limits);
     goog.events.listen(slider, 'drag', function(e) {
       var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
@@ -230,13 +228,6 @@ var redrawSpectra=function(zoom){
     });
   </script>
  <img name="track" style="position:absolute;left:665px;top:25px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
-
-<!-- 
- <img name="leftBound" src="../../images/uparrow.gif" style="position:absolute;left:460px;top:95px;display:block;z-index:10;" width="20" height="20" alt="Left m/z Zoom"  title="Left m/z Zoom"/>
- <img name="rightBound" src="../../images/uparrow.gif" style="position:absolute;left:365px;top:95px;display:block;z-index:10;" width="20" height="20" alt="Right m/z Zoom"  title="Right m/z Zoom"/>
- <img name="rightBound" src="../../images/rightarrow.gif" style="position:absolute;left:350px;top:35px;display:block;z-index:10;" width="20" height="20" alt="Right m/z Zoom" title="Right m/z Zoom"/>
- -->
-
 	<fieldset style="width:1200px">
         <legend><h1>Spectrum viewer</h1></legend>
         <br>

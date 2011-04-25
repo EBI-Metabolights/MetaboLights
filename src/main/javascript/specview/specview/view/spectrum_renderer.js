@@ -68,7 +68,7 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
 	var spectrum=metaSpec.spectrum;
     var specBox = spectrum.getBoundingBox();
     var molBox=molecule.getBoundingBox();
-    
+    this.logger.info("In spectrum renderer: "+molBox);
     specHeight=Math.abs(specBox.top-specBox.bottom);
     specWidth=Math.abs(specBox.left-specBox.right);
     size=Math.max(specHeight,specWidth);
@@ -93,7 +93,8 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
 specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform) {
 	var spectrum=metaSpecObject.spectrum;
     this.setTransform(transform);
-    this.renderBoundingBox(this.box,'white'); 
+//    this.logger.info("spectrum_renderer: "+this.box)
+    this.renderBoundingBox(this.box,'red'); 
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,'black');
     var peakFill = null;   
