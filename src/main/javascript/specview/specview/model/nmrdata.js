@@ -129,7 +129,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   var adjustValue;
   var adjustYvalue;
   
-  boxxx.right=(boxxx.right<boxxx.left ? 1169 : boxxx.right);
+  boxxx.right=(boxxx.right<boxxx.left ? 1200 : boxxx.right);//ms case
   
   var boxCoords=trans.transformCoords([new goog.math.Coordinate(boxxx.left,boxxx.top),new goog.math.Coordinate(boxxx.right,boxxx.bottom)]);
 

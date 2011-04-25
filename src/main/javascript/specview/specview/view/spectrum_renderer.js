@@ -47,6 +47,10 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMolecule = function(mol
     bottom=-5.5;
     right=23.5;
 
+    
+    right=right<left ? 23.5 : right;//for the special case mass spectra
+    left=left>right ? 10 : left;
+    
     this.box = new goog.math.Box(top,right,bottom,left);
     
     //this.box = new goog.math.Box(top,right,bottom,left);//THIS IS THE GOOD BOX FOR INVERTING

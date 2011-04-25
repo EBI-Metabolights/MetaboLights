@@ -431,6 +431,7 @@ specview.model.Molecule.prototype.toString = function() {
  */
 specview.model.Molecule.prototype.getCenter = function() {
 	var box = this.getBoundingBox();
+	this.logger.info("molecule box(molecule.js): "+box)
 	return new goog.math.Coordinate((box.left + box.right) / 2,
 			(box.top + box.bottom) / 2);
 };
