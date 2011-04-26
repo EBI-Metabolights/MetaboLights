@@ -96,7 +96,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   	
   	if(!zoomX){
   	    goog.array.forEach(molecule.atoms,
-  	    		function(atom){
+  	     function(atom){
   	    	var point = trans.transformCoords([ atom.coord ])[0];//point is the coordonates with pixelS
   	    	atom.setPixelCoordinates(point.x, point.y);
   	    });	
@@ -129,7 +129,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   var adjustValue;
   var adjustYvalue;
   
-  boxxx.right=(boxxx.right<boxxx.left ? 1200 : boxxx.right);//ms case
+  boxxx.right=(boxxx.right<boxxx.left ? 2300 : boxxx.right);//ms case
   
   var boxCoords=trans.transformCoords([new goog.math.Coordinate(boxxx.left,boxxx.top),new goog.math.Coordinate(boxxx.right,boxxx.bottom)]);
 
