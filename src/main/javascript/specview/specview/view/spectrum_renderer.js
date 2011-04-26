@@ -94,44 +94,17 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
  * The spectrum is simply the object
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
-specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform) {
+specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box) {
 	var spectrum=metaSpecObject.spectrum;
     this.setTransform(transform);
-//    this.logger.info("spectrum_renderer: "+this.box)
-    this.renderBoundingBox(this.box,'red'); 
+    if(this.box==undefined){
+    	this.renderBoundingBox(metaSpecObject.spectrum.getBoundingBox,"red");
+    }else{
+    	this.renderBoundingBox(this.box,'red');	
+    } 
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,'black');
     var peakFill = null;   
-/*
-    var minX=spectrum.peakList[0].xValue;
-    var maxX=spectrum.peakList[0].xValue;
-    
-   goog.array.forEach(spectrum.peakList,
-  function(peak) {
-     if (peak.xValue < minX)
-        minx=peak.xValue;
-       if (peak.xValue > maxX)
-            maxX=peak.xValue;
-    },
-    this);
-    
-    var xAxisLen=(this.box.right-this.box.left)*0.8;
-    this.logger.info(minX+" "+maxX +  "  "+xAxisLen);
-
-    var correct = xAxisLen/(maxX-minX);
-    var rapport=23.5/maxX;
-    
-    var xStart= this.box.left*1.1;    
-    var yStart=this.box.bottom
-
-    var maxHeightOfPeak=spectrum.getMaxHeightPeak();
-    var maxValueOfPeak=spectrum.getMaxValuePeak();
-    var pTo=0;
-    var pFrom=0;
-    
-    var adjustXvalue;
-    var boxCoords=this.transform.transformCoords([new goog.math.Coordinate(this.box.left,this.box.top),new goog.math.Coordinate(this.box.right,this.box.bottom)]);
-    */
     //Draw the peaks
     goog.array.forEach(spectrum.peakList,
     function(peak) {
