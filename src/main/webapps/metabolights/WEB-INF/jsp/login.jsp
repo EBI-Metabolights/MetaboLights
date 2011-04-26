@@ -5,7 +5,7 @@
 <b><spring:message code="msg.credentials" /></b>
 <br/>
 <c:if test="${not empty param.login_error}">
-    <font color="red"> Your login attempt was not successful, try
+    <font color="996666"> Your login attempt was not successful, try
         again.<br /> Reason: <c:out
             value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />. </font>
 </c:if>

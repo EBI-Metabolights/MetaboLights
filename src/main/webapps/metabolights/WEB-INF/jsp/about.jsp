@@ -1,5 +1,5 @@
 
-               <div id="text_header" style="background-color:white;padding-top:75px">
+               <div id="text_header" style="background-color:white;padding-top:35px">
                    Metabolights: a database for metabolomics experiments and derived information
                 </div>
                 
