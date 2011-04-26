@@ -138,7 +138,7 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
 		var truc=key.substr(1).split(",")
 		var g=new goog.math.Coordinate(truc[0],parseInt(truc[1]))
 		//special case for the peaks to allow the recognition when browsing over all the peak
-		if(this.cells_samy[key] instanceof specview.model.Peak && goog.math.nearlyEquals(parseInt(truc[0]),coord.x,10)){
+		if(this.cells_samy[key] instanceof specview.model.Peak && goog.math.nearlyEquals(parseInt(truc[0]),coord.x,5)){
 			return this.cells_samy[key];
 		}
 		if(goog.math.Coordinate.distance(coord,g)<15){

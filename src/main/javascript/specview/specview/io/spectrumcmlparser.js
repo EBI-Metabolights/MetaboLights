@@ -211,7 +211,10 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			}
 			nmrData.ArrayOfSecondaryMolecules[molToBuild[molecule]["id"]]=secondaryMolecule;
 //			alert(secondaryMolecule)
-		}	
+			ArrayOfAtoms=new Array();
+			ArrayOfBonds=new Array();
+		}
+
 	}
 
 	
@@ -283,13 +286,15 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			}
 		}
 		height = height ? height : 50 ; // Should be more precise on the height	
-		atomRefs=(atomRefs==undefined) ? null : atomRefs;
-		molRefs=(molRefs==undefined) ? null : molRefs;
+	//	atomRefs=(atomRefs==undefined) ? null : atomRefs;
+	//	molRefs=(molRefs==undefined) ? null : molRefs;
 		/**
 		 * THAT IS WEIRD
 		 */
 		var maxL=23.5;
 		var peak=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,molRefs);
+		molRefs=null;
+		atomRefs=null;
 		nmrData.ArrayOfPeaks[peakId]=peak;
 		goog.array.insert(ArrayOfPeaks,peak);
 	}
@@ -300,7 +305,9 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 //        spec.setXvalues(maxPValue);
         nmrData.spectrum=spec;
       
-    
+    for(k in nmrData.ArrayOfPeaks){
+    //	alert(nmrData.ArrayOfPeaks[k])
+    }
 	return nmrData;
 	
 };

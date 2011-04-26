@@ -79,38 +79,37 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						this.lastT.highlightGroup.clear();
 					}
 				}
-			this.lastPeakHighlighted=target;
-			this.lastT=e.currentTarget;
-			this.editorObject.addSelected(target);
-			e.currentTarget.highlightPeak=this.highlightPeak(target,currentMetaSpecObject.editor);
-			//LOOKING FOR THE ATOM(S)
-			var currentMetaSpecObject=this.editorObject.getSpecObject();
-//			alert(currentMetaSpecObject.experienceType)
-			var currentPeakIdentifier=target.peakId;
-		//	alert(currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules]);
-			if(currentMetaSpecObject.experienceType=="ms"){
-				newMoleculeToDisplay=currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules];
-			}
-//			alert(currentMetaSpecObject.experienceType)			
-			if(currentMetaSpecObject.experienceType=="ms" && newMoleculeToDisplay!=undefined){
-				currentMetaSpecObject.molecule=newMoleculeToDisplay;
-				this.editorObject.setModels([currentMetaSpecObject]);
-//				this.drawNewMolecule(newMoleculeToDisplay,currentMetaSpecObject.transform,currentMetaSpecObject.editor);
-			}
-			var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
-			//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
-			var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
-			for(var k=0;k<arrayOfAtomToWhichThePeakIsRelated.length;k++){
-				var atomObject=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomToWhichThePeakIsRelated[k]];
-				arrayOfAtomObjectToWhichThePeakIsRelated.push(atomObject);
-			}
-			var atomIdentifier=arrayOfAtomToWhichThePeakIsRelated[0];
-			var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];
-			
-			this.lastArrayOfAtomHighlighted=arrayOfAtomObjectToWhichThePeakIsRelated;
-			e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtomObjectToWhichThePeakIsRelated);
-
-			
+				this.lastPeakHighlighted=target;
+				this.lastT=e.currentTarget;
+				this.editorObject.addSelected(target);
+				e.currentTarget.highlightPeak=this.highlightPeak(target,currentMetaSpecObject.editor);
+				//LOOKING FOR THE ATOM(S)
+				var currentMetaSpecObject=this.editorObject.getSpecObject();
+	//			alert(currentMetaSpecObject.experienceType)
+				var currentPeakIdentifier=target.peakId;
+			//	alert(currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules]);
+				if(currentMetaSpecObject.experienceType=="ms"){
+					newMoleculeToDisplay=currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules];
+				}
+	//			alert(currentMetaSpecObject.experienceType)			
+				if(currentMetaSpecObject.experienceType=="ms" && newMoleculeToDisplay!=undefined){
+					currentMetaSpecObject.molecule=newMoleculeToDisplay;
+					this.editorObject.setModels([currentMetaSpecObject]);
+	//				this.drawNewMolecule(newMoleculeToDisplay,currentMetaSpecObject.transform,currentMetaSpecObject.editor);
+				}else{
+					var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
+					//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
+					var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
+					for(var k=0;k<arrayOfAtomToWhichThePeakIsRelated.length;k++){
+						var atomObject=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomToWhichThePeakIsRelated[k]];
+						arrayOfAtomObjectToWhichThePeakIsRelated.push(atomObject);
+					}
+					var atomIdentifier=arrayOfAtomToWhichThePeakIsRelated[0];
+					var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];
+					
+					this.lastArrayOfAtomHighlighted=arrayOfAtomObjectToWhichThePeakIsRelated;
+					e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtomObjectToWhichThePeakIsRelated);
+				}
 			}		
 		}
 		
