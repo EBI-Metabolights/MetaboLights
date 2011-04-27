@@ -85,11 +85,6 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
 
 
 
-
-
-
-
-
 /**
  * The spectrum is simply the object
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
@@ -97,11 +92,8 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
 specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box) {
 	var spectrum=metaSpecObject.spectrum;
     this.setTransform(transform);
-    if(this.box==undefined){
-    	this.renderBoundingBox(metaSpecObject.spectrum.getBoundingBox,"red");
-    }else{
+
     	this.renderBoundingBox(this.box,'red');	
-    } 
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,'black');
     var peakFill = null;   

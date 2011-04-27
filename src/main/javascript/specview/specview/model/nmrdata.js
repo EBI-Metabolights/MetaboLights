@@ -80,6 +80,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
     var bottom=-5.5;
     var right=23.5;
   	var boxxx=new goog.math.Box(top,right,bottom,left);//CREATE THE SPECTRUM BOX ACCORDING TO THE MOLECULE BOX
+
     
     
     //--------------------------------FIRST WE SET THE PIXEL COORDINATES OF THE ATOM----------------------------\\
