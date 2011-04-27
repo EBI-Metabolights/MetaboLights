@@ -1341,19 +1341,20 @@ cmlmolecules=cmlmolecules+
       "<substance role=\"subst:solvent\" title=\"brauchenwirnicht\"/>\n"+
     "</substanceList>\n"+
     "<peakList>\n"+
-      "<peak xValue=\"91.054\"  xUnits=\"units:mz\" yValue=\"91.054\"  yUnits=\"units:cps\" id=\"p0\"                   />\n"+
-      "<peak xValue=\"119.051\" xUnits=\"units:mz\" yValue=\"119.051\" yUnits=\"units:cps\" id=\"p1\"  moleculeRefs=\"m7\"/>\n"+
-      "<peak xValue=\"123.044\" xUnits=\"units:mz\" yValue=\"123.044\" yUnits=\"units:cps\" id=\"p2\"                   />\n"+
+      "<peak xValue=\"91.054\"  xUnits=\"units:mz\" yValue=\"43.054\"  yUnits=\"units:cps\" id=\"p0\"                   />\n"+
+      "<peak xValue=\"119.051\" xUnits=\"units:mz\" yValue=\"11.051\" yUnits=\"units:cps\" id=\"p1\"  moleculeRefs=\"m7\"/>\n"+
+      "<peak xValue=\"123.044\" xUnits=\"units:mz\" yValue=\"23.044\" yUnits=\"units:cps\" id=\"p2\"                   />\n"+
       "<peak xValue=\"147.044\" xUnits=\"units:mz\" yValue=\"147.044\" yUnits=\"units:cps\" id=\"p3\"  moleculeRefs=\"m6\"/>\n"+
       "<peak xValue=\"148.048\" xUnits=\"units:mz\" yValue=\"148.048\" yUnits=\"units:cps\" id=\"p4\"                   />\n"+
-      "<peak xValue=\"151.039\" xUnits=\"units:mz\" yValue=\"151.039\" yUnits=\"units:cps\" id=\"p5\"                   />\n"+
-      "<peak xValue=\"153.018\" xUnits=\"units:mz\" yValue=\"153.018\" yUnits=\"units:cps\" id=\"p6\"  moleculeRefs=\"m5\"/>\n"+
+      
+      "<peak xValue=\"151.039\" xUnits=\"units:mz\" yValue=\"51.039\" yUnits=\"units:cps\" id=\"p5\"                   />\n"+
+      "<peak xValue=\"153.018\" xUnits=\"units:mz\" yValue=\"63.018\" yUnits=\"units:cps\" id=\"p6\"  moleculeRefs=\"m5\"/>\n"+
       "<peak xValue=\"154.023\" xUnits=\"units:mz\" yValue=\"154.023\" yUnits=\"units:cps\" id=\"p7\"                   />\n"+
-      "<peak xValue=\"179.036\" xUnits=\"units:mz\" yValue=\"179.036\" yUnits=\"units:cps\" id=\"p8\"  moleculeRefs=\"m4\"/>\n"+
-      "<peak xValue=\"189.058\" xUnits=\"units:mz\" yValue=\"189.058\" yUnits=\"units:cps\" id=\"p9\"  moleculeRefs=\"m3\"/>\n"+
-      "<peak xValue=\"255.067\" xUnits=\"units:mz\" yValue=\"255.067\" yUnits=\"units:cps\" id=\"p10\"                  />\n"+
-      "<peak xValue=\"273.076\" xUnits=\"units:mz\" yValue=\"273.076\" yUnits=\"units:cps\" id=\"p11\" moleculeRefs=\"m1\"/>\n"+
-      "<peak xValue=\"274.081\" xUnits=\"units:mz\" yValue=\"274.081\" yUnits=\"units:cps\" id=\"p12\"                  />\n"+
+      "<peak xValue=\"179.036\" xUnits=\"units:mz\" yValue=\"189.036\" yUnits=\"units:cps\" id=\"p8\"  moleculeRefs=\"m4\"/>\n"+
+      "<peak xValue=\"189.058\" xUnits=\"units:mz\" yValue=\"29.058\" yUnits=\"units:cps\" id=\"p9\"  moleculeRefs=\"m3\"/>\n"+
+      "<peak xValue=\"255.067\" xUnits=\"units:mz\" yValue=\"195.067\" yUnits=\"units:cps\" id=\"p10\"                  />\n"+
+      "<peak xValue=\"273.076\" xUnits=\"units:mz\" yValue=\"203.076\" yUnits=\"units:cps\" id=\"p11\" moleculeRefs=\"m1\"/>\n"+
+      "<peak xValue=\"274.081\" xUnits=\"units:mz\" syValue=\"24.081\" yUnits=\"units:cps\" id=\"p12\"                  />\n"+
     "</peakList>\n"+
   "</spectrum>\n"+
   "<reactionList>\n"+

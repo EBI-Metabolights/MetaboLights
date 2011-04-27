@@ -39,9 +39,6 @@ function initPage(){
 	editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
 	editor.registerPlugin(new specview.controller.plugins.Highlight());
 	
-	//editor managing the spectrum
-	editorSpectrum = new specview.controller.Controller(goog.dom.getElement('spectrumContainer'),{background : {color : 'white'}}); 
-	editorSpectrum.registerPlugin(new specview.controller.plugins.Highlight());	
 
 	//Initialisation of a molecule to display when the page is loading
 	var cmlData=cmlmolecules.split("$$END$$\n");
@@ -51,14 +48,10 @@ function initPage(){
 	spectrumData.setCoordinatesWithPixels(editor,0)
 	//CAREFUL WITH THE FOLLOWING LINE
 	editor.setSpecObject(spectrumData);
-	editorSpectrum.setSpecObject(spectrumData);
 
 	editor.setModels([spectrumData]);
 	
-	editorSpectrum.spectrumRenderer.render(spectrumData,spectrumData.transform);
-	
-//	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-//	editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
+
 	
 	//Creation of the tool bar
     var select1 = new goog.ui.Select();
@@ -124,6 +117,8 @@ function initPage(){
 	//CAREFUL WITH THE FOLLOWING LINE
 	  editor.setSpecObject(spectrumData);
       editor.setModels([spectrumData]);
+     
+      
     });
 };
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);
@@ -245,9 +240,6 @@ var redrawSpectra=function(zoom){
         <div id="moleculeContainer" style="height:400px"></div>
 	</fieldset>
 	
-	<fieldset style="width:1200px">
-        <div id="spectrumContainer" style="height:400px"></div>
-	</fieldset>
 	
 
 </body>

@@ -200,7 +200,7 @@ specview.controller.Controller.prototype.setModels = function(models){
 }
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
-specview.controller.Controller.prototype.render = function(zoom) {
+specview.controller.Controller.prototype.render = function() {
     goog.array.forEach(this.models, function(model) {
         if (model instanceof specview.model.Molecule) {
             var margin = this.config.get("margin");
@@ -228,9 +228,8 @@ specview.controller.Controller.prototype.render = function(zoom) {
             scaleFactor = 0.90; 
             widthScaleLimitation = 0.4;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
-            this.moleculeRenderer.render(molecule,trans);
-//            this.spectrumRenderer.render(spectrum,trans);
-            this.spectrumRenderer.render(model,trans);
+                this.moleculeRenderer.render(molecule,trans);	
+                this.spectrumRenderer.render(model,trans);            	
         }
     }, this);
 };
@@ -648,7 +647,6 @@ specview.controller.Controller.prototype.execCommand = function(command,
 			break;
 		}
 	}
-
 	return result;
 };
 
@@ -677,7 +675,8 @@ specview.controller.Controller.prototype.registerPlugin = function(plugin) {
 			this.indexedPlugins_[op].push(plugin);
 		}
 	}
-	plugin.registerController(this);
+	plugin.registerController(this);	
+	
 
 	// By default we enable all plugins for controllers that are currently loaded.
 	if (this.isLoaded()) {
