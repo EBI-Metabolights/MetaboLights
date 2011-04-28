@@ -37,16 +37,7 @@ specview.view.Renderer.prototype.setTransform = function(transform){
 
 specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
 	boxCoords=box;
-//	alert(boxCoords)
-	/*
 	
-    var boxTopLeftCoord =new goog.math.Coordinate(box.left,box.top);
-    var boxTopRightCoord =new goog.math.Coordinate(box.right,box.top);
-    var boxBotLeftCoord =new goog.math.Coordinate(box.left,box.bottom);
-    var boxBotRightCoord =new goog.math.Coordinate(box.right,box.bottom);
-    
-    var boxCoords = this.transform.transformCoords( [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord]);
-    */
     var boxPath = new goog.graphics.Path();
     var scaleX=(boxCoords[2].x-boxCoords[0].x)/21;
     var scaleY=(boxCoords[1].y-boxCoords[0].y)/9;
@@ -79,17 +70,9 @@ specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
 specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_color){
 	
 	var boxCoords=metaSpecObject.mainSpecBox;
-/*
-    var boxTopLeftCoord =new goog.math.Coordinate(box.left,box.top);
-    var boxTopRightCoord =new goog.math.Coordinate(box.right,box.top);
-    var boxBotLeftCoord =new goog.math.Coordinate(box.left,box.bottom);
-    var boxBotRightCoord =new goog.math.Coordinate(box.right,box.bottom);
-    var peakList=spectrum.peakList;
-    
 
-    var boxCoords = this.transform.transformCoords( [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord]);
-    */
-//    this.logger.info("box coord: "+boxCoords);
+	var peakList=metaSpecObject.ArrayOfPeaks;
+	
     var scaleX=(boxCoords[1].x-boxCoords[0].x)/21;
     var scaleY=(boxCoords[2].y-boxCoords[0].y)/9;
   
@@ -107,10 +90,10 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     boxPath.lineTo(boxCoords[3].x, boxCoords[3].y);
     this.graphics.drawPath(boxPath, boxStroke, boxFill);
     
-    for(var k=boxCoords[0].x;k<boxCoords[1].x;k+=1){
+    for(var k=boxCoords[0].x;k<boxCoords[2].x;k+=1){
     	for(a in peakList){
     		if(parseInt(k)==parseInt(peakList[a].xPixel)){
-    	        this.graphics.drawText(parseInt(peakList[a].xValue), k, boxCoords[2].x+75, 600, 200, 'left', null,
+    	        this.graphics.drawText(parseInt(peakList[a].xValue), k, boxCoords[1].y, 600, 200, 'left', null,
     	                font, stroke, fill);
     		}
     	}

@@ -50,6 +50,7 @@ specview.model.Molecule = function(opt_name) {
 	 * @type {string}
 	 */
 	this.name = opt_name ? opt_name : "";
+	this.molecule_id=null;
 
 	/**
 	 * SSSR calculated for this molecule

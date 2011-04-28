@@ -225,6 +225,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		moleculeTitle=mol.item(0).attributes[0].value;
 		molecId=mol.item(0).attributes[1].value;
 		nmrData.molecule=new specview.model.Molecule(moleculeTitle);
+		nmrData.molecule.molecule_id=molecId;
+//		alert(nmrData.molecule.name+" "+nmrData.molecule.molecule_id);
 		//Add the atoms to the molecule
 		for(k in ArrayOfAtoms){
 			nmrData.molecule.addAtom(ArrayOfAtoms[k]);

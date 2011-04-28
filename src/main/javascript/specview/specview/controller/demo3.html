@@ -24,11 +24,14 @@
 
 <script>
 
-editor=null;
-spectrumData=null;
-zoom=0;
+//editor=null;
+//spectrumData=null;
+//zoom=0;
+
+truc="truc"
 
 function initPage(){
+	truc="caca"
 	var isGrid=false;
 	var isAxis=false;
 	// uncomment next two lines to debug to console
@@ -119,19 +122,15 @@ function initPage(){
 	//CAREFUL WITH THE FOLLOWING LINE
 	  editor.setSpecObject(spectrumData);
       editor.setModels([spectrumData]);
-  	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+      editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 
       
     });
 };
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 var redrawSpectra=function(zoom){
-	var stroke = new goog.graphics.Stroke(0.4,"black");
-	var fill = new goog.graphics.SolidFill('black');
-	var font = new goog.graphics.Font(10, 'Times');
 	spectrumData.setCoordinatesWithPixels(editor,zoom)
-	
 	editor.setSpecObject(spectrumData);
 	editor.setModels([spectrumData]);
 	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
@@ -146,9 +145,9 @@ var redrawSpectra=function(zoom){
 	<title>Display spectrum demo</title>
 	<link rel="stylesheet" href="../../css/specview.css" />
 	<link rel="stylesheet"  href="../../css/demo.css" />
-	 <script>
+	<link rel="stylesheet" href="../style/style.html" />
+ 
 
-  </script>
   <style>
     #slider {
       position: absolute;
@@ -193,8 +192,10 @@ var redrawSpectra=function(zoom){
     }
   </style>
 	
-</head>
 
+ 
+
+</head>
 
 <body>
   <div id="slider">0</div>
@@ -239,6 +240,10 @@ var redrawSpectra=function(zoom){
 	<fieldset style="width:1200px">
         <legend><h1>Spectrum viewer</h1></legend>
         <br>
+        <li><b>Molecule name:</b><script>document.write(truc)</script></li>
+        <li><b>Molecule id: </b><script>spectrumData.molecule.molecule_id</script></li>
+        <li><b>Experiment type: </b><script>spectrumData.molecule.molecule_id</script></li>
+        <li><b>Experiment id: </b><script>spectrumData.molecule.molecule_id</script></li>
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>
         <div id="moleculeContainer" style="height:300px"></div>
