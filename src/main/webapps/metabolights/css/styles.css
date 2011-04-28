@@ -9,7 +9,7 @@ html,body {
 	text-align: center;
 	font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
 	font-weight: normal;
-	font-size: 12px;
+	font-size: 11px;
 }
 
 
@@ -139,7 +139,7 @@ html,body {
 	color:#666666;
 }
 #text-column {
-	padding: 15px 15px 25px 15px;
+	padding: 10px 10px 15px 10px;
 	float: left;
 	color: #444444;
 	font-weight: lighter;
