@@ -59,7 +59,10 @@ specview.model.Spectrum.prototype.getBoundingBox = function() {
 			}));
 };
 
-
+/**
+ * Return the maximum intensity of all the peaks
+ * @returns {Number}
+ */
 specview.model.Spectrum.prototype.getMaxHeightPeak=function(){
 	var max=0;
 	goog.array.forEach(this.peakList,function(peak){

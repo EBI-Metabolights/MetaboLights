@@ -69,12 +69,14 @@ specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
 
 specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_color){
 	
+	var maxHeight=metaSpecObject.spectrum.getMaxHeightPeak();
+
 	var boxCoords=metaSpecObject.mainSpecBox;
 
 	var peakList=metaSpecObject.ArrayOfPeaks;
 	
     var scaleX=(boxCoords[1].x-boxCoords[0].x)/21;
-    var scaleY=(boxCoords[2].y-boxCoords[0].y)/9;
+    var scaleY=(boxCoords[1].y-boxCoords[0].y)/9;
   
     var stroke = new goog.graphics.Stroke(0.4,opt_color);
 	var fill = new goog.graphics.SolidFill('black');
@@ -98,10 +100,14 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     		}
     	}
     }
-    
-    for(var k=boxCoords[0].y;k<boxCoords[2].y;k+=scaleY){
-        this.graphics.drawText(parseInt(k), boxCoords[0].x-35, k, 600, 200, 'left', null,
-                font, stroke, fill);
+    var count=9;
+//    alert(scaleY+" "+boxCoords[0].y+" "+boxCoords[1].y)
+    for(var k=boxCoords[1].y-scaleY;k>boxCoords[0].y;k-=scaleY){
+    	count-=1;
+    	if(count!=0){
+            this.graphics.drawText(parseInt(maxHeight/count), boxCoords[0].x-30, k, 600, 200, 'left', null,
+                    font, stroke, fill);	
+    	}
     }
 };
 
