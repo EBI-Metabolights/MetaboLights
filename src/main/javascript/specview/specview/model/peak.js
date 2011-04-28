@@ -4,7 +4,7 @@ goog.require('goog.math.Coordinate');
 /*
  * Constructeur of the peak
  */
-specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt_multiplicity,opt_molRefs){
+specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt_multiplicity,opt_molRefs,opt_Xunit){
 	this.xValue=opt_xValue;
 	this.intensity=opt_intensity;
 	this.peakId=opt_peakId;
@@ -19,6 +19,7 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 	this.xTpixel=0;
 	this.yTpixel=0;
 	
+	this.peakXunit=opt_Xunit;
 
 	this.pixelCoord=null;
 	

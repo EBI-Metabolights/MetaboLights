@@ -251,7 +251,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				maxPValue=(xValue>maxPValue ? xValue : maxPValue);
 				break;
 			case "xUnits":
-				xUnits=attributeValue;
+				xUnits=specview.util.Utilities.getStringAfterCharacter(attributeValue,":");
 				break;
 			case "peakShape":
 				peakShape=attributeValue;
@@ -293,7 +293,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		 * THAT IS WEIRD
 		 */
 		var maxL=23.5;
-		var peak=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,molRefs);
+		var peak=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,molRefs,xUnits);
 		molRefs=null;
 		atomRefs=null;
 		nmrData.ArrayOfPeaks[peakId]=peak;

@@ -100,8 +100,13 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     		}
     	}
     }
+    
+
+    
+    this.graphics.drawText(peakList["p1"].peakXunit, boxCoords[2].x+20, boxCoords[1].y, 600, 200, 'left', null,
+            font, stroke, fill);
+    
     var count=9;
-//    alert(scaleY+" "+boxCoords[0].y+" "+boxCoords[1].y)
     for(var k=boxCoords[1].y-scaleY;k>boxCoords[0].y;k-=scaleY){
     	count-=1;
     	if(count!=0){
@@ -124,25 +129,13 @@ specview.view.Renderer.prototype.renderBoundingBox = function(box, opt_color){
     var boxBotLeftCoord =new goog.math.Coordinate(box.left,box.bottom);
     var boxBotRightCoord =new goog.math.Coordinate(box.right,box.bottom);
     
-
-
-    
     boxTopRightCoord=(boxTopRightCoord.x<boxTopLeftCoord.x ? new goog.math.Coordinate(1200,box.top) : boxTopRightCoord);
     boxBotRightCoord=(boxBotRightCoord.x<boxBotLeftCoord.x ? new goog.math.Coordinate(1200,box.bottom) : boxBotRightCoord);
     
     var boxCoords = this.transform.transformCoords( [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord]);
-//    if(opt_color=="blue"){
-//    	this.logger.info("to see the difference: "+boxCoords);	
-//    }
-        //var boxCoords = [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord];
+
     var boxPath = new goog.graphics.Path();
     
-//    var testPath=new goog.graphics.Path();
- //   testPath.moveTo(50, 50);
-  //  testPath.lineTo(500,500);
-   // this.graphics.drawPath(testPath,new goog.graphics.Stroke(1,"orange"),null);
-    
-//alert(boxCoords)
     boxPath.moveTo(boxCoords[0].x, boxCoords[0].y); 
     boxPath.lineTo(boxCoords[1].x,boxCoords[1].y);
 
