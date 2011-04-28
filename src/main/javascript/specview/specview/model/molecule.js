@@ -1,5 +1,5 @@
-/**
- * Copyright 2010 Paul Novak (paul@wingu.com)
+/**  
+ * Copyright 2010 Paul Novak (paul@wingu.com) 
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -64,6 +64,12 @@ specview.model.Molecule = function(opt_name) {
 	 */
 	this.fragments = [];
 	this.fragmentCount = 0;
+	
+	/*
+	 * Useful when dealing with fragments generated in MS experiment
+	 */
+	
+	this.fragmentId=null;
 
 };
 goog.exportSymbol("specview.model.Molecule", specview.model.Molecule);
@@ -107,7 +113,7 @@ specview.model.Molecule.prototype.addBond = function(bond) {
 		}
 	}
 	this.bonds.push(bond);
-//	alert(bond.source.bonds.add(bond));
+
 	bond.source.bonds.add(bond);
 	bond.target.bonds.add(bond);
 	this.addAtom(bond.source);
@@ -431,7 +437,7 @@ specview.model.Molecule.prototype.toString = function() {
  */
 specview.model.Molecule.prototype.getCenter = function() {
 	var box = this.getBoundingBox();
-	this.logger.info("molecule box(molecule.js): "+box)
+	//this.logger.info("molecule box(molecule.js): "+box)
 	return new goog.math.Coordinate((box.left + box.right) / 2,
 			(box.top + box.bottom) / 2);
 };

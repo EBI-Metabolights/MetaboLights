@@ -143,7 +143,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		//Create the bonds with the stereo and put it in the Array of bonds of the cmlObject
 		for(var k=0;k<lenBond;k++){
 			var tag=cNodes[k].nodeName;
-			if(tag!="#text"){//IN ORDER TO AVOID DOING USELESS OPERQTIONS ON TEXT BUT WHAT THE  FUCK IS THAT??
+			if(tag!="#text"){
 				if(k<cNodes.length-2){
 					var nextTag=cNodes[k+2].nodeName;// Not very smart to proceed like this. Must be a beter way.
 				}else{var nextTag=null;}
@@ -209,6 +209,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				secondaryMolecule.addBond(ArrayOfBonds[k]);
 			//	specview.io.SpectrumCMLParser.logger.info(ArrayOfBonds[k]);
 			}
+			molecule.fragmentId=molToBuild[molecule]["id"];
 			nmrData.ArrayOfSecondaryMolecules[molToBuild[molecule]["id"]]=secondaryMolecule;
 //			alert(secondaryMolecule)
 			ArrayOfAtoms=new Array();
@@ -286,8 +287,6 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			}
 		}
 		height = height ? height : 50 ; // Should be more precise on the height	
-	//	atomRefs=(atomRefs==undefined) ? null : atomRefs;
-	//	molRefs=(molRefs==undefined) ? null : molRefs;
 		/**
 		 * THAT IS WEIRD
 		 */

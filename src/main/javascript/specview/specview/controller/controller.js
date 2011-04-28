@@ -221,15 +221,23 @@ specview.controller.Controller.prototype.render = function() {
             this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
             atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
             peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
-//            alert(peak_coords);
             box = goog.math.Box.boundingBox.apply(null, atom_coords);
+
+            
+            if(model.experienceType=="ms"){
+          	    box.top=box.top-box.top;
+                box.bottom=box.bottom-box.top;
+                box.right=box.right-box.top;
+                box.left=box.left-box.top;
+            }
+
             margin = 0.3;//this.config.get("margin");
             ex_box = box.expand(margin, margin, margin, margin);
             scaleFactor = 0.90; 
             widthScaleLimitation = 0.4;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
-                this.moleculeRenderer.render(molecule,trans);	
-                this.spectrumRenderer.render(model,trans);            	
+            this.moleculeRenderer.render(molecule,trans);
+            this.spectrumRenderer.render(model,trans);            	
         }
     }, this);
 };

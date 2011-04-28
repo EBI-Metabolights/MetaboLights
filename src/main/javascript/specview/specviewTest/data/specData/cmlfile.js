@@ -115,15 +115,15 @@ cmlmolecules=cmlmolecules+
 "<substance role=\"subst:solvent\" title=\"Unreported\"/>\n" + 
 "</substanceList>\n" + 
 "<peakList>\n" + 
-"<peak xValue=\"4.28\" xUnits=\"units:ppm\" yValue=\"5\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p0\" atomRefs=\"a1 a2\"/>\n" + 
+"<peak xValue=\"4.28\" xUnits=\"units:ppm\" yValue=\"55\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p0\" atomRefs=\"a1 a2\"/>\n" + 
 "<peak xValue=\"14.28\" xUnits=\"units:ppm\" yValue=\"15\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p1\" atomRefs=\"a3\"/>\n" + 
 "<peak xValue=\"18.28\" xUnits=\"units:ppm\" yValue=\"25\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p2\" atomRefs=\"a4 a5\"/>\n" + 
 "<peak xValue=\"22.28\" xUnits=\"units:ppm\" yValue=\"35\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p3\" atomRefs=\"a5 a6 a7\"/>\n" + 
-"<peak xValue=\"33.28\" xUnits=\"units:ppm\" yValue=\"45\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p4\" atomRefs=\"a8\"/>\n" + 
-"<peak xValue=\"49.28\" xUnits=\"units:ppm\" yValue=\"55\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p5\" atomRefs=\"a9 a10\"/>\n" + 
+"<peak xValue=\"33.28\" xUnits=\"units:ppm\" yValue=\"59\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p4\" atomRefs=\"a8\"/>\n" + 
+"<peak xValue=\"49.28\" xUnits=\"units:ppm\" yValue=\"19\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p5\" atomRefs=\"a9 a10\"/>\n" + 
 "<peak xValue=\"63.28\" xUnits=\"units:ppm\" yValue=\"65\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p6\" atomRefs=\"a11\"/>\n" + 
 "<peak xValue=\"93.28\" xUnits=\"units:ppm\" yValue=\"75\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p7\" atomRefs=\"a12\"/>\n" + 
-"<peak xValue=\"113.28\" xUnits=\"units:ppm\" yValue=\"85\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p8\" atomRefs=\"a13\"/>\n" + 
+"<peak xValue=\"113.28\" xUnits=\"units:ppm\" yValue=\"53\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p8\" atomRefs=\"a13\"/>\n" + 
 "<peak xValue=\"256.28\" xUnits=\"units:ppm\" yValue=\"95\" peakShape=\"sharp\" peakMultiplicity=\"T\" id=\"p9\" atomRefs=\"a14\"/>\n" + 
 
 "</peakList>\n" + 
@@ -1225,14 +1225,14 @@ cmlmolecules=cmlmolecules+
         "<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 
         " <molecule title=\"1,3-DIAMINO-BENZENE\" id=\"nmrshiftdb10005696\">\n" + 
         "  <atomArray>\n" + 
-        "   <atom id=\"a1\" elementType=\"C\" x2=\"20.0\" y2=\"9.0\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "   <atom id=\"a2\" elementType=\"C\" x2=\"21.0\" y2=\"18.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
-        "   <atom id=\"a3\" elementType=\"C\" x2=\"35.0\" y2=\"23.0\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
-        "   <atom id=\"a4\" elementType=\"C\" x2=\"48.0\" y2=\"18.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
-        "   <atom id=\"a5\" elementType=\"C\" x2=\"48.0\" y2=\"8.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
-        "   <atom id=\"a6\" elementType=\"C\" x2=\"34.0\" y2=\"3.0\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
-        "   <atom id=\"a7\" elementType=\"N\" x2=\"9.0\" y2=\"5.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"14\"/>\n" + 
-        "   <atom id=\"a8\" elementType=\"N\" x2=\"35.0\" y2=\"31.0\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"14\"/>\n" + 
+        "   <atom id=\"a1\" elementType=\"C\" x2=\".420\" y2=\".180\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a2\" elementType=\"C\" x2=\".420\" y2=\".360\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a3\" elementType=\"C\" x2=\".700\" y2=\".460\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a4\" elementType=\"C\" x2=\".96\" y2=\".360\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a5\" elementType=\"C\" x2=\".96\" y2=\".160\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a6\" elementType=\"C\" x2=\".70\" y2=\".060\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\"/>\n" + 
+        "   <atom id=\"a7\" elementType=\"N\" x2=\".180\" y2=\".10\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"14\"/>\n" + 
+        "   <atom id=\"a8\" elementType=\"N\" x2=\".700\" y2=\".620\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"14\"/>\n" + 
         "  </atomArray>\n" + 
         "  <bondArray>\n" + 
         "   <bond id=\"b1\" atomRefs2=\"a2 a1\" order=\"D\"/>\n" + 

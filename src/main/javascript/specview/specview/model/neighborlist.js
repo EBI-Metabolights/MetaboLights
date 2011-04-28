@@ -312,7 +312,6 @@ specview.model.NeighborList.metaSpecToNeighbors = function(metaSpec) {
 	goog.array.forEach(leSpec, function(spec){
 		//peaks
 		neighbors=goog.array.concat(neighbors,goog.array.map(spec.peakList,function(s){
-//			alert("One peak will be highlighted at the following coordinates:\n"+s.pixelCoord);//PIXEL COORDINATES
 			return {
 				obj : s,
 				getCenter : function() {return s.coord;},

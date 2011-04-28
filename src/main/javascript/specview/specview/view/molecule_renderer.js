@@ -65,7 +65,6 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) 
             aromRingRenderer.render(ring, transform, bondPath));
         }
     });
-//    alert(bondPath+"\n"+bondStroke+"\n"+bondFill);
     molecule._elements.add(this.graphics.drawPath(bondPath, bondStroke, bondFill));
 
     goog.array.forEach(molecule.atoms,
@@ -74,7 +73,7 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) 
     },
     this);
 
-    this.renderBoundingBox(molecule.getBoundingBox(),'green'); 
+//    this.renderBoundingBox(molecule.getBoundingBox(),'green'); 
 
 };
 

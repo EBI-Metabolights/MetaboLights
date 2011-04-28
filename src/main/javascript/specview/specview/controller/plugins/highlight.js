@@ -94,8 +94,9 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 	//			alert(currentMetaSpecObject.experienceType)			
 				if(currentMetaSpecObject.experienceType=="ms" && newMoleculeToDisplay!=undefined){
 					currentMetaSpecObject.molecule=newMoleculeToDisplay;
-					this.editorObject.setModels([currentMetaSpecObject]);
-	//				this.drawNewMolecule(newMoleculeToDisplay,currentMetaSpecObject.transform,currentMetaSpecObject.editor);
+					this.drawNewMolecule(currentMetaSpecObject);
+					this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
+					this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 				}else{
 					var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 					//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
@@ -179,10 +180,11 @@ specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
  
 };
 
-specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(molecule,trans) {
+specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject) {
 	//	alert(molecule);
 //	alert(trans)
-	return this.editorObject.moleculeRenderer.render(molecule,trans);
+	return 					this.editorObject.setModels([currentMetaSpecObject]);
+//	return this.editorObject.moleculeRenderer.render(molecule,trans);
 }
 
 

@@ -92,8 +92,17 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
 specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box) {
 	var spectrum=metaSpecObject.spectrum;
     this.setTransform(transform);
-
-    	this.renderBoundingBox(this.box,'red');	
+//alert("in spectrum renderer: "+this.box)
+//    var testBox=new goog.math.Box(-1,30,-6,10);
+    if(metaSpecObject.experienceType=="ms"){
+//    	alert("the metaspec box: "+metaSpecObject.mainSpecBox);
+ //   	this.renderBoundingBoxWithPixel(metaSpecObject.mainSpecBox,"blue")
+//    	this.renderBoundingBox(metaSpecObject.mainSpecBox,"blue")
+    }else{
+//    	this.renderBoundingBoxWithPixel(metaSpecObject.mainSpecBox,"blue")
+//    	this.renderBoundingBox(this.box,'red');		
+    }
+   	
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,'black');
     var peakFill = null;   

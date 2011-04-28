@@ -39,18 +39,21 @@ function initPage(){
 	editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
 	editor.registerPlugin(new specview.controller.plugins.Highlight());
 
+	
+	
 	//Initialisation of a molecule to display when the page is loading
 	var cmlData=cmlmolecules.split("$$END$$\n");
-	var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[1]);//XML document
+	var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[15]);//XML document
 	spectrumData=new specview.model.NMRdata();
 	spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
 	spectrumData.setCoordinatesWithPixels(editor,0)
 	//CAREFUL WITH THE FOLLOWING LINE
 	editor.setSpecObject(spectrumData);
 	editor.setModels([spectrumData]);
-//	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-//	editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
-	
+	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+
+		
 	//Creation of the tool bar
     var select1 = new goog.ui.Select();
     select1.addItem(new goog.ui.MenuItem('0', 0));
@@ -90,7 +93,8 @@ function initPage(){
     goog.events.listen(grid, goog.ui.Component.EventType.ACTION,
     		function(e){
     	if(!isGrid){
-    		editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
+    		editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+//    		editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
     		isGrid=true;
     	}
     })
@@ -115,6 +119,10 @@ function initPage(){
 	//CAREFUL WITH THE FOLLOWING LINE
 	  editor.setSpecObject(spectrumData);
       editor.setModels([spectrumData]);
+  	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+
+      
     });
 };
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);
@@ -233,7 +241,7 @@ var redrawSpectra=function(zoom){
         <br>
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>
-        <div id="moleculeContainer" style="height:400px"></div>
+        <div id="moleculeContainer" style="height:300px"></div>
 	</fieldset>
 
 </body>
