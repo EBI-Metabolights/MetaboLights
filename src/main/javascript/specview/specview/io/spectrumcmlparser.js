@@ -46,7 +46,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
     //Attributes of an Atom object
 	var atomId; var elementType; var x; var y; var charge; var hydrogenCount; 
     //Attributes of a Peak object
-	var peakId; var xValue; var multiplicity; var height; var atomRefs; var peakShape; var maxPValue=0; var molRefs;
+	var peakId; var xValue; var multiplicity; var height; var atomRefs; var peakShape; var maxPValue=0; var molRefs; var xUnits; var yUnits;
     //Attributes of a Bond object
 	var bondId; var type; var source; var target; 
 	var stereo=null;
@@ -253,6 +253,9 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			case "xUnits":
 				xUnits=specview.util.Utilities.getStringAfterCharacter(attributeValue,":");
 				break;
+			case "yUnits":
+				yUnits=specview.util.Utilities.getStringAfterCharacter(attributeValue,":");
+				break;
 			case "peakShape":
 				peakShape=attributeValue;
 				break;
@@ -293,7 +296,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		 * THAT IS WEIRD
 		 */
 		var maxL=23.5;
-		var peak=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,molRefs,xUnits);
+		var peak=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,molRefs,xUnits,yUnits);
 		molRefs=null;
 		atomRefs=null;
 		nmrData.ArrayOfPeaks[peakId]=peak;

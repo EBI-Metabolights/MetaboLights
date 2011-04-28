@@ -114,6 +114,12 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
                     font, stroke, fill);	
     	}
     }
+    
+    if(peakList["p1"].peakYunit!=undefined){
+    	this.graphics.drawText(peakList["p1"].peakYunit, boxCoords[0].x-30, boxCoords[0].y, 600, 200, 'left', null,
+                font, stroke, fill);	
+    }
+    
 };
 
 
