@@ -22,7 +22,7 @@ html,body {
 	position: relative;
 }
 #footer {
-	background-color: #CCCCCC;
+	background-color: #9999CC;
 	padding-top: 5px;
 	text-align: center;
 	color: rgb(255, 255, 255);
@@ -163,6 +163,16 @@ html,body {
 	float: left;
     margin-top: 3px;
 	
+}
+
+.error {
+	color:#660033;
+	font-weight: bold;
+}
+
+.white {
+    color:#ffffff;
+    font-size: 8px;
 }
 
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/

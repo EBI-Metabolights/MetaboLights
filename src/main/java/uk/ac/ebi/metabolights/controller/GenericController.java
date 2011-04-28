@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class GenericController {
+
+	private static Logger logger = Logger.getLogger(GenericController.class);
 
 	/** 
 	 * Forwards to the jsp based on the last part of the requested URL.
@@ -34,7 +37,7 @@ public class GenericController {
 	public static String lastPartOfUrl (HttpServletRequest request) {
 		String requestUrl = request.getRequestURL().toString();
 		String target=requestUrl.replaceFirst("^(.)*/", "");
-		System.out.println("target is "+target);
+		logger.debug("target is "+target);
 
 		return target!=null&&!target.equals("")?target:"index"; 
 

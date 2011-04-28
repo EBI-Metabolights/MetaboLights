@@ -46,7 +46,18 @@
       <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener-->
 
-
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/errors/500</location>
+	</error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errors/404</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/errors/403</location>
+    </error-page>
 
 	<servlet>
 		<servlet-name>spring</servlet-name>

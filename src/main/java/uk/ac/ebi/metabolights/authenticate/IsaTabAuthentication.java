@@ -3,8 +3,11 @@ package uk.ac.ebi.metabolights.authenticate;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+
+import uk.ac.ebi.metabolights.controller.FileUploadController;
 
 /**
  * For ISATab authentication in the Metabolights website.<br> 
@@ -15,6 +18,8 @@ import org.springframework.security.core.GrantedAuthority;
  *
  */
 public class IsaTabAuthentication implements Authentication {
+	private static Logger logger = Logger.getLogger(IsaTabAuthentication.class);
+
 	private static final long serialVersionUID = 1593454290845634907L;
 
 	private final MetabolightsUser principal;
@@ -22,7 +27,7 @@ public class IsaTabAuthentication implements Authentication {
     private boolean authenticated;
 
     public IsaTabAuthentication(MetabolightsUser principal, Object details) {
-    	System.out.println("creating new authentication");
+    	logger.info("Authenticating "+principal.getUserName());
         this.principal = principal;
         this.details = details;
         authenticated = true;

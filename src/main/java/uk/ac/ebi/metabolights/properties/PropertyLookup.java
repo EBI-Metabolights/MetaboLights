@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.properties;
 
+import java.io.FileInputStream;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
@@ -11,7 +13,7 @@ public class PropertyLookup {
 	//TODO determine somehow the current locale of the request and then call instead ResourceBundle.getBundle("messages", locale); 
 
 	static ResourceBundle msgResources = ResourceBundle.getBundle("messages");
-	
+
 	public static String getMessage (String propertyName) {
 		return msgResources.getString(propertyName);
 	}

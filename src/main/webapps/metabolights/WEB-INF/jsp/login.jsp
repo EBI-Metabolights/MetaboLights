@@ -4,12 +4,16 @@
 <br/>
 <b><spring:message code="msg.credentials" /></b>
 <br/>
+
 <c:if test="${not empty param.login_error}">
-    <font color="996666"> Your login attempt was not successful, try
-        again.<br /> Reason: <c:out
-            value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />. </font>
+  <span class="error"> 
+    Your login attempt was not successful, try again.<br/> 
+    Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />. 
+  </span>
 </c:if>
+
 <br>
+
 <form name="loginForm" action="<c:url value='j_spring_security_check'/>" method="POST">
 	<table cellpadding="3px">
 		<tr>

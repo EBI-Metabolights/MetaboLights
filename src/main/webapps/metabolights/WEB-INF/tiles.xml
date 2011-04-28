@@ -32,6 +32,16 @@
         <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
     </definition>
 
+    <definition name="error" extends="base.definition">
+        <put-attribute name="title" value="Error" />
+        <put-attribute name="body" value="/WEB-INF/jsp/error.jsp" />
+    </definition>
+
+    <definition name="submit" extends="base.definition">
+        <put-attribute name="title" value="Metabolights file upload for submission" />
+        <put-attribute name="body" value="/WEB-INF/jsp/submit.jsp" />
+    </definition>
+
 
     <definition name="entry" template="WEB-INF/jsp/entry.jsp"/>
 

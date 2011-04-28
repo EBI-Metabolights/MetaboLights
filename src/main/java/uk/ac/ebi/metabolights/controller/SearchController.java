@@ -14,7 +14,7 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
  *
  */
 @Controller
-public class SearchController {
+public class SearchController extends AbstractController{
 	
 	/**
 	 * Redirects to BII.

@@ -15,7 +15,7 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
  *
  */
 @Controller
-public class LoginController {
+public class LoginController extends AbstractController{
 
 	@RequestMapping({"/login-success"})
 	public ModelAndView loggedIn() {
