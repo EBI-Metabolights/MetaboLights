@@ -36,7 +36,10 @@ specview.model.Spectrum=function(optMolecule, optPeaklist)
 goog.exportSymbol("specview.model.Spectrum", specview.model.Spectrum);
 
 
-
+/**
+ * Set the xPixel coordinates of the peaks of the spectrum
+ * @param maxValue
+ */
 specview.model.Spectrum.prototype.setXvalues=function(maxValue){
 	var limitOfEditor=23.5;
 	for(var k=0;k<this.peakList.length;k++){
@@ -74,6 +77,10 @@ specview.model.Spectrum.prototype.getMaxHeightPeak=function(){
 };
 
 
+/**
+ * 
+ * @returns the maximum xValue of the peaks
+ */
 specview.model.Spectrum.prototype.getMaxValuePeak=function(){
 	var max=0;
 	goog.array.forEach(this.peakList,function(peak){
@@ -85,6 +92,9 @@ specview.model.Spectrum.prototype.getMaxValuePeak=function(){
 };
 
 
+/**
+ * Return the array of the xValues of all peaks
+ */
 specview.model.Spectrum.prototype.getXvalues=function(){
 	var array=[];
 	goog.array.forEach(this.peakList,function(peak){
@@ -93,13 +103,27 @@ specview.model.Spectrum.prototype.getXvalues=function(){
 	return array;
 };
 
+
+/**
+ * Called when zooming on the spectrum
+ * The function ask for an array of xValues(represening the coordinates of the peaks of the spectrum)
+ * Then sort the array.
+ * @returns the sorted array
+ */
 specview.model.Spectrum.prototype.sortXvalues=function(){
 	var array=this.getXvalues();
-//	array=array.sort().reverse();
 	array=array.sort(function(a,b){return a - b});
 	return array;
 };
 
+
+/**
+ * For a given xValue, the function look if there is a peak whose xVluae is associated to the parameter xValue.
+ * If yes, then the peak is returned.
+ * If no, return 0.
+ * @param xValue
+ * @returns {Number}
+ */
 specview.model.Spectrum.prototype.getPeakFromxValue=function(xValue){
 	goog.array.forEach(this.peakList,function(peak){
 		if(peak.xValue==xValue){
@@ -109,6 +133,11 @@ specview.model.Spectrum.prototype.getPeakFromxValue=function(xValue){
 	return 0;
 };
 
+/**
+ * 
+ * @param array represents the array of xValue
+ * @returns an array associating a given peak with its xValue
+ */
 specview.model.Spectrum.prototype.mapPeakToxValue=function(array){
 	var arrayOfPeaks=[];
 	for(k in array){
@@ -121,6 +150,12 @@ specview.model.Spectrum.prototype.mapPeakToxValue=function(array){
 	return arrayOfPeaks;
 };
 
+/**
+ * Function called when zooming on the spectrum
+ * @param zoom
+ * @param sortedArrayOfPeak
+ * @returns the Nth max xPixel values.
+ */
 specview.model.Spectrum.prototype.getNthMaxValueOfPeak=function(zoom,sortedArrayOfPeak){
 	var l=this.peakList.length;
 	if(zoom<=l){
@@ -128,6 +163,10 @@ specview.model.Spectrum.prototype.getNthMaxValueOfPeak=function(zoom,sortedArray
 	}
 };
 
+/**
+ * Return an array of all the xPixel of the peaks of the spectrum
+ * @returns {Array}
+ */
 specview.model.Spectrum.prototype.getXpixel=function(){
 	var array=[];
 	goog.array.forEach(this.peakList,function(peak){
@@ -135,7 +174,10 @@ specview.model.Spectrum.prototype.getXpixel=function(){
 	});
 	return array;
 };
-
+/**
+ * return the maximum and minimum xPixel value of peaks belonging to a spectrum
+ * @returns {___array0}
+ */
 specview.model.Spectrum.prototype.getMaxAndMinXpixelValue=function(){
 	var array=new Object();
 	var arrayOfPixel=this.getXpixel();
@@ -158,7 +200,11 @@ specview.model.Spectrum.prototype.setExtremePixelValues=function(){
 	this.minXpixel=extremeValue.minPixel;
 }
 
-
+/**
+ * Change the pixel coordinates of every peak of a spectrum when the spectrum is moved.
+ * @param value
+ * @param direction
+ */
 specview.model.Spectrum.prototype.reScaleCoordinates=function(value,direction){
 
 	goog.array.forEach(this.peakList,function(peak){
@@ -167,6 +213,7 @@ specview.model.Spectrum.prototype.reScaleCoordinates=function(value,direction){
 			peak.xTpixel+=10;
 		}else if(direction=="left"){
 			peak.xPixel-=10;
+			peak.xTpixel-=10;
 		}
 	});
 };

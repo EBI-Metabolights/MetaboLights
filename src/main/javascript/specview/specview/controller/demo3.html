@@ -137,19 +137,14 @@ var redrawSpectra=function(zoom){
 	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 }
 
-var moveSpectrumToTheRight=function(move){
-//	alert("to the right: "+move);
-//	spectrumData.setCoordinatesWithPixels(editor,move);
-	spectrumData.spectrum.reScaleCoordinates(move,"right");
+var moveSpectrum=function(move,direction){
+	spectrumData.spectrum.reScaleCoordinates(move,direction);
 	editor.setSpecObject(spectrumData);
 	editor.setModels([spectrumData]);
     editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+	 editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 }
 
-var moveSpectrumToTheLeft=function(move){
-//	alert("to the left: "+move);
-}
 
 
 </script>
@@ -279,9 +274,9 @@ var moveSpectrumToTheLeft=function(move){
   	          e.dragger.limits.width)-100);
 //        $('slider4').innerHTML = percent;
         if(percent<previousPercent){
-        	moveSpectrumToTheRight(previousPercent);
+        	moveSpectrum(previousPercent,"right");
         }else if(percent>previousPercent){
-        	moveSpectrumToTheLeft(previousPercent);
+        	moveSpectrum(previousPercent,"left");
         }
         previousPercent=percent;
     })
