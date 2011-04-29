@@ -190,6 +190,21 @@ var redrawSpectra=function(zoom){
       border: 1px solid #999;
       cursor: default;
     }
+    
+        #slider4 {
+      position: absolute;
+      left: 665px;
+      top: 95px;
+      width: 110px;
+      height: 13px;
+      font: normal 10px verdana;
+      background-color: #EEE;
+      color: #000;
+      text-align:center;
+      border: 1px solid #999;
+      cursor: default;
+    }    
+    
   </style>
 	
 
@@ -201,12 +216,14 @@ var redrawSpectra=function(zoom){
   <div id="slider">0</div>
   <div id="slider2">x</div>
   <div id="slider3">y</div>
+  <div id="slider4"><script>document.write("<--move spectrum-->")</script></div>
   <script>
     var $ = goog.dom.getElement;
     var Z = 5;
     var limits = new goog.math.Rect(625,75, 148, 0);
     var limits2 = new goog.math.Rect(590,15,0,60);
     var limits3 = new goog.math.Rect(625,75,123,0);
+    var limits4 = new goog.math.Rect(515,95,300,0)
     
    var sliderY=new goog.fx.Dragger($('slider3'),null,limits2) 
     goog.events.listen(sliderY,'drag',function(e){
@@ -235,6 +252,10 @@ var redrawSpectra=function(zoom){
     	  redrawSpectra(percent);
       }
     });
+    
+    var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits4);
+    
+    
   </script>
  <img name="track" style="position:absolute;left:665px;top:25px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
 	<fieldset style="width:1200px">
