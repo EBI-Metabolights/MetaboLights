@@ -25,110 +25,114 @@
 <script>
 
 //editor=null;
-//spectrumData=null;
-//zoom=0;
+spectrumData=null;
+zoom=0;
 
 truc="truc"
 
 function initPage(){
 	truc="caca"
-	var isGrid=false;
-	var isAxis=false;
-	// uncomment next two lines to debug to console
-	var c = new goog.debug.Console(); 
-	c.setCapturing(true); 
-	
-	//Create the canvas and provide it with highlight plugins
-	editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
-	editor.registerPlugin(new specview.controller.plugins.Highlight());
+			var isGrid=false;
+			var isAxis=false;
+			// uncomment next two lines to debug to console
+						
+			var c = new goog.debug.Console(); 
+			c.setCapturing(true); 
+			
+			var cmlData=cmlmolecules.split("$$END$$\n");
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[1]);//XML document
+			spectrumData=new specview.model.NMRdata();
+			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+			
+			//Create the canvas and provide it with highlight plugins
+			editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
 
-	
-	
-	//Initialisation of a molecule to display when the page is loading
-	var cmlData=cmlmolecules.split("$$END$$\n");
-	var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[15]);//XML document
-	spectrumData=new specview.model.NMRdata();
-	spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
-	spectrumData.setCoordinatesWithPixels(editor,0)
-	//CAREFUL WITH THE FOLLOWING LINE
-	editor.setSpecObject(spectrumData);
-	editor.setModels([spectrumData]);
-	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+			editor.registerPlugin(new specview.controller.plugins.Highlight());
+			spectrumData.setCoordinatesWithPixels(editor,0)
 
-		
-	//Creation of the tool bar
-    var select1 = new goog.ui.Select();
-    select1.addItem(new goog.ui.MenuItem('0', 0));
-    select1.addItem(new goog.ui.MenuItem('1', 1));
-    select1.addItem(new goog.ui.MenuItem('2', 2));
-    select1.addItem(new goog.ui.MenuItem('3', 3));
-    select1.addItem(new goog.ui.MenuItem('4', 4));
-    select1.addItem(new goog.ui.MenuItem('5', 5));
-    select1.addItem(new goog.ui.MenuItem('6', 6));
-    select1.addItem(new goog.ui.MenuItem('7', 7));
-    select1.addItem(new goog.ui.MenuItem('8', 8));
-    select1.addItem(new goog.ui.MenuItem('9', 9));
-    select1.addItem(new goog.ui.MenuItem('10', 10));
-    select1.addItem(new goog.ui.MenuItem('11', 11));
-    select1.addItem(new goog.ui.MenuItem('12', 12));
-    select1.addItem(new goog.ui.MenuItem('13', 13));
-    select1.addItem(new goog.ui.MenuItem('14', 14));
-    select1.addItem(new goog.ui.MenuItem('MassSpec', 15)); 
-    
-    select1.setSelectedIndex(0);
-    select1.render(goog.dom.getElement('selectMolecule'));
-    
-    var grid= new goog.ui.Button("grid");
-    grid.render(goog.dom.getElement('selectMolecule'));
-    var axis= new goog.ui.Button("axis");
-    axis.render(goog.dom.getElement('selectMolecule'));
+			
+			//Initialisation of a molecule to display when the page is loading
+
+			//CAREFUL WITH THE FOLLOWING LINE
+			editor.setSpecObject(spectrumData);
+			editor.setModels([spectrumData]);
+			editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+			editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+
+			//Creation of the tool bar
+		    var select1 = new goog.ui.Select();
+		    select1.addItem(new goog.ui.MenuItem('0', 0));
+		    select1.addItem(new goog.ui.MenuItem('1', 1));
+		    select1.addItem(new goog.ui.MenuItem('2', 2));
+		    select1.addItem(new goog.ui.MenuItem('3', 3));
+		    select1.addItem(new goog.ui.MenuItem('4', 4));
+		    select1.addItem(new goog.ui.MenuItem('5', 5));
+		    select1.addItem(new goog.ui.MenuItem('6', 6));
+		    select1.addItem(new goog.ui.MenuItem('7', 7));
+		    select1.addItem(new goog.ui.MenuItem('8', 8));
+		    select1.addItem(new goog.ui.MenuItem('9', 9));
+		    select1.addItem(new goog.ui.MenuItem('10', 10));
+		    select1.addItem(new goog.ui.MenuItem('11', 11));
+		    select1.addItem(new goog.ui.MenuItem('12', 12));
+		    select1.addItem(new goog.ui.MenuItem('13', 13));
+		    select1.addItem(new goog.ui.MenuItem('14', 14));
+		    select1.addItem(new goog.ui.MenuItem('MassSpec', 15)); 
+		    
+		    select1.setSelectedIndex(0);
+		    select1.render(goog.dom.getElement('selectMolecule'));
+		    
+		    var grid= new goog.ui.Button("grid");
+		    grid.render(goog.dom.getElement('selectMolecule'));
+		    var axis= new goog.ui.Button("axis");
+		    axis.render(goog.dom.getElement('selectMolecule'));
 
 
-    goog.events.listen(axis,goog.ui.Component.EventType.ACTION,
-    		function(e){
-    	if(!isAxis){
-    		editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-    		isAxis=true;
-    	}	
-    })
-    
-    goog.events.listen(grid, goog.ui.Component.EventType.ACTION,
-    		function(e){
-    	if(!isGrid){
-    		editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
-//    		editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
-    		isGrid=true;
-    	}
-    })
-    
-    
-    goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
-    function(e) {
-    	zoom=0;
-      isGrid=false;
-      isAxis=false;
-      var select = e.target;
-      var idx = select.getValue();
-      if(cmlData[idx]==undefined){
-          alert("NO SUCH MOLECULE IN THE ARRAY! Default molecle will be displayed : ")
-          idx=0;
-      }
-      var molfile=cmlData[idx];
-      var xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
-      spectrumData=new specview.model.NMRdata();
-      spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
-	  spectrumData.setCoordinatesWithPixels(editor,0)
-	//CAREFUL WITH THE FOLLOWING LINE
-	  editor.setSpecObject(spectrumData);
-      editor.setModels([spectrumData]);
-      editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+		    goog.events.listen(axis,goog.ui.Component.EventType.ACTION,
+		    		function(e){
+		    	if(!isAxis){
+		    		editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+		    		isAxis=true;
+		    	}	
+		    })
+		    
+		    goog.events.listen(grid, goog.ui.Component.EventType.ACTION,
+		    		function(e){
+		    	if(!isGrid){
+		    		editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+		    		isGrid=true;
+		    	}
+		    })
+		    
 
-      
-    });
+		    goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
+		    function(e) {
+		    	zoom=0;
+		      isGrid=false;
+		      isAxis=false;
+		      var select = e.target;
+		      var idx = select.getValue();
+		      if(cmlData[idx]==undefined){
+		          alert("NO SUCH MOLECULE IN THE ARRAY! Default molecle will be displayed : ")
+		          idx=0;
+		      }
+		      var molfile=cmlData[idx];
+		      var xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
+		      spectrumData=new specview.model.NMRdata();
+		      spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+			  spectrumData.setCoordinatesWithPixels(editor,0)
+			//CAREFUL WITH THE FOLLOWING LINE
+			  editor.setSpecObject(spectrumData);
+		      editor.setModels([spectrumData]);
+		      editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+			  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+
+		      
+		    });
+
 };
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);
+
+
 var redrawSpectra=function(zoom){
 	spectrumData.setCoordinatesWithPixels(editor,zoom)
 	editor.setSpecObject(spectrumData);
@@ -286,10 +290,11 @@ var moveSpectrum=function(move,direction){
 	<fieldset style="width:1200px">
         <legend><h1>Spectrum viewer</h1></legend>
         <br>
-        <li><b>Molecule name:</b><script>document.write(truc)</script></li>
-        <li><b>Molecule id: </b><script>document.write(truc)</script></li>
-        <li><b>Experiment type: </b><script>document.write(truc)</script></li>
-        <li><b>Experiment id: </b><script>document.write(truc)</script></li>
+           <script>initPage();alert(truc)</script>
+        <li><b>Molecule name:</b><script>document.write(spectrumData.molecule.name)</script></li>
+        <li><b>Molecule id: </b><script>document.write(spectrumData.molecule.molecule_id)</script></li>
+        <li><b>Experiment type: </b><script>document.write(spectrumData.experienceType)</script></li>
+        <li><b>Experiment id: </b><script>document.write(spectrumData.molecule.name)</script></li>
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>
         <div id="moleculeContainer" style="height:300px"></div>
