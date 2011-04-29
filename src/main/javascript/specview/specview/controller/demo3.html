@@ -133,8 +133,8 @@ var redrawSpectra=function(zoom){
 	spectrumData.setCoordinatesWithPixels(editor,zoom)
 	editor.setSpecObject(spectrumData);
 	editor.setModels([spectrumData]);
-	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
+    editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 }
 
 var moveSpectrumToTheRight=function(move){
@@ -143,8 +143,8 @@ var moveSpectrumToTheRight=function(move){
 	spectrumData.spectrum.reScaleCoordinates(move,"right");
 	editor.setSpecObject(spectrumData);
 	editor.setModels([spectrumData]);
-	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
+    editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 }
 
 var moveSpectrumToTheLeft=function(move){
