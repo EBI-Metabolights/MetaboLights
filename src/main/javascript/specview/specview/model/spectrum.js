@@ -159,6 +159,18 @@ specview.model.Spectrum.prototype.setExtremePixelValues=function(){
 }
 
 
+specview.model.Spectrum.prototype.reScaleCoordinates=function(value,direction){
+
+	goog.array.forEach(this.peakList,function(peak){
+		if(direction=="right"){
+			peak.xPixel+=10;
+			peak.xTpixel+=10;
+		}else if(direction=="left"){
+			peak.xPixel-=10;
+		}
+	});
+};
+
 
 
 /*

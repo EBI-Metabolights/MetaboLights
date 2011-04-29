@@ -136,7 +136,21 @@ var redrawSpectra=function(zoom){
 	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 	editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
 }
-  
+
+var moveSpectrumToTheRight=function(move){
+//	alert("to the right: "+move);
+//	spectrumData.setCoordinatesWithPixels(editor,move);
+	spectrumData.spectrum.reScaleCoordinates(move,"right");
+	editor.setSpecObject(spectrumData);
+	editor.setModels([spectrumData]);
+	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	editor.spectrumRenderer.renderGrid(editor.spectrumRenderer.box,'black',spectrumData.spectrum);
+}
+
+var moveSpectrumToTheLeft=function(move){
+//	alert("to the left: "+move);
+}
+
 
 </script>
 
@@ -206,9 +220,6 @@ var redrawSpectra=function(zoom){
     }    
     
   </style>
-	
-
- 
 
 </head>
 
@@ -225,6 +236,9 @@ var redrawSpectra=function(zoom){
     var limits3 = new goog.math.Rect(625,75,123,0);
     var limits4 = new goog.math.Rect(515,95,300,0)
     
+    
+   //THe slider y.
+   //To zoom in the y dimension
    var sliderY=new goog.fx.Dragger($('slider3'),null,limits2) 
     goog.events.listen(sliderY,'drag',function(e){
         var percent = Math.round(100 * (e.top - e.dragger.limits.top) /
@@ -232,7 +246,8 @@ var redrawSpectra=function(zoom){
   
           $('slider3').innerHTML = percent;
     })
-    
+   //THe slider x.
+   //To zoom in the x dimension and toward the lower values
     var sliderXleft = new goog.fx.Dragger($('slider2'),null,limits3);
     goog.events.listen(sliderXleft,'drag',function(e){
         var percent = Math.round(100 * (e.left - e.dragger.limits.left) /
@@ -240,7 +255,8 @@ var redrawSpectra=function(zoom){
   
           $('slider2').innerHTML = percent;
     })
-    
+   //THe slider x.
+   //To zoom in the x dimension and toward the bigger values
     var slider = new goog.fx.Dragger($('slider'), null, limits);
     goog.events.listen(slider, 'drag', function(e) {
       var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
@@ -253,8 +269,22 @@ var redrawSpectra=function(zoom){
       }
     });
     
-    var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits4);
     
+    //The slider move spectra.
+    //To move the spectra and to adjust the zoom
+    var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits4);
+    var previousPercent=50;
+    goog.events.listen(sliderMoveSpectra,'drag',function(e){
+        var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
+  	          e.dragger.limits.width)-100);
+//        $('slider4').innerHTML = percent;
+        if(percent<previousPercent){
+        	moveSpectrumToTheRight(previousPercent);
+        }else if(percent>previousPercent){
+        	moveSpectrumToTheLeft(previousPercent);
+        }
+        previousPercent=percent;
+    })
     
   </script>
  <img name="track" style="position:absolute;left:665px;top:25px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
@@ -262,9 +292,9 @@ var redrawSpectra=function(zoom){
         <legend><h1>Spectrum viewer</h1></legend>
         <br>
         <li><b>Molecule name:</b><script>document.write(truc)</script></li>
-        <li><b>Molecule id: </b><script>spectrumData.molecule.molecule_id</script></li>
-        <li><b>Experiment type: </b><script>spectrumData.molecule.molecule_id</script></li>
-        <li><b>Experiment id: </b><script>spectrumData.molecule.molecule_id</script></li>
+        <li><b>Molecule id: </b><script>document.write(truc)</script></li>
+        <li><b>Experiment type: </b><script>document.write(truc)</script></li>
+        <li><b>Experiment id: </b><script>document.write(truc)</script></li>
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>
         <div id="moleculeContainer" style="height:300px"></div>
