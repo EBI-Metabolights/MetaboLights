@@ -217,8 +217,8 @@ specview.controller.Controller.prototype.render = function() {
         
         if (model instanceof specview.model.NMRdata) {
             molecule=model.molecule;
-            spectrum=model.spectrum;            
-            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
+            spectrum=model.spectrum;
+//            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
             atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
             peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
             box = goog.math.Box.boundingBox.apply(null, atom_coords);

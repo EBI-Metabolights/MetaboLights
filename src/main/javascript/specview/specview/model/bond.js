@@ -62,8 +62,52 @@ specview.model.Bond = function(source, target, opt_order, opt_stereo,
 	 * @type {specview.model.Molecule}
 	 */
 	this.molecule = goog.isDef(opt_molecule) ? opt_molecule : null;
+	
+	/**
+	 * Set of coordinates of a bond is defined by the coordinates of its source and target atom
+	 * @type {array}
+	 */
+	this.coordinatesArray=null;
+	
 };
 goog.exportSymbol("specview.model.Bond", specview.model.Bond);
+
+
+
+specview.model.Bond.prototype.setCoordinatesArray=function(){
+	var arrayOfCoordinates=new Array();
+	var coordinate=null;
+	var coordSource=new goog.math.Coordinate(parseInt(this.source.pixelCoordinates.x),parseInt(this.source.pixelCoordinates.y));
+	var coordTarget=new goog.math.Coordinate(parseInt(this.target.pixelCoordinates.x),parseInt(this.target.pixelCoordinates.y));
+	var minY=Math.min(coordSource.y,coordTarget.y);
+	var maxY=Math.max(coordSource.y,coordTarget.y);
+	var minX=Math.min(coordSource.x,coordTarget.x);
+	var maxX=Math.max(coordSource.x,coordTarget.x);
+	if(coordSource.x==coordTarget.x){
+		for(var k=minY+1;k<maxY-1;k+=3){
+			var coordinate=new goog.math.Coordinate(coordSource.x,k);
+			arrayOfCoordinates.push(coordinate);
+		}
+	}else if(coordSource.y=coordTarget.y){
+		for(var k=minX+1;k<maxX-1;k+=3){
+			var coordinate=new goog.math.Coordinate(k,coordSource.y);
+			arrayOfCoordinates.push(coordinate);
+		}
+	}else{
+		var distanceX=maxX-minX;
+		var distanceY=maxY-minY;
+		var maxDistance=Math.max(distanceX,distanceY);
+		var minDistance=Math.min(distanceX,distanceY);
+		if(minDistance==distanceX){
+			var factor=1;
+			for(var k=minX+1;k<maxX-1;k+=3){
+				var coordinate=new goog.math.Coordinate(k,minY+(3*factor));
+				factor++;
+			}
+		}
+	}
+	this.coordinatesArray=arrayOfCoordinates;
+};
 
 /**
  * Get the atom at the other end of the bond from the subject atom
@@ -138,3 +182,4 @@ specview.model.Bond.prototype.toString = function(){
 		molname;
 		
 };
+

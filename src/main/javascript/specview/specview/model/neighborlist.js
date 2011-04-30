@@ -125,6 +125,13 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 				var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
 				this.cells_samy[newCoord]=objet;
 //				this.logger.info("one peak will be at the foollowing coordinates: "+ newCoord.x+" "+newCoord.y);
+		}else if(objet instanceof specview.model.Bond){
+			objet.setCoordinatesArray();
+			var arrayOfCoordinates=objet.coordinatesArray;
+			for(k in arrayOfCoordinates){
+				var newCoord=arrayOfCoordinates[k];
+				this.cells_samy[newCoord]=objet;
+			}
 		}
 
 	}, this);
@@ -141,7 +148,7 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
 		if(this.cells_samy[key] instanceof specview.model.Peak && goog.math.nearlyEquals(parseInt(truc[0]),coord.x,5)){
 			return this.cells_samy[key];
 		}
-		if(goog.math.Coordinate.distance(coord,g)<15){
+		if(goog.math.Coordinate.distance(coord,g)<7){
 			return this.cells_samy[key];
 		}
 	}
@@ -276,8 +283,6 @@ specview.model.NeighborList.metaSpecToNeighbors = function(metaSpec) {
 //			alert("coordinates of the atom: "+a+"\n"+a.pixelCoordinates.x+" "+a.pixelCoordinates.y);
 			return {
 				obj : a,
-//				getCenter : function() {return a.pixelCoordinates;},//pixel cooridnates are not known yet
-//				getDistance : function(point) {return goog.math.Coordinate.distance(a.pixelCoordinates, point);}//*10;}
 				getCenter : function() {return a.coord;},//coord as it appears in the file
 				getDistance : function(point) {return goog.math.Coordinate.distance(a.coord, point);}//*10;}
 			};
@@ -288,14 +293,6 @@ specview.model.NeighborList.metaSpecToNeighbors = function(metaSpec) {
 		{
 			return {
 				obj : b,
-//				getCenter : function() {
-//					var midPoint = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.sum(b.source.pixelCoordinates, b.target.pixelCoordinates));
-//					return midPoint.scale(0.5);
-//				},
-//				getDistance : function(point) {
-//					var line = new goog.math.Line(b.source.pixelCoordinates.x,b.source.pixelCoordinates.y, b.target.pixelCoordinates.x,b.target.pixelCoordinates.y);
-//					return goog.math.Coordinate.distance(line.getClosestSegmentPoint(point.x, point.y),point);
-//				}
 				getCenter : function() {
 					var midPoint = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.sum(b.source.coord, b.target.coord));
 					return midPoint.scale(0.5);
@@ -316,16 +313,11 @@ specview.model.NeighborList.metaSpecToNeighbors = function(metaSpec) {
 				obj : s,
 				getCenter : function() {return s.coord;},
 				getDistance : function(point) {return goog.math.Coordinate.distance(s.coord,point);}
-//				getCenter : function() {return s.pixelCoord;},
-//				gerDistance : function(point) {return goog.math.Coordinate.distance(s.pixelCoord,point);}
 			};
 		}));
 	});
 	return neighbors;
 };
-
-
-
 
 
 /**
@@ -378,4 +370,3 @@ specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
 
 
 specview.model.NeighborList.prototype.logger = goog.debug.Logger.getLogger('specview.model.NeighborList');
-//specview.model.NeighborList.prototype.logger2 = goog.debug.Logger.getLogger('specview.model.NeighborList');
