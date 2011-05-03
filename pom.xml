@@ -11,7 +11,7 @@
      <module>metabolightsuploader</module>
      <module>metabolightsutils</module>
      <module>metabolights-model</module>
-     <module>metabolights-webapp</module>
+     <module>metabolights-webapps</module>
   </modules>
   <build>
   <plugins>
