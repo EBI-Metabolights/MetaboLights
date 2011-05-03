@@ -26,7 +26,8 @@
                 The funding is for a project that will instantiate, at the European Bioinformatics Institute (EBI) in Hinxton, Cambridge, UK, 
                 the MetaboloLights Metabolomics database with various different components focused on both data standards 
                 and primary experimental data. The resource will be cross-species, cross-application and will cover 
-                all relevant analytical methods. Metabolights is being developed by the <a href="http://www.ebi.ac.uk/steinbeck/">Steinbeck group</a> at the European Bionformatics Institute.
+                all relevant analytical methods. Metabolights is a joint between development between the <a href="http://www.ebi.ac.uk/steinbeck/">Steinbeck group</a> at the European Bionformatics Institute and
+                the Griffin group in Cambridge.
                </div>
                
               <div id="text-fullwidth">
