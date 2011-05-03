@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.hibernate.Session;
 import uk.ac.ebi.metabolights.utils.HibernateUtil;
 import org.junit.After;
