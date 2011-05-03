@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/ maven-4.0.0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>uk.ac.ebi.metabolights</groupId> 
+ <artifactId>metabolights-accessionmanager</artifactId>
+ <version>0.0.1-SNAPSHOT</version>
+ <packaging>jar</packaging>
+ <name>MetaboLights Accession Manager</name>
+ <parent>
+   <artifactId>metabolights-main</artifactId>
+   <groupId>uk.ac.ebi.metabolights</groupId>
+   <version>0.0.1-SNAPSHOT</version>
+ </parent> 
+ <build> 
+  <finalName>${artifactId}</finalName>
+ </build>
+ <dependencies>
+ 	<dependency>
+ 		<groupId>javassist</groupId>
+ 		<artifactId>javassist</artifactId>
+ 		<version>3.12.1.GA</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.slf4j</groupId>
+ 		<artifactId>slf4j-simple</artifactId>
+ 		<version>1.6.1</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.hsqldb</groupId>
+ 		<artifactId>hsqldb</artifactId>
+ 		<version>2.0.0</version>
+ 		<type>jar</type>
+ 		<scope>test</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>uk.ac.ebi.metabolights</groupId>
+ 		<artifactId>metabolights-utils</artifactId>
+ 		<version>0.0.1-SNAPSHOT</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ </dependencies>
+</project>
