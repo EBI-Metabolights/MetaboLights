@@ -133,7 +133,7 @@ html,body {
 
 #text_header { 
 	padding: 10px 0px 5px 15px;
-	background-color: #cccccc;
+	background-color: #FFCC99  ;
 	font-size: 130%;
 	font-weight: bold;
 	color:#666666;
@@ -158,7 +158,7 @@ html,body {
 
 
 .messageBox {
-	border: 1px solid #999966;
+	border: 1px solid #999933;
 	padding: 3px 3px 3px 3px;
 	float: left;
     margin-top: 3px;
@@ -166,7 +166,7 @@ html,body {
 }
 
 .error {
-	color:#660033;
+	color:#FF6600;
 	font-weight: bold;
 }
 
