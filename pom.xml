@@ -8,9 +8,10 @@
   <description>MetaboLights Main Project</description>
   <modules>
      <module>accessionmanager</module>
-     <module>webapps</module>
      <module>metabolightsuploader</module>
      <module>metabolightsutils</module>
+     <module>metabolights-model</module>
+     <module>metabolights-webapp</module>
   </modules>
   <build>
   <plugins>
@@ -26,13 +27,14 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.15</version>
+      <scope>runtime</scope>
     </dependency>
  	<dependency>
  		<groupId>junit</groupId>
  		<artifactId>junit</artifactId>
  		<version>4.8.2</version>
  		<type>jar</type>
- 		<scope>compile</scope>
+ 		<scope>test</scope>
  	</dependency>    
  	<dependency>
  		<groupId>org.hibernate</groupId>
@@ -66,7 +68,8 @@
          <groupId>oracle</groupId>
          <artifactId>ojdbc5</artifactId>
          <version>11.2.0.1.0</version>
-    </dependency>
+         <scope>runtime</scope>
+ 	</dependency>
  	<dependency>
  		<groupId>org.hibernate</groupId>
  		<artifactId>hibernate-search</artifactId>
