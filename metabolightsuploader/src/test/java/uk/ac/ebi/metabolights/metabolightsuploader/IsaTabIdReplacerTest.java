@@ -4,47 +4,47 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+//import java.io.IOException;
 
-import javax.naming.ConfigurationException;
+//import javax.naming.ConfigurationException;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacer;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacerException;
 import uk.ac.ebi.metabolights.utils.FileUtil;
-import uk.ac.ebi.metabolights.utils.StringUtils;
+//import uk.ac.ebi.metabolights.utils.StringUtils;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
 public class IsaTabIdReplacerTest {
 
 	//Folders
-	final String FOLDER_TEST_IN = "./src/test/resources/inputfiles/";
-	final String FOLDER_TEST_OUT = "./src/test/resources/outputfiles/";
+	static final String FOLDER_TEST_IN = "./src/test/resources/inputfiles/";
+	static final String FOLDER_TEST_OUT = "./src/test/resources/outputfiles/";
 	
 	//Files for validation
-	final String FILE_NOEXISTS_TXT = "1234567890.txt";
-	final String FILE_NOEXISTS_ZIP = "1234567890.zip";
-	final String FILE_EXISTS_ZIP = FOLDER_TEST_IN + "fake.zip";
-	final String FILE_EXISTS_TXT = FOLDER_TEST_IN + "fake.txt";
+	static final String FILE_NOEXISTS_TXT = "1234567890.txt";
+	static final String FILE_NOEXISTS_ZIP = "1234567890.zip";
+	static final String FILE_EXISTS_ZIP = FOLDER_TEST_IN + "fake.zip";
+	static final String FILE_EXISTS_TXT = FOLDER_TEST_IN + "fake.txt";
 
 	//Constants for IsaTab1 test
-	final String FOLDER_ISATAB1 = FOLDER_TEST_IN + "isatab1/";
-	final String FILE_ISATAB1 = FOLDER_TEST_IN + "isatab1.zip";
+	static final String FOLDER_ISATAB1 = FOLDER_TEST_IN + "isatab1/";
+	static final String FILE_ISATAB1 = FOLDER_TEST_IN + "isatab1.zip";
 	
-	final String FOLDER_ISATAB1_OUT = FOLDER_TEST_OUT + "isatab1/";
+	static final String FOLDER_ISATAB1_OUT = FOLDER_TEST_OUT + "isatab1/";
 	
 	//Constants for IsaTabBII1 test
-	final String FOLDER_ISATABBII1 = FOLDER_TEST_IN + "BII-I-1/";
-	final String FILE_ISATABBII1 = FOLDER_TEST_IN + "BII-I-1.zip";
+	static final String FOLDER_ISATABBII1 = FOLDER_TEST_IN + "BII-I-1/";
+	static final String FILE_ISATABBII1 = FOLDER_TEST_IN + "BII-I-1.zip";
 	
-	final String FOLDER_ISATABBII1_OUT = FOLDER_TEST_OUT + "BII-I-1/";
+	static final String FOLDER_ISATABBII1_OUT = FOLDER_TEST_OUT + "BII-I-1/";
 	
 
 	
-	@Before
-	public void prepareInputFiles(){
+	@BeforeClass
+	public static void prepareInputFiles(){
 		
 		//Zip all files needed to the test.
 		Zipper.zip(FOLDER_ISATAB1, FILE_ISATAB1);
@@ -200,8 +200,8 @@ public class IsaTabIdReplacerTest {
 		
 		//Array for the list of new accession numbers
 		String[] accessionList;
-		String inputfile;
-		String outputfile;
+		//String inputfile;
+		//String outputfile;
 		
 		//Configure IsaTabIdReplacer
 		IsaTabIdReplacer itr = new IsaTabIdReplacer(FILE_ISATAB1, FOLDER_ISATAB1_OUT);
