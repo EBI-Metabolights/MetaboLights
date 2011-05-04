@@ -104,23 +104,6 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
   	this.transform=trans;
     
-  	/*
-  	 * cmlspect (MS) files have different coordinates that cannot be taken care of in the exact same way as are the NMR files
-  	 * Hence we have to trick a little bit the molecule box so it does not overlap the spectra
-  	 * Accordingly, the spectra box also has to be modified
-  	 */
-//   if(this.experienceType=="ms"){
-//	    box.top=box.top-box.top;
-//     box.bottom=box.bottom-box.top;
-//      box.right=box.right-box.top;
-//      box.left=box.left-box.top;
-
-//        var specBox=new goog.math.Box(box.bottom,box.left*2,box.top,box.right)
-//       boxxx=specBox;
-//  }
-    
-//    alert("in nmrdata: \n\nbox: "+box+"\n\nboxxx: "+boxxx);
-    
   	
   	if(!zoomX){
   	    goog.array.forEach(molecule.atoms,
@@ -200,7 +183,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 			peakCoords[0].x=adjustValue;
 			peakCoords[1].x=adjustValue;
 			peak.setCoordinates(adjustValue,peakCoords[0].y,adjustValue,adjustYvalue);  
-//			this.logger.info("peak at(nmrdata.js) : "+adjustValue);
+			this.logger.info("peak at(nmrdata.js) : "+adjustValue);
 		  },
 		  this);
 	  spectrum.setExtremePixelValues();
@@ -210,17 +193,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 	  var m=ar.maxPixel;
 	  bottomBoxLimit=280;
 	  specview.model.NMRdata.logger.info("nmrdata.js: "+upperBoxLimit+","+bottomBoxLimit)
-	  this.mainSpecBox=new goog.math.Box(box.bottom,l-2,box.top,m);
-//	  alert("min: "+l+"\nmax: "+m+"  "+"bottom: "+this.mainSpecBox.bottom+"\ntop: "+this.mainSpecBox.top)
-//	  alert(this.mainSpecBox);
-	 
-	var tl=new goog.math.Coordinate(l-10,upperBoxLimit);
-	var tr=new goog.math.Coordinate(l-10,bottomBoxLimit);
-	var bl=new goog.math.Coordinate(m+10,upperBoxLimit);
-	var br=new goog.math.Coordinate(m+10,bottomBoxLimit);
-	this.mainSpecBox=new Array();
-	this.mainSpecBox[0]=tl;	this.mainSpecBox[1]=tr;this.mainSpecBox[2]=bl;this.mainSpecBox[3]=br;
-	this.mainSpecBox=samyBox;
+      this.mainSpecBox=samyBox;
 //	alert(this.mainSpecBox)
 	
 	
@@ -238,7 +211,6 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 		  array.push(newXvalue);
 	  }
   }
-  
   var maxPeakToDisplay=0;
  
 }; 
