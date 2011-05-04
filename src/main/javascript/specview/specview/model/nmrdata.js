@@ -59,8 +59,6 @@ specview.model.NMRdata.prototype.setEditor=function(controllerEditor){
 };
 
 
-
-
 specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpectrum,zoomX){
     //Set the coordinates to the pixel
     
@@ -115,7 +113,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   	
   	var samyBox=this.getSamyBox();
 //  	alert("nmrdata.js\n\nsamybox: \n"+samyBox)
-  	
+  	this.mainSpecBox=samyBox;
     
     //----------------------------NOW WE SET TE PIXEL COORDINATES OF THE PEAKS------------------------------\\
   var minX=spectrum.peakList[0].xValue;
@@ -155,6 +153,10 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 	  maxValueOfPeak=spectrum.getMaxValuePeak();
 	  var bottomBoxLimit;
 	  var upperBoxLimit;
+//	  this.logger.info("samybox(nmrdata.js): "+samyBox)
+	  var ecart=samyBox[1].x-samyBox[0].x;
+	  var valueToAdd=samyBox[0].x;
+	  
 	  goog.array.forEach(spectrum.peakList,
 		  function(peak) {
 		    /*
@@ -174,16 +176,18 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 			/*
 			 * We adapt the xValue of the peak according to their relative value
 			 */
-			if(peak.xValue==maxValueOfPeak){
-				adjustValue=boxCoords[1].x-5;
+			 if(peak.xValue==maxValueOfPeak){
+				adjustValue=ecart-4;
 //				this.logger.info("max value of peak: "+peak.xValue+" will be at "+adjustValue);
 			}else{
-				adjustValue=boxCoords[0].x+(peak.xValue/maxValueOfPeak)*(boxCoords[1].x-boxCoords[0].x);
+				adjustValue=(peak.xValue*(ecart-4))/maxValueOfPeak;
 			}
+
 			peakCoords[0].x=adjustValue;
 			peakCoords[1].x=adjustValue;
-			peak.setCoordinates(adjustValue,peakCoords[0].y,adjustValue,adjustYvalue);  
+			peak.setCoordinates(adjustValue+valueToAdd,peakCoords[0].y,adjustValue+valueToAdd,adjustYvalue);  
 			this.logger.info("peak at(nmrdata.js) : "+adjustValue);
+			
 		  },
 		  this);
 	  spectrum.setExtremePixelValues();
@@ -214,8 +218,6 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   var maxPeakToDisplay=0;
  
 }; 
- 
-
 
 
 /**
