@@ -73,7 +73,10 @@ specview.model.Bond = function(source, target, opt_order, opt_stereo,
 goog.exportSymbol("specview.model.Bond", specview.model.Bond);
 
 
-
+/**
+ * A bond is defined by an array of coordinates.
+ * This array is defined accordingly to the source and target atom.
+ */
 specview.model.Bond.prototype.setCoordinatesArray=function(){
 	var arrayOfCoordinates=new Array();
 	var coordinate=null;
@@ -84,7 +87,7 @@ specview.model.Bond.prototype.setCoordinatesArray=function(){
 	var minX=Math.min(coordSource.x,coordTarget.x);
 	var maxX=Math.max(coordSource.x,coordTarget.x);
 	if(coordSource.x==coordTarget.x){
-		for(var k=minY+1;k<maxY-1;k+=3){
+		for(var k=minY+1;k<maxY-1;k+=3){//Increase 3 pixel by 3 pixel for efficiency(useless to puut in the array every pixel)
 			var coordinate=new goog.math.Coordinate(coordSource.x,k);
 			arrayOfCoordinates.push(coordinate);
 		}

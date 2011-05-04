@@ -11,6 +11,7 @@ goog.addDependency('../../../../specview/graphics/element_array.js', ['specview.
 goog.addDependency('../../../../specview/io/json.js', ['specview.io.json'], ['goog.array', 'goog.json', 'goog.math.Coordinate', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule']);
 goog.addDependency('../../../../specview/io/mdl.js', ['specview.io.mdl'], ['goog.debug.Logger', 'goog.i18n.DateTimeFormat', 'goog.string', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule']);
 goog.addDependency('../../../../specview/io/spectrumcmlparser.js', ['specview.io.SpectrumCMLParser'], ['goog.debug.Logger', 'goog.dom.xml', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule', 'specview.model.NMRdata', 'specview.model.Peak', 'specview.model.Spectrum', 'specview.util.Utilities']);
+goog.addDependency('../../../../specview/io/spectrumcmlparser09.js', ['specview.io.SpectrumCMLParser09'], ['goog.debug.Logger', 'goog.dom.xml', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule', 'specview.model.NMRdata', 'specview.model.Peak', 'specview.model.Spectrum', 'specview.util.Utilities']);
 goog.addDependency('../../../../specview/json/json_templates.js', [], []);
 goog.addDependency('../../../../specview/math/line.js', ['specview.math.Line'], ['goog.math.Coordinate', 'specview.math.Triangle']);
 goog.addDependency('../../../../specview/math/triangle.js', ['specview.math.Triangle'], []);

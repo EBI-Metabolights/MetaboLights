@@ -1597,3 +1597,885 @@ cmlmolecules=cmlmolecules+
   "<list dictRef=\"cdk:moleculeSet\"/>\n"+
 "</list>\n"+
 "$$END$$\n";
+
+cmlmolecules=cmlmolecules+
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+
+"<cml xmlns=\"http://www.xml-cml.org/schema\" convention=\"mzAnnot\">\n"+
+  "<spectrum xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:macie=\"http://www.xml-cml.org/dict/macie\" xmlns:ms=\"http://www.massbank.jp/dict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:subst=\"http://www.xml-cml.org/dict/substDict\" xmlns:units=\"http://www.xml-cml.org/units/units\" id=\"massbank:\" moleculeRef=\"PubChem:-1\" type=\"MS2\">\n"+
+    "<conditionList>\n"+
+      "<scalar dataType=\"xsd:integer\" dictRef=\"cml:collisionenergy\" units=\"siUnits:eV\">-1</scalar>\n"+
+      "<scalar dataType=\"xsd:string\" dictRef=\"cml:polarity\">positive</scalar>\n"+
+    "</conditionList>\n"+
+    "<metadataList>\n"+
+      "<metadata name=\"ms:assignmentMethod\" content=\"MetFrag\"/>\n"+
+      "<metadata name=\"ms:name\" content=\"none\"/>\n"+
+      "<metadata name=\"ms:exactMass\" content=\"259.975\"/>\n"+
+    "</metadataList>\n"+
+    "<peakList>\n"+
+      "<peak xValue=\"231.97965848\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak0\">\n"+
+        "<molecule ref=\"naringenin_0\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"27.99491462\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak1\">\n"+
+        "<molecule ref=\"naringenin_1\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"219.97965848\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak2\">\n"+
+        "<molecule ref=\"naringenin_2\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"39.99491462\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak3\">\n"+
+        "<molecule ref=\"naringenin_3\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"119.98474386000001\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak4\">\n"+
+        "<molecule ref=\"naringenin_4\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"139.98982924\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak5\">\n"+
+        "<molecule ref=\"naringenin_5\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"103.98982924\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak6\">\n"+
+        "<molecule ref=\"naringenin_6\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"155.98474386\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak7\">\n"+
+        "<molecule ref=\"naringenin_7\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"131.98474386\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak8\">\n"+
+        "<molecule ref=\"naringenin_8\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"127.98982924\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak9\">\n"+
+        "<molecule ref=\"naringenin_9\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"143.98474386\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak10\">\n"+
+        "<molecule ref=\"naringenin_10\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"115.98982924\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak11\">\n"+
+        "<molecule ref=\"naringenin_11\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"243.97965848\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak12\">\n"+
+        "<molecule ref=\"naringenin_12\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"247.97457310000001\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak13\">\n"+
+        "<molecule ref=\"naringenin_13\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"147.97965848\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak14\">\n"+
+        "<molecule ref=\"naringenin_14\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"111.99491462\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak15\">\n"+
+        "<molecule ref=\"naringenin_15\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"159.97965848\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak16\">\n"+
+        "<molecule ref=\"naringenin_16\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"99.99491462\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak17\">\n"+
+        "<molecule ref=\"naringenin_17\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"171.97965848\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak18\">\n"+
+        "<molecule ref=\"naringenin_18\"/>\n"+
+      "</peak>\n"+
+      "<peak xValue=\"87.99491462\" xUnits=\"units:mz\" yValue=\"100.0\" yUnits=\"units:cps\" id=\"peak19\">\n"+
+        "<molecule ref=\"naringenin_19\"/>\n"+
+      "</peak>\n"+
+    "</peakList>\n"+
+  "</spectrum>\n"+
+  "<reactionList>\n"+
+    "<reaction>\n"+
+      "<reactantList>\n"+
+        "<reactant>\n"+
+          "<molecule ref=\"naringenin\"/>\n"+
+        "</reactant>\n"+
+      "</reactantList>\n"+
+      "<productList>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_16\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_15\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_14\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_13\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_19\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_18\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_17\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_3\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_2\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_5\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_4\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_1\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_0\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_7\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_11\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_12\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_6\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_9\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_8\"/>\n"+
+        "</product>\n"+
+        "<product>\n"+
+          "<molecule ref=\"naringenin_10\"/>\n"+
+        "</product>\n"+
+      "</productList>\n"+
+    "</reaction>\n"+
+  "</reactionList>\n"+
+  "<list dictRef=\"cdk:moleculeSet\">\n"+
+    "<moleculeList>\n"+
+      "<molecule id=\"naringenin_16\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a200\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a199\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a201\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a202\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a203\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a204\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a205\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a206\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a207\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a208\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a209\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a210\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b199\" atomRefs2=\"a199 a200\" order=\"S\"/>\n"+
+          "<bond id=\"b200\" atomRefs2=\"a201 a199\" order=\"S\"/>\n"+
+          "<bond id=\"b201\" atomRefs2=\"a201 a202\" order=\"S\"/>\n"+
+          "<bond id=\"b202\" atomRefs2=\"a202 a203\" order=\"S\"/>\n"+
+          "<bond id=\"b203\" atomRefs2=\"a202 a204\" order=\"D\"/>\n"+
+          "<bond id=\"b204\" atomRefs2=\"a201 a205\" order=\"D\"/>\n"+
+          "<bond id=\"b205\" atomRefs2=\"a205 a206\" order=\"S\"/>\n"+
+          "<bond id=\"b206\" atomRefs2=\"a206 a207\" order=\"D\"/>\n"+
+          "<bond id=\"b207\" atomRefs2=\"a208 a207\" order=\"S\"/>\n"+
+          "<bond id=\"b208\" atomRefs2=\"a199 a208\" order=\"D\"/>\n"+
+          "<bond id=\"b209\" atomRefs2=\"a207 a209\" order=\"S\"/>\n"+
+          "<bond id=\"b210\" atomRefs2=\"a205 a210\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.006,0.084</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,360.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">159.97965848</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_15\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a190\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a191\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a192\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a193\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a194\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a195\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a196\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a197\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a198\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b190\" atomRefs2=\"a190 a191\" order=\"S\"/>\n"+
+          "<bond id=\"b191\" atomRefs2=\"a191 a192\" order=\"S\"/>\n"+
+          "<bond id=\"b192\" atomRefs2=\"a192 a193\" order=\"D\"/>\n"+
+          "<bond id=\"b193\" atomRefs2=\"a193 a194\" order=\"S\"/>\n"+
+          "<bond id=\"b194\" atomRefs2=\"a194 a195\" order=\"D\"/>\n"+
+          "<bond id=\"b195\" atomRefs2=\"a195 a196\" order=\"S\"/>\n"+
+          "<bond id=\"b196\" atomRefs2=\"a197 a195\" order=\"S\"/>\n"+
+          "<bond id=\"b197\" atomRefs2=\"a198 a197\" order=\"D\"/>\n"+
+          "<bond id=\"b198\" atomRefs2=\"a192 a198\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.084,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">360.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">111.99491462</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_14\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a180\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a179\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a181\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a182\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a183\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a184\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a185\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a186\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a187\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a188\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a189\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b179\" atomRefs2=\"a179 a180\" order=\"S\"/>\n"+
+          "<bond id=\"b180\" atomRefs2=\"a179 a181\" order=\"S\"/>\n"+
+          "<bond id=\"b181\" atomRefs2=\"a181 a182\" order=\"S\"/>\n"+
+          "<bond id=\"b182\" atomRefs2=\"a181 a183\" order=\"D\"/>\n"+
+          "<bond id=\"b183\" atomRefs2=\"a183 a184\" order=\"S\"/>\n"+
+          "<bond id=\"b184\" atomRefs2=\"a184 a185\" order=\"S\"/>\n"+
+          "<bond id=\"b185\" atomRefs2=\"a186 a184\" order=\"D\"/>\n"+
+          "<bond id=\"b186\" atomRefs2=\"a187 a186\" order=\"S\"/>\n"+
+          "<bond id=\"b187\" atomRefs2=\"a179 a187\" order=\"D\"/>\n"+
+          "<bond id=\"b188\" atomRefs2=\"a187 a188\" order=\"S\"/>\n"+
+          "<bond id=\"b189\" atomRefs2=\"a180 a189\" order=\"D\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.084,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">360.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">147.97965848</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_13\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a161\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a160\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a162\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a163\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a164\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a165\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a166\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a167\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a168\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a169\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a170\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a171\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a172\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a173\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a174\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a175\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a176\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a177\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a178\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b160\" atomRefs2=\"a160 a161\" order=\"S\"/>\n"+
+          "<bond id=\"b161\" atomRefs2=\"a160 a162\" order=\"S\"/>\n"+
+          "<bond id=\"b162\" atomRefs2=\"a162 a163\" order=\"S\"/>\n"+
+          "<bond id=\"b163\" atomRefs2=\"a163 a164\" order=\"S\"/>\n"+
+          "<bond id=\"b164\" atomRefs2=\"a164 a165\" order=\"S\"/>\n"+
+          "<bond id=\"b165\" atomRefs2=\"a165 a166\" order=\"D\"/>\n"+
+          "<bond id=\"b166\" atomRefs2=\"a166 a167\" order=\"S\"/>\n"+
+          "<bond id=\"b167\" atomRefs2=\"a167 a168\" order=\"D\"/>\n"+
+          "<bond id=\"b168\" atomRefs2=\"a168 a169\" order=\"S\"/>\n"+
+          "<bond id=\"b169\" atomRefs2=\"a170 a168\" order=\"S\"/>\n"+
+          "<bond id=\"b170\" atomRefs2=\"a171 a170\" order=\"D\"/>\n"+
+          "<bond id=\"b171\" atomRefs2=\"a165 a171\" order=\"S\"/>\n"+
+          "<bond id=\"b172\" atomRefs2=\"a162 a172\" order=\"D\"/>\n"+
+          "<bond id=\"b173\" atomRefs2=\"a172 a173\" order=\"S\"/>\n"+
+          "<bond id=\"b174\" atomRefs2=\"a173 a174\" order=\"S\"/>\n"+
+          "<bond id=\"b175\" atomRefs2=\"a175 a173\" order=\"D\"/>\n"+
+          "<bond id=\"b176\" atomRefs2=\"a176 a175\" order=\"S\"/>\n"+
+          "<bond id=\"b177\" atomRefs2=\"a160 a176\" order=\"D\"/>\n"+
+          "<bond id=\"b178\" atomRefs2=\"a176 a177\" order=\"S\"/>\n"+
+          "<bond id=\"b179\" atomRefs2=\"a161 a178\" order=\"D\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.006,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">247.97457310000001</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_19\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a232\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a233\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a234\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a235\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a236\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a237\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a238\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b232\" atomRefs2=\"a232 a233\" order=\"D\"/>\n"+
+          "<bond id=\"b233\" atomRefs2=\"a233 a234\" order=\"S\"/>\n"+
+          "<bond id=\"b234\" atomRefs2=\"a234 a235\" order=\"D\"/>\n"+
+          "<bond id=\"b235\" atomRefs2=\"a235 a236\" order=\"S\"/>\n"+
+          "<bond id=\"b236\" atomRefs2=\"a237 a235\" order=\"S\"/>\n"+
+          "<bond id=\"b237\" atomRefs2=\"a238 a237\" order=\"D\"/>\n"+
+          "<bond id=\"b238\" atomRefs2=\"a232 a238\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">87.99491462</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_18\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a220\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a219\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a221\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a222\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a223\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a224\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a225\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a226\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a227\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a228\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a229\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a230\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a231\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b219\" atomRefs2=\"a219 a220\" order=\"S\"/>\n"+
+          "<bond id=\"b220\" atomRefs2=\"a221 a219\" order=\"S\"/>\n"+
+          "<bond id=\"b221\" atomRefs2=\"a222 a221\" order=\"S\"/>\n"+
+          "<bond id=\"b222\" atomRefs2=\"a222 a223\" order=\"S\"/>\n"+
+          "<bond id=\"b223\" atomRefs2=\"a223 a224\" order=\"S\"/>\n"+
+          "<bond id=\"b224\" atomRefs2=\"a224 a220\" order=\"S\"/>\n"+
+          "<bond id=\"b225\" atomRefs2=\"a223 a225\" order=\"D\"/>\n"+
+          "<bond id=\"b226\" atomRefs2=\"a222 a226\" order=\"D\"/>\n"+
+          "<bond id=\"b227\" atomRefs2=\"a226 a227\" order=\"S\"/>\n"+
+          "<bond id=\"b228\" atomRefs2=\"a227 a228\" order=\"D\"/>\n"+
+          "<bond id=\"b229\" atomRefs2=\"a229 a228\" order=\"S\"/>\n"+
+          "<bond id=\"b230\" atomRefs2=\"a221 a229\" order=\"D\"/>\n"+
+          "<bond id=\"b231\" atomRefs2=\"a228 a230\" order=\"S\"/>\n"+
+          "<bond id=\"b232\" atomRefs2=\"a226 a231\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">171.97965848</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_17\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a211\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a212\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a213\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a214\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a215\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a216\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a217\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a218\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b211\" atomRefs2=\"a211 a212\" order=\"S\"/>\n"+
+          "<bond id=\"b212\" atomRefs2=\"a212 a213\" order=\"D\"/>\n"+
+          "<bond id=\"b213\" atomRefs2=\"a213 a214\" order=\"S\"/>\n"+
+          "<bond id=\"b214\" atomRefs2=\"a214 a215\" order=\"D\"/>\n"+
+          "<bond id=\"b215\" atomRefs2=\"a215 a216\" order=\"S\"/>\n"+
+          "<bond id=\"b216\" atomRefs2=\"a217 a215\" order=\"S\"/>\n"+
+          "<bond id=\"b217\" atomRefs2=\"a218 a217\" order=\"D\"/>\n"+
+          "<bond id=\"b218\" atomRefs2=\"a212 a218\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.006,0.084</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,360.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">99.99491462</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_3\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a58\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a59\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a60\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b58\" atomRefs2=\"a58 a59\" order=\"S\"/>\n"+
+          "<bond id=\"b59\" atomRefs2=\"a58 a60\" order=\"D\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.006,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">39.99491462</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_2\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a41\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a42\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a43\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a44\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a45\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a46\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a47\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a48\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a49\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a50\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a51\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a52\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a53\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a54\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a55\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a56\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a57\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b41\" atomRefs2=\"a41 a42\" order=\"S\"/>\n"+
+          "<bond id=\"b42\" atomRefs2=\"a42 a43\" order=\"S\"/>\n"+
+          "<bond id=\"b43\" atomRefs2=\"a43 a44\" order=\"S\"/>\n"+
+          "<bond id=\"b44\" atomRefs2=\"a44 a45\" order=\"S\"/>\n"+
+          "<bond id=\"b45\" atomRefs2=\"a45 a46\" order=\"D\"/>\n"+
+          "<bond id=\"b46\" atomRefs2=\"a46 a47\" order=\"S\"/>\n"+
+          "<bond id=\"b47\" atomRefs2=\"a47 a48\" order=\"D\"/>\n"+
+          "<bond id=\"b48\" atomRefs2=\"a48 a49\" order=\"S\"/>\n"+
+          "<bond id=\"b49\" atomRefs2=\"a50 a48\" order=\"S\"/>\n"+
+          "<bond id=\"b50\" atomRefs2=\"a51 a50\" order=\"D\"/>\n"+
+          "<bond id=\"b51\" atomRefs2=\"a45 a51\" order=\"S\"/>\n"+
+          "<bond id=\"b52\" atomRefs2=\"a42 a52\" order=\"D\"/>\n"+
+          "<bond id=\"b53\" atomRefs2=\"a52 a53\" order=\"S\"/>\n"+
+          "<bond id=\"b54\" atomRefs2=\"a53 a54\" order=\"S\"/>\n"+
+          "<bond id=\"b55\" atomRefs2=\"a55 a53\" order=\"D\"/>\n"+
+          "<bond id=\"b56\" atomRefs2=\"a56 a55\" order=\"S\"/>\n"+
+          "<bond id=\"b57\" atomRefs2=\"a41 a56\" order=\"D\"/>\n"+
+          "<bond id=\"b58\" atomRefs2=\"a56 a57\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.006,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">219.97965848</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_5\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a70\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a71\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a72\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a73\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a74\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a75\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a76\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a77\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a78\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a79\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a80\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b70\" atomRefs2=\"a70 a71\" order=\"S\"/>\n"+
+          "<bond id=\"b71\" atomRefs2=\"a71 a72\" order=\"S\"/>\n"+
+          "<bond id=\"b72\" atomRefs2=\"a72 a73\" order=\"S\"/>\n"+
+          "<bond id=\"b73\" atomRefs2=\"a73 a74\" order=\"D\"/>\n"+
+          "<bond id=\"b74\" atomRefs2=\"a74 a75\" order=\"S\"/>\n"+
+          "<bond id=\"b75\" atomRefs2=\"a75 a76\" order=\"D\"/>\n"+
+          "<bond id=\"b76\" atomRefs2=\"a76 a77\" order=\"S\"/>\n"+
+          "<bond id=\"b77\" atomRefs2=\"a78 a76\" order=\"S\"/>\n"+
+          "<bond id=\"b78\" atomRefs2=\"a79 a78\" order=\"D\"/>\n"+
+          "<bond id=\"b79\" atomRefs2=\"a73 a79\" order=\"S\"/>\n"+
+          "<bond id=\"b80\" atomRefs2=\"a70 a80\" order=\"D\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.084,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">360.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">139.98982924</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_4\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a61\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a62\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a63\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a64\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a65\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a66\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a67\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a68\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a69\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b61\" atomRefs2=\"a61 a62\" order=\"S\"/>\n"+
+          "<bond id=\"b62\" atomRefs2=\"a62 a63\" order=\"S\"/>\n"+
+          "<bond id=\"b63\" atomRefs2=\"a62 a64\" order=\"D\"/>\n"+
+          "<bond id=\"b64\" atomRefs2=\"a64 a65\" order=\"S\"/>\n"+
+          "<bond id=\"b65\" atomRefs2=\"a65 a66\" order=\"S\"/>\n"+
+          "<bond id=\"b66\" atomRefs2=\"a67 a65\" order=\"D\"/>\n"+
+          "<bond id=\"b67\" atomRefs2=\"a68 a67\" order=\"S\"/>\n"+
+          "<bond id=\"b68\" atomRefs2=\"a61 a68\" order=\"D\"/>\n"+
+          "<bond id=\"b69\" atomRefs2=\"a68 a69\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.084,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">360.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">119.98474386000001</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_1\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a39\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a40\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b39\" atomRefs2=\"a39 a40\" order=\"D\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.003,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">27.99491462</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_0\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a21\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a22\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a23\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a24\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a25\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a26\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a27\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a28\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a29\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a30\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a31\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a32\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a33\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a34\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a35\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a36\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a37\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a38\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b21\" atomRefs2=\"a21 a22\" order=\"S\"/>\n"+
+          "<bond id=\"b22\" atomRefs2=\"a22 a23\" order=\"S\"/>\n"+
+          "<bond id=\"b23\" atomRefs2=\"a23 a24\" order=\"S\"/>\n"+
+          "<bond id=\"b24\" atomRefs2=\"a24 a25\" order=\"S\"/>\n"+
+          "<bond id=\"b25\" atomRefs2=\"a25 a26\" order=\"D\"/>\n"+
+          "<bond id=\"b26\" atomRefs2=\"a26 a27\" order=\"S\"/>\n"+
+          "<bond id=\"b27\" atomRefs2=\"a27 a28\" order=\"D\"/>\n"+
+          "<bond id=\"b28\" atomRefs2=\"a28 a29\" order=\"S\"/>\n"+
+          "<bond id=\"b29\" atomRefs2=\"a30 a28\" order=\"S\"/>\n"+
+          "<bond id=\"b30\" atomRefs2=\"a31 a30\" order=\"D\"/>\n"+
+          "<bond id=\"b31\" atomRefs2=\"a25 a31\" order=\"S\"/>\n"+
+          "<bond id=\"b32\" atomRefs2=\"a32 a24\" order=\"S\"/>\n"+
+          "<bond id=\"b33\" atomRefs2=\"a22 a33\" order=\"D\"/>\n"+
+          "<bond id=\"b34\" atomRefs2=\"a33 a34\" order=\"S\"/>\n"+
+          "<bond id=\"b35\" atomRefs2=\"a34 a35\" order=\"S\"/>\n"+
+          "<bond id=\"b36\" atomRefs2=\"a36 a34\" order=\"D\"/>\n"+
+          "<bond id=\"b37\" atomRefs2=\"a37 a36\" order=\"S\"/>\n"+
+          "<bond id=\"b38\" atomRefs2=\"a21 a37\" order=\"D\"/>\n"+
+          "<bond id=\"b39\" atomRefs2=\"a37 a38\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.003,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">231.97965848</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_7\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a89\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a90\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a91\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a92\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a93\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a94\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a95\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a96\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a97\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a98\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a99\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a100\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b89\" atomRefs2=\"a89 a90\" order=\"S\"/>\n"+
+          "<bond id=\"b90\" atomRefs2=\"a90 a91\" order=\"S\"/>\n"+
+          "<bond id=\"b91\" atomRefs2=\"a92 a91\" order=\"S\"/>\n"+
+          "<bond id=\"b92\" atomRefs2=\"a91 a93\" order=\"S\"/>\n"+
+          "<bond id=\"b93\" atomRefs2=\"a93 a94\" order=\"D\"/>\n"+
+          "<bond id=\"b94\" atomRefs2=\"a94 a95\" order=\"S\"/>\n"+
+          "<bond id=\"b95\" atomRefs2=\"a95 a96\" order=\"D\"/>\n"+
+          "<bond id=\"b96\" atomRefs2=\"a96 a97\" order=\"S\"/>\n"+
+          "<bond id=\"b97\" atomRefs2=\"a98 a96\" order=\"S\"/>\n"+
+          "<bond id=\"b98\" atomRefs2=\"a99 a98\" order=\"D\"/>\n"+
+          "<bond id=\"b99\" atomRefs2=\"a93 a99\" order=\"S\"/>\n"+
+          "<bond id=\"b100\" atomRefs2=\"a89 a100\" order=\"D\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.087,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">360.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">155.98474386</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_11\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a132\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a133\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a134\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a135\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a136\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a137\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a138\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a139\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a140\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b132\" atomRefs2=\"a132 a133\" order=\"S\"/>\n"+
+          "<bond id=\"b133\" atomRefs2=\"a133 a134\" order=\"S\"/>\n"+
+          "<bond id=\"b134\" atomRefs2=\"a134 a135\" order=\"D\"/>\n"+
+          "<bond id=\"b135\" atomRefs2=\"a135 a136\" order=\"S\"/>\n"+
+          "<bond id=\"b136\" atomRefs2=\"a136 a137\" order=\"D\"/>\n"+
+          "<bond id=\"b137\" atomRefs2=\"a137 a138\" order=\"S\"/>\n"+
+          "<bond id=\"b138\" atomRefs2=\"a139 a137\" order=\"S\"/>\n"+
+          "<bond id=\"b139\" atomRefs2=\"a140 a139\" order=\"D\"/>\n"+
+          "<bond id=\"b140\" atomRefs2=\"a134 a140\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.006,0.087</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,360.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">115.98982924</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_12\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a142\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a141\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a143\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a144\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a145\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a146\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a147\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a148\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a149\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a150\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a151\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a152\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a153\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a154\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a155\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a156\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a157\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a158\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a159\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b141\" atomRefs2=\"a141 a142\" order=\"S\"/>\n"+
+          "<bond id=\"b142\" atomRefs2=\"a141 a143\" order=\"S\"/>\n"+
+          "<bond id=\"b143\" atomRefs2=\"a143 a144\" order=\"S\"/>\n"+
+          "<bond id=\"b144\" atomRefs2=\"a144 a145\" order=\"S\"/>\n"+
+          "<bond id=\"b145\" atomRefs2=\"a145 a146\" order=\"S\"/>\n"+
+          "<bond id=\"b146\" atomRefs2=\"a146 a147\" order=\"D\"/>\n"+
+          "<bond id=\"b147\" atomRefs2=\"a147 a148\" order=\"S\"/>\n"+
+          "<bond id=\"b148\" atomRefs2=\"a148 a149\" order=\"D\"/>\n"+
+          "<bond id=\"b149\" atomRefs2=\"a149 a150\" order=\"S\"/>\n"+
+          "<bond id=\"b150\" atomRefs2=\"a151 a149\" order=\"S\"/>\n"+
+          "<bond id=\"b151\" atomRefs2=\"a152 a151\" order=\"D\"/>\n"+
+          "<bond id=\"b152\" atomRefs2=\"a146 a152\" order=\"S\"/>\n"+
+          "<bond id=\"b153\" atomRefs2=\"a143 a153\" order=\"D\"/>\n"+
+          "<bond id=\"b154\" atomRefs2=\"a141 a154\" order=\"D\"/>\n"+
+          "<bond id=\"b155\" atomRefs2=\"a154 a155\" order=\"S\"/>\n"+
+          "<bond id=\"b156\" atomRefs2=\"a155 a156\" order=\"D\"/>\n"+
+          "<bond id=\"b157\" atomRefs2=\"a157 a156\" order=\"S\"/>\n"+
+          "<bond id=\"b158\" atomRefs2=\"a142 a157\" order=\"D\"/>\n"+
+          "<bond id=\"b159\" atomRefs2=\"a156 a158\" order=\"S\"/>\n"+
+          "<bond id=\"b160\" atomRefs2=\"a154 a159\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.084,0.087</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">360.0,360.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">243.97965848</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_6\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a81\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a82\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a83\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a84\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a85\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a86\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a87\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a88\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b81\" atomRefs2=\"a81 a82\" order=\"S\"/>\n"+
+          "<bond id=\"b82\" atomRefs2=\"a82 a83\" order=\"D\"/>\n"+
+          "<bond id=\"b83\" atomRefs2=\"a83 a84\" order=\"S\"/>\n"+
+          "<bond id=\"b84\" atomRefs2=\"a84 a85\" order=\"S\"/>\n"+
+          "<bond id=\"b85\" atomRefs2=\"a86 a84\" order=\"D\"/>\n"+
+          "<bond id=\"b86\" atomRefs2=\"a87 a86\" order=\"S\"/>\n"+
+          "<bond id=\"b87\" atomRefs2=\"a81 a87\" order=\"D\"/>\n"+
+          "<bond id=\"b88\" atomRefs2=\"a87 a88\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.087,0.003</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">360.0,348.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">103.98982924</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_9\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a111\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a112\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a113\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a114\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a115\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a116\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a117\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a118\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a119\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a120\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b111\" atomRefs2=\"a111 a112\" order=\"S\"/>\n"+
+          "<bond id=\"b112\" atomRefs2=\"a112 a113\" order=\"S\"/>\n"+
+          "<bond id=\"b113\" atomRefs2=\"a113 a114\" order=\"D\"/>\n"+
+          "<bond id=\"b114\" atomRefs2=\"a114 a115\" order=\"S\"/>\n"+
+          "<bond id=\"b115\" atomRefs2=\"a115 a116\" order=\"D\"/>\n"+
+          "<bond id=\"b116\" atomRefs2=\"a116 a117\" order=\"S\"/>\n"+
+          "<bond id=\"b117\" atomRefs2=\"a118 a116\" order=\"S\"/>\n"+
+          "<bond id=\"b118\" atomRefs2=\"a119 a118\" order=\"D\"/>\n"+
+          "<bond id=\"b119\" atomRefs2=\"a113 a119\" order=\"S\"/>\n"+
+          "<bond id=\"b120\" atomRefs2=\"a120 a112\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.003,0.087</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,360.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">127.98982924</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_8\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a102\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a101\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a103\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a104\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a105\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a106\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a107\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a108\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a109\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a110\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b101\" atomRefs2=\"a101 a102\" order=\"S\"/>\n"+
+          "<bond id=\"b102\" atomRefs2=\"a101 a103\" order=\"S\"/>\n"+
+          "<bond id=\"b103\" atomRefs2=\"a103 a104\" order=\"D\"/>\n"+
+          "<bond id=\"b104\" atomRefs2=\"a101 a105\" order=\"D\"/>\n"+
+          "<bond id=\"b105\" atomRefs2=\"a105 a106\" order=\"S\"/>\n"+
+          "<bond id=\"b106\" atomRefs2=\"a106 a107\" order=\"D\"/>\n"+
+          "<bond id=\"b107\" atomRefs2=\"a108 a107\" order=\"S\"/>\n"+
+          "<bond id=\"b108\" atomRefs2=\"a102 a108\" order=\"D\"/>\n"+
+          "<bond id=\"b109\" atomRefs2=\"a107 a109\" order=\"S\"/>\n"+
+          "<bond id=\"b110\" atomRefs2=\"a105 a110\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.003,0.087</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,360.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">131.98474386</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin_10\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"a122\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a121\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a123\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a124\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a125\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a126\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a127\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a128\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a129\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n"+
+          "<atom id=\"a130\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+          "<atom id=\"a131\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"b121\" atomRefs2=\"a121 a122\" order=\"S\"/>\n"+
+          "<bond id=\"b122\" atomRefs2=\"a121 a123\" order=\"S\"/>\n"+
+          "<bond id=\"b123\" atomRefs2=\"a123 a124\" order=\"S\"/>\n"+
+          "<bond id=\"b124\" atomRefs2=\"a123 a125\" order=\"D\"/>\n"+
+          "<bond id=\"b125\" atomRefs2=\"a121 a126\" order=\"D\"/>\n"+
+          "<bond id=\"b126\" atomRefs2=\"a126 a127\" order=\"S\"/>\n"+
+          "<bond id=\"b127\" atomRefs2=\"a127 a128\" order=\"D\"/>\n"+
+          "<bond id=\"b128\" atomRefs2=\"a129 a128\" order=\"S\"/>\n"+
+          "<bond id=\"b129\" atomRefs2=\"a122 a129\" order=\"D\"/>\n"+
+          "<bond id=\"b130\" atomRefs2=\"a128 a130\" order=\"S\"/>\n"+
+          "<bond id=\"b131\" atomRefs2=\"a126 a131\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.006,0.087</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"BondEnergy\" dataType=\"xsd:string\">348.0,360.0</scalar>\n"+
+        "<scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">143.98474386</scalar>\n"+
+      "</molecule>\n"+
+      "<molecule id=\"naringenin\">\n"+
+        "<atomArray>\n"+
+          "<atom id=\"0\" elementType=\"C\" x2=\"5.3109\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.08344594374772504</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"1\" elementType=\"C\" x2=\"5.3143\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.10086887272653777</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"2\" elementType=\"C\" x2=\"6.0281\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.17977270038269588</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"3\" elementType=\"C\" x2=\"4.5971\" y2=\"-3.2592\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.13775830366275724</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"4\" elementType=\"O\" x2=\"6.035\" y2=\"-1.604\" formalCharge=\"0\" isotopeNumber=\"16\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.32841977380148957</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"5\" elementType=\"C\" x2=\"4.5971\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.052487222122734795</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"6\" elementType=\"C\" x2=\"6.7454\" y2=\"-2.8523\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.10508715274988106</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"7\" elementType=\"O\" x2=\"6.0247\" y2=\"-4.0902\" formalCharge=\"0\" isotopeNumber=\"16\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.2926424274395651</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"8\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.8454\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.055832919859477775</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"9\" elementType=\"O\" x2=\"4.6005\" y2=\"-4.0868\" formalCharge=\"0\" isotopeNumber=\"16\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.1907243632890421</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"10\" elementType=\"C\" x2=\"6.7488\" y2=\"-2.0212\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.15091579582852266</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"11\" elementType=\"C\" x2=\"3.8764\" y2=\"-2.0143\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.1349856368281134</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"12\" elementType=\"C\" x2=\"7.4695\" y2=\"-1.6074\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.005878192370971511</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"13\" elementType=\"O\" x2=\"3.1592\" y2=\"-1.6005\" formalCharge=\"0\" isotopeNumber=\"16\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.19083288081973662</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"14\" elementType=\"C\" x2=\"8.1833\" y2=\"-2.0316\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">3.8258777736970673E-4</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"15\" elementType=\"C\" x2=\"7.4695\" y2=\"-0.7798\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">3.8258777736970673E-4</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"16\" elementType=\"C\" x2=\"8.904\" y2=\"-1.6178\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.027544416480141963</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"17\" elementType=\"C\" x2=\"8.1902\" y2=\"-0.373\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.027544416480141963</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"18\" elementType=\"C\" x2=\"8.9074\" y2=\"-0.7867\" formalCharge=\"0\" isotopeNumber=\"12\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.13072530473251265</scalar>\n"+
+          "</atom>\n"+
+          "<atom id=\"19\" elementType=\"O\" x2=\"9.6281\" y2=\"-0.3764\" formalCharge=\"0\" isotopeNumber=\"16\">\n"+
+            "<scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.19099260817711966</scalar>\n"+
+          "</atom>\n"+
+        "</atomArray>\n"+
+        "<bondArray>\n"+
+          "<bond id=\"0\" atomRefs2=\"0 1\" order=\"S\"/>\n"+
+          "<bond id=\"1\" atomRefs2=\"0 2\" order=\"S\"/>\n"+
+          "<bond id=\"2\" atomRefs2=\"0 3\" order=\"D\"/>\n"+
+          "<bond id=\"3\" atomRefs2=\"1 4\" order=\"S\"/>\n"+
+          "<bond id=\"4\" atomRefs2=\"1 5\" order=\"D\"/>\n"+
+          "<bond id=\"5\" atomRefs2=\"2 6\" order=\"S\"/>\n"+
+          "<bond id=\"6\" atomRefs2=\"2 7\" order=\"D\"/>\n"+
+          "<bond id=\"7\" atomRefs2=\"3 8\" order=\"S\"/>\n"+
+          "<bond id=\"8\" atomRefs2=\"3 9\" order=\"S\"/>\n"+
+          "<bond id=\"9\" atomRefs2=\"4 10\" order=\"S\"/>\n"+
+          "<bond id=\"10\" atomRefs2=\"5 11\" order=\"S\"/>\n"+
+          "<bond id=\"11\" atomRefs2=\"10 12\" order=\"S\"/>\n"+
+          "<bond id=\"12\" atomRefs2=\"11 13\" order=\"S\"/>\n"+
+          "<bond id=\"13\" atomRefs2=\"12 14\" order=\"D\"/>\n"+
+          "<bond id=\"14\" atomRefs2=\"12 15\" order=\"S\"/>\n"+
+          "<bond id=\"15\" atomRefs2=\"14 16\" order=\"S\"/>\n"+
+          "<bond id=\"16\" atomRefs2=\"15 17\" order=\"D\"/>\n"+
+          "<bond id=\"17\" atomRefs2=\"16 18\" order=\"D\"/>\n"+
+          "<bond id=\"18\" atomRefs2=\"18 19\" order=\"S\"/>\n"+
+          "<bond id=\"19\" atomRefs2=\"6 10\" order=\"S\"/>\n"+
+          "<bond id=\"20\" atomRefs2=\"8 11\" order=\"D\"/>\n"+
+          "<bond id=\"21\" atomRefs2=\"17 18\" order=\"S\"/>\n"+
+        "</bondArray>\n"+
+      "</molecule>\n"+
+    "</moleculeList>\n"+
+  "</list>\n"+
+"</cml>\n"+
+"$$END$$\n";
+

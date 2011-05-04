@@ -99,7 +99,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
  //   	this.renderBoundingBoxWithPixel(metaSpecObject.mainSpecBox,"blue")
 //    	this.renderBoundingBox(metaSpecObject.mainSpecBox,"blue")
     }else{
-//    	this.renderBoundingBoxWithPixel(metaSpecObject.mainSpecBox,"blue")
+ //   	this.renderBoundingBoxWithPixel(metaSpecObject.mainSpecBox,"blue")
 //    	this.renderBoundingBox(this.box,'red');		
     }
    	
@@ -147,7 +147,7 @@ specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
     var peakPath = new goog.graphics.Path();
     peakPath.moveTo(peak.xPixel, peak.yPixel); 
     peakPath.lineTo(peak.xTpixel,peak.yTpixel);
-    opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,'blue'),null));
+    opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,'red'),null));
 //    opt_element_array.add(this.graphics.drawText(50, 150, 100, 500, 600,'center', null, font, stroke, fill));
 	return opt_element_array;
 };
