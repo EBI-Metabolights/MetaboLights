@@ -3,7 +3,7 @@
 
        
        <div id="top_bar">
-		  <h1><a href="index">Metabolights metabolomics data repository</a></h1>
+		  <a href="index"><h1>banner appears here</h1></a>
 		  <ul id="navigation">
 		      <!-- li class="selected"><a href="index">home</a></li-->
               <li><a href="<spring:url value="index"/>">home</a></li>
