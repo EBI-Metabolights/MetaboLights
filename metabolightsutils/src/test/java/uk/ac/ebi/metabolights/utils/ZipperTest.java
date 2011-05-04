@@ -62,8 +62,8 @@ public class ZipperTest {
 			//Write in the map
 			map = map + fileList[i].getName() + "\n";
 						
-			//If it is a directory
-			if (fileList[i].isDirectory()){
+			//If it is a not hidden directory
+			if (fileList[i].isDirectory() && !fileList[i].isHidden()){
 				
 				//Get the map under this folder
 				map = getFolderMap(fileList[i], map);
