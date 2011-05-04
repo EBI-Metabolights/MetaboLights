@@ -50,6 +50,13 @@ public static void zip(String thisFileOrDir, String toThisFile) {
 
 private static void addDirectory(ZipOutputStream zout, File fileSource, String innerFolder) {
 
+	//If the directory is hidden...it is zipping the svn folders..
+	if (fileSource.isHidden()){ 
+		System.out.println("Skiping hidden folder " + fileSource.getName());
+		return;
+	}
+	
+	
 	//get sub-folder/files list
 	File[] files = fileSource.listFiles();
 
