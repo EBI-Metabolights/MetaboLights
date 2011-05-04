@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.Properties;
 import javax.naming.ConfigurationException;
 
@@ -27,12 +26,18 @@ import uk.ac.ebi.metabolights.utils.Zipper;
  */
 public class IsaTabIdReplacer 
 {
-    private String isaTabArchive;
+	static private Properties props = new Properties();
+	static final String PROP_IDS = "isatab.ids";
+	static String[] idList;
+	
+	static final String PROP_FILE_WITH_IDS = "isatab.filewithids";
+    static String fileWithIds;
+    
+    static private AccessionManager am = AccessionManager.getInstance();
+       
+	private String isaTabArchive;
     private String unzipFolder;
     private String accessionNumberList = "";
-    final String FILE_NAME_TO_FIND = "i_Investigation.txt";
-    private Properties props = new Properties();
-    private AccessionManager am = AccessionManager.getInstance();
     
 	/**
 	 * 
@@ -88,7 +93,7 @@ public class IsaTabIdReplacer
 		return accessionNumberList;
 	}
 	
-	private void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
+	private static void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
 		
 		//If properties are loaded
 		if (!props.isEmpty()) {return;}
@@ -107,6 +112,14 @@ public class IsaTabIdReplacer
 			throw new ConfigurationException("The isatabidreplacer.properties file has been found, but it is empty.");
 		}
 		
+		//Initilize idList
+		String ids = props.getProperty(PROP_IDS);
+		
+		//Split it by ; to go through the array
+	    idList = ids.split(";");
+
+	    //Initialize filewith ids
+	    fileWithIds = props.getProperty(PROP_FILE_WITH_IDS);
 	}
 
 	public void validateIsaTabArchive () throws IsaTabIdReplacerException{
@@ -175,7 +188,7 @@ public class IsaTabIdReplacer
 			public boolean accept(File arg0, String arg1) {
 				
 				//Accept only investigation files
-				return (arg1.equals(FILE_NAME_TO_FIND));
+				return (arg1.equals(fileWithIds));
 			}
 		};
 		
@@ -184,7 +197,7 @@ public class IsaTabIdReplacer
 		
 		//If there is not an investigation file...
 		if (fileList.length ==0) {
-			throw new FileNotFoundException ("Investigation file (" + FILE_NAME_TO_FIND + ") not found");
+			throw new FileNotFoundException ("File with Ids (" + fileWithIds + ") not found");
 		}
 		
 		//There must be only one, so take the first
@@ -223,15 +236,11 @@ public class IsaTabIdReplacer
 	
 	private String replaceIdInLine(String line){
 		
-		//get the list of properties (tags to search)
-	    Enumeration e = props.propertyNames();
-
-	    //While properties...
-	    while (e.hasMoreElements()) {
-	      String key = (String) e.nextElement();
+	    //For each id...
+	    for (int i=0;i<idList.length;i++) {
 	      
 	      //Get the value (Study Identifier, Investigation Identifier)
-	      String value = props.getProperty(key);
+	      String value = idList[i];
 	      
 	      //If the value is present in line, in the first position.
 	      if (line.indexOf(value)==0){
@@ -243,6 +252,9 @@ public class IsaTabIdReplacer
 	    	  line = value + "\t\"" + accession + "\"";
 	    	  
 	    	  //If the value is a study identifier
+	    	  //This is necessary for the uploading using command line tools.
+	    	  //The accession number list will be used to assign permissions.
+	    	  //Permissions can only be done to Study Identifier elements.
 	    	  if ("Study Identifier".equals(value)){
 	    	  
 	    		  //Populate the list of new accession numbers (initialized in Execute method)
