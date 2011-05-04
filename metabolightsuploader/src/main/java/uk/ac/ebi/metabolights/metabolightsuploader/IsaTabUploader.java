@@ -55,7 +55,7 @@ public class IsaTabUploader {
 	 * @throws IsaTabIdReplacerException
 	 * @throws IOException
 	 */
-	public void Upload() throws ConfigurationException, IsaTabIdReplacerException, IOException{
+	public void UploadWithCommandLine() throws ConfigurationException, IsaTabIdReplacerException, IOException{
 
 		//Replace the id
 		itir.Execute();
@@ -79,7 +79,7 @@ public class IsaTabUploader {
 		assignOwners(getOwner(), itir.getAccessionNumberList());
 			
 	}
-	public void Upload2() throws ConfigurationException, IsaTabIdReplacerException, IOException{
+	public void Upload() throws ConfigurationException, IsaTabIdReplacerException, IOException{
 		
 		
 		//Replace the id
