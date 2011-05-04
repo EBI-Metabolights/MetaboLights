@@ -7,7 +7,7 @@
 			</c:if>
 
                <div style="margin-bottom:40px; padding-left:150px; padding-top:20px">
-                  <img src="img/litehouseLogo.png" ></img>
+                  <img src="img/litehouseLogo.png" ></img> 
                </div>
             
                <div id="text_header">

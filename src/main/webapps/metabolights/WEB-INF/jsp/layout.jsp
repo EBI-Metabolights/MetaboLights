@@ -4,7 +4,6 @@
 <html>
    <head>
       <link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
-      <link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
       <title><tiles:insertAttribute name="title" ignore="true" /></title> 
    </head>
 
