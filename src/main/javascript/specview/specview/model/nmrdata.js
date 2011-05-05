@@ -126,25 +126,11 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
           maxX=peak.xValue;
   },
   this);
-
-  var xAxisLen=(boxxx.right-boxxx.left)*0.8;
-//  specview.model.NMRdata.logger.info("xAxies length(nmrdata.js): "+xAxisLen);
-  var correct = xAxisLen/(maxX-minX);
-  var rapport=23.5/maxX;
-  var xStart= boxxx.left*1.1;    
-  var yStart= boxxx.bottom;
     
   var maxHeightOfPeak=spectrum.getMaxHeightPeak();
   var maxValueOfPeak;
-  var pTo=0;
-  var pFrom=0;
-  
   var adjustXvalue;
-  var adjustYvalue;
-  
-//  boxxx.right=(boxxx.right<boxxx.left ? 2300 : boxxx.right);//ms case
-  
-  var boxCoords=trans.transformCoords([new goog.math.Coordinate(boxxx.left,boxxx.top),new goog.math.Coordinate(boxxx.right,boxxx.bottom)]);
+  var adjustYvalue;  
   var sortedArray=spectrum.sortXvalues();
   var arrayOfPeakSorted=spectrum.mapPeakToxValue(sortedArray);
 
