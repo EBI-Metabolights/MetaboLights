@@ -1,0 +1,179 @@
+
+* {
+	margin: 0px;
+}
+
+html,body {
+	height: 99%;
+	background: #ffffff url(../img/bg.gif) repeat-x left top;
+	text-align: center;
+	font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
+	font-weight: normal;
+	font-size: 11px;
+}
+
+
+/* Main structure styles (used to layout the header/footer) */
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0px auto -4em;
+	position: relative;
+}
+#footer {
+	background-color: #cccccc;
+	padding-top: 5px;
+	text-align: center;
+	font-size: 80%;
+	margin-top: 10px;
+	float: left;
+	width: 100%;
+	height: 4em;
+	color: #006666;
+	padding-bottom: 5px;
+}
+#topAndBody {
+	width: 1024px;
+	text-align: left;
+	margin: 0px auto;
+	padding-bottom: 15px;
+}
+
+
+
+/* Style for the top bar (=header) */
+#top_bar {
+	height: 55px;
+}
+#top_bar h1 {
+	margin-top: 10px;
+	width: 300px;
+	height: 55px;
+	font-size: 1px;
+	text-indent: -9999px;
+	background: url(../img/banner.png) no-repeat left top;
+	float: left;
+	margin-bottom: -20px;
+}
+#top_bar #navigation {
+	list-style: none;
+	margin-top: 28px;
+	float: right;
+	font-size: 13px;
+	font-weight: bold;
+    color: #ffffff;
+	
+}
+#top_bar #navigation a {
+	color: #ffffff;
+	text-decoration: none;
+}
+#top_bar #navigation li {
+	display: inline;
+	vertical-align: baseline;
+	padding-left: 10px;
+}
+#top_bar #navigation li.selected a,#top_bar #navigation li a:hover {
+	color: #D56060;
+}
+
+
+
+/* Style for the search box in the header */
+#search-box {
+	padding-left: 10px;
+	height: 33px;
+	float: left;
+	width: 1000px;
+	background : #999966 url(../img/searchBox.png) ;
+}
+#search-box label {
+	float: left;
+	width: 45px;
+	height: 37px;
+	color: #fff;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 30px;
+	
+}
+#search-box input {
+	float: left;
+	width: 300px;
+	border: 0;
+	margin: 7px 0px 0px 10px; /* top right bottom left */
+	padding-bottom: 2px;
+	font-size: 14px;
+	height: 20px
+    padding-bottom:2px;
+}
+#search-box .search-box-button {
+	float: left;
+	margin: 7px 0px 0px 0px;
+	padding: 0px;
+	height: 21px;
+	width: 46px;
+	cursor: pointer;
+	border: 0px;
+	background-image: url('../img/searchButton.png');
+}
+
+#search-box a {
+	float: left;
+	height: 37px;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 40px;
+	ttext-decoration: none;
+	padding-left: 20px;
+	color: #003333;
+}
+
+
+
+#text_header { 
+	padding: 10px 0px 5px 15px;
+	background-color: #D5AE60  ;
+	font-size: 130%;
+	font-weight: bold;
+	color:#006666;
+}
+#text-column {
+	padding: 10px 10px 15px 10px;
+	float: left;
+	color: #444444;
+	font-weight: lighter;
+	line-height: 1.5;
+	width: 30%;
+}
+
+#text-fullwidth
+{
+    padding: 5px 5px 5px 5px;
+    float: left;
+    color: #444444;
+    line-height: 1.5;
+    width: 100%;
+}
+
+
+.messageBox {
+	border: 1px solid #6F4A00;
+	padding: 3px 3px 3px 3px;
+	float: left;
+    margin-top: 3px;
+	
+}
+
+.error {
+	color:#AA0000;
+	font-weight: bold;
+}
+
+.white {
+    color:#ffffff;
+    font-size: 8px;
+}
+
+/*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/
