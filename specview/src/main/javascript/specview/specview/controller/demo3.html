@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<script src="../../third-party/closure/closure/goog/base.js"></script>
+<script src="../deps.js"></script>
+<script src="../../specviewTest/data/specData/cmlfile.js"></script>
+<script src="../../specviewTest/data/massSpecData/massSpec1.js"></script>
+
+<script>
+    goog.require('goog.events.EventType');
+    goog.require('goog.ui.Select');
+    goog.require('specview.controller.Controller');
+    goog.require('specview.controller.plugins.Highlight');
+    goog.require('specview.io.SpectrumCMLParser');
+    goog.require('specview.model.NMRdata');
+    goog.require('goog.events.MouseWheelHandler');
+    goog.require('goog.fx.Dragger');
+    goog.require('goog.dom');
+    goog.require('goog.math');
+    goog.require('goog.ui.DragDropDetector');
+    goog.require('goog.style');
+    goog.require('goog.graphics');
+</script>
+
+<script>
+
+//editor=null;
+spectrumData=null;
+zoom=0;
+
+truc="truc"
+
+function initPage(){
+	truc="caca"
+			var isGrid=false;
+			var isAxis=false;
+			// uncomment next two lines to debug to console
+						
+			var c = new goog.debug.Console(); 
+			c.setCapturing(true); 
+			
+			var cmlData=cmlmolecules.split("$$END$$\n");
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[1]);//XML document
+			spectrumData=new specview.model.NMRdata();
+			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+			
+			//Create the canvas and provide it with highlight plugins
+			editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
+
+			editor.registerPlugin(new specview.controller.plugins.Highlight());
+			spectrumData.setCoordinatesWithPixels(editor,0)
+
+			
+			//Initialisation of a molecule to display when the page is loading
+
+			//CAREFUL WITH THE FOLLOWING LINE
+			editor.setSpecObject(spectrumData);
+			editor.setModels([spectrumData]);
+			editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+			editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+			  goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
+			  goog.dom.getElement("molId").innerHTML="<b>Molecule id: </b>"+spectrumData.molecule.molecule_id;
+			  goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
+
+			//Creation of the tool bar
+		    var select1 = new goog.ui.Select();
+		    select1.addItem(new goog.ui.MenuItem('0', 0));
+		    select1.addItem(new goog.ui.MenuItem('1', 1));
+		    select1.addItem(new goog.ui.MenuItem('2', 2));
+		    select1.addItem(new goog.ui.MenuItem('3', 3));
+		    select1.addItem(new goog.ui.MenuItem('4', 4));
+		    select1.addItem(new goog.ui.MenuItem('5', 5));
+		    select1.addItem(new goog.ui.MenuItem('6', 6));
+		    select1.addItem(new goog.ui.MenuItem('7', 7));
+		    select1.addItem(new goog.ui.MenuItem('8', 8));
+		    select1.addItem(new goog.ui.MenuItem('9', 9));
+		    select1.addItem(new goog.ui.MenuItem('10', 10));
+		    select1.addItem(new goog.ui.MenuItem('11', 11));
+		    select1.addItem(new goog.ui.MenuItem('12', 12));
+		    select1.addItem(new goog.ui.MenuItem('13', 13));
+		    select1.addItem(new goog.ui.MenuItem('14', 14));
+		    select1.addItem(new goog.ui.MenuItem('MassSpec', 15)); 
+		    
+		    select1.setSelectedIndex(0);
+		    select1.render(goog.dom.getElement('selectMolecule'));
+		    
+		    var grid= new goog.ui.Button("grid");
+		    grid.render(goog.dom.getElement('selectMolecule'));
+		    var axis= new goog.ui.Button("axis");
+		    axis.render(goog.dom.getElement('selectMolecule'));
+
+
+		    goog.events.listen(axis,goog.ui.Component.EventType.ACTION,
+		    		function(e){
+		    	if(!isAxis){
+		    		editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+		    		isAxis=true;
+		    	}	
+		    })
+		    
+		    goog.events.listen(grid, goog.ui.Component.EventType.ACTION,
+		    		function(e){
+		    	if(!isGrid){
+		    		editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+		    		isGrid=true;
+		    	}
+		    })
+		    
+
+		    goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
+		    function(e) {
+		    	zoom=0;
+		      isGrid=false;
+		      isAxis=false;
+		      var select = e.target;
+		      var idx = select.getValue();
+		      if(cmlData[idx]==undefined){
+		          alert("NO SUCH MOLECULE IN THE ARRAY! Default molecle will be displayed : ")
+		          idx=0;
+		      }
+		      var molfile=cmlData[idx];
+		      var xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
+		      spectrumData=new specview.model.NMRdata();
+		      spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+			  spectrumData.setCoordinatesWithPixels(editor,0)
+			//CAREFUL WITH THE FOLLOWING LINE
+			  editor.setSpecObject(spectrumData);
+		      editor.setModels([spectrumData]);
+		      editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+			  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+
+			  goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
+			  goog.dom.getElement("molId").innerHTML="<b>Molecule id: </b>"+spectrumData.molecule.molecule_id;
+			  goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
+		      
+		    });
+
+};
+goog.events.listen(window, goog.events.EventType.LOAD, initPage);
+
+
+var redrawSpectra=function(zoom){
+	spectrumData.setCoordinatesWithPixels(editor,zoom)
+	editor.setSpecObject(spectrumData);
+	editor.setModels([spectrumData]);
+    editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+}
+
+var moveSpectrum=function(move,direction){
+	spectrumData.spectrum.reScaleCoordinates(move,direction);
+	editor.setSpecObject(spectrumData);
+	editor.setModels([spectrumData]);
+    editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	 editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+}
+
+
+
+</script>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Display spectrum demo</title>
+	<link rel="stylesheet" href="../../css/specview.css" />
+	<link rel="stylesheet"  href="../../css/demo.css" />
+	<link rel="stylesheet" href="../style/style.html" />
+ 
+
+  <style>
+    #slider {
+      position: absolute;
+      left: 775px;
+      top: 75px;
+      width: 30px;
+      height: 13px;
+      font: normal 10px verdana;
+      background-color: #EEE;
+      color: #000;
+      text-align:center;
+      border: 1px solid #999;
+      cursor: default;
+    }
+    
+        #slider2 {
+      position: absolute;
+      left: 625px;
+      top: 75px;
+      width: 30px;
+      height: 13px;
+      font: normal 10px verdana;
+      background-color: #EEE;
+      color: #000;
+      text-align:center;
+      border: 1px solid #999;
+      cursor: default;
+    }
+    
+        #slider3 {
+      position: absolute;
+      left: 590px;
+      top: 15px;
+      width: 30px;
+      height: 13px;
+      font: normal 10px verdana;
+      background-color: #EEE;
+      color: #000;
+      text-align:center;
+      border: 1px solid #999;
+      cursor: default;
+    }
+    
+        #slider4 {
+      position: absolute;
+      left: 665px;
+      top: 95px;
+      width: 110px;
+      height: 13px;
+      font: normal 10px verdana;
+      background-color: #EEE;
+      color: #000;
+      text-align:center;
+      border: 1px solid #999;
+      cursor: default;
+    }    
+    
+  </style>
+
+</head>
+
+<body>
+  <div id="slider">0</div>
+  <div id="slider2">x</div>
+  <div id="slider3">y</div>
+  <div id="slider4"><script>document.write("<--move spectrum-->")</script></div>
+  <script>
+    var $ = goog.dom.getElement;
+    var Z = 5;
+    var limits = new goog.math.Rect(625,75, 148, 0);
+    var limits2 = new goog.math.Rect(590,15,0,60);
+    var limits3 = new goog.math.Rect(625,75,123,0);
+    var limits4 = new goog.math.Rect(515,95,300,0)
+    
+    
+   //THe slider y.
+   //To zoom in the y dimension
+   var sliderY=new goog.fx.Dragger($('slider3'),null,limits2) 
+    goog.events.listen(sliderY,'drag',function(e){
+        var percent = Math.round(100 * (e.top - e.dragger.limits.top) /
+  	          e.dragger.limits.height);
+  
+          $('slider3').innerHTML = percent;
+    })
+   //THe slider x.
+   //To zoom in the x dimension and toward the lower values
+    var sliderXleft = new goog.fx.Dragger($('slider2'),null,limits3);
+    goog.events.listen(sliderXleft,'drag',function(e){
+        var percent = Math.round(100 * (e.left - e.dragger.limits.left) /
+  	          e.dragger.limits.width);
+  
+          $('slider2').innerHTML = percent;
+    })
+   //THe slider x.
+   //To zoom in the x dimension and toward the bigger values
+    var slider = new goog.fx.Dragger($('slider'), null, limits);
+    goog.events.listen(slider, 'drag', function(e) {
+      var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
+    	          e.dragger.limits.width)-100);
+    
+            $('slider').innerHTML = percent;
+
+      if(typeof percent == 'number' && percent % 1 == 0){
+    	  redrawSpectra(percent);
+      }
+    });
+    
+    
+    //The slider move spectra.
+    //To move the spectra and to adjust the zoom
+    var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits4);
+    var previousPercent=50;
+    goog.events.listen(sliderMoveSpectra,'drag',function(e){
+        var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
+  	          e.dragger.limits.width)-100);
+        if(percent<previousPercent){
+        	moveSpectrum(previousPercent,"right");
+        }else if(percent>previousPercent){
+        	moveSpectrum(previousPercent,"left");
+        }
+        previousPercent=percent;
+    })
+    
+
+  </script>
+ <img name="track" style="position:absolute;left:665px;top:25px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
+
+
+	<fieldset style="width:1200px">
+        <legend><h1>Spectrum viewer</h1></legend>
+        <br>
+        <li id="molName"></li>
+        <li id="molId"></li>
+        <li id="experimentType"></li>
+        <li id="experimentId" onmouseover="showPopUp()"><b>Experiment id: </b><script>//document.write(spectrumData.molecule.name)</script></li>
+        <label id="selectMolecule">Select a spectrum to render: </label>
+        <br>
+        <div id="moleculeContainer" style="height:300px"></div>
+	</fieldset>
+
+
+</body>
+</html>

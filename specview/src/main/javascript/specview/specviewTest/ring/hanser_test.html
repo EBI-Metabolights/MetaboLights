@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+TODO: License
+Copyright (c) 2010 Mark Rijnbeek (markr@ebi.ac.uk)
+-->
+<html>
+<head>
+	<title>Specview unit test Hanser</title>
+	<script src="../../third-party/closure/closure/goog/base.js"></script>
+	<script src="../../specview/deps.js"></script>
+	<script src="../data/diMethylNaphtalene.js"></script>
+	<script src="../data/benzene.js"></script>
+	<script src="../data/cubane.js"></script>
+	<script src="../data/tetraPhosphorus.js"></script>
+	
+	<script>
+		goog.require('goog.testing.jsunit');
+		goog.require('specview.io.mdl');
+		goog.require('specview.ring.Hanser');
+	</script>
+	
+	<script>
+
+    function testBenzene() {
+	    var mol=specview.io.mdl.readMolfile(benzene);
+	    var rings = specview.ring.Hanser.findRings(mol, 1000)
+	    assertEquals('should find 1 ring', 1, rings.length);
+	}
+
+    function testCubane() {
+        var mol=specview.io.mdl.readMolfile(cubane);
+        var rings = specview.ring.Hanser.findRings(mol, 1000)
+        assertEquals('should find 28 rings', 28, rings.length);
+    }
+
+    function testTetraPhosphorus() {
+        var mol=specview.io.mdl.readMolfile(tetraPhosphorus);
+        var rings = specview.ring.Hanser.findRings(mol, 1000)
+        assertEquals('should find 7 rings', 7, rings.length);
+    }
+
+    function testNaphtalene() {
+        var mol=specview.io.mdl.readMolfile(dimethylNaphtalene);
+        var rings = specview.ring.Hanser.findRings(mol, 1000)
+        assertEquals('should find 3 rings', 3, rings.length);
+    }
+
+
+    </script>
+    </head>
+    <body>
+    </body>
+</html>

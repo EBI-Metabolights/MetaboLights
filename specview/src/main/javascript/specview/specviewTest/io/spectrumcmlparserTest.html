@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Specview unit XML parsing CML</title>
+    <script src="../../third-party/closure/closure/goog/base.js"></script>
+    <script src="../../specview/deps.js"></script>
+    <script src="../data/specData/C8H2NF5.js"></script>
+    
+    
+    <script>
+    goog.require('goog.testing.jsunit');
+    goog.require('specview.io.SpectrumCMLParser');
+    goog.require('specview.model.Molecule');
+    goog.require('specview.model.NMRdata');
+
+    </script>
+    
+    <script>
+	    function testC18H17NO4() {
+	    	var cml=specview.io.SpectrumCMLParser.getDocument(specC8H2NF5);//XML document
+	    	var nmrData=specview.io.SpectrumCMLParser.parseDocument(cml);//a nmrData
+	    	var molecule=nmrData.molecule;
+            
+	        assertEquals('count atoms', 14, molecule.atoms.length);
+	        assertEquals('count bonds', 14, molecule.bonds.length);
+	        alert("Molecule name= "+ molecule.name+
+	        		"\nNumber of atoms= "+molecule.atoms.length+
+	        		"\nNumber of bonds= "+molecule.bonds.length+
+	        		"\nNumber of peaks= "+nmrData.spectrum.peakList.length
+	        		);
+	        for(var k=0;k<molecule.atoms.length;k++){
+	        	var innerId=nmrData.molecule.getAtom(k).innerIdentifier;
+	        	alert(nmrData.molecule.getAtom(k).innerIdentifier+"===reference===>"+
+	        			nmrData.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]+
+	        			"\n\n"+nmrData.molecule.getAtom(k).innerIdentifier+"==>"+nmrData.molecule.atoms[nmrData.molecule.getAtom(k).innerIdentifier]+
+	        			"\n\n"+nmrData.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]+"==>"+nmrData.spectrum.peakList[nmrData.molecule.getAtom(k).peakMap[molecule.getAtom(k).innerIdentifier]]);
+	        }
+	    }
+    </script>
+    </head>
+    <body>
+    </body>
+</html>

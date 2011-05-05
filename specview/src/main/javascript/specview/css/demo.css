@@ -1,0 +1,56 @@
+
+/*
+ * IE7-only hack.  On IE, "display: inline-block" only gives the element
+ * layout, but doesn't give it inline behavior.  Subsequently setting display
+ * to inline does the trick.
+ */
+*:first-child+html .goog-inline-block {
+  display: inline;
+}
+
+
+
+body {
+  background-color: #EEEEEE;
+  font: normal 10pt Arial, sans-serif;
+}
+
+
+/* Misc. styles used for logging and debugging. */
+fieldset {
+  padding: 4px 8px;
+  margin-bottom: 1em;
+}
+
+fieldset legend {
+  font-weight: bold;
+  color: #036;
+}
+
+label, input {
+  vertical-align: middle;
+}
+
+.hint {
+  font-size: 90%;
+  color: #369;
+}
+.perf {
+  margin: 0;
+  border: 0;
+  padding: 4px;
+  font: italic 95% Arial, sans-serif;
+  color: #999;
+}
+
+#perf {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  text-align: right;
+  margin: 0;
+  border: 0;
+  padding: 4px;
+  font: italic 95% Arial, sans-serif;
+  color: #999;
+}
