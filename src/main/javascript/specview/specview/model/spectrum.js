@@ -197,6 +197,36 @@ specview.model.Spectrum.prototype.getMaxAndMinXpixelValue=function(){
 	return array;
 }
 
+/**
+ * return the maximum value of the peak(in the file unit)
+ * @returns {Number}
+ */
+specview.model.Spectrum.prototype.getMaxValue = function(){
+	var max=0;
+	  goog.array.forEach(this.peakList,
+			  function(peak) {
+			      if (peak.xValue > max)
+			          max=peak.xValue;
+			  },
+			  this);
+	  return max;
+}
+
+/**
+ * return the minimum value of the peak(in the file unit)
+ * @returns {Number}
+ */
+specview.model.Spectrum.prototype.getMinValue = function(){
+	var min=1000000000;
+	  goog.array.forEach(this.peakList,
+			  function(peak) {
+			      if (peak.xValue < min)
+			          min=peak.xValue;
+			  },
+			  this);
+	  return min;
+}
+
 specview.model.Spectrum.prototype.setExtremePixelValues=function(){
 	var extremeValue=this.getMaxAndMinXpixelValue();
 	this.maxXpixel=extremeValue.maxPixel;
