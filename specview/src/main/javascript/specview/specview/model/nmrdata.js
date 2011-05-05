@@ -52,35 +52,41 @@ specview.model.NMRdata.prototype.toString = function() {
 };
 
 specview.model.NMRdata.prototype.logger = goog.debug.Logger.getLogger('specview.model.NMRdata');
-
+specview.model.NMRdata.logger = goog.debug.Logger.getLogger('specview.model.NMRdata');
 
 specview.model.NMRdata.prototype.setEditor=function(controllerEditor){
 	this.editor=controllerEditor;
 };
 
 
-
-
+/**
+ * Set the pixel coordinate of the molecule
+ * Create a box or the specturm according to the pixel coordinates of the molecule
+ * Set the pixel coordinate of the spectrum according the the spectrum box that has been created
+ * @param editorSpectrum
+ * @param zoomX
+ */
 specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpectrum,zoomX){
-    //Set the coordinates to the pixel
-    
-	var molecule=this.molecule;
-	var spectrum=this.spectrum;
-	var editor=editorSpectrum;
-	
-	/*
-	TO THIS STAGE NO SETMODELS HAS NOT BEEN CALLED. IT WAS AT THIS TIME THAT THE PIXEL COORDINATES WERE SETTLED ACCORDING
-	TO THE COORDINATES OF THE  MOLECULES. SO NOW WHAT WE DO IS  THAT AFTER CREATING THE METASPEC OBJECT WE INDEPENDANTLY(FROM THE
-	SETMODEL CALL) CREATE THE BOUNDINGBOX WHICH ALLOW TO ALREADY KNOW WHAT WILL BE THE PIXEL COORDINATES OF EACH OBJECT.
-	THE BOX.
-	*/
-	
+	this.setCoordinatesPixelOfMolecule(editorSpectrum,zoomX);
+  	this.mainSpecBox=this.getSpectrumBox();
+  	this.setCoordinatesPixelOfSpectrum(zoomX);
+}; 
+
+/**
+ * Set the pixel coordinates of the molecule.
+ * Use the relative coordinate of the molecule found in the file.
+ * Use the transform object of the google closure library. This object is an attribute of the editor(the controller)
+ * and is dependant on the canvas created. Hence, this function must have an editor as an argument to extract the transform object
+ * that will transform the relative coordinates into pixel coordinates.
+ * @param editorSpectrum
+ * @param zoomX
+ */
+specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editorSpectrum,zoomX){    
+	var molecule=this.molecule;	var spectrum=this.spectrum;	var editor=editorSpectrum;
     var molBox = molecule.getBoundingBox();//CREATE THE MOLECULE BOX. THIS WILL ALLOW TO SET THE PARAMETER FOR EVERY OTHER OBJECTS
     if(this.experienceType=="ms"){
     	this.mainMolBox=molBox;
     }
-    
-    this.logger.info("limit of the molecule(molecule_rederer): "+molBox)
     var molHeight=Math.abs(molBox.top-molBox.bottom);
     var molWidth=Math.abs(molBox.left-molBox.right);
     var size=Math.max(molHeight,molWidth);
@@ -91,9 +97,6 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
     var bottom=-5.5;
     var right=23.5;
   	var boxxx=new goog.math.Box(top,right,bottom,left);//CREATE THE SPECTRUM BOX ACCORDING TO THE MOLECULE BOX
-
-    
-    //--------------------------------FIRST WE SET THE PIXEL COORDINATES OF THE ATOM----------------------------\\
   	var atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
   	var peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
   	var box = goog.math.Box.boundingBox.apply(null, atom_coords);
@@ -102,26 +105,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   	var scaleFactor = 0.90; 
   	var widthScaleLimitation = 0.4;
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
-    
-  	/*
-  	 * cmlspect (MS) files have different coordinates that cannot be taken care of in the exact same way as are the NMR files
-  	 * Hence we have to trick a little bit the molecule box so it does not overlap the spectra
-  	 * Accordingly, the spectra box also has to be modified
-  	 */
-    if(this.experienceType=="ms"){
-  	    box.top=box.top-box.top;
-        box.bottom=box.bottom-box.top;
-        box.right=box.right-box.top;
-        box.left=box.left-box.top;
-
-        var specBox=new goog.math.Box(box.bottom,box.left*2,box.top,box.right)
-        boxxx=specBox;
-    }
-    
-//    alert("in nmrdata: \n\nbox: "+box+"\n\nboxxx: "+boxxx);
-    
   	this.transform=trans;
-  	
   	if(!zoomX){
   	    goog.array.forEach(molecule.atoms,
   	     function(atom){
@@ -129,114 +113,83 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   	    	atom.setPixelCoordinates(point.x, point.y);
   	    });	
   	}
-    
-    //----------------------------NOW WE SET TE PIXEL COORDINATES OF THE PEAKS------------------------------\\
-  var minX=spectrum.peakList[0].xValue;
-  var maxX=spectrum.peakList[0].xValue;
-  goog.array.forEach(spectrum.peakList,
-  function(peak) {
-      if (peak.xValue < minX)
-          minx=peak.xValue;
-      if (peak.xValue > maxX)
-          maxX=peak.xValue;
-  },
-  this);
-  
-  var xAxisLen=(boxxx.right-boxxx.left)*0.8;
-  var correct = xAxisLen/(maxX-minX);
-  var rapport=23.5/maxX;
-  var xStart= boxxx.left*1.1;    
-  var yStart= boxxx.bottom;
-    
-  var maxHeightOfPeak=spectrum.getMaxHeightPeak();
-//  var maxValueOfPeak=spectrum.getMaxValuePeak();
-  var maxValueOfPeak;
-  var pTo=0;
-  var pFrom=0;
-  
-  var adjustValue;
-  var adjustYvalue;
-  
-  boxxx.right=(boxxx.right<boxxx.left ? 2300 : boxxx.right);//ms case
-  
-  var boxCoords=trans.transformCoords([new goog.math.Coordinate(boxxx.left,boxxx.top),new goog.math.Coordinate(boxxx.right,boxxx.bottom)]);
-  var sortedArray=spectrum.sortXvalues();
-  var arrayOfPeakSorted=spectrum.mapPeakToxValue(sortedArray);
+};
 
-  if(zoomX==0){
-	  maxValueOfPeak=spectrum.getMaxValuePeak();
-	  var bottomBoxLimit;
-	  var upperBoxLimit;
-	  goog.array.forEach(spectrum.peakList,
-		  function(peak) {
-		    var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );
-		    var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (boxxx.top+molBox.bottom)*peak.intensity/62); 
-		    var peakCoords = trans.transformCoords([peakFrom, peakTo]);
-		   
+/**
+ * Build a box for the spectra out of the max coordinates of the molecule.
+ * @param downLimit,rightLimit,upperLimit
+ * These constant parameter are the limit of the canvas. They should be more flexible. To do so,
+ * we should pass the editor as an argument and extract its width and height.
+ */ 
+specview.model.NMRdata.prototype.getSpectrumBox = function(){	
+	var molecule=this.molecule;
+	var maxY=0;
+	var maxX=0;
+	var downLimit=280;var rightLimit=1100;var upperLimit=5;
+	goog.array.forEach(molecule.atoms,
+	  function(atom){
+		if(atom.xPixel>maxX){maxX=atom.xPixel;}
+		if(atom.yPixel>maxY){maxY=atom.yPixel;}
+	  });
+	var box = new goog.math.Box(upperLimit,rightLimit,downLimit,maxX+40);
+	var topLeftBox=new goog.math.Coordinate(box.left,box.top);
+	var topRightBox=new goog.math.Coordinate(box.right,box.top);
+	var bottomRightBox=new goog.math.Coordinate(box.right,box.bottom);
+	var bottomLeftBox=new goog.math.Coordinate(box.left,box.bottom);
+	return new Array(topLeftBox,topRightBox,bottomLeftBox,bottomRightBox);
+};
+
+/**
+ * The spectrum coordinates(coordinates of the peaks) are simply calculated on the basis of its spectra box.
+ * @param zoomX
+ */
+specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(zoomX){
+	var spectrum=this.spectrum;
+	var minX=spectrum.getMinValue();
+	var maxX=spectrum.getMaxValue();
+	var maxHeightOfPeak=spectrum.getMaxHeightPeak(); var maxValueOfPeak;  var adjustXvalue; var adjustYvalue;
+	var sortedArray=spectrum.sortXvalues();
+	var arrayOfPeakSorted=spectrum.mapPeakToxValue(sortedArray);
+	if(zoomX==0){
+		maxValueOfPeak=spectrum.getMaxValuePeak();
+		var bottomBoxLimit;
+		var upperBoxLimit;
+		var ecart=this.mainSpecBox[1].x-this.mainSpecBox[0].x;
+		var valueToAdd=this.mainSpecBox[0].x;
+		goog.array.forEach(spectrum.peakList,
+			function(peak) {
 			if(peak.intensity==maxHeightOfPeak){
-				  adjustYvalue=boxCoords[0].y-2;
-				  upperBoxLimit=adjustYvalue;
-//				  this.logger.info("max== "+peak.intensity)
+				adjustYvalue=20;
+				upperBoxLimit=adjustYvalue-10;
 			}else{
-				  adjustYvalue=boxCoords[1].y-(peak.intensity/maxHeightOfPeak)*(boxCoords[1].y-boxCoords[0].y);
+				adjustYvalue=20/(peak.intensity/maxHeightOfPeak);
 			}
-			
-			var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );
-			var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), adjustYvalue);
-			//TODO intensity and multipl etc
-			var peakCoords = trans.transformCoords( [peakFrom, peakTo]);
-		//	this.logger.info(peakCoords)
-			bottomBoxLimit=peakCoords[0].y;
 			if(peak.xValue==maxValueOfPeak){
-				adjustValue=boxCoords[1].x-5;
-
-				this.logger.info("max value of peak: "+peak.xValue+" will be at "+adjustValue);
+				adjustXvalue=ecart-4;
 			}else{
-				adjustValue=boxCoords[0].x+(peak.xValue/maxValueOfPeak)*(boxCoords[1].x-boxCoords[0].x);
-//				adjustValue=boxCoords[0].x+(peak.xValue/maxValueOfPeak)*(1100-boxCoords[0].x);
+				adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
 			}
-			peakCoords[0].x=adjustValue;
-			peakCoords[1].x=adjustValue;
-			peak.setCoordinates(adjustValue,peakCoords[0].y,adjustValue,adjustYvalue);  
-		  },
-		  this);
-	  spectrum.setExtremePixelValues();
-	  
-	  var ar=spectrum.getMaxAndMinXpixelValue();
-	  var l=ar.minPixel;
-	  var m=ar.maxPixel;
-	  
-	  this.mainSpecBox=new goog.math.Box(box.bottom,l-2,box.top,m);
-//	  alert("min: "+l+"\nmax: "+m+"  "+"bottom: "+this.mainSpecBox.bottom+"\ntop: "+this.mainSpecBox.top)
-//	  alert(this.mainSpecBox);
-	var tl=new goog.math.Coordinate(l-10,upperBoxLimit);
-	var tr=new goog.math.Coordinate(l-10,bottomBoxLimit);
-	var bl=new goog.math.Coordinate(m+10,upperBoxLimit);
-	var br=new goog.math.Coordinate(m+10,bottomBoxLimit);
-	this.mainSpecBox=new Array();
-	this.mainSpecBox[0]=tl;	this.mainSpecBox[1]=tr;this.mainSpecBox[2]=bl;this.mainSpecBox[3]=br;
-	
-  }else if(zoomX>1){
-	  var ecart=spectrum.maxXpixel-spectrum.minXpixel;
-	  
-	  var array=[];
-	  var valueToComputeTheRapport=arrayOfPeakSorted[0].xPixel;
-	  var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100)
-	  arrayOfPeakSorted[0].setCoordinates(newMinXvalue,arrayOfPeakSorted[0].yPixel,newMinXvalue,arrayOfPeakSorted[0].yTpixel);
-	  for(var k=1;k<arrayOfPeakSorted.length;k++){
-		  var rapp=arrayOfPeakSorted[k].xPixel/valueToComputeTheRapport;
-		  var newXvalue=arrayOfPeakSorted[k].xPixel*rapp;
-		  arrayOfPeakSorted[k].setCoordinates(newXvalue,arrayOfPeakSorted[k].yPixel,newXvalue,arrayOfPeakSorted[k].yTpixel);
-		  array.push(newXvalue);
-	  }
-  }
-  
-  var maxPeakToDisplay=0;
- 
-}; 
-  
- 
-
+			var whereAllThePeakStartFrom=280;
+			peak.setCoordinates(adjustXvalue+valueToAdd,whereAllThePeakStartFrom,adjustXvalue+valueToAdd,adjustYvalue);  
+			this.logger.info("peak at(nmrdata.js) : "+adjustXvalue);
+		},
+		this);
+		spectrum.setExtremePixelValues();
+		bottomBoxLimit=280;
+	}else if(zoomX>1){
+		var ecart=spectrum.maxXpixel-spectrum.minXpixel;
+		var array=[];
+		var valueToComputeTheRapport=arrayOfPeakSorted[0].xPixel;
+		var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100)
+		arrayOfPeakSorted[0].setCoordinates(newMinXvalue,arrayOfPeakSorted[0].yPixel,newMinXvalue,arrayOfPeakSorted[0].yTpixel);
+		for(var k=1;k<arrayOfPeakSorted.length;k++){
+			var rapp=arrayOfPeakSorted[k].xPixel/valueToComputeTheRapport;
+			var newXvalue=arrayOfPeakSorted[k].xPixel*rapp;
+			arrayOfPeakSorted[k].setCoordinates(newXvalue,arrayOfPeakSorted[k].yPixel,newXvalue,arrayOfPeakSorted[k].yTpixel);
+			array.push(newXvalue);
+		}	
+	}	
+}
 
 
 

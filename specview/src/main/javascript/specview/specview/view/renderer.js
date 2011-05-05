@@ -37,27 +37,26 @@ specview.view.Renderer.prototype.setTransform = function(transform){
 
 specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
 	boxCoords=box;
-	
+	var topLeft=box[0];
+	var topRight=box[1];
+	var bottomLeft=box[2];
+	var bottomRight=box[3];
     var boxPath = new goog.graphics.Path();
-    var scaleX=(boxCoords[2].x-boxCoords[0].x)/21;
-    var scaleY=(boxCoords[1].y-boxCoords[0].y)/9;
-    //Grill x
-//    alert(boxCoords[0].x+"  "+boxCoords[1].x+"  "+scaleX)
-    for(var k=boxCoords[0].x;k<boxCoords[2].x;k+=scaleX){
-//    	this.logger.info("("+k+","+boxCoords[0].y+")-->("+k+","+boxCoords[3].y+")")
-    	boxPath.moveTo(k,boxCoords[0].y);
-    	boxPath.lineTo(k,boxCoords[3].y+10);
+    var scaleX=(bottomRight.x-bottomLeft.x)/21;
+    var scaleY=(bottomLeft.y-topLeft.y)/9;
+    //Vertical grid
+    for(var k=bottomLeft.x;k<bottomRight.x;k+=scaleX){
+    	boxPath.moveTo(k,bottomRight.y);
+    	boxPath.lineTo(k,topRight.y+10);
     }
-    //Grill y
-    for(var k=boxCoords[0].y;k<boxCoords[1].y;k+=scaleY){
-    	boxPath.moveTo(boxCoords[0].x-10,k);
-    	boxPath.lineTo(boxCoords[2].x,k);
+    //Horizontal grid
+    for(var k=topRight.y;k<bottomRight.y;k+=scaleY){
+    	boxPath.moveTo(topLeft.x-10,k);
+    	boxPath.lineTo(topRight.x,k);
     }
-    
     if(!opt_color){
     	opt_color='black';	
     }
-        
     var boxStroke = new goog.graphics.Stroke(0.32,opt_color);
     var boxFill = null;
     
@@ -72,6 +71,10 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
 	var maxHeight=metaSpecObject.spectrum.getMaxHeightPeak();
 
 	var boxCoords=metaSpecObject.mainSpecBox;
+	var topLeft=boxCoords[0];
+	var topRight=boxCoords[1];
+	var bottomLeft=boxCoords[2];
+	var bottomRight=boxCoords[3];
 
 	var peakList=metaSpecObject.ArrayOfPeaks;
 	
@@ -82,46 +85,55 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
 	var fill = new goog.graphics.SolidFill('black');
     var font = new goog.graphics.Font(10, 'Times');
 
-
     var boxPath = new goog.graphics.Path();
     var boxStroke = new goog.graphics.Stroke(1.5,"black");
     var boxFill = null;
-    boxPath.moveTo(boxCoords[1].x, boxCoords[1].y);
-    boxPath.lineTo(boxCoords[0].x, boxCoords[0].y);
-    boxPath.moveTo(boxCoords[1].x, boxCoords[1].y);
-    boxPath.lineTo(boxCoords[3].x, boxCoords[3].y);
+    /*
+     * Draw the proper axis
+     */
+    boxPath.moveTo(bottomLeft.x, bottomLeft.y);
+    boxPath.lineTo(bottomRight.x, bottomRight.y);
+    boxPath.moveTo(bottomLeft.x, bottomLeft.y);
+    boxPath.lineTo(topLeft.x, topLeft.y);
     this.graphics.drawPath(boxPath, boxStroke, boxFill);
     
-    for(var k=boxCoords[0].x;k<boxCoords[2].x;k+=1){
+    /*
+     * Write the value on the x axis each time it encounters a peak
+     */
+    for(var k=bottomLeft.x;k<bottomRight.x;k+=1){
     	for(a in peakList){
     		if(parseInt(k)==parseInt(peakList[a].xPixel)){
-    	        this.graphics.drawText(parseInt(peakList[a].xValue), k, boxCoords[1].y, 600, 200, 'left', null,
+    	        this.graphics.drawText(parseInt(peakList[a].xValue), k, bottomLeft.y, 600, 200, 'left', null,
     	                font, stroke, fill);
     		}
     	}
     }
-    
-
-    
-    this.graphics.drawText(peakList["p1"].peakXunit, boxCoords[2].x+20, boxCoords[1].y, 600, 200, 'left', null,
+    /*
+     * Right the xUnit on the x Axis
+     */
+    this.graphics.drawText(metaSpecObject.spectrum.xUnit, bottomRight.x+20, bottomRight.y, 600, 200, 'left', null,
             font, stroke, fill);
     
     var count=9;
-    for(var k=boxCoords[1].y-scaleY;k>boxCoords[0].y;k-=scaleY){
+    scaleY=(280-5)/9;
+    /*
+     * Write the value on the y axis at regular steps
+     */
+    for(var k=bottomLeft.y-scaleY;k>topRight.y;k-=scaleY){
     	count-=1;
     	if(count!=0){
-            this.graphics.drawText(parseInt(maxHeight/count), boxCoords[0].x-30, k, 600, 200, 'left', null,
+            this.graphics.drawText(parseInt(maxHeight/count), bottomLeft.x-30, k, 600, 200, 'left', null,
                     font, stroke, fill);	
     	}
     }
-    
-    if(peakList["p1"].peakYunit!=undefined){
-    	this.graphics.drawText(peakList["p1"].peakYunit, boxCoords[0].x-30, boxCoords[0].y, 600, 200, 'left', null,
+  /*
+   * Right the yUnit on the y Axis if it is available.
+   */
+    if(metaSpecObject.spectrum.yUnit!=undefined){
+    	this.graphics.drawText(metaSpecObject.spectrum.yUnit, topLeft.x-30, topLeft.y, 600, 200, 'left', null,
                 font, stroke, fill);	
     }
-    
 };
-
 
 /**
  * Convenience method to see where elements are rendered by

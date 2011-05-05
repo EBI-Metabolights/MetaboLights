@@ -106,12 +106,6 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 			this.cells[key] = [];
 		}
 		this.cells[key].push(o);
-//		if(o.obj instanceof specview.model.Atom){
-//			alert("object: "+o.obj+"\nkey: "+key+"\nx: "+x+"\ny: "+y+"\nxDim: "+this.xDim);
-//		}
-//		if(o.obj instanceof specview.model.Peak){
-//			alert("object: "+o.obj+"\nkey: "+key+"\nx: "+x+"\ny: "+y+"\nxDim: "+this.xDim);			
-//		}
 
 		//samy
 		var objet=o.obj;
@@ -124,8 +118,7 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 			 coord=objet.pixelCoord;
 				var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
 				this.cells_samy[newCoord]=objet;
-//				this.logger.info("one peak will be at the foollowing coordinates: "+ newCoord.x+" "+newCoord.y);
-		}else if(objet instanceof specview.model.Bond){
+		}else if(objet instanceof specview.model.Bond){//A bond is defined by an array of coordinates
 			objet.setCoordinatesArray();
 			var arrayOfCoordinates=objet.coordinatesArray;
 			for(k in arrayOfCoordinates){
@@ -135,7 +128,6 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 		}
 
 	}, this);
-//alert(this.cells_samy[new goog.math.Coordinate(421,19)]);
 
 };
 

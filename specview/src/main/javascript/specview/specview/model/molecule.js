@@ -506,6 +506,8 @@ specview.model.Molecule.prototype.translate = function(vector) {
 };
 
 
+
+
 /**
  * The logger for this class.
  * 

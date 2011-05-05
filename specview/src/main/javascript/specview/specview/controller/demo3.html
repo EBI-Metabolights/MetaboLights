@@ -28,19 +28,15 @@
 spectrumData=null;
 zoom=0;
 
-truc="truc"
-
 function initPage(){
-	truc="caca"
 			var isGrid=false;
 			var isAxis=false;
-			// uncomment next two lines to debug to console
-						
+			// uncomment next two lines to debug to console						
 			var c = new goog.debug.Console(); 
 			c.setCapturing(true); 
 			
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[1]);//XML document
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[15]);//XML document
 			spectrumData=new specview.model.NMRdata();
 			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
 			
@@ -80,6 +76,7 @@ function initPage(){
 		    select1.addItem(new goog.ui.MenuItem('13', 13));
 		    select1.addItem(new goog.ui.MenuItem('14', 14));
 		    select1.addItem(new goog.ui.MenuItem('MassSpec', 15)); 
+		    select1.addItem(new goog.ui.MenuItem('Narengin', 16)); 
 		    
 		    select1.setSelectedIndex(0);
 		    select1.render(goog.dom.getElement('selectMolecule'));
@@ -119,10 +116,11 @@ function initPage(){
 		          idx=0;
 		      }
 		      var molfile=cmlData[idx];
-		      var xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
-		      spectrumData=new specview.model.NMRdata();
-		      spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
-			  spectrumData.setCoordinatesWithPixels(editor,0)
+		      var xmlDox;
+			      xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
+			      spectrumData=new specview.model.NMRdata();
+			      spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+				  spectrumData.setCoordinatesWithPixels(editor,0)
 			//CAREFUL WITH THE FOLLOWING LINE
 			  editor.setSpecObject(spectrumData);
 		      editor.setModels([spectrumData]);
@@ -152,7 +150,7 @@ var moveSpectrum=function(move,direction){
 	editor.setSpecObject(spectrumData);
 	editor.setModels([spectrumData]);
     editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	 editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 }
 
 
@@ -292,6 +290,7 @@ var moveSpectrum=function(move,direction){
     
 
   </script>
+
  <img name="track" style="position:absolute;left:665px;top:25px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
 
 
@@ -301,7 +300,8 @@ var moveSpectrum=function(move,direction){
         <li id="molName"></li>
         <li id="molId"></li>
         <li id="experimentType"></li>
-        <li id="experimentId" onmouseover="showPopUp()"><b>Experiment id: </b><script>//document.write(spectrumData.molecule.name)</script></li>
+
+        <li id="experimentId"><b>Experiment id: </b><script>//document.write(spectrumData.molecule.name)</script></li>
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>
         <div id="moleculeContainer" style="height:300px"></div>
@@ -310,3 +310,4 @@ var moveSpectrum=function(move,direction){
 
 </body>
 </html>
+
