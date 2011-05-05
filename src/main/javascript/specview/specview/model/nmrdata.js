@@ -121,7 +121,7 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
  * These constant parameter are the limit of the canvas. They should be more flexible. To do so,
  * we should pass the editor as an argument and extract its width and height.
  */ 
-specview.model.NMRdata.prototype.getSpectrumBox = function(){
+specview.model.NMRdata.prototype.getSpectrumBox = function(){	
 	var molecule=this.molecule;
 	var maxY=0;
 	var maxX=0;
@@ -139,57 +139,56 @@ specview.model.NMRdata.prototype.getSpectrumBox = function(){
 	return new Array(topLeftBox,topRightBox,bottomLeftBox,bottomRightBox);
 };
 
-
 /**
  * The spectrum coordinates(coordinates of the peaks) are simply calculated on the basis of its spectra box.
  * @param zoomX
  */
 specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(zoomX){
-	  var spectrum=this.spectrum;
-	  var minX=spectrum.getMinValue();
-	  var maxX=spectrum.getMaxValue();
-	  var maxHeightOfPeak=spectrum.getMaxHeightPeak(); var maxValueOfPeak;  var adjustXvalue; var adjustYvalue;
-	  var sortedArray=spectrum.sortXvalues();
-	  var arrayOfPeakSorted=spectrum.mapPeakToxValue(sortedArray);
-	  if(zoomX==0){
-		  maxValueOfPeak=spectrum.getMaxValuePeak();
-		  var bottomBoxLimit;
-		  var upperBoxLimit;
-		  var ecart=this.mainSpecBox[1].x-this.mainSpecBox[0].x;
-		  var valueToAdd=this.mainSpecBox[0].x;
-		  goog.array.forEach(spectrum.peakList,
-			  function(peak) {
-				if(peak.intensity==maxHeightOfPeak){
-					  adjustYvalue=20;
-					  upperBoxLimit=adjustYvalue-10;
-				}else{
-					adjustYvalue=20/(peak.intensity/maxHeightOfPeak);
-				}
-				 if(peak.xValue==maxValueOfPeak){
-					adjustXvalue=ecart-4;
-				}else{
-					adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
-				}
-				var whereAllThePeakStartFrom=280;
-				peak.setCoordinates(adjustXvalue+valueToAdd,whereAllThePeakStartFrom,adjustXvalue+valueToAdd,adjustYvalue);  
-				this.logger.info("peak at(nmrdata.js) : "+adjustXvalue);
-			  },
-			  this);
-		  spectrum.setExtremePixelValues();
-		  bottomBoxLimit=280;
-	  }else if(zoomX>1){
-		  var ecart=spectrum.maxXpixel-spectrum.minXpixel;
-		  var array=[];
-		  var valueToComputeTheRapport=arrayOfPeakSorted[0].xPixel;
-		  var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100)
-		  arrayOfPeakSorted[0].setCoordinates(newMinXvalue,arrayOfPeakSorted[0].yPixel,newMinXvalue,arrayOfPeakSorted[0].yTpixel);
-		  for(var k=1;k<arrayOfPeakSorted.length;k++){
-			  var rapp=arrayOfPeakSorted[k].xPixel/valueToComputeTheRapport;
-			  var newXvalue=arrayOfPeakSorted[k].xPixel*rapp;
-			  arrayOfPeakSorted[k].setCoordinates(newXvalue,arrayOfPeakSorted[k].yPixel,newXvalue,arrayOfPeakSorted[k].yTpixel);
-			  array.push(newXvalue);
-		  }
-	  }	
+	var spectrum=this.spectrum;
+	var minX=spectrum.getMinValue();
+	var maxX=spectrum.getMaxValue();
+	var maxHeightOfPeak=spectrum.getMaxHeightPeak(); var maxValueOfPeak;  var adjustXvalue; var adjustYvalue;
+	var sortedArray=spectrum.sortXvalues();
+	var arrayOfPeakSorted=spectrum.mapPeakToxValue(sortedArray);
+	if(zoomX==0){
+		maxValueOfPeak=spectrum.getMaxValuePeak();
+		var bottomBoxLimit;
+		var upperBoxLimit;
+		var ecart=this.mainSpecBox[1].x-this.mainSpecBox[0].x;
+		var valueToAdd=this.mainSpecBox[0].x;
+		goog.array.forEach(spectrum.peakList,
+			function(peak) {
+			if(peak.intensity==maxHeightOfPeak){
+				adjustYvalue=20;
+				upperBoxLimit=adjustYvalue-10;
+			}else{
+				adjustYvalue=20/(peak.intensity/maxHeightOfPeak);
+			}
+			if(peak.xValue==maxValueOfPeak){
+				adjustXvalue=ecart-4;
+			}else{
+				adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+			}
+			var whereAllThePeakStartFrom=280;
+			peak.setCoordinates(adjustXvalue+valueToAdd,whereAllThePeakStartFrom,adjustXvalue+valueToAdd,adjustYvalue);  
+			this.logger.info("peak at(nmrdata.js) : "+adjustXvalue);
+		},
+		this);
+		spectrum.setExtremePixelValues();
+		bottomBoxLimit=280;
+	}else if(zoomX>1){
+		var ecart=spectrum.maxXpixel-spectrum.minXpixel;
+		var array=[];
+		var valueToComputeTheRapport=arrayOfPeakSorted[0].xPixel;
+		var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100)
+		arrayOfPeakSorted[0].setCoordinates(newMinXvalue,arrayOfPeakSorted[0].yPixel,newMinXvalue,arrayOfPeakSorted[0].yTpixel);
+		for(var k=1;k<arrayOfPeakSorted.length;k++){
+			var rapp=arrayOfPeakSorted[k].xPixel/valueToComputeTheRapport;
+			var newXvalue=arrayOfPeakSorted[k].xPixel*rapp;
+			arrayOfPeakSorted[k].setCoordinates(newXvalue,arrayOfPeakSorted[k].yPixel,newXvalue,arrayOfPeakSorted[k].yTpixel);
+			array.push(newXvalue);
+		}	
+	}	
 }
 
 

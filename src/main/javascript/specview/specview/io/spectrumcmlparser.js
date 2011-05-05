@@ -281,7 +281,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 					atomRefs=attributeValue.split(" ");
 					break;
 				case "moleculeRefs" :
-					molRefs=attributeValue;
+					moleculeRef=attributeValue;
 					break;
 				case "yValue":
 					height=attributeValue;
@@ -305,23 +305,17 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			}
 			
 			height = height ? height : 50 ; // Should be more precise on the height	
-			/**
-			 * THAT IS WEIRD
-			 */
-			var maxL=23.5;
 			var peakToBuild=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,moleculeRef,xUnits,yUnits);
-//			specview.io.SpectrumCMLParser.logger.info("spectrumcmlparser09.js: "+peakToBuild.xValue);
-			atomRefs=null;
+//			specview.io.SpectrumCMLParser.logger.info("spectrumcmlparser09.js: "+peakToBuild);
+			molRefs=null;atomRefs=null;
 			nmrData.ArrayOfPeaks[peakId]=peakToBuild;
 			goog.array.insert(ArrayOfPeaks,peakToBuild);
-			
 		}
 	}
 	
         //Create a spectrum
        // this.logger.info("ArrayOfPeaks "+ArrayOfPeaks.length);
         var spec= new specview.model.Spectrum(nmrData.molecule, ArrayOfPeaks);
-//        spec.setXvalues(maxPValue);
         nmrData.spectrum=spec;
         nmrData.spectrum.xUnit=xUnits;
         nmrData.spectrum.yUnit=yUnits;
