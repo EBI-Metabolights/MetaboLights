@@ -55,6 +55,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	var ArrayOfBonds=new Array();
 	var ArrayOfPeaks=new Array();
 	var mol="";
+	alert(XMLdoc.getElementsByTagName("metadataList").length)
 	var experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[1].attributes[0].value;
 //	alert(experimentType)
 	var nmrData=NMRdataObject;
