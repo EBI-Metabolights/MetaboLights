@@ -135,12 +135,11 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   var yStart= boxxx.bottom;
     
   var maxHeightOfPeak=spectrum.getMaxHeightPeak();
-//  var maxValueOfPeak=spectrum.getMaxValuePeak();
   var maxValueOfPeak;
   var pTo=0;
   var pFrom=0;
   
-  var adjustValue;
+  var adjustXvalue;
   var adjustYvalue;
   
 //  boxxx.right=(boxxx.right<boxxx.left ? 2300 : boxxx.right);//ms case
@@ -153,57 +152,36 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 	  maxValueOfPeak=spectrum.getMaxValuePeak();
 	  var bottomBoxLimit;
 	  var upperBoxLimit;
-//	  this.logger.info("samybox(nmrdata.js): "+samyBox)
 	  var ecart=samyBox[1].x-samyBox[0].x;
 	  var valueToAdd=samyBox[0].x;
-	  
 	  goog.array.forEach(spectrum.peakList,
 		  function(peak) {
 		    /*
 		     * We adapt the height of the peaks according to their relative values
 		     */
 			if(peak.intensity==maxHeightOfPeak){
-				  adjustYvalue=boxCoords[0].y-2;
-				  upperBoxLimit=adjustYvalue;
+				  adjustYvalue=20;
+				  upperBoxLimit=adjustYvalue-10;
 			}else{
-				  adjustYvalue=boxCoords[1].y-(peak.intensity/maxHeightOfPeak)*(boxCoords[1].y-boxCoords[0].y);
+				adjustYvalue=20/(peak.intensity/maxHeightOfPeak);
 			}
-			var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );
-			var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), adjustYvalue);
-			var peakCoords = trans.transformCoords( [peakFrom, peakTo]);
-		//	this.logger.info(peakCoords)
-			peakCoords[0].y=280;//We set the bottom of the spectrum box to a fix value inferior to the height of the canvas editor
 			/*
 			 * We adapt the xValue of the peak according to their relative value
 			 */
 			 if(peak.xValue==maxValueOfPeak){
-				adjustValue=ecart-4;
-//				this.logger.info("max value of peak: "+peak.xValue+" will be at "+adjustValue);
+				adjustXvalue=ecart-4;
 			}else{
-				adjustValue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+				adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
 			}
-
-			peakCoords[0].x=adjustValue;
-			peakCoords[1].x=adjustValue;
-			peak.setCoordinates(adjustValue+valueToAdd,peakCoords[0].y,adjustValue+valueToAdd,adjustYvalue);  
-			this.logger.info("peak at(nmrdata.js) : "+adjustValue);
-			
+			var whereAllThePeakStartFrom=280;
+			peak.setCoordinates(adjustXvalue+valueToAdd,whereAllThePeakStartFrom,adjustXvalue+valueToAdd,adjustYvalue);  
+			this.logger.info("peak at(nmrdata.js) : "+adjustXvalue);
 		  },
 		  this);
 	  spectrum.setExtremePixelValues();
-	  
-	  var ar=spectrum.getMaxAndMinXpixelValue();//min and max value of the spectrum
-	  var l=ar.minPixel;
-	  var m=ar.maxPixel;
 	  bottomBoxLimit=280;
-	  specview.model.NMRdata.logger.info("nmrdata.js: "+upperBoxLimit+","+bottomBoxLimit)
-      this.mainSpecBox=samyBox;
-//	alert(this.mainSpecBox)
-	
-	
   }else if(zoomX>1){
 	  var ecart=spectrum.maxXpixel-spectrum.minXpixel;
-	  
 	  var array=[];
 	  var valueToComputeTheRapport=arrayOfPeakSorted[0].xPixel;
 	  var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100)
