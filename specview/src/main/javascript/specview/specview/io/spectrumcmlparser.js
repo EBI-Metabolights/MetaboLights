@@ -208,10 +208,12 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				}
 				var secondaryMolecule=new specview.model.Molecule(moleculeName)
 				for(k in ArrayOfAtoms){
-					if(moleculeName==THEMOLECULENAME){
-						nmrData.molecule.addAtom(ArrayOfAtoms[k]);
+					if(ArrayOfAtoms[k].coord.x!=0 && ArrayOfAtoms[k].coord.y!=0){
+						if(moleculeName==THEMOLECULENAME){
+							nmrData.molecule.addAtom(ArrayOfAtoms[k]);
+						}
+						secondaryMolecule.addAtom(ArrayOfAtoms[k]);
 					}
-					secondaryMolecule.addAtom(ArrayOfAtoms[k]);
 				}
 				//Add the bonds to the molecule
 //				alert("how many bonds: "+ArrayOfBonds.length);
@@ -224,6 +226,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				}
 				molecule.fragmentId=moleculeName;
 				nmrData.ArrayOfSecondaryMolecules[moleculeName]=secondaryMolecule;
+				
 //				alert(secondaryMolecule)
 				//specview.io.SpectrumCMLParser.logger.info("molecule: "+secondaryMolecule.name)
 				ArrayOfAtoms=new Array();
@@ -236,7 +239,9 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		nmrData.molecule=new specview.model.Molecule(THEMOLECULENAME);
 		nmrData.molecule.molecule_id=THEMOLECULEID;
 		for(k in ArrayOfAtoms){
-			nmrData.molecule.addAtom(ArrayOfAtoms[k]);
+			if(ArrayOfAtoms[k].coord.x!=0 && ArrayOfAtoms[k].coord.y!=0){
+				nmrData.molecule.addAtom(ArrayOfAtoms[k]);	
+			}
 		}
 		for(k in ArrayOfBonds){
 			nmrData.molecule.addBond(ArrayOfBonds[k]);

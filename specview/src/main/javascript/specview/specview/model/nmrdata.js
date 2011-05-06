@@ -110,9 +110,6 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
     	specview.model.NMRdata.logger.info("\n\nmolecule Name: "+molecule.name)
   	    goog.array.forEach(molecule.atoms,
   	     function(atom){
-  	    	if(atom.coord.x==0 && atom.coord.y==0){
-  	    		molecule.removeAtom(atom);
-  	    	}
   	    	var point = trans.transformCoords([ atom.coord ])[0];//point is the coordinates with pixelS
   	    	atom.setPixelCoordinates(point.x, point.y);
   	    	specview.model.NMRdata.logger.info(point.x+","+point.y+"--->"+atom.coord.x+","+atom.coord.y+"--->"+atom.symbol)
