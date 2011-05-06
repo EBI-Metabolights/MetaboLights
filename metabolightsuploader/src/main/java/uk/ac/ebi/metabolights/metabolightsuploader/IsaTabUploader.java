@@ -79,7 +79,14 @@ public class IsaTabUploader {
 		assignOwners(getOwner(), itir.getAccessionNumberList());
 			
 	}
-	public void Upload() throws ConfigurationException, IsaTabIdReplacerException, IOException{
+	/**
+	 * Upload an experiment (Isa Tab zip file) into BII.
+	 * @throws ConfigurationException
+	 * @throws IsaTabIdReplacerException
+	 * @throws IOException
+	 * returns String with the new accession numbers assigned (only Study Ids).
+	 */
+	public String Upload() throws ConfigurationException, IsaTabIdReplacerException, IOException{
 		
 		
 		//Replace the id
@@ -90,6 +97,9 @@ public class IsaTabUploader {
 		
 		//Load the isatab file
 		sm.loadISAtab(getUnzipFolder(), owner);
+		
+		//Return the new accession numbers
+		return itir.getAccessionNumberList();
 		
 	}
 	/**
