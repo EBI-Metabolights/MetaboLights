@@ -71,6 +71,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		THEMOLECULENAME=XMLdoc.getElementsByTagName('molecule').item(0).attributes[0].value;
 		THEMOLECULEID=XMLdoc.getElementsByTagName('molecule').item(0).attributes[1].value;
 	}
+	alert("the molecule name: "+THEMOLECULENAME)
 	
 	var molecules=XMLdoc.getElementsByTagName("moleculeList");
 	if(nmrData.experienceType=="ms"){
