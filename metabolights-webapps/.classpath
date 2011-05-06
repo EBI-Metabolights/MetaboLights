@@ -4,6 +4,7 @@
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
+	<classpathentry kind="src" path="src/main/webapps/metabolights/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
@@ -12,5 +13,53 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/commons-dbcp-1.4.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/commons-digester-2.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/commons-io-2.0.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/commons-pool-1.5.5.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/ftp4j-1.6.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/hibernate-commons-annotations-3.2.0.Final.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/hibernate-core-3.6.1.Final.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/hibernate-search-analyzers-3.4.0.Alpha1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/hibernate-validator-4.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/javassist.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/jstl-api-1.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/jstl-impl-1.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/lucene-core-3.0.3.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.aop-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.asm-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.beans-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.context-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.core-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.expression-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.jdbc-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.orm-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.transaction-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.web-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/org.springframework.web.servlet-3.1.0.M1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/slf4j-log4j12-1.6.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/spring-security-config-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/spring-security-core-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/spring-security-taglibs-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/spring-security-web-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/tiles-api-2.2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/tiles-core-2.2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/tiles-jsp-2.2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/tiles-servlet-2.2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/tiles-template-2.2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapps/metabolights/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
