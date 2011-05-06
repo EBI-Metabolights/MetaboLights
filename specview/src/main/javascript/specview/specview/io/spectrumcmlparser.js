@@ -224,6 +224,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				}
 				molecule.fragmentId=moleculeName;
 				nmrData.ArrayOfSecondaryMolecules[moleculeName]=secondaryMolecule;
+//				alert(secondaryMolecule)
 				//specview.io.SpectrumCMLParser.logger.info("molecule: "+secondaryMolecule.name)
 				ArrayOfAtoms=new Array();
 				ArrayOfBonds=new Array();
