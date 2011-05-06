@@ -59,15 +59,20 @@ public class ZipperTest {
 		for(int i=0; i < fileList.length; i++)
 		{
 			
-			//Write in the map
-			map = map + fileList[i].getName() + "\n";
-						
-			//If it is a not hidden directory
-			if (fileList[i].isDirectory() && !fileList[i].isHidden()){
-				
-				//Get the map under this folder
-				map = getFolderMap(fileList[i], map);
-				
+			//If the file or folder is not hidden
+			if (!fileList[i].isHidden()){
+
+				//Write in the map
+				map = map + fileList[i].getName() + "\n";
+							
+				//If it is a not hidden directory
+				if (fileList[i].isDirectory()){
+					
+					//Get the map under this folder
+					map = getFolderMap(fileList[i], map);
+					
+				}
+
 			}
 			
 		}
