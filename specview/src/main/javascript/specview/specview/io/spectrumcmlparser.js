@@ -55,9 +55,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	var ArrayOfBonds=new Array();
 	var ArrayOfPeaks=new Array();
 	var mol="";
-//	alert(XMLdoc.getElementsByTagName("metadataList").length )
+//	specview.io.SpectrumCMLParser.logger.info("metadataList: "+XMLdoc.getElementsByTagName("molecule").length)
 	var experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[1].attributes[0].value;
-//	alert(experimentType)
 	var nmrData=NMRdataObject;
 		
 	var THEMOLECULENAME="";var THEMOLECULEID="";
@@ -71,7 +70,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		THEMOLECULENAME=XMLdoc.getElementsByTagName('molecule').item(0).attributes[0].value;
 		THEMOLECULEID=XMLdoc.getElementsByTagName('molecule').item(0).attributes[1].value;
 	}
-	alert("the molecule name: "+THEMOLECULENAME)
+//	specview.io.SpectrumCMLParser.logger.info("the molecule name: "+THEMOLECULENAME)
 	
 	var molecules=XMLdoc.getElementsByTagName("moleculeList");
 	if(nmrData.experienceType=="ms"){

@@ -171,7 +171,7 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(zoomX)
 			}
 			var whereAllThePeakStartFrom=280;
 			peak.setCoordinates(adjustXvalue+valueToAdd,whereAllThePeakStartFrom,adjustXvalue+valueToAdd,adjustYvalue);  
-			this.logger.info("peak at(nmrdata.js) : "+adjustXvalue);
+//			this.logger.info("peak at(nmrdata.js) : "+adjustXvalue);
 		},
 		this);
 		spectrum.setExtremePixelValues();
