@@ -100,7 +100,8 @@ public class IsaTabIdReplacer
 		
 		//Load the properties from the property file
 		//TODO: Is this path ok?. To ask.
-		props.load(new FileInputStream("./src/main/resources/isatabidreplacer.properties"));
+		//props.load(new FileInputStream("./src/main/resources/isatabidreplacer.properties"));
+		props.load(IsaTabIdReplacer.class.getClassLoader().getResourceAsStream("isatabidreplacer.properties"));
 		
 		//If property file is empty
 		if (props.size() ==0){
