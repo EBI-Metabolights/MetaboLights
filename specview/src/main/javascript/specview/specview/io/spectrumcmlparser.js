@@ -40,8 +40,10 @@ specview.io.SpectrumCMLParser.getDocument=function(cmlString) {
  * @param XMLdocument
  * @returns {specview.model.NMRdata()}
  */
-specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
+specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc,navigatorName){
 	var molToBuild=new Array();
+	
+	var IE=navigatorName=="Microsoft Internet Explorer" ? true : false;
 		
     //Attributes of an Atom object
 	var atomId; var elementType; var x; var y; var charge; var hydrogenCount; 
@@ -62,17 +64,24 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	var THEMOLECULENAME="";var THEMOLECULEID="";
 	var listOfMolecules=new Array();
 	
+	
 	if(specview.util.Utilities.startsWith("ms",experimentType)){
 		nmrData.experienceType="ms";
-		THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[1].attributes[0].value;
+//		alert(navigatorName)
+//		alert(XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value)
+		if(IE){
+			THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value;			
+		}else{
+			THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[1].attributes[0].value;	
+		}
 	}else if(specview.util.Utilities.startsWith("nmr",experimentType)){
 		nmrData.experienceType="nmr";
 		THEMOLECULENAME=XMLdoc.getElementsByTagName('molecule').item(0).attributes[0].value;
 		THEMOLECULEID=XMLdoc.getElementsByTagName('molecule').item(0).attributes[1].value;
 	}
 //	specview.io.SpectrumCMLParser.logger.info("the molecule name: "+THEMOLECULENAME)
-	
 	var molecules=XMLdoc.getElementsByTagName("moleculeList");
+//	alert(molecules.length);
 	if(nmrData.experienceType=="ms"){
 		if(molecules[0]!=undefined){//Stephen files: moleculeList is the tag holding all the information about the molecules
 			listOfMolecules=molecules[0].childNodes;	
@@ -85,13 +94,15 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		listOfMolecules[0]=XMLdoc.getElementsByTagName("molecule");
 //		alert(listOfMolecules[1])
 	}
-	
+//	alert(listOfMolecules.length);
 	for(var molecule=0;molecule<listOfMolecules.length;molecule++){
 		var MS = listOfMolecules[molecule] instanceof Element;
 		var NMR = listOfMolecules[molecule] instanceof HTMLCollection;
 		var moleculeName;
 		var moleculeNode;
+//		alert(listOfMolecules[molecule])
 		if(MS){
+//			alert(moleculeName)
 			moleculeNode=listOfMolecules[molecule];
 //			specview.io.SpectrumCMLParser.logger.info("line 94 spec09: "+moleculeNode.nodeName)
 		}else if(NMR){
@@ -100,12 +111,12 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		if(MS || NMR){
 //			alert(listOfMolecules[molecule][0].childNodes.length)
 			if(MS){
+//				alert(moleculeName)
 				moleculeName=moleculeNode.attributes[0].value;
 			}else if(NMR){
 				moleculeName=THEMOLECULENAME;
 			}
 			var moleculeBeingBuilt=new specview.model.Molecule(moleculeName);
-//			alert(moleculeNode.childNodes[1].childNodes)
 			var atomArray=moleculeNode.childNodes[1].childNodes;
 			var bondArray=moleculeNode.childNodes[3].childNodes;			
 			var lenAtom=atomArray.length;var lenBond=bondArray.length;
@@ -151,7 +162,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;//Set the ArrayOfAtoms attribute of the graphical object
 				nmrData.ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;
 			}
-			
+//			alert(lenBon)
 			//Create the bonds with the stereo and put it in the Array of bonds of the cmlObject
 			for(var k=0;k<lenBond;k++){
 				var tag=bondArray[k].nodeName;
@@ -202,6 +213,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			
 			
 			if(nmrData.experienceType=="ms"){
+//				alert(moleculeName)
 //				specview.io.SpectrumCMLParser.logger.info(moleculeName);
 				if(moleculeName==THEMOLECULENAME){
 					nmrData.molecule=new specview.model.Molecule(THEMOLECULENAME);

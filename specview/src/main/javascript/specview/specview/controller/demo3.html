@@ -12,6 +12,7 @@
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
     goog.require('specview.io.SpectrumCMLParser');
+    goog.require('specview.io.SpectrumCMLParserIE');
     goog.require('specview.model.NMRdata');
     goog.require('goog.events.MouseWheelHandler');
     goog.require('goog.fx.Dragger');
@@ -29,6 +30,7 @@ spectrumData=null;
 zoom=0;
 
 function initPage(){
+			var IE=navigator.appName=="Microsoft Internet Explorer";
 			var isGrid=false;
 			var isAxis=false;
 			// uncomment next two lines to debug to console						
@@ -36,17 +38,27 @@ function initPage(){
 			c.setCapturing(true); 
 			
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			alert(cmlData.length)
-			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[15]);//XML document
-			spectrumData=new specview.model.NMRdata();
-			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
 			
+			if(!IE){
+				document.getElementById("slider").innerHTML="MOZIL";
+				var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[15]);//XML document
+	//			alert(xmlDoc)
+				spectrumData=new specview.model.NMRdata();
+				spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
+			}else{
+				document.getElementById("slider").innerHTML="IE";
+				var xmlDoc=specview.io.SpectrumCMLParserIE.getDocument(cmlData[15]);//XML document
+	//			alert(xmlDoc)
+				spectrumData=new specview.model.NMRdata();
+				spectrumData=specview.io.SpectrumCMLParserIE.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
+			
+			}
 			//Create the canvas and provide it with highlight plugins
 			editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
 
 			editor.registerPlugin(new specview.controller.plugins.Highlight());
 			spectrumData.setCoordinatesWithPixels(editor,0)
-
+			
 			
 			//Initialisation of a molecule to display when the page is loading
 
@@ -295,7 +307,6 @@ var moveSpectrum=function(move,direction){
         previousPercent=percent;
     })
     
-
   </script>
 
  <img name="track" style="position:absolute;left:665px;top:25px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
