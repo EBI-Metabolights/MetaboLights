@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.hibernate.Session;
-import uk.ac.ebi.metabolights.utils.HibernateUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

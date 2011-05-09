@@ -12,7 +12,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
    <version>0.0.1-SNAPSHOT</version>
  </parent> 
  <build> 
-  <finalName>${artifactId}</finalName>
+  <finalName>${project.artifactId}</finalName>
  </build>
  <dependencies>
  	<dependency>

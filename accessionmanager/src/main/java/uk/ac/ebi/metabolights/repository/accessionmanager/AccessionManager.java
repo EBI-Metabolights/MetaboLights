@@ -5,10 +5,9 @@ import org.hibernate.Session;
 import java.util.List;
 
 import uk.ac.ebi.metabolights.repository.accessionmanager.StableId;
-import uk.ac.ebi.metabolights.utils.HibernateUtil;
 /**
  * Manages the accession number and persist into the database
- * If the table does not exists, it will create it and insert one row with 1 as Id and a prefix passed as parameter. TODO --> Test this
+ * If the table does not exists, it will create it and insert one row with 1 as Id and a prefix passed as parameter.
  * 
  * @author conesa
  *

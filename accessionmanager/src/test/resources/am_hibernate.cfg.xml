@@ -8,11 +8,12 @@
 		<property name="connection.url">jdbc:mysql://localhost:3306/bioinvindex</property> 
 		<property name="connection.username">isatab</property> 
 		<property name="connection.password">isatab</property>
-		
-		<!-- JDBC connection pool (use the built-in) -->
-		<property name="connection.pool_size">1</property>
-		<!-- SQL dialect -->
+		<!-- SQL dialect-->
 		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property> 
+
+		<!-- JDBC connection pool (use the built-in)-->
+		<property name="connection.pool_size">1</property>
+		
 		<!-- Enable Hibernate's automatic session context management -->
 		<property name="current_session_context_class">thread</property> 
 		<!-- Disable the second-level cache -->
