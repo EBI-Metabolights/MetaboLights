@@ -40,13 +40,13 @@ function initPage(){
 			var cmlData=cmlmolecules.split("$$END$$\n");
 			if(!IE){
 				document.getElementById("slider").innerHTML="MOZIL";
-				var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[1]);//XML document
+				var xmlDoc=specview.io.SpectrumCMLParserIE.getDocument(cmlData[4]);//XML document
 	//			alert(xmlDoc)
 				spectrumData=new specview.model.NMRdata();
-				spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
+				spectrumData=specview.io.SpectrumCMLParserIE.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
 			}else{
 				document.getElementById("slider").innerHTML="IE";
-				var xmlDoc=specview.io.SpectrumCMLParserIE.getDocument(cmlData[1]);//XML document
+				var xmlDoc=specview.io.SpectrumCMLParserIE.getDocument(cmlData[4]);//XML document
 	//			alert(xmlDoc)
 				spectrumData=new specview.model.NMRdata();
 				spectrumData=specview.io.SpectrumCMLParserIE.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
@@ -135,9 +135,9 @@ function initPage(){
 		      }
 		      var molfile=cmlData[idx];
 		      var xmlDox;
-			      xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
+			      xmlDoc=specview.io.SpectrumCMLParserIE.getDocument(molfile);//XML document
 			      spectrumData=new specview.model.NMRdata();
-			      spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+			      spectrumData=specview.io.SpectrumCMLParserIE.parseDocument(spectrumData,xmlDoc);//a cmlObject
 				  spectrumData.setCoordinatesWithPixels(editor,0)
 			//CAREFUL WITH THE FOLLOWING LINE
 			  editor.setSpecObject(spectrumData);

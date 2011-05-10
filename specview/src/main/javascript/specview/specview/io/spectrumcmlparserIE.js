@@ -58,9 +58,17 @@ specview.io.SpectrumCMLParserIE.parseDocument=function(NMRdataObject,XMLdoc,navi
 	var ArrayOfPeaks=new Array();
 	var mol="";
 //	specview.io.SpectrumCMLParserIE.logger.info("metadataList: "+XMLdoc.getElementsByTagName("molecule").length)
-	var experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[1].attributes[0].value;
+//	alert(XMLdoc.getElementsByTagName("metadataList")[0].childNodes[0].attributes[0].value);
+	try{
+		experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[1].attributes[0].value;
+	}catch(err){
+		alert(err);
+	}
+	var experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[0].attributes[0].value;
+
+	alert(experimentType)
+//var experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[1].attributes[0].value;
 	var nmrData=NMRdataObject;
-		
 	var THEMOLECULENAME="";var THEMOLECULEID="";
 	var listOfMolecules=new Array();
 	
@@ -81,7 +89,7 @@ specview.io.SpectrumCMLParserIE.parseDocument=function(NMRdataObject,XMLdoc,navi
 	}
 //	specview.io.SpectrumCMLParserIE.logger.info("the molecule name: "+THEMOLECULENAME)
 	var molecules=XMLdoc.getElementsByTagName("moleculeList");
-//	alert(molecules.length);
+//	alert(molecules[0].childNodes.length);
 	if(nmrData.experienceType=="ms"){
 		if(molecules[0]!=undefined){//Stephen files: moleculeList is the tag holding all the information about the molecules
 			listOfMolecules=molecules[0].childNodes;	
@@ -94,37 +102,39 @@ specview.io.SpectrumCMLParserIE.parseDocument=function(NMRdataObject,XMLdoc,navi
 		listOfMolecules[0]=XMLdoc.getElementsByTagName("molecule");
 //		alert(listOfMolecules[1])
 	}
-//	alert("before the loop: "+listOfMolecules[0][0].childNodes.length);
+	alert("before the loop: "+listOfMolecules.length);
 	for(var molecule=0;molecule<listOfMolecules.length;molecule++){
-//		var MS = listOfMolecules[molecule] instanceof Element;
-//		var NMR = listOfMolecules[molecule] instanceof HTMLCollection;
+		var MS = nmrData.experienceType=='ms';
+		var NMR = nmrData.experienceType=='nmr';
 		var moleculeName;
 		var moleculeNode;
 //		alert(listOfMolecules[molecule])
-//		if(MS){
-//			alert(moleculeName)
-//			moleculeNode=listOfMolecules[molecule];
+		if(MS){
+//		alert(moleculeName)
+			moleculeNode=listOfMolecules[molecule];
+//			alert(moleculeNode)
 //			specview.io.SpectrumCMLParserIE.logger.info("line 94 spec09: "+moleculeNode.nodeName)
-//		}else if(NMR){
-//			moleculeNode=listOfMolecules[molecule][0];
-//		}
+		}else if(NMR){
+			moleculeNode=listOfMolecules[molecule][0];
+		}
 //		alert(listOfMolecules[molecule][0].childNodes[0].nodeName+"\n"+listOfMolecules[molecule][0].childNodes[1].nodeName+"\n"+listOfMolecules[molecule][0].childNodes[2].nodeName+"\n");
-		moleculeNode=listOfMolecules[molecule][0];
+//		moleculeNode=listOfMolecules[molecule][0];
+//		alert(moleculeNode);
 //			alert(listOfMolecules[molecule][0].childNodes.length)
-//			if(MS){
+			if(MS){
+//				alert(moleculeNode)
+				moleculeName=moleculeNode.attributes[0].value;
 //				alert(moleculeName)
-//				moleculeName=moleculeNode.attributes[0].value;
-//			}else if(NMR){
+			}else if(NMR){
 				moleculeName=THEMOLECULENAME;
-//			}
+			}
 			var moleculeBeingBuilt=new specview.model.Molecule(moleculeName);
 			var atomArray=moleculeNode.childNodes[0].childNodes;
 			var bondArray=moleculeNode.childNodes[1].childNodes;			
 			var lenAtom=atomArray.length;var lenBond=bondArray.length;
-//			alert(moleculeBeingBuilt);
 			//Create the atoms and put it in the Array of Atoms of the cmlObject.
 			for(var k=0;k<lenAtom;k++){
-				for(attributeIndice in atomArray.item(k).attributes){
+				for(var attributeIndice=0;attributeIndice<atomArray.item(k).attributes.length;attributeIndice++){
 					var attributeName=atomArray.item(k).attributes[attributeIndice].name;
 					var attributeValue=atomArray.item(k).attributes[attributeIndice].value;
 					switch(attributeName){
@@ -154,7 +164,7 @@ specview.io.SpectrumCMLParserIE.parseDocument=function(NMRdataObject,XMLdoc,navi
 		        if (charge=="0")
 		            charge=null; // prevents charge rendering on zero charge
 				var currentAtom=new specview.model.Atom(elementType,x,y,charge);//Create the atom
-//				alert(currentAtom)
+			
 				currentAtom.setInnerIdentifier(atomId);//Set its inner identifier..a1,a2...
 				currentAtom.peakMap[currentAtom.getInnerIdentifier()]=new Array();//Prepare the array for the peaks..[a1=[] ; a2=[] ...]
 		        //this.logger.info("atom id "+currentAtom.getInnerIdentifier())
@@ -163,19 +173,23 @@ specview.io.SpectrumCMLParserIE.parseDocument=function(NMRdataObject,XMLdoc,navi
 				 */
 				ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;//Set the ArrayOfAtoms attribute of the graphical object
 				nmrData.ArrayOfAtoms[currentAtom.getInnerIdentifier()]=currentAtom;
+//				alert(currentAtom)
 			}
-			alert("166: "+lenBon)
+//			alert(bondArray[6].nodeName)
 			//Create the bonds with the stereo and put it in the Array of bonds of the cmlObject
 			for(var k=0;k<lenBond;k++){
+//				alert(k)
 				var tag=bondArray[k].nodeName;
-				if(tag!="#text"){
+//				alert(specview.model.Bond.ORDER.SINGLE)
 					if(k<bondArray.length-2){
 						var nextTag=bondArray[k+2].nodeName;// Not very smart to proceed like this. Must be a beter way.
+//						alert(k+'  '+nextTag)
 					}else{var nextTag=null;}
 					if(tag=="bond" || tag=="cml:bond"){// TO AVOID DOING USELESS OPERATIONS ON BONDSTEREO
-						for(attributeIndice in bondArray[k].attributes){
+						for(var attributeIndice=0;attributeIndice<bondArray.item(k).attributes.length;attributeIndice++){
 							var attributeName=bondArray[k].attributes[attributeIndice].name;
 							var attributeValue=bondArray[k].attributes[attributeIndice].value;
+//							alert(attributeName+": "+attributeValue);
 							switch(attributeName){
 							case "id":
 								bondId=attributeValue;
@@ -189,10 +203,15 @@ specview.io.SpectrumCMLParserIE.parseDocument=function(NMRdataObject,XMLdoc,navi
 								if(type=="S"){type=specview.model.Bond.ORDER.SINGLE;}
 								else if(type=="D"){type=specview.model.Bond.ORDER.DOUBLE;}				
 								else if(type=="T"){type=specview.model.Bond.ORDER.TRIPLE;}
+//								alert('end of order')
+								break;
+							default :
 								break;
 							}
+//							alert('outside')
 						}
 					}
+//					alert("test")
 					if(nextTag=="bondStereo"){//DO NOT FORGET TO ADD THE REMAING STEREOSPECIFITIY
 						stereo=bondArray[k+2].attributes[0].value;
 						if(stereo=="CML:W"){
@@ -207,10 +226,11 @@ specview.io.SpectrumCMLParserIE.parseDocument=function(NMRdataObject,XMLdoc,navi
 		             * THAT IS WEIRD
 		             */
 		            ArrayOfBonds[bondId]=currentBond;
+//		            alert(currentBond)
 					nmrData.ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
 					stereo=null;//Reset the value of stereo!
 //					specview.io.SpectrumCMLParserIE.logger.info("bond: "+currentBond);
-				}
+				
 			}
 			
 			
@@ -261,22 +281,25 @@ specview.io.SpectrumCMLParserIE.parseDocument=function(NMRdataObject,XMLdoc,navi
 			nmrData.molecule.addBond(ArrayOfBonds[k]);
 		}
 	}
+//	alert(nmrData.molecule)
 	
 	var peaks=XMLdoc.getElementsByTagName("peakList")[0].childNodes;//Peaks are the same for MS and NMR
 	var lenPeak=peaks.length;
 //	alert("peakk: "+lenPeak)
 	
-	for(k in peaks){
-		if(peaks[k] instanceof Element){
+	for(var k=0;k<lenPeak;k++){
+//		if(peaks[k] instanceof Element){
 			var peak=peaks[k];
 			var moleculeRef=null;
+			
 			var isThereAmoleculeAssignedToThePeak=(peak.childNodes[1]==undefined) ? false : true;
 			if(isThereAmoleculeAssignedToThePeak){
 				moleculeRef=peak.childNodes[1].attributes[0].value;			
-			}		
-			for(attributeIndice in peak.attributes){
+			}
+			for(var attributeIndice=0;attributeIndice<peak.attributes.length;attributeIndice++){
 				var attributeName=peak.attributes[attributeIndice].name;
 				var attributeValue=peak.attributes[attributeIndice].value;
+//				alert(attributeName+' : '+attributeValue)
 //				specview.io.SpectrumCMLParserIE.logger.info(attributeName);
 				switch(attributeName){
 				case "xValue":
@@ -327,11 +350,12 @@ specview.io.SpectrumCMLParserIE.parseDocument=function(NMRdataObject,XMLdoc,navi
 			
 			height = height ? height : 50 ; // Should be more precise on the height	
 			var peakToBuild=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,moleculeRef,xUnits,yUnits);
+		//	alert(peakToBuild)
 //			specview.io.SpectrumCMLParserIE.logger.info("SpectrumCMLParserIE09.js: "+peakToBuild);
 			molRefs=null;atomRefs=null;
 			nmrData.ArrayOfPeaks[peakId]=peakToBuild;
 			goog.array.insert(ArrayOfPeaks,peakToBuild);
-		}
+		
 	}
 	
         //Create a spectrum
