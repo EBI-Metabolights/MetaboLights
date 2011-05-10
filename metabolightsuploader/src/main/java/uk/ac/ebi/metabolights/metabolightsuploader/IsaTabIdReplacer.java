@@ -197,7 +197,7 @@ public class IsaTabIdReplacer
 		fileList = isaFolder.listFiles(filter);
 		
 		//If there is not an investigation file...
-		if (fileList.length ==0) {
+		if (fileList.length ==0 || fileList == null) {
 			throw new FileNotFoundException ("File with Ids (" + fileWithIds + ") not found");
 		}
 		
