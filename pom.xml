@@ -12,6 +12,7 @@
      <module>metabolightsutils</module>
      <module>metabolights-model</module>
      <module>metabolights-webapps</module>
+     <module>specview</module>
   </modules>
   <build>
   <plugins>
@@ -34,19 +35,11 @@
  		<artifactId>junit</artifactId>
  		<version>4.8.2</version>
  		<type>jar</type>
- 		<scope>test</scope>
  	</dependency>    
  	<dependency>
  		<groupId>org.hibernate</groupId>
  		<artifactId>hibernate-annotations</artifactId>
  		<version>3.4.0.GA</version>
- 		<type>jar</type>
- 		<scope>compile</scope>
- 	</dependency>
- 	<dependency>
- 		<groupId>org.springframework</groupId>
- 		<artifactId>spring</artifactId>
- 		<version>2.5.6.SEC02</version>
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
@@ -66,9 +59,43 @@
  	</dependency>
  	<dependency>
          <groupId>oracle</groupId>
-         <artifactId>ojdbc5</artifactId>
-         <version>11.2.0.1.0</version>
-         <scope>runtime</scope>
+         <artifactId>ojdbc6</artifactId>
+         <version>11.2.0.2</version>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.springframework</groupId>
+ 		<artifactId>spring-aop</artifactId>
+ 		<version>3.0.5.RELEASE</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.springframework</groupId>
+ 		<artifactId>spring-context</artifactId>
+ 		<version>3.0.5.RELEASE</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.springframework</groupId>
+ 		<artifactId>spring-orm</artifactId>
+ 		<version>3.0.5.RELEASE</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.springframework</groupId>
+ 		<artifactId>spring-web</artifactId>
+ 		<version>3.0.5.RELEASE</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.hibernate</groupId>
+ 		<artifactId>hibernate</artifactId>
+ 		<version>3.2.7.ga</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
  	</dependency>
  	<dependency>
  		<groupId>org.hibernate</groupId>
@@ -77,5 +104,55 @@
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
+ 	<dependency>
+ 		<groupId>log4j</groupId>
+ 		<artifactId>log4j</artifactId>
+ 		<version>1.2.15</version>
+ 	 	<type>jar</type>	
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.springframework.security</groupId>
+ 		<artifactId>spring-security-config</artifactId>
+ 		<version>3.0.5.RELEASE</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.springframework.security</groupId>
+ 		<artifactId>spring-security-taglibs</artifactId>
+ 		<version>3.0.5.RELEASE</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>javassist</groupId>
+ 		<artifactId>javassist</artifactId>
+ 		<version>3.12.1.GA</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
   </dependencies>  
+   <!-- Deploying to ChEBI remote repository -->
+   <distributionManagement>
+    <repository>
+      <id>chebi-repo</id>
+      <name>ChEBI Internal Repository</name>
+      <url>scp://prod.ebi.ac.uk/ebi/sp/pro1/chebi/maven2_repo</url>       
+    </repository>
+    <snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>chebi-repo</id>
+			<name>ChEBI Internal Repository</name>
+			<url>scp://prod.ebi.ac.uk:/ebi/sp/pro1/chebi/maven2_repo</url>
+	</snapshotRepository>
+    <site>
+         <name>chebi</name>
+         <id>prod.ebi.ac.uk</id>
+         <url>scp://prod.ebi.ac.uk:/ebi/extserv/seqdb/internal/seqdb/projects/chebi/chebi-prg/${project.artifactId}</url>
+     </site>
+  </distributionManagement>  
+  
+  
+  
 </project>
