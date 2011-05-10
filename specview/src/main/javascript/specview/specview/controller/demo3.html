@@ -38,16 +38,15 @@ function initPage(){
 			c.setCapturing(true); 
 			
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			
 			if(!IE){
 				document.getElementById("slider").innerHTML="MOZIL";
-				var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[15]);//XML document
+				var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[1]);//XML document
 	//			alert(xmlDoc)
 				spectrumData=new specview.model.NMRdata();
 				spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
 			}else{
 				document.getElementById("slider").innerHTML="IE";
-				var xmlDoc=specview.io.SpectrumCMLParserIE.getDocument(cmlData[15]);//XML document
+				var xmlDoc=specview.io.SpectrumCMLParserIE.getDocument(cmlData[1]);//XML document
 	//			alert(xmlDoc)
 				spectrumData=new specview.model.NMRdata();
 				spectrumData=specview.io.SpectrumCMLParserIE.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
