@@ -39,7 +39,7 @@ function initPage(){
 			
 			var cmlData=cmlmolecules.split("$$END$$\n");
 			if(!IE){
-				document.getElementById("slider").innerHTML="MOZIL";
+//				document.getElementById("slider").innerHTML="MOZIL";
 				var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[0]);//XML document
 	//			alert(xmlDoc)
 				spectrumData=new specview.model.NMRdata();
@@ -152,15 +152,22 @@ function initPage(){
 };
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
-
+/**
+ * Zoom
+ */
 var redrawSpectra=function(zoom){
-	spectrumData.setCoordinatesWithPixels(editor,zoom)
-	editor.setSpecObject(spectrumData);
-	editor.setModels([spectrumData]);
-    editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+	var rightBoundOfTheBox=spectrumData.mainSpecBox[1].x;
+	spectrumData.spectrum.setCoordinatesAccordingToZoom(zoom,rightBoundOfTheBox);
+//	spectrumData.setCoordinatesWithPixels(editor,zoom)
+//	editor.setSpecObject(spectrumData);
+//	editor.setModels([spectrumData]);
+//  editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+//	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 }
 
+/**
+ * Move the spectra
+ */
 var moveSpectrum=function(move,direction){
 	spectrumData.spectrum.reScaleCoordinates(move,direction);
 	editor.setSpecObject(spectrumData);

@@ -109,7 +109,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc,naviga
 		listOfMolecules[0]=XMLdoc.getElementsByTagName("molecule");
 //		alert(listOfMolecules[1])
 	}
-	specview.io.SpectrumCMLParser.logger.info("before the loop: "+listOfMolecules.length);
+//	specview.io.SpectrumCMLParser.logger.info("before the loop: "+listOfMolecules.length);
 	for(var molecule=0;molecule<listOfMolecules.length;molecule++){
 //		alert(listOfMolecules[molecule]);
 		var XmlTextElement=false;

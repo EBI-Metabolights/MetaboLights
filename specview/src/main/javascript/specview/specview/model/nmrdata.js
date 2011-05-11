@@ -107,12 +107,12 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
   	this.transform=trans;
   	if(!zoomX){
-    	specview.model.NMRdata.logger.info("\n\nmolecule Name: "+molecule.name)
+//    	specview.model.NMRdata.logger.info("\n\nmolecule Name: "+molecule.name)
   	    goog.array.forEach(molecule.atoms,
   	     function(atom){
   	    	var point = trans.transformCoords([ atom.coord ])[0];//point is the coordinates with pixelS
   	    	atom.setPixelCoordinates(point.x, point.y);
-  	    	specview.model.NMRdata.logger.info(point.x+","+point.y+"--->"+atom.coord.x+","+atom.coord.y+"--->"+atom.symbol)
+//  	    	specview.model.NMRdata.logger.info(point.x+","+point.y+"--->"+atom.coord.x+","+atom.coord.y+"--->"+atom.symbol)
   	    });	
   	}
 };
@@ -189,8 +189,8 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(zoomX)
 			var newXvalue=arrayOfPeakSorted[k].xPixel*rapp;
 			arrayOfPeakSorted[k].setCoordinates(newXvalue,arrayOfPeakSorted[k].yPixel,newXvalue,arrayOfPeakSorted[k].yTpixel);
 			array.push(newXvalue);
-		}	
-	}	
+		}
+	}
 }
 
 

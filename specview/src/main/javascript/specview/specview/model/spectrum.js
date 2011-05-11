@@ -2,6 +2,7 @@ goog.provide('specview.model.Spectrum');
 
 goog.require('specview.model.Molecule');
 goog.require('goog.math.Vec2');
+goog.require('goog.debug.Logger');
 
 
 /**
@@ -37,6 +38,8 @@ specview.model.Spectrum=function(optMolecule, optPeaklist)
 
 	};
 goog.exportSymbol("specview.model.Spectrum", specview.model.Spectrum);
+
+specview.model.Spectrum.prototype.logger = goog.debug.Logger.getLogger('specview.model.Spectrum');
 
 
 /**
@@ -119,6 +122,12 @@ specview.model.Spectrum.prototype.sortXvalues=function(){
 	return array;
 };
 
+specview.model.Spectrum.prototype.sortXpixel=function(){
+	var array=this.getXpixel();
+	array=array.sort(function(a,b){return a - b});
+	return array;
+};
+
 
 /**
  * For a given xValue, the function look if there is a peak whose xVluae is associated to the parameter xValue.
@@ -146,6 +155,7 @@ specview.model.Spectrum.prototype.mapPeakToxValue=function(array){
 	for(k in array){
 		for(p in this.peakList){
 			if(this.peakList[p].xValue==array[k]){
+//				alert("caca")
 				arrayOfPeaks.push(this.peakList[p]);
 			}
 		}
@@ -227,11 +237,29 @@ specview.model.Spectrum.prototype.getMinValue = function(){
 	  return min;
 }
 
+/**
+ * return the minimum pixel value of the spectrum
+ * @returns {Number}
+ */
+specview.model.Spectrum.prototype.getMinXvalue = function(){
+	var min=1000000000;
+	  goog.array.forEach(this.peakList,
+			  function(peak) {
+			      if (peak.xPixel < min)
+			          min=peak.xPixel;
+			  },
+			  this);
+	  return min;
+}
+
+
 specview.model.Spectrum.prototype.setExtremePixelValues=function(){
 	var extremeValue=this.getMaxAndMinXpixelValue();
 	this.maxXpixel=extremeValue.maxPixel;
 	this.minXpixel=extremeValue.minPixel;
 }
+
+
 
 /**
  * Change the pixel coordinates of every peak of a spectrum when the spectrum is moved.
@@ -250,6 +278,40 @@ specview.model.Spectrum.prototype.reScaleCoordinates=function(value,direction){
 		}
 	});
 };
+
+specview.model.Spectrum.prototype.getMinPeak = function(){
+	var minRef=1000000000;
+	var minPeak=null;
+	goog.array.forEach(this.peakList,function(peak){
+		if(peak.xPixel<minRef){
+			minPeak=peak;
+		}
+	});
+	return minPeak;
+}
+
+
+specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,rightBoundOfTheBox){
+	var minPixelValue=this.minXpixel;
+	var ecart=rightBoundOfTheBox-minPixelValue;
+	var factor=zoom*(ecart/100);
+	
+	var ArrayOfSortedPeak=spectrum.sortXpixel();
+	
+	var minPeak=this.getMinPeak();
+	minPeak.xPixel=minPixelValue+factor;
+	goog.array.forEach(this.peakList,function(peak){
+		if(peak!=minPeak){
+			var newXpixelValue=peak.xValue*minPeak.xPixel/peak.xPixel;
+			peak.xPixel=newXpixelValue;
+		}else{
+			peak.xPixel=minPeak.xPixel;
+		}
+	});
+	
+//	this.logger.info(a);
+};
+
 
 
 
