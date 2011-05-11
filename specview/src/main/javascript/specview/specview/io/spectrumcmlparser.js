@@ -57,20 +57,21 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc,naviga
 	var ArrayOfBonds=new Array();
 	var ArrayOfPeaks=new Array();
 	var mol="";
+	var experimentType="not available";
 //	specview.io.SpectrumCMLParser.logger.info("metadataList: "+XMLdoc.getElementsByTagName("molecule").length)
 //	alert(XMLdoc.getElementsByTagName("metadataList")[0].childNodes[0].attributes[0].value);
 	try{
 		experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[1].attributes[0].value;
 	}catch(err){
-		alert(err);
+		alert("Warning:\n"+err);
 	}
-	if(experimentType==undefined){
-		var experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[0].attributes[0].value;
-	}
-	specview.io.SpectrumCMLParser.logger.info(experimentType)
+//	if(experimentType==null){
+//		experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[0].attributes[0].value;
+//	}
+//	specview.io.SpectrumCMLParser.logger.info(experimentType)
 //var experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[1].attributes[0].value;
 	var nmrData=NMRdataObject;
-	var THEMOLECULENAME="";var THEMOLECULEID="";
+	var THEMOLECULENAME="not available";var THEMOLECULEID="not available";
 	var listOfMolecules=new Array();
 	
 	
@@ -85,9 +86,14 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc,naviga
 		}
 	}else if(specview.util.Utilities.startsWith("nmr",experimentType)){
 		nmrData.experienceType="nmr";
-		THEMOLECULENAME=XMLdoc.getElementsByTagName('molecule').item(0).attributes[0].value;
-		THEMOLECULEID=XMLdoc.getElementsByTagName('molecule').item(0).attributes[1].value;
+		try{
+			THEMOLECULENAME=XMLdoc.getElementsByTagName('molecule').item(0).attributes[0].value;
+			THEMOLECULEID=XMLdoc.getElementsByTagName('molecule').item(0).attributes[1].value;	
+		}catch(err){
+			alert(err+"\n\nNo molecule name or id available");
+		}
 	}
+//	alert(THEMOLECULENAME)
 //	specview.io.SpectrumCMLParser.logger.info("the molecule name: "+THEMOLECULENAME)
 	var molecules=XMLdoc.getElementsByTagName("moleculeList");
 //	alert(molecules[0].childNodes.length);
@@ -258,7 +264,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc,naviga
 //				            specview.io.SpectrumCMLParser.logger.info(currentBond)
 							nmrData.ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
 							stereo=null;//Reset the value of stereo!
-							specview.io.SpectrumCMLParser.logger.info("bond: "+currentBond);	
+//							specview.io.SpectrumCMLParser.logger.info("bond: "+currentBond);	
 					}
 
 					
