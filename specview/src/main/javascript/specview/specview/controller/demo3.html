@@ -157,12 +157,12 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
  */
 var redrawSpectra=function(zoom){
 	var rightBoundOfTheBox=spectrumData.mainSpecBox[1].x;
-	spectrumData.spectrum.setCoordinatesAccordingToZoom(zoom,rightBoundOfTheBox);
-//	spectrumData.setCoordinatesWithPixels(editor,zoom)
-//	editor.setSpecObject(spectrumData);
-//	editor.setModels([spectrumData]);
-//  editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-//	  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+	var leftBoundOfTheBox=spectrumData.mainSpecBox[0].x;
+	spectrumData.spectrum.setCoordinatesAccordingToZoom(zoom,rightBoundOfTheBox,leftBoundOfTheBox);
+	editor.setSpecObject(spectrumData);
+	editor.setModels([spectrumData]);
+ editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 }
 
 /**

@@ -282,34 +282,51 @@ specview.model.Spectrum.prototype.reScaleCoordinates=function(value,direction){
 specview.model.Spectrum.prototype.getMinPeak = function(){
 	var minRef=1000000000;
 	var minPeak=null;
-	goog.array.forEach(this.peakList,function(peak){
+	for(k in this.peakList){
+		var peak=this.peakList[k];
 		if(peak.xPixel<minRef){
+			minRef=peak.xPixel;
 			minPeak=peak;
 		}
-	});
+	}
 	return minPeak;
 }
 
 
-specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,rightBoundOfTheBox){
+specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,rightBoundOfTheBox,leftBoundOfTheBox){
 	var minPixelValue=this.minXpixel;
+	var rapport=rightBoundOfTheBox-leftBoundOfTheBox
 	var ecart=rightBoundOfTheBox-minPixelValue;
 	var factor=zoom*(ecart/100);
 	
 	var ArrayOfSortedPeak=spectrum.sortXpixel();
-	
 	var minPeak=this.getMinPeak();
 	minPeak.xPixel=minPixelValue+factor;
-	goog.array.forEach(this.peakList,function(peak){
+	minPeak.xTpixel=minPixelValue+factor;
+	for(var p=0;p<this.peakList.length;p++){
+		var peak=this.peakList[p];
+		var newXpixelValue;
 		if(peak!=minPeak){
-			var newXpixelValue=peak.xValue*minPeak.xPixel/peak.xPixel;
+		//	alert(peak.xPixel)
+//			if(p==1){
+//				this.logger.info("minPeak: "+minPeak.xPixel+" peak: "+peak.xValue+"    ;peakXpixel"+peak.xPixel+"mixXvalue: "+minPeak.xValue);
+//			}
+			newXpixelValue=(peak.xValue/minPeak.xValue)*(minPeak.xPixel-leftBoundOfTheBox)+leftBoundOfTheBox;
 			peak.xPixel=newXpixelValue;
+			peak.xTpixel=newXpixelValue;
 		}else{
 			peak.xPixel=minPeak.xPixel;
+			peak.xPixel=minPeak.xTpixel;
+//			this.logger.info(peak.xPixel);
 		}
-	});
+	}
+//	var a = this.getXpixel();
+//	var b = new Array();
+//	goog.array.forEach(a,function(truc){
+//		b.push(parseInt(truc));
+//	});
 	
-//	this.logger.info(a);
+//	this.logger.info(b);
 };
 
 

@@ -191,6 +191,13 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(zoomX)
 			array.push(newXvalue);
 		}
 	}
+	var a=new Array();
+	for(k in spectrum.getXpixel()){
+		a.push(spectrum.getXpixel()[k]);
+	}
+	specview.model.NMRdata.logger.info(a);
+	
+	
 }
 
 
