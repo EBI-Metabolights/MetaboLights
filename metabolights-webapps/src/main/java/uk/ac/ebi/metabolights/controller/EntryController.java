@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.controller;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,8 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 @Controller
 public class EntryController {
 
+	private static Logger logger = Logger.getLogger(EntryController.class);
+
 	private @Value("#{appProperties.urlBiiPrefixStudy}") String urlBiiPrefixStudy;
 
 	/*
@@ -32,6 +35,8 @@ public class EntryController {
 
 	@RequestMapping(value="/entry={metabolightsId}")
 	public ModelAndView  showEntry(@PathVariable("metabolightsId") String mtblId, Map<String, Object> map) {
+		logger.info("requested entry "+mtblId);
+		
     	String biiUrl=urlBiiPrefixStudy+"?studyId="+mtblId;
 		return new ModelAndView("entry", "biiUrl", biiUrl);
 	}
