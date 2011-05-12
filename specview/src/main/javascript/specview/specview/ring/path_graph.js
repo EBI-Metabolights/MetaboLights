@@ -37,7 +37,7 @@ specview.ring.PathGraph = function(molecule) {
 	for ( var i = 0, il = molecule.countAtoms(); i < il; i++) {
 		this.atoms.push(molecule.getAtom(i));
 	}
-}
+};
 
 /**
  * @param {specview.model.Atom} atom
@@ -87,7 +87,7 @@ specview.ring.PathGraph.prototype.remove = function(atom, maxLen) {
 	}
 	goog.array.remove(this.atoms, atom);
 	return result;
-}
+};
 
 /**
  * @param {specview.model.Atom} atom
@@ -115,7 +115,7 @@ specview.ring.PathGraph.prototype.getEdges = function(atom) {
 		}
 	}
 	return result;
-}
+};
 
 /**
  * @param {Array.<specview.ring.PathEdge>} _edges
@@ -134,4 +134,4 @@ specview.ring.PathGraph.prototype.spliceEdges = function(_edges) {
 		}
 	}
 	return result;
-}
+};

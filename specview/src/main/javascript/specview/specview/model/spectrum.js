@@ -118,13 +118,13 @@ specview.model.Spectrum.prototype.getXvalues=function(){
  */
 specview.model.Spectrum.prototype.sortXvalues=function(){
 	var array=this.getXvalues();
-	array=array.sort(function(a,b){return a - b});
+	array=array.sort(function(a,b){return a - b;});
 	return array;
 };
 
 specview.model.Spectrum.prototype.sortXpixel=function(){
 	var array=this.getXpixel();
-	array=array.sort(function(a,b){return a - b});
+	array=array.sort(function(a,b){return a - b;});
 	return array;
 };
 
@@ -205,7 +205,7 @@ specview.model.Spectrum.prototype.getMaxAndMinXpixelValue=function(){
 	array.maxPixel=max;
 	array.minPixel=min;
 	return array;
-}
+};
 
 /**
  * return the maximum value of the peak(in the file unit)
@@ -220,7 +220,7 @@ specview.model.Spectrum.prototype.getMaxValue = function(){
 			  },
 			  this);
 	  return max;
-}
+};
 
 /**
  * return the minimum value of the peak(in the file unit)
@@ -235,7 +235,7 @@ specview.model.Spectrum.prototype.getMinValue = function(){
 			  },
 			  this);
 	  return min;
-}
+};
 
 /**
  * return the minimum pixel value of the spectrum
@@ -250,14 +250,14 @@ specview.model.Spectrum.prototype.getMinXvalue = function(){
 			  },
 			  this);
 	  return min;
-}
+};
 
 
 specview.model.Spectrum.prototype.setExtremePixelValues=function(){
 	var extremeValue=this.getMaxAndMinXpixelValue();
 	this.maxXpixel=extremeValue.maxPixel;
 	this.minXpixel=extremeValue.minPixel;
-}
+};
 
 
 
@@ -290,12 +290,12 @@ specview.model.Spectrum.prototype.getMinPeak = function(){
 		}
 	}
 	return minPeak;
-}
+};
 
 
 specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,rightBoundOfTheBox,leftBoundOfTheBox){
 	var minPixelValue=this.minXpixel;
-	var rapport=rightBoundOfTheBox-leftBoundOfTheBox
+	var rapport=rightBoundOfTheBox-leftBoundOfTheBox;
 	var ecart=rightBoundOfTheBox-minPixelValue;
 	var factor=zoom*(ecart/100);
 	

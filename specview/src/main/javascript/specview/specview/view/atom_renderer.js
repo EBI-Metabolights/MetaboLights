@@ -33,7 +33,7 @@ goog.require('specview.graphics.ElementArray');
 specview.view.AtomRenderer = function(graphics, opt_config) {
 	specview.view.Renderer.call(this, graphics,
 			specview.view.AtomRenderer.defaultConfig, opt_config);
-}
+};
 goog.inherits(specview.view.AtomRenderer, specview.view.Renderer);
 
 /**
@@ -278,7 +278,7 @@ specview.view.AtomRenderer.prototype.highlightOnSeriesOfAtom = function(arrayOfA
 	
 	
 	
-}
+};
 
 
 /**

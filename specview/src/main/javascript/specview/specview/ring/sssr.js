@@ -47,7 +47,7 @@ specview.ring.SSSR.deepCopy = function(arr) {
 		}
 	}
 	return newArray;
-}
+};
 
 /**
  * Debug helper function
@@ -64,7 +64,7 @@ specview.ring.SSSR.matrixToHTML = function(matrix) {
 		text += "<br>";
 	}
 	return text;
-}
+};
 
 /**
  * Create a n x n matrix with all elements set to 0.
@@ -81,7 +81,7 @@ specview.ring.SSSR.createEmptyMatrix = function(n) {
 		matrix.push(row);
 	}
 	return matrix;
-}
+};
 
 /**
  * Create an initial distance matrix. This is  the D matrix from the paper.
@@ -105,7 +105,7 @@ specview.ring.SSSR.createWeightMatrix = function(molecule, n) {
 		matrix.push(row);
 	}
 	return matrix;
-}
+};
 
 /**
  * Create an empty Path-Included Distance matrix. This is an n x n matrix
@@ -125,7 +125,7 @@ specview.ring.SSSR.createEmptyPIDMatrix = function(n) {
 	}
 	return matrix;
 
-}
+};
 
 /**
  * Create the initial Pe matrix. The supplementary information
@@ -153,7 +153,7 @@ specview.ring.SSSR.createPIDMatrix = function(molecule, n) {
 		matrix.push(row);
 	}
 	return matrix;
-}
+};
 
 /**
  * Update a path included distance matrix element (i.e. lhs) by merging
@@ -168,7 +168,7 @@ specview.ring.SSSR.appendPath = function(lhs, p1, p2) {
 	} else {
 		lhs.push(p1[0].concat(p2[0]));
 	}
-}
+};
 
 
 /**
@@ -237,7 +237,7 @@ specview.ring.SSSR.makePIDMatrixes = function(molecule) {
  */
 specview.ring.SSSR.sortByCnum = function(a, b) {
 	return a["Cnum"] - b["Cnum"];
-}
+};
 
 /**
  * Compute the set of ring candidates using the distance matrix and the
@@ -359,7 +359,7 @@ specview.ring.SSSR.bondRingToAtomRing = function(ring, molecule) {
 		}
 	}
 	return atoms;
-}
+};
 
 /**
  * Process a candidate by checking if it is already in the set.
@@ -383,7 +383,7 @@ specview.ring.SSSR.processCandidate = function(bondIndexes, Csssr, molecule, val
 	if (!specview.ring.SSSR.isCandidateInSet(atomIndexes, Csssr, valences, ringCount)) {
 		Csssr.push(atomIndexes);
 	}
-}
+};
 
 /**
  * Search the candidates to find the Smallest Set of Smallest rings. This
@@ -460,7 +460,7 @@ specview.ring.SSSR.sortByPath = function(atomIndexes, molecule) {
 		}
 	}
 	return pathAtomIndexes;    
-}
+};
 
 /**
  * Find the Smallest Set of Smallest rings.

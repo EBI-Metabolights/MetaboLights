@@ -66,7 +66,7 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMolecule = function(mol
     this.box=b;
     this.logger.info(this.box.top+" "+this.box.bottom+" "+this.box.left+" "+this.box.right+" ");
     */
-}
+};
 specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=function(metaSpec){
 	var molecule=metaSpec.molecule;
 	var spectrum=metaSpec.spectrum;
@@ -81,7 +81,7 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
     left= 1.1*molBox.right;//THE LEFT IS FUNCTION OF THE MOLECULE
     right=left+size;
     this.box = new goog.math.Box(top,right,bottom,left);
-}
+};
 
 
 

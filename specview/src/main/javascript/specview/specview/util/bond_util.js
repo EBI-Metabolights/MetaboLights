@@ -18,7 +18,7 @@ goog.require('specview.model.Bond');
 
 
 specview.util.BondUtil = function(){
-}
+};
 
 /*
  * Return a bond of the correct subclass given the input arguments.
@@ -41,7 +41,7 @@ specview.util.BondUtil.getBond = function(atom1, atom2, bondOrder){
             break;
     }
     return bond;
-}
+};
 
 
 /**

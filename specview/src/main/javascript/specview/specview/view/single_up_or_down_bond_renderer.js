@@ -35,7 +35,7 @@ specview.view.SingleUpOrDownBondRenderer = function(graphics, opt_config) {
 			graphics, 
 			specview.view.SingleUpOrDownBondRenderer.defaultConfig, 
 			opt_config);
-}
+};
 goog.inherits(specview.view.SingleUpOrDownBondRenderer,
 		specview.view.BondRenderer);
 
@@ -46,7 +46,7 @@ specview.view.SingleUpOrDownBondRenderer.prototype.render = function(bond,transf
 	this.setTransform(transform);
     var zigZags = Math.round(goog.math.Coordinate.distance(bond.source.coord, bond.target.coord)*12);
 	if (zigZags<8)
-	   zigZags=8
+	   zigZags=8;
 
     this.logger.fine('# zigZags '+zigZags);
 
@@ -87,4 +87,4 @@ specview.view.SingleUpOrDownBondRenderer.prototype.render = function(bond,transf
         bondPath.lineTo(coords[i].x, coords[i].y);
         bondPath.moveTo(coords[i].x, coords[i].y);
 	}
-}
+};

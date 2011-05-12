@@ -140,13 +140,13 @@ specview.model.Atom.prototype.getInnerIdentifier=function(){
 /** @return {string} atomic symbol */
 specview.model.Atom.prototype.getSymbol = function() {
 	return this.symbol;
-}
+};
 goog.exportSymbol('specview.model.Atom.prototype.getSymbol', specview.model.Atom.prototype.getSymbol);
 
 /** @return {number} atomic charge */
 specview.model.Atom.prototype.getCharge = function() {
 	return this.charge;
-}
+};
 goog.exportSymbol('specview.model.Atom.prototype.getCharge', specview.model.Atom.prototype.getCharge);
 
 specview.model.Atom.prototype.countBonds = function() {
@@ -219,7 +219,7 @@ specview.model.Atom.nextBondAngle = function(atom) {
 		});
 		var diff = goog.math.angleDifference(angles[0], angles[1]);
 		if (Math.abs(diff) < 180) {
-			diff = 180 + diff / 2
+			diff = 180 + diff / 2;
 		} else {
 			diff = diff / 2;
 		}
@@ -230,7 +230,7 @@ specview.model.Atom.nextBondAngle = function(atom) {
 		goog.array.sort(bonds, function(b1, b2) {
 			return goog.array.defaultCompare(b1.otherAtom(atom).bonds.getValues().length, b2.otherAtom(atom).bonds
 					.getValues().length);
-		})
+		});
 		var insert_between = goog.array.slice(bonds, 0, 2);
 
 		var angles = goog.array.map(insert_between, function(b) {
@@ -240,7 +240,7 @@ specview.model.Atom.nextBondAngle = function(atom) {
 		new_angle = angles[0] + goog.math.angleDifference(angles[0], angles[1]) / 2;
 	}
 	return new_angle;
-}
+};
 
 /**
  * clones this atom
@@ -249,7 +249,7 @@ specview.model.Atom.nextBondAngle = function(atom) {
  */
 specview.model.Atom.prototype.clone = function() {
 	return new specview.model.Atom(this.symbol, this.coord.x, this.coord.y, this.charge, this.aromatic, this.isotope);
-}
+};
 
 /**
  * Hybridization states

@@ -52,7 +52,7 @@ specview.ring.RingFinder.createRing = function (atomIndexes, molecule) {
 	}
 	// Create the ring.
 	return new specview.ring.Ring(atoms,bonds);
-}
+};
 
 /**
  * Check if a candidate ring is already in the SSSR ring set.
@@ -135,7 +135,7 @@ specview.ring.RingFinder.verifySSSR = function(sssr, nsssr, molecule) {
 	}
 
 	return Csssr;
-}
+};
 
 specview.ring.RingFinder.detectRingAtoms = function(molecule) {
 	var n = molecule.countAtoms();
@@ -235,7 +235,7 @@ specview.ring.RingFinder.detectRingAtoms = function(molecule) {
 	 * li = molecule.countAtoms(); i < li; i++) { if
 	 * (molecule.atoms[i].isInCycle) { after++; } } debug('after: ' + after);
 	 */
-}
+};
 
 /**
  * Create ring systems. These are molecules containing only ring atoms. Each
@@ -374,7 +374,7 @@ specview.ring.RingFinder.createRingSystems = function(molecule) {
 		}
 	}
 	return rings;
-}
+};
 
 /**
  * @param {specview.model.Molecule}
@@ -405,6 +405,6 @@ specview.ring.RingFinder.findRings = function(molecule) {
 	specview.ring.RingFinder.detectRingAtoms(molecule);
 	// process the ring systems
 	return specview.ring.RingFinder.createRingSystems(molecule);
-}
+};
 goog.exportSymbol("specview.ring.RingFinder.findRings", specview.ring.RingFinder.findRings);
 

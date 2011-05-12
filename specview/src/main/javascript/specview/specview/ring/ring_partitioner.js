@@ -58,7 +58,7 @@ specview.ring.RingPartitioner.getPartitionedRings = function(rings){
         }
     }
     return partitions;
-}
+};
 
 /**
  * finds rings directly connected to the subject ring
@@ -87,6 +87,6 @@ specview.ring.RingPartitioner.directConnectedRings = function(ring, rings){
 		}
 	}
 	return result;
-}
+};
 
 

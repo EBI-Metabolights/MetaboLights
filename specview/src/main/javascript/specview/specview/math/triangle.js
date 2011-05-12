@@ -41,4 +41,4 @@ specview.math.Triangle = function (a, b, c){
  */
 specview.math.Triangle.signedArea = function(a, b, c) {
 	return (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
-}
+};

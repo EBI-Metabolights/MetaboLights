@@ -22,14 +22,14 @@ specview.view.MoleculeRenderer = function(graphics, opt_config) {
     this.atomRenderer = new specview.view.AtomRenderer(graphics, this.config);
     this.aromaticityRenderer = new specview.view.AromaticityRenderer(graphics, this.config);
 
-}
+};
 goog.inherits(specview.view.MoleculeRenderer, specview.view.Renderer);
 
 specview.view.MoleculeRenderer.prototype.logger = goog.debug.Logger.getLogger('specview.view.MoleculeRenderer');
 
 specview.view.MoleculeRenderer.prototype.setScaleFactor = function(scale) {
     this.scale_factor = scale;
-}
+};
 
 
 
@@ -109,7 +109,7 @@ opt_color, opt_element_array) {
     this);
 
     return opt_element_array;
-}
+};
 
 /**
  * A default configuration for renderer

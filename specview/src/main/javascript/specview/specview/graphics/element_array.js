@@ -12,7 +12,7 @@ specview.graphics.ElementArray = function() {
      * @private
 	 */
     this._elements = [];
-}
+};
 
 /**
  * Logging object.
@@ -31,7 +31,7 @@ specview.graphics.ElementArray.prototype.add = function(element) {
     goog.asserts.assert(element instanceof goog.graphics.Element);
     this._elements.push(element);
     return this;
-}
+};
 
 /** 
  * remove all elements
@@ -43,7 +43,7 @@ specview.graphics.ElementArray.prototype.clear = function() {
     },
     this);
     this._elements.length = 0;
-}
+};
 
 /**
  * Set the transformation of the elements.
@@ -59,6 +59,6 @@ centerX, centerY) {
     function(element) {
         element.setTransformation(x, y, rotate, centerX, centerY);
     });
-}
+};
 
 

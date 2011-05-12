@@ -63,7 +63,7 @@ specview.controller.Plugin.prototype.registerController = function(editorObject)
  */
 specview.controller.Plugin.prototype.getKeyboardShortcuts = function() {
 	return [];
-}
+};
 
 /**
  * Enables this plugin for the specified, registered editor object. A

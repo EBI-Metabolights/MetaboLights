@@ -31,7 +31,7 @@ specview.view.SingleUpBondRenderer = function(graphics, opt_config) {
 			graphics, 
 			specview.view.SingleUpBondRenderer.defaultConfig,
 			opt_config);
-}
+};
 goog.inherits(specview.view.SingleUpBondRenderer, specview.view.BondRenderer);
 
 specview.view.SingleUpBondRenderer.prototype.render = function(bond, transform, bondPath) {
@@ -72,4 +72,4 @@ specview.view.SingleUpBondRenderer.prototype.render = function(bond, transform, 
 
 
 
-}
+};

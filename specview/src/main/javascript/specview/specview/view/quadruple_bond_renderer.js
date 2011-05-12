@@ -32,7 +32,7 @@ specview.view.QuadrupleBondRenderer = function( graphics, opt_config) {
 			graphics, 
 			specview.view.QuadrupleBondRenderer.defaultConfig, 
 			opt_config);
-}
+};
 goog.inherits(specview.view.QuadrupleBondRenderer, specview.view.BondRenderer);
 
 /**
@@ -96,4 +96,4 @@ specview.view.QuadrupleBondRenderer.prototype.render = function(bond,
 	 bondPath.lineTo(coords[7].x, coords[7].y);
 
 	this.graphics.drawPath(bondPath, bondStroke, bondFill);
-}
+};

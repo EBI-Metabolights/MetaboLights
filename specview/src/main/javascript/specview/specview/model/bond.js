@@ -126,14 +126,14 @@ specview.model.Bond.prototype.otherAtom = function(atom) {
 		return this.target;
 	}
 	if (atom === this.target) {
-		return this.source
+		return this.source;
 	}
 	return null;
 };
 
 specview.model.Bond.prototype.getLength = function(){
 	return goog.math.Coordinate.distance(this.source.coord, this.target.coord);
-}
+};
 
 /**
  * clones this bond
@@ -143,13 +143,13 @@ specview.model.Bond.prototype.getLength = function(){
 specview.model.Bond.prototype.clone = function() {
 	return new specview.model.Bond(this.source, this.target, this.order,
 			this.stereo, this.aromatic, this.molecule);
-}
+};
 
 specview.model.Bond.prototype.deepClone = function(){
 	return new specview.model.Bond(this.source.clone(), this.target.clone(), this.order,
 			this.stereo, this.aromatic, this.molecule);
 	
-}
+};
 
 /**
  * enum for bond order
@@ -161,7 +161,7 @@ specview.model.Bond.ORDER = {
 	DOUBLE : 2,
 	TRIPLE : 3,
 	QUADRUPLE : 4
-}
+};
 
 /**
  * enum for bond stereochemistry
@@ -173,10 +173,10 @@ specview.model.Bond.STEREO = {
 	UP : 11,
 	UP_OR_DOWN : 12,
 	DOWN : 13
-}
+};
 
 specview.model.Bond.prototype.toString = function(){
-	var molname = this.molecule ? this.molecule.name : "no molecule"
+	var molname = this.molecule ? this.molecule.name : "no molecule";
 	return "specview.model.Bond[" + 
 		this.order + ", " + 
 		this.stereo + "]  " + 

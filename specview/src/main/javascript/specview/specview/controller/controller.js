@@ -96,19 +96,19 @@ specview.controller.Controller.setActiveControllerId = function(controllerId) {
 
 specview.controller.Controller.prototype.clearSelected = function() {
 	this.selected.length = 0;
-}
+};
 
 specview.controller.Controller.prototype.getSelected = function(){
 	return this.selected;	
-}
+};
 
 specview.controller.Controller.prototype.addSelected = function(obj){
 	this.selected.push(obj);
-}
+};
 
 specview.controller.Controller.prototype.setSpecObject=function(specObject){
 	this.specObject=specObject;
-}
+};
 
 
 /**
@@ -117,7 +117,7 @@ specview.controller.Controller.prototype.setSpecObject=function(specObject){
 
 specview.controller.Controller.prototype.getSpecObject=function(){
 	return this.specObject;
-}
+};
 
 
 specview.controller.Controller.prototype.getEditableDomHelper = function() {
@@ -142,16 +142,16 @@ specview.controller.Controller.prototype.clear = function() {
 	this.neighborList = new specview.model.NeighborList( [], 1, .3);
 	var fill = new goog.graphics.SolidFill(this.config.get("background").color);
 	this.graphics.drawRect(0, 0, this.graphics.getSize().width, this.graphics.getSize().height, null, fill);
-}
+};
 
 specview.controller.Controller.prototype.getScaleFactor = function() {
 	return this.moleculeRenderer.scale_factor;
-}
+};
 
 specview.controller.Controller.prototype.setScaleFactor = function(scale) {
 	this.moleculeRenderer.transform = undefined; // to force new transform
 	this.moleculeRenderer.setScaleFactor( scale);
-}
+};
 
 
 
@@ -197,7 +197,7 @@ specview.controller.Controller.prototype.setModelsSilently = function(models) {
 
 specview.controller.Controller.prototype.setModels = function(models){
 	this.setModelsSilently(models);
-}
+};
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
 specview.controller.Controller.prototype.render = function() {
@@ -287,7 +287,7 @@ specview.controller.Controller.prototype.disablePlugins = function (){
 		var plugin = this.plugins_[key];
 		plugin.disable(this);
 	}
-}
+};
 goog.exportSymbol('specview.controller.Controller.prototype.disablePlugins', specview.controller.Controller.prototype.disablePlugins);
 
 specview.controller.Controller.prototype.enablePlugins = function (){
@@ -296,7 +296,7 @@ specview.controller.Controller.prototype.enablePlugins = function (){
 		var plugin = this.plugins_[key];
 		plugin.enable(this);
 	}
-}
+};
 goog.exportSymbol('specview.controller.Controller.prototype.enablePlugins', specview.controller.Controller.prototype.enablePlugins);
 
 /**
@@ -365,7 +365,7 @@ specview.controller.Controller.prototype.findTarget = function(e) {
 		return plus_targets[0];
 	}
 
-}
+};
 
 
 specview.controller.Controller.prototype.findTarget = function(e) {
@@ -420,7 +420,7 @@ specview.controller.Controller.prototype.findTarget = function(e) {
 		return plus_targets[0];
 	}
 
-}
+};
 
 
 
@@ -447,7 +447,7 @@ specview.controller.Controller.prototype.getGraphicsCoords = function(
 		trans = this.moleculeRenderer.transform.createInverse();
 	}
 	return trans.transformCoords( [ atomicCoords ])[0];
-}
+};
 
 specview.controller.Controller.getMouseCoords = function(e) {
 	var elem = e.currentTarget;
@@ -456,7 +456,7 @@ specview.controller.Controller.getMouseCoords = function(e) {
 	var posy = e.clientY + document.body.scrollTop
 	+ document.documentElement.scrollTop;
 	return specview.controller.Controller.getOffsetCoords(elem, posx, posy);
-}
+};
 
 specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
 
@@ -468,12 +468,12 @@ specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
 		posy -= elem.offsetTop;
 	}
 	return new goog.math.Coordinate(posx, posy);
-}
+};
 
 specview.controller.Controller.prototype.findTargetListPixel=function(e){
 	var pos=specview.controller.Controller.getMouseCoords(e);
 	return this.neighborList.getObjectFromCoord(pos);
-}
+};
 
 specview.controller.Controller.prototype.findTargetList = function(e) {
 	var trans;
@@ -485,7 +485,7 @@ specview.controller.Controller.prototype.findTargetList = function(e) {
 		trans = this.moleculeRenderer.transform.createInverse();
 	}
 
-	var pos = specview.controller.Controller.getMouseCoords(e)
+	var pos = specview.controller.Controller.getMouseCoords(e);
 //	this.logger.info(pos);
 	//trans = affine object
 	//target=(24,8). Relative coordinates
@@ -524,7 +524,7 @@ specview.controller.Controller.prototype.handleMouseMove_ = function(e) {
 
 specview.controller.Controller.prototype.handleMouseUp_ = function(e) {
 	this.invokeShortCircuitingOp_(specview.controller.Plugin.Op.MOUSEUP, e);
-}
+};
 
 specview.controller.Controller.prototype.handleMouseDown_ = function(e) {
 };
@@ -536,7 +536,7 @@ specview.controller.Controller.prototype.handleMouseUp_ = function(e) {
 specview.controller.Controller.prototype.handleKeyboardShortcut_ = function(e) {
 //	this.logger.info('handelKeyboardShortcut_ ' + e.identifier);
 	this.invokeShortCircuitingOp_(specview.controller.Plugin.Op.SHORTCUT, e);
-}
+};
 
 specview.controller.Controller.prototype.handlePaste_ = function(e) {
 	this.invokeShortCircuitingOp_(specview.controller.Plugin.Op.PASTE, e);
@@ -577,7 +577,7 @@ specview.controller.Controller.prototype.resetQueryablePlugins = function() {
 			p.resetState();
 		}
 	});
-}
+};
 
 /**
  * Gets the value of command(s).
@@ -1016,5 +1016,5 @@ specview.controller.Controller.defaultConfig = {
 
 specview.controller.Controller.prototype.toString=function(){
 	return "This is an controller editor object";
-}
+};
 

@@ -161,7 +161,7 @@ specview.model.Molecule.prototype.getAverageBondLength = function() {
 		average = sum / this.bonds.length;
 	}
 	return average;
-}
+};
 
 /**
  * Find the bond between two given atoms if it exists. Otherwise return null.
@@ -490,7 +490,7 @@ specview.model.Molecule.prototype.scale = function(scale_factor) {
 	goog.array.forEach(this.atoms, function(a) {
 		a.coord = trans.transformCoords( [ a.coord ])[0];
 	});
-}
+};
 
 /**
  * translate molecule coordinates

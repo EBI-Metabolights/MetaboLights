@@ -167,7 +167,7 @@ specview.view.Renderer.prototype.renderBoundingBox = function(box, opt_color){
     boxPath.lineTo(boxCoords[0].x, boxCoords[0].y); 
     
     if(!opt_color)
-        opt_color='black'
+        opt_color='black';
         
     var boxStroke = new goog.graphics.Stroke(1,opt_color);
     var boxFill = null;
@@ -220,7 +220,7 @@ specview.view.Renderer.prototype.renderBoundingBoxWithPixel = function(boxCoords
     boxPath.lineTo(boxCoords[0].x, boxCoords[0].y); 
     
     if(!opt_color)
-        opt_color='black'
+        opt_color='black';
         
     var boxStroke = new goog.graphics.Stroke(1,opt_color);
     var boxFill = null;

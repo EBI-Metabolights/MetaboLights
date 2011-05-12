@@ -50,7 +50,7 @@ specview.model.Peak.prototype.setCoordinates=function(xb,yb,xt,yt){
 
 specview.model.Peak.prototype.setXvalue=function(value){
 	this.xValue=value;
-}
+};
 
 /*
  * Description of the object

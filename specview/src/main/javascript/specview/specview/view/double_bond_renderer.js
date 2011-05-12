@@ -31,7 +31,7 @@ goog.require('specview.view.BondRenderer');
 specview.view.DoubleBondRenderer = function(graphics, opt_config) {
 	specview.view.BondRenderer.call(this, graphics,
 			specview.view.DoubleBondRenderer.defaultConfig, opt_config);
-}
+};
 goog.inherits(specview.view.DoubleBondRenderer, specview.view.BondRenderer);
 
 function triangleSign(a, b, c) {
@@ -61,7 +61,7 @@ specview.view.DoubleBondRenderer.pointsOnSameSideOfLine = function(p1, p2, p_lin
 		normal) {
 	return goog.math.Vec2.dot(normal, goog.math.Vec2.difference(p1, p_line))
 			* goog.math.Vec2.dot(normal, goog.math.Vec2.difference(p2, p_line)) > 0;
-}
+};
 
 specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
@@ -98,13 +98,13 @@ specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 		// adjust for symbols if needed
 		if (this.hasSymbol(bond.source)) {
 			coord1 = goog.math.Coordinate.sum(coord1, space);
-			coord3 = goog.math.Coordinate.sum(coord3, space)
+			coord3 = goog.math.Coordinate.sum(coord3, space);
 		} else {
 			coord1 = goog.math.Coordinate.sum(coord1, bv);
 		}
 		if (this.hasSymbol(bond.target)) {
 			coord2 = goog.math.Coordinate.difference(coord2, space);
-			coord4 = goog.math.Coordinate.difference(coord4, space)
+			coord4 = goog.math.Coordinate.difference(coord4, space);
 		} else {
 			coord2 = goog.math.Coordinate.difference(coord2, bv);
 		}
@@ -123,11 +123,11 @@ specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 		// adjust for symbols if needed
 		if (this.hasSymbol(bond.source)) {
 			coord1 = goog.math.Coordinate.sum(coord1, space);
-			coord3 = goog.math.Coordinate.sum(coord3, space)
+			coord3 = goog.math.Coordinate.sum(coord3, space);
 		}
 		if (this.hasSymbol(bond.target)) {
 			coord2 = goog.math.Coordinate.difference(coord2, space);
-			coord4 = goog.math.Coordinate.difference(coord4, space)
+			coord4 = goog.math.Coordinate.difference(coord4, space);
 		}
 
 	}
@@ -148,7 +148,7 @@ specview.view.DoubleBondRenderer.getFirstRing = function(bond) {
 	return goog.array.find(bond.molecule.getRings(), function(ring) {
 		return goog.array.contains(ring.bonds, bond);
 	});
-}
+};
 
 /**
  * Double bond lines distance should not increase unlimitedly.
@@ -168,4 +168,4 @@ specview.view.DoubleBondRenderer.prototype.limitDoubleBondLinesDistance = functi
 	}
 
 	return orthogonal;
-}
+};

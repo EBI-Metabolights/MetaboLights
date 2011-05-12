@@ -24,7 +24,7 @@ specview.model.PseudoAtom=function(_label, x, y) {
 	   this.label="*";
 	else
 	   this.label = _label;
-}
+};
 
 goog.inherits(specview.model.PseudoAtom, specview.model.Atom);  
 

@@ -33,7 +33,7 @@ specview.view.TripleBondRenderer = function(graphics, opt_config) {
 			graphics, 
 			specview.view.TripleBondRenderer.defaultConfig, 
 			opt_config);
-}
+};
 goog.inherits(specview.view.TripleBondRenderer, specview.view.BondRenderer);
 
 specview.view.TripleBondRenderer.prototype.render = function(bond, transform, bondPath) {
@@ -89,6 +89,6 @@ specview.view.TripleBondRenderer.prototype.render = function(bond, transform, bo
 	bondPath.lineTo(coords[5].x, coords[5].y);
 
 	this.graphics.drawPath(bondPath, bondStroke, bondFill);
-}
+};
 
 specview.view.TripleBondRenderer.prototype.logger = goog.debug.Logger.getLogger('specview.view.TripleBondRenderer');

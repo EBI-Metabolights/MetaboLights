@@ -107,7 +107,7 @@ specview.io.json.getStereoCode = function(bond){
 		return specview.io.json.StereoType.SINGLE_BOND_UP_OR_DOWN;
 	}
 	return specview.io.json.StereoType.NOT_STEREO;
-}
+};
 
 
 /**
@@ -191,11 +191,11 @@ goog.exportSymbol('specview.io.json.writeMolecule', specview.io.json.writeMolecu
 specview.io.json.readArrow = function(arrow_json){
 	return new specview.model.Arrow(new goog.math.Coordinate(arrow_json['source']['x'], arrow_json['source']['y']), 
 			new goog.math.Coordinate(arrow_json['target']['x'], arrow_json['target']['y']));
-}
+};
 
 specview.io.json.readPlus = function(plus_json){
 	return new specview.model.Plus(new goog.math.Coordinate(plus_json['x'], plus_json['y']));
-}
+};
 
 
 /** @typedef {{symbol: string, coord: specview.io.json.Coordinate, charge: number}} */
@@ -241,7 +241,7 @@ specview.io.json.moleculeToJson = function(mol) {
 			'target' : mol.indexOfAtom(b.target), 
 			'type' : btype, 
 			'stereo' : bstereo
-		}
+		};
 	});
 
 	return {
@@ -256,12 +256,12 @@ specview.io.json.arrowToJson = function (arrow){
 						'y': arrow.source.y},
 			'target': { 'x': arrow.target.x,
 						'y': arrow.target.y}};
-}
+};
 
 specview.io.json.plusToJson = function (plus){
 	return {'x': plus.coord.x,
 			'y': plus.coord.y};
-}
+};
 
 
 specview.io.json.logger = goog.debug.Logger.getLogger('specview.io.json');

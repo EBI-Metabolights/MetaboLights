@@ -31,7 +31,7 @@ specview.view.AromaticityRenderer = function(graphics, opt_config) {
     graphics,
     specview.view.AromaticityRenderer.defaultConfig,
     opt_config);
-}
+};
 goog.inherits(specview.view.AromaticityRenderer, specview.view.BondRenderer);
 
 
@@ -56,7 +56,7 @@ specview.view.AromaticityRenderer.prototype.render = function(ring, transform, b
     var circleRadiusProportion = 0.5;
     //Assumption: ring is symmetrical, so pick any one of the ring atom coords
     var anyAtomCoord = this.transform.transformCoords([ring.atoms[0].coord])[0];
-    var spokeSize = goog.math.Coordinate.distance(ringCenter, anyAtomCoord)
+    var spokeSize = goog.math.Coordinate.distance(ringCenter, anyAtomCoord);
     var omeletRadius = spokeSize * circleRadiusProportion;
 
     aromaticCircle.moveTo(ringCenter.x + (omeletRadius), ringCenter.y);
@@ -64,4 +64,4 @@ specview.view.AromaticityRenderer.prototype.render = function(ring, transform, b
     aromaticCircle.moveTo(ringCenter.x + (omeletRadius), ringCenter.y);
     aromaticCircle.arcTo(omeletRadius, omeletRadius, 0, -180);
 
-}
+};

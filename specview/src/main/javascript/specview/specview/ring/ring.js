@@ -48,7 +48,7 @@ specview.ring.Ring = function(atoms, bonds) {
 	 * @private
 	 */
 	this._center = null;
-}
+};
 
 /**
  * Set a flag to be true or false
@@ -60,7 +60,7 @@ specview.ring.Ring = function(atoms, bonds) {
  */
 specview.ring.Ring.prototype.setFlag = function(flag_type, flag_value) {
 	this.flags[flag_type] = flag_value;
-}
+};
 
 /**
  * get ring center
@@ -87,7 +87,7 @@ specview.ring.Ring.prototype.getCenter = function() {
  */
 specview.ring.Ring.prototype.resetRingCenter = function(){
 	this._center = undefined;
-}
+};
 
 specview.ring.Ring.prototype.toString = function(){
 	return "specview.ring.Ring " +			
@@ -101,4 +101,4 @@ specview.ring.Ring.prototype.toString = function(){
 			function(bond) {
 				return " " +  bond.toString();
 			}, this).join("\n\t") + "\n\t";
-}
+};

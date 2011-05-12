@@ -12,7 +12,7 @@ goog.require('specview.model.Spectrum');
 goog.require('specview.model.NMRdata');
 goog.require('specview.util.Utilities');
 
-specview.io.SpectrumCMLParser=function(){}
+specview.io.SpectrumCMLParser=function(){};
 
 
 
@@ -209,7 +209,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc,naviga
 					}
 				}
 //				alert(bondArray[6].nodeName)
-				specview.io.SpectrumCMLParser.logger.info(bondArray.item(1).attributes.length)
+				specview.io.SpectrumCMLParser.logger.info(bondArray.item(1).attributes.length);
 				//Create the bonds with the stereo and put it in the Array of bonds of the cmlObject
 				for(var k=0;k<lenBond;k++){
 					if(bondArray.item(k).attributes!=null){
@@ -277,7 +277,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc,naviga
 					if(moleculeName==THEMOLECULENAME){
 						nmrData.molecule=new specview.model.Molecule(THEMOLECULENAME);
 					}
-					var secondaryMolecule=new specview.model.Molecule(moleculeName)
+					var secondaryMolecule=new specview.model.Molecule(moleculeName);
 					for(k in ArrayOfAtoms){
 						if(ArrayOfAtoms[k].coord.x!=0 && ArrayOfAtoms[k].coord.y!=0){
 							if(moleculeName==THEMOLECULENAME){

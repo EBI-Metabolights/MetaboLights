@@ -31,7 +31,7 @@ specview.view.SingleDownBondRenderer = function(graphics, opt_config) {
 			graphics,
 			specview.view.SingleDownBondRenderer.defaultConfig,
 			opt_config);
-}
+};
 goog.inherits(specview.view.SingleDownBondRenderer, specview.view.BondRenderer);
 
 specview.view.SingleDownBondRenderer.prototype.render = function(bond, transform, path) {
@@ -56,7 +56,7 @@ specview.view.SingleDownBondRenderer.prototype.render = function(bond, transform
 	var coords = transform.transformCoords( [ leftside[0],leftside[1], rightside[0], rightside[1], bond.source.coord ]);
 
 	var lines=7;
-	var multiply =Math.round(goog.math.Coordinate.distance(bond.source.coord, bond.target.coord))
+	var multiply =Math.round(goog.math.Coordinate.distance(bond.source.coord, bond.target.coord));
 	if (multiply>1) {
 		lines*=multiply;
 	}
@@ -71,4 +71,4 @@ specview.view.SingleDownBondRenderer.prototype.render = function(bond, transform
 		path.lineTo( (((lines-j)*coords[4].x)+(j*coords[3].x))/lines,
 				(((lines-j)*coords[4].y)+(j*coords[3].y))/lines);
 	}
-}
+};

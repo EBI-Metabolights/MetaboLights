@@ -66,4 +66,4 @@ specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 	bondPath.moveTo(coords[0].x, coords[0].y);
 	bondPath.lineTo(coords[1].x, coords[1].y);
 
-}
+};

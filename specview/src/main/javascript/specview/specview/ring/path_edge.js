@@ -23,7 +23,7 @@ goog.provide('specview.ring.PathEdge');
 specview.ring.PathEdge = function(_atoms){
 	/** @type {Array.<specview.model.Atom>} */
     this.atoms = _atoms;
-}
+};
 
 /** 
  * @return {boolean}
@@ -31,7 +31,7 @@ specview.ring.PathEdge = function(_atoms){
 specview.ring.PathEdge.prototype.isCycle = function(){
     var lastAtomPos = this.atoms.length - 1;
     return (this.atoms.length > 2 && this.atoms[0] == this.atoms[lastAtomPos]);
-}
+};
 
 /**
  * @param {specview.ring.PathEdge} other
@@ -69,7 +69,7 @@ specview.ring.PathEdge.prototype.splice = function(other){
     }
     
     return new specview.ring.PathEdge(newAtoms);
-}
+};
 
 /**
  * @param {Array.<specview.model.Atom>} atoms
@@ -87,7 +87,7 @@ specview.ring.PathEdge.prototype.isRealPath = function(atoms){
         }
     }
     return true;
-}
+};
 
 /**
  * @param {Array.<specview.model.Atom>} others
@@ -103,4 +103,4 @@ specview.ring.PathEdge.prototype.getIntersection = function(others){
         return this.atoms[0];
     }
     throw "Couldn't splice - no intersection";
-}
+};

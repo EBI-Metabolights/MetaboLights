@@ -80,7 +80,7 @@ specview.io.mdl.getStereoCode = function(bond){
 		return specview.io.mdl.SINGLE_BOND_UP_OR_DOWN;
 	}
 	return specview.io.mdl.NOT_STEREO;
-}
+};
 
 /**
  * factory method for bonds
@@ -148,7 +148,7 @@ specview.io.mdl.readMolfile = function(molfile) {
 //	alert(molfile);
 	var lineDelimiter = molfile.indexOf("\r\n") > 0 ? "\r\n" : "\n";
 	var mol_lines = molfile.split(lineDelimiter);
-	var name = mol_lines[0]
+	var name = mol_lines[0];
 	var mol = new specview.model.Molecule(name);
 	var atom_count = parseInt(mol_lines[3].substr(0, 3), 10);//MANDATORY
 	var bond_count = parseInt(mol_lines[3].substr(3, 3), 10);//MANDATORY
@@ -158,8 +158,8 @@ specview.io.mdl.readMolfile = function(molfile) {
 		// "xxxxx.xxxxyyyyy.yyyyzzzzz.zzzz aaaddcccssshhhbbbvvvHHHrrriiimmmnnneee"
 		var line = mol_lines[i + 3];
 		var x=parseFloat(line.substr(0,10));
-		var y=parseFloat(line.substr(10,10));;
-		var symbol = line.substr(31,3).replace(/(^\s*)|(\s*$)/g, "")
+		var y=parseFloat(line.substr(10,10));
+		var symbol = line.substr(31,3).replace(/(^\s*)|(\s*$)/g, "");
 		var ctfile_ccc=parseInt(line.substr(36,3), 10);
 		var charge = 0;
 		if (ctfile_ccc == 0) {
@@ -189,8 +189,8 @@ specview.io.mdl.readMolfile = function(molfile) {
 		//            1         2         3         4         5         6  
 		//  01234567890123456789012345678901234567890123456789012345678901234567890
 		//  111222tttsssxxxrrrccc
-		var sourceAtom = mol.getAtom(parseInt(line.substr(0,3), 10) - 1)
-		var targetAtom = mol.getAtom(parseInt(line.substr(3,3), 10) - 1)
+		var sourceAtom = mol.getAtom(parseInt(line.substr(0,3), 10) - 1);
+		var targetAtom = mol.getAtom(parseInt(line.substr(3,3), 10) - 1);
 		var bondType = bondType = parseInt(line.substr(6,3), 10);
 		var bondStereoType = parseInt(line.substr(9,3), 10);
 

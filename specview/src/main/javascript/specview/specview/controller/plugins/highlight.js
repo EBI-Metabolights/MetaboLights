@@ -185,7 +185,7 @@ specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(curre
 //	alert(trans)
 	return 					this.editorObject.setModels([currentMetaSpecObject]);
 //	return this.editorObject.moleculeRenderer.render(molecule,trans);
-}
+};
 
 
 /*

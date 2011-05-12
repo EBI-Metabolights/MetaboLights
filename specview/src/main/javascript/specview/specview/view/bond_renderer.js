@@ -36,7 +36,7 @@ specview.view.BondRenderer = function(graphics, opt_config ) {
 			graphics, 
 			specview.view.BondRenderer.defaultConfig, 
 			opt_config);
-}
+};
 goog.inherits(specview.view.BondRenderer, specview.view.Renderer);
 
 /**
@@ -107,7 +107,7 @@ specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt
 	path_down.close();
 	opt_element_array.add(this.graphics.drawPath(path_down, stroke, fill));
 	return opt_element_array;
-}
+};
 
 /**
  * 
@@ -116,12 +116,12 @@ specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt
 specview.view.BondRenderer.getTheta = function(bond) {
 	return new specview.math.Line(bond.source.coord, bond.target.coord)
 			.getTheta();
-}
+};
 
 
 specview.view.BondRenderer.prototype.hasSymbol = function(atom) {
     return (atom.symbol != "C" || atom.countBonds() == 1); // TODO should take end carbon rendering config into account though
-}
+};
 
 
 /**

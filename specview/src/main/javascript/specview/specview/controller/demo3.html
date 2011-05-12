@@ -161,8 +161,8 @@ var redrawSpectra=function(zoom){
 	spectrumData.spectrum.setCoordinatesAccordingToZoom(zoom,rightBoundOfTheBox,leftBoundOfTheBox);
 	editor.setSpecObject(spectrumData);
 	editor.setModels([spectrumData]);
- editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+    editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+    editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 }
 
 /**
@@ -253,7 +253,7 @@ var moveSpectrum=function(move,direction){
   <div id="slider">0</div>
   <div id="slider2">x</div>
   <div id="slider3">y</div>
-  <div id="slider4"><script>document.write("<--move spectrum-->")</script></div>
+  <div id="slider4"><script>document.write("<--move-->")</script></div>
   <script>
     var $ = goog.dom.getElement;
     var Z = 5;

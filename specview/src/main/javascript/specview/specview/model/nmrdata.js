@@ -182,7 +182,7 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(zoomX)
 		var ecart=spectrum.maxXpixel-spectrum.minXpixel;
 		var array=[];
 		var valueToComputeTheRapport=arrayOfPeakSorted[0].xPixel;
-		var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100)
+		var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100);
 		arrayOfPeakSorted[0].setCoordinates(newMinXvalue,arrayOfPeakSorted[0].yPixel,newMinXvalue,arrayOfPeakSorted[0].yTpixel);
 		for(var k=1;k<arrayOfPeakSorted.length;k++){
 			var rapp=arrayOfPeakSorted[k].xPixel/valueToComputeTheRapport;
@@ -198,7 +198,7 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(zoomX)
 	specview.model.NMRdata.logger.info(a);
 	
 	
-}
+};
 
 
 
