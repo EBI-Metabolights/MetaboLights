@@ -1,9 +1,10 @@
 package uk.ac.ebi.metabolights.repository.accessionmanager;
 
-import java.util.Properties;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Creates a SessionFactory, based on property files, xml, default...
@@ -12,11 +13,15 @@ import org.hibernate.cfg.Configuration;
  *
  */
 public class HibernateUtil {
-
+	private static final Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 	
 	private static SessionFactory buildSessionFactory(){
 		try{
+			
+			//Log
+			logger.info("Building the session factory.");
+			
 			//Create a session factory from hibernate.cfg.xml
 			//return new Configuration().configure().buildSessionFactory();
 			

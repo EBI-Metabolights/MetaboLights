@@ -5,6 +5,10 @@ import org.hibernate.Session;
 import java.util.List;
 
 import uk.ac.ebi.metabolights.repository.accessionmanager.StableId;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 /**
  * Manages the accession number and persist into the database
  * If the table does not exists, it will create it and insert one row with 1 as Id and a prefix passed as parameter.
@@ -14,6 +18,7 @@ import uk.ac.ebi.metabolights.repository.accessionmanager.StableId;
  */
 public class AccessionManager {
 	private static AccessionManager mgr;
+	private static final Logger logger = LoggerFactory.getLogger(AccessionManager.class);
 	private Session session;
 	private StableId stableId;
 	private String defaultPrefix;
@@ -57,22 +62,31 @@ public class AccessionManager {
 		
 		String accession;
 		
+		//Log info
+		logger.info("Getting accession number");
+		
 		//Get the stable id object (this is also a static variable, shall we use it instead...)
 		StableId stableId = getStableId();
 		
 		//Compose the accession number
 		accession = stableId.getPrefix() + stableId.getSeq();
 		
+		logger.info("Accession composed is " + accession);
+		
 		//Increment the id by one
 		stableId.setSeq(stableId.getSeq() + 1);
 		
 		//Persist the new Id (incremented by one)
+		logger.info("persisting incremented accession sequence");
+		
 		//TODO: See how to manage the sessions differently. Now, for after transaction commit, the session will close. 
 		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		session.update(stableId);
 		session.getTransaction().commit();
-				
+		
+		logger.info("persistance done");
+		
 		//Return the accession
 		return accession;
 	}
@@ -88,6 +102,8 @@ public class AccessionManager {
 	 */
 	private StableId getStableId() throws ExceptionInInitializerError {
 		
+		logger.info("Getting StableId object");
+		
 		//If we already have an instance of the StableId...
 		if (stableId != null) {
 			//...return it, everything should be ok...
@@ -95,6 +111,8 @@ public class AccessionManager {
 			return stableId;
 		}
 	
+		logger.info("Asking hibernate session for the StableId object.");
+		
 		//Force initialization to have the database session object instantiated
 		Initialize();
 		
@@ -113,6 +131,8 @@ public class AccessionManager {
 			throw new ExceptionInInitializerError("There is more than one row for Managing the accesion number in the database");
 			
 		}else if (result.size()==0) {
+			
+			logger.info("There isn't a StableId record. Creating the default one.");
 			
 			//Instantiate the StableId object
 			stableId = new StableId();
