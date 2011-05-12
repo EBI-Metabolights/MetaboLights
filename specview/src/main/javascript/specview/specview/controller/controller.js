@@ -1,6 +1,7 @@
 /**
  * @license Copyright 2010 Paul Novak (paul@wingu.com)
  *                    2011 Mark Rijnbeek (markr@ebi.ac.uk)
+ *                    	   and Samy Deghou (deghou@polytech.unice.fr)
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at

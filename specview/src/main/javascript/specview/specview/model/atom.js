@@ -1,5 +1,7 @@
-/**
- * Copyright 2010 Paul Novak (paul@wingu.com)
+/**  
+ * Copyright 2010 Paul Novak (paul@wingu.com) 
+ * 			 2011 Samy Deghou (deghou@polytech.unice.fr)
+ * 				  and Mark Rijnbeek (markr@ebi.ac.uk)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,6 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 goog.provide('specview.model.Atom');
 goog.provide('specview.model.Atom.Hybridizations');
 goog.require('specview.model.Flags');
