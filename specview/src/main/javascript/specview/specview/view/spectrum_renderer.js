@@ -109,8 +109,11 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     //Draw the peaks
     goog.array.forEach(spectrum.peakList,
     function(peak) {
-        peakPath.moveTo(peak.xPixel, peak.yPixel); 
-        peakPath.lineTo(peak.xTpixel,peak.yTpixel);
+//    	alert(peak.isVisible)
+    	if(peak.isVisible){
+            peakPath.moveTo(peak.xPixel, peak.yPixel); 
+            peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
+    	}
     },
     this);
     this.graphics.drawPath(peakPath, peakStroke, peakFill);

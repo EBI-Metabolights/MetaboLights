@@ -66,10 +66,10 @@ specview.model.NMRdata.prototype.setEditor=function(controllerEditor){
  * @param editorSpectrum
  * @param zoomX
  */
-specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpectrum,zoomX){
-	this.setCoordinatesPixelOfMolecule(editorSpectrum,zoomX);
+specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpectrum){
+	this.setCoordinatesPixelOfMolecule(editorSpectrum);
   	this.mainSpecBox=this.getSpectrumBox();
-  	this.setCoordinatesPixelOfSpectrum(zoomX);
+  	this.setCoordinatesPixelOfSpectrum();
 }; 
 
 /**
@@ -81,7 +81,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
  * @param editorSpectrum
  * @param zoomX
  */
-specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editorSpectrum,zoomX){    
+specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editorSpectrum){    
 	var molecule=this.molecule;	var spectrum=this.spectrum;	var editor=editorSpectrum;
     var molBox = molecule.getBoundingBox();//CREATE THE MOLECULE BOX. THIS WILL ALLOW TO SET THE PARAMETER FOR EVERY OTHER OBJECTS
     if(this.experienceType=="ms"){
@@ -106,7 +106,6 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
   	var widthScaleLimitation = 0.4;
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
   	this.transform=trans;
-  	if(!zoomX){
 //    	specview.model.NMRdata.logger.info("\n\nmolecule Name: "+molecule.name)
   	    goog.array.forEach(molecule.atoms,
   	     function(atom){
@@ -114,7 +113,7 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
   	    	atom.setPixelCoordinates(point.x, point.y);
 //  	    	specview.model.NMRdata.logger.info(point.x+","+point.y+"--->"+atom.coord.x+","+atom.coord.y+"--->"+atom.symbol)
   	    });	
-  	}
+  	
 };
 
 /**
@@ -145,14 +144,13 @@ specview.model.NMRdata.prototype.getSpectrumBox = function(){
  * The spectrum coordinates(coordinates of the peaks) are simply calculated on the basis of its spectra box.
  * @param zoomX
  */
-specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(zoomX){
+specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 	var spectrum=this.spectrum;
 	var minX=spectrum.getMinValue();
 	var maxX=spectrum.getMaxValue();
 	var maxHeightOfPeak=spectrum.getMaxHeightPeak(); var maxValueOfPeak;  var adjustXvalue; var adjustYvalue;
 	var sortedArray=spectrum.sortXvalues();
 	var arrayOfPeakSorted=spectrum.mapPeakToxValue(sortedArray);
-	if(zoomX==0){
 		maxValueOfPeak=spectrum.getMaxValuePeak();
 		var bottomBoxLimit;
 		var upperBoxLimit;
@@ -172,32 +170,13 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(zoomX)
 				adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
 			}
 			var whereAllThePeakStartFrom=280;
+			peak.isVisible=(adjustXvalue+valueToAdd<this.mainSpecBox[1].x && adjustXvalue+valueToAdd>this.mainSpecBox[0].x) ? true : false;
 			peak.setCoordinates(adjustXvalue+valueToAdd,whereAllThePeakStartFrom,adjustXvalue+valueToAdd,adjustYvalue);  
 //			this.logger.info("peak at(nmrdata.js) : "+adjustXvalue);
 		},
 		this);
 		spectrum.setExtremePixelValues();
 		bottomBoxLimit=280;
-	}else if(zoomX>1){
-		var ecart=spectrum.maxXpixel-spectrum.minXpixel;
-		var array=[];
-		var valueToComputeTheRapport=arrayOfPeakSorted[0].xPixel;
-		var newMinXvalue=arrayOfPeakSorted[0].xPixel+(ecart*zoomX/100);
-		arrayOfPeakSorted[0].setCoordinates(newMinXvalue,arrayOfPeakSorted[0].yPixel,newMinXvalue,arrayOfPeakSorted[0].yTpixel);
-		for(var k=1;k<arrayOfPeakSorted.length;k++){
-			var rapp=arrayOfPeakSorted[k].xPixel/valueToComputeTheRapport;
-			var newXvalue=arrayOfPeakSorted[k].xPixel*rapp;
-			arrayOfPeakSorted[k].setCoordinates(newXvalue,arrayOfPeakSorted[k].yPixel,newXvalue,arrayOfPeakSorted[k].yTpixel);
-			array.push(newXvalue);
-		}
-	}
-	var a=new Array();
-	for(k in spectrum.getXpixel()){
-		a.push(spectrum.getXpixel()[k]);
-	}
-	specview.model.NMRdata.logger.info(a);
-	
-	
 };
 
 

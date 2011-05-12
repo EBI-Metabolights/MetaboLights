@@ -4,7 +4,7 @@ goog.require('goog.math.Coordinate');
 /*
  * Constructeur of the peak
  */
-specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt_multiplicity,opt_molRefs,opt_Xunit,opt_Yunit){
+specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt_multiplicity,opt_molRefs,opt_Xunit,opt_Yunit,opt_isVisible){
 	this.xValue=opt_xValue;
 	this.intensity=opt_intensity;
 	this.peakId=opt_peakId;
@@ -23,6 +23,8 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 	this.peakYunit=opt_Yunit;
 
 	this.pixelCoord=null;
+	
+	this.isVisible=opt_isVisible;
 	
 	/*TODO Consider the case of MS spectras
 		this.arrayOfSecondaryMolecules

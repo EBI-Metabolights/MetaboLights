@@ -10,7 +10,6 @@
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
     goog.require('specview.io.SpectrumCMLParser');
-    goog.require('specview.io.SpectrumCMLParser');
     goog.require('specview.model.NMRdata');
     goog.require('goog.events.MouseWheelHandler');
     goog.require('goog.fx.Dragger');
@@ -28,7 +27,6 @@ spectrumData=null;
 zoom=0;
 
 function initPage(){
-			var IE=navigator.appName=="Microsoft Internet Explorer";
 			var isGrid=false;
 			var isAxis=false;
 			// uncomment next two lines to debug to console						
@@ -36,37 +34,24 @@ function initPage(){
 			c.setCapturing(true); 
 			
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			if(!IE){
-//				document.getElementById("slider").innerHTML="MOZIL";
-				var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[0]);//XML document
-	//			alert(xmlDoc)
-				spectrumData=new specview.model.NMRdata();
-				spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
-			}else{
-				document.getElementById("slider").innerHTML="IE";
-				var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[0]);//XML document
-	//			alert(xmlDoc)
-				spectrumData=new specview.model.NMRdata();
-				spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[0]);//XML document
+			spectrumData=new specview.model.NMRdata();
+			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
 			
-			}
 			//Create the canvas and provide it with highlight plugins
 			editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
-
 			editor.registerPlugin(new specview.controller.plugins.Highlight());
 			spectrumData.setCoordinatesWithPixels(editor,0)
-			
-			
-			//Initialisation of a molecule to display when the page is loading
 
-			//CAREFUL WITH THE FOLLOWING LINE
 			editor.setSpecObject(spectrumData);
 			editor.setModels([spectrumData]);
 			editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 			editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
-			  goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
-			  goog.dom.getElement("molId").innerHTML="<b>Molecule id: </b>"+spectrumData.molecule.molecule_id;
-			  goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
+
+			//Display the informations about the molecule
+		    goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
+		    goog.dom.getElement("molId").innerHTML="<b>Molecule id: </b>"+spectrumData.molecule.molecule_id;
+     		goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
 
 			//Creation of the tool bar
 		    var select1 = new goog.ui.Select();
@@ -187,6 +172,7 @@ var moveSpectrum=function(move,direction){
 
 </head>
 
+
 <body>
   <div id="slider1">0</div>
   <div id="slider2">x</div>
@@ -201,9 +187,7 @@ var moveSpectrum=function(move,direction){
     var limits3 = new goog.math.Rect(625,75,123,0);
     var limits4 = new goog.math.Rect(515,95,300,0)
     
-    
-   //THe slider y.
-   //To zoom in the y dimension
+    //To zoom in the y dimension
    var sliderY=new goog.fx.Dragger($('slider3'),null,limits2) 
     goog.events.listen(sliderY,'drag',function(e){
         var percent = Math.round(100 * (e.top - e.dragger.limits.top) /
@@ -211,7 +195,6 @@ var moveSpectrum=function(move,direction){
   
           $('slider3').innerHTML = percent;
     })
-   //THe slider x.
    //To zoom in the x dimension and toward the lower values
     var sliderXleft = new goog.fx.Dragger($('slider2'),null,limits3);
     goog.events.listen(sliderXleft,'drag',function(e){
@@ -220,7 +203,6 @@ var moveSpectrum=function(move,direction){
   
           $('slider2').innerHTML = percent;
     })
-   //THe slider x.
    //To zoom in the x dimension and toward the bigger values
     var slider = new goog.fx.Dragger($('slider'), null, limits);
     goog.events.listen(slider, 'drag', function(e) {
@@ -233,13 +215,11 @@ var moveSpectrum=function(move,direction){
     	  redrawSpectra(percent);
       }
     });
-    
-    
-    //The slider move spectra.
     //To move the spectra and to adjust the zoom
     var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits4);
     var previousPercent=50;
     goog.events.listen(sliderMoveSpectra,'drag',function(e){
+    	alert("onvoeuvnbietubvio")
         var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
   	          e.dragger.limits.width)-100);
         if(percent<previousPercent){
@@ -249,11 +229,9 @@ var moveSpectrum=function(move,direction){
         }
         previousPercent=percent;
     })
-    
   </script>
 
  <img name="track" style="position:absolute;left:665px;top:25px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
-
 
 	<fieldset style="width:1200px">
         <legend><h1>Spectrum viewer</h1></legend>

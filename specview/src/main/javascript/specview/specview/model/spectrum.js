@@ -293,6 +293,21 @@ specview.model.Spectrum.prototype.getMinPeak = function(){
 };
 
 
+/**
+ * Called when the user is zooming.
+ * The zoom dragging tool is divided into 100 units. Every unit, the zoom function is called and the new coordinates
+ * of the spectrum(the peaks) are computed according to that value(the uni). Hence, the unzooming effect is automatic.
+ * How this works:
+ *	-When the max unit is reached(100) the peak whose value(shift) is the lowest is at the right extremity of the 
+ *	 spectrum box(mainSpecBox attribute of the nmrdata object).
+ *	-Hence, each unit reached should increase the xPixel value of the peak in order to reach the right extremity of the
+ *	 box when 100 is reached. This is how the variable `factor` is useful for. It properly increase the xPixel value of 
+ *	 the lowest peak.
+ *	-Then, the xPixel value of every other peak is simply calculated according the it ratio to the lowest peak.
+ * @param zoom
+ * @param rightBoundOfTheBox
+ * @param leftBoundOfTheBox
+ */
 specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,rightBoundOfTheBox,leftBoundOfTheBox){
 	var minPixelValue=this.minXpixel;
 	var rapport=rightBoundOfTheBox-leftBoundOfTheBox;
@@ -307,26 +322,15 @@ specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,
 		var peak=this.peakList[p];
 		var newXpixelValue;
 		if(peak!=minPeak){
-		//	alert(peak.xPixel)
-//			if(p==1){
-//				this.logger.info("minPeak: "+minPeak.xPixel+" peak: "+peak.xValue+"    ;peakXpixel"+peak.xPixel+"mixXvalue: "+minPeak.xValue);
-//			}
 			newXpixelValue=(peak.xValue/minPeak.xValue)*(minPeak.xPixel-leftBoundOfTheBox)+leftBoundOfTheBox;
 			peak.xPixel=newXpixelValue;
 			peak.xTpixel=newXpixelValue;
 		}else{
 			peak.xPixel=minPeak.xPixel;
 			peak.xPixel=minPeak.xTpixel;
-//			this.logger.info(peak.xPixel);
 		}
+		peak.isVisible=(newPixelValue<leftBoundOfTheBox && newPixelValue>rightBoundOfTheBox) ? true : false;
 	}
-//	var a = this.getXpixel();
-//	var b = new Array();
-//	goog.array.forEach(a,function(truc){
-//		b.push(parseInt(truc));
-//	});
-	
-//	this.logger.info(b);
 };
 
 
