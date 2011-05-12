@@ -67,6 +67,8 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMolecule = function(mol
     this.logger.info(this.box.top+" "+this.box.bottom+" "+this.box.left+" "+this.box.right+" ");
     */
 };
+
+
 specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=function(metaSpec){
 	var molecule=metaSpec.molecule;
 	var spectrum=metaSpec.spectrum;
@@ -92,24 +94,12 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
 specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box) {
 	var spectrum=metaSpecObject.spectrum;
     this.setTransform(transform);
-//alert("in spectrum renderer: "+this.box)
-//    var testBox=new goog.math.Box(-1,30,-6,10);
-    if(metaSpecObject.experienceType=="ms"){
-//    	alert("the metaspec box: "+metaSpecObject.mainSpecBox);
- //   	this.renderBoundingBoxWithPixel(metaSpecObject.mainSpecBox,"blue")
-//    	this.renderBoundingBox(metaSpecObject.mainSpecBox,"blue")
-    }else{
- //   	this.renderBoundingBoxWithPixel(metaSpecObject.mainSpecBox,"blue")
-//    	this.renderBoundingBox(this.box,'red');		
-    }
-   	
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,'black');
     var peakFill = null;   
     //Draw the peaks
     goog.array.forEach(spectrum.peakList,
     function(peak) {
-//    	alert(peak.isVisible)
     	if(peak.isVisible){
             peakPath.moveTo(peak.xPixel, peak.yPixel); 
             peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
@@ -119,30 +109,6 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     this.graphics.drawPath(peakPath, peakStroke, peakFill);
 
 };
-	
-
-/*
-specview.view.SpectrumRenderer.prototype.highlightOn = function(peak) {
-	
-    var xStart= this.box.left*1.1;    
-    var yStart= this.box.top;   
-//	this.logger.info(peak)
-	var correct=0.0298;
-	var pCoords=this.transform.transformCoords([new goog.math.Coordinate(this.box.left*1.1+(peak.xValue*correct), this.box.top )]);
-//	this.logger.info(pCoords[0])
-	var strokeWidth = 2.4;
-	opt_element_array = new specview.graphics.ElementArray();
-	var fill = new goog.graphics.SolidFill("#55bb00", .3);
-	var radius = 8.80
-//	var coords = this.transform.transformCoords([ atom.coord ])[0];//TODO
-    var peakFrom =new goog.math.Coordinate(xStart+(peak.xValue*correct), yStart );
-    var peakTo =new goog.math.Coordinate(xStart+(peak.xValue*correct), (this.box.top+this.box.bottom)*peak.intensity/62  );
-    var peakCoords = this.transform.transformCoords( [peakFrom, peakTo]);
-    opt_element_array.add(this.graphics.drawRect(peakCoords[0].x,peakCoords[0].y,7,peakCoords[1].y,null,fill));
-	return opt_element_array;
-};
-
-*/
 
 specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
 	opt_element_array = new specview.graphics.ElementArray();
