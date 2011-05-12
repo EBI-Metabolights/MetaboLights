@@ -3,11 +3,11 @@
   <parent>
     <artifactId>metabolights-main</artifactId>
     <groupId>uk.ac.ebi.metabolights</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
   <groupId>uk.ac.ebi.metabolights</groupId>
   <artifactId>metabolights-model</artifactId>
   <name>metabolights-model</name>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <description>MetaboLights Model Objects</description>
 </project>

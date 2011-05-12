@@ -3,14 +3,15 @@
   <parent>
     <artifactId>metabolights-main</artifactId>
     <groupId>uk.ac.ebi.metabolights</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
   <groupId>uk.ac.ebi.metabolights</groupId>
   <artifactId>metabolights-webapp</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>metabolights-webapp</name>
   <description>MetaboLights Web Application</description>
+  
   <dependencies>
   	<dependency>
   		<groupId>org.apache.tiles</groupId>
