@@ -3,7 +3,7 @@
 
 <script src="../../third-party/closure/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
-<script src="../../specviewTest/data/specData/cmlfile.js"></script>
+<script src="../../specviewTest/data/nmrData/cmlfile.js"></script>
 <script src="../../specviewTest/data/massSpecData/massSpec1.js"></script>
 
 <script>
@@ -186,77 +186,18 @@ var moveSpectrum=function(move,direction){
 	<link rel="stylesheet" href="../../css/specview.css" />
 	<link rel="stylesheet"  href="../../css/demo.css" />
 	<link rel="stylesheet" href="../style/style.html" />
- 
-
-  <style>
-    #slider {
-      position: absolute;
-      left: 775px;
-      top: 75px;
-      width: 30px;
-      height: 13px;
-      font: normal 10px verdana;
-      background-color: #EEE;
-      color: #000;
-      text-align:center;
-      border: 1px solid #999;
-      cursor: default;
-    }
-    
-        #slider2 {
-      position: absolute;
-      left: 625px;
-      top: 75px;
-      width: 30px;
-      height: 13px;
-      font: normal 10px verdana;
-      background-color: #EEE;
-      color: #000;
-      text-align:center;
-      border: 1px solid #999;
-      cursor: default;
-    }
-    
-        #slider3 {
-      position: absolute;
-      left: 590px;
-      top: 15px;
-      width: 30px;
-      height: 13px;
-      font: normal 10px verdana;
-      background-color: #EEE;
-      color: #000;
-      text-align:center;
-      border: 1px solid #999;
-      cursor: default;
-    }
-    
-        #slider4 {
-      position: absolute;
-      left: 665px;
-      top: 95px;
-      width: 110px;
-      height: 13px;
-      font: normal 10px verdana;
-      background-color: #EEE;
-      color: #000;
-      text-align:center;
-      border: 1px solid #999;
-      cursor: default;
-    }    
-    
-  </style>
 
 </head>
 
 <body>
-  <div id="slider">0</div>
+  <div id="slider1">0</div>
   <div id="slider2">x</div>
   <div id="slider3">y</div>
   <div id="slider4"><script>document.write("<--move-->")</script></div>
   <script>
     var $ = goog.dom.getElement;
     var Z = 5;
+    //Define the limits to drag the rectangle for zooming
     var limits = new goog.math.Rect(625,75, 148, 0);
     var limits2 = new goog.math.Rect(590,15,0,60);
     var limits3 = new goog.math.Rect(625,75,123,0);
@@ -288,7 +229,7 @@ var moveSpectrum=function(move,direction){
       var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
     	          e.dragger.limits.width)-100);
     
-            $('slider').innerHTML = percent;
+            $('slider1').innerHTML = percent;
 
       if(typeof percent == 'number' && percent % 1 == 0){
     	  redrawSpectra(percent);
