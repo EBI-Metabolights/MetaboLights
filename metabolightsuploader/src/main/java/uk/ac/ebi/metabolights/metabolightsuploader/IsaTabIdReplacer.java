@@ -97,7 +97,7 @@ public class IsaTabIdReplacer
 	
 	private static void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
 		
-		final String PROPS_FILE = "isataidreplacer.properties";
+		final String PROPS_FILE = "isatabidreplacer.properties";
 		
 		//If properties are loaded
 		if (!props.isEmpty()) {return;}
