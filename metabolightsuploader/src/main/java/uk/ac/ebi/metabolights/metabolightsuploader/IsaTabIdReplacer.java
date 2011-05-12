@@ -2,7 +2,6 @@ package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
@@ -11,12 +10,14 @@ import java.util.Arrays;
 import java.util.Properties;
 import javax.naming.ConfigurationException;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import uk.ac.ebi.metabolights.repository.accessionmanager.AccessionManager;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
-//TODO logger
 
 /**
  * IsaTabReplacer
@@ -29,9 +30,10 @@ public class IsaTabIdReplacer
 	static private Properties props = new Properties();
 	static final String PROP_IDS = "isatab.ids";
 	static String[] idList;
-	
 	static final String PROP_FILE_WITH_IDS = "isatab.filewithids";
     static String fileWithIds;
+
+    private static final Logger logger = LoggerFactory.getLogger(IsaTabIdReplacer.class);
     
     static private AccessionManager am = AccessionManager.getInstance();
        
@@ -95,13 +97,16 @@ public class IsaTabIdReplacer
 	
 	private static void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
 		
+		final String PROPS_FILE = "isataidreplacer.properties";
+		
 		//If properties are loaded
 		if (!props.isEmpty()) {return;}
 		
+
+		logger.info("Loading properties using getClassLoader().getResourceAsStream(" + PROPS_FILE + ")");
+		
 		//Load the properties from the property file
-		//TODO: Is this path ok?. To ask.
-		//props.load(new FileInputStream("./src/main/resources/isatabidreplacer.properties"));
-		props.load(IsaTabIdReplacer.class.getClassLoader().getResourceAsStream("isatabidreplacer.properties"));
+		props.load(IsaTabIdReplacer.class.getClassLoader().getResourceAsStream(PROPS_FILE));
 		
 		//If property file is empty
 		if (props.size() ==0){
@@ -115,6 +120,8 @@ public class IsaTabIdReplacer
 		
 		//Initilize idList
 		String ids = props.getProperty(PROP_IDS);
+		
+		logger.info(PROP_IDS + " property retrieved :" + ids);
 		
 		//Split it by ; to go through the array
 	    idList = ids.split(";");
@@ -159,6 +166,8 @@ public class IsaTabIdReplacer
 
 	public void Execute() throws IsaTabIdReplacerException, IOException, ConfigurationException{
 		
+		logger.info("Starting the replacements of the ids");
+		
 		//Reset accessionNumberList, it will be populated with the new accession numbers generated
 		accessionNumberList="";
 		
@@ -167,6 +176,8 @@ public class IsaTabIdReplacer
 		
 		//Validate
 		validateIsaTabArchive();
+		
+		logger.info("unziping " + isaTabArchive + " to " + unzipFolder);
 		
 		//unzip the isatab archive
 		Zipper.unzip(isaTabArchive,unzipFolder);
@@ -211,7 +222,9 @@ public class IsaTabIdReplacer
 	 * @throws IOException
 	 */
 	private void replaceIdInFile(File fileWithId) throws IOException{
-	
+		
+		logger.info("Replacing ids in file -->" + fileWithId.getAbsolutePath());
+		
 		//Use a buffered reader
 		BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
         String line = "";
@@ -241,22 +254,24 @@ public class IsaTabIdReplacer
 	    for (int i=0;i<idList.length;i++) {
 	      
 	      //Get the value (Study Identifier, Investigation Identifier)
-	      String value = idList[i];
+	      String id = idList[i];
 	      
 	      //If the value is present in line, in the first position.
-	      if (line.indexOf(value)==0){
+	      if (line.indexOf(id)==0){
+	    	  
+	    	  logger.info("Id found in line " + line);
 	    	  
 	    	  //Get the accession number
 	    	  String accession = am.getAccessionNumber();
 	    	  
 	    	  //Compose the line:         Study Identifier   "MTBL1"
-	    	  line = value + "\t\"" + accession + "\"";
+	    	  line = id + "\t\"" + accession + "\"";
 	    	  
 	    	  //If the value is a study identifier
 	    	  //This is necessary for the uploading using command line tools.
 	    	  //The accession number list will be used to assign permissions.
 	    	  //Permissions can only be done to Study Identifier elements.
-	    	  if ("Study Identifier".equals(value)){
+	    	  if ("Study Identifier".equals(id)){
 	    	  
 	    		  //Populate the list of new accession numbers (initialized in Execute method)
 	    		  accessionNumberList = accessionNumberList + accession + " ";
