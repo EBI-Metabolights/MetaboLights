@@ -886,4 +886,4 @@ naringenin=
 "      </molecule\n>\n"+
 "    </moleculeList\n>\n"+
 "  </list\n>\n"+
-"</cml\n>\n"
+"</cml\n>\n";

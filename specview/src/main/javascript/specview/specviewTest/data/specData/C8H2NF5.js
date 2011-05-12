@@ -58,4 +58,4 @@ specC8H2NF5+=
 	"<peak xValue=\"145.37\" xUnits=\"units:ppm\" peakShape=\"sharp\" peakMultiplicity=\"S\" id=\"p4\" atomRefs=\"a8\"/>\n" + 
 	"</peakList>\n" + 
 	"</spectrum>\n" + 
-	"</cml>\n"
+	"</cml>\n";

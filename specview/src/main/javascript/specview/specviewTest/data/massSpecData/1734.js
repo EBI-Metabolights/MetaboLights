@@ -877,4 +877,4 @@
       "</molecule>\n"+
     "</moleculeList>\n"+
   "</list>\n"+
-"</cml>\n"
+"</cml>\n";
