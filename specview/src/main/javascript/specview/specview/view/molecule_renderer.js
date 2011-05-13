@@ -50,7 +50,7 @@ specview.view.MoleculeRenderer.prototype.setScaleFactor = function(scale) {
 
 
 
-specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) {
+specview.view.MoleculeRenderer.prototype.render = function(molecule, transform, molecule_Box) {
     this.setTransform(transform);
 
 	if (!molecule._elements){
@@ -89,8 +89,7 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform) 
         this.atomRenderer.render(atom, transform, molecule._elements);
     },
     this);
-
-   // this.renderBoundingBox(molecule.getBoundingBox(),'orange'); 
+    this.renderBoundingBox(molecule_Box,'orange'); 
 
 };
 

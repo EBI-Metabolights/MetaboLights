@@ -1,3 +1,21 @@
+/**
+ * Copyright 2011 Samy Deghou (deghou@polytech.unice.fr)
+ * and  Mark Rijnbeek (markr@ebi.ac.uk)
+ *  
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ */
+
 goog.provide("specview.view.Renderer");
 goog.require("goog.structs.Map");
 goog.require("goog.debug.Logger");
@@ -141,19 +159,8 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
  * @param {goog.math.Box } bounding box
  */
 specview.view.Renderer.prototype.renderBoundingBox = function(box, opt_color){
-
-    var boxTopLeftCoord =new goog.math.Coordinate(box.left,box.top);
-    var boxTopRightCoord =new goog.math.Coordinate(box.right,box.top);
-    var boxBotLeftCoord =new goog.math.Coordinate(box.left,box.bottom);
-    var boxBotRightCoord =new goog.math.Coordinate(box.right,box.bottom);
-    
-    boxTopRightCoord=(boxTopRightCoord.x<boxTopLeftCoord.x ? new goog.math.Coordinate(1200,box.top) : boxTopRightCoord);
-    boxBotRightCoord=(boxBotRightCoord.x<boxBotLeftCoord.x ? new goog.math.Coordinate(1200,box.bottom) : boxBotRightCoord);
-    
-    var boxCoords = this.transform.transformCoords( [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord]);
-
-    var boxPath = new goog.graphics.Path();
-    
+	var boxPath = new goog.graphics.Path();
+	var boxCoords=box;
     boxPath.moveTo(boxCoords[0].x, boxCoords[0].y); 
     boxPath.lineTo(boxCoords[1].x,boxCoords[1].y);
 
@@ -175,56 +182,5 @@ specview.view.Renderer.prototype.renderBoundingBox = function(box, opt_color){
     this.graphics.drawPath(boxPath, boxStroke, boxFill);
 };
 
-specview.view.Renderer.prototype.renderBoundingBoxWithPixel = function(boxCoords, opt_color){
-/*
-	var tl=new goog.math.Coordinate(400,40);
-	var tr=new goog.math.Coordinate(400,88);
-	var bl=new goog.math.Coordinate(890,40);
-	var br=new goog.math.Coordinate(890,88);
-	boxCoordsT=new Array();
-	boxCoordsT[0]=tl;boxCoordsT[1]=tr;boxCoordsT[2]=bl;boxCoordsT[3]=br;
-	
-    var testPath = new goog.graphics.Path();
 
-	
-    testPath.moveTo(boxCoordsT[0].x, boxCoordsT[0].y); 
-    testPath.lineTo(boxCoordsT[1].x,boxCoordsT[1].y);
-
-    testPath.moveTo(boxCoordsT[1].x,boxCoordsT[1].y);
-    testPath.lineTo(boxCoordsT[3].x,boxCoordsT[3].y);
-
-    testPath.moveTo(boxCoordsT[3].x,boxCoordsT[3].y);
-    testPath.lineTo(boxCoordsT[2].x,boxCoordsT[2].y);
-
-    testPath.moveTo(boxCoordsT[2].x,boxCoordsT[2].y);
-    testPath.lineTo(boxCoordsT[0].x, boxCoordsT[0].y); 
-    
-    var boxStroke = new goog.graphics.Stroke(1,"orange");
-    var boxFill = null;
-    
-    this.graphics.drawPath(testPath, boxStroke, boxFill);
-*/	
-    var boxPath = new goog.graphics.Path();
-//    alert("boxCoords: "+boxCoords)
-
-    boxPath.moveTo(boxCoords[0].x, boxCoords[0].y); 
-    boxPath.lineTo(boxCoords[1].x,boxCoords[1].y);
-
-    boxPath.moveTo(boxCoords[1].x,boxCoords[1].y);
-    boxPath.lineTo(boxCoords[3].x,boxCoords[3].y);
-
-    boxPath.moveTo(boxCoords[3].x,boxCoords[3].y);
-    boxPath.lineTo(boxCoords[2].x,boxCoords[2].y);
-
-    boxPath.moveTo(boxCoords[2].x,boxCoords[2].y);
-    boxPath.lineTo(boxCoords[0].x, boxCoords[0].y); 
-    
-    if(!opt_color)
-        opt_color='black';
-        
-    var boxStroke = new goog.graphics.Stroke(1,opt_color);
-    var boxFill = null;
-    
-    this.graphics.drawPath(boxPath, boxStroke, boxFill);
-};
 

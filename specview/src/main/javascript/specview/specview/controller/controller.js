@@ -217,8 +217,10 @@ specview.controller.Controller.prototype.render = function() {
         
         
         if (model instanceof specview.model.NMRdata) {
-            molecule=model.molecule;
-            spectrum=model.spectrum;
+            var molecule=model.molecule;
+            var spectrum=model.spectrum;
+            var molBox=model.mainMolBox;
+            var specBox=model.mainSpecBox;
 //            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
             atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
             peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
@@ -237,8 +239,8 @@ specview.controller.Controller.prototype.render = function() {
             scaleFactor = 0.90; 
             widthScaleLimitation = 0.4;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
-            this.moleculeRenderer.render(molecule,trans);
-            this.spectrumRenderer.render(model,trans);            	
+            this.moleculeRenderer.render(molecule,trans,molBox);
+            this.spectrumRenderer.render(model,trans,specBox);            	
         }
     }, this);
 };

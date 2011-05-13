@@ -29,36 +29,46 @@ goog.require('goog.debug.Logger');
 
 specview.model.NMRdata=function(){
 	
-	this.molecule=null;            // A molecule object (empty, or should just contain the name)
-	this.spectrum=null;            // A molecule object (empty, or should just contain the name)
+	/**
+	 * THe experience type that the file holds, e.g MS or NMR.
+	 */
+	this.experienceType="";
 
+	/**
+	 * The main molecule of the experiment.
+	 * In case of NMR, it would be the only molecule.
+	 * In case of MS, it would be the reactant molecule.
+	 */
+	this.molecule=null;            // A molecule object (empty, or should just contain the name)
+	/**
+	 * The only spectrum of the experiment as found in the file
+	 */
+	this.spectrum=null;            // A molecule object (empty, or should just contain the name)
+	
+	/**
+	 * Only available with MS data. Array holding all the fragment molecule of the reactant molecule
+	 * as found in the file
+	 */
 	this.secondaryMolecule=null;
 	
 	/**
-	 * Why in mary this was uncommented ??
+	 * These arrays are useful when dealing with NMR data.
+	 * IN NMR data, each peak is associated with at least one atom
 	 */
 	this.ArrayOfAtoms=new Array(); // Keys are the inner atom id. Values are the atom objects
 	this.ArrayOfBonds=new Array();
 	this.ArrayOfPeaks=new Array();
-	
-	/*
-	 * TODO Consider the case of mass spectras 
-	 * Should include: 
-	 * this.experienceType
-	 * this.ArrayOfSecondaryMolecules
-	 */
-	
-	this.editor=null;
-	
-	this.transform;
-	
-	this.experienceType="";
+		
 	this.ArrayOfSecondaryMolecules=new Array();//{m1:molecule1;m2:moleucle2...}
 	
-	/*
-	 * The box of the original fragment of the ms Experiment. Every other fragment has to be drawn is that box. 
+	/**
+	 * The box of the original fragment of the ms Experiment. Every other fragment has to be drawn in that box. 
 	 */
 	this.mainMolBox=null;
+	
+	/**
+	 * The box of the spectrum. Calculated according the the mainMolBox
+	 */
 	this.mainSpecBox=null;
 	
 	
@@ -85,6 +95,7 @@ specview.model.NMRdata.prototype.setEditor=function(controllerEditor){
  * @param zoomX
  */
 specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpectrum){
+	this.mainMolBox=this.getMoleculeBox(editorSpectrum);
 	this.setCoordinatesPixelOfMolecule(editorSpectrum);
   	this.mainSpecBox=this.getSpectrumBox();
   	this.setCoordinatesPixelOfSpectrum();
@@ -102,9 +113,6 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editorSpectrum){    
 	var molecule=this.molecule;	var spectrum=this.spectrum;	var editor=editorSpectrum;
     var molBox = molecule.getBoundingBox();//CREATE THE MOLECULE BOX. THIS WILL ALLOW TO SET THE PARAMETER FOR EVERY OTHER OBJECTS
-    if(this.experienceType=="ms"){
-    	this.mainMolBox=molBox;
-    }
     var molHeight=Math.abs(molBox.top-molBox.bottom);
     var molWidth=Math.abs(molBox.left-molBox.right);
     var size=Math.max(molHeight,molWidth);
@@ -124,14 +132,49 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
   	var widthScaleLimitation = 0.4;
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
   	this.transform=trans;
-//    	specview.model.NMRdata.logger.info("\n\nmolecule Name: "+molecule.name)
+  	specview.model.NMRdata.logger.info();
+  	specview.model.NMRdata.logger.info;
+    	specview.model.NMRdata.logger.info("\n\nmolecule Name: "+molecule.name);
   	    goog.array.forEach(molecule.atoms,
   	     function(atom){
   	    	var point = trans.transformCoords([ atom.coord ])[0];//point is the coordinates with pixelS
   	    	atom.setPixelCoordinates(point.x, point.y);
-//  	    	specview.model.NMRdata.logger.info(point.x+","+point.y+"--->"+atom.coord.x+","+atom.coord.y+"--->"+atom.symbol)
   	    });	
   	
+};
+
+/**
+ * Build a box for the molecule.
+ * We first need to get a box of relative coordinates out of the relative coordinates of the molecule(coordinates found
+ * in the file). That is Step 1.
+ * Then, we need to transform these coordinates into pixel coordinates in order to render them. To do so, we need the 
+ * object transform. That is Step 2
+ * 
+ */ 
+specview.model.NMRdata.prototype.getMoleculeBox = function(editorSpectrum){
+   	/*
+	 * Step 1
+	 */
+	var molecule=this.molecule;
+	var box=molecule.getBoundingBox();
+    var boxTopLeftCoord =new goog.math.Coordinate(box.left,box.top);
+    var boxTopRightCoord =new goog.math.Coordinate(box.right,box.top);
+    var boxBotLeftCoord =new goog.math.Coordinate(box.left,box.bottom);
+    var boxBotRightCoord =new goog.math.Coordinate(box.right,box.bottom);
+    boxTopRightCoord=(boxTopRightCoord.x<boxTopLeftCoord.x ? new goog.math.Coordinate(1200,box.top) : boxTopRightCoord);
+    boxBotRightCoord=(boxBotRightCoord.x<boxBotLeftCoord.x ? new goog.math.Coordinate(1200,box.bottom) : boxBotRightCoord);
+	/*
+	 * Step 2
+	 */    
+	var atom_coords=goog.array.map(this.molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
+	var relative_box=goog.math.Box.boundingBox.apply(null, atom_coords);
+  	var scaleFactor = 0.90; 
+  	var widthScaleLimitation = 0.4;
+  	var margin = 0.3;
+	var editor=editorSpectrum;
+	var ex_box=relative_box.expand(margin,margin,margin,margin);
+	var transform = specview.graphics.AffineTransform.buildTransform(ex_box,widthScaleLimitation,editorSpectrum.graphics,scaleFactor);
+    return transform.transformCoords( [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord]);
 };
 
 /**
@@ -190,7 +233,6 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 			var whereAllThePeakStartFrom=280;
 			peak.isVisible=(adjustXvalue+valueToAdd<this.mainSpecBox[1].x && adjustXvalue+valueToAdd>this.mainSpecBox[0].x) ? true : false;
 			peak.setCoordinates(adjustXvalue+valueToAdd,whereAllThePeakStartFrom,adjustXvalue+valueToAdd,adjustYvalue);  
-//			this.logger.info("peak at(nmrdata.js) : "+adjustXvalue);
 		},
 		this);
 		spectrum.setExtremePixelValues();
