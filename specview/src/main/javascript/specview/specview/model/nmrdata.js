@@ -238,7 +238,3 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 		spectrum.setExtremePixelValues();
 		bottomBoxLimit=280;
 };
-
-
-
-

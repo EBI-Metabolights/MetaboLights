@@ -103,19 +103,17 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				e.currentTarget.highlightPeak=this.highlightPeak(target,currentMetaSpecObject.editor);
 				//LOOKING FOR THE ATOM(S)
 				var currentMetaSpecObject=this.editorObject.getSpecObject();
-	//			alert(currentMetaSpecObject.experienceType)
 				var currentPeakIdentifier=target.peakId;
-			//	alert(currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules]);
 				if(currentMetaSpecObject.experienceType=="ms"){
 					newMoleculeToDisplay=currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules];
 				}
-	//			alert(currentMetaSpecObject.experienceType)			
+
 				if(currentMetaSpecObject.experienceType=="ms" && newMoleculeToDisplay!=undefined){
 					currentMetaSpecObject.molecule=newMoleculeToDisplay;
 					this.drawNewMolecule(currentMetaSpecObject);
 					this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 					this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
-				}else{
+				}else if(currentMetaSpecObject.experienceType!="ms"){
 					var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 					//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
 					var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
@@ -199,10 +197,7 @@ specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
 };
 
 specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject) {
-	//	alert(molecule);
-//	alert(trans)
-	return 					this.editorObject.setModels([currentMetaSpecObject]);
-//	return this.editorObject.moleculeRenderer.render(molecule,trans);
+	return this.editorObject.setModels([currentMetaSpecObject]);
 };
 
 
