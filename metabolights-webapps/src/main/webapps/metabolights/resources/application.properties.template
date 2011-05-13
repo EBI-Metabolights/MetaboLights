@@ -1,0 +1,9 @@
+
+urlBiiPrefixSearch=http://CHANGE/browse_studies.seam
+urlBiiPrefixStudy=http://CHANGE/study.seam
+
+ftpServer=CHANGE
+ftpServerMainSubDir=upload
+ftpUser=CHANGE
+ftpPassword=CHANGE
+

@@ -5,9 +5,9 @@
 	<session-factory>
 		<!-- Database connection settings -->
 		<property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
-		<property name="connection.url">jdbc:oracle:thin:@localhost:1543:mtapro</property> 
-		<property name="connection.username">isatab</property> 
-		<property name="connection.password">isatab</property>
+		<property name="connection.url">jdbc:oracle:thin:@CHANGE:1521:CHANGE</property> 
+		<property name="connection.username">CHANGE</property> 
+		<property name="connection.password">CHANGE</property>
 		<!-- SQL dialect-->
 		<property name="dialect">org.hibernate.dialect.OracleDialect</property> 
 

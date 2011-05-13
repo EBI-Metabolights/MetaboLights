@@ -1,0 +1,5 @@
+jdbc.driverClassName=oracle.jdbc.OracleDriver
+jdbc.databaseurl=jdbc:oracle:thin:@CHANGE:1521:CHANGE
+jdbc.username=CHANGE
+jdbc.password=CHANGE
+jdbc.dialect=org.hibernate.dialect.OracleDialect
