@@ -55,26 +55,25 @@ function initPage(){
 
 			//Creation of the tool bar
 		    var select1 = new goog.ui.Select();
-		    select1.addItem(new goog.ui.MenuItem('0', 0));
-		    select1.addItem(new goog.ui.MenuItem('1', 1));
-		    select1.addItem(new goog.ui.MenuItem('2', 2));
-		    select1.addItem(new goog.ui.MenuItem('3', 3));
-		    select1.addItem(new goog.ui.MenuItem('4', 4));
-		    select1.addItem(new goog.ui.MenuItem('5', 5));
-		    select1.addItem(new goog.ui.MenuItem('6', 6));
-		    select1.addItem(new goog.ui.MenuItem('7', 7));
-		    select1.addItem(new goog.ui.MenuItem('8', 8));
-		    select1.addItem(new goog.ui.MenuItem('9', 9));
-		    select1.addItem(new goog.ui.MenuItem('10', 10));
-		    select1.addItem(new goog.ui.MenuItem('11', 11));
-		    select1.addItem(new goog.ui.MenuItem('12', 12));
-		    select1.addItem(new goog.ui.MenuItem('MassSpec0', 13));
-		    select1.addItem(new goog.ui.MenuItem('MassSpec1', 14));
-		    select1.addItem(new goog.ui.MenuItem('MassSpec2', 15)); 
-		    select1.addItem(new goog.ui.MenuItem('MassSepc3', 16));
-		    select1.addItem(new goog.ui.MenuItem('MassSepc4', 17));
-		    select1.addItem(new goog.ui.MenuItem('MassSepc5', 18));
-		    select1.addItem(new goog.ui.MenuItem('MassSepc6', 19));
+		    select1.addItem(new goog.ui.MenuItem('NMR_0', 0));
+		    select1.addItem(new goog.ui.MenuItem('NMR_1', 1));
+		    select1.addItem(new goog.ui.MenuItem('NMR_2', 2));
+		    select1.addItem(new goog.ui.MenuItem('NMR_3', 3));
+		    select1.addItem(new goog.ui.MenuItem('NMR_4', 4));
+		    select1.addItem(new goog.ui.MenuItem('NMR_5', 5));
+		    select1.addItem(new goog.ui.MenuItem('NMR_6', 6));
+		    select1.addItem(new goog.ui.MenuItem('NMR_7', 7));
+		    select1.addItem(new goog.ui.MenuItem('NMR_8', 8));
+		    select1.addItem(new goog.ui.MenuItem('NMR_9', 9));
+		    select1.addItem(new goog.ui.MenuItem('NMR_10', 10));
+		    select1.addItem(new goog.ui.MenuItem('NMR_11', 11));
+		    select1.addItem(new goog.ui.MenuItem('NMR_12', 12));
+		    select1.addItem(new goog.ui.MenuItem('MS_0', 13));
+		    select1.addItem(new goog.ui.MenuItem('MS_1', 14));
+		    select1.addItem(new goog.ui.MenuItem('MS_2', 15)); 
+		    select1.addItem(new goog.ui.MenuItem('MS_3', 16));
+		    select1.addItem(new goog.ui.MenuItem('MS_4', 17));
+		    select1.addItem(new goog.ui.MenuItem('MS_5', 18));
 		    
 		    select1.setSelectedIndex(0);
 		    select1.render(goog.dom.getElement('selectMolecule'));
@@ -101,7 +100,6 @@ function initPage(){
 		    	}
 		    })
 		    
-
 		    goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
 		    function(e) {
 		    	zoom=0;

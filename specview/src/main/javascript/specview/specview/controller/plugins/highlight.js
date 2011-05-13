@@ -55,8 +55,6 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 	if(this.editorObject.findTarget(e)!=undefined) {
 		this.editorObject.clearSelected();
 		//this.editorObject.getOriginalElement().style.cursor = 'default';
-//		var target = this.editorObject.findTarget(e);//FORMER VERSION
-		//SAMY
 		var target=this.editorObject.findTarget(e);//SAMY. NOT SURE IF THIS IS THE BEST
 
 		var peakTarget=null;
@@ -86,7 +84,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			return true;
 		}
 		//Peaks
-		//CAREFUL: MIGHT BE K ATOMS FOR ONE PEAK
+		//CAREFUL: MIGHT BE multiple ATOMS FOR ONE PEAK
 		else if (target instanceof specview.model.Peak){
 			
 			var currentMetaSpecObject=this.editorObject.getSpecObject();
@@ -109,11 +107,19 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				}
 
 				if(currentMetaSpecObject.experienceType=="ms" && newMoleculeToDisplay!=undefined){
+					
+					goog.array.forEach(newMoleculeToDisplay.atoms,function(atom){
+						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
+					},this);
+					
 					currentMetaSpecObject.molecule=newMoleculeToDisplay;
 					this.drawNewMolecule(currentMetaSpecObject);
 					this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 					this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 				}else if(currentMetaSpecObject.experienceType!="ms"){
+					goog.array.forEach(currentMetaSpecObject.molecule.atoms,function(atom){
+						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
+					},this);
 					var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 					//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
 					var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
@@ -122,15 +128,12 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						arrayOfAtomObjectToWhichThePeakIsRelated.push(atomObject);
 					}
 					var atomIdentifier=arrayOfAtomToWhichThePeakIsRelated[0];
-					var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];
-					
+					var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];					
 					this.lastArrayOfAtomHighlighted=arrayOfAtomObjectToWhichThePeakIsRelated;
 					e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtomObjectToWhichThePeakIsRelated);
 				}
-			}		
+			}
 		}
-		
-		
 		
 		else 
 		if (target instanceof specview.model.Bond) {
