@@ -7,7 +7,7 @@
 		  <ul id="navigation">
 		      <!-- li class="selected"><a href="index">home</a></li-->
               <li><a href="<spring:url value="index"/>">home</a></li>
-		      <li><a href="submit">submit</a></li>
+		      <li><a href="biisubmit">submit</a></li>
               <li><a href="about">about</a></li>
 
               <sec:authorize ifNotGranted="ROLE_SUBMITTER" >
