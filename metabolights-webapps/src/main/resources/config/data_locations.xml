@@ -1,0 +1,430 @@
+<!-- 
+	Specifies the file system locations and corresponding URLs where the ISATAB files have to be dispatched when a submission
+	is sent to the BII database. 
+
+	The types below are defaults that point to the UNIX /tmp directory.
+
+	NOTE that Firefox has a bug such that links of type 'file://' are not opened when opened, you just need
+	cut and paste on the URL bar to have this working.  
+		
+ -->
+<datasources>
+
+    <!--
+            This is the location for the ISATAB meta data files, i.e.: the investigation file, the sample files, the assay
+            files.
+
+            It is a single entry and it's composed of a pattern for the file system path where to copy the files during the
+            submission, plus the URL pattern to be used by the web application to point to these files. Of course this means
+            the path is web-accessible with the URL pattern (or accessible via another protocol, such as FTP).
+
+            The values are pattern, in the sense that "${study-acc}" is replaced by a "massaged" version of the study accession
+            that is being loaded in the BII infrastructure. "massaged" means that certain characters, which are valid for an accession,
+            such as ":", are replaced by '_', in order to avoid OS file naming problems.
+
+         -->
+    <isatab_source>
+        <location
+                filesystem_path="/ebi/ftp/private/mtblight/meta_data/study_${study-acc}"
+                web_url="file:////ebi/ftp/private/mtblight/meta_data/study_${study-acc}"
+                />
+    </isatab_source>
+
+    <!--
+          Define an entry for every possible pair that you expect in the ISATAB submission.
+          For each entry you have to define the locations for the raw data and the ones for the processed data
+          (e.g.: normalized data). You may configure the same destination for the two types.
+
+          TODO: for the moment we only support these two data types only. We ignore files like "Metabolite Assignment File".
+          We will add this type soon.
+         -->
+    <datasource measurement_type="transcription profiling" technology_type="DNA microarray ">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="DNA methylation profiling" technology_type="DNA microarray ">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="SNP analysis" technology_type="DNA microarray ">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="copy number variation profiling" technology_type="DNA microarray ">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="loss of heterozygosity profiling" technology_type="DNA microarray ">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="transcription factor binding site identification" technology_type="DNA microarray ">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="protein expression profiling" technology_type="protein microarray ">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="protein-protein interaction detection" technology_type="protein microarray ">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="transcription profiling" technology_type="nucleotide sequencing">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="transcription profiling" technology_type="real time PCR">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/microarray/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="DNA methylation profiling" technology_type="nucleotide sequencing">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="transcription factor binding site identification"
+                technology_type="nucleotide sequencing">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="genome sequencing" technology_type="nucleotide sequencing">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="metagenome sequencing" technology_type="nucleotide sequencing">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/nucleotide/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="protein identification" technology_type="mass spectrometry">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/proteomics/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/proteomics/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/proteomics/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/proteomics/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/proteomics/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/proteomics/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="protein expression profiling" technology_type="gel electrophoresis">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="protein expression profiling" technology_type="mass spectrometry">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/proteomics/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/proteomics/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/proteomics/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/proteomics/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/proteomics/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/proteomics/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="metabolite profiling" technology_type="mass spectrometry">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/meda/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/meda/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/meda/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/meda/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/meda/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/meda/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="metabolite profiling" technology_type="NMR spectroscopy">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/meda/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/meda/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/meda/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/meda/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/meda/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/meda/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="clinical chemistry analysis" technology_type="">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="histology" technology_type="">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="hematology" technology_type="">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="metabolite profiling" technology_type="clinical chemistry">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="flow cytometry" technology_type="not defined">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/flow_cytometry/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/flow_cytometry/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/flow_cytometry/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/flow_cytometry/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/flow_cytometry/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/flow_cytometry/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="metabolite profiling" technology_type="real time PCR">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/meda/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/meda/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/meda/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/meda/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/meda/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/meda/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+    <datasource measurement_type="histology" technology_type="real time PCR">
+        <raw_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/raw_data"
+                />
+        <processed_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/processed_data"
+                />
+        <generic_data
+                filesystem_path="/ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                web_url="file:///ebi/ftp/private/mtblight/generic/study_${study-acc}/generic_data"
+                />
+    </datasource>
+
+</datasources>
+        
+        
