@@ -21,8 +21,8 @@
 		            <td><input type="file" name="file" /></td>
 		        </tr>
 		        <tr>
-		            <td><spring:message code="label.experimentstatus" />:</td>
-		            <td><input type="checkbox" name="experimentstatus" /></td>
+		            <td><spring:message code="label.experimentstatuspublic" />:</td>
+		            <td><input type="checkbox" name="public" /></td>
 		        </tr>
 		        <tr>
 		            <td colspan='2'><input name="submit" type="submit" value="<spring:message code="label.upload"/>">
