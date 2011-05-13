@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.authenticate.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.utils.StringUtils;
@@ -45,12 +46,14 @@ public class BIISubmissionController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/biiuploadExperiment", method = RequestMethod.POST)
-	public ModelAndView handleFormUpload(@RequestParam("file") MultipartFile file) throws Exception {
+	public ModelAndView handleFormUpload(@RequestParam("file") MultipartFile file, @RequestParam(required=false,value="public") Boolean publicExp) throws Exception {
 
+		//Convert boolean publicExp into VisibilityStatus
+		VisibilityStatus status =  (publicExp != null)? VisibilityStatus.PUBLIC : VisibilityStatus.PRIVATE;
 		
 		if (!file.isEmpty()) {
 			
-			String accessions = writeFile(file);
+			String accessions = writeFile(file, status);
 			//writeFileToFTPServer(file);
 
 			//Log it
@@ -119,11 +122,12 @@ public class BIISubmissionController extends AbstractController {
 	 * Writes a user upload file to designated target directory.
 	 * 
 	 * @param file user upload
+	 * @param status 
 	 * @throws IOException
 	 * @throws IsaTabIdReplacerException 
 	 * @throws ConfigurationException 
 	 */
-	private String writeFile(MultipartFile file) throws IOException, ConfigurationException, IsaTabIdReplacerException {
+	private String writeFile(MultipartFile file, VisibilityStatus status) throws IOException, ConfigurationException, IsaTabIdReplacerException {
 		//TODO get separator from props
 
 		byte[] bytes = file.getBytes();
@@ -153,7 +157,7 @@ public class BIISubmissionController extends AbstractController {
 		fos.close();
 
 		//Upload the file to bii
-		IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName());
+		IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), status);
 
 		//Upload the file
 		return itu.Upload();
