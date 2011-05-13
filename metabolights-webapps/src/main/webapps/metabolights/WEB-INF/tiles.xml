@@ -42,6 +42,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/submit.jsp" />
     </definition>
 
+    <definition name="biisubmit" extends="base.definition">
+        <put-attribute name="title" value="Metabolights BII upload for submission" />
+        <put-attribute name="body" value="/WEB-INF/jsp/biisubmit.jsp" />
+    </definition>
+
     <definition name="submitOk" extends="base.definition">
         <put-attribute name="title" value="Metabolights upload successful" />
         <put-attribute name="body" value="/WEB-INF/jsp/submitOk.jsp" />
