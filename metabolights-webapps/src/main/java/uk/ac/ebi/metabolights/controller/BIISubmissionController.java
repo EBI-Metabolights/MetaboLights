@@ -51,8 +51,11 @@ public class BIISubmissionController extends AbstractController {
 		//Convert boolean publicExp into VisibilityStatus
 		VisibilityStatus status =  (publicExp != null)? VisibilityStatus.PUBLIC : VisibilityStatus.PRIVATE;
 		
-		if (!file.isEmpty()) {
+		try {
+
+			if (file.isEmpty()){ throw new Exception("File must not be empty.");}
 			
+
 			String accessions = writeFile(file, status);
 			//writeFileToFTPServer(file);
 
@@ -60,8 +63,11 @@ public class BIISubmissionController extends AbstractController {
 			logger.info("These are the new accession numbers: " + accessions);
 			
 			return new ModelAndView("redirect:uploadSuccess");
-		} else {
-			return new ModelAndView("biisubmit", "message", PropertyLookup.getMessage("msg.upload.notValid"));
+
+			
+		} catch (Exception e){
+
+			return new ModelAndView("biisubmiterror", "errormessage", e.getMessage());
 		}
 	}
 	@RequestMapping(value = { "/biiuploadSuccess" })
@@ -69,53 +75,6 @@ public class BIISubmissionController extends AbstractController {
 		return new ModelAndView("submitOk", "message","");
 	}
 	
-	private @Value("#{appProperties.ftpServer}") String ftpServer;
-	private @Value("#{appProperties.ftpServerMainSubDir}") String ftpServerMainSubDir;
-	private @Value("#{appProperties.ftpUser}") String ftpUser;
-	private @Value("#{appProperties.ftpPassword}") String ftpPassword;
-
-	/**
-	 * Upload a file to private FTP server.
-	 * @param file
-	 * @throws Exception
-	 */
-	private void writeFileToFTPServer(MultipartFile file) throws Exception {
-		
-		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		String userName = user.getUserName();
-
-		logger.info("Upload by user "+user.getUserId()+" "+user.getUserName());
-		logger.info("File size in bytes="+file.getBytes().length + ", file name="+ file.getOriginalFilename());
-
-		FTPClient client = new FTPClient();
-		client.setSecurity(FTPClient.SECURITY_FTPES); // enables FTPES
-		client.connect(ftpServer);
-		client.login(ftpUser, ftpPassword); 
-		client.changeDirectory(ftpServerMainSubDir);
-
-		// create if necessary a sub directory for the user (using the username)
-		boolean createSubDir=true;
-		FTPFile[] list = client.list();
-		findSubDir:
-		for (FTPFile f : list) {
-			if (f.getName().equals(userName)) {
-				createSubDir=false;
-				break findSubDir;
-			}
-		}
-		if (createSubDir) {
-			client.createDirectory(userName);
-		}
-		client.changeDirectory(userName);
-
-		// do da upload
-		client.upload(file.getOriginalFilename(),file.getInputStream(),0, 0, null);
-		client.disconnect(true);
-		
-		//TODO send an alert email to metabolights or some other destination
-
-	}
-
 
 	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
 	/**
