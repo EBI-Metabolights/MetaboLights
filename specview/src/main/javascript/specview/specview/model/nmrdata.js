@@ -132,15 +132,12 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
   	var widthScaleLimitation = 0.4;
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
   	this.transform=trans;
-  	specview.model.NMRdata.logger.info();
-  	specview.model.NMRdata.logger.info;
-    	specview.model.NMRdata.logger.info("\n\nmolecule Name: "+molecule.name);
   	    goog.array.forEach(molecule.atoms,
   	     function(atom){
   	    	var point = trans.transformCoords([ atom.coord ])[0];//point is the coordinates with pixelS
   	    	atom.setPixelCoordinates(point.x, point.y);
-  	    });	
-  	
+  	    //	specview.model.NMRdata.logger.info(point.x+"  ;  "+point.y);
+  	    });	  	
 };
 
 /**

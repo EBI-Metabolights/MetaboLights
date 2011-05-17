@@ -57,11 +57,9 @@ specview.io.SpectrumCMLParser.getDocument=function(cmlString) {
  * @param XMLdocument
  * @returns {specview.model.NMRdata()}
  */
-specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc,navigatorName){
+specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	var molToBuild=new Array();
-	
-	var IE=navigatorName=="Microsoft Internet Explorer" ? true : false;
-		
+			
     //Attributes of an Atom object
 	var atomId; var elementType; var x; var y; var charge; var hydrogenCount; 
     //Attributes of a Peak object
@@ -95,12 +93,11 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc,naviga
 	if(specview.util.Utilities.startsWith("ms",experimentType)){
 		nmrData.experienceType="ms";
 //		alert(navigatorName)
-//		alert(XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value)
-		if(IE){
-			THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value;			
-		}else{
-			THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[1].attributes[0].value;	
-		}
+//		alert(XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value);
+		try{
+			THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value;
+		}catch(err){}
+		THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[1].attributes[0].value;	
 	}else if(specview.util.Utilities.startsWith("nmr",experimentType)){
 		nmrData.experienceType="nmr";
 		try{

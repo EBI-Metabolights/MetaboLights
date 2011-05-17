@@ -290,7 +290,6 @@ specview.model.NeighborList.metaSpecToNeighbors = function(metaSpec) {
 		//atoms
 		neighbors = goog.array.concat(neighbors, goog.array.map(mol.atoms,function(a) 
 		{
-//			alert("coordinates of the atom: "+a+"\n"+a.pixelCoordinates.x+" "+a.pixelCoordinates.y);
 			return {
 				obj : a,
 				getCenter : function() {return a.coord;},//coord as it appears in the file

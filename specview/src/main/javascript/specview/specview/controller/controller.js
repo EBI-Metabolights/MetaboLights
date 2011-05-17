@@ -190,7 +190,6 @@ specview.controller.Controller.prototype.setModelsSilently = function(models) {
 
 	if (objects.length > 0) {
 		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
-//		this.logger.info("Here is the neighborlist: "+this.neighborList);
 	}
 	this.render();
 };
@@ -240,7 +239,7 @@ specview.controller.Controller.prototype.render = function() {
             widthScaleLimitation = 0.4;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
             this.moleculeRenderer.render(molecule,trans,molBox);
-            this.spectrumRenderer.render(model,trans,specBox);            	
+            this.spectrumRenderer.render(model,trans,specBox);      	
         }
     }, this);
 };

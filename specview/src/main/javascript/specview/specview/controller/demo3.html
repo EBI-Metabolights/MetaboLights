@@ -41,7 +41,7 @@ function initPage(){
 			//Create the canvas and provide it with highlight plugins
 			editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
 			editor.registerPlugin(new specview.controller.plugins.Highlight());
-			spectrumData.setCoordinatesWithPixels(editor,0)
+			spectrumData.setCoordinatesWithPixels(editor)
 
 			editor.setSpecObject(spectrumData);
 			editor.setModels([spectrumData]);

@@ -107,19 +107,21 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				}
 
 				if(currentMetaSpecObject.experienceType=="ms" && newMoleculeToDisplay!=undefined){
-					
-					goog.array.forEach(newMoleculeToDisplay.atoms,function(atom){
-						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
-					},this);
+//					alert(newMoleculeToDisplay);
+//					goog.array.forEach(newMoleculeToDisplay.atoms,function(atom){
+//						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
+//					},this);
 					
 					currentMetaSpecObject.molecule=newMoleculeToDisplay;
-					this.drawNewMolecule(currentMetaSpecObject);
+					currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
+//					alert(newMoleculeToDisplay)
+					this.drawNewMolecule(currentMetaSpecObject,this.editorObject);
 					this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 					this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 				}else if(currentMetaSpecObject.experienceType!="ms"){
-					goog.array.forEach(currentMetaSpecObject.molecule.atoms,function(atom){
-						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
-					},this);
+//					goog.array.forEach(currentMetaSpecObject.molecule.atoms,function(atom){
+//						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
+//					},this);
 					var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 					//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
 					var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
@@ -199,7 +201,8 @@ specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
  
 };
 
-specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject) {
+specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject,editor) {
+//	currentMetaSpecObject.setCoordinatesWithPixel(editor);
 	return this.editorObject.setModels([currentMetaSpecObject]);
 };
 

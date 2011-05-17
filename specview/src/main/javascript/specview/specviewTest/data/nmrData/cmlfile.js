@@ -21,21 +21,21 @@ cmlmolecules=cmlmolecules+
 "<atom id=\"a14\" elementType=\"C\" x2=\"8.98\" y2=\"-4.23\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\"/>\n" + 
 "</atomArray>\n" + 
 "<bondArray>\n" + 
-"<bond id=\"b1\" atomRefs2=\"a1 a8\" order=\"S\"/>\n" + 
-"<bond id=\"b2\" atomRefs2=\"a2 a9\" order=\"S\"/>\n" + 
-"<bond id=\"b3\" atomRefs2=\"a3 a11\" order=\"S\"/>\n" + 
-"<bond id=\"b4\" atomRefs2=\"a4 a12\" order=\"S\"/>\n" + 
-"<bond id=\"b5\" atomRefs2=\"a5 a13\" order=\"S\"/>\n" + 
-"<bond id=\"b6\" atomRefs2=\"a6 a14\" order=\"T\"/>\n" + 
-"<bond id=\"b7\" atomRefs2=\"a7 a8\" order=\"D\"/>\n" + 
-"<bond id=\"b8\" atomRefs2=\"a7 a9\" order=\"S\"/>\n" + 
-"<bond id=\"b9\" atomRefs2=\"a7 a10\" order=\"S\"/>\n" + 
+"<bond id=\"a1\" atomRefs2=\"a1 a8\" order=\"S\"/>\n" + 
+"<bond id=\"a2\" atomRefs2=\"a2 a9\" order=\"S\"/>\n" + 
+"<bond id=\"a3\" atomRefs2=\"a3 a11\" order=\"S\"/>\n" + 
+"<bond id=\"a4\" atomRefs2=\"a4 a12\" order=\"S\"/>\n" + 
+"<bond id=\"a5\" atomRefs2=\"a5 a13\" order=\"S\"/>\n" + 
+"<bond id=\"a6\" atomRefs2=\"a6 a14\" order=\"T\"/>\n" + 
+"<bond id=\"a7\" atomRefs2=\"a7 a8\" order=\"D\"/>\n" + 
+"<bond id=\"a8\" atomRefs2=\"a7 a9\" order=\"S\"/>\n" + 
+"<bond id=\"a9\" atomRefs2=\"a7 a10\" order=\"S\"/>\n" + 
 "<bondStereo dictRef=\"cml:H\"/>\n"+
-"<bond id=\"b10\" atomRefs2=\"a8 a12\" order=\"S\"/>\n" + 
-"<bond id=\"b11\" atomRefs2=\"a9 a11\" order=\"D\"/>\n" + 
-"<bond id=\"b12\" atomRefs2=\"a10 a14\" order=\"S\"/>\n" + 
-"<bond id=\"b13\" atomRefs2=\"a11 a13\" order=\"S\"/>\n" + 
-"<bond id=\"b14\" atomRefs2=\"a12 a13\" order=\"D\"/>\n" + 
+"<bond id=\"a10\" atomRefs2=\"a8 a12\" order=\"S\"/>\n" + 
+"<bond id=\"a11\" atomRefs2=\"a9 a11\" order=\"D\"/>\n" + 
+"<bond id=\"a12\" atomRefs2=\"a10 a14\" order=\"S\"/>\n" + 
+"<bond id=\"a13\" atomRefs2=\"a11 a13\" order=\"S\"/>\n" + 
+"<bond id=\"a14\" atomRefs2=\"a12 a13\" order=\"D\"/>\n" + 
 "</bondArray>\n" + 
 "<scalar dictRef=\"cdk:molecularProperty\" title=\"cdk:Remark\" dataType=\"xsd:string\">NMRShiftDB 20212360</scalar>\n" + 
 "</molecule>\n" + 

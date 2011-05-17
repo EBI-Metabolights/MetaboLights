@@ -49,6 +49,7 @@ goog.inherits(specview.view.AtomRenderer, specview.view.Renderer);
  */
 specview.view.AtomRenderer.prototype.render = function(atom, transform,
 		opt_element_array) {
+//	this.logger.info("atom : "+parseInt(atom.xPixel)+"   ,   "+parseInt(atom.yPixel));
 	this.setTransform(transform);
 	if (!opt_element_array) {
 		opt_element_array = new specview.graphics.ElementArray();
@@ -67,10 +68,10 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 	var fill = new goog.graphics.SolidFill(color);
 
 	var point = transform.transformCoords([ atom.coord ])[0];//point is the coordonates with pixelS
-//	alert(point.x+" "+point.y)
-	atom.setPixelCoordinates(point.x, point.y);
+//	var point = goog.math.Coordinate(atom.xPixel,atom.yPixel);
+//	atom.setPixelCoordinates(point.x, point.y);
+//    this.logger.info(point.x+"  vs  "+pointBis[0]+" |||| "+point.y+"   vs   "+pointBis[1]);	
 	
-    //this.logger.info("> atom point ="+point)
 	var displayElem = this.displaySettings(atom);
 	var graphics = this.graphics;
 	var w = displayElem.text.length * 0.55 * font.size;

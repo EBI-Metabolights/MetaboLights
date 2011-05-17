@@ -86,6 +86,7 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform, 
 
     goog.array.forEach(molecule.atoms,
     function(atom) {
+//    	this.logger.info(atom.xPixel+"   ,   "+atom.yPixel);
         this.atomRenderer.render(atom, transform, molecule._elements);
     },
     this);

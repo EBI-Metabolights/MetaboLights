@@ -37,7 +37,7 @@ specview.view.SingleBondRenderer = function(graphics, opt_config) {
 };
 goog.inherits(specview.view.SingleBondRenderer, specview.view.BondRenderer);
 
-
+/*
 specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
 	this.setTransform(transform);
@@ -65,5 +65,39 @@ specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 	// add the line to the bond path
 	bondPath.moveTo(coords[0].x, coords[0].y);
 	bondPath.lineTo(coords[1].x, coords[1].y);
-
+//	this.logger.info(coords[0]+"   ---->   "+coords[1]);
 };
+
+*/
+specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
+		bondPath) {
+	this.setTransform(transform);
+
+//	this.logger.info("single bond coord: "+bond.source.coord+" other: "+bond.source.pixelCoordinates)
+	
+	// the bond coordinates
+	var coords = [ bond.source.pixelCoordinates, bond.target.pixelCoordinates];
+	// bond vector
+	var bv = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.difference(coords[1], coords[0]));
+	// normalize and scale vector to length 0.2
+	bv.normalize();
+	bv.scale(this.config.get('bond')['symbol-space']);
+
+	// adjust source coord for symbol if needed
+	if (this.hasSymbol(bond.source)) {
+		coords[0] = goog.math.Coordinate.sum(coords[0], bv);
+	}
+	// adjust target coord for symbol if needed
+	if (this.hasSymbol(bond.target)) {
+		coords[1] = goog.math.Coordinate.difference(coords[1], bv);
+	}
+
+	// apply the transformation
+//	coords = transform.transformCoords( [ coords[0], coords[1] ]);
+
+	// add the line to the bond path
+	bondPath.moveTo(coords[0].x, coords[0].y);
+	bondPath.lineTo(coords[1].x, coords[1].y);
+//	this.logger.info(coords[0]+"   ---->   "+coords[1]);
+};
+
