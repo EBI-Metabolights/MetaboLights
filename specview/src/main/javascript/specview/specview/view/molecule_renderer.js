@@ -90,7 +90,7 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform, 
         this.atomRenderer.render(atom, transform, molecule._elements);
     },
     this);
-    this.renderBoundingBox(molecule_Box,'orange'); 
+//    this.renderBoundingBox(molecule_Box,'orange'); 
 
 };
 

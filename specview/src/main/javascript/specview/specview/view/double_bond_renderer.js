@@ -84,7 +84,7 @@ specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 
 	var space = bv.clone().normalize().scale(this.config.get('bond')['symbol-space']);
 
-	this.logger.info("\ndouble bond coord: "+bond.source.coord+"\nother: "+bond.source.pixelCoordinates+"\ntransformed: "+transform.transformCoords([bond.source.coord])[0])
+//	this.logger.info("\ndouble bond coord: "+bond.source.coord+"\nother: "+bond.source.pixelCoordinates+"\ntransformed: "+transform.transformCoords([bond.source.coord])[0])
 	
 	
 	if (ring) {

@@ -72,10 +72,18 @@ specview.model.NMRdata=function(){
 	this.mainSpecBox=null;
 	
 	/**
-	 * transform object
+	 * transform object.
+	 * When an atom is parsed from the file, it contains relative coordinates that usually and preferably are in the 
+	 * range [-10;10]. In ordered to be displayed to the screen, these coordinates has to be transformed according to
+	 * the parameter of the controller object.
+	 * These coordinates are transformed in the method:
+	 *  {@see specview.model.nmrData.prototype.setCoordinatesWithPixelOfMolecule}.
+	 * There we create a transform object and use it to transform the coordinate,
+	 * It is however to keep track of that transform object that we creates, because it is still used in other classes,
+	 * for instance in {@see double_bond_renderer.js}. And in order to make sure that we use make the same
+	 * transformations (e.g use the same transform object) we shall make an attribute out of it of the object nmrData.
 	 */
-	
-	this.transform=null;
+    this.transform=null;
 	
 	
 };
