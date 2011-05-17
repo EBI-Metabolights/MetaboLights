@@ -37,6 +37,10 @@ specview.view.SingleBondRenderer = function(graphics, opt_config) {
 };
 goog.inherits(specview.view.SingleBondRenderer, specview.view.BondRenderer);
 
+
+/**
+ * Rendering using the relative coordinates of the bond and using the transform object
+ */
 /*
 specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
@@ -69,6 +73,10 @@ specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 };
 
 */
+
+/**
+ * Rendering using the pixel coordinates of the bond.
+ */
 specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
 	this.setTransform(transform);
