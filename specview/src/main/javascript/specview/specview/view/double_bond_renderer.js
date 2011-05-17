@@ -65,7 +65,7 @@ specview.view.DoubleBondRenderer.pointsOnSameSideOfLine = function(p1, p2, p_lin
 };
 specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
-//	this.logger.info("double bond coord: "+bond.source.coord+" other: "+bond.source.pixelCoordinates)
+	this.logger.info("double bond coord: "+bond.source.coord+" other: "+bond.source.pixelCoordinates)
 
 	this.setTransform(transform);
 
