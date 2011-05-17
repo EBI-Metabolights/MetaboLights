@@ -238,8 +238,8 @@ specview.controller.Controller.prototype.render = function() {
             scaleFactor = 0.90; 
             widthScaleLimitation = 0.4;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
-            this.moleculeRenderer.render(molecule,trans,molBox);
-            this.spectrumRenderer.render(model,trans,specBox);      	
+            this.moleculeRenderer.render(molecule,model.transform,molBox);
+            this.spectrumRenderer.render(model,model.transform,specBox);      	
         }
     }, this);
 };

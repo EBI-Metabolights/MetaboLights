@@ -71,6 +71,12 @@ specview.model.NMRdata=function(){
 	 */
 	this.mainSpecBox=null;
 	
+	/**
+	 * transform object
+	 */
+	
+	this.transform=null;
+	
 	
 };
 

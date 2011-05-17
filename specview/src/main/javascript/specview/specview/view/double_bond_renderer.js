@@ -65,7 +65,6 @@ specview.view.DoubleBondRenderer.pointsOnSameSideOfLine = function(p1, p2, p_lin
 };
 specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
-	this.logger.info("double bond coord: "+bond.source.coord+" other: "+bond.source.pixelCoordinates)
 
 	this.setTransform(transform);
 
@@ -85,6 +84,8 @@ specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 
 	var space = bv.clone().normalize().scale(this.config.get('bond')['symbol-space']);
 
+	this.logger.info("\ndouble bond coord: "+bond.source.coord+"\nother: "+bond.source.pixelCoordinates+"\ntransformed: "+transform.transformCoords([bond.source.coord])[0])
+	
 	
 	if (ring) {
 		// check the side, invert orthogonal if needed
@@ -154,6 +155,11 @@ specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 //	this.logger.info(coords)
 	var orthogonal1 = line1.getOrthogonalLine(line2);
 
+	
+//	this.logger.info("rendering double bond at : ("+parseInt(coords[0].x)+","+parseInt(coords[0].y)+");("+
+//			parseInt(coords[1].x)+","+parseInt(coords[1].y)+");("+
+//			parseInt(coords[2].x)+","+parseInt(coords[2].y)+");("+
+//			parseInt(coords[3].x)+","+parseInt(coords[3].y))
 	bondPath.moveTo(coords[0].x, coords[0].y);//inside the ring
 	bondPath.lineTo(coords[1].x, coords[1].y);//inside the ring
 	bondPath.moveTo(coords[2].x, coords[2].y);//outside the ring
