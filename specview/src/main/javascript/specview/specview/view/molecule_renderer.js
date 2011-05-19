@@ -68,7 +68,10 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform, 
     var bondPath = new goog.graphics.Path();
 
     goog.array.forEach(molecule.bonds,
-        function(bond) { this.bondRendererFactory.get(bond).render(bond, transform, bondPath); }, this);
+        function(bond) { 
+//    	this.logger.info(bond.stereo)
+    		this.bondRendererFactory.get(bond).render(bond, transform, bondPath);
+    	}, this);
 
     var aromRingRenderer = this.aromaticityRenderer;
     goog.array.forEach(molecule.getRings(),

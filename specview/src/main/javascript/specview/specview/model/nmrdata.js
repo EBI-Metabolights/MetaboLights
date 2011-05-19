@@ -151,7 +151,16 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
   	    	var point = trans.transformCoords([ atom.coord ])[0];//point is the coordinates with pixelS
   	    	atom.setPixelCoordinates(point.x, point.y);
   	    //	specview.model.NMRdata.logger.info(point.x+"  ;  "+point.y);
-  	    });	  	
+  	    });	
+  	    
+  	    goog.array.forEach(molecule.bonds,
+  	     function(bond){
+//  	    	specview.model.NMRdata.logger.info("test(nmrdata.js)): "+bond.stereo);
+//  	    	if(bond.stereo!=10){
+ // 	    		alert(bond);
+  //	    	}
+  	    	
+  	    })
 };
 
 /**

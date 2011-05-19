@@ -22,6 +22,7 @@ cmlmolecules=cmlmolecules+
 "</atomArray>\n" + 
 "<bondArray>\n" + 
 "<bond id=\"a1\" atomRefs2=\"a1 a8\" order=\"S\"/>\n" + 
+"<bondStereo dictRef=\"cml:W\"/>\n"+
 "<bond id=\"a2\" atomRefs2=\"a2 a9\" order=\"S\"/>\n" + 
 "<bond id=\"a3\" atomRefs2=\"a3 a11\" order=\"S\"/>\n" + 
 "<bond id=\"a4\" atomRefs2=\"a4 a12\" order=\"S\"/>\n" + 
@@ -30,7 +31,6 @@ cmlmolecules=cmlmolecules+
 "<bond id=\"a7\" atomRefs2=\"a7 a8\" order=\"D\"/>\n" + 
 "<bond id=\"a8\" atomRefs2=\"a7 a9\" order=\"S\"/>\n" + 
 "<bond id=\"a9\" atomRefs2=\"a7 a10\" order=\"S\"/>\n" + 
-"<bondStereo dictRef=\"cml:H\"/>\n"+
 "<bond id=\"a10\" atomRefs2=\"a8 a12\" order=\"S\"/>\n" + 
 "<bond id=\"a11\" atomRefs2=\"a9 a11\" order=\"D\"/>\n" + 
 "<bond id=\"a12\" atomRefs2=\"a10 a14\" order=\"S\"/>\n" + 
@@ -85,6 +85,7 @@ cmlmolecules=cmlmolecules+
 "</atomArray>\n" + 
 "<bondArray>\n" + 
 "<bond id=\"b1\" atomRefs2=\"a1 a8\" order=\"S\"/>\n" + 
+"<bondStereo dictRef=\"cml:W\"/>\n"+
 "<bond id=\"b2\" atomRefs2=\"a2 a9\" order=\"S\"/>\n" + 
 "<bond id=\"b3\" atomRefs2=\"a3 a11\" order=\"S\"/>\n" + 
 "<bond id=\"b4\" atomRefs2=\"a4 a12\" order=\"S\"/>\n" + 

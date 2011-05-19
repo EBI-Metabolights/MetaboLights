@@ -80,7 +80,7 @@ specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
 	this.setTransform(transform);
-
+//	this.logger.info("bond stereo : "+bond.stereo);
 //	this.logger.info("single bond coord: "+bond.source.coord+" other: "+bond.source.pixelCoordinates)
 	
 	// the bond coordinates
