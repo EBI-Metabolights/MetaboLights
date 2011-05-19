@@ -149,5 +149,16 @@
     </sec:authentication-manager>
     <bean id="isaTabAuthenticationProvider" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
 
+    <!-- 
+    Email stuff
+     -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	  <property name="host" value="imap.ebi.ac.uk"/>
+	</bean>
 
+	<bean id="reminderTemplate" class="org.springframework.mail.SimpleMailMessage">
+	  <property name="from" value="no-reply@ebi.ac.uk"/>
+	  <property name="subject" value="Your password reminder"/>
+	</bean>
+    
 </beans>

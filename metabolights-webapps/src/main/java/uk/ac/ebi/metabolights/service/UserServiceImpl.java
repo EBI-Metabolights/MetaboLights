@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import uk.ac.ebi.metabolights.authenticate.MetabolightsUser;
 import uk.ac.ebi.metabolights.dao.UserDAO;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 
 /**
@@ -24,6 +24,11 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public MetabolightsUser lookupByName(String userName) {
 		return  userDAO.findByName(userName);
+	}
+
+	@Transactional
+	public MetabolightsUser lookupByEmail(String email) {
+		return  userDAO.findByEmail(email);
 	}
 
 }

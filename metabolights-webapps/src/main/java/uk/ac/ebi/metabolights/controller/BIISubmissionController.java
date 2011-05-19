@@ -21,12 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.authenticate.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.utils.StringUtils;
 
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacerException;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 /**
  * Controls multi part file upload as described in Reference Documentaion 3.0,

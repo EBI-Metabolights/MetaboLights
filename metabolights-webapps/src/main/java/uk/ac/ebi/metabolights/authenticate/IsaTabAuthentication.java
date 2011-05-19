@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import uk.ac.ebi.metabolights.controller.FileUploadController;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 /**
  * For ISATab authentication in the Metabolights website.<br> 

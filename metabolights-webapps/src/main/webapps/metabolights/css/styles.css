@@ -13,6 +13,7 @@ html,body {
 }
 
 
+
 /* Main structure styles (used to layout the header/footer) */
 .wrapper {
 	min-height: 100%;
@@ -176,4 +177,18 @@ html,body {
     font-size: 8px;
 }
 
+.formbox {
+    border:1px solid #D5AE60;
+    margin-top:10px;
+    padding-left:20px;
+    padding-bottom:15px;
+}
+
+.formheader{
+   background-color:#D5AE60;
+}
+
+.tableheader{
+    padding: 10px 10px 10px 10px;
+}
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/

@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.properties;
 
 import java.io.FileInputStream;
+import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -17,4 +18,11 @@ public class PropertyLookup {
 	public static String getMessage (String propertyName) {
 		return msgResources.getString(propertyName);
 	}
+
+	public static String getMessage (String propertyName, String... substitutes	) {
+		String prop= msgResources.getString(propertyName);
+		String message = MessageFormat.format(prop, substitutes);
+		return message;
+	}
+
 }

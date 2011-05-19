@@ -6,8 +6,8 @@
                </div>
 			</c:if>
 
-               <div style="margin-bottom:40px; padding-left:100px; padding-top:20px">
-                  <img src="img/litehouseLogo.png" ></img> 
+               <div style="margin-bottom:40px; padding-left:50px; padding-top:69px">
+                  <img src="img/litehouseLogoDual.png" ></img> 
                </div>
             
                <div id="text_header">

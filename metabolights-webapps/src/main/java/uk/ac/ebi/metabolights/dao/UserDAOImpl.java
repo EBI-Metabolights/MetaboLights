@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import uk.ac.ebi.metabolights.authenticate.MetabolightsUser;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 /**
  * DAO implementation for MetabolightsUsers.
@@ -33,4 +33,18 @@ public class UserDAOImpl implements UserDAO {
         	return null;
 
     }
+
+	@Override
+	public MetabolightsUser findByEmail(String email) {
+        Session session = sessionFactory.getCurrentSession();
+        Query q = session.createQuery("from MetabolightsUser where email =:e");
+        q.setString("e", email);
+        List<MetabolightsUser> list = q.list();
+        session.clear();
+
+        if (list !=null && list.size()>0)
+        	return list.get(0);
+        else
+        	return null;
+	}
 }

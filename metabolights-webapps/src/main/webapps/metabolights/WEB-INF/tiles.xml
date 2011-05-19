@@ -47,16 +47,20 @@
         <put-attribute name="body" value="/WEB-INF/jsp/biisubmit.jsp" />
     </definition>
 
-	<definition name="biisubmiterror" extends="base.definition">
-		<put-attribute name="title" value="Submission error"/>
-		<put-attribute name="body" value="/WEB-INF/jsp/biisubmiterror.jsp"/>
-	</definition>
+    <definition name="reminder" extends="base.definition">
+        <put-attribute name="title" value="Metabolights password reminder" />
+        <put-attribute name="body" value="/WEB-INF/jsp/reminder.jsp" />
+    </definition>
+
+    <definition name="biisubmiterror" extends="base.definition">
+	<put-attribute name="title" value="Submission error"/>
+	<put-attribute name="body" value="/WEB-INF/jsp/biisubmiterror.jsp"/>
+    </definition>
 
     <definition name="submitOk" extends="base.definition">
         <put-attribute name="title" value="Metabolights upload successful" />
         <put-attribute name="body" value="/WEB-INF/jsp/submitOk.jsp" />
     </definition>
-
 
     <definition name="entry" template="WEB-INF/jsp/entry.jsp"/>
 
@@ -65,5 +69,9 @@
         <put-attribute name="body" value="/WEB-INF/jsp/timeout.jsp" />
     </definition>
 
+    <definition name="createAccount" extends="base.definition">
+        <put-attribute name="title" value="Create a new account for Metabolights" />
+        <put-attribute name="body" value="/WEB-INF/jsp/createAccount.jsp" />
+    </definition>
 
 </tiles-definitions>
