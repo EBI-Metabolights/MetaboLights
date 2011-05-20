@@ -227,6 +227,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				//Create the bonds with the stereo and put it in the Array of bonds of the cmlObject
 				for(var k=0;k<lenBond;k++){
 				//	stereo=null;
+					var bondElement = bondArray.item(k);
 					if(bondArray.item(k).attributes!=null){
 //						alert(k)
 						var tag=bondArray[k].nodeName;
@@ -235,7 +236,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 								var nextTag=bondArray[k+2].nodeName;// Not very smart to proceed like this. Must be a better way.
 //								alert(k+'  '+nextTag)
 							}else{var nextTag=null;}
-							if(tag=="bond" || tag=="cml:bond"){// TO AVOID DOING USELESS OPERATIONS ON BONDSTEREO
+							var isStereo = (tag=="bondStereo") || (tag=="cml:bondStereo");
+							if(tag=="bond" || tag=="cml:bond" && !isStereo){// TO AVOID DOING USELESS OPERATIONS ON BONDSTEREO
 								for(var attributeIndice=0;attributeIndice<bondArray.item(k).attributes.length;attributeIndice++){
 									var attributeName=bondArray[k].attributes[attributeIndice].name;
 									var attributeValue=bondArray[k].attributes[attributeIndice].value;
@@ -261,37 +263,40 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 //									alert('outside')
 								}
 							}
+							if(bondElement.childNodes[1]!=undefined){
+//								alert(bondElement.childNodes[1].attributes[0].value);
+							}
 //							alert(stereo)
 							if(nextTag=="bondStereo"){//DO NOT FORGET TO ADD THE REMAING STEREOSPECIFITIY
+//								alert("stereo");
 								stereo=bondArray[k+2].attributes[0].value;
-								if(stereo=="CML:W"){
-									stereo=specview.model.Bond.STEREO.UP;
-								}else if(stereo="CML:H"){
-									stereo=specview.model.Bond.STEREO.DOWN;
-								}
+							}else if(bondElement.childNodes[1]!=undefined){
+								stereo=bondElement.childNodes[1].attributes[0].value;
 							}
-							stereo=(stereo!=null ? stereo : specview.model.Bond.NOT_STEREO);
+							switch(stereo){
+							case "cml:W":
+								stereo=specview.model.Bond.STEREO.UP;
+								break;
+							case "cml:H":
+								stereo=specview.model.Bond.STEREO.DOWN;
+								break;
+							default:
+									stereo=specview.model.Bond.STEREO.NOT_STEREO;
+							}
+							specview.io.SpectrumCMLParser.logger.info("end of the bond. Stereo = "+stereo)
+//							stereo=(stereo!=specview.model.Bond.STEREO.NOT_STEREO ? stereo : specview.model.Bond.NOT_STEREO);
 				            var currentBond=new specview.model.Bond (ArrayOfAtoms[source],ArrayOfAtoms[target],type,stereo );
 	//			            specview.io.SpectrumCMLParser.logger.info("before: "+currentBond);
-//				            stereo=null;
-	//			            specview.io.SpectrumCMLParser.logger.info("after: "+currentBond);
-				           // if(currentBond.stereo!=10){
-				           // 	alert(currentBond);
-				            //}
-				            
-//				            specview.io.SpectrumCMLParser.logger.info("in the parser: "+currentBond.stereo)
-				            
-				            ArrayOfBonds[bondId]=currentBond;
-//				            specview.io.SpectrumCMLParser.logger.info(currentBond)
-							nmrData.ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
-							stereo=null;//Reset the value of stereo!
-//							specview.io.SpectrumCMLParser.logger.info("bond: "+currentBond);	
+	//			            specview.io.SpectrumCMLParser.logger.info("in the parser: "+ArrayOfBonds[bondId])
+				            if(ArrayOfBonds[bondId]==undefined){
+				            	ArrayOfBonds[bondId]=currentBond
+								nmrData.ArrayOfBonds[bondId]=currentBond;//Set the ArrayOfBonds of the graphical object
+//								stereo=specview.model.Bond.STEREO.NOT_STEREO;//Reset the value of stereo!
+//								specview.io.SpectrumCMLParser.logger.info("bond: "+currentBond);	
+				            }	
 					}
-
-					
 				}
-				
-				
+
 				if(nmrData.experienceType=="ms"){
 //					alert(moleculeName)
 //					specview.io.SpectrumCMLParser.logger.info(moleculeName);
@@ -327,9 +332,12 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		}
 	}
 	
-	for(bond in nmrData.ArrayOfBonds){
-		specview.io.SpectrumCMLParser.logger.info(nmrData.ArrayOfBonds[bond]);
-	}
+//	alert(stereo)
+	
+//	for(bond in nmrData.ArrayOfBonds){
+//		nmrData.ArrayOfBonds[bond].stereo=specview.model.Bond.STEREO.UP;
+//		specview.io.SpectrumCMLParser.logger.info(nmrData.ArrayOfBonds[bond].stereo);
+//	}
 	
 	
 	if(nmrData.experienceType=="nmr"){
@@ -340,9 +348,13 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				nmrData.molecule.addAtom(ArrayOfAtoms[k]);	
 			}
 		}
-		for(k in ArrayOfBonds){
+		for(z in ArrayOfBonds){
 //			specview.io.SpectrumCMLParser.logger.info(ArrayOfBonds[k])
-			nmrData.molecule.addBond(ArrayOfBonds[k]);
+			var bond = ArrayOfBonds[z];
+//			var stereo = ArrayOfBonds[z][1];
+			
+//			specview.io.SpectrumCMLParser.logger.info(z + " the new stereo is :"+stereo);
+			nmrData.molecule.addBond(bond);
 		}
 	}
 //	alert(nmrData.molecule)
