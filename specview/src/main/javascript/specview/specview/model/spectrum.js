@@ -332,7 +332,7 @@ specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,
 	var ecart=rightBoundOfTheBox-minPixelValue;
 	var factor=zoom*(ecart/100);
 	
-	var ArrayOfSortedPeak=spectrum.sortXpixel();
+	var ArrayOfSortedPeak=this.sortXpixel();
 	var minPeak=this.getMinPeak();
 	minPeak.xPixel=minPixelValue+factor;
 	minPeak.xTpixel=minPixelValue+factor;
@@ -347,7 +347,8 @@ specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,
 			peak.xPixel=minPeak.xPixel;
 			peak.xPixel=minPeak.xTpixel;
 		}
-		peak.isVisible=(newPixelValue<leftBoundOfTheBox && newPixelValue>rightBoundOfTheBox) ? true : false;
+		peak.isVisible=(newXpixelValue>leftBoundOfTheBox && newXpixelValue<rightBoundOfTheBox) ? true : false;
+//		this.logger.info(newXpixelValue+"   "+leftBoundOfTheBox+"   "+rightBoundOfTheBox);
 	}
 };
 
