@@ -283,7 +283,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 							default:
 									stereo=specview.model.Bond.STEREO.NOT_STEREO;
 							}
-							specview.io.SpectrumCMLParser.logger.info("end of the bond. Stereo = "+stereo)
+//							specview.io.SpectrumCMLParser.logger.info("end of the bond. Stereo = "+stereo)
 //							stereo=(stereo!=specview.model.Bond.STEREO.NOT_STEREO ? stereo : specview.model.Bond.NOT_STEREO);
 				            var currentBond=new specview.model.Bond (ArrayOfAtoms[source],ArrayOfAtoms[target],type,stereo );
 	//			            specview.io.SpectrumCMLParser.logger.info("before: "+currentBond);
