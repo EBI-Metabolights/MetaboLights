@@ -330,15 +330,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 					ArrayOfBonds=new Array();
 				}	
 		}
-	}
-	
-//	alert(stereo)
-	
-//	for(bond in nmrData.ArrayOfBonds){
-//		nmrData.ArrayOfBonds[bond].stereo=specview.model.Bond.STEREO.UP;
-//		specview.io.SpectrumCMLParser.logger.info(nmrData.ArrayOfBonds[bond].stereo);
-//	}
-	
+	}	
 	
 	if(nmrData.experienceType=="nmr"){
 		nmrData.molecule=new specview.model.Molecule(THEMOLECULENAME);
@@ -349,15 +341,9 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			}
 		}
 		for(z in ArrayOfBonds){
-//			specview.io.SpectrumCMLParser.logger.info(ArrayOfBonds[k])
-			var bond = ArrayOfBonds[z];
-//			var stereo = ArrayOfBonds[z][1];
-			
-//			specview.io.SpectrumCMLParser.logger.info(z + " the new stereo is :"+stereo);
-			nmrData.molecule.addBond(bond);
+			nmrData.molecule.addBond(ArrayOfBonds[z]);
 		}
 	}
-//	alert(nmrData.molecule)
 	
 	var peaks=XMLdoc.getElementsByTagName("peakList")[0].childNodes;//Peaks are the same for MS and NMR
 	var lenPeak=peaks.length;
