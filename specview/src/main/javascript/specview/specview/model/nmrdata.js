@@ -28,29 +28,24 @@ goog.require('goog.debug.Logger');
  */
 
 specview.model.NMRdata=function(){
-	
 	/**
 	 * THe experience type that the file holds, e.g MS or NMR.
 	 */
 	this.experienceType="";
-
 	/**
-	 * The main molecule of the experiment.
-	 * In case of NMR, it would be the only molecule.
-	 * In case of MS, it would be the reactant molecule.
+	 * The main molecule of the experiment. In case of NMR, it would be the only molecule. In case of MS, it would 
+	 * be the reactant molecule.
 	 */
-	this.molecule=null;            // A molecule object (empty, or should just contain the name)
+	this.molecule=null;
 	/**
 	 * The only spectrum of the experiment as found in the file
 	 */
-	this.spectrum=null;            // A molecule object (empty, or should just contain the name)
-	
+	this.spectrum=null;
 	/**
 	 * Only available with MS data. Array holding all the fragment molecule of the reactant molecule
 	 * as found in the file
 	 */
 	this.secondaryMolecule=null;
-	
 	/**
 	 * These arrays are useful when dealing with NMR data.
 	 * IN NMR data, each peak is associated with at least one atom
@@ -58,19 +53,15 @@ specview.model.NMRdata=function(){
 	this.ArrayOfAtoms=new Array(); // Keys are the inner atom id. Values are the atom objects
 	this.ArrayOfBonds=new Array();
 	this.ArrayOfPeaks=new Array();
-		
 	this.ArrayOfSecondaryMolecules=new Array();//{m1:molecule1;m2:moleucle2...}
-	
 	/**
 	 * The box of the original fragment of the ms Experiment. Every other fragment has to be drawn in that box. 
 	 */
 	this.mainMolBox=null;
-	
 	/**
 	 * The box of the spectrum. Calculated according the the mainMolBox
 	 */
 	this.mainSpecBox=null;
-	
 	/**
 	 * transform object.
 	 * When an atom is parsed from the file, it contains relative coordinates that usually and preferably are in the 
