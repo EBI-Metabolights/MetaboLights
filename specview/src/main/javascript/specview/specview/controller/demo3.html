@@ -217,7 +217,6 @@ var moveSpectrum=function(move,direction){
     var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits4);
     var previousPercent=50;
     goog.events.listen(sliderMoveSpectra,'drag',function(e){
-    	alert("onvoeuvnbietubvio")
         var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
   	          e.dragger.limits.width)-100);
         if(percent<previousPercent){
