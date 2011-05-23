@@ -32,7 +32,7 @@ specview.model.Neighbor;
 
 
 /**
- * Class for locating the objects nearest to a specified coordinate.
+ *  Class for locating the objects nearest to a specified coordinate
  * 
  * <pre class="code">
  * var neighborList = new specview.model.NeighborList( [ neighbors ]);
@@ -163,8 +163,6 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
 		}
 	}
 };
-
-
 
 /**
  * 
