@@ -202,19 +202,7 @@ goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview
 
 specview.controller.Controller.prototype.render = function() {
     goog.array.forEach(this.models, function(model) {
-        if (model instanceof specview.model.Molecule) {
-            var margin = this.config.get("margin");
-            molecule=model;
-            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });
-            box = goog.math.Box.boundingBox.apply(null, atom_coords);
-            ex_box = box.expand(margin, margin, margin, margin);
-            scaleFactor = 0.95; 
-            widthScaleLimitation = 1;
-            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
-            this.moleculeRenderer.render(molecule,trans);
-        }
-        
-        
+
         if (model instanceof specview.model.NMRdata) {
             var molecule=model.molecule;
             var spectrum=model.spectrum;
@@ -224,15 +212,12 @@ specview.controller.Controller.prototype.render = function() {
             atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
             peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
             box = goog.math.Box.boundingBox.apply(null, atom_coords);
-
-            
             if(model.experienceType=="ms"){
           	    box.top=box.top-box.top;
                 box.bottom=box.bottom-box.top;
                 box.right=box.right-box.top;
                 box.left=box.left-box.top;
             }
-
             margin = 0.3;//this.config.get("margin");
             ex_box = box.expand(margin, margin, margin, margin);
             scaleFactor = 0.90; 
