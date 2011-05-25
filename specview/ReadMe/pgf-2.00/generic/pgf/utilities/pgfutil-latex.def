@@ -1,0 +1,64 @@
+% Copyright 2006 by Till Tantau
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/generic/pgf/licenses/LICENSE for more details.
+
+
+\catcode`\@=11\relax
+
+\let\pgfutil@auxout=\@auxout
+\let\pgfutil@tempcnta=\@tempcnta
+\let\pgfutil@tempcntb=\@tempcntb
+
+\def\pgfutil@definecolor{\definecolor}
+\def\pgfutil@color{\color}
+\def\pgfutil@colorlet{\colorlet}
+\def\pgfutil@extractcolorspec{\extractcolorspec}
+\def\pgfutil@convertcolorspec{\convertcolorspec}
+
+\def\pgfutil@globalcolorsfalse{\let\ifglobalcolors\iffalse}
+\def\pgfutil@globalcolorstrue{\let\ifglobalcolors\iftrue}
+
+\let\pgfutil@minipage=\minipage
+\let\pgfutil@endminipage=\endminipage
+
+\def\pgfutil@doifcolorelse#1#2#3{%
+  \expandafter\ifx\csname\string\color@#1\endcsname\relax%
+    \let\pgf@next=\pgfutil@secondoftwo%
+  \else
+    \let\pgf@next=\pgfutil@firstoftwo%
+  \fi%
+  \pgf@next{#2}{#3}%  
+}
+
+\def\pgfutil@font@tiny{\tiny}
+\def\pgfutil@font@scriptsize{\scriptsize}
+\def\pgfutil@font@footnotesize{\footnotesize}
+\def\pgfutil@font@small{\small}
+\def\pgfutil@font@normalsize{\normalsize}
+\def\pgfutil@font@large{\large}
+\def\pgfutil@font@Large{\Large}
+\def\pgfutil@font@huge{\huge}
+\def\pgfutil@font@Huge{\Huge}
+
+\def\pgfutil@font@itshape{\itshape}
+\def\pgfutil@font@bfseries{\bfseries}
+
+\def\pgfutil@font@normalfont{\normalfont}
+
+\def\pgfutil@usemodule#1{\usepackage{#1}}
+
+\let\pgfutil@selectfont=\selectfont
+
+\let\pgfutil@tempboxa=\@tempboxa
+
+\let\pgfutil@tempdima=\@tempdima
+\let\pgfutil@tempdimb=\@tempdimb
+
+\AtEndDocument{\the\pgfutil@everybye}
+
+\endinput

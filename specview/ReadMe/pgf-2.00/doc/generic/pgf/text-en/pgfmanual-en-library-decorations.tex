@@ -1,0 +1,1236 @@
+% Copyright 2008 by Mark Wibrow
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Free Documentation License.
+%
+% See the file doc/generic/pgf/licenses/LICENSE for more details.
+
+\section{Decoration Library}
+\label{section-library-decorations}
+
+
+
+\subsection{Overview and Common Options}
+
+The decoration libraries define a number of (more or less useful)
+decorations that can be applied to paths. The usage of decorations is
+not covered in the present section, please consult 
+Sections~\ref{section-tikz-decorations}, which explains how
+decorations are used in \tikzname, and
+\ref{section-base-decorations}, which  explains how new
+decorations can be defined. 
+
+The decorations are influenced by a number of parameters that can be
+set using the |decoration| option. These parameters are
+typically shared between different decorations. In the following, the
+general options are documented (they are defined directly in the
+|decoration| module), special-purpose keys are documented
+with the decoration that uses it.
+
+Since you are encouraged to use these keys to make your own
+decorations configurable, it is indicated for each key where the value
+is stored (so that you can access it). Note that some values are
+stored in \TeX\ dimension registers while others are stored in macros.
+
+\begin{key}{/pgf/decoration/amplitude=\meta{dimension} (initially 2.5pt)}
+  This key determines the ``desired height'' (or amplitude) of 
+  decorations for which this makes sense. For instance, the initial
+  value of |2.5pt| means that deforming decorations should deform a
+  path by up to 2.5pt away from the original path.
+
+  This key set the \TeX-dimension |\pgfdecorationsegmentamplitude|. 
+\end{key}
+
+\begin{key}{/pgf/decoration/meta-amplitude=\meta{dimension} (initially 2.5pt)}
+  This key determines the amplitude for a meta-decoration. 
+
+  The key set the \TeX-macro (!) |\pgfmetadecorationsegmentamplitude|.
+\end{key}
+
+\begin{key}{/pgf/decoration/segment length=\meta{dimension} (initially 10pt)}
+  Many decorations are made up of small segments. This key determines
+  the desired length of such segments. 
+
+  This key set the \TeX-dimension |\pgfdecorationsegmentlength|. 
+\end{key}
+
+\begin{key}{/pgf/decoration/meta-segment length=\meta{dimension} (initially 1cm)}
+  This determined the length of the meta-segments from which a
+  meta-decoration is made up.
+
+  This key set the \TeX-macro (!) |\pgfmetadecorationsegmentlength|. 
+\end{key}
+
+\begin{key}{/pgf/decoration/angle=\meta{degree} (initially 45)}
+  The way some decorations look like depends on a configurable angle. For
+  instance, a |wave| decoration consists of arcs and the opening angle
+  of these arcs is given by the |angle|.
+
+  This key set the \TeX-macro |\pgfdecorationsegmentangle|. 
+\end{key}
+
+\begin{key}{/pgf/decoration/aspect=\meta{factor} (initially 0.5)}
+  For some decorations there is a natural aspect ratio. For instance,
+  for a |brace| decoration the aspect ratio determines where the brace
+  point will be.
+
+  This key set the \TeX-macro |\pgfdecorationsegmentaspect|. 
+\end{key}
+
+\begin{key}{/pgf/decoration/start radius=\meta{dimension} (initially 2.5pt)}
+  For some decorations there is a natural start radius (of some circle, presumably).
+
+  This key stores the value directly inside the key.
+\end{key}
+
+\begin{key}{/pgf/decoration/end radius=\meta{dimension} (initially 2.5pt)}
+  For some decorations there is a natural radius (of some circle, presumably).
+
+  This key stores the value directly inside the key.
+\end{key}
+
+\begin{stylekey}{/pgf/decoration/radius=\meta{dimension}}
+  Sets the start and end radius simultaneously.
+\end{stylekey}
+
+
+\begin{key}{/pgf/decoration/path has corners=\meta{boolean} (initially false)}
+  This is a hint to the decoration code as to whether the path has
+  corners or not. If a path has a sharp corner, setting this option to
+  |true| may result in better rendering of the decoration because the
+  joins of input segements are approached ``more carefully'' than
+  when this key is set to false. However, if the path is, say, a
+  smooth circle, setting this key to |true| will usually look
+  worse. Most decorations ignore this key, anyway. Internally, it sets
+  the \TeX-if |\ifpgfdecoratepathhascorners|.
+\end{key}
+
+
+\subsection{Path Morphing Decorations}
+
+\begin{pgflibrary}{decorations.pathmorphing}
+  A \emph{path morphing decorations} ``morphs'' or ``deforms'' the
+  to-be-decorated path. This means that what used to be a straight
+  line might afterwards be a snaking curve and have bumps. However, a
+  line is still and a line and path deforming decorations do not
+  change the number of subpaths. For instance, if the path used to
+  consist of two circles and an open arc, the path will after the
+  decoration process still consist of two closed subpath and one open
+  subpath. 
+\end{pgflibrary}
+
+
+\subsubsection{Decorations Producing Straight Line Paths}
+
+The following deformations use only straight lines in order to morph
+the paths.
+
+\begin{decoration}{lineto}
+  This decoration replaces the path by straight lines. For each curve,
+  the path simply goes directly from the start point to the end point.
+  In the following example, the arc actually consist of two
+  subcurves.
+
+  This decoration is actually always defined when the decoration
+  module is loaded, but it is documented here for consistency.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=lineto]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+\begin{decoration}{straight zigzag}
+  This (meta-)decoration decorates the path by alternating between 
+  |curveto| and |zigzag| decorations. It always finishes
+  with the |curveto| decoration. The following parameters influence
+  the decoration:
+  \begin{itemize}
+  \item |amplitude|
+    determines how much the zig-zag lines raises above and falls below
+    a straight line to the target point.
+  \item |segment length|
+    determines the length of a complete ``up-down'' cycle.
+  \item	|meta-segment length|
+    determines the length of the |curveto| and the |zigzag| decorations.
+  \end{itemize}
+
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={straight zigzag,meta-segment length=1.1cm}]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+\begin{decoration}{random steps}
+  This decoration consists of straight line segments. The line segments
+  head towards the target, but each step is randomly shifted a little
+  bit. The following parameters influence the decorations:
+  \begin{itemize}
+  \item |segment length|
+    determines the basic length of each step.
+  \item |amplitude|
+    The end of each step is perturbed both in $x$- and in
+    $y$-direction by two values drawn uniformly from the interval
+    $[-d,d]$, where $d$ is the value of |amplitude|.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}
+    [decoration={random steps,segment length=2mm}]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+\begin{decoration}{saw}
+  This decoration looks like the blade of a saw. The following parameters
+  influence the decoration:
+  \begin{itemize}
+  \item |amplitude|
+    determines how much each spike raises above the straight line.
+  \item |segment length|
+    determines the length each spike.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=saw]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+\begin{decoration}{zigzag}
+  This decoration looks like a zig-zag line. The following parameters
+  influence the decoration:
+  \begin{itemize}
+  \item |amplitude|
+    determines how much the zig-zag lines raises above and falls below
+    a straight line to the target point.
+  \item |segment length|
+    determines the length of a complete ``up-down'' cycle.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=zigzag]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+
+\subsubsection{Decorations Producing Curved Line Paths}
+
+\begin{decoration}{bent}
+  This decoration adds a slightly bent line from the start to the
+  target. The amplitude of the bent is given |amplitude|
+  (an amplitude of zero gives a straight line). 
+  \begin{itemize}
+  \item |amplitude|
+    determines the amplitude of the bent.
+  \item |aspect|
+    determines how tight the bent is. A good value is around |0.3|. 
+  \end{itemize}
+  Note that this decoration makes only little sense for curves. You
+  should apply it only to straight lines.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=bent]
+  \draw [help lines] grid (3,2);
+  \draw [decorate] (0,0) -- (3,1) -- (1.5,2) -- (0,1);
+\end{tikzpicture}
+\end{codeexample}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={bent,aspect=.3}]
+  \draw [decorate,fill=examplefill] (0,0) rectangle (3.5,2);
+  \node[circle,draw] (A) at (.5,.5) {A};
+  \node[circle,draw] (B) at (3,1.5) {B};
+  \draw[->,decorate] (A) -- (B);
+  \draw[->,decorate] (B) -- (A);
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+\begin{decoration}{bumps}
+  This decoration replaces the path by little half ellipses. The
+  following parameters influence itL
+  \begin{itemize}
+  \item |amplitude|
+    determines the height of the half ellipse.
+  \item |segment length|
+    determines the width of the half ellipse.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=bumps]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+\begin{decoration}{coil}
+  This decoration replaces the path by a coiled line. To understand how this works,
+  imagine a three-dimensional spring. The spring's axis points along
+  the path toward the target. Then, we ``view'' the spring from a
+  certain angle. If we look ``straight from the side'' we will see a
+  perfect sine curve, if we look ``more from the front'' we will see a
+  coil. The following parameters influence the decoration:  
+  \begin{itemize}
+  \item |amplitude|
+    determines how much the coil rises above the path and falls below
+    it. Thus, this is the radius of the coil.
+  \item |segment length|
+    determines the distance between two consecutive ``curls.'' Thus,
+    when the spring is see ``from the side'' this will be the wave
+    length of the sine curve. 
+  \item |aspect|
+    determines the ``viewing direction.'' A value of |0| means
+    ``looking from the side'' and a value of |0.5|, which is the
+    default, means ``look more from the front.'' 
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=coil]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\begin{codeexample}[]
+\begin{tikzpicture}
+    [decoration={coil,aspect=0.3,segment length=3mm,amplitude=3mm}]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+
+\begin{decoration}{curveto}
+  This decoration simply yields a line following the original
+  path. This means that (ideally) it does not change the path and
+  follows any curves in the path (hence the name). In
+  reality, due to the internals of how decorations are implemented,
+  this decoration actually replaces the path by numerous small
+  straight lines.
+
+  This decoration is mostly useful in conjunction with
+  meta-decorations. It is also actually defined in the decoration
+  module and is always available.
+
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=curveto]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+
+\begin{decoration}{snake}
+  This decoration replaces the path by a line that looks like a snake
+  seen from above. More precisely, the snake is a sine wave with a
+  ``softened'' start and ending. The following parameters influence
+  the snake: 
+  \begin{itemize}
+  \item |amplitude|
+    determines the sine wave's amplitude.
+  \item |segment length|
+    determines the sine wave's wave length.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=snake]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill]
+    (0,0) -- (3,1) arc (0:180:1.5 and 1) -- cycle;
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+
+  
+\subsection{Path Replacing Decorations}
+
+\begin{pgflibrary}{decorations.pathreplacing}
+  This library defines decorations that replace the to-be-decorated
+  path by another path. Unlike morphing decorations, the replaced path
+  might be quite different, for instance a straight line might be
+  replaced by a set of circles. Note that filling a path that has been
+  replaced using one of the decorations in this library typically does
+  not fill the original area but, rather, the smaller area of the
+  newly-created path segments.
+\end{pgflibrary}
+
+\begin{decoration}{border}
+  This decoration adds straight lines the path that are at a specific
+  angle to the line toward the target. The idea is to add these little
+  lines to indicate the ``border'' or an area. The following
+  parameters influence the decoration:  
+  \begin{itemize}
+  \item |segment length|
+    determines the distance between consecutive ticks.
+  \item |amplitude|
+    determines the length of the ticks.
+  \item |angle|
+    determines the angle between the ticks and the line of the path. 
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=border]
+  \draw [help lines] grid (3,2);
+  \draw [postaction={decorate,draw,red}]
+        (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+\begin{decoration}{brace}
+  This decoration replaces a straight line path by a long brace. The
+  left and right end of the brace will be exactly on the start and
+  endpoint of the decoration. The decoration really only makes sense
+  for paths that are a straight line.
+  \begin{itemize}
+  \item |amplitude|
+    determines how much the brace rises above the path.
+  \item |aspect|
+    determines the fraction of the total length where the ``middle
+    part'' of the brace will be.  
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=brace]
+  \draw [help lines] grid (3,2);
+  \draw [decorate] (0,0) -- (3,1);
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+
+\begin{decoration}{expanding waves}
+  This decoration adds arcs to the path that get bigger along the line
+  towards the target. The following parameters influence the decoration:
+  \begin{itemize}
+  \item |segment length|
+    determines the distance between consecutive arcs.
+  \item |angle|
+    determines the opening angle below and above the path. Thus, the
+    total opening angle is twice this angle.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={expanding waves,angle=5}]
+  \draw [help lines] grid (3,2);
+  \draw [decorate] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+\begin{decoration}{ticks}
+  This decoration replaces the path by straight lines that are
+  orthogonal to the path. The following parameters influence the
+  decoration:  
+  \begin{itemize}
+  \item |segment length|
+    determines the distance between consecutive ticks.
+  \item |amplitude|
+    determines half the length of the ticks.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=ticks]
+  \draw [help lines] grid (3,2);
+  \draw [decorate] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+
+\begin{decoration}{waves}
+  This decoration replaces the path by arcs that have a constant
+  size. The following parameters influence the decoration: 
+  \begin{itemize}
+  \item |segment length|
+    determines the distance between consecutive arcs.
+  \item |angle|
+    determines the opening angle below and above the path. Thus, the
+    total opening angle is twice this angle.
+  \item |radius|
+    determines the radius of each arc.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={waves,radius=4mm}]
+  \draw [help lines] grid (3,2);
+  \draw [decorate] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+
+
+\subsection{Decorations with Shapes}
+
+\begin{pgflibrary}{decorations.shapes}
+  This library defines decorations that use shapes or shape-like
+  drawings to decorate a path. The following options are common
+  options used by the decorations in this library:
+  
+  \begin{key}{/pgf/decoration/shape width=\meta{dimension}  (initially 2.5pt)}
+    The desired width of the shapes. For decorations that support
+    varying shape sizes, this key sets both the start and end width
+    (which can be overwritten using options like |shape start width|).
+  \end{key}
+
+  \begin{key}{/pgf/decoration/shape height=\meta{dimension} (initially 2.5pt)}
+    Works like the previous key, only for the height.
+  \end{key}
+
+  \begin{key}{/pgf/decoration/shape size=\meta{dimension}}
+    Sets the desired width and height simultaneously.
+  \end{key}
+
+  For the exact places and macros where these keys store the values,
+  please consult the beginning of the code of the library.
+\end{pgflibrary}
+
+
+
+\begin{decoration}{crosses}
+  This decoration replaces the path by (diagonal) crosses. The
+  following parameters influence the decoration:  
+  \begin{itemize}
+  \item |segment length|
+    determines the distance between (the centers of) consecutive crosses.
+  \item |shape height|
+    determines the height of each cross.
+  \item |shape width|
+    determines the width of each cross.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=crosses]
+  \draw [help lines] grid (3,2);
+  \draw [decorate] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+\begin{decoration}{triangles}
+  This decoration replaces the path by triangles that point along the
+  path. The following parameters influence the decoration: 
+  \begin{itemize}
+  \item |segment length|
+    determines the distance between consecutive triangles.
+  \item |shape height|
+    determines height of the triangle side that is orthogonal
+    to the path.
+  \item |shape width|
+    determines the width of the triangle.
+  \end{itemize}
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=triangles]
+  \draw [help lines] grid (3,2);
+  \draw [decorate,fill=examplefill] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+
+\begin{decoration}{shape backgrounds}
+  This is a general decoration that replaces the to-be-decorated path by repeated
+  copies of the background path of an arbitrary shape that has
+  previously defined using the |\pgfdeclareshape| command (that is,
+  you can use any shape in the shape libraries). Please note that the
+  background path of the shapes is used, but \emph{no nodes are
+    created}. You cannot have text inside the shapes of this path, you
+  cannot name them, or refer to them. 
+
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={shape backgrounds,shape=star,shape size=5pt}]
+  \draw [help lines] grid (3,2);
+  \draw [decorate] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}
+
+\begin{codeexample}[]
+\tikzset{paint/.style={ draw=#1!50!black, fill=#1!50 },
+         decorate with/.style=
+           {decorate,decoration={shape backgrounds,shape=#1,shape size=2mm}}}
+\begin{tikzpicture}
+  \draw [decorate with=dart,      paint=red]    (0,1.5) -- (3,1.5);
+  \draw [decorate with=diamond,   paint=green]  (0,1)   -- (3,1);
+  \draw [decorate with=rectangle, paint=blue]   (0,0.5) -- (3,0.5);
+  \draw [decorate with=circle,    paint=yellow] (0,0)   -- (3,0);
+\end{tikzpicture}
+\end{codeexample}
+
+  All shapes are positioned by the anchor that is specified via the
+  |anchor| decoration option:
+
+  \begin{key}{/pgf/decoration/anchor=\meta{anchor} (initially center)}
+    The anchor used to position the shapes backgrounds.
+  \end{key}
+
+  A shape background path is added at the start point of the path and,
+  if the distance between the shapes is appropriate, at the end point
+  of the path. 
+	
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={
+      shape backgrounds,shape=regular polygon,shape size=4mm}]
+  \draw [help lines] grid (3,2);
+  \draw [thick] (0,0) -- (2,2) (1,0) -- (3,0);
+  \draw [red, decorate, decoration={shape sep=.5cm}]  (1,0) -- (3,0);
+  \draw [blue, decorate, decoration={shape sep=.5cm}] (0,0) -- (2,2);
+\end{tikzpicture}
+\end{codeexample}
+
+  Keys for cusomizing specific shapes can be specified (e.g., 
+  |star points|, |cloud puffs|, |kite angles|, and so on). The size of
+  the shape is ``enforced'' using transformations. This means that the
+  shape is typeset with an empty text box and some default size
+  values, resulting in an initial shape. This shape is then rescaled
+  using coordinate transformations so that it has the desired size
+  (which may vary as we travel along the to-be-decorated path). This
+  means that settings involving angles and distances may not appear
+  entirely accurate. More general options such as |inner sep| and
+  |minimum size| will be ignored,  but transformations can be applied
+  to each segment as described below.
+  
+\begin{codeexample}[]
+\tikzset{
+  paint/.style={draw=#1!50!black, fill=#1!50},
+  my star/.style={decorate,decoration={shape backgrounds,shape=star},
+                  star points=#1}
+}
+\begin{tikzpicture}[decoration={shape sep=.5cm, shape size=.5cm}]
+  \draw [my star=9, paint=red]                            (0,1.5) -- (3,1.5);
+  \draw [my star=5, paint=blue]                           (0,.75) -- (3,.75);
+  \draw [my star=5, paint=yellow, shape border rotate=30] (0,0) -- (3,0);
+\end{tikzpicture}
+\end{codeexample}
+
+  There are various keys to control the drawing of the shape
+  decoration. 
+  
+  \begin{key}{/pgf/decoration/shape=\meta{shape name} (initially circle)}
+    The shape whose background path is used.
+  \end{key}
+  
+  \begin{key}{/pgf/decorations/shape sep=\meta{spacing} (initially {.25cm, between centers})}
+    Set the spacing between the shapes on the decorationd path. This can be
+    just a distance on its own, but the additional keywords 
+    |between centers|, and |between borders| (which must be preceded by a 
+    comma), specify that the distance	is between the center anchors of 
+    the shapes or between the edges of the \emph{boundaries} of
+    the shape borders.
+	
+\begin{codeexample}[]
+\begin{tikzpicture}[
+    decoration={shape backgrounds,shape size=.5cm,shape=signal},
+    signal from=west, signal to=east,
+    paint/.style={decorate, draw=#1!50!black, fill=#1!50}]
+  \draw [help lines] grid (3,2);
+  \draw [paint=red, decoration={shape sep=.5cm}]
+    (0,2) -- (3,2);
+  \draw [paint=green, decoration={shape sep={1cm, between center}}]
+    (0,1) -- (3,1);
+  \draw [paint=blue, decoration={shape sep={1cm, between borders}}]
+    (0,0) -- (3,0);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+  
+  \begin{key}{/pgf/decoration/shape evenly spread=\meta{number}}
+    This key overides the |shape sep| key and forces the decoration to
+    fit \meta{number} shapes evenly across the path. 
+    If \meta{number} is less than |1|, then no shapes will be used. 
+    If \meta{number} equals |1|, then one shape is put in the middle 
+    of the path. 
+    The additional keywords |by centers| (the default, if no keyword is
+    specified) and |by borders| can be used (both preceded by a comma), 
+    to specify how the distance between shapes is determined. These
+    keywords will only have a noticable effect if the shapes sizes
+    differ over time.
+    
+\begin{codeexample}[]
+\tikzset{
+  paint/.style={draw=#1!50!black, fill=#1!50},
+  spreading/.style={
+    decorate,decoration={shape backgrounds, shape=rectangle,
+    shape start size=4mm,shape end size=1mm,shape evenly spread={#1}}}
+}
+\begin{tikzpicture}
+  \fill [paint=green,spreading={5, by borders},
+         decoration={shape scaled}]            (0,2)   -- (3,2);
+  \fill [paint=blue,spreading={5, by centers},
+         decoration={shape scaled}]            (0,1.5) -- (3,1.5);   
+  \fill [paint=red,    spreading=5]            (0,1)   -- (3,1);
+  \fill [paint=orange, spreading=4]            (0,.5)  -- (3,.5);
+  \fill [paint=gray,    spreading=1]            (0,0)   -- (3,0);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+
+  \begin{key}{/pgf/decoration/shape sloped=\opt{\meta{boolean}} (initially true)}
+    By default, shapes are rotated to the slope of the decorationd path. If 
+    \meta{boolean} is the value |false|, then this rotation is turned 
+    off. Internally this sets the \TeX-if |\ifpgfshapedecorationsloped|
+    appropriately.
+
+\begin{codeexample}[]
+\tikzset{
+  paint/.style={draw=#1!50!black, fill=#1!50}
+}
+\begin{tikzpicture}[decoration={
+    shape width=.65cm, shape height=.45cm,
+    shape=isosceles triangle, shape sep=.75cm,
+    shape backgrounds}]    
+  \draw [help lines] grid (3,2);
+  \draw [paint=red,decorate] (0,0) -- (2,2);
+  \draw [paint=blue,decorate,decoration={shape sloped=false}]
+                             (1,0) -- (3,2);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}%
+
+  It is possible to scale the width and height of the shapes across the
+  length of the decorationd path. The shapes are scaled between the starting
+  size and the ending size. The following keys customize the way the
+  decoration shapes are scaled:
+	
+  \begin{key}{/pgf/decoration/shape scaled=\meta{boolean} (initially false)}
+\begin{codeexample}[]
+\tikzset{
+  bigger/.style={decoration={shape start size=.125cm, shape end size=.5cm}},
+  smaller/.style={decoration={shape start size=.5cm, shape end size=.125cm}},
+  decoration={shape backgrounds,
+              shape sep={.25cm, between borders},shape scaled}
+}
+\begin{tikzpicture}
+  \draw [help lines] grid (3,2);
+  \fill [decorate, bigger, red!50]   (0,1) -- (3,2);
+  \fill [decorate, smaller, blue!50] (0,0) -- (3,1);
+\end{tikzpicture}
+\end{codeexample}
+
+    If this key is set to false (which is the default), then only the
+    start width and height are used. Note that the keys |shape width|
+    and |shape height| set the start and end height simultaneously.
+  \end{key}
+
+  \begin{key}{/pgf/decoration/shape start width=\meta{length} (initially 2.5pt)}
+    The starting width of the shape.
+  \end{key}%
+
+  \begin{key}{/pgf/decoration/shape start height=\meta{length} (initially 2.5pt)}
+    The starting height of the shape.
+  \end{key}%
+  
+  \begin{stylekey}{/pgf/decoration/shape start size=\meta{length}}
+    Set both the the start height and start width simultaneously.
+  \end{stylekey}%
+
+  \begin{key}{/pgf/decoration/shape end width=\meta{length} (initially 2.5pt)}
+    The recommended ending width of the shape. Note, that this is the
+    width that a shape will take only if it is drawn exactly at the end
+    of the path.
+
+
+\begin{codeexample}[]    
+\tikzset{
+  bigger/.style={decoration={shape start size=.25cm, shape end size=1cm}},
+  smaller/.style={decoration={shape start size=1cm, shape end size=.25cm}},
+  decoration={shape backgrounds,
+              shape sep={.25cm, between borders},shape scaled}
+}
+\begin{tikzpicture}
+  \draw [help lines] grid (3,2);
+  \fill [decorate,bigger,
+         decoration={shape sep={.25cm, between borders}}, blue!50] 
+    (0,1.5) -- (3,1.5);
+  \fill [decorate,smaller,
+         decoration={shape sep={1cm, between centers}},   red!50]  
+    (0,.5)  -- (3,.5);
+  \draw [gray, dotted] (0,1.625) -- (3,2)    (0,1.375) -- (3,1) 
+                       (0,1)     -- (3,.625) (0,0)     -- (3,.375); 
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}%
+
+  \begin{key}{/pgf/decoration/shape end height=\meta{length}}
+    The recommended ending height of the shape.
+  \end{key}%
+
+  \begin{stylekey}{/pgf/decoration/shape end size=\meta{length}}
+    Set both the the end height and end width simultaneously.
+  \end{stylekey}
+\end{decoration}
+
+
+
+
+
+\subsection{Text Decorations}
+
+\begin{pgflibrary}{decorations.text}
+  The decoration in this library decorates the path with some
+  text. This can be used to draw text that follows a curve.  
+\end{pgflibrary}
+
+\begin{decoration}{text along path}
+  This decoration decorates the path with text. This drawing of the
+  text is a ``side effect'' of the decoration. The to-be-decorated
+  path is only used to determine where the characters should be put
+  and it is thrown away after the decoration is done. This is why in
+  the following example no line is shown.
+	
+\begin{codeexample}[]
+\catcode`\|12
+\begin{tikzpicture}[decoration={text along path,
+    text={Some long text along a ridiculously long curve that}}] 
+  \draw [help lines] grid (3,2);
+  \draw [decorate] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}
+
+  \pgfname{} ``does its best'' to typeset the text, however you
+  should note the following points:
+  \begin{itemize}
+  \item
+    Each character in the text is typeset in a separate |\hbox|. This
+    means that if you want fancy things like kerning or ligatures you
+    will have to manually annotate the characters in the decoration 
+    text within a group, for example, |W{\kern-1ptA}TER|. 
+  \item
+    Each character is positioned using the center of its baseline. To
+    move the text vertcally (relative to the path), the additional
+    transform key should be used.
+  \item
+    No attempt is made to ensure characters do not overlap when
+    the angle between segments is considerably less than 180\textdegree{}
+    (this is tricky to do in \TeX{} without a huge processing
+    overhead). In general this should not be too much of a problem, 
+    but, once again, kerning can be used in most cases to overcome 
+    any undesirable effects.
+  \item			
+    It is only possible to typeset text in math mode under considerable
+    restrictions. Math mode is entered and exited using any character	
+    of category code 3 (e.g., in plain \TeX{} this is |$|). %$
+    Math subscripts and superscripts need to be	contained within braces 
+    (e.g., |{^y_i}|) as do commands like |\times| or |\cdot|. 
+    However, even modestly complex mathematical	typesetting is unlikely 
+    to be sucessful along a path (or even desirable).
+  \item
+    Some inaccuracies in positioning may be particularly apparent
+    at input segment boundaries. This can (unfortunately) only be solved 
+    on case by case basis by individually kerning the offending 
+    characters within a group.
+  \end{itemize}
+  
+  The following keys are used by the |text| decoration:
+  \begin{key}{/pgf/decoration/text=\meta{text}
+      (initially \normalfont empty)}
+    Set the text to typeset along the curve. 
+    Consecutive spaces are ignored, so |\ | (or |\space| in \LaTeX) 
+    should be used to insert multiple spaces.	It is possible to
+    format the text using normal formating commands, such as |\it|, |\bf|
+    and |\color|, within customisable delimiters. Initially these
+    delimiters are both {\tt\char`\|} (however, care will be needed 
+    regarding	the category codes of delimiters --- see below). 
+
+{\catcode`\|12
+\begin{codeexample}[]
+\catcode`\|12
+\begin{tikzpicture}
+  \draw [help lines] grid (3,2);
+  \path [decorate,decoration={text along path,
+           text={a big |\color{green}|green|| juicy apple.}}] 
+    (0,0) .. controls (0,2) and (3,0) .. (3,2);
+\end{tikzpicture}
+\end{codeexample}
+}
+    By following the first delimiter
+    with |+|, the formatting commands are added to any exisiting 
+    formatting.
+
+{\catcode`\|12
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \draw [help lines] grid (3,2);
+  \path [decorate,decoration={text along path,
+           text={a |\large|big |+\bf\color{red}|red|| juicy apple.}}] 
+    (0,0) .. controls (0,2) and (3,0) .. (3,2);
+\end{tikzpicture}
+\end{codeexample}
+}
+	
+    Internally, the text is stored in the macro |\pgfdecorationtext|. 
+    Any characters that have not been typeset when the end of the 
+    path has been reached will be stored in |\pgfdecorationrestoftext|.
+    
+  \end{key}
+
+{\catcode`\|12
+  \begin{key}{/pgf/decoration/text format delimiters=\marg{before}\marg{after} (initially \char`\{|\char`\}\char`\{\char`\})}
+
+    \catcode`\|13
+	
+    Set the characters that the text decoration will use to parse 
+    formatting commands. 
+    If \meta{after} is empty, then \meta{before} will be used for both
+    delimiters.
+    In general you should stick to characters	whose category codes are 
+    |11| or |12|.
+    As |+| is used to indicate that the specifed format commands 
+    are added	to any exisiting ones, you should avoid using |+| as
+    a delimiter. 
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \draw [help lines] grid (3,2);
+  \path [decorate, decoration={text along path,text format delimiters={[}{]}, 
+           text={A big [\color{red}]red[] and [\color{green}]green[] apple.}}] 
+    (0,0) .. controls (0,2) and (3,0) .. (3,2);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+}
+
+  \begin{key}{/pgf/decoration/text color=\meta{color}  (initially black)}
+    The color of the text.
+  \end{key}
+\end{decoration}
+
+
+
+
+\subsection{Mark Decorations: Adding Arrow Tips and Nodes on a Path}
+
+\begin{pgflibrary}{decorations.markings}
+  Markings are arbitrary ``marks'' that can be put on a path. Marks
+  can be arrow tips or nodes or even whole pictures. 
+\end{pgflibrary}
+
+\begin{decoration}{markings}
+  A \emph{marking} can be thought of a ``little picture'' or a more
+  precisely of ``some scope contents'' that is placed ``on'' a path at
+  a certain position. Suppose the marking should be a simple cross. We
+  can produce this with the following code:
+\begin{codeexample}[code only]
+\draw (-2pt,-2pt) -- (2pt,2pt);
+\draw (2pt,-2pt) -- (-2pt,2pt);
+\end{codeexample}
+  If we use this code as a marking at position |2cm| on a path, then
+  the following happens: \pgfname\ determines the position on the path
+  that is 2cm along the path. Then is translates the coordiante system
+  to this position and rotates it such that the positive $x$-axis is
+  tangent to the path. Then a protective scope is created, inside
+  which the above code is executed -- resulting in a little cross on
+  the path.
+
+  The |markings| decoration allows you to place one or more such
+  markings on a path. The decoration destroys the input path, which
+  means that it uses the path for determining positions on the path,
+  but after the decoration is done this path is gone. You typically
+  need to use a |postaction| to add markings.
+
+  Let us start with the above example in real code:
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={
+    markings,% switch on markings
+    mark=% actually add a mark
+      at position 2cm
+      with
+      {
+        \draw (-2pt,-2pt) -- (2pt,2pt);
+        \draw (2pt,-2pt) -- (-2pt,2pt);
+      }
+    }
+    ]
+  \draw [help lines] grid (3,2);
+  \draw [postaction={decorate}] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}  
+
+  The |mark| decoration option is used to specify a marking. It has
+  the following syntax:
+  \begin{key}{/pgf/decoration/mark=|at position|
+      \meta{pos}| with |\meta{code}}
+    The options specifies that when a |marking| decoration is applied,
+    there should be a marking at position \meta{pos} on the path whose
+    code is given by \meta{code}.
+
+    The \meta{pos} can have four different forms:
+    \begin{enumerate}
+    \item It can be a non-negative dimension like |0pt| or |2cm| or
+      |5cm/2|. In this case, it refers to the position along the path
+      that is this far removed from the start.
+    \item It can be a negative dimesion like |-1cm-2pt| or |-1sp|. In
+      this case, the position is taken from the end of the path. Thus,
+      |-1cm| is the position that is $-1$cm removed from the end of
+      the path.
+    \item It can be a dimensionless non-negative number like |1/2| or
+      |0.333+2*0.1|. In this case, the \meta{pos} is interpreted as a
+      factor of the total path lenght. Thus, a \meta{pos} or |0.5|
+      refers to the middle of the path, |0.1| is near the start, and
+      so on.
+    \item It can be a dimensionless negative number like |-0.1|. Then,
+      again, the fraction of the path length counts ``from the end.''
+    \end{enumerate}
+
+    The \meta{pos} determines a position on the path. When the marking
+    is applied, the (high level) coordinate system will have been
+    transformed so that the origin lies at this position and the
+    positive $x$-axis points along the path. For this coordinate
+    system, the \meta{code} is executed. It can contains all sorts of
+    graphic drawing commands, including (even named) nodes.
+
+    If the position position lies past the end of the path (for
+    instance if \meta{pos} is set to |1.2|), the marking will not be
+    drawn.
+
+    It is possible to give the |mark| option several times, which
+    causes several markings to be applied. In this case, however, it
+    is necessary that the positions on the path are in increasing
+    order. That is, it is not allowed (and will result in chaos) to
+    have a marking that lies earlier on the path to follow a marking
+    that is later on the path.
+
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={
+    markings,% switch on markings
+    mark=at position 1cm  with \node[red]{1cm};,
+    mark=at position .5   with \node[green]{mid};,
+    mark=at position -1cm with {\node[blue,transform shape]{1cm from end};}}
+    ]
+  \draw [help lines] grid (3,2);
+  \draw [postaction={decorate}] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}  
+
+  Here is an example that shows how markings can be used to place text
+  on plots:
+\begin{codeexample}[]
+\begin{tikzpicture}[domain=0:4,label/.style={postaction={
+      decorate,
+      decoration={
+        markings,
+        mark=at position .75 with \node #1;}}}]
+  \draw[very thin,color=gray] (-0.1,-1.1) grid (3.9,3.9);
+  
+  \draw[->] (-0.2,0) -- (4.2,0) node[right] {$x$};
+  \draw[->] (0,-1.2) -- (0,4.2) node[above] {$f(x)$};
+  
+  \draw[red,label={[above left]{$f(x)=x$}}]                       plot (\x,\x);
+  \draw[blue,label={[below left]{$f(x)=\sin x$}}]                 plot (\x,{sin(\x r)});
+  \draw[orange,label={[right]{$f(x)= \frac{1}{20} \mathrm e^x$}}] plot (\x,{0.05*exp(\x)});
+\end{tikzpicture}
+\end{codeexample}
+
+    Frequent markings that are hard to create correctly are arrow
+    tips. For them, inside the \meta{code} two special commands can be
+    useful, which are only defined in this code:
+    \begin{command}{\arrow\opt{\oarg{options}}\marg{arrow end tip}}
+      This command simply draws the \meta{arrow end tip} at the origin,
+      pointing right. This is exactly what you need when you want to
+      draw an arrow tip as a marking.
+
+      The \meta{options} can only be given when \tikzname\ is used. In
+      this case, they are executed in a scope that contains the arrow
+      tip. 
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={
+    markings,% switch on markings
+    mark=at position 1cm  with {\node[red]{1cm};},
+    mark=at position .75  with {\arrow[blue,line width=2mm]{>}},
+    mark=at position -1cm with {\arrowreversed[black]{stealth};}}
+    ]
+  \draw [help lines] grid (3,2);
+  \draw [postaction={decorate}] (0,0) -- (3,1) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}  
+   \end{command}
+    \begin{command}{\arrowreversed\opt{\oarg{options}}\marg{arrow end tip}}
+      As above, only the arrow end tip is flipped and points in the
+      other direction. 
+    \end{command}
+  \end{key}
+
+  \begin{key}{/pgf/decoration/reset marks}
+    Since |mark| options accumulate, there needs to be a way to
+    ``reset'' things, so that any |mark| options set in an enclosing
+    scope do not interfere. This option does exactly this. Note that
+    when the \meta{code} of a marking is executed, the markings are
+    automatically reset.
+  \end{key}
+\end{decoration}
+
+
+
+
+\subsection{Fractal Decorations}
+
+\begin{pgflibrary}{decorations.fractals}
+  The decorations of this library can be used to create fractal
+  lines. To use them, you typically have to apply the decoration
+  repeatedly to an originally straight path.
+\end{pgflibrary}
+
+
+\begin{decoration}{Koch curve type 1}
+  This decoration replaces a straight line by a ``rectangular bump.''
+  By repeatedly applying this replacement, different levels of the
+  Koch curve fractal can be created. Its Hausdorff dimension is $\log
+  5/\log 3$.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=Koch curve type 1]
+  \draw decorate{ (0,0) -- (3,0) };
+  \draw decorate{ decorate{ (0,-1.5) -- (3,-1.5) }};
+  \draw decorate{ decorate{ decorate{ (0,-3) -- (3,-3) }}};
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+\begin{decoration}{Koch curve type 2}
+  This decoration replaces a straight line by a ``rectangular sine.''
+  Its Hausdorff dimension is $3/2$.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=Koch curve type 2]
+  \draw decorate{ (0,0) -- (3,0) };
+  \draw decorate{ decorate{ (0,-2) -- (3,-2) }};
+  \draw decorate{ decorate{ decorate{ (0,-4) -- (3,-4) }}};
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+\begin{decoration}{Koch snowflake}
+  This decoration replaces a straight line by a ``line with a spike.''
+  Koch's snowflake's Hausdorff dimension is $\log 4/\log 3$.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=Koch snowflake]
+  \draw decorate{ (0,0) -- (3,0) };
+  \draw decorate{ decorate{ (0,-1) -- (3,-1) }};
+  \draw decorate{ decorate{ decorate{ (0,-2) -- (3,-2) }}};
+  \draw decorate{ decorate{ decorate{ decorate{ (0,-3) -- (3,-3) }}}};
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+\begin{decoration}{Cantor set}
+  This decoration replaces a straight line by a ``line with a whole in
+  the middle.'' The Hausdorff dimension of the Cantor set is $\log
+  2/\log 3$. 
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration=Cantor set,very thick]
+  \draw decorate{ (0,0) -- (3,0) };
+  \draw decorate{ decorate{ (0,-.5) -- (3,-.5) }};
+  \draw decorate{ decorate{ decorate{ (0,-1) -- (3,-1) }}};
+  \draw decorate{ decorate{ decorate{ decorate{ (0,-1.5) -- (3,-1.5) }}}};
+\end{tikzpicture}
+\end{codeexample}
+\end{decoration}
+
+
+
+
+\subsection{Footprint Decorations}
+
+
+\begin{pgflibrary}{decorations.footprints}
+  The decorations of this library can be used to decorate a path with
+  little footprints, as if someone had ``walked'' along the path.
+\end{pgflibrary}
+
+
+\begin{decoration}{footprints}
+  The footprint decoration adds little footprints around the
+  path. They start with the left foot.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={footprints,foot length=5pt,stride length=10pt}]
+  \draw [help lines] grid (3,3);
+  \fill [decorate] (0,0) -- (3,2) arc (0:180:1.5 and 1);
+\end{tikzpicture}
+\end{codeexample}
+  You can influence the way this decoration looks using the following
+  options:
+  \begin{key}{/pgf/decoration/foot length (initially 10pt)}
+    The length or size of the footprint itself. A larger value makes
+    the footprint larger, but does not change the stride length.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={footprints,foot length=20pt}]
+  \fill [decorate] (0,0) -- (3,0);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+  \begin{key}{/pgf/decoration/stride length (initially 30pt)}
+    The length of strides. This is the distance between the beginnings
+    of left footprints along the path.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={footprints,stride length=50pt}]
+  \fill [decorate] (0,0) -- (3,0);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+  \begin{key}{/pgf/decoration/foot sep (initially 4pt)}
+    The separation in the middle between the footprints. The
+    footprints are moved away from the path by half this amount.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={footprints,foot sep=10pt}]
+  \fill [decorate] (0,0) -- (3,0);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+  \begin{key}{/pgf/decoration/foot angle (initially 10)}
+    Footprints are rotate by this much.
+\begin{codeexample}[]
+\begin{tikzpicture}[decoration={footprints,foot angle=60}]
+  \fill [decorate] (0,0) -- (3,0);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+  \begin{key}{/pgf/decoration/foot of (initially human)}
+    The species whose footprints are shown. Possible values are:
+
+    \def\render#1{
+      \texttt{#1} &
+      \tikz [baseline,decoration={footprints,foot of=#1}]
+        \fill [decorate] (0,0) -- (6,0); \\[3em]
+    }
+    \begin{tabular}{ll}
+      \emph{Species} & \emph{Result} \\[1em]
+      \render{gnome}
+      \render{human}
+      \render{bird}
+      \render{felis silvestris}
+    \end{tabular}
+  \end{key}
+\end{decoration}
+
+
+
+\endinput
+
+
+

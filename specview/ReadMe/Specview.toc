@@ -1,0 +1,15 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}What does it do?}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}How do we do it?}{3}{subsection.1.2}
+\contentsline {subsubsection}{\numberline {1.2.1}Google Closure}{3}{subsubsection.1.2.1}
+\contentsline {section}{\numberline {2}The entry point}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}What does it contain?}{5}{subsection.2.1}
+\contentsline {section}{\numberline {3}Create a JavaScript Object}{6}{section.3}
+\contentsline {section}{\numberline {4}The parser}{8}{section.4}
+\contentsline {subsection}{\numberline {4.1}A few points}{8}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}SetCoordinatesWithPixel}{8}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Mapping}{11}{subsubsection.4.1.2}
+\contentsline {section}{\numberline {5}How to display everything?}{13}{section.5}
+\contentsline {section}{\numberline {6}Simple workflow}{15}{section.6}
+\contentsline {section}{\numberline {7}Highlight}{16}{section.7}

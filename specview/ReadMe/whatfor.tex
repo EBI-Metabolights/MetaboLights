@@ -1,0 +1,23 @@
+\section{Introduction}
+\subsection{What does it do?}
+The aim is to build a viewer displaying the output of a chemical experiment:
+
+-Mass Spectra experiment
+
+-NMR experiment\\
+Each output experiment provides the information about:
+
+-The molecule studied.
+
+-Its spectra.
+
+-The additional information about the condition of the experiment\\
+Hence, the viewer must \textbf{displays} the\textbf{ molecule} along with its \textbf{spectrum}. Besides, we want it to be \textbf{interactive} with the user, e.g when the user mouse over one peak, it has to \textbf{highlights} and highlights the corresponding atoms it is linked to(in the case of a \href{http://en.wikipedia.org/wiki/Nuclear\_magnetic\_resonance}{NMR experiment}) and it has to display the corresponding fragment(s) (in case of a \href{http://en.wikipedia.org/wiki/Mass\_spectrometry}{MS experiment}).
+\subsection{How do we do it?}
+The entire viewer is build with JavaScript and use the \href{http://code.google.com/closure/}{google closure library}
+
+\subsubsection{Google Closure}
+
+In summary, the Closure Library is a JavaScript library which is based on a modulable architecture. It provides cross-browser functions for DOM manipulations and events, AJAX and JSON, as well as more high-level objects such as User Interface widgets and controls.
+For instance and in our case, it provides the tools to design a canvas editor, and all the objects to have a control over this canvas.
+\clearpage

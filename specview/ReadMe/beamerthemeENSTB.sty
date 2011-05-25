@@ -1,0 +1,128 @@
+\mode 
+<beamer>
+\setbeamercolor{normal text}{bg=yellow!60}
+
+\mode
+<presentation>
+
+\setbeamercolor*{palette primary}{use=structure,fg=yellow,bg=structure.fg}
+\setbeamercolor*{palette tertiary}{use=structure,fg=yellow,bg=structure.fg!50!black}
+
+\setbeamercolor*{sidebar}{use=structure,bg=structure.fg}
+  
+\setbeamercolor*{palette sidebar primary}{use=structure,fg=structure.fg!10}
+\setbeamercolor*{palette sidebar secondary}{fg=white}
+\setbeamercolor*{palette sidebar tertiary}{use=structure,fg=structure.fg!50}
+\setbeamercolor*{palette sidebar quaternary}{fg=white}
+
+\setbeamercolor*{titlelike}{parent=palette primary}
+\setbeamercolor*{title text}{fg=blue}
+
+\setbeamercolor*{separation line}{}
+\setbeamercolor*{fine separation line}{}
+
+\setbeamercolor{block title}{use=structure,fg=yellow,bg=structure.fg!75!black}
+\setbeamercolor{block title alerted}{use=alerted text,fg=white,bg=alerted text.fg!75!black}
+\setbeamercolor{block title example}{use=example text,fg=white,bg=example text.fg!75!black}
+
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!10!bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!10!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!10!bg}
+
+\useinnertheme[shadow]{rounded}
+  
+\mode
+<all>
+
+\setbeamercolor*{date in head/foot}{parent=palette primary}
+\setbeamercolor*{section in head/foot}{parent=palette tertiary}
+
+\defbeamertemplate*{frametitle}{enstb theme}%[1][left]
+{
+  \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+  \@tempdima=\textwidth%
+  \advance\@tempdima by\beamer@leftmargin%
+  \advance\@tempdima by\beamer@rightmargin%
+  \begin{beamercolorbox}[sep=0.3cm,left,rightskip=0pt,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}%
+    \vbox{}\vskip-1ex%
+    \if@tempswa\else\csname beamer@fteleft\endcsname\fi%
+    \strut\insertframetitle\hfill\insertframenumber{} / \inserttotalframenumber\strut\par%
+    {%
+      \ifx\insertframesubtitle\@empty%
+      \else%
+      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+      \fi
+    }%
+    \vskip-1ex%
+    \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+  \end{beamercolorbox}%
+}
+
+\defbeamertemplate*{footline}{enstb theme}{}
+
+\defbeamertemplate*{headline}{enstb theme}
+{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex,center]{section in head/foot}%
+      \usebeamerfont{section in head/foot}\insertsectionnavigationhorizontal{.9\paperwidth}{}{}
+    \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\setbeamersize{text margin left=1em,text margin right=1em}
+\setbeamertemplate{navigation symbols}{}
+
+\defbeamertemplate*{title page}{mytitle}[1][]
+{
+  \vbox{}
+  \vfill
+  \begin{centering}
+    {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+    \vskip1.5em
+    \begin{beamercolorbox}[sep=8pt,center,#1]{title}
+      \usebeamerfont{title}\Huge\enstb@var@titre\par%
+      \ifx\enstb@var@soustitre\@empty%
+      \else%
+      \vskip0.25em%
+      {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\enstb@var@soustitre\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center,#1]{title text}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center,#1]{title text}
+      \usebeamerfont{institute}
+      ENST Bretagne
+    \end{beamercolorbox}
+    \vskip5em\par
+    \begin{beamercolorbox}[sep=8pt,center,#1]{title text}
+      \usebeamerfont{institute}
+      \scriptsize \enstb@var@type{} -- %
+      \ifx\enstb@var@code\@empty%
+      \enstb@var@matiere{} %
+      \else%
+      \enstb@var@code{} %
+      \fi%
+      \ifx\enstb@var@numero\@empty%
+      \else%
+      -- \enstb@var@numero{}%
+      \fi%
+        \hfill\hfill\hfill\hfill\hfill\hfill \insertdate
+    \end{beamercolorbox}
+  \end{centering}
+}
+
+\setbeamercolor*{footnote}{use=structure,fg=blue!40,bg=structure.fg}
+\renewcommand{\footnoterule}{}
+
+%%%%%%%%%%%%MEMOIRE
+
+%\setbeamercolor*{palette secondary}{use=structure,fg=yellow!10,bg=structure.fg!75!black}
+% \setbeamercolor*{palette quaternary}{fg=yellow,bg=black}
+% \setbeamercolor*{author in head/foot}{parent=palette tertiary}
+% \setbeamercolor*{title in head/foot}{parent=palette secondary}
+% \setbeamercolor*{subsection in head/foot}{parent=palette primary}
+

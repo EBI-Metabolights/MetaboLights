@@ -1,0 +1,801 @@
+2008-02-14 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixed "initial"/"accepting" distance bug.
+	- Fixed wrong intersection computation bug.
+	
+2008-02-13 Till Tantau <tantau@users.sourceforge.net>
+
+	- Added "local bounding box" option for Fabien...
+
+2008-02-12 Till Tantau <tantau@users.sourceforge.net>
+
+	- Finished chains and chain tutorial.
+	- Fixed height of rounded rectangle shape.
+	
+2008-02-11 Till Tantau <tantau@users.sourceforge.net>
+
+	- Added "auto end on length" and "auto corner on length"
+	  options to decorations.
+	- Added "if input segment is closepath" option to
+	  decorations. 
+	- Renamed "subpath" in decoration code to "inputsegment". In
+	  the pdf-specification (and in the rest of the pgf manual) a
+	  path is made up of subpath, which are started by movetos,
+	  and these in turn are made up of segments. In decorations,
+	  segments used to be called subpaths, which was too
+	  confusing... 
+	- More renaming in chains, but its stabilizing now.
+	- Started a tutorial on chains.
+	
+2008-02-10 Till Tantau <tantau@users.sourceforge.net>
+
+	- Moved chain part inside "positioning" into "chains"
+	  library. 
+	- Renamed things in the chains library, yet again and added
+	  branches.
+	- Fixed bug with "xyz of" placements.
+
+2008-02-08 Till Tantau <tantau@users.sourceforge.net>
+
+	- Renamed "placements" library to "positioning".
+	- Renamed and changed all chain commands.
+	- Added scopes library.
+	- Renamed cap and join to line cap and line join (but old ones
+	  are still available).
+
+2008-02-07 Till Tantau <tantau@users.sourceforge.net>
+
+	- Patched Makefiles according to suggestion by Hans Meine.
+	- Fixed bug: duplicate fading name in pgflibraryfadings.
+	- Fixed bug: wrong size of functional shading in dvips.
+	- Fixed bud: documentation a4paper setting.
+	- Fixed bug: Manual now compiles with tex4ht once more.
+	- Fixed bug: Manual now is hyperlinked also for dvipdfm.
+	- Fixed bug: wrong size of all shadings in svg code.
+	- Slight change in placement lib, default chain now has a
+	  name. 
+
+2008-02-07 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Removed internal asin tables as asin is now calculated from 
+	  acos tables.
+	- Misc. updates for shapes docs.
+
+
+2008-02-06 Till Tantau <tantau@users.sourceforge.net>
+
+	- Changed fit library, so that nodes are now "completely"
+	  fitted. 
+	- Changed tutorial so that fit library is now used.
+	- Added placement library and documentation.
+
+2008-02-05 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixes in snake compatibility code.
+	- Added dvipdfmx support (identical to dvipdfm).
+	- Fixed missing braces and color stack problem in
+	  shapes.logic.IEC. 
+
+2008-02-04 Till Tantau <tantau@users.sourceforge.net>
+
+	- Patched (and hopefully fixed) hyperref support.
+	- Made matrix inversion more precise.
+	- Added tutorial for geometric constructions.
+	- Fixed partway and intersection computations.
+	- Added line to circle intersection.
+
+2008-02-03 Till Tantau <tantau@users.sourceforge.net>
+	
+	- Added through library (still very simple...).
+	- Added computation of intersection of circles and tangent to
+	  a circle.
+
+2008-01-31 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Updated isosceles triangle shape. Positioning of node
+	  contents improved. Added key so minimum width and height
+	  can be applied independently
+	- Fix for trapezium shape for minimum height. This fix may
+	  ``break'' exisiting code by making any trapezium enlarged using
+	  minimum height to appear slightly wider than before. But...
+	- Added keys for trapezium so that minimum width and height
+	  can be applied independently, or to just the `body' of the
+	  trapezium. 
+
+2008-01-30 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Reimplemented shape `tape'. Anchors should behave a bit
+	  better now.
+
+2008-01-29 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixed problem with pin a relative coordinates.
+
+2008-01-27 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Added `logic gate IEC symbol color` key to change color
+	  for all symbols simultaneously.
+	- Fix for loading US and IEC shape library separately.
+	- Misc. updates for decoration docs.
+
+2008-01-26 Till Tantau <tantau@users.sourceforge.net>
+
+	- Modified calc library. Working on documentation.
+	- Added calc library and ($...$) notation for coordinates.
+
+2008-01-25 Mark Wibrow <vibrovski@users.sourceforge.net>
+	
+	- Reorganised logic shapes. Now two libraries:
+	  shapes.gates.logic.US (for `American' gates) and 
+	  shapes.gates.logic.IEC (for rectangular gates).
+	  Gates are now named `and gate US' or `and gate IEC' etc.
+	  TikZ key `use US style logic gates' and `use IEC style
+	  logic gates' set up styles so that (e.g.) `and gate' 
+	  becomes a synonym for `shape=and gate US'. See docs for
+	  details.
+
+2008-01-23 Till Tantau <tantau@users.sourceforge.net>
+
+	- Added decorations.markings.
+
+2008-01-22 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixed pgfpatharc: Fractional angles are now handled
+	  correctly. 
+	- Fixed incompatability with bm package: Changed hack to
+	  \@@end to \AtEndDocument.
+	- Changed things in the math engine to speed up things: First,
+	  \pgfmath@returnone now uses simpler and faster code. Second,
+	  some marshals in the internal math commands like
+	  \pgfmathadd@ have been removed. This makes it necessary that
+	  the second operand in a call to an internal math macro no
+	  longer uses \pgf@x or \pgf@xa and I fixed the 3 places where
+	  this was the case.
+	- Added footprint decoration and merged Marks footprints.
+	- Added buffering to the subpath mechanism. This speeds up
+	  constructions of very long paths by a factor of 10 or more. 
+	- Fixed missing declaration of \iftikz@decoratepath in
+	  tikz.code.tex. 
+
+2008-01-22 Mark Wibrow <vibrovski@users.sourceforge.net>
+	
+	- Added logic shapes library. Includes AND gate, NAND gate,
+	  OR gate, NOR gate, XOR gate, XNOR gate and NOT gate.
+
+2008-01-22 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fooled around with title page.
+	- Changed TikZ path scoping rules: Scopes no longer affect the
+	  last point on a path. This was a nuiseance before and became
+	  a real problem with decorations.
+	- Finished my move from snakes to decorations. Also finished
+	  documentation. 
+	  We are now ready for a new release!
+	
+2008-01-19 Mark Wibrow <vibrovski@users.sourceforge.net>
+	
+	- Removed \externalcode command for decoration states as
+	  persistent pre/postcomputation stuff does a similar job.	  
+
+2008-01-18 Mark Wibrow <vibrovski@users.sourceforge.net>
+	
+	- Added \externalcode command for decoration states. Allows
+	  code to be executed outside the TeX-group the state code
+	  is executed in.
+
+2008-01-17 Till Tantau <tantau@users.sourceforge.net>
+
+	- Split decoration lib into several libs. 
+	- Renamed lineto decoration to curveto decoration.
+	- Renamed many keys of decorations and snakes to shorter
+	  names.
+	- Changed the tikz setting of decoration options.
+	- No documentation yet.
+
+2008-01-17 Till Tantau <tantau@users.sourceforge.net>
+
+	- Started merging snakes and decorations. Not yet finished.
+
+2008-01-16 Till Tantau <tantau@users.sourceforge.net>
+
+	- (Partly) rewrote the tikz support for decorations. There is
+	  now a "decorate" path command:
+	  \draw ... decorate [decoration=zigzag] { (0,0) -- (1,2) };
+          This yields a much cleaner interface.
+	- There is also a decorate=true/false option that causes the
+	  whole path to be decorated.
+	- Decorated path can now contain nodes.
+	- Node paths can also be decorated now.
+	- Fixed missing \pgftransformreset inside decoration
+	  environment. 
+	
+2008-01-15 Till Tantau <tantau@users.sourceforge.net>
+
+	- Changed the decoration documentation a bit. Still not quite
+  	  perfect... 
+	- Restructured the basic layer. There is a central core (which
+	  got slightly larger) and "modules", which can be included
+	  using \usepgfmodule. All the pgfbaseXXX files are now
+	  obsolete and only included for the old ones for
+	  compatibility.
+	  The {pgf} package no longer includes the modules "pattern",
+	  "snakes" and "decorations" by default. However, these
+	  modules are loaded by their respective libraries, so,
+	  normally, no one will notice.	
+	
+2008-01-15 Mark Wibrow <vibrovski@users.sourceforge.net>
+	
+	- Fix for minimum size in ellipse split shape.
+	- Added decorations documentation.
+
+2008-01-14 Till Tantau <tantau@users.sourceforge.net>
+
+	- Coordinates like (2,3cm) are now allowed. Has the same
+	  effect as ([shift={(2,0)}]0pt,3cm), which is what everybody
+	  would expect.
+	- Moved tikz hacks inside tikzlibrarydecorations into
+	  tikz.code.tex itself.
+
+2008-01-14 Mark Wibrow <vibrovski@users.sourceforge.net>
+	
+	- Fix for save stack overflow in decorations.
+	- Renamed \pgfdecorate \endpgfdecorate, now \pgfdecoration
+	  \endpgfdecoration. Makes it more consistent with...
+	- Meta decorations! Automata that decorate the path with
+	  decoration automata! Increased fancyness! Docs soon.
+	- Removed a bunch of keys from \tikzlibrarydecorations as
+	  not really necessary.	
+
+2008-01-13 Till tantau <tantau@users.sourceforge.net>
+
+	- Changed shadow lib once more and added it to CVS.
+
+2008-01-13 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Added decorations files. Docs to follow soon(ish).
+	- Fix for `star point ratio' and `star point height'
+	  keys in star shape.
+
+2008-01-11 Till Tantau <tantau@users.sourceforge.net>
+	
+	- Added copy shadow.
+
+2008-01-10 Till Tantau <tantau@users.sourceforge.net>
+
+	- Added random steps snake.
+	
+2008-01-09 Till Tantau <tantau@users.sourceforge.net>
+
+	- Added shadow library, removed shadow shapes (no longer
+	  needed).
+	- Added preaction and postaction options (very useful).
+	- Added transform canvas option.
+	- Added scale around option.
+	- Moved tikz.code.tex to tikz/tikz.code.tex
+	- Moved .../libraries/pgflibrarytikzXXXX.code.tex to
+	  .../frontendlayer/tikz/libraries/tikzlibraryXXXX.code.tex.
+
+2007-12-20 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixed missing example bbs for dvipdfm.
+	- Fixed buggy swirl shading.
+	- Finished documentation switch from \itemoption to {key}.
+	- Changed TikZ fading options. More consistent and easier to use,
+	  now. 
+
+2007-12-20 Mark Wibrow <vibrovski@users.sourceforge.net>
+	- Added `ellipse split' shape.
+
+2007-12-17 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixed spaces problem with external graphics.
+	- Added [missing] option to supress children.
+	- Reduced number of libs includes by {shapes} to geometric,
+	  misc and symbol. Shapes is now more or less deprecated.
+	- Added shadowed shapes.
+	- Added pgfsys-xetex for native xetex support.
+	- Added documentation hint on scoping inside \foreach.
+	- Fixed bug [1620194] "tikz library mindmap requires trees"
+	- Fixed bug [1787504] "Usage of \@namelet in xxcolor.sty clases with memoir."
+	- Fixed bug [1809693] "background rectangle is scaled".
+	
+2007-12-13 Till Tantau <tantau@users.sourceforge.net>
+
+	- Added fadings.
+	- Added functional shadings.
+	- Fixed bug in double drawing with arrows.
+
+2007-11-24 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Fix for all math functions with two arguments.
+	- Fix for tikz when y-coordinate is a function within braces.
+	- Fix for distance calculation in shape snake.
+	- Added `cloud callout' shape.
+	- cloud shape can now use (or ignore) `aspect' key.
+	- More key updates/fixes for shapes.
+	
+2007-11-23 Till Tantau <tantau@users.sourceforge.net>
+	
+	- Corrected minimum size of a diamond shape (was twice the
+	  correct size -- this may break existing code, but that cannot
+	  be avoided!).
+	- Changed some more documentation from \itemoption to {key}s. Not
+ 	  yet finished.
+	
+2007-11-19 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Updated math documentation. Code examples now consistent with
+	  the rest of the manual.
+
+2007-11-12 Till Tantau <tantau@users.sourceforge.net>
+	
+	- Fixed hyperref-dvipdfm-problem.
+	
+2007-11-10 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Updated cloud shape for minimum size calculations.
+	- Reimplemented rounded rectangle. Now supports concave arcs.
+	- Removed all stuff for Fancy hyperlinked picture of shapes.
+
+2007-11-07 Till Tantau <tantau@users.sourceforge.net>
+	
+	- \foreach will now allow a macro name to be given as list
+	  argument (as in \foreach \x in \mylist {...})
+	
+2007-10-29 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixed keys problem when .try is used with a comma.
+	
+2007-10-28 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Fixed shape snake for drawing to other pictures.
+	- Added shapes `arrow box' shape, `rectangle callout` and 
+	  `ellipse callout'.
+
+2007-10-26 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixed dvipdfm problem with hyperref.
+
+2007-10-13 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- pgfbasesnakes: changed length calculation and added angle calculation.
+	- added `shape snake' to snake library.
+	- added cylinder shape to geometric shapes.
+	- renamed `bevelled rectangle'. Now called `chamfered rectangle'.
+	- renamed pgfsavepgf@process. Now called pgfextract@process. 
+
+2007-10-12 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Fixed bug #1803811 gobbling of tokens after \pgfmathaddtocounter.
+	- Fixed insertion of spaces after \pgfmath stuff.
+	- Fixed bug #1811862.
+
+2007-09-19 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+        - Fix for cot and tan. Now correctly return negative values.
+        - Added `...head indent' option for single and doube arrow
+          shapes (allows the arrowheads to look more `fancy').
+        - Updated tikzshapes.geometric and tikzshapes.symbols so
+          the incircle border construction can be used in TikZ
+          if libraries are loaded separately.
+        - Misc. fixes and updates for shapes doc.
+
+2007-09-18  Mark Wibrow <vibrovski@users.sourceforge.net>
+
+        - Fixed isosceles triangle, circular sector and circle split
+          for `text width' key.
+        - Fixed star, cloud and rectangle shape for using anchors for
+          positioning.
+        - New shapes:Rectangle split, rounded rectangle,
+          bevelled rectangle, tape, signal, single arrow and double arrow.
+        - Fancy hyperlinked picture of all shapes added to shape lib. doc.
+        - Updated math doc.
+        - Fix for square root.
+        - Fix for parsing negative box dimensions.
+        - (Yet another) division version.
+
+
+2007-08-20  Mark Wibrow <vibrovski@users.sourceforge.net>
+	- Added cloud shape.
+	- Updated all shapes (and doc.) for pgfkeys.
+	- Changed Kite key: Now use (e.g.) '/pgf/kite vertex angles=60 and 70' (see doc.)
+	- Added keys /pgf/shape aspect and /pgf/shape aspect inverse, (but \pgfsetshapeaspect
+	  and, TikZ option `apsect' are still there for compatability).
+	- Updated diamond shape (and doc.) to use keys.
+	-`Housekeeping' stuff (moved some macros around).
+
+
+2007-08-10 Mark Wibrow <vibrovski@users.sourceforge.net>
+  
+	- Trapezium shape updated. No longer uses left and right 
+	  extensions. Uses internal angles instead.
+        - Updated pgfkeys for shapes (not done \pgfsetshapeaspect for
+	  diamond shape)
+
+2007-08-09 Mark Wibrow <vibrovski@users.sourceforge.net>
+  
+        - Added new starburst shape to misc shapes.
+        - Updated all shapes to pgfkeys.
+
+2007-08-08 Till Tantau <tantau@users.sourceforge.net>
+
+	- Added fitting library.
+
+2007-07-28 Mark Wibrow <vibrovski@users.sourceforge.net>
+  
+        - Fixed parser for expressions beginning with groups
+          preceeded by signs e.g. -(4+3)
+        - This also fixes problem in TikZ when specifiying coordinates
+          contatining groups. Coordinates in the form (1, {(2+3)}) will
+          work even if there are spaces after the comma.
+
+2007-07-23 Till Tantau <tantau@users.sourceforge.net>
+
+	- Started to use new pgfkeys also in pgf. In particular,
+	  commands like \pgfsetshape... are now replaced by keys.
+	  (Not yet finished.)
+	
+2007-07-21 Mark Wibrow <vibrovski@users.sourceforge.net>
+  
+	- Added new geometric shape: `circular sector'.
+	- Updated pgfbaseshapes.code.tex for saved macro support.
+
+2007-07-12 Till Tantau <tantau@users.sourceforge.net>
+
+	- Added overlay functionality to \node.
+	- Added pgfkeys and its documentation.
+
+2007-07-10 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Updated all `new' geometric shapes: polygon, star, trapezium,
+	  semicircle, isosceles triangle, kite, dart.
+	- `isosceles triangle' and `simple isosceles triangle' combined
+	  into one shape.
+	- more accurate anchor positioning in polygon and star shapes.
+	- Added `shape border uses incircle' option for supporting shapes.
+	- Added `shape border rotate' option for supporting shapes.
+
+2007-07-04 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Added support for sec, cosec and cot.
+
+2007-07-03 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixed missing compatibility \pgfsincos
+	- Fixed wrong \pgfmathsincos
+
+2007-06-23 Mark Wibrow <vibrovski@users.sourceforge.net>
+
+	- Added semicircle shape.
+	- Updated documentation for all new shapes.
+
+2007-06-22 Mark Wibrow <vibrovski@users.sourceforge.net>
+  
+	- Added support for savedmacros in \pgfdeclareshape.
+	- Added trapezium shape.
+	- Added support for `legacy' calc code (\real, \minof, \maxof, \ratio).
+	- Fixed 'public' sqrt macro in \pgfmathoperations.code.tex
+	- Added isosceles triangle shape: uses incircle, but supports arbitrary 
+	  rotation of border.
+	- Added simple isosceles triangle shape: much tighter fit of node 
+	  contents, but restricted rotation of border.
+
+2007-06-21 Till Tantau <tantau@users.sourceforge.net>
+
+	- Fixed text width problem in matrix of nodes.
+
+2007-01-18 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 1.18:
+
+	- Added regular polygon and star shapes (by Mark Wibrow).
+	- Added graphic externalization commands.
+	- Added barycentric coordinate system.
+	- Added direct TikZ plotting of function based on math engine.
+	- Added math documentation into main documentation.
+	- Added Mark Wibrow's math library. 
+	- Added calendar support.
+	- Added matrix stuff.
+	- Added automatic driver selection for xetex.
+	- Added "growth parent anchor" option.
+	- Fixed superfluous spaces in quick math parse code
+	- Fixed superfluous \newboxes in math and image code
+	- Fixed mth parser to recognize \wd\mybox. 
+	- Fixed wrong \pgfmathsetrandomseed
+	- Fixed wrong \pgfmathradians@
+	- Fixed problems with long mantissa and plain tex math code.
+	- Fixed things so that \setlength works in pictures, once
+	  more. 
+	- Fixed selectfont problem in pdfsys-dvipdfm.def
+	- Fixed problem with lost lastx/lasty in foreach in TikZ.
+	- Fixed snake+rectangle+transform problem.
+	- Fixed rectangle+rounded corner problem.
+	- Fixed postscrip eofill1 problem.
+	- Fixed amsmath/pgf clash because of wrong definition of \:
+	- Fixed size of hyperlinks inside nodes.
+	- Fixed ConTeXt problem in pgfbaseplot.
+	- Fixed .aux problems in plain and ConTeXt mode. Using .pgf as
+	  extension now.
+
+2006-10-26 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 1.10:
+
+	- Renamed \pgf@sys@pdf@mark to \pgfsyspdfmark.
+	- Fixed the ConTeXt support so that it is usable (which is wasn't).
+	
+2006-10-11 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 1.09:
+
+	- Added \usepgflibrary and \usetikzlibrary to simplify adding
+	  new libraries.
+	- Added native ConTeXt support in the form of module
+	  wrappers.
+	- Added patterns.
+	- Added crosses snake.
+	- Added to and edge path operations.
+	- Added to path library. In particular, this gives decent
+	  curved paths. 
+	- Added tikz automata library.
+	- Added tikz er diagram library.
+	- Added tikz Petri net library.
+	- Added tikz mindmap library.
+	- Added access to nodes in other pictures (!).
+	- Added extended baseline setting.
+	- Added functionality to add new coordinate systems.
+	- Added polar xy coordinate system.
+	- Added diamond shape (!).
+	- Added plot mark phase, repeat and indices.
+	- Added text height and text depth options.
+	- Added label and pin options.
+	- Added automatic node placement (!). 
+	- Added pgfsys-dvi.def for pure dvi mode. Supports only
+	  black and white drawing (not documented and not really usable).
+	- Added 3d library (not documented and not really usable).
+	- Cleared up license chaos.
+	- Reorganized library documentation.
+	- Removed pgflibraryautomata, use pgflibrarytikzautomata instead.
+	- Fixed tree level option bug.
+	- Fixed missing options for coordinates.
+	- Fixed bug in TikZ parabola code.
+	- Fixed bug in TikZ snake cycle code.
+	- Fixed bug with empty list in pgffor
+	- Fixed bug in code for insertion of dvips header specials.
+	- Fixed bug in shading code (wrong bigpoint correction).
+	- Fixed bug #1472666.
+	- Fixed bug #1473255.
+	- Fixed bug #1526175.
+	- Fixed bug #1542512.
+	- Fixed bug in TikZ transformation code for nested pictures.
+	- Fixed patch #1443606.
+	- Fixed path #1526178.
+	
+2005-11-16 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 1.01:
+
+	- Added textures support.
+	- Added text opacity option.
+	- Fixed bug in pgfbasesnakes.code.tex causing lot's of
+	  'missing = in nullfont' message in log file.
+	- Fixed bug that made plain tex mode unusable.
+	- Fixed missing pgfsys-vtex.def in FILES.
+	- Fixed wrong box placements in compatibility mode.
+	- Fixed SVG support to create legal xml.
+	- Moved documentation to doc/generic/pgf.
+
+2005-10-23 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 1.00:
+
+	- There have not been any real changes since 0.99.
+	
+	
+2005-10-11 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 0.99:
+
+	- Added vtex support (finally!).
+	- Added multi part mechanism to nodes.
+	- Added very simple pgflibraryautomata.
+	- Changed coordinate shape such that it now never produces a
+	  text label.
+	- Renamed \pgfshapebox to \pgfnodeparttextbox (made necessary
+	  by the node part mechanism).
+
+2005-09-20 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 0.98:
+
+	- Added transparency to PGF (quite nice...).
+	- Added foreach option to child path operation (also nice...).
+	- Fixed problem with \\ in centered text.
+	- Fixed problem with hyperlinks in nodes.
+	- Fixed wrong arrows in trees.
+
+2005-09-08 Till Tantau <tantua@users.sourceforge.net>
+
+	Version 0.97:
+
+	- Reorganised directory structure of documentation.
+	- Added tree mechanism.
+	- Added snake mechanism.
+	- Added layer mechanism.
+	- Added new shapes: cross out, strike out, forbidden sign.
+	- Added some more documentation.
+	- Added "none" drawing and filling colors.
+	- Added pgflibrarytikzbackgrounds.
+	- Changed syntax of \pgfqbox.
+	- Changed syntax of several \pgfsys@xxxx commands.
+	- Added SVG support / a tex4ht backend. (Complicated text
+  	  inside svg graphics is not supported well, but that's mainly
+	  a shortcoming of the svg specification.)
+
+2005-07-06 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 0.96:
+
+	This is a beta version. Version 1.00 will be the first stable
+	version of TikZ/pgf.
+	
+	- Fixed spacing problem in dvips.
+	- Changed syntax of plot and plot marks.
+	- Changed syntax of ellipse and elliptical arc options.
+	- Fixed baseline bug in tikz.
+	- Fixed bug in pgfpages.
+	- Introduced "every xxxx" styles, got rid of shape actions option.
+	- Added "intersection of" syntax for coordinates.
+	- Started revising the documentation.
+	- Changed names of some pgfpages commands.
+	- Changed syntax of parabola command.
+	- Proof read documentation.
+
+2005-06-12 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 0.95:
+
+	This is an *alpha* prerelease version. Syntax changes
+	are still possible before the beta version. Version 1.00
+	will be the stable version.
+
+	Changes (this is almost a new program):
+	- Introduced three layers: system, basic, frontends.
+	- Wrote two frontends: TikZ (*most* useful!) and pgfpict2e (a
+	  demonstration).
+	- Largely rewrote the basic layer.
+	- Largely rewrote the system layer.
+	- Completely rewrote the documentation.
+	- Added two utilities: pgfpages and pgffor.
+	- Made macro naming more consistent.
+	- Added plain tex support.
+	- Added dvipdfm support.
+	- Restructured directory structure.
+	- Zillions of small bugfixes.
+	
+2004-10-20 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 0.65:
+	- Fixed bug in pgfshade.sty that arises in conjunction with
+	  calc.sty and latex+dvips.
+
+2004-10-08 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 0.64:
+	- Fixed missing depth of \pgfnodebox.
+	- Fixed bug that caused infinite stack loop with pictures inside
+	  nodes. 
+
+2004-07-08 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 0.63:
+	- Added \pgfextractx, \pgfextracty, \pgfcorner.
+	- Added some documentation on masks and images.
+	- Fixed a somewhat obscure bug having to do with the modification
+	  of \spaceskip.
+	- \pgfex and \pgfem no loner needed. Use 1ex etc. once more.
+	- calc.sty is now supported.
+
+2004-07-06 Till Tantau <tantau@users.sourceforge.net>
+
+	Version 0.62:
+	- Fixed problem in xxcolor with option "gray" and xcolor.
+	- Switched to xcolor version 2.00.
+	- Added eofill and eofillstroke commands.
+	- Added option to shadings, so that they are automatically
+	  recalculated upon color changes.
+	- Changed names of example images to start with pgf.
+
+2004-04-07 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.61:
+	- Added \pgfex and \pgfem dimensions.
+	- Fixed bug that causes pgfshade to fail to work if xcolor 
+	  is called with option "gray".
+	- Fixed PostScript code for radial shadings.
+	- xxcolor now works with xcolor 1.10 (and only 1.10).
+
+2004-02-18 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.60:
+	- Replaced some commands for the postscript code by shorter
+	  versions for smaller file size.
+	- Fixed bug in pgfbox command that caused incorrect kerning in
+	  postscript output.
+	- Fixed bug in pgfsys@defineimage that made page inclusion
+	  impossible. 
+	- Fixed bug in pgfshading that did not reset dash patterns in
+	  shadings in the PostScript version. 
+	- Spaces are now allowed inside the pgfpicture environment.
+	- Added \pgfgrid command.
+	
+2004-01-13 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.50:
+	- Switched to version 1.06 of xcolor.
+	- Core pgf no longer relies on xxcolor.
+	- The syntax of the mechanism for choosing alternate images and
+	  shadings is more flexible now. The syntax has been changed
+	  (mainly, you now have to have a dot between the original name and
+	  the alternate extension).
+	- Some xxcolor commands have been removed.
+	
+2003-12-02 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.43:
+	- Fixed \normalcolor, so that it works also in preamble.
+
+2003-11-20 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.42:
+	- Documented masks.
+	- Fixed bug in pgf.sty for nested pictures.
+
+2003-11-18 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.41:
+	- Added masks (not yet documented).
+
+2003-11-12 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.40:
+	- Changed syntax of \pgfdeclareimage. Uses key=value scheme
+	  now. All parameters may now be omitted. 
+	- Added \pgfimage command.
+	- Option for selecting a specific page from an image file.
+	- Fixed bug in xxcolor.sty having to do with \@ifempty command.
+	- Reworked the formatting of the user's guide.
+
+2003-10-29 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.34:
+	- Shadings now work together with color mix-ins.
+	- Shadings can now take color names as parameters.
+	
+2003-10-24 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.33:
+	- Fixed problem with missing \leavevmode in \pgfuseimage.
+	- Reworked code for image inclusion. 
+	- "Draft" option is now supported. Supresses reading of images. 
+	- Added xxcolor package.
+	- pgfpictures will now inherit the color from their surroundings.
+
+2003-10-20 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.32:
+	- Updated installation procedure information.
+
+2003-09-18 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.31:
+	- One parameter for \pgfdeclareimage may now be omitted. It will
+	  be computed automatically.
+	
+2003-08-21 Till Tantau <tantau@cs.tu-berlin.de>
+
+	Version 0.30:
+	- Created ChangeLog
+	- Added pgfshade.sty
+	
+

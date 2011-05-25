@@ -1,0 +1,143 @@
+% Copyright 2006 by Till Tantau
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/generic/pgf/licenses/LICENSE for more details.
+
+\ProvidesFileRCS[v\pgfversion] $Header: /cvsroot/pgf/pgf/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfolding.code.tex,v 1.1 2008/01/09 17:57:16 tantau Exp $
+
+
+%
+% Length of a standard line in a folding
+% 
+
+\tikzoption{folding line length}{\pgfmathsetlength\tikz@lib@fold@length{#1}}
+\newdimen\tikz@lib@fold@length
+\tikz@lib@fold@length=2cm
+
+
+\def\tikz@lib@fold@pentagon#1#2#3#4#5#6{%
+  \begin{scope}[xshift=.5\tikz@lib@fold@length,yshift=0.68819\tikz@lib@fold@length]
+    #1
+  \end{scope}
+  \begin{scope}[shift={(108:\tikz@lib@fold@length)},shift={(36:\tikz@lib@fold@length)},rotate=-36]
+    #2
+  \end{scope}
+  \begin{scope}[xshift=\tikz@lib@fold@length,shift={(72:\tikz@lib@fold@length)},rotate=-108]
+    #3
+  \end{scope}
+  \begin{scope}[xshift=\tikz@lib@fold@length,rotate=180]
+    #4
+  \end{scope}
+  \begin{scope}[rotate=108]
+    #5
+  \end{scope}
+  \begin{scope}[shift={(108:\tikz@lib@fold@length)},rotate=36]
+    #6
+  \end{scope}
+}
+
+
+\def\tikz@lib@fold@path{\draw[every fold](0,0) -- (\tikz@lib@fold@length,0pt);}
+\def\tikz@lib@fold@cut@path{\draw[every cut](0,0) -- (\tikz@lib@fold@length,0pt);}
+\def\tikz@lib@fold@ear@path{
+  \draw[every fold](0,0) -- (\tikz@lib@fold@length,0pt);
+  \draw[every cut] (0,0) -- (.5\tikz@lib@fold@length,.2\tikz@lib@fold@length) --(\tikz@lib@fold@length,0pt);}
+
+\tikzstyle{every cut}=[]
+\tikzstyle{every fold}=[help lines]
+
+\tikzoption{face 1}{\def\tikz@lib@fold@face@A{#1}}
+\tikzoption{face 2}{\def\tikz@lib@fold@face@B{#1}}
+\tikzoption{face 3}{\def\tikz@lib@fold@face@C{#1}}
+\tikzoption{face 4}{\def\tikz@lib@fold@face@D{#1}}
+\tikzoption{face 5}{\def\tikz@lib@fold@face@E{#1}}
+\tikzoption{face 6}{\def\tikz@lib@fold@face@F{#1}}
+\tikzoption{face 7}{\def\tikz@lib@fold@face@G{#1}}
+\tikzoption{face 8}{\def\tikz@lib@fold@face@H{#1}}
+\tikzoption{face 9}{\def\tikz@lib@fold@face@I{#1}}
+\tikzoption{face 10}{\def\tikz@lib@fold@face@J{#1}}
+\tikzoption{face 11}{\def\tikz@lib@fold@face@K{#1}}
+\tikzoption{face 12}{\def\tikz@lib@fold@face@L{#1}}
+
+\let\tikz@lib@fold@face@A=\pgfutil@empty
+\let\tikz@lib@fold@face@B=\pgfutil@empty
+\let\tikz@lib@fold@face@C=\pgfutil@empty
+\let\tikz@lib@fold@face@D=\pgfutil@empty
+\let\tikz@lib@fold@face@E=\pgfutil@empty
+\let\tikz@lib@fold@face@F=\pgfutil@empty
+\let\tikz@lib@fold@face@G=\pgfutil@empty
+\let\tikz@lib@fold@face@H=\pgfutil@empty
+\let\tikz@lib@fold@face@I=\pgfutil@empty
+\let\tikz@lib@fold@face@J=\pgfutil@empty
+\let\tikz@lib@fold@face@K=\pgfutil@empty
+\let\tikz@lib@fold@face@L=\pgfutil@empty
+
+\def\tikzfoldingdodecahedron#1[#2]#3;{%
+  \begingroup%
+    \tikzset{#2}%
+    \tikz@lib@fold@pentagon{\tikz@lib@fold@face@A}
+    {
+      \tikz@lib@fold@pentagon{\tikz@lib@fold@face@B}
+      {
+        \tikz@lib@fold@pentagon{\tikz@lib@fold@face@C}{\tikz@lib@fold@ear@path}{\tikz@lib@fold@ear@path}{\tikz@lib@fold@path}{\tikz@lib@fold@ear@path}{\tikz@lib@fold@ear@path}
+      }
+      {\tikz@lib@fold@ear@path}
+      {\tikz@lib@fold@path}
+      {\tikz@lib@fold@ear@path}
+      {\tikz@lib@fold@ear@path}
+    }
+    {
+      \tikz@lib@fold@pentagon{\tikz@lib@fold@face@D}
+      {
+        \tikz@lib@fold@pentagon{\tikz@lib@fold@face@E}{\tikz@lib@fold@ear@path}{\tikz@lib@fold@ear@path}{\tikz@lib@fold@path}{\tikz@lib@fold@cut@path}{\tikz@lib@fold@ear@path}
+      }
+      {\tikz@lib@fold@ear@path}
+      {\tikz@lib@fold@path}
+      {\tikz@lib@fold@cut@path}
+      {\tikz@lib@fold@cut@path}
+    }
+    {
+      \tikz@lib@fold@pentagon{\tikz@lib@fold@face@F}
+      {
+        \tikz@lib@fold@pentagon{\tikz@lib@fold@face@G}{\tikz@lib@fold@ear@path}{\tikz@lib@fold@ear@path}{\tikz@lib@fold@path}{\tikz@lib@fold@cut@path}{\tikz@lib@fold@ear@path}
+      }
+      {\tikz@lib@fold@ear@path}
+      {\tikz@lib@fold@path}
+      {\tikz@lib@fold@cut@path}
+      {\tikz@lib@fold@cut@path}
+    }
+    {
+      \tikz@lib@fold@pentagon{\tikz@lib@fold@face@H}
+      {
+        \tikz@lib@fold@pentagon{\tikz@lib@fold@face@I}{\tikz@lib@fold@ear@path}{\tikz@lib@fold@ear@path}{\tikz@lib@fold@path}{\tikz@lib@fold@cut@path}{\tikz@lib@fold@ear@path}
+      }
+      {\tikz@lib@fold@ear@path}
+      {\tikz@lib@fold@path}
+      {\tikz@lib@fold@cut@path}
+      {\tikz@lib@fold@cut@path}
+    }
+    {
+      \tikz@lib@fold@pentagon{\tikz@lib@fold@face@J}
+      {
+        \tikz@lib@fold@pentagon{\tikz@lib@fold@face@K}
+        {\tikz@lib@fold@cut@path}
+        {\tikz@lib@fold@cut@path}
+        {\tikz@lib@fold@path}
+        {\tikz@lib@fold@cut@path}
+        {
+          \tikz@lib@fold@pentagon{\tikz@lib@fold@face@L}{\tikz@lib@fold@cut@path}{\tikz@lib@fold@cut@path}{\tikz@lib@fold@path}{\tikz@lib@fold@cut@path}{\tikz@lib@fold@cut@path}
+        }
+      }
+      {\tikz@lib@fold@cut@path}
+      {\tikz@lib@fold@path}
+      {\tikz@lib@fold@cut@path}
+      {\tikz@lib@fold@cut@path}
+    }
+  \endgroup
+}
+  
+

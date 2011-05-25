@@ -1,0 +1,918 @@
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2010.5.17)  25 MAY 2011 10:51
+entering extended mode
+ %&-line parsing enabled.
+**Specview.tex
+(./Specview.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8h> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/article.cls
+Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
+(/usr/share/texmf-texlive/tex/latex/base/size12.clo
+File: size12.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf-texlive/tex/generic/babel/babel.sty
+Package: babel 2005/11/23 v3.8h The Babel package
+
+(/usr/share/texmf-texlive/tex/generic/babel/english.ldf
+Language: english 2005/03/30 v3.3o English support from the babel system
+
+(/usr/share/texmf-texlive/tex/generic/babel/babel.def
+File: babel.def 2005/11/23 v3.8h Babel common definitions
+\babel@savecnt=\count87
+\U@D=\dimen103
+)
+\l@british = a dialect from \language\l@english 
+\l@UKenglish = a dialect from \language\l@english 
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
+))
+(/usr/share/texmf/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/share/texmf/tex/latex/pgf/basiclayer/pgf.sty
+(/usr/share/texmf/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks14
+)
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfutil-latex.def)
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfrcs.code.tex
+Package: pgfrcs 2008/02/20 v2.00 (rcs-revision 1.21)
+))
+Package: pgf 2008/01/15 v2.00 (rcs-revision 1.12)
+
+(/usr/share/texmf/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 90.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2007/01/08 v0.04d Graphics/color for pdfTeX
+\Gread@gobject=\count88
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+(/usr/share/texmf/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2008/02/07 v2.00 (rcs-revision 1.31)
+
+(/usr/share/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks16
+\pgfkeys@temptoks=\toks17
+)
+\pgf@x=\dimen106
+\pgf@y=\dimen107
+\pgf@xa=\dimen108
+\pgf@ya=\dimen109
+\pgf@xb=\dimen110
+\pgf@yb=\dimen111
+\pgf@xc=\dimen112
+\pgf@yc=\dimen113
+\c@pgf@counta=\count89
+\c@pgf@countb=\count90
+\c@pgf@countc=\count91
+\c@pgf@countd=\count92
+
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2008/01/13  (rcs-revision 1.6)
+)
+Package pgfsys Info: Driver file for pgf: pgfsys-pdftex.def on input line 885.
+
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2007/12/20  (rcs-revision 1.20)
+
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2007/12/17  (rcs-revision 1.8)
+)))
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2008/01/23  (rcs-revision 1.6)
+\pgfsyssoftpath@smallbuffer@items=\count93
+\pgfsyssoftpath@bigbuffer@items=\count94
+)
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
+))
+(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/etc/texmf/tex/latex/config/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2008/01/15 v2.00 (rcs-revision 1.6)
+
+(/usr/share/texmf/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathutil.code.tex
+\pgfmath@box=\box26
+)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@stack=\toks18
+\c@pgfmath@parsecounta=\count95
+\c@pgfmath@parsecountb=\count96
+\c@pgfmath@parsecountc=\count97
+\pgfmath@parsex=\dimen114
+)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathoperations.code.tex
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathtrig.code.tex)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathrnd.code.tex))
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathbase.code.tex)))
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2008/02/03  (rcs-revision 1.13)
+\pgf@picminx=\dimen115
+\pgf@picmaxx=\dimen116
+\pgf@picminy=\dimen117
+\pgf@picmaxy=\dimen118
+\pgf@pathminx=\dimen119
+\pgf@pathmaxx=\dimen120
+\pgf@pathminy=\dimen121
+\pgf@pathmaxy=\dimen122
+\pgf@xx=\dimen123
+\pgf@xy=\dimen124
+\pgf@yx=\dimen125
+\pgf@yy=\dimen126
+\pgf@zx=\dimen127
+\pgf@zy=\dimen128
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2008/02/13  (rcs-revision 1.14)
+\pgf@path@lastx=\dimen129
+\pgf@path@lasty=\dimen130
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2008/01/23  (rcs-revision 1.11)
+\pgf@shorten@end@additional=\dimen131
+\pgf@shorten@start@additional=\dimen132
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2008/01/15  (rcs-revision 1.26)
+\pgfpic=\box27
+\pgf@hbox=\box28
+\pgf@layerbox@main=\box29
+\pgf@picture@serial@count=\count98
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2007/12/12  (rcs-revision 1.8)
+\pgflinewidth=\dimen133
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2008/02/04  (rcs-revision 1.10)
+\pgf@pt@x=\dimen134
+\pgf@pt@y=\dimen135
+\pgf@pt@temp=\dimen136
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2006/10/11  (rcs-revision 1.2)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2006/10/11  (rcs-revision 1.2)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2008/01/23  (rcs-revision 1.7)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2007/06/07  (rcs-revision 1.8)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2007/12/10  (rcs-revision 1.9)
+\pgf@max=\dimen137
+\pgf@sys@shading@range@num=\count99
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2008/01/15  (rcs-revision 1.1)
+\pgfexternal@startupbox=\box30
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2008/01/15  (rcs-revision 1.1)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2008/01/17  (rcs-revision 1.2)
+)
+(/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2008/01/15  (rcs-revision 1.1)
+)))
+(/usr/share/texmf/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2008/02/13  (rcs-revision 1.4)
+\pgfnodeparttextbox=\box31
+\toks@savedmacro=\toks19
+)
+(/usr/share/texmf/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2008/01/15  (rcs-revision 1.1)
+\pgf@plotwrite=\write3
+)
+(/usr/share/texmf/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2007/07/03 v2.00 (rcs-revision 1.7)
+\pgf@nodesepstart=\dimen138
+\pgf@nodesepend=\dimen139
+)
+(/usr/share/texmf/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2007/07/23 v2.00 (rcs-revision 1.1)
+))
+(/usr/share/texmf/tex/latex/pgf/utilities/pgffor.sty
+(/usr/share/texmf/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2007/11/07 v2.00 (rcs-revision 1.8)
+\pgffor@iter=\dimen140
+\pgffor@skip=\dimen141
+))
+(/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2008/02/13 v2.00 (rcs-revision 1.27)
+
+(/usr/share/texmf/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2007/03/09 v2.00 (rcs-revision 1.9)
+\pgf@plot@mark@count=\count100
+\pgfplotmarksize=\dimen142
+)
+\tikz@lastx=\dimen143
+\tikz@lasty=\dimen144
+\tikz@lastxsaved=\dimen145
+\tikz@lastysaved=\dimen146
+\tikzleveldistance=\dimen147
+\tikzsiblingdistance=\dimen148
+\tikz@figbox=\box32
+\tikz@tempbox=\box33
+\tikztreelevel=\count101
+\tikznumberofchildren=\count102
+\tikznumberofcurrentchild=\count103
+\tikz@fig@count=\count104
+
+(/usr/share/texmf/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2008/01/15  (rcs-revision 1.1)
+\pgfmatrixcurrentrow=\count105
+\pgfmatrixcurrentcolumn=\count106
+\pgf@matrix@numberofcolumns=\count107
+)
+\tikz@expandcount=\count108
+
+(/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopat
+hs.code.tex
+File: tikzlibrarytopaths.code.tex 2008/01/09 v2.00 (rcs-revision 1.1)
+))) (/usr/share/texmf-texlive/tex/latex/preprint/fullpage.sty
+Package: fullpage 1999/02/23 1.1 (PWD)
+\FP@margin=\skip43
+)
+(/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryarrow
+s.code.tex
+File: tikzlibraryarrows.code.tex 2008/01/09 v2.00 (rcs-revision 1.1)
+
+(/usr/share/texmf/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
+File: pgflibraryarrows.code.tex 2007/06/07 v2.00 (rcs-revision 1.7)
+))
+(/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypetri
+.code.tex
+File: tikzlibrarypetri.code.tex 2008/01/09 v2.00 (rcs-revision 1.1)
+) (./tkz-berge.sty
+Package: tkz-berge 13/01/2009 v 2.8 tkz-berge for named graphs
+ (./tkz-graph.sty
+Package: tkz-graph 18/11/2008 v 2.7d base for graphs
+
+(/usr/share/texmf-texlive/tex/latex/etex/etex.sty
+Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
+\et@xins=\count109
+)
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2006/11/18 v2.5f package option processing (HA)
+
+(/usr/share/texmf-texlive/tex/latex/xkeyval/xkeyval.tex
+\XKV@toks=\toks20
+\XKV@depth=\count110
+File: xkeyval.tex 2006/11/18 v2.5f key=value parser (HA)
+))
+\c@tkzb@ca=\count111
+\c@tkzb@cb=\count112
+\c@tkzb@cc=\count113
+\c@tkzb@v=\count114
+\c@tkzb@cd=\count115
+\c@tkzb@ce=\count116
+\c@tkzb@cf=\count117
+\c@tkzb@temp=\count118
+\c@tkzb@int=\count119
+\c@tkzb@next=\count120
+\c@tkzb@ta=\count121
+\c@tkzb@tb=\count122
+\node@distance=\dimen149
+) (./tkz-arith.sty
+Package: tkz-arith 2008/04/15 v2.7b integers numbers
+
+(/usr/share/texmf/tex/latex/pgf/math/pgfmath.sty
+(/usr/share/texmf/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathutil.code.tex
+\pgfmath@box=\box34
+)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@stack=\toks21
+\c@pgfmath@parsecounta=\count123
+\c@pgfmath@parsecountb=\count124
+\c@pgfmath@parsecountc=\count125
+\pgfmath@parsex=\dimen150
+)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathoperations.code.tex
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathtrig.code.tex)
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathrnd.code.tex))
+(/usr/share/texmf/tex/generic/pgf/math/pgfmathbase.code.tex))))
+\c@prim@r=\count126
+\c@prim@q=\count127
+\c@prim@a=\count128
+\c@tprim@a=\count129
+\c@tprim@b=\count130
+\c@prim@n=\count131
+\c@prim@d=\count132
+\c@prim@b=\count133
+\c@tkza@int=\count134
+\c@tkza@tmp=\count135
+\c@NbOfPrimFactor=\count136
+))
+(/usr/share/texmf-texlive/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/usr/share/texmf-texlive/tex/latex/caption/caption.sty
+Package: caption 2007/01/07 v3.0k Customising captions (AR)
+
+(/usr/share/texmf-texlive/tex/latex/caption/caption3.sty
+Package: caption3 2007/01/07 v3.0k caption3 kernel (AR)
+\captionmargin=\dimen151
+\captionmarginx=\dimen152
+\captionwidth=\dimen153
+\captionindent=\dimen154
+\captionparindent=\dimen155
+\captionhangindent=\dimen156
+))
+\c@KVtest=\count137
+\sf@farskip=\skip44
+\sf@captopadj=\dimen157
+\sf@capskip=\skip45
+\sf@nearskip=\skip46
+\c@subfigure=\count138
+\c@subfigure@save=\count139
+\c@lofdepth=\count140
+\c@subtable=\count141
+\c@subtable@save=\count142
+\c@lotdepth=\count143
+\sf@top=\skip47
+\sf@bottom=\skip48
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/euscript.sty
+Package: euscript 2001/10/01 v2.2d Euler Script fonts
+LaTeX Font Info:    Overwriting math alphabet `\EuScript' in version `bold'
+(Font)                  U/eus/m/n --> U/eus/b/n on input line 55.
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2001/10/25 v2.2f
+\@emptytoks=\toks22
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
+)
+(/usr/share/texmf-texlive/tex/latex/ucs/ucs.sty
+Package: ucs 2004/10/17 UCS: Unicode input support
+
+(/usr/share/texmf-texlive/tex/latex/ucs/data/uni-global.def
+File: uni-global.def 2004/10/17 UCS: Unicode global data
+)
+\uc@secondtry=\count144
+\uc@combtoks=\toks23
+\uc@combtoksb=\toks24
+\uc@temptokena=\toks25
+)
+(/usr/share/texmf-texlive/tex/latex/base/inputenc.sty
+Package: inputenc 2006/05/05 v1.1b Input encoding file
+\inpenc@prehook=\toks26
+\inpenc@posthook=\toks27
+
+(/usr/share/texmf-texlive/tex/latex/ucs/utf8x.def
+File: utf8x.def 2004/10/17 UCS: Input encoding UTF-8
+))
+(/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2007/02/07 v6.75r Hypertext links for LaTeX
+\@linkdim=\dimen158
+\Hy@linkcounter=\count145
+\Hy@pagecounter=\count146
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2007/02/07 v6.75r Hyperref: PDFDocEncoding definition (HO)
+)
+(/etc/texmf/tex/latex/config/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2006/08/22 v2.4 Connects package keyval with LaTeX options (
+HO)
+)
+Package hyperref Info: Hyper figures OFF on input line 2288.
+Package hyperref Info: Link nesting OFF on input line 2293.
+Package hyperref Info: Hyper index ON on input line 2296.
+Package hyperref Info: Plain pages OFF on input line 2303.
+Package hyperref Info: Backreferencing OFF on input line 2308.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 2444.
+(/usr/share/texmf-texlive/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip10
+Package: url 2005/06/27  ver 3.2  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 2599.
+\Fld@menulength=\count147
+\Field@Width=\dimen159
+\Fld@charsize=\dimen160
+\Choice@toks=\toks28
+\Field@toks=\toks29
+Package hyperref Info: Hyper figures OFF on input line 3102.
+Package hyperref Info: Link nesting OFF on input line 3107.
+Package hyperref Info: Hyper index ON on input line 3110.
+Package hyperref Info: backreferencing OFF on input line 3117.
+Package hyperref Info: Link coloring OFF on input line 3122.
+\Hy@abspage=\count148
+\c@Item=\count149
+\c@Hfootnote=\count150
+)
+*hyperref using default driver hpdftex*
+(/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2007/02/07 v6.75r Hyperref driver for pdfTeX
+\Fld@listcount=\count151
+)
+(/usr/share/texmf-texlive/tex/latex/geometry/geometry.sty
+Package: geometry 2002/07/08 v3.2 Page Geometry
+\Gm@cnth=\count152
+\Gm@cntv=\count153
+\c@Gm@tempcnt=\count154
+\Gm@bindingoffset=\dimen161
+\Gm@wd@mp=\dimen162
+\Gm@odd@mp=\dimen163
+\Gm@even@mp=\dimen164
+\Gm@dimlist=\toks30
+)
+(/usr/share/texmf-texlive/tex/latex/listings/listings.sty
+\lst@mode=\count155
+\lst@gtempboxa=\box35
+\lst@token=\toks31
+\lst@length=\count156
+\lst@currlwidth=\dimen165
+\lst@column=\count157
+\lst@pos=\count158
+\lst@lostspace=\dimen166
+\lst@width=\dimen167
+\lst@newlines=\count159
+\lst@lineno=\count160
+\c@lstlisting=\count161
+\lst@maxwidth=\dimen168
+
+(/usr/share/texmf-texlive/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2004/10/17 1.3b (Carsten Heinz)
+)
+(/usr/share/texmf-texlive/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2004/09/07 1.3 (Carsten Heinz)
+\c@lstnumber=\count162
+\lst@skipnumbers=\count163
+\lst@framebox=\box36
+)
+(/usr/share/texmf-texlive/tex/latex/listings/listings.cfg
+File: listings.cfg 2004/09/05 1.3 listings configuration
+))
+Package: listings 2004/10/17 1.3b (Carsten Heinz)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/lscape.sty
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/tools/multicol.sty
+Package: multicol 2006/05/18 v1.6g multicolumn formatting (FMi)
+\c@tracingmulticols=\count164
+\mult@box=\box37
+\multicol@leftmargin=\dimen169
+\c@unbalance=\count165
+\c@collectmore=\count166
+\doublecol@number=\count167
+\multicoltolerance=\count168
+\multicolpretolerance=\count169
+\full@width=\dimen170
+\page@free=\dimen171
+\premulticols=\dimen172
+\postmulticols=\dimen173
+\multicolsep=\skip49
+\multicolbaselineskip=\skip50
+\partial@page=\box38
+\last@line=\box39
+\mult@rightbox=\box40
+\mult@grightbox=\box41
+\mult@gfirstbox=\box42
+\mult@firstbox=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\@tempa=\box50
+\@tempa=\box51
+\@tempa=\box52
+\@tempa=\box53
+\@tempa=\box54
+\@tempa=\box55
+\@tempa=\box56
+\@tempa=\box57
+\@tempa=\box58
+\@tempa=\box59
+\@tempa=\box60
+\c@columnbadness=\count170
+\c@finalcolumnbadness=\count171
+\last@try=\dimen174
+\multicolovershoot=\dimen175
+\multicolundershoot=\dimen176
+\mult@nat@firstbox=\box61
+\colbreak@box=\box62
+)
+(/usr/share/texmf-texlive/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+\@indexfile=\write4
+\openout4 = `Specview.idx'.
+
+
+Writing index file Specview.idx
+(/usr/share/texmf-texlive/tex/latex/setspace/setspace.sty
+Package: setspace 2000/12/01 6.7 Contributed and Supported LaTeX2e package
+
+Package: `setspace' 6.7 <2000/12/01>
+) (./Specview.aux)
+\openout1 = `Specview.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+ (/usr/share/texmf-texlive/tex/latex/ragged2e/ragged2e.sty
+Package: ragged2e 2003/03/25 v2.04 ragged2e Package (MS)
+
+(/usr/share/texmf-texlive/tex/latex/everysel/everysel.sty
+Package: everysel 1999/06/08 v1.03 EverySelectfont Package (MS)
+LaTeX Info: Redefining \selectfont on input line 125.
+)
+\CenteringLeftskip=\skip51
+\RaggedLeftLeftskip=\skip52
+\RaggedRightLeftskip=\skip53
+\CenteringRightskip=\skip54
+\RaggedLeftRightskip=\skip55
+\RaggedRightRightskip=\skip56
+\CenteringParfillskip=\skip57
+\RaggedLeftParfillskip=\skip58
+\RaggedRightParfillskip=\skip59
+\JustifyingParfillskip=\skip60
+\CenteringParindent=\skip61
+\RaggedLeftParindent=\skip62
+\RaggedRightParindent=\skip63
+\JustifyingParindent=\skip64
+)
+Package caption Info: hyperref package v6.74m (or newer) detected on input line
+ 120.
+Package caption Info: listings package v1.2 (or newer) detected on input line 1
+20.
+Package caption Info: subref 1.2 or 1.3 detected on input line 120.
+LaTeX Info: Redefining \subref on input line 120.
+
+(/usr/share/texmf-texlive/tex/latex/ucs/ucsencs.def
+File: ucsencs.def 2003/11/29 Fixes to fontencodings LGR, T3
+)
+Package hyperref Info: Link coloring OFF on input line 120.
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
+Package: nameref 2006/12/27 v2.28 Cross-referencing by name of section
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
+Package: refcount 2006/02/20 v3.0 Data extraction from references (HO)
+)
+\c@section@level=\count172
+)
+LaTeX Info: Redefining \ref on input line 120.
+LaTeX Info: Redefining \pageref on input line 120.
+ (./Specview.out)
+(./Specview.out)
+\@outlinefile=\write5
+\openout5 = `Specview.out'.
+
+-------------------- Geometry parameters
+paper: a4paper
+landscape: --
+twocolumn: --
+twoside: --
+asymmetric: --
+h-parts: 42.67912pt, 512.14963pt, 42.67912pt
+v-parts: 71.13188pt, 674.33032pt, 99.58464pt
+hmarginratio: --
+vmarginratio: --
+lines: --
+heightrounded: --
+bindingoffset: 0.0pt
+truedimen: --
+includehead: --
+includefoot: --
+includemp: --
+driver: pdftex
+-------------------- Page layout dimensions and switches
+\paperwidth  597.50787pt
+\paperheight 845.04684pt
+\textwidth  512.14963pt
+\textheight 674.33032pt
+\oddsidemargin  -29.59087pt
+\evensidemargin -29.59087pt
+\topmargin  -1.1381pt
+\headheight 0.0pt
+\headsep    0.0pt
+\footskip   30.0pt
+\marginparwidth 34.14322pt
+\marginparsep   10.0pt
+\columnsep  10.0pt
+\skip\footins  10.8pt plus 4.0pt minus 2.0pt
+\hoffset 0.0pt
+\voffset 0.0pt
+\mag 1000
+
+(1in=72.27pt, 1cm=28.45pt)
+-----------------------
+LaTeX Font Info:    Try loading font information for U+msa on input line 123.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 123.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2002/01/19 v2.2g AMS font definitions
+)
+(/usr/share/texmf-texlive/tex/latex/ucs/data/uni-0.def
+File: uni-0.def 2004/10/17 UCS: Unicode data U+0000..U+00FF
+) [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./Specview.toc)
+\tf@toc=\write6
+\openout6 = `Specview.toc'.
+
+ [2
+
+] (./whatfor.tex [3
+
+])
+(./input.tex
+
+! LaTeX Error: File `./images/sampleCML' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.7 ...dth=190mm,height=160mm]{./images/sampleCML}
+                                                  
+? 
+! Interruption.
+\GenericError  ...                                
+                                                  \endgroup 
+l.7 ...dth=190mm,height=160mm]{./images/sampleCML}
+                                                  
+? 
+<./images/atoms.jpg, id=99, 903.375pt x 70.2625pt>
+File: ./images/atoms.jpg Graphic file (type jpg)
+ <use ./images/atoms.jpg>
+<./images/bonds.jpg, id=100, 381.425pt x 50.1875pt>
+File: ./images/bonds.jpg Graphic file (type jpg)
+ <use ./images/bonds.jpg>
+<./images/annotation.jpg, id=101, 823.075pt x 50.1875pt>
+File: ./images/annotation.jpg Graphic file (type jpg)
+
+<use ./images/annotation.jpg>
+Underfull \hbox (badness 10000) in paragraph at lines 14--37
+
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4
+
+ <./images/atoms.jpg
+!pdfTeX error: pdflatex (file ./images/atoms.jpg): fflush() failed
+ ==> Fatal error occurred, no output PDF file produced!
+Underfull \hbox (badness 1394) in paragraph at lines 2--10
+\OT1/cmr/m/n/12 Now, in or-der to dis-play the con-tent of the file, we de-cide
+ to cre-ate an ob-ject, called
+ []
+
+[6
+
+ <./images/metaSpecObjectAttributes.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 12--14
+
+ []
+
+<./images/peakAnnotation.jpg, id=65, 1003.75pt x 250.9375pt>
+File: ./images/peakAnnotation.jpg Graphic file (type jpg)
+
+<use ./images/peakAnnotation.jpg>
+Overfull \hbox (42.70209pt too wide) in paragraph at lines 18--21
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--21
+
+ []
+
+[7
+
+ <./images/peakAnnotation.jpg>]) (./parser.tex
+<./images/setCoordinatesWithPixel.jpg, id=72, 803.0pt x 250.9375pt>
+File: ./images/setCoordinatesWithPixel.jpg Graphic file (type jpg)
+
+<use ./images/setCoordinatesWithPixel.jpg>
+Overfull \hbox (42.7174pt too wide) in paragraph at lines 20--23
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--23
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--34
+
+ []
+
+<./images/getMoleculeBox.jpg, id=73, 1104.125pt x 602.25pt>
+File: ./images/getMoleculeBox.jpg Graphic file (type jpg)
+
+<use ./images/getMoleculeBox.jpg>
+Overfull \hbox (42.70822pt too wide) in paragraph at lines 40--43
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--43
+
+ []
+
+[8
+
+ <./images/setCoordinatesWithPixel.jpg>] [9 <./images/getMoleculeBox.jpg>]
+<./images/setMoleculeCoordinates.jpg, id=87, 1104.125pt x 652.4375pt>
+File: ./images/setMoleculeCoordinates.jpg Graphic file (type jpg)
+
+<use ./images/setMoleculeCoordinates.jpg>
+Overfull \hbox (42.70822pt too wide) in paragraph at lines 56--59
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--59
+
+ []
+
+[10
+
+ <./images/setMoleculeCoordinates.jpg>]
+<./images/getSpecBox.jpg, id=93, 762.85pt x 401.5pt>
+File: ./images/getSpecBox.jpg Graphic file (type jpg)
+
+<use ./images/getSpecBox.jpg>
+<./images/setSpecPixel.jpg, id=94, 1053.9375pt x 632.3625pt>
+File: ./images/setSpecPixel.jpg Graphic file (type jpg)
+
+<use ./images/setSpecPixel.jpg>
+Underfull \hbox (badness 10000) in paragraph at lines 73--76
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--80
+
+ []
+
+[11
+
+ <./images/getSpecBox.jpg> <./images/setSpecPixel.jpg>] [12]) (./render.tex
+<./images/renderController.jpg, id=106, 1018.80624pt x 471.7625pt>
+File: ./images/renderController.jpg Graphic file (type jpg)
+
+<use ./images/renderController.jpg>
+Overfull \hbox (56.93224pt too wide) in paragraph at lines 7--10
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--10
+
+ []
+
+
+Overfull \hbox (58.79456pt too wide) in paragraph at lines 12--15
+[]\OT1/cmr/m/n/12 At the end of this method are called this.\OT1/cmr/bx/n/12 mo
+leculeRenderer\OT1/cmr/m/n/12 .render(molecule,model.transform,molBox)
+ []
+
+[13
+
+ <./images/renderController.jpg>]
+<./images/spectrumRenderer.jpg, id=114, 803.0pt x 351.3125pt>
+File: ./images/spectrumRenderer.jpg Graphic file (type jpg)
+
+<use ./images/spectrumRenderer.jpg>
+Overfull \hbox (28.49193pt too wide) in paragraph at lines 22--25
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--25
+
+ []
+
+[14
+
+ <./images/spectrumRenderer.jpg>]) (./workflow1.tex
+<./images/workflow1.png, id=120, 1284.8pt x 1027.84pt>
+File: ./images/workflow1.png Graphic file (type png)
+
+<use ./images/workflow1.png>
+Overfull \hbox (28.46252pt too wide) in paragraph at lines 5--8
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--8
+
+ []
+
+[15
+
+ <./images/workflow1.png (PNG copy)>]) (./highlight.tex)
+(./specificities.tex)
+No file Specview.ind.
+[16
+
+] (./Specview.aux) ) 
+Here is how much of TeX's memory you used:
+ 13722 strings out of 95086
+ 226370 string characters out of 1183255
+ 305440 words of memory out of 1500000
+ 16504 multiletter control sequences out of 10000+50000
+ 13078 words of font info for 50 fonts, out of 1200000 for 2000
+ 28 hyphenation exceptions out of 8191
+ 60i,7n,93p,568b,669s stack positions out of 5000i,500n,6000p,200000b,5000s
+</usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmbx12.pfb
+></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmbxti10.pfb></usr/share/texm
+f-texlive/fonts/type1/bluesky/cm/cmmi12.pfb></usr/share/texmf-texlive/fonts/typ
+e1/bluesky/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmr12.
+pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf
+-texlive/fonts/type1/bluesky/cm/cmsy8.pfb>
+Output written on Specview.pdf (16 pages, 1411738 bytes).
+PDF statistics:
+ 167 PDF objects out of 1000 (max. 8388607)
+ 46 named destinations out of 1000 (max. 131072)
+ 99 words of extra memory for PDF output out of 10000 (max. 10000000)
+

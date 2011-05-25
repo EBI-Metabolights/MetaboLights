@@ -1,0 +1,170 @@
+\documentclass[12pt,a4paper,utf8x]{article}
+%\usepackage [frenchb]{babel}
+\usepackage [english]{babel}
+
+% Pour pouvoir dessiner des graphes
+\usepackage{tikz}
+\usepackage{tikz,fullpage}
+\usetikzlibrary{arrows,%
+                petri,%
+                topaths}%
+\usepackage{tkz-berge}
+\usepackage[position=top]{subfig}
+
+%Maths
+%\usepackage{fc}
+\usepackage[mathcal]{euscript}
+%\usepackage{eufrak}
+\usepackage{amsfonts}
+
+
+% Pour pouvoir utiliser 
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{hyperref}
+
+
+\usepackage{url} % Pour avoir de belles url
+\usepackage {geometry}
+%\usepackage[printonlyused,withpage]{acronym}
+
+
+% Pour mettre du code source
+\usepackage {listings}
+% Pour pouvoir passer en pa
+\usepackage{lscape}
+
+%\usepackage{color}
+
+% Pour pouvr faire plusieurs colonnes
+\usepackage {multicol}
+% POur crééer un index
+\usepackage{makeidx}
+%Pour les images
+\usepackage{graphicx}
+\makeindex
+
+% Pour les entetes de page
+% \usepackage{fancyheadings}
+%\pagestyle{fancy}
+%\renewcommand{\sectionmark}[1]{\markboth{#1}{}} 
+%\renewcommand{\subsectionmark}[1]{\markright{#1}} 
+
+% Pour l'interligne de 1.5
+\usepackage {setspace}
+% Pour les marges de la page
+\geometry{a4paper, top=2.5cm, bottom=3.5cm, left=1.5cm, right=1.5cm, marginparwidth=1.2cm}
+
+\parskip=5pt %% distance entre § (paragraphe)
+\sloppy %% respecter toujours la marge de droite 
+
+% Pour les pénalités :
+\interfootnotelinepenalty=150 %note de bas de page
+\widowpenalty=150 %% veuves et orphelines
+\clubpenalty=150 
+
+%Pour la longueur de l'indentation des paragraphes
+\setlength{\parindent}{15mm}
+
+
+
+%%%% debut macro pour enlever le nom chapitre %%%%
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \interlinepenalty\@M
+    \ifnum \c@secnumdepth >\m@ne
+        \Huge\bfseries \thechapter\quad
+    \fi
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }}
+
+\def\@makeschapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 40\p@
+  }}
+\makeatother
+%%%% fin macro %%%%
+
+%Couverture 
+
+\title
+{
+	\normalsize{Javascript viewer\\
+	For NMR and MS experiment\\
+	}
+	\vspace{15mm}
+	\textbf{\Huge{Tutorial to know how it works}}
+}
+\author{Samy Deghou\\
+  Elève ingénieur 5ème année\\
+  Majeure Bioinformatique\\
+	\vspace{45mm}
+}
+
+\date{	
+	\normalsize{\textbf{E}uropean \textbf{B}ioinformatics \textbf{I}nstitute\\
+          Chemoinformatics and  Metabolism team\\
+          \textbf{Metabolight Project}\\
+          Sponsored by...\\ \textbf{Mark Rijnbeek}
+	\vspace{5mm}
+	}
+}
+
+\begin{document}
+
+\maketitle
+\clearpage
+
+
+\tableofcontents
+\clearpage
+
+% Pour avoir un interligne de 1,5
+\begin{onehalfspace}
+
+\input{whatfor}
+
+\input{input}
+
+\input{metaspec}
+
+\input{parser}
+
+\input{render}
+
+\input{workflow1}
+
+\input{highlight}
+
+\input{specificities}
+
+%\input{Conclusion}
+
+% Pour finir l'interligne de 1,5
+\end{onehalfspace}
+
+%----------------------------------------
+% Pour la bibliographie
+%----------------------------------------
+% Citer tous les ouvrages/références
+\nocite{*}
+% Trier par ordre d'apparition
+%bibliographystyle{unsrt}
+% Pour le sty1e de la biblio
+\bibliographystyle{unsrt}
+
+
+
+\printindex
+
+\appendix
+
+
+\end{document}

@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [2][-]{subsection.1.1}{What does it do?}{section.1}
+\BOOKMARK [2][-]{subsection.1.2}{How do we do it?}{section.1}
+\BOOKMARK [3][-]{subsubsection.1.2.1}{Google Closure}{subsection.1.2}
+\BOOKMARK [1][-]{section.2}{The entry point}{}
+\BOOKMARK [2][-]{subsection.2.1}{What does it contain?}{section.2}
+\BOOKMARK [1][-]{section.3}{Create a JavaScript Object}{}
+\BOOKMARK [1][-]{section.4}{The parser}{}
+\BOOKMARK [2][-]{subsection.4.1}{A few points}{section.4}
+\BOOKMARK [3][-]{subsubsection.4.1.1}{SetCoordinatesWithPixel}{subsection.4.1}
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Mapping}{subsection.4.1}
+\BOOKMARK [1][-]{section.5}{How to display everything?}{}
+\BOOKMARK [1][-]{section.6}{Simple workflow}{}
+\BOOKMARK [1][-]{section.7}{Highlight}{}
