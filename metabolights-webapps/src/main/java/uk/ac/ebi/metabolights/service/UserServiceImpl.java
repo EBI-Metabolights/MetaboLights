@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.dao.UserDAO;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
-
 /**
  * Implementation for UserService. Note the Spring annotations such as @Service, @Autowired and @Transactional. 
  * These annotations are called Spring stereotype annotations.<br>
@@ -22,13 +21,23 @@ public class UserServiceImpl implements UserService{
     private UserDAO userDAO;
     
 	@Transactional
-	public MetabolightsUser lookupByName(String userName) {
+	public MetabolightsUser lookupByUserName(String userName) {
 		return  userDAO.findByName(userName);
 	}
 
 	@Transactional
 	public MetabolightsUser lookupByEmail(String email) {
 		return  userDAO.findByEmail(email);
+	}
+
+	@Transactional
+	public Long insert(MetabolightsUser user) {
+		return userDAO.insert(user);	
+	}
+
+	@Transactional
+	public void update(MetabolightsUser user) {
+		userDAO.update(user);	
 	}
 
 }

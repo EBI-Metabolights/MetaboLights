@@ -1,20 +1,21 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core"   %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-			<c:if test="${not empty message}">
-			   <div class="messageBox">
-                  <c:out value="${message}" />
-               </div>
-			</c:if>
+<c:if test="${not empty message}">
+   <div class="messageBox">
+      <c:out value="${message}" />
+   </div>
+</c:if>
 
-               <div style="margin-bottom:40px; padding-left:50px; padding-top:69px">
-                  <img src="img/litehouseLogoDual.png" ></img> 
-               </div>
-            
-               <div id="text_header">
-                   Metabolights: a database for metabolomics experiments and derived information
-                </div>
-                
-               <div id="text-fullwidth">
-                    <br>
-                    Metabolights is a database for Metabolomics experiments and derived information.  The database is cross-species, cross-technique and covers metabolite structures and their reference spectra as well as their biological roles, locations and concentrations, and experimental data from metabolic experiments.  
-               </div>
+<div style="margin-bottom:40px; padding-left:50px; padding-top:69px">
+   <img src="img/litehouseLogoDual.png" ></img> 
+</div>
+
+<div id="text_header">
+    <spring:message code="msg.metabolights" />
+</div>
+ 
+<div id="text-fullwidth">
+    <br>
+    <spring:message code="msg.metabolightsLong" />
+</div>

@@ -59,9 +59,11 @@ public class IsaTabAuthentication implements Authentication {
     }
 
     public String getName() {
-        return principal.getUserId();
+        //return principal.getUserId();
+    	return principal.getUserName();
     }
 
+    
     @Override
     public String toString() {
         return "IsaTabAuthentication{" +

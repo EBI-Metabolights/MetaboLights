@@ -1,7 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
 
-import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -14,14 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import uk.ac.ebi.metabolights.form.EmailReminder;
+import uk.ac.ebi.metabolights.form.EmailAddress;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.UserService;
+import uk.ac.ebi.metabolights.validate.ValidatorMetabolightsUser;
 
 /**
- * Controller for user authentication actions.  
+ * Controller for login and related actions.  
  * @author markr
  *
  */
@@ -51,103 +52,59 @@ public class LoginController extends AbstractController{
 	}
 
  
-	@RequestMapping(value = "/passwordReminder")
-   	public ModelAndView passWordReminder() {
-    	ModelAndView mav = new ModelAndView("reminder");
-    	mav.addObject(new EmailReminder());
+	@RequestMapping(value = "/forgotPassword")
+   	public ModelAndView passWordReset() {
+    	ModelAndView mav = new ModelAndView("forgotPassword");
+    	mav.addObject(new EmailAddress());
     	return mav;
     }
 
     /**
      * Handles a user request who forgot the password.<br> 
-     * @param emailReminder user form
+     * @param email user form
      * @param result binding result
      * @return where to navigate 
      */
-    @RequestMapping(value = "/sendPasswordReminder", method = RequestMethod.POST)
-    public ModelAndView sendPassWordReminder(@Valid EmailReminder emailReminder, BindingResult result, Model model) {
-    	ModelAndView mav = new ModelAndView("reminder");
-    	mav.addObject(emailReminder); 
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+    public ModelAndView resetPassWord(@Valid EmailAddress email, BindingResult result, Model model) {
+    	ModelAndView mav = new ModelAndView("forgotPassword");
+    	mav.addObject(email); 
         if (result.hasErrors()) {
             return mav;
         }
         //Find the user associated with the password
-        MetabolightsUser mtblUser = userService.lookupByEmail(emailReminder.getEmailAddress());
+        MetabolightsUser mtblUser = userService.lookupByEmail(email.getEmailAddress());
 		if (mtblUser == null) {
 			mav.addObject("message", PropertyLookup.getMessage("msg.unknownEmail"));
 			return mav;
 		}
 		else {
-			//TODO
+			// Get some new password
+			String tempPassword = getTemporaryPassword ();
+			mtblUser.setDbPassword(tempPassword);
+			
+			// Update database user details
+			userService.update(mtblUser);
 
-	    	/*
-	    	// create number -> string (min length)
-	    	Random r = new Random();
-	    	String token = "";
-	    	while (token.length()<40) {
-	    		
-	        	token+=Long.toString(Math.abs(r.nextLong()), 20);
-			}
-	     	System.out.println(token+" "+token.length());
-	    	
-	     	//store in spring bean (singleton) MAP
-	     	//send url with that token and username and a timeout
-	     	//wait for reply
-	     	// request comes in
-	     	// clean old shit in map
-	     	// find the url .. not cleaned up?
-	     	// none found -> inv URL bye
-	     	// found -> get username, load up bean, log user in remove from MAP
-	     	// forward to let user change details, check same (re-type password) update in database (hibornate)
-	     	// or user can ignore that 
-	     	// update 
-	     	*/
+			// Send new password to user, tell him to update the temp password
+			emailService.sendResetPassword(email.getEmailAddress(), tempPassword, mtblUser.getUserName());
 
-			emailService.sendPasswordReminder(emailReminder.getEmailAddress(), "TODO");
-			return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.pwsent",emailReminder.getEmailAddress()));
+			//TODO = redirect, work out url?x=y
+			return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.pwsent",email.getEmailAddress()));
 		}
     }
 
-    
-	@RequestMapping(value = "/newAccount")
-   	public ModelAndView newAccount() {
-    	ModelAndView mav = new ModelAndView("createAccount");
-    	mav.addObject(new MetabolightsUser());
-    	return mav;
-    }
-	
-    /**
-     * Handles creation of a new user account.<br> 
-     * @param emailReminder user form
-     * @param result binding result
-     * @return where to navigate 
-     */
-    @RequestMapping(value = "/createNewAccount", method = RequestMethod.POST)
-    public ModelAndView createNewAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model) {
 
-    	//TODO ajax lookup of username.... for now, test it here. catch any db exceptions really. UQ, weird chars etc
-    	
-    	if (result.hasErrors()) {
-        	ModelAndView mav = new ModelAndView("createAccount");
-        	mav.addObject(metabolightsUser);
-        	return mav;
-        }
-        
-    	//stick in database
-        System.out.println("database transaction");
-        
-        //send an email
-        System.out.println("send email ");
-        
-        //TODO - make 'temp' account?
-        //TODO - UK username catch (should be Ajaxed)
-        
-        //set message
-
-        //redirect to index
-        
-        return new ModelAndView("redirect:index"); // TODO!
-    }
+    private String getTemporaryPassword () {
+    	String tempPw="";
+    	do {
+	    	String foo = UUID.randomUUID().toString();
+	    	foo=foo.replaceAll("\\-", "");
+	    	foo=foo.substring(0,6);
+	    	tempPw+=foo;
+    	} while (tempPw.length()<ValidatorMetabolightsUser.MIN_PASSWORD_LEN);
+    	return tempPw;
+	}
      	
 }
 

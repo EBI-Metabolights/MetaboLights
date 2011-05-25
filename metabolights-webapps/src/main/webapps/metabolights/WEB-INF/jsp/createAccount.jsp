@@ -3,13 +3,6 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <div class="formbox">
-	<c:if test="${not empty message}">
-		<span class="error"> <c:out value="${message}" /> </span>
-		<br>
-	</c:if>
-
-	<br /> <br />
-
 	<form:form name="accountForm" action="createNewAccount" method="post"
 		commandName="metabolightsUser">
 		<table cellpadding="5px" cellspacing="0px">
@@ -17,16 +10,12 @@
 				<th class="tableheader" colspan="2"><spring:message
 						code="msg.newAccount" />
 				</th>
-				<th>(*) indicates required field
-				</th>
+				<th><spring:message code="msg.starRequired"/></th>
 			</tr>
-
 			<tr>
 				<td colspan='3'>&nbsp;</td>
 			</tr>
-
 			<jsp:include page="accountFormFields.jsp" />
-
 			<tr>
 				<td></td>
 				<td colspan='2'><input name="submit" type="submit"
@@ -38,5 +27,10 @@
 	<script type="text/javascript" language="javascript">
 	   document.reminderForm.email.focus();
 	</script>
+
+    <c:if test="${not empty message}">
+        <span class="error"> <c:out value="${message}" /> </span>
+        <br>
+    </c:if>
 
 </div>

@@ -17,7 +17,9 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.UserService;
 
 /**
- * Class to process an {@link IsaTabAuthentication} implementation. 
+ * Process an {@link IsaTabAuthentication} implementation. 
+ * Used for the user login process.
+ * 
  * @author Mark Rijnbeek
  */
 @Service
@@ -25,19 +27,32 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
 	private UserService userService;
-
+	
+	/**
+	 * Authenticates a user following Spring's security framework.
+	 * Checks that the user exists, is active and has entered correct password.
+     * @param auth Spring Authentication (via login form)
+	 */
 	@Override
 	public Authentication authenticate(Authentication auth)
 			throws AuthenticationException {
-		
+
+		// username / password set?
 		if (auth.getCredentials()==null || auth.getCredentials().toString().equals("") || auth.getName()==null ||auth.getName().equals("") ) {
 			throw new org.springframework.security.authentication.BadCredentialsException(PropertyLookup.getMessage("msg.reqFieldMissing"));
 		}
 		
-		MetabolightsUser mtblUser = userService.lookupByName(auth.getName());
+		// Does user exist?
+		MetabolightsUser mtblUser = userService.lookupByUserName(auth.getName());
 		if (mtblUser == null)
 			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.incorrUserPw"));
 
+		// Is this user active?
+		if (!mtblUser.getStatus().equals(MetabolightsUser.userStatus.ACTIVE.toString()))
+			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.accountInactive"));
+
+
+		// Is this the right password?
 		if (! encode(auth.getCredentials().toString()).equals(mtblUser.getDbPassword()))	
 			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.incorrUserPw"));
 		
@@ -51,7 +66,7 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 	 * @param plaintext
 	 * @return
 	 */
-	private String encode(String plaintext) {
+	public static String encode(String plaintext) {
 
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA");

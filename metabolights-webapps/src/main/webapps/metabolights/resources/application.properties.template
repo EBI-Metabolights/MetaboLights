@@ -7,3 +7,6 @@ ftpServerMainSubDir=upload
 ftpUser=CHANGE
 ftpPassword=CHANGE
 
+uploadDirectory=CHANGE
+mtblAdminEmailAddress=CHANGE
+

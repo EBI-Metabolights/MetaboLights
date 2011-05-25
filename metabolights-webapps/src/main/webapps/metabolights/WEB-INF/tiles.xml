@@ -47,9 +47,9 @@
         <put-attribute name="body" value="/WEB-INF/jsp/biisubmit.jsp" />
     </definition>
 
-    <definition name="reminder" extends="base.definition">
-        <put-attribute name="title" value="Metabolights password reminder" />
-        <put-attribute name="body" value="/WEB-INF/jsp/reminder.jsp" />
+    <definition name="forgotPassword" extends="base.definition">
+        <put-attribute name="title" value="Metabolights password lost" />
+        <put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp" />
     </definition>
 
     <definition name="biisubmiterror" extends="base.definition">
@@ -72,6 +72,11 @@
     <definition name="createAccount" extends="base.definition">
         <put-attribute name="title" value="Create a new account for Metabolights" />
         <put-attribute name="body" value="/WEB-INF/jsp/createAccount.jsp" />
+    </definition>
+
+    <definition name="accountRequested" extends="base.definition">
+        <put-attribute name="title" value="Account has been requested" />
+        <put-attribute name="body" value="/WEB-INF/jsp/accountRequested.jsp" />
     </definition>
 
 </tiles-definitions>

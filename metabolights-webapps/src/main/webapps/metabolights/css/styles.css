@@ -9,7 +9,7 @@ html,body {
 	text-align: center;
 	font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
 	font-weight: normal;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 
@@ -76,7 +76,7 @@ html,body {
 	padding-left: 10px;
 }
 #top_bar #navigation li.selected a,#top_bar #navigation li a:hover {
-	color: #D56060;
+	color: #2DB3B3;
 }
 
 
@@ -178,14 +178,16 @@ html,body {
 }
 
 .formbox {
-    border:1px solid #D5AE60;
+    border:1px solid #806020;
     margin-top:10px;
+    padding-top:0px;
     padding-left:20px;
     padding-bottom:15px;
 }
 
 .formheader{
-   background-color:#D5AE60;
+   background-color:#806020;
+   color: #FFFFFF;
 }
 
 .tableheader{

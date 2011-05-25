@@ -95,20 +95,32 @@
      -->
     <bean id="propertyConfigurer"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="classpath:jdbc.properties" />
- 
-    <bean id="dataSource"
-        class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-        p:driverClassName="${jdbc.driverClassName}"
-        p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
-        p:password="${jdbc.password}" />
- 
- 
+
     <tx:annotation-driven />
     <bean id="transactionManager"
         class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-
+ 
+    <!-- bean id="dataSource"
+        class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+        p:driverClassName="${jdbc.driverClassName}"
+        p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
+        p:password="${jdbc.password}" /-->
+ 
+    <!-- read settings from jdbc.properties file -->
+    <bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClassName}"/>
+		<property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+		<property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
+		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
+		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/>
+		<property name="user" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		<property name="jdbcUrl" value="${jdbc.databaseurl}"/>
+    </bean>
+ 
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
@@ -122,6 +134,7 @@
             <props>
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>
                 <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
             </props>
         </property>
     </bean>
@@ -160,5 +173,12 @@
 	  <property name="from" value="no-reply@ebi.ac.uk"/>
 	  <property name="subject" value="Your password reminder"/>
 	</bean>
+
+    <bean id="newAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
+      <property name="from" value="scumsucker@ebi.ac.uk"/>
+      <property name="subject" value="New Metabolights account request"/>
+      <property name="to">  <list><value>markr@ebi.ac.uk</value></list> </property>
+    </bean>
+
     
 </beans>

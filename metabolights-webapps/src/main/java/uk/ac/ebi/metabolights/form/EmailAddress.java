@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * Email reminder (corresponding to a web form) as requested by the user.<br>
+ * Email address (corresponding to a web form).<br>
  * Note that validation messages in messagesXXX.properties are depending on the
  * attribute names here, so keep that in mind if you are to change a attribute name.<br>
  * Example of such a property:<br>
@@ -16,9 +16,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author markr
  * 
  */
-public class EmailReminder {
+public class EmailAddress {
 
-	public EmailReminder(){	}
+	public EmailAddress(){	}
 
 	@NotNull
 	@Email

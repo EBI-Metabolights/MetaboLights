@@ -265,4 +265,8 @@ public class CountryService {
 	public static Map<String, String> getCountries() {
 		return countries;
 	}
+
+	public static String lookupCountry (String countryCode ) {
+		return countries.get(countryCode);
+	}
 }
