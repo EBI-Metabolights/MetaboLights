@@ -7,7 +7,7 @@
    </div>
 </c:if>
 
-<div style="margin-bottom:40px; padding-left:50px; padding-top:30px">
+<div style="margin-bottom:40px; padding-left:120px; padding-top:30px">
    <img src="img/litehouseLogo.png" ></img> 
 </div>
 
