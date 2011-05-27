@@ -5,23 +5,21 @@
 
 html,body {
 	height: 99%;
-	background: #ffffff url(../img/bg.gif) repeat-x left top;
+	background: #ffffff url(../img/searchBox.png) repeat-x left top;
 	text-align: center;
 	font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
 	font-weight: normal;
 	font-size: 12px;
 }
 
-
-
 /* Main structure styles (used to layout the header/footer) */
 .wrapper {
-	min-height: 100%;
+	min-height: 90%;
 	height: auto !important;
-	height: 100%;
 	margin: 0px auto -4em;
 	position: relative;
 }
+
 #footer {
 	background-color: #cccccc;
 	padding-top: 5px;
@@ -37,19 +35,17 @@ html,body {
 #topAndBody {
 	width: 1024px;
 	text-align: left;
-	margin: 0px auto;
+	margin: 50px auto;
 	padding-bottom: 15px;
 }
 
-
-
 /* Style for the top bar (=header) */
 #top_bar {
-	height: 55px;
+	height: 45px;
 }
 #top_bar h1 {
 	margin-top: 10px;
-	width: 300px;
+	width: 250px;
 	height: 55px;
 	font-size: 1px;
 	text-indent: -9999px;
@@ -59,7 +55,7 @@ html,body {
 }
 #top_bar #navigation {
 	list-style: none;
-	margin-top: 28px;
+	margin-top: 22px;
 	float: right;
 	font-size: 13px;
 	font-weight: bold;
@@ -67,7 +63,7 @@ html,body {
 	
 }
 #top_bar #navigation a {
-	color: #ffffff;
+	color: #004242;
 	text-decoration: none;
 }
 #top_bar #navigation li {
@@ -79,63 +75,29 @@ html,body {
 	color: #2DB3B3;
 }
 
-
-
 /* Style for the search box in the header */
-#search-box {
-	padding-left: 10px;
-	height: 33px;
-	float: left;
-	width: 1000px;
-	background : #999966 url(../img/searchBox.png) ;
-}
-#search-box label {
-	float: left;
-	width: 45px;
-	height: 37px;
-	color: #fff;
-	font-size: 12px;
-	font-weight: normal;
-	line-height: 30px;
-	
-}
 #search-box input {
 	float: left;
 	width: 300px;
-	border: 0;
-	margin: 7px 0px 0px 10px; /* top right bottom left */
-	padding-bottom: 2px;
+	border: 1px solid #6F4A00;
+	margin: 13px 0px 0px 10px; /* top right bottom left */
 	font-size: 14px;
-	height: 20px
-    padding-bottom:2px;
+	height: 17px
 }
 #search-box .search-box-button {
 	float: left;
-	margin: 7px 0px 0px 0px;
+	margin: 13px 0px 0px 0px;
 	padding: 0px;
 	height: 21px;
-	width: 46px;
+	width: 85px;
 	cursor: pointer;
 	border: 0px;
 	background-image: url('../img/searchButton.png');
 }
 
-#search-box a {
-	float: left;
-	height: 37px;
-	font-size: 12px;
-	font-weight: bold;
-	line-height: 40px;
-	ttext-decoration: none;
-	padding-left: 20px;
-	color: #003333;
-}
-
-
-
 #text_header { 
 	padding: 10px 0px 5px 15px;
-	background-color: #D5AE60  ;
+	background-color: #D59F35  ;
 	font-size: 130%;
 	font-weight: bold;
 	color:#006666;
@@ -178,7 +140,7 @@ html,body {
 }
 
 .formbox {
-    border:1px solid #806020;
+    border:1px solid #D59F35;
     margin-top:10px;
     padding-top:0px;
     padding-left:20px;
@@ -186,7 +148,7 @@ html,body {
 }
 
 .formheader{
-   background-color:#806020;
+   background-color:#D59F35;
    color: #FFFFFF;
 }
 

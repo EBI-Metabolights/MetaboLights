@@ -29,6 +29,7 @@
                 and primary experimental data. The resource will be cross-species, cross-application and will cover 
                 all relevant analytical methods. Metabolights is a joint between development between the <a href="http://www.ebi.ac.uk/steinbeck/">Steinbeck group</a> at the European Bionformatics Institute and
                 the Griffin group in Cambridge.
+ 
                 <br>
                 <br>
 
@@ -43,6 +44,13 @@
                 The Investigation/Study/Assay (ISA) infrastructure is the first general-purpose format and freely available desktop software suite targeted to 
                 experimentalists, curators and developers and that assists in the reporting and local management of experimental metadata (i.e. sample characteristics, 
                 technology and measurement types, sample-to-data relationships) from studies employing one or a combination of technologies.
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
                 
                </div>               
  
