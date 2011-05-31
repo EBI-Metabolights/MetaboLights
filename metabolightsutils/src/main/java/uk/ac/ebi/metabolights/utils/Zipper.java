@@ -21,10 +21,14 @@ import java.util.zip.ZipOutputStream;
 public class Zipper {
 
 
-public static void zip(String thisFileOrDir, String toThisFile) {
+public static void zip(String thisFileOrDir, String toThisFile) throws IOException {
 	
 	try
 	{
+		
+		//Check existence of the file or folder
+		FileUtil.fileExists(thisFileOrDir, true);
+		
 		//create object of FileOutputStream
 		FileOutputStream fout = new FileOutputStream(toThisFile);
 
@@ -44,11 +48,12 @@ public static void zip(String thisFileOrDir, String toThisFile) {
 	}
 	catch(IOException ioe)
 	{
-		System.out.println("IOException :" + ioe);	
+		System.out.println("IOException :" + ioe);
+		throw ioe;
 	}
 }
 
-private static void addDirectory(ZipOutputStream zout, File fileSource, String innerFolder) {
+private static void addDirectory(ZipOutputStream zout, File fileSource, String innerFolder) throws IOException {
 
 	//If the directory is hidden...it is zipping the svn folders..
 	if (fileSource.isHidden()){ 
@@ -115,12 +120,13 @@ private static void addDirectory(ZipOutputStream zout, File fileSource, String i
 		}
 		catch(IOException ioe)
 		{
-			System.out.println("IOException :" + ioe);				
+			System.out.println("IOException :" + ioe);
+			throw ioe;
 		}
 	}
 
 }
-public static void unzip (String strZipFile){
+public static void unzip (String strZipFile) throws IOException{
 
 	/*
 	 * STEP 1 : Create directory with the name of the zip file
@@ -129,6 +135,10 @@ public static void unzip (String strZipFile){
 	 * directory where we can extract all the zip entries
 	 * 
 	 */
+	
+	//Check existence
+	FileUtil.fileExists(strZipFile, true);
+	
 	String zipPath = StringUtils.truncate(strZipFile, 4);
 	File temp = new File(zipPath);
 	temp.mkdir();
@@ -138,10 +148,14 @@ public static void unzip (String strZipFile){
 	unzip (strZipFile,zipPath);
 	
 }
-public static void unzip(String strZipFile, String folder) {
+public static void unzip(String strZipFile, String folder) throws IOException {
 	 
 	try
 	{
+		
+		//Check existence
+		FileUtil.fileExists(strZipFile, true);
+		
 		File fSourceZip = new File(strZipFile);
 		File zipPath = new File(folder);
 		/*
@@ -205,6 +219,7 @@ public static void unzip(String strZipFile, String folder) {
 	catch(IOException ioe)
 	{
 		System.out.println("IOError :" + ioe);
+		throw ioe;
 	}
 
 }

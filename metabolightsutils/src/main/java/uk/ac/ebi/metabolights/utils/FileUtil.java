@@ -90,5 +90,21 @@ public class FileUtil {
 	    // The directory is now empty so delete it
 	    return dir.delete();
 	}
-
+	public static boolean fileExists(String path){
+		File file = new File(path);
+		
+		return file.exists();
+	}
+	public static boolean fileExists(String path, boolean throwException) throws IOException{
+		
+		boolean result = fileExists(path);
+		
+		if (throwException && !result){
+			
+			throw new IOException ("Path (" + path + ") not found.");
+		}
+		
+		return result;
+		
+	}
 }

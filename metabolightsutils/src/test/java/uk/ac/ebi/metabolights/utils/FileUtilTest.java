@@ -56,6 +56,43 @@ public class FileUtilTest {
 		assertEquals(TEXT_EXPECTED, text);
 		
 	}
+	@Test
+	public void testFileExistance(){
+		
+		assertTrue("Test file exists with an existance file", FileUtil.fileExists(FILE_INI));
+		assertTrue("Test folder exists with an existance folder", FileUtil.fileExists("."));
+		
+		assertTrue ("Test file exists with a non existance file", !FileUtil.fileExists("fooo"));
+	}
+	@Test
+	public void testFileExistanceThrowingException1(){
 
+		try{
+			assertTrue("Test file exists with an existance file", FileUtil.fileExists(FILE_INI,true));
+		}catch(Exception e){
+			fail ("FileUtil.fileExists throw an unexpected exception when the file exists");
+		}
+
+	}
+	@Test
+	public void testFileExistanceThrowingException2(){
+
+		try{
+			assertTrue("Test folder exists with an existance folder", FileUtil.fileExists(".",true));
+		}catch(Exception e){
+			fail ("FileUtil.fileExists throw an unexpected exception when the folder exists");
+		}
+			
+	}
+	@Test
+	public void testFileExistanceThrowingException3(){
+
+		try{
+			FileUtil.fileExists(".",true);
+		}catch(IOException ioe){
+			assertTrue("Test folder exists with a non existance path throws the correct IOException",true);
+		}
+			
+	}
 
 }
