@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacerException;
@@ -19,7 +20,7 @@ public class IsaTabIdReplacerExceptionTest {
 		
 		//Test the message
 		IsaTabIdReplacerException e = new IsaTabIdReplacerException(MSG, MSGS);
-		assertEquals(MSG + Arrays.toString(MSGS), e.getMessage());
+		assertEquals(MSG + StringUtils.join(MSGS), e.getMessage());
 		
 		//Test the file format
 		assertEquals(FILEFORMAT, e.getFileFormat());
