@@ -92,16 +92,16 @@ public class FileUtil {
 	}
 	public static boolean fileExists(String path){
 		File file = new File(path);
-		
+
 		return file.exists();
 	}
-	public static boolean fileExists(String path, boolean throwException) throws IOException{
+	public static boolean fileExists(String path, boolean throwException) throws FileNotFoundException{
 		
 		boolean result = fileExists(path);
 		
 		if (throwException && !result){
 			
-			throw new IOException ("Path (" + path + ") not found.");
+			throw new FileNotFoundException ("Path (" + path + ") not found.");
 		}
 		
 		return result;
