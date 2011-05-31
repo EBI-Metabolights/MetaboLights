@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.utils;
 
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -107,4 +108,15 @@ public final class StringUtils {
 		return matcher.replaceAll(replacePattern);
 		
 	}
+//	/**
+//	 * Joins all the Strings in a collection and returns it.
+//	 * @param c
+//	 * @return
+//	 */
+//	public String join (Collection<String> c) {
+//	    StringBuilder sb=new StringBuilder();
+//	    for(String s: c)
+//	        sb.append(s);
+//	    return sb.toString();
+//	}
 }
