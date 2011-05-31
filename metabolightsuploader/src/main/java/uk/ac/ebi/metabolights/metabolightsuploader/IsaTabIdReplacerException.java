@@ -2,6 +2,9 @@ package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang.StringUtils;
+import org.bbop.util.StringUtil;
+
 public class IsaTabIdReplacerException extends Exception{
 	private String fileFormat;
 	private String filePath;
@@ -13,7 +16,8 @@ public class IsaTabIdReplacerException extends Exception{
 	 */
 	public IsaTabIdReplacerException(String msgHeader, String[] errors) {
 		
-		super(msgHeader + Arrays.toString(errors));
+		//super(msgHeader + Arrays.toString(errors));
+		super(msgHeader + StringUtils.join(errors));
 		
 		//Populate the errors
 		fileFormat = errors[0];

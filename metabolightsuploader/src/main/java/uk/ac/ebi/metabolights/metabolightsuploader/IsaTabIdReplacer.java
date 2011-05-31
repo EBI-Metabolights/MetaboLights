@@ -126,7 +126,7 @@ public class IsaTabIdReplacer
 		//Split it by ; to go through the array
 	    idList = ids.split(";");
 
-	    //Initialize filewith ids
+	    //Initialize fileWithIds
 	    fileWithIds = props.getProperty(PROP_FILE_WITH_IDS);
 	}
 
@@ -153,8 +153,10 @@ public class IsaTabIdReplacer
 		}
 		
 		//If there are messages (errors)
-		msg = Arrays.toString(msgs);
-		if ( !msg.equals("[null, null]") ){
+		msg = org.apache.commons.lang.StringUtils.join(msgs);
+		
+		//If there is any message...
+		if ( !msg.equals("") ){
 			
 			//Throw customize exception...
 			IsaTabIdReplacerException e = new IsaTabIdReplacerException("Invalid ISA Tab File:\n", msgs);

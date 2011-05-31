@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 //import java.io.IOException;
 
 //import javax.naming.ConfigurationException;
@@ -44,12 +45,16 @@ public class IsaTabIdReplacerTest {
 
 	
 	@BeforeClass
-	public static void prepareInputFiles(){
+	public static void prepareInputFiles() throws IOException{
 		
-		//Zip all files needed to the test.
-		Zipper.zip(FOLDER_ISATAB1, FILE_ISATAB1);
-		Zipper.zip(FOLDER_ISATABBII1, FILE_ISATABBII1);
-		
+		try{
+			//Zip all files needed to the test.
+			Zipper.zip(FOLDER_ISATAB1, FILE_ISATAB1);
+			Zipper.zip(FOLDER_ISATABBII1, FILE_ISATABBII1);
+		}catch(IOException ioe){
+			throw ioe;
+		}
+			
 		//Delete (empty recursively) the output folder
 		File out = new File (FOLDER_TEST_OUT);
 		FileUtil.deleteDir(out);
