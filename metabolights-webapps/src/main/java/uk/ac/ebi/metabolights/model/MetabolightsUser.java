@@ -33,7 +33,7 @@ import uk.ac.ebi.metabolights.service.CountryService;
 
 public class MetabolightsUser implements Serializable{
 	
-	public static enum userStatus {NEW, ACTIVE, FROZEN}; 
+	public static enum userStatus {NEW, VERIFIED, ACTIVE, FROZEN}; //must correspond to check constraint in database
 	
 	private static final long serialVersionUID = -775643268878161432L;
 
@@ -157,6 +157,8 @@ public class MetabolightsUser implements Serializable{
 	}
 
 	public void setEmail(String email) {
+		if (email!=null)
+			email=email.trim();
 		this.email = email;
 	}
 
@@ -165,6 +167,8 @@ public class MetabolightsUser implements Serializable{
 	}
 
 	public void setUserName(String userName) {
+		if (userName!=null)
+			userName=userName.trim();
 		this.userName = userName;
 	}
 
@@ -173,6 +177,8 @@ public class MetabolightsUser implements Serializable{
 	}
 
 	public void setDbPassword(String dbPassword) {
+		if (dbPassword!=null)
+			dbPassword=dbPassword.trim();
 		this.dbPassword = dbPassword;
 	}
 
@@ -181,6 +187,8 @@ public class MetabolightsUser implements Serializable{
 	}
 
 	public void setUserVerifyDbPassword(String userVerifyDbPassword) {
+		if (userVerifyDbPassword!=null)
+			userVerifyDbPassword=userVerifyDbPassword.trim();
 		this.userVerifyDbPassword = userVerifyDbPassword;
 	}
 

@@ -59,7 +59,7 @@ html,body {
 	float: right;
 	font-size: 13px;
 	font-weight: bold;
-    color: #ffffff;
+    color: #004242;
 	
 }
 #top_bar #navigation a {
@@ -97,7 +97,7 @@ html,body {
 
 #text_header { 
 	padding: 10px 0px 5px 15px;
-	background-color: #D59F35  ;
+	background-color: #D5AE60  ;
 	font-size: 130%;
 	font-weight: bold;
 	color:#006666;
@@ -122,10 +122,12 @@ html,body {
 
 
 .messageBox {
-	border: 1px solid #6F4A00;
+	border: 1px solid #006666;
 	padding: 3px 3px 3px 3px;
 	float: left;
     margin-top: 3px;
+    color:#006666;
+    margin-top:-10px;
 	
 }
 
@@ -140,7 +142,7 @@ html,body {
 }
 
 .formbox {
-    border:1px solid #D59F35;
+    border:1px solid #D5AE60;
     margin-top:10px;
     padding-top:0px;
     padding-left:20px;
@@ -148,7 +150,7 @@ html,body {
 }
 
 .formheader{
-   background-color:#D59F35;
+   background-color:#D5AE60;
    color: #FFFFFF;
 }
 

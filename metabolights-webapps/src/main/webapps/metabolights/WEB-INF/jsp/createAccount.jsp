@@ -15,11 +15,26 @@
 			<tr>
 				<td colspan='3'>&nbsp;</td>
 			</tr>
+	        <tr>
+	            <td><spring:message code="label.userName" />:</td>
+	            <td><form:input path="userName"  maxlength="255" size="20"/> </td>
+	            <td>(*)&nbsp;<span class="error">
+	                            <form:errors path="userName" />
+	                            <c:if test="${not empty dupUserMessage}"><c:out value="${dupUserMessage}" /></c:if>
+	                         </span>
+	            </td>
+	        </tr>
+
+
 			<jsp:include page="accountFormFields.jsp" />
+
+
 			<tr>
 				<td></td>
-				<td colspan='2'><input name="submit" type="submit"
-					value="<spring:message code="label.create"/>"></td>
+				<td colspan='2'><input name="submit" type="submit"	value="<spring:message code="label.create"/>">
+                <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
+                </td>
+
 			</tr>
 		</table>
 	</form:form>

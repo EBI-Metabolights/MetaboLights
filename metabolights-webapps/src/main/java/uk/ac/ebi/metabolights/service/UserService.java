@@ -3,6 +3,13 @@ package uk.ac.ebi.metabolights.service;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 public interface UserService {
+
+	/**
+	 * Find a user by means of the Id.
+	 * @param Id
+	 */
+	public MetabolightsUser lookupById(Long id);
+
 	/**
 	 * Find a user by means of the userName.
 	 * @param userName

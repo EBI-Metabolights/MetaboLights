@@ -7,6 +7,8 @@
 <br/><br/>
 <span class="error">
   <spring:message code="msg.error.general" />
+  <c:out value="${errorMainMessage}"/>
+
 </span>
 <br>
 

@@ -171,14 +171,25 @@
 
 	<bean id="reminderTemplate" class="org.springframework.mail.SimpleMailMessage">
 	  <property name="from" value="no-reply@ebi.ac.uk"/>
-	  <property name="subject" value="Your password reminder"/>
+	  <property name="subject" value="Your new password"/>
 	</bean>
 
-    <bean id="newAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
-      <property name="from" value="scumsucker@ebi.ac.uk"/>
-      <property name="subject" value="New Metabolights account request"/>
-      <property name="to">  <list><value>markr@ebi.ac.uk</value></list> </property>
+    <bean id="verifyNewAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
+      <property name="from" value="no-reply@ebi.ac.uk"/>
+      <property name="subject" value="Please confirm your account request for Metabolight"/>
     </bean>
+
+    <bean id="activateAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
+      <property name="from" value="desperatePoledancer@ebi.ac.uk"/>
+      <property name="subject" value="New Metabolights account request"/>
+      <property name="to">  <list><value>markr@ebi.ac.uk</value></list> </property>  <!-- metabolights@ebi.ac.uk -->
+    </bean>
+
+    <bean id="accountApprovedTemplate" class="org.springframework.mail.SimpleMailMessage">
+      <property name="from" value="no-reply@ebi.ac.uk"/>
+      <property name="subject" value="Your account for Metabolights is now active"/>
+    </bean>
+
 
     
 </beans>

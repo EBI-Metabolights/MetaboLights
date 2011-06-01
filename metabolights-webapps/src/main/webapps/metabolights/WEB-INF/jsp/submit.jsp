@@ -26,6 +26,7 @@
 		        </tr-->
 		        <tr>
 		            <td colspan='2'><input name="submit" type="submit" value="<spring:message code="label.upload"/>">
+                    <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
 		            </td>
 		        </tr>
 		    </table>

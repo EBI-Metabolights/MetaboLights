@@ -40,4 +40,9 @@ public class UserServiceImpl implements UserService{
 		userDAO.update(user);	
 	}
 
+	@Transactional
+	public MetabolightsUser lookupById(Long id) {
+		return userDAO.findById(id);
+	}
+
 }

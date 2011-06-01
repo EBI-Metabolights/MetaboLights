@@ -14,15 +14,6 @@
             <td>(*)&nbsp;<span class="error"><form:errors path="lastName" /></span></td>
         </tr>
         <tr>
-            <td><spring:message code="label.userName" />:</td>
-            <td><form:input path="userName"  maxlength="255" size="20"/> </td>
-            <td>(*)&nbsp;<span class="error">
-                            <form:errors path="userName" />
-                            <c:if test="${not empty dupUserMessage}"><c:out value="${dupUserMessage}" /></c:if>
-                         </span>
-            </td>
-        </tr>
-        <tr>
             <td><spring:message code="label.password" />:</td>
             <td><form:input path="dbPassword"  maxlength="255" size="40" type="password" /> </td>
             <td>(*)&nbsp;<span class="error"><form:errors path="dbPassword" /></span></td>
@@ -35,8 +26,12 @@
         <tr>
             <td><spring:message code="label.email" />:</td>
             <td><form:input path="email"  maxlength="255" size="40" /> </td>
-            <td>(*)&nbsp;<span class="error"><form:errors path="email" /></span></td>
+            <td>(*)&nbsp;<span class="error"><form:errors path="email" />
+                            <c:if test="${not empty duplicateEmailAddress}"><c:out value="${duplicateEmailAddress}" /></c:if>
+                         </span>
+            </td>
         </tr>
+
         <tr>
             <td><spring:message code="label.affili" />:</td>
             <td><form:input path="affiliation"  maxlength="255" size="40" /> </td>

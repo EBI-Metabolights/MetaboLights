@@ -34,5 +34,10 @@ public interface UserDAO {
      */
     public void update(MetabolightsUser user);
 
-    
+
+    /**
+	 * Find a user by means of the Id.
+	 * @param Id
+	 */
+    public MetabolightsUser findById(Long id);
 }

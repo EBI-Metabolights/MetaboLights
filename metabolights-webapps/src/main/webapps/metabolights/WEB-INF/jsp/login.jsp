@@ -32,8 +32,9 @@
 		</tr-->
 		<tr>
             <td></td>
-			<td colspan='2'><input name="submit" type="submit"
-				value="<spring:message code="label.login"/>">
+			<td colspan='2'><input name="submit" type="submit" value="<spring:message code="label.login"/>">
+            <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
+
 			</td>
 		</tr>
         <tr >
@@ -50,7 +51,7 @@
     <c:if test="${not empty param.login_error}">
       <span class="error">
         <br> 
-        Your login attempt was not successful, try again.<br/> 
+        <!-- Your login attempt was not successful, try again.<br/>--> 
         <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
         <br>
       </span>

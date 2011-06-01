@@ -18,8 +18,8 @@
 	        </tr>
 	        <tr>
                 <td></td>
-	            <td colspan='2'><input name="submit" type="submit"
-	                value="<spring:message code="label.resetPw"/>">
+	            <td colspan='2'><input name="submit" type="submit" value="<spring:message code="label.resetPw"/>">
+                <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
 	            </td>
 	        </tr>
 	    </table>

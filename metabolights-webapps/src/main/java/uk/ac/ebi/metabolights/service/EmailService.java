@@ -25,7 +25,13 @@ public class EmailService {
 	private SimpleMailMessage reminderTemplate; // template for password reminder, configured in servlet XML
 
 	@Autowired
-	private SimpleMailMessage newAccountTemplate; // template for password reminder, configured in servlet XML
+	private SimpleMailMessage verifyNewAccountTemplate; // template for confirmation of an account request
+
+	@Autowired
+	private SimpleMailMessage activateAccountTemplate; // template for password reminder, configured in servlet XML
+
+	@Autowired
+	private SimpleMailMessage accountApprovedTemplate; // template for notification that account is active
 
 	
 	public void setMailSender(MailSender mailSender) {
@@ -36,6 +42,12 @@ public class EmailService {
 		this.reminderTemplate = templateMessage;
 	}
 
+	/**
+	 * Sends an email with a new (reset) password for the user to login with.
+	 * @param emailAddress
+	 * @param resetPassword
+	 * @param userName
+	 */
 	public void sendResetPassword (String emailAddress, String resetPassword, String userName) {
 		SimpleMailMessage msg = new SimpleMailMessage(this.reminderTemplate);
 		String body = PropertyLookup.getMessage("msg.passwordResetNotification", userName, resetPassword);
@@ -44,16 +56,48 @@ public class EmailService {
 		this.mailSender.send(msg);
 	}
 
-	public void sendNewAccountAlert (MetabolightsUser usr) {
-		SimpleMailMessage msg = new SimpleMailMessage(this.newAccountTemplate);
-		String body = PropertyLookup.getMessage("msg.accountRequest",
-				usr.getFirstName(),usr.getLastName(),usr.getUserName(),usr.getUserId()+"",
-				usr.getEmail(),usr.getAffiliation(),CountryService.lookupCountry(usr.getAddress()));
+	/**
+	 * Sends an email to a user to confirm the creation of a new account.
+	 * @param emailAddress
+	 * @param confirmationURL
+	 */
+	public void sendConfirmNewAccountRequest (String emailAddress, String confirmationURL) {
+		SimpleMailMessage msg = new SimpleMailMessage(this.verifyNewAccountTemplate);
+		String body = PropertyLookup.getMessage("msg.confirmAccountRequest", confirmationURL);
+		msg.setTo(emailAddress);
 		msg.setText(body);
 		this.mailSender.send(msg);
 	}
 
+	/**
+	 * Sends an email to MTBL admin for notification of a new account request.
+	 * Admin then needs to authorize this by clicking a private URL in the email. 
+	 * 
+	 * @param usr detail of the new account requested
+	 */
+	public void sendNewAccountAlert (MetabolightsUser usr, String url) {
+		SimpleMailMessage msg = new SimpleMailMessage(this.activateAccountTemplate);
+		String body = PropertyLookup.getMessage("msg.accountRequest",
+				usr.getFirstName(),usr.getLastName(),usr.getUserName(),usr.getUserId()+"",
+				usr.getEmail(),usr.getAffiliation(),CountryService.lookupCountry(usr.getAddress()),
+				url);
+		msg.setText(body);
+		this.mailSender.send(msg);
+	}
 
+	/**
+	 * Sends an email to the user to mention that the requested account has become active. 
+	 * @param usr detail of the new account requested
+	 */
+	public void sendAccountHasbeenActivated (MetabolightsUser user) {
+		SimpleMailMessage msg = new SimpleMailMessage(this.accountApprovedTemplate);
+		String body = PropertyLookup.getMessage("msg.accountActive",user.getUserName());
+		msg.setTo(user.getEmail());
+		msg.setText(body);
+		this.mailSender.send(msg);
+	}
+
+	
 	/**
 	 * For use by a Sping Validator, to check if an email looks likely.
 	 * @param aEmailAddress

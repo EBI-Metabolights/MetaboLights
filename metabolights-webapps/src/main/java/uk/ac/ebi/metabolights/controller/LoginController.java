@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider;
 import uk.ac.ebi.metabolights.form.EmailAddress;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
@@ -81,7 +82,7 @@ public class LoginController extends AbstractController{
 		else {
 			// Get some new password
 			String tempPassword = getTemporaryPassword ();
-			mtblUser.setDbPassword(tempPassword);
+			mtblUser.setDbPassword(IsaTabAuthenticationProvider.encode(tempPassword));
 			
 			// Update database user details
 			userService.update(mtblUser);

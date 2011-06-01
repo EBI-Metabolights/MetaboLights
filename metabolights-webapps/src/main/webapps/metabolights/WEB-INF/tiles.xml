@@ -79,4 +79,9 @@
         <put-attribute name="body" value="/WEB-INF/jsp/accountRequested.jsp" />
     </definition>
 
+    <definition name="updateAccount" extends="base.definition">
+        <put-attribute name="title" value="Update your account for Metabolights" />
+        <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
+    </definition>
+
 </tiles-definitions>
