@@ -4,8 +4,6 @@
 }
 
 html,body {
-	height: 99%;
-	background: #ffffff url(../img/searchBox.png) repeat-x left top;
 	text-align: center;
 	font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
 	font-weight: normal;
@@ -14,10 +12,11 @@ html,body {
 
 /* Main structure styles (used to layout the header/footer) */
 .wrapper {
-	min-height: 90%;
+	background: #ffffff url(../img/searchBox.png) repeat-x left top;
 	height: auto !important;
-	margin: 0px auto -4em;
+	margin: -11px auto -4em;
 	position: relative;
+        width: 1024px;
 }
 
 #footer {
@@ -35,7 +34,7 @@ html,body {
 #topAndBody {
 	width: 1024px;
 	text-align: left;
-	margin: 50px auto;
+	margin: auto;
 	padding-bottom: 15px;
 }
 
@@ -44,7 +43,7 @@ html,body {
 	height: 45px;
 }
 #top_bar h1 {
-	margin-top: 10px;
+	margin-top: 7px;
 	width: 250px;
 	height: 55px;
 	font-size: 1px;
@@ -52,6 +51,7 @@ html,body {
 	background: url(../img/banner.png) no-repeat left top;
 	float: left;
 	margin-bottom: -20px;
+        border:0px;
 }
 #top_bar #navigation {
 	list-style: none;

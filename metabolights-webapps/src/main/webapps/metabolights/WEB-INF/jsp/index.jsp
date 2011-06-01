@@ -18,4 +18,10 @@
 <div id="text-fullwidth">
     <br>
     <spring:message code="msg.metabolightsLong" />
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
 </div>

@@ -182,7 +182,7 @@
     <bean id="activateAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="from" value="desperatePoledancer@ebi.ac.uk"/>
       <property name="subject" value="New Metabolights account request"/>
-      <property name="to">  <list><value>markr@ebi.ac.uk</value></list> </property>  <!-- metabolights@ebi.ac.uk -->
+      <property name="to">  <list><value>metabolights@ebi.ac.uk</value></list> </property>  <!--  -->
     </bean>
 
     <bean id="accountApprovedTemplate" class="org.springframework.mail.SimpleMailMessage">
