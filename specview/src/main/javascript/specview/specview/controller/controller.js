@@ -154,47 +154,6 @@ specview.controller.Controller.prototype.setScaleFactor = function(scale) {
 	this.moleculeRenderer.setScaleFactor( scale);
 };
 
-
-
-/*
-specview.controller.Controller.prototype.setModelsSilently = function(models) {
-	this.clear();
-	this.models = models; // the model objects we wand to put on canvas
-	var objects = goog.array.flatten(goog.array.map(models, function(model) {
-		if (model instanceof specview.model.Molecule) {
-			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
-		}else if(model instanceof  specview.model.NMRdata){
-            //TODO, neighb list for spectrum thing spectrumToNeighBours
-			alert(specview.model.NeighborList.moleculesToNeighbors( [ model.molecule ]))
-			return specview.model.NeighborList.moleculesToNeighbors( [ model.molecule ]);
-		}
-	}));
-
-	if (objects.length > 0) {
-		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
-	}
-	this.render();
-};
-*/
-/*
-specview.controller.Controller.prototype.setModelsSilently = function(models) {
-	this.clear();
-	this.models = models; // the model objects we wand to put on canvas
-	var objects = goog.array.flatten(goog.array.map(models, function(model) {
-		if (model instanceof specview.model.Molecule) {
-			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
-		}else if(model instanceof  specview.model.NMRdata){
-			return specview.model.NeighborList.metaSpecToNeighbors([model]); 
-		}
-	}));
-
-	if (objects.length > 0) {
-		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
-	}
-	this.render();
-};
-*/
-
 specview.controller.Controller.prototype.setModels = function(models){
 	this.clear();
 	this.models = models; // the model objects we wand to put on canvas
@@ -210,7 +169,6 @@ specview.controller.Controller.prototype.setModels = function(models){
 		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
 	}
 	this.render();
-//	this.setModelsSilently(models);
 };
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
