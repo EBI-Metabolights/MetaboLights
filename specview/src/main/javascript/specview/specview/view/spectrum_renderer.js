@@ -109,7 +109,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     this);
     this.graphics.drawPath(peakPath, peakStroke, peakFill);
     if(opt_peak){
-//    	alert("the peak: "+opt_peak)
+//    	alert("the peak: "+opt_peak.arrayOfSecondaryMolecules)
         var stroke = new goog.graphics.Stroke(0.4,'red');
     	var fill = new goog.graphics.SolidFill('black');
         var font = new goog.graphics.Font(20, 'Times');
@@ -117,11 +117,11 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
                 font, stroke, fill);
         this.graphics.drawText("m/z value: "+opt_peak.xValue, 620, 335, 600, 200, 'left', null,
         		new goog.graphics.Font(15, 'Times'), stroke, fill);
-        this.graphics.drawText("Fragment molecule: "+opt_peak.arrayOfSecondaryMolecules[0], 620, 350, 600, 200, 'left', null,
+        this.graphics.drawText("Fragment molecule: "+opt_peak.arrayOfSecondaryMolecules, 620, 350, 600, 200, 'left', null,
         		new goog.graphics.Font(15, 'Times'), stroke, fill);
         this.graphics.drawText("Parent molecule:", 620, 365, 600, 200, 'left', null,
         		new goog.graphics.Font(15, 'Times'), stroke, fill);
-        this.graphics.drawText("Mass of the molecule:", 620, 380, 600, 200, 'left', null,
+        this.graphics.drawText("Mass of the molecule: So far not available", 620, 380, 600, 200, 'left', null,
         		new goog.graphics.Font(15, 'Times'), stroke, fill);
         this.graphics.drawText("Pxel coordinates: "+opt_peak.pixelCoord, 620, 395, 600, 200, 'left', null,
         		new goog.graphics.Font(15, 'Times'), stroke, fill);
