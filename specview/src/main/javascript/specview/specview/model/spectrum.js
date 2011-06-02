@@ -311,6 +311,16 @@ specview.model.Spectrum.prototype.getMinPeak = function(){
 };
 
 
+
+specview.model.Spectrum.prototype.displayXpixelNice = function(){
+	var array=[];
+	goog.array.forEach(this.peakList,function(peak){
+		array.push(parseInt(peak.xPixel));
+	});
+	return array;
+}
+
+
 /**
  * Called when the user is zooming.
  * The zoom dragging tool is divided into 100 units. Every unit, the zoom function is called and the new coordinates
@@ -350,6 +360,7 @@ specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,
 		peak.isVisible=(newXpixelValue>leftBoundOfTheBox && newXpixelValue<rightBoundOfTheBox) ? true : false;
 //		this.logger.info(newXpixelValue+"   "+leftBoundOfTheBox+"   "+rightBoundOfTheBox);
 	}
+//	this.logger.info("all the x pixel values: "+this.displayXpixelNice());
 };
 
 
