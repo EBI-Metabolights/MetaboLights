@@ -26,3 +26,9 @@ specview.util.Utilities.sortArrayIncreasing=function(arrayUnsorted){
 	array=array.sort(function(a,b){return a - b;});
 	return array;
 };
+
+
+specview.util.Utilities.parseOneDecimal = function(number){
+	var string = number.toString();
+	return string.substring(0,string.indexOf(".")+2);
+};

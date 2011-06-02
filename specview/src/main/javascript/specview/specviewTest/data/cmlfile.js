@@ -33,7 +33,6 @@ cmlmolecules=cmlmolecules+
 "<bond id=\"b10\" atomRefs2=\"a8 a12\" order=\"S\"/>\n" + 
 "<bond id=\"b11\" atomRefs2=\"a9 a11\" order=\"D\"/>\n" + 
 "<bond id=\"b12\" atomRefs2=\"a10 a14\" order=\"S\"/>\n" + 
-"<bondStereo dictRef=\"cml:W\"/>\n"+
 "<bond id=\"b13\" atomRefs2=\"a11 a13\" order=\"S\"/>\n" +
 "<bond id=\"a14\" atomRefs2=\"a12 a13\" order=\"D\"/>\n" + 
 "</bondArray>\n" + 

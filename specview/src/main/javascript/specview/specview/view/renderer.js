@@ -87,6 +87,7 @@ specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
 specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_color){
 	
 	var maxHeight=metaSpecObject.spectrum.getMaxHeightPeak();
+	var maxValue=metaSpecObject.spectrum.getMaxValuePeak();
 
 	var boxCoords=metaSpecObject.mainSpecBox;
 	var topLeft=boxCoords[0];
@@ -114,17 +115,24 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     boxPath.moveTo(bottomLeft.x, bottomLeft.y);
     boxPath.lineTo(topLeft.x, topLeft.y);
     this.graphics.drawPath(boxPath, boxStroke, boxFill);
-    
+    var scaleX=(bottomRight.x-bottomLeft.x)/21;
+
     /*
      * Write the value on the x axis each time it encounters a peak
      */
-    for(var k=bottomLeft.x;k<bottomRight.x;k+=1){
-    	for(a in peakList){
-    		if(parseInt(k)==parseInt(peakList[a].xPixel)){
-    	        this.graphics.drawText(parseInt(peakList[a].xValue), k, bottomLeft.y, 600, 200, 'left', null,
-    	                font, stroke, fill);
-    		}
-    	}
+    var c=21;
+    for(var k=bottomLeft.x+scaleX;k<bottomRight.x;k+=scaleX){
+          c-=1
+          if(count!=0){
+              this.graphics.drawText(specview.util.Utilities.parseOneDecimal(maxValue/c), k, bottomLeft.y, 600, 200, 'left', null,
+  	                font, stroke, fill);    	  
+          }    	
+//    	for(a in peakList){
+ //   		if(parseInt(k)==parseInt(peakList[a].xPixel)){
+//    	        this.graphics.drawText(parseInt(peakList[a].xValue), k, bottomLeft.y, 600, 200, 'left', null,
+ //  	                font, stroke, fill);
+   // 		}
+   // 	}
     }
     /*
      * Right the xUnit on the x Axis
