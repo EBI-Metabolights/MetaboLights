@@ -357,6 +357,7 @@ specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,
 			peak.xPixel=minPeak.xPixel;
 			peak.xPixel=minPeak.xTpixel;
 		}
+		peak.setPixelCoordinates();
 		peak.isVisible=(newXpixelValue>leftBoundOfTheBox && newXpixelValue<rightBoundOfTheBox) ? true : false;
 //		this.logger.info(newXpixelValue+"   "+leftBoundOfTheBox+"   "+rightBoundOfTheBox);
 	}

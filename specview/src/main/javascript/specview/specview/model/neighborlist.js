@@ -101,7 +101,10 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 
 	// add the objects to the grid
 	var k=0;
+	
+	
 	goog.array.forEach(objects, function(o) {
+//		this.logger.info(o.obj);
 		k++;
 		var center = o.getCenter();//Coordinates of the object as it appears in the file
 		
@@ -144,9 +147,10 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 				this.cells_samy[newCoord]=objet;
 			}
 		}
-
 	}, this);
+	
 
+	
 };
 
 specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
@@ -316,6 +320,7 @@ specview.model.NeighborList.metaSpecToNeighbors = function(metaSpec) {
 	goog.array.forEach(leSpec, function(spec){
 		//peaks
 		neighbors=goog.array.concat(neighbors,goog.array.map(spec.peakList,function(s){
+			
 			return {
 				obj : s,
 				getCenter : function() {return s.coord;},
@@ -375,5 +380,5 @@ specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
 
 
 
-
-specview.model.NeighborList.prototype.logger = goog.debug.Logger.getLogger('specview.model.NeighborList');
+//specview.model.NeighborList.logger2 = goog.debug.Logger2.getLogger('specview.model.NeighborList');
+specview.model.NeighborList.logger = goog.debug.Logger.getLogger('specview.model.NeighborList');

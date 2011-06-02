@@ -92,7 +92,11 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 	 */
 	this.peakXunit=opt_Xunit;
 	this.peakYunit=opt_Yunit;
-
+	
+	/**
+	 * Represent the coordinate object of the pixel coordinates(the one used in the constructor of neighborlist object
+	 * in order to retrieve the peak on the canvas editor);
+	 */
 	this.pixelCoord=null;
 	
 	/**
@@ -114,7 +118,19 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 };
 goog.exportSymbol("specview.model.Peak", specview.model.Peak);
 
+/*
+ * This one is wrong and should not be like that.
+ */
+specview.model.Peak.prototype.setCoord = function(){
+	this.coord=new goog.math.Coordinate(this.xPixel,this.yPixel);
+};
 
+/*
+ * Set the coordinate object of the pixel coordinates
+ */
+specview.model.Peak.prototype.setPixelCoordinates = function(){
+	this.pixelCoord = new goog.math.Coordinate(this.xPixel,this.yPixel);
+}
 
 
 /*

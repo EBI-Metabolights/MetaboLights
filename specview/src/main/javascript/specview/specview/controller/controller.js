@@ -174,7 +174,6 @@ goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview
 
 specview.controller.Controller.prototype.render = function() {
     goog.array.forEach(this.models, function(model) {
-
         if (model instanceof specview.model.NMRdata) {
             var molecule=model.molecule;
             var spectrum=model.spectrum;
