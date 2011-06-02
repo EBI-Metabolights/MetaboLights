@@ -30,21 +30,21 @@
     <dependency>
     	<groupId>uk.ac.ebi.metabolights</groupId>
     	<artifactId>metabolights-accessionmanager</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
+    	<version>0.0.2-SNAPSHOT</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>org.isatools.isatab</groupId>
-    	<artifactId>ISAtools-import-deps</artifactId>
-    	<version>1.2.1</version>
+    	<artifactId>ISAtools-import-deps-FORK</artifactId>
+    	<version>1.2.1.1</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>uk.ac.ebi.metabolights</groupId>
     	<artifactId>metabolights-utils</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
+    	<version>0.0.2-SNAPSHOT</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
