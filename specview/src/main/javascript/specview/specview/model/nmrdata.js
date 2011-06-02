@@ -73,6 +73,11 @@ specview.model.NMRdata=function(){
 	 * transformations (e.g use the same transform object) we shall make an attribute out of it of the object nmrData.
 	 */
     this.transform=null;
+    
+    /**
+     * 
+     */
+    this.mainMoleculeName;
 	
 	
 };

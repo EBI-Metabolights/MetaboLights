@@ -115,7 +115,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					currentMetaSpecObject.molecule=newMoleculeToDisplay;
 					currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
 //					alert(newMoleculeToDisplay)
-					this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target);
+					this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target,currentMetaSpecObject.mainMoleculeName);
 			//		this.drawText(currentMetaSpecObject,this.editorObject);
 					this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 					this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
@@ -202,9 +202,9 @@ specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
  
 };
 
-specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject,editor,opt_peak) {
+specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject,editor,opt_peak,opt_main_molecule) {
 //	currentMetaSpecObject.setCoordinatesWithPixel(editor);
-	return this.editorObject.setModels([currentMetaSpecObject],opt_peak);
+	return this.editorObject.setModels([currentMetaSpecObject],opt_peak,opt_main_molecule);
 };
 
 specview.controller.plugins.Highlight.prototype.drawText = function(currentMetatSpecObject,editor){

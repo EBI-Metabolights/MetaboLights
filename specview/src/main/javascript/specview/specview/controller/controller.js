@@ -154,7 +154,7 @@ specview.controller.Controller.prototype.setScaleFactor = function(scale) {
 	this.moleculeRenderer.setScaleFactor( scale);
 };
 
-specview.controller.Controller.prototype.setModels = function(models,opt_peak){
+specview.controller.Controller.prototype.setModels = function(models,opt_peak,opt_main_molecule){
 	this.clear();
 	this.models = models; // the model objects we wand to put on canvas
 	var objects = goog.array.flatten(goog.array.map(models, function(model) {
@@ -168,11 +168,11 @@ specview.controller.Controller.prototype.setModels = function(models,opt_peak){
 	if (objects.length > 0) {
 		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
 	}
-	this.render(opt_peak);
+	this.render(opt_peak,opt_main_molecule);
 };
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
-specview.controller.Controller.prototype.render = function(opt_peak) {
+specview.controller.Controller.prototype.render = function(opt_peak,opt_main_molecule) {
     goog.array.forEach(this.models, function(model) {
         if (model instanceof specview.model.NMRdata) {
             var molecule=model.molecule;
@@ -195,7 +195,7 @@ specview.controller.Controller.prototype.render = function(opt_peak) {
             widthScaleLimitation = 0.4;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
             this.moleculeRenderer.render(molecule,model.transform,molBox);
-            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak);      	
+            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);      	
         }
     }, this);
 };
