@@ -45,6 +45,7 @@ goog.inherits(specview.view.MoleculeRenderer, specview.view.Renderer);
 specview.view.MoleculeRenderer.prototype.logger = goog.debug.Logger.getLogger('specview.view.MoleculeRenderer');
 
 specview.view.MoleculeRenderer.prototype.setScaleFactor = function(scale) {
+	alert("here is the scale factor: (to remove this message alert go to molecule_renderer.js line 48) : "+scale);
     this.scale_factor = scale;
 };
 

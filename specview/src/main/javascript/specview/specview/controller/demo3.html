@@ -34,7 +34,7 @@ function initPage(){
 			c.setCapturing(true); 
 			
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[0]);//XML document
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[15]);//XML document
 			spectrumData=new specview.model.NMRdata();
 			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
 			
@@ -44,7 +44,7 @@ function initPage(){
 			spectrumData.setCoordinatesWithPixels(editor)
 
 			editor.setSpecObject(spectrumData);
-			editor.setModels([spectrumData]);
+			editor.setModels([spectrumData],false);
 			editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 			editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 
@@ -240,7 +240,7 @@ var moveSpectrum=function(move,direction){
         <li id="experimentId"><b>Experiment id: </b><script>//document.write(spectrumData.molecule.name)</script></li>
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>
-        <div id="moleculeContainer" style="height:300px"></div>
+        <div id="moleculeContainer" style="height:500px"></div>
 	</fieldset>
 
 

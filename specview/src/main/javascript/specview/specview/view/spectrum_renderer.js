@@ -92,7 +92,7 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
  * The spectrum is simply the object
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
-specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box) {
+specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box,opt_peak) {
 	var spectrum=metaSpecObject.spectrum;
     this.setTransform(transform);
     var peakPath = new goog.graphics.Path();
@@ -108,6 +108,24 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     },
     this);
     this.graphics.drawPath(peakPath, peakStroke, peakFill);
+    if(opt_peak){
+//    	alert("the peak: "+opt_peak)
+        var stroke = new goog.graphics.Stroke(0.4,'red');
+    	var fill = new goog.graphics.SolidFill('black');
+        var font = new goog.graphics.Font(20, 'Times');
+        this.graphics.drawText("Peak information:", 620, 310, 600, 200, 'left', null,
+                font, stroke, fill);
+        this.graphics.drawText("m/z value: "+opt_peak.xValue, 620, 335, 600, 200, 'left', null,
+        		new goog.graphics.Font(15, 'Times'), stroke, fill);
+        this.graphics.drawText("Fragment molecule: "+opt_peak.arrayOfSecondaryMolecules[0], 620, 350, 600, 200, 'left', null,
+        		new goog.graphics.Font(15, 'Times'), stroke, fill);
+        this.graphics.drawText("Parent molecule:", 620, 365, 600, 200, 'left', null,
+        		new goog.graphics.Font(15, 'Times'), stroke, fill);
+        this.graphics.drawText("Mass of the molecule:", 620, 380, 600, 200, 'left', null,
+        		new goog.graphics.Font(15, 'Times'), stroke, fill);
+        this.graphics.drawText("Pxel coordinates: "+opt_peak.pixelCoord, 620, 395, 600, 200, 'left', null,
+        		new goog.graphics.Font(15, 'Times'), stroke, fill);
+    }
 
 };
 
