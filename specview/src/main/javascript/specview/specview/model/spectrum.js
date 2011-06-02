@@ -294,6 +294,7 @@ specview.model.Spectrum.prototype.reScaleCoordinates=function(value,direction){
 			peak.xPixel-=10;
 			peak.xTpixel-=10;
 		}
+		peak.setPixelCoordinates();
 	});
 };
 

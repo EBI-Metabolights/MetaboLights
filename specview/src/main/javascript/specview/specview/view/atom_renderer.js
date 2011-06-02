@@ -303,7 +303,7 @@ specview.view.AtomRenderer.defaultConfig = {
 			'radius' : .53
 		},
 		'stroke' : {
-			'width' : .10
+			'width' : 0.10
 		// font width ..?
 		},
 		'fontName' : "Arial"
