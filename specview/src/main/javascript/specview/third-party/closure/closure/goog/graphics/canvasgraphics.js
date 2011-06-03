@@ -295,6 +295,7 @@ goog.graphics.CanvasGraphics.prototype.reset = function() {
  * Remove all drawing elements from the graphics.
  */
 goog.graphics.CanvasGraphics.prototype.clear = function() {
+	alert("clearing by using the function clear of the file canvasgraphics.js at line 298");
   this.reset();
   this.canvasElement.clear();
   var el = this.getElement();

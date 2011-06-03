@@ -66,6 +66,7 @@ goog.inherits(goog.graphics.CanvasGroupElement, goog.graphics.GroupElement);
  * Remove all drawing elements from the group.
  */
 goog.graphics.CanvasGroupElement.prototype.clear = function() {
+	alert("clearing by using the function clear of the file canvaselement.js at line 69");
   if (this.children_.length) {
     this.children_.length = 0;
     this.getGraphics().redraw();

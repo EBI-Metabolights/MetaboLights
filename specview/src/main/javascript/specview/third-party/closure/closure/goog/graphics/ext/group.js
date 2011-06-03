@@ -209,6 +209,7 @@ goog.graphics.ext.Group.prototype.getCoordinateHeight = function() {
  */
 goog.graphics.ext.Group.prototype.clear = function() {
   while (this.children_.length) {
+	alert("in the file goog/graphics/ext/group.js line 212 I will remove : "+this.children_[0]);
     this.removeChild(this.children_[0]);
   }
 };

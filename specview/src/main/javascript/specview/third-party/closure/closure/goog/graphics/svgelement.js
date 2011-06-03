@@ -57,6 +57,7 @@ goog.inherits(goog.graphics.SvgGroupElement, goog.graphics.GroupElement);
  * Remove all drawing elements from the group.
  */
 goog.graphics.SvgGroupElement.prototype.clear = function() {
+//	alert(this.getElement())
   goog.dom.removeChildren(this.getElement());
 };
 

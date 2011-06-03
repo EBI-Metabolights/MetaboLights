@@ -101,11 +101,11 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     var scaleY=(boxCoords[1].y-boxCoords[0].y)/9;
   
     var stroke = new goog.graphics.Stroke(0.4,opt_color);
-	var fill = new goog.graphics.SolidFill('black');
+	var fill = new goog.graphics.SolidFill(opt_color);
     var font = new goog.graphics.Font(10, 'Times');
 
     var boxPath = new goog.graphics.Path();
-    var boxStroke = new goog.graphics.Stroke(1.5,"black");
+    var boxStroke = new goog.graphics.Stroke(1.5,opt_color);
     var boxFill = null;
     /*
      * Draw the proper axis
@@ -126,13 +126,7 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
           if(count!=0){
               this.graphics.drawText(specview.util.Utilities.parseOneDecimal(maxValue/c), k, bottomLeft.y, 600, 200, 'left', null,
   	                font, stroke, fill);    	  
-          }    	
-//    	for(a in peakList){
- //   		if(parseInt(k)==parseInt(peakList[a].xPixel)){
-//    	        this.graphics.drawText(parseInt(peakList[a].xValue), k, bottomLeft.y, 600, 200, 'left', null,
- //  	                font, stroke, fill);
-   // 		}
-   // 	}
+          }  
     }
     /*
      * Right the xUnit on the x Axis
@@ -148,7 +142,7 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     for(var k=bottomLeft.y-scaleY;k>topRight.y;k-=scaleY){
     	count-=1;
     	if(count!=0){
-            this.graphics.drawText(parseInt(maxHeight/count), bottomLeft.x-30, k, 600, 200, 'left', null,
+            this.graphics.drawText(parseInt(maxHeight/count), bottomLeft.x-14, k, 600, 200, 'left', null,
                     font, stroke, fill);	
     	}
     }

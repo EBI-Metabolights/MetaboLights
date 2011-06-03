@@ -50,6 +50,13 @@ specview.view.MoleculeRenderer.prototype.setScaleFactor = function(scale) {
 };
 
 
+specview.view.MoleculeRenderer.prototype.clearMolecule = function(box,graphics){
+    var fill = new goog.graphics.SolidFill('#FFFFFF');
+    var stroke = new goog.graphics.Stroke(2, '#FFFFFF');
+	graphics.drawRect(box[2].x-7,box[2].y-7,box[3].x,box[0].y,stroke,fill);
+//	alert(box);
+}
+
 
 specview.view.MoleculeRenderer.prototype.render = function(molecule, transform, molecule_Box) {
     this.setTransform(transform);

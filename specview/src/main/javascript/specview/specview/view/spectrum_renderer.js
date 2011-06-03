@@ -92,11 +92,14 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
  * The spectrum is simply the object
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
-specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule) {
-	var spectrum=metaSpecObject.spectrum;
+specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color) {
+	var color = opt_color!=undefined ? opt_color : 'black';
+	
+//	alert(opt_color+"   "+color)
+	var spectrum=metaSpecObject.spectrum==undefined ? metaSpecObject : metaSpecObject.spectrum;
     this.setTransform(transform);
     var peakPath = new goog.graphics.Path();
-    var peakStroke = new goog.graphics.Stroke(1.05,'black');
+    var peakStroke = new goog.graphics.Stroke(1.05,color);
     var peakFill = null;   
     //Draw the peaks
     goog.array.forEach(spectrum.peakList,
@@ -109,11 +112,8 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     this);
     this.graphics.drawPath(peakPath, peakStroke, peakFill);
     
-    
-   
-   
     if(opt_peak){
-        var stroke = new goog.graphics.Stroke(0.4,'orange');
+        var stroke = new goog.graphics.Stroke(0.4,'black');
     	var fill = new goog.graphics.SolidFill('black');
         var font = new goog.graphics.Font(20, 'Times');
         this.graphics.drawText("Peak information:", 620, 310, 600, 200, 'left', null,

@@ -132,17 +132,34 @@ specview.controller.Controller.getActiveControllerId = function() {
 	return specview.controller.Controller.activeControllerId_;
 };
 
-/*
+/**
  * Only called to clear a molecule from the canvas
  */
 specview.controller.Controller.prototype.clear = function() {
-//	this.logger.info("Clearing graphics");
+//	this.logger.info("Clearing graphics I am in the controller.js line 139");
 	this.graphics.clear();
 
 	this.models = []; 
 	this.neighborList = new specview.model.NeighborList( [], 1, .3);
 	var fill = new goog.graphics.SolidFill(this.config.get("background").color);
 	this.graphics.drawRect(0, 0, this.graphics.getSize().width, this.graphics.getSize().height, null, fill);
+};
+
+/**
+ * The purpose is to redraw the object in white.
+ * @param objet
+ */
+specview.controller.Controller.prototype.clearSamy = function(objet,box,transform){
+	if(objet instanceof specview.model.Molecule){
+        this.moleculeRenderer.clearMolecule(box,this.graphics);
+	}else if(objet instanceof specview.model.Spectrum){
+		this.spectrumRenderer.render(objet,transform,box,null,null,'#FFFFFF');
+	}else if(objet instanceof specview.model.Text){
+		/*
+		 * Redraw the text in white
+		 */
+	}
+	
 };
 
 specview.controller.Controller.prototype.getScaleFactor = function() {
@@ -194,6 +211,7 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
             scaleFactor = 0.90; 
             widthScaleLimitation = 0.4;
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
+//            this.graphics.addChild(this.moleculeRenderer);
             this.moleculeRenderer.render(molecule,model.transform,molBox);
             this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);      	
         }
