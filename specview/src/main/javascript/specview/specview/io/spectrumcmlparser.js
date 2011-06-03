@@ -91,14 +91,14 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	
 	
 	if(specview.util.Utilities.startsWith("ms",experimentType)){
-		nmrData.experienceType="ms";
+		nmrData.experienceType="MS";
 //		alert(XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value);
 		try{
 			THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value;
 		}catch(err){}
 		THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[1].attributes[0].value;	
 	}else if(specview.util.Utilities.startsWith("nmr",experimentType)){
-		nmrData.experienceType="nmr";
+		nmrData.experienceType="NMR";
 		try{
 			THEMOLECULENAME=XMLdoc.getElementsByTagName('molecule').item(0).attributes[0].value;
 			THEMOLECULEID=XMLdoc.getElementsByTagName('molecule').item(0).attributes[1].value;	
@@ -110,7 +110,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 //	specview.io.SpectrumCMLParser.logger.info("the molecule name: "+THEMOLECULENAME)
 	var molecules=XMLdoc.getElementsByTagName("moleculeList");
 //	alert(molecules[0].childNodes.length);
-	if(nmrData.experienceType=="ms"){
+	if(nmrData.experienceType=="MS"){
 		if(molecules[0]!=undefined){//Stephen files: moleculeList is the tag holding all the information about the molecules
 			listOfMolecules=molecules[0].childNodes;	
 		}else{//2008 cml files: moleculeList does not exist. INstead, we have productList
@@ -134,8 +134,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		}
 //		alert("text: "+XmlTextElement)
 		if(!XmlTextElement){
-			var MS = nmrData.experienceType=='ms';
-			var NMR = nmrData.experienceType=='nmr';
+			var MS = nmrData.experienceType=='MS';
+			var NMR = nmrData.experienceType=='NMR';
 			var moleculeName;
 			var moleculeNode;
 //			alert(listOfMolecules[molecule])
@@ -319,7 +319,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				
 				
 
-				if(nmrData.experienceType=="ms"){
+				if(nmrData.experienceType=="MS"){
 //					alert(moleculeName)
 //					specview.io.SpectrumCMLParser.logger.info(moleculeName);
 					if(moleculeName==THEMOLECULENAME){
@@ -373,7 +373,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		var lineInfo = metadataExperiment[metadata];
 		var name = lineInfo.attributes[0].value;
 		var content = lineInfo.attributes[1].value;
-		nmrData.metadata[name]=content;
+		nmrData.metadata[specview.util.Utilities.getStringAfterCharacter(name,":")]=content;
 //		specview.io.SpectrumCMLParser.logger.info(name + " --> "+ content);
 	}
 	
@@ -384,7 +384,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			var name = lineInfo.attributes["dictRef"].value;
 			var content = (lineInfo.attributes["units"]!=undefined) ? lineInfo.attributes["units"].value : "unavailable";
 			var textField = lineInfo.childNodes[0].nodeValue;
-			nmrData.metadata[name]=new Array(content,textField);
+			nmrData.metadata[specview.util.Utilities.getStringAfterCharacter(name,":")]=new Array(content,textField);
 //			specview.io.SpectrumCMLParser.logger.info(name + " --> "+ content+"--->"+textField);
 		}
 	}
@@ -392,7 +392,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 
 	
 	
-	if(nmrData.experienceType=="nmr"){
+	if(nmrData.experienceType=="NMR"){
 		nmrData.molecule=new specview.model.Molecule(THEMOLECULENAME);
 		nmrData.molecule.molecule_id=THEMOLECULEID;
 		for(k in ArrayOfAtoms){

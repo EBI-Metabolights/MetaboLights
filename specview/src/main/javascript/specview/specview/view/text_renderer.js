@@ -55,8 +55,11 @@ specview.view.TextRenderer.prototype.render = function(metaSpecObject, transform
 	for(k in metadata){
 		yStart+=15;
 		var mot = metadata[k];
+		this.logger.info(mot);
 		if(!(mot instanceof Array)){
+//			this.logger.info("mot before: "+mot);
 			mot=specview.util.Utilities.getStringAfterCharacter(metadata[k],":");
+//			this.logger.info("mot after: "+mot);
 		}
 		this.graphics.drawText(k+": "+mot,xStart,yStart,600,200,'left',null,font2,stroke,fill);
 	}
