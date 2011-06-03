@@ -92,7 +92,6 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	
 	if(specview.util.Utilities.startsWith("ms",experimentType)){
 		nmrData.experienceType="ms";
-//		alert(navigatorName)
 //		alert(XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value);
 		try{
 			THEMOLECULENAME=XMLdoc.getElementsByTagName("reactant")[0].childNodes[0].attributes[0].value;

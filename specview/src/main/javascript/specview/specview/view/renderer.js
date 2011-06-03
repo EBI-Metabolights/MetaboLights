@@ -150,7 +150,7 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
    * Right the yUnit on the y Axis if it is available.
    */
     if(metaSpecObject.spectrum.yUnit!=undefined){
-    	this.graphics.drawText(metaSpecObject.spectrum.yUnit, topLeft.x-30, topLeft.y, 600, 200, 'left', null,
+    	this.graphics.drawText(metaSpecObject.spectrum.yUnit, topLeft.x-14, topLeft.y, 600, 200, 'left', null,
                 font, stroke, fill);	
     }
 };
