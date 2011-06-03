@@ -19,6 +19,7 @@ goog.require('specview.view.Renderer');
 goog.require('goog.debug.Logger');
 goog.require('specview.graphics.ElementArray');
 goog.require('goog.array');
+goog.require('specview.util.Utilities');
 
 /**
  * Class to render a spectrum, a list of peaks really
@@ -48,10 +49,13 @@ specview.view.TextRenderer.prototype.render = function(metaSpecObject, transform
 	var color = opt_color!=undefined ? opt_color : 'black';
 	var metadata = metaSpecObject.metadata;
 	var y = 310;
-    this.graphics.drawText("Experiment information:", xStart, y, 600, 200, 'left', null,font1, stroke, fill);	
+    this.graphics.drawText("Experiment information:", xStart, y, 600, 200, 'left', null,font1, stroke, fill);
+    y+=25;
+    this.graphics.drawText("Experiment: "+metaSpecObject.experienceType, xStart, y, 600, 200, 'left', null,font2, stroke, fill);
 	for(k in metadata){
 		y+=15;
-		this.graphics.drawText(k+": "+metadata[k],xStart,y,600,200,'left',null,font2,stroke,fill);
+		this.graphics.drawText(k+": "+specview.util.Utilities.getStringAfterCharacter(metadata[k],":"),xStart,y,600,200,'left',null,font2,stroke,fill);
+		first=false;
 	}
 	
 	

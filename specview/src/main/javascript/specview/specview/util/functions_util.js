@@ -21,6 +21,11 @@ specview.util.Utilities.getStringAfterCharacter=function(string,character){
 	return (string.substring(string.indexOf(":")+1));
 };
 
+specview.util.Utilities.getStringBeforeCharacter = function(string,character){
+	return (string.substring(0,string.indexOf(":")+1));
+}
+
+
 specview.util.Utilities.sortArrayIncreasing=function(arrayUnsorted){
 	var array=arrayUnsorted;
 	array=array.sort(function(a,b){return a - b;});
