@@ -110,8 +110,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     	}
     },
     this);
-    this.graphics.drawPath(peakPath, peakStroke, peakFill);
-    
+    this.graphics.drawPath(peakPath, peakStroke, peakFill);    
     if(opt_peak){
         var stroke = new goog.graphics.Stroke(0.4,'black');
     	var fill = new goog.graphics.SolidFill('black');
@@ -129,8 +128,15 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
         this.graphics.drawText("Pixel coordinates: "+opt_peak.pixelCoord, 620, 395, 600, 200, 'left', null,
         		new goog.graphics.Font(15, 'Times'), stroke, fill);
     }
-
 };
+
+
+specview.view.SpectrumRenderer.prototype.clearSpectrum = function(box,graphics){
+    var fill = new goog.graphics.SolidFill('#FFFFFF');
+    var stroke = new goog.graphics.Stroke(2, '#FFFFFF');
+	graphics.drawRect(box[0].x-15,box[0].y-7,box[3].x,box[0].x,stroke,fill);
+};
+
 
 specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
 	opt_element_array = new specview.graphics.ElementArray();

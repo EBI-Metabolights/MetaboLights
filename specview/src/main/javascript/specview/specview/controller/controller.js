@@ -162,7 +162,11 @@ specview.controller.Controller.prototype.clearSamy = function(objet,box,transfor
 	if(objet instanceof specview.model.Molecule){
         this.moleculeRenderer.clearMolecule(box,this.graphics);
 	}else if(objet instanceof specview.model.Spectrum){
-		this.spectrumRenderer.render(objet,transform,box,null,null,'#FFFFFF');
+		//First way of clearing the spectrum
+// 		this.spectrumRenderer.render(objet,transform,box,null,null,'#FFFFFF');
+		//Second way of clearing the spectrum
+		this.spectrumRenderer.clearSpectrum(box,this.graphics);
+		
 	}else if(objet instanceof specview.model.Text){
 		/*
 		 * Redraw the text in white

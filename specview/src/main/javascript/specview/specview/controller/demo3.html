@@ -98,11 +98,11 @@ function initPage(){
 			*/
 		    goog.events.listen(resetSpectrum,goog.ui.Component.EventType.ACTION,
 		    		function(e){
-		    	for(var k = 0;k<15;k++){
+//		    	for(var k = 0;k<15;k++){
 			    	editor.clearSamy(spectrumData.spectrum, spectrumData.mainSpecBox,spectrumData.transform);
-		    		editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'white');
-		    		editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'white',spectrumData.spectrum);	
-		    	}
+//		    		editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'white');
+//		    		editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'white',spectrumData.spectrum);	
+//		    	}
 		    });
 		    
 		    goog.events.listen(axis,goog.ui.Component.EventType.ACTION,
