@@ -43,10 +43,10 @@ goog.inherits(specview.view.TextRenderer, specview.view.Renderer);
 specview.view.TextRenderer.prototype.render = function(metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color) {
 	var xStart =  metaSpecObject.mainSpecBox[0].x+10;
 	var yStart = metaSpecObject.mainSpecBox[3].y+10;
-    var stroke = new goog.graphics.Stroke(0.4,'black');
+    var stroke = new goog.graphics.Stroke(0.1,'black');
 	var fill = new goog.graphics.SolidFill('black');
-    var font1 = new goog.graphics.Font(20, 'Times');
-    var font2 =	new goog.graphics.Font(15, 'Times');
+    var font1 = new goog.graphics.Font(18, 'Comics');
+    var font2 =	new goog.graphics.Font(11.5, 'Comics');
 	var color = opt_color!=undefined ? opt_color : 'black';
 	var metadata = metaSpecObject.metadata;
     this.graphics.drawText("Experiment information:", xStart, yStart, 600, 200, 'left', null,font1, stroke, fill);
