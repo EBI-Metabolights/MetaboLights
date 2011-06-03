@@ -374,9 +374,20 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		var name = lineInfo.attributes[0].value;
 		var content = lineInfo.attributes[1].value;
 		nmrData.metadata[name]=content;
-
 //		specview.io.SpectrumCMLParser.logger.info(name + " --> "+ content);
 	}
+	
+	for(condition = 0 ; condition < conditionExperiment.length ; condition++){
+		var lineInfo = conditionExperiment[condition];
+		if(lineInfo.attributes!=null){
+			var name = lineInfo.attributes[1].value;
+			var content = lineInfo.attributes[2].value;
+			var textField = lineInfo.childNodes[0].nodeValue;
+			nmrData.metadata[name]=new Array(content,textField);
+//			specview.io.SpectrumCMLParser.logger.info(name + " --> "+ content+"--->"+textField);
+		}
+	}
+	
 
 	
 	

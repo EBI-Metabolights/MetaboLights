@@ -42,20 +42,23 @@ goog.inherits(specview.view.TextRenderer, specview.view.Renderer);
  */
 specview.view.TextRenderer.prototype.render = function(metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color) {
 	var xStart =  metaSpecObject.mainSpecBox[0].x+10;
+	var yStart = metaSpecObject.mainSpecBox[3].y+10;
     var stroke = new goog.graphics.Stroke(0.4,'black');
 	var fill = new goog.graphics.SolidFill('black');
     var font1 = new goog.graphics.Font(20, 'Times');
     var font2 =	new goog.graphics.Font(15, 'Times');
 	var color = opt_color!=undefined ? opt_color : 'black';
 	var metadata = metaSpecObject.metadata;
-	var y = 310;
-    this.graphics.drawText("Experiment information:", xStart, y, 600, 200, 'left', null,font1, stroke, fill);
-    y+=25;
-    this.graphics.drawText("Experiment: "+metaSpecObject.experienceType, xStart, y, 600, 200, 'left', null,font2, stroke, fill);
+    this.graphics.drawText("Experiment information:", xStart, yStart, 600, 200, 'left', null,font1, stroke, fill);
+    yStart+=25;
+    this.graphics.drawText("Experiment: "+metaSpecObject.experienceType, xStart, yStart, 600, 200, 'left', null,font2, stroke, fill);
 	for(k in metadata){
-		y+=15;
-		this.graphics.drawText(k+": "+specview.util.Utilities.getStringAfterCharacter(metadata[k],":"),xStart,y,600,200,'left',null,font2,stroke,fill);
-		first=false;
+		yStart+=15;
+		var mot = metadata[k];
+		if(!(mot instanceof Array)){
+			mot=specview.util.Utilities.getStringAfterCharacter(metadata[k],":");
+		}
+		this.graphics.drawText(k+": "+mot,xStart,yStart,600,200,'left',null,font2,stroke,fill);
 	}
 	
 	
