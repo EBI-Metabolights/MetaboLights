@@ -96,17 +96,18 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					}
 				}
 				this.lastPeakHighlighted=target;
+//				this.logger.info(target);
 				this.lastT=e.currentTarget;
 				this.editorObject.addSelected(target);
 				e.currentTarget.highlightPeak=this.highlightPeak(target,currentMetaSpecObject.editor);
 				//LOOKING FOR THE ATOM(S)
 				var currentMetaSpecObject=this.editorObject.getSpecObject();
 				var currentPeakIdentifier=target.peakId;
-				if(currentMetaSpecObject.experienceType=="ms"){
+				if(currentMetaSpecObject.experienceType=="MS"){
 					newMoleculeToDisplay=currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules];
 				}
 
-				if(currentMetaSpecObject.experienceType=="ms" && newMoleculeToDisplay!=undefined){
+				if(currentMetaSpecObject.experienceType=="MS" && newMoleculeToDisplay!=undefined){
 //					alert(newMoleculeToDisplay);
 //					goog.array.forEach(newMoleculeToDisplay.atoms,function(atom){
 //						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
@@ -115,11 +116,11 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					currentMetaSpecObject.molecule=newMoleculeToDisplay;
 					currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
 //					alert(newMoleculeToDisplay)
-					this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target,currentMetaSpecObject.mainMoleculeName);
+					this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target);
 			//		this.drawText(currentMetaSpecObject,this.editorObject);
 					this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 					this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
-				}else if(currentMetaSpecObject.experienceType!="ms"){
+				}else if(currentMetaSpecObject.experienceType!="MS"){
 //					goog.array.forEach(currentMetaSpecObject.molecule.atoms,function(atom){
 //						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
 //					},this);
@@ -202,9 +203,9 @@ specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
  
 };
 
-specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject,editor,opt_peak,opt_main_molecule) {
+specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject,editor,opt_peak) {
 //	currentMetaSpecObject.setCoordinatesWithPixel(editor);
-	return this.editorObject.setModels([currentMetaSpecObject],opt_peak,opt_main_molecule);
+	return this.editorObject.setModels([currentMetaSpecObject],opt_peak);
 };
 
 specview.controller.plugins.Highlight.prototype.drawText = function(currentMetatSpecObject,editor){
