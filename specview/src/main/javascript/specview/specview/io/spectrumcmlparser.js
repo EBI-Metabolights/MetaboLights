@@ -380,8 +380,9 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	for(condition = 0 ; condition < conditionExperiment.length ; condition++){
 		var lineInfo = conditionExperiment[condition];
 		if(lineInfo.attributes!=null){
-			var name = lineInfo.attributes[1].value;
-			var content = lineInfo.attributes[2].value;
+//			specview.io.SpectrumCMLParser.logger.info(lineInfo.attributes[0].name+" ; "+lineInfo.attributes[1].name+" ; "+lineInfo.attributes[2].name);
+			var name = lineInfo.attributes["dictRef"].value;
+			var content = (lineInfo.attributes["units"]!=undefined) ? lineInfo.attributes["units"].value : "unavailable";
 			var textField = lineInfo.childNodes[0].nodeValue;
 			nmrData.metadata[name]=new Array(content,textField);
 //			specview.io.SpectrumCMLParser.logger.info(name + " --> "+ content+"--->"+textField);
