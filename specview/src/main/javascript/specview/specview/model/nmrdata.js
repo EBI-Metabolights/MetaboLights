@@ -28,6 +28,11 @@ goog.require('goog.debug.Logger');
  */
 
 specview.model.NMRdata=function(){
+	
+	/**
+	 * Metadata information about the experiment
+	 */
+	this.metadata = new Array();
 	/**
 	 * THe experience type that the file holds, e.g MS or NMR.
 	 */
@@ -75,10 +80,11 @@ specview.model.NMRdata=function(){
     this.transform=null;
     
     /**
-     * 
+     * Useful
      */
     this.mainMoleculeName;
-	
+    
+    
 	
 };
 

@@ -20,6 +20,7 @@ goog.provide("specview.controller.Controller");
 goog.provide("specview.controller.Controller.EventType");
 goog.require("specview.view.MoleculeRenderer");
 goog.require("specview.view.SpectrumRenderer");
+goog.require("specview.view.TextRenderer");
 goog.require("goog.graphics");
 goog.require('goog.events');
 goog.require('goog.editor.BrowserFeature');
@@ -59,9 +60,14 @@ specview.controller.Controller = function(element, opt_config) {
 
 	this.graphics = goog.graphics.createGraphics(element.clientWidth,element.clientHeight);
 	this.graphics.render(this.originalElement);
+	/**
+	 * Here are the elements that we can possibly display on the canvas
+	 */
 	this.moleculeRenderer = new specview.view.MoleculeRenderer(this.graphics,this.config);
     this.spectrumRenderer = new specview.view.SpectrumRenderer(this.graphics, this.config);
-	
+	this.textRenderer = new specview.view.TextRenderer(this.graphics,this.config);
+    
+    
 	this.isModified_ = false;
 	this.isEverModified_ = false;
 
@@ -226,7 +232,8 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
             trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
 //            this.graphics.addChild(this.moleculeRenderer);
             this.moleculeRenderer.render(molecule,model.transform,molBox);
-            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);      	
+            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
+            this.textRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
         }
     }, this);
 };

@@ -296,6 +296,28 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				            }	
 					}
 				}
+				
+				/*
+				 * Now take care of the relative information of the molecule
+				 */	
+					
+				var scalarInfo = moleculeNode.getElementsByTagName("scalar");
+				for(var s = 0;s<scalarInfo.length;s++){
+					var lineInfo = scalarInfo.item(s);
+
+					for(var attribut = 0 ; attribut<lineInfo.attributes.length ; attribut++){
+							var at = lineInfo.attributes[attribut]
+							var attributName = at.name;
+							var attributValue = at.value;
+							var textValue = lineInfo.childNodes[0].nodeValue;
+							
+//							specview.io.SpectrumCMLParser.logger.info(attributName+" : "+attributValue+" -->"+scalarInfo.item(s).childNodes[0].nodeValue);
+					}
+				}
+				
+				
+				
+				
 
 				if(nmrData.experienceType=="ms"){
 //					alert(moleculeName)
@@ -331,6 +353,32 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				}	
 		}
 	}	
+	
+	
+	/**
+	 * Now , take care of the information of the experiment :
+	 * Extract information from the tag:
+	 *  <conditionList>
+	 *  	<scalar info ...>
+	 *  </conditionList>
+	 *  <metadataList>
+	 *  	<metadata ...>
+	 *  </metadataList>
+	 */
+	
+	var conditionExperiment = XMLdoc.getElementsByTagName("conditionList")[0].childNodes;
+	var metadataExperiment = XMLdoc.getElementsByTagName("metadata");
+//	specview.io.SpectrumCMLParser.logger.info("condtion: "+conditionExperiment.length+"  metadata: "+metadataExperiment.length);
+	for(var metadata = 0 ; metadata < metadataExperiment.length ; metadata++){
+		var lineInfo = metadataExperiment[metadata];
+		var name = lineInfo.attributes[0].value;
+		var content = lineInfo.attributes[1].value;
+		nmrData.metadata[name]=content;
+
+//		specview.io.SpectrumCMLParser.logger.info(name + " --> "+ content);
+	}
+
+	
 	
 	if(nmrData.experienceType=="nmr"){
 		nmrData.molecule=new specview.model.Molecule(THEMOLECULENAME);

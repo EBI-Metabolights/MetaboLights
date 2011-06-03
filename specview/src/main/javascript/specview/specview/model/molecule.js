@@ -70,9 +70,14 @@ specview.model.Molecule = function(opt_name) {
 	
 	/*
 	 * Useful when dealing with fragments generated in MS experiment
-	 */
-	
+	 */	
 	this.fragmentId=null;
+	
+	
+	/**
+	 * Metadata information about the molecule
+	 */
+	this.metadata = new Object();
 
 };
 goog.exportSymbol("specview.model.Molecule", specview.model.Molecule);
