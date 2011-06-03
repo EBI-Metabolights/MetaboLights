@@ -148,6 +148,15 @@ specview.controller.Controller.prototype.clear = function() {
 /**
  * The purpose is to redraw the object in white.
  * @param objet
+ *  If objet is a molecule:
+ *    THen we invoke the clear method of the molecule_renderer object which simply consists in drawing a white rectangle
+ *    over the molecule. This rectangle is the molecule box in which the molecule is drawn.
+ *  If objet is a spectrum:
+ *    Their are two way of clearing it:
+ *       (i) Redrawing the spectra the axis and the grid in white (by invoking the method render of the spectrum_renderer
+ *       	 object).
+ *       (ii) Drawing a white rectangle over the spectrum. This rectangle is the molecule box in which the spectrum is 
+ *       	  drawn.
  */
 specview.controller.Controller.prototype.clearSamy = function(objet,box,transform){
 	if(objet instanceof specview.model.Molecule){

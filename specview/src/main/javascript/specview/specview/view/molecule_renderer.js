@@ -49,7 +49,13 @@ specview.view.MoleculeRenderer.prototype.setScaleFactor = function(scale) {
     this.scale_factor = scale;
 };
 
-
+/**
+ * This method is a substitute to the clear methods provided by the google closure library.
+ * It 'clear' a molecule from the canvas by drawing a rectangle element (the molecule box) over it and filling it with
+ * white.
+ * @param box
+ * @param graphics
+ */
 specview.view.MoleculeRenderer.prototype.clearMolecule = function(box,graphics){
     var fill = new goog.graphics.SolidFill('#FFFFFF');
     var stroke = new goog.graphics.Stroke(2, '#FFFFFF');
