@@ -10,7 +10,7 @@ goog.addDependency('../../../../specview/graphics/affine_transform.js', ['specvi
 goog.addDependency('../../../../specview/graphics/element_array.js', ['specview.graphics.ElementArray'], ['goog.array', 'goog.debug.Logger']);
 goog.addDependency('../../../../specview/io/json.js', ['specview.io.json'], ['goog.array', 'goog.json', 'goog.math.Coordinate', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule']);
 goog.addDependency('../../../../specview/io/mdl.js', ['specview.io.mdl'], ['goog.debug.Logger', 'goog.i18n.DateTimeFormat', 'goog.string', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule']);
-goog.addDependency('../../../../specview/io/spectrumcmlparser.js', ['specview.io.SpectrumCMLParser'], ['goog.debug.Logger', 'goog.dom.xml', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule', 'specview.model.NMRdata', 'specview.model.Peak', 'specview.model.Spectrum', 'specview.util.Utilities']);
+goog.addDependency('../../../../specview/io/spectrumcmlparser.js', ['specview.io.SpectrumCMLParser'], ['goog.debug.Logger', 'goog.dom.xml', 'specview.model.Atom', 'specview.model.Bond', 'specview.model.Molecule', 'specview.model.NMRdata', 'specview.model.Peak', 'specview.model.Spectrum', 'specview.model.TextElement', 'specview.util.Utilities']);
 goog.addDependency('../../../../specview/json/json_templates.js', [], []);
 goog.addDependency('../../../../specview/math/line.js', ['specview.math.Line'], ['goog.debug.Logger', 'goog.math.Coordinate', 'specview.math.Triangle']);
 goog.addDependency('../../../../specview/math/triangle.js', ['specview.math.Triangle'], []);
@@ -23,6 +23,7 @@ goog.addDependency('../../../../specview/model/nmrdata.js', ['specview.model.NMR
 goog.addDependency('../../../../specview/model/peak.js', ['specview.model.Peak'], ['goog.math.Coordinate']);
 goog.addDependency('../../../../specview/model/pseudo_atom.js', ['specview.model.PseudoAtom'], ['specview.model.Atom']);
 goog.addDependency('../../../../specview/model/spectrum.js', ['specview.model.Spectrum'], ['goog.debug.Logger', 'goog.math.Vec2', 'specview.model.Molecule']);
+goog.addDependency('../../../../specview/model/textElement.js', ['specview.model.TextElement'], ['goog.debug.Logger', 'goog.math.Vec2', 'specview.model.Molecule']);
 goog.addDependency('../../../../specview/resource/covalence.js', ['specview.resource.Covalence'], []);
 goog.addDependency('../../../../specview/resource/elements.js', ['specview.resource.Elements'], []);
 goog.addDependency('../../../../specview/resource/implicith.js', ['specview.resource.ImplicitHydrogens'], []);
@@ -52,5 +53,5 @@ goog.addDependency('../../../../specview/view/single_down_bond_renderer.js', ['s
 goog.addDependency('../../../../specview/view/single_up_bond_renderer.js', ['specview.view.SingleUpBondRenderer'], ['specview.view.BondRenderer']);
 goog.addDependency('../../../../specview/view/single_up_or_down_bond_renderer.js', ['specview.view.SingleUpOrDownBondRenderer'], ['goog.debug', 'goog.debug.FancyWindow', 'goog.debug.Logger', 'specview.view.BondRenderer']);
 goog.addDependency('../../../../specview/view/spectrum_renderer.js', ['specview.view.SpectrumRenderer'], ['goog.array', 'goog.debug.Logger', 'specview.graphics.ElementArray', 'specview.view.Renderer']);
-goog.addDependency('../../../../specview/view/text_renderer.js', ['specview.view.TextRenderer'], ['goog.array', 'goog.debug.Logger', 'specview.graphics.ElementArray', 'specview.view.Renderer']);
+goog.addDependency('../../../../specview/view/text_renderer.js', ['specview.view.TextRenderer'], ['goog.array', 'goog.debug.Logger', 'specview.graphics.ElementArray', 'specview.util.Utilities', 'specview.view.Renderer']);
 goog.addDependency('../../../../specview/view/triple_bond_renderer.js', ['specview.view.TripleBondRenderer'], ['goog.debug.Logger', 'specview.view.BondRenderer']);

@@ -138,6 +138,7 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 		}else if(objet instanceof specview.model.Peak){
 			 coord=objet.pixelCoord;
 				var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
+				//alert(newCoord);
 				this.cells_samy[newCoord]=objet;
 		}else if(objet instanceof specview.model.Bond){//A bond is defined by an array of coordinates
 			objet.setCoordinatesArray();

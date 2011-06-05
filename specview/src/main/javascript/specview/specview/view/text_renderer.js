@@ -48,10 +48,10 @@ specview.view.TextRenderer.prototype.render = function(metaSpecObject, transform
     var font1 = new goog.graphics.Font(18, 'Comics');
     var font2 =	new goog.graphics.Font(11.5, 'Comics');
 	var color = opt_color!=undefined ? opt_color : 'black';
-	var metadata = metaSpecObject.metadata;
+	var metadata = metaSpecObject.metadata.text;
     this.graphics.drawText("Experiment information:", xStart, yStart, 600, 200, 'left', null,font1, stroke, fill);
     yStart+=25;
-    this.graphics.drawText("Experiment: "+metaSpecObject.experienceType, xStart, yStart, 600, 200, 'left', null,font2, stroke, fill);
+    this.graphics.drawText("Experiment: "+metaSpecObject.experienceType, xStart, yStart, 0, 0, 'left', null,font2, stroke, fill);
 	for(k in metadata){
 		yStart+=15;
 		var mot = metadata[k];
@@ -61,47 +61,8 @@ specview.view.TextRenderer.prototype.render = function(metaSpecObject, transform
 			mot=specview.util.Utilities.getStringAfterCharacter(metadata[k],":");
 //			this.logger.info("mot after: "+mot);
 		}
-		this.graphics.drawText(k+": "+mot,xStart,yStart,600,200,'left',null,font2,stroke,fill);
+		this.graphics.drawText(k+": "+mot,xStart,yStart,0,0,'left',null,font2,stroke,fill);
 	}
-	
-	
-	
-	
-	/*
-//	alert(opt_color+"   "+color)
-	var spectrum=metaSpecObject.spectrum==undefined ? metaSpecObject : metaSpecObject.spectrum;
-    this.setTransform(transform);
-    var peakPath = new goog.graphics.Path();
-    var peakStroke = new goog.graphics.Stroke(1.05,color);
-    var peakFill = null;   
-    //Draw the peaks
-    goog.array.forEach(spectrum.peakList,
-    function(peak) {
-    	if(peak.isVisible){
-            peakPath.moveTo(peak.xPixel, peak.yPixel); 
-            peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
-    	}
-    },
-    this);
-    this.graphics.drawPath(peakPath, peakStroke, peakFill);    
-    if(opt_peak){
-        var stroke = new goog.graphics.Stroke(0.4,'black');
-    	var fill = new goog.graphics.SolidFill('black');
-        var font = new goog.graphics.Font(20, 'Times');
-        this.graphics.drawText("Peak information:", 620, 310, 600, 200, 'left', null,
-                font, stroke, fill);
-        this.graphics.drawText("m/z value: "+opt_peak.xValue, 620, 335, 600, 200, 'left', null,
-        		new goog.graphics.Font(15, 'Times'), stroke, fill);
-        this.graphics.drawText("Fragment molecule: "+opt_peak.arrayOfSecondaryMolecules, 620, 350, 600, 200, 'left', null,
-        		new goog.graphics.Font(15, 'Times'), stroke, fill);
-        this.graphics.drawText("Parent molecule: "+opt_main_molecule, 620, 365, 600, 200, 'left', null,
-        		new goog.graphics.Font(15, 'Times'), stroke, fill);
-        this.graphics.drawText("Mass of the molecule: So far not available", 620, 380, 600, 200, 'left', null,
-        		new goog.graphics.Font(15, 'Times'), stroke, fill);
-        this.graphics.drawText("Pixel coordinates: "+opt_peak.pixelCoord, 620, 395, 600, 200, 'left', null,
-        		new goog.graphics.Font(15, 'Times'), stroke, fill);
-    }
-    */
 };
 
 

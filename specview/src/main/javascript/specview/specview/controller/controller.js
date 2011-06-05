@@ -173,10 +173,13 @@ specview.controller.Controller.prototype.clearSamy = function(objet,box,transfor
 		//Second way of clearing the spectrum
 		this.spectrumRenderer.clearSpectrum(box,this.graphics);
 		
-	}else if(objet instanceof specview.model.Text){
+	}else if(objet instanceof specview.model.TextElement){
 		/*
 		 * Redraw the text in white
 		 */
+		for(k in objet.text){
+			this.logger.info(k+" : "+objet.text[k]);
+		}
 	}
 	
 };

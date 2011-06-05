@@ -31,8 +31,9 @@ specview.model.NMRdata=function(){
 	
 	/**
 	 * Metadata information about the experiment
+	 * Object of type TextElement
 	 */
-	this.metadata = new Array();
+	this.metadata = null;
 	/**
 	 * THe experience type that the file holds, e.g MS or NMR.
 	 */

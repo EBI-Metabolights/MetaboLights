@@ -87,7 +87,15 @@ function initPage(){
 		    resetSpectrum.render(goog.dom.getElement('resetSpectrum'));
 		    var resetMolecule = new goog.ui.Button('resetMolecule');
 		    resetMolecule.render(goog.dom.getElement('resetMolecule'));
-
+			var resetTextExperiment = new goog.ui.Button('resetTextExperiment');
+			resetTextExperiment.render(goog.dom.getElement('resetTextExperiment'));
+			
+			goog.events.listen(resetTextExperiment,goog.ui.Component.EventType.ACTION,
+					function(e){
+				editor.clearSamy(spectrumData.metadata);
+			});
+		    
+		    
 		    
 		    goog.events.listen(resetMolecule,goog.ui.Component.EventType.ACTION,
 		    		function(e){

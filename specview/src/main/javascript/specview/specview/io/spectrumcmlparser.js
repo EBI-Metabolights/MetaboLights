@@ -22,6 +22,7 @@ goog.require('goog.dom.xml');
 goog.require('goog.debug.Logger');
 
 goog.require('specview.model.Peak');
+goog.require('specview.model.TextElement');
 goog.require('specview.model.Molecule');
 goog.require('specview.model.Atom');
 goog.require('specview.model.Bond');
@@ -366,6 +367,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	 *  </metadataList>
 	 */
 	
+	nmrData.metadata = new specview.model.TextElement();
 	var conditionExperiment = XMLdoc.getElementsByTagName("conditionList")[0].childNodes;
 	var metadataExperiment = XMLdoc.getElementsByTagName("metadata");
 //	specview.io.SpectrumCMLParser.logger.info("condtion: "+conditionExperiment.length+"  metadata: "+metadataExperiment.length);
@@ -373,7 +375,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		var lineInfo = metadataExperiment[metadata];
 		var name = lineInfo.attributes[0].value;
 		var content = lineInfo.attributes[1].value;
-		nmrData.metadata[specview.util.Utilities.getStringAfterCharacter(name,":")]=content;
+		nmrData.metadata.text[specview.util.Utilities.getStringAfterCharacter(name,":")]=content;
 //		specview.io.SpectrumCMLParser.logger.info(name + " --> "+ content);
 	}
 	
@@ -384,7 +386,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			var name = lineInfo.attributes["dictRef"].value;
 			var content = (lineInfo.attributes["units"]!=undefined) ? lineInfo.attributes["units"].value : "unavailable";
 			var textField = lineInfo.childNodes[0].nodeValue;
-			nmrData.metadata[specview.util.Utilities.getStringAfterCharacter(name,":")]=new Array(content,textField);
+			nmrData.metadata.text[specview.util.Utilities.getStringAfterCharacter(name,":")]=new Array(content,textField);
 //			specview.io.SpectrumCMLParser.logger.info(name + " --> "+ content+"--->"+textField);
 		}
 	}
