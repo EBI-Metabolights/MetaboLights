@@ -121,6 +121,9 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 					this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 				}else if(currentMetaSpecObject.experienceType!="MS"){
+					if(this.editorObject.peakInfoRenderer.box.height!=undefined){
+						this.clearTextInformation(this.editorObject.peakInfoRenderer.box);
+					}
 					this.drawTextInformation(target, currentMetaSpecObject)
 //					goog.array.forEach(currentMetaSpecObject.molecule.atoms,function(atom){
 //						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
@@ -211,7 +214,11 @@ specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(curre
 
 specview.controller.plugins.Highlight.prototype.drawTextInformation = function(peak,currentMetaSpecObject){
 	return this.editorObject.renderText(peak,currentMetaSpecObject);
-}
+};
+
+specview.controller.plugins.Highlight.prototype.clearTextInformation = function(boxToClearThePeakInformation){
+	return this.editorObject.clearPeakInfo(boxToClearThePeakInformation);
+};
 
 //specview.controller.plugins.Highlight.prototype.drawText = function(currentMetatSpecObject,editor){
  //   var stroke = new goog.graphics.Stroke(0.4,opt_color);

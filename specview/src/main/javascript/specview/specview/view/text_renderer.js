@@ -51,7 +51,7 @@ specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt
 	if(box==undefined){
 		textElementObject.box.left = 795;
 		textElementObject.box.top = yStart + 8;
-		textElementObject.box.width = 100;
+		textElementObject.box.width = 200;
 		textElementObject.box.height = 200;
 	}
 	var color = opt_color;
@@ -61,10 +61,10 @@ specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt
     var font2 =	new goog.graphics.Font(11.5, 'Comics');
     this.graphics.drawText(textIntro, xStart, yStart, 600, 200, 'left', null,font1, stroke, fill);
     yStart+=25;
-    this.logger.info("@@@@@@@@@@@")
+//    this.logger.info("@@@@@@@@@@@")
 
     for(k in textElementObject.text){
-    	this.logger.info(xStart+";"+yStart+"-->"+k+": "+textElementObject.text[k]);
+ //   	this.logger.info(xStart+";"+yStart+"-->"+k+": "+textElementObject.text[k]);
     	yStart+=15;
     	this.graphics.drawText("-"+k+": "+textElementObject.text[k],xStart,yStart,0,0,'left',null,font2,stroke,fill)
     }
@@ -80,6 +80,10 @@ specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt
 //	}
 };
 
-
+specview.view.TextRenderer.prototype.clearTextWithBox = function(box){
+    var fill = new goog.graphics.SolidFill('white');
+    var stroke = new goog.graphics.Stroke(2, 'white');
+	this.graphics.drawRect(box.left,box.top-8,box.width,box.height,stroke,fill);
+}
 
 specview.view.TextRenderer.logger = goog.debug.Logger.getLogger('specview.view.TextRenderer');

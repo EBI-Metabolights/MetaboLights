@@ -35,7 +35,7 @@ specview.model.TextElement=function(){
 	/**
 	 * The box in which the text should be drawn.
 	 */
-	this.box = new goog.math.Rect()
+	this.box = new goog.math.Rect();
 };
 goog.exportSymbol("specview.model.TextElement", specview.model.TextElement);
 

@@ -67,6 +67,10 @@ specview.controller.Controller = function(element, opt_config) {
     this.spectrumRenderer = new specview.view.SpectrumRenderer(this.graphics, this.config);
 	this.textRenderer = new specview.view.TextRenderer(this.graphics,this.config);
     
+	this.peakInfoRenderer = new specview.model.TextElement();
+	
+	
+	
     
 	this.isModified_ = false;
 	this.isEverModified_ = false;
@@ -245,7 +249,6 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 };
 
 specview.controller.Controller.prototype.renderText = function(peak,metaSpecObject){
-	
 	var textElementObject = new specview.model.TextElement();
 	if(metaSpecObject.experienceType=="NMR"){
 		textElementObject.text["multiplicity"]=peak.multiplicity;
@@ -253,11 +256,14 @@ specview.controller.Controller.prototype.renderText = function(peak,metaSpecObje
 		textElementObject.text["xValue"]=peak.xValue;
 		textElementObject.text["coordinates"]=peak.coord;
 	}
-//	this.textRenderer.test(textElementObject);
-//	this.logger.info(textElementObject);
-	this.textRenderer.render(textElementObject,undefined,"black","Peak information:");
-	
+	this.peakInfoRenderer = textElementObject;
+	this.textRenderer.render(this.peakInfoRenderer,undefined,"black","Peak information:");
 };
+
+specview.controller.Controller.prototype.clearPeakInfo = function(boxToClearThePeakInfo){
+	this.textRenderer.clearTextWithBox(boxToClearThePeakInfo);
+}
+
 goog.exportSymbol('specview.controller.Controller.prototype.render', specview.controller.Controller.prototype.render);
 
 
