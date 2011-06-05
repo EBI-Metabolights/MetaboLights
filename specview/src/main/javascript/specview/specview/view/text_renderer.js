@@ -40,38 +40,27 @@ goog.inherits(specview.view.TextRenderer, specview.view.Renderer);
  * The spectrum is simply the object
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
-specview.view.TextRenderer.prototype.render = function(metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color) {
-	var xStart =  metaSpecObject.mainSpecBox[0].x+10;
-	var yStart = metaSpecObject.mainSpecBox[3].y+10;
-    var stroke = new goog.graphics.Stroke(0.1,'black');
-	var fill = new goog.graphics.SolidFill('black');
+specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt_color) {
+	var color = opt_color==undefined ? 'black' : '#FFFFFF';
+	var xStart = box[0].x+10;
+	var yStart = box[3].y+10;
+    var stroke = new goog.graphics.Stroke(0.1,color);
+	var fill = new goog.graphics.SolidFill(color);
     var font1 = new goog.graphics.Font(18, 'Comics');
     var font2 =	new goog.graphics.Font(11.5, 'Comics');
-	var color = opt_color!=undefined ? opt_color : 'black';
-	var metadata = metaSpecObject.metadata.text;
     this.graphics.drawText("Experiment information:", xStart, yStart, 600, 200, 'left', null,font1, stroke, fill);
-    yStart+=25;
-    this.graphics.drawText("Experiment: "+metaSpecObject.experienceType, xStart, yStart, 0, 0, 'left', null,font2, stroke, fill);
-	for(k in metadata){
-		yStart+=15;
-		var mot = metadata[k];
-//		this.logger.info(mot);
+    yStart+=25;    
+    bool=true;
+	for(k in textElementObject.text){
+		yStart = bool ? yStart+=25 : yStart+=15;
+		var mot = textElementObject.text[k];
 		if(!(mot instanceof Array)){
-//			this.logger.info("mot before: "+mot);
-			mot=specview.util.Utilities.getStringAfterCharacter(metadata[k],":");
-//			this.logger.info("mot after: "+mot);
-		}
+			mot=specview.util.Utilities.getStringAfterCharacter(textElementObject.text[k],":");
+		}		
 		this.graphics.drawText(k+": "+mot,xStart,yStart,0,0,'left',null,font2,stroke,fill);
+		bool=false;
 	}
 };
-
-
-specview.view.TextRenderer.prototype.clearSpectrum = function(box,graphics){
-    var fill = new goog.graphics.SolidFill('#FFFFFF');
-    var stroke = new goog.graphics.Stroke(2, '#FFFFFF');
-	graphics.drawRect(box[0].x-15,box[0].y-7,box[3].x,box[0].x,stroke,fill);
-};
-
 
 
 

@@ -368,6 +368,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	 */
 	
 	nmrData.metadata = new specview.model.TextElement();
+	nmrData.metadata.text["experienceType"] = nmrData.experienceType;
+//	alert(nmrData.metadata.text["experienceType"]);
 	var conditionExperiment = XMLdoc.getElementsByTagName("conditionList")[0].childNodes;
 	var metadataExperiment = XMLdoc.getElementsByTagName("metadata");
 //	specview.io.SpectrumCMLParser.logger.info("condtion: "+conditionExperiment.length+"  metadata: "+metadataExperiment.length);

@@ -177,9 +177,10 @@ specview.controller.Controller.prototype.clearSamy = function(objet,box,transfor
 		/*
 		 * Redraw the text in white
 		 */
-		for(k in objet.text){
-			this.logger.info(k+" : "+objet.text[k]);
-		}
+		this.textRenderer.render(objet,box,'white')
+//		for(k in objet.text){
+//			this.logger.info(k+" : "+objet.text[k]);
+//		}
 	}
 	
 };
@@ -236,7 +237,7 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 //            this.graphics.addChild(this.moleculeRenderer);
             this.moleculeRenderer.render(molecule,model.transform,molBox);
             this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
-            this.textRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
+            this.textRenderer.render(model.metadata,specBox);
         }
     }, this);
 };

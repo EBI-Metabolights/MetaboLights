@@ -92,25 +92,23 @@ function initPage(){
 			
 			goog.events.listen(resetTextExperiment,goog.ui.Component.EventType.ACTION,
 					function(e){
-				editor.clearSamy(spectrumData.metadata);
+		    	for(var k = 0;k<15 ; k++){
+					editor.clearSamy(spectrumData.metadata,spectrumData.mainSpecBox);
+		    	}
 			});
 		    
 		    
 		    
 		    goog.events.listen(resetMolecule,goog.ui.Component.EventType.ACTION,
 		    		function(e){
-		    	editor.clearSamy(spectrumData.molecule,spectrumData.mainMolBox,spectrumData.transform);
+		    		editor.clearSamy(spectrumData.molecule,spectrumData.mainMolBox,spectrumData.transform);	
 		    });
 			/*
 			 Rudimentary way of specificaly clearing the spectrum
 			*/
 		    goog.events.listen(resetSpectrum,goog.ui.Component.EventType.ACTION,
 		    		function(e){
-//		    	for(var k = 0;k<15;k++){
 			    	editor.clearSamy(spectrumData.spectrum, spectrumData.mainSpecBox,spectrumData.transform);
-//		    		editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'white');
-//		    		editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'white',spectrumData.spectrum);	
-//		    	}
 		    });
 		    
 		    goog.events.listen(axis,goog.ui.Component.EventType.ACTION,

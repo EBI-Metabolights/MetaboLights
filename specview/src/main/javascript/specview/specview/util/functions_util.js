@@ -18,11 +18,15 @@ goog.exportSymbol("specview.util.Utilities.startsWith", specview.util.Utilities.
 
 
 specview.util.Utilities.getStringAfterCharacter=function(string,character){
-	return (string.substring(string.indexOf(":")+1));
+		var indice = string.indexOf(character);
+		return (indice==-1 ? string : string.substring(indice+1))	
+	
 };
 
 specview.util.Utilities.getStringBeforeCharacter = function(string,character){
-	return (string.substring(0,string.indexOf(":")+1));
+	var indice = string.indexOf(character);
+	return (indice==-1 ? string : string.substring(0,indice+1))
+//	return (string.substring(0,string.indexOf(":")+1));
 }
 
 

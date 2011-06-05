@@ -36,8 +36,12 @@ specview.model.TextElement.prototype.logger = goog.debug.Logger.getLogger('specv
 
 /*
  * Description of the object
- */
+ */ 
 specview.model.TextElement.prototype.toString = function() {
-	
+	var string="";
+	for(k in this.text){
+		string+="\n"+k+"-->"+this.text[k]+"\n\n";
+	}
+	return string;
 };
 
