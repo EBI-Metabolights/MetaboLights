@@ -36,30 +36,48 @@ specview.view.TextRenderer = function(graphics, opt_config, opt_box) {
 goog.inherits(specview.view.TextRenderer, specview.view.Renderer);
 
 
+specview.view.TextRenderer.prototype.test = function(arg){
+	alert("dans la fonction test de text_renderer");
+};
+
 /**
  * The spectrum is simply the object
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
-specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt_color) {
-	var color = opt_color==undefined ? 'black' : '#FFFFFF';
-	var xStart = box[0].x+10;
-	var yStart = box[3].y+10;
+specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt_color,textIntro) {
+//	alert(textElementObject);
+	var xStart=(box==undefined ? 800 : box[0].x+10);
+	var yStart = (box==undefined ? 292 : box[3].y+10);
+	if(box==undefined){
+		textElementObject.box.left = 795;
+		textElementObject.box.top = yStart + 8;
+		textElementObject.box.width = 100;
+		textElementObject.box.height = 200;
+	}
+	var color = opt_color;
     var stroke = new goog.graphics.Stroke(0.1,color);
 	var fill = new goog.graphics.SolidFill(color);
     var font1 = new goog.graphics.Font(18, 'Comics');
     var font2 =	new goog.graphics.Font(11.5, 'Comics');
-    this.graphics.drawText("Experiment information:", xStart, yStart, 600, 200, 'left', null,font1, stroke, fill);
-    yStart+=25;    
-    bool=true;
-	for(k in textElementObject.text){
-		yStart = bool ? yStart+=25 : yStart+=15;
-		var mot = textElementObject.text[k];
-		if(!(mot instanceof Array)){
-			mot=specview.util.Utilities.getStringAfterCharacter(textElementObject.text[k],":");
-		}		
-		this.graphics.drawText(k+": "+mot,xStart,yStart,0,0,'left',null,font2,stroke,fill);
-		bool=false;
-	}
+    this.graphics.drawText(textIntro, xStart, yStart, 600, 200, 'left', null,font1, stroke, fill);
+    yStart+=25;
+    this.logger.info("@@@@@@@@@@@")
+
+    for(k in textElementObject.text){
+    	this.logger.info(xStart+";"+yStart+"-->"+k+": "+textElementObject.text[k]);
+    	yStart+=15;
+    	this.graphics.drawText("-"+k+": "+textElementObject.text[k],xStart,yStart,0,0,'left',null,font2,stroke,fill)
+    }
+    
+//	for(k in textElementObject.text){
+//		this.logger.info(xStart+";"+yStart+"-->"+k);
+//		yStart+=20;
+//		var mot = textElementObject.text[k];
+//		if(!(mot instanceof Array)){
+//			mot=specview.util.Utilities.getStringAfterCharacter(textElementObject.text[k],":");
+//		}		
+//		this.graphics.drawText("-"+k+": "+mot,xStart,yStart,0,0,'left',null,font2,stroke,fill);
+//	}
 };
 
 

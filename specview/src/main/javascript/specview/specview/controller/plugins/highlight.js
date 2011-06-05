@@ -121,6 +121,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 					this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 				}else if(currentMetaSpecObject.experienceType!="MS"){
+					this.drawTextInformation(target, currentMetaSpecObject)
 //					goog.array.forEach(currentMetaSpecObject.molecule.atoms,function(atom){
 //						this.logger.info(parseInt(atom.xPixel)+"  ,   "+parseInt(atom.yPixel));
 //					},this);
@@ -208,12 +209,16 @@ specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(curre
 	return this.editorObject.setModels([currentMetaSpecObject],opt_peak);
 };
 
-specview.controller.plugins.Highlight.prototype.drawText = function(currentMetatSpecObject,editor){
-    var stroke = new goog.graphics.Stroke(0.4,opt_color);
-	var fill = new goog.graphics.SolidFill('black');
-    var font = new goog.graphics.Font(10, 'Times');
-	return this.editorObject.grahics.drawText("ceci est un pic",800,450,600,200,'left',null,font,stroke,fill);
+specview.controller.plugins.Highlight.prototype.drawTextInformation = function(peak,currentMetaSpecObject){
+	return this.editorObject.renderText(peak,currentMetaSpecObject);
 }
+
+//specview.controller.plugins.Highlight.prototype.drawText = function(currentMetatSpecObject,editor){
+ //   var stroke = new goog.graphics.Stroke(0.4,opt_color);
+//	var fill = new goog.graphics.SolidFill('black');
+ //   var font = new goog.graphics.Font(10, 'Times');
+//	return this.editorObject.grahics.drawText("ceci est un pic",800,450,600,200,'left',null,font,stroke,fill);
+//}
 
 
 /*

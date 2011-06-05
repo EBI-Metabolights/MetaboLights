@@ -28,7 +28,14 @@ goog.require('goog.debug.Logger');
  * @constructor
  */
 specview.model.TextElement=function(){
+	/**
+	 * Text element is presented under the form of an associative array.
+	 */
 	this.text = new Array();
+	/**
+	 * The box in which the text should be drawn.
+	 */
+	this.box = new goog.math.Rect()
 };
 goog.exportSymbol("specview.model.TextElement", specview.model.TextElement);
 

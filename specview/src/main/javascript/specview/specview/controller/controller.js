@@ -213,35 +213,51 @@ specview.controller.Controller.prototype.setModels = function(models,opt_peak,op
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
 specview.controller.Controller.prototype.render = function(opt_peak,opt_main_molecule) {
-    goog.array.forEach(this.models, function(model) {
-        if (model instanceof specview.model.NMRdata) {
-            var molecule=model.molecule;
-            var spectrum=model.spectrum;
-            var molBox=model.mainMolBox;
-            var specBox=model.mainSpecBox;
-//            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
-            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
-            peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
-            box = goog.math.Box.boundingBox.apply(null, atom_coords);
-            if(model.experienceType=="ms"){
-          	    box.top=box.top-box.top;
-                box.bottom=box.bottom-box.top;
-                box.right=box.right-box.top;
-                box.left=box.left-box.top;
-            }
-            margin = 0.3;//this.config.get("margin");
-            ex_box = box.expand(margin, margin, margin, margin);
-            scaleFactor = 0.90; 
-            widthScaleLimitation = 0.4;
-            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
-//            this.graphics.addChild(this.moleculeRenderer);
-            this.moleculeRenderer.render(molecule,model.transform,molBox);
-            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
-            this.textRenderer.render(model.metadata,specBox);
-        }
-    }, this);
+
+	    goog.array.forEach(this.models, function(model) {
+	        if (model instanceof specview.model.NMRdata) {
+	            var molecule=model.molecule;
+	            var spectrum=model.spectrum;
+	            var molBox=model.mainMolBox;
+	            var specBox=model.mainSpecBox;
+//	            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
+	            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
+	            peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
+	            box = goog.math.Box.boundingBox.apply(null, atom_coords);
+	            if(model.experienceType=="ms"){
+	          	    box.top=box.top-box.top;
+	                box.bottom=box.bottom-box.top;
+	                box.right=box.right-box.top;
+	                box.left=box.left-box.top;
+	            }
+	            margin = 0.3;//this.config.get("margin");
+	            ex_box = box.expand(margin, margin, margin, margin);
+	            scaleFactor = 0.90; 
+	            widthScaleLimitation = 0.4;
+	            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
+//	            this.graphics.addChild(this.moleculeRenderer);
+	            this.moleculeRenderer.render(molecule,model.transform,molBox);
+	            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
+	            this.textRenderer.render(model.metadata,specBox,"black","Experiment Information:");
+	        }
+	    }, this);	
+	
 };
 
+specview.controller.Controller.prototype.renderText = function(peak,metaSpecObject){
+	
+	var textElementObject = new specview.model.TextElement();
+	if(metaSpecObject.experienceType=="NMR"){
+		textElementObject.text["multiplicity"]=peak.multiplicity;
+		textElementObject.text["intensity"]=peak.intensity;
+		textElementObject.text["xValue"]=peak.xValue;
+		textElementObject.text["coordinates"]=peak.coord;
+	}
+//	this.textRenderer.test(textElementObject);
+//	this.logger.info(textElementObject);
+	this.textRenderer.render(textElementObject,undefined,"black","Peak information:");
+	
+};
 goog.exportSymbol('specview.controller.Controller.prototype.render', specview.controller.Controller.prototype.render);
 
 
