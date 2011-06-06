@@ -1,6 +1,8 @@
 
 urlBiiPrefixSearch=http://CHANGE/browse_studies.seam
 urlBiiPrefixStudy=http://CHANGE/study.seam
+urlConfirmNewAccount=http://CHANGE/confirmAccountRequest
+urlActivateNewAccount=http://CHANGE/activateAccount__NotifyUser
 
 ftpServer=CHANGE
 ftpServerMainSubDir=upload
