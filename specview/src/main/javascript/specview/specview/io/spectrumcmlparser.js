@@ -487,7 +487,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				
 			}
 	}
-	this.logger.info("there is exactly "+specview.util.Utilities.getAssoArrayLength(nmrData.ArrayOfPeaks)+" peaks in ArrayOfPeaks");
+//	this.logger.info("there is exactly "+specview.util.Utilities.getAssoArrayLength(nmrData.ArrayOfPeaks)+" peaks in ArrayOfPeaks");
 //	for(k in nmrData.ArrayOfPeaks){
 //		this.logger.info(k+": "+nmrData.ArrayOfPeaks[k]);
 //	}

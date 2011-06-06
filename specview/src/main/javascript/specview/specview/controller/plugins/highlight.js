@@ -74,18 +74,19 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				var currentMetaSpecObject=this.editorObject.getSpecObject();//The metaSpec object
 				var currentAtomInnerIdentifier= target.innerIdentifier;//the atom Id
 				var hypotheticalPeakIdToWhichTheCurrentAtomIsLinked=target.peakMap[currentAtomInnerIdentifier];//its peak Id
-				for(k in currentMetaSpecObject.ArrayOfPeaks){
-					this.logger.info("haaaaaaaaa: "+k+": "+currentMetaSpecObject.ArrayOfPeaks[k]);
-				}
 //				this.logger.info(hypotheticalPeakIdToWhichTheCurrentAtomIsLinked);
 //				this.logger.info("in highlight.hs there is exactle "+specview.util.Utilities.getAssoArrayLength(currentMetaSpecObject.ArrayOfPeaks)+" peaks in ArrayOFPeaks");
 				var peakObjectCorrespondingToThePeakId=currentMetaSpecObject.ArrayOfPeaks[hypotheticalPeakIdToWhichTheCurrentAtomIsLinked];//Peak
 				
 				//HIGHLIGHT THE PEAK PROVIDED IT EXISTS
+				if(this.editorObject.peakInfoRenderer.box.height!=undefined){
+					this.clearTextInformation(this.editorObject.peakInfoRenderer.box);
+				}
 				if(peakObjectCorrespondingToThePeakId){
 //					alert("haaaaaaaaaaaaaa")
 					this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
-					e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);					
+					e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);
+					this.drawTextInformation(peakObjectCorrespondingToThePeakId, currentMetaSpecObject)
 				}
 			}
 			return true;
@@ -121,14 +122,15 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				}else if(currentMetaSpecObject.experienceType!="MS"){
 					if(this.editorObject.peakInfoRenderer.box.height!=undefined){
 						this.clearTextInformation(this.editorObject.peakInfoRenderer.box);
-					}this.drawTextInformation(target, currentMetaSpecObject)
+					}
+					this.drawTextInformation(target, currentMetaSpecObject)
 					var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 				//	this.logger.info("atom to which the peak is related: "+target.atomMap[target.peakId]);
 					//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
 					var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
 					for(var k=0;k<arrayOfAtomToWhichThePeakIsRelated.length;k++){
 						var atomObject=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomToWhichThePeakIsRelated[k]];
-						this.logger.info(atomObject);
+//						this.logger.info(atomObject);
 						arrayOfAtomObjectToWhichThePeakIsRelated.push(atomObject);
 					}
 					var atomIdentifier=arrayOfAtomToWhichThePeakIsRelated[0];
@@ -184,39 +186,38 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 
 
 specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak,editor){
-	this.logger.info("in function highlightPeak of the plugin highlight");
+//	this.logger.info("in function highlightPeak of the plugin highlight");
 	return this.editorObject.spectrumRenderer.highlightOn(peak,editor);
 };
 
 specview.controller.plugins.Highlight.prototype.highlightAtom = function(atom) {
-	this.logger.info("in function highlightAtom of the plugin highlight");
+//	this.logger.info("in function highlightAtom of the plugin highlight");
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOn(atom,this.HIGHLIGHT_COLOR);
 };
 
 specview.controller.plugins.Highlight.prototype.highlightSeriesOfAtom=function(arrayOfAtom){
-	this.logger.info("in function highlightSeriesOfAtom of the plugin highlight");
+//	this.logger.info("in function highlightSeriesOfAtom of the plugin highlight");
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOnSeriesOfAtom(arrayOfAtom,this.HIGHLIGHT_COLOR);
 };
 
 specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
-	this.logger.info("in function highlightBond of the plugin highlight");
-	return this.editorObject.moleculeRenderer.bondRendererFactory.get(bond)
-			.highlightOn(bond,this.HIGHLIGHT_COLOR);
+//	this.logger.info("in function highlightBond of the plugin highlight");
+	return this.editorObject.moleculeRenderer.bondRendererFactory.get(bond).highlightOn(bond,this.HIGHLIGHT_COLOR);
  
 };
 
 specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject,editor,opt_peak) {
-	this.logger.info("in function drawNewMolecule of the plugin highlight");
+//	this.logger.info("in function drawNewMolecule of the plugin highlight");
 	return this.editorObject.setModels([currentMetaSpecObject],opt_peak);
 };
 
 specview.controller.plugins.Highlight.prototype.drawTextInformation = function(peak,currentMetaSpecObject){
-	this.logger.info("in function drawTextInformation of the plugin highlight");
+//	this.logger.info("in function drawTextInformation of the plugin highlight");
 	return this.editorObject.renderText(peak,currentMetaSpecObject);
 };
 
 specview.controller.plugins.Highlight.prototype.clearTextInformation = function(boxToClearThePeakInformation){
-	this.logger.info("in function clearTextInformationof the plugin highlight");
+//	this.logger.info("in function clearTextInformationof the plugin highlight");
 	return this.editorObject.clearPeakInfo(boxToClearThePeakInformation);
 };
 
