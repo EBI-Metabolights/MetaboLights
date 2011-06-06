@@ -41,3 +41,11 @@ specview.util.Utilities.parseOneDecimal = function(number){
 	var string = number.toString();
 	return string.substring(0,string.indexOf(".")+2);
 };
+
+specview.util.Utilities.getAssoArrayLength = function(array){
+	var c=0;
+	for(k in array){
+		c++;
+	}
+	return c;
+}

@@ -463,9 +463,10 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 					}
 				}
 				
-				if(nmrData.experienceType=="nmr"){
+				if(nmrData.experienceType=="NMR"){
 					for(at in atomRefs){
 						var atomRef=atomRefs[at];
+//						this.logger.info(atomRef);
 						for(s in ArrayOfAtoms){
 							var atom=ArrayOfAtoms[s];
 							var innerIdentifier=atom.innerIdentifier;
@@ -486,6 +487,10 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				
 			}
 	}
+	this.logger.info("there is exactly "+specview.util.Utilities.getAssoArrayLength(nmrData.ArrayOfPeaks)+" peaks in ArrayOfPeaks");
+//	for(k in nmrData.ArrayOfPeaks){
+//		this.logger.info(k+": "+nmrData.ArrayOfPeaks[k]);
+//	}
 	
         //Create a spectrum
        // this.logger.info("ArrayOfPeaks "+ArrayOfPeaks.length);
