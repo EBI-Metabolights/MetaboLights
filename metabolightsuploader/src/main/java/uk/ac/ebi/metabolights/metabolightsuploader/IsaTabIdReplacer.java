@@ -7,12 +7,17 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import javax.naming.ConfigurationException;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.spi.LoggerFactoryBinder;
 
+import uk.ac.ebi.metabolights.checklists.CheckList;
+import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.repository.accessionmanager.AccessionManager;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
@@ -39,9 +44,11 @@ public class IsaTabIdReplacer
        
 	private String isaTabArchive;
     private String unzipFolder;
-    private String accessionNumberList = "";
     
-	/**
+    private HashMap<String,String> ids = new HashMap<String,String>();
+	
+    private CheckList cl;
+    /**
 	 * 
 	 * @param args
 	 * First param must be the file name to work with. It should be a ISATab.zip file.
@@ -79,21 +86,29 @@ public class IsaTabIdReplacer
 	}
 	public IsaTabIdReplacer(){}
 	
-	public String getIsaTabArchive(){
-		return isaTabArchive;
+	//IsaTabArchive properties
+	public String getIsaTabArchive(){return isaTabArchive;}
+	public void setIsaTabArchive(String archive){isaTabArchive = archive;}
+	
+	//UnzipFolder properties
+	public String getUnzipFolder(){return unzipFolder;}
+	public void setUnzipFolder(String unzipFolder){this.unzipFolder = unzipFolder;}
+	
+	//Ids property
+	public HashMap<String,String> getIds(){return ids;}
+	public String getIdsNotes(){
+		String notes;
+		
+		notes = "File " + fileWithIds + " found.";
+		//GO through the ids hash
+		for (Map.Entry<String,String> entry :ids.entrySet()){
+			notes = notes + " Initial Id (" + entry.getKey() + ") has been replaced with metabolights Id (" + entry.getValue() +").";
+		}
+		return notes;
 	}
-	public void setIsaTabArchive(String archive){
-		isaTabArchive = archive;
-	}
-	public String getUnzipFolder(){
-		return unzipFolder;
-	}
-	public void setUnzipFolder(String unzipFolder){
-		this.unzipFolder = unzipFolder;
-	}
-	public String getAccessionNumberList(){
-		return accessionNumberList;
-	}
+	//CheckList porperty
+	public void setCheckList(CheckList newCl){cl= newCl;}
+	
 	
 	private static void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
 		
@@ -129,7 +144,13 @@ public class IsaTabIdReplacer
 	    //Initialize fileWithIds
 	    fileWithIds = props.getProperty(PROP_FILE_WITH_IDS);
 	}
-
+	private void updateCheckList (SubmissionProcessCheckListSeed spcls, String newNotes){
+		
+		//If we have a check list
+		if (cl != null){
+			cl.CheckItem(spcls.getKey(), newNotes);
+		}
+	}
 	public void validateIsaTabArchive () throws IsaTabIdReplacerException{
 		String[] msgs = new String[2];
 		String msg;
@@ -162,7 +183,9 @@ public class IsaTabIdReplacer
 			IsaTabIdReplacerException e = new IsaTabIdReplacerException("Invalid ISA Tab File:\n", msgs);
 			throw e;
 		}
-	  
+		
+		//Check CheckList Item
+		updateCheckList(SubmissionProcessCheckListSeed.FILEVALIDATION, "File basic validation passed: right extension and file found.");
 		
 	}
 
@@ -170,8 +193,8 @@ public class IsaTabIdReplacer
 		
 		logger.info("Starting the replacements of the ids");
 		
-		//Reset accessionNumberList, it will be populated with the new accession numbers generated
-		accessionNumberList="";
+		//Reset id List, it will be populated with the new accession numbers generated
+		ids.clear();
 		
 		//Load properties
 		loadProperties();
@@ -184,9 +207,14 @@ public class IsaTabIdReplacer
 		//unzip the isatab archive
 		Zipper.unzip(isaTabArchive,unzipFolder);
 		
+		//Update CheckList
+		updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File succesfully unzipped.");
+		
 		//Replace id
 		replaceIdInFiles();
 		
+		//Update CheckList
+		updateCheckList(SubmissionProcessCheckListSeed.IDREPLACEMENTS, getIdsNotes());
 		
 	}
 	private void replaceIdInFiles () throws IOException{
@@ -216,7 +244,7 @@ public class IsaTabIdReplacer
 		
 		//There must be only one, so take the first
 		replaceIdInFile(fileList[0]);
-		
+
 	}
 	/**
 	 * Replaces Id in a single file. Goes through each line and replace the id if it's the correct line.
@@ -262,9 +290,13 @@ public class IsaTabIdReplacer
 	      if (line.indexOf(id)==0){
 	    	  
 	    	  logger.info("Id found in line " + line);
-	    	  
+	    	
 	    	  //Get the accession number
 	    	  String accession = am.getAccessionNumber();
+	    	  
+	    	  //Get the Id Value (i.e.: BII-1-S)
+	    	  String idInitialValue = StringUtils.replace(line, id + "\t\"", "");
+	    	  idInitialValue = StringUtils.truncate(idInitialValue);
 	    	  
 	    	  //Compose the line:         Study Identifier   "MTBL1"
 	    	  line = id + "\t\"" + accession + "\"";
@@ -273,10 +305,14 @@ public class IsaTabIdReplacer
 	    	  //This is necessary for the uploading using command line tools.
 	    	  //The accession number list will be used to assign permissions.
 	    	  //Permissions can only be done to Study Identifier elements.
+	    	  //Only Study Identifier can be linked.
 	    	  if ("Study Identifier".equals(id)){
 	    	  
-	    		  //Populate the list of new accession numbers (initialized in Execute method)
-	    		  accessionNumberList = accessionNumberList + accession + " ";
+	    		//Populate the list of new accession numbers (initialized in Execute method)
+				//accessionNumberList = accessionNumberList + accession + " ";
+				//initialIdValuesList = initialIdValuesList + idInitialValue + " ";
+	    		ids.put(idInitialValue, accession);
+	    		
 	    	  }
 	    		  
 	    	  return line;
