@@ -5,6 +5,11 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 //import java.io.IOException;
 
 //import javax.naming.ConfigurationException;
@@ -15,6 +20,7 @@ import org.junit.Test;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacer;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacerException;
 import uk.ac.ebi.metabolights.utils.FileUtil;
+import uk.ac.ebi.metabolights.utils.StringUtils;
 //import uk.ac.ebi.metabolights.utils.StringUtils;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
@@ -51,8 +57,8 @@ public class IsaTabIdReplacerTest {
 			//Zip all files needed to the test.
 			Zipper.zip(FOLDER_ISATAB1, FILE_ISATAB1);
 			Zipper.zip(FOLDER_ISATABBII1, FILE_ISATABBII1);
-		}catch(IOException ioe){
-			throw ioe;
+		}catch (IOException ioe){
+			fail("Zipper.zip threw an exception: " + ioe.getMessage());
 		}
 			
 		//Delete (empty recursively) the output folder
@@ -205,8 +211,8 @@ public class IsaTabIdReplacerTest {
 		
 		//Array for the list of new accession numbers
 		String[] accessionList;
-		//String inputfile;
-		//String outputfile;
+		String inputfile;
+		String outputfile;
 		
 		//Configure IsaTabIdReplacer
 		IsaTabIdReplacer itr = new IsaTabIdReplacer(FILE_ISATAB1, FOLDER_ISATAB1_OUT);
@@ -214,33 +220,39 @@ public class IsaTabIdReplacerTest {
 		try {
 			
 			//Accession list should be empty
-			assertEquals("", itr.getAccessionNumberList());
+			assertEquals(0, itr.getIds().size());
 			
 			//Execute the replacement method
  			itr.Execute();
  			
- 			//Transform the accessionList into an array
- 			accessionList = itr.getAccessionNumberList().split(" ");
+ 			//Get the ids
+ 			HashMap<String,String> ids = itr.getIds();
  			
  			//There must be 2 studies..
- 			assertEquals(2, accessionList.length);
+ 			assertEquals(2, ids.size());
  			
- 			//Cannot be done this way when Investigation Identifier is active because getAccessionNumberList do not return the Investigation Identifiers
+ 			//We can not test the content as the Investigation is replaced but not returned in the HashMap
  			
 // 			//Now, with these id we can test the output files and check if the replacement is done correctly.
 // 			inputfile = FileUtil.file2String(FOLDER_ISATAB1+"i_Investigation.txt");
 // 			outputfile= FileUtil.file2String(FOLDER_ISATAB1_OUT+"i_Investigation.txt");
-// 			
-// 			//Replace the old id with the new ones
-// 			inputfile = StringUtils.replace(inputfile, "BII-S-1", accessionList[0].toString());
-// 			inputfile = StringUtils.replace(inputfile, "BII-S-2", accessionList[1].toString());
+// 
+// 		    //replace ids by accession numbers
+// 			Iterator it = ids.entrySet().iterator();
+// 		    while (it.hasNext()) {
+// 		        Map.Entry pairs = (Map.Entry)it.next();
+//
+// 		        //Replace the old id with the new ones
+// 	 			inputfile = StringUtils.replace(inputfile, pairs.getKey().toString(), pairs.getValue().toString());
+// 		    
+// 		    }
 // 			
 // 			//Test if now matches
 // 			assertEquals(inputfile, outputfile);
-// 			
+ 			
  			
 		}catch (Exception e){
-			fail("testIsaTab1Sample have thrown an exception." + e.getMessage());
+			fail("testIsaTab1Sample has thrown an exception." + e.getMessage());
 		}
 
 
