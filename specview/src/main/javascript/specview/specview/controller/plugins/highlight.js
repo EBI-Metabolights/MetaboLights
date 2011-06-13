@@ -54,12 +54,12 @@ specview.controller.plugins.Highlight.prototype.lastArrayOfAtomHighlighted=null;
 specview.controller.plugins.Highlight.prototype.lastT=null;
 
 specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {	
-	/*
+	/**
 	 * If the user has clicked in the canvas, it means that he wants to zoom
 	 */
 	if(specview.controller.plugins.Highlight.zoomObject!=null){
+		
 		if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
-//			this.logger.info("about to clear the rectangle: "+specview.controller.plugins.Highlight.zoomObject.rectangle)
 			this.clearSpectrum();
 			this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
 			this.reDrawSpectrum();
@@ -70,18 +70,26 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				specview.controller.plugins.Highlight.zoomObject.initialCoordinates.y,
 				specview.controller.plugins.Highlight.zoomObject.finalCoordinates.x-specview.controller.plugins.Highlight.zoomObject.initialCoordinates.x,
 				specview.controller.plugins.Highlight.zoomObject.finalCoordinates.y-specview.controller.plugins.Highlight.zoomObject.initialCoordinates.y);
-//		this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
 		this.drawZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
 	}
+	/**
+	 * The highlight shall only be allowed if the user is NOT trying to draw a rectangle.(Efficiency matter)
+	 */
 	else{
-//		this.logger.info("ready to the highlight");
 		var newMoleculeToDisplay;
+		/**
+		 * If the mouse is in the canvas
+		 */
 		if(this.editorObject.findTarget(e)!=undefined) {
 			this.editorObject.clearSelected();
-			//this.editorObject.getOriginalElement().style.cursor = 'default';
-			var target=this.editorObject.findTarget(e);//SAMY. NOT SURE IF THIS IS THE BEST
-
+			/**
+			 * Check if the mouse is hovering an object
+			 */
+			var target=this.editorObject.findTarget(e);
 			var peakTarget=null;
+			/**
+			 * If this is an atom
+			 */
 			if (target instanceof specview.model.Atom) {
 				if(this.lastAtomHighlighted==null || target!=this.lastAtomHighlighted) {
 					if (this.lastT!=null) {
@@ -91,24 +99,27 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						}
 					}
 					this.lastAtomHighlighted=target;
-//					this.logger.info(target)
 					this.lastT=e.currentTarget;
 					this.editorObject.addSelected(target);
 					e.currentTarget.highlightGroup = this.highlightAtom(target);
-					//LOOKING FOR THE PEAK
+					/**
+					 * After highlighting the atom, we check if the atom is related to a Peak
+					 */
 					var currentMetaSpecObject=this.editorObject.getSpecObject();//The metaSpec object
 					var currentAtomInnerIdentifier= target.innerIdentifier;//the atom Id
 					var hypotheticalPeakIdToWhichTheCurrentAtomIsLinked=target.peakMap[currentAtomInnerIdentifier];//its peak Id
-//					this.logger.info(hypotheticalPeakIdToWhichTheCurrentAtomIsLinked);
-//					this.logger.info("in highlight.hs there is exactly "+specview.util.Utilities.getAssoArrayLength(currentMetaSpecObject.ArrayOfPeaks)+" peaks in ArrayOFPeaks");
 					var peakObjectCorrespondingToThePeakId=currentMetaSpecObject.ArrayOfPeaks[hypotheticalPeakIdToWhichTheCurrentAtomIsLinked];//Peak
-					
-					//HIGHLIGHT THE PEAK PROVIDED IT EXISTS
+					/**
+					 * If the text information about the peak is written, then we have to delete it to let the place free
+					 * for the new peak.
+					 */
 					if(this.editorObject.peakInfoRenderer.box.height!=undefined){
 						this.clearTextInformation(this.editorObject.peakInfoRenderer.box);
 					}
+					/**
+					 * If a related peak exists, then we highlight it.
+					 */
 					if(peakObjectCorrespondingToThePeakId){
-//						alert("haaaaaaaaaaaaaa")
 						this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
 						e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);
 						this.drawTextInformation(peakObjectCorrespondingToThePeakId, currentMetaSpecObject)
@@ -116,10 +127,10 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				}
 				return true;
 			}
-			//Peaks
-			//CAREFUL: MIGHT BE multiple ATOMS FOR ONE PEAK
+			/**
+			 * If it is a Peak
+			 */
 			else if (target instanceof specview.model.Peak){
-		//		this.logger.info("@@@@@@@@@");
 				var currentMetaSpecObject=this.editorObject.getSpecObject();
 				if(this.lastPeakHighlighted==null || target!=this.lastPeakHighlighted){
 					if(this.lastT!=null){
@@ -132,7 +143,9 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					this.lastT=e.currentTarget;
 					this.editorObject.addSelected(target);
 					e.currentTarget.highlightPeak=this.highlightPeak(target,currentMetaSpecObject.editor);
-					//LOOKING FOR THE ATOM(S)
+					/**
+					 * After highlighting the peaks, we check if one or multiple atoms is/are related to the peak
+					 */
 					var currentMetaSpecObject=this.editorObject.getSpecObject();
 					var currentPeakIdentifier=target.peakId;
 					if(currentMetaSpecObject.experienceType=="MS"){
@@ -150,12 +163,12 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						}
 						this.drawTextInformation(target, currentMetaSpecObject)
 						var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
-					//	this.logger.info("atom to which the peak is related: "+target.atomMap[target.peakId]);
-						//NOW HIGHLIGHT THE CORRESPONDING ATOMS(CAREFUL THERE MIGHT BE MULTIPLE)
+						/**
+						 * If the atoms exist, we highlight them.
+						 */
 						var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
 						for(var k=0;k<arrayOfAtomToWhichThePeakIsRelated.length;k++){
 							var atomObject=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomToWhichThePeakIsRelated[k]];
-//							this.logger.info(atomObject);
 							arrayOfAtomObjectToWhichThePeakIsRelated.push(atomObject);
 						}
 						var atomIdentifier=arrayOfAtomToWhichThePeakIsRelated[0];
@@ -164,9 +177,11 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtomObjectToWhichThePeakIsRelated);
 					}
 				}
-			}		
-			else 
-			if (target instanceof specview.model.Bond) {
+			}	
+			/**
+			 * If this is a bond
+			 */
+			else if (target instanceof specview.model.Bond) {
 				if(this.lastBondHighlighted==null || target!=this.lastBondHighlighted) {
 					if (this.lastT!=null) {
 						this.lastT.highlightGroup.clear();
@@ -178,18 +193,9 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				}
 				return true;
 
-			}
-
-			/*
-			else if (target instanceof specview.model.Molecule) {
-				//this.editorObject.getOriginalElement().style.cursor = 'move';
-				this.editorObject.addSelected(target);
-				e.currentTarget.highlightGroup = this.highlightMolecule(target);
-				return true;
-			}
-			*/
+			}			
 		}
-		/*
+		/**
 		 * When the mouse is off an atom/bond, then we withdraw the highlight.
 		 */
 		else { 
@@ -220,33 +226,41 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
  * @param e
  */
 
+
+/**
+ * When the user click it is to zoom on the spectrum.
+ * Hence :
+ * 		-We shall only allow to draw a rectangle in the spectrum area
+ */
 document.onmousedown = function(e){
 	if(specview.controller.Controller.isInSpectrum(e,document.metaSpecObject)){
 		specview.controller.plugins.Highlight.logger2.info("true");
-//		specview.controller.plugins.Highlight.logger2.info("Call to document.onmousedown: zoonObject = "+specview.controller.plugins.Highlight.zoomObject);//
 		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
 		var initialCoordinates = new goog.math.Coordinate(e.clientX,e.clientY);
 		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
-//		specview.controller.plugins.Highlight.logger2.info("InitCoord of ZoomObject have been set: "+
-//				specview.controller.plugins.Highlight.zoomObject.initialCoordinates);	
 	}else{
-		specview.controller.plugins.Highlight.logger2.info("false")
+		//Nothing TODO if the user click outside of the spectrum area ????
 	}
-};
-specview.controller.plugins.Highlight.prototype.handleClick = function(e){
-	alert("IN THE PROPER HANDLEMOUSEDOWN OF THE PLUGIN HIGHLIGHT");
-};
+};	
 
+
+/**
+ * When the mouse is up it means that the user has drawn a rectangle.
+ * (i)   Get all the peaks that are present in that area
+ * (ii)  Set the peakList of the spectrum to this one
+ * (iii) Set the coordinatePixel but in the SAME specBox
+ * (iv)  Clear the Spectrum
+ * (v)   Render everything
+ * @param e
+ */
 specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	var listOfPeaks = this.getObjects(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 			specview.controller.plugins.Highlight.zoomObject.rectangle.left+
 			specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-	
 	this.editorObject.specObject.spectrum.peakList = listOfPeaks;
 	this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
 	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
-	this.editorObject.spectrumRenderer.render(this.editorObject.specObject,this.editorObject.specObject.transform,undefined,undefined,undefined,undefined)
-	
+	this.editorObject.spectrumRenderer.render(this.editorObject.specObject,this.editorObject.specObject.transform,undefined,undefined,undefined,undefined);
 	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
 	this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
 	specview.controller.plugins.Highlight.zoomObject = null;
@@ -333,35 +347,3 @@ specview.controller.plugins.Highlight.prototype.clearTextInformation = function(
 //	this.logger.info("in function clearTextInformationof the plugin highlight");
 	return this.editorObject.clearPeakInfo(boxToClearThePeakInformation);
 };
-
-
-
-
-//specview.controller.plugins.Highlight.prototype.drawText = function(currentMetatSpecObject,editor){
- //   var stroke = new goog.graphics.Stroke(0.4,opt_color);
-//	var fill = new goog.graphics.SolidFill('black');
- //   var font = new goog.graphics.Font(10, 'Times');
-//	return this.editorObject.grahics.drawText("ceci est un pic",800,450,600,200,'left',null,font,stroke,fill);
-//}
-
-
-/*
-specview.controller.plugins.Highlight.prototype.highlightMolecule = function(
-		molecule) {
-	 return this.editorObject.moleculeRenderer.highlightOn(
-	 molecule, this.HIGHLIGHT_COLOR);
-}
-*/
-/*
-specview.controller.plugins.Highlight.prototype.handleMouseDown = function(e) {
-	alert("in handlemous down plugin highligh line 240")
-	
-	if (e.currentTarget.highlightGroup) {
-		e.currentTarget.highlightGroup.clear();
-	}
-	e.currentTarget.highlightGroup = undefined;
-	var target = this.editorObject.findTarget(e);
-	return false;
-
-};
-*/
