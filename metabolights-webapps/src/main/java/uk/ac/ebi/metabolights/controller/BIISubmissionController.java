@@ -94,18 +94,29 @@ public class BIISubmissionController extends AbstractController {
 		}
 	}
 
-//	@RequestMapping(value = "/uploadtest")
-//	public ModelAndView test(){
-//		HashMap<String,String> accessions = new HashMap();
-//		
-//		accessions.put("ID1", "MTBL1");
-//		accessions.put("ID2", "MTBL2");
-//		
-//		ModelAndView mav = new ModelAndView("biisubmit");
-//		mav.addObject("accessions", accessions);
-//		
-//		return mav;
-//	}
+	@RequestMapping(value = "/uploadtest")
+	public ModelAndView test(){
+		
+		//For testing success
+		HashMap<String,String> accessions = new HashMap<String,String>();
+		accessions.put("ID1", "MTBL1");
+		accessions.put("ID2", "MTBL2");
+		
+		//For testing failure
+		Exception e = new Exception("This is a test exception");
+		
+		//For testing checklist
+		CheckList cl = new CheckList(SubmissionProcessCheckListSeed.values());
+		cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), "File upload checked");
+		
+		
+		ModelAndView mav = new ModelAndView("biisubmit");
+		mav.addObject("accessions", accessions);
+		mav.addObject("error", e);
+		mav.addObject("cl", cl);
+		
+		return mav;
+	}
 	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
 	/**
 	 * Writes a user upload file to designated target directory.
