@@ -74,7 +74,7 @@
 	<br/><br/>
 	<table align="center">
 	<tr>
-		<td><img src="img/info.png" heigh="30" width="30"></td>
+		<td><img src="img/info.png" height="30" width="30"></td>
 		<td><b><spring:message code="msg.uploaded.checkListTitle"/></b></td>
 	<c:forEach items="${cl}" var="mapEntry">
 	    <tr>
