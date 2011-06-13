@@ -160,7 +160,7 @@ function initPage(){
 		      editor.setModels([spectrumData]);
 		      editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 			  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
-
+			  document.metaSpecObject = spectrumData;
 			  goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
 			  goog.dom.getElement("molId").innerHTML="<b>Molecule id: </b>"+spectrumData.molecule.molecule_id;
 			  goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
