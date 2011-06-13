@@ -51,6 +51,25 @@
 		</tr>
 	</table>
  </c:if>
+ 
+<c:if test="${not empty accessions}">
+	<br/><br/>
+	<table>
+		<tr>
+			<td><img src="img/check.png" height ="30" width="30"></td>
+			<td>Congratulations!! You have successfully upload your experiment to Metabolights.<br/>
+				Please, bear in mind that we have replaced your Ids with our unique Metabolights accession numbers.<br/>
+				<b>REPLACEMENT DETAILS</b><br/>
+			
+				<c:forEach items="${accessions}" var="accessionEntry">
+					  Your ID <b>${accessionEntry.key}</b> has been replaced with <a href="<c:out value="entry=${accessionEntry.value}"/>">${accessionEntry.value}</a>.<br/>
+				</c:forEach> 	
+			</td>
+		</tr>
+	</table>
+ </c:if>
+ 
+ 
 
  <c:if test="${not empty cl}">
 	<br/><br/>
