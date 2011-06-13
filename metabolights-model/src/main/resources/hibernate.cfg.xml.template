@@ -3,13 +3,48 @@
 "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-        <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
-        <property name="hibernate.connection.url">jdbc:oracle:thin:@host:port:database</property>
-        <property name="hibernate.connection.username">username</property>
-         <property name="hibernate.connection.password">password</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
-        <property name="hibernate.search.autoregister_listeners">false</property>
-     </session-factory>
+	<session-factory>
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+		<property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+		<property name="hibernate.connection.password"><CHANGE></property>
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@<CHANGE>:<CHANGE>:<CHANGE></property>
+		<property name="hibernate.connection.username"><CHANGE></property>
+		<property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+		<property name="hibernate.search.autoregister_listeners">false</property>
+		<mapping class="uk.ac.ebi.bioinvindex.model.Study" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.xref.Xref" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.xref.ReferenceSource" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.Annotation" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.AnnotationType" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.OntologyTerm" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.security.User" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.Protocol" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.ProtocolType" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.Parameter" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.ProtocolComponent" />
+		<mapping class="uk.ac.ebi.bioinvindex.mibbi.MIProject" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.Investigation" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.Design" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.AssayResult" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.Data" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.processing.DataNode" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.DataType" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.FactorValue" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.UnitValue" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.Unit" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.processing.Assay" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.Material" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.Measurement" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.AssayTechnology" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.processing.MaterialNode" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.MaterialRole" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.Contact" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.ContactRole" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.Publication" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.PublicationStatus" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.processing.Processing" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.processing.ProtocolApplication" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.CharacteristicValue" />
+		<mapping class="uk.ac.ebi.bioinvindex.model.term.ParameterValue" />
+	</session-factory>
 </hibernate-configuration>
