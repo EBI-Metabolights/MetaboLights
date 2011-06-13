@@ -45,7 +45,7 @@
 	<table>
 		<tr>
 			<td><img src="img/warning.png" height ="30" width="30"></td>
-			<td>Upps! There was a problem during the submission process:<br/>
+			<td><spring:message code="msg.uploaded.wrong"/><br/>
 				<b><c:out value="${error.message}"/></b>
 			</td>
 		</tr>
@@ -57,12 +57,11 @@
 	<table>
 		<tr>
 			<td><img src="img/check.png" height ="30" width="30"></td>
-			<td>Congratulations!! You have successfully upload your experiment to Metabolights.<br/>
-				Please, bear in mind that we have replaced your Ids with our unique Metabolights accession numbers.<br/>
-				<b>REPLACEMENT DETAILS</b><br/>
-			
+			<td><spring:message code="msg.uploaded.ok1"/><br/>
+				<spring:message code="msg.uploaded.ok2"/><br/>
+				<b><spring:message code="msg.uploaded.ok3"/></b><br/>
 				<c:forEach items="${accessions}" var="accessionEntry">
-					  Your ID <b>${accessionEntry.key}</b> has been replaced with <a href="<c:out value="entry=${accessionEntry.value}"/>">${accessionEntry.value}</a>.<br/>
+					  <b>${accessionEntry.key}</b> <spring:message code="msg.uploaded.ok4"/><a href="<c:out value="entry=${accessionEntry.value}"/>">${accessionEntry.value}</a>.<br/>
 				</c:forEach> 	
 			</td>
 		</tr>
@@ -74,6 +73,9 @@
  <c:if test="${not empty cl}">
 	<br/><br/>
 	<table align="center">
+	<tr>
+		<td><img src="img/info.png" heigh="30" width="30"></td>
+		<td><b><spring:message code="msg.uploaded.checkListTitle"/></b></td>
 	<c:forEach items="${cl}" var="mapEntry">
 	    <tr>
 			<td>
