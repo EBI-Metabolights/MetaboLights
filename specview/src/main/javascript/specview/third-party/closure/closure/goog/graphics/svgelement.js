@@ -68,6 +68,7 @@ goog.graphics.SvgGroupElement.prototype.clear = function() {
  * @param {number|string} height The height of the group element.
  */
 goog.graphics.SvgGroupElement.prototype.setSize = function(width, height) {
+//	alert("ahahahahah")
   this.getGraphics().setElementAttributes(this.getElement(),
       {'width': width, 'height': height});
 };

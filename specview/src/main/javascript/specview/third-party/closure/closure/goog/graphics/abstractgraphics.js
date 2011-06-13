@@ -117,6 +117,7 @@ goog.graphics.AbstractGraphics.prototype.getCanvasElement = function() {
  */
 goog.graphics.AbstractGraphics.prototype.setCoordSize = function(coordWidth,
                                                                  coordHeight) {
+//	alert("setting the coordinates of the canvas in abstractgraphics.js line 120"+coordWidth);
   this.coordWidth = coordWidth;
   this.coordHeight = coordHeight;
 };

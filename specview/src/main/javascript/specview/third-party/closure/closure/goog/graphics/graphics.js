@@ -67,6 +67,9 @@ goog.graphics.createGraphics = function(width, height, opt_coordWidth,
   // main dom element (the canvas) has been already created.
   graphics.createDom();
 
+  if(graphics instanceof goog.graphics.SvgGraphics){
+//	  alert(graphics.getPixelSize())
+  }
   return graphics;
 };
 

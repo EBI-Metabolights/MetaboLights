@@ -9,6 +9,10 @@
     goog.require('goog.ui.Select');
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
+    goog.require('specview.controller.plugins.Zoom');
+ //   goog.require('specview.controller.DefaultToolbar');
+ //   goog.require('specview.controller.ToolbarController');
+// 	goog.require('specview.controller.plugins.BondEdit');
     goog.require('specview.io.SpectrumCMLParser');
     goog.require('specview.model.NMRdata');
     goog.require('goog.events.MouseWheelHandler');
@@ -33,14 +37,19 @@ function initPage(){
 			var c = new goog.debug.Console(); 
 			c.setCapturing(true); 
 			
+			
+//			var toolbar = new specview.controller.DefaultToolbar.makeDefaultMoleculeToolbar(goog.dom.getElement('moleculeEditorToolbar'));  
+			
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[0]);//XML document
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[5]);//XML document
 			spectrumData=new specview.model.NMRdata();
 			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
 			
 			//Create the canvas and provide it with highlight plugins
 			editor = new specview.controller.Controller(goog.dom.getElement('moleculeContainer'),{background : {color : 'white'}});
 			editor.registerPlugin(new specview.controller.plugins.Highlight());
+			editor.registerPlugin(new specview.controller.plugins.Zoom());
+//			editor.registerPlugin(new specview.controller.plugins.BondEdit());
 			spectrumData.setCoordinatesWithPixels(editor)
 
 			editor.setSpecObject(spectrumData);
@@ -48,6 +57,8 @@ function initPage(){
 			editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 			editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 
+			document.metaSpecObject = spectrumData;
+			
 			//Display the informations about the molecule
 		    goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
 		    goog.dom.getElement("molId").innerHTML="<b>Molecule id: </b>"+spectrumData.molecule.molecule_id;
@@ -184,6 +195,11 @@ var moveSpectrum=function(move,direction){
 }
 
 
+//window.onscroll = function () {
+ //   var oTextbox = document.getElementById("txt1");
+  //  oTextbox.value += "\nscroll is at " + document.body.scrollLeft + " horizontally and " + document.body.scrollTop + " vertically.";
+//}
+
 
 </script>
 
@@ -192,8 +208,6 @@ var moveSpectrum=function(move,direction){
 	<title>Display spectrum demo</title>
 	<link rel="stylesheet" href="../../css/specview.css" />
 	<link rel="stylesheet"  href="../../css/demo.css" />
-<!-- 	<link rel="stylesheet" href="../style/style.html" /> -->
-
 </head>
 
 

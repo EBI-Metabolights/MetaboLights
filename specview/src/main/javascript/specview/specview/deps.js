@@ -2,8 +2,14 @@
 // Please do not edit.
 goog.addDependency('../../../../specview/controller/command.js', ['specview.controller.Command'], []);
 goog.addDependency('../../../../specview/controller/controller.js', ['specview.controller.Controller', 'specview.controller.Controller.EventType'], ['goog.async.Delay', 'goog.debug.Console', 'goog.editor.BrowserFeature', 'goog.events', 'goog.graphics', 'goog.ui.KeyboardShortcutHandler', 'goog.ui.Prompt', 'specview.controller.Plugin', 'specview.model.NMRdata', 'specview.model.NeighborList', 'specview.view.MoleculeRenderer', 'specview.view.SpectrumRenderer', 'specview.view.TextRenderer']);
+goog.addDependency('../../../../specview/controller/defaulttoolbar.js', ['specview.controller.DefaultToolbar'], ['goog.dom', 'goog.dom.TagName', 'goog.dom.classes', 'goog.string.StringBuffer', 'goog.style', 'goog.ui.ControlContent', 'goog.ui.ToolbarSeparator', 'specview.controller.Command', 'specview.controller.TemplateMenuButtonRenderer', 'specview.controller.ToolbarFactory', 'specview.controller.plugins.Zoom']);
 goog.addDependency('../../../../specview/controller/plugin.js', ['specview.controller.Plugin'], ['goog.debug.Logger', 'goog.events.EventTarget', 'goog.functions', 'goog.object', 'goog.reflect']);
+goog.addDependency('../../../../specview/controller/plugins/bond_edit.js', ['specview.controller.plugins.BondEdit'], ['goog.debug.Logger', 'specview.model.Bond']);
 goog.addDependency('../../../../specview/controller/plugins/highlight.js', ['specview.controller.plugins.Highlight'], ['goog.debug.Logger', 'specview.controller.Plugin', 'specview.model.Atom']);
+goog.addDependency('../../../../specview/controller/plugins/zoom.js', ['specview.controller.plugins.Zoom'], ['goog.debug.Logger']);
+goog.addDependency('../../../../specview/controller/template_menubuttonrenderer.js', ['specview.controller.TemplateMenuButtonRenderer'], ['goog.ui.FlatMenuButtonRenderer']);
+goog.addDependency('../../../../specview/controller/toolbarcontroller.js', ['specview.controller.ToolbarController'], ['goog.events.EventHandler', 'goog.events.EventTarget', 'goog.ui.Component.EventType', 'specview.controller.ReactionEditor.EventType']);
+goog.addDependency('../../../../specview/controller/toolbarfactory.js', ['specview.controller.ToolbarFactory'], ['goog.array', 'goog.dom', 'goog.string', 'goog.string.Unicode', 'goog.style', 'goog.ui.Component.State', 'goog.ui.Container.Orientation', 'goog.ui.ControlContent', 'goog.ui.LabelInput', 'goog.ui.Option', 'goog.ui.Toolbar', 'goog.ui.ToolbarButton', 'goog.ui.ToolbarColorMenuButton', 'goog.ui.ToolbarMenuButton', 'goog.ui.ToolbarRenderer', 'goog.ui.ToolbarSelect', 'goog.userAgent']);
 goog.addDependency('../../../../specview/deploy/specview.js', [], []);
 goog.addDependency('../../../../specview/deps.js', [], []);
 goog.addDependency('../../../../specview/graphics/affine_transform.js', ['specview.graphics.AffineTransform'], ['goog.debug.Logger', 'goog.graphics.AffineTransform']);

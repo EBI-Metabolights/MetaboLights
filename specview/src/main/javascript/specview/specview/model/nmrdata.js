@@ -64,6 +64,8 @@ specview.model.NMRdata=function(){
 	this.mainMolBox=null;
 	/**
 	 * The box of the spectrum. Calculated according the the mainMolBox
+	 * mainSpecBox is an array of coordinates:
+	 * (left,top)(right,top)(left,bottom)(right,bottom)
 	 */
 	this.mainSpecBox=null;
 	/**

@@ -87,6 +87,10 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMetaSpecmetaSpecObject=
 };
 
 
+specview.view.SpectrumRenderer.prototype.test = function(a,b){
+	this.logger.info(a+";"+b);
+}
+
 
 /**
  * The spectrum is simply the object
@@ -130,7 +134,13 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     }
 };
 
-
+/**
+ * In order to remove the spectrum element from the canvas, we draw and fill a rectangle element.
+ * The rectangle element correspond to the box the spectrum has been drawn in.
+ * The box is supposed to be in the same format as nmrData.mainSpecBox
+ * @param box
+ * @param graphics
+ */
 specview.view.SpectrumRenderer.prototype.clearSpectrum = function(box,graphics){
     var fill = new goog.graphics.SolidFill('#FFFFFF');
     var stroke = new goog.graphics.Stroke(2, '#FFFFFF');
@@ -148,6 +158,38 @@ specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
 //    opt_element_array.add(this.graphics.drawText(50, 150, 100, 500, 600,'center', null, font, stroke, fill));
 	return opt_element_array;
 };
+
+/**
+ * Draw the rectangle that will be used to perform the zoom effect
+ * @param rectangle
+ * @param editor
+ */
+specview.view.SpectrumRenderer.prototype.drawRectangle = function(rectangle,editor){
+//	this.logger.info(rectangle.left,rectangle.top,rectangle.width,rectangle.height);
+    var stroke = new goog.graphics.Stroke(2, 'black');
+    var peakPath = new goog.graphics.Path();
+//    this.logger.info("getSize: "+editor.graphics.getSize()+"\n"+
+ //   				 "getCoordOrigin "+editor.graphics.getCoordOrigin()+"\n"+
+  //  				 "getPixelSize: "+editor.graphics.getPixelSize()+"\n"+
+   // 				 "getPixelScaleX: "+editor.graphics.getPixelScaleX()+"\n"+
+   // 				 "getPixelScaleY: "+editor.graphics.getPixelScaleY()+"\n");
+	editor.graphics.drawRect(rectangle.left-20,rectangle.top-190,rectangle.width,rectangle.height,stroke,null);
+}
+
+
+/**
+ * When the user is zooming he draw a rectangle over the spectrum.
+ * In order to expand te  size of the rectangle we draw several of them
+ * Hence we need to delete the k-1 rectangle in order to draw the k rectangle.
+ * @param rectangle
+ * @param editor
+ */
+specview.view.SpectrumRenderer.prototype.clearRectangle = function(rectangle,editor){
+//	this.logger.info("in clearing rectangle: "+rectangle.left-20+";"+rectangle.top-190+";"+rectangle.width+";"+rectangle.height)
+    var stroke = new goog.graphics.Stroke(2.1, '#FFFFFF');
+    var peakPath = new goog.graphics.Path();
+	editor.graphics.drawRect(rectangle.left-20,rectangle.top-190,rectangle.width,rectangle.height,stroke,null);	
+}
 
 
 specview.view.SpectrumRenderer.logger = goog.debug.Logger.getLogger('specview.view.SpectrumRenderer');

@@ -224,6 +224,7 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	            var spectrum=model.spectrum;
 	            var molBox=model.mainMolBox;
 	            var specBox=model.mainSpecBox;
+	            this.logger.info(specBox);
 //	            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
 	            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
 	            peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
@@ -248,6 +249,33 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	
 };
 
+
+/**
+ * To be able to render the spectrum independently;
+ */
+specview.controller.Controller.prototype.renderSpectrum  = function(){
+	this.spectrumRenderer.render(this.specObject,this.transform,this.specObject.mainSpecBox,null,null);
+};
+
+/**
+ * To be able to render the spectrum the  grid and  the axis in the  same time;
+ */
+specview.controller.Controller.prototype.renderCompleteSpectrum = function(){
+	this.spectrumRenderer.render(this.specObject,this.transform,this.specObject.mainSpecBox,null,null);
+	this.spectrumRenderer.renderAxis(this.specObject,this.spectrumRenderer.box,'black');
+	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,'black',this.specObject.spectrum);
+}
+
+/**
+ * To be able to render the spectrum the grid in the  same time;
+ */
+specview.controller.Controller.prototype.renderHalfSpectrum = function(){
+	this.spectrumRenderer.render(this.specObject,this.transform,this.specObject.mainSpecBox,null,null);
+	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,'black',this.specObject.spectrum);
+}
+
+
+
 specview.controller.Controller.prototype.renderText = function(peak,metaSpecObject){
 	var textElementObject = new specview.model.TextElement();
 	if(metaSpecObject.experienceType=="NMR"){
@@ -262,7 +290,7 @@ specview.controller.Controller.prototype.renderText = function(peak,metaSpecObje
 
 specview.controller.Controller.prototype.clearPeakInfo = function(boxToClearThePeakInfo){
 	this.textRenderer.clearTextWithBox(boxToClearThePeakInfo);
-}
+};
 
 goog.exportSymbol('specview.controller.Controller.prototype.render', specview.controller.Controller.prototype.render);
 
@@ -471,20 +499,47 @@ specview.controller.Controller.prototype.getGraphicsCoords = function(
 	return trans.transformCoords( [ atomicCoords ])[0];
 };
 
-specview.controller.Controller.getMouseCoords = function(e) {
+/**
+ * In the version of Paul, there is no controller object passed as an argument, but it might be useful
+ * in case we want to interact with the viewer. In that case, we would need to access the attributes of the 
+ * controller object.
+ * @param e
+ * @param opt_controllerObject
+ * @returns
+ */
+specview.controller.Controller.getMouseCoords = function(e,opt_controllerObject) {
 	var elem = e.currentTarget;
 	var posx = e.clientX + document.body.scrollLeft
 	+ document.documentElement.scrollLeft;
 	var posy = e.clientY + document.body.scrollTop
-	+ document.documentElement.scrollTop;
+	+ document.documentElement.scrollTop;	
+//	window.onscroll = function(){
+//		opt_controllerObject.spectrumRenderer.test(document.body.scrollLeft,document.body.scrollTop);
+//		opt_controllerObject.spectrumRenderer.clearSpectrum(opt_controllerObject.specObject.mainSpecBox, opt_controllerObject.graphics)
+//	};
+//	this.logger.info("coord = "+posx+";"+posy+"\ncoord2= "+specview.controller.Controller.getOffsetCoords(elem, posx, posy));
 	return specview.controller.Controller.getOffsetCoords(elem, posx, posy);
 };
 
-specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
+/**
+ * Return true if the mouse is in the spectrum
+ * @param e
+ */
+specview.controller.Controller.isInSpectrum = function(e,specObject) {
+	var coord = new goog.math.Coordinate(e.clientX-document.getElementById('moleculeContainer').offsetLeft,
+										 e.clientY-document.getElementById('moleculeContainer').offsetTop);
+	
+	var top = specObject.mainSpecBox[0].y;
+	var left = specObject.mainSpecBox[0].x;
+	var right = specObject.mainSpecBox[1].x;
+	var bottom = specObject.mainSpecBox[2].y;
+//	alert(coord.x+";"+coord.y+"\n\n"+"top = "+top+"\nbottom= "+bottom+"\nleft= "+left+"\nright= "+right);
+	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
+}
 
+specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
 	posx -= elem.offsetLeft;
 	posy -= elem.offsetTop;
-
 	while (elem = elem.offsetParent) {
 		posx -= elem.offsetLeft;
 		posy -= elem.offsetTop;
@@ -493,11 +548,13 @@ specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
 };
 
 specview.controller.Controller.prototype.findTargetListPixel=function(e){
-	var pos=specview.controller.Controller.getMouseCoords(e);
+	var pos=specview.controller.Controller.getMouseCoords(e,this);
 	return this.neighborList.getObjectFromCoord(pos);
 };
 
 specview.controller.Controller.prototype.findTargetList = function(e) {
+
+	
 	var trans;
 	if (this.moleculeRenderer.transform){
 //		this.logger.info("HERE IS THE TRANSFORM: "+this.moleculeRenderer.transform);
@@ -767,6 +824,8 @@ specview.controller.Controller.LoadState_ = {
  */
 specview.controller.Controller.prototype.logger = goog.debug.Logger
 .getLogger('specview.controller.Controller');
+
+specview.controller.Controller.logger2 = goog.debug.Logger.getLogger('specview.controller.Controller');
 
 /**
  * Event types that can be stopped/started.

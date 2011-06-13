@@ -141,6 +141,7 @@ goog.graphics.SvgGraphics.prototype.createSvgElement_ = function(tagName,
   if (opt_attributes) {
     this.setElementAttributes(element, opt_attributes);
   }
+//  alert(element)
 
   return element;
 };
@@ -310,9 +311,9 @@ goog.graphics.SvgGraphics.prototype.createDom = function() {
  * @param {number} top The coordinate system top bound.
  */
 goog.graphics.SvgGraphics.prototype.setCoordOrigin = function(left, top) {
+	alert("in setCoordOrigin of svgGraphics");
   this.coordLeft = left;
   this.coordTop = top;
-
   this.setViewBox_();
 };
 
@@ -335,6 +336,7 @@ goog.graphics.SvgGraphics.prototype.setCoordSize = function(coordWidth,
  * @private
  */
 goog.graphics.SvgGraphics.prototype.getViewBox_ = function() {
+	alert("in getViewBox of svgGraphics");
   return this.coordLeft + ' ' + this.coordTop + ' ' +
       (this.coordWidth ? this.coordWidth + ' ' + this.coordHeight : '');
 };
@@ -345,6 +347,7 @@ goog.graphics.SvgGraphics.prototype.getViewBox_ = function() {
  * @private
  */
 goog.graphics.SvgGraphics.prototype.setViewBox_ = function() {
+//	alert("in setViewBox of svgGraphics");
   if (this.coordWidth || this.coordLeft || this.coordTop) {
     this.getElement().setAttribute('preserveAspectRatio', 'none');
     if (this.useManualViewbox_) {
@@ -491,6 +494,7 @@ goog.graphics.SvgGraphics.prototype.drawEllipse = function(
  */
 goog.graphics.SvgGraphics.prototype.drawRect = function(x, y, width, height,
     stroke, fill, opt_group) {
+//	alert("ABOUT TO DRAW THE RECTANGLE LINE 497 IN SVGGRAPHICS: \n\n"+x+";"+y)
   var element = this.createSvgElement_('rect',
       {'x': x, 'y': y, 'width': width, 'height': height});
   var wrapper = new goog.graphics.SvgRectElement(element, this, stroke, fill);
@@ -515,6 +519,7 @@ goog.graphics.SvgGraphics.prototype.drawRect = function(x, y, width, height,
  */
 goog.graphics.SvgGraphics.prototype.drawImage = function(x, y, width, height,
     src, opt_group) {
+	alert("drawimage line 522 of svggraphics"+x+","+y);
   var element = this.createSvgElement_('image', {
     'x': x,
     'y': y,
