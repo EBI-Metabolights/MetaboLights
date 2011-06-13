@@ -260,7 +260,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	this.editorObject.specObject.spectrum.peakList = listOfPeaks;
 	this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
 	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
-	this.editorObject.spectrumRenderer.render(this.editorObject.specObject,this.editorObject.specObject.transform,undefined,undefined,undefined,undefined);
+	this.editorObject.setModels([this.editorObject.specObject]);
 	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
 	this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
 	specview.controller.plugins.Highlight.zoomObject = null;

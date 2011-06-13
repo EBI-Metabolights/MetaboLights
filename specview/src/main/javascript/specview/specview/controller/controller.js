@@ -216,6 +216,30 @@ specview.controller.Controller.prototype.setModels = function(models,opt_peak,op
 };
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
+
+/**
+ * Re adapt the neighborlist object to the controll object without rendering.
+ * Particularly useful when zooming by selecting the are of the spectrum.
+ */
+
+specview.controller.Controller.prototype.setNeighborList = function(models){
+	
+	var objects = goog.array.flatten(goog.array.map(models, function(model) {
+		if (model instanceof specview.model.Molecule) {
+			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
+		}else if(model instanceof specview.model.Spectrum){
+			return specview.model.NeighborList.spectrumToNeighbor([model])
+		}else if(model instanceof  specview.model.NMRdata){
+			return specview.model.NeighborList.metaSpecToNeighbors([model]); 
+		}
+	}));
+	
+	if (objects.length > 0) {
+		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
+	}
+	
+}
+
 specview.controller.Controller.prototype.render = function(opt_peak,opt_main_molecule) {
 
 	    goog.array.forEach(this.models, function(model) {

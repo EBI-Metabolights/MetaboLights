@@ -307,6 +307,32 @@ specview.model.NeighborList.prototype.getNearestList = function(coord) {
 	});
 };
 
+
+/**
+ * Create the neighborlist object for the spectrum only
+ * @param spectrum
+ * @returns
+ */
+specview.model.NeighborList.spectrumToNeighbor = function(spectrum) {
+	
+	var leSpec=[spectrum];
+	
+	goog.array.forEach(leSpec, function(spec){
+		//peaks
+		neighbors=goog.array.concat(neighbors,goog.array.map(spec.peakList,function(s){
+			
+			return {
+				obj : s,
+				getCenter : function() {return s.coord;},
+				getDistance : function(point) {return goog.math.Coordinate.distance(s.coord,point);}
+			};
+		}));
+	});
+	return neighbors;
+	
+}
+
+
 /**
  * 
  * @param metaSpec object (molecule,array of atoms, peaks, bonds ...)

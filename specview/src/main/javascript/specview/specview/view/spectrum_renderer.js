@@ -98,20 +98,19 @@ specview.view.SpectrumRenderer.prototype.test = function(a,b){
  */
 specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color) {
 	var color = opt_color!=undefined ? opt_color : 'black';
-	
-//	alert(opt_color+"   "+color)
 	var spectrum=metaSpecObject.spectrum==undefined ? metaSpecObject : metaSpecObject.spectrum;
     this.setTransform(transform);
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,color);
     var peakFill = null;   
-    //Draw the peaks
+    this.logger.info("new")
     goog.array.forEach(spectrum.peakList,
     function(peak) {
     	if(peak.isVisible){
             peakPath.moveTo(peak.xPixel, peak.yPixel); 
             peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
     	}
+    	this.logger.info(color+"  "+peak.isVisible)
     },
     this);
     this.graphics.drawPath(peakPath, peakStroke, peakFill);    
@@ -132,6 +131,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
         this.graphics.drawText("Pixel coordinates: "+opt_peak.pixelCoord, 720, 375, 600, 200, 'left', null,
         		new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
     }
+    
 };
 
 /**
