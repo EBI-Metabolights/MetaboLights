@@ -1,8 +1,10 @@
 package uk.ac.ebi.metabolights.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPFile;
@@ -24,6 +26,8 @@ import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.utils.StringUtils;
 
+import uk.ac.ebi.metabolights.checklists.CheckList;
+import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacerException;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
@@ -51,29 +55,42 @@ public class BIISubmissionController extends AbstractController {
 		//Convert boolean publicExp into VisibilityStatus
 		VisibilityStatus status =  (publicExp != null)? VisibilityStatus.PUBLIC : VisibilityStatus.PRIVATE;
 		
+		//Start the submission process...
+		//Create a check list to report back the user..
+		CheckList cl = new CheckList(SubmissionProcessCheckListSeed.values());
+		
 		try {
 
 			if (file.isEmpty()){ throw new Exception("File must not be empty.");}
 			
+			String isaTabFile = writeFile(file, cl);
+			
+			
+			//Upload to bii
+			HashMap<String,String> accessions = uploadToBii(isaTabFile, status, cl);
 
-			String accessions = writeFile(file, status);
-			//writeFileToFTPServer(file);
-
+			//Complete steps.
+			cl.AddCheckListItem("10", "Upload complete");
+			cl.CheckItem("10", "Accessions are: " + accessions.toString());
+			
 			//Log it
 			logger.info("These are the new accession numbers: " + accessions);
 			
-			return new ModelAndView("redirect:uploadSuccess");
+			return new ModelAndView("biisubmit", "cl", cl);
 
-			
 		} catch (Exception e){
-
-			return new ModelAndView("biisubmiterror", "errormessage", e.getMessage());
+			
+			//return new ModelAndView("biisubmiterror", "cl", cl);
+			ModelAndView mav = new ModelAndView("biisubmit");
+			mav.addObject("cl", cl);
+			mav.addObject("error", e);
+			return mav;
 		}
 	}
-	@RequestMapping(value = { "/biiuploadSuccess" })
-	public ModelAndView uploadOk(HttpServletRequest request) {
-		return new ModelAndView("submitOk", "message","");
-	}
+//	@RequestMapping(value = { "/biiuploadSuccess" })
+//	public ModelAndView uploadOk(HttpServletRequest request) {
+//		return new ModelAndView("submitOk", "message","");
+//	}
 	
 
 	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
@@ -82,11 +99,10 @@ public class BIISubmissionController extends AbstractController {
 	 * 
 	 * @param file user upload
 	 * @param status 
-	 * @throws IOException
-	 * @throws IsaTabIdReplacerException 
-	 * @throws ConfigurationException 
+	 * @throws IOException 
+	 * @throws Exception 
 	 */
-	private String writeFile(MultipartFile file, VisibilityStatus status) throws IOException, ConfigurationException, IsaTabIdReplacerException {
+	private String writeFile(MultipartFile file, CheckList cl) throws IOException  {
 		//TODO get separator from props
 
 		byte[] bytes = file.getBytes();
@@ -108,19 +124,44 @@ public class BIISubmissionController extends AbstractController {
 
 		//Set up file name and unzip folder
 		String isaTabFile = uploadDirectory+ "/"+user.getUserId()+"/"+file.getOriginalFilename();
-		String unzipFolder = StringUtils.truncate(isaTabFile, 4);
 		
 		//Write the file in the file system
 		FileOutputStream fos = new FileOutputStream(isaTabFile); // or original..
 		fos.write(bytes);
 		fos.close();
-
+		
+		//Check Item in CheckList
+		cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), "File upload complete for " + file.getOriginalFilename());
+		
+		return isaTabFile;
+	}
+	
+	/**
+	 * Upload the IsaTabFile (zip) into BII database replacing the id with our own accession numbers.
+	 * @param isaTabFile
+	 * @param status
+	 * @return
+	 * @throws Exception 
+	 */
+	private HashMap<String,String> uploadToBii (String isaTabFile, VisibilityStatus status, CheckList cl) throws Exception{
+		
+		//Get the user
+		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		
+		//Calculate the unzip folder (remove the extension + .)
+		String unzipFolder = StringUtils.truncate(isaTabFile, 4);
+		
+		//Get the path for the config folder (where the hibernate properties for the import layer are).
+		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+	
 		//Upload the file to bii
-		IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), status);
+		IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), status, configPath);
 
+		//Set the CheckList to get feedback
+		itu.setCheckList(cl);
+		
 		//Upload the file
 		return itu.Upload();
-		//return "hola";
 	}
 
 }
