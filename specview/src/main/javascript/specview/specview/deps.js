@@ -45,7 +45,7 @@ goog.addDependency('../../../../specview/ring/ring_partitioner.js', ['specview.r
 goog.addDependency('../../../../specview/ring/spiro_decane.js', [], []);
 goog.addDependency('../../../../specview/ring/sssr.js', ['specview.ring.SSSR'], ['goog.array', 'goog.structs.Set', 'specview.ring.Ring']);
 goog.addDependency('../../../../specview/util/bond_util.js', ['specview.util.BondUtil', 'specview.util.BondUtil.Orders'], ['specview.model.Atom', 'specview.model.Bond', 'specview.model.PseudoAtom']);
-goog.addDependency('../../../../specview/util/functions_util.js', ['specview.util.Utilities'], []);
+goog.addDependency('../../../../specview/util/functions_util.js', ['specview.util.Utilities'], ['goog.debug.Logger']);
 goog.addDependency('../../../../specview/view/aromaticity_renderer.js', ['specview.view.AromaticityRenderer'], ['specview.view.BondRenderer']);
 goog.addDependency('../../../../specview/view/atom_renderer.js', ['specview.view.AtomRenderer'], ['goog.debug.Logger', 'specview.graphics.ElementArray', 'specview.view.Renderer']);
 goog.addDependency('../../../../specview/view/bond_renderer.js', ['specview.view.BondRenderer'], ['specview.math.Line', 'specview.view.Renderer']);

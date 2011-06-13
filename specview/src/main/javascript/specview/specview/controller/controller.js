@@ -537,6 +537,17 @@ specview.controller.Controller.isInSpectrum = function(e,specObject) {
 	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
 }
 
+
+/**
+ * The canvas is not set on the top left corner of the screen.
+ * Hence its top left corner has an offsetLeft and an offsetTop.
+ * TO obtain the right coordinates of the mouse when it is the the target, we need to compute the difference between
+ * the absolute coordinates of the mouse and the relative coordinates of the canvas.
+ * @param elem = the target (the canvas , can also be called by typing document.getElementById("moleculeContainer"));
+ * @param posx
+ * @param posy
+ * @returns {goog.math.Coordinate}
+ */
 specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
 	posx -= elem.offsetLeft;
 	posy -= elem.offsetTop;
@@ -547,14 +558,20 @@ specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
 	return new goog.math.Coordinate(posx, posy);
 };
 
+/**
+ * @param e
+ * @returns the object associated with the position on the target (graphics)
+ */
 specview.controller.Controller.prototype.findTargetListPixel=function(e){
+//	this.logger.info(this.neighborList.getCellsSamyLength());
+//	alert(specview.util.Utilities.getSubSetOfObject(this.neighborlist.cells_samy));
+//	specview.util.Utilities.getSubSetOfObject(this.neighborlist.cells_samy);
 	var pos=specview.controller.Controller.getMouseCoords(e,this);
+//	this.logger.info(pos);
 	return this.neighborList.getObjectFromCoord(pos);
 };
 
 specview.controller.Controller.prototype.findTargetList = function(e) {
-
-	
 	var trans;
 	if (this.moleculeRenderer.transform){
 //		this.logger.info("HERE IS THE TRANSFORM: "+this.moleculeRenderer.transform);
@@ -563,7 +580,6 @@ specview.controller.Controller.prototype.findTargetList = function(e) {
 	} else {
 		trans = this.moleculeRenderer.transform.createInverse();
 	}
-
 	var pos = specview.controller.Controller.getMouseCoords(e);
 //	this.logger.info(pos);
 	//trans = affine object

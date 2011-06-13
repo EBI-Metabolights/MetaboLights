@@ -154,8 +154,13 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 	
 };
 
+/**
+ * @param e
+ * @returns the object associated with the position on the target (graphics)
+ */
 specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
-//	this.logger.info(coord);
+//	alert(this.cells_samy.toSource());
+	specview.util.Utilities.getSubSetOfObject(this.cells_samy);
 	for(key in this.cells_samy){
 		var truc=key.substr(1).split(",");
 		var g=new goog.math.Coordinate(truc[0],parseInt(truc[1]));
@@ -168,6 +173,36 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
 		}
 	}
 };
+/**
+ * get the length of all the object present in the canvas
+ * @returns
+ */
+specview.model.NeighborList.prototype.getCellsSamyLength = function(){
+	return specview.util.Utilities.getAssoArrayLength(this.cells_samy);
+};
+
+
+/**
+ * This methods returns all the objects between coordinates x1 and x2.
+ * This is useful when the user zoom by drawing a rectangle
+ * x1 is the left bound of the rectangle
+ * x2 is the right bound of the rectangle
+ */
+specview.model.NeighborList.prototype.getObjects = function(x1,x2){
+//	this.logger.info("in the getObjects of the neighborList.js");
+	var arrayOfObjects = new Array();
+	var c=0;
+	for(key in this.cells_samy){
+		c++;
+		var truc=key.substr(1).split(",");
+		if(truc[0] < x2 && truc[0] > x1){
+			arrayOfObjects.push(this.cells_samy[key]);
+		}
+	}
+//	alert(specview.util.Utilities.getAssoArrayLength(arrayOfObjects));
+	return arrayOfObjects;
+}
+
 
 /**
  * 

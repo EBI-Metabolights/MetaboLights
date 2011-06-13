@@ -91,6 +91,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						}
 					}
 					this.lastAtomHighlighted=target;
+//					this.logger.info(target)
 					this.lastT=e.currentTarget;
 					this.editorObject.addSelected(target);
 					e.currentTarget.highlightGroup = this.highlightAtom(target);
@@ -99,7 +100,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					var currentAtomInnerIdentifier= target.innerIdentifier;//the atom Id
 					var hypotheticalPeakIdToWhichTheCurrentAtomIsLinked=target.peakMap[currentAtomInnerIdentifier];//its peak Id
 //					this.logger.info(hypotheticalPeakIdToWhichTheCurrentAtomIsLinked);
-//					this.logger.info("in highlight.hs there is exactle "+specview.util.Utilities.getAssoArrayLength(currentMetaSpecObject.ArrayOfPeaks)+" peaks in ArrayOFPeaks");
+//					this.logger.info("in highlight.hs there is exactly "+specview.util.Utilities.getAssoArrayLength(currentMetaSpecObject.ArrayOfPeaks)+" peaks in ArrayOFPeaks");
 					var peakObjectCorrespondingToThePeakId=currentMetaSpecObject.ArrayOfPeaks[hypotheticalPeakIdToWhichTheCurrentAtomIsLinked];//Peak
 					
 					//HIGHLIGHT THE PEAK PROVIDED IT EXISTS
@@ -237,20 +238,35 @@ specview.controller.plugins.Highlight.prototype.handleClick = function(e){
 };
 
 specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
-	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject)
+	var listOfPeaks = this.getObjects(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+			specview.controller.plugins.Highlight.zoomObject.rectangle.left+
+			specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+	
+	this.editorObject.specObject.spectrum.peakList = listOfPeaks;
+	this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
+	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
+	this.editorObject.spectrumRenderer.render(this.editorObject.specObject,this.editorObject.specObject.transform,undefined,undefined,undefined,undefined)
+	
+	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
+	this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
 	specview.controller.plugins.Highlight.zoomObject = null;
 	this.reDrawGrid();
 	this.reDrawAxis();
+
 };
 
 
+specview.controller.plugins.Highlight.prototype.getObjects = function(x1,x2){
+//	this.logger.info("in the getObjects of the highlight plugin")
+	return this.editorObject.neighborList.getObjects(x1,x2);
+}
 	
 specview.controller.plugins.Highlight.prototype.reDrawAxis = function(){
-	this.editorObject.spectrumRenderer.renderAxis(this.editorObject.specObject,this.editorObject.spectrumRenderer.box,'black');
+	return this.editorObject.spectrumRenderer.renderAxis(this.editorObject.specObject,this.editorObject.spectrumRenderer.box,'black');
 };
 
 specview.controller.plugins.Highlight.prototype.reDrawGrid = function(){
-	this.editorObject.spectrumRenderer.renderGrid(this.editorObject.specObject.mainSpecBox,'black',this.editorObject.specObject.spectrum);
+	return this.editorObject.spectrumRenderer.renderGrid(this.editorObject.specObject.mainSpecBox,'black',this.editorObject.specObject.spectrum);
 };
 	
 specview.controller.plugins.Highlight.clearZoomRectangle = function(rectangle,editorObject){
