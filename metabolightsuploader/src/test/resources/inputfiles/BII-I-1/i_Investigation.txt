@@ -71,7 +71,7 @@ Study Assay File Name	"a_metabolome.txt"	"a_proteome.txt"	"a_transcriptome.txt"
 STUDY PROTOCOLS
 Study Protocol Name	"growth protocol"	"mRNA extraction"	"protein extraction"	"biotin labeling"	"ITRAQ labeling"	"EukGE-WS4"	"metabolite extraction"
 Study Protocol Type	"growth protocol type"	"mRNA extraction"	"protein extraction"	"labeling"	"labeling"	"hybridization"	"extraction"
-Study Protocol Type Term Accession Number	"growth23"	"mRNA extraction"	"protein extraction"	"labeling"	"labeling"	"hybridization"	"302884"
+Study Protocol Type Term Accession Number	"growth23"	"mRNA extraction"	"protein extraction"	" OBI_0600038 "	" OBI_0600038 "	"hybridization"	"302884"
 Study Protocol Type Term Source REF	"OBI"	"OBI"	"OBI"	"OBI"	"OBI"	"OBI"	"OBI"
 Study Protocol Description	"1. Biomass samples (45 ml) were taken via the sample port of the Applikon fermenters. The cells were pelleted by centrifugation for 5 min at 5000 rpm. The supernatant was removed and the RNA pellet resuspended in the residual medium to form a slurry. This was added in a dropwise manner directly into a 5 ml Teflon flask (B. Braun Biotech, Germany) containing liquid nitrogen and a 7 mm-diameter tungsten carbide ball. After allowing evaporation of the liquid nitrogen the flask was reassembled and the cells disrupted by agitation at 1500 rpm for 2 min in a Microdismembranator U (B. Braun Biotech, Germany) 
 
