@@ -269,11 +269,14 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 
 };
 
+specview.controller.plugins.Highlight.prototype.handleDoubleClick = function(){
+	alert("double clicking");
+};
 
 specview.controller.plugins.Highlight.prototype.getObjects = function(x1,x2){
 //	this.logger.info("in the getObjects of the highlight plugin")
 	return this.editorObject.neighborList.getObjects(x1,x2);
-}
+};
 	
 specview.controller.plugins.Highlight.prototype.reDrawAxis = function(){
 	return this.editorObject.spectrumRenderer.renderAxis(this.editorObject.specObject,this.editorObject.spectrumRenderer.box,'black');
