@@ -2,7 +2,6 @@ package uk.ac.ebi.metabolights.dao;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.bioinvindex.model.security.User;
 
 /**
  * DAO implementation for bioinvindex.model.Study.
