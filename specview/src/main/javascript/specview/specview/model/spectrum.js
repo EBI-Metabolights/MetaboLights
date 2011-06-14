@@ -130,6 +130,21 @@ specview.model.Spectrum.prototype.getXvalues=function(){
 	return array;
 };
 
+/**
+ * Return the max yTpixel value of the spectrum
+ * @returns {Number}
+ */
+specview.model.Spectrum.prototype.getMaxYvalue = function(){
+	var max=10000000;
+	goog.array.forEach(this.peakList,function(peak){
+		if(peak.yTpixel < max){
+			max=peak.yTpixel;
+		}
+	});
+	return max;
+}
+
+
 
 /**
  * Called when zooming on the spectrum

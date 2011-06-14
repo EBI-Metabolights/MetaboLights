@@ -136,15 +136,19 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     this.graphics.drawText(metaSpecObject.spectrum.xUnit, bottomRight.x+20, bottomRight.y, 600, 200, 'left', null,
             font, stroke, fill);
     
-    var count=9;
-    scaleY=(280-5)/9;
+    var count=7;
+    var t = metaSpecObject.spectrum.getMaxYvalue();
+    var b = metaSpecObject.mainSpecBox[2].y;
+    scaleY=(b-t)/7;
     /**
      * Write the value on the y axis at regular steps
      */
-    for(var k=bottomLeft.y-scaleY;k>topRight.y;k-=scaleY){
+    for(var k=b-scaleY;k>t-10;k-=scaleY){
     	count-=1;
-    	if(count!=0){
-            this.graphics.drawText(parseInt(maxHeight/count), bottomLeft.x-14, k, 600, 200, 'left', null,
+    	if(count!=-1){
+    		this.logger.info(maxHeight);
+    		var tyui = maxHeight-(maxHeight*(count)/7);
+            this.graphics.drawText(parseInt(tyui), bottomLeft.x-14, k, 600, 200, 'left', null,
                     font, stroke, fill);	
     	}
     }
