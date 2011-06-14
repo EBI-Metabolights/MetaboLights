@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+Contains classes to represent free text and ontology based annotations, such as Protocol Parameters, Material
+Characteristics, Factors, etc.
+<p>
+    Protocol Parameters, Material Characteristics and Experimental Factors are represented by a pair of classes. The
+    header class and its value. For example, <code>Characteristics[OrganismPart]=liver</code> for one sample is
+    represented by an instance of {@see uk.ac.ebi.bioinvindex.model.term.CharacteristicValue} with value <i>'liver'</i> and an instance of
+    {@see uk.ac.ebi.bioinvindex.model.term.Characteristic} with the value <i>'OrganismPart'</i>. Each instance of
+    {@see uk.ac.ebi.bioinvindex.model.term.CharacteristicValue} is added as an
+    attribute to its {@see uk.ac.ebi.bioinvindex.model.Material}. A {@see
+    uk.ac.ebi.bioinvindex.model.term.CharacteristicValue} is associated to
+    its {@see uk.ac.ebi.bioinvindex.model.term.Characteristic} via the attribute 'type'.
+
+<p/>
+
+<p>
+    The same scenario goes for {@see uk.ac.ebi.bioinvindex.model.term.Parameter}/{@see
+    uk.ac.ebi.bioinvindex.model.term.ParameterValue} classes which represent to ProtocolParameter and Protocol
+    Parameter Value correspondently. Similarly with {@see uk.ac.ebi.bioinvindex.model.term.Factor}/{@see
+    uk.ac.ebi.bioinvindex.model.term.FactorValue}.
+
+<p/>
+
+<p>
+    A unit is also represented with the same pair ({@see uk.ac.ebi.bioinvindex.model.term.Unit} and
+    {@see uk.ac.ebi.bioinvindex.model.term.UnitValue})
+
+<p/>
+
+<p>
+    If any of the above values (CharacteristicValue, ParameterValue, FactorValue, UnitValue) or header classes come from
+    a controlled terminology/ontology,
+    an {@see uk.ac.ebi.bioinvindex.model.term.OntologyTerm} is instantiated (or referenced if previously
+    defined in the
+    DB). Its attibute <code>name</code> is defined by the value in 'Term Accession' column and attribute source, with is
+    instance of {@see uk.ac.ebi.bioinvindex.model.xref.ReferenceSource}
+    defined by 'Term Source REF' column. Finally that OntologyTerm should be
+    added to the collection of ontology entries of the value property or header class.
+</p>
+
+</body>
+</html>
