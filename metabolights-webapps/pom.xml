@@ -98,7 +98,7 @@
   		<scope>compile</scope>
   	</dependency>  	
   	<dependency>
-  		<groupId>uk.ac.ebi.metabolights<groupId>
+  		<groupId>uk.ac.ebi.metabolights</groupId>
   		<artifactId>metabolights-uploader</artifactId>
   		<version>0.0.4-SNAPSHOT</version>
   		<type>jar</type>
