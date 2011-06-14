@@ -33,7 +33,18 @@ import uk.ac.ebi.metabolights.service.CountryService;
 
 public class MetabolightsUser implements Serializable{
 	
-	public static enum userStatus {NEW, VERIFIED, ACTIVE, FROZEN}; //must correspond to check constraint in database
+	public static enum UserStatus {
+		
+		NEW("NEW"), VERIFIED("VERIFIED"), ACTIVE("ACTIVE"), FROZEN("FROZEN"); 
+
+		private String val;
+		UserStatus(String val) {
+			this.val = val;
+		}
+		public String getValue() {
+			return val;
+		}
+	}; 
 	
 	private static final long serialVersionUID = -775643268878161432L;
 
@@ -41,7 +52,7 @@ public class MetabolightsUser implements Serializable{
 		//Some default values
 		this.authorities = EnumSet.of(AppRole.ROLE_SUBMITTER);
 		this.objectType="Person";
-		this.status=userStatus.NEW.toString();
+		this.status=UserStatus.NEW.getValue();
 		this.joinDate=new java.util.Date(); 
 	}
 

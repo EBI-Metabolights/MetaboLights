@@ -36,4 +36,11 @@ public interface UserService {
      */
 	public void update(MetabolightsUser user);
 
+    /**
+     * Remove user from database.
+     * @param user
+     * @return the database id for the user
+     */
+	public void delete(MetabolightsUser user);
+
 }

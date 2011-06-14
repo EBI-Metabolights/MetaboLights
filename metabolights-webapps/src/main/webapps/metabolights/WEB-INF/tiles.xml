@@ -84,4 +84,10 @@
         <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
     </definition>
 
+    <definition name="searchResult" extends="base.definition">
+        <put-attribute name="title" value="Metabolights search results" />
+        <put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp" />
+    </definition>
+
+
 </tiles-definitions>

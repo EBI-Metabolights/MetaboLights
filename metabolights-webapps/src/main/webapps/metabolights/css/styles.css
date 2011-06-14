@@ -96,7 +96,7 @@ html,body {
 }
 
 #text_header { 
-	padding: 10px 0px 5px 15px;
+	padding: 10px 0px 5px 10px;
 	background-color: #D5AE60  ;
 	font-size: 130%;
 	font-weight: bold;
@@ -157,4 +157,22 @@ html,body {
 .tableheader{
     padding: 10px 10px 10px 10px;
 }
+
+/* paging */
+#content p{text-align:left;}
+#pagingControlsBot ul{display:inline;padding-left:0.5em}
+#pagingControlsBot li{display:inline;padding:0 0.5em}
+#pagingControlsTop ul{display:inline;padding-left:0.5em}
+#pagingControlsTop li{display:inline;padding:0 0.5em}
+.example{background:#FFF}
+
+/* table like div tag stuff */
+.iscell{
+     float: left;
+     padding: 5px 5px 5px 10px; /* top right bottom left */
+     text-align:left;
+     text-indent:0px
+     
+}
+
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/

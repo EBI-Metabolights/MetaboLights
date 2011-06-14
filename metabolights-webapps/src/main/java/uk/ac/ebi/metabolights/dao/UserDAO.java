@@ -40,4 +40,14 @@ public interface UserDAO {
 	 * @param Id
 	 */
     public MetabolightsUser findById(Long id);
+
+
+    /**
+     * Delete a user
+     * @param user
+     * @return the database id for the user
+     */
+    public void delete(MetabolightsUser user);
+
+
 }

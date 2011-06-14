@@ -34,9 +34,9 @@ import uk.ac.ebi.metabolights.validate.ValidatorMetabolightsUser;
  * <UL>
  * <LI>User fills in a 'create account' form, this gets validated for all required fields</LI>
  * <LI>If valid, an account with status NEW is created</LI>
- * <LI>The user is sent an email to confirm the creation linked to the provided email address by clicking a unique URL</LI>
+ * <LI>The user is sent an email to confirm, by clicking a unique URL</LI>
  * <LI>When confirmed, the account gets status USER_VERIFIED</LI>
- * <LI>MTBL admin is notified by an email to the admin list which includes a private link to make the user ACTIVE</LI>
+ * <LI>MTBL admin is notified by an email sent to the admin-list which includes a private link to make the user ACTIVE</LI>
  * <LI>When the private link is clicked, the user becomes ACTIVE and is notified that his account is now usable</LI>
  * </UL>
  * @author markr
@@ -113,21 +113,29 @@ public class UserAccountController extends AbstractController{
         	return mav;
         }
 
+    	Long newUserId=null;
 
-    	//TODO try catch
-    	//Store the user information in the database, status NEW means still inactive (to be authorized).
-    	metabolightsUser.setStatus(MetabolightsUser.userStatus.NEW.toString()); // make account non usable yet
-    	metabolightsUser.setUserName(metabolightsUser.getUserName().toLowerCase());
-    	metabolightsUser.setDbPassword(IsaTabAuthenticationProvider.encode(metabolightsUser.getDbPassword()));
-    	Long newUserId = userService.insert(metabolightsUser);
-    	
-    	//TODO try catch + delete
-    	String uniqueURLParameter=numericSequence(metabolightsUser.getDbPassword());
-    	String confirmationURL=confirmNewAccountUrl+"?usr="+metabolightsUser.getUserName()+"&key="+uniqueURLParameter;
-    	emailService.sendConfirmNewAccountRequest(metabolightsUser.getEmail(),confirmationURL);
+    	try {
+			//Store the user information in the database, status NEW means still inactive (to be authorized).
+			metabolightsUser.setStatus(MetabolightsUser.UserStatus.NEW.getValue()); // make account non usable yet
+			metabolightsUser.setUserName(metabolightsUser.getUserName().toLowerCase());
+			metabolightsUser.setDbPassword(IsaTabAuthenticationProvider.encode(metabolightsUser.getDbPassword()));
+			newUserId = userService.insert(metabolightsUser);
 
+			//Send user a verification email
+			String uniqueURLParameter=numericSequence(metabolightsUser.getDbPassword());
+			String confirmationURL=confirmNewAccountUrl+"?usr="+metabolightsUser.getUserName()+"&key="+uniqueURLParameter;
+			emailService.sendConfirmNewAccountRequest(metabolightsUser.getEmail(),confirmationURL);
+
+    	} catch (Exception ex ) {
+			ex.printStackTrace();
+			//On exception, user gets deleted again
+			if (newUserId!=null)
+				userService.delete(metabolightsUser);
+			throw new RuntimeException(ex);
+		}
     	
-    	//Let user know what will happen next
+    	//Let the user know what will happen next
     	return new ModelAndView("redirect:accountRequested="+metabolightsUser.getUserName());
 
 	}
@@ -200,10 +208,10 @@ public class UserAccountController extends AbstractController{
 	public ModelAndView confirmAccountRequested(@RequestParam("usr") String userName, @RequestParam("key") String key) {
 		ModelAndView mav = new ModelAndView("index");
 		MetabolightsUser user = userService.lookupByUserName(userName);
-		if (user!=null && user.getStatus().equals(MetabolightsUser.userStatus.NEW.toString()) 
+		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.NEW.getValue()) 
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
 			//Set user status to Verified
-			user.setStatus(MetabolightsUser.userStatus.VERIFIED.toString());
+			user.setStatus(MetabolightsUser.UserStatus.VERIFIED.getValue());
 			userService.update(user);
 			mav.addObject("message", PropertyLookup.getMessage("msg.verifiedAccount")+" "+userName+".");
 
@@ -225,9 +233,9 @@ public class UserAccountController extends AbstractController{
 	public ModelAndView activateAccount(@RequestParam("usrId") long usrId, @RequestParam("key") String key) {
 		ModelAndView mav = new ModelAndView("index");
 		MetabolightsUser user = userService.lookupById(usrId);
-		if (user!=null && user.getStatus().equals(MetabolightsUser.userStatus.VERIFIED.toString()) 
+		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.VERIFIED.getValue()) 
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
-			user.setStatus(MetabolightsUser.userStatus.ACTIVE.toString());
+			user.setStatus(MetabolightsUser.UserStatus.ACTIVE.getValue());
 			userService.update(user);
 			mav.addObject("message", PropertyLookup.getMessage("msg.activatedAccount")+" "+user.getUserName()+".");
 			emailService.sendAccountHasbeenActivated(user);

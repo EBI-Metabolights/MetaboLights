@@ -87,4 +87,10 @@ public class UserDAOImpl implements UserDAO {
 			return null;
 
 	}
+
+	@Override
+	public void delete(MetabolightsUser user) {
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(user);
+	}
 }

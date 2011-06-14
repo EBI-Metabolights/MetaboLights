@@ -176,11 +176,11 @@
 
     <bean id="verifyNewAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="from" value="no-reply@ebi.ac.uk"/>
-      <property name="subject" value="Please confirm your account request for Metabolight"/>
+      <property name="subject" value="Please confirm your account request for Metabolights"/>
     </bean>
 
     <bean id="activateAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
-      <property name="from" value="desperatePoledancer@ebi.ac.uk"/>
+      <property name="from" value="metabolights-webapp@ebi.ac.uk"/>
       <property name="subject" value="New Metabolights account request"/>
       <property name="to">  <list><value>metabolights@ebi.ac.uk</value></list> </property>  <!--  -->
     </bean>

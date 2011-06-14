@@ -13,7 +13,7 @@
 <br>
 
 <span class="white">
-<c:out value="${errorMessage}" escapeXml="false"  />
+<c:out value="${errorStack}" escapeXml="false"  />
 </span>
 
 <br/>

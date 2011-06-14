@@ -22,8 +22,6 @@ public class ValidatorMetabolightsUser implements Validator {
 	 * Validation for {@link uk.ac.ebi.metabolights.model.MetabolightsUser MetabolightsUser}, 
 	 * looking at required fields, email being likely, minimum/maximum field lengths.
 	 * 
-	 * TODO validate email is unique .. should we perhaps make username and email all the same???
-	 * 
 	 */
 	@Override
 	public void validate(Object obj, Errors e) {

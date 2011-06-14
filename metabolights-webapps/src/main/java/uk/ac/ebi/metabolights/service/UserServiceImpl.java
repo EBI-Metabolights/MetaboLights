@@ -45,4 +45,9 @@ public class UserServiceImpl implements UserService{
 		return userDAO.findById(id);
 	}
 
+	@Transactional
+	public void delete(MetabolightsUser user) {
+		userDAO.delete(user);
+	}
+
 }

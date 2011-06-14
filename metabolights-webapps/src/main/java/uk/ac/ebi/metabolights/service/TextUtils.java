@@ -12,4 +12,25 @@ public class TextUtils {
 		return (aText != null) && (!aText.trim().equals(EMPTY_STRING));
 	}
 
+	/**
+	 * Wraps an error stack as a String.
+	 * @param throwable
+	 * @return
+	 */
+	public static String getErrorStackAsHTML(Throwable throwable) {
+		StringBuffer sb = new StringBuffer(throwable.getMessage() + "<br>");
+		StackTraceElement[] st = throwable.getStackTrace();
+		for (int i = 0; i < st.length; i++) {
+			StackTraceElement stackTraceElement = st[i];
+			sb.append("\tat " + stackTraceElement.getClassName() + "." + stackTraceElement.getMethodName() + " ( " +
+					stackTraceElement.getFileName() + ":" + stackTraceElement.getLineNumber() + " )" + "<br>");
+		}
+		if (throwable.getCause() != null) {
+			sb.append("<br>" +
+					getErrorStackAsHTML(throwable.getCause()));
+		}
+		return sb.toString();
+	}
+
+	
 }
