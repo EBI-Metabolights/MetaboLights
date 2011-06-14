@@ -146,7 +146,7 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     for(var k=b-scaleY;k>t-10;k-=scaleY){
     	count-=1;
     	if(count!=-1){
-    		this.logger.info(maxHeight);
+//    		this.logger.info(maxHeight);
     		var tyui = maxHeight-(maxHeight*(count)/7);
             this.graphics.drawText(parseInt(tyui), bottomLeft.x-14, k, 600, 200, 'left', null,
                     font, stroke, fill);	

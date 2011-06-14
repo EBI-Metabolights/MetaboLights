@@ -47,7 +47,7 @@ specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt
 		textElementObject.box.left = 795;
 		textElementObject.box.top = yStart + 8;
 		textElementObject.box.width = 200;
-		textElementObject.box.height = 200;
+		textElementObject.box.height = 100;
 	}
 	var color = opt_color;
     var stroke = new goog.graphics.Stroke(0.1,color);
@@ -65,6 +65,7 @@ specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt
 specview.view.TextRenderer.prototype.clearTextWithBox = function(box){
     var fill = new goog.graphics.SolidFill('white');
     var stroke = new goog.graphics.Stroke(2, 'white');
+//    alert(box)
 	this.graphics.drawRect(box.left,box.top-8,box.width,box.height,stroke,fill);
 }
 

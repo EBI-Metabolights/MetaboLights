@@ -72,6 +72,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
     var ArrayOfAtoms=new Array(); // Keys are the inner atom id. Values are the atom objects
 	var ArrayOfBonds=new Array();
 	var ArrayOfPeaks=new Array();
+	var ArrayOfPeaks2 = new Array();
 	var mol="";
 	var experimentType="not available";
 //	specview.io.SpectrumCMLParser.logger.info("metadataList: "+XMLdoc.getElementsByTagName("molecule").length)
@@ -478,12 +479,14 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				}
 				
 				height = height ? height : 50 ; // Should be more precise on the height	
-				var peakToBuild=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,moleculeRef,xUnits,yUnits);
+				var peakToBuild=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,moleculeRef,xUnits,yUnits,true,true);
+				var PTB = new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,moleculeRef,xUnits,yUnits,true,false);
 			//	alert(peakToBuild)
 //				specview.io.SpectrumCMLParser.logger.info("SpectrumCMLParser09.js: "+peakToBuild);
 				molRefs=null;atomRefs=null;
 				nmrData.ArrayOfPeaks[peakId]=peakToBuild;
 				goog.array.insert(ArrayOfPeaks,peakToBuild);
+				goog.array.insert(ArrayOfPeaks2,PTB);
 				
 			}
 	}
@@ -494,10 +497,21 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	
         //Create a spectrum
        // this.logger.info("ArrayOfPeaks "+ArrayOfPeaks.length);
-        var spec= new specview.model.Spectrum(nmrData.molecule, ArrayOfPeaks);
-        nmrData.spectrum=spec;
+        nmrData.spectrum=new specview.model.Spectrum(nmrData.molecule, null,true);
         nmrData.spectrum.xUnit=xUnits;
         nmrData.spectrum.yUnit=yUnits;
+        nmrData.spectrum.experiment="CACA";
+        nmrData.spectrum.peakList = ArrayOfPeaks;
+        nmrData.spectrum.secondpeakList = ArrayOfPeaks2;
+        
+/*
+        nmrData.secondarySpectrum=new specview.model.Spectrum(nmrData.molecule, null,false);;
+        nmrData.secondarySpectrum.xUnit=xUnits;
+        nmrData.secondarySpectrum.yUnit=yUnits;
+        nmrData.secondarySpectrum.experiment="PIPI";
+        nmrData.secondarySpectrum.peakList = ArrayOfPeaks;
+//      alert("first: "+nmrData.spectrum.experiment+"\n\nsecond: "+nmrData.secondarySpectrum.experiment);
+*/
 	return nmrData;
 	
 };

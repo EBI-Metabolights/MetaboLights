@@ -91,6 +91,44 @@ specview.view.SpectrumRenderer.prototype.test = function(a,b){
 	this.logger.info(a+";"+b);
 }
 
+/**
+ * Render the static spectrum
+ * @param metaSpecObject
+ * @param transform
+ * @param opt_box
+ * @param opt_peak
+ * @param opt_main_molecule
+ * @param opt_color
+ */
+specview.view.SpectrumRenderer.prototype.renderSpec = function(spectrum,metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color){
+	var color = opt_color!=undefined ? opt_color : 'black';
+//	var spectrum=metaSpecObject.spectrum==undefined ? metaSpecObject : metaSpecObject.spectrum;
+//	var secondarySpectrum=metaSpecObject.secondarySpectrum;
+	alert(spectrum.displayXpixelNice())
+    this.setTransform(transform);
+    var peakPath = new goog.graphics.Path();
+    var peakStroke = new goog.graphics.Stroke(1.05,color);
+    var peakFill = null;       
+    
+//    this.graphics.drawRect(metaSpecObject.secondSpecBox["left"],
+//			   metaSpecObject.secondSpecBox["top"],
+//			   metaSpecObject.secondSpecBox["right"]-metaSpecObject.secondSpecBox["left"],
+//			   metaSpecObject.secondSpecBox["bottom"]-metaSpecObject.secondSpecBox["top"],
+//			   new goog.graphics.Stroke(2, 'black'),
+//			   null);
+
+    goog.array.forEach(spectrum.peakList,
+    	    function(peak) {
+    	    	if(peak.isVisible){
+    	            peakPath.moveTo(peak.xPixel, peak.yPixel); 
+    	            peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
+    	    	}
+//    	    	this.logger.info(color+"  "+peak.isVisible)
+    	    },
+    	    this);    
+
+    this.graphics.drawPath(peakPath, peakStroke, peakFill);   
+}
 
 /**
  * The spectrum is simply the object
@@ -99,11 +137,15 @@ specview.view.SpectrumRenderer.prototype.test = function(a,b){
 specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color) {
 	var color = opt_color!=undefined ? opt_color : 'black';
 	var spectrum=metaSpecObject.spectrum==undefined ? metaSpecObject : metaSpecObject.spectrum;
+	var secondarySpectrum=metaSpecObject.secondarySpectrum;
     this.setTransform(transform);
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,color);
     var peakFill = null;   
 //    this.logger.info("new")
+//    this.logger.info(metaSpecObject.spectrum==metaSpecObject.secondarySpectrum);
+    
+//    this.logger.info("primary spectrum")
     goog.array.forEach(spectrum.peakList,
     function(peak) {
     	if(peak.isVisible){
@@ -113,6 +155,27 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 //    	this.logger.info(color+"  "+peak.isVisible)
     },
     this);
+
+    goog.array.forEach(spectrum.secondpeakList,
+    	    function(peak) {
+    	    	if(peak.isVisible){
+    	            peakPath.moveTo(peak.xPixel, peak.yPixel); 
+    	            peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
+    	    	}
+//    	    	this.logger.info(color+"  "+peak.isVisible)
+    	    },
+    	    this);
+    
+//    this.logger.info("\n\n"+spectrum.displayXpixelNice()+"\n"+secondarySpectrum.displayXpixelNice())
+    
+    
+    this.graphics.drawRect(400,600,200,200,new goog.graphics.Stroke(2, 'black'),null)
+    this.graphics.drawRect(metaSpecObject.secondSpecBox["left"],
+    					   metaSpecObject.secondSpecBox["top"],
+    					   metaSpecObject.secondSpecBox["right"]-metaSpecObject.secondSpecBox["left"],
+    					   metaSpecObject.secondSpecBox["bottom"]-metaSpecObject.secondSpecBox["top"],
+    					   new goog.graphics.Stroke(2, 'black'),
+    					   null);
     this.graphics.drawPath(peakPath, peakStroke, peakFill);    
     if(opt_peak){
         var stroke = new goog.graphics.Stroke(0.1,'black');

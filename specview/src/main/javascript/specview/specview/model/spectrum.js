@@ -28,7 +28,7 @@ goog.require('goog.debug.Logger');
  * @constructor
  */
 
-specview.model.Spectrum=function(optMolecule, optPeaklist)
+specview.model.Spectrum=function(optMolecule, optPeaklist,optMain)
 {
         
         if (optMolecule)
@@ -37,12 +37,17 @@ specview.model.Spectrum=function(optMolecule, optPeaklist)
             this.molecule=null;
 
 
-        if (optPeaklist)
+        if (optPeaklist){
             this.peakList=optPeaklist;
-        else
-            this.peakList=new Array();
-
+        }
+        else{
+        	this.peakList=new Array();	
+        }
         
+
+    this.main=optMain;
+    
+    this.secondpeakList;
     
 	this.experiment="";
 	this.NMRtype="";
@@ -77,9 +82,12 @@ specview.model.Spectrum.prototype.setXvalues=function(maxValue){
 };
 
 
+specview.model.Spectrum.prototype.getPeakList = function(){
+	return this.peakList;
+}
+
 /**
  * returns bounding box of spectrum peaks
- * 
  * @return {goog.math.Box}
  */
 specview.model.Spectrum.prototype.getBoundingBox = function() {
@@ -343,6 +351,14 @@ specview.model.Spectrum.prototype.displayXpixelNice = function(){
 }
 
 
+specview.model.Spectrum.prototype.displayXpixelNice2 = function(){
+	var array=[];
+	goog.array.forEach(this.secondpeakList,function(peak){
+		array.push(parseInt(peak.xPixel));
+	});
+	return array;
+}
+
 /**
  * Called when the user is zooming.
  * The zoom dragging tool is divided into 100 units. Every unit, the zoom function is called and the new coordinates
@@ -386,6 +402,12 @@ specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,
 //	this.logger.info("all the x pixel values: "+this.displayXpixelNice());
 };
 
+
+specview.model.Spectrum.prototype.compare = function(){
+	var spec1 = this.displayXpixelNice();
+	var spec2 = this.displayXpixelNice2();
+	return Array(spec1,spec2);
+}
 
 
 

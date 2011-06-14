@@ -22,8 +22,10 @@ goog.require('goog.math.Coordinate');
 /*
  * Constructeur of the peak
  */
-specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt_multiplicity,opt_molRefs,opt_Xunit,opt_Yunit,opt_isVisible){
+specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt_multiplicity,opt_molRefs,opt_Xunit,opt_Yunit,opt_isVisible,isReal){
 
+	this.isTheBigOne = isReal;
+	
 	/**
 	 * xValue is the value of the shift of the peak as found in the cml file. Unit is in ppm
 	 */
@@ -153,7 +155,7 @@ specview.model.Peak.prototype.setXvalue=function(value){
  * Description of the object
  */
 specview.model.Peak.prototype.toString = function() {
-	return "===Object of type Peak====\n " + "--"+this.xValue + "\n"+"--"+this.intensity+"\n"+"--"+this.peakId+"\n"+"--"+this.atomRef+"\n\n"+"--"+this.arrayOfSecondaryMolecules;
+	return "==Peak====\n " + "--"+this.xValue + "; "+"--"+this.intensity+";"+"--"+this.peakId+";"+"--"+this.atomRef+";"+"--"+this.arrayOfSecondaryMolecules;
 };
 
 

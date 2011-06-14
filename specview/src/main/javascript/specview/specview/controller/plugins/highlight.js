@@ -129,7 +129,8 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			/**
 			 * If it is a Peak
 			 */
-			else if (target instanceof specview.model.Peak){
+			else if (target instanceof specview.model.Peak && specview.controller.Controller.isInSpectrum(e,document.metaSpecObject)){
+				
 				var currentMetaSpecObject=this.editorObject.getSpecObject();
 				if(this.lastPeakHighlighted==null || target!=this.lastPeakHighlighted){
 					if(this.lastT!=null){
