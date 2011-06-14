@@ -100,6 +100,10 @@ function initPage(){
 		    resetMolecule.render(goog.dom.getElement('resetMolecule'));
 			var resetTextExperiment = new goog.ui.Button('resetTextExperiment');
 			resetTextExperiment.render(goog.dom.getElement('resetTextExperiment'));
+			var unzoom = new goog.ui.Button("unzoom");
+			unzoom.render(goog.dom.getElement('unzoom'));
+			
+			
 			
 			goog.events.listen(resetTextExperiment,goog.ui.Component.EventType.ACTION,
 					function(e){
@@ -107,8 +111,7 @@ function initPage(){
 					editor.clearSamy(spectrumData.metadata,spectrumData.mainSpecBox);
 		    	}
 			});
-		    
-		    
+  
 		    
 		    goog.events.listen(resetMolecule,goog.ui.Component.EventType.ACTION,
 		    		function(e){
@@ -208,6 +211,10 @@ var moveSpectrum=function(move,direction){
 	<title>Display spectrum demo</title>
 	<link rel="stylesheet" href="../../css/specview.css" />
 	<link rel="stylesheet"  href="../../css/demo.css" />
+	 <img name="logoMetabolight"  src="../../../../../../../metabolights-webapps/src/main/webapps/metabolights/img/searchBox.png"
+	 	  width="1400" height="100" alt="Zoom Tool"  title="Zoom Tool"/>
+	 <img name="Metabolight"  src="../../../../../../../metabolights-webapps/src/main/webapps/metabolights/img/banner.png"
+   	 	  style="position:absolute;left:25px;top:35px;display:block;z-index:10;"/>
 </head>
 
 
@@ -270,10 +277,11 @@ var moveSpectrum=function(move,direction){
     })
   </script>
 
- <img name="track" style="position:absolute;left:665px;top:25px;display:block;z-index:10;" src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
-
+ <img name="track" 
+ 	  style="position:absolute;left:665px;top:120px;display:block;z-index:10;"
+ 	  src="../../images/track.gif" width="100" height="50" alt="Zoom Tool"  title="Zoom Tool"/>
 	<fieldset style="width:1200px">
-        <legend><h1>Metabolight Spectrum viewer</h1></legend>
+        <legend><h1>MetaboLight Spectrum viewer</h1></legend>
         <br>
         <li id="molName"></li>
         <li id="molId"></li>

@@ -32,7 +32,7 @@ specview.controller.plugins.Highlight = function() {
 goog.inherits(specview.controller.plugins.Highlight,specview.controller.Plugin);
 goog.exportSymbol('specview.controller.plugins.Highlight',specview.controller.plugins.Highlight);
 specview.controller.plugins.Highlight.prototype.getTrogClassId = goog.functions.constant('highlight');
-specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR = '#4E9600';
+specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR = 'orange';
 specview.controller.plugins.Highlight.prototype.logger = goog.debug.Logger.getLogger('specview.controller.plugins.Highlight');
 specview.controller.plugins.Highlight.logger2 = goog.debug.Logger.getLogger('specview.controller.plugins.Highlight');
 
@@ -57,14 +57,13 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 	/**
 	 * If the user has clicked in the canvas, it means that he wants to zoom
 	 */
-	if(specview.controller.plugins.Highlight.zoomObject!=null){
-		
+	if(specview.controller.plugins.Highlight.zoomObject!=null){		
 		if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
 			this.clearSpectrum();
 			this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
 			this.reDrawSpectrum();
 		}
-		specview.controller.plugins.Highlight.zoomObject.finalCoordinates = new goog.math.Coordinate(e.clientX,e.clientY)
+		specview.controller.plugins.Highlight.zoomObject.finalCoordinates = new goog.math.Coordinate(e.clientX,e.clientY);		
 		specview.controller.plugins.Highlight.zoomObject.rectangle=new goog.math.Rect(
 				specview.controller.plugins.Highlight.zoomObject.initialCoordinates.x,
 				specview.controller.plugins.Highlight.zoomObject.initialCoordinates.y,

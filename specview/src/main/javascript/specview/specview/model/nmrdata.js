@@ -231,16 +231,24 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 		maxValueOfPeak=spectrum.getMaxValuePeak();
 		var bottomBoxLimit;
 		var upperBoxLimit;
+		this.logger.info(this.mainSpecBox[1].y+";"+this.mainSpecBox[2].y);
+		var heightSquare = this.mainSpecBox[2].y-this.mainSpecBox[1].y;
 		var ecart=this.mainSpecBox[1].x-this.mainSpecBox[0].x;
 		var valueToAdd=this.mainSpecBox[0].x;
 		goog.array.forEach(spectrum.peakList,
 			function(peak) {
+			/*
+			 * Compute the yValue
+			 */
 			if(peak.intensity==maxHeightOfPeak){
-				adjustYvalue=20;
+				adjustYvalue=this.mainSpecBox[2].y-(0.8*heightSquare);
 				upperBoxLimit=adjustYvalue-10;
 			}else{
-				adjustYvalue=20/(peak.intensity/maxHeightOfPeak);
+				adjustYvalue = this.mainSpecBox[2].y-(peak.intensity/maxHeightOfPeak)*(this.mainSpecBox[2].y-(this.mainSpecBox[2].y-(0.8*heightSquare)));
 			}
+			/*
+			 * Compute the xValue
+			 */
 			if(peak.xValue==maxValueOfPeak){
 				adjustXvalue=ecart-4;
 			}else{

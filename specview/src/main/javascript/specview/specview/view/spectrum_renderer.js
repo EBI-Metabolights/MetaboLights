@@ -165,15 +165,14 @@ specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
  * @param editor
  */
 specview.view.SpectrumRenderer.prototype.drawRectangle = function(rectangle,editor){
-//	this.logger.info(rectangle.left,rectangle.top,rectangle.width,rectangle.height);
     var stroke = new goog.graphics.Stroke(2, 'black');
     var peakPath = new goog.graphics.Path();
-//    this.logger.info("getSize: "+editor.graphics.getSize()+"\n"+
- //   				 "getCoordOrigin "+editor.graphics.getCoordOrigin()+"\n"+
-  //  				 "getPixelSize: "+editor.graphics.getPixelSize()+"\n"+
-   // 				 "getPixelScaleX: "+editor.graphics.getPixelScaleX()+"\n"+
-   // 				 "getPixelScaleY: "+editor.graphics.getPixelScaleY()+"\n");
-	editor.graphics.drawRect(rectangle.left-20,rectangle.top-190,rectangle.width,rectangle.height,stroke,null);
+	editor.graphics.drawRect(rectangle.left-document.getElementById("moleculeContainer").offsetLeft,
+							 rectangle.top-document.getElementById("moleculeContainer").offsetTop,
+							 rectangle.width,
+							 rectangle.height,
+							 stroke,
+							 null);
 }
 
 
