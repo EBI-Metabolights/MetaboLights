@@ -241,7 +241,11 @@ specview.controller.Controller.prototype.setNeighborList = function(models){
 }
 
 specview.controller.Controller.prototype.render = function(opt_peak,opt_main_molecule) {
-
+    var stroke = new goog.graphics.Stroke(0.1,'black');
+	var fill = new goog.graphics.SolidFill('black');
+    var font1 = new goog.graphics.Font(18, 'Comics');
+    var font2 =	new goog.graphics.Font(11.5, 'Comics');
+	
 	    goog.array.forEach(this.models, function(model) {
 	        if (model instanceof specview.model.NMRdata) {
 	            var molecule=model.molecule;
@@ -268,11 +272,16 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	            this.moleculeRenderer.render(molecule,model.transform,molBox);
 	            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
 	            this.textRenderer.render(model.metadata,specBox,"black","Experiment Information:");
+	            this.textRenderer.renderZoomInfo();
 	        }
 	    }, this);	
 	
 };
 
+
+specview.controller.Controller.prototype.mapZoomSpectrum = function(left,width,editor){
+	return this.spectrumRenderer.mapZoomSpectrum(left,width,this.specObject,editor);
+}
 
 /**
  * To be able to render the spectrum independently;

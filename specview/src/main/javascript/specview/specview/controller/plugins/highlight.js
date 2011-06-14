@@ -254,6 +254,8 @@ document.onmousedown = function(e){
  * @param e
  */
 specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
+	
+	
 	var listOfPeaks = this.getObjects(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 			specview.controller.plugins.Highlight.zoomObject.rectangle.left+
 			specview.controller.plugins.Highlight.zoomObject.rectangle.width);
@@ -263,10 +265,21 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	this.editorObject.setModels([this.editorObject.specObject]);
 	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
 	this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
+	
+	this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+	
 	specview.controller.plugins.Highlight.zoomObject = null;
 	this.reDrawGrid();
 	this.reDrawAxis();
+	
+	
+	
 
+};
+
+specview.controller.plugins.Highlight.prototype.mapZoomSpectrum = function(left,width){
+	return this.editorObject.mapZoomSpectrum(left,width,this.editorObject);
 };
 
 specview.controller.plugins.Highlight.prototype.handleDoubleClick = function(){

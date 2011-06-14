@@ -253,5 +253,31 @@ specview.view.SpectrumRenderer.prototype.clearRectangle = function(rectangle,edi
 	editor.graphics.drawRect(rectangle.left-20,rectangle.top-190,rectangle.width,rectangle.height,stroke,null);	
 }
 
+/**
+ * Draw a rectangle on the secondary spectrum to map where the user is when zooming on the spectrum
+ * @param left
+ * @param width
+ * @param metaSpecObject
+ */
+specview.view.SpectrumRenderer.prototype.mapZoomSpectrum = function(left,width,metaSpecObject,editor){
+	var percentageLeft=(left-metaSpecObject.mainSpecBox[0].x)/(metaSpecObject.mainSpecBox[1].x-metaSpecObject.mainSpecBox[0].x);
+	var percentageRight=((left+width)-metaSpecObject.mainSpecBox[0].x)/(metaSpecObject.mainSpecBox[1].x-metaSpecObject.mainSpecBox[0].x);
+	var newLeft = percentageLeft*(metaSpecObject.secondSpecBox["right"]-metaSpecObject.secondSpecBox["left"]);
+	newLeft = newLeft+metaSpecObject.secondSpecBox["left"];
+	var newRight = percentageRight*(metaSpecObject.secondSpecBox["right"]-metaSpecObject.secondSpecBox["left"]);
+	newRight = newRight+metaSpecObject.secondSpecBox["left"];
+    var stroke = new goog.graphics.Stroke(0.01,'black');
+	var fill = new goog.graphics.SolidFill('orange',0.3);
+    var font = new goog.graphics.Font(18, 'Comics');
+	
+	editor.graphics.drawRect(newLeft,
+							metaSpecObject.secondSpecBox["top"],
+							 newRight-newLeft,
+							 metaSpecObject.secondSpecBox["bottom"]-metaSpecObject.secondSpecBox["top"],
+							 new goog.graphics.Stroke(0.5,"orange"),
+							 fill);
+};
+
+
 
 specview.view.SpectrumRenderer.logger = goog.debug.Logger.getLogger('specview.view.SpectrumRenderer');
