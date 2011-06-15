@@ -123,7 +123,7 @@ html,body {
 
 .messageBox {
 	border: 1px solid #006666;
-	padding: 3px 3px 3px 3px;
+	padding:5px 5px 5px 5px;
 	float: left;
     margin-top: 3px;
     color:#006666;
@@ -164,15 +164,26 @@ html,body {
 #pagingControlsBot li{display:inline;padding:0 0.5em}
 #pagingControlsTop ul{display:inline;padding-left:0.5em}
 #pagingControlsTop li{display:inline;padding:0 0.5em}
-.example{background:#FFF}
 
 /* table like div tag stuff */
 .iscell{
      float: left;
      padding: 5px 5px 5px 10px; /* top right bottom left */
      text-align:left;
-     text-indent:0px
-     
+     text-indent:0px;
+     bbborder: 1px solid black;
 }
+
+
+#resultList li
+{
+	line-height: 0.8em;
+	text-indent: 5px;
+	list-style-position: outside;
+	list-style-image: url(../img/brownBullet.jpg);list-style-type: square;
+	padding: 2px;
+	margin: 0px;
+}
+
 
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/

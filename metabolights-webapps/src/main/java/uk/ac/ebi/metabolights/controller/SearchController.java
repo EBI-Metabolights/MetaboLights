@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -27,25 +28,31 @@ import uk.ac.ebi.metabolights.service.SearchService;
 @Controller
 public class SearchController extends AbstractController{
 	
+	private static Logger logger = Logger.getLogger(SearchController.class);
+	
 	@Autowired
 	private SearchService searchService;
 
 	
 	private @Value("#{appProperties.urlBiiPrefixSearch}") String urlBiiPrefixSearch;
 	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/search", method = RequestMethod.POST )
 	public ModelAndView  luceneSearch (HttpServletRequest request) {
 
 	    List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>();
+	    String query = request.getParameter("query");
 		try {
-			
-			resultSet = searchService.search(request.getParameter("query"));
-			System.out.println("++++++++ we found #results : "+resultSet.size());
-			System.out.println("the directory is "+searchService.getIndexDirectory());
+			logger.info("searching for "+query);
+			resultSet = searchService.search(query);
+			logger.debug("Found #results = "+resultSet.size());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			//TODO - handle various shit here
 		}
     	ModelAndView mav = new ModelAndView("searchResult");
     	mav.addObject("searchResults", resultSet);
@@ -53,31 +60,19 @@ public class SearchController extends AbstractController{
     	return mav;
 	}
 
+	
 
 	/**
 	 * Redirects to BII, temp solution to invoke BII on JBoss.
 	 * @param request
 	 * @return URL String to BII search with the user's query pasted in
-	 */
-	/*
+	 *
 	RequestMapping(value = "/search", method = RequestMethod.POST )
 	public String zoeken (HttpServletRequest request) {
-		try {
-			
-			List<LuceneSearchResult> resultSet = searchService.search(request.getParameter("query"));
-			System.out.println("++++++++ we found #results : "+resultSet.size());
-			System.out.println("the directory is "+searchService.getIndexDirectory());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			//TODO - handle shit here
-		}
-		
     	String redirect="redirect:"+urlBiiPrefixSearch+"?searchPattern="+request.getParameter("query");
     	return redirect;
 	}
 	*/
-
 	
 
 }

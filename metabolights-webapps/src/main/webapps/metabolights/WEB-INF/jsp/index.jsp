@@ -17,7 +17,7 @@
  
 <div id="text-fullwidth">
     <br>
-    <spring:message code="msg.metabolightsLong" />
+    <spring:message code="msg.metabolightsAbout1" />
     <br>
     <br>
     <br>

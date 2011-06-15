@@ -24,7 +24,7 @@
               <sec:authorize ifAnyGranted="ROLE_SUBMITTER" >
                 <li><a href="myAccount"><spring:message code="menu.myAccount"/></a></li>
                 <li><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />"><spring:message code="menu.logout"/></a><br>
-                <span style="font-size:8px;margin-left:30px"><spring:message code="menu.loggedInAs"/> : <sec:authentication property="principal.userName"/></span></li>  
+                <span style="font-size:10px;margin-left:30px"><spring:message code="menu.loggedInAs"/> : <sec:authentication property="principal.userName"/></span></li>  
               </sec:authorize> 
 		  </ul>  
        </div>
