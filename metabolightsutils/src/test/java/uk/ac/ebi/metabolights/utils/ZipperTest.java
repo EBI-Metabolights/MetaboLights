@@ -12,18 +12,15 @@ import org.junit.runner.notification.Failure;
 
 public class ZipperTest {
 
+	
 	@Test
 	public void testZip() {
+		final String outFolder = "./src/test/resources/zipper/unziptest/in/";
+		final String inFolder = "./src/test/resources/zipper/ziptest/in/";
+		final String zipFile = "./src/test/resources/zipper/unziptest/in.zip";
 		
-		String inFolder = "./src/test/resources/zipper/ziptest/in/";
-		String inMap;
-		
-		String zipFile = "./src/test/resources/zipper/unziptest/in.zip";
-		
-		String outFolder = "./src/test/resources/zipper/unziptest/in";
 		String outMap;
-		
-		
+		String inMap;
 		
 		//Get the map of the folder
 		inMap = getFolderMap(inFolder);
@@ -115,6 +112,19 @@ public class ZipperTest {
 		}catch(IOException ioe){
 			
 			assertTrue("IOException expected", true);
+		}
+		
+	}
+	@Test
+	public void testISAUnzipCreatorArchive(){
+		
+		final String ISAArchiveName = "ISACREATOR1.4_archive_FAST.zip";
+		String ISAArchive = "./src/test/resources/zipper/unziptest/" + ISAArchiveName;
+		
+		try {
+			Zipper.unzip(ISAArchive);
+		} catch (IOException ioe) {
+			fail(ioe.getMessage());
 		}
 		
 	}
