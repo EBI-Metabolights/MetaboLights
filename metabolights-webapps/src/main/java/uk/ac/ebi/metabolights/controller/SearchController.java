@@ -49,6 +49,7 @@ public class SearchController extends AbstractController{
 		}
     	ModelAndView mav = new ModelAndView("searchResult");
     	mav.addObject("searchResults", resultSet);
+    	mav.addObject("userQuery", request.getParameter("query"));
     	return mav;
 	}
 

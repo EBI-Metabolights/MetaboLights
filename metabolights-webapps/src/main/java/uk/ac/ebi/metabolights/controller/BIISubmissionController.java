@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-import it.sauronsoftware.ftp4j.FTPClient;
-import it.sauronsoftware.ftp4j.FTPFile;
 
 import javax.naming.ConfigurationException;
 import javax.servlet.http.HttpServletRequest;

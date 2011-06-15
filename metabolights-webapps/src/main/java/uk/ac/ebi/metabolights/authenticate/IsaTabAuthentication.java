@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import uk.ac.ebi.metabolights.controller.FileUploadController;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 /**

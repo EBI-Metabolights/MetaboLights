@@ -6,7 +6,7 @@
 		  <a href="index"><h1>foobar</h1></a>
           <div id="search-box">
 		   <form name="searchForm" action="search" method="post" accept-charset="utf-8">
-		      <input type="text" name="query"  id="query" />
+		      <input type="text" name="query"  id="query" value="${userQuery}"/>
 		      <button type="submit" class="search-box-button"></button>
 		   </form>
          </div>
