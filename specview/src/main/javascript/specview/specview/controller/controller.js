@@ -280,6 +280,8 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 
 
 specview.controller.Controller.prototype.mapZoomSpectrum = function(left,width,editor){
+	this.specObject.setZoomBox(left,width);
+//	alert(this.editorObject.zoomBox);
 	return this.spectrumRenderer.mapZoomSpectrum(left,width,this.specObject,editor);
 }
 

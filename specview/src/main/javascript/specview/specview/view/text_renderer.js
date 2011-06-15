@@ -38,10 +38,10 @@ goog.inherits(specview.view.TextRenderer, specview.view.Renderer);
 
 specview.view.TextRenderer.prototype.renderZoomInfo = function(){
 
-    var stroke = new goog.graphics.Stroke(0.5,'black');
+    var stroke = new goog.graphics.Stroke(0.3,'black');
 	var fill = new goog.graphics.SolidFill('black');
     var font1 = new goog.graphics.Font(18, 'Comics');
-    var font2 =	new goog.graphics.Font(14, 'Comics');
+    var font2 =	new goog.graphics.Font(13, 'Comics');
 	this.graphics.drawText( "Which part of the spectra",425,450,600,200,'left',null,font2,stroke,fill);
 	this.graphics.drawText( "are you currently zooming in?",415,465,600,200,'left',null,font2,stroke,fill);
 
