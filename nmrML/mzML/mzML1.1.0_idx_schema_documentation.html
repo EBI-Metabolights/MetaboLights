@@ -1,0 +1,263 @@
+<html><head>
+
+	  <style type="text/css">
+	      body {  font-family: Helvetica, Arial, sans-serif; font-size: 9pt; background-color: #ffffff;}
+	      table{  border: 1px solid black; border-collapse: collapse; }
+	       th   {  border: 1px solid black; font-family: Helvetica, Arial, sans-serif; font-size: 9pt; font-weight: bold;
+	       background-color: #dddddd;}
+	       td   {  border: 1px solid black; font-family: Helvetica, Arial, sans-serif; font-size: 9pt; padding:3px; vertical-align:top;}
+	       table.zero{  border: 0px ; border-collapse: collapse; }
+	       td.zero {  border: 0px ; font-family: Helvetica, Arial, sans-serif; font-size: 9pt; padding:3px; vertical-align:top;}
+	       form   {  font-family: Helvetica, Arial, sans-serif; font-size: 9pt}
+	       pre    {  font-family: Courier New, Courier; font-size: 8pt}
+	       h1   {  font-family: Helvetica, Arial, sans-serif; font-size: 14pt; font-weight: bold}
+	       h2   {  font-family: Helvetica, Arial, sans-serif; font-size: 12pt; font-weight: bold;
+		     padding: 5px;
+		     border: 2px dotted black;
+		       background-color: #ddddff;
+		   }
+	       h3   {  font-family: Helvetica, Arial, sans-serif; font-size: 12pt}
+	       h4   {  font-family: AHelvetica, rial, sans-serif; font-size: 12pt}
+		.popup { COLOR: #9F141A; CURSOR: help; TEXT-DECORATION: none }
+	    </style>
+		</head>
+<body>
+<H2>Element &lt;<a name="indexedmzML">indexedmzML</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Container element for mzML which allows the addition of an index.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#dx:mzML">dx:mzML</a></TD><TD>1</TD><TD>1</TD><TD>-</TD></TR>
+<TR><TD><a href="#indexList">indexList</a></TD><TD>1</TD><TD>1</TD><TD>List of indices.</TD></TR>
+<TR><TD><a href="#indexListOffset">indexListOffset</a></TD><TD>1</TD><TD>1</TD><TD>File pointer offset (in bytes) of the 'indexList' element.</TD></TR>
+<TR><TD><a href="#fileChecksum">fileChecksum</a></TD><TD>1</TD><TD>1</TD><TD>SHA-1 checksum from beginning of file to end of 'fileChecksum' open tag.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;indexedmzML xmlns=&quot;http://psi.hupo.org/ms/mzml&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://psi.hupo.org/ms/mzml http://psidev.info/files/ms/mzML/xsd/mzML1.1.0_idx.xsd&quot;&gt;
+  &lt;mzML xmlns=&quot;http://psi.hupo.org/ms/mzml&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://psi.hupo.org/ms/mzml http://psidev.info/files/ms/mzML/xsd/mzML1.1.0.xsd&quot; id=&quot;urn:lsid:psidev.info:mzML.instanceDocuments.tiny.pwiz&quot; version=&quot;1.0&quot;&gt;
+    &lt;cvList count=&quot;2&quot;&gt;
+      &lt;cv id=&quot;MS&quot; fullName=&quot;Proteomics Standards Initiative Mass Spectrometry Ontology&quot; version=&quot;1.18.2&quot; URI=&quot;http://psidev.cvs.sourceforge.net/*checkout*/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo&quot;/&gt;
+      &lt;cv id=&quot;UO&quot; fullName=&quot;Unit Ontology&quot; version=&quot;04:03:2009&quot; URI=&quot;http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/phenotype/unit.obo&quot;/&gt;
+    &lt;/cvList&gt;
+    &lt;fileDescription&gt;
+  ...
+&lt;/indexedmzML&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="dx:mzML">dx:mzML</a>&gt;</H2>
+
+<P>This element is defined in another xsd document.</P>
+</table><br/>
+
+<H2>Element &lt;<a name="indexList">indexList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List of indices.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:IndexListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>Number of indices in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#index">index</a></TD><TD>1</TD><TD>unlim</TD><TD>Index element containing one or more offsets for random data access for the entity described in the 'name' attribute.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;indexList count=&quot;2&quot;&gt;
+  &lt;index name=&quot;spectrum&quot;&gt;
+    &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=1&quot;&gt;4363&lt;/offset&gt;
+    &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=2&quot;&gt;326365&lt;/offset&gt;
+    &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=3&quot;&gt;646528&lt;/offset&gt;
+    &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=4&quot;&gt;659047&lt;/offset&gt;
+    &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=5&quot;&gt;679908&lt;/offset&gt;
+  ...
+&lt;/indexList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="indexListOffset">indexListOffset</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>File pointer offset (in bytes) of the 'indexList' element.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>xs:long
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;indexListOffset&gt;5098921&lt;/indexListOffset&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="fileChecksum">fileChecksum</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>SHA-1 checksum from beginning of file to end of 'fileChecksum' open tag.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>xs:string
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;fileChecksum&gt;0dbebfb99075881afa2002177d37e4d6215fdced&lt;/fileChecksum&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="index">index</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Index element containing one or more offsets for random data access for the entity described in the 'name' attribute.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:IndexType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>name</TD><TD>xs:string</TD><TD>required</TD><TD>The name of the entity the index entries are pointing to.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#offset">offset</a></TD><TD>1</TD><TD>unlim</TD><TD>File pointer offset (in bytes) of the element identified by the 'id' attribute.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;index name=&quot;spectrum&quot;&gt;
+  &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=1&quot;&gt;4363&lt;/offset&gt;
+  &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=2&quot;&gt;326365&lt;/offset&gt;
+  &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=3&quot;&gt;646528&lt;/offset&gt;
+  &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=4&quot;&gt;659047&lt;/offset&gt;
+  &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=5&quot;&gt;679908&lt;/offset&gt;
+  &lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=6&quot;&gt;698062&lt;/offset&gt;
+  ...
+&lt;/index&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="offset">offset</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>File pointer offset (in bytes) of the element identified by the 'id' attribute.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:OffsetType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>idRef</TD><TD>xs:string</TD><TD>required</TD><TD>Reference to the 'id' attribute of the indexed element.</TD></TR>
+<TR><TD>scanTime</TD><TD>xs:double</TD><TD>optional</TD><TD>In the case of a spectrum representing a single scan, this attribute may be used to reference it by the time at which the scan was acquired (a.k.a. scan time or retention time).</TD></TR>
+<TR><TD>spotID</TD><TD>xs:string</TD><TD>optional</TD><TD>The identifier for the spot from which this spectrum was derived, if a MALDI or similar run.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;offset idRef=&quot;controllerType=0 controllerNumber=1 scan=10&quot;&gt;1297508&lt;/offset&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+</body></html>

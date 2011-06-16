@@ -1,0 +1,3068 @@
+<html><head>
+
+	  <style type="text/css">
+	      body {  font-family: Helvetica, Arial, sans-serif; font-size: 9pt; background-color: #ffffff;}
+	      table{  border: 1px solid black; border-collapse: collapse; }
+	       th   {  border: 1px solid black; font-family: Helvetica, Arial, sans-serif; font-size: 9pt; font-weight: bold;
+	       background-color: #dddddd;}
+	       td   {  border: 1px solid black; font-family: Helvetica, Arial, sans-serif; font-size: 9pt; padding:3px; vertical-align:top;}
+	       table.zero{  border: 0px ; border-collapse: collapse; }
+	       td.zero {  border: 0px ; font-family: Helvetica, Arial, sans-serif; font-size: 9pt; padding:3px; vertical-align:top;}
+	       form   {  font-family: Helvetica, Arial, sans-serif; font-size: 9pt}
+	       pre    {  font-family: Courier New, Courier; font-size: 8pt}
+	       h1   {  font-family: Helvetica, Arial, sans-serif; font-size: 14pt; font-weight: bold}
+	       h2   {  font-family: Helvetica, Arial, sans-serif; font-size: 12pt; font-weight: bold;
+		     padding: 5px;
+		     border: 2px dotted black;
+		       background-color: #ddddff;
+		   }
+	       h3   {  font-family: Helvetica, Arial, sans-serif; font-size: 12pt}
+	       h4   {  font-family: AHelvetica, rial, sans-serif; font-size: 12pt}
+		.popup { COLOR: #9F141A; CURSOR: help; TEXT-DECORATION: none }
+	    </style>
+		</head>
+<body>
+<H2>Element &lt;<a name="mzML">mzML</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>This is the root element for the Proteomics Standards Initiative (PSI) mzML schema, which is intended to capture the use of a mass spectrometer, the data generated, and the initial processing of that data (to the level of the peak list).
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:mzMLType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>accession</TD><TD>xs:string</TD><TD>optional</TD><TD>An optional accession number for the mzML document used for storage, e.g. in PRIDE.</TD></TR>
+<TR><TD>id</TD><TD>xs:string</TD><TD>optional</TD><TD>An optional id for the mzML document used for referencing from external files. It is recommended to use LSIDs when possible.</TD></TR>
+<TR><TD>version</TD><TD>xs:string</TD><TD>required</TD><TD>The version of this mzML document.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#cvList">cvList</a></TD><TD>1</TD><TD>1</TD><TD>Container for one or more controlled vocabulary definitions.</TD></TR>
+<TR><TD><a href="#fileDescription">fileDescription</a></TD><TD>1</TD><TD>1</TD><TD>Information pertaining to the entire mzML file (i.e. not specific to any part of the data set) is stored here.</TD></TR>
+<TR><TD><a href="#referenceableParamGroupList">referenceableParamGroupList</a></TD><TD>0</TD><TD>1</TD><TD>Container for a list of referenceableParamGroups</TD></TR>
+<TR><TD><a href="#sampleList">sampleList</a></TD><TD>0</TD><TD>1</TD><TD>List and descriptions of samples.</TD></TR>
+<TR><TD><a href="#softwareList">softwareList</a></TD><TD>1</TD><TD>1</TD><TD>List and descriptions of software used to acquire and/or process the data in this mzML file.</TD></TR>
+<TR><TD><a href="#scanSettingsList">scanSettingsList</a></TD><TD>0</TD><TD>1</TD><TD>List with the descriptions of the acquisition settings applied prior to the start of data acquisition.</TD></TR>
+<TR><TD><a href="#instrumentConfigurationList">instrumentConfigurationList</a></TD><TD>1</TD><TD>1</TD><TD>List and descriptions of instrument configurations. At least one instrument configuration MUST be specified, even if it is only to specify that the instrument is unknown. In that case, the "instrument model" term is used to indicate the unknown instrument in the instrumentConfiguration.</TD></TR>
+<TR><TD><a href="#dataProcessingList">dataProcessingList</a></TD><TD>1</TD><TD>1</TD><TD>List and descriptions of data processing applied to this data.</TD></TR>
+<TR><TD><a href="#run">run</a></TD><TD>1</TD><TD>1</TD><TD>A run in mzML should correspond to a single, consecutive and coherent set of scans on an instrument.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_001_mzML.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;mzML xmlns=&quot;http://psi.hupo.org/ms/mzml&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://psi.hupo.org/ms/mzml http://psidev.info/files/ms/mzML/xsd/mzML1.1.0.xsd&quot; id=&quot;urn:lsid:psidev.info:mzML.instanceDocuments.tiny.pwiz&quot; version=&quot;1.0&quot;&gt;
+  &lt;cvList count=&quot;2&quot;&gt;
+    &lt;cv id=&quot;MS&quot; fullName=&quot;Proteomics Standards Initiative Mass Spectrometry Ontology&quot; version=&quot;1.18.2&quot; URI=&quot;http://psidev.cvs.sourceforge.net/*checkout*/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo&quot;/&gt;
+    &lt;cv id=&quot;UO&quot; fullName=&quot;Unit Ontology&quot; version=&quot;04:03:2009&quot; URI=&quot;http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/phenotype/unit.obo&quot;/&gt;
+  &lt;/cvList&gt;
+  &lt;fileDescription&gt;
+    &lt;fileContent&gt;
+  ...
+&lt;/mzML&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Notes and Constraints:</b></td>
+<td class='zero'>The &lt;mzML&gt; element and all content below may occur by itself in an XML document,
+but is also designed to be wrapped in the mzML indexing schema in order to
+facilitate random access within the file with appropriate reader software.
+
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="cvList">cvList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Container for one or more controlled vocabulary definitions.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:CVListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of CV definitionsin this mzML file.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#cv">cv</a></TD><TD>1</TD><TD>unlim</TD><TD>Information about an ontology or CV source and a short 'lookup' tag to refer to.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_002_cvList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;cvList count=&quot;2&quot;&gt;
+  &lt;cv id=&quot;MS&quot; fullName=&quot;Proteomics Standards Initiative Mass Spectrometry Ontology&quot; version=&quot;1.18.2&quot; URI=&quot;http://psidev.cvs.sourceforge.net/*checkout*/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo&quot;/&gt;
+  &lt;cv id=&quot;UO&quot; fullName=&quot;Unit Ontology&quot; version=&quot;04:03:2009&quot; URI=&quot;http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/phenotype/unit.obo&quot;/&gt;
+&lt;/cvList&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Notes and Constraints:</b></td>
+<td class='zero'>One of the &lt;cv&gt; elements in this list MUST be the PSI MS controlled vocabulary.
+All &lt;cvParam&gt; elements in the document MUST refer to one of the &lt;cv&gt; elements
+in this list.
+
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="fileDescription">fileDescription</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Information pertaining to the entire mzML file (i.e. not specific to any part of the data set) is stored here.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:FileDescriptionType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#fileContent">fileContent</a></TD><TD>1</TD><TD>1</TD><TD>This summarizes the different types of spectra that can be expected in the file. This is expected to aid processing software in skipping files that do not contain appropriate spectrum types for it. It should also describe the nativeID format used in the file by referring to an appropriate CV term.</TD></TR>
+<TR><TD><a href="#sourceFileList">sourceFileList</a></TD><TD>0</TD><TD>1</TD><TD>List and descriptions of the source files this mzML document was generated or derived from</TD></TR>
+<TR><TD><a href="#contact">contact</a></TD><TD>0</TD><TD>unlim</TD><TD>Structure allowing the use of a controlled (cvParam) or uncontrolled vocabulary (userParam), or a reference to a predefined set of these in this mzML file (paramGroupRef).</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_003_fileDescription.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;fileDescription&gt;
+  &lt;fileContent&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000580&quot; name=&quot;MSn spectrum&quot; value=&quot;&quot;/&gt;
+    &lt;userParam name=&quot;ProteoWizard&quot; value=&quot;Thermo RAW data converted to mzML, with additional MIAPE parameters added for illustration&quot;/&gt;
+  &lt;/fileContent&gt;
+  &lt;sourceFileList count=&quot;2&quot;&gt;
+    &lt;sourceFile id=&quot;RAW1&quot; name=&quot;small.RAW&quot; location=&quot;file:///.&quot;&gt;
+  ...
+&lt;/fileDescription&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="referenceableParamGroupList">referenceableParamGroupList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Container for a list of referenceableParamGroups
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ReferenceableParamGroupListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of ParamGroups defined in this mzML file.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroup">referenceableParamGroup</a></TD><TD>1</TD><TD>unlim</TD><TD>A collection of CVParam and UserParam elements that can be referenced from elsewhere in this mzML document by using the 'paramGroupRef' element in that location to reference the 'id' attribute value of this element.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_004_referenceableParamGroupList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;referenceableParamGroupList count=&quot;3&quot;&gt;
+  &lt;referenceableParamGroup id=&quot;CommonInstrumentParams&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000448&quot; name=&quot;LTQ FT&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000529&quot; name=&quot;instrument serial number&quot; value=&quot;SN06061F&quot;/&gt;
+  &lt;/referenceableParamGroup&gt;
+  &lt;referenceableParamGroup id=&quot;InstrumentCustomization&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000032&quot; name=&quot;customization&quot; value=&quot;none&quot;/&gt;
+  ...
+&lt;/referenceableParamGroupList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="sampleList">sampleList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List and descriptions of samples.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SampleListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of Samples defined in this mzML file.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#sample">sample</a></TD><TD>1</TD><TD>unlim</TD><TD>Expansible description of the sample used to generate the dataset, named in sampleName.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_005_sampleList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;sampleList count=&quot;2&quot;&gt;
+  &lt;sample id=&quot;sample1&quot; name=&quot;Sample 1&quot;&gt;
+  &lt;/sample&gt;
+  &lt;sample id=&quot;sample2&quot; name=&quot;Sample 2&quot;&gt;
+  &lt;/sample&gt;
+&lt;/sampleList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="softwareList">softwareList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List and descriptions of software used to acquire and/or process the data in this mzML file.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SoftwareListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of softwares defined in this mzML file.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#software">software</a></TD><TD>1</TD><TD>unlim</TD><TD>A piece of software.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_006_softwareList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;softwareList count=&quot;2&quot;&gt;
+  &lt;software id=&quot;Xcalibur&quot; version=&quot;1.1 Beta 7&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000532&quot; name=&quot;Xcalibur&quot; value=&quot;&quot;/&gt;
+  &lt;/software&gt;
+  &lt;software id=&quot;pwiz&quot; version=&quot;1.4.0&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000615&quot; name=&quot;ProteoWizard&quot; value=&quot;&quot;/&gt;
+  &lt;/software&gt;
+  ...
+&lt;/softwareList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="scanSettingsList">scanSettingsList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List with the descriptions of the acquisition settings applied prior to the start of data acquisition.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ScanSettingsListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of AcquisitionType elements in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#scanSettings">scanSettings</a></TD><TD>1</TD><TD>unlim</TD><TD>Description of the acquisition settings of the instrument prior to the start of the run.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_007_scanSettingsList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;scanSettingsList count=&quot;1&quot;&gt;
+  &lt;scanSettings id=&quot;acquisition_settings_MIAPE_example&quot;&gt;
+    &lt;sourceFileRefList count=&quot;1&quot;&gt;
+      &lt;sourceFileRef ref=&quot;sf_parameters&quot;/&gt;
+    &lt;/sourceFileRefList&gt;
+    &lt;targetList count=&quot;2&quot;&gt;
+      &lt;target&gt;
+  ...
+&lt;/scanSettingsList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="instrumentConfigurationList">instrumentConfigurationList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List and descriptions of instrument configurations. At least one instrument configuration MUST be specified, even if it is only to specify that the instrument is unknown. In that case, the "instrument model" term is used to indicate the unknown instrument in the instrumentConfiguration.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:InstrumentConfigurationListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of instrument configurations present in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#instrumentConfiguration">instrumentConfiguration</a></TD><TD>1</TD><TD>unlim</TD><TD>Description of a particular hardware configuration of a mass spectrometer. Each configuration MUST have one (and only one) of the three different components used for an analysis. For hybrid instruments, such as an LTQ-FT, there MUST be one configuration for each permutation of the components that is used in the document. For software configuration, use a ReferenceableParamGroup element.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_008_instrumentConfigurationList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;instrumentConfigurationList count=&quot;1&quot;&gt;
+  &lt;instrumentConfiguration id=&quot;LCQDeca&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000554&quot; name=&quot;LCQ Deca&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000529&quot; name=&quot;instrument serial number&quot; value=&quot;23433&quot;/&gt;
+    &lt;componentList count=&quot;3&quot;&gt;
+      &lt;source order=&quot;1&quot;&gt;
+        &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000398&quot; name=&quot;nanoelectrospray&quot; value=&quot;&quot;/&gt;
+  ...
+&lt;/instrumentConfigurationList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="dataProcessingList">dataProcessingList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List and descriptions of data processing applied to this data.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:DataProcessingListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of DataProcessingTypes in this mzML file.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#dataProcessing">dataProcessing</a></TD><TD>1</TD><TD>unlim</TD><TD>Description of the way in which a particular software was used.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_009_dataProcessingList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;dataProcessingList count=&quot;2&quot;&gt;
+  &lt;dataProcessing id=&quot;MIAPE_example&quot;&gt;
+    &lt;processingMethod order=&quot;1&quot; softwareRef=&quot;pwiz&quot;&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000033&quot; name=&quot;deisotoping&quot; value=&quot;&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000034&quot; name=&quot;charge deconvolution&quot; value=&quot;&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000035&quot; name=&quot;peak picking&quot; value=&quot;&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000592&quot; name=&quot;smoothing&quot; value=&quot;&quot;/&gt;
+  ...
+&lt;/dataProcessingList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="run">run</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>A run in mzML should correspond to a single, consecutive and coherent set of scans on an instrument.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:RunType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>defaultInstrumentConfigurationRef</TD><TD>xs:IDREF</TD><TD>required</TD><TD>This attribute MUST reference the 'id' of the default instrument configuration. If a scan does not reference an instrument configuration, it implicitly refers to this configuration.</TD></TR>
+<TR><TD>defaultSourceFileRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>This attribute can optionally reference the 'id' of the default source file. If a spectrum or scan does not reference a source file and this attribute is set, then it implicitly refers to this source file.</TD></TR>
+<TR><TD>id</TD><TD>xs:ID</TD><TD>required</TD><TD>A unique identifier for this run.</TD></TR>
+<TR><TD>sampleRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>This attribute MUST reference the 'id' of the appropriate sample.</TD></TR>
+<TR><TD>startTimeStamp</TD><TD>xs:dateTime</TD><TD>optional</TD><TD>The optional start timestamp of the run, in UT.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+<TR><TD><a href="#spectrumList">spectrumList</a></TD><TD>0</TD><TD>1</TD><TD>All mass spectra and the acquisitions underlying them are described and attached here. Subsidiary data arrays are also both described and attached here.</TD></TR>
+<TR><TD><a href="#chromatogramList">chromatogramList</a></TD><TD>0</TD><TD>1</TD><TD>All chromatograms for this run.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_010_run.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;run id=&quot;Exp01&quot; defaultInstrumentConfigurationRef=&quot;LCQDeca&quot; sampleRef=&quot;sample1&quot; startTimeStamp=&quot;2007-06-27T15:23:45.00035&quot; defaultSourceFileRef=&quot;sf1&quot;&gt;
+  &lt;spectrumList count=&quot;4&quot; defaultDataProcessingRef=&quot;pwizconversion&quot;&gt;
+    &lt;spectrum index=&quot;0&quot; id=&quot;scan=19&quot; defaultArrayLength=&quot;15&quot;&gt;
+      &lt;referenceableParamGroupRef ref=&quot;CommonMS1SpectrumParams&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000511&quot; name=&quot;ms level&quot; value=&quot;1&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000127&quot; name=&quot;centroid spectrum&quot; value=&quot;&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000528&quot; name=&quot;lowest observed m/z&quot; value=&quot;400.38999999999999&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  ...
+&lt;/run&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/run<BR><PRE>MAY supply a *child* term of MS:1000857 (<span title="Properties of the described run." class="popup">run attribute</span>) only once
+  e.g.: MS:1000858 (<span title="Identier string that describes the sample fraction. This identifer should contain the fraction number(s) or similar information." class="popup">fraction identifier</span>)
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="cv">cv</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Information about an ontology or CV source and a short 'lookup' tag to refer to.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:CVType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>URI</TD><TD>xs:anyURI</TD><TD>required</TD><TD>The URI for the resource.</TD></TR>
+<TR><TD>fullName</TD><TD>xs:string</TD><TD>required</TD><TD>The usual name for the resource (e.g. The PSI-MS Controlled Vocabulary).</TD></TR>
+<TR><TD>id</TD><TD>xs:ID</TD><TD>required</TD><TD>The short label to be used as a reference tag with which to refer to this particular Controlled Vocabulary source description (e.g., from the cvLabel attribute, in CVParamType elements).</TD></TR>
+<TR><TD>version</TD><TD>xs:string</TD><TD>optional</TD><TD>The version of the CV from which the referred-to terms are drawn.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>    &lt;cv id=&quot;MS&quot; fullName=&quot;Proteomics Standards Initiative Mass Spectrometry Ontology&quot; version=&quot;1.18.2&quot; URI=&quot;http://psidev.cvs.sourceforge.net/*checkout*/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="fileContent">fileContent</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>This summarizes the different types of spectra that can be expected in the file. This is expected to aid processing software in skipping files that do not contain appropriate spectrum types for it. It should also describe the nativeID format used in the file by referring to an appropriate CV term.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ParamGroupType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;fileContent&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000580&quot; name=&quot;MSn spectrum&quot; value=&quot;&quot;/&gt;
+  &lt;userParam name=&quot;ProteoWizard&quot; value=&quot;Thermo RAW data converted to mzML, with additional MIAPE parameters added for illustration&quot;/&gt;
+&lt;/fileContent&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/fileDescription/fileContent<BR><PRE>MUST supply a *child* term of MS:1000524 (<span title="Describes the data content on the file." class="popup">data file content</span>) one or more times
+  e.g.: MS:1000235 (<span title="Chromatogram obtained by plotting the total ion current detected in each of a series of mass spectra recorded as a function of retention time." class="popup">total ion current chromatogram</span>)
+  e.g.: MS:1000235 (<span title="Chromatogram obtained by plotting the total ion current detected in each of a series of mass spectra recorded as a function of retention time." class="popup">total ion current chromatogram</span>)
+  e.g.: MS:1000322 (<span title="The measurement of the relative abundance of ions that result from a charge inversion reaction as a function of m/z." class="popup">charge inversion mass spectrum</span>)
+  e.g.: MS:1000322 (<span title="The measurement of the relative abundance of ions that result from a charge inversion reaction as a function of m/z." class="popup">charge inversion mass spectrum</span>)
+  e.g.: MS:1000325 (<span title="A spectrum formed of all product ions that have been produced by gain of a pre-selected neutral mass following the reaction with and addition of the gas in a collision cell." class="popup">constant neutral gain spectrum</span>)
+  e.g.: MS:1000325 (<span title="A spectrum formed of all product ions that have been produced by gain of a pre-selected neutral mass following the reaction with and addition of the gas in a collision cell." class="popup">constant neutral gain spectrum</span>)
+  e.g.: MS:1000326 (<span title="A spectrum formed of all product ions that have been produced with a selected m/z decrement from any precursor ions. The spectrum shown correlates to the precursor ion spectrum. See also neutral loss spectrum." class="popup">constant neutral loss spectrum</span>)
+  e.g.: MS:1000326 (<span title="A spectrum formed of all product ions that have been produced with a selected m/z decrement from any precursor ions. The spectrum shown correlates to the precursor ion spectrum. See also neutral loss spectrum." class="popup">constant neutral loss spectrum</span>)
+  e.g.: MS:1000328 (<span title="A mass spectrum obtained using a sector mass spectrometer in which the electric sector field E is set to half the value required to transmit the main ion-beam. This spectrum records the signal from doubly charged product ions of charge-stripping reactions." class="popup">e/2 mass spectrum</span>)
+  e.g.: MS:1000341 (<span title="Spectrum generated by scanning precursor m/z while monitoring a fixed product m/z" class="popup">precursor ion spectrum</span>)
+  et al.
+MAY supply a *child* term of MS:1000525 (<span title="Way in which the spectrum is represented, either with regularly spaced data points or with a list of centroided peaks." class="popup">spectrum representation</span>) only once
+  e.g.: MS:1000127 (<span title="Processing of profile data to produce spectra that contains discrete peaks of zero width. Often used to reduce the size of dataset." class="popup">centroid spectrum</span>)
+  e.g.: MS:1000128 (<span title="A profile mass spectrum is created when data is recorded with ion current (counts per second) on one axis and mass/charge ratio on another axis." class="popup">profile spectrum</span>)
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000580&quot; name=&quot;MSn spectrum&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000127&quot; name=&quot;centroid spectrum&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000326&quot; name=&quot;constant neutral loss spectrum&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="sourceFileList">sourceFileList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List and descriptions of the source files this mzML document was generated or derived from
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SourceFileListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>Number of source files used in generating the instance document.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#sourceFile">sourceFile</a></TD><TD>1</TD><TD>unlim</TD><TD>Description of the source file, including location and type.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>    &lt;sourceFileList count=&quot;11&quot;&gt;
+      &lt;sourceFile id=&quot;SF1&quot; name=&quot;ADH071030_002.3.152.1.dta&quot; location=&quot;file:///C:/mzMLconverters/ADH071030_002&quot;&gt;
+        &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000613&quot; name=&quot;DTA file&quot;/&gt;
+        &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000568&quot; name=&quot;MD5&quot; value=&quot;c4989164dca142000644d2bce5dc571f&quot;/&gt;
+        &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000776&quot; name=&quot;scan number only nativeID format&quot;/&gt;
+      &lt;/sourceFile&gt;
+      &lt;sourceFile id=&quot;SF2&quot; name=&quot;ADH071030_002.5.5.1.dta&quot; location=&quot;file:///C:/mzMLconverters/ADH071030_002&quot;&gt;
+  ...
+&lt;/sourceFileList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="contact">contact</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Structure allowing the use of a controlled (cvParam) or uncontrolled vocabulary (userParam), or a reference to a predefined set of these in this mzML file (paramGroupRef).
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ParamGroupType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;contact&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000586&quot; name=&quot;contact name&quot; value=&quot;William Pennington&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000590&quot; name=&quot;contact organization&quot; value=&quot;Higglesworth University&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000587&quot; name=&quot;contact address&quot; value=&quot;12 Higglesworth Avenue, 12045, HI, USA&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000588&quot; name=&quot;contact URL&quot; value=&quot;http://www.higglesworth.edu/&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000589&quot; name=&quot;contact email&quot; value=&quot;wpennington@higglesworth.edu&quot;/&gt;
+&lt;/contact&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/fileDescription/contact<BR><PRE>MAY supply a *child* term of MS:1000585 (<span title="Details about a person to contact in case of concern or dicussion about the file." class="popup">contact person attribute</span>) one or more times
+  e.g.: MS:1000586 (<span title="Name of a contact person." class="popup">contact name</span>)
+  e.g.: MS:1000587 (<span title="Postal address of a contact person." class="popup">contact address</span>)
+  e.g.: MS:1000588 (<span title="Uniform Resource Locator related to the contact person." class="popup">contact URL</span>)
+  e.g.: MS:1000589 (<span title="Email adress of the contact person." class="popup">contact email</span>)
+  e.g.: MS:1000590 (<span title="Home institution of the contact person." class="popup">contact organization</span>)
+MUST supply term MS:1000590 (<span title="Home institution of the contact person." class="popup">contact organization</span>)  only once
+MUST supply term MS:1000586 (<span title="Name of a contact person." class="popup">contact name</span>)  only once
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000586&quot; name=&quot;contact name&quot; value=&quot;William Pennington&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000590&quot; name=&quot;contact organization&quot; value=&quot;Higglesworth University&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000587&quot; name=&quot;contact address&quot; value=&quot;12 Higglesworth Avenue, 12045, HI, USA&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000588&quot; name=&quot;contact URL&quot; value=&quot;http://www.higglesworth.edu/&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000589&quot; name=&quot;contact email&quot; value=&quot;wpennington@higglesworth.edu&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="referenceableParamGroup">referenceableParamGroup</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>A collection of CVParam and UserParam elements that can be referenced from elsewhere in this mzML document by using the 'paramGroupRef' element in that location to reference the 'id' attribute value of this element.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ReferenceableParamGroupType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>id</TD><TD>xs:ID</TD><TD>required</TD><TD>The identifier with which to reference this ReferenceableParamGroup.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;referenceableParamGroup id=&quot;CommonActivationParams&quot;&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000133&quot; name=&quot;collision-induced dissociation&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000045&quot; name=&quot;collision energy&quot; value=&quot;35&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000266&quot; unitName=&quot;electronvolt&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000419&quot; name=&quot;collision gas&quot; value=&quot;nitrogen&quot;/&gt;
+&lt;/referenceableParamGroup&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000579&quot; name=&quot;MS1 spectrum&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000130&quot; name=&quot;positive scan&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000580&quot; name=&quot;MSn spectrum&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000514&quot; name=&quot;m/z array&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000523&quot; name=&quot;64-bit float&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000576&quot; name=&quot;no compression&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000515&quot; name=&quot;intensity array&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000131&quot; unitName=&quot;number of counts&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000521&quot; name=&quot;32-bit float&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000516&quot; name=&quot;charge array&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000448&quot; name=&quot;LTQ FT&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000529&quot; name=&quot;instrument serial number&quot; value=&quot;SN06061F&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000032&quot; name=&quot;customization&quot; value=&quot;none&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000133&quot; name=&quot;collision-induced dissociation&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000045&quot; name=&quot;collision energy&quot; value=&quot;35&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000266&quot; unitName=&quot;electronvolt&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000419&quot; name=&quot;collision gas&quot; value=&quot;nitrogen&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="sample">sample</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Expansible description of the sample used to generate the dataset, named in sampleName.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SampleType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>id</TD><TD>xs:ID</TD><TD>required</TD><TD>A unique identifier across the samples with which to reference this sample description.</TD></TR>
+<TR><TD>name</TD><TD>xs:string</TD><TD>optional</TD><TD>An optional name for the sample description, mostly intended as a quick mnemonic.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;sample id=&quot;sample1&quot; name=&quot;Sample 1&quot;&gt;
+&lt;/sample&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/sampleList/sample<BR><PRE>MAY supply a *child* term of GO:0005575 (<span title="???" class="popup">cellular_component</span>) one or more times
+MAY supply a *child* term of BTO:0000000 (<span title="???" class="popup">brenda source tissue ontology</span>) one or more times
+MAY supply a *child* term of PATO:0001241 (<span title="???" class="popup">quality of an object</span>) one or more times
+MAY supply a *child* term of MS:1000548 (<span title="Sample properties that are associated with a value." class="popup">sample attribute</span>) one or more times
+  e.g.: MS:1000001 (<span title="A reference number relevant to the sample under study." class="popup">sample number</span>)
+  e.g.: MS:1000004 (<span title="Total mass of sample used." class="popup">sample mass</span>)
+  e.g.: MS:1000005 (<span title="Total volume of solution used." class="popup">sample volume</span>)
+  e.g.: MS:1000006 (<span title="Concentration of sample in picomol/ul, femtomol/ul or attomol/ul solution used." class="popup">sample concentration</span>)
+  e.g.: MS:1000047 (<span title="State if the sample is in emulsion form." class="popup">emulsion</span>)
+  e.g.: MS:1000048 (<span title="State if the sample is in gaseous form." class="popup">gas</span>)
+  e.g.: MS:1000049 (<span title="State if the sample is in liquid form." class="popup">liquid</span>)
+  e.g.: MS:1000050 (<span title="State if the sample is in solid form." class="popup">solid</span>)
+  e.g.: MS:1000051 (<span title="State if the sample is in solution form." class="popup">solution</span>)
+  e.g.: MS:1000052 (<span title="State if the sample is in suspension form." class="popup">suspension</span>)
+  et al.
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="software">software</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>A piece of software.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SoftwareType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>id</TD><TD>xs:ID</TD><TD>required</TD><TD>An identifier for this software that is unique across all SoftwareTypes.</TD></TR>
+<TR><TD>version</TD><TD>xs:string</TD><TD>required</TD><TD>The software version.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>    &lt;software id=&quot;Proteios&quot; version=&quot;SE 2.7.0 build 3250&quot;&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000600&quot; name=&quot;Proteios&quot;/&gt;
+    &lt;/software&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/softwareList/software<BR><PRE>MUST supply a *child* term of MS:1000531 (<span title="Software related to the recording or transformation of spectra." class="popup">software</span>) only once
+  e.g.: MS:1000532 (<span title="Thermo Finnigan software for data acquisition and analysis." class="popup">Xcalibur</span>)
+  e.g.: MS:1000532 (<span title="Thermo Finnigan software for data acquisition and analysis." class="popup">Xcalibur</span>)
+  e.g.: MS:1000532 (<span title="Thermo Finnigan software for data acquisition and analysis." class="popup">Xcalibur</span>)
+  e.g.: MS:1000532 (<span title="Thermo Finnigan software for data acquisition and analysis." class="popup">Xcalibur</span>)
+  e.g.: MS:1000533 (<span title="Thermo Finnigan software for data analysis of peptides and proteins." class="popup">Bioworks</span>)
+  e.g.: MS:1000533 (<span title="Thermo Finnigan software for data analysis of peptides and proteins." class="popup">Bioworks</span>)
+  e.g.: MS:1000533 (<span title="Thermo Finnigan software for data analysis of peptides and proteins." class="popup">Bioworks</span>)
+  e.g.: MS:1000534 (<span title="Micromass software for data acquisition and analysis." class="popup">MassLynx</span>)
+  e.g.: MS:1000534 (<span title="Micromass software for data acquisition and analysis." class="popup">MassLynx</span>)
+  e.g.: MS:1000534 (<span title="Micromass software for data acquisition and analysis." class="popup">MassLynx</span>)
+  et al.
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000533&quot; name=&quot;Bioworks&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000615&quot; name=&quot;ProteoWizard&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000532&quot; name=&quot;Xcalibur&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000600&quot; name=&quot;Proteios&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000534&quot; name=&quot;Masslynx&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000601&quot; name=&quot;ProteinLynx Global Server&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="scanSettings">scanSettings</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Description of the acquisition settings of the instrument prior to the start of the run.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ScanSettingsType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>id</TD><TD>xs:ID</TD><TD>required</TD><TD>A unique identifier for this acquisition setting.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+<TR><TD><a href="#sourceFileRefList">sourceFileRefList</a></TD><TD>0</TD><TD>1</TD><TD>List with the source files containing the acquisition settings.</TD></TR>
+<TR><TD><a href="#targetList">targetList</a></TD><TD>0</TD><TD>1</TD><TD>Target list (or 'inclusion list') configured prior to the run.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;scanSettings id=&quot;as1&quot;&gt;
+  &lt;sourceFileRefList count=&quot;1&quot;&gt;
+    &lt;sourceFileRef ref=&quot;sf_parameters&quot;/&gt;
+  &lt;/sourceFileRefList&gt;
+  &lt;targetList count=&quot;2&quot;&gt;
+    &lt;target&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000744&quot; name=&quot;selected ion m/z&quot; value=&quot;1000&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  ...
+&lt;/scanSettings&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="instrumentConfiguration">instrumentConfiguration</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Description of a particular hardware configuration of a mass spectrometer. Each configuration MUST have one (and only one) of the three different components used for an analysis. For hybrid instruments, such as an LTQ-FT, there MUST be one configuration for each permutation of the components that is used in the document. For software configuration, use a ReferenceableParamGroup element.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:InstrumentConfigurationType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>id</TD><TD>xs:ID</TD><TD>required</TD><TD>An identifier for this instrument configuration.</TD></TR>
+<TR><TD>scanSettingsRef</TD><TD>xs:IDREF</TD><TD>-</TD><TD></TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+<TR><TD><a href="#componentList">componentList</a></TD><TD>0</TD><TD>1</TD><TD>List with the different components used in the mass spectrometer. At least one source, one mass analyzer and one detector need to be specified.</TD></TR>
+<TR><TD><a href="#softwareRef">softwareRef</a></TD><TD>0</TD><TD>1</TD><TD>Reference to a previously defined software element</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;instrumentConfiguration id=&quot;IC1&quot;&gt;
+  &lt;referenceableParamGroupRef ref=&quot;CommonInstrumentParams&quot;/&gt;
+  &lt;componentList count=&quot;3&quot;&gt;
+    &lt;source order=&quot;1&quot;&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000073&quot; name=&quot;electrospray ionization&quot; value=&quot;&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000057&quot; name=&quot;electrospray inlet&quot; value=&quot;&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000486&quot; name=&quot;source potential&quot; value=&quot;4.20&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000218&quot; unitName=&quot;volt&quot;/&gt;
+  ...
+&lt;/instrumentConfiguration&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/instrumentConfigurationList/instrumentConfiguration<BR><PRE>MAY supply a *child* term of MS:1000487 (<span title="Ion optics involves components that help focus ion streams in mass spectrometry." class="popup">ion optics attribute</span>) one or more times
+  e.g.: MS:1000216 (<span title="A section of a mass spectrometer in which there are no electric or magnetic fields." class="popup">field-free region</span>)
+  e.g.: MS:1000304 (<span title="The electrical potential used to impart kinetic energy to ions in a mass spectrometer." class="popup">accelerating voltage</span>)
+  e.g.: MS:1000308 (<span title="The magnitude of the force per unit charge at a given point in space." class="popup">electric field strength</span>)
+  e.g.: MS:1000319 (<span title="The mutual repulsion of particles of like charge that limits the current in a charged-particle beam and causes beams or packets of charged particles to expand radially over time." class="popup">space charge effect</span>)
+MAY supply a *child* term of MS:1000597 (<span title="The electrical potential used to impart kinetic energy to ions in a mass spectrometer." class="popup">ion optics type</span>) only once
+  e.g.: MS:1000221 (<span title="The deflection of charged particles in a magnetic field due to a force equal to qv B where q is the particle charge, v its velocity and B the magnetic field. Magnetic deflection of an ion beam is used for m/z separation in a magnetic sector mass spectrometer." class="popup">magnetic deflection</span>)
+  e.g.: MS:1000246 (<span title="The application of the accelerating voltage pulse after a time delay in desorption ionization from a surface. The extraction delay can produce energy focusing in a time-of-flight mass spectrometer." class="popup">delayed extraction</span>)
+  e.g.: MS:1000275 (<span title="A transmission quadrupole to which an oscillating potential is applied so as to focus a beam of ions through a collision gas with no m/z separation." class="popup">collision quadrupole</span>)
+  e.g.: MS:1000281 (<span title="A device in which m/z selected ions are entrained in an inert carrier gas and undergo ion-molecule reactions." class="popup">selected ion flow tube</span>)
+  e.g.: MS:1000286 (<span title="Energy focusing in a time-of-flight mass spectrometer that is accomplished by introducing a time delay between the formation of the ions and the application of the accelerating voltage pulse." class="popup">time lag focusing</span>)
+  e.g.: MS:1000300 (<span title="A time-of-flight mass spectrometer that uses a static electric field to reverse the direction of travel of the ions entering it. A reflectron improves mass resolution by assuring that ions of the same m/z but different kinetic energy arrive at the detector at the same time." class="popup">reflectron</span>)
+  e.g.: MS:1000307 (<span title="Three element charged particle lens in which the first and third elements are held at the same voltage. Such a lens produces focusing without changing the translational energy of the particle." class="popup">einzel lens</span>)
+  e.g.: MS:1000309 (<span title="The region of a Mathieu stability diagram closest to the origin. Ions within this region can traverse the full length of a transmission quadrupole." class="popup">first stability region</span>)
+  e.g.: MS:1000310 (<span title="The electric or magnetic field that extends from the edge of a sector, lens or other ion optics element." class="popup">fringing field</span>)
+  e.g.: MS:1000311 (<span title="A device for measuring the kinetic energy of charged particles using a retarding field, time-of-flight, or the extent of deflection in an electric or magnetic field." class="popup">kinetic energy analyzer</span>)
+  et al.
+MAY supply a *child* term of MS:1000496 (<span title="Instrument properties that are associated with a value." class="popup">instrument attribute</span>) one or more times
+  e.g.: MS:1000032 (<span title="Free text description of a single customization made to the instrument; for several modifications, use several entries." class="popup">customization</span>)
+  e.g.: MS:1000236 (<span title="The ratio of the number of ions leaving a region of a mass spectrometer to the number entering that region." class="popup">transmission</span>)
+  e.g.: MS:1000529 (<span title="Serial Number of the instrument." class="popup">instrument serial number</span>)
+MUST supply term MS:1000031 (<span title="Instrument model name not including the vendor's name." class="popup">instrument model</span>) or any of its children only once
+  e.g.: MS:1000139 (<span title="Applied Biosystems/MDS SCIEX Q 4000 TRAP MS." class="popup">4000 Q TRAP</span>)
+  e.g.: MS:1000140 (<span title="Applied Biosystems/MDS SCIEX 4700 Proteomics Analyzer MS." class="popup">4700 Proteomics Analyzer</span>)
+  e.g.: MS:1000141 (<span title="Bruker Daltonics APEX IV MS." class="popup">APEX IV</span>)
+  e.g.: MS:1000142 (<span title="Bruker Daltonics APEX-Q MS." class="popup">APEX-Q</span>)
+  e.g.: MS:1000143 (<span title="Applied Biosystems/MDS SCIEX API 150EX MS." class="popup">API 150EX</span>)
+  e.g.: MS:1000144 (<span title="Applied Biosystems/MDS SCIEX API 150EX Prep MS." class="popup">API 150EX Prep</span>)
+  e.g.: MS:1000145 (<span title="Applied Biosystems/MDS SCIEX API 2000 MS." class="popup">API 2000</span>)
+  e.g.: MS:1000146 (<span title="Applied Biosystems/MDS SCIEX API 3000 MS." class="popup">API 3000</span>)
+  e.g.: MS:1000147 (<span title="Applied Biosystems/MDS SCIEX API 4000 MS." class="popup">API 4000</span>)
+  e.g.: MS:1000148 (<span title="Bruker Daltonics autoFlex II MS." class="popup">autoFlex II</span>)
+  et al.
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000554&quot; name=&quot;LCQ Deca&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000529&quot; name=&quot;instrument serial number&quot; value=&quot;23433&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000169&quot; name=&quot;LCQ Deca XP Plus&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000189&quot; name=&quot;Q-Tof ultima&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000199&quot; name=&quot;TSQ Quantum&quot; value=&quot;&quot;/&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Notes and Constraints:</b></td>
+<td class='zero'>Note that an instrument model MUST be provided. If the vendor is known but
+the exact model is not known, then use the parent vendor term such as
+&quot;Waters instrument model&quot; (which indicates that it is known to be a Waters
+instrument, but not which one). If nothing at all is known about the
+instrument that produced the data, then use the top parent term
+&quot;instrument model&quot; (which is equivalent to stating that the data came
+from a child of &quot;instrument model&quot; {i.e. a mass spectrometer} but it
+is not known to the writer which one).
+
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="dataProcessing">dataProcessing</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Description of the way in which a particular software was used.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:DataProcessingType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>id</TD><TD>xs:ID</TD><TD>required</TD><TD>A unique identifier for this data processing that is unique across all DataProcessingTypes.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#processingMethod">processingMethod</a></TD><TD>1</TD><TD>unlim</TD><TD>Description of the default peak processing method. This element describes the base method used in the generation of a particular mzML file. Variable methods should be described in the appropriate acquisition section - if no acquisition-specific details are found, then this information serves as the default.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;dataProcessing id=&quot;MIAPE_example&quot;&gt;
+  &lt;processingMethod order=&quot;1&quot; softwareRef=&quot;pwiz&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000033&quot; name=&quot;deisotoping&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000034&quot; name=&quot;charge deconvolution&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000035&quot; name=&quot;peak picking&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000592&quot; name=&quot;smoothing&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000593&quot; name=&quot;baseline reduction&quot; value=&quot;&quot;/&gt;
+  ...
+&lt;/dataProcessing&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="referenceableParamGroupRef">referenceableParamGroupRef</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ReferenceableParamGroupRefType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>ref</TD><TD>xs:IDREF</TD><TD>required</TD><TD>Reference to the id attribute in a referenceableParamGroup.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;referenceableParamGroupRef ref=&quot;CommonMS1SpectrumParams&quot;/&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000511&quot; name=&quot;ms level&quot; value=&quot;1&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000127&quot; name=&quot;centroid spectrum&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000528&quot; name=&quot;lowest observed m/z&quot; value=&quot;400.38999999999999&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000527&quot; name=&quot;highest observed m/z&quot; value=&quot;1795.5599999999999&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000504&quot; name=&quot;base peak m/z&quot; value=&quot;445.34699999999998&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000505&quot; name=&quot;base peak intensity&quot; value=&quot;120053&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000131&quot; unitName=&quot;number of counts&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000285&quot; name=&quot;total ion current&quot; value=&quot;16675500&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000128&quot; name=&quot;profile spectrum&quot; value=&quot;&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="cvParam">cvParam</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>This element holds additional data or annotation. Only controlled values are allowed here.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:CVParamType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>accession</TD><TD>xs:string</TD><TD>required</TD><TD>The accession number of the referred-to term in the named resource (e.g.: MS:000012).</TD></TR>
+<TR><TD>cvRef</TD><TD>xs:IDREF</TD><TD>required</TD><TD>A reference to the CV 'id' attribute as defined in the cvList in this mzML file.</TD></TR>
+<TR><TD>name</TD><TD>xs:string</TD><TD>required</TD><TD>The actual name for the parameter, from the referred-to controlled vocabulary. This should be the preferred name associated with the specified accession number.</TD></TR>
+<TR><TD>unitAccession</TD><TD>xs:string</TD><TD>optional</TD><TD>An optional CV accession number for the unit term associated with the value, if any (e.g., 'UO:0000266' for 'electron volt').</TD></TR>
+<TR><TD>unitCvRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>If a unit term is referenced, this attribute MUST refer to the CV 'id' attribute defined in the cvList in this mzML file.</TD></TR>
+<TR><TD>unitName</TD><TD>xs:string</TD><TD>optional</TD><TD>An optional CV name for the unit accession number, if any (e.g., 'electron volt' for 'UO:0000266' ).</TD></TR>
+<TR><TD>value</TD><TD>xs:string</TD><TD>optional</TD><TD>The value for the parameter; may be absent if not appropriate, or a numeric or symbolic value, or may itself be CV (legal values for a parameter should be enumerated and defined in the ontology).</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000505&quot; name=&quot;base peak intensity&quot; value=&quot;16020.6806640625&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000131&quot; unitName=&quot;number of counts&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="userParam">userParam</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:UserParamType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>name</TD><TD>xs:string</TD><TD>required</TD><TD>The name for the parameter.</TD></TR>
+<TR><TD>type</TD><TD>xs:string</TD><TD>optional</TD><TD>The datatype of the parameter, where appropriate (e.g.: xsd:float).</TD></TR>
+<TR><TD>unitAccession</TD><TD>xs:string</TD><TD>optional</TD><TD>An optional CV accession number for the unit term associated with the value, if any (e.g., 'UO:0000266' for 'electron volt').</TD></TR>
+<TR><TD>unitCvRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>If a unit term is referenced, this attribute MUST refer to the CV 'id' attribute defined in the cvList in this mzML file.</TD></TR>
+<TR><TD>unitName</TD><TD>xs:string</TD><TD>optional</TD><TD>An optional CV name for the unit accession number, if any (e.g., 'electron volt' for 'UO:0000266' ).</TD></TR>
+<TR><TD>value</TD><TD>xs:string</TD><TD>optional</TD><TD>The value for the parameter, where appropriate.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;userParam name=&quot;ProteoWizard&quot; value=&quot;Thermo RAW data converted to mzML, with additional MIAPE parameters added for illustration&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="spectrumList">spectrumList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>All mass spectra and the acquisitions underlying them are described and attached here. Subsidiary data arrays are also both described and attached here.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SpectrumListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of spectra defined in this mzML file.</TD></TR>
+<TR><TD>defaultDataProcessingRef</TD><TD>xs:IDREF</TD><TD>required</TD><TD>This attribute MUST reference the 'id' of the default data processing for the spectrum list. If an acquisition does not reference any data processing, it implicitly refers to this data processing. This attribute is required because the minimum amount of data processing that any format will undergo is "conversion to mzML".</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#spectrum">spectrum</a></TD><TD>0</TD><TD>unlim</TD><TD>The structure that captures the generation of a peak list (including the underlying acquisitions). Also describes some of the parameters for the mass spectrometer for a given acquisition (or list of acquisitions).</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_012_spectrumList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;spectrumList count=&quot;4&quot; defaultDataProcessingRef=&quot;pwizconversion&quot;&gt;
+  &lt;spectrum index=&quot;0&quot; id=&quot;scan=19&quot; defaultArrayLength=&quot;15&quot;&gt;
+    &lt;referenceableParamGroupRef ref=&quot;CommonMS1SpectrumParams&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000511&quot; name=&quot;ms level&quot; value=&quot;1&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000127&quot; name=&quot;centroid spectrum&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000528&quot; name=&quot;lowest observed m/z&quot; value=&quot;400.38999999999999&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000527&quot; name=&quot;highest observed m/z&quot; value=&quot;1795.5599999999999&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  ...
+&lt;/spectrumList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="chromatogramList">chromatogramList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>All chromatograms for this run.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ChromatogramListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of chromatograms defined in this mzML file.</TD></TR>
+<TR><TD>defaultDataProcessingRef</TD><TD>xs:IDREF</TD><TD>required</TD><TD>This attribute MUST reference the 'id' of the default data processing for the chromatogram list. If an acquisition does not reference any data processing, it implicitly refers to this data processing. This attribute is required because the minimum amount of data processing that any format will undergo is "conversion to mzML".</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#chromatogram">chromatogram</a></TD><TD>1</TD><TD>unlim</TD><TD>A single chromatogram.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_013_chromatogramList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;chromatogramList count=&quot;2&quot; defaultDataProcessingRef=&quot;pwizconversion&quot;&gt;
+  &lt;chromatogram index=&quot;0&quot; id=&quot;tic&quot; defaultArrayLength=&quot;15&quot; dataProcessingRef=&quot;XcaliburProcessing&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000235&quot; name=&quot;total ion current chromatogram&quot; value=&quot;&quot;/&gt;
+    &lt;binaryDataArrayList count=&quot;2&quot;&gt;
+      &lt;binaryDataArray encodedLength=&quot;160&quot; dataProcessingRef=&quot;pwizconversion&quot;&gt;
+        &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000523&quot; name=&quot;64-bit float&quot; value=&quot;&quot;/&gt;
+        &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000576&quot; name=&quot;no compression&quot; value=&quot;&quot;/&gt;
+  ...
+&lt;/chromatogramList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="sourceFile">sourceFile</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Description of the source file, including location and type.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SourceFileType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>id</TD><TD>xs:ID</TD><TD>required</TD><TD>An identifier for this file.</TD></TR>
+<TR><TD>location</TD><TD>xs:anyURI</TD><TD>required</TD><TD>URI-formatted location where the file was retrieved.</TD></TR>
+<TR><TD>name</TD><TD>xs:string</TD><TD>required</TD><TD>Name of the source file, without reference to location (either URI or local path).</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>      &lt;sourceFile id=&quot;SF2&quot; name=&quot;plgs_example.plgs&quot; location=&quot;file:///C:/mzMLconverters&quot;&gt;
+        &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000614&quot; name=&quot;ProteinLynx Global Server mass spectrum XML file&quot;/&gt;
+        &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000568&quot; name=&quot;MD5&quot; value=&quot;7a09cc8a55aaca14741ca0777658e496&quot;/&gt;
+        &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000769&quot; name=&quot;Waters nativeID format&quot;/&gt;
+      &lt;/sourceFile&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/fileDescription/sourceFileList/sourceFile<BR><PRE>MUST supply a *child* term of MS:1000767 (<span title="Describes how the native spectrum identifiers are formated." class="popup">native spectrum identifier format</span>) only once
+  e.g.: MS:1000768 (<span title="controllerType=xsd:nonNegativeInteger controllerNumber=xsd:positiveInteger scan=xsd:positiveInteger." class="popup">Thermo nativeID format</span>)
+  e.g.: MS:1000769 (<span title="function=xsd:positiveInteger process=xsd:nonNegativeInteger scan=xsd:nonNegativeInteger." class="popup">Waters nativeID format</span>)
+  e.g.: MS:1000770 (<span title="sample=xsd:nonNegativeInteger period=xsd:nonNegativeInteger cycle=xsd:nonNegativeInteger experiment=xsd:nonNegativeInteger." class="popup">WIFF nativeID format</span>)
+  e.g.: MS:1000771 (<span title="scan=xsd:nonNegativeInteger." class="popup">Bruker/Agilent YEP nativeID format</span>)
+  e.g.: MS:1000772 (<span title="scan=xsd:nonNegativeInteger." class="popup">Bruker BAF nativeID format</span>)
+  e.g.: MS:1000773 (<span title="file=xsd:IDREF" class="popup">Bruker FID nativeID format</span>)
+  e.g.: MS:1000774 (<span title="index=xsd:nonNegativeInteger" class="popup">multiple peak list nativeID format</span>)
+  e.g.: MS:1000775 (<span title="file=xsd:IDREF" class="popup">single peak list nativeID format</span>)
+  e.g.: MS:1000776 (<span title="scan=xsd:nonNegativeInteger" class="popup">scan number only nativeID format</span>)
+  e.g.: MS:1000777 (<span title="spectrum=xsd:nonNegativeInteger" class="popup">spectrum identifier nativeID format</span>)
+  et al.
+MUST supply a *child* term of MS:1000561 (<span title="Checksum is a form of redundancy check, a simple way to protect the integrity of data by detecting errors in data." class="popup">data file checksum type</span>) one or more times
+  e.g.: MS:1000568 (<span title="MD5 (Message-Digest algorithm 5) is a cryptographic hash function with a 128-bit hash value used to check the integrity of files." class="popup">MD5</span>)
+  e.g.: MS:1000569 (<span title="SHA-1 (Secure Hash Algorithm-1) is a cryptographic hash function designed by the National Security Agency (NSA) and published by the NIST as a U. S. government standard. It is also used to verify file integrity." class="popup">SHA-1</span>)
+MUST supply a *child* term of MS:1000560 (<span title="The format of the file being used. This could be a instrument or vendor specific proprietary file format or a converted open file format." class="popup">mass spectrometer file format</span>) only once
+  e.g.: MS:1000526 (<span title="Waters data file found in a Waters RAW directory, generated from an MS acquisition." class="popup">Waters raw file</span>)
+  e.g.: MS:1000562 (<span title="Applied Biosystems WIFF file format." class="popup">ABI WIFF file</span>)
+  e.g.: MS:1000563 (<span title="Thermo Scientific RAW file format." class="popup">Thermo RAW file</span>)
+  e.g.: MS:1000564 (<span title="Proteomics Standards Inititative mzData file format." class="popup">PSI mzData file</span>)
+  e.g.: MS:1000565 (<span title="Micromass PKL file format." class="popup">Micromass PKL file</span>)
+  e.g.: MS:1000566 (<span title="Institute of Systems Biology mzXML file format." class="popup">ISB mzXML file</span>)
+  e.g.: MS:1000567 (<span title="Bruker/Agilent YEP file format." class="popup">Bruker/Agilent YEP file</span>)
+  e.g.: MS:1000584 (<span title="Proteomics Standards Inititative mzML file format." class="popup">mzML file</span>)
+  e.g.: MS:1000613 (<span title="Sequest DTA file format." class="popup">DTA file</span>)
+  e.g.: MS:1000614 (<span title="Peak list file format used by ProteinLynx Global Server." class="popup">ProteinLynx Global Server mass spectrum XML file</span>)
+  et al.
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000563&quot; name=&quot;Thermo RAW file&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000569&quot; name=&quot;SHA-1&quot; value=&quot;71be39fb2700ab2f3c8b2234b91274968b6899b1&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000776&quot; name=&quot;scan number only nativeID format&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000740&quot; name=&quot;parameter file&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000824&quot; name=&quot;no nativeID format&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000613&quot; name=&quot;DTA file&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000568&quot; name=&quot;MD5&quot; value=&quot;c4989164dca142000644d2bce5dc571f&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000526&quot; name=&quot;Waters raw file&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000769&quot; name=&quot;Waters nativeID format&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000614&quot; name=&quot;ProteinLynx Global Server mass spectrum XML file&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000768&quot; name=&quot;Thermo nativeID format&quot; value=&quot;&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="sourceFileRefList">sourceFileRefList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List with the source files containing the acquisition settings.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SourceFileRefListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>This number of source files referenced in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#sourceFileRef">sourceFileRef</a></TD><TD>0</TD><TD>unlim</TD><TD>Reference to a previously defined sourceFile.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_011_sourceFileRefList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;sourceFileRefList count=&quot;1&quot;&gt;
+  &lt;sourceFileRef ref=&quot;sf_parameters&quot;/&gt;
+&lt;/sourceFileRefList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="targetList">targetList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Target list (or 'inclusion list') configured prior to the run.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:TargetListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of TargetType elements in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#target">target</a></TD><TD>1</TD><TD>unlim</TD><TD>Structure allowing the use of a controlled (cvParam) or uncontrolled vocabulary (userParam), or a reference to a predefined set of these in this mzML file (paramGroupRef).</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;targetList count=&quot;2&quot;&gt;
+  &lt;target&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000744&quot; name=&quot;selected ion m/z&quot; value=&quot;1000&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;/target&gt;
+  &lt;target&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000744&quot; name=&quot;selected ion m/z&quot; value=&quot;1200&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;/target&gt;
+  ...
+&lt;/targetList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="componentList">componentList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List with the different components used in the mass spectrometer. At least one source, one mass analyzer and one detector need to be specified.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ComponentListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of components in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#source">source</a></TD><TD>1</TD><TD>unlim</TD><TD>A source component.</TD></TR>
+<TR><TD><a href="#analyzer">analyzer</a></TD><TD>1</TD><TD>unlim</TD><TD>A mass analyzer (or mass filter) component.</TD></TR>
+<TR><TD><a href="#detector">detector</a></TD><TD>1</TD><TD>unlim</TD><TD>A detector component.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;componentList count=&quot;3&quot;&gt;
+  &lt;source order=&quot;1&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000073&quot; name=&quot;electrospray ionization&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000057&quot; name=&quot;electrospray inlet&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000486&quot; name=&quot;source potential&quot; value=&quot;4.20&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000218&quot; unitName=&quot;volt&quot;/&gt;
+  &lt;/source&gt;
+  &lt;analyzer order=&quot;2&quot;&gt;
+  ...
+&lt;/componentList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="softwareRef">softwareRef</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Reference to a previously defined software element
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SoftwareRefType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>ref</TD><TD>xs:IDREF</TD><TD>required</TD><TD>This attribute MUST be used to reference the 'id' attribute of a software element.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>      &lt;softwareRef ref=&quot;Xcalibur&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="processingMethod">processingMethod</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Description of the default peak processing method. This element describes the base method used in the generation of a particular mzML file. Variable methods should be described in the appropriate acquisition section - if no acquisition-specific details are found, then this information serves as the default.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ProcessingMethodType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>order</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>This attributes allows a series of consecutive steps to be placed in the correct order.</TD></TR>
+<TR><TD>softwareRef</TD><TD>xs:IDREF</TD><TD>required</TD><TD>This attribute MUST reference the 'id' of the appropriate SoftwareType.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;processingMethod order=&quot;1&quot; softwareRef=&quot;pwiz&quot;&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000033&quot; name=&quot;deisotoping&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000034&quot; name=&quot;charge deconvolution&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000035&quot; name=&quot;peak picking&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000592&quot; name=&quot;smoothing&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000593&quot; name=&quot;baseline reduction&quot; value=&quot;&quot;/&gt;
+  &lt;userParam name=&quot;signal-to-noise estimation&quot; value=&quot;none&quot;/&gt;
+  ...
+&lt;/processingMethod&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/dataProcessingList/dataProcessing/processingMethod<BR><PRE>MAY supply a *child* term of MS:1000630 (<span title="Data processing parameter used in the data processing performed on the data file." class="popup">data processing parameter</span>) one or more times
+  e.g.: MS:1000629 (<span title="Threshold below which some action is taken." class="popup">low intensity threshold</span>)
+  e.g.: MS:1000631 (<span title="Threshold above which some action is taken." class="popup">high intensity threshold</span>)
+  e.g.: MS:1000747 (<span title="The time that a data processing action was finished." class="popup">completion time</span>)
+  e.g.: MS:1000787 (<span title="Threshold at or below which some action is taken." class="popup">inclusive low intensity threshold</span>)
+  e.g.: MS:1000788 (<span title="Threshold at or above which some action is taken." class="popup">inclusive high intensity threshold</span>)
+MUST supply a *child* term of MS:1000452 (<span title="Terms used to describe types of data processing." class="popup">data transformation</span>) one or more times
+  e.g.: MS:1000033 (<span title="The removal of isotope peaks to represent the fragment ion as one data point and is commonly done to reduce complexity. It is done in conjunction with the charge state deconvolution." class="popup">deisotoping</span>)
+  e.g.: MS:1000034 (<span title="The determination of the mass of an ion based on the mass spectral peaks that represent multiple-charge ions." class="popup">charge deconvolution</span>)
+  e.g.: MS:1000544 (<span title="Conversion of a file format to Proteomics Standards Initiative mzData file format." class="popup">Conversion to mzML</span>)
+  e.g.: MS:1000545 (<span title="Conversion of a file format to Institute of Systems Biology mzXML file format." class="popup">Conversion to mzXML</span>)
+  e.g.: MS:1000546 (<span title="Conversion of a file format to Proteomics Standards Initiative mzData file format." class="popup">Conversion to mzData</span>)
+  e.g.: MS:1000593 (<span title="A process of removal of varying intensities generated due to variable energy absorption before further processing can take place. Baseline reduction facilitates meaningful comparision between intensities of m/z values." class="popup">baseline reduction</span>)
+  e.g.: MS:1000594 (<span title="The removal of very low intensity data points that are likely to be spurious noise rather than real signal." class="popup">low intensity data point removal</span>)
+  e.g.: MS:1000741 (<span title="Conversion to dta format." class="popup">Conversion to dta</span>)
+  e.g.: MS:1000745 (<span title="The correction of the spectrum scan times, as used e.g. in label-free proteomics." class="popup">retention time alignment</span>)
+  e.g.: MS:1000746 (<span title="The removal of very high intensity data points." class="popup">high intensity data point removal</span>)
+  et al.
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000033&quot; name=&quot;deisotoping&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000034&quot; name=&quot;charge deconvolution&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000035&quot; name=&quot;peak picking&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000544&quot; name=&quot;Conversion to mzML&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000741&quot; name=&quot;Conversion to dta&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000592&quot; name=&quot;smoothing&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000593&quot; name=&quot;baseline reduction&quot; value=&quot;&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="spectrum">spectrum</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>The structure that captures the generation of a peak list (including the underlying acquisitions). Also describes some of the parameters for the mass spectrometer for a given acquisition (or list of acquisitions).
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SpectrumType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>dataProcessingRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>This attribute can optionally reference the 'id' of the appropriate dataProcessing.</TD></TR>
+<TR><TD>defaultArrayLength</TD><TD>xs:int</TD><TD>required</TD><TD>Default length of binary data arrays contained in this element.</TD></TR>
+<TR><TD>id</TD><TD>xs:string (pattern: \S+=\S+( \S+=\S+)*)</TD><TD>required</TD><TD>The native identifier for a spectrum. For unmerged native spectra or spectra from older open file formats, the format of the identifier is defined in the PSI-MS CV and referred to in the mzML header. External documents may use this identifier together with the mzML filename or accession to reference a particular spectrum.</TD></TR>
+<TR><TD>index</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The zero-based, consecutive index of  the spectrum in the SpectrumList.</TD></TR>
+<TR><TD>sourceFileRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>This attribute can optionally reference the 'id' of the appropriate sourceFile.</TD></TR>
+<TR><TD>spotID</TD><TD>xs:string</TD><TD>optional</TD><TD>The identifier for the spot from which this spectrum was derived, if a MALDI or similar run.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+<TR><TD><a href="#scanList">scanList</a></TD><TD>0</TD><TD>1</TD><TD>List and descriptions of scans.</TD></TR>
+<TR><TD><a href="#precursorList">precursorList</a></TD><TD>0</TD><TD>1</TD><TD>List and descriptions of precursor isolations to the spectrum currently being described, ordered.</TD></TR>
+<TR><TD><a href="#productList">productList</a></TD><TD>0</TD><TD>1</TD><TD>List and descriptions of product isolations to the spectrum currently being described, ordered.</TD></TR>
+<TR><TD><a href="#binaryDataArrayList">binaryDataArrayList</a></TD><TD>0</TD><TD>1</TD><TD>List of binary data arrays.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_014_spectrum.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;spectrum index=&quot;3&quot; id=&quot;scan=22&quot; spotID=&quot;A1,42x42,4242x4242&quot; defaultArrayLength=&quot;15&quot;&gt;
+  &lt;referenceableParamGroupRef ref=&quot;CommonMS1SpectrumParams&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000511&quot; name=&quot;ms level&quot; value=&quot;1&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000127&quot; name=&quot;centroid spectrum&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000528&quot; name=&quot;lowest observed m/z&quot; value=&quot;142.38999999999999&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000527&quot; name=&quot;highest observed m/z&quot; value=&quot;942.55999999999995&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000504&quot; name=&quot;base peak m/z&quot; value=&quot;422.42000000000002&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  ...
+&lt;/spectrum&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/run/spectrumList/spectrum<BR><PRE>MAY supply a *child* term of MS:1000465 (<span title="An acquisition mode to which specifies weather polarity is negative, positive or alternating." class="popup">scan polarity</span>) only once
+  e.g.: MS:1000129 (<span title="Polarity of the scan is negative." class="popup">negative scan</span>)
+  e.g.: MS:1000130 (<span title="Polarity of the scan is positive." class="popup">positive scan</span>)
+MUST supply a *child* term of MS:1000559 (<span title="Spectrum type." class="popup">spectrum type</span>) only once
+  e.g.: MS:1000322 (<span title="The measurement of the relative abundance of ions that result from a charge inversion reaction as a function of m/z." class="popup">charge inversion mass spectrum</span>)
+  e.g.: MS:1000325 (<span title="A spectrum formed of all product ions that have been produced by gain of a pre-selected neutral mass following the reaction with and addition of the gas in a collision cell." class="popup">constant neutral gain spectrum</span>)
+  e.g.: MS:1000326 (<span title="A spectrum formed of all product ions that have been produced with a selected m/z decrement from any precursor ions. The spectrum shown correlates to the precursor ion spectrum. See also neutral loss spectrum." class="popup">constant neutral loss spectrum</span>)
+  e.g.: MS:1000328 (<span title="A mass spectrum obtained using a sector mass spectrometer in which the electric sector field E is set to half the value required to transmit the main ion-beam. This spectrum records the signal from doubly charged product ions of charge-stripping reactions." class="popup">e/2 mass spectrum</span>)
+  e.g.: MS:1000341 (<span title="Spectrum generated by scanning precursor m/z while monitoring a fixed product m/z" class="popup">precursor ion spectrum</span>)
+  e.g.: MS:1000581 (<span title="Spectrum generated from MSn experiment with three or more stages of m/z separation and in which a particular multi-step reaction path is monitored." class="popup">CRM spectrum</span>)
+  e.g.: MS:1000582 (<span title="Spectrum obtained with the operation of a mass spectrometer in which the abundances of one ion or several ions of specific m/z values are recorded rather than the entire mass spectrum (Selected Ion Monitoring)." class="popup">SIM spectrum</span>)
+  e.g.: MS:1000583 (<span title="Spectrum obtained when data are acquired from specific product ions corresponding to m/z values of selected precursor ions a recorded via two or more stages of mass spectrometry. The precursor/product ion pair is called a transition pair.  Data can be obtained for a single transition pair or multiple transition pairs.  Multiple time segments of different transition pairs can exist in a single file. Single precursor ions can have multiple product ions consitituting multiple transition pairs.  Selected reaction monitoring can be performed as tandem mass spectrometry in time or tandem mass spectrometry in space." class="popup">SRM spectrum</span>)
+  e.g.: MS:1000789 (<span title="MS1 spectrum that is enriched in multiply-charged ions compared to singly-charged ions" class="popup">enhanced multiply charged spectrum</span>)
+  e.g.: MS:1000790 (<span title="MSn spectrum in which the product ions are collected after a time delay, which allows the observation of lower energy fragmentation processes after precursor ion activation" class="popup">time-delayed fragmentation spectrum</span>)
+  et al.
+MUST supply term MS:1000525 (<span title="Way in which the spectrum is represented, either with regularly spaced data points or with a list of centroided peaks." class="popup">spectrum representation</span>) or any of its children only once
+  e.g.: MS:1000127 (<span title="Processing of profile data to produce spectra that contains discrete peaks of zero width. Often used to reduce the size of dataset." class="popup">centroid spectrum</span>)
+  e.g.: MS:1000128 (<span title="A profile mass spectrum is created when data is recorded with ion current (counts per second) on one axis and mass/charge ratio on another axis." class="popup">profile spectrum</span>)
+MAY supply a *child* term of MS:1000499 (<span title="Spectrum properties that are associated with a value." class="popup">spectrum attribute</span>) one or more times
+  e.g.: MS:1000285 (<span title="The sum of all the separate ion currents carried by the ions of different m/z contributing to a complete mass spectrum or in a specified m/z range of a mass spectrum." class="popup">total ion current</span>)
+  e.g.: MS:1000497 (<span title="Special scan mode, where data with improved resoltuion is acquired. This is typically achieved by scanning a more narrow m/z window or scanning with a lower scan rate." class="popup">zoom scan</span>)
+  e.g.: MS:1000504 (<span title="M/z value of the signal of highest intensity in the mass spectrum." class="popup">base peak m/z</span>)
+  e.g.: MS:1000505 (<span title="The intensity of the greatest peak in the mass spectrum." class="popup">base peak intensity</span>)
+  e.g.: MS:1000511 (<span title="Stages of ms achieved in a multi stage mass spectrometry experiment." class="popup">ms level</span>)
+  e.g.: MS:1000527 (<span title="Highest m/z value observed in the m/z array." class="popup">highest observed m/z</span>)
+  e.g.: MS:1000528 (<span title="Lowest m/z value observed in the m/z array." class="popup">lowest observed m/z</span>)
+  e.g.: MS:1000618 (<span title="Highest wavelength observed in an EMR spectrum." class="popup">highest observed wavelength</span>)
+  e.g.: MS:1000619 (<span title="Lowest wavelength observed in an EMR spectrum." class="popup">lowest observed wavelength</span>)
+  e.g.: MS:1000796 (<span title="A free-form text title describing a spectrum." class="popup">spectrum title</span>)
+  et al.
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000580&quot; name=&quot;MSn spectrum&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000511&quot; name=&quot;ms level&quot; value=&quot;2&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000127&quot; name=&quot;centroid spectrum&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000130&quot; name=&quot;positive scan&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000285&quot; name=&quot;total ion current&quot; value=&quot;1.0289517E7&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000128&quot; name=&quot;profile spectrum&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000504&quot; name=&quot;base peak m/z&quot; value=&quot;810.415283203125&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000505&quot; name=&quot;base peak intensity&quot; value=&quot;1471973.875&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000131&quot; unitName=&quot;number of counts&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000528&quot; name=&quot;lowest observed m/z&quot; value=&quot;200.00018816645022&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000527&quot; name=&quot;highest observed m/z&quot; value=&quot;2000.0099466203771&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000326&quot; name=&quot;constant neutral loss spectrum&quot;/&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Notes and Constraints:</b></td>
+<td class='zero'>id's MUST be unique within a file as constrained by a primary key.
+The format MUST follow the native ID guidelines for mzML
+If a scan yields no peaks, it should still be reported, but with a defaultArrayLength
+of 0 and no &lt;binaryDataArrayList&gt; element.
+
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="chromatogram">chromatogram</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>A single chromatogram.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ChromatogramType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>dataProcessingRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>This attribute can optionally reference the 'id' of the appropriate dataProcessing.</TD></TR>
+<TR><TD>defaultArrayLength</TD><TD>xs:int</TD><TD>required</TD><TD>Default length of binary data arrays contained in this element.</TD></TR>
+<TR><TD>id</TD><TD>xs:string</TD><TD>required</TD><TD>A unique identifier for this chromatogram.</TD></TR>
+<TR><TD>index</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The zero-based index for this chromatogram in the chromatogram list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+<TR><TD><a href="#precursor">precursor</a></TD><TD>0</TD><TD>1</TD><TD>The method of precursor ion selection and activation</TD></TR>
+<TR><TD><a href="#product">product</a></TD><TD>0</TD><TD>1</TD><TD>The method of product ion selection and activation in a precursor ion scan</TD></TR>
+<TR><TD><a href="#binaryDataArrayList">binaryDataArrayList</a></TD><TD>1</TD><TD>1</TD><TD>List of binary data arrays.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;chromatogram index=&quot;0&quot; id=&quot;tic&quot; defaultArrayLength=&quot;15&quot; dataProcessingRef=&quot;XcaliburProcessing&quot;&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000235&quot; name=&quot;total ion current chromatogram&quot; value=&quot;&quot;/&gt;
+  &lt;binaryDataArrayList count=&quot;2&quot;&gt;
+    &lt;binaryDataArray encodedLength=&quot;160&quot; dataProcessingRef=&quot;pwizconversion&quot;&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000523&quot; name=&quot;64-bit float&quot; value=&quot;&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000576&quot; name=&quot;no compression&quot; value=&quot;&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000595&quot; name=&quot;time array&quot; value=&quot;&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000010&quot; unitName=&quot;second&quot;/&gt;
+  ...
+&lt;/chromatogram&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/run/chromatogramList/chromatogram<BR><PRE>MAY supply a *child* term of MS:1000808 (<span title="Chromatogram properties that are associated with a value." class="popup">chromatogram attribute</span>) one or more times
+  e.g.: MS:1000527 (<span title="Highest m/z value observed in the m/z array." class="popup">highest observed m/z</span>)
+  e.g.: MS:1000528 (<span title="Lowest m/z value observed in the m/z array." class="popup">lowest observed m/z</span>)
+  e.g.: MS:1000618 (<span title="Highest wavelength observed in an EMR spectrum." class="popup">highest observed wavelength</span>)
+  e.g.: MS:1000619 (<span title="Lowest wavelength observed in an EMR spectrum." class="popup">lowest observed wavelength</span>)
+  e.g.: MS:1000809 (<span title="A free-form text title describing a chromatogram." class="popup">chromatogram title</span>)
+MUST supply a *child* term of MS:1000626 (<span title="Broad category or type of a chromatogram." class="popup">chromatogram type</span>) only once
+  e.g.: MS:1000235 (<span title="Chromatogram obtained by plotting the total ion current detected in each of a series of mass spectra recorded as a function of retention time." class="popup">total ion current chromatogram</span>)
+  e.g.: MS:1000627 (<span title="Chromatogram created by creating an array of the measurements of a specific single ion current at each time point." class="popup">selected ion current chromatogram</span>)
+  e.g.: MS:1000628 (<span title="Chromatogram created by creating an array of the most intense peaks at each time point." class="popup">basepeak chromatogram</span>)
+  e.g.: MS:1000812 (<span title="The measurement of light absorbed by the sample as a function of the retention time." class="popup">absorption chromatogram</span>)
+  e.g.: MS:1000813 (<span title="The measurement of light emitted by the sample as a function of the retention time." class="popup">emission chromatogram</span>)
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000235&quot; name=&quot;total ion current chromatogram&quot; value=&quot;&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="sourceFileRef">sourceFileRef</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Reference to a previously defined sourceFile.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SourceFileRefType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>ref</TD><TD>xs:IDREF</TD><TD>required</TD><TD>This attribute MUST reference the 'id' of the appropriate sourceFile.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;sourceFileRef ref=&quot;sf_parameters&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="target">target</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Structure allowing the use of a controlled (cvParam) or uncontrolled vocabulary (userParam), or a reference to a predefined set of these in this mzML file (paramGroupRef).
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ParamGroupType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;target&gt;
+  &lt;userParam name=&quot;precursorMz&quot; value=&quot;123.456&quot;/&gt;
+  &lt;userParam name=&quot;fragmentMz&quot; value=&quot;456.789&quot;/&gt;
+  &lt;userParam name=&quot;dwell time&quot; value=&quot;1&quot; type=&quot;seconds&quot;/&gt;
+  &lt;userParam name=&quot;active time&quot; value=&quot;0.5&quot; type=&quot;seconds&quot;/&gt;
+&lt;/target&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000744&quot; name=&quot;selected ion m/z&quot; value=&quot;1000&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="source">source</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>A source component.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SourceComponentType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>order</TD><TD>xs:int</TD><TD>required</TD><TD>This attribute MUST be used to indicate the order in which the components are encountered from source to detector (e.g., in a Q-TOF, the quadrupole would have the lower order number, and the TOF the higher number of the two).</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;source order=&quot;1&quot;&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000073&quot; name=&quot;electrospray ionization&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000057&quot; name=&quot;electrospray inlet&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000486&quot; name=&quot;source potential&quot; value=&quot;4.20&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000218&quot; unitName=&quot;volt&quot;/&gt;
+&lt;/source&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/instrumentConfigurationList/instrumentConfiguration/componentList/source<BR><PRE>MAY supply a *child* term of MS:1000482 (<span title="Property of a source device that need a value." class="popup">source attribute</span>) one or more times
+  e.g.: MS:1000392 (<span title="The ratio of the number of ions formed to the number of electrons, molecules or photons used." class="popup">ionization efficiency</span>)
+  e.g.: MS:1000486 (<span title="Potential difference at the MS source in volts." class="popup">source potential</span>)
+  e.g.: MS:1000843 (<span title="The distance between two peaks of the emitted laser beam." class="popup">wavelength</span>)
+  e.g.: MS:1000844 (<span title="Describes the diameter of the laser beam in x direction." class="popup">focus diameter x</span>)
+  e.g.: MS:1000845 (<span title="Describes the diameter of the laser beam in y direction." class="popup">focus diameter y</span>)
+  e.g.: MS:1000846 (<span title="Describes output energy of the laser system. May be attenuated by filters or other means." class="popup">pulse energy</span>)
+  e.g.: MS:1000847 (<span title="Describes how long the laser beam was emitted from the laser device." class="popup">pulse duration</span>)
+  e.g.: MS:1000848 (<span title="Describes the reduction of the intensity of the laser beam energy." class="popup">attenuation</span>)
+  e.g.: MS:1000849 (<span title="Describes the angle between the laser beam and the sample target." class="popup">impact angle</span>)
+  e.g.: MS:1000850 (<span title="Laser which is powered by a gaseous medium." class="popup">gas laser</span>)
+  et al.
+MUST supply term MS:1000008 (<span title="The method by which gas phase ions are generated from the sample." class="popup">ionization type</span>) or any of its children only once
+  e.g.: MS:1000070 (<span title="Chemical ionization that takes place at atmospheric pressure as opposed to the reduced pressure is normally used for chemical ionization." class="popup">atmospheric pressure chemical ionization</span>)
+  e.g.: MS:1000071 (<span title="The formation of a new ion by the reaction of a neutral species with an ion. The process may involve transfer of an electron, a proton or other charged species between the reactants. When a positive ion results from chemical ionization the term may be used without qualification. When a negative ion results the term negative ion chemical ionization should be used. Note that this term is not synonymous with chemi-ionization." class="popup">chemical ionization</span>)
+  e.g.: MS:1000074 (<span title="The ionization of any species by the interaction of a focused beam of neutral atoms having a translational energy of several thousand eV with a sample that is typically dissolved in a solvent matrix. See also secondary ionization." class="popup">fast atom bombardment ionization</span>)
+  e.g.: MS:1000075 (<span title="The formation of gas-phase ions from molecules that are present in a solid or solvent matrix that is irradiated with a pulsed laser. See also laser desorption/ionization." class="popup">matrix-assisted laser desorption ionization</span>)
+  e.g.: MS:1000227 (<span title="Photoionization of an atom or molecule in which in two or more photons are absorbed." class="popup">multiphoton ionization</span>)
+  e.g.: MS:1000239 (<span title="Matrix-assisted laser desorption ionization in which the sample target is at atmospheric pressure and the ions formed by the pulsed laser are sampled through a small aperture into the mass spectrometer." class="popup">atmospheric pressure matrix-assisted laser desorption ionization</span>)
+  e.g.: MS:1000255 (<span title="An ion source immersed in a flow of helium or other inert buffer gas that carries the ions through a meter-long reactor at pressures around 100 Pa." class="popup">flowing afterglow</span>)
+  e.g.: MS:1000257 (<span title="The formation of gas-phase ions from a material deposited on a solid surface in the presence of a high electric field. Because this process may encompass ionization by field ionization or other mechanisms, it is not recommended as a synonym for field desorption ionization." class="popup">field desorption</span>)
+  e.g.: MS:1000258 (<span title="The removal of electrons from any species by interaction with a high electric field." class="popup">field ionization</span>)
+  e.g.: MS:1000259 (<span title="The formation of ions in the gas phase and from solid samples at the cathode by application of a voltage to a low pressure gas." class="popup">glow discharge ionization</span>)
+  et al.
+MAY supply a *child* term of MS:1000007 (<span title="The nature of the sample inlet." class="popup">inlet type</span>) only once
+  e.g.: MS:1000055 (<span title="Fast atom bombardment ionization in which the analyte in solution is entrained in a flowing liquid matrix." class="popup">continuous flow fast atom bombardment</span>)
+  e.g.: MS:1000056 (<span title="The sample is directly inserted into the ion source, usually on the end of a heatable probe." class="popup">direct inlet</span>)
+  e.g.: MS:1000058 (<span title="Sample is directly injected or infused into the ionization source." class="popup">flow injection analysis</span>)
+  e.g.: MS:1000059 (<span title="A gas discharge ion source in which the energy to the plasma is supplied by electromagnetic induction." class="popup">inductively coupled plasma</span>)
+  e.g.: MS:1000060 (<span title="The continuous flow of solution of a sample into the ionization source." class="popup">infusion</span>)
+  e.g.: MS:1000061 (<span title="A device that separates carrier gas from gaseous analyte molecules on the basis of diffusivity." class="popup">jet separator</span>)
+  e.g.: MS:1000062 (<span title="A device to separate carrier molecules from analyte molecules on the basis of ease of diffusion across a semipermeable membrane." class="popup">membrane separator</span>)
+  e.g.: MS:1000063 (<span title="Continuous moving surface in the form of a belt which passes through an ionsource carrying analyte molecules." class="popup">moving belt</span>)
+  e.g.: MS:1000064 (<span title="Continuous moving surface in the form of a wire which passes through an ionsource carrying analyte molecules." class="popup">moving wire</span>)
+  e.g.: MS:1000065 (<span title="A division of flowing stream of liquid into two streams." class="popup">open split</span>)
+  et al.
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000398&quot; name=&quot;nanoelectrospray&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000073&quot; name=&quot;electrospray ionization&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000057&quot; name=&quot;electrospray inlet&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000486&quot; name=&quot;source potential&quot; value=&quot;4.20&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000218&quot; unitName=&quot;volt&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="analyzer">analyzer</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>A mass analyzer (or mass filter) component.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:AnalyzerComponentType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>order</TD><TD>xs:int</TD><TD>required</TD><TD>This attribute MUST be used to indicate the order in which the components are encountered from source to detector (e.g., in a Q-TOF, the quadrupole would have the lower order number, and the TOF the higher number of the two).</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;analyzer order=&quot;2&quot;&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000079&quot; name=&quot;fourier transform ion cyclotron resonance mass spectrometer&quot; value=&quot;&quot;/&gt;
+&lt;/analyzer&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/instrumentConfigurationList/instrumentConfiguration/componentList/analyzer<BR><PRE>MAY supply a *child* term of MS:1000480 (<span title="Analyzer properties that are associated with a value." class="popup">mass analyzer attribute</span>) one or more times
+  e.g.: MS:1000014 (<span title="Accuracy is the degree of conformity of a measured mass to its actual value." class="popup">accuracy</span>)
+  e.g.: MS:1000022 (<span title="The length of the field free drift space in a time of flight mass spectrometer." class="popup">TOF Total Path Length</span>)
+  e.g.: MS:1000024 (<span title="Final MS level achieved when performing PFF with the ion trap (e.g. MS E10)." class="popup">final MS exponent</span>)
+  e.g.: MS:1000025 (<span title="A property of space that produces a force on a charged particle equal to qv x B where q is the particle charge and v its velocity." class="popup">magnetic field strength</span>)
+  e.g.: MS:1000105 (<span title="Reflectron is off." class="popup">reflectron off</span>)
+  e.g.: MS:1000106 (<span title="Reflectron is on." class="popup">reflectron on</span>)
+MUST supply term MS:1000443 (<span title="Mass analyzer separates the ions according to their mass-to-charge ratio." class="popup">mass analyzer type</span>) or any of its children only once
+  e.g.: MS:1000078 (<span title="A linear ion trap mass spectrometer where ions are ejected along the axis of the analyzer." class="popup">axial ejection linear ion trap</span>)
+  e.g.: MS:1000079 (<span title="A mass spectrometer based on the principle of ion cyclotron resonance in which an ion in a magnetic field moves in a circular orbit at a frequency characteristic of its m/z value. Ions are coherently excited to a larger radius orbit using a pulse of radio frequency energy and their image charge is detected on receiver plates as a time domain signal. Fourier transformation of the time domain signal results in a frequency domain signal which is converted to a mass spectrum based in the inverse relationship between frequency and m/z." class="popup">fourier transform ion cyclotron resonance mass spectrometer</span>)
+  e.g.: MS:1000080 (<span title="A device that produces a magnetic field perpendicular to a charged particle beam that deflects the beam to an extent that is proportional to the particle momentum per unit charge. For a monoenergetic beam, the deflection is proportional to m/z." class="popup">magnetic sector</span>)
+  e.g.: MS:1000081 (<span title="A mass spectrometer that consists of four parallel rods whose centers form the corners of a square and whose opposing poles are connected. The voltage applied to the rods is a superposition of a static potential and a sinusoidal radio frequency potential. The motion of an ion in the x and y dimensions is described by the Matthieu equation whose solutions show that ions in a particular m/z range can be transmitted along the z axis." class="popup">quadrupole</span>)
+  e.g.: MS:1000082 (<span title="Quadrupole Ion Trap mass analyzer captures the ions in a three dimensional ion trap and then selectively ejects them by varying the RF and DC potentials." class="popup">quadrupole ion trap</span>)
+  e.g.: MS:1000083 (<span title="A linear ion trap mass spectrometer where ions are ejected along the radius of the analyzer." class="popup">radial ejection linear ion trap</span>)
+  e.g.: MS:1000084 (<span title="Instrument that separates ions by m/z in a field-free region after acceleration to a fixed acceleration energy." class="popup">time-of-flight</span>)
+  e.g.: MS:1000254 (<span title="A device consisting of conducting parallel plates, concentric cylinders or concentric spheres that separates charged particles according to their kinetic energy by means of an electric field that is constant in time." class="popup">electrostatic energy analyzer</span>)
+  e.g.: MS:1000284 (<span title="A technique to create excitation waveforms for ions in FT-ICR mass spectrometer or Paul ion trap. An excitation waveform in the time-domain is generated by taking the inverse Fourier transform of an appropriate frequency-domain programmed excitation spectrum, in which the resonance frequencies of ions to be excited are included. This technique may be used for selection of precursor ions in MS/MS experiments." class="popup">stored waveform inverse fourier transform</span>)
+  e.g.: MS:1000288 (<span title="A device that uses an oscillating electric field and magnetic field to accelerate charged particles." class="popup">cyclotron</span>)
+  et al.
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000082&quot; name=&quot;quadrupole ion trap&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000081&quot; name=&quot;quadrupole&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000084&quot; name=&quot;time-of-flight&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000079&quot; name=&quot;fourier transform ion cyclotron resonance mass spectrometer&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000083&quot; name=&quot;radial ejection linear ion trap&quot; value=&quot;&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="detector">detector</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>A detector component.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:DetectorComponentType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>order</TD><TD>xs:int</TD><TD>required</TD><TD>This attribute MUST be used to indicate the order in which the components are encountered from source to detector (e.g., in a Q-TOF, the quadrupole would have the lower order number, and the TOF the higher number of the two).</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>        &lt;detector order=&quot;4&quot;&gt;
+          &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000114&quot; name=&quot;microchannel plate detector&quot;/&gt;
+        &lt;/detector&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/instrumentConfigurationList/instrumentConfiguration/componentList/detector<BR><PRE>MUST supply term MS:1000026 (<span title="Type of detector used in the mass spectrometer." class="popup">detector type</span>) or any of its children only once
+  e.g.: MS:1000107 (<span title="A horn-shaped (or cone-shaped) continuous dynode particle multiplier. The ion strikes the inner surface of the device and induces the production of secondary electrons that in turn impinge on the inner surfaces to produce more secondary electrons. This avalanche effect produces an increase in signal in the final measured current pulse." class="popup">channeltron</span>)
+  e.g.: MS:1000108 (<span title="A surface that is held at high potential so that ions striking the surface produce electrons that are subsequently detected." class="popup">conversion dynode electron multiplier</span>)
+  e.g.: MS:1000109 (<span title="A detector in which ions strike a conversion dynode to produce electrons that in turn generate photons through a phosphorescent screen that are detected by a photomultiplier." class="popup">conversion dynode photomultiplier</span>)
+  e.g.: MS:1000110 (<span title="Detector consisting of a conversion dynode, scintillator and photomultiplier. The metal knob at high potential emits secondary electrons when ions impinge on the surface. The secondary electrons are accelerated onto the scintillator that produces light that is then detected by the photomultiplier detector." class="popup">daly detector</span>)
+  e.g.: MS:1000111 (<span title="A device to amplify the current of a beam or packet of charged particles or photons by incidence upon the surface of an electrode to produce secondary electrons." class="popup">electron multiplier tube</span>)
+  e.g.: MS:1000112 (<span title="A conducting cup or chamber that intercepts a charged particle beam and is electrically connected to a current measuring device." class="popup">faraday cup</span>)
+  e.g.: MS:1000113 (<span title="An array of detectors for spatially disperse ion beams in which all ions simultaneously impinge on the detector plane." class="popup">focal plane array</span>)
+  e.g.: MS:1000114 (<span title="A thin plate that contains a closely spaced array of channels that each act as a continuous dynode particle multiplier. A charged particle, fast neutral particle, or photon striking the plate causes a cascade of secondary electrons that ultimately exits the opposite side of the plate." class="popup">microchannel plate detector</span>)
+  e.g.: MS:1000115 (<span title="A detector system commonly used in inductively coupled plasma mass spectrometers." class="popup">multi-collector</span>)
+  e.g.: MS:1000116 (<span title="A detector for conversion of the ion/electron signal into photon(s) which are then amplified and detected." class="popup">photomultiplier</span>)
+  et al.
+MAY supply a *child* term of MS:1000481 (<span title="Detector attribute recognized as a value." class="popup">detector attribute</span>) one or more times
+  e.g.: MS:1000028 (<span title="The resolving power of the detector to detect the smallest difference between two ions so that the valley between them is a specified fraction of the peak height." class="popup">detector resolution</span>)
+  e.g.: MS:1000029 (<span title="The rate of signal sampling (measurement) with respect to time." class="popup">sampling frequency</span>)
+MAY supply a *child* term of MS:1000027 (<span title="Method by which detector signal is acquired by the data system." class="popup">detector acquisition mode</span>) one or more times
+  e.g.: MS:1000117 (<span title="Analog-to-digital converter (abbreviated ADC, A/D or A to D) is an electronic integrated circuit (i/c) that converts continuous signals to discrete digital numbers." class="popup">analog-digital converter</span>)
+  e.g.: MS:1000118 (<span title="Definition to do." class="popup">pulse counting</span>)
+  e.g.: MS:1000119 (<span title="A device for converting a signal of sporadic pluses into a digital representation of their time indices." class="popup">time-digital converter</span>)
+  e.g.: MS:1000120 (<span title="A detector acquisition mode used for detecting transient signals." class="popup">transient recorder</span>)
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000253&quot; name=&quot;electron multiplier&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000114&quot; name=&quot;microchannel plate detector&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000624&quot; name=&quot;inductive detector&quot; value=&quot;&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="scanList">scanList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List and descriptions of scans.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ScanListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>the number of scans defined in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+<TR><TD><a href="#scan">scan</a></TD><TD>1</TD><TD>unlim</TD><TD>Scan or acquisition from original raw file used to create this peak list, as specified in sourceFile.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_015_scanList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;scanList count=&quot;1&quot;&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000795&quot; name=&quot;no combination&quot; value=&quot;&quot;/&gt;
+  &lt;scan instrumentConfigurationRef=&quot;IC2&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000016&quot; name=&quot;scan start time&quot; value=&quot;0.011218333333333334&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000031&quot; unitName=&quot;minute&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000512&quot; name=&quot;filter string&quot; value=&quot;ITMS + c ESI d Full ms2 810.79@cid35.00 [210.00-1635.00]&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000616&quot; name=&quot;preset scan configuration&quot; value=&quot;3&quot;/&gt;
+    &lt;userParam name=&quot;[Thermo Trailer Extra]Monoisotopic M/Z:&quot; value=&quot;0&quot; type=&quot;xsd:float&quot;/&gt;
+  ...
+&lt;/scanList&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/run/spectrumList/spectrum/scanList<BR><PRE>MUST supply a *child* term of MS:1000570 (<span title="Method used to combine the mass spectra." class="popup">spectra combination</span>) only once
+  e.g.: MS:1000571 (<span title="Spectra Sum." class="popup">sum of spectra</span>)
+  e.g.: MS:1000573 (<span title="Spectra is combined by calculating the median of the spectra." class="popup">median of spectra</span>)
+  e.g.: MS:1000575 (<span title="Spectra is combined by calculating the mean of the spectra." class="popup">mean of spectra</span>)
+  e.g.: MS:1000795 (<span title="Use this term if only one scan was recorded or there is no information about scans available." class="popup">no combination</span>)
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000795&quot; name=&quot;no combination&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000571&quot; name=&quot;sum of spectra&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="precursorList">precursorList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List and descriptions of precursor isolations to the spectrum currently being described, ordered.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:PrecursorListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of precursor isolations in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#precursor">precursor</a></TD><TD>1</TD><TD>unlim</TD><TD>The method of precursor ion selection and activation</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_016_precursorList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;precursorList count=&quot;1&quot;&gt;
+  &lt;precursor spectrumRef=&quot;controllerType=0 controllerNumber=1 scan=16&quot;&gt;
+    &lt;isolationWindow&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000827&quot; name=&quot;isolation window target m/z&quot; value=&quot;811.40999999999997&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000828&quot; name=&quot;isolation window lower offset&quot; value=&quot;0.5&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000829&quot; name=&quot;isolation window upper offset&quot; value=&quot;0.5&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+    &lt;/isolationWindow&gt;
+  ...
+&lt;/precursorList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="productList">productList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List and descriptions of product isolations to the spectrum currently being described, ordered.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ProductListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of product isolations in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#product">product</a></TD><TD>1</TD><TD>unlim</TD><TD>The method of product ion selection and activation in a precursor ion scan</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_017_productList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;productList count=&quot;1&quot;&gt;
+ &lt;product&gt;
+  &lt;isolationWindow&gt;
+   &lt;!-- Q3 transmission window --&gt;
+   &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000828&quot; name=&quot;isolation window lower offset&quot; value=&quot;1.0&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+   &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000829&quot; name=&quot;isolation window upper offset&quot; value=&quot;1.0&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;/isolationWindow&gt;              
+  ...
+&lt;/productList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="binaryDataArrayList">binaryDataArrayList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>List of binary data arrays.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:BinaryDataArrayListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of binary data arrays defined in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#binaryDataArray">binaryDataArray</a></TD><TD>2</TD><TD>unlim</TD><TD>Data point arrays for default data arrays (m/z, intensity, time) and meta data arrays. Default data arrays MUST not have the attributes 'arrayLength' and 'dataProcessingRef'.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Graphical Context:</b></td>
+<td class='zero'><img width="530" src="mzML_figures/mzML_figure_018_binaryDataArrayList.png">
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;binaryDataArrayList count=&quot;2&quot;&gt;
+  &lt;binaryDataArray encodedLength=&quot;160&quot; dataProcessingRef=&quot;XcaliburProcessing&quot;&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000523&quot; name=&quot;64-bit float&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000576&quot; name=&quot;no compression&quot; value=&quot;&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000514&quot; name=&quot;m/z array&quot; value=&quot;&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+    &lt;binary&gt;AAAAAAAAAAAAAAAAAADwPwAAAAAAAABAAAAAAAAACEAAAAAAAA...&lt;/binary&gt;
+  &lt;/binaryDataArray&gt;
+  ...
+&lt;/binaryDataArrayList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="precursor">precursor</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>The method of precursor ion selection and activation
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:PrecursorType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>externalSpectrumID</TD><TD>xs:string</TD><TD>optional</TD><TD>For precursor spectra that are external to this document, this string MUST correspond to the 'id' attribute of a spectrum in the external document indicated by 'sourceFileRef'.</TD></TR>
+<TR><TD>sourceFileRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>For precursor spectra that are external to this document, this attribute MUST reference the 'id' attribute of a sourceFile representing that external document.</TD></TR>
+<TR><TD>spectrumRef</TD><TD>xs:string</TD><TD>optional</TD><TD>For precursor spectra that are local to this document, this attribute MUST be used to reference the 'id' attribute of the spectrum corresponding to the precursor spectrum.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#isolationWindow">isolationWindow</a></TD><TD>0</TD><TD>1</TD><TD>This element captures the isolation (or 'selection') window configured to isolate one or more ions.</TD></TR>
+<TR><TD><a href="#selectedIonList">selectedIonList</a></TD><TD>0</TD><TD>1</TD><TD>A list of ions that were selected.</TD></TR>
+<TR><TD><a href="#activation">activation</a></TD><TD>1</TD><TD>1</TD><TD>The type and energy level used for activation.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;precursor spectrumRef=&quot;controllerType=0 controllerNumber=1 scan=16&quot;&gt;
+  &lt;isolationWindow&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000827&quot; name=&quot;isolation window target m/z&quot; value=&quot;811.40999999999997&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000828&quot; name=&quot;isolation window lower offset&quot; value=&quot;0.5&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000829&quot; name=&quot;isolation window upper offset&quot; value=&quot;0.5&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;/isolationWindow&gt;
+  &lt;selectedIonList count=&quot;1&quot;&gt;
+  ...
+&lt;/precursor&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="product">product</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>The method of product ion selection and activation in a precursor ion scan
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ProductType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#isolationWindow">isolationWindow</a></TD><TD>0</TD><TD>1</TD><TD>This element captures the isolation (or 'selection') window configured to isolate one or more ions.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE> &lt;product&gt;
+  &lt;isolationWindow&gt;
+   &lt;!-- Q3 transmission window --&gt;
+   &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000828&quot; name=&quot;isolation window lower offset&quot; value=&quot;1.0&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+   &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000829&quot; name=&quot;isolation window upper offset&quot; value=&quot;1.0&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;/isolationWindow&gt;              
+ &lt;/product&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="scan">scan</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Scan or acquisition from original raw file used to create this peak list, as specified in sourceFile.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ScanType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>externalSpectrumID</TD><TD>xs:string</TD><TD>optional</TD><TD>For scans that are external to this document, this string MUST correspond to the 'id' attribute of a spectrum in the external document indicated by 'sourceFileRef'.</TD></TR>
+<TR><TD>instrumentConfigurationRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>This attribute can optionally reference the 'id' attribute of the appropriate instrument configuration.</TD></TR>
+<TR><TD>sourceFileRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>If this attribute is set, it MUST reference the 'id' attribute of a sourceFile representing the external document containing the spectrum referred to by 'externalSpectrumID'.
+</TD></TR>
+<TR><TD>spectrumRef</TD><TD>xs:string</TD><TD>optional</TD><TD>For scans that are local to this document, this attribute can be used to reference the 'id' attribute of the spectrum corresponding to the scan.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+<TR><TD><a href="#scanWindowList">scanWindowList</a></TD><TD>0</TD><TD>1</TD><TD>Container for a list of scan windows.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;scan instrumentConfigurationRef=&quot;LCQDeca&quot;&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000016&quot; name=&quot;scan start time&quot; value=&quot;42.049999999999997&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000010&quot; unitName=&quot;second&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000512&quot; name=&quot;filter string&quot; value=&quot;+ c MALDI Full ms [100.00-1000.00]&quot;/&gt;
+  &lt;scanWindowList count=&quot;1&quot;&gt;
+    &lt;scanWindow&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000501&quot; name=&quot;scan window lower limit&quot; value=&quot;100&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+      &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000500&quot; name=&quot;scan window upper limit&quot; value=&quot;1000&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  ...
+&lt;/scan&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/run/spectrumList/spectrum/scanList/scan<BR><PRE>MAY supply a *child* term of MS:1000503 (<span title="Scan properties that are associated with a value." class="popup">scan attribute</span>) one or more times
+  e.g.: MS:1000011 (<span title="Smallest mass difference between two equal magnitude peaks so that the valley between them is a specified fraction of the peak height." class="popup">mass resolution</span>)
+  e.g.: MS:1000015 (<span title="Rate in Th/sec for scanning analyzers." class="popup">scan rate</span>)
+  e.g.: MS:1000016 (<span title="The time that an analyzer started a scan, relative to the start of the MS run." class="popup">scan start time</span>)
+  e.g.: MS:1000502 (<span title="The time spent gathering data across a peak." class="popup">dwell time</span>)
+  e.g.: MS:1000512 (<span title="A string unique to Thermo instrument describing instrument settings for the scan." class="popup">filter string</span>)
+  e.g.: MS:1000616 (<span title="A user-defined scan configuration that specifies the instrumental settings in which a spectrum is acquired. An instrument may cycle through a list of preset scan configurations to acquire data. This is a more generic term for the Thermo \"scan event\", which is defined in the Thermo Xcalibur glossary as: a mass spectrometer scan that is defined by choosing the necessary scan parameter settings. Multiple scan events can be defined for each segment of time." class="popup">preset scan configuration</span>)
+  e.g.: MS:1000800 (<span title="The observed mass divided by the difference between two masses that can be separated: m/dm. The procedure by which dm was obtained and the mass at which the measurement was made should be reported." class="popup">mass resolving power</span>)
+  e.g.: MS:1000803 (<span title="Offset between two analyzers in a constant neutral loss or neutral gain scan. The value corresponds to the neutral loss or neutral gain value." class="popup">analyzer scan offset</span>)
+  e.g.: MS:1000826 (<span title="The time of elution from a chromatographic column, relative to the start of the chromatography." class="popup">elution time</span>)
+  e.g.: MS:1000880 (<span title="The duration of intervals between scanning, during which the instrument configuration is switched." class="popup">interchannel delay</span>)
+MAY supply a *child* term of MS:1000018 (<span title="Direction in terms of m/z of the scan for scanning analyzers (low to high, or high to low)." class="popup">scan direction</span>) only once
+  e.g.: MS:1000092 (<span title="High to low direction in terms of m/z of the scan for scanning analyzers." class="popup">decreasing m/z scan</span>)
+  e.g.: MS:1000093 (<span title="Low to high direction in terms of m/z of the scan for scanning analyzers." class="popup">increasing m/z scan</span>)
+MAY supply a *child* term of MS:1000019 (<span title="Describes the function in control of the m/z scan (for scanning instruments). Commonly the scan function is linear, but in principle any function can be used." class="popup">scan law</span>) only once
+  e.g.: MS:1000094 (<span title="The mass scan is done in exponential mode." class="popup">exponential</span>)
+  e.g.: MS:1000095 (<span title="The mass scan is done in linear mode." class="popup">linear</span>)
+  e.g.: MS:1000096 (<span title="The mass scan is done in quadratic mode." class="popup">quadratic</span>)
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000016&quot; name=&quot;scan start time&quot; value=&quot;5.8905000000000003&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000031&quot; unitName=&quot;minute&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000512&quot; name=&quot;filter string&quot; value=&quot;+ c NSI Full ms [ 400.00-1800.00]&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000616&quot; name=&quot;preset scan configuration&quot; value=&quot;3&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000803&quot; name=&quot;analyzer scan offset&quot; value=&quot;80&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="binaryDataArray">binaryDataArray</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Data point arrays for default data arrays (m/z, intensity, time) and meta data arrays. Default data arrays MUST not have the attributes 'arrayLength' and 'dataProcessingRef'.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:BinaryDataArrayType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>arrayLength</TD><TD>xs:nonNegativeInteger</TD><TD>optional</TD><TD>This optional attribute may override the 'defaultArrayLength' defined in SpectrumType. The two default arrays (m/z and intensity) should NEVER use this override option, and should therefore adhere to the 'defaultArrayLength' defined in SpectrumType. Parsing software can thus safely choose to ignore arrays of lengths different from the one defined in the 'defaultArrayLength' SpectrumType element.</TD></TR>
+<TR><TD>dataProcessingRef</TD><TD>xs:IDREF</TD><TD>optional</TD><TD>This optional attribute may reference the 'id' attribute of the appropriate dataProcessing.</TD></TR>
+<TR><TD>encodedLength</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The encoded length of the binary data array.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+<TR><TD><a href="#binary">binary</a></TD><TD>1</TD><TD>1</TD><TD>The actual base64 encoded binary data. The byte order is always 'little endian'.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;binaryDataArray encodedLength=&quot;160&quot; dataProcessingRef=&quot;XcaliburProcessing&quot;&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000523&quot; name=&quot;64-bit float&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000576&quot; name=&quot;no compression&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000515&quot; name=&quot;intensity array&quot; value=&quot;&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000131&quot; unitName=&quot;number of counts&quot;/&gt;
+  &lt;binary&gt;AAAAAAAALkAAAAAAAAAsQAAAAAAAACpAAAAAAAAAKEAAAAAAAA...&lt;/binary&gt;
+&lt;/binaryDataArray&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/run/chromatogramList/chromatogram/binaryDataArrayList/binaryDataArray<BR><PRE>MUST supply a *child* term of MS:1000572 (<span title="Compression Type." class="popup">binary data compression type</span>) only once
+  e.g.: MS:1000574 (<span title="Zlib." class="popup">zlib compression</span>)
+  e.g.: MS:1000576 (<span title="No Compression." class="popup">no compression</span>)
+MUST supply a *child* term of MS:1000513 (<span title="A data array of values." class="popup">binary data array</span>) only once
+  e.g.: MS:1000514 (<span title="A data array of m/z values." class="popup">m/z array</span>)
+  e.g.: MS:1000515 (<span title="A data array of intensity values." class="popup">intensity array</span>)
+  e.g.: MS:1000516 (<span title="A data array of charge values." class="popup">charge array</span>)
+  e.g.: MS:1000517 (<span title="A data array of signal-to-noise values." class="popup">signal to noise array</span>)
+  e.g.: MS:1000595 (<span title="A data array of relative time offset values from a reference time." class="popup">time array</span>)
+  e.g.: MS:1000617 (<span title="A data array of electromagnetic radiation wavelength values." class="popup">wavelength array</span>)
+  e.g.: MS:1000786 (<span title="A data array that contains data not covered by any other term in this group. Please do not use this term, if the binary data array type might be commonly used - contact the PSI-MS working group in order to have another CV term added." class="popup">non-standard data array</span>)
+  e.g.: MS:1000820 (<span title="A data array of flow rate measurements." class="popup">flow rate array</span>)
+  e.g.: MS:1000821 (<span title="A data array of pressure measurements." class="popup">pressure array</span>)
+  e.g.: MS:1000822 (<span title="A data array of temperature measurements." class="popup">temperature array</span>)
+MUST supply a *child* term of MS:1000518 (<span title="Encoding type of binary data, e.g. 64-bit float." class="popup">binary data type</span>) only once
+  e.g.: MS:1000521 (<span title="Signed 32-bit float. IEEE-754." class="popup">32-bit float</span>)
+  e.g.: MS:1000523 (<span title="Signed 64-bit float. IEEE-754." class="popup">64-bit float</span>)
+</PRE>
+Path mzML/run/spectrumList/spectrum/binaryDataArrayList/binaryDataArray<BR><PRE>MUST supply a *child* term of MS:1000572 (<span title="Compression Type." class="popup">binary data compression type</span>) only once
+  e.g.: MS:1000574 (<span title="Zlib." class="popup">zlib compression</span>)
+  e.g.: MS:1000576 (<span title="No Compression." class="popup">no compression</span>)
+MUST supply a *child* term of MS:1000513 (<span title="A data array of values." class="popup">binary data array</span>) only once
+  e.g.: MS:1000514 (<span title="A data array of m/z values." class="popup">m/z array</span>)
+  e.g.: MS:1000515 (<span title="A data array of intensity values." class="popup">intensity array</span>)
+  e.g.: MS:1000516 (<span title="A data array of charge values." class="popup">charge array</span>)
+  e.g.: MS:1000517 (<span title="A data array of signal-to-noise values." class="popup">signal to noise array</span>)
+  e.g.: MS:1000595 (<span title="A data array of relative time offset values from a reference time." class="popup">time array</span>)
+  e.g.: MS:1000617 (<span title="A data array of electromagnetic radiation wavelength values." class="popup">wavelength array</span>)
+  e.g.: MS:1000786 (<span title="A data array that contains data not covered by any other term in this group. Please do not use this term, if the binary data array type might be commonly used - contact the PSI-MS working group in order to have another CV term added." class="popup">non-standard data array</span>)
+  e.g.: MS:1000820 (<span title="A data array of flow rate measurements." class="popup">flow rate array</span>)
+  e.g.: MS:1000821 (<span title="A data array of pressure measurements." class="popup">pressure array</span>)
+  e.g.: MS:1000822 (<span title="A data array of temperature measurements." class="popup">temperature array</span>)
+MUST supply a *child* term of MS:1000518 (<span title="Encoding type of binary data, e.g. 64-bit float." class="popup">binary data type</span>) only once
+  e.g.: MS:1000521 (<span title="Signed 32-bit float. IEEE-754." class="popup">32-bit float</span>)
+  e.g.: MS:1000523 (<span title="Signed 64-bit float. IEEE-754." class="popup">64-bit float</span>)
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000523&quot; name=&quot;64-bit float&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000576&quot; name=&quot;no compression&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000514&quot; name=&quot;m/z array&quot; value=&quot;&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000515&quot; name=&quot;intensity array&quot; value=&quot;&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000131&quot; unitName=&quot;number of counts&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000595&quot; name=&quot;time array&quot; value=&quot;&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000010&quot; unitName=&quot;second&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000521&quot; name=&quot;32-bit float&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000574&quot; name=&quot;zlib compression&quot; value=&quot;&quot;/&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Notes and Constraints:</b></td>
+<td class='zero'>The arrayLength attribute need only be specified if it is different from the
+defaultArrayLength specified in the &lt;spectrum&gt; element.
+
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="isolationWindow">isolationWindow</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>This element captures the isolation (or 'selection') window configured to isolate one or more ions.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ParamGroupType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;isolationWindow&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000827&quot; name=&quot;isolation window target m/z&quot; value=&quot;445.30000000000001&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000828&quot; name=&quot;isolation window lower offset&quot; value=&quot;0.5&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000829&quot; name=&quot;isolation window upper offset&quot; value=&quot;0.5&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;/isolationWindow&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/run/spectrumList/spectrum/precursorList/precursor/isolationWindow<BR><PRE>MUST supply a *child* term of MS:1000792 (<span title="Isolation window parameter." class="popup">isolation window attribute</span>) one or more times
+  e.g.: MS:1000827 (<span title="The primary or reference m/z about which the isolation window is defined." class="popup">isolation window target m/z</span>)
+  e.g.: MS:1000828 (<span title="The extent of the isolation window in m/z below the isolation window target m/z. The lower and upper offsets may be asymetric about the target m/z." class="popup">isolation window lower offset</span>)
+  e.g.: MS:1000829 (<span title="The extent of the isolation window in m/z above the isolation window target m/z. The lower and upper offsets may be asymetric about the target m/z." class="popup">isolation window upper offset</span>)
+</PRE>
+Path mzML/run/spectrumList/spectrum/productList/product/isolationWindow<BR><PRE>MUST supply a *child* term of MS:1000792 (<span title="Isolation window parameter." class="popup">isolation window attribute</span>) one or more times
+  e.g.: MS:1000827 (<span title="The primary or reference m/z about which the isolation window is defined." class="popup">isolation window target m/z</span>)
+  e.g.: MS:1000828 (<span title="The extent of the isolation window in m/z below the isolation window target m/z. The lower and upper offsets may be asymetric about the target m/z." class="popup">isolation window lower offset</span>)
+  e.g.: MS:1000829 (<span title="The extent of the isolation window in m/z above the isolation window target m/z. The lower and upper offsets may be asymetric about the target m/z." class="popup">isolation window upper offset</span>)
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000827&quot; name=&quot;isolation window target m/z&quot; value=&quot;445.30000000000001&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000828&quot; name=&quot;isolation window lower offset&quot; value=&quot;0.5&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000829&quot; name=&quot;isolation window upper offset&quot; value=&quot;0.5&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="selectedIonList">selectedIonList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>A list of ions that were selected.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:SelectedIonListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:nonNegativeInteger</TD><TD>required</TD><TD>The number of selected precursor ions defined in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#selectedIon">selectedIon</a></TD><TD>1</TD><TD>unlim</TD><TD>Structure allowing the use of a controlled (cvParam) or uncontrolled vocabulary (userParam), or a reference to a predefined set of these in this mzML file (paramGroupRef).</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>            &lt;selectedIonList count=&quot;1&quot;&gt;
+              &lt;selectedIon&gt;
+                &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000744&quot; name=&quot;selected ion m/z&quot; value=&quot;1082.5037&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+                &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000633&quot; name=&quot;possible charge state&quot; value=&quot;2&quot;/&gt;
+                &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000633&quot; name=&quot;possible charge state&quot; value=&quot;3&quot;/&gt;
+              &lt;/selectedIon&gt;
+            &lt;/selectedIonList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="activation">activation</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>The type and energy level used for activation.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ParamGroupType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;activation&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000133&quot; name=&quot;collision-induced dissociation&quot; value=&quot;&quot;/&gt;
+  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000045&quot; name=&quot;collision energy&quot; value=&quot;35&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000266&quot; unitName=&quot;electronvolt&quot;/&gt;
+&lt;/activation&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/run/spectrumList/spectrum/precursorList/precursor/activation<BR><PRE>MAY supply a *child* term of MS:1000510 (<span title="Precursor Activation Attribute." class="popup">precursor activation attribute</span>) one or more times
+  e.g.: MS:1000045 (<span title="Energy for an ion experiencing collision with a stationary gas particle resulting in dissociation of the ion." class="popup">collision energy</span>)
+  e.g.: MS:1000138 (<span title="Collision energy required to fragment an ion represented as a percent value." class="popup">percent collision energy</span>)
+  e.g.: MS:1000245 (<span title="The reaction of a positive ion with an atom or molecule that results in the removal of one or more electrons from the ion." class="popup">charge stripping</span>)
+  e.g.: MS:1000412 (<span title="An inert gas used for collisional deactivation of internally excited ions." class="popup">buffer gas</span>)
+  e.g.: MS:1000419 (<span title="An inert gas used for collisional excitation. The term target gas is not recommended." class="popup">collision gas</span>)
+  e.g.: MS:1000509 (<span title="Activation Energy." class="popup">activation energy</span>)
+  e.g.: MS:1000869 (<span title="The gas pressure of the collision gas used for collisional excitation." class="popup">collision gas pressure</span>)
+MUST supply term MS:1000044 (<span title="Fragmentation method used for dissociation or fragmentation." class="popup">dissociation method</span>) or any of its children one or more times
+  e.g.: MS:1000133 (<span title="The dissociation of an ion after collisional excitation. The term collisional-activated dissociation is not recommended." class="popup">collision-induced dissociation</span>)
+  e.g.: MS:1000134 (<span title="The ionization of material in a solid sample by bombarding it with ionic or neutral atoms formed as a result of the fission of a suitable nuclide, typically 252Cf. Synonymous with fission fragment ionization." class="popup">plasma desorption</span>)
+  e.g.: MS:1000135 (<span title="A technique specific to reflectron time-of-flight mass spectrometers where product ions of metastable transitions or collision-induced dissociations generated in the drift tube prior to entering the reflectron are m/z separated to yield product ion spectra." class="popup">post-source decay</span>)
+  e.g.: MS:1000136 (<span title="Fragmentation that results from the collision of an ion with a surface." class="popup">surface-induced dissociation</span>)
+  e.g.: MS:1000242 (<span title="A special case of infrared multiphoton dissociation wherein excitation of the reactant ion is caused by absorption of infrared photons radiating from heated blackbody surroundings, which are usually the walls of a vacuum chamber. See also infrared multiphoton dissociation." class="popup">blackbody infrared radiative dissociation</span>)
+  e.g.: MS:1000250 (<span title="A process in which a multiply protonated molecules interacts with a low energy electrons. Capture of the electron leads the liberation of energy and a reduction in charge state of the ion with the production of the (M + nH) (n-1)+ odd electron ion, which readily fragments." class="popup">electron capture dissociation</span>)
+  e.g.: MS:1000262 (<span title="Multiphoton ionization where the reactant ion dissociates as a result of the absorption of multiple infrared photons." class="popup">infrared multiphoton dissociation</span>)
+  e.g.: MS:1000282 (<span title="A technique associated with Fourier transform ion cyclotron resonance (FT-ICR) mass spectrometry to carry out ion/neutral reactions such as low-energy collision-induced dissociation. A radio-frequency electric field of slightly off-resonance to the cyclotron frequency of the reactant ion cyclically accelerates and decelerates the reactant ion that is confined in the Penning ion trap. The ion's orbit does not exceed the dimensions of ion trap while the ion undergoes an ion/neutral species process that produces a high average translational energy for an extended time." class="popup">sustained off-resonance irradiation</span>)
+  e.g.: MS:1000422 (<span title="A collision-induced dissociation process wherein the projectile ion has the translational energy higher than approximately 1000 eV." class="popup">high-energy collision-induced dissociation</span>)
+  e.g.: MS:1000433 (<span title="A collision-induced dissociation process wherein the precursor ion has the translational energy lower than approximately 1000 eV. This process typically requires multiple collisions and the collisional excitation is cumulative." class="popup">low-energy collision-induced dissociation</span>)
+  et al.
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000133&quot; name=&quot;collision-induced dissociation&quot; value=&quot;&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000045&quot; name=&quot;collision energy&quot; value=&quot;35&quot; unitCvRef=&quot;UO&quot; unitAccession=&quot;UO:0000266&quot; unitName=&quot;electronvolt&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000044&quot; name=&quot;dissociation method&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="scanWindowList">scanWindowList</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Container for a list of scan windows.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ScanWindowListType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Attribute Name</TH><TH>Data Type</TH><TH>Use</TH><TH>Definition</TH></TR>
+<TR><TD>count</TD><TD>xs:int</TD><TD>required</TD><TD>The number of scan windows defined in this list.</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;scanWindowList count=&quot;1&quot;&gt;
+  &lt;scanWindow&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000501&quot; name=&quot;scan window lower limit&quot; value=&quot;400&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+    &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000500&quot; name=&quot;scan window upper limit&quot; value=&quot;1800&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+  &lt;/scanWindow&gt;
+&lt;/scanWindowList&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="binary">binary</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>The actual base64 encoded binary data. The byte order is always 'little endian'.
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>xs:base64Binary
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>&lt;binary&gt;&lt;/binary&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+<H2>Element &lt;<a name="selectedIon">selectedIon</a>&gt;</H2>
+
+<table class='zero'>
+<tr>
+<td class='zero'><b>Definition:</b></td>
+<td class='zero'>Structure allowing the use of a controlled (cvParam) or uncontrolled vocabulary (userParam), or a reference to a predefined set of these in this mzML file (paramGroupRef).
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Type:</b></td>
+<td class='zero'>dx:ParamGroupType
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Attributes:</b></td>
+<td class='zero'>none<BR>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Subelements:</b></td>
+<td class='zero'><TABLE border="1">
+<TR><TH>Subelement Name</TH><TH>min</TH><TH>max</TH><TH>Definition</TH></TR>
+<TR><TD><a href="#referenceableParamGroupRef">referenceableParamGroupRef</a></TD><TD>0</TD><TD>unlim</TD><TD>A reference to a previously defined ParamGroup, which is a reusable container of one or more cvParams.</TD></TR>
+<TR><TD><a href="#cvParam">cvParam</a></TD><TD>0</TD><TD>unlim</TD><TD>This element holds additional data or annotation. Only controlled values are allowed here.</TD></TR>
+<TR><TD><a href="#userParam">userParam</a></TD><TD>0</TD><TD>unlim</TD><TD>Uncontrolled user parameters (essentially allowing free text). Before using these, one should verify whether there is an appropriate CV term available, and if so, use the CV term instead</TD></TR>
+</TABLE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example Context:</b></td>
+<td class='zero'><PRE>              &lt;selectedIon&gt;
+                &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000744&quot; name=&quot;selected ion m/z&quot; value=&quot;1082.5037&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+                &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000633&quot; name=&quot;possible charge state&quot; value=&quot;2&quot;/&gt;
+                &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000633&quot; name=&quot;possible charge state&quot; value=&quot;3&quot;/&gt;
+              &lt;/selectedIon&gt;
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>cvParam Mapping Rules:</b></td>
+<td class='zero'>Path mzML/run/spectrumList/spectrum/precursorList/precursor/selectedIonList/selectedIon<BR><PRE>MUST supply a *child* term of MS:1000455 (<span title="Ion selection properties that are associated with a value." class="popup">ion selection attribute</span>) one or more times
+  e.g.: MS:1000041 (<span title="The charge state of the ion, single or multiple and positive or negatively charged." class="popup">charge state</span>)
+  e.g.: MS:1000042 (<span title="Intensity of ions as measured by the height or area of a peak in a mass spectrum." class="popup">intensity</span>)
+  e.g.: MS:1000633 (<span title="A possible charge state of the ion in a situation where the charge of an ion is known to be one of several possible values rather than a completely unknown value or determined to be a specific charge with reasonable certainty." class="popup">possible charge state</span>)
+  e.g.: MS:1000744 (<span title="Mass-to-charge ratio of the ion selected for fragmentation" class="popup">selected ion m/z</span>)
+</PRE>
+</td>
+</tr>
+<tr>
+<td class='zero'><b>Example cvParams:</b></td>
+<td class='zero'><PRE>&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000744&quot; name=&quot;selected ion m/z&quot; value=&quot;445.33999999999997&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000042&quot; name=&quot;intensity&quot; value=&quot;120053&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000041&quot; name=&quot;charge state&quot; value=&quot;2&quot;/&gt;
+&lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000633&quot; name=&quot;possible charge state&quot; value=&quot;2&quot;/&gt;
+</PRE>
+</td>
+</tr>
+</table><br/>
+
+</body></html>
