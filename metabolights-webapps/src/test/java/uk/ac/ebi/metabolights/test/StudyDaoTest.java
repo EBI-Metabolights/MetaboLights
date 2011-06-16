@@ -39,7 +39,7 @@ public class StudyDaoTest extends TestCase {
 
 	public StudyDaoTest() {
 		setApplicationContext(new ClassPathXmlApplicationContext("daotest.xml"));
-		setStudyService((StudyService) getApplicationContext().getBean("studyService"));	
+		//setStudyService((StudyService) getApplicationContext().getBean("studyService"));	
 	}
 	
 	public void testGetBiiStudy(){
