@@ -1,0 +1,196 @@
+
+* {
+	margin: 0px;
+}
+
+html,body {
+	text-align: center;
+	font-weight: normal;
+}
+
+/* Main structure styles (used to layout the header/footer) */
+.wrapper {
+	background: #ffffff url(../img/searchBox.png) repeat-x left top;
+	height: auto !important;
+	margin: -11px auto -4em;
+	position: relative;width: 1024px;
+    font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
+    font-size: 11px;
+    
+}
+
+#footer {
+	background-color: #cccccc;
+	padding-top: 5px;
+	text-align: center;
+	font-size: 80%;
+	margin-top: 10px;
+	float: left;
+	width: 100%;
+	height: 4em;
+	color: #006666;
+	padding-bottom: 5px;
+}
+#topAndBody {
+	width: 1024px;
+	text-align: left;
+	margin: auto;
+	padding-bottom: 15px;
+}
+
+/* Style for the top bar (=header) */
+#top_bar {
+	height: 45px;
+}
+#top_bar h1 {
+	margin-top: 7px;
+	width: 250px;
+	height: 55px;
+	font-size: 1px;
+	text-indent: -9999px;
+	background: url(../img/banner.png) no-repeat left top;
+	float: left;
+	margin-bottom: -20px;
+        border:0px;
+}
+#top_bar #navigation {
+	list-style: none;
+	margin-top: 22px;
+	float: right;
+	font-size: 13px;
+	font-weight: bold;
+    color: #004242;
+	
+}
+#top_bar #navigation a {
+	color: #004242;
+	text-decoration: none;
+}
+#top_bar #navigation li {
+	display: inline;
+	vertical-align: baseline;
+	padding-left: 10px;
+}
+#top_bar #navigation li.selected a,#top_bar #navigation li a:hover {
+	color: #2DB3B3;
+}
+
+/* Style for the search box in the header */
+#search-box input {
+	float: left;
+	width: 300px;
+	border: 1px solid #6F4A00;
+	margin: 13px 0px 0px 10px; /* top right bottom left */
+	font-size: 14px;
+	height: 17px
+}
+#search-box .search-box-button {
+	float: left;
+	margin: 13px 0px 0px 0px;
+	padding: 0px;
+	height: 21px;
+	width: 85px;
+	cursor: pointer;
+	border: 0px;
+	background-image: url('../img/searchButton.png');
+}
+
+#text_header { 
+	padding: 10px 0px 5px 10px;
+	background-color: #D5AE60  ;
+	font-size: 130%;
+	font-weight: bold;
+	color:#006666;
+}
+#text-column {
+	padding: 10px 10px 15px 10px;
+	float: left;
+	color: #444444;
+	font-weight: lighter;
+	line-height: 1.5;
+	width: 30%;
+}
+
+#text-fullwidth
+{
+    padding: 5px 5px 5px 5px;
+    float: left;
+    color: #444444;
+    line-height: 1.5;
+    width: 100%;
+}
+
+
+.messageBox {
+	border: 1px solid #006666;
+	padding:5px 5px 5px 5px;
+	float: left;
+    margin-top: 3px;
+    color:#006666;
+    margin-top:-10px;
+	
+}
+
+.loggedInAs {
+	font-size:9px;
+	margin-left:30px;
+	color:#999999;
+    line-height: 2em;
+}
+
+.error {
+	color:#AA0000;
+	font-weight: bold;
+}
+
+.white {
+    color:#ffffff;
+    font-size: 8px;
+}
+
+.formbox {
+    border:1px solid #D5AE60;
+    margin-top:10px;
+    padding-top:0px;
+    padding-left:20px;
+    padding-bottom:15px;
+}
+
+.formheader{
+   background-color:#D5AE60;
+   color: #FFFFFF;
+}
+
+.tableheader{
+    padding: 10px 10px 10px 10px;
+}
+
+/* paging */
+#content p{text-align:left;}
+#pagingControlsBot ul{display:inline;padding-left:0.5em}
+#pagingControlsBot li{display:inline;padding:0 0.5em}
+#pagingControlsTop ul{display:inline;padding-left:0.5em}
+#pagingControlsTop li{display:inline;padding:0 0.5em}
+
+/* table like div tag stuff */
+.iscell{
+     float: left;
+     padding: 5px 5px 5px 10px; /* top right bottom left */
+     text-align:left;
+     text-indent:0px;
+     bbborder: 1px solid black;
+}
+
+
+#resultList li
+{
+	line-height: 0.8em;
+	text-indent: 5px;
+	list-style-position: outside;
+	list-style-image: url(../img/brownBullet.jpg);list-style-type: square;
+	padding: 2px;
+	margin: 0px;
+}
+
+
+/*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/
