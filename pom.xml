@@ -31,12 +31,12 @@
   </properties>
   
   <dependencies>
-    <dependency>
+    <!-- dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.15</version>
       <scope>runtime</scope>
-    </dependency>
+    </dependency-->
  	<dependency>
  		<groupId>junit</groupId>
  		<artifactId>junit</artifactId>
