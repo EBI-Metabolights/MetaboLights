@@ -27,8 +27,7 @@
   
   <!-- Shared version number properties -->
   <properties>
-    <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-    <org.springsource.version>3.1.0.RC1</org.springsource.version>
+    <org.spring.version>3.1.0.M2</org.spring.version>
   </properties>
   
   <dependencies>
@@ -54,15 +53,15 @@
   	<dependency>
  		<groupId>org.hibernate</groupId>
  		<artifactId>hibernate</artifactId>
- 		<version>3.2.7.ga</version>
- 		<type>jar</type>
+ 		<version>3.5.4-Final</version>
+ 		<type>pom</type>
  		<scope>compile</scope>
  	</dependency>
  	<dependency>
  		<groupId>org.hibernate</groupId>
  		<artifactId>hibernate-search</artifactId>
- 		<version>3.1.0.GA</version>
- 		<type>jar</type>
+ 		<version>3.4.0.Final</version>
+ 		<type>pom</type>
  		<scope>compile</scope>
  	</dependency>
  	<dependency>
@@ -82,62 +81,83 @@
  	<dependency>
  		<groupId>org.apache.lucene</groupId>
  		<artifactId>lucene-core</artifactId>
- 		<version>3.1.0</version>
+ 		<version>3.2.0</version>
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
- 	<dependency>
+  	<dependency>
          <groupId>oracle</groupId>
          <artifactId>ojdbc6</artifactId>
          <version>11.2.0.2</version>
- 	</dependency>
-<!--  <dependency>
- 		<groupId>org.springframework</groupId>
- 		<artifactId>spring-aop</artifactId>
- 		<version>${org.springframework.version}</version>
- 		<type>jar</type>
- 		<scope>compile</scope>
- 	</dependency>
+ 	</dependency>	
+ 	<dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${org.spring.version}</version>
+    </dependency> 	
  	<dependency>
  		<groupId>org.springframework</groupId>
  		<artifactId>spring-context</artifactId>
- 		<version>${org.springframework.version}</version>
+ 		<version>${org.spring.version}</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency> 	
+    <dependency>
+ 		<groupId>org.springframework</groupId>
+ 		<artifactId>spring-aop</artifactId>
+ 		<version>${org.spring.version}</version>
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
  	<dependency>
  		<groupId>org.springframework</groupId>
  		<artifactId>spring-orm</artifactId>
- 		<version>${org.springframework.version}</version>
+ 		<version>${org.spring.version}</version>
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
  	<dependency>
  		<groupId>org.springframework</groupId>
  		<artifactId>spring-web</artifactId>
- 		<version>${org.springframework.version}</version>
+ 		<version>${org.spring.version}</version>
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
  	<dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-core</artifactId>
-        <version>${org.springsource.version}</version>
-    </dependency>
- 	<dependency>
  		<groupId>org.springframework.security</groupId>
  		<artifactId>spring-security-config</artifactId>
- 		<version>${org.springsource.version}</version>
+ 		<version>${org.spring.version}</version>
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
  	<dependency>
  		<groupId>org.springframework.security</groupId>
  		<artifactId>spring-security-taglibs</artifactId>
- 		<version>${org.springsource.version}</version>
+ 		<version>${org.spring.version}</version>
  		<type>jar</type>
  		<scope>compile</scope>
- 	</dependency> -->
+ 	</dependency> 
+ 	<dependency>
+ 		<groupId>org.springframework</groupId>
+ 		<artifactId>spring-beans</artifactId>
+ 		<version>${org.spring.version}</version>
+ 		<type>pom</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.springframework</groupId>
+ 		<artifactId>spring-context-support</artifactId>
+ 		<version>${org.spring.version}</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
+ 	<dependency>
+ 		<groupId>org.springframework</groupId>
+ 		<artifactId>spring-webmvc</artifactId>
+ 		<version>3.0.5.RELEASE</version>
+ 		<type>jar</type>
+ 		<scope>compile</scope>
+ 	</dependency>
   </dependencies>  
   
    <distributionManagement>
@@ -164,11 +184,7 @@
      <repository>
         <id>Springframework milestone</id>
         <url>http://maven.springframework.org/milestone</url>
-     </repository>  
-          <repository>
-        <id>Springsource repos</id>
-        <url>www.springsource.com/repository</url>
-     </repository>  
+     </repository>   
   </repositories>  
   
 </project>
