@@ -561,16 +561,54 @@ specview.controller.Controller.getMouseCoords = function(e,opt_controllerObject)
  * @param e
  */
 specview.controller.Controller.isInSpectrum = function(e,specObject) {
+//	alert("navigator: "+navigator.appVersion)
+//	alert(specObject.mainSpecBox)
 	var coord = new goog.math.Coordinate(e.clientX-document.getElementById('moleculeContainer').offsetLeft,
 										 e.clientY-document.getElementById('moleculeContainer').offsetTop);
+	var coord2 = new goog.math.Coordinate(e.clientX,e.clientY);
 	
 	var top = specObject.mainSpecBox[0].y;
 	var left = specObject.mainSpecBox[0].x;
 	var right = specObject.mainSpecBox[1].x;
 	var bottom = specObject.mainSpecBox[2].y;
-//	alert(coord.x+";"+coord.y+"\n\n"+"top = "+top+"\nbottom= "+bottom+"\nleft= "+left+"\nright= "+right);
-	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
+//	if(coord.y > top && coord.y < bottom && coord.x < right && coord.x > left){
+///		specview.controller.Controller.logger2.info("inside the spectrum")
+//	}
+//	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
+//	alert("spectrum :"+specObject.specBoxBox.contains(coord)+"\n\n"+specObject.specBoxBox+"\n\n"+coord)
+	
+	if(specObject.specBoxBox.contains(coord)){
+//		alert(coord+"\n"+coord2+"\n"+specObject.specBoxBox)
+	}
+	return specObject.specBoxBox.contains(coord);
+};
+
+/**
+ * Return true if the mouse is in the molecule
+ * specObjject.mainMolBox: (left,bottom)(right,bottom)(left,top)(right,top)
+ * @param e
+ */
+specview.controller.Controller.isInMolecule = function(e,specObject) {
+	
+	var coord = new goog.math.Coordinate(e.clientX-document.getElementById('moleculeContainer').offsetLeft,
+										 e.clientY-document.getElementById('moleculeContainer').offsetTop);
+	var coord2 = new goog.math.Coordinate(e.clientX, e.clientY);
+	var top = specObject.mainMolBox[2].y;
+	var left = specObject.mainMolBox[0].x;
+	var right = specObject.mainMolBox[1].x;
+	var bottom = specObject.mainMolBox[0].y;
+//	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
+	//alert("molecule :"+specObject.molBoxBox.contains(coord))
+	return specObject.molBoxBox.contains(coord);
+};
+
+specview.controller.Controller.isInSecondarySpectrum = function(e){
+	var coord = new goog.math.Coordinate(e.clientX-document.getElementById('moleculeContainer').offsetLeft,
+			 e.clientY-document.getElementById('moleculeContainer').offsetTop);
+	return document.metaSpecObject.secondSpecBox.contains(coord);
 }
+
+
 
 
 /**

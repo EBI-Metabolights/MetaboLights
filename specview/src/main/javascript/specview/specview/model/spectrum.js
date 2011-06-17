@@ -68,6 +68,11 @@ goog.exportSymbol("specview.model.Spectrum", specview.model.Spectrum);
 specview.model.Spectrum.prototype.logger = goog.debug.Logger.getLogger('specview.model.Spectrum');
 
 
+specview.model.Spectrum.prototype.getFirstPeak = function(){
+	alert(this.peakList);
+}
+
+
 /**
  * Set the xPixel coordinates of the peaks of the spectrum
  * @param maxValue

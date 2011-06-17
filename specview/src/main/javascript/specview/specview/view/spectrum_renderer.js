@@ -142,17 +142,13 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,color);
     var peakFill = null;   
-//    this.logger.info("new")
-//    this.logger.info(metaSpecObject.spectrum==metaSpecObject.secondarySpectrum);
-    
-//    this.logger.info("primary spectrum")
+
     goog.array.forEach(spectrum.peakList,
     function(peak) {
     	if(peak.isVisible){
             peakPath.moveTo(peak.xPixel, peak.yPixel); 
             peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
     	}
-//    	this.logger.info(color+"  "+peak.isVisible)
     },
     this);
 
@@ -161,22 +157,11 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     	    	if(peak.isVisible){
     	            peakPath.moveTo(peak.xPixel, peak.yPixel); 
     	            peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
-    	    	}
-//    	    	this.logger.info(color+"  "+peak.isVisible)
+   	    	}
+    	    	this.logger.info(color+"  "+peak.isVisible+ "("+peak.xPixel+")")
     	    },
     	    this);
     
-//    this.logger.info("\n\n"+spectrum.displayXpixelNice()+"\n"+secondarySpectrum.displayXpixelNice())
-  
-    
-    
-//    this.graphics.drawRect(400,600,200,200,new goog.graphics.Stroke(2, 'black'),null)
-//    this.graphics.drawRect(metaSpecObject.secondSpecBox["left"],
- //   					   metaSpecObject.secondSpecBox["top"],
-  //  					   metaSpecObject.secondSpecBox["right"]-metaSpecObject.secondSpecBox["left"],
-   // 					   metaSpecObject.secondSpecBox["bottom"]-metaSpecObject.secondSpecBox["top"],
-   // 					   new goog.graphics.Stroke(2, 'black'),
-   // 					   null);
     this.graphics.drawRect(metaSpecObject.zoomBox["left"],
 			   metaSpecObject.zoomBox["top"],
 			   metaSpecObject.zoomBox["right"]-metaSpecObject.zoomBox["left"],
@@ -201,6 +186,17 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
         this.graphics.drawText("Pixel coordinates: "+opt_peak.pixelCoord, 720, 375, 600, 200, 'left', null,
         		new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
     }
+    
+    
+	var top = metaSpecObject.mainSpecBox[0].y;
+	var left = metaSpecObject.mainSpecBox[0].x;
+	var right = metaSpecObject.mainSpecBox[1].x;
+	var bottom = metaSpecObject.mainSpecBox[2].y;
+	
+	var spectrumBox = new Array(top,right,bottom,left);
+//	this.renderBoundingBox(metaSpecObject.mainSpecBox,'red')
+  
+	
     
 };
 

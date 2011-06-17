@@ -114,28 +114,52 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     boxPath.lineTo(bottomRight.x, bottomRight.y);
     boxPath.moveTo(bottomLeft.x, bottomLeft.y);
     boxPath.lineTo(topLeft.x, topLeft.y);
+    boxPath.moveTo(bottomRight.x, bottomRight.y);
+    boxPath.lineTo(topRight.x,topLeft.y);
+    
     this.graphics.drawPath(boxPath, boxStroke, boxFill);
     var scaleX=(bottomRight.x-bottomLeft.x)/21;
 
     /**
-     * Write the value on the x axis each time it encounters a peak
+     * Write the value on the x axis
+     * If NMR : the origin of the xAxis is on the bottom RIGHT corner....
+     * If MS :  the origin of the xAxis is on the bottom Left corner.....
      */
-    var c=21;
-    var ty =0;
-    for(var k=bottomLeft.x+scaleX;k<bottomRight.x;k+=scaleX){
-          c-=1
-          ty++
-          if(count!=0){
-              this.graphics.drawText(specview.util.Utilities.parseOneDecimal((ty/21)*maxValue), k, bottomLeft.y, 600, 200, 'left', null,
-  	                font, stroke, fill);    	  
-          }  
+    switch(metaSpecObject.experienceType){
+    case "NMR" :
+        var ty =0;
+        for(var k=bottomRight.x-scaleX;k>bottomLeft.x;k-=scaleX){
+            ty++
+            if(count!=0){
+                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((ty/21)*maxValue), k, bottomLeft.y, 600, 200, 'left', null,
+    	                font, stroke, fill);    	  
+            }  
+      }
+    	break;
+    case "MS" :
+        var ty =0;
+        for(var k=bottomLeft.x+scaleX;k<bottomRight.x;k+=scaleX){
+            ty++
+            if(count!=0){
+                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((ty/21)*maxValue), k, bottomLeft.y, 600, 200, 'left', null,
+    	                font, stroke, fill);    	  
+            }  
+      }
+    	break;
+    	
+    default :
+    	alert("No experiment specified. Hence, cannot set the value of the xAxis");
+    	break;
     }
+    
     /**
      * Right the xUnit on the x Axis
      */
     this.graphics.drawText(metaSpecObject.spectrum.xUnit, bottomRight.x+20, bottomRight.y, 600, 200, 'left', null,
             font, stroke, fill);
-    
+    this.graphics.drawText(metaSpecObject.spectrum.xUnit, bottomLeft.x-20, bottomLeft.y, 600, 200, 'left', null,
+            font, stroke, fill);
+
     var count=7;
     var t = metaSpecObject.spectrum.getMaxYvalue();
     var b = metaSpecObject.mainSpecBox[2].y;
@@ -146,10 +170,12 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
     for(var k=b-scaleY;k>t-10;k-=scaleY){
     	count-=1;
     	if(count!=-1){
-//    		this.logger.info(maxHeight);
     		var tyui = maxHeight-(maxHeight*(count)/7);
             this.graphics.drawText(parseInt(tyui), bottomLeft.x-14, k, 600, 200, 'left', null,
-                    font, stroke, fill);	
+                    font, stroke, fill);
+            
+            this.graphics.drawText(parseInt(tyui), bottomRight.x+10, k, 600, 200, 'left', null,
+                    font, stroke, fill);
     	}
     }
   /*

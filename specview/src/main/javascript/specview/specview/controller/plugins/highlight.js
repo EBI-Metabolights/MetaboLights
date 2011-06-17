@@ -4,7 +4,7 @@
  *                    	   and Samy Deghou (deghou@polytech.unice.fr)
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * the License ati
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -54,9 +54,12 @@ specview.controller.plugins.Highlight.prototype.lastArrayOfAtomHighlighted=null;
 specview.controller.plugins.Highlight.prototype.lastT=null;
 
 specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {	
+	
+//	this.logger.info(specview.controller.Controller.isInSpectrum(e,this.editorObject.specObject));
 	/**
 	 * If the user has clicked in the canvas, it means that he wants to zoom
 	 */
+//	this.logger.info(specview.controller.plugins.Highlight.zoomObject);
 	if(specview.controller.plugins.Highlight.zoomObject!=null){		
 		if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
 			this.clearSpectrum();
@@ -233,13 +236,24 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
  * 		-We shall only allow to draw a rectangle in the spectrum area
  */
 document.onmousedown = function(e){
-	if(specview.controller.Controller.isInSpectrum(e,document.metaSpecObject)){
-		specview.controller.plugins.Highlight.logger2.info("true");
+	
+	var isInSpectrum = specview.controller.Controller.isInSpectrum(e,document.metaSpecObject);
+	var isInMolecule;
+	var isInLittleSpectrum;
+//	alert("isInspecturm ? : "+isInSpectrum);
+	if(isInSpectrum){
+//		alert("in the big spectrum")
+		specview.controller.plugins.Highlight.logger2.info("IN THE SPECTRUM");
 		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
 		var initialCoordinates = new goog.math.Coordinate(e.clientX,e.clientY);
 		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
+	}else if(specview.controller.Controller.isInMolecule(e,document.metaSpecObject)){
+//		alert("in the molecule")
+//		specview.controller.plugins.Highlight.logger2.info("IN THE MOLECULE");
+	}else if (specview.controller.Controller.isInSecondarySpectrum(e)){
+//		alert("in the little spectrum")
 	}else{
-		//Nothing TODO if the user click outside of the spectrum area ????
+//		alert("nothing found here")
 	}
 };	
 
@@ -255,24 +269,25 @@ document.onmousedown = function(e){
  */
 specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	
-	
-	var listOfPeaks = this.getObjects(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-			specview.controller.plugins.Highlight.zoomObject.rectangle.left+
-			specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-	this.editorObject.specObject.spectrum.peakList = listOfPeaks;
-	this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
-	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
-	this.editorObject.setModels([this.editorObject.specObject]);
-	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
-	this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
-	
-	this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-	
-	specview.controller.plugins.Highlight.zoomObject = null;
-	this.reDrawGrid();
-	this.reDrawAxis();
-	
+	if(specview.controller.plugins.Highlight.zoomObject!=null){
+		var listOfPeaks = this.getObjects(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+				specview.controller.plugins.Highlight.zoomObject.rectangle.left+
+				specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+		this.editorObject.specObject.spectrum.peakList = listOfPeaks;
+		this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
+		this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
+		this.editorObject.setModels([this.editorObject.specObject]);
+		this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
+		this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
+		
+		this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+				 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+		
+		specview.controller.plugins.Highlight.zoomObject = null;
+		this.reDrawGrid();
+		this.reDrawAxis();
+			
+	}
 	
 	
 

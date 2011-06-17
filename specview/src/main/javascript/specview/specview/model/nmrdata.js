@@ -74,6 +74,8 @@ specview.model.NMRdata=function(){
 	this.ArrayOfSecondaryMolecules=new Array();//{m1:molecule1;m2:moleucle2...}
 	/**
 	 * The box of the original fragment of the MS Experiment. Every other fragment has to be drawn in that box. 
+	 * (24, 425),(301, 425),(24, 24),(301, 24)
+	 * (left,bottom)(right,bottom)(left,top)(right,top)
 	 */
 	this.mainMolBox=null;
 	/**
@@ -111,6 +113,21 @@ specview.model.NMRdata=function(){
      * zoomRectangle = goog.math.Box(top,right,bottom,left)
      */
     this.zoomBox = null;
+    
+    /**
+     * When the user drag a rectangle over a specific are of the molecule, then the corresponding gets highlighted together.
+     * This box is the one used to draw the rectangle over the molecule
+     * goog.math.Box(top,right,left,bottom)
+     */
+    this.moleculeZoomBox = null;
+    
+    
+    /**
+     * Test attribute
+     */
+    
+    this.molBoxBox;
+    this.specBoxBox;
     
     
 	
@@ -169,6 +186,13 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   	this.zoomBox = this.secondSpecBox;
   	this.setCoordinatesPixelOfSecondSpectrum();
 
+	 
+	 this.molBoxBox = new goog.math.Box(this.mainMolBox[0].y,this.mainMolBox[0].x,this.mainMolBox[0].y,this.mainMolBox[0].x);
+	 this.specBoxBox = new goog.math.Box(this.mainSpecBox[0].y,this.mainSpecBox[1].x,this.mainSpecBox[2].y,this.mainSpecBox[0].x)
+	
+	
+  	
+  	
   	
   	
  // 	this.editor.spectrumRenderer.renderSpec(this.spectrum,this,this.transform,undefined,undefined,undefined,undefined)
@@ -288,13 +312,7 @@ specview.model.NMRdata.prototype.getSecondSpectrumBox = function(){
  * @param zoomX
  */
 specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
-	
-//	alert(this.spectrum.peakList+"\nsecond spectrum = "+this.spectrum.peakList);
-//	this.spectrum.peakList = "un nouveau caca";
-//	alert(this.spectrum.peakList+"\nsecond spectrum = "+this.spectrum.peakList);
-	
-	
-	
+
 	var spectrum=this.spectrum;
 	var minX=this.spectrum.getMinValue();
 	var maxX=this.spectrum.getMaxValue();
@@ -308,13 +326,9 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 		var heightSquare = this.mainSpecBox[2].y-this.mainSpecBox[1].y;
 		var ecart=this.mainSpecBox[1].x-this.mainSpecBox[0].x;
 		var valueToAdd=this.mainSpecBox[0].x;
-//		this.logger.info("the first before: "+this.spectrum.displayXpixelNice());
-
-		var LESPEC = this.spectrum.getPeakList();
-		
+		var LESPEC = this.spectrum.getPeakList();		
 		goog.array.forEach(LESPEC,
 			function(peak) {
-//			alert(peak.xPixel)
 			/*
 			 * Compute the yValue
 			 */
@@ -327,23 +341,43 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 			/*
 			 * Compute the xValue
 			 */
-			if(peak.xValue==maxValueOfPeak){
-				adjustXvalue=ecart-4;
-			}else{
-				adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
-			}
 			var whereAllThePeakStartFrom=280;
-			peak.isVisible=(adjustXvalue+valueToAdd<this.mainSpecBox[1].x &&
-								adjustXvalue+valueToAdd>this.mainSpecBox[0].x) ? true : false;
-			peak.setCoordinates(adjustXvalue+valueToAdd,whereAllThePeakStartFrom,adjustXvalue+valueToAdd,adjustYvalue);  
+
+			switch(this.experienceType){
+				case "NMR" :
+					if(peak.xValue==maxValueOfPeak){
+						adjustXvalue=ecart-4;
+					}else{
+						adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+					}
+					peak.isVisible=(adjustXvalue+valueToAdd<this.mainSpecBox[1].x &&
+							adjustXvalue+valueToAdd>this.mainSpecBox[0].x) ? true : false;
+					peak.setCoordinates(this.mainSpecBox[0].x+ecart-adjustXvalue,
+										whereAllThePeakStartFrom,
+										this.mainSpecBox[0].x+ecart-adjustXvalue,
+										adjustYvalue);
+					
+					break;
+				case "MS" :
+					if(peak.xValue==maxValueOfPeak){
+						adjustXvalue=ecart-4;
+					}else{
+						adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+					}
+					peak.isVisible=(adjustXvalue+valueToAdd<this.mainSpecBox[1].x &&
+							adjustXvalue+valueToAdd>this.mainSpecBox[0].x) ? true : false;
+					peak.setCoordinates(adjustXvalue+valueToAdd,
+										whereAllThePeakStartFrom,
+										adjustXvalue+valueToAdd,
+										adjustYvalue);
+					break;
+				default :
+					alert("The experience type is not known. Hence we cannot fix the coordinates of the spectrum");
+			}  
 
 		},
 		this);
-//		this.logger.info("the first after: "+this.spectrum.displayXpixelNice());
-	   // this.logger.info("At the end of the first spectrum seetting:\n"+this.spectrum.displayXpixelNice()+"\n"+this.spectrum.displayXpixelNice());
-
 		this.spectrum.setExtremePixelValues();
-//		bottomBoxLimit=280;
 };
 
 /**
@@ -372,7 +406,9 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSecondSpectrum = function(
 //	var THESPEC=this.spectrum.getPeakList();
 	goog.array.forEach(spectrum.secondpeakList,
 		function(peak) {
-
+		/*
+		 * yValue
+		 */
 		if(peak.intensity==maxHeightOfPeak){
 			adjustYvalue=this.secondSpecBox["bottom"]-(0.8*heightSquare);
 			upperBoxLimit=adjustYvalue-10;
@@ -380,15 +416,44 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSecondSpectrum = function(
 			adjustYvalue = this.secondSpecBox["bottom"]-(peak.intensity/maxHeightOfPeak)*(this.secondSpecBox["bottom"]-(this.secondSpecBox["bottom"]-(0.8*heightSquare)));
 		}
 
-		if(peak.xValue==maxValueOfPeak){
-			adjustXvalue=ecart-4;
-		}else{
-			adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
-		}
-		var whereAllThePeakStartFrom=this.secondSpecBox["bottom"];
-		peak.isVisible=(adjustXvalue+valueToAdd<this.secondSpecBox["right"]&&
-							adjustXvalue+valueToAdd>this.secondSpecBox["left"]) ? true : false;
-		peak.setCoordinates(adjustXvalue+valueToAdd,whereAllThePeakStartFrom,adjustXvalue+valueToAdd,adjustYvalue);
+		/*
+		 * xValue
+		 */
+		
+		switch(this.experienceType){
+		case "NMR" :
+			if(peak.xValue==maxValueOfPeak){
+				adjustXvalue=ecart-4;
+			}else{
+				adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+			}
+			var whereAllThePeakStartFrom=this.secondSpecBox["bottom"];
+			peak.isVisible=(adjustXvalue+valueToAdd<this.secondSpecBox["right"]&&
+							adjustXvalue+valueToAdd>this.secondSpecBox["left"]) ?
+							true : false;
+			peak.setCoordinates(this.secondSpecBox["left"]+ecart-adjustXvalue,
+								whereAllThePeakStartFrom,
+								this.secondSpecBox["left"]+ecart-adjustXvalue,
+								adjustYvalue);
+			
+			break;
+		case "MS" :
+			if(peak.xValue==maxValueOfPeak){
+				adjustXvalue=ecart-4;
+			}else{
+				adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+			}
+			var whereAllThePeakStartFrom=this.secondSpecBox["bottom"];
+			peak.isVisible=(adjustXvalue+valueToAdd<this.secondSpecBox["right"]&&
+								adjustXvalue+valueToAdd>this.secondSpecBox["left"]) ? true : false;
+			peak.setCoordinates(adjustXvalue+valueToAdd,
+								whereAllThePeakStartFrom,
+								adjustXvalue+valueToAdd,
+								adjustYvalue);
+			break;
+		default :
+			alert("The experience type is not known. Hence we cannot fix the coordinates of the spectrum");
+	}  
 
 	},
 	this);
