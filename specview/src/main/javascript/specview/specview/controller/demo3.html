@@ -30,6 +30,8 @@
 spectrumData=null;
 zoom=0;
 
+alert(screen.width+"x"+screen.height)
+
 function initPage(){
 			var isGrid=false;
 			var isAxis=false;
@@ -202,7 +204,13 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
 <body>
 
-	<fieldset style="width:1200px">
+
+	<script>
+	
+		document.write("<fieldset style = \"witdth:"+screen.width+"px\">");	
+	
+	</script>
+<!-- <fieldset style="width:1200px"> -->	
         <legendstyle="top:143px"><h1>MetaboLight Spectrum viewer</h1></legend>
         <br>
         <li id="molName"></li>
@@ -217,7 +225,7 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
     		   position: absolute;
 		       z-index: 1;
     		   visibility: show;">
-	 <b>Experiment visualisation tool for :</b>:
+	 <b>Experiment visualisation tool for</b>:
 	 	<br><br>-H NMR
 	 	<br>-C NMR
 	 	<br>-Mass Spectrometry :
