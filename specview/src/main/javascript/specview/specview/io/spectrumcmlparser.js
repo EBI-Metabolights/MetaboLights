@@ -319,7 +319,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				
 				
 				if(THEMOLECULENAME.length > 70){
-					THEMOLECULENAME = specview.util.Utilities.insertCarriageReturnInString(THEMOLECULENAME,"<br>",60);
+					THEMOLECULENAME = specview.util.Utilities.insertCarriageReturnInString(THEMOLECULENAME,"<br>",55);
 				}
 				if(nmrData.experienceType=="MS"){
 //					alert(moleculeName)
