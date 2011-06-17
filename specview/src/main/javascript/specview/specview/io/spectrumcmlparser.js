@@ -318,8 +318,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				}
 				
 				
-				if(THEMOLECULENAME.length > 80){
-					THEMOLECULENAME = specview.util.Utilities.insertCarriageReturnInString(THEMOLECULENAME,"<br>",80);
+				if(THEMOLECULENAME.length > 70){
+					THEMOLECULENAME = specview.util.Utilities.insertCarriageReturnInString(THEMOLECULENAME,"<br>",60);
 				}
 				if(nmrData.experienceType=="MS"){
 //					alert(moleculeName)
@@ -504,14 +504,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
         nmrData.spectrum.peakList = ArrayOfPeaks;
         nmrData.spectrum.secondpeakList = ArrayOfPeaks2;
         
-/*
-        nmrData.secondarySpectrum=new specview.model.Spectrum(nmrData.molecule, null,false);;
-        nmrData.secondarySpectrum.xUnit=xUnits;
-        nmrData.secondarySpectrum.yUnit=yUnits;
-        nmrData.secondarySpectrum.experiment="PIPI";
-        nmrData.secondarySpectrum.peakList = ArrayOfPeaks;
-//      alert("first: "+nmrData.spectrum.experiment+"\n\nsecond: "+nmrData.secondarySpectrum.experiment);
-*/
+
 	return nmrData;
 	
 };
