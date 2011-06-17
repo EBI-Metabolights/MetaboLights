@@ -77,7 +77,7 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 	var w = displayElem.text.length * 0.55 * font.size;
 	var h = font.size;
 
-
+//alert(point)
 	
 	if (displayElem.text) {
 		opt_element_array.add(graphics.drawText(displayElem.text, point.x - w / 2,
@@ -300,13 +300,13 @@ specview.view.AtomRenderer.defaultConfig = {
 		'color' : '#FF9999',
 		'diameter' : .05,
 		'highlight' : {
-			'radius' : .53
+			'radius' : 0.53
 		},
 		'stroke' : {
 			'width' : 0.10
 		// font width ..?
 		},
-		'fontName' : "Arial"
+		'fontName' : "Comics"
 	},
 	'showTerminalCarbons' : true,
 	'margin' : 20,

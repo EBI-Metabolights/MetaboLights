@@ -41,7 +41,7 @@ goog.inherits(specview.view.SingleBondRenderer, specview.view.BondRenderer);
 /**
  * Rendering using the relative coordinates of the bond and using the transform object
  */
-/*
+
 specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
 	this.setTransform(transform);
@@ -72,13 +72,16 @@ specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 //	this.logger.info(coords[0]+"   ---->   "+coords[1]);
 };
 
-*/
+
 
 /**
  * Rendering using the pixel coordinates of the bond.
  */
+
+/*
 specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
+///	alert("in single bond renderer: \n"+transform)
 	this.setTransform(transform);
 //	this.logger.info("bond stereo : "+bond.stereo);
 //	this.logger.info("single bond coord: "+bond.source.coord+" other: "+bond.source.pixelCoordinates)
@@ -108,4 +111,4 @@ specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 	bondPath.lineTo(coords[1].x, coords[1].y);
 //	this.logger.info(coords[0]+"   ---->   "+coords[1]);
 };
-
+*/

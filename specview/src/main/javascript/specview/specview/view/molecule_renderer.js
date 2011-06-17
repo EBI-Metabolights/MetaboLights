@@ -36,6 +36,7 @@ specview.view.MoleculeRenderer = function(graphics, opt_config) {
     specview.view.MoleculeRenderer.defaultConfig, opt_config);
     this.bondRendererFactory = new specview.view.BondRendererFactory(graphics,
     this.config);
+//    alert(this.config)
     this.atomRenderer = new specview.view.AtomRenderer(graphics, this.config);
     this.aromaticityRenderer = new specview.view.AromaticityRenderer(graphics, this.config);
 
@@ -51,7 +52,7 @@ specview.view.MoleculeRenderer.prototype.setScaleFactor = function(scale) {
 
 /**
  * This method is a substitute to the clear methods provided by the google closure library.
- * It 'clear' a molecule from the canvas by drawing a rectangle element (the molecule box) over it and filling it with
+ * It 'clears' a molecule from the canvas by drawing a rectangle element (the molecule box) over it and filling it with
  * white.
  * @param box
  * @param graphics

@@ -14,6 +14,7 @@ goog.require('goog.debug.Logger');
  */
 specview.graphics.AffineTransform = function(opt_m00, opt_m10, opt_m01,
 		opt_m11, opt_m02, opt_m12) {
+//	alert(opt_m00+";"+opt_m10+";"+opt_m01+";"+opt_m11+";"+opt_m02+";"+opt_m12)
 
 	goog.graphics.AffineTransform.call(this);
 	if (arguments.length == 6) {

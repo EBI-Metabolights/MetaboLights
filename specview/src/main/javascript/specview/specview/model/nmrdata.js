@@ -231,7 +231,10 @@ specview.model.NMRdata.prototype.getMoleculeBox = function(editorSpectrum){
   	var margin = 0.3;
 	var editor=editorSpectrum;
 	var ex_box=relative_box.expand(margin,margin,margin,margin);
+	editorSpectrum.staticTransform = specview.graphics.AffineTransform.buildTransform(ex_box,widthScaleLimitation,editorSpectrum.staticGraphics,scaleFactor)
+//	var transform = specview.graphics.AffineTransform.buildTransform(ex_box,widthScaleLimitation,document.staticGraphics,scaleFactor)
 	var transform = specview.graphics.AffineTransform.buildTransform(ex_box,widthScaleLimitation,editorSpectrum.graphics,scaleFactor);
+//	alert(editoSpectrum.staticGraphics)
     return transform.transformCoords( [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord]);
 };
 
@@ -268,10 +271,15 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
   	var widthScaleLimitation = 0.4;
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
   	this.transform=trans;
+  	var SecondTransformToHaveFixCoordinatesRegardlessOfTheSizeOfTheCanvas = null;
+  	
+// 	alert(editorSpectrum.staticTransform)
   	    goog.array.forEach(molecule.atoms,
   	     function(atom){
-  	    	var point = trans.transformCoords([ atom.coord ])[0];//point is the coordinates with pixelS
+  	    	var point = editorSpectrum.staticTransform.transformCoords([ atom.coord ])[0]
+  	    	//var point = trans.transformCoords([ atom.coord ])[0];//point is the coordinates with pixelS
   	    	atom.setPixelCoordinates(point.x, point.y);
+//  	    	alert(point)
   	    //	specview.model.NMRdata.logger.info(point.x+"  ;  "+point.y);
   	    });	
 };

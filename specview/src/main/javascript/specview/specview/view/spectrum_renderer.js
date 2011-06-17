@@ -158,7 +158,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     	            peakPath.moveTo(peak.xPixel, peak.yPixel); 
     	            peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
    	    	}
-    	    	this.logger.info(color+"  "+peak.isVisible+ "("+peak.xPixel+")")
+    	  //  	this.logger.info(color+"  "+peak.isVisible+ "("+peak.xPixel+")")
     	    },
     	    this);
     

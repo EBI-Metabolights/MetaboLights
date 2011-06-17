@@ -66,6 +66,8 @@ specview.view.DoubleBondRenderer.pointsOnSameSideOfLine = function(p1, p2, p_lin
 specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
 
+	
+//	alert("in double bond renderer: \n"+transform);
 	this.setTransform(transform);
 
 	var ring = specview.view.DoubleBondRenderer.getFirstRing(bond);

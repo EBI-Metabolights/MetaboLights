@@ -36,6 +36,8 @@ goog.inherits(specview.view.SingleDownBondRenderer, specview.view.BondRenderer);
 
 specview.view.SingleDownBondRenderer.prototype.render = function(bond, transform, path) {
 
+	
+//	alert("in single bond down renderer :\n"+transform)
 	this.setTransform(transform);
 	var width = this.config.get("bond")['stroke']['width'] / 10;
 	var theta = specview.view.BondRenderer.getTheta(bond);
@@ -54,7 +56,6 @@ specview.view.SingleDownBondRenderer.prototype.render = function(bond, transform
 	var rightside = transright.transformCoords([bond.source.coord, bond.target.coord]);
 
 	var coords = transform.transformCoords( [ leftside[0],leftside[1], rightside[0], rightside[1], bond.source.coord ]);
-
 	var lines=7;
 	var multiply =Math.round(goog.math.Coordinate.distance(bond.source.coord, bond.target.coord));
 	if (multiply>1) {

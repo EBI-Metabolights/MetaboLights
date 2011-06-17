@@ -104,6 +104,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					this.lastT=e.currentTarget;
 					this.editorObject.addSelected(target);
 					e.currentTarget.highlightGroup = this.highlightAtom(target);
+//					e.currentTarget.highlightGroup = this.highlightSeriesOfAtom(new Array(target))
 					/**
 					 * After highlighting the atom, we check if the atom is related to a Peak
 					 */

@@ -36,6 +36,7 @@ goog.inherits(specview.view.SingleUpBondRenderer, specview.view.BondRenderer);
 
 specview.view.SingleUpBondRenderer.prototype.render = function(bond, transform, bondPath) {
 
+//	alert("in single bond down renderer :\n"+transform)
 	this.setTransform(transform);
 	
 	var strokeWidth = this.config.get("bond")['stroke']['width'] / 10;

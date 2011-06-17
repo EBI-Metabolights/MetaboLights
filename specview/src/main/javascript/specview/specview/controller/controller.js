@@ -59,6 +59,11 @@ specview.controller.Controller = function(element, opt_config) {
 	}
 
 	this.graphics = goog.graphics.createGraphics(element.clientWidth,element.clientHeight);
+	
+	this.staticGraphics = goog.graphics.createGraphics(1200,300);
+	this.staticTransform = null;
+	
+	
 	this.graphics.render(this.originalElement);
 	/**
 	 * Here are the elements that we can possibly display on the canvas
@@ -267,9 +272,14 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	            ex_box = box.expand(margin, margin, margin, margin);
 	            scaleFactor = 0.90; 
 	            widthScaleLimitation = 0.4;
-	            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
+//	            alert(widthScaleLimitation+"\n"+scaleFactor)
+	            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.staticGraphics, scaleFactor);
+	            this.staticTransform = trans;
+//	            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
 //	            this.graphics.addChild(this.moleculeRenderer);
-	            this.moleculeRenderer.render(molecule,model.transform,molBox);
+//	            alert(trans)
+	            this.moleculeRenderer.render(molecule,trans,molBox);
+	//            this.moleculeRenderer.render(molecule,model.transform,molBox);
 	            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
 	            this.textRenderer.render(model.metadata,specBox,"black","Experiment Information:");
 	            this.textRenderer.renderZoomInfo();

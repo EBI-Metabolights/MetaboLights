@@ -30,7 +30,6 @@
 spectrumData=null;
 zoom=0;
 
-alert(screen.width+"x"+screen.height)
 
 function initPage(){
 			var isGrid=false;
@@ -63,6 +62,7 @@ function initPage(){
 
 			
 			document.metaSpecObject = spectrumData;
+			document.staticGraphics = goog.graphics.createGraphics(1200,400);
 			
 			//Display the informations about the molecule
 		    goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
@@ -205,12 +205,9 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 <body>
 
 
-	<script>
-	
-		document.write("<fieldset style = \"witdth:"+screen.width+"px\">");	
-	
+	<script>	
+		document.write("<fieldset style = \"width:"+screen.width+"px\">");		
 	</script>
-<!-- <fieldset style="width:1200px"> -->	
         <legendstyle="top:143px"><h1>MetaboLight Spectrum viewer</h1></legend>
         <br>
         <li id="molName"></li>
@@ -238,11 +235,11 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
         	style="position:absolute;left:780px;top:143px"><b>Zoom</b>: To zoom on the spectrum, drag a rectangle<br> over the area you wish to focus on.</li>
         	
         <li id=focalisation
-        	style="position:absolute;left:780px;top:193px"><b>Localisation</b>:When you zoom on the spectrum, the<br> spectrum on the boottom right corner help you localise<br> where you are</li>
+        	style="position:absolute;left:780px;top:193px"><b>Localization</b>:When you zoom on the spectrum, the<br> spectrum on the boottom right corner help you localise<br> where you are</li>
         	
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>
-        <div id="moleculeContainer" style="height:500px"></div>
+        <div id="moleculeContainer" style="height:700px"></div>
 	</fieldset>
 
 
