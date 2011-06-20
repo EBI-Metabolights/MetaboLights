@@ -1,0 +1,36 @@
+<isatab-config-file xmlns="http://www.ebi.ac.uk/bii/isatab_configuration#">
+    <isatab-configuration table-name="mtbls"> <!--isatab-assay-type="generic_assay" isatab-conversion-target="generic"-->
+        <measurement term-label="Metabolites" term-accession="" source-abbreviation=""/><technology term-label="NMR" term-accession="" source-abbreviation=""/>
+        <field header="Sample Name" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true">
+            <description>
+                Sample name!
+            </description>
+            <default-value>
+            </default-value>
+            <generated-value-template>
+                [INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO].[SAMPLE_EXTRACT]
+            </generated-value-template>
+        </field>
+        <field header="Assay Name" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true">
+            <description>
+                Assay name!
+            </description>
+            <default-value>
+            </default-value>
+        </field>
+        <field header="Raw Data File" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true">
+            <description>
+                Raw data please!
+            </description>
+            <default-value>
+            </default-value>
+        </field>
+        <field header="Characteristics[email]" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true">
+            <description>
+                Email, what else?
+            </description>
+            <default-value>
+            </default-value>
+        </field>
+    </isatab-configuration>
+</isatab-config-file>
