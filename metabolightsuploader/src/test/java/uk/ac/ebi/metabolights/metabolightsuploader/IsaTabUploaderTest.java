@@ -42,15 +42,53 @@ public class IsaTabUploaderTest {
 		
 	}
 	@Test
+	public void testValidationOfValidISAFile(){
+
+		//This file passes the validation 
+		//TODO(watch up, others shipped with ISA Creator like BII-S-1 also passes it!!!)...study this behavior
+		final String ISA_ARCHIVE_FOLDER = "src/test/resources/inputfiles/ISACREATOR1.4_archive_FAST_valid/";
+		
+		IsaTabUploader itu = new IsaTabUploader();
+		try {
+			itu.validate(ISA_ARCHIVE_FOLDER);
+		}catch (Exception e){
+			fail ("validate method raised and error: " + e.getMessage());
+		}
+	}
+	@Test
+	public void testValidationIncorrect(){
+		
+		IsaTabUploader itu = new IsaTabUploader();
+		try {
+			itu.validate("src/test/resources/inputfiles/foo/");
+			fail ("validate did not raised and error and it should do it with a wrong ISA TAB file");
+		}catch (Exception e){
+			//Expected...
+		}
+	}
+	@Test
+	public void testValidationIncorrectWithRealFile(){
+		
+		IsaTabUploader itu = new IsaTabUploader();
+		try {
+			//This should not validate
+			itu.validate("src/test/resources/inputfiles/ISACREATOR1.4_archive_FAST_invalid/");
+			fail ("validate did not raised and error and it should do it with a wrong ISA TAB file");
+		}catch (Exception e){
+			//Expected...
+		}
+	}
+	
+	
+	
+	@Test
 	public void testUpload() {
 		final String ISA_ARCHIVE = "src/test/resources/inputfiles/BII-I-1.zip";
 		final String UNZIP_FOLDER = "src/test/resources/outputfiles/testUpload/";
 		
-		String configPath = "config/";//(new File(".").getAbsolutePath() + "config/");
-		
 		//Instantiate with parameters
 		//TODO assuming conesa is a user in the database already. Ideally test should create the user if it doesn't exist.
-		IsaTabUploader itu = new IsaTabUploader(ISA_ARCHIVE, UNZIP_FOLDER, "conesa", VisibilityStatus.PUBLIC,configPath); 
+		IsaTabUploader itu = new IsaTabUploader(ISA_ARCHIVE, UNZIP_FOLDER, "conesa", VisibilityStatus.PUBLIC,"config/"); 
 		
 		try{
 			//Load file...

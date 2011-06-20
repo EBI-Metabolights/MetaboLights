@@ -17,6 +17,8 @@ import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import org.apache.commons.io.FileUtils;
+
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacer;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacerException;
 import uk.ac.ebi.metabolights.utils.FileUtil;
@@ -48,7 +50,14 @@ public class IsaTabIdReplacerTest {
 	
 	static final String FOLDER_ISATABBII1_OUT = FOLDER_TEST_OUT + "BII-I-1/";
 	
-
+	//Constants for fake test
+	static final String FOLDER_FAKE = FOLDER_TEST_IN + "fake/";
+	static final String FILE_FAKE = FOLDER_TEST_IN + "fake.zip";
+	
+	static final String FOLDER_FAKE_OUT = FOLDER_TEST_OUT + "fake/";
+	
+	
+	
 	
 	@BeforeClass
 	public static void prepareInputFiles() throws IOException{
@@ -57,6 +66,8 @@ public class IsaTabIdReplacerTest {
 			//Zip all files needed to the test.
 			Zipper.zip(FOLDER_ISATAB1, FILE_ISATAB1);
 			Zipper.zip(FOLDER_ISATABBII1, FILE_ISATABBII1);
+			Zipper.zip(FOLDER_FAKE, FILE_FAKE);
+			
 		}catch (IOException ioe){
 			fail("Zipper.zip threw an exception: " + ioe.getMessage());
 		}
@@ -68,33 +79,31 @@ public class IsaTabIdReplacerTest {
 		//Create it again, this time empty	
 		out.mkdir();
 		
+		//Copy all folders in inputfiles into the output folder...
+		FileUtils.copyDirectory(new File(FOLDER_ISATAB1), new File(FOLDER_ISATAB1_OUT));
+		FileUtils.copyDirectory(new File(FOLDER_ISATABBII1), new File(FOLDER_ISATABBII1_OUT));
+		FileUtils.copyDirectory(new File(FOLDER_FAKE), new File(FOLDER_FAKE_OUT));
+		
 	}
 	@Test
 	public void testMembers(){
 		//Values for the constructor
 		final String EXPECTED_ARCHIVE_C = "foo";
-		final String EXPECTED_UNZIP_FOLDER_C ="moo";
 		
 		//Values to test the setters
 		final String EXPECTED_ARCHIVE = "loo";
-		final String EXPECTED_UNZIP_FOLDER ="coo";
 		
 		
 		//Creation
-		IsaTabIdReplacer istr = new IsaTabIdReplacer(EXPECTED_ARCHIVE_C,EXPECTED_UNZIP_FOLDER_C);
+		IsaTabIdReplacer istr = new IsaTabIdReplacer(EXPECTED_ARCHIVE_C);
 		
 		//Test Members after constructor
-		assertEquals(EXPECTED_ARCHIVE_C,istr.getIsaTabArchive());
-		assertEquals(EXPECTED_UNZIP_FOLDER_C, istr.getUnzipFolder());
+		assertEquals(EXPECTED_ARCHIVE_C,istr.getIsaTabFolder());
 		
 		//Test setters
 		//Test IsaTabArchive member
-		istr.setIsaTabArchive(EXPECTED_ARCHIVE);
-		assertEquals(EXPECTED_ARCHIVE, istr.getIsaTabArchive());
-		
-		//Test unzipfolder member
-		istr.setUnzipFolder(EXPECTED_UNZIP_FOLDER);
-		assertEquals(EXPECTED_UNZIP_FOLDER, istr.getUnzipFolder());
+		istr.setIsaTabFolder(EXPECTED_ARCHIVE);
+		assertEquals(EXPECTED_ARCHIVE, istr.getIsaTabFolder());
 		
 	}
 
@@ -102,7 +111,7 @@ public class IsaTabIdReplacerTest {
 	public void testValidationNoFileWrongExtension(){
 		
 		//Test wrong extension and no existence..
-		IsaTabIdReplacer istr = new IsaTabIdReplacer(FILE_NOEXISTS_TXT, "foo");
+		IsaTabIdReplacer istr = new IsaTabIdReplacer(FILE_NOEXISTS_TXT);
 		
 		//Validate
 		try{
@@ -120,31 +129,10 @@ public class IsaTabIdReplacerTest {
 
 	}
 	@Test
-	public void testValidationNoFileRightExtension(){
+	public void testValidationFileExistsNotAFolder(){
 		
 		//Test wrong extension and no existence..
-		IsaTabIdReplacer istr = new IsaTabIdReplacer(FILE_NOEXISTS_ZIP, "foo");
-		
-		//Validate
-		try{
-			
-			//Invoke validation
-			istr.validateIsaTabArchive();
-			
-		}catch (IsaTabIdReplacerException e) {
-			
-			//There must be 1 errors (path)
-			assertTrue("There must NOT be a file format error", e.getFileFormat() == null);
-			assertTrue("There must be a file path error", e.getFilePath() != null);
-			
-		}
-
-	}
-	@Test
-	public void testValidationFileExistsWrongExtension(){
-		
-		//Test wrong extension and no existence..
-		IsaTabIdReplacer istr = new IsaTabIdReplacer(FILE_EXISTS_TXT, "foo");
+		IsaTabIdReplacer istr = new IsaTabIdReplacer(FILE_EXISTS_ZIP);
 		
 		//Validate
 		try{
@@ -162,10 +150,10 @@ public class IsaTabIdReplacerTest {
 
 	}
 	@Test
-	public void testValidationFileExistsRightExtension(){
+	public void testValidationFileExistsAndIsAFolder(){
 		
 		//Test wrong extension and no existence..
-		IsaTabIdReplacer istr = new IsaTabIdReplacer(FILE_EXISTS_ZIP, "foo");
+		IsaTabIdReplacer istr = new IsaTabIdReplacer(FOLDER_ISATABBII1_OUT);
 		
 		//Validate
 		try{
@@ -185,12 +173,12 @@ public class IsaTabIdReplacerTest {
 
 	@Test
 	/**
-	 * Test that a a zip file, without a investigation file throws an error.
+	 * Test that a fake folder, without a investigation file throws an error.
 	 */
 	public void testFakeSample(){
 		
 		//Configure IsaTabIdReplacer
-		IsaTabIdReplacer itr = new IsaTabIdReplacer(FILE_EXISTS_ZIP, FOLDER_TEST_OUT);
+		IsaTabIdReplacer itr = new IsaTabIdReplacer(FOLDER_FAKE);
 		
 		try {
 			
@@ -210,12 +198,12 @@ public class IsaTabIdReplacerTest {
 	public void testIsaTab1Sample(){
 		
 		//Array for the list of new accession numbers
-		String[] accessionList;
-		String inputfile;
-		String outputfile;
+//		String[] accessionList;
+//		String inputfile;
+//		String outputfile;
 		
 		//Configure IsaTabIdReplacer
-		IsaTabIdReplacer itr = new IsaTabIdReplacer(FILE_ISATAB1, FOLDER_ISATAB1_OUT);
+		IsaTabIdReplacer itr = new IsaTabIdReplacer(FOLDER_ISATAB1_OUT);
 		
 		try {
 			
@@ -262,7 +250,7 @@ public class IsaTabIdReplacerTest {
 	public void testMain() {
 		
 		try {
-			IsaTabIdReplacer.main(new String[] {FILE_ISATABBII1, FOLDER_ISATABBII1_OUT});
+			IsaTabIdReplacer.main(new String[] {FOLDER_ISATABBII1_OUT});
 		} catch (Exception e) {
 			fail("Error invoking main: " + e.getMessage());
 		}
