@@ -1,0 +1,2 @@
+"Sample Name"	"Protocol REF"	"Assay Name"	"Raw Data File"	"Characteristics[email]"
+"crop01"	""	"nmr01"	"rawfile.jpg"	"conesa@ebi.ac.uk"
