@@ -5,16 +5,12 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 //import java.io.IOException;
 
 //import javax.naming.ConfigurationException;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import org.apache.commons.io.FileUtils;
@@ -22,7 +18,6 @@ import org.apache.commons.io.FileUtils;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacer;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacerException;
 import uk.ac.ebi.metabolights.utils.FileUtil;
-import uk.ac.ebi.metabolights.utils.StringUtils;
 //import uk.ac.ebi.metabolights.utils.StringUtils;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
@@ -58,9 +53,10 @@ public class IsaTabIdReplacerTest {
 	
 	
 	
-	
-	@BeforeClass
-	public static void prepareInputFiles() throws IOException{
+	//TODO: First time, BII-I-1 zip is not found for IsaTabUploaderTest (why?) I would like to invoke
+	//this method before any test start.
+	@Before
+	public void prepareInputFiles() throws IOException{
 		
 		try{
 			//Zip all files needed to the test.
