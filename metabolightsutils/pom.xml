@@ -9,7 +9,7 @@
   </parent>
   <groupId>uk.ac.ebi.metabolights</groupId>
   <artifactId>metabolights-utils</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.4-SNAPSHOT</version>
   <name>metabolightsutils</name>
   <url>http://maven.apache.org</url>
   <properties>
