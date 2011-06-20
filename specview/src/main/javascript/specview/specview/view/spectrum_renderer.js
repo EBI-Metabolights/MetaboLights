@@ -104,7 +104,7 @@ specview.view.SpectrumRenderer.prototype.renderSpec = function(spectrum,metaSpec
 	var color = opt_color!=undefined ? opt_color : 'black';
 //	var spectrum=metaSpecObject.spectrum==undefined ? metaSpecObject : metaSpecObject.spectrum;
 //	var secondarySpectrum=metaSpecObject.secondarySpectrum;
-	alert(spectrum.displayXpixelNice())
+//	alert(spectrum.displayXpixelNice())
     this.setTransform(transform);
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,color);
@@ -194,6 +194,8 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 	var bottom = metaSpecObject.mainSpecBox[2].y;
 	
 	var spectrumBox = new Array(top,right,bottom,left);
+	//alert(metaSpecObject.mainSpecBox)
+	
 //	this.renderBoundingBox(metaSpecObject.mainSpecBox,'red')
   
 	

@@ -42,8 +42,16 @@ specview.view.TextRenderer.prototype.renderZoomInfo = function(){
 	var fill = new goog.graphics.SolidFill('black');
     var font1 = new goog.graphics.Font(18, 'Comics');
     var font2 =	new goog.graphics.Font(13, 'Comics');
-	this.graphics.drawText( "Which part of the spectra",425,450,600,200,'left',null,font2,stroke,fill);
-	this.graphics.drawText( "are you currently zooming in?",415,465,600,200,'left',null,font2,stroke,fill);
+	this.graphics.drawText("Which part of the spectrum are you currently zooming in ?",
+							250,
+							document.metaSpecObject.secondSpecBox["top"]-15,
+							600,
+							200,
+							'center',
+							null,
+							font2,
+							stroke,
+							fill);
 
 }
 
@@ -52,11 +60,16 @@ specview.view.TextRenderer.prototype.renderZoomInfo = function(){
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
 specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt_color,textIntro) {
-	var xStart=(box==undefined ? 800 : box[0].x+10);
-	var yStart = (box==undefined ? 292 : box[3].y+10);
+//	var xStart=(box==undefined ? 800 : box[0].x+10);
+//	var yStart = (box==undefined ? document.metaSpecObject.mainMolBox[3].y+5 : box[3].y+10);
+	var xStart = (box==undefined ? 800 : box["left"]);
+	var yStart = (box==undefined ? document.metaSpecObject.mainMolBox[3].y+5 : box["top"]);
+	/*
+	 * It means that we are dealing with the peakInformation
+	 */
 	if(box==undefined){
-		textElementObject.box.left = 795;
-		textElementObject.box.top = yStart + 8;
+		textElementObject.box.left = 800;
+		textElementObject.box.top = document.metaSpecObject.mainMolBox[3].y+5;
 		textElementObject.box.width = 200;
 		textElementObject.box.height = 100;
 	}
@@ -77,7 +90,7 @@ specview.view.TextRenderer.prototype.clearTextWithBox = function(box){
     var fill = new goog.graphics.SolidFill('white');
     var stroke = new goog.graphics.Stroke(2, 'white');
 //    alert(box)
-	this.graphics.drawRect(box.left,box.top-8,box.width,box.height,stroke,fill);
+	this.graphics.drawRect(box.left,box.top,box.width,box.height,stroke,fill);
 }
 
 specview.view.TextRenderer.logger = goog.debug.Logger.getLogger('specview.view.TextRenderer');

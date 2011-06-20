@@ -61,7 +61,6 @@ specview.view.MoleculeRenderer.prototype.clearMolecule = function(box,graphics){
     var fill = new goog.graphics.SolidFill('#FFFFFF');
     var stroke = new goog.graphics.Stroke(2, '#FFFFFF');
 	graphics.drawRect(box[2].x-7,box[2].y-7,box[3].x,box[0].y,stroke,fill);
-//	alert(box);
 }
 
 
@@ -101,14 +100,19 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform, 
         }
     });
     molecule._elements.add(this.graphics.drawPath(bondPath, bondStroke, bondFill));
-
+//	var centerOfMolecule = document.metaSpecObject.getMoleculeCenter();
     goog.array.forEach(molecule.atoms,
     function(atom) {
-//    	this.logger.info(atom.xPixel+"   ,   "+atom.yPixel);
+//    	this.logger.info("before :  "+atom.symbol+": "+atom.xPixel+"   ,   "+atom.yPixel);
+//    	atom.xPixel += atom.xPixel + parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x
+//      	var c= point.x + parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
+//      	point = new goog.math.Coordinate(c,atom.yPixel);
+//    	this.logger.info("after :  "+atom.symbol+": "+atom.xPixel+"   ,   "+atom.yPixel);
         this.atomRenderer.render(atom, transform, molecule._elements);
     },
     this);
-//    this.renderBoundingBox(molecule_Box,'orange'); 
+//    alert(molecule_Box)
+  //  this.renderBoundingBox(molecule_Box,'orange'); 
 
 };
 

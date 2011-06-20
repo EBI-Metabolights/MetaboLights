@@ -54,7 +54,6 @@ specview.controller.plugins.Highlight.prototype.lastArrayOfAtomHighlighted=null;
 specview.controller.plugins.Highlight.prototype.lastT=null;
 
 specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {	
-	
 //	this.logger.info(specview.controller.Controller.isInSpectrum(e,this.editorObject.specObject));
 	/**
 	 * If the user has clicked in the canvas, it means that he wants to zoom
@@ -104,7 +103,6 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					this.lastT=e.currentTarget;
 					this.editorObject.addSelected(target);
 					e.currentTarget.highlightGroup = this.highlightAtom(target);
-//					e.currentTarget.highlightGroup = this.highlightSeriesOfAtom(new Array(target))
 					/**
 					 * After highlighting the atom, we check if the atom is related to a Peak
 					 */
@@ -133,8 +131,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			/**
 			 * If it is a Peak
 			 */
-			else if (target instanceof specview.model.Peak && specview.controller.Controller.isInSpectrum(e,document.metaSpecObject)){
-				
+			else if (target instanceof specview.model.Peak && specview.controller.Controller.isInSpectrum(e, document.metaSpecObject)){
 				var currentMetaSpecObject=this.editorObject.getSpecObject();
 				if(this.lastPeakHighlighted==null || target!=this.lastPeakHighlighted){
 					if(this.lastT!=null){
@@ -235,29 +232,26 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
  * When the user click it is to zoom on the spectrum.
  * Hence :
  * 		-We shall only allow to draw a rectangle in the spectrum area
+ * 		-Or eventually in the molecule area
  */
 document.onmousedown = function(e){
-	
-	var isInSpectrum = specview.controller.Controller.isInSpectrum(e,document.metaSpecObject);
-	var isInMolecule;
-	var isInLittleSpectrum;
-//	alert("isInspecturm ? : "+isInSpectrum);
-	if(isInSpectrum){
-//		alert("in the big spectrum")
-		specview.controller.plugins.Highlight.logger2.info("IN THE SPECTRUM");
+//	alert(specview.controller.Controller.getMouseCoords(e))
+	if(specview.controller.Controller.isInSpectrum(e,document.metaSpecObject)){
 		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
+//		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
 		var initialCoordinates = new goog.math.Coordinate(e.clientX,e.clientY);
+		
 		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
+	//	alert(specview.controller.plugins.Highlight.zoomObject.initialCoordinates)
 	}else if(specview.controller.Controller.isInMolecule(e,document.metaSpecObject)){
-//		alert("in the molecule")
-//		specview.controller.plugins.Highlight.logger2.info("IN THE MOLECULE");
 	}else if (specview.controller.Controller.isInSecondarySpectrum(e)){
-//		alert("in the little spectrum")
 	}else{
-//		alert("nothing found here")
 	}
 };	
 
+specview.controller.plugins.Highlight.prototype.handleMouseDown = function(e){
+	alert("mouseing down")
+}
 
 /**
  * When the mouse is up it means that the user has drawn a rectangle.
@@ -269,7 +263,6 @@ document.onmousedown = function(e){
  * @param e
  */
 specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
-	
 	if(specview.controller.plugins.Highlight.zoomObject!=null){
 		var listOfPeaks = this.getObjects(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 				specview.controller.plugins.Highlight.zoomObject.rectangle.left+
@@ -298,9 +291,6 @@ specview.controller.plugins.Highlight.prototype.mapZoomSpectrum = function(left,
 	return this.editorObject.mapZoomSpectrum(left,width,this.editorObject);
 };
 
-specview.controller.plugins.Highlight.prototype.handleDoubleClick = function(){
-	alert("double clicking");
-};
 
 specview.controller.plugins.Highlight.prototype.getObjects = function(x1,x2){
 //	this.logger.info("in the getObjects of the highlight plugin")

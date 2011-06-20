@@ -281,7 +281,7 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	            this.moleculeRenderer.render(molecule,trans,molBox);
 	//            this.moleculeRenderer.render(molecule,model.transform,molBox);
 	            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
-	            this.textRenderer.render(model.metadata,specBox,"black","Experiment Information:");
+	            this.textRenderer.render(model.metadata,model.informationExperimentBox,"black","Experiment Information:");
 	            this.textRenderer.renderZoomInfo();
 	        }
 	    }, this);	
@@ -544,81 +544,6 @@ specview.controller.Controller.prototype.getGraphicsCoords = function(
 	return trans.transformCoords( [ atomicCoords ])[0];
 };
 
-/**
- * In the version of Paul, there is no controller object passed as an argument, but it might be useful
- * in case we want to interact with the viewer. In that case, we would need to access the attributes of the 
- * controller object.
- * @param e
- * @param opt_controllerObject
- * @returns
- */
-specview.controller.Controller.getMouseCoords = function(e,opt_controllerObject) {
-	var elem = e.currentTarget;
-	var posx = e.clientX + document.body.scrollLeft
-	+ document.documentElement.scrollLeft;
-	var posy = e.clientY + document.body.scrollTop
-	+ document.documentElement.scrollTop;	
-//	window.onscroll = function(){
-//		opt_controllerObject.spectrumRenderer.test(document.body.scrollLeft,document.body.scrollTop);
-//		opt_controllerObject.spectrumRenderer.clearSpectrum(opt_controllerObject.specObject.mainSpecBox, opt_controllerObject.graphics)
-//	};
-//	this.logger.info("coord = "+posx+";"+posy+"\ncoord2= "+specview.controller.Controller.getOffsetCoords(elem, posx, posy));
-	return specview.controller.Controller.getOffsetCoords(elem, posx, posy);
-};
-
-/**
- * Return true if the mouse is in the spectrum
- * @param e
- */
-specview.controller.Controller.isInSpectrum = function(e,specObject) {
-//	alert("navigator: "+navigator.appVersion)
-//	alert(specObject.mainSpecBox)
-	var coord = new goog.math.Coordinate(e.clientX-document.getElementById('moleculeContainer').offsetLeft,
-										 e.clientY-document.getElementById('moleculeContainer').offsetTop);
-	var coord2 = new goog.math.Coordinate(e.clientX,e.clientY);
-	
-	var top = specObject.mainSpecBox[0].y;
-	var left = specObject.mainSpecBox[0].x;
-	var right = specObject.mainSpecBox[1].x;
-	var bottom = specObject.mainSpecBox[2].y;
-//	if(coord.y > top && coord.y < bottom && coord.x < right && coord.x > left){
-///		specview.controller.Controller.logger2.info("inside the spectrum")
-//	}
-//	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
-//	alert("spectrum :"+specObject.specBoxBox.contains(coord)+"\n\n"+specObject.specBoxBox+"\n\n"+coord)
-	
-	if(specObject.specBoxBox.contains(coord)){
-//		alert(coord+"\n"+coord2+"\n"+specObject.specBoxBox)
-	}
-	return specObject.specBoxBox.contains(coord);
-};
-
-/**
- * Return true if the mouse is in the molecule
- * specObjject.mainMolBox: (left,bottom)(right,bottom)(left,top)(right,top)
- * @param e
- */
-specview.controller.Controller.isInMolecule = function(e,specObject) {
-	
-	var coord = new goog.math.Coordinate(e.clientX-document.getElementById('moleculeContainer').offsetLeft,
-										 e.clientY-document.getElementById('moleculeContainer').offsetTop);
-	var coord2 = new goog.math.Coordinate(e.clientX, e.clientY);
-	var top = specObject.mainMolBox[2].y;
-	var left = specObject.mainMolBox[0].x;
-	var right = specObject.mainMolBox[1].x;
-	var bottom = specObject.mainMolBox[0].y;
-//	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
-	//alert("molecule :"+specObject.molBoxBox.contains(coord))
-	return specObject.molBoxBox.contains(coord);
-};
-
-specview.controller.Controller.isInSecondarySpectrum = function(e){
-	var coord = new goog.math.Coordinate(e.clientX-document.getElementById('moleculeContainer').offsetLeft,
-			 e.clientY-document.getElementById('moleculeContainer').offsetTop);
-	return document.metaSpecObject.secondSpecBox.contains(coord);
-}
-
-
 
 
 /**
@@ -632,6 +557,7 @@ specview.controller.Controller.isInSecondarySpectrum = function(e){
  * @returns {goog.math.Coordinate}
  */
 specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
+//	alert(elem)
 	posx -= elem.offsetLeft;
 	posy -= elem.offsetTop;
 	while (elem = elem.offsetParent) {
@@ -640,6 +566,75 @@ specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
 	}
 	return new goog.math.Coordinate(posx, posy);
 };
+
+
+/**
+ * In the version of Paul, there is no controller object passed as an argument, but it might be useful
+ * in case we want to interact with the viewer. In that case, we would need to access the attributes of the 
+ * controller object.
+ * @param e
+ * @param opt_controllerObject
+ * @returns
+ */
+specview.controller.Controller.getMouseCoords = function(e) {
+//	alert(e)
+	var elem = e.currentTarget;
+	var posx = e.clientX + document.body.scrollLeft
+	+ document.documentElement.scrollLeft;
+	var posy = e.clientY + document.body.scrollTop
+	+ document.documentElement.scrollTop;	
+	return specview.controller.Controller.getOffsetCoords(elem, posx, posy);
+};
+
+/**
+ * Return true if the mouse is in the spectrum
+ * @param e
+ */
+specview.controller.Controller.isInSpectrum = function(e,specObject) {
+	var top = specObject.mainSpecBox[0].y;
+	var left = specObject.mainSpecBox[0].x;
+	var right = specObject.mainSpecBox[1].x;
+	var bottom = specObject.mainSpecBox[2].y;
+	if(e instanceof MouseEvent){
+		var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
+				 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+	//	var is = coord.y > top && coord.y < bottom && coord.x < right && coord.x > left;	
+	}else{
+		var coord = specview.controller.Controller.getMouseCoords(e);
+	}
+//	var is = coord.y > top && coord.y < bottom && coord.x < right && coord.x > left;
+//	is ? alert(true) : alert(false+"\n"+coord.x+" ; "+coord.y+"\ntop: "+top);
+	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
+};
+
+/**
+ * Return true if the mouse is in the molecule
+ * specObjject.mainMolBox: (left,bottom)(right,bottom)(left,top)(right,top)
+ * @param e
+ */
+specview.controller.Controller.isInMolecule = function(e,specObject) {
+	var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
+										 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+	var top = specObject.mainMolBox[2].y;
+	var left = specObject.mainMolBox[0].x;
+	var right = specObject.mainMolBox[1].x;
+	var bottom = specObject.mainMolBox[0].y;
+	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
+};
+
+/**
+ * Return true if the mouse is the the little spectrum box
+ * @param e
+ * @returns
+ */
+specview.controller.Controller.isInSecondarySpectrum = function(e){
+	var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
+			 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+	return document.metaSpecObject.secondSpecBox.contains(coord);
+}
+
+
+
 
 /**
  * @param e

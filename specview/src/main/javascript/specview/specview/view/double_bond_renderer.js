@@ -67,6 +67,11 @@ specview.view.DoubleBondRenderer.prototype.render = function(bond, transform,
 		bondPath) {
 
 	
+  //	var centerOfMolecule = document.metaSpecObject.getMoleculeCenter();
+  //	var xTransfer = parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
+  //	bond.source.coord.x += xTransfer;
+  //	bond.target.coord.x += xTransfer;
+	
 //	alert("in double bond renderer: \n"+transform);
 	this.setTransform(transform);
 

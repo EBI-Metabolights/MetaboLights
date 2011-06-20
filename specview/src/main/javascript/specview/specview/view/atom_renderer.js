@@ -68,16 +68,16 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 	var fill = new goog.graphics.SolidFill(color);
 
 	var point = transform.transformCoords([ atom.coord ])[0];//point is the coordonates with pixelS
-//	var point = goog.math.Coordinate(atom.xPixel,atom.yPixel);
-//	atom.setPixelCoordinates(point.x, point.y);
-//    this.logger.info(point.x+"  vs  "+pointBis[0]+" |||| "+point.y+"   vs   "+pointBis[1]);	
+//	alert(point)
+//	alert(document)
+//	var centerOfMolecule = document.metaSpecObject.getMoleculeCenter();
+ // 	var c= point.x + parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
+  //	point = new goog.math.Coordinate(c,point.y);
 	
 	var displayElem = this.displaySettings(atom);
 	var graphics = this.graphics;
 	var w = displayElem.text.length * 0.55 * font.size;
 	var h = font.size;
-
-//alert(point)
 	
 	if (displayElem.text) {
 		opt_element_array.add(graphics.drawText(displayElem.text, point.x - w / 2,
@@ -87,8 +87,6 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 			if (displayElem.subscript || displayElem.superscript) {
 				var subSize = this.config.get("subscriptSize");
 				if (displayElem.subscript) {
-//					alert("left: "+point.x)
-
 					opt_element_array.add(graphics.drawText(displayElem.subscript,
 							point.x + w * 0.9, point.y, subSize, subSize,
 							'center', null, font, stroke, fill));
@@ -99,7 +97,6 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 			if (displayElem.subscript || displayElem.superscript) {
 				var subSize = this.config.get("subscriptSize");
 				if (displayElem.subscript) {
-		//			alert("right: "+point.x)
 					opt_element_array.add(graphics.drawText('H', point.x - w
 							* 3, point.y - h / 2, w, h, 'center', null, font,
 							stroke, fill));

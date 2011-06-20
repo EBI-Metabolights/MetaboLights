@@ -36,7 +36,13 @@ goog.inherits(specview.view.SingleUpBondRenderer, specview.view.BondRenderer);
 
 specview.view.SingleUpBondRenderer.prototype.render = function(bond, transform, bondPath) {
 
-//	alert("in single bond down renderer :\n"+transform)
+
+//  	var centerOfMolecule = document.metaSpecObject.getMoleculeCenter();
+ // 	var xTransfer = parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
+  //	bond.source.coord.x += xTransfer;
+  //	bond.target.coord.x += xTransfer;
+//  	this.logger.info(bond.source.coord.x)
+	//	alert("in single bond down renderer :\n"+transform)
 	this.setTransform(transform);
 	
 	var strokeWidth = this.config.get("bond")['stroke']['width'] / 10;

@@ -450,6 +450,8 @@ specview.model.Molecule.prototype.getCenter = function() {
 			(box.top + box.bottom) / 2);
 };
 
+
+
 /**
  * returns bounding box of molecule's atoms
  * 

@@ -56,12 +56,14 @@ function initPage(){
 			spectrumData.setCoordinatesWithPixels(editor)
 
 			editor.setSpecObject(spectrumData);
+			document.metaSpecObject = spectrumData;
+
+			
 			editor.setModels([spectrumData],false);
 			editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 			editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 
 			
-			document.metaSpecObject = spectrumData;
 			document.staticGraphics = goog.graphics.createGraphics(1200,400);
 			
 			//Display the informations about the molecule
@@ -174,7 +176,6 @@ function initPage(){
 			  goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
 		      
 		    });
-
 };
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
@@ -203,11 +204,7 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
 
 <body>
-
-
-	<script>	
-		document.write("<fieldset style = \"width:"+screen.width+"px\">");		
-	</script>
+	<fieldset id="fieldSet" style="width:1200px">
         <legendstyle="top:143px"><h1>MetaboLight Spectrum viewer</h1></legend>
         <br>
         <li id="molName"></li>
@@ -239,7 +236,7 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
         	
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>
-        <div id="moleculeContainer" style="height:700px"></div>
+        <div id="moleculeContainer" style="height:800px"></div>
 	</fieldset>
 
 

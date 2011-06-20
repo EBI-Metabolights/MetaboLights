@@ -36,6 +36,10 @@ goog.inherits(specview.view.SingleDownBondRenderer, specview.view.BondRenderer);
 
 specview.view.SingleDownBondRenderer.prototype.render = function(bond, transform, path) {
 
+//  	var centerOfMolecule = document.metaSpecObject.getMoleculeCenter();
+ // 	var xTransfer = parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
+  //	bond.source.coord.x += xTransfer;
+  //	bond.target.coord.x += xTransfer;
 	
 //	alert("in single bond down renderer :\n"+transform)
 	this.setTransform(transform);

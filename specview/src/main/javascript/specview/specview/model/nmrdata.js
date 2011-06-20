@@ -130,6 +130,8 @@ specview.model.NMRdata=function(){
     this.specBoxBox;
     
     
+    this.experimentInformationBox = null;
+    
 	
 };
 
@@ -185,21 +187,31 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   	this.secondSpecBox=this.getSecondSpectrumBox();
   	this.zoomBox = this.secondSpecBox;
   	this.setCoordinatesPixelOfSecondSpectrum();
-
 	 
-	 this.molBoxBox = new goog.math.Box(this.mainMolBox[0].y,this.mainMolBox[0].x,this.mainMolBox[0].y,this.mainMolBox[0].x);
-	 this.specBoxBox = new goog.math.Box(this.mainSpecBox[0].y,this.mainSpecBox[1].x,this.mainSpecBox[2].y,this.mainSpecBox[0].x)
+	this.molBoxBox = new goog.math.Box(this.mainMolBox[0].y,this.mainMolBox[0].x,this.mainMolBox[0].y,this.mainMolBox[0].x);
+	this.specBoxBox = new goog.math.Box(this.mainSpecBox[0].y,this.mainSpecBox[1].x,this.mainSpecBox[2].y,this.mainSpecBox[0].x)
 	
+	this.reSetCoordinatesOfMolecule();
+  	this.informationExperimentBox = new goog.math.Rect(parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2,
+  													   this.mainMolBox[3].y,
+  													   300,
+  													   100);
 	
-  	
-  	
-  	
-  	
- // 	this.editor.spectrumRenderer.renderSpec(this.spectrum,this,this.transform,undefined,undefined,undefined,undefined)
-
-  	
 
 }; 
+
+
+specview.model.NMRdata.prototype.reSetCoordinatesOfMolecule = function(){
+  	var centerOfMolecule = this.getMoleculeCenter();
+  	var xTransfer = parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
+	goog.array.forEach(this.molecule.atoms,function(atom){
+		atom.xPixel += xTransfer
+	});
+	goog.array.forEach(this.molecule.bonds,function(bond){
+		bond.source.xPixel += xTransfer;
+		bond.target.xPixel += xTransfer;
+	});
+}
 
 /**
  * Build a box for the molecule.
@@ -235,7 +247,7 @@ specview.model.NMRdata.prototype.getMoleculeBox = function(editorSpectrum){
 //	var transform = specview.graphics.AffineTransform.buildTransform(ex_box,widthScaleLimitation,document.staticGraphics,scaleFactor)
 	var transform = specview.graphics.AffineTransform.buildTransform(ex_box,widthScaleLimitation,editorSpectrum.graphics,scaleFactor);
 //	alert(editoSpectrum.staticGraphics)
-    return transform.transformCoords( [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord]);
+    return editorSpectrum.staticTransform.transformCoords( [boxTopLeftCoord,boxTopRightCoord,boxBotLeftCoord,boxBotRightCoord]);
 };
 
 
@@ -272,17 +284,23 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfMolecule = function(editor
   	var trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, editor.graphics, scaleFactor);
   	this.transform=trans;
   	var SecondTransformToHaveFixCoordinatesRegardlessOfTheSizeOfTheCanvas = null;
-  	
 // 	alert(editorSpectrum.staticTransform)
+  	var centerOfMolecule = this.getMoleculeCenter();
+ //	alert(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))
   	    goog.array.forEach(molecule.atoms,
   	     function(atom){
   	    	var point = editorSpectrum.staticTransform.transformCoords([ atom.coord ])[0]
-  	    	//var point = trans.transformCoords([ atom.coord ])[0];//point is the coordinates with pixelS
-  	    	atom.setPixelCoordinates(point.x, point.y);
+//  	    	alert(point);
+//  	    	this.logger.info("before: "+point.x);
+//  	    	var c= point.x + parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
+//  	    	point = new goog.math.Coordinate(c,point.y);
+//  	    	this.logger.info("after: "+point.x);
 //  	    	alert(point)
-  	    //	specview.model.NMRdata.logger.info(point.x+"  ;  "+point.y);
+  	    	atom.setPixelCoordinates(point.x, point.y);
   	    });	
 };
+
+
 
 /**
  * Build a box for the spectra out of the max coordinates of the molecule.
@@ -294,13 +312,16 @@ specview.model.NMRdata.prototype.getSpectrumBox = function(){
 	var molecule=this.molecule;
 	var maxY=0;
 	var maxX=0;
-	var downLimit=280;var rightLimit=1100;var upperLimit=5;
+//	alert(document.getElementById("moleculeContainer").style.height)
+	var downLimit=parseInt(specview.util.Utilities.parsePixel(document.getElementById("moleculeContainer").style.height))-250;
+	var rightLimit=parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))-20;
+	var upperLimit=this.mainMolBox[0].y+10;
 	goog.array.forEach(molecule.atoms,
 	  function(atom){
 		if(atom.xPixel>maxX){maxX=atom.xPixel;}
 		if(atom.yPixel>maxY){maxY=atom.yPixel;}
 	  });
-	var box = new goog.math.Box(upperLimit,rightLimit,downLimit,maxX+40);
+	var box = new goog.math.Box(upperLimit,rightLimit,downLimit,this.mainMolBox[0].x);
 	var topLeftBox=new goog.math.Coordinate(box.left,box.top);
 	var topRightBox=new goog.math.Coordinate(box.right,box.top);
 	var bottomRightBox=new goog.math.Coordinate(box.right,box.bottom);
@@ -310,7 +331,9 @@ specview.model.NMRdata.prototype.getSpectrumBox = function(){
 
 
 specview.model.NMRdata.prototype.getSecondSpectrumBox = function(){
-	var downLimit=490; var rightLimit=1200;var upperLimit = 400; var leftLimit = 620;
+	var downLimit=parseInt(specview.util.Utilities.parsePixel(document.getElementById("moleculeContainer").style.height))-10;
+	var rightLimit=parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))-20;
+	var upperLimit = downLimit-130; var leftLimit = this.mainSpecBox[0].x;
 	var box = new goog.math.Box(upperLimit,rightLimit,downLimit,leftLimit);
 	return box;
 }
@@ -349,7 +372,7 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 			/*
 			 * Compute the xValue
 			 */
-			var whereAllThePeakStartFrom=280;
+			var whereAllThePeakStartFrom=this.mainSpecBox[2].y;
 
 			switch(this.experienceType){
 				case "NMR" :
@@ -392,10 +415,7 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
  * The secondarySpectrum coordinates(coordinates of the peaks) are simply calculated on the basis of its spectra box.
  * @param zoomX
  */
-
 specview.model.NMRdata.prototype.setCoordinatesPixelOfSecondSpectrum = function(){
-  //  this.logger.info("At the beginning of the second spectrum seetting:\n"+this.spectrum.displayXpixelNice()+"\n"+this.spectrum.displayXpixelNice());
-
 	var spectrum=this.spectrum;
 	var minX=this.spectrum.getMinValue();
 	var maxX=this.spectrum.getMaxValue();
@@ -408,10 +428,6 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSecondSpectrum = function(
 	var heightSquare = this.secondSpecBox["bottom"]-this.secondSpecBox["top"];
 	var ecart=this.secondSpecBox["right"]-this.secondSpecBox["left"];
 	var valueToAdd=this.secondSpecBox["left"];
-//	this.logger.info("the second before: "+this.spectrum.displayXpixelNice());
-
-	
-//	var THESPEC=this.spectrum.getPeakList();
 	goog.array.forEach(spectrum.secondpeakList,
 		function(peak) {
 		/*
@@ -443,7 +459,6 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSecondSpectrum = function(
 								whereAllThePeakStartFrom,
 								this.secondSpecBox["left"]+ecart-adjustXvalue,
 								adjustYvalue);
-			
 			break;
 		case "MS" :
 			if(peak.xValue==maxValueOfPeak){
@@ -462,12 +477,16 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSecondSpectrum = function(
 		default :
 			alert("The experience type is not known. Hence we cannot fix the coordinates of the spectrum");
 	}  
-
-	},
-	this);
-//	this.logger.info("the second after: "+this.spectrum.displayXpixelNice())
+	},this);
 	this.spectrum.setExtremePixelValues();
-    //this.logger.info("At the end of the second spectrum seetting:\n"+this.spectrum.displayXpixelNice()+"\n"+this.spectrum.displayXpixelNice());
-
-//	bottomBoxLimit=280;
 }
+
+/**
+ * Get the center of the molecule in pixel.
+ * @returns {goog.math.Coordinate}
+ */
+specview.model.NMRdata.prototype.getMoleculeCenter = function(){
+	var box = this.mainMolBox;
+	return new goog.math.Coordinate((this.mainMolBox[0].x+this.mainMolBox[1].x)/2,
+									(this.mainMolBox[1].y+this.mainMolBox[2].y)/2);
+};

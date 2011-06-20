@@ -47,6 +47,11 @@ specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 	this.setTransform(transform);
 
 	// the bond coordinates
+//  	var centerOfMolecule = document.metaSpecObject.getMoleculeCenter();
+ // 	var xTransfer = parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
+  //	bond.source.coord.x += xTransfer;
+  //	bond.target.coord.x += xTransfer;
+  	
 	var coords = [ bond.source.coord, bond.target.coord ];
 	// bond vector
 	var bv = goog.math.Vec2.fromCoordinate(goog.math.Coordinate.difference(coords[1], coords[0]));

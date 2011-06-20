@@ -91,3 +91,7 @@ specview.util.Utilities.insertCarriageReturnInString = function(string,CR,step){
 	}
 	return toreturn;
 }
+
+specview.util.Utilities.parsePixel = function(pixel){
+	return pixel.substring(0,pixel.indexOf("p"));
+};

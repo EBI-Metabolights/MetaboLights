@@ -210,7 +210,7 @@ specview.view.Renderer.prototype.renderBoundingBox = function(box, opt_color){
     if(!opt_color)
         opt_color='black';
         
-    var boxStroke = new goog.graphics.Stroke(1,opt_color);
+    var boxStroke = new goog.graphics.Stroke(3,opt_color);
     var boxFill = null;
     
     this.graphics.drawPath(boxPath, boxStroke, boxFill);
