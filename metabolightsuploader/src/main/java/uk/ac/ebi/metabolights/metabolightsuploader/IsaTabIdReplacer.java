@@ -42,8 +42,7 @@ public class IsaTabIdReplacer
     
     static private AccessionManager am = AccessionManager.getInstance();
        
-	private String isaTabArchive;
-    private String unzipFolder;
+	private String isaTabFolder;
     
     private HashMap<String,String> ids = new HashMap<String,String>();
 	
@@ -51,8 +50,7 @@ public class IsaTabIdReplacer
     /**
 	 * 
 	 * @param args
-	 * First param must be the file name to work with. It should be a ISATab.zip file.
-	 * Second param must be the folder where the zip file is going to be extracted.
+	 * First param must be the file name to work with. It should be a ISATab folder.
 	 * @throws IOException 
 	 * @throws IsaTabIdReplacerException 
 	 * @throws ConfigurationException 
@@ -60,39 +58,31 @@ public class IsaTabIdReplacer
 	 */
 	public static void main( String[] args ) throws ConfigurationException, IsaTabIdReplacerException, IOException{
 		
-		//Check the arguments. 2 are needed.
-		if (args.length != 2){
-			System.out.println("2 arguments are required: 1st IsaArchive path 2nd output folder");
+		//Check the arguments. 1 is needed.
+		if (args.length != 1){
+			System.out.println("1 argument is required: 1st IsaFolder");
 			return;
 		}
 		
-		//There are 2 arguments
+		//There is 1 arguments
 		IsaTabIdReplacer itr = new IsaTabIdReplacer();
 		
 		//Set the IsaTabArchive
-		itr.setIsaTabArchive(args[0]);
-		
-		//Set the out folder
-		itr.setUnzipFolder(args[1]);
+		itr.setIsaTabFolder(args[0]);
 		
 		//Run it
 		itr.Execute();
 		
 	}
 	
-	public IsaTabIdReplacer(String isaTabArchive, String unzipFolder){
-		this.isaTabArchive = isaTabArchive;
-		this.unzipFolder = unzipFolder;
+	public IsaTabIdReplacer(String isaTabArchive){
+		this.isaTabFolder = isaTabArchive;
 	}
 	public IsaTabIdReplacer(){}
 	
 	//IsaTabArchive properties
-	public String getIsaTabArchive(){return isaTabArchive;}
-	public void setIsaTabArchive(String archive){isaTabArchive = archive;}
-	
-	//UnzipFolder properties
-	public String getUnzipFolder(){return unzipFolder;}
-	public void setUnzipFolder(String unzipFolder){this.unzipFolder = unzipFolder;}
+	public String getIsaTabFolder(){return isaTabFolder;}
+	public void setIsaTabFolder(String folder){isaTabFolder = folder;}
 	
 	//Ids property
 	public HashMap<String,String> getIds(){return ids;}
@@ -155,23 +145,22 @@ public class IsaTabIdReplacer
 		String[] msgs = new String[2];
 		String msg;
 		
-		//Get the extension
-		String ext = StringUtils.truncate(isaTabArchive, ".", false, true);
-				
-		//Extension must be zip, if not
-		if (!ext.equals("zip")){
-			//Add the error to msg
-			msgs[0]="ISA Tab file must end with .zip.\n";
-		}
 		
 		//Create a File object
-		File isatab = new File(isaTabArchive);
-
+		File isatab = new File(isaTabFolder);
+		
 		//If file does not exists
 		if (!isatab.exists()) {
 			//Add the error to msg
-			msgs[1]="File " + isaTabArchive + " does not exists.";
+			msgs[1]="File " + isaTabFolder + " does not exists.";
 		}
+		
+		//File must be a folder, if not
+		if (!isatab.isDirectory()){
+			//Add the error to msg
+			msgs[0]= isatab.getName() + " is not a directory.\n";
+		}
+
 		
 		//If there are messages (errors)
 		msg = org.apache.commons.lang.StringUtils.join(msgs);
@@ -201,15 +190,7 @@ public class IsaTabIdReplacer
 		
 		//Validate
 		validateIsaTabArchive();
-		
-		logger.info("unziping " + isaTabArchive + " to " + unzipFolder);
-		
-		//unzip the isatab archive
-		Zipper.unzip(isaTabArchive,unzipFolder);
-		
-		//Update CheckList
-		updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File succesfully unzipped.");
-		
+				
 		//Replace id
 		replaceIdInFiles();
 		
@@ -220,7 +201,7 @@ public class IsaTabIdReplacer
 	private void replaceIdInFiles () throws IOException{
 		
 		//Search for the investigation file
-		File isaFolder = new File(unzipFolder);
+		File isaFolder = new File(isaTabFolder);
 		File[] fileList;
 		
 		

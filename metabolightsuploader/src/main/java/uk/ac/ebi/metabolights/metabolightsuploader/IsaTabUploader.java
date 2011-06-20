@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.isatools.isatab.manager.SimpleManager;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
+import uk.ac.ebi.metabolights.utils.Zipper;
 
 
 
@@ -24,13 +27,15 @@ public class IsaTabUploader {
 	private VisibilityStatus status = VisibilityStatus.PUBLIC;
 	private String configPath;
 	private CheckList cl;
+	private String isaTabArchive;
+	private String unzipFolder;
 	
 	public IsaTabUploader(){
 	}
 	public IsaTabUploader(String isatabfile, String unzipfolder, String owner){
 		//Set properties
-		itir.setIsaTabArchive(isatabfile);
-		itir.setUnzipFolder(unzipfolder);
+		this.isaTabArchive = isatabfile;
+		this.unzipFolder= unzipfolder;
 		this.owner = owner;
 	}
 	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, VisibilityStatus status){
@@ -45,12 +50,14 @@ public class IsaTabUploader {
 		
 	}
 	//IsaTabFile property
-	public void setIsaTabFile(String isatabfile){itir.setIsaTabArchive(isatabfile);}
-	public String getIsaTabFile(){return itir.getIsaTabArchive();}
+	public void setIsaTabFile(String isatabfile){this.isaTabArchive =isatabfile;}
+	public String getIsaTabFile(){return this.isaTabArchive;}
 	
 	//UnzipFolder property
-	public void setUnzipFolder(String unzipfolder){itir.setUnzipFolder(unzipfolder);}
-	public String getUnzipFolder(){return itir.getUnzipFolder();}
+	public void setUnzipFolder(String unzipfolder){
+		this.unzipFolder =unzipfolder;
+	}
+	public String getUnzipFolder(){return this.unzipFolder;}
 	
 	//Owner property
 	public void setOwner(String owner){this.owner = owner;}
@@ -73,7 +80,32 @@ public class IsaTabUploader {
 			cl.CheckItem(spcls.getKey(), newNotes);
 		}
 	}
+	/**
+	 * Unzips ISATab file if it is a zip file, otherwise it will do nothing
+	 * @throws IOException 
+	 */
+	private void Unzip() throws IOException{
+		File isatab = new File (this.isaTabArchive);
+		
+		//If the file is a folder
+		if (isatab.isDirectory()) {
+			logger.info( this.isaTabArchive + " is a Folder, no unzip proccess is performed.");
+			
+			//Set unzipfolder
+			this.unzipFolder = this.isaTabArchive;
+			//Update CheckList
+			updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File is a folder. Unzip not done.");
+			
+		}else{
+			logger.info("unziping " + this.isaTabArchive + " to " + this.unzipFolder);
+			Zipper.unzip(this.isaTabArchive,this.unzipFolder);
 
+			//Update CheckList
+			updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File succesfully unzipped.");
+
+		}
+		
+	}
 	/**
 	 * Upload an experiment (Isa Tab zip file) into BII.
 	 * @throws Exception 
@@ -82,14 +114,27 @@ public class IsaTabUploader {
 		
 		logger.info("Uploading IsaTabFile --> " + getIsaTabFile());
 		
-		//Replace the id
-		itir.Execute();
+		//Unzip the file...
+		Unzip();
 		
 		//Create a simple manager with the config path
 		SimpleManager sm = new SimpleManager(configPath);
+	
+		//Validate the file
+		sm.validateISAtab(this.unzipFolder);
 		
+		//Update CheckList
+		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
+		updateCheckList(SubmissionProcessCheckListSeed.CONTENTVALIDATION, "The file has been succesfully validated using our configuration.");
+		
+		//Sync unzipfolder with IsaTabIdReplacer
+		itir.setIsaTabFolder(this.unzipFolder);
+		
+		//Replace the id
+		itir.Execute();
+			
 		//Load the isatab file
-		sm.loadISATab(getUnzipFolder(), owner,status);
+		sm.loadISATab(this.unzipFolder, owner,status);
 		
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
@@ -99,6 +144,11 @@ public class IsaTabUploader {
 		
 		//Return the new accession numbers
 		return  itir.getIds();
+		
+	}
+	public void validate(String isatabFile) throws Exception{
+		SimpleManager sm = new SimpleManager();
+		sm.validateISAtab(isatabFile);
 		
 	}
 }
