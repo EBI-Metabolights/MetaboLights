@@ -95,3 +95,17 @@ specview.util.Utilities.insertCarriageReturnInString = function(string,CR,step){
 specview.util.Utilities.parsePixel = function(pixel){
 	return pixel.substring(0,pixel.indexOf("p"));
 };
+
+
+specview.util.Utilities.intersect =
+	  function(a1,a2) {
+	      var l = a1.length;
+	      var ll = a2.length;
+	      for(var i=0; i<l; i++) {
+	        for(var j=0; j<ll; j++) {
+	          if (a1[i] === a2[j])
+	        	  return true;
+	        }
+	      }
+	      return false;
+	  };

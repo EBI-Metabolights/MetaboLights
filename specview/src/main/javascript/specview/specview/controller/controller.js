@@ -567,6 +567,30 @@ specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
 	return new goog.math.Coordinate(posx, posy);
 };
 
+/**
+ * Reposition the molecule at the center of the canvas
+ */
+specview.controller.Controller.prototype.centerMolecule = function(){
+	var centerOfMolecule = this.specObject.molecule.getCenter();
+	var centerOfTheCanvas = this.getCanvasCenter();
+	
+	this.specObject.mainMolBox = this.specObject.translateMolBox(centerOfTheCanvas.x);
+	this.specObject.molecule = this.specObject.translateMolecule(centerOfTheCanvas.x);
+
+	this.moleculeRenderer.renderBox(this.specObject.mainMolBox);
+	this.moleculeRenderer.render(this.specObject.molecule,this.staticTransform,this.specObject.mainMolBox);
+};
+
+/**
+ * return the coordinate of the center of the canvas
+ */
+specview.controller.Controller.prototype.getCanvasCenter = function(){
+	var left = document.getElementById("moleculeContainer").offsetLeft;
+	var top  = document.getElementById("moleculeContainer").offsetTop;
+	var right = left + parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width));
+	var bottom = top + parseInt(specview.util.Utilities.parsePixel(document.getElementById("moleculeContainer").style.height));
+	return new goog.math.Coordinate((right - left)/2 , (bottom-top) / 2 );
+};
 
 /**
  * In the version of Paul, there is no controller object passed as an argument, but it might be useful
@@ -580,7 +604,6 @@ specview.controller.Controller.getMouseCoords = function(e) {
 	if(e instanceof MouseEvent){
 		return new goog.math.Coordinate(e.pageX - document.getElementById("moleculeContainer").offsetLeft,
 										e.pageY - document.getElementById("moleculeContainer").offsetTop);
-//		alert("special case : "+e+"\n\n"+e.pageX+" ; "+e.pageY);
 	}else{
 		var elem = e.currentTarget;
 		var posx = e.clientX + document.body.scrollLeft

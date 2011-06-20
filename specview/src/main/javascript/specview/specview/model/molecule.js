@@ -515,6 +515,14 @@ specview.model.Molecule.prototype.translate = function(vector) {
 };
 
 
+specview.model.Molecule.prototype.getAtomIds = function(){
+	var array = new Array();
+	goog.array.forEach(this.atoms,function(atom){
+		array.push(atom.innerIdentifier);
+	});
+	return array;
+}
+
 
 
 /**

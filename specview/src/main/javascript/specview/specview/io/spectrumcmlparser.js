@@ -77,6 +77,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	var experimentType="not available";
 //	specview.io.SpectrumCMLParser.logger.info("metadataList: "+XMLdoc.getElementsByTagName("molecule").length)
 //	alert(XMLdoc.getElementsByTagName("metadataList")[0].childNodes[0].attributes[0].value);
+//	alert(XMLdoc.getElementsByTagName("metadataList").length)
+//	alert(XMLdoc)
 	try{
 		experimentType=XMLdoc.getElementsByTagName("metadataList")[0].childNodes[1].attributes[0].value;
 	}catch(err){
@@ -124,8 +126,15 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		listOfMolecules[0]=XMLdoc.getElementsByTagName("molecule");
 //		alert(listOfMolecules[1])
 	}
+//	alert(listOfMolecules.length)
 //	specview.io.SpectrumCMLParser.logger.info("before the loop: "+listOfMolecules.length);
 	nmrData.mainMoleculeName=THEMOLECULENAME;
+
+//	for(var molecule=0;molecule<listOfMolecules.length;molecule++){
+//		specview.io.SpectrumCMLParser.logger.info(listOfMolecules[molecule].nodeName)
+//	}
+	
+	
 	for(var molecule=0;molecule<listOfMolecules.length;molecule++){
 //		alert(listOfMolecules[molecule]);
 		var XmlTextElement=false;
@@ -144,7 +153,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			if(MS){
 //			alert(moleculeName)
 				moleculeNode=listOfMolecules[molecule];
-//				alert(moleculeNode)
+//				alert(moleculeNode.childNodes.length)
 //				specview.io.SpectrumCMLParser.logger.info("line 94 spec09: "+moleculeNode.nodeName)
 			}else if(NMR){
 				moleculeNode=listOfMolecules[molecule][0];
@@ -155,12 +164,17 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 //			alert(moleculeNode);
 //				alert(listOfMolecules[molecule][0].childNodes.length)
 				if(MS){
-//					alert(moleculeNode)
-					moleculeName=moleculeNode.attributes[0].value;
-//					alert(moleculeName)
+					
+					try{
+						moleculeName=moleculeNode.attributes[0].value;	
+					}catch(err){
+						moleculeName=moleculeNode.childNodes[1].attributes[0].value;	
+//						alert(moleculeNode.childNodes[1].attributes[1].value+"  ;  "+molecule)	
+					}
 				}else if(NMR){
 					moleculeName=THEMOLECULENAME;
 				}
+//				alert(THEMOLECULENAME)
 				var moleculeBeingBuilt=new specview.model.Molecule(moleculeName);
 				var atomArray=null;
 				var bondArray=null;
@@ -171,6 +185,16 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 						atomArray=moleculeNode.childNodes[i].childNodes;
 					}else if(moleculeNode.childNodes[i].nodeName=="bondArray"){
 						bondArray=moleculeNode.childNodes[i].childNodes;
+					}else if(moleculeNode.childNodes[i].nodeName=="molecule"){
+//						alert("special case: "+moleculeNode.childNodes[i].childNodes)
+						for(var k=0 ; k < moleculeNode.childNodes[i].childNodes.length ; k++){
+							//specview.io.SpectrumCMLParser.logger.info(moleculeNode.childNodes[i][k].nodeName)
+							if(moleculeNode.childNodes[i].childNodes[k].nodeName=="atomArray"){
+								atomArray=moleculeNode.childNodes[i].childNodes[k].childNodes;
+							}else if(moleculeNode.childNodes[i].childNodes[k].nodeName=="bondArray"){
+								bondArray=moleculeNode.childNodes[i].childNodes[k].childNodes;
+							}
+						}
 					}
 				}
 				
@@ -347,8 +371,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 					}
 					molecule.fragmentId=moleculeName;
 					nmrData.ArrayOfSecondaryMolecules[moleculeName]=secondaryMolecule;
-					
-//					alert(secondaryMolecule)
+//					alert(molecule)
+//					alert(moleculeName+"\n\n"+secondaryMolecule)
 					//specview.io.SpectrumCMLParser.logger.info("molecule: "+secondaryMolecule.name)
 					ArrayOfAtoms=new Array();
 					ArrayOfBonds=new Array();
@@ -423,7 +447,9 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				
 				var isThereAmoleculeAssignedToThePeak=(peak.childNodes[1]==undefined) ? false : true;
 				if(isThereAmoleculeAssignedToThePeak){
+//					alert("caca")
 					moleculeRef=peak.childNodes[1].attributes[0].value;			
+//					alert(moleculeRef)
 				}
 				for(var attributeIndice=0;attributeIndice<peak.attributes.length;attributeIndice++){
 					var attributeName=peak.attributes[attributeIndice].name;

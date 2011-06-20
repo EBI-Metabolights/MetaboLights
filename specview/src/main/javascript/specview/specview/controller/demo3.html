@@ -42,7 +42,7 @@ function initPage(){
 //			var toolbar = new specview.controller.DefaultToolbar.makeDefaultMoleculeToolbar(goog.dom.getElement('moleculeEditorToolbar'));  
 			
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[1]);//XML document
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[20]);//XML document
 			spectrumData=new specview.model.NMRdata();
 			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
 			
@@ -86,13 +86,14 @@ function initPage(){
 		    select1.addItem(new goog.ui.MenuItem('NMR_10', 10));
 		    select1.addItem(new goog.ui.MenuItem('NMR_11', 11));
 		    select1.addItem(new goog.ui.MenuItem('NMR_12', 12));
-		    select1.addItem(new goog.ui.MenuItem('MS_0', 13));
+		    select1.addItem(new goog.ui.MenuItem('MS_0 (very old cml file)', 13));
 		    select1.addItem(new goog.ui.MenuItem('MS_1', 14));
 		    select1.addItem(new goog.ui.MenuItem('MS_2', 15)); 
 		    select1.addItem(new goog.ui.MenuItem('MS_3', 16));
-		    select1.addItem(new goog.ui.MenuItem('MS_4', 17));
+		    select1.addItem(new goog.ui.MenuItem('MS_4 (problem in mol coords)', 17));
 		    select1.addItem(new goog.ui.MenuItem('MS_5', 18));
 		    select1.addItem(new goog.ui.MenuItem('MS_6', 19));
+		    select1.addItem(new goog.ui.MenuItem('MS_7 (same atom IDs)', 20));
 		    
 		    select1.setSelectedIndex(0);
 		    select1.render(goog.dom.getElement('selectMolecule'));
@@ -109,7 +110,14 @@ function initPage(){
 			resetTextExperiment.render(goog.dom.getElement('resetTextExperiment'));
 			var unzoom = new goog.ui.Button("unzoom");
 			unzoom.render(goog.dom.getElement('unzoom'));
+			var moveMolecule = new goog.ui.Button("moveMolecule");
+			moveMolecule.render(goog.dom.getElement('moveMolecule'));
 			
+			goog.events.listen(moveMolecule,goog.ui.Component.EventType.ACTION,
+					function(e){
+//				alert(document.getElementById("moleculeContainer").offsetTop)
+				editor.centerMolecule();
+			});
 			
 			
 			goog.events.listen(resetTextExperiment,goog.ui.Component.EventType.ACTION,

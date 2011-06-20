@@ -116,6 +116,11 @@ specview.view.MoleculeRenderer.prototype.render = function(molecule, transform, 
 
 };
 
+
+specview.view.MoleculeRenderer.prototype.renderBox = function(box){
+	this.renderBoundingBox(box,"red");
+}
+
 /**
  * @param {specview.model.Molecule}
  *            molecule

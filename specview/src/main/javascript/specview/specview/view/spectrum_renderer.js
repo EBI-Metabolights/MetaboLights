@@ -53,20 +53,7 @@ specview.view.SpectrumRenderer.prototype.setBoundsBasedOnMolecule = function(mol
     left=left>right ? 10 : left;
     
     this.box = new goog.math.Box(top,right,bottom,left);
-    
-    //this.box = new goog.math.Box(top,right,bottom,left);//THIS IS THE GOOD BOX FOR INVERTING
-//   alert("top"+this.box.top+"\nleft"+this.box.left+"\nright:"+this.box.right+"\nbottom:"+this.box.bottom)
-    
-    /*
-    var gSize=graphics.getSize();
-    b = new goog.math.Box();
-    b.left = gSize.width/2;
-    b.right = gSize.width*(2/3);
-    b.top = gSize.height*(5/6);
-    b.bottom = gSize.height*(1/6);
-    this.box=b;
-    this.logger.info(this.box.top+" "+this.box.bottom+" "+this.box.left+" "+this.box.right+" ");
-    */
+
 };
 
 
@@ -102,20 +89,11 @@ specview.view.SpectrumRenderer.prototype.test = function(a,b){
  */
 specview.view.SpectrumRenderer.prototype.renderSpec = function(spectrum,metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color){
 	var color = opt_color!=undefined ? opt_color : 'black';
-//	var spectrum=metaSpecObject.spectrum==undefined ? metaSpecObject : metaSpecObject.spectrum;
-//	var secondarySpectrum=metaSpecObject.secondarySpectrum;
-//	alert(spectrum.displayXpixelNice())
     this.setTransform(transform);
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,color);
     var peakFill = null;       
-    
-//    this.graphics.drawRect(metaSpecObject.secondSpecBox["left"],
-//			   metaSpecObject.secondSpecBox["top"],
-//			   metaSpecObject.secondSpecBox["right"]-metaSpecObject.secondSpecBox["left"],
-//			   metaSpecObject.secondSpecBox["bottom"]-metaSpecObject.secondSpecBox["top"],
-//			   new goog.graphics.Stroke(2, 'black'),
-//			   null);
+
 
     goog.array.forEach(spectrum.peakList,
     	    function(peak) {
@@ -123,7 +101,6 @@ specview.view.SpectrumRenderer.prototype.renderSpec = function(spectrum,metaSpec
     	            peakPath.moveTo(peak.xPixel, peak.yPixel); 
     	            peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
     	    	}
-//    	    	this.logger.info(color+"  "+peak.isVisible)
     	    },
     	    this);    
 
@@ -157,9 +134,8 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     	    	if(peak.isVisible){
     	            peakPath.moveTo(peak.xPixel, peak.yPixel); 
     	            peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
-   	    	}
-    	  //  	this.logger.info(color+"  "+peak.isVisible+ "("+peak.xPixel+")")
-    	    },
+    	    	}
+    		},
     	    this);
     
     this.graphics.drawRect(metaSpecObject.zoomBox["left"],
@@ -194,8 +170,6 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 	var bottom = metaSpecObject.mainSpecBox[2].y;
 	
 	var spectrumBox = new Array(top,right,bottom,left);
-	//alert(metaSpecObject.mainSpecBox)
-	
 //	this.renderBoundingBox(metaSpecObject.mainSpecBox,'red')
   
 	
@@ -224,7 +198,6 @@ specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
     peakPath.moveTo(peak.xPixel, peak.yPixel); 
     peakPath.lineTo(peak.xTpixel,peak.yTpixel);
     opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,'red'),null));
-//    opt_element_array.add(this.graphics.drawText(50, 150, 100, 500, 600,'center', null, font, stroke, fill));
 	return opt_element_array;
 };
 
@@ -253,7 +226,6 @@ specview.view.SpectrumRenderer.prototype.drawRectangle = function(rectangle,edit
  * @param editor
  */
 specview.view.SpectrumRenderer.prototype.clearRectangle = function(rectangle,editor){
-//	this.logger.info("in clearing rectangle: "+rectangle.left-20+";"+rectangle.top-190+";"+rectangle.width+";"+rectangle.height)
     var stroke = new goog.graphics.Stroke(2.1, '#FFFFFF');
     var peakPath = new goog.graphics.Path();
 	editor.graphics.drawRect(rectangle.left-20,rectangle.top-190,rectangle.width,rectangle.height,stroke,null);	
@@ -266,13 +238,7 @@ specview.view.SpectrumRenderer.prototype.clearRectangle = function(rectangle,edi
  * @param metaSpecObject
  */
 specview.view.SpectrumRenderer.prototype.mapZoomSpectrum = function(left,width,metaSpecObject,editor){
-//	var percentageLeft=(left-metaSpecObject.mainSpecBox[0].x)/(metaSpecObject.mainSpecBox[1].x-metaSpecObject.mainSpecBox[0].x);
-//	var percentageRight=((left+width)-metaSpecObject.mainSpecBox[0].x)/(metaSpecObject.mainSpecBox[1].x-metaSpecObject.mainSpecBox[0].x);
-//	var newLeft = percentageLeft*(metaSpecObject.secondSpecBox["right"]-metaSpecObject.secondSpecBox["left"]);
-//	newLeft = newLeft+metaSpecObject.secondSpecBox["left"];
-//	var newRight = percentageRight*(metaSpecObject.secondSpecBox["right"]-metaSpecObject.secondSpecBox["left"]);
-//	newRight = newRight+metaSpecObject.secondSpecBox["left"];
-//	alert(metaSpecObject.zoomBox)
+
     var stroke = new goog.graphics.Stroke(0.01,'black');
 	var fill = new goog.graphics.SolidFill('orange',0.3);
     var font = new goog.graphics.Font(18, 'Comics');
@@ -282,13 +248,7 @@ specview.view.SpectrumRenderer.prototype.mapZoomSpectrum = function(left,width,m
 							 metaSpecObject.zoomBox["bottom"]-metaSpecObject.zoomBox["top"],
 							 new goog.graphics.Stroke(0.5,"orange"),
 							 fill);
-    
-//	editor.graphics.drawRect(newLeft,
-//							metaSpecObject.secondSpecBox["top"],
-//							 newRight-newLeft,
-//							 metaSpecObject.secondSpecBox["bottom"]-metaSpecObject.secondSpecBox["top"],
-//							 new goog.graphics.Stroke(0.5,"orange"),
-//							 fill);
+
 };
 
 

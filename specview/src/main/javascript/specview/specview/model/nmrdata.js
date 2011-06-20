@@ -481,6 +481,35 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSecondSpectrum = function(
 	this.spectrum.setExtremePixelValues();
 }
 
+
+
+specview.model.NMRdata.prototype.translateMolecule = function(xValue){
+	goog.array.forEach(this.molecule.atoms,function(atom){
+		atom.xPixel += xValue;
+	});
+	goog.array.forEach(this.molecule.bonds,function(bond){
+		bond.source.xPixel += xValue;
+		bond.target.xPixel += xValue;
+	});
+	return this.molecule;
+};
+
+
+
+/**
+ * Reset the coordinates of the molecule box according to a xValue (move the box horizontaly)
+ * @param xValue
+ * @returns
+ */
+specview.model.NMRdata.prototype.translateMolBox = function(xValue){
+	this.mainMolBox[0].x += xValue;
+	this.mainMolBox[1].x += xValue;
+	this.mainMolBox[2].x += xValue;
+	this.mainMolBox[3].x += xValue;
+	return this.mainMolBox;
+};
+
+
 /**
  * Get the center of the molecule in pixel.
  * @returns {goog.math.Coordinate}

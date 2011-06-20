@@ -148,14 +148,32 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					var currentMetaSpecObject=this.editorObject.getSpecObject();
 					var currentPeakIdentifier=target.peakId;
 					if(currentMetaSpecObject.experienceType=="MS"){
-						newMoleculeToDisplay=currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].arrayOfSecondaryMolecules];
+						newMoleculeToDisplay=currentMetaSpecObject.ArrayOfSecondaryMolecules
+											 [currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].
+											  arrayOfSecondaryMolecules];
 					}
+//					alert(this.getSerieOfAtoms(currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.mainMoleculeName]));
+//					alert(currentMetaSpecObject.ArrayOfAtoms[4])
 					if(currentMetaSpecObject.experienceType=="MS" && newMoleculeToDisplay!=undefined){
-						currentMetaSpecObject.molecule=newMoleculeToDisplay;
-						currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
-						this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target);
-						this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
-						this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+						var arrayOfAtomIds = this.getSerieOfAtoms(newMoleculeToDisplay);
+						var arrayOfAtoms = new Array();
+						var intersect = specview.util.Utilities.intersect(arrayOfAtomIds,
+								this.getSerieOfAtoms(currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.mainMoleculeName]))
+					//	alert(currentMetaSpecObject.arrayOfAtoms[arrayOfAtoms[2]]);
+//						var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
+						if(intersect){
+							for(var k=0;k<arrayOfAtomIds.length;k++){
+								var atomObject=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomIds[k]];
+								arrayOfAtoms.push(atomObject);
+							}
+							e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtoms)
+						}else{
+							currentMetaSpecObject.molecule=newMoleculeToDisplay;
+							currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
+							this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target);
+							this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
+							this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
+						}
 					}else if(currentMetaSpecObject.experienceType!="MS"){
 						if(this.editorObject.peakInfoRenderer.box.height!=undefined){
 							this.clearTextInformation(this.editorObject.peakInfoRenderer.box);
@@ -280,6 +298,10 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 
 };
 
+
+specview.controller.plugins.Highlight.prototype.getSerieOfAtoms = function(molecule){
+	return molecule.getAtomIds();
+}
 
 specview.controller.plugins.Highlight.prototype.mapZoomSpectrum = function(left,width){
 	return this.editorObject.mapZoomSpectrum(left,width,this.editorObject);
