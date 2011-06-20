@@ -54,21 +54,19 @@ specview.controller.plugins.Highlight.prototype.lastArrayOfAtomHighlighted=null;
 specview.controller.plugins.Highlight.prototype.lastT=null;
 
 specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {	
-//	this.logger.info(specview.controller.Controller.isInSpectrum(e,this.editorObject.specObject));
 	/**
 	 * If the user has clicked in the canvas, it means that he wants to zoom
 	 */
-//	this.logger.info(specview.controller.plugins.Highlight.zoomObject);
 	if(specview.controller.plugins.Highlight.zoomObject!=null){		
 		if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
 			this.clearSpectrum();
 			this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
 			this.reDrawSpectrum();
 		}
-		specview.controller.plugins.Highlight.zoomObject.finalCoordinates = new goog.math.Coordinate(e.clientX,e.clientY);		
+		specview.controller.plugins.Highlight.zoomObject.finalCoordinates = specview.controller.Controller.getMouseCoords(e);
 		specview.controller.plugins.Highlight.zoomObject.rectangle=new goog.math.Rect(
-				specview.controller.plugins.Highlight.zoomObject.initialCoordinates.x,
-				specview.controller.plugins.Highlight.zoomObject.initialCoordinates.y,
+				specview.controller.plugins.Highlight.zoomObject.initialCoordinates.x + document.getElementById("moleculeContainer").offsetLeft,
+				specview.controller.plugins.Highlight.zoomObject.initialCoordinates.y + document.getElementById("moleculeContainer").offsetTop,
 				specview.controller.plugins.Highlight.zoomObject.finalCoordinates.x-specview.controller.plugins.Highlight.zoomObject.initialCoordinates.x,
 				specview.controller.plugins.Highlight.zoomObject.finalCoordinates.y-specview.controller.plugins.Highlight.zoomObject.initialCoordinates.y);
 		this.drawZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
@@ -235,23 +233,18 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
  * 		-Or eventually in the molecule area
  */
 document.onmousedown = function(e){
-//	alert(specview.controller.Controller.getMouseCoords(e))
 	if(specview.controller.Controller.isInSpectrum(e,document.metaSpecObject)){
+//		this.clearSpectrum();
+//		this.reDrawSpectrum();
+		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
 		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
-//		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
-		var initialCoordinates = new goog.math.Coordinate(e.clientX,e.clientY);
-		
 		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
-	//	alert(specview.controller.plugins.Highlight.zoomObject.initialCoordinates)
 	}else if(specview.controller.Controller.isInMolecule(e,document.metaSpecObject)){
 	}else if (specview.controller.Controller.isInSecondarySpectrum(e)){
 	}else{
 	}
 };	
 
-specview.controller.plugins.Highlight.prototype.handleMouseDown = function(e){
-	alert("mouseing down")
-}
 
 /**
  * When the mouse is up it means that the user has drawn a rectangle.
@@ -287,13 +280,13 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 
 };
 
+
 specview.controller.plugins.Highlight.prototype.mapZoomSpectrum = function(left,width){
 	return this.editorObject.mapZoomSpectrum(left,width,this.editorObject);
 };
 
 
 specview.controller.plugins.Highlight.prototype.getObjects = function(x1,x2){
-//	this.logger.info("in the getObjects of the highlight plugin")
 	return this.editorObject.neighborList.getObjects(x1,x2);
 };
 	
@@ -330,42 +323,34 @@ specview.controller.plugins.Highlight.prototype.clearZoomRectangle = function(re
 } 
 
 specview.controller.plugins.Highlight.prototype.drawZoomRectangle = function(rectangle){
-//	alert("dawing the rectangle "+rectangle);
 	return this.editorObject.spectrumRenderer.drawRectangle(rectangle,this.editorObject);
 };
 
 specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak,editor){
-//	this.logger.info("in function highlightPeak of the plugin highlight");
 	return this.editorObject.spectrumRenderer.highlightOn(peak,editor);
 };
 
 specview.controller.plugins.Highlight.prototype.highlightAtom = function(atom) {
-//	this.logger.info("in function highlightAtom of the plugin highlight");
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOn(atom,this.HIGHLIGHT_COLOR);
 };
 
 specview.controller.plugins.Highlight.prototype.highlightSeriesOfAtom=function(arrayOfAtom){
-//	this.logger.info("in function highlightSeriesOfAtom of the plugin highlight");
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOnSeriesOfAtom(arrayOfAtom,this.HIGHLIGHT_COLOR);
 };
 
 specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
-//	this.logger.info("in function highlightBond of the plugin highlight");
 	return this.editorObject.moleculeRenderer.bondRendererFactory.get(bond).highlightOn(bond,this.HIGHLIGHT_COLOR);
  
 };
 
 specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject,editor,opt_peak) {
-//	this.logger.info("in function drawNewMolecule of the plugin highlight");
 	return this.editorObject.setModels([currentMetaSpecObject],opt_peak);
 };
 
 specview.controller.plugins.Highlight.prototype.drawTextInformation = function(peak,currentMetaSpecObject){
-//	this.logger.info("in function drawTextInformation of the plugin highlight");
 	return this.editorObject.renderText(peak,currentMetaSpecObject);
 };
 
 specview.controller.plugins.Highlight.prototype.clearTextInformation = function(boxToClearThePeakInformation){
-//	this.logger.info("in function clearTextInformationof the plugin highlight");
 	return this.editorObject.clearPeakInfo(boxToClearThePeakInformation);
 };

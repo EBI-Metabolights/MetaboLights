@@ -210,9 +210,10 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
  * @param graphics
  */
 specview.view.SpectrumRenderer.prototype.clearSpectrum = function(box,graphics){
+	
     var fill = new goog.graphics.SolidFill('#FFFFFF');
     var stroke = new goog.graphics.Stroke(2, '#FFFFFF');
-	graphics.drawRect(box[0].x-15,box[0].y-7,box[3].x,box[0].x,stroke,fill);
+	graphics.drawRect(box[0].x-15,box[0].y-5,box[1].x-box[0].x+10,box[2].y-box[1].y+15,stroke,fill);
 };
 
 

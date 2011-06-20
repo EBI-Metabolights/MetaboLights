@@ -577,13 +577,18 @@ specview.controller.Controller.getOffsetCoords = function(elem, posx, posy) {
  * @returns
  */
 specview.controller.Controller.getMouseCoords = function(e) {
-//	alert(e)
-	var elem = e.currentTarget;
-	var posx = e.clientX + document.body.scrollLeft
-	+ document.documentElement.scrollLeft;
-	var posy = e.clientY + document.body.scrollTop
-	+ document.documentElement.scrollTop;	
-	return specview.controller.Controller.getOffsetCoords(elem, posx, posy);
+	if(e instanceof MouseEvent){
+		return new goog.math.Coordinate(e.pageX - document.getElementById("moleculeContainer").offsetLeft,
+										e.pageY - document.getElementById("moleculeContainer").offsetTop);
+//		alert("special case : "+e+"\n\n"+e.pageX+" ; "+e.pageY);
+	}else{
+		var elem = e.currentTarget;
+		var posx = e.clientX + document.body.scrollLeft
+		+ document.documentElement.scrollLeft;
+		var posy = e.clientY + document.body.scrollTop
+		+ document.documentElement.scrollTop;	
+		return specview.controller.Controller.getOffsetCoords(elem, posx, posy);	
+	}
 };
 
 /**
