@@ -68,11 +68,6 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 	var fill = new goog.graphics.SolidFill(color);
 
 	var point = transform.transformCoords([ atom.coord ])[0];//point is the coordonates with pixelS
-//	alert(point)
-//	alert(document)
-//	var centerOfMolecule = document.metaSpecObject.getMoleculeCenter();
- // 	var c= point.x + parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
-  //	point = new goog.math.Coordinate(c,point.y);
 	
 	var displayElem = this.displaySettings(atom);
 	var graphics = this.graphics;
@@ -297,7 +292,7 @@ specview.view.AtomRenderer.defaultConfig = {
 		'color' : '#FF9999',
 		'diameter' : .05,
 		'highlight' : {
-			'radius' : 0.53
+			'radius' : 0.33
 		},
 		'stroke' : {
 			'width' : 0.10
