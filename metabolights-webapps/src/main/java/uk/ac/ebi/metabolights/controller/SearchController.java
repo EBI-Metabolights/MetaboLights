@@ -1,9 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.SearchService;
 
@@ -32,7 +29,6 @@ public class SearchController extends AbstractController{
 	
 	@Autowired
 	private SearchService searchService;
-
 	
 	private @Value("#{appProperties.urlBiiPrefixSearch}") String urlBiiPrefixSearch;
 	
@@ -42,7 +38,7 @@ public class SearchController extends AbstractController{
 	 * @return
 	 */
 	@RequestMapping(value = "/search", method = RequestMethod.POST )
-	public ModelAndView  luceneSearch (HttpServletRequest request) {
+	public ModelAndView luceneSearch (HttpServletRequest request) {
 
 	    List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>();
 	    String query = request.getParameter("query");

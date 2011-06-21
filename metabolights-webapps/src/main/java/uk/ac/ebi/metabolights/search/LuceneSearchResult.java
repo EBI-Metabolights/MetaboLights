@@ -19,6 +19,7 @@ public class LuceneSearchResult {
 
 	private List<Assay> assays;
 	private List<String> factors;
+	private List<String> properties;
 
 	
 	public LuceneSearchResult(Document doc, float score) {
@@ -26,6 +27,7 @@ public class LuceneSearchResult {
 		this.score=score;
 		this.assays=parseAssays();
 		this.factors=getValues(StudyBrowseField.FACTOR_NAME.getName());
+		this.properties=getValues("property_value");
 	}
 	
 	private Document doc;
@@ -53,7 +55,11 @@ public class LuceneSearchResult {
 	public String getOrganism() {
 		return doc.get(StudyBrowseField.ORGANISM.getName());
 	}
-
+	
+	public List<String> getProperties() {
+		return properties;
+	}
+	
 	public List<String> getFactors() {
 		return factors;
 	}
@@ -78,6 +84,13 @@ public class LuceneSearchResult {
 		return doc.get("user_id");
 	}
 
+	public String getDescription() {
+		return doc.get("description");
+	}
+	
+	public String getDesign() {
+		return doc.get("design_value");
+	}	
 	
 	/**
 	 * Holds assay information related to a study.
@@ -132,7 +145,6 @@ public class LuceneSearchResult {
 		}
 		return Arrays.asList(set.toArray(new String[set.size()]));
 		
-
 	}
 
 	/**
