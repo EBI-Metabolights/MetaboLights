@@ -62,7 +62,12 @@
         <put-attribute name="body" value="/WEB-INF/jsp/submitOk.jsp" />
     </definition>
 
-    <definition name="entry" template="WEB-INF/jsp/entry.jsp"/>
+    <definition name="entry" extends="base.definition">
+        <put-attribute name="title" value="Metabolights entry" />
+        <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
+    </definition>
+
+    <!-- definition name="entry" template="WEB-INF/jsp/entry.jsp"/-->
 
     <definition name="timeout" extends="base.definition">
         <put-attribute name="title" value="Timed out of Metabolights" />
