@@ -212,6 +212,8 @@ specview.model.Molecule.prototype.indexOfBond = function(bond) {
 	return goog.array.indexOf(this.bonds, bond);
 };
 
+
+
 /**
  * Remove a atom from molecule.
  * 

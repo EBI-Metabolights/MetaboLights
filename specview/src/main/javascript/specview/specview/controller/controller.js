@@ -618,12 +618,9 @@ specview.controller.Controller.isInSpectrum = function(e,specObject) {
 	if(e instanceof MouseEvent){
 		var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
 				 e.pageY-document.getElementById('moleculeContainer').offsetTop);
-	//	var is = coord.y > top && coord.y < bottom && coord.x < right && coord.x > left;	
 	}else{
 		var coord = specview.controller.Controller.getMouseCoords(e);
 	}
-//	var is = coord.y > top && coord.y < bottom && coord.x < right && coord.x > left;
-//	is ? alert(true) : alert(false+"\n"+coord.x+" ; "+coord.y+"\ntop: "+top);
 	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
 };
 
@@ -633,12 +630,19 @@ specview.controller.Controller.isInSpectrum = function(e,specObject) {
  * @param e
  */
 specview.controller.Controller.isInMolecule = function(e,specObject) {
-	var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
-										 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+//	var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
+//										 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+	var coord = null;
 	var top = specObject.mainMolBox[2].y;
 	var left = specObject.mainMolBox[0].x;
 	var right = specObject.mainMolBox[1].x;
 	var bottom = specObject.mainMolBox[0].y;
+	if(e instanceof MouseEvent){
+		 coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
+				 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+	}else{
+		 coord = specview.controller.Controller.getMouseCoords(e);
+	}
 	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
 };
 

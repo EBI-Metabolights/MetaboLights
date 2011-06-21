@@ -188,18 +188,25 @@ specview.model.NeighborList.prototype.getCellsSamyLength = function(){
  * x1 is the left bound of the rectangle
  * x2 is the right bound of the rectangle
  */
-specview.model.NeighborList.prototype.getObjects = function(x1,x2){
-//	this.logger.info("in the getObjects of the neighborList.js");
+specview.model.NeighborList.prototype.getObjects = function(x1,x2,opt_y1,opt_y2){
 	var arrayOfObjects = new Array();
 	var c=0;
+//	alert(x1+"; "+x2+"; "+opt_y1+"; "+opt_y2)
 	for(key in this.cells_samy){
 		c++;
 		var truc=key.substr(1).split(",");
-		if(truc[0] < x2 && truc[0] > x1){
-			arrayOfObjects.push(this.cells_samy[key]);
+//		if(!opt_y1 || !opt_y2){
+			if(truc[0] < x2 && truc[0] > x1){
+				arrayOfObjects.push(this.cells_samy[key]);
+//			}	
+//		}else{
+//			var y = parseInt(specview.util.Utilities.getStringBeforeCharacter(truc[1],")"));
+//			if(truc[0] < x2 && truc[0] > x1 && y < opt_y1 && y > opt_y2){
+//				alert(truc)
+//				arrayOfObjects.push(this.cells_samy[key]);
+//			}
 		}
 	}
-//	alert(specview.util.Utilities.getAssoArrayLength(arrayOfObjects));
 	return arrayOfObjects;
 }
 
