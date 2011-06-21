@@ -149,18 +149,43 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
         var stroke = new goog.graphics.Stroke(0.1,'black');
     	var fill = new goog.graphics.SolidFill('black');
         var font = new goog.graphics.Font(18, 'Comics');
-        this.graphics.drawText("Peak information:", 720, 291, 600, 200, 'left', null,
-                font, stroke, fill);
-        this.graphics.drawText("m/z value: "+opt_peak.xValue, 720, 315, 600, 200, 'left', null,
-        		new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
-        this.graphics.drawText("Fragment molecule: "+opt_peak.arrayOfSecondaryMolecules, 720, 330, 600, 200, 'left', null,
-        		new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
-        this.graphics.drawText("Parent molecule: "+opt_main_molecule, 720, 345, 600, 200, 'left', null,
-        		new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
-        this.graphics.drawText("Mass of the molecule: So far not available", 720, 360, 600, 200, 'left', null,
-        		new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
-        this.graphics.drawText("Pixel coordinates: "+opt_peak.pixelCoord, 720, 375, 600, 200, 'left', null,
-        		new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
+        this.graphics.drawText("Peak information:", 
+        						850,
+        						5,
+        						600,
+        						200,
+        						'left',
+        						null,
+        						font, stroke, fill);
+        this.graphics.drawText("m/z value: "+opt_peak.xValue,
+        						850,
+        						30,
+        						600, 200,
+        						'left', null,
+        						new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
+        this.graphics.drawText("Fragment molecule: "+opt_peak.arrayOfSecondaryMolecules,
+        						850,
+        						45,
+        						600, 200,
+        						'left', null,
+        						new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
+        this.graphics.drawText("Parent molecule: "+opt_main_molecule,
+        						850,
+        						60,
+        						600, 200,
+        						'left', null,
+        						new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
+        this.graphics.drawText("Mass of the molecule: So far not available",
+        						850,
+        						75,
+        						600, 200,
+        						'left', null,
+        						new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
+        this.graphics.drawText("Pixel coordinates: "+opt_peak.pixelCoord,
+        						850,
+        						90,
+        						600, 200, 'left', null,
+        						new goog.graphics.Font(11.5, 'Comics'), stroke, fill);
     }
     
     

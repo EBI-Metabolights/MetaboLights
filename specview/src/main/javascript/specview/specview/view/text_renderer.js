@@ -60,15 +60,13 @@ specview.view.TextRenderer.prototype.renderZoomInfo = function(){
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
 specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt_color,textIntro) {
-//	var xStart=(box==undefined ? 800 : box[0].x+10);
-//	var yStart = (box==undefined ? document.metaSpecObject.mainMolBox[3].y+5 : box[3].y+10);
-	var xStart = (box==undefined ? 800 : box["left"]);
-	var yStart = (box==undefined ? document.metaSpecObject.mainMolBox[3].y+5 : box["top"]);
+	var xStart = (box==undefined ? 850 : box["left"]);
+	var yStart = (box==undefined ? document.metaSpecObject.mainMolBox[3].y+2 : box["top"]);
 	/*
 	 * It means that we are dealing with the peakInformation
 	 */
 	if(box==undefined){
-		textElementObject.box.left = 800;
+		textElementObject.box.left = 850;
 		textElementObject.box.top = document.metaSpecObject.mainMolBox[3].y+5;
 		textElementObject.box.width = 200;
 		textElementObject.box.height = 100;

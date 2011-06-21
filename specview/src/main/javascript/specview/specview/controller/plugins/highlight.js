@@ -152,25 +152,26 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 											 [currentMetaSpecObject.ArrayOfPeaks[currentPeakIdentifier].
 											  arrayOfSecondaryMolecules];
 					}
-//					alert(this.getSerieOfAtoms(currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.mainMoleculeName]));
-//					alert(currentMetaSpecObject.ArrayOfAtoms[4])
 					if(currentMetaSpecObject.experienceType=="MS" && newMoleculeToDisplay!=undefined){
 						var arrayOfAtomIds = this.getSerieOfAtoms(newMoleculeToDisplay);
 						var arrayOfAtoms = new Array();
 						var intersect = specview.util.Utilities.intersect(arrayOfAtomIds,
 								this.getSerieOfAtoms(currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.mainMoleculeName]))
-					//	alert(currentMetaSpecObject.arrayOfAtoms[arrayOfAtoms[2]]);
-//						var arrayOfAtomObjectToWhichThePeakIsRelated=new Array();
 						if(intersect){
+							var arrayOfBonds = newMoleculeToDisplay.bonds;
 							for(var k=0;k<arrayOfAtomIds.length;k++){
 								var atomObject=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomIds[k]];
 								arrayOfAtoms.push(atomObject);
 							}
-							e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtoms)
+//							e.currentTarget.highlightGroup = this.highlightOnSerieOfBonds(arrayOfBonds);
+			//				e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtoms)
+							e.currentTarget.highlightGroup = this.highlightSubMolecule(arrayOfBonds, arrayOfAtoms)
+							this.drawTextInformation(target, currentMetaSpecObject)
 						}else{
 							currentMetaSpecObject.molecule=newMoleculeToDisplay;
 							currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
 							this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target);
+							this.drawTextInformation(target, currentMetaSpecObject)
 							this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 							this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
 						}
@@ -192,6 +193,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];					
 						this.lastArrayOfAtomHighlighted=arrayOfAtomObjectToWhichThePeakIsRelated;
 						e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtomObjectToWhichThePeakIsRelated);
+						this.drawTextInformation(target, currentMetaSpecObject)
 					}
 				}
 			}	
@@ -252,8 +254,6 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
  */
 document.onmousedown = function(e){
 	if(specview.controller.Controller.isInSpectrum(e,document.metaSpecObject)){
-//		this.clearSpectrum();
-//		this.reDrawSpectrum();
 		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
 		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
 		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
@@ -360,10 +360,40 @@ specview.controller.plugins.Highlight.prototype.highlightSeriesOfAtom=function(a
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOnSeriesOfAtom(arrayOfAtom,this.HIGHLIGHT_COLOR);
 };
 
+
 specview.controller.plugins.Highlight.prototype.highlightBond = function(bond) {
 	return this.editorObject.moleculeRenderer.bondRendererFactory.get(bond).highlightOn(bond,this.HIGHLIGHT_COLOR);
- 
 };
+
+specview.controller.plugins.Highlight.prototype.highlightOnSerieOfBonds = function(arrayOfBonds){
+	var opt_element_array = new specview.graphics.ElementArray();
+	var bond = null;
+	for(k in arrayOfBonds){
+		bond = arrayOfBonds[k];
+		var h = this.editorObject.moleculeRenderer.bondRendererFactory.get(bond).highlightOnSerieOfBonds(bond,this.HIGHLIGHT_COLOR);
+		opt_element_array.add(h.pathUp);
+		opt_element_array.add(h.pathDown);
+	}
+	return opt_element_array;
+};
+
+specview.controller.plugins.Highlight.prototype.highlightSubMolecule = function(arrayOfBonds, arrayOfAtoms){
+	var opt_element_array = new specview.graphics.ElementArray();
+
+	for(k in arrayOfBonds){
+		var h = this.editorObject.moleculeRenderer.bondRendererFactory.get(arrayOfBonds[k]).highlightOnSerieOfBonds(arrayOfBonds[k],this.HIGHLIGHT_COLOR);
+		opt_element_array.add(h.pathUp);
+		opt_element_array.add(h.pathDown);
+	}
+	
+	for(a in arrayOfAtoms){
+		var circle = this.editorObject.moleculeRenderer.atomRenderer.highlightOnAtom2(arrayOfAtoms[a]);
+		opt_element_array.add(circle);
+	}
+	
+	return opt_element_array;
+}
+
 
 specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(currentMetaSpecObject,editor,opt_peak) {
 	return this.editorObject.setModels([currentMetaSpecObject],opt_peak);

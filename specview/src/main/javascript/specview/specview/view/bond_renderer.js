@@ -48,7 +48,7 @@ goog.inherits(specview.view.BondRenderer, specview.view.Renderer);
  * @return {specview.graphics.ElementArray}
  */
 specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt_element_array) {
-	
+//	alert("call to bondrenderer highlight")
 	if(!opt_color){
 		opt_color = this.config.get("highlight")['color'];
 	}
@@ -57,6 +57,7 @@ specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt
 	}
 
 	var stroke = null;
+	
 	var angle = goog.math.angle(bond.source.coord.x, bond.source.coord.y, bond.target.coord.x,
 			bond.target.coord.y);
 	var angle_up = goog.math.standardAngle(angle + 90);
@@ -109,6 +110,73 @@ specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt
 	return opt_element_array;
 };
 
+
+specview.view.BondRenderer.prototype.highlightOnSerieOfBonds = function(bond, opt_color, opt_element_array) {
+	if(!opt_color){
+		opt_color = this.config.get("highlight")['color'];
+	}
+	if (!opt_element_array) {
+		opt_element_array = new specview.graphics.ElementArray();
+	}
+	opt_color = "blue"
+	var stroke = null;
+	
+	var angle = goog.math.angle(bond.source.coord.x, bond.source.coord.y, bond.target.coord.x,
+			bond.target.coord.y);
+	var angle_up = goog.math.standardAngle(angle + 90);
+	var angle_down = goog.math.standardAngle(angle - 90);
+	
+
+	var angle_up_rads = goog.math.toRadians(angle_up);
+	var angle_down_rads = goog.math.toRadians(angle_down);
+	
+	var scale = this.transform.getScaleX();
+	var radius = this.config.get("highlight")['radius']
+			* scale ;
+	
+	
+	var coords = this.transform.transformCoords( [ bond.source.coord,
+			bond.target.coord ]);
+
+	var source_up = goog.math.Coordinate.sum(new goog.math.Coordinate(
+			radius * Math.cos(angle_up_rads), -radius
+					* Math.sin(angle_up_rads)), coords[0]);
+
+	var target_up = goog.math.Coordinate.sum(new goog.math.Coordinate(
+			radius * Math.cos(angle_up_rads), -radius
+					* Math.sin(angle_up_rads)), coords[1]);
+
+	var source_down = goog.math.Coordinate.sum(new goog.math.Coordinate(
+			radius * Math.cos(angle_down_rads), -radius
+					* Math.sin(angle_down_rads)), coords[0]);
+	var target_down = goog.math.Coordinate.sum(new goog.math.Coordinate(
+			radius * Math.cos(angle_down_rads), -radius
+					* Math.sin(angle_down_rads)), coords[1]);
+
+	var path_up = new goog.graphics.Path();
+	path_up.moveTo(coords[0].x, coords[0].y);
+	path_up.lineTo(source_up.x, source_up.y);
+	path_up.lineTo(target_up.x, target_up.y);
+	path_up.lineTo(coords[1].x, coords[1].y);
+	path_up.close();
+
+	var fill = new goog.graphics.SolidFill(opt_color, .15);
+//	opt_element_array.add(this.graphics.drawPath(path_up, stroke, fill));
+	
+	var path_down = new goog.graphics.Path();
+	path_down.moveTo(coords[0].x, coords[0].y);
+	path_down.lineTo(source_down.x, source_down.y);
+	path_down.lineTo(target_down.x, target_down.y);
+	path_down.lineTo(coords[1].x, coords[1].y);
+	path_down.close();
+	//opt_element_array.add(this.graphics.drawPath(path_down, stroke, fill));
+	//return opt_element_array;
+	var h = new Object();
+	h.pathUp = this.graphics.drawPath(path_up, stroke, fill)
+	h.pathDown = this.graphics.drawPath(path_down, stroke, fill);
+	return h;
+};
+
 /**
  * 
  * @return{number} bond angle of elevation
@@ -143,7 +211,7 @@ specview.view.BondRenderer.defaultConfig = {
 
 	},
 	'highlight' : {
-		'radius' : .3,
+		'radius' : .15,
 		'color' : 'blue'
 	}
 };

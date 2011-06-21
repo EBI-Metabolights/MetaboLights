@@ -250,7 +250,6 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	var fill = new goog.graphics.SolidFill('black');
     var font1 = new goog.graphics.Font(18, 'Comics');
     var font2 =	new goog.graphics.Font(11.5, 'Comics');
-	
 	    goog.array.forEach(this.models, function(model) {
 	        if (model instanceof specview.model.NMRdata) {
 	            var molecule=model.molecule;
@@ -258,7 +257,6 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	            var molBox=model.mainMolBox;
 	            var specBox=model.mainSpecBox;
 	            this.logger.info(specBox);
-//	            this.spectrumRenderer.setBoundsBasedOnMolecule(molecule);
 	            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
 	            peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
 	            box = goog.math.Box.boundingBox.apply(null, atom_coords);
@@ -272,14 +270,9 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	            ex_box = box.expand(margin, margin, margin, margin);
 	            scaleFactor = 0.90; 
 	            widthScaleLimitation = 0.4;
-//	            alert(widthScaleLimitation+"\n"+scaleFactor)
 	            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.staticGraphics, scaleFactor);
 	            this.staticTransform = trans;
-//	            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.graphics, scaleFactor);
-//	            this.graphics.addChild(this.moleculeRenderer);
-//	            alert(trans)
 	            this.moleculeRenderer.render(molecule,trans,molBox);
-	//            this.moleculeRenderer.render(molecule,model.transform,molBox);
 	            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
 	            this.textRenderer.render(model.metadata,model.informationExperimentBox,"black","Experiment Information:");
 	            this.textRenderer.renderZoomInfo();
@@ -291,7 +284,6 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 
 specview.controller.Controller.prototype.mapZoomSpectrum = function(left,width,editor){
 	this.specObject.setZoomBox(left,width);
-//	alert(this.editorObject.zoomBox);
 	return this.spectrumRenderer.mapZoomSpectrum(left,width,this.specObject,editor);
 }
 

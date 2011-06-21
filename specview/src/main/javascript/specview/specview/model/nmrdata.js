@@ -129,8 +129,17 @@ specview.model.NMRdata=function(){
     this.molBoxBox;
     this.specBoxBox;
     
-    
+    /**
+     * When a new experiment is displayed, the metadata infromation if the experiment must be rendered inside the 
+     * experimentInformationBox
+     */
     this.experimentInformationBox = null;
+
+    /**
+     * When the user mouse over a peak or an atom, the information available about the peak must be rendered inside 
+     * the peakInformationBox
+     */
+    this.peakInformationBox = null;
     
 	
 };
