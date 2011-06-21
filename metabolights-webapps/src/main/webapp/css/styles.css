@@ -192,5 +192,7 @@ html,body {
 	margin: 0px;
 }
 
+/* Search Highlights */
+.highlight { background-color: yellow }
 
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/
