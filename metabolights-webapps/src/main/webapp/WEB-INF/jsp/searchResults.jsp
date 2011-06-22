@@ -17,6 +17,20 @@
 	<div id="pagingControlsTop"></div>
 	<br>
 	<br>
+	<!-- 
+	This is to test the "organism" List being passed back from the SearchController.  We should have this as a column on the right, checkboxes that
+	sends a new lucene query "<user query> AND <selected oranism>"
+	
+			<div style='width: 100px; border: 1px solid #D5AE60;' class='iscell'>
+							<b></b><spring:message code="label.organism" /></b>
+							<ul id="organisms">
+								<c:forEach var="species" items="${organisms}">
+									<li>${species}</li>
+								</c:forEach>
+							</ul>
+						</div>	
+	
+	 -->
 
 	<div id="highlight-plugin">
 		<div id="content">
@@ -72,9 +86,7 @@
 	<div id="pagingControlsBot"></div>
 	<br>
 	<br>
-	<a
-		href="javascript:void($('#highlight-plugin').removeHighlight().highlight('${userQuery}'));">Highlight
-		Search Term</a>
+	<a href="javascript:void($('#highlight-plugin').removeHighlight().highlight('${userQueryClean}'));">Highlight Search Term</a>
 
 </c:if>
 
