@@ -110,11 +110,11 @@
     <!-- read settings from jdbc.properties file -->
     <bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
 		<property name="driverClass" value="${jdbc.driverClassName}"/>
-		<!--property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+		<property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
 		<property name="minPoolSize" value="${jdbc.minPoolSize}"/>
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
 		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
-		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/-->
+		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/>
 		<property name="user" value="${jdbc.username}"/>
 		<property name="password" value="${jdbc.password}"/>
 		<property name="jdbcUrl" value="${jdbc.databaseurl}"/>
