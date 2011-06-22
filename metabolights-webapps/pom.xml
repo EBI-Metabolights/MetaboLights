@@ -138,14 +138,20 @@
 		<dependency>
 			<groupId>uk.ac.ebi.metabolights</groupId>
 			<artifactId>metabolights-utils</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>uk.ac.ebi.metabolights</groupId>
 			<artifactId>metabolights-uploader</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
+			<version>0.0.5-SNAPSHOT</version>
 			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.isatools.isatab</groupId>
+			<artifactId>ISAtools-import-deps-FORK</artifactId>
+			<version>1.2.1.4</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
