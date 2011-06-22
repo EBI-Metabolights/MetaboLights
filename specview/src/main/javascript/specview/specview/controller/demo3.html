@@ -205,6 +205,7 @@ function initPage(){
 			  goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
 		      
 		    });
+		    
 };
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
@@ -243,14 +244,13 @@ function newPage(page) {
 		page = "file://localhost/home/epu/metabolomes/trunk/specview/src/main/javascript/specview/specview/controller/help.html"
 		OpenWin = this.open(page,"CtrlWindow",
 						 "top=80,left=100,screenX=100,screenY=80,width=550,height=460,toolbar=no,menubar=no,location=no, scrollbars=no,resizable=yes");
-	}
+		}
 
 function closepop() 
 {
 	if (OpenWin != null)
-		OpenWin.close()
+		OpenWin.close() 
 	}
-	count =0;
 window.onunload = closepop;
 }
 </script>
@@ -264,26 +264,88 @@ window.onunload = closepop;
         <li id="experimentId"><b>Experiment id: </b><script>//document.write(spectrumData.molecule.name)</script></li>
      
      
-     <div
+     <div id="colorOption"
         style="top: 143px;
 			   left: 470px;
     		   position: absolute;
 		       z-index: 1;
     		   visibility: show;">
-	 <b>Experiment visualisation tool for</b>:
-	 	<br><br>-H NMR
-	 	<br>-C NMR
-	 	<br>-Mass Spectrometry :
-	 	<br>-1D MS
-	 	<br>-MS/.../MS (coming soon)
-	 	
+	<b>+Select your highlighting options</b><br>
+	 -Atoms
+     <select id = "atomHighlightColor" size="1">
+    	    <option>orange</option>
+	        <option>blue</option>
+        	<option>red</option>
+        	<option>black</option>
+        	<option>brown</option>
+	</select><br>
+	-Bonds
+     <select  id = "bondHighlightColor" size="1">
+    	    <option>orange</option>
+	        <option>blue</option>
+        	<option>red</option>
+        	<option>black</option>
+        	<option>brown</option>
+	</select><br>
+	-Peaks
+     <select  id = "peakHighlightColor" size="1">
+    	    <option>orange</option>
+	        <option>blue</option>
+        	<option>red</option>
+        	<option>black</option>
+        	<option>brown</option>
+	</select>
 	 </div>
+	 
+	 <div id="opacityOption"
+        style="top: 232px;
+			   left: 470px;
+    		   position: absolute;
+		       z-index: 1;
+    		   visibility: show;">
+     +<b>Select your opacity preference</b>
+     </div>		   
 
-        <li id=zoom
-        	style="position:absolute;left:780px;top:143px"><b>Zoom</b>: To zoom on the spectrum, drag a rectangle<br> over the area you wish to focus on.</li>
-        	
-        <li id=focalisation
-        	style="position:absolute;left:780px;top:193px"><b>Localization</b>:When you zoom on the spectrum, the<br> spectrum on the boottom right corner help you localise<br> where you are</li>
+	 
+
+<script>
+    var $ = goog.dom.getElement;
+    var Z = 5;
+
+    var limits = new goog.math.Rect(515,95,300,0)
+    //To move the spectra and to adjust the zoom
+    var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits);
+    var previousPercent=50;
+    goog.events.listen(sliderMoveSpectra,'drag',function(e){
+        var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
+  	          e.dragger.limits.width)-100);
+    })
+    
+    var limits2 = new goog.math.Rect(515,95,300,0)
+    //To move the spectra and to adjust the zoom
+    var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits2);
+    var previousPercent=50;
+    goog.events.listen(sliderMoveSpectra,'drag',function(e){
+        var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
+  	          e.dragger.limits.width)-100);
+    })
+    
+    
+  </script>
+
+
+<div	style="top: 143px;
+			   left: 740px;
+    		   position: absolute;
+		       z-index: 1;
+    		   visibility: show;">
+	<b>+Select your sensitivity</b><br><br>
+	-Atoms  <input type="text" id="atomSensitivity"><br>
+	-Bonds  <input type="text" id="bondSensitivity"><br>
+	-Peaks  <input type="text" id="peakSensitivity">
+</div>
+ <div id="slider4"><script>document.write("<-->")</script></div>
+ <div id="slider3"><script>document.write("<-->")</script></div>
         	
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>

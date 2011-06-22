@@ -97,7 +97,7 @@ specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt
 	path_up.lineTo(coords[1].x, coords[1].y);
 	path_up.close();
 
-	var fill = new goog.graphics.SolidFill(opt_color, .15);
+	var fill = new goog.graphics.SolidFill(document.getElementById("bondHighlightColor").value, .15);
 	opt_element_array.add(this.graphics.drawPath(path_up, stroke, fill));
 	
 	var path_down = new goog.graphics.Path();
@@ -118,7 +118,7 @@ specview.view.BondRenderer.prototype.highlightOnSerieOfBonds = function(bond, op
 	if (!opt_element_array) {
 		opt_element_array = new specview.graphics.ElementArray();
 	}
-	opt_color = "blue"
+//	opt_color = "blue"
 	var stroke = null;
 	
 	var angle = goog.math.angle(bond.source.coord.x, bond.source.coord.y, bond.target.coord.x,
@@ -160,8 +160,7 @@ specview.view.BondRenderer.prototype.highlightOnSerieOfBonds = function(bond, op
 	path_up.lineTo(coords[1].x, coords[1].y);
 	path_up.close();
 
-	var fill = new goog.graphics.SolidFill(opt_color, .15);
-//	opt_element_array.add(this.graphics.drawPath(path_up, stroke, fill));
+	var fill = new goog.graphics.SolidFill(document.getElementById("bondHighlightColor").value, .15);
 	
 	var path_down = new goog.graphics.Path();
 	path_down.moveTo(coords[0].x, coords[0].y);
@@ -169,7 +168,6 @@ specview.view.BondRenderer.prototype.highlightOnSerieOfBonds = function(bond, op
 	path_down.lineTo(target_down.x, target_down.y);
 	path_down.lineTo(coords[1].x, coords[1].y);
 	path_down.close();
-	//opt_element_array.add(this.graphics.drawPath(path_down, stroke, fill));
 	//return opt_element_array;
 	var h = new Object();
 	h.pathUp = this.graphics.drawPath(path_up, stroke, fill)

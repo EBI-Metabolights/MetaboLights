@@ -58,58 +58,13 @@ label, input {
 
 
  #p{}
- /* This slider refers the left zoom (bottom right rectangle) */
-        #slider1 {
-      position: absolute;
-      left: 787px;
-      top: 170px;
-      width: 30px;
-      height: 13px;
-      font: normal 10px verdana;
-      background-color: #EEE;
-      color: #000;
-      text-align:center;
-      border: 1px solid #999;
-      cursor: default;
-    }
 
- /* This slider refers the right zoom (bottom left rectangle) */ 
-        #slider2 {
-      position: absolute;
-      left: 620px;
-      top: 170px;
-      width: 30px;
-      height: 13px;
-      font: normal 10px verdana;
-      background-color: #EEE;
-      color: #000;
-      text-align:center;
-      border: 1px solid #999;
-      cursor: default;
-    }
-    
- /* This slider refers the up and down zoom (upper left rectangle) */
-
-        #slider3 {
-      position: absolute;
-      left: 590px;
-      top: 110px;
-      width: 30px;
-      height: 13px;
-      font: normal 10px verdana;
-      background-color: #EEE;
-      color: #000;
-      text-align:center;
-      border: 1px solid #999;
-      cursor: default;
-    }
-   
  /* This is the slider to move the spectrum */
         #slider4 {
       position: absolute;
-      left: 665px;
-      top: 185px;
-      width: 110px;
+      left: 740px;
+      top: 160px;
+      width: 30px;
       height: 13px;
       font: normal 10px verdana;
       background-color: #EEE;
@@ -118,4 +73,17 @@ label, input {
       border: 1px solid #999;
       cursor: default;
     }    
-    
+
+        #slider3 {
+      position: absolute;
+      left: 470px;
+      top: 248px;
+      width: 30px;
+      height: 13px;
+      font: normal 10px verdana;
+      background-color: #EEE;
+      color: #000;
+      text-align:center;
+      border: 1px solid #999;
+      cursor: default;
+    }  
