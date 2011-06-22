@@ -166,7 +166,6 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(e,specObject){
 	var isInMolecule = specview.controller.Controller.isInMolecule(e,specObject);
 	var cells =  isInSpectrum ? this.cells_samy_spectrum :
 				(isInMolecule ? this.cells_samy_molecule : null);
-	
 	for(k in cells){
 		var x = specview.util.Utilities.getStringBeforeCharacterWithout(k.substring(1),","); 
 		var y = specview.util.Utilities.getStringBeforeCharacterWithout(

@@ -105,6 +105,8 @@ function initPage(){
 		    select1.addItem(new goog.ui.MenuItem('Bigass molecule (SAIDsc NNTM)', 29));
 		    select1.addItem(new goog.ui.MenuItem('brinzolamide (SAIDsc NNTM)', 30));
 		    
+		     
+		    
 		    select1.setSelectedIndex(0);
 		    select1.render(goog.dom.getElement('selectMolecule'));
 		    
@@ -122,6 +124,15 @@ function initPage(){
 			unzoom.render(goog.dom.getElement('unzoom'));
 			var moveMolecule = new goog.ui.Button("moveMolecule");
 			moveMolecule.render(goog.dom.getElement('moveMolecule'));
+			var options = new goog.ui.Button("options");
+			options.render(goog.dom.getElement('options'));
+			
+			goog.events.listen(options,goog.ui.Component.EventType.ACTION,
+					function(e){
+				dialog("acfvrwgtehjyrhwe;rkigjwoinheoutytrpu");
+			});
+			
+			
 			
 			goog.events.listen(moveMolecule,goog.ui.Component.EventType.ACTION,
 					function(e){
@@ -222,6 +233,28 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
 
 <body>
+<input type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "A little help?">
+
+<script type = "text/javascript">
+var count = 0;
+function newPage(page) {
+	if (count == 0) {  // once only
+		count ++;
+		page = "file://localhost/home/epu/metabolomes/trunk/specview/src/main/javascript/specview/specview/controller/help.html"
+		OpenWin = this.open(page,"CtrlWindow",
+						 "top=80,left=100,screenX=100,screenY=80,width=550,height=460,toolbar=no,menubar=no,location=no, scrollbars=no,resizable=yes");
+	}
+
+function closepop() 
+{
+	if (OpenWin != null)
+		OpenWin.close()
+	}
+	count =0;
+window.onunload = closepop;
+}
+</script>
+
 	<fieldset id="fieldSet" style="width:1200px">
         <legendstyle="top:143px"><h1>MetaboLight Spectrum viewer</h1></legend>
         <br>
