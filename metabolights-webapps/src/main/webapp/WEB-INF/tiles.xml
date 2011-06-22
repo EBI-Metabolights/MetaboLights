@@ -53,8 +53,8 @@
     </definition>
 
     <definition name="biisubmiterror" extends="base.definition">
-	<put-attribute name="title" value="Submission error"/>
-	<put-attribute name="body" value="/WEB-INF/jsp/biisubmiterror.jsp"/>
+		<put-attribute name="title" value="Submission error"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/biisubmiterror.jsp"/>
     </definition>
 
     <definition name="submitOk" extends="base.definition">
@@ -66,8 +66,6 @@
         <put-attribute name="title" value="Metabolights entry" />
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
-
-    <!-- definition name="entry" template="WEB-INF/jsp/entry.jsp"/-->
 
     <definition name="timeout" extends="base.definition">
         <put-attribute name="title" value="Timed out of Metabolights" />
