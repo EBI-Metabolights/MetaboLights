@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,11 +42,19 @@ public class SearchController extends AbstractController{
 	public ModelAndView luceneSearch (HttpServletRequest request) {
 
 	    List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>();
+	    List<String> organisms = new ArrayList<String>();
 	    String query = request.getParameter("query");
 		try {
 			logger.info("searching for "+query);
 			resultSet = searchService.search(query);
 			logger.debug("Found #results = "+resultSet.size());
+			
+			Iterator iter = resultSet.iterator();
+			while (iter.hasNext()){
+				LuceneSearchResult result = (LuceneSearchResult) iter.next();
+				if (result.getOrganism()!=null)
+					organisms.add(result.getOrganism());
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,22 +62,12 @@ public class SearchController extends AbstractController{
     	ModelAndView mav = new ModelAndView("searchResult");
     	mav.addObject("searchResults", resultSet);
     	mav.addObject("userQuery", request.getParameter("query"));
+    	if (!query.isEmpty())
+    		mav.addObject("userQueryClean", query.replaceAll("\\*", ""));
+    	if (!organisms.isEmpty())
+    		mav.addObject("organisms", organisms);
     	return mav;
 	}
-
-	
-
-	/**
-	 * Redirects to BII, temp solution to invoke BII on JBoss.
-	 * @param request
-	 * @return URL String to BII search with the user's query pasted in
-	 *
-	RequestMapping(value = "/search", method = RequestMethod.POST )
-	public String zoeken (HttpServletRequest request) {
-    	String redirect="redirect:"+urlBiiPrefixSearch+"?searchPattern="+request.getParameter("query");
-    	return redirect;
-	}
-	*/
 	
 
 }

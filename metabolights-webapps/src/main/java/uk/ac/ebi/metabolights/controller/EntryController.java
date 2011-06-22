@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
@@ -31,6 +32,7 @@ public class EntryController extends AbstractController {
 	@Autowired
 	private SearchService searchService;
 
+	//TODO, change to /entry/{metabolightsId}, remove '='
 	@RequestMapping(value = "/entry={metabolightsId}")
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, Map<String, Object> map) {
 		logger.info("requested entry " + mtblId);
