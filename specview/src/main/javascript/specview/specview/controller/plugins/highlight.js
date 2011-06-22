@@ -54,6 +54,9 @@ specview.controller.plugins.Highlight.prototype.lastArrayOfAtomHighlighted=null;
 specview.controller.plugins.Highlight.prototype.lastT=null;
 
 specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {	
+	
+	
+	
 	/**
 	 * If the user has clicked in the canvas, it means that he wants to zoom
 	 */

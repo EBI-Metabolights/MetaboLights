@@ -32,11 +32,19 @@ specview.util.Utilities.getStringAfterCharacter=function(string,character){
 };
 
 /**
- * Return the substring before a given character
+ * Return the substring before a given character. Include the specified character
  */
 specview.util.Utilities.getStringBeforeCharacter = function(string,character){
 	var indice = string.indexOf(character);
 	return (indice==-1 ? string : string.substring(0,indice+1));
+};
+
+/**
+ * Return the substring before a given character. Does not include the specified character
+ */
+specview.util.Utilities.getStringBeforeCharacterWithout = function(string,character){
+	var indice = string.indexOf(character);
+	return (indice==-1 ? string : string.substring(0,indice));
 };
 
 /**

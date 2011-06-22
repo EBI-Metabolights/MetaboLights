@@ -670,7 +670,8 @@ specview.controller.Controller.prototype.findTargetListPixel=function(e){
 //	specview.util.Utilities.getSubSetOfObject(this.neighborlist.cells_samy);
 	var pos=specview.controller.Controller.getMouseCoords(e,this);
 //	this.logger.info(pos);
-	return this.neighborList.getObjectFromCoord(pos);
+//	return this.neighborList.getObjectFromCoord(pos);
+	return this.neighborList.getObjectFromCoord(e,this.specObject);
 };
 
 specview.controller.Controller.prototype.findTargetList = function(e) {

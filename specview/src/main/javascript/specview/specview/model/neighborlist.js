@@ -58,6 +58,9 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 	
 	this.cells_samy={};
 	
+	this.cells_samy_molecule = {};
+	this.cells_samy_spectrum = {};
+	
 	this.cellSize = opt_cellSize ? opt_cellSize : 2;
 	this.tolerance = opt_tolerance ? opt_tolerance : 0.3;
 	this.xMin = 100000;
@@ -104,11 +107,8 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 	
 	
 	goog.array.forEach(objects, function(o) {
-//		this.logger.info(o.obj);
 		k++;
 		var center = o.getCenter();//Coordinates of the object as it appears in the file
-		
-		
 		/**
 		 * HERE THE CENTER IS THE RELATIVE COORDINATE OF THE THE OBJECT. IT HAS TO CHANGE TO THE PIXEL COORDINATES.
 		 * TO DO SO YOU HAVE TO CHANGE THE WAY TEH NEIGHBOR OBJECT HAS BEEN CREATED. IT TAKES THE RELATIVE COORDINATES FROM THE FILE
@@ -127,25 +127,27 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 			this.cells[key] = [];
 		}
 		this.cells[key].push(o);
-
 		//samy
 		var objet=o.obj;
 		var coord;
 		if(objet instanceof specview.model.Atom){
 			 coord=objet.pixelCoordinates;
 			var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
-			this.cells_samy[newCoord]=objet;
+//			this.cells_samy[newCoord]=objet;
+			this.cells_samy_molecule[newCoord] = objet;
 		}else if(objet instanceof specview.model.Peak){
 			 coord=objet.pixelCoord;
 				var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
-				//alert(newCoord);
-				this.cells_samy[newCoord]=objet;
+//				this.cells_samy[newCoord]=objet;
+				this.cells_samy_spectrum[newCoord] = objet;
+			//	specview.model.NeighborList.logger2.info(newCoord+"    ;    "+coord)
 		}else if(objet instanceof specview.model.Bond){//A bond is defined by an array of coordinates
 			objet.setCoordinatesArray();
 			var arrayOfCoordinates=objet.coordinatesArray;
 			for(k in arrayOfCoordinates){
 				var newCoord=arrayOfCoordinates[k];
-				this.cells_samy[newCoord]=objet;
+				this.cells_samy_molecule[newCoord] = objet;
+//				this.cells_samy[newCoord]=objet;
 			}
 		}
 	}, this);
@@ -158,21 +160,25 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
  * @param e
  * @returns the object associated with the position on the target (graphics)
  */
-specview.model.NeighborList.prototype.getObjectFromCoord=function(coord){
-//	alert(this.cells_samy.toSource());
-	specview.util.Utilities.getSubSetOfObject(this.cells_samy);
-	for(key in this.cells_samy){
-		var truc=key.substr(1).split(",");
-		var g=new goog.math.Coordinate(truc[0],parseInt(truc[1]));
-		//special case for the peaks to allow the recognition when browsing over all the peak
-		if(this.cells_samy[key] instanceof specview.model.Peak && goog.math.nearlyEquals(parseInt(truc[0]),coord.x,5)){
-			return this.cells_samy[key];
-		}
-		if(goog.math.Coordinate.distance(coord,g)<7){
-			return this.cells_samy[key];
-		}
+specview.model.NeighborList.prototype.getObjectFromCoord=function(e,specObject){
+	var coord = specview.controller.Controller.getMouseCoords(e);
+	var isInSpectrum = specview.controller.Controller.isInSpectrum(e,specObject);
+	var isInMolecule = specview.controller.Controller.isInMolecule(e,specObject);
+	var cells =  isInSpectrum ? this.cells_samy_spectrum :
+				(isInMolecule ? this.cells_samy_molecule : null);
+	
+	for(k in cells){
+		var x = specview.util.Utilities.getStringBeforeCharacterWithout(k.substring(1),","); 
+		var y = specview.util.Utilities.getStringBeforeCharacterWithout(
+				specview.util.Utilities.getStringAfterCharacter(k.substring(1),","),")");
+		if(isInMolecule && goog.math.Coordinate.distance(coord,new goog.math.Coordinate(x,y)) < 6){
+			return cells[k];
+		}else if(isInSpectrum && goog.math.nearlyEquals(coord.x,parseInt(x),10)){
+			return cells[k];
+		}	
 	}
 };
+
 /**
  * get the length of all the object present in the canvas
  * @returns
@@ -449,5 +455,5 @@ specview.model.NeighborList.moleculesToNeighbors = function(molecules) {
 
 
 
-//specview.model.NeighborList.logger2 = goog.debug.Logger2.getLogger('specview.model.NeighborList');
+specview.model.NeighborList.logger2 = goog.debug.Logger.getLogger('specview.model.NeighborList');
 specview.model.NeighborList.logger = goog.debug.Logger.getLogger('specview.model.NeighborList');
