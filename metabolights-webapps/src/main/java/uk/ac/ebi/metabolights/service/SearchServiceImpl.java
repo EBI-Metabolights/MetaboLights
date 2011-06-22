@@ -26,7 +26,7 @@ public class SearchServiceImpl implements SearchService{
 
 	@Autowired
 	private IndexProviderService indexProvider; 
-	private int topN=250;
+	private int topN=5000;
 		
 	public List<LuceneSearchResult> search(String queryText) throws IOException, ParseException {
 		List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>(); 
