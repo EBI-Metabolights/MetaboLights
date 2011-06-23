@@ -222,7 +222,7 @@ specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
     var peakPath = new goog.graphics.Path();
     peakPath.moveTo(peak.xPixel, peak.yPixel); 
     peakPath.lineTo(peak.xTpixel,peak.yTpixel);
-    opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,'red'),null));
+    opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,document.getElementById("peakHighlightColor").value),null));
 	return opt_element_array;
 };
 

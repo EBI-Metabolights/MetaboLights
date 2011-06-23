@@ -170,9 +170,9 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(e,specObject){
 		var x = specview.util.Utilities.getStringBeforeCharacterWithout(k.substring(1),","); 
 		var y = specview.util.Utilities.getStringBeforeCharacterWithout(
 				specview.util.Utilities.getStringAfterCharacter(k.substring(1),","),")");
-		if(isInMolecule && goog.math.Coordinate.distance(coord,new goog.math.Coordinate(x,y)) < 6){
+		if(isInMolecule && goog.math.Coordinate.distance(coord,new goog.math.Coordinate(x,y)) < document.atomSensitivity){
 			return cells[k];
-		}else if(isInSpectrum && goog.math.nearlyEquals(coord.x,parseInt(x),10)){
+		}else if(isInSpectrum && goog.math.nearlyEquals(coord.x,parseInt(x),document.peakSensitivity)){
 			return cells[k];
 		}	
 	}

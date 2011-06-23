@@ -10,9 +10,6 @@
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
     goog.require('specview.controller.plugins.Zoom');
- //   goog.require('specview.controller.DefaultToolbar');
- //   goog.require('specview.controller.ToolbarController');
-// 	goog.require('specview.controller.plugins.BondEdit');
     goog.require('specview.io.SpectrumCMLParser');
     goog.require('specview.model.NMRdata');
     goog.require('goog.events.MouseWheelHandler');
@@ -30,6 +27,9 @@
 spectrumData=null;
 zoom=0;
 
+document.atomSensitivity = 6;
+document.bondSensitivity = 6;
+document.peakSensitivity = 10;
 
 function initPage(){
 			var isGrid=false;
@@ -241,7 +241,7 @@ var count = 0;
 function newPage(page) {
 	if (count == 0) {  // once only
 		count ++;
-		page = "file://localhost/home/epu/metabolomes/trunk/specview/src/main/javascript/specview/specview/controller/help.html"
+		page = "file://localhost/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specview/controller/help.html"
 		OpenWin = this.open(page,"CtrlWindow",
 						 "top=80,left=100,screenX=100,screenY=80,width=550,height=460,toolbar=no,menubar=no,location=no, scrollbars=no,resizable=yes");
 		}
@@ -252,6 +252,7 @@ function closepop()
 		OpenWin.close() 
 	}
 window.onunload = closepop;
+count = 0;
 }
 </script>
 
@@ -270,7 +271,7 @@ window.onunload = closepop;
     		   position: absolute;
 		       z-index: 1;
     		   visibility: show;">
-	<b>+Select your highlighting options</b><br>
+	<b>+Select your highlighting options</b><br><br>
 	 -Atoms
      <select id = "atomHighlightColor" size="1">
     	    <option>orange</option>
@@ -297,14 +298,7 @@ window.onunload = closepop;
 	</select>
 	 </div>
 	 
-	 <div id="opacityOption"
-        style="top: 232px;
-			   left: 470px;
-    		   position: absolute;
-		       z-index: 1;
-    		   visibility: show;">
-     +<b>Select your opacity preference</b>
-     </div>		   
+	   
 
 	 
 
@@ -329,7 +323,62 @@ window.onunload = closepop;
         var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
   	          e.dragger.limits.width)-100);
     })
-    
+   
+    function modifySensitivity(object,sign){
+		switch(object){
+		case "atom" :
+			var max = document.atomSensitivity == 1;
+			var min = document.atomSensitivity == 10;
+			if(document.atomSensitivity > 1 && document.atomSensitivity < 10){
+				sign=="+" ? document.atomSensitivity -= 1 : document.atomSensitivity += 1;
+			}else if(max && sign=="-"){
+				document.atomSensitivity += 1;
+			}else if(min && sign=="+"){
+				document.atomSensitivity -= 1;
+			}else if(max && sign=="+"){
+				alert("maximum sensitivity reached");
+			}else if(min && sign=="-"){
+				alert("minimum sensitivity reached")
+			}
+			break;
+		case "bond" :
+			var max = document.bondSensitivity == 1;
+			var min = document.bondSensitivity == 10;
+			if(document.bondSensitivity > 1 && document.bondSensitivity < 10){
+				sign=="+" ? document.bondSensitivity -= 1 : document.bondSensitivity += 1;
+			}else if(max && sign=="-"){
+				document.bondSensitivity += 1;
+			}else if(min && sign=="+"){
+				document.bondSensitivity -= 1;
+			}else if(max && sign=="+"){
+				alert("maximum sensitivity reached");
+			}else if(min && sign=="-"){
+				alert("minimum sensitivity reached")
+			}
+			break;
+		case "peak" :
+			var max = document.peakSensitivity == 1;
+			var min = document.peakSensitivity == 10;
+			if(document.peakSensitivity > 1 && document.peakSensitivity < 10){
+				sign=="+" ? document.peakSensitivity -= 1 : document.peakSensitivity += 1;
+			}else if(max && sign=="-"){
+				document.peakSensitivity += 1;
+			}else if(min && sign=="+"){
+				document.peakSensitivity -= 1;
+			}else if(max && sign=="+"){
+				alert("maximum sensitivity reached");
+			}else if(min && sign=="-"){
+				alert("minimum sensitivity reached")
+			}
+			break;
+		default :
+			break;
+		}
+    }
+
+//    function modifySensitivit(object,sign){
+ ///   	alert(object+" ; "+sign+"  ;   "+document.atomSensitivity)
+  //  }
     
   </script>
 
@@ -340,13 +389,31 @@ window.onunload = closepop;
 		       z-index: 1;
     		   visibility: show;">
 	<b>+Select your sensitivity</b><br><br>
-	-Atoms  <input type="text" id="atomSensitivity"><br>
-	-Bonds  <input type="text" id="bondSensitivity"><br>
-	-Peaks  <input type="text" id="peakSensitivity">
+	-Atoms  <input type="button" id="atomSensitivity" value="-" onclick="modifySensitivity('atom','-')">
+			<input type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('atom','+')"><br>
+			
+	-Bonds  <input type="button" id="bondSensitivity" value="-" onclick="modifySensitivity('bond','-')">
+			<input type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('bond','+')"><br>
+			
+	-Peaks  <input type="button" id="peakSensitivity" value="-" onclick="modifySensitivity('peak','-')">
+			<input type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('peak','+')">
 </div>
- <div id="slider4"><script>document.write("<-->")</script></div>
- <div id="slider3"><script>document.write("<-->")</script></div>
-        	
+	 <div id="opacityOption"
+        style="top: 143px;
+			   left: 920px;
+    		   position: absolute;
+		       z-index: 1;
+    		   visibility: show;">
+     +<b>Select your opacity preference</b><br><br>
+     -Atoms<br>     
+     -Bonds<br> 
+     -Peaks<br>
+     </div>
+     
+     <div id="sliderAtomOpacity"><script>document.write("<->")</script></div>	
+     <div id="sliderBondOpacity"><script>document.write("<->")</script></div>
+     <div id="sliderPeakopacity"><script>document.write("<->")</script></div>
+     
         <label id="selectMolecule">Select a spectrum to render: </label>
         <br>
         <div id="moleculeContainer" style="height:800px"></div>

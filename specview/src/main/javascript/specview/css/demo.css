@@ -60,10 +60,10 @@ label, input {
  #p{}
 
  /* This is the slider to move the spectrum */
-        #slider4 {
-      position: absolute;
-      left: 740px;
-      top: 160px;
+        #sliderAtomOpacity {
+      position: absolute; 
+      left: 970px;
+      top: 170px;
       width: 30px;
       height: 13px;
       font: normal 10px verdana;
@@ -74,10 +74,10 @@ label, input {
       cursor: default;
     }    
 
-        #slider3 {
-      position: absolute;
-      left: 470px;
-      top: 248px;
+        #sliderBondOpacity {
+     position: absolute; 
+      left: 970px;
+      top: 187px;
       width: 30px;
       height: 13px;
       font: normal 10px verdana;
@@ -86,4 +86,19 @@ label, input {
       text-align:center;
       border: 1px solid #999;
       cursor: default;
-    }  
+    }
+
+        #sliderPeakopacity {
+     position: absolute; 
+      left: 970px;
+      top: 205px;
+      width: 30px;
+      height: 13px;
+      font: normal 10px verdana;
+      background-color: #EEE;
+      color: #000;
+      text-align:center;
+      border: 1px solid #999;
+      cursor: default;
+    }
+    
