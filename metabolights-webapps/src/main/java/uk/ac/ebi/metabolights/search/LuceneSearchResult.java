@@ -20,6 +20,7 @@ public class LuceneSearchResult {
 	private List<Assay> assays;
 	private List<String> factors;
 	private List<String> properties;
+	private List<String> technologies;
 
 	
 	public LuceneSearchResult(Document doc, float score) {
@@ -28,6 +29,7 @@ public class LuceneSearchResult {
 		this.assays=parseAssays();
 		this.factors=getValues(StudyBrowseField.FACTOR_NAME.getName());
 		this.properties=getValues("property_value");
+		this.technologies=getValues("assay_technology_name");
 	}
 	
 	private Document doc;
@@ -58,6 +60,10 @@ public class LuceneSearchResult {
 	
 	public List<String> getProperties() {
 		return properties;
+	}
+	
+	public List<String> getTechnologies() {
+		return technologies;
 	}
 	
 	public List<String> getFactors() {

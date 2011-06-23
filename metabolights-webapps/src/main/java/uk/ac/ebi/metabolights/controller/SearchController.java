@@ -42,18 +42,34 @@ public class SearchController extends AbstractController{
 	public ModelAndView luceneSearch (HttpServletRequest request) {
 
 	    List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>();
-	    List<String> organisms = new ArrayList<String>();
+	    List<String> organisms = new ArrayList<String>(); 
+	    List<String> technology = new ArrayList<String>(); 
+	    
 	    String query = request.getParameter("query");
+	    
 		try {
 			logger.info("searching for "+query);
 			resultSet = searchService.search(query);
 			logger.debug("Found #results = "+resultSet.size());
 			
 			Iterator iter = resultSet.iterator();
-			while (iter.hasNext()){
+			while (iter.hasNext()){ //Is there a better Lucene way of doing this?  Getting unique values from the index?
 				LuceneSearchResult result = (LuceneSearchResult) iter.next();
-				if (result.getOrganism()!=null)
+				
+				if (result.getOrganism()!=null && !organisms.contains(result.getOrganism())) //Add unique entries to the list
 					organisms.add(result.getOrganism());
+				
+				if (result.getTechnologies()!=null && !technology.containsAll(result.getTechnologies())){ 
+					Iterator techIter = result.getTechnologies().iterator();
+					while (techIter.hasNext()){
+						String techs = (String) techIter.next();
+						if (!technology.contains(techs))
+							technology.add(techs); 
+					}
+				
+					
+				}
+				
 			}
 			
 		} catch (Exception e) {
@@ -66,6 +82,9 @@ public class SearchController extends AbstractController{
     		mav.addObject("userQueryClean", query.replaceAll("\\*", ""));
     	if (!organisms.isEmpty())
     		mav.addObject("organisms", organisms);
+    	if (!technology.isEmpty())
+    		mav.addObject("technology", technology);
+    	
     	return mav;
 	}
 	
