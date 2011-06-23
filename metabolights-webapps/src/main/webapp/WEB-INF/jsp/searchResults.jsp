@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <script type="text/javascript" src="javascript/jquery-1.6.1.min.js"></script>
 <script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
@@ -17,22 +18,31 @@
 	<div id="pagingControlsTop"></div>
 	<br>
 	<br>
-	<!-- 
-	This is to test the "organism" List being passed back from the SearchController.  We should have this as a column on the right, checkboxes that
-	sends a new lucene query "<user query> AND <selected oranism>"
-	
-			<div style='width: 100px; border: 1px solid #D5AE60;' class='iscell'>
-							<b></b><spring:message code="label.organism" /></b>
-							<ul id="organisms">
-								<c:forEach var="species" items="${organisms}">
-									<li>${species}</li>
-								</c:forEach>
-							</ul>
-						</div>	
-	
-	 -->
-
 	<div id="highlight-plugin">
+	
+	<!--  This is not working:  tiles:insertAttribute name="searchFilter"/--> 
+	<!-- Pasted searchFilter.jsp in her for testing, remove later -->
+	
+		<div style='width: 200px; border: 5px solid #D5AE60;' class='iscell'>
+			<b><spring:message code="label.organism" /> </b>
+			<ul id="organisms">
+				<c:forEach var="species" items="${organisms}">
+					<i><input type="checkbox" name="organisms" value="${species}"> ${species}</i>
+					<br />
+				</c:forEach>
+			</ul>
+		</div>
+
+		<div style='width: 200px; border: 5px solid #D5AE60;' class='iscell'>
+			<b><spring:message code="label.technology" /> </b>
+			<ul id="technology">
+				<c:forEach var="techs" items="${technology}">
+					<i><input type="checkbox" name="technology" value="${techs}"> ${techs}</i>
+					<br />
+				</c:forEach>
+			</ul>
+		</div>
+
 		<div id="content">
 			<c:forEach var="searchResult" items="${searchResults}">
 				<div class="z">
