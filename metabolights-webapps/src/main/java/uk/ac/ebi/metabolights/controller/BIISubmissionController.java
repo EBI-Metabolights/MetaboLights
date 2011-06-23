@@ -62,14 +62,9 @@ public class BIISubmissionController extends AbstractController {
 			if (file.isEmpty()){ throw new Exception("File must not be empty.");}
 			
 			String isaTabFile = writeFile(file, cl);
-			
-			
+						
 			//Upload to bii
 			HashMap<String,String> accessions = uploadToBii(isaTabFile, status, cl);
-
-			//Complete steps.
-			cl.AddCheckListItem("10", "Upload complete");
-			cl.CheckItem("10", "Accessions are: " + accessions.toString());
 			
 			//Log it
 			logger.info("These are the new accession numbers: " + accessions);
