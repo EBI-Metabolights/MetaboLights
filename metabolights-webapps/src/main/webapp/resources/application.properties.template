@@ -1,14 +1,14 @@
 
-urlBiiPrefixSearch=http://CHANGE/browse_studies.seam
-urlBiiPrefixStudy=http://CHANGE/study.seam
-urlConfirmNewAccount=http://CHANGE/confirmAccountRequest
-urlActivateNewAccount=http://CHANGE/activateAccount__NotifyUser
+urlBiiPrefixSearch=http://wwwdev.ebi.ac.uk/mtbl_bii/browse_studies.seam
+urlBiiPrefixStudy=http://wwwdev.ebi.ac.uk/mtbl_bii/study.seam
+urlConfirmNewAccount=http://wwwdev.ebi.ac.uk/mtbl_bii/confirmAccountRequest
+urlActivateNewAccount=http://wwwdev.ebi.ac.uk/mtbl_bii/activateAccount__NotifyUser
 
 ftpServer=CHANGE
 ftpServerMainSubDir=upload
 ftpUser=CHANGE
 ftpPassword=CHANGE
 
-uploadDirectory=CHANGE
+uploadDirectory=/ebi/ftp/private/mtblight
 
-luceneIndexDirectory=CHANGE
+luceneIndexDirectory=/ebi/bii/luceneindex/
