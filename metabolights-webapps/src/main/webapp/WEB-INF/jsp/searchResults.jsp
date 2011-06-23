@@ -42,6 +42,16 @@
 				</c:forEach>
 			</ul>
 		</div>
+		<div style='width: 200px; border: 5px solid #D5AE60;' class='iscell'>
+			<b><spring:message code="label.platforms" /> </b>
+			<ul id="platforms">
+				<c:forEach var="plat" items="${platforms}">
+					<i><input type="checkbox" name="platform" value="${plat}"> ${plat}</i>
+					<br />
+				</c:forEach>
+			</ul>
+		</div>
+		
 
 		<div id="content">
 			<c:forEach var="searchResult" items="${searchResults}">
