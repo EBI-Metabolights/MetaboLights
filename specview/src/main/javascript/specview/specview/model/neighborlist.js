@@ -258,7 +258,7 @@ specview.model.NeighborList.prototype.getObjects = function(type,x1,x2,opt_y1,op
 //			}
 		}
 	}
-	return arrayOfObjects;
+   	return arrayOfObjects;
 }
 
 
