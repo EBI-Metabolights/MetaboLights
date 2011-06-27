@@ -84,7 +84,12 @@ specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
 };
 
 
-
+/**
+ * @param metaSpecObject
+ * @param boxo
+ * @param opt_color
+ * @param opt_expand type bool. spectrumData.expand set to false by default. When set to true, 
+ */
 specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_color){
 	
 	var maxHeight=metaSpecObject.spectrum.getMaxHeightPeak();
@@ -127,8 +132,9 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
      * If MS :  the origin of the xAxis is on the bottom Left corner.....
      */
     var ecartNouveau = metaSpecObject.spectrum.getMaxValuePeak() - metaSpecObject.spectrum.getMinValuePeak();
-    var valueToStart = metaSpecObject.spectrum.getMinValuePeak();
-//    alert(ecartNouveau)
+    
+    var valueToStart = metaSpecObject.expand ? metaSpecObject.spectrum.getMinValuePeak() : 0;
+    
     switch(metaSpecObject.experienceType){
     case "NMR" :
         var ty =0;
@@ -137,7 +143,8 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
             if(count!=0){
             	//var tructruc = (ty/21)*maxValue;
   //          	tructruc = (valueToStart + ecartNouveau*(ty/21))
-                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + ecartNouveau*(ty/21))), k, bottomLeft.y, 600, 200, 'left', null,
+            	var increase = metaSpecObject.expand ? ecartNouveau*(ty/21) : maxValue*(ty/21)
+                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + increase)), k, bottomLeft.y, 600, 200, 'left', null,
     	                font, stroke, fill);    	  
             }  
       }
@@ -149,7 +156,8 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
             if(count!=0){
             //	var tructruc = (ty/21)*maxValue;
 //            	tructruc = valueToStart + ecartNouveau*(ty/21)
-                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + ecartNouveau*(ty/21))), k, bottomLeft.y, 600, 200, 'left', null,
+            	var increase = metaSpecObject.expand ? ecartNouveau*(ty/21) : maxValue*(ty/21)
+                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + increase)), k, bottomLeft.y, 600, 200, 'left', null,
     	                font, stroke, fill);    	  
             }  
       }

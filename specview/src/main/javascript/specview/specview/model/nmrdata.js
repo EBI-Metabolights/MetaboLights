@@ -172,8 +172,7 @@ specview.model.NMRdata=function(){
     this.informationExperimentBox
     
     
-    
-    
+    this.expand = false;
  
     
     

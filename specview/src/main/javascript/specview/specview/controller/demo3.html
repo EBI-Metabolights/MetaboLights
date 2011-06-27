@@ -218,9 +218,11 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
 function expandSpectrum(){
 //	alert(spectrumData)
+	spectrumData.expand = true;
 	spectrumData.expandSpectrum();
 	editor.spectrumRenderer.clearSpectrum(spectrumData.mainSpecBox,editor.graphics)
 	editor.spectrumRenderer.render(spectrumData,spectrumData.transform,spectrumData.mainSpecBox);
+	
     editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
 //	document.metaSpecObject.expandSpectrum();
