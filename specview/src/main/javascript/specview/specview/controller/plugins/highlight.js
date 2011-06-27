@@ -85,6 +85,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				specview.controller.plugins.Highlight.zoomObject.finalCoordinates.y-specview.controller.plugins.Highlight.zoomObject.initialCoordinates.y);
 		this.drawZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
 	}
+	
 	/**
 	 * The highlight shall only be allowed if the user is NOT trying to draw a rectangle.(Efficiency matter)
 	 */
@@ -103,6 +104,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			/**
 			 * If this is an atom
 			 */
+//			alert(target)
 			if (target instanceof specview.model.Atom) {
 				if(this.lastAtomHighlighted==null || target!=this.lastAtomHighlighted) {
 					if (this.lastT!=null) {

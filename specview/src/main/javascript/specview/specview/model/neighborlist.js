@@ -61,6 +61,9 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 	this.cells_samy_molecule = {};
 	this.cells_samy_spectrum = {};
 	
+	this.cells_samy_molecule_2 = new Array();
+	this.cells_samy_spectrum_2 = new Array();
+	
 	this.cellSize = opt_cellSize ? opt_cellSize : 2;
 	this.tolerance = opt_tolerance ? opt_tolerance : 0.3;
 	this.xMin = 100000;
@@ -104,7 +107,9 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 
 	// add the objects to the grid
 	var k=0;
-	
+	var atomPositionInArray = 0;
+	var bondPositionInArray = 0;
+	var peakPositionInArray = 0;
 	
 	goog.array.forEach(objects, function(o) {
 		k++;
@@ -131,28 +136,39 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 		var objet=o.obj;
 		var coord;
 		if(objet instanceof specview.model.Atom){
+			atomPositionInArray +=1;
 			 coord=objet.pixelCoordinates;
 			var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
 //			this.cells_samy[newCoord]=objet;
-			this.cells_samy_molecule[newCoord] = objet;
+//			this.cells_samy_molecule[newCoord] = objet;
+			this.cells_samy_molecule_2.push(new Array(newCoord,objet));
 		}else if(objet instanceof specview.model.Peak){
+			peakPositionInArray +=1 ;
+			objet.cells_samy_spectrum_position = peakPositionInArray;
 			 coord=objet.pixelCoord;
 				var newCoord=new goog.math.Coordinate(parseInt(coord.x),parseInt(coord.y));
+//				specview.model.NeighborList.logger2.info(newCoord+" ///// "+objet.pixelCoord)
 //				this.cells_samy[newCoord]=objet;
-				this.cells_samy_spectrum[newCoord] = objet;
+//				this.cells_samy_spectrum[newCoord] = objet;
+				this.cells_samy_spectrum_2[peakPositionInArray] = new Array(newCoord,objet)
+//				this.cells_samy_spectrum_2.push(new Array(newCoord,objet));
 			//	specview.model.NeighborList.logger2.info(newCoord+"    ;    "+coord)
 		}else if(objet instanceof specview.model.Bond){//A bond is defined by an array of coordinates
+			bondPositionInArray += 1;
 			objet.setCoordinatesArray();
 			var arrayOfCoordinates=objet.coordinatesArray;
 			for(k in arrayOfCoordinates){
 				var newCoord=arrayOfCoordinates[k];
-				this.cells_samy_molecule[newCoord] = objet;
+//				this.cells_samy_molecule[newCoord] = objet;
+				this.cells_samy_molecule_2.push(new Array(newCoord,objet));
 //				this.cells_samy[newCoord]=objet;
 			}
 		}
 	}, this);
 	
-
+//for(truc in this.cells_samy_object){
+//	specview.model.NeighborList.logger2.info("object :"+truc.substring(2))
+//}
 	
 };
 
@@ -161,19 +177,29 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
  * @returns the object associated with the position on the target (graphics)
  */
 specview.model.NeighborList.prototype.getObjectFromCoord=function(e,specObject){
+	
+//	alert(specview.util.Utilities.getAssoArrayLength(this.cells_samy_spectrum))
+//	for(truc in this.cells_samy_spectrum_2){
+//		var c = this.cells_samy_spectrum_2[truc][0];
+//		specview.model.NeighborList.logger2.info(c.x+" ; "+c.y)
+//	}
 	var coord = specview.controller.Controller.getMouseCoords(e);
 	var isInSpectrum = specview.controller.Controller.isInSpectrum(e,specObject);
 	var isInMolecule = specview.controller.Controller.isInMolecule(e,specObject);
-	var cells =  isInSpectrum ? this.cells_samy_spectrum :
-				(isInMolecule ? this.cells_samy_molecule : null);
+	var cells =  isInSpectrum ? this.cells_samy_spectrum_2 :
+				(isInMolecule ? this.cells_samy_molecule_2 : null);
 	for(k in cells){
-		var x = specview.util.Utilities.getStringBeforeCharacterWithout(k.substring(1),","); 
-		var y = specview.util.Utilities.getStringBeforeCharacterWithout(
-				specview.util.Utilities.getStringAfterCharacter(k.substring(1),","),")");
+		var x = cells[k][0].x
+		var y = cells[k][0].y
+//		var o = cells[k][1]
+//		specview.model.NeighborList.logger2.info(k)
+//		var x = specview.util.Utilities.getStringBeforeCharacterWithout(k.substring(1),","); 
+//		var y = specview.util.Utilities.getStringBeforeCharacterWithout(
+//				specview.util.Utilities.getStringAfterCharacter(k.substring(1),","),")");
 		if(isInMolecule && goog.math.Coordinate.distance(coord,new goog.math.Coordinate(x,y)) < document.atomSensitivity){
-			return cells[k];
+			return cells[k][1];
 		}else if(isInSpectrum && goog.math.nearlyEquals(coord.x,parseInt(x),document.peakSensitivity)){
-			return cells[k];
+			return cells[k][1];
 		}	
 	}
 };
@@ -186,6 +212,22 @@ specview.model.NeighborList.prototype.getCellsSamyLength = function(){
 	return specview.util.Utilities.getAssoArrayLength(this.cells_samy);
 };
 
+
+specview.model.NeighborList.prototype.setNeighborList = function(array,type){
+	switch(type){
+		case "spectrum" :
+			for(k in array){
+				var pos = array[k].cells_samy_spectrum_position;
+				this.cells_samy_spectrum_2[pos][0] = array[k].pixelCoord
+			}
+		break;
+		case "molecule":
+		break;
+		default :
+			break;
+		
+	}
+};
 
 /**
  * This methods returns all the objects between coordinates x1 and x2.

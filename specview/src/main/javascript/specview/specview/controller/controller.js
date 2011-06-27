@@ -414,12 +414,12 @@ specview.controller.Controller.prototype.handleChange = function() {
  * Molecule are both returned by findTargetList, then the Bond will be preferred
  * and returned.
  */
+/*
 specview.controller.Controller.prototype.findTarget = function(e) {
 //	this.logger.info(e.clientX+","+e.clientY);
 	var targets = this.findTargetList(e);
-	
 	var target= this.findTargetListPixel(e);
-	
+	this.logger.info(target)
 	//The molecule to which the atom belongs to.
 	var atom_targets = goog.array.filter(targets, function(t) {
 		return t instanceof specview.model.Atom;
@@ -465,14 +465,13 @@ specview.controller.Controller.prototype.findTarget = function(e) {
 	}
 
 };
-
-
+*/
 specview.controller.Controller.prototype.findTarget = function(e) {
 //	this.logger.info(e.clientX+","+e.clientY);
 	var targets = this.findTargetList(e);
 	
 	var target= this.findTargetListPixel(e);//return the object
-	
+	this.logger.info(target)
 	return target;
 	
 	//The molecule to which the atom belongs to.
@@ -671,6 +670,10 @@ specview.controller.Controller.isInSecondarySpectrum = function(e){
 
 
 
+specview.controller.Controller.prototype.expandSpectrum = function(){
+	this.specObject.expandSpectrum();
+	this.neighborList.setNeighborList(this.specObject.spectrum.peakList,"spectrum");
+}
 
 /**
  * @param e
@@ -682,9 +685,11 @@ specview.controller.Controller.prototype.findTargetListPixel=function(e){
 //	specview.util.Utilities.getSubSetOfObject(this.neighborlist.cells_samy);
 	var pos=specview.controller.Controller.getMouseCoords(e,this);
 //	this.logger.info(pos);
-//	return this.neighborList.getObjectFromCoord(pos);
+//	this.logger.info("targetlistpixel : "+this.neighborList.getObjectFromCoord(e,this.specObject));
 	return this.neighborList.getObjectFromCoord(e,this.specObject);
 };
+
+
 
 specview.controller.Controller.prototype.findTargetList = function(e) {
 	var trans;

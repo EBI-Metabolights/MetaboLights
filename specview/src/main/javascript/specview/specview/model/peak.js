@@ -124,6 +124,12 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 	 */
 	this.parentPeak = null;
 	
+	
+	/**
+	 * 
+	 */
+	this.cells_samy_spectrum_position = null;
+	
 };
 goog.exportSymbol("specview.model.Peak", specview.model.Peak);
 

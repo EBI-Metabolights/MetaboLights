@@ -141,11 +141,13 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
         for(var k=bottomRight.x-scaleX;k>bottomLeft.x;k-=scaleX){
             ty++
             if(count!=0){
-            	//var tructruc = (ty/21)*maxValue;
-  //          	tructruc = (valueToStart + ecartNouveau*(ty/21))
             	var increase = metaSpecObject.expand ? ecartNouveau*(ty/21) : maxValue*(ty/21)
-                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + increase)), k, bottomLeft.y, 600, 200, 'left', null,
-    	                font, stroke, fill);    	  
+                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + increase)),
+                				       k,
+                				       bottomLeft.y,
+                				       600, 200,
+                				       'left', null,
+                				       font, stroke, fill);    	  
             }  
       }
     	break;
@@ -154,11 +156,13 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
         for(var k=bottomLeft.x+scaleX;k<bottomRight.x;k+=scaleX){
             ty++
             if(count!=0){
-            //	var tructruc = (ty/21)*maxValue;
-//            	tructruc = valueToStart + ecartNouveau*(ty/21)
             	var increase = metaSpecObject.expand ? ecartNouveau*(ty/21) : maxValue*(ty/21)
-                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + increase)), k, bottomLeft.y, 600, 200, 'left', null,
-    	                font, stroke, fill);    	  
+                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + increase)),
+                				       k,
+                				       bottomLeft.y,
+                				       600, 200,
+                				       'left', null,
+                				       font, stroke, fill);    	  
             }  
       }
     	break;
