@@ -42,7 +42,7 @@ specview.controller.Controller = function(element, opt_config) {
 	goog.events.EventTarget.call(this);
 	this.originalElement = element;
 	this.id = element.id;
-	this.editableDomHelper = goog.dom.getDomHelper(element);
+	this.editableDomHelper = goog.dom.getDomHelper(element); 
 	this.models = [];
 	this.plugins_ = {};
 	this.indexedPlugins_ = {};
@@ -271,7 +271,11 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	            scaleFactor = 0.90; 
 	            widthScaleLimitation = 0.4;
 	            trans = specview.graphics.AffineTransform.buildTransform(ex_box, widthScaleLimitation, this.staticGraphics, scaleFactor);
+//	            for(k in model.ArrayOfPrimaryMolecules){
+//	            	model.ArrayOfPrimaryMolecules[k] != undefined ? alert(k+" : "+model.ArrayOfPrimaryMolecules[k].name) : alert("rien")
+//	            }
 	            this.staticTransform = trans;
+//	            alert(molecule)
 	            this.moleculeRenderer.render(molecule,trans,molBox);
 	            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
 	            this.textRenderer.render(model.metadata,model.informationExperimentBox,"black","Experiment Information:");
@@ -314,19 +318,27 @@ specview.controller.Controller.prototype.renderHalfSpectrum = function(){
 
 
 specview.controller.Controller.prototype.renderText = function(peak,metaSpecObject){
+//	alert("kkekekekeeke")
 	var textElementObject = new specview.model.TextElement();
-	if(metaSpecObject.experienceType=="NMR"){
+//	if(metaSpecObject.experienceType=="NMR"){
 		textElementObject.text["multiplicity"]=peak.multiplicity;
 		textElementObject.text["intensity"]=peak.intensity;
 		textElementObject.text["xValue"]=peak.xValue;
 		textElementObject.text["coordinates"]=peak.coord;
-	}
+//	}
 	this.peakInfoRenderer = textElementObject;
+//	alert(textElementObject)
 	this.textRenderer.render(this.peakInfoRenderer,undefined,"black","Peak information:");
 };
 
-specview.controller.Controller.prototype.clearPeakInfo = function(boxToClearThePeakInfo){
-	this.textRenderer.clearTextWithBox(boxToClearThePeakInfo);
+specview.controller.Controller.prototype.clearPeakInfo = function(){
+//	alert(document.getElementById("fieldSet").style.width)
+	var box = new goog.math.Rect(this.specObject.informationExperimentBox["left"]+this.specObject.informationExperimentBox["width"]+5,
+								 this.specObject.informationExperimentBox["top"],
+								 parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width)),
+								 this.specObject.informationExperimentBox["top"]+this.specObject.informationExperimentBox["height"]-15);
+//	alert("the clearing box : "+box)
+	this.textRenderer.clearTextWithBox(box);
 };
 
 goog.exportSymbol('specview.controller.Controller.prototype.render', specview.controller.Controller.prototype.render);

@@ -60,6 +60,9 @@ specview.view.TextRenderer.prototype.renderZoomInfo = function(){
  * Transform is static and has been set up in specview.controller.Controller.prototype.render. 
  */
 specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt_color,textIntro) {
+//	alert(textElementObject)
+	
+	
 	var xStart = (box==undefined ? 850 : box["left"]);
 	var yStart = (box==undefined ? document.metaSpecObject.mainMolBox[3].y+2 : box["top"]);
 	/*
@@ -82,13 +85,16 @@ specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt
     	yStart+=15;
     	this.graphics.drawText("-"+k+": "+textElementObject.text[k],xStart,yStart,0,0,'left',null,font2,stroke,fill)
     }
+    this.graphics.drawRect(box["left"],box["top"],box["width"],box["height"],stroke,null)
 };
 
 specview.view.TextRenderer.prototype.clearTextWithBox = function(box){
     var fill = new goog.graphics.SolidFill('white');
     var stroke = new goog.graphics.Stroke(2, 'white');
+    var stroke2 = new goog.graphics.Stroke(0.2, 'grey');
 //    alert(box)
 	this.graphics.drawRect(box.left,box.top,box.width,box.height,stroke,fill);
+	this.graphics.drawRect(box.left,box.top,box.width,box.height,stroke2,null);
 }
 
 specview.view.TextRenderer.logger = goog.debug.Logger.getLogger('specview.view.TextRenderer');

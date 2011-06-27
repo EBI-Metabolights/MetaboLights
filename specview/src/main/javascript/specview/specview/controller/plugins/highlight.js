@@ -178,20 +178,34 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 								arrayOfAtoms.push(atomObject);
 							}
 							e.currentTarget.highlightGroup = this.highlightSubMolecule(arrayOfBonds, arrayOfAtoms)
-							this.drawTextInformation(target, currentMetaSpecObject)
+							if(currentMetaSpecObject.dimension > 1 && target.parentPeak
+/*									currentMetaSpecObject.ArrayOfPrimaryMolecules[target.arrayOfSecondaryMolecules] != undefined */ ){
+								
+								var answer = prompt("This peak reference a molecule which has been fragmented one more time.\n\nWould" +
+										"you like to display the new spectrum along with the new molecule ?\n\n(answer yes if you wish to display it)"
+													,"");
+								if(answer == "yes"){
+									currentMetaSpecObject.molecule=newMoleculeToDisplay;
+									currentMetaSpecObject.spectrum=
+										currentMetaSpecObject.ArrayOfSpectrum[currentMetaSpecObject.ArrayOfSecondaryMolecules[target.arrayOfSecondaryMolecules].name];
+									currentMetaSpecObject.setCoordinatesPixelOfSpectrum(this.editorObject);
+									currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
+									this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target);
+									this.drawTextInformation(target, currentMetaSpecObject)
+									this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
+									this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
+								}
+							}
 						}else{
 							currentMetaSpecObject.molecule=newMoleculeToDisplay;
 							currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
 							this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target);
+							this.clearTextInformation()
 							this.drawTextInformation(target, currentMetaSpecObject)
 							this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 							this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
 						}
 					}else if(currentMetaSpecObject.experienceType!="MS"){
-						if(this.editorObject.peakInfoRenderer.box.height!=undefined){
-							this.clearTextInformation(this.editorObject.peakInfoRenderer.box);
-						}
-						this.drawTextInformation(target, currentMetaSpecObject)
 						var arrayOfAtomToWhichThePeakIsRelated=target.atomMap[target.peakId];//Array of atom identifier: ["a1","a4" ...]
 						/**
 						 * If the atoms exist, we highlight them.
@@ -205,6 +219,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						var atom=currentMetaSpecObject.ArrayOfAtoms[atomIdentifier];					
 						this.lastArrayOfAtomHighlighted=arrayOfAtomObjectToWhichThePeakIsRelated;
 						e.currentTarget.highlightGroup=this.highlightSeriesOfAtom(arrayOfAtomObjectToWhichThePeakIsRelated);
+						this.clearTextInformation()
 						this.drawTextInformation(target, currentMetaSpecObject)
 					}
 				}
@@ -444,9 +459,11 @@ specview.controller.plugins.Highlight.prototype.drawNewMolecule = function(curre
 };
 
 specview.controller.plugins.Highlight.prototype.drawTextInformation = function(peak,currentMetaSpecObject){
+//	alert("renderTextInfo in hightight")
 	return this.editorObject.renderText(peak,currentMetaSpecObject);
 };
 
-specview.controller.plugins.Highlight.prototype.clearTextInformation = function(boxToClearThePeakInformation){
-	return this.editorObject.clearPeakInfo(boxToClearThePeakInformation);
+specview.controller.plugins.Highlight.prototype.clearTextInformation = function(){
+//	alert("caca")
+	return this.editorObject.clearPeakInfo();
 };

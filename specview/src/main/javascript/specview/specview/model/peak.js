@@ -117,6 +117,13 @@ specview.model.Peak=function(opt_xValue,opt_intensity,opt_peakId,opt_atomRef,opt
 	this.arrayOfSecondaryMolecules=opt_molRefs;//normally just one molecule
 	
 	
+	/**
+	 * When we are dealing with MS MS experiment, it is possible that a peak hides a second spectrum.
+	 * parentPeak is true if it holds a second spectrum
+	 * parentPeak is false if it does not holds a second spectrum
+	 */
+	this.parentPeak = null;
+	
 };
 goog.exportSymbol("specview.model.Peak", specview.model.Peak);
 

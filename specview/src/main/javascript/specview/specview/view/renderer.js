@@ -63,7 +63,8 @@ specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
     var scaleX=(bottomRight.x-bottomLeft.x)/21;
     var scaleY=(bottomLeft.y-topLeft.y)/9;
     //Vertical grid
-    for(var k=bottomLeft.x;k<bottomRight.x;k+=scaleX){
+//    alert(scaleX)
+    for(var k=bottomLeft.x+100;k<bottomRight.x;k+=scaleX){
     	boxPath.moveTo(k,bottomRight.y);
     	boxPath.lineTo(k,topRight.y+10);
     }
@@ -125,13 +126,18 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
      * If NMR : the origin of the xAxis is on the bottom RIGHT corner....
      * If MS :  the origin of the xAxis is on the bottom Left corner.....
      */
+    var ecartNouveau = metaSpecObject.spectrum.getMaxValuePeak() - metaSpecObject.spectrum.getMinValuePeak();
+    var valueToStart = metaSpecObject.spectrum.getMinValuePeak();
+//    alert(ecartNouveau)
     switch(metaSpecObject.experienceType){
     case "NMR" :
         var ty =0;
         for(var k=bottomRight.x-scaleX;k>bottomLeft.x;k-=scaleX){
             ty++
             if(count!=0){
-                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((ty/21)*maxValue), k, bottomLeft.y, 600, 200, 'left', null,
+            	//var tructruc = (ty/21)*maxValue;
+  //          	tructruc = (valueToStart + ecartNouveau*(ty/21))
+                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + ecartNouveau*(ty/21))), k, bottomLeft.y, 600, 200, 'left', null,
     	                font, stroke, fill);    	  
             }  
       }
@@ -141,7 +147,9 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
         for(var k=bottomLeft.x+scaleX;k<bottomRight.x;k+=scaleX){
             ty++
             if(count!=0){
-                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((ty/21)*maxValue), k, bottomLeft.y, 600, 200, 'left', null,
+            //	var tructruc = (ty/21)*maxValue;
+//            	tructruc = valueToStart + ecartNouveau*(ty/21)
+                this.graphics.drawText(specview.util.Utilities.parseOneDecimal((valueToStart + ecartNouveau*(ty/21))), k, bottomLeft.y, 600, 200, 'left', null,
     	                font, stroke, fill);    	  
             }  
       }

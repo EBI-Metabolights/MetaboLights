@@ -131,6 +131,20 @@ specview.model.Spectrum.prototype.getMaxValuePeak=function(){
 	return max;
 };
 
+/**
+ * 
+ * @returns the minimum xValue of the peaks
+ */
+specview.model.Spectrum.prototype.getMinValuePeak=function(){
+	var min=1000000000;
+	goog.array.forEach(this.peakList,function(peak){
+		if(peak.xValue<min){
+			min=peak.xValue;
+		}
+	});
+	return min;
+};
+
 
 /**
  * Return the array of the xValues of all peaks
