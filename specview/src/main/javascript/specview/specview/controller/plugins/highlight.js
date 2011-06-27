@@ -310,7 +310,9 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(isInSpectrum){
-			var listOfPeaks = this.getObjects(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+			var type = isInSpectrum ? "spectrum" : (isInMolecule ? "molecule" : null);
+			var listOfPeaks = this.getObjects(type,
+					specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 					specview.controller.plugins.Highlight.zoomObject.rectangle.left+
 					specview.controller.plugins.Highlight.zoomObject.rectangle.width);
 			this.editorObject.specObject.spectrum.peakList = listOfPeaks;
@@ -318,7 +320,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
 			this.editorObject.setModels([this.editorObject.specObject]);
 			this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
-			this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
+//			this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
 			
 			this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 					 specview.controller.plugins.Highlight.zoomObject.rectangle.width);

@@ -235,16 +235,20 @@ specview.model.NeighborList.prototype.setNeighborList = function(array,type){
  * x1 is the left bound of the rectangle
  * x2 is the right bound of the rectangle
  */
-specview.model.NeighborList.prototype.getObjects = function(x1,x2,opt_y1,opt_y2){
+specview.model.NeighborList.prototype.getObjects = function(type,x1,x2,opt_y1,opt_y2){
 	var arrayOfObjects = new Array();
 	var c=0;
+	var cells =  type=="spectrum" ? this.cells_samy_spectrum_2 :
+				  	(type=="molecule" ? this.cells_samy_molecule_2 : null);
 //	alert(x1+"; "+x2+"; "+opt_y1+"; "+opt_y2)
-	for(key in this.cells_samy){
+	for(key in cells){
 		c++;
-		var truc=key.substr(1).split(",");
+//		var truc=key.substr(1).split(",");
+		var coord = cells[key][0];
 //		if(!opt_y1 || !opt_y2){
-			if(truc[0] < x2 && truc[0] > x1){
-				arrayOfObjects.push(this.cells_samy[key]);
+			if(coord.x < x2 && coord.x > x1){
+//				alert()
+				arrayOfObjects.push(cells[key][1]);
 //			}	
 //		}else{
 //			var y = parseInt(specview.util.Utilities.getStringBeforeCharacter(truc[1],")"));

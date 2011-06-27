@@ -506,6 +506,10 @@ specview.model.NMRdata.prototype.expandSpectrum = function(){
 	var minPeakStartAt = valueToAdd + 5;
 	var LESPEC = this.spectrum.getPeakList();	
 //	alert(minValueOfPeak)
+	
+	/**
+	 * The first spectrum
+	 */
 	goog.array.forEach(LESPEC,
 		function(peak) {
 		/*
