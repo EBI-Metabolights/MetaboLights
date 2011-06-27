@@ -171,7 +171,10 @@ specview.model.NMRdata=function(){
      */
     this.informationExperimentBox
     
-    
+    /**
+     * bool
+     * if true, then the whole spectrum box is used to draw the peaks
+     */
     this.expand = false;
  
     
@@ -546,6 +549,64 @@ specview.model.NMRdata.prototype.expandSpectrum = function(){
 		},
 		this);
 		this.spectrum.setExtremePixelValues();
+		
+		
+		
+		/**
+		 * The second spectrum
+		 */
+		var heightSquare = this.secondSpecBox["bottom"]-this.secondSpecBox["top"];
+		ecart=this.secondSpecBox["right"]-this.secondSpecBox["left"];
+		valueToAdd=this.secondSpecBox["left"];
+		goog.array.forEach(spectrum.secondpeakList,
+			function(peak) {
+			/*
+			 * yValue
+			 */
+			if(peak.intensity==maxHeightOfPeak){
+				adjustYvalue=this.secondSpecBox["bottom"]-(0.8*heightSquare);
+				upperBoxLimit=adjustYvalue-10;
+			}else{
+				adjustYvalue = this.secondSpecBox["bottom"]-(peak.intensity/maxHeightOfPeak)*(this.secondSpecBox["bottom"]-(this.secondSpecBox["bottom"]-(0.8*heightSquare)));
+			}
+
+			/*
+			 * xValue
+			 */
+			
+			switch(this.experienceType){
+			case "NMR" :
+				adjustXvalue = (peak.xValue == minValueOfPeak) ? 5 : ecart * ((peak.xValue-minValueOfPeak)/(maxValueOfPeak-minValueOfPeak));
+				var whereAllThePeakStartFrom=this.secondSpecBox["bottom"];
+				peak.isVisible=(adjustXvalue+valueToAdd<this.secondSpecBox["right"]&&
+								adjustXvalue+valueToAdd>this.secondSpecBox["left"]) ?
+								true : false;
+				peak.setCoordinates(this.secondSpecBox["left"]+ecart-adjustXvalue,
+									whereAllThePeakStartFrom,
+									this.secondSpecBox["left"]+ecart-adjustXvalue,
+									adjustYvalue);
+				break;
+			case "MS" :
+				adjustXvalue = (peak.xValue == minValueOfPeak) ? 5 : ecart * ((peak.xValue-minValueOfPeak)/(maxValueOfPeak-minValueOfPeak));			
+
+				var whereAllThePeakStartFrom=this.secondSpecBox["bottom"];
+				peak.isVisible=(adjustXvalue+valueToAdd<this.secondSpecBox["right"]&&
+									adjustXvalue+valueToAdd>this.secondSpecBox["left"]) ? true : false;
+				peak.setCoordinates(adjustXvalue+valueToAdd,
+									whereAllThePeakStartFrom,
+									adjustXvalue+valueToAdd,
+									adjustYvalue);
+				break;
+			default :
+				alert("The experience type is not known. Hence we cannot fix the coordinates of the spectrum");
+		}  
+		},this);
+		this.spectrum.setExtremePixelValues();
+		
+		
+		
+		
+		
 };
 
 specview.model.NMRdata.prototype.setCoordinatesPixelOfAllSpectrum = function(){
