@@ -63,7 +63,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 	/**
 	 * If the user has clicked in the canvas, it means that he wants to zoom
 	 */
-	if(specview.controller.plugins.Highlight.zoomObject!=null){
+	if(specview.controller.plugins.Highlight.zoomObject!=null && document.getElementById("floatingBox").style.display == "none"){
 		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
@@ -206,7 +206,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 									this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
 								}
 								*/
-								document.ShowContent("uniquename2")
+								document.ShowContent("floatingBox")
 							}
 						}else{
 							currentMetaSpecObject.molecule=newMoleculeToDisplay;

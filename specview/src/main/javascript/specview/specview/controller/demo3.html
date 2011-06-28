@@ -31,6 +31,8 @@ document.atomSensitivity = 6;
 document.bondSensitivity = 6;
 document.peakSensitivity = 10;
 
+
+
 function initPage(){
 			var isGrid=false;
 			var isAxis=false;
@@ -311,6 +313,7 @@ document.HideContent = function(d) {
 		return; 
 	}
 	document.getElementById(d).style.display = "none";
+	specview.controller.plugins.Highlight.zoomObject=null;
 };
 
 /**
@@ -342,7 +345,7 @@ function ReverseContentDisplay(d) {
 
 
 <div 
-   id="uniquename2" 
+   id="floatingBox" 
    style="display:none; 
       position:absolute; 
       border-style: solid;
@@ -382,8 +385,8 @@ Parent spectrum :
 <br>
 <li>
 <a 
-   onmouseover="document.HideContent('uniquename2'); return true;"
-   href="javascript:HideContent('uniquename2')">
+   onmouseover="document.HideContent('floatingBox'); return true;"
+   href="javascript:HideContent('floatingBox')">
 Hide the window
 </a>
 </li>
