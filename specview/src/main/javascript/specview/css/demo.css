@@ -31,6 +31,110 @@ label, input {
   vertical-align: middle;
 }
 
+
+input.button, {
+    background: transparent url('bg_button_a.gif') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px Comics, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+input.smallButton {
+    background: transparent url('bg_button_a.gif') no-repeat scroll top right;
+    color: #444;
+    text-decoration: none;	
+	}
+
+input.button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+
+   input.smallButton {
+        -webkit-transform: rotateX( 35deg );
+        position: relative;
+        display: inline-block;
+        width: 25px;
+        padding: 10px 4px;
+        margin: 0px 3px;
+        background-color: #E49319;
+        color: #fff;
+        font-weight: bold;
+        font-size: 10px;
+        text-decoration: none;
+        text-align: center;
+        text-shadow: 0px -1px 0px rgba(0,0,0,0.5);
+
+        border: 1px solid;
+        border-color: #fff;
+        border-radius: 16px;
+        -moz-border-radius: 16px;
+        -webkit-border-radius: 16px;
+
+ 
+    }
+    
+    
+       input.button {
+        -webkit-transform: rotateX( 35deg );
+        position: relative;
+        display: inline-block;
+        width: 100px;
+        padding: 10px 4px;
+        margin: 0px 3px;
+        background-color: #E49319;
+        color: #fff;
+        font-weight: bold;
+        font-size: 10px;
+        text-decoration: none;
+        text-align: center;
+        text-shadow: 0px -1px 0px rgba(0,0,0,0.5);
+
+        border: 1px solid;
+        border-color: #fff;
+        border-radius: 16px;
+        -moz-border-radius: 16px;
+        -webkit-border-radius: 16px;
+    }
+    
+
+    input.smallButton:hover,input.button:hover {
+        background-color: #EBC354;
+        color: #e3e3e3;
+    }
+
+    input.smallButton:active {
+        top: 8px;
+        box-shadow: 		inset 0px 4px 5px rgba(255,255,255,0.4),
+                            inset 0px -1px 5px rgba(255,255,255,0.2),
+                            /**/
+                            0px 8px 0px #231F20,
+                            /**/
+                            0px 9px 5px rgba(0,0,0,0.5);
+
+        -moz-box-shadow: 	inset 0px 4px 5px rgba(255,255,255,0.4),
+                            inset 0px -1px 5px rgba(255,255,255,0.2),
+                            /**/
+                            0px 8px 0px #231F20,
+                            /**/
+                            0px 9px 5px rgba(0,0,0,0.5);
+
+        -webkit-box-shadow: inset 0px 4px 5px rgba(255,255,255,0.4),
+                            inset 0px -1px 5px rgba(255,255,255,0.2),
+                            /**/
+                            0px 8px 0px #231F20,
+                            /**/
+                            0px 9px 5px rgba(0,0,0,0.5);
+    }
+
+
 .hint {
   font-size: 90%;
   color: #369;

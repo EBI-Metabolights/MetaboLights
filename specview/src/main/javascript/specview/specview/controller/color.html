@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<script src="../../third-party/closure/closure/goog/base.js"></script>
+<script src="../deps.js"></script>
+<script src="../../specviewTest/data/cmlfile.js"></script>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Display spectrum demo</title>
+	<link rel="stylesheet" href="../../css/specview.css" />
+	<link rel="stylesheet"  href="../../css/demo.css" />
+	 <img name="logoMetabolight"  src="../../images/searchBox.png"
+	 	  width="1400" height="100" alt="Zoom Tool"  title="Zoom Tool"/>
+	 <img name="Metabolight"  src="../../images/banner.png"
+   	 	  style="position:absolute;left:25px;top:35px;display:block;z-index:10;"/>
+   	 	  
+   	 	  
+   	 	  	<link rel="stylesheet" type="text/css" href="http://c453312.r12.cf2.rackcdn.com/hcc_006.css" />
+	<link rel="stylesheet" type="text/css" href="http://c453312.r12.cf2.rackcdn.com/cc_002.css" />
+	<META NAME="keywords" content="html, color, codes, chart, picker, hex">
+	<link rel="shortcut icon" href="http://c453312.r12.cf2.rackcdn.com/favicon_001.ico" />
+
+	<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-814714-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+	<fieldset id="fieldSet" style="width:1200px">
+        <legendstyle="top:143px"><h1>MetaboLight Spectrum viewer: <b>Help</b></h1></legend>
+        <br>
+
+
+<!-- color picker -->	
+<a name="HTML_Color_Picker"></a>
+<h2>HTML Color Picker</h2>
+<p>Move the vertical slider to chose color and then click into color square on the left to get 
+<b>HTML color code</b> for desired color cast.</p>
+<p>You can start with your own color by writing its color code in upper input field.</p>
+
+
+<div id="container"></div>
+<!-- javaskripti -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/dragdrop/dragdrop-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/slider/slider-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/element/element-min.js"></script>
+
+<script type="text/javascript" src="http://c453312.r12.cf2.rackcdn.com/ycp.js"></script>
+<script type="text/javascript" language="javascript">
+(function() {
+ var Event = YAHOO.util.Event, picker, hexcolor;
+
+ Event.onDOMReady(function() {
+ picker = new YAHOO.widget.ColorPicker("container", {
+ showhsvcontrols: true,
+ showhexcontrols: true,
+ showwebsafe: false,
+					images: {
+						HUE_THUMB: "http://c453312.r12.cf2.rackcdn.com/hue_thumb.png",
+						PICKER_THUMB: "http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/colorpicker/assets/picker_thumb.png"
+ 				} });
+			picker.skipAnim=true;	
+			var onRgbChange = function(o) {				setTimeout ("document.getElementById('yui-picker-hex').select()", 50);			}
+			picker.on("rgbChange", onRgbChange);
+			Event.on("newcolor", "click", function(e) {
+				hexcolor = cc(document.getElementById('startcolor').value);
+				picker.setValue([HexToR(hexcolor), HexToG(hexcolor), HexToB(hexcolor)], false); 
+			});
+ });
+})();
+</script>
+
+	</fieldset>
+
+
+</body>
+</html>
+

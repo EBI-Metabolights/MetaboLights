@@ -265,9 +265,6 @@ document.showChildSpectrum = function(){
 <body>
 
 <script type="text/javascript" language="JavaScript">
-<!-- Copyright 2006,2007 Bontrager Connection, LLC
-// http://bontragerconnection.com/ and http://www.willmaster.com/
-// Version: July 28, 2007
 var cX = 0; var cY = 0; var rX = 0; var rY = 0;
 
 function UpdateCursorPosition(e){
@@ -348,8 +345,8 @@ function ReverseContentDisplay(d) {
    id="floatingBox" 
    style="display:none; 
       position:absolute; 
-      border-style: solid;
-      background-color: white; 
+      border-style: double;
+      background-color: #AAAAAA; 
       padding: 1px;">
       This peak is the<br> parent of a spectrum.<br><br>
 <li>
@@ -392,24 +389,19 @@ Hide the window
 </li>
 </div>
 
-
-
-
-
-
-
-<input type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "A little help? OK">
-<input type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum?OK">
-<input type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Unzoom? KO">
-<input type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Reset Molecule? OK">
-<input type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Reset Spectrum? OK">
-<input type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Move molecule? KO">
+<input class = "button" type = "button" name = "chk1" onclick = "newPage('./help.html')" value = "A little help?">
+<input class = "button" type = "button" name = "chk1" onclick = "newPage('./color.html')" value = "Color picker?">
+<input class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum?">
+<input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Unzoom? KO">
+<input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Reset Molecule?">
+<input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Reset Spectrum?">
+<input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Move molecule? KO">
 <script type = "text/javascript">
 var count = 0;
 function newPage(page) {
 	if (count == 0) {  // once only
 		count ++;
-		page = "file://localhost/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specview/controller/help.html"
+//		page = "file://localhost/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specview/controller/help.html"
 		OpenWin = this.open(page,"CtrlWindow",
 						 "top=80,left=100,screenX=100,screenY=80,width=550,height=460,toolbar=no,menubar=no,location=no, scrollbars=no,resizable=yes");
 		}
@@ -441,7 +433,7 @@ count = 0;
     		   visibility: show;">
 	<b>+Select your highlighting options</b><br><br>
 	 -Atoms
-     <select id = "atomHighlightColor" size="1">
+     <select  id = "atomHighlightColor" size="1">
     	    <option>orange</option>
 	        <option>blue</option>
         	<option>red</option>
@@ -557,14 +549,14 @@ count = 0;
 		       z-index: 1;
     		   visibility: show;">
 	<b>+Select your sensitivity</b><br><br>
-	-Atoms  <input type="button" id="atomSensitivity" value="-" onclick="modifySensitivity('atom','-')">
-			<input type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('atom','+')"><br>
+	-Atoms  <input class="smallButton" type="button" id="atomSensitivity" value="-" onclick="modifySensitivity('atom','-')">
+			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('atom','+')"><br>
 			
-	-Bonds  <input type="button" id="bondSensitivity" value="-" onclick="modifySensitivity('bond','-')">
-			<input type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('bond','+')"><br>
+	-Bonds  <input class="smallButton" type="button" id="bondSensitivity" value="-" onclick="modifySensitivity('bond','-')">
+			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('bond','+')"><br>
 			
-	-Peaks  <input type="button" id="peakSensitivity" value="-" onclick="modifySensitivity('peak','-')">
-			<input type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('peak','+')">
+	-Peaks  <input class="smallButton" type="button" id="peakSensitivity" value="-" onclick="modifySensitivity('peak','-')">
+			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('peak','+')">
 </div>
 	 <div id="opacityOption"
         style="top: 143px;
