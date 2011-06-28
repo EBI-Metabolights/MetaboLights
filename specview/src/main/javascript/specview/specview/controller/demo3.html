@@ -112,48 +112,8 @@ function initPage(){
 		    select1.setSelectedIndex(0);
 		    select1.render(goog.dom.getElement('selectMolecule'));
 		    
-		    var grid= new goog.ui.Button("grid");
-		    grid.render(goog.dom.getElement('selectMolecule'));
-		    var axis= new goog.ui.Button("axis");
-		    axis.render(goog.dom.getElement('selectMolecule'));
-		    var resetSpectrum = new goog.ui.Button('resetSpectrum');
-		    resetSpectrum.render(goog.dom.getElement('resetSpectrum'));
-		    var resetMolecule = new goog.ui.Button('resetMolecule');
-		    resetMolecule.render(goog.dom.getElement('resetMolecule'));
-			var resetTextExperiment = new goog.ui.Button('resetTextExperiment');
-			resetTextExperiment.render(goog.dom.getElement('resetTextExperiment'));
-			var unzoom = new goog.ui.Button("unzoom");
-			unzoom.render(goog.dom.getElement('unzoom'));
-			var moveMolecule = new goog.ui.Button("moveMolecule");
-			moveMolecule.render(goog.dom.getElement('moveMolecule'));
-			var options = new goog.ui.Button("options");
-			options.render(goog.dom.getElement('options'));
-			
-			goog.events.listen(options,goog.ui.Component.EventType.ACTION,
-					function(e){
-				dialog("acfvrwgtehjyrhwe;rkigjwoinheoutytrpu");
-			});
-			
-			
-			
-			goog.events.listen(moveMolecule,goog.ui.Component.EventType.ACTION,
-					function(e){
-				editor.centerMolecule();
-			});
-			
-			
-			goog.events.listen(resetTextExperiment,goog.ui.Component.EventType.ACTION,
-					function(e){
-		    	for(var k = 0;k<15 ; k++){
-					editor.clearSamy(spectrumData.metadata,spectrumData.mainSpecBox);
-		    	}
-			});
   
 		    
-		    goog.events.listen(resetMolecule,goog.ui.Component.EventType.ACTION,
-		    		function(e){
-		    		editor.clearSamy(spectrumData.molecule,spectrumData.mainMolBox,spectrumData.transform);	
-		    });
 			/*
 			 Rudimentary way of specificaly clearing the spectrum
 			*/
@@ -162,21 +122,6 @@ function initPage(){
 			    	editor.clearSamy(spectrumData.spectrum, spectrumData.mainSpecBox,spectrumData.transform);
 		    });
 		    
-		    goog.events.listen(axis,goog.ui.Component.EventType.ACTION,
-		    		function(e){
-		    	if(!isAxis){
-		    		editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-		    		isAxis=true;
-		    	}	
-		    })
-		    
-		    goog.events.listen(grid, goog.ui.Component.EventType.ACTION,
-		    		function(e){
-		    	if(!isGrid){
-		    		editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
-		    		isGrid=true;
-		    	}
-		    })
 		    
 		    goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
 		    function(e) {
@@ -227,9 +172,7 @@ function expandSpectrum(){
 }
 
 document.showParentSpectrum = function (){
-//	alert("showing the parent spectrum: \n\n"+
-//			"-Molecule: "+document.getElementById("showParentMoleculeOption").checked+"\n"+
-//			"-Spectrum: "+document.getElementById("showParentSpectrumOption").checked)
+
 }
 
 
@@ -240,12 +183,15 @@ document.showChildSpectrum = function(){
 		
 		editor.showChild(showMolecule,showSpectrum);
 	}
-//	alert(spectrumData.parentMolecule.name+"\n"+spectrumData.childMolecule.name)	
-//	alert("showing the child spectrum: \n\n"+
-//			"-Molecule: "+document.getElementById("showChildMoleculeOption").checked+"\n"+
-//			"-Spectrum: "+document.getElementById("showChildSpectrumOption").checked)
 }
 
+function resetSpectrum(){
+	editor.clearSamy(spectrumData.spectrum, spectrumData.mainSpecBox,spectrumData.transform);
+}
+
+function resetMolecule(){
+	editor.clearSamy(spectrumData.molecule,spectrumData.mainMolBox,spectrumData.transform);	
+}
 </script>
 
 <head>
@@ -393,8 +339,8 @@ Hide the window
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('./color.html')" value = "Color picker?">
 <input class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum?">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Unzoom? KO">
-<input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Reset Molecule?">
-<input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Reset Spectrum?">
+<input class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule?">
+<input class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum?">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Move molecule? KO">
 <script type = "text/javascript">
 var count = 0;
