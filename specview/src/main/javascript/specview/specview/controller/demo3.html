@@ -31,8 +31,6 @@ document.atomSensitivity = 6;
 document.bondSensitivity = 6;
 document.peakSensitivity = 10;
 
-
-
 function initPage(){
 			var isGrid=false;
 			var isAxis=false;
@@ -112,17 +110,7 @@ function initPage(){
 		    select1.setSelectedIndex(0);
 		    select1.render(goog.dom.getElement('selectMolecule'));
 		    
-  
-		    
-			/*
-			 Rudimentary way of specificaly clearing the spectrum
-			*/
-		    goog.events.listen(resetSpectrum,goog.ui.Component.EventType.ACTION,
-		    		function(e){
-			    	editor.clearSamy(spectrumData.spectrum, spectrumData.mainSpecBox,spectrumData.transform);
-		    });
-		    
-		    
+		
 		    goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
 		    function(e) {
 		    	zoom=0;
@@ -158,8 +146,8 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
 
 //window.onscroll = function () {
- //   var oTextbox = document.getElementById("txt1");
-  //  oTextbox.value += "\nscroll is at " + document.body.scrollLeft + " horizontally and " + document.body.scrollTop + " vertically.";
+//   var oTextbox = document.getElementById("txt1");
+//  oTextbox.value += "\nscroll is at " + document.body.scrollLeft + " horizontally and " + document.body.scrollTop + " vertically.";
 //}
 
 function expandSpectrum(){
@@ -167,7 +155,7 @@ function expandSpectrum(){
 	editor.expandSpectrum();
 	editor.spectrumRenderer.clearSpectrum(spectrumData.mainSpecBox,editor.graphics)
 	editor.spectrumRenderer.render(spectrumData,spectrumData.transform,spectrumData.mainSpecBox);
-    editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+  editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
 }
 
@@ -202,7 +190,7 @@ function resetMolecule(){
 	 <img name="logoMetabolight"  src="../../images/searchBox.png"
 	 	  width="1400" height="100" alt="Zoom Tool"  title="Zoom Tool"/>
 	 <img name="Metabolight"  src="../../images/banner.png"
-   	 	  style="position:absolute;left:25px;top:35px;display:block;z-index:10;"/>
+ 	 	  style="position:absolute;left:25px;top:35px;display:block;z-index:10;"/>
 </head>
 
 
@@ -249,8 +237,8 @@ function AssignPosition(d) {
 }
 
 /*
- * Hide the floating window
- */
+* Hide the floating window
+*/
 document.HideContent = function(d) {
 	if(d.length < 1) {
 		return; 
@@ -260,8 +248,8 @@ document.HideContent = function(d) {
 };
 
 /**
- * Display a floating window
- */
+* Display a floating window
+*/
 
 document.ShowContent = function(d) {
 	if(d.length < 1) {
@@ -288,13 +276,13 @@ function ReverseContentDisplay(d) {
 
 
 <div 
-   id="floatingBox" 
-   style="display:none; 
-      position:absolute; 
-      border-style: double;
-      background-color: #AAAAAA; 
-      padding: 1px;">
-      This peak is the<br> parent of a spectrum.<br><br>
+ id="floatingBox" 
+ style="display:none; 
+    position:absolute; 
+    border-style: double;
+    background-color: #AAAAAA; 
+    padding: 1px;">
+    This peak is the<br> parent of a spectrum.<br><br>
 <li>
 Child spectrum :
 </li>
@@ -328,8 +316,8 @@ Parent spectrum :
 <br>
 <li>
 <a 
-   onmouseover="document.HideContent('floatingBox'); return true;"
-   href="javascript:HideContent('floatingBox')">
+ onmouseover="document.HideContent('floatingBox'); return true;"
+ href="javascript:HideContent('floatingBox')">
 Hide the window
 </a>
 </li>
@@ -363,44 +351,44 @@ count = 0;
 </script>
 
 	<fieldset id="fieldSet" style="width:1200px">
-        <legendstyle="top:143px"><h1>MetaboLight Spectrum viewer</h1></legend>
-        <br>
-        <li id="molName"></li>
-        <li id="molId"></li>
-        <li id="experimentType"></li>
-        <li id="experimentId"><b>Experiment id: </b><script>//document.write(spectrumData.molecule.name)</script></li>
-     
-     
-     <div id="colorOption"
-        style="top: 143px;
+      <legendstyle="top:143px"><h1>MetaboLight Spectrum viewer</h1></legend>
+      <br>
+      <li id="molName"></li>
+      <li id="molId"></li>
+      <li id="experimentType"></li>
+      <li id="experimentId"><b>Experiment id: </b><script>//document.write(spectrumData.molecule.name)</script></li>
+   
+   
+   <div id="colorOption"
+      style="top: 143px;
 			   left: 470px;
-    		   position: absolute;
+  		   position: absolute;
 		       z-index: 1;
-    		   visibility: show;">
+  		   visibility: show;">
 	<b>+Select your highlighting options</b><br><br>
 	 -Atoms
-     <select  id = "atomHighlightColor" size="1">
-    	    <option>orange</option>
+   <select  id = "atomHighlightColor" size="1">
+  	    <option>orange</option>
 	        <option>blue</option>
-        	<option>red</option>
-        	<option>black</option>
-        	<option>brown</option>
+      	<option>red</option>
+      	<option>black</option>
+      	<option>brown</option>
 	</select><br>
 	-Bonds
-     <select  id = "bondHighlightColor" size="1">
-    	    <option>orange</option>
+   <select  id = "bondHighlightColor" size="1">
+  	    <option>orange</option>
 	        <option>blue</option>
-        	<option>red</option>
-        	<option>black</option>
-        	<option>brown</option>
+      	<option>red</option>
+      	<option>black</option>
+      	<option>brown</option>
 	</select><br>
 	-Peaks
-     <select  id = "peakHighlightColor" size="1">
-    	    <option>orange</option>
+   <select  id = "peakHighlightColor" size="1">
+  	    <option>orange</option>
 	        <option>blue</option>
-        	<option>red</option>
-        	<option>black</option>
-        	<option>brown</option>
+      	<option>red</option>
+      	<option>black</option>
+      	<option>brown</option>
 	</select>
 	 </div>
 	 
@@ -409,28 +397,28 @@ count = 0;
 	 
 
 <script>
-    var $ = goog.dom.getElement;
-    var Z = 5;
+  var $ = goog.dom.getElement;
+  var Z = 5;
 
-    var limits = new goog.math.Rect(515,95,300,0)
-    //To move the spectra and to adjust the zoom
-    var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits);
-    var previousPercent=50;
-    goog.events.listen(sliderMoveSpectra,'drag',function(e){
-        var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
-  	          e.dragger.limits.width)-100);
-    })
-    
-    var limits2 = new goog.math.Rect(515,95,300,0)
-    //To move the spectra and to adjust the zoom
-    var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits2);
-    var previousPercent=50;
-    goog.events.listen(sliderMoveSpectra,'drag',function(e){
-        var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
-  	          e.dragger.limits.width)-100);
-    })
-   
-    function modifySensitivity(object,sign){
+  var limits = new goog.math.Rect(515,95,300,0)
+  //To move the spectra and to adjust the zoom
+  var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits);
+  var previousPercent=50;
+  goog.events.listen(sliderMoveSpectra,'drag',function(e){
+      var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
+	          e.dragger.limits.width)-100);
+  })
+  
+  var limits2 = new goog.math.Rect(515,95,300,0)
+  //To move the spectra and to adjust the zoom
+  var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits2);
+  var previousPercent=50;
+  goog.events.listen(sliderMoveSpectra,'drag',function(e){
+      var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
+	          e.dragger.limits.width)-100);
+  })
+ 
+  function modifySensitivity(object,sign){
 		switch(object){
 		case "atom" :
 			var max = document.atomSensitivity == 1;
@@ -480,20 +468,20 @@ count = 0;
 		default :
 			break;
 		}
-    }
+  }
 
-//    function modifySensitivit(object,sign){
- ///   	alert(object+" ; "+sign+"  ;   "+document.atomSensitivity)
-  //  }
-    
-  </script>
+//  function modifySensitivit(object,sign){
+///   	alert(object+" ; "+sign+"  ;   "+document.atomSensitivity)
+//  }
+  
+</script>
 
 
 <div	style="top: 143px;
 			   left: 740px;
-    		   position: absolute;
+  		   position: absolute;
 		       z-index: 1;
-    		   visibility: show;">
+  		   visibility: show;">
 	<b>+Select your sensitivity</b><br><br>
 	-Atoms  <input class="smallButton" type="button" id="atomSensitivity" value="-" onclick="modifySensitivity('atom','-')">
 			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('atom','+')"><br>
@@ -505,24 +493,24 @@ count = 0;
 			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('peak','+')">
 </div>
 	 <div id="opacityOption"
-        style="top: 143px;
+      style="top: 143px;
 			   left: 920px;
-    		   position: absolute;
+  		   position: absolute;
 		       z-index: 1;
-    		   visibility: show;">
-     +<b>Select your opacity preference</b><br><br>
-     -Atoms<br>     
-     -Bonds<br> 
-     -Peaks<br>
-     </div>
-     
-     <div id="sliderAtomOpacity"><script>document.write("<->")</script></div>	
-     <div id="sliderBondOpacity"><script>document.write("<->")</script></div>
-     <div id="sliderPeakopacity"><script>document.write("<->")</script></div>
-     
-        <label id="selectMolecule">Select a spectrum to render: </label>
-        <br>
-        <div id="moleculeContainer" style="height:800px"></div>
+  		   visibility: show;">
+   +<b>Select your opacity preference</b><br><br>
+   -Atoms<br>     
+   -Bonds<br> 
+   -Peaks<br>
+   </div>
+   
+   <div id="sliderAtomOpacity"><script>document.write("<->")</script></div>	
+   <div id="sliderBondOpacity"><script>document.write("<->")</script></div>
+   <div id="sliderPeakopacity"><script>document.write("<->")</script></div>
+   
+      <label id="selectMolecule">Select a spectrum to render: </label>
+      <br>
+      <div id="moleculeContainer" style="height:800px"></div>
 	</fieldset>
 
 
