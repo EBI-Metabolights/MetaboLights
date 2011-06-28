@@ -96,6 +96,16 @@ specview.controller.Controller = function(element, opt_config) {
 	// currently selected model objects
 	this.selected = [];
 	this.neighborList = [];
+	
+	/**
+	 * If true, then it is possible to draw rectangle to zoom on the spectrum or on the molecule
+	 * If false, then not.
+	 * For instance, when a peak is a parent of a spectrum, it is set to false (in demo3.html) because when we click
+	 * on "show spectrum" , we are still in the rectangle area but we do not want to draw anything.
+	 * @type boolean
+	 */
+	this.allowDrawingZoomRectangle;
+	
 
 };
 goog.inherits(specview.controller.Controller, goog.events.EventTarget);
@@ -243,6 +253,16 @@ specview.controller.Controller.prototype.setNeighborList = function(models){
 		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
 	}
 	
+}
+
+specview.controller.Controller.prototype.showChild = function(showMolecule,showSpectrum){
+	this.specObject.molecule = this.specObject.childMolecule;
+	this.specObject.spectrum = this.specObject.childSpectrum;
+	this.specObject.setCoordinatesPixelOfSpectrum(this);
+	this.specObject.setCoordinatesPixelOfMolecule(this);
+	this.setModels([this.specObject]);
+	this.spectrumRenderer.renderAxis(this.specObject,this.spectrumRenderer.box,'black');
+	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,'black',this.specObject.spectrum);	
 }
 
 specview.controller.Controller.prototype.render = function(opt_peak,opt_main_molecule) {

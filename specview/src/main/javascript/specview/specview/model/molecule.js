@@ -87,13 +87,14 @@ specview.model.Molecule.prototype.resetRingCenters = function() {
 		ring.resetRingCenter();
 	});
 };
+
+
 /**
  * Add a bond to molecule.
  * 
  * @param {specview.model.Bond}
  *            bond The bond to add.
  */
-
 specview.model.Molecule.prototype.addBond = function(bond) {
 	var sourceIndex = this.indexOfAtom(bond.source);
 	var targetIndex = this.indexOfAtom(bond.target);

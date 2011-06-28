@@ -180,9 +180,17 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 								arrayOfAtoms.push(atomObject);
 							}
 							e.currentTarget.highlightGroup = this.highlightSubMolecule(arrayOfBonds, arrayOfAtoms)
-							if(currentMetaSpecObject.dimension > 1 && target.parentPeak
-/*									currentMetaSpecObject.ArrayOfPrimaryMolecules[target.arrayOfSecondaryMolecules] != undefined */ ){
-								
+							if(currentMetaSpecObject.dimension > 1 && target.parentPeak){
+								//Set the actual molecule and spectrum as being the parent
+								currentMetaSpecObject.parentMolecule = currentMetaSpecObject.molecule;
+								currentMetaSpecObject.parentSpectrum = currentMetaSpecObject.spectrum;
+								//Set the child molecule and spectrum
+								currentMetaSpecObject.childMolecule = newMoleculeToDisplay;
+								currentMetaSpecObject.childSpectrum = currentMetaSpecObject.ArrayOfSpectrum[currentMetaSpecObject.ArrayOfSecondaryMolecules[target.arrayOfSecondaryMolecules].name];
+								//Change the actual molecule and spectrum as being the child molecule and spectrum
+//								currentMetaSpecObject.molecule = currentMetaSpecObject.childMolecule;
+//								currentMetaSpecObject.spectrum = currentMetaSpecObject.childSpectrum;
+/*								
 								var answer = prompt("This peak reference a molecule which has been fragmented one more time.\n\nWould" +
 										"you like to display the new spectrum along with the new molecule ?\n\n(answer yes if you wish to display it)"
 													,"");
@@ -197,6 +205,8 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 									this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 									this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
 								}
+								*/
+								document.ShowContent("uniquename2")
 							}
 						}else{
 							currentMetaSpecObject.molecule=newMoleculeToDisplay;

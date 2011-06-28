@@ -24,7 +24,7 @@ goog.require('specview.view.SpectrumRenderer');
 goog.require('goog.debug.Logger');
 
 /*
- * A class to capture spectrum data as found in NMRshiftDb.
+ * A class to capture spectrum data as found in NMRshiftDb. But it is simply better ;-)
  */
 
 specview.model.NMRdata=function(){
@@ -178,6 +178,15 @@ specview.model.NMRdata=function(){
     this.expand = false;
  
     
+    /**
+     * Arguments to keep track of the hierarchy of molecule and spectrum for a multi dimensional MS experiment
+     */
+    this.motherMolecule;
+    this.parentMolecule;
+    this.childMolecule;
+    this.motherSpectrum;
+    this.parentSpectrum;
+    this.childSpectrum;
     
     
     

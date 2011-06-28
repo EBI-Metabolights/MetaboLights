@@ -136,7 +136,6 @@ function initPage(){
 			
 			goog.events.listen(moveMolecule,goog.ui.Component.EventType.ACTION,
 					function(e){
-//				alert(document.getElementById("moleculeContainer").offsetTop)
 				editor.centerMolecule();
 			});
 			
@@ -217,16 +216,32 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 //}
 
 function expandSpectrum(){
-//	alert(spectrumData)
 	spectrumData.expand = true;
 	editor.expandSpectrum();
-//	spectrumData.expandSpectrum();
 	editor.spectrumRenderer.clearSpectrum(spectrumData.mainSpecBox,editor.graphics)
 	editor.spectrumRenderer.render(spectrumData,spectrumData.transform,spectrumData.mainSpecBox);
-	
     editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
-//	document.metaSpecObject.expandSpectrum();
+}
+
+document.showParentSpectrum = function (){
+//	alert("showing the parent spectrum: \n\n"+
+//			"-Molecule: "+document.getElementById("showParentMoleculeOption").checked+"\n"+
+//			"-Spectrum: "+document.getElementById("showParentSpectrumOption").checked)
+}
+
+
+document.showChildSpectrum = function(){
+	var showMolecule = document.getElementById("showChildMoleculeOption").checked;
+	var showSpectrum = document.getElementById("showChildSpectrumOption").checked;
+	if(showMolecule || showSpectrum){
+		
+		editor.showChild(showMolecule,showSpectrum);
+	}
+//	alert(spectrumData.parentMolecule.name+"\n"+spectrumData.childMolecule.name)	
+//	alert("showing the child spectrum: \n\n"+
+//			"-Molecule: "+document.getElementById("showChildMoleculeOption").checked+"\n"+
+//			"-Spectrum: "+document.getElementById("showChildSpectrumOption").checked)
 }
 
 </script>
@@ -246,6 +261,140 @@ function expandSpectrum(){
 
 
 <body>
+
+<script type="text/javascript" language="JavaScript">
+<!-- Copyright 2006,2007 Bontrager Connection, LLC
+// http://bontragerconnection.com/ and http://www.willmaster.com/
+// Version: July 28, 2007
+var cX = 0; var cY = 0; var rX = 0; var rY = 0;
+
+function UpdateCursorPosition(e){
+	cX = e.pageX; cY = e.pageY;
+}
+
+function UpdateCursorPositionDocAll(e){
+	cX = event.clientX; cY = event.clientY;
+	}
+
+if(document.all) { 
+	document.onmousemove = UpdateCursorPositionDocAll; 
+}else{
+	document.onmousemove = UpdateCursorPosition; 
+}
+
+function AssignPosition(d) {
+	if(self.pageYOffset) {
+		rX = self.pageXOffset;
+		rY = self.pageYOffset;
+		}
+	else if(document.documentElement && document.documentElement.scrollTop) {
+		rX = document.documentElement.scrollLeft;
+		rY = document.documentElement.scrollTop;
+		}
+	else if(document.body) {
+		rX = document.body.scrollLeft;
+		rY = document.body.scrollTop;
+		}
+	if(document.all) {
+		cX += rX; 
+		cY += rY;
+		}
+	d.style.left = (cX+10) + "px";
+	d.style.top = (cY+10) + "px";
+}
+
+/*
+ * Hide the floating window
+ */
+document.HideContent = function(d) {
+	if(d.length < 1) {
+		return; 
+	}
+	document.getElementById(d).style.display = "none";
+};
+
+/**
+ * Display a floating window
+ */
+
+document.ShowContent = function(d) {
+	if(d.length < 1) {
+		return; 
+	}
+	var dd = document.getElementById(d);
+	AssignPosition(dd);
+	dd.style.display = "block";
+};
+
+function ReverseContentDisplay(d) {
+	if(d.length < 1) { return; }
+	var dd = document.getElementById(d);
+	AssignPosition(dd);
+	if(dd.style.display == "none") { dd.style.display = "block"; }
+	else { dd.style.display = "none"; }
+}
+//-->
+
+
+
+
+</script>
+
+
+<div 
+   id="uniquename2" 
+   style="display:none; 
+      position:absolute; 
+      border-style: solid;
+      background-color: white; 
+      padding: 1px;">
+      This peak is the<br> parent of a spectrum.<br><br>
+<li>
+Child spectrum :
+</li>
+	<ul>
+		<li>
+		Show molecule ?<input type="checkbox" id="showChildMoleculeOption" checked>
+		</li>
+		<li>
+		Show spectrum ?<input type="checkbox" id="showChildSpectrumOption" checked>  
+		</li>
+		<li>
+		<input type="button" onclick="document.showChildSpectrum()" value="Show child">
+<!-- <a id="showChildSpectrum" href="javascript:showChildSpectrum" >Show child</a> -->		
+		</li>
+	</ul>
+<li>
+Parent spectrum :
+</li>
+	<ul>
+		<li>
+		Show molecule ?<input type="checkbox" id="showParentMoleculeOption" checked>
+		</li>
+		<li>
+		Show spectrum ?<input type="checkbox" id="showParentSpectrumOption" checked>  
+		</li>
+		<li>
+		<input type="button" onclick="document.showParentSpectrum()" value="Show parent">
+<!-- <a id="showParentSpectrum" href="javascript:showParentSpectrum" >Show Parent</a> -->		
+		</li>
+	</ul>
+<br>
+<li>
+<a 
+   onmouseover="document.HideContent('uniquename2'); return true;"
+   href="javascript:HideContent('uniquename2')">
+Hide the window
+</a>
+</li>
+</div>
+
+
+
+
+
+
+
 <input type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "A little help? OK">
 <input type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum?OK">
 <input type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Unzoom? KO">

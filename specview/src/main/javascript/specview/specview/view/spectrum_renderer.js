@@ -126,15 +126,9 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     var peakStroke2 = new goog.graphics.Stroke(2.05,"red");
     var peakFill = null;   
 
-//alert(document.metaSpecObject.ArrayOfPrimaryMolecules)
-//    alert(specview.util.Utilities.getAssoArrayLength(document.metaSpecObject.ArrayOfPrimaryMolecules))
-//    for(truc in metaSpecObject.ArrayOfPrimaryMolecules){
- //   	truc != undefined ? alert(truc) : alert("rien")
-  //  }
+
     goog.array.forEach(spectrum.peakList,
     function(peak) {
-//    	alert(metaSpecObject.ArrayOfPrimaryMolecules[peak.arrayOfSecondaryMolecules])
-//    	alert(metaSpecObject.ArrayOfPrimaryMolecules[peak.arrayOfSecondaryMolecules.name])
     	if(peak.isVisible){
             peakPath.moveTo(peak.xPixel, peak.yPixel); 
             peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
