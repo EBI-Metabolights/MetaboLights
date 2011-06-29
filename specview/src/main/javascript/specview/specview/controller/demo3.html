@@ -31,7 +31,10 @@ document.atomSensitivity = 6;
 document.bondSensitivity = 6;
 document.peakSensitivity = 10;
 
+document.decimalcolor = null;
+
 function initPage(){
+
 			var isGrid=false;
 			var isAxis=false;
 			// uncomment next two lines to debug to console						
@@ -180,6 +183,15 @@ function resetSpectrum(){
 function resetMolecule(){
 	editor.clearSamy(spectrumData.molecule,spectrumData.mainMolBox,spectrumData.transform);	
 }
+function toHex(val1,val2,val3){
+	return "#"+val1.toString(16)+val2.toString(16)+val3.toString(16)
+}
+
+function displayColor(){
+	alert(document.decimalcolor)
+}
+
+
 </script>
 
 <head>
@@ -191,12 +203,28 @@ function resetMolecule(){
 	 	  width="1400" height="100" alt="Zoom Tool"  title="Zoom Tool"/>
 	 <img name="Metabolight"  src="../../images/banner.png"
  	 	  style="position:absolute;left:25px;top:35px;display:block;z-index:10;"/>
+ 	<META NAME="keywords" content="html, color, codes, chart, picker, hex">
+	<link rel="shortcut icon" href="http://c453312.r12.cf2.rackcdn.com/favicon_001.ico" />
+	<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-814714-1']);
+  		  _gaq.push(['_trackPageview']);
+
+ 		 (function() {
+	     var ga = document.createElement('script');
+    	 ga.type = 'text/javascript'; ga.async = true;
+    	 ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   	 	 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  		})();
+	</script>
+ 	 	  
 </head>
 
 
 
 
 <body>
+
 
 <script type="text/javascript" language="JavaScript">
 var cX = 0; var cY = 0; var rX = 0; var rY = 0;
@@ -275,6 +303,10 @@ function ReverseContentDisplay(d) {
 </script>
 
 
+
+
+
+
 <div 
  id="floatingBox" 
  style="display:none; 
@@ -322,11 +354,12 @@ Hide the window
 </a>
 </li>
 </div>
-
+<input class = "button" type = "button" name = "chk1" onclick = "displayColor()" value = "wich color?">
+<input class = "button" type = "button" name = "chk1" onmouseover= "ShowContent('floatingBoxColor')" value = "select color">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('./help.html')" value = "A little help?">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('./color.html')" value = "Color picker?">
 <input class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum?">
-<input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Unzoom? KO">
+<input class = "button" type = "button" name = "chk1" onclick = "toHex(255)" value = "Unzoom? KO">
 <input class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule?">
 <input class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum?">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Move molecule? KO">
@@ -513,7 +546,89 @@ count = 0;
       <div id="moleculeContainer" style="height:800px"></div>
 	</fieldset>
 
+<!--  The following div element is a floatting window presenting all the possible existing colors -->
+<div 
+ id="floatingBoxColor" 
+ style="display:none; 
+    position:absolute; 
+    border-style: double;
+    background-color: #AAAAAA; 
+    padding: 1px;">
+    
 
+
+
+<!-- The content of the floatting window -->	
+<a name="HTML_Color_Picker"></a>
+
+<div id="insertcolor">
+<input type="text" maxlength="7" value="FFFFFF" id="startcolor" name="startcolor">
+<button id="newcolor">GO</button>
+</div>
+<div id="container"></div>
+<!-- javaskripti -->
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/dragdrop/dragdrop-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/slider/slider-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/element/element-min.js"></script>
+
+<script type="text/javascript" src="http://c453312.r12.cf2.rackcdn.com/ycp.js"></script>
+<script type="text/javascript" language="javascript">
+(function() {
+ var Event = YAHOO.util.Event, picker, hexcolor;
+
+ Event.onDOMReady(function() {
+ picker = new YAHOO.widget.ColorPicker("container", {
+ showhsvcontrols: true,
+ showhexcontrols: true,
+ showwebsafe: false,
+					images: {
+						HUE_THUMB: "http://c453312.r12.cf2.rackcdn.com/hue_thumb.png",
+						PICKER_THUMB: "http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/colorpicker/assets/picker_thumb.png"
+ 				} });
+			picker.skipAnim=true;	
+			var onRgbChange = function(o) {
+				setTimeout ("document.getElementById('yui-picker-hex').select()", 50);
+				hexcolor = cc(document.getElementById('startcolor').value);
+//				alert(document.decimalcolor);
+				document.decimalcolor = o.newValue
+//				alert(document.decimalcolor)
+			}
+			picker.on("rgbChange", onRgbChange);
+			Event.on("newcolor", "click", function(e) {
+				hexcolor = cc(document.getElementById('startcolor').value);
+				picker.setValue([HexToR(hexcolor), HexToG(hexcolor), HexToB(hexcolor)], false);
+				alert(picker.setValue([HexToR(hexcolor), HexToG(hexcolor), HexToB(hexcolor)], false))
+				document.color = document.getElementById('newcolor').value
+				
+			});
+ });
+})();
+
+
+
+
+</script>
+<a 
+ onmouseover="document.HideContent('floatingBoxColor'); return true;"
+ href="javascript:HideContent('floatingBoxColor')">
+Hide the window
+</a>
+    
+    
+    
+    </div>
+
+
+
+<iframe id="iframe" src="./color.html" style="display:none" width="100%" height="300">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+<script>
+//alert(document.getElementById("iframe").contentWindow.document.color)
+</script>
 </body>
 </html>
 
