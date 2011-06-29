@@ -9,6 +9,7 @@
     goog.require('goog.ui.Select');
     goog.require('specview.controller.Controller');
     goog.require('specview.controller.plugins.Highlight');
+    goog.require('specview.util.Utilities')
     goog.require('specview.controller.plugins.Zoom');
     goog.require('specview.io.SpectrumCMLParser');
     goog.require('specview.model.NMRdata');
@@ -31,7 +32,11 @@ document.atomSensitivity = 6;
 document.bondSensitivity = 6;
 document.peakSensitivity = 10;
 
-document.decimalcolor = null;
+document.changeAtomColor = false;
+document.changeBondColor = false;
+document.changePeakColor = false;
+
+//document.decimalcolor = null;
 
 function initPage(){
 
@@ -60,13 +65,13 @@ function initPage(){
 
 			editor.setSpecObject(spectrumData);
 			document.metaSpecObject = spectrumData;
-
+			
 			
 			editor.setModels([spectrumData],false);
 			editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 			editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 
-			
+			document.editorObject = editor;
 			document.staticGraphics = goog.graphics.createGraphics(1200,400);
 			
 			//Display the informations about the molecule
@@ -183,12 +188,8 @@ function resetSpectrum(){
 function resetMolecule(){
 	editor.clearSamy(spectrumData.molecule,spectrumData.mainMolBox,spectrumData.transform);	
 }
-function toHex(val1,val2,val3){
-	return "#"+val1.toString(16)+val2.toString(16)+val3.toString(16)
-}
 
 function displayColor(){
-	alert(document.decimalcolor)
 }
 
 
@@ -268,6 +269,11 @@ function AssignPosition(d) {
 * Hide the floating window
 */
 document.HideContent = function(d) {
+	if(d=="floatingBoxColor"){
+		document.changeAtomColor = false;
+		document.changeBondColor = false;
+		document.changePeakColor = false;
+	}
 	if(d.length < 1) {
 		return; 
 	}
@@ -279,7 +285,20 @@ document.HideContent = function(d) {
 * Display a floating window
 */
 
-document.ShowContent = function(d) {
+document.ShowContent = function(d,objet) {
+	switch(objet){
+	case "atom":
+		document.changeAtomColor = true;
+		break;
+	case "bond":
+		document.changeBondColor = true;
+		break;
+	case "peak":
+		document.changePeakColor = true;
+		break;
+	default :
+		break;
+	}
 	if(d.length < 1) {
 		return; 
 	}
@@ -354,8 +373,6 @@ Hide the window
 </a>
 </li>
 </div>
-<input class = "button" type = "button" name = "chk1" onclick = "displayColor()" value = "wich color?">
-<input class = "button" type = "button" name = "chk1" onmouseover= "ShowContent('floatingBoxColor')" value = "select color">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('./help.html')" value = "A little help?">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('./color.html')" value = "Color picker?">
 <input class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum?">
@@ -400,29 +417,14 @@ count = 0;
   		   visibility: show;">
 	<b>+Select your highlighting options</b><br><br>
 	 -Atoms
-   <select  id = "atomHighlightColor" size="1">
-  	    <option>orange</option>
-	        <option>blue</option>
-      	<option>red</option>
-      	<option>black</option>
-      	<option>brown</option>
-	</select> <input class = "button" type = "button" name = "chk1" onclick = "newPage('./color.html')" value = "More color?"> <br>
+   <input type="button"  id = "atomHighlightColor" size="1" value="#FF4924">
+   <input class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxColor','atom')" value = "More color?"> <br>
 	-Bonds
-   <select  id = "bondHighlightColor" size="1">
-  	    <option>orange</option>
-	        <option>blue</option>
-      	<option>red</option>
-      	<option>black</option>
-      	<option>brown</option>
-	</select> <input class = "button" type = "button" name = "chk1" onclick = "newPage('./color.html')" value = "More color?"><br>
+   <input type="button" id = "bondHighlightColor" size="1" value="#FF4924">
+   <input class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxColor','bond')" value = "More color?"><br>
 	-Peaks
-   <select  id = "peakHighlightColor" size="1">
-  	    <option>orange</option>
-	        <option>blue</option>
-      	<option>red</option>
-      	<option>black</option>
-      	<option>brown</option>
-	</select> <input class = "button" type = "button" name = "chk1" onclick = "newPage('./color.html')" value = "More color?">
+   <input type="button"  id = "peakHighlightColor" size="1" value="#FF4924">
+   <input class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxColor','peak')" value = "More color?">
 	 </div>
 	 
 	   
@@ -555,9 +557,6 @@ count = 0;
     background-color: #AAAAAA; 
     padding: 1px;">
     
-
-
-
 <!-- The content of the floatting window -->	
 <a name="HTML_Color_Picker"></a>
 
@@ -578,7 +577,7 @@ count = 0;
 <script type="text/javascript" language="javascript">
 (function() {
  var Event = YAHOO.util.Event, picker, hexcolor;
-
+ var hexRepresentation ;
  Event.onDOMReady(function() {
  picker = new YAHOO.widget.ColorPicker("container", {
  showhsvcontrols: true,
@@ -592,9 +591,17 @@ count = 0;
 			var onRgbChange = function(o) {
 				setTimeout ("document.getElementById('yui-picker-hex').select()", 50);
 				hexcolor = cc(document.getElementById('startcolor').value);
-//				alert(document.decimalcolor);
-				document.decimalcolor = o.newValue
-//				alert(document.decimalcolor)
+				hexRepresentation = specview.util.Utilities.d2h(o.newValue).toUpperCase();
+				if(document.changeAtomColor){
+					document.editorObject.atomColor = hexRepresentation
+					document.getElementById("atomHighlightColor").value = hexRepresentation 
+				}else if(document.changeBondColor){
+					document.editorObject.bondColor = hexRepresentation
+					document.getElementById("bondHighlightColor").value = hexRepresentation 
+				}else if(document.changePeakColor){
+					document.editorObject.peakColor = hexRepresentation
+					document.getElementById("peakHighlightColor").value = hexRepresentation 
+				}
 			}
 			picker.on("rgbChange", onRgbChange);
 			Event.on("newcolor", "click", function(e) {
@@ -616,8 +623,6 @@ count = 0;
  href="javascript:HideContent('floatingBoxColor')">
 Hide the window
 </a>
-    
-    
     
     </div>
 

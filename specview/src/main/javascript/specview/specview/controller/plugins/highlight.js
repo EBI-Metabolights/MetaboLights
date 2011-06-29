@@ -28,17 +28,18 @@ goog.require('specview.model.Atom');
  */
 specview.controller.plugins.Highlight = function() {
 	specview.controller.Plugin.call(this);
-	this.atomColor = document.getElementById("atomHighlightColor").value;
-	this.bondColor = document.getElementById("bondHighlightColor").value;
-	this.peakColor = document.getElementById("peakHighlightColor").value;
+//	this.atomColor = document.getElementById("atomHighlightColor").value;
+//	this.bondColor = document.getElementById("bondHighlightColor").value;
+//	this.peakColor = document.getElementById("peakHighlightColor").value;
+//	this.atomColor = this.editorObject.
 };
 goog.inherits(specview.controller.plugins.Highlight,specview.controller.Plugin);
 goog.exportSymbol('specview.controller.plugins.Highlight',specview.controller.plugins.Highlight);
 specview.controller.plugins.Highlight.prototype.getTrogClassId = goog.functions.constant('highlight');
 specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR = "orange";
-specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR_ATOM=this.atomColor;
-specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR_BOND=this.bondColor;
-specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR_PEAK=this.peakColor;
+//specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR_ATOM=this.atomColor;
+//specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR_BOND=this.bondColor;
+//specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR_PEAK=this.peakColor;
 specview.controller.plugins.Highlight.prototype.logger = goog.debug.Logger.getLogger('specview.controller.plugins.Highlight');
 specview.controller.plugins.Highlight.logger2 = goog.debug.Logger.getLogger('specview.controller.plugins.Highlight');
 

@@ -89,17 +89,15 @@ specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt
 	var target_down = goog.math.Coordinate.sum(new goog.math.Coordinate(
 			radius * Math.cos(angle_down_rads), -radius
 					* Math.sin(angle_down_rads)), coords[1]);
-
 	var path_up = new goog.graphics.Path();
 	path_up.moveTo(coords[0].x, coords[0].y);
 	path_up.lineTo(source_up.x, source_up.y);
 	path_up.lineTo(target_up.x, target_up.y);
 	path_up.lineTo(coords[1].x, coords[1].y);
 	path_up.close();
-
-	var fill = new goog.graphics.SolidFill(document.getElementById("bondHighlightColor").value, .15);
+//	var fill = new goog.graphics.SolidFill(document.getElementById("bondHighlightColor").value, .15);
+	var fill = new goog.graphics.SolidFill(document.editorObject.bondColor, .15);
 	opt_element_array.add(this.graphics.drawPath(path_up, stroke, fill));
-	
 	var path_down = new goog.graphics.Path();
 	path_down.moveTo(coords[0].x, coords[0].y);
 	path_down.lineTo(source_down.x, source_down.y);
@@ -160,7 +158,7 @@ specview.view.BondRenderer.prototype.highlightOnSerieOfBonds = function(bond, op
 	path_up.lineTo(coords[1].x, coords[1].y);
 	path_up.close();
 
-	var fill = new goog.graphics.SolidFill(document.getElementById("bondHighlightColor").value, .15);
+	var fill = new goog.graphics.SolidFill(document.editorObject.bondColor, .15);
 	
 	var path_down = new goog.graphics.Path();
 	path_down.moveTo(coords[0].x, coords[0].y);

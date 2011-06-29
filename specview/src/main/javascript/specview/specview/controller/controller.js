@@ -106,6 +106,15 @@ specview.controller.Controller = function(element, opt_config) {
 	 */
 	this.allowDrawingZoomRectangle;
 	
+	/**
+	 * Color used to highlight the atoms, bonds and peaks
+	 * @type String hexadecimal
+	 */
+	this.atomColor = "#FF4924";
+	this.bondColor = "#FF4924";
+	this.peakColor = "#FF4924";
+	
+	
 
 };
 goog.inherits(specview.controller.Controller, goog.events.EventTarget);

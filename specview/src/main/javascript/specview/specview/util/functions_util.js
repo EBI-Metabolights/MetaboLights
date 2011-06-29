@@ -90,6 +90,16 @@ specview.util.Utilities.getSubSetOfObject = function(array,from,to){
 };
 
 
+/**
+ * @param array representing a decimal color
+ * @return string representation of the hexadecimal code of the color
+ */
+specview.util.Utilities.d2h = function (val){
+	return "#"+val[0].toString(16)+val[1].toString(16)+val[2].toString(16)
+}
+
+
+
 specview.util.Utilities.insertCarriageReturnInString = function(string,CR,step){
 	var len = string.length;
 	var toreturn="";
