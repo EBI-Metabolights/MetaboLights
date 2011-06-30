@@ -230,7 +230,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 				fill);
     }
 	
-	this.renderBoundingBox(metaSpecObject.mainSpecBox,'red')
+//	this.renderBoundingBox(metaSpecObject.mainSpecBox,'red')
   
 	
     
