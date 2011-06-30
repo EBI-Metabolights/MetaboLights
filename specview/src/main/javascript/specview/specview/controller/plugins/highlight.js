@@ -28,18 +28,11 @@ goog.require('specview.model.Atom');
  */
 specview.controller.plugins.Highlight = function() {
 	specview.controller.Plugin.call(this);
-//	this.atomColor = document.getElementById("atomHighlightColor").value;
-//	this.bondColor = document.getElementById("bondHighlightColor").value;
-//	this.peakColor = document.getElementById("peakHighlightColor").value;
-//	this.atomColor = this.editorObject.
 };
 goog.inherits(specview.controller.plugins.Highlight,specview.controller.Plugin);
 goog.exportSymbol('specview.controller.plugins.Highlight',specview.controller.plugins.Highlight);
 specview.controller.plugins.Highlight.prototype.getTrogClassId = goog.functions.constant('highlight');
 specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR = "orange";
-//specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR_ATOM=this.atomColor;
-//specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR_BOND=this.bondColor;
-//specview.controller.plugins.Highlight.prototype.HIGHLIGHT_COLOR_PEAK=this.peakColor;
 specview.controller.plugins.Highlight.prototype.logger = goog.debug.Logger.getLogger('specview.controller.plugins.Highlight');
 specview.controller.plugins.Highlight.logger2 = goog.debug.Logger.getLogger('specview.controller.plugins.Highlight');
 
@@ -62,7 +55,7 @@ specview.controller.plugins.Highlight.prototype.lastT=null;
 specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {	
 	
 	/**
-	 * If the user has clicked in the canvas, it means that he wants to zoom
+	 * If the user has MOUSED DOWN in the canvas, it means that he wants to zoom
 	 */
 	if(specview.controller.plugins.Highlight.zoomObject!=null && document.getElementById("floatingBox").style.display == "none"){
 		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
@@ -317,7 +310,10 @@ document.onmousedown = function(e){
  * @param e
  */
 specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
-	if(specview.controller.plugins.Highlight.zoomObject!=null){
+	/*
+	 * It means that the user has MOUSE DOWN and DRAG the mouse to draw a rectangle
+	 */
+	if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
 		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(isInSpectrum){
@@ -356,7 +352,14 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
 			specview.controller.plugins.Highlight.zoomObject = null;
 			this.highlightSubMolecule(arrayOfBonds, arrayOfAtoms)
-		}			
+		}
+	}
+	/*
+	 * It means that the user has MOUSE DOWN and immediately MOUSE UP without drawing a rectangle.
+	 * Hence, we must set the zoomObject to null, otherwise the rectangle will be drawn even if the user has MOUSE UP
+	 */
+	else{
+		specview.controller.plugins.Highlight.zoomObject = null
 	}
 	
 	

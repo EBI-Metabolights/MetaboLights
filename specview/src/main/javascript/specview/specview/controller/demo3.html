@@ -161,10 +161,6 @@ goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 function expandSpectrum(){
 	spectrumData.expand = true;
 	editor.expandSpectrum();
-	editor.spectrumRenderer.clearSpectrum(spectrumData.mainSpecBox,editor.graphics)
-	editor.spectrumRenderer.render(spectrumData,spectrumData.transform,spectrumData.mainSpecBox);
-  editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
 }
 
 document.showParentSpectrum = function (){
@@ -373,12 +369,11 @@ Hide the window
 </a>
 </li>
 </div>
-<input class = "button" type = "button" name = "chk1" onclick = "newPage('./help.html')" value = "A little help?">
-<input class = "button" type = "button" name = "chk1" onclick = "newPage('./color.html')" value = "Color picker?">
-<input class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum?">
-<input class = "button" type = "button" name = "chk1" onclick = "toHex(255)" value = "Unzoom? KO">
-<input class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule?">
-<input class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum?">
+<input class = "button" type = "button" name = "chk1" onmouseover = "ShowContent('floatingBoxHelp')" value = "A little help?">
+<input class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum">
+<input class = "button" type = "button" name = "chk1" onclick = "toHex(255)" value = "Unzoom KO">
+<input class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule">
+<input class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Move molecule? KO">
 <script type = "text/javascript">
 var count = 0;
@@ -548,13 +543,14 @@ count = 0;
       <div id="moleculeContainer" style="height:800px"></div>
 	</fieldset>
 
+<!-- ################################ COLOR FLOATING BOX ############################ -->
 <!--  The following div element is a floatting window presenting all the possible existing colors -->
 <div 
  id="floatingBoxColor" 
  style="display:none; 
     position:absolute; 
     border-style: double;
-    background-color: #AAAAAA; 
+    background-color: #FFFFFF; 
     padding: 1px;">
     
 <!-- The content of the floatting window -->	
@@ -563,7 +559,7 @@ count = 0;
 <div id="insertcolor">
 <input type="text" maxlength="7" value="FFFFFF" id="startcolor" name="startcolor">
 <button id="newcolor">GO</button>
-</div>
+</div> 
 <div id="container"></div>
 <!-- javaskripti -->
 
@@ -572,7 +568,6 @@ count = 0;
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/dragdrop/dragdrop-min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/slider/slider-min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/element/element-min.js"></script>
-
 <script type="text/javascript" src="http://c453312.r12.cf2.rackcdn.com/ycp.js"></script>
 <script type="text/javascript" language="javascript">
 (function() {
@@ -613,27 +608,101 @@ count = 0;
 			});
  });
 })();
-
-
-
-
 </script>
 <a 
  onmouseover="document.HideContent('floatingBoxColor'); return true;"
  href="javascript:HideContent('floatingBoxColor')">
 Hide the window
 </a>
-    
     </div>
 
 
+<div style=""></div>
 
-<iframe id="iframe" src="./color.html" style="display:none" width="100%" height="300">
-  <p>Your browser does not support iframes.</p>
-</iframe>
-<script>
-//alert(document.getElementById("iframe").contentWindow.document.color)
-</script>
+<!-- ###################################### HELP FLOATING BOX ################################### -->
+<div class="floatingWindow"
+	 id="floatingBoxHelp" 
+	 style="display:none; 
+	 position:absolute; 
+     border-style: double;
+     background-color: #DEA12F;
+     opacity: 600;
+     padding: 1px;">
+
+        <legendstyle="top:143px"><h1>MetaboLight Spectrum viewer: <b>Help</b></h1></legend>
+        <br>
+-This is a tool allowing to <b>view</b> the result of your <b>chemistry experiments</b>.<br>
+-It handles the following type of <b>experiment</b>:
+<ul>
+	<li>
+		<b>N</b>uclear <b>M</b>agnetic <b>R</b>esonnance
+		<ul>
+			<li>
+			H NMR
+			</li>			
+		</ul>
+		<ul>
+			<li>
+			C NMR
+			</li>
+		</ul>
+	</li>
+	<li>
+		<b>M</b>ass <b>S</b>pectrometry
+		<ul>
+			<li>
+			One Dimension MS
+			</li>			
+		</ul>
+		<ul>
+			<li>
+			Multi dimension MS (<b>CHALLENGE ACCEPTED</b>)
+			</li>
+		</ul>
+	</li>
+</ul>
+
+-This viewer <b>allow you to</b>:<br>
+<ul>
+	<li>
+		<b>	Cross talk : </b>
+	</li>
+	<li>
+		<b>	Zoom on : </b>
+		<ul>
+			<li>
+				The <i><b>spectrum</b></i>:  To zoom on the spectrum, drag a rectangle<br> over the area you wish to focus on
+			</li>
+			<li>
+				The <i><b>molecule</b></i>:
+			</li>
+		</ul>
+	</li>
+	<li>
+		<b> Localise :</b>  When you zoom on the spectrum, the<br> spectrum on the boottom right corner help you localise<br> where you are
+	</li>
+	<li>
+		<b> Select :</b>
+		<ul>
+			<li>
+				The <i><b>highlighting</b></i>:
+			</li>
+			<li>
+				The <i><b>sensitivity</b></i>:
+			</li>
+		</ul>
+		
+	</li>
+</ul>
+<a 
+ onmouseover="document.HideContent('floatingBoxHelp'); return true;"
+ href="javascript:HideContent('floatingBoxColor')">
+Hide the window
+</a>
+</div>
+
+
+
 </body>
 </html>
 

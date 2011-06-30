@@ -702,6 +702,18 @@ specview.controller.Controller.isInSecondarySpectrum = function(e){
 specview.controller.Controller.prototype.expandSpectrum = function(){
 	this.specObject.expandSpectrum();
 	this.neighborList.setNeighborList(this.specObject.spectrum.peakList,"spectrum");
+	
+	
+	var secondSpecBox = new Array(new goog.math.Coordinate(this.specObject.secondSpecBox["left"],this.specObject.secondSpecBox["bottom"]),
+								  new goog.math.Coordinate(this.specObject.secondSpecBox["right"],this.specObject.secondSpecBox["bottom"]),
+								  new goog.math.Coordinate(this.specObject.secondSpecBox["right"],this.specObject.secondSpecBox["top"]),
+								  new goog.math.Coordinate(this.specObject.secondSpecBox["left"],this.specObject.secondSpecBox["top"]));
+	
+	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics)
+	this.spectrumRenderer.clearSpectrum(secondSpecBox,this.graphics)
+	this.spectrumRenderer.render(this.specObject,this.specObject.transform,this.specObject.mainSpecBox);
+	this.spectrumRenderer.renderAxis(this.specObject,this.spectrumRenderer.box,'black');
+	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,'black',this.specObject.spectrum);	
 }
 
 /**
