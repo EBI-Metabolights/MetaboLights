@@ -61,7 +61,8 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
-			if(isInSpectrum){
+			if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
+				specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum = true;
 				this.clearSpectrum();
 				this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
 				this.reDrawSpectrum();	
@@ -72,11 +73,10 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			}
 		}
 		specview.controller.plugins.Highlight.zoomObject.finalCoordinates = specview.controller.Controller.getMouseCoords(e);
-		specview.controller.plugins.Highlight.zoomObject.rectangle=new goog.math.Rect(
-				specview.controller.plugins.Highlight.zoomObject.initialCoordinates.x + document.getElementById("moleculeContainer").offsetLeft,
-				specview.controller.plugins.Highlight.zoomObject.initialCoordinates.y + document.getElementById("moleculeContainer").offsetTop,
-				specview.controller.plugins.Highlight.zoomObject.finalCoordinates.x-specview.controller.plugins.Highlight.zoomObject.initialCoordinates.x,
-				specview.controller.plugins.Highlight.zoomObject.finalCoordinates.y-specview.controller.plugins.Highlight.zoomObject.initialCoordinates.y);
+		specview.controller.plugins.Highlight.zoomObject.rectangle = 
+			specview.controller.plugins.Zoom.setRectangle(specview.controller.plugins.Highlight.zoomObject.initialCoordinates,
+														  specview.controller.plugins.Highlight.zoomObject.finalCoordinates,
+														  this.editorObject.specObject.mainSpecBox);
 		this.drawZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
 	}
 	
@@ -181,25 +181,8 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 								//Set the child molecule and spectrum
 								currentMetaSpecObject.childMolecule = newMoleculeToDisplay;
 								currentMetaSpecObject.childSpectrum = currentMetaSpecObject.ArrayOfSpectrum[currentMetaSpecObject.ArrayOfSecondaryMolecules[target.arrayOfSecondaryMolecules].name];
-								//Change the actual molecule and spectrum as being the child molecule and spectrum
-//								currentMetaSpecObject.molecule = currentMetaSpecObject.childMolecule;
-//								currentMetaSpecObject.spectrum = currentMetaSpecObject.childSpectrum;
-/*								
-								var answer = prompt("This peak reference a molecule which has been fragmented one more time.\n\nWould" +
-										"you like to display the new spectrum along with the new molecule ?\n\n(answer yes if you wish to display it)"
-													,"");
-								if(answer == "yes"){
-									currentMetaSpecObject.molecule=newMoleculeToDisplay;
-									currentMetaSpecObject.spectrum=
-										currentMetaSpecObject.ArrayOfSpectrum[currentMetaSpecObject.ArrayOfSecondaryMolecules[target.arrayOfSecondaryMolecules].name];
-									currentMetaSpecObject.setCoordinatesPixelOfSpectrum(this.editorObject);
-									currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
-									this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target);
-									this.drawTextInformation(target, currentMetaSpecObject)
-									this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
-									this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
-								}
-								*/
+
+
 								document.ShowContent("floatingBox")
 							}
 						}else{
@@ -314,10 +297,11 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	 * It means that the user has MOUSE DOWN and DRAG the mouse to draw a rectangle
 	 */
 	if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
+		alert(specview.controller.plugins.Highlight.zoomObject.rectangle )
 		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
-		if(isInSpectrum){
-			var type = isInSpectrum ? "spectrum" : (isInMolecule ? "molecule" : null);
+		if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
+			var type = "spectrum"
 			var listOfPeaks = this.getObjects(type,
 					specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 					specview.controller.plugins.Highlight.zoomObject.rectangle.left+
@@ -327,8 +311,6 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
 			this.editorObject.setModels([this.editorObject.specObject]);
 			this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
-//			this.logger.info(specview.controller.plugins.Highlight.zoomObject.rectangle);
-			
 			this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 					 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
 			
@@ -359,7 +341,9 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	 * Hence, we must set the zoomObject to null, otherwise the rectangle will be drawn even if the user has MOUSE UP
 	 */
 	else{
-		specview.controller.plugins.Highlight.zoomObject = null
+		specview.controller.plugins.Highlight.zoomObject.zooming_on_molecule = false;
+		specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum = false;
+		specview.controller.plugins.Highlight.zoomObject = null;
 	}
 	
 	

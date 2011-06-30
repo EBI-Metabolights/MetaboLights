@@ -157,6 +157,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 			   metaSpecObject.zoomBox["bottom"]-metaSpecObject.zoomBox["top"],
 			   new goog.graphics.Stroke(2, 'black'),
 			   null);
+    
     this.graphics.drawPath(peakPath, peakStroke, peakFill);    
     if(opt_peak){
         var stroke = new goog.graphics.Stroke(0.1,'black');
@@ -229,7 +230,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 				fill);
     }
 	
-//	this.renderBoundingBox(metaSpecObject.mainSpecBox,'red')
+	this.renderBoundingBox(metaSpecObject.mainSpecBox,'red')
   
 	
     

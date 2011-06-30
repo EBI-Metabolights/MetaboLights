@@ -30,6 +30,8 @@ specview.controller.plugins.Zoom = function() {
 	this.initialCoordinates = null;
 	this.finalCoordinates = null;
 	this.rectangle = null;
+	this.zooming_on_spectrum = false;
+	this.zooming_on_molecule = false;
 	
 	specview.controller.Plugin.call(this);
 }
@@ -46,6 +48,45 @@ specview.controller.plugins.Zoom.COMMAND = {
 	ZOOM_IN : 'zoomIn',
 	ZOOM_OUT : 'zoomOut'
 };
+
+/**
+ * Draw the zoom rectangle.
+ * box can be the mainSpecBox or the mainMolBox
+ * We pas this argument to ensure that the rectangle is not drawn OUTSIDE the box
+ * @param box
+ */
+specview.controller.plugins.Zoom.setRectangle = function(initialCoordinates,finalCoordinates,box){
+	var lower_boundary = box[3].y;
+	var upper_boundary = box[0].y;
+	var left_boundary = box[0].x;
+	var right_boundary = box[1].x;
+
+	var rect = null;
+
+	if(finalCoordinates.x < initialCoordinates.x){// Case where the mouse is dragged on left side of the initial coordinate point
+		rect = new goog.math.Rect(finalCoordinates.x + document.getElementById("moleculeContainer").offsetLeft,
+								  initialCoordinates.y + document.getElementById("moleculeContainer").offsetTop,
+								  initialCoordinates.x-finalCoordinates.x,
+								  finalCoordinates.y-initialCoordinates.y);
+	}else if(finalCoordinates.y >= lower_boundary){// if the mouse is dragged below the box
+			finalCoordinates.y = lower_boundary - 5;
+	}else if(finalCoordinates.x >= right_boundary){// if the mouse is dragged on the right side of the box
+		finalCoordinates.x = right_boundary.x - 2
+	}else if(finalCoordinates.x <= left_boundary){// if the mouse is dragged on the left side of the box
+		finalCoordinates.x = left_boundary.x + 2
+	}
+	
+	rect = rect == null ? new goog.math.Rect(
+			initialCoordinates.x + document.getElementById("moleculeContainer").offsetLeft,
+			initialCoordinates.y + document.getElementById("moleculeContainer").offsetTop,
+			finalCoordinates.x-initialCoordinates.x,
+			finalCoordinates.y-initialCoordinates.y) : rect ;
+			
+	return rect;
+
+}
+
+
 
 /**
  * Inverse map of execCommand strings to
