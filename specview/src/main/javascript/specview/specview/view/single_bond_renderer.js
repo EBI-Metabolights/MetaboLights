@@ -74,6 +74,10 @@ specview.view.SingleBondRenderer.prototype.render = function(bond, transform,
 	// add the line to the bond path
 	bondPath.moveTo(coords[0].x, coords[0].y);
 	bondPath.lineTo(coords[1].x, coords[1].y);
+	if(bond.isSelected){
+		this.selectBond(bond)
+	}
+	
 //	this.logger.info(coords[0]+"   ---->   "+coords[1]);
 };
 

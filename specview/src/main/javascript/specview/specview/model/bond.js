@@ -69,6 +69,11 @@ specview.model.Bond = function(source, target, opt_order, opt_stereo,
 	 */
 	this.coordinatesArray=null;
 	
+	/**
+	 * 
+	 * 
+	 */
+	this.isSelected = false;
 };
 goog.exportSymbol("specview.model.Bond", specview.model.Bond);
 

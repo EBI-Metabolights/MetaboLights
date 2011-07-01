@@ -403,18 +403,14 @@ specview.controller.plugins.Highlight.prototype.highlightAtom = function(atom) {
 };
 
 specview.controller.plugins.Highlight.prototype.selectObject = function(object,e){
-//	object.isSelected = true;
 	return (object instanceof specview.model.Atom ? this.editorObject.moleculeRenderer.atomRenderer.selectAtom(object) :
-		alert("caca"));
+		this.editorObject.moleculeRenderer.bondRendererFactory.get(bond).selectBond(object));
 };
 
 specview.controller.plugins.Highlight.prototype.unselectObject = function(object){
-//	alert("caca")
 	object.isSelected = false;
 	this.editorObject.moleculeRenderer.clearMolecule(this.editorObject.specObject.mainMolBox,this.editorObject.graphics)
 	this.editorObject.moleculeRenderer.render(this.editorObject.specObject.molecule,this.editorObject.staticTransform,this.editorObject.specObject.mainMolBox)
-//	this.lastT.highlightGroup.clear();
-//	return (object instanceof specview.model.Atom ? 
 };
 
 
