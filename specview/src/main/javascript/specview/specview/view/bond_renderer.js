@@ -110,7 +110,7 @@ specview.view.BondRenderer.prototype.highlightOn = function(bond, opt_color, opt
 
 
 specview.view.BondRenderer.prototype.selectBond = function(bond, opt_color, opt_element_array) {
-//	alert("call to bondrenderer select bond")
+	bond.isSelected = true;
 	if(!opt_color){
 		opt_color = this.config.get("highlight")['color'];
 	}
