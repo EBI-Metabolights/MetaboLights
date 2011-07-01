@@ -187,6 +187,12 @@ specview.model.NMRdata=function(){
     this.motherSpectrum;
     this.parentSpectrum;
     this.childSpectrum;
+    
+    /**
+     * 
+     */
+    
+    this.selected = new Array();
 	
 };
 

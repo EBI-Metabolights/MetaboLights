@@ -301,6 +301,8 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	if(isInMolecule){
 		var object = this.editorObject.neighborList.getObjectFromCoord(e,this.editorObject.specObject)
 		object.isSelected ? this.unselectObject(object) : this.selectObject(object,e);
+		this.editorObject.specObject.selected.push(object);
+		document.ShowContent("floatingBoxSelectMultiplePeaks")
 	}else if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
@@ -397,6 +399,29 @@ specview.controller.plugins.Highlight.prototype.drawZoomRectangle = function(rec
 specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak,editor){
 	return this.editorObject.spectrumRenderer.highlightOn(peak,editor);
 };
+
+
+specview.controller.plugins.Highlight.highlightSerieOfPeaks = function(editor){
+//	alert(editor)
+	var ArrayOfPeaks = new Array();
+	//alert(specview.util.Utilities.getAssoArrayLength(editor.specObject.selected))
+	for(k in editor.specObject.selected){
+//		alert(k)
+		var o = editor.specObject.selected[k]
+		if(o instanceof specview.model.Atom ){
+			var currentAtomInnerIdentifier= o.innerIdentifier;//the atom Id
+			var hypotheticalPeakIdToWhichTheCurrentAtomIsLinked=o.peakMap[currentAtomInnerIdentifier];//its peak Id
+			var peakObjectCorrespondingToThePeakId=editor.specObject.ArrayOfPeaks[hypotheticalPeakIdToWhichTheCurrentAtomIsLinked];//Peak
+			if(peakObjectCorrespondingToThePeakId){
+				ArrayOfPeaks.push(peakObjectCorrespondingToThePeakId);
+			}			
+		}		
+
+	}
+//	for(peak in ArrayOfPeaks){
+		editor.spectrumRenderer.highlightOnSerieOfPeaks(ArrayOfPeaks,editor);
+//	}
+}
 
 specview.controller.plugins.Highlight.prototype.highlightAtom = function(atom) {
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOn(atom,this.HIGHLIGHT_COLOR);

@@ -261,6 +261,22 @@ specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
 	return opt_element_array;
 };
 
+
+specview.view.SpectrumRenderer.prototype.highlightOnSerieOfPeaks = function(peaks,editor) {
+	opt_element_array = new specview.graphics.ElementArray();
+
+	for(k in peaks){
+		var peak = peaks[k];
+		var fill = new goog.graphics.SolidFill("orange", .3);
+	    var peakPath = new goog.graphics.Path();
+	    peakPath.moveTo(peak.xPixel, peak.yPixel); 
+	    peakPath.lineTo(peak.xTpixel,peak.yTpixel);
+	    opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,document.editorObject.peakColor),null));
+	}
+	
+	return opt_element_array;
+};
+
 /**
  * Draw the rectangle that will be used to perform the zoom effect
  * @param rectangle
