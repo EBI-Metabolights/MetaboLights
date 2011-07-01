@@ -177,12 +177,7 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
  * @returns the object associated with the position on the target (graphics)
  */
 specview.model.NeighborList.prototype.getObjectFromCoord=function(e,specObject){
-	
-//	alert(specview.util.Utilities.getAssoArrayLength(this.cells_samy_spectrum))
-//	for(truc in this.cells_samy_spectrum_2){
-//		var c = this.cells_samy_spectrum_2[truc][0];
-//		specview.model.NeighborList.logger2.info(c.x+" ; "+c.y)
-//	}
+//	alert("caca")
 	var coord = specview.controller.Controller.getMouseCoords(e);
 	var isInSpectrum = specview.controller.Controller.isInSpectrum(e,specObject);
 	var isInMolecule = specview.controller.Controller.isInMolecule(e,specObject);
@@ -191,11 +186,6 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(e,specObject){
 	for(k in cells){
 		var x = cells[k][0].x
 		var y = cells[k][0].y
-//		var o = cells[k][1]
-//		specview.model.NeighborList.logger2.info(k)
-//		var x = specview.util.Utilities.getStringBeforeCharacterWithout(k.substring(1),","); 
-//		var y = specview.util.Utilities.getStringBeforeCharacterWithout(
-//				specview.util.Utilities.getStringAfterCharacter(k.substring(1),","),")");
 		if(isInMolecule && goog.math.Coordinate.distance(coord,new goog.math.Coordinate(x,y)) < document.atomSensitivity){
 			return cells[k][1];
 		}else if(isInSpectrum && goog.math.nearlyEquals(coord.x,parseInt(x),document.peakSensitivity)){

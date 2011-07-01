@@ -113,6 +113,9 @@ specview.view.AtomRenderer.prototype.render = function(atom, transform,
 		}
 
 	}
+	if(atom.isSelected){
+		this.selectAtom(atom)
+	}
 	return opt_element_array;
 };
 
@@ -252,7 +255,30 @@ specview.view.AtomRenderer.prototype.highlightOn = function(atom, opt_color,
 	return opt_element_array;
 };
 
+/**
+ * select an atom by highlight it.
+ */
+specview.view.AtomRenderer.prototype.selectAtom = function(atom, opt_color,
+		opt_element_array) {
+	atom.isSelected = true;
+	var atom_config = this.config.get("atom");
+	var strokeWidth = atom_config['stroke']['width'] * 24;
+	if (!opt_element_array) {
+		opt_element_array = new specview.graphics.ElementArray();
+	}
+	var fill = new goog.graphics.SolidFill(document.editorObject.atomColor, .3);
+	var radius = atom_config['highlight']['radius']
+			* this.transform.getScaleX() * 0.7;
+	var coords = this.transform.transformCoords([ atom.coord ])[0];
+	opt_element_array.add(this.graphics.drawCircle(coords.x, coords.y, radius,
+			null, fill));
+	return opt_element_array;
+}
 
+	
+/**
+ *Highlight a serie of atom
+ */
 specview.view.AtomRenderer.prototype.highlightOnSeriesOfAtom = function(arrayOfAtom, opt_color,
 		opt_element_array){
 	var atom_config = this.config.get("atom");

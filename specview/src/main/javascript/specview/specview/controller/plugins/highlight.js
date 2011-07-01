@@ -84,6 +84,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 	 * The highlight shall only be allowed if the user is NOT trying to draw a rectangle.(Efficiency matter)
 	 */
 	else{
+//		alert(e.button)
 		var newMoleculeToDisplay;
 		/**
 		 * If the mouse is in the canvas
@@ -102,6 +103,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			if (target instanceof specview.model.Atom) {
 				if(this.lastAtomHighlighted==null || target!=this.lastAtomHighlighted) {
 					if (this.lastT!=null) {
+//						alert(this.lastT.highlightGroup)
 						this.lastT.highlightGroup.clear();
 						if(this.lastT.highlightPeak!=undefined){
 							this.lastT.highlightPeak.clear();
@@ -109,6 +111,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					}
 					this.lastAtomHighlighted=target;
 					this.lastT=e.currentTarget;
+//					alert(e.currentTarget)
 					this.editorObject.addSelected(target);
 					e.currentTarget.highlightGroup = this.highlightAtom(target);
 					/**
@@ -274,9 +277,9 @@ document.onmousedown = function(e){
 		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
 		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
 	}else if(specview.controller.Controller.isInMolecule(e,document.metaSpecObject)){
-		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
-		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
-		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
+//		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
+//		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
+//		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
 	}else if (specview.controller.Controller.isInSecondarySpectrum(e)){
 	}else{
 	}
@@ -293,12 +296,12 @@ document.onmousedown = function(e){
  * @param e
  */
 specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
-	/*
-	 * It means that the user has MOUSE DOWN and DRAG the mouse to draw a rectangle
-	 */
-	if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
-		alert(specview.controller.plugins.Highlight.zoomObject.rectangle )
-		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
+	var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
+	var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
+	if(isInMolecule){
+		var object = this.editorObject.neighborList.getObjectFromCoord(e,this.editorObject.specObject)
+		object.isSelected ? this.unselectObject(object) : this.selectObject(object,e);
+	}else if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
 			var type = "spectrum"
@@ -317,23 +320,6 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			specview.controller.plugins.Highlight.zoomObject = null;
 			this.reDrawGrid();
 			this.reDrawAxis();	
-		}else if(isInMolecule){
-			this.clearMolecule();
-			this.reDrawMolecule();
-			var listOfObjects = this.getObjects(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-					specview.controller.plugins.Highlight.zoomObject.rectangle.left+
-					specview.controller.plugins.Highlight.zoomObject.rectangle.width,
-					specview.controller.plugins.Highlight.zoomObject.rectangle.top,
-					specview.controller.plugins.Highlight.zoomObject.rectangle.top+
-					specview.controller.plugins.Highlight.zoomObject.rectangle.height);
-			var arrayOfAtoms = new Array();
-			var arrayOfBonds = new Array();
-			for(k in listOfObjects){
-				listOfObjects[k] instanceof specview.model.Atom ? arrayOfAtoms.push(listOfObjects[k]) : arrayOfBonds.push(listOfObjects[k])
-			}
-			this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
-			specview.controller.plugins.Highlight.zoomObject = null;
-			this.highlightSubMolecule(arrayOfBonds, arrayOfAtoms)
 		}
 	}
 	/*
@@ -341,14 +327,13 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	 * Hence, we must set the zoomObject to null, otherwise the rectangle will be drawn even if the user has MOUSE UP
 	 */
 	else{
-		specview.controller.plugins.Highlight.zoomObject.zooming_on_molecule = false;
-		specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum = false;
-		specview.controller.plugins.Highlight.zoomObject = null;
-	}
-	
-	
-
+			specview.controller.plugins.Highlight.zoomObject.zooming_on_molecule = false;
+			specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum = false;
+			specview.controller.plugins.Highlight.zoomObject = null;	
+		}
 };
+
+
 
 specview.controller.plugins.Highlight.prototype.reDrawMolecule = function(){
 	this.editorObject.moleculeRenderer.render(this.editorObject.specObject.molecule,
@@ -416,6 +401,22 @@ specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak,edit
 specview.controller.plugins.Highlight.prototype.highlightAtom = function(atom) {
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOn(atom,this.HIGHLIGHT_COLOR);
 };
+
+specview.controller.plugins.Highlight.prototype.selectObject = function(object,e){
+//	object.isSelected = true;
+	return (object instanceof specview.model.Atom ? this.editorObject.moleculeRenderer.atomRenderer.selectAtom(object) :
+		alert("caca"));
+};
+
+specview.controller.plugins.Highlight.prototype.unselectObject = function(object){
+//	alert("caca")
+	object.isSelected = false;
+	this.editorObject.moleculeRenderer.clearMolecule(this.editorObject.specObject.mainMolBox,this.editorObject.graphics)
+	this.editorObject.moleculeRenderer.render(this.editorObject.specObject.molecule,this.editorObject.staticTransform,this.editorObject.specObject.mainMolBox)
+//	this.lastT.highlightGroup.clear();
+//	return (object instanceof specview.model.Atom ? 
+};
+
 
 specview.controller.plugins.Highlight.prototype.highlightSeriesOfAtom=function(arrayOfAtom){
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOnSeriesOfAtom(arrayOfAtom,this.HIGHLIGHT_COLOR);

@@ -113,6 +113,8 @@ specview.model.Atom = function(opt_symbol, opt_x, opt_y, opt_charge, opt_aromati
 	
 	this.pixelCoordinates=new goog.math.Coordinate(this.xPixel,this.yPixel);	
 	
+	this.isSelected = false;
+	
 };
 goog.exportSymbol("specview.model.Atom", specview.model.Atom);
 
