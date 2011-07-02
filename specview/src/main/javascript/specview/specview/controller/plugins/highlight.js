@@ -277,9 +277,11 @@ document.onmousedown = function(e){
 		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
 		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
 	}else if(specview.controller.Controller.isInMolecule(e,document.metaSpecObject)){
-//		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
-//		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
-//		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
+		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
+		if(document.editorObject.neighborList.getObjectFromCoord(e,document.editorObject.specObject) == undefined){
+			specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
+			specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
+		}
 	}else if (specview.controller.Controller.isInSecondarySpectrum(e)){
 	}else{
 	}
@@ -299,10 +301,27 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 	var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 	if(isInMolecule){
-		var object = this.editorObject.neighborList.getObjectFromCoord(e,this.editorObject.specObject)
-		object.isSelected ? this.unselectObject(object) : this.selectObject(object,e);
-		this.editorObject.specObject.selected.push(object);
-		document.ShowContent("floatingBoxSelectMultiplePeaks")
+//		alert(specview.controller.plugins.Highlight.zoomObject)
+		if(specview.controller.plugins.Highlight.zoomObject == null){
+			var object = this.editorObject.neighborList.getObjectFromCoord(e,this.editorObject.specObject)
+			object.isSelected ? this.unselectObject(object) : this.selectObject(object,e);
+			this.editorObject.specObject.selected.push(object);
+			document.ShowContent("floatingBoxSelectMultiplePeaks")
+	}else{
+		var type = "molecule"
+		var listOfAtoms = this.getObjects(type,
+				specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+				specview.controller.plugins.Highlight.zoomObject.rectangle.left+
+				specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+		for(k in listOfAtoms){
+			listOfAtoms[k].isSelected = true;
+			this.editorObject.specObject.selected.push(listOfAtoms[k]);
+		}
+		this.editorObject.moleculeRenderer.clearMolecule(this.editorObject.specObject.mainMolBox,this.editorObject.graphics);
+		this.reDrawMolecule();
+		specview.controller.plugins.Highlight.zoomObject = null;
+		specview.controller.plugins.Highlight.highlightSerieOfPeaks(this.editorObject)
+	}
 	}else if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
@@ -403,6 +422,7 @@ specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak,edit
 
 specview.controller.plugins.Highlight.highlightSerieOfPeaks = function(editor){
 //	alert(editor)
+	
 	var ArrayOfPeaks = new Array();
 	//alert(specview.util.Utilities.getAssoArrayLength(editor.specObject.selected))
 	for(k in editor.specObject.selected){
@@ -418,9 +438,7 @@ specview.controller.plugins.Highlight.highlightSerieOfPeaks = function(editor){
 		}		
 
 	}
-//	for(peak in ArrayOfPeaks){
 		editor.spectrumRenderer.highlightOnSerieOfPeaks(ArrayOfPeaks,editor);
-//	}
 }
 
 specview.controller.plugins.Highlight.prototype.highlightAtom = function(atom) {

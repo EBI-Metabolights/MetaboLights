@@ -263,6 +263,12 @@ specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
 
 
 specview.view.SpectrumRenderer.prototype.highlightOnSerieOfPeaks = function(peaks,editor) {
+//	alert("caca")
+	this.clearSpectrum(editor.specObject.mainSpecBox,editor.graphics);
+	this.render(editor.specObject,editor.transform);
+	this.renderAxis(editor.specObject,this.box,'black');
+	this.renderGrid(editor.specObject.mainSpecBox,'black',editor.specObject.spectrum);	
+
 	opt_element_array = new specview.graphics.ElementArray();
 
 	for(k in peaks){
