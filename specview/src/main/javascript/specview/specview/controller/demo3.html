@@ -65,14 +65,16 @@ function initPage(){
 
 			editor.setSpecObject(spectrumData);
 			document.metaSpecObject = spectrumData;
+
+			document.editorObject = editor;
+			document.staticGraphics = goog.graphics.createGraphics(1200,400);
 			
 			
 			editor.setModels([spectrumData],false);
 			editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
 			editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
 
-			document.editorObject = editor;
-			document.staticGraphics = goog.graphics.createGraphics(1200,400);
+
 			
 			//Display the informations about the molecule
 		    goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
@@ -712,16 +714,22 @@ Hide the window
      opacity: 600;
      padding: 1px;">
      
-     
-     <a href="javascript:specview.controller.plugins.Highlight.highlightSerieOfPeaks(document.editorObject)"onmouseover="specview.controller.plugins.Highlight.highlightSerieOfPeaks(document.editorObject);">Identify the peaks of the atoms you selected</a>
-     <br>
-     <br>
-     <br>
-     <a 
+     <li>
+     <a href="javascript:specview.controller.plugins.Highlight.highlightSerieOfPeaks(document.editorObject)">Identify the peaks of the atoms you selected</a>
+     </li><br>
+     <li>
+          <a href="javascript:specview.controller.plugins.Highlight.reDrawMolecule(document.editorObject)">Unselect everything</a>
+	 </li><br>
+	 <li>
+	 <a 
  onmouseover="document.HideContent('floatingBoxSelectMultiplePeaks'); return true;"
- href="javascript:HideContent('floatingBoxColor')">
+ href="javascript:document.HideContent('floatingBoxColor')">
 Hide the window
 </a>
+	 </li>
+     <br>
+     <br>
+     <br>
      </div>
 
 </body>

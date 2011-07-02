@@ -65,6 +65,7 @@ specview.view.MoleculeRenderer.prototype.clearMolecule = function(box,graphics){
 
 
 specview.view.MoleculeRenderer.prototype.render = function(molecule, transform, molecule_Box) {
+	this.clearMolecule(molecule_Box, document.editorObject.graphics)
     this.setTransform(transform);
 
 	if (!molecule._elements){

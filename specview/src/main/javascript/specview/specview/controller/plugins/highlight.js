@@ -355,6 +355,21 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 };
 
 
+/**
+ * method called when the user click the option unselect everything. HEnce we must unselect every atom
+ * @param editorObject
+ */
+specview.controller.plugins.Highlight.reDrawMolecule = function(editorObject){
+	for(k in editorObject.specObject.molecule.atoms){
+		editorObject.specObject.molecule.atoms[k].isSelected = false;
+	}
+	for(k in editorObject.specObject.molecule.bonds){
+		editorObject.specObject.molecule.bonds[k].isSelected = false;
+	}
+	editorObject.moleculeRenderer.render(editorObject.specObject.molecule,
+											  editorObject.staticTransform,
+											  editorObject.specObject.mainMolBox);
+};
 
 specview.controller.plugins.Highlight.prototype.reDrawMolecule = function(){
 	this.editorObject.moleculeRenderer.render(this.editorObject.specObject.molecule,
