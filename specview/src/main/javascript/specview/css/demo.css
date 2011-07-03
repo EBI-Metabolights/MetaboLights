@@ -77,8 +77,28 @@ input.button:active {
         border-radius: 16px;
         -moz-border-radius: 16px;
         -webkit-border-radius: 16px;
+    }
+    
+    div.draggingBar {
+            -webkit-transform: rotateX( 35deg );
+        position: relative;
+        display: inline-block;
+        width: 15px;
+        padding: 3px 1px;
+        margin: 0px 1px;
+        background-color: #E49319;
+        color: #fff;
+        font-weight: bold;
+        font-size: 10px;
+        text-decoration: none;
+        text-align: center;
+        text-shadow: 0px -1px 0px rgba(0,0,0,0.5);
 
- 
+        border: 1px solid;
+        border-color: #fff;
+        border-radius: 16px;
+        -moz-border-radius: 16px;
+        -webkit-border-radius: 16px;
     }
     
     

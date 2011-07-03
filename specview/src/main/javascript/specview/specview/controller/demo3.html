@@ -455,7 +455,7 @@ count = 0;
 		case "atom" :
 			var max = document.atomSensitivity == 1;
 			var min = document.atomSensitivity == 10;
-			if(document.atomSensitivity > 1 && document.atomSensitivity < 10){
+			if(document.atomSensitivity > 1){
 				sign=="+" ? document.atomSensitivity -= 1 : document.atomSensitivity += 1;
 			}else if(max && sign=="-"){
 				document.atomSensitivity += 1;
@@ -466,11 +466,12 @@ count = 0;
 			}else if(min && sign=="-"){
 				alert("minimum sensitivity reached")
 			}
+			document.getElementById("atomSensitivityValue").value = document.atomSensitivity + "px"
 			break;
 		case "bond" :
 			var max = document.bondSensitivity == 1;
 			var min = document.bondSensitivity == 10;
-			if(document.bondSensitivity > 1 && document.bondSensitivity < 10){
+			if(document.bondSensitivity > 1 ){
 				sign=="+" ? document.bondSensitivity -= 1 : document.bondSensitivity += 1;
 			}else if(max && sign=="-"){
 				document.bondSensitivity += 1;
@@ -481,11 +482,12 @@ count = 0;
 			}else if(min && sign=="-"){
 				alert("minimum sensitivity reached")
 			}
+			document.getElementById("bondSensitivityValue").value = document.bondSensitivity + "px"
 			break;
 		case "peak" :
 			var max = document.peakSensitivity == 1;
 			var min = document.peakSensitivity == 10;
-			if(document.peakSensitivity > 1 && document.peakSensitivity < 10){
+			if(document.peakSensitivity > 1 ){
 				sign=="+" ? document.peakSensitivity -= 1 : document.peakSensitivity += 1;
 			}else if(max && sign=="-"){
 				document.peakSensitivity += 1;
@@ -496,16 +498,29 @@ count = 0;
 			}else if(min && sign=="-"){
 				alert("minimum sensitivity reached")
 			}
+			document.getElementById("peakSensitivityValue").value = document.peakSensitivity + "px"
 			break;
 		default :
+			alert("")
 			break;
 		}
   }
 
-//  function modifySensitivit(object,sign){
-///   	alert(object+" ; "+sign+"  ;   "+document.atomSensitivity)
-//  }
-  
+ function setSensitivity(object){
+	 switch(object){
+		 case "atom" :
+			 document.atomSensitivity = specview.util.Utilities.parsePixel(document.getElementById("atomSensitivityValue").value)
+			 break;
+		 case "bond" :
+			 document.bondSensitivity = specview.util.Utilities.parsePixel(document.getElementById("bondSensitivityValue").value)
+			 break;
+		 case "peak" :
+			 document.peakSensitivity = specview.util.Utilities.parsePixel(document.getElementById("peakSensitivityValue").value)
+			 break;
+		 default :
+			 break;
+	 }
+ }  
 </script>
 
 
@@ -516,13 +531,18 @@ count = 0;
   		   visibility: show;">
 	<b>+Select your sensitivity</b><br><br>
 	-Atoms  <input class="smallButton" type="button" id="atomSensitivity" value="-" onclick="modifySensitivity('atom','-')">
-			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('atom','+')"><br>
+			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('atom','+')">
+			<input class = "smallButton" type="text" id="atomSensitivityValue" value="6px" onchange="setSensitivity('atom')">
+			<br>
 			
 	-Bonds  <input class="smallButton" type="button" id="bondSensitivity" value="-" onclick="modifySensitivity('bond','-')">
-			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('bond','+')"><br>
+			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('bond','+')">
+			<input class = "smallButton" type="text" id="bondSensitivityValue" value="6px" onchange="setSensitivity('bond')">
+			<br>
 			
 	-Peaks  <input class="smallButton" type="button" id="peakSensitivity" value="-" onclick="modifySensitivity('peak','-')">
 			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('peak','+')">
+			<input class = "smallButton" type="text" id="peakSensitivityValue" value="10px" onchange="setSensitivity('peak')">
 </div>
 	 <div id="opacityOption"
       style="top: 143px;
@@ -536,13 +556,29 @@ count = 0;
    -Peaks<br>
    </div>
    
-   <div id="sliderAtomOpacity"><script>document.write("<->")</script></div>	
-   <div id="sliderBondOpacity"><script>document.write("<->")</script></div>
-   <div id="sliderPeakopacity"><script>document.write("<->")</script></div>
+   <div class="smallButton" id="sliderAtomOpacity"><script>document.write("<->")</script></div>	
+   <div class="smallButton" id="sliderBondOpacity"><script>document.write("<->")</script></div>
+   <div class="smallButton" id="sliderPeakopacity"><script>document.write("<->")</script></div>
    
       <label id="selectMolecule">Select a spectrum to render: </label>
       <br>
-      <div id="moleculeContainer" style="height:800px"></div>
+      <div id="moleculeContainer" style="height:800px">
+      
+      <div
+	class="draggingBar"
+	id="draggingBarSpectrum"
+	style="width:100px;
+		   position:relative;
+		   top:700px;
+		   left:100px;
+		   display:none"
+>
+<--drag--->
+
+</div>
+      
+      
+      </div>
 	</fieldset>
 
 <!-- ################################ COLOR FLOATING BOX ############################ -->
@@ -731,6 +767,9 @@ Hide the window
      <br>
      <br>
      </div>
+
+
+
 
 </body>
 </html>

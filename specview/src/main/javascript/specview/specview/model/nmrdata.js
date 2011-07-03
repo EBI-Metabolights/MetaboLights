@@ -189,10 +189,16 @@ specview.model.NMRdata=function(){
     this.childSpectrum;
     
     /**
-     * 
+     * Array of selected object. When the user select bonds and atoms, the objects must be present in this array.
      */
-    
     this.selected = new Array();
+    
+    /**
+     * Object specifying the left position and the width.
+     * dragOnSpectrum.left
+     * dragOnSpectrum.with
+     */
+    this.dragOnSpectrum = new Object();
 	
 };
 

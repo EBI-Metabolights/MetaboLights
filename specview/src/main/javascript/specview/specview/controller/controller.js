@@ -314,10 +314,33 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	
 };
 
-
+/**
+ * When the  user zoom on the spectrum, a smaller rectangle is rendered on the smaller spectrum to help the user identify
+ * which part of the spectrum he focused on
+ */
 specview.controller.Controller.prototype.mapZoomSpectrum = function(left,width,editor){
 	this.specObject.setZoomBox(left,width);
 	return this.spectrumRenderer.mapZoomSpectrum(left,width,this.specObject,editor);
+}
+
+specview.controller.Controller.prototype.setDraggingTool = function(left,width,editor){
+//	alert(this.specObject.secondSpecBox["top"]+
+//			   document.getElementById("fieldSet").offsetTop)
+//	alert(document.getElementById("moleculeContainer").offset)
+    var stroke = new goog.graphics.Stroke(0.3,'black');
+	var fill = new goog.graphics.SolidFill('black');
+    var font1 = new goog.graphics.Font(18, 'Comics');
+    var font2 =	new goog.graphics.Font(13, 'Comics');
+    
+	this.specObject.dragOnSpectrum.left = left;
+	this.specObject.dragOnSpectrum.width = width;
+
+	editor.graphics.drawText("bablababa",this.specObject.secondSpecBox["left"],this.specObject.secondSpecBox["top"],600,200,"center",null,font2,stroke,fill)
+	
+	document.getElementById("draggingBarSpectrum").style.display = "block";
+	document.getElementById("draggingBarSpectrum").style.left = left+"px";
+	document.getElementById("draggingBarSpectrum").style.top = this.specObject.secondSpecBox["top"]+"px" 
+	document.getElementById("draggingBarSpectrum").style.width = width+"px";
 }
 
 /**
@@ -331,7 +354,7 @@ specview.controller.Controller.prototype.renderSpectrum  = function(){
  * To be able to render the spectrum the  grid and  the axis in the  same time;
  */
 specview.controller.Controller.prototype.renderCompleteSpectrum = function(){
-	this.spectrumRenderer.render(this.specObject,this.transform,this.specObject.mainSpecBox,null,null);
+	this.spectrumRenderer.render(this.specObject,this.transform,this.specObject.mainSpecBox,null,null)
 	this.spectrumRenderer.renderAxis(this.specObject,this.spectrumRenderer.box,'black');
 	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,'black',this.specObject.spectrum);
 }

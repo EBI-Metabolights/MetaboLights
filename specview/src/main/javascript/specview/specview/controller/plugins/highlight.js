@@ -307,21 +307,21 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			object.isSelected ? this.unselectObject(object) : this.selectObject(object,e);
 			this.editorObject.specObject.selected.push(object);
 			document.ShowContent("floatingBoxSelectMultiplePeaks")
-	}else{
-		var type = "molecule"
-		var listOfAtoms = this.getObjects(type,
-				specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-				specview.controller.plugins.Highlight.zoomObject.rectangle.left+
-				specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-		for(k in listOfAtoms){
-			listOfAtoms[k].isSelected = true;
-			this.editorObject.specObject.selected.push(listOfAtoms[k]);
+		}else{
+			var type = "molecule"
+				var listOfAtoms = this.getObjects(type,
+						specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+						specview.controller.plugins.Highlight.zoomObject.rectangle.left+
+						specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+			for(k in listOfAtoms){
+				listOfAtoms[k].isSelected = true;
+				this.editorObject.specObject.selected.push(listOfAtoms[k]);
+			}
+			this.editorObject.moleculeRenderer.clearMolecule(this.editorObject.specObject.mainMolBox,this.editorObject.graphics);
+			this.reDrawMolecule();
+			specview.controller.plugins.Highlight.zoomObject = null;
+			specview.controller.plugins.Highlight.highlightSerieOfPeaks(this.editorObject)
 		}
-		this.editorObject.moleculeRenderer.clearMolecule(this.editorObject.specObject.mainMolBox,this.editorObject.graphics);
-		this.reDrawMolecule();
-		specview.controller.plugins.Highlight.zoomObject = null;
-		specview.controller.plugins.Highlight.highlightSerieOfPeaks(this.editorObject)
-	}
 	}else if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
@@ -336,6 +336,8 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			this.editorObject.setModels([this.editorObject.specObject]);
 			this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
 			this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+					 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+			this.setDraggingTool(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 					 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
 			
 			specview.controller.plugins.Highlight.zoomObject = null;
@@ -387,6 +389,10 @@ specview.controller.plugins.Highlight.prototype.getSerieOfAtoms = function(molec
 
 specview.controller.plugins.Highlight.prototype.mapZoomSpectrum = function(left,width){
 	return this.editorObject.mapZoomSpectrum(left,width,this.editorObject);
+};
+
+specview.controller.plugins.Highlight.prototype.setDraggingTool = function(left,width){
+	return this.editorObject.setDraggingTool(left,width,this.editorObject);
 };
 
 
