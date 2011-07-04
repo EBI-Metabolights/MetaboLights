@@ -43,7 +43,9 @@ public class SearchController extends AbstractController{
 
 	    List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>();
 	    List<String> organisms = new ArrayList<String>(); 
-	    List<String> technology = new ArrayList<String>(); 
+	    List<String> technology = new ArrayList<String>();
+	    List<String> platforms = new ArrayList<String>();
+	    
 	    
 	    String query = request.getParameter("query");
 	    
@@ -66,9 +68,20 @@ public class SearchController extends AbstractController{
 						if (!technology.contains(techs))
 							technology.add(techs); 
 					}
-				
 					
 				}
+				
+				
+				if (result.getPlatforms()!=null && !platforms.containsAll(result.getPlatforms())){ 
+					Iterator platIter = result.getPlatforms().iterator();
+					while (platIter.hasNext()){
+						String plats = (String) platIter.next();
+						if (!platforms.contains(plats))
+							platforms.add(plats); 
+					}
+					
+				}
+				
 				
 			}
 			
@@ -79,11 +92,14 @@ public class SearchController extends AbstractController{
     	mav.addObject("searchResults", resultSet);
     	mav.addObject("userQuery", request.getParameter("query"));
     	if (!query.isEmpty())
-    		mav.addObject("userQueryClean", query.replaceAll("\\*", ""));
-    	if (!organisms.isEmpty())
+    		mav.addObject("userQueryClean", query.replaceAll("\\*", "")); //TODO, % as well
+    	if (organisms.size()>1)
     		mav.addObject("organisms", organisms);
-    	if (!technology.isEmpty())
+    	if (technology.size()>1)
     		mav.addObject("technology", technology);
+    	if (platforms.size()>1)
+    		mav.addObject("platforms", platforms);
+    	
     	
     	return mav;
 	}
