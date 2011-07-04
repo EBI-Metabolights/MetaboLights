@@ -2,7 +2,12 @@ package uk.ac.ebi.metabolights.search;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
@@ -18,18 +23,23 @@ import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 public class LuceneSearchResult {
 
 	private List<Assay> assays;
-	private List<String> factors;
-	private List<String> properties;
+	private HashMap<String,Set<String>> factors;
+	private HashMap<String,Set<String>> properties;
 	private List<String> technologies;
+	private List<String> platforms;
 
 	
 	public LuceneSearchResult(Document doc, float score) {
 		this.doc=doc;
 		this.score=score;
-		this.assays=parseAssays();
-		this.factors=getValues(StudyBrowseField.FACTOR_NAME.getName());
-		this.properties=getValues("property_value");
+		//Call version 13 this.assays=parseAssays();
+		this.assays = parseAssays13();
+		
+		//Field is called factors in the 1.3 version (not in the enum..yet)
+		this.factors=parseKeyValue("factors");
+		this.properties=parseKeyValue("characteristics");
 		this.technologies=getValues("assay_technology_name");
+		this.platforms=getValues("assay_platform");
 	}
 	
 	private Document doc;
@@ -58,7 +68,7 @@ public class LuceneSearchResult {
 		return doc.get(StudyBrowseField.ORGANISM.getName());
 	}
 	
-	public List<String> getProperties() {
+	public HashMap<String,Set<String>> getProperties() {
 		return properties;
 	}
 	
@@ -66,7 +76,10 @@ public class LuceneSearchResult {
 		return technologies;
 	}
 	
-	public List<String> getFactors() {
+	public List<String> getPlatforms() {
+		return platforms;
+	}
+	public HashMap<String,Set<String>> getFactors() {
 		return factors;
 	}
 
@@ -136,8 +149,6 @@ public class LuceneSearchResult {
 			this.count=count;
 		}
 	}
-	
-	
 	/**
 	 * Why is a Set necessary? Because there are duplicates in the result. Like the same factor over and over.. 
 	 * @param fieldName
@@ -147,6 +158,7 @@ public class LuceneSearchResult {
 		SortedSet<String> set = new TreeSet<String>(); 
 		String[] values = doc.getValues(fieldName);
 		for (String val :values) {
+			
 			set.add(val);
 		}
 		return Arrays.asList(set.toArray(new String[set.size()]));
@@ -181,8 +193,72 @@ public class LuceneSearchResult {
 		}
 		return assays;
 	}
+	/**
+	 * Parse ASSAY field based in the 1.3 version of the lucene index:
+	 * Sample: assay(transcription profiling|DNA microarray|14):?xref(E-MAXD-4->AE:RAW):?xref(E-MAXD-4->AE:WEB)
+	 * @return
+	 */
+	private List<Assay> parseAssays13() {
+		List<Assay> assays = new ArrayList<Assay>();
+		String[] assayStrings = doc.getValues(StudyBrowseField.ASSAY_INFO.getName());
+		for (String assayString :assayStrings) {
+			StringTokenizer tokzr = new StringTokenizer(assayString, "()|");
+			int idx=0;
+			String measurement="";
+			String technology="";
+			String count="";
 
+			while (tokzr.hasMoreElements()) {
+				String token = (String) tokzr.nextElement();
+				switch (idx) {
+				case 1 : measurement=token; break;
+				case 2 : technology=token; break;
+				case 3 : count=token; break;
+				}
+				idx++;
+			}
+			Assay assay = new Assay(measurement,technology,count);
+			assays.add(assay);
+		}
+		return assays;
+	}
+	private HashMap<String,Set<String>> parseKeyValue(String fieldName){
 
+		HashMap<String,Set<String>> keyValue = new HashMap<String,Set<String>>();
+		String[] keyValuesString = doc.getValues(fieldName);
+		for (String keyValueString :keyValuesString) {
+			StringTokenizer tokzr = new StringTokenizer(keyValueString, "[]");
+			int idx=0;
+			String key="";
+			String value="";
+
+			while (tokzr.hasMoreElements()) {
+				String token = (String) tokzr.nextElement();
+				switch (idx) {
+				case 0 : key=token; break;
+				case 1 : value=token; break;
+				}
+				idx++;
+			}
+			
+			//If there is a key already
+			if (keyValue.containsKey(key)){
+				
+				//Concatenate the value
+				keyValue.get(key).add(value);
+			}else{
+				//New factor...
+				Set<String> newSet = new HashSet<String>();
+				newSet.add(value);
+				keyValue.put(key, newSet);
+			}
+			
+		}
+		return keyValue;
+
+		
+	}
+	
 	private String lineSep = System.getProperty("line.separator");
 	
 	public String toString() {
@@ -192,8 +268,21 @@ public class LuceneSearchResult {
 		sb.append("Inv: "+ getAccInvestigation()+lineSep);
 		sb.append("Title:"+getTitle()+lineSep);
 		sb.append("Organism:"+getOrganism()+lineSep);
-		for (String factor : getFactors()) {
-			sb.append (" -factor: "+factor+lineSep  );
+		
+		for (Entry<String,Set<String>> property : getProperties().entrySet()) {
+			sb.append (" -property: "+property.getKey() + ": ");
+			for (String value : property.getValue()){
+				sb.append(value + ",");
+			}
+			sb.append (lineSep);
+		}
+		
+		for (Entry<String,Set<String>> factor : getFactors().entrySet()) {
+			sb.append (" -factor: "+factor.getKey() + ": ");
+			for (String value : factor.getValue()){
+				sb.append(value + ",");
+			}
+			sb.append (lineSep);
 		}
 		for (LuceneSearchResult.Assay ass : getAssays()) {
 			sb.append(" -assay: "+ass.getMeasurement()+" - "+ass.getTechnology()+" - "+ass.getCount()+lineSep);
