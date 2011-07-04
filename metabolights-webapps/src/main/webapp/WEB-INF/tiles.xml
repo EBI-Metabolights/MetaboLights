@@ -13,6 +13,7 @@
 		<put-attribute name="title" value="" />
 		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
 		<put-attribute name="body" value="" />
+		<put-attribute name="bodyleft" value="" />
 		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
 	</definition>
 
@@ -90,6 +91,7 @@
     <definition name="searchResult" extends="base.definition">
         <put-attribute name="title" value="Metabolights search results" />
         <put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp" />
+		<put-attribute name="bodyleft" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
     
     <definition name="searchFilter">
