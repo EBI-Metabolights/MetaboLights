@@ -216,6 +216,8 @@ function displayColor(){
    	 	 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   		})();
 	</script>
+ 	 
+ 	 
  	 	  
 </head>
 
@@ -377,7 +379,17 @@ Hide the window
 <input class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule">
 <input class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Move molecule? KO">
+<input id="cmlInputFile" type = "file" name = "chk1" onchange = "javascript:getCMLString()" >
+
+
+
 <script type = "text/javascript">
+
+function getCMLString(){
+	var path = document.getElementById("cmlInputFile").value;
+	alert(document.HelloWorld.printMessage(path));
+}
+
 var count = 0;
 function newPage(page) {
 	if (count == 0) {  // once only
@@ -395,6 +407,8 @@ function closepop()
 window.onunload = closepop;
 count = 0;
 }
+
+
 </script>
 
 	<fieldset id="fieldSet" style="width:1200px">
@@ -768,8 +782,8 @@ Hide the window
      <br>
      </div>
 
-
-
+<applet  name="HelloWorld" Code="HelloWorld.class" width="300" height="50">
+</applet>
 
 </body>
 </html>
