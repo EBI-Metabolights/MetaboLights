@@ -40,18 +40,19 @@ html,body {
 
 /* Style for the top bar (=header) */
 #top_bar {
-	height: 45px;
+	height: 40px;
 }
 #top_bar h1 {
 	margin-top: 7px;
 	width: 250px;
-	height: 55px;
+	height: 40px;
 	font-size: 1px;
 	text-indent: -9999px;
 	background: url(../img/banner.png) no-repeat left top;
 	float: left;
 	margin-bottom: -20px;
-        border:0px;
+    border:0px;
+	padding:0px;
 }
 #top_bar #navigation {
 	list-style: none;
