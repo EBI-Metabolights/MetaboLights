@@ -212,8 +212,8 @@ public class IsaTabIdReplacerTest {
  			//Get the ids
  			HashMap<String,String> ids = itr.getIds();
  			
- 			//There must be 2 studies..
- 			assertEquals(2, ids.size());
+ 			//There must be 1 studies..
+ 			assertEquals(1, ids.size());
  			
  			//We can not test the content as the Investigation is replaced but not returned in the HashMap
  			
