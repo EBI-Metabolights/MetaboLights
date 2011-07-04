@@ -4,7 +4,7 @@
 <script type="text/javascript" src="javascript/jquery-1.6.1.min.js"></script>
 <br />
 
-		<div style='width: 200px; border: 5px solid #D5AE60;' class='iscell'>
+		<div style='width: 200px; border: 3px solid #D5AE60;'>
 			<b><spring:message code="label.organism" /> </b>
 			<ul id="organisms">
 				<c:forEach var="species" items="${organisms}">
@@ -14,7 +14,7 @@
 			</ul>
 		</div>
 
-		<div style='width: 200px; border: 5px solid #D5AE60;' class='iscell'>
+		<div style='width: 200px; border: 3px solid #D5AE60;'>
 			<b><spring:message code="label.technology" /> </b>
 			<ul id="technology">
 				<c:forEach var="techs" items="${technology}">
@@ -24,7 +24,7 @@
 			</ul>
 		</div>
 		
-<div style='width: 200px; border: 5px solid #D5AE60;' class='iscell'>
+<div style='width: 200px; border: 3px solid #D5AE60;'>
 	<b><spring:message code="label.organism" /> </b>
 	<ul id="organisms">
 		<c:forEach var="species" items="${organisms}">

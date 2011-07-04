@@ -45,6 +45,9 @@
                     <div class="wrapper" >
                         <div id="topAndBody"  >
                             <tiles:insertAttribute name="header"/>
+                            <div style="width: 300px; float: left">
+                                <tiles:insertAttribute name="bodyleft" />
+                            </div>
                             <div style="width: 1000px; float: left">
                                 <tiles:insertAttribute name="body" />
                             </div>

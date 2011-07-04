@@ -19,68 +19,38 @@
 	<br>
 	<br>
 	<div id="highlight-plugin">
-	
-	<!--  This is not working:  tiles:insertAttribute name="searchFilter"/--> 
-	<!-- Pasted searchFilter.jsp in her for testing, remove later -->
-	
-		<div style='width: 200px; border: 5px solid #D5AE60;' class='iscell'>
-			<b><spring:message code="label.organism" /> </b>
-			<ul id="organisms">
-				<c:forEach var="species" items="${organisms}">
-					<i><input type="checkbox" name="organisms" value="${species}"> ${species}</i>
-					<br />
-				</c:forEach>
-			</ul>
-		</div>
-
-		<div style='width: 200px; border: 5px solid #D5AE60;' class='iscell'>
-			<b><spring:message code="label.technology" /> </b>
-			<ul id="technology">
-				<c:forEach var="techs" items="${technology}">
-					<i><input type="checkbox" name="technology" value="${techs}"> ${techs}</i>
-					<br />
-				</c:forEach>
-			</ul>
-		</div>
-		<div style='width: 200px; border: 5px solid #D5AE60;' class='iscell'>
-			<b><spring:message code="label.platforms" /> </b>
-			<ul id="platforms">
-				<c:forEach var="plat" items="${platforms}">
-					<i><input type="checkbox" name="platform" value="${plat}"> ${plat}</i>
-					<br />
-				</c:forEach>
-			</ul>
-		</div>
-		
-
 		<div id="content">
 			<c:forEach var="searchResult" items="${searchResults}">
 				<div class="z">
 					<div style='width: 1000px; border: 1px solid #D5AE60; margin-bottom: 10px;'>
+						
 						<!-- div style='width: 950px;' class='iscell'><b><a href="http://wwwdev.ebi.ac.uk/mtbl/entry=${searchResult.accStudy}">${searchResult.title}</a></b></div-->
-						<div style='width: 950px;' class='iscell'><b><a href="entry=${searchResult.accStudy}">${searchResult.title}</a></b>
+						<div style='width: 950px;' class='iscell'>
+							<b><a href="entry=${searchResult.accStudy}">${searchResult.title}</a></b>
 						</div>
+						
 						<div style='clear: both;'></div>
 						<!-- new row -->
 
-						<div style='width: 350px;' class='iscell'>
+						<div style='width: 450px;' class='iscell'>
 							<spring:message code="label.expFact" />
 							<ul id="resultList">
 								<c:forEach var="factor" items="${searchResult.factors}">
-									<li>${factor}</li>
+									<li><b>${factor.key}:</b>${factor.value}</li>
 								</c:forEach>
 							</ul>
 						</div>
 
-						<div style='width: 600px;' class='iscell'>
+						<div style='width: 500px;' class='iscell'>
 							<spring:message code="label.expId" />
 							: ${searchResult.accStudy}<br>
 							<spring:message code="label.subm" />
 							${searchResult.userName}
 						</div>
+						
+						
 						<div style='clear: both;'></div>
 						<!-- new row -->
-
 
 						<div style='width: 350px;' class='iscell'>
 							<spring:message code="label.assays" />
@@ -94,8 +64,22 @@
 							<spring:message code="label.pubBy" /> TODO ${searchResult.pubAuthors},<spring:message code="label.pubIn" />
 								<a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${searchResult.pubId}&dataSource=MED">Citexplore</a>
 						</div>
+
 						<div style='clear: both;'></div>
 						<!-- new row -->
+
+						<div style='width: 800px;' class='iscell'>
+							<spring:message code="label.properties" />
+							<ul id="resultList">
+								<c:forEach var="property" items="${searchResult.properties}">
+									<li>${property.key}: ${property.value}</li>
+								</c:forEach>
+							</ul>
+						</div>
+
+						<div style='clear: both;'></div>
+						<!-- new row -->
+						
 					</div>
 				</div>
 			</c:forEach>

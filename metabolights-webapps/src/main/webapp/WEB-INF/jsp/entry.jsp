@@ -24,10 +24,17 @@
                 </c:forEach>
             </ul>
 		<br>		
+	    <b><spring:message code="label.properties" /></b>
+            <ul id="resultList">
+             	<c:forEach var="property" items="${document.properties}">
+                	<li>${property.key}: ${property.value}</li>
+                </c:forEach>
+            </ul>
+		<br>
 	    <b><spring:message code="label.expFact" /></b>
             <ul id="resultList">
              	<c:forEach var="factor" items="${document.factors}">
-                	<li>${factor}</li>
+                	<li>${factor.key}: ${factor.value}</li>
                 </c:forEach>
             </ul>
 		<br>
