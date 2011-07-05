@@ -101,5 +101,21 @@ public class IsaTabUploaderTest {
 			fail("testupload threw an exception: " + e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testReindex() {
+		IsaTabUploader itu = new IsaTabUploader();
+		//Set the config path
+		itu.setConfigPath("config/");
+		
+		try{
+			//Reindex the database...
+			itu.reindex();
+		}catch(Exception e){
+			
+			fail("Reindex test failed: " + e.getMessage());
+			
+		}
+	}
 
 }

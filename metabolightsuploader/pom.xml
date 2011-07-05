@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>org.isatools.isatab</groupId>
 			<artifactId>ISAtools-import-deps-FORK</artifactId>
-			<version>1.2.1.5</version>
+			<version>1.2.1.7</version>
 			<type>jar</type>
 			<exclusions>
 				<exclusion>

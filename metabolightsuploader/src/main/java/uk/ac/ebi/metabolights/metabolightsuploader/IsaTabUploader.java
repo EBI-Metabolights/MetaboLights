@@ -67,6 +67,10 @@ public class IsaTabUploader {
 	public void setStatus(VisibilityStatus status){this.status = status;}
 	public VisibilityStatus getStatus(){return status;}
 	
+	//Config path property
+	public void setConfigPath(String newConfigPath){this.configPath = newConfigPath;}
+	public String getConfigPath(){return this.configPath;}
+
 	//CheckList property
 	public void setCheckList(CheckList newCl){
 		cl= newCl;
@@ -150,5 +154,9 @@ public class IsaTabUploader {
 		SimpleManager sm = new SimpleManager();
 		sm.validateISAtab(isatabFile);
 		
+	}
+	public void reindex() throws Exception{
+		SimpleManager sm = new SimpleManager(configPath);
+		sm.reindexDatabase();
 	}
 }
