@@ -38,7 +38,8 @@ public class LuceneSearchResult {
 		//Field is called factors in the 1.3 version (not in the enum..yet)
 		this.factors=parseKeyValue("factors");
 		this.properties=parseKeyValue("characteristics");
-		this.technologies=getValues("assay_technology_name");
+		//No longer exist in 1.3 index version:this.technologies=getValues("assay_technology_name");
+		
 		this.platforms=getValues("assay_platform");
 	}
 	
