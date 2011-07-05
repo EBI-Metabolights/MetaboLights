@@ -23,14 +23,3 @@
 				</c:forEach>
 			</ul>
 		</div>
-		
-<div style='width: 200px; border: 3px solid #D5AE60;'>
-	<b><spring:message code="label.organism" /> </b>
-	<ul id="organisms">
-		<c:forEach var="species" items="${organisms}">
-			<i><input type="checkbox" name="organisms" value="${species}">
-				${species}</i>
-			<br />
-		</c:forEach>
-	</ul>
-</div>
