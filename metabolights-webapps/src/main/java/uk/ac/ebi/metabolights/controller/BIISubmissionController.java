@@ -1,13 +1,11 @@
 package uk.ac.ebi.metabolights.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
 
-import javax.naming.ConfigurationException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -21,14 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.utils.StringUtils;
 
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacerException;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
 
 /**
  * Controls multi part file upload as described in Reference Documentaion 3.0,
@@ -109,6 +106,20 @@ public class BIISubmissionController extends AbstractController {
 		mav.addObject("cl", cl);
 		
 		return mav;
+	}
+	@RequestMapping(value = "/reindex")
+	public ModelAndView reindex() throws Exception{
+		
+		//Get the path for the config folder (where the hibernate properties for the import layer are).
+		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+	
+		//Upload the file to bii
+		IsaTabUploader itu = new IsaTabUploader();
+		itu.setConfigPath(configPath);
+		itu.reindex();
+		
+		return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.indexed"));
+			
 	}
 	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
 	/**
