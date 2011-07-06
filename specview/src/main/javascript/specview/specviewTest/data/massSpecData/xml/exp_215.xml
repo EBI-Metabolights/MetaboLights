@@ -1,0 +1,2264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="coproporphyrinogen III" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="coproporphyrinogen III"/>
+        <metadata name="ms:exactMass" content="660.31591"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="633.292439272" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="coproporphyrinogen III_f1"/>
+        </peak>
+        <peak xValue="548.263484872" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="coproporphyrinogen III_f2"/>
+        </peak>
+        <peak xValue="481.221285712" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="coproporphyrinogen III_f3"/>
+        </peak>
+        <peak xValue="495.236935776" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="coproporphyrinogen III_f4"/>
+        </peak>
+        <peak xValue="646.3002643039999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="coproporphyrinogen III_f5"/>
+        </peak>
+        <peak xValue="509.25258584" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="coproporphyrinogen III_f6"/>
+        </peak>
+        <peak xValue="645.305015336" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="coproporphyrinogen III_f7"/>
+        </peak>
+        <peak xValue="575.286959968" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="coproporphyrinogen III_f8"/>
+        </peak>
+        <peak xValue="601.302610032" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak9">
+          <molecule ref="coproporphyrinogen III_f9"/>
+        </peak>
+        <peak xValue="615.3182600959999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak10">
+          <molecule ref="coproporphyrinogen III_f10"/>
+        </peak>
+        <peak xValue="645.292439272" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak11">
+          <molecule ref="coproporphyrinogen III_f11"/>
+        </peak>
+        <peak xValue="644.320999748" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak12">
+          <molecule ref="coproporphyrinogen III_f12"/>
+        </peak>
+        <peak xValue="643.3131747159999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak13">
+          <molecule ref="coproporphyrinogen III_f13"/>
+        </peak>
+        <peak xValue="587.286959968" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak14">
+          <molecule ref="coproporphyrinogen III_f14"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="coproporphyrinogen III"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="coproporphyrinogen III_f14"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f8"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f7"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f6"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f5"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f4"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f10"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f3"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f11"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f2"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f12"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f13"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f1"/>
+        </product>
+        <product>
+          <molecule ref="coproporphyrinogen III_f9"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="coproporphyrinogen III_f14" formula="C33H39N4O6">
+        <atomArray>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="O" x2="2.0673" y2="-4.3446" formalCharge="0" isotopeNumber="16"/>
+          <atom id="18" elementType="O" x2="3.4794" y2="-4.1257" formalCharge="0" isotopeNumber="16"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="15" atomRefs2="12 17" order="D"/>
+          <bond id="16" atomRefs2="12 18" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C33H40N4O6/c1-16-11-20-12-25-17(2)21(5-8-31(38)39)28(35-25)14-27-19(4)23(7-10-33(42)43)30(37-27)15-29-22(6-9-32(40)41)18(3)26(36-29)13-24(16)34-20/h11,34-37H,5-10,12-15H2,1-4H3,(H,38,39)(H,40,41)(H,42,43)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VNCWPGGXFSNVQV-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f8" formula="C32H39N4O6">
+        <atomArray>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="D"/>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="5" atomRefs2="3 7" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C32H42N4O6/c1-5-20-14-25-18(3)22(7-10-31(39)40)28(35-25)16-27-19(4)23(8-11-32(41)42)29(36-27)15-26-17(2)21(6-9-30(37)38)24(34-26)12-13-33-20/h5,33-36H,6-16H2,1-4H3,(H,37,38)(H,39,40)(H,41,42)/b20-5+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.027</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SEALWOMLAKFDQZ-DENHBWNVSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f7" formula="C36H43N3O8">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="O" x2="2.0673" y2="-4.3446" formalCharge="0" isotopeNumber="16"/>
+          <atom id="18" elementType="O" x2="3.4794" y2="-4.1257" formalCharge="0" isotopeNumber="16"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="D"/>
+          <bond id="3" atomRefs2="1 4" order="S"/>
+          <bond id="45" atomRefs2="4 7" order="D"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="15" atomRefs2="12 17" order="D"/>
+          <bond id="16" atomRefs2="12 18" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C36H45N3O8/c1-19-5-11-27-20(2)25(9-15-35(44)45)31(37-27)18-30-22(4)26(10-16-36(46)47)32(39-30)17-29-21(3)24(8-14-34(42)43)28(38-29)12-6-23(19)7-13-33(40)41/h5-6,37-39H,7-18H2,1-4H3,(H,40,41)(H,42,43)(H,44,45)(H,46,47)/b19-5+,23-6+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.043,0.042</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QCKBDMCDZQUHKC-XMLMZQSVSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f6" formula="C28H35N3O6">
+        <atomArray>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C28H37N3O6/c1-14-17(4)29-24(20(14)7-10-27(34)35)13-23-16(3)21(8-11-28(36)37)25(31-23)12-22-15(2)19(18(5)30-22)6-9-26(32)33/h29-31H,6-13H2,1-5H3,(H,32,33)(H,34,35)(H,36,37)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.012,0.013</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MFINILGRYBUFTI-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f5" formula="C35H42N4O8">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="O" x2="2.0673" y2="-4.3446" formalCharge="0" isotopeNumber="16"/>
+          <atom id="18" elementType="O" x2="3.4794" y2="-4.1257" formalCharge="0" isotopeNumber="16"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="15" atomRefs2="12 17" order="D"/>
+          <bond id="16" atomRefs2="12 18" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C35H44N4O8/c1-18-16-36-28(22(18)5-9-32(40)41)13-26-20(3)24(7-11-34(44)45)30(38-26)14-27-21(4)25(8-12-35(46)47)31(39-27)15-29-23(6-10-33(42)43)19(2)17-37-29/h16-17,36-39H,5-15H2,1-4H3,(H,40,41)(H,42,43)(H,44,45)(H,46,47)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.013,0.013</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HGQNIJFFOXUAQI-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f4" formula="C27H33N3O6">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="O" x2="2.0673" y2="-4.3446" formalCharge="0" isotopeNumber="16"/>
+          <atom id="18" elementType="O" x2="3.4794" y2="-4.1257" formalCharge="0" isotopeNumber="16"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="15" atomRefs2="12 17" order="D"/>
+          <bond id="16" atomRefs2="12 18" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C27H35N3O6/c1-14-13-28-22(18(14)5-8-25(31)32)12-24-20(7-10-27(35)36)16(3)21(30-24)11-23-19(6-9-26(33)34)15(2)17(4)29-23/h13,28-30H,5-12H2,1-4H3,(H,31,32)(H,33,34)(H,35,36)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.012,0.013</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=GSQVCSVLAJYZGY-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f10" formula="C35H43N4O6">
+        <atomArray>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C35H44N4O6/c1-6-21-17(2)25-13-26-18(3)22(7-10-33(40)41)30(37-26)14-27-19(4)23(8-11-34(42)43)31(38-27)15-28-20(5)24(9-12-35(44)45)32(39-28)16-29(21)36-25/h36-39H,6-16H2,1-5H3,(H,40,41)(H,42,43)(H,44,45)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.003</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=LNYDRMNOJFSWOZ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f3" formula="C26H31N3O6">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="O" x2="2.0673" y2="-4.3446" formalCharge="0" isotopeNumber="16"/>
+          <atom id="18" elementType="O" x2="3.4794" y2="-4.1257" formalCharge="0" isotopeNumber="16"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="15" atomRefs2="12 17" order="D"/>
+          <bond id="16" atomRefs2="12 18" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C26H33N3O6/c1-14-12-27-21(17(14)4-7-24(30)31)10-20-16(3)19(6-9-26(34)35)23(29-20)11-22-18(5-8-25(32)33)15(2)13-28-22/h12-13,27-29H,4-11H2,1-3H3,(H,30,31)(H,32,33)(H,34,35)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.013,0.013</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JLTCTONJKSJMKR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f11" formula="C35H41N4O8">
+        <atomArray>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="O" x2="2.0673" y2="-4.3446" formalCharge="0" isotopeNumber="16"/>
+          <atom id="18" elementType="O" x2="3.4794" y2="-4.1257" formalCharge="0" isotopeNumber="16"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="15" atomRefs2="12 17" order="D"/>
+          <bond id="16" atomRefs2="12 18" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C35H42N4O8/c1-17-22(5-9-33(42)43)30-16-31-24(7-11-35(46)47)19(3)27(39-31)15-29-23(6-10-34(44)45)18(2)26(38-29)14-28-20(4-8-32(40)41)12-21(36-28)13-25(17)37-30/h12,36-39H,4-11,13-16H2,1-3H3,(H,40,41)(H,42,43)(H,44,45)(H,46,47)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.015</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=CDJBAZPFOVPEFJ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f2" formula="C30H36N4O6">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="5" atomRefs2="3 7" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C30H40N4O6/c1-16-20(5-8-29(37)38)26-15-25-18(3)21(6-9-30(39)40)27(34-25)14-24-17(2)19(4-7-28(35)36)23(33-24)11-13-31-12-10-22(16)32-26/h31-34H,4-15H2,1-3H3,(H,35,36)(H,37,38)(H,39,40)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.027</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NQYIHWAUNCXDTK-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f12" formula="C36H44N4O7">
+        <atomArray>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="O" x2="3.4794" y2="-4.1257" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+          <bond id="16" atomRefs2="12 18" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C36H46N4O7/c1-18-22(6-5-13-41)32-17-33-25(9-12-36(46)47)21(4)29(40-33)16-31-24(8-11-35(44)45)20(3)28(39-31)15-30-23(7-10-34(42)43)19(2)27(37-30)14-26(18)38-32/h37-41H,5-17H2,1-4H3,(H,42,43)(H,44,45)(H,46,47)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.168</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ONXJCHGQNBUPGZ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f13" formula="C36H43N4O7">
+        <atomArray>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="O" x2="2.0673" y2="-4.3446" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+          <bond id="15" atomRefs2="12 17" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C36H44N4O7/c1-18-22(6-5-13-41)32-17-33-25(9-12-36(46)47)21(4)29(40-33)16-31-24(8-11-35(44)45)20(3)28(39-31)15-30-23(7-10-34(42)43)19(2)27(37-30)14-26(18)38-32/h13,37-40H,5-12,14-17H2,1-4H3,(H,42,43)(H,44,45)(H,46,47)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.085</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JYCXOAULWYJXDG-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f1" formula="C34H41N4O8">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="O" x2="2.0673" y2="-4.3446" formalCharge="0" isotopeNumber="16"/>
+          <atom id="18" elementType="O" x2="3.4794" y2="-4.1257" formalCharge="0" isotopeNumber="16"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="5" atomRefs2="3 7" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S"/>
+          <bond id="45" atomRefs2="4 7" order="D"/>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="15" atomRefs2="12 17" order="D"/>
+          <bond id="16" atomRefs2="12 18" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C34H44N4O8/c1-18-22(7-10-32(41)42)29-16-27-20(3)24(9-12-34(45)46)30(38-27)17-26-19(2)23(8-11-33(43)44)28(37-26)15-21(5-4-6-31(39)40)35-14-13-25(18)36-29/h5,35-38H,4,6-17H2,1-3H3,(H,39,40)(H,41,42)(H,43,44)(H,45,46)/b21-5+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.027</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YUZZVOHVXRKBHK-IGCPIRJNSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III_f9" formula="C34H41N4O6">
+        <atomArray>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" isotopeNumber="12"/>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" isotopeNumber="16"/>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" isotopeNumber="14"/>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" isotopeNumber="12"/>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" isotopeNumber="12"/>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" isotopeNumber="12"/>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" isotopeNumber="12"/>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" isotopeNumber="12"/>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" isotopeNumber="12"/>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" isotopeNumber="12"/>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" isotopeNumber="16"/>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" isotopeNumber="16"/>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" isotopeNumber="14"/>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" isotopeNumber="12"/>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" isotopeNumber="14"/>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" isotopeNumber="12"/>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" isotopeNumber="12"/>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" isotopeNumber="12"/>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" isotopeNumber="12"/>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" isotopeNumber="16"/>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" isotopeNumber="16"/>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" isotopeNumber="12"/>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C34H42N4O6/c1-16-17(2)25-13-29-22(7-10-33(41)42)19(4)27(37-29)15-31-23(8-11-34(43)44)20(5)28(38-31)14-30-21(6-9-32(39)40)18(3)26(36-30)12-24(16)35-25/h35-38H,6-15H2,1-5H3,(H,39,40)(H,41,42)(H,43,44)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VCUAAFCHNVDELH-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="coproporphyrinogen III" formula="C36H44N4O8">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.8439" y2="-0.5824" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.004674223163439197</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="2.2484" y2="-1.3465" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03194137551100567</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="2.2589" y2="0.1466" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.01858764180370112</scalar>
+          </atom>
+          <atom id="3" elementType="N" x2="1.0818" y2="-0.6941" formalCharge="0" hydrogenCount="1" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.26462154950993166</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="1.6882" y2="-1.8988" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.02862526153918713</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="1.8145" y2="-2.7141" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.017078138017352147</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="1.8833" y2="0.852" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.004674223162084981</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="0.9297" y2="-1.5128" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.004952840340483893</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="2.5838" y2="-3.0123" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.03732220435099806</scalar>
+          </atom>
+          <atom id="9" elementType="C" x2="2.2695" y2="1.6398" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.031941375512815146</scalar>
+          </atom>
+          <atom id="10" elementType="N" x2="1.0938" y2="1.004" formalCharge="0" hydrogenCount="1" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2646215502841995</scalar>
+          </atom>
+          <atom id="11" elementType="C" x2="0.2244" y2="-1.8885" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.018607615466029966</scalar>
+          </atom>
+          <atom id="12" elementType="C" x2="2.7101" y2="-3.8275" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2591769715746532</scalar>
+          </atom>
+          <atom id="13" elementType="C" x2="1.7171" y2="2.2" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.02862526247498477</scalar>
+          </atom>
+          <atom id="14" elementType="C" x2="3.0838" y2="1.7724" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03820504274335405</scalar>
+          </atom>
+          <atom id="15" elementType="C" x2="0.924" y2="1.825" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.004952686302343743</scalar>
+          </atom>
+          <atom id="16" elementType="C" x2="-0.5342" y2="-1.5025" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.004952840341838004</scalar>
+          </atom>
+          <atom id="17" elementType="O" x2="2.0673" y2="-4.3446" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.26601516782166956</scalar>
+          </atom>
+          <atom id="18" elementType="O" x2="3.4794" y2="-4.1257" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.33151321707277454</scalar>
+          </atom>
+          <atom id="19" elementType="C" x2="1.861" y2="3.0124" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.017078138019216742</scalar>
+          </atom>
+          <atom id="20" elementType="C" x2="0.224" y2="2.2105" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.018597628635572815</scalar>
+          </atom>
+          <atom id="21" elementType="C" x2="-1.2393" y2="-1.8489" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.02862526153737975</scalar>
+          </atom>
+          <atom id="22" elementType="N" x2="-0.675" y2="-0.711" formalCharge="0" hydrogenCount="1" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.26462154873572996</scalar>
+          </atom>
+          <atom id="23" elementType="C" x2="1.2294" y2="3.5432" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.03732220435099806</scalar>
+          </atom>
+          <atom id="24" elementType="C" x2="-0.5108" y2="1.8059" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.00467437720004736</scalar>
+          </atom>
+          <atom id="25" elementType="C" x2="-1.8208" y2="-1.2592" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.031941374575282185</scalar>
+          </atom>
+          <atom id="26" elementType="C" x2="-1.3772" y2="-2.6623" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.017078138017352147</scalar>
+          </atom>
+          <atom id="27" elementType="C" x2="-1.4643" y2="-0.5298" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.0046743772014015755</scalar>
+          </atom>
+          <atom id="28" elementType="C" x2="1.3734" y2="4.3555" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2591769715746532</scalar>
+          </atom>
+          <atom id="29" elementType="C" x2="-1.2692" y2="2.2211" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03194137457709167</scalar>
+          </atom>
+          <atom id="30" elementType="N" x2="-0.6333" y2="1.0455" formalCharge="0" hydrogenCount="1" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2646215495099978</scalar>
+          </atom>
+          <atom id="31" elementType="C" x2="-2.635" y2="-1.3921" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03820504274149161</scalar>
+          </atom>
+          <atom id="32" elementType="C" x2="-0.7417" y2="-3.1884" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.03732220435099806</scalar>
+          </atom>
+          <atom id="33" elementType="C" x2="-1.8397" y2="0.2048" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.018597628635572815</scalar>
+          </atom>
+          <atom id="34" elementType="O" x2="0.7418" y2="4.8864" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.33151321707277454</scalar>
+          </atom>
+          <atom id="35" elementType="O" x2="2.1488" y2="4.6371" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.26601516782166956</scalar>
+          </atom>
+          <atom id="36" elementType="C" x2="-1.8293" y2="1.6687" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.028625262473177388</scalar>
+          </atom>
+          <atom id="37" elementType="C" x2="-1.3832" y2="3.0382" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03820504274149161</scalar>
+          </atom>
+          <atom id="38" elementType="C" x2="-1.4542" y2="0.9048" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.004952686303697852</scalar>
+          </atom>
+          <atom id="39" elementType="C" x2="-0.8795" y2="-4.0018" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2591769715746532</scalar>
+          </atom>
+          <atom id="40" elementType="C" x2="-2.6427" y2="1.8067" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.017078138019216742</scalar>
+          </atom>
+          <atom id="41" elementType="O" x2="-1.6529" y2="-4.2891" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.26601516782166956</scalar>
+          </atom>
+          <atom id="42" elementType="O" x2="-0.244" y2="-4.5279" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.33151321707277454</scalar>
+          </atom>
+          <atom id="43" elementType="C" x2="-3.1689" y2="1.1712" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.03732220435099806</scalar>
+          </atom>
+          <atom id="44" elementType="C" x2="-3.9823" y2="1.3091" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2591769715746532</scalar>
+          </atom>
+          <atom id="45" elementType="O" x2="-4.5084" y2="0.6737" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.33151321707277454</scalar>
+          </atom>
+          <atom id="46" elementType="O" x2="-4.2695" y2="2.0825" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.26601516782166956</scalar>
+          </atom>
+          <atom id="47" elementType="C" x2="3.0638" y2="-1.4721" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03820504274335405</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="0 2" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="1 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="2 6" order="S"/>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="6" atomRefs2="5 8" order="S"/>
+          <bond id="7" atomRefs2="6 9" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 10" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="10" atomRefs2="8 12" order="S"/>
+          <bond id="11" atomRefs2="9 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="12" atomRefs2="9 14" order="S"/>
+          <bond id="13" atomRefs2="10 15" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="11 16" order="S"/>
+          <bond id="15" atomRefs2="12 17" order="D"/>
+          <bond id="16" atomRefs2="12 18" order="S"/>
+          <bond id="17" atomRefs2="13 19" order="S"/>
+          <bond id="18" atomRefs2="15 20" order="S"/>
+          <bond id="19" atomRefs2="16 21" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="16 22" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="21" atomRefs2="19 23" order="S"/>
+          <bond id="22" atomRefs2="20 24" order="S"/>
+          <bond id="23" atomRefs2="21 25" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="24" atomRefs2="21 26" order="S"/>
+          <bond id="25" atomRefs2="22 27" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="26" atomRefs2="23 28" order="S"/>
+          <bond id="27" atomRefs2="24 29" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="24 30" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="29" atomRefs2="25 31" order="S"/>
+          <bond id="30" atomRefs2="26 32" order="S"/>
+          <bond id="31" atomRefs2="27 33" order="S"/>
+          <bond id="32" atomRefs2="28 34" order="S"/>
+          <bond id="33" atomRefs2="28 35" order="D"/>
+          <bond id="34" atomRefs2="29 36" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="35" atomRefs2="29 37" order="S"/>
+          <bond id="36" atomRefs2="30 38" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="37" atomRefs2="32 39" order="S"/>
+          <bond id="38" atomRefs2="36 40" order="S"/>
+          <bond id="39" atomRefs2="39 41" order="D"/>
+          <bond id="40" atomRefs2="39 42" order="S"/>
+          <bond id="41" atomRefs2="40 43" order="S"/>
+          <bond id="42" atomRefs2="43 44" order="S"/>
+          <bond id="43" atomRefs2="44 45" order="S"/>
+          <bond id="44" atomRefs2="44 46" order="D"/>
+          <bond id="45" atomRefs2="4 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="46" atomRefs2="13 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="47" atomRefs2="25 27" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="48" atomRefs2="33 38" order="S"/>
+          <bond id="49" atomRefs2="36 38" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="50" atomRefs2="5 4" order="S"/>
+          <bond id="51" atomRefs2="1 47" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C36H44N4O8/c1-17-21(5-9-33(41)42)29-14-27-19(3)22(6-10-34(43)44)30(39-27)15-28-20(4)24(8-12-36(47)48)32(40-28)16-31-23(7-11-35(45)46)18(2)26(38-31)13-25(17)37-29/h37-40H,5-16H2,1-4H3,(H,41,42)(H,43,44)(H,45,46)(H,47,48)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">coproporphyrinogen III</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NIUVHXTXUXOFEB-UHFFFAOYSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">660.315914</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

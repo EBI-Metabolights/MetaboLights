@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="zonisamide" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="zonisamide"/>
+        <metadata name="ms:exactMass" content="212.02556"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="118.029288748" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="zonisamide_f1"/>
+        </peak>
+        <peak xValue="132.044938812" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="zonisamide_f2"/>
+        </peak>
+        <peak xValue="196.00683905199998" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="zonisamide_f3"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="zonisamide"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="zonisamide_f3"/>
+        </product>
+        <product>
+          <molecule ref="zonisamide_f2"/>
+        </product>
+        <product>
+          <molecule ref="zonisamide_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="zonisamide_f3" formula="C8H6NO3S">
+        <atomArray>
+          <atom id="10" elementType="S" x2="0.4765" y2="3.0332" formalCharge="0" isotopeNumber="32"/>
+          <atom id="9" elementType="C" x2="-0.3204" y2="2.8197" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.5339" y2="2.0228" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="-1.3186" y2="1.7679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-2.033" y2="2.1804" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-2.7475" y2="1.7679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-2.7475" y2="0.9428" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-2.033" y2="0.5303" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-1.3186" y2="0.9428" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="-0.534" y2="0.6879" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="N" x2="-0.0491" y2="1.3553" formalCharge="0" isotopeNumber="14"/>
+          <atom id="12" elementType="O" x2="1.3015" y2="3.0332" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="0.889" y2="2.3187" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="10" atomRefs2="8 9" order="S"/>
+          <bond id="7" atomRefs2="5 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="0 5" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="1 2" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="2 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 4" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="4 6" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 8" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="6" atomRefs2="5 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="10 12" order="D"/>
+          <bond id="14" atomRefs2="10 13" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H7NO3S/c10-13(11)5-7-6-3-1-2-4-8(6)12-9-7/h1-4,13H,5H2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.045</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FDZTYGYFNFWSCZ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="zonisamide_f2" formula="C8H6NO">
+        <atomArray>
+          <atom id="9" elementType="C" x2="-0.3204" y2="2.8197" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.5339" y2="2.0228" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="-1.3186" y2="1.7679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-2.033" y2="2.1804" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-2.7475" y2="1.7679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-2.7475" y2="0.9428" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-2.033" y2="0.5303" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-1.3186" y2="0.9428" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="-0.534" y2="0.6879" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="N" x2="-0.0491" y2="1.3553" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="10" atomRefs2="8 9" order="S"/>
+          <bond id="7" atomRefs2="5 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="0 5" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="1 2" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="2 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 4" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="4 6" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 8" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="6" atomRefs2="5 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H7NO/c1-6-7-4-2-3-5-8(7)10-9-6/h2-5H,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.003</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=GAUKCDPSYQUYQL-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="zonisamide_f1" formula="C7H4NO">
+        <atomArray>
+          <atom id="8" elementType="C" x2="-0.5339" y2="2.0228" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="-1.3186" y2="1.7679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-2.033" y2="2.1804" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-2.7475" y2="1.7679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-2.7475" y2="0.9428" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-2.033" y2="0.5303" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-1.3186" y2="0.9428" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="-0.534" y2="0.6879" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="N" x2="-0.0491" y2="1.3553" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="5 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="0 5" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="1 2" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="2 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 4" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="4 6" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 8" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="6" atomRefs2="5 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H5NO/c1-2-4-7-6(3-1)5-8-9-7/h1-5H</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=KTZQTRPPVKQPFO-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="zonisamide" formula="C8H8N2O3S">
+        <atomArray>
+          <atom id="0" elementType="C" x2="-2.033" y2="2.1804" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.05025282928782636</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="-2.7475" y2="1.7679" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.0612030188468156</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="-2.7475" y2="0.9428" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.059362421042682</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="-2.033" y2="0.5303" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.02836520169972918</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="-1.3186" y2="0.9428" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.11694230464763332</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="-1.3186" y2="1.7679" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.032271404366553</scalar>
+          </atom>
+          <atom id="6" elementType="O" x2="-0.534" y2="0.6879" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2124001654639023</scalar>
+          </atom>
+          <atom id="7" elementType="N" x2="-0.0491" y2="1.3553" formalCharge="0" hydrogenCount="0" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.13101716451713497</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="-0.5339" y2="2.0228" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.09454270345051252</scalar>
+          </atom>
+          <atom id="9" elementType="C" x2="-0.3204" y2="2.8197" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.10892741510662893</scalar>
+          </atom>
+          <atom id="10" elementType="S" x2="0.4765" y2="3.0332" formalCharge="0" hydrogenCount="0" isotopeNumber="32">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.21519625876366866</scalar>
+          </atom>
+          <atom id="11" elementType="N" x2="0.69" y2="3.8301" formalCharge="0" hydrogenCount="2" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.22849805726820202</scalar>
+          </atom>
+          <atom id="12" elementType="O" x2="1.3015" y2="3.0332" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.21150921997158653</scalar>
+          </atom>
+          <atom id="13" elementType="O" x2="0.889" y2="2.3187" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.21150921997158653</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="0 5" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="1 2" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="2 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 4" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="4 6" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="6" atomRefs2="5 4" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="7" atomRefs2="5 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="6 7" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="7 8" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="8 9" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="10 12" order="D"/>
+          <bond id="14" atomRefs2="10 13" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H8N2O3S/c9-14(11,12)5-7-6-3-1-2-4-8(6)13-10-7/h1-4H,5H2,(H2,9,11,12)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">zonisamide</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=UBQNRHZMVUUOMG-UHFFFAOYSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">212.025563</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

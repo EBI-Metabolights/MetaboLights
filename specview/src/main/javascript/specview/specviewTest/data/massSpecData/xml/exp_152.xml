@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="alanyl poly(glycerol phosphate)s" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="alanyl poly(glycerol phosphate)s"/>
+        <metadata name="ms:exactMass" content="243.05079"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="226.04804876599997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f1"/>
+        </peak>
+        <peak xValue="212.03239870199997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f2"/>
+        </peak>
+        <peak xValue="132.06606818" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f3"/>
+        </peak>
+        <peak xValue="146.081718244" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f4"/>
+        </peak>
+        <peak xValue="96.969070174" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f5"/>
+        </peak>
+        <peak xValue="162.07663286399998" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f6"/>
+        </peak>
+        <peak xValue="227.055873798" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f7"/>
+        </peak>
+        <peak xValue="171.00584960599997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f8"/>
+        </peak>
+        <peak xValue="199.000764226" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak9">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f9"/>
+        </peak>
+        <peak xValue="228.027313322" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak10">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f10"/>
+        </peak>
+        <peak xValue="227.032064354" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak11">
+          <molecule ref="alanyl poly(glycerol phosphate)s_f11"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="alanyl poly(glycerol phosphate)s"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f11"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f10"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f7"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f8"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f9"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f3"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f4"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f5"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f6"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f1"/>
+        </product>
+        <product>
+          <molecule ref="alanyl poly(glycerol phosphate)s_f2"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="alanyl poly(glycerol phosphate)s_f11" formula="C6H12O7P">
+        <atomArray>
+          <atom id="13" elementType="C" x2="9.9553" y2="-10.0651" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="O" x2="7.8119" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="P" x2="11.4947" y2="-12.1276" formalCharge="0" isotopeNumber="31"/>
+          <atom id="8" elementType="O" x2="11.4947" y2="-12.9526" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="11.4947" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="12.6085" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="C" x2="9.2409" y2="-9.6526" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="S"/>
+          <bond id="7" atomRefs2="7 8" order="D"/>
+          <bond id="8" atomRefs2="7 9" order="S"/>
+          <bond id="9" atomRefs2="7 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="13" atomRefs2="13 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H13O7P/c1-2-6(8)13-5(3-7)4-12-14(9,10)11/h5,7H,2-4H2,1H3,(H2,9,10,11)/t5-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.035</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AYBSXTXOFKWMTF-YFKPBYRVSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f10" formula="C5H11NO7P">
+        <atomArray>
+          <atom id="13" elementType="C" x2="9.9553" y2="-10.0651" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="O" x2="7.8119" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="P" x2="11.4947" y2="-12.1276" formalCharge="0" isotopeNumber="31"/>
+          <atom id="8" elementType="O" x2="11.4947" y2="-12.9526" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="11.4947" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="12.6085" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="N" x2="10.6697" y2="-9.6526" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="S"/>
+          <bond id="7" atomRefs2="7 8" order="D"/>
+          <bond id="8" atomRefs2="7 9" order="S"/>
+          <bond id="9" atomRefs2="7 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="14" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H12NO7P/c6-1-5(8)13-4(2-7)3-12-14(9,10)11/h4,7H,1-3,6H2,(H2,9,10,11)/t4-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FTMOUWVJWANPSO-BYPYZUCNSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f7" formula="C6H14NO6P">
+        <atomArray>
+          <atom id="7" elementType="P" x2="11.4947" y2="-12.1276" formalCharge="0" isotopeNumber="31"/>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="O" x2="7.8119" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="C" x2="9.9553" y2="-10.0651" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="9.2409" y2="-9.6526" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="10.6697" y2="-9.6526" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="11.4947" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="12.6085" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="4 7" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="13" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="13 15" order="S"/>
+          <bond id="8" atomRefs2="7 9" order="S"/>
+          <bond id="9" atomRefs2="7 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H14NO6P/c1-4(7)6(9)13-5(2-8)3-12-14(10)11/h4-5,8,10-11H,2-3,7H2,1H3/t4?,5-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.197</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NOXDBNOXUSUKQD-AKGZTFGVSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f8" formula="C3H8O6P">
+        <atomArray>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="O" x2="7.8119" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="P" x2="11.4947" y2="-12.1276" formalCharge="0" isotopeNumber="31"/>
+          <atom id="8" elementType="O" x2="11.4947" y2="-12.9526" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="11.4947" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="12.6085" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="S"/>
+          <bond id="7" atomRefs2="7 8" order="D"/>
+          <bond id="8" atomRefs2="7 9" order="S"/>
+          <bond id="9" atomRefs2="7 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H9O6P/c4-1-3(5)2-9-10(6,7)8/h3-5H,1-2H2,(H2,6,7,8)/t3-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.092</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AWUCVROLDVIAJX-VKHMYHEASA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f9" formula="C4H8O7P">
+        <atomArray>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="O" x2="7.8119" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="P" x2="11.4947" y2="-12.1276" formalCharge="0" isotopeNumber="31"/>
+          <atom id="8" elementType="O" x2="11.4947" y2="-12.9526" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="11.4947" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="12.6085" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="S"/>
+          <bond id="7" atomRefs2="7 8" order="D"/>
+          <bond id="8" atomRefs2="7 9" order="S"/>
+          <bond id="9" atomRefs2="7 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H9O7P/c5-1-4(10-3-6)2-11-12(7,8)9/h3-5H,1-2H2,(H2,7,8,9)/t4-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.012</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QFUDPXDNAASXOL-BYPYZUCNSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f3" formula="C5H10NO3">
+        <atomArray>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="O" x2="7.8119" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="C" x2="9.9553" y2="-10.0651" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="9.2409" y2="-9.6526" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="10.6697" y2="-9.6526" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="13" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H11NO3/c1-4(6)5(8)9-3-2-7/h4,7H,2-3,6H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.029</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=LLAZLZZZFXWUOA-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f4" formula="C6H12NO3">
+        <atomArray>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="O" x2="7.8119" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="C" x2="9.9553" y2="-10.0651" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="9.2409" y2="-9.6526" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="10.6697" y2="-9.6526" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="13" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H13NO3/c1-4(3-8)10-6(9)5(2)7/h4-5,8H,3,7H2,1-2H3/t4-,5?/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.086</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IRKOFQAZHALBHE-CNZKWPKMSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f5" formula="H2O4P">
+        <atomArray>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="P" x2="11.4947" y2="-12.1276" formalCharge="0" isotopeNumber="31"/>
+          <atom id="8" elementType="O" x2="11.4947" y2="-12.9526" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="11.4947" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="12.6085" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="4 7" order="S"/>
+          <bond id="7" atomRefs2="7 8" order="D"/>
+          <bond id="8" atomRefs2="7 9" order="S"/>
+          <bond id="9" atomRefs2="7 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/H3O4P/c1-5(2,3)4/h(H3,1,2,3,4)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.086</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NBIIXXVUZAFLBC-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f6" formula="C6H12NO4">
+        <atomArray>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="O" x2="7.8119" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="C" x2="9.9553" y2="-10.0651" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="9.2409" y2="-9.6526" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="10.6697" y2="-9.6526" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="13" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H13NO4/c1-4(7)6(10)11-5(2-8)3-9/h4-5,8-9H,2-3,7H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.093</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VJMZBTUOQWMJMB-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f1" formula="C6H13NO6P">
+        <atomArray>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="P" x2="11.4947" y2="-12.1276" formalCharge="0" isotopeNumber="31"/>
+          <atom id="8" elementType="O" x2="11.4947" y2="-12.9526" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="11.4947" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="12.6085" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="C" x2="9.9553" y2="-10.0651" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="9.2409" y2="-9.6526" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="10.6697" y2="-9.6526" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="S"/>
+          <bond id="7" atomRefs2="7 8" order="D"/>
+          <bond id="8" atomRefs2="7 9" order="S"/>
+          <bond id="9" atomRefs2="7 10" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="13" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H14NO6P/c1-4(3-12-14(9,10)11)13-6(8)5(2)7/h4-5H,3,7H2,1-2H3,(H2,9,10,11)/t4-,5?/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.071</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DTHZUBGWADAUEH-ROLXFIACSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s_f2" formula="C5H11NO6P">
+        <atomArray>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="P" x2="11.4947" y2="-12.1276" formalCharge="0" isotopeNumber="31"/>
+          <atom id="8" elementType="O" x2="11.4947" y2="-12.9526" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="11.4947" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="12.6085" y2="-12.1276" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="C" x2="9.9553" y2="-10.0651" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="9.2409" y2="-9.6526" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="10.6697" y2="-9.6526" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="S"/>
+          <bond id="7" atomRefs2="7 8" order="D"/>
+          <bond id="8" atomRefs2="7 9" order="S"/>
+          <bond id="9" atomRefs2="7 10" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="13" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H12NO6P/c1-4(6)5(7)11-2-3-12-13(8,9)10/h4H,2-3,6H2,1H3,(H2,8,9,10)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.025</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=KGEIFGLFNGSXHF-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="alanyl poly(glycerol phosphate)s" formula="C6H14NO7P">
+        <atomArray>
+          <atom id="0" elementType="O" x2="7.8119" y2="-12.1276" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3932764269797793</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="8.5263" y2="-12.5401" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.07250177289405721</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="9.2409" y2="-12.1276" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.11443545767072345</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="9.9553" y2="-12.5401" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.08885865994633106</scalar>
+          </atom>
+          <atom id="4" elementType="O" x2="10.6697" y2="-12.1276" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.28084031038790946</scalar>
+          </atom>
+          <atom id="5" elementType="O" x2="9.2409" y2="-11.3026" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.30641311894134976</scalar>
+          </atom>
+          <atom id="7" elementType="P" x2="11.4947" y2="-12.1276" formalCharge="0" hydrogenCount="0" isotopeNumber="31">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.4488587186982521</scalar>
+          </atom>
+          <atom id="8" elementType="O" x2="11.4947" y2="-12.9526" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.22144970954384516</scalar>
+          </atom>
+          <atom id="9" elementType="O" x2="11.4947" y2="-11.3026" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2991908978327767</scalar>
+          </atom>
+          <atom id="10" elementType="O" x2="12.6085" y2="-12.1276" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2991908978327767</scalar>
+          </atom>
+          <atom id="11" elementType="C" x2="9.9553" y2="-10.8901" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.27826693354141535</scalar>
+          </atom>
+          <atom id="12" elementType="O" x2="10.6697" y2="-11.3026" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2644058744699364</scalar>
+          </atom>
+          <atom id="13" elementType="C" x2="9.9553" y2="-10.0651" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.08862607531996425</scalar>
+          </atom>
+          <atom id="14" elementType="C" x2="9.2409" y2="-9.6526" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04035673512604746</scalar>
+          </atom>
+          <atom id="15" elementType="N" x2="10.6697" y2="-9.6526" formalCharge="0" hydrogenCount="2" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3196114806532823</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="4" atomRefs2="2 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="4 7" order="S"/>
+          <bond id="7" atomRefs2="7 8" order="D"/>
+          <bond id="8" atomRefs2="7 9" order="S"/>
+          <bond id="9" atomRefs2="7 10" order="S"/>
+          <bond id="10" atomRefs2="5 11" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="13" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H14NO7P/c1-4(7)6(9)14-5(2-8)3-13-15(10,11)12/h4-5,8H,2-3,7H2,1H3,(H2,10,11,12)/t4?,5-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">alanyl poly(glycerol phosphate)s</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">243.050788</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JPCGABBYVSDYMQ-AKGZTFGVSA-N</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="delta-cadinene" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="delta-cadinene"/>
+        <metadata name="ms:exactMass" content="204.1878"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="161.133025544" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="delta-cadinene_f1"/>
+        </peak>
+        <peak xValue="190.172150704" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="delta-cadinene_f2"/>
+        </peak>
+        <peak xValue="148.125200512" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="delta-cadinene_f3"/>
+        </peak>
+        <peak xValue="93.070425288" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="delta-cadinene_f4"/>
+        </peak>
+        <peak xValue="120.093900384" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="delta-cadinene_f5"/>
+        </peak>
+        <peak xValue="134.109550448" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="delta-cadinene_f6"/>
+        </peak>
+        <peak xValue="163.148675608" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="delta-cadinene_f7"/>
+        </peak>
+        <peak xValue="177.164325672" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="delta-cadinene_f8"/>
+        </peak>
+        <peak xValue="150.140850576" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak9">
+          <molecule ref="delta-cadinene_f9"/>
+        </peak>
+        <peak xValue="164.15650064" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak10">
+          <molecule ref="delta-cadinene_f10"/>
+        </peak>
+        <peak xValue="191.179975736" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak11">
+          <molecule ref="delta-cadinene_f11"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="delta-cadinene"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="delta-cadinene_f7"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f8"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f5"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f6"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f9"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f11"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f10"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f3"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f4"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f1"/>
+        </product>
+        <product>
+          <molecule ref="delta-cadinene_f2"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="delta-cadinene_f7" formula="C12H19">
+        <atomArray>
+          <atom id="4" elementType="C" x2="1.3843" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.6698" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.6698" y2="-1.2633" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-0.0447" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.3843" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="-0.7591" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="2" atomRefs2="3 1" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="4" atomRefs2="3 14" order="S"/>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+          <bond id="14" atomRefs2="11 13" order="D"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C12H22/c1-9(2)11(4)12-7-5-6-10(3)8-12/h8-9,11-12H,5-7H2,1-4H3/t11?,12-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.022,0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ORWKEHPBKSNAOI-KIYNQFGBSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f8" formula="C13H21">
+        <atomArray>
+          <atom id="5" elementType="C" x2="1.3843" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.3843" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.6698" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.6698" y2="-1.2633" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-0.0447" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.3843" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="-0.7591" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="4 5" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="2" atomRefs2="3 1" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="4" atomRefs2="3 14" order="S"/>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+          <bond id="14" atomRefs2="11 13" order="D"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C13H24/c1-5-13(10(2)3)12-8-6-7-11(4)9-12/h9-10,12-13H,5-8H2,1-4H3/t12-,13?/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.022,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=CXQBWTOYQDTNDQ-UEWDXFNNSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f5" formula="C9H12">
+        <atomArray>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="0.6698" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.6698" y2="2.0367" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="-0.7591" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="8" atomRefs2="6 8" order="D"/>
+          <bond id="7" atomRefs2="6 7" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+          <bond id="14" atomRefs2="11 13" order="D"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H14/c1-3-9-6-4-8(2)5-7-9/h3-4H,5-7H2,1-2H3/b9-3-</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.022,0.01</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MBBIUIQGRNMRSI-OQFOIZHKSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f6" formula="C10H14">
+        <atomArray>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="0.6698" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.3843" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.6698" y2="2.0367" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="-0.7591" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="8" atomRefs2="6 8" order="D"/>
+          <bond id="6" atomRefs2="5 6" order="S"/>
+          <bond id="7" atomRefs2="6 7" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+          <bond id="14" atomRefs2="11 13" order="D"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H16/c1-8(2)10-6-4-9(3)5-7-10/h4H,5-7H2,1-3H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.01</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MOYAFQVGZZPNRA-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f9" formula="C11H18">
+        <atomArray>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="0.6698" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.3843" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.3843" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.6698" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.6698" y2="-1.2633" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-0.0447" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.3843" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.6698" y2="2.0367" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="8" atomRefs2="6 8" order="D"/>
+          <bond id="6" atomRefs2="5 6" order="S"/>
+          <bond id="5" atomRefs2="4 5" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="2" atomRefs2="3 1" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="4" atomRefs2="3 14" order="S"/>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="7" atomRefs2="6 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C11H20/c1-8(2)11-6-5-9(3)10(4)7-11/h8,11H,5-7H2,1-4H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.022,0.01</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SFUHMKFNCXMMJR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f11" formula="C14H23">
+        <atomArray>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="0.6698" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.3843" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.3843" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.6698" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.6698" y2="-1.2633" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-0.0447" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.3843" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.6698" y2="2.0367" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="8" atomRefs2="6 8" order="D"/>
+          <bond id="6" atomRefs2="5 6" order="S"/>
+          <bond id="5" atomRefs2="4 5" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="2" atomRefs2="3 1" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="4" atomRefs2="3 14" order="S"/>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="7" atomRefs2="6 7" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H26/c1-5-6-7-14-10-13(11(2)3)9-8-12(14)4/h11,13H,5-10H2,1-4H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.022,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OWGUQLJXKVBYLE-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f10" formula="C12H20">
+        <atomArray>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="0.6698" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.3843" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.3843" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.6698" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.6698" y2="-1.2633" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-0.0447" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.3843" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.6698" y2="2.0367" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="8" atomRefs2="6 8" order="D"/>
+          <bond id="6" atomRefs2="5 6" order="S"/>
+          <bond id="5" atomRefs2="4 5" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="2" atomRefs2="3 1" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="4" atomRefs2="3 14" order="S"/>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="7" atomRefs2="6 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C12H22/c1-5-11-8-12(9(2)3)7-6-10(11)4/h9,12H,5-8H2,1-4H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.022,0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QBIHBGMFUCDGRI-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f3" formula="C11H16">
+        <atomArray>
+          <atom id="4" elementType="C" x2="1.3843" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.3843" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="0.6698" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.6698" y2="2.0367" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="-0.7591" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="4 5" order="S"/>
+          <bond id="6" atomRefs2="5 6" order="S"/>
+          <bond id="7" atomRefs2="6 7" order="S"/>
+          <bond id="8" atomRefs2="6 8" order="D"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+          <bond id="14" atomRefs2="11 13" order="D"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C11H18/c1-4-10(3)11-7-5-9(2)6-8-11/h5H,4,6-8H2,1-3H3/b11-10+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.01,0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=BNJFYSFCWVNGMU-ZHACJKMWSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f4" formula="C7H9">
+        <atomArray>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="-0.7591" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+          <bond id="14" atomRefs2="11 13" order="D"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H12/c1-7-5-3-2-4-6-7/h5H,2-4,6H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.022,0.01</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=CTMHWPIWNRWQEG-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f1" formula="C12H17">
+        <atomArray>
+          <atom id="3" elementType="C" x2="0.6698" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.3843" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.3843" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="0.6698" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.6698" y2="2.0367" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="-0.7591" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="5" atomRefs2="4 5" order="S"/>
+          <bond id="6" atomRefs2="5 6" order="S"/>
+          <bond id="7" atomRefs2="6 7" order="S"/>
+          <bond id="8" atomRefs2="6 8" order="D"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+          <bond id="14" atomRefs2="11 13" order="D"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="4" atomRefs2="3 14" order="S"/>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C12H18/c1-9-6-7-12-10(2)4-3-5-11(12)8-9/h8,11H,3-7H2,1-2H3/t11-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.009</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SJHBSNQZCHVVOB-LLVKDONJSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene_f2" formula="C14H22">
+        <atomArray>
+          <atom id="3" elementType="C" x2="0.6698" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.6698" y2="-1.2633" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-0.0447" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.3843" y2="-1.6758" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="0.6698" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="1.3843" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="0.6698" y2="2.0367" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="-0.7591" y2="-0.4383" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="3 1" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="4" atomRefs2="3 14" order="S"/>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="8" atomRefs2="6 8" order="D"/>
+          <bond id="6" atomRefs2="5 6" order="S"/>
+          <bond id="7" atomRefs2="6 7" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+          <bond id="14" atomRefs2="11 13" order="D"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H24/c1-10(2)8-13-9-12(5)6-7-14(13)11(3)4/h9-10,13H,6-8H2,1-5H3/t13-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MBPKZCAYSCFHSA-CYBMUJFWSA-N</scalar>
+      </molecule>
+      <molecule id="delta-cadinene" formula="C15H24">
+        <atomArray>
+          <atom id="0" elementType="C" x2="-0.0447" y2="-1.6758" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.062386236408235186</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="0.6698" y2="-1.2633" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04305359318457026</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="1.3843" y2="-1.6758" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.062386236408235186</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="0.6698" y2="-0.4383" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.028438625540994716</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="1.3843" y2="-0.0258" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04546059696331766</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="1.3843" y2="0.7992" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.031446672462606844</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="0.6698" y2="1.2117" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.07278675062376944</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="0.6698" y2="2.0367" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04351516589603316</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="-0.0447" y2="0.7992" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.06316902047123353</scalar>
+          </atom>
+          <atom id="9" elementType="C" x2="-0.7591" y2="1.2117" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.027255343715457063</scalar>
+          </atom>
+          <atom id="10" elementType="C" x2="-1.4736" y2="0.7992" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.02827357189524951</scalar>
+          </atom>
+          <atom id="11" elementType="C" x2="-1.4736" y2="-0.0258" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.07565917777708875</scalar>
+          </atom>
+          <atom id="12" elementType="C" x2="-2.1881" y2="-0.4383" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04375952524549219</scalar>
+          </atom>
+          <atom id="13" elementType="C" x2="-0.7591" y2="-0.4383" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.07764292870294032</scalar>
+          </atom>
+          <atom id="14" elementType="C" x2="-0.0447" y2="-0.0258" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.0017161363633692451</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="2" atomRefs2="3 1" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="4" atomRefs2="3 14" order="S"/>
+          <bond id="5" atomRefs2="4 5" order="S"/>
+          <bond id="6" atomRefs2="5 6" order="S"/>
+          <bond id="7" atomRefs2="6 7" order="S"/>
+          <bond id="8" atomRefs2="6 8" order="D"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="10" atomRefs2="8 14" order="S"/>
+          <bond id="11" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="10 11" order="S"/>
+          <bond id="13" atomRefs2="11 12" order="S"/>
+          <bond id="14" atomRefs2="11 13" order="D"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H24/c1-10(2)13-8-6-12(4)14-7-5-11(3)9-15(13)14/h9-10,13,15H,5-8H2,1-4H3/t13-,15-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">delta-cadinene</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FUCYIEXQVQJBKY-ZFWWWQNUSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">204.187801</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="ethambutol" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="ethambutol"/>
+        <metadata name="ms:exactMass" content="204.18378"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="187.181038356" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="ethambutol_f1"/>
+        </peak>
+        <peak xValue="173.165388292" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="ethambutol_f2"/>
+        </peak>
+        <peak xValue="175.144652848" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="ethambutol_f3"/>
+        </peak>
+        <peak xValue="189.160302912" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="ethambutol_f4"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="ethambutol"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="ethambutol_f4"/>
+        </product>
+        <product>
+          <molecule ref="ethambutol_f2"/>
+        </product>
+        <product>
+          <molecule ref="ethambutol_f3"/>
+        </product>
+        <product>
+          <molecule ref="ethambutol_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="ethambutol_f4" formula="C9H21N2O2">
+        <atomArray>
+          <atom id="10" elementType="C" x2="6.0621" y2="-8.5711" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="6.8103" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="7.501" y2="-8.5711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="6" elementType="C" x2="8.2493" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="8.94" y2="-8.5902" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="9.6691" y2="-8.1682" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.3789" y2="-8.5902" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="10.3789" y2="-9.4152" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="O" x2="11.108" y2="-9.8373" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="11.108" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="11.8227" y2="-8.5802" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.8103" y2="-7.3432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="O" x2="7.501" y2="-6.9211" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="10 4" order="S"/>
+          <bond id="3" atomRefs2="4 1" order="S"/>
+          <bond id="2" atomRefs2="6 1" order="S"/>
+          <bond id="10" atomRefs2="7 6" order="S"/>
+          <bond id="1" atomRefs2="7 0" order="S"/>
+          <bond id="0" atomRefs2="5 0" order="S"/>
+          <bond id="8" atomRefs2="5 9" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="4" atomRefs2="9 2" order="S"/>
+          <bond id="9" atomRefs2="11 5" order="S"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="5" atomRefs2="8 3" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H22N2O2/c1-3-9(7-13)11-5-4-10-8(2)6-12/h8-13H,3-7H2,1-2H3/t8-,9+/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.004</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RWYZFXHQVKQJFO-DTWKUNHWSA-N</scalar>
+      </molecule>
+      <molecule id="ethambutol_f2" formula="C9H21N2O">
+        <atomArray>
+          <atom id="4" elementType="C" x2="6.8103" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="7.501" y2="-8.5711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="6" elementType="C" x2="8.2493" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="8.94" y2="-8.5902" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="9.6691" y2="-8.1682" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.3789" y2="-8.5902" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="10.3789" y2="-9.4152" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="O" x2="11.108" y2="-9.8373" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="11.108" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="11.8227" y2="-8.5802" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="6.0621" y2="-8.5711" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="5.3522" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 1" order="S"/>
+          <bond id="2" atomRefs2="6 1" order="S"/>
+          <bond id="10" atomRefs2="7 6" order="S"/>
+          <bond id="1" atomRefs2="7 0" order="S"/>
+          <bond id="0" atomRefs2="5 0" order="S"/>
+          <bond id="8" atomRefs2="5 9" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="4" atomRefs2="9 2" order="S"/>
+          <bond id="9" atomRefs2="11 5" order="S"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="7" atomRefs2="10 4" order="S"/>
+          <bond id="11" atomRefs2="12 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H22N2O/c1-3-5-10-6-7-11-9(4-2)8-12/h9-12H,3-8H2,1-2H3/t9-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=LNDGPZLEBVYAOA-SECBINFHSA-N</scalar>
+      </molecule>
+      <molecule id="ethambutol_f3" formula="C8H19N2O2">
+        <atomArray>
+          <atom id="4" elementType="C" x2="6.8103" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="7.501" y2="-8.5711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="6" elementType="C" x2="8.2493" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="8.94" y2="-8.5902" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="9.6691" y2="-8.1682" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.3789" y2="-8.5902" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="10.3789" y2="-9.4152" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="O" x2="11.108" y2="-9.8373" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="11.108" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="11.8227" y2="-8.5802" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.8103" y2="-7.3432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="O" x2="7.501" y2="-6.9211" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 1" order="S"/>
+          <bond id="2" atomRefs2="6 1" order="S"/>
+          <bond id="10" atomRefs2="7 6" order="S"/>
+          <bond id="1" atomRefs2="7 0" order="S"/>
+          <bond id="0" atomRefs2="5 0" order="S"/>
+          <bond id="8" atomRefs2="5 9" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="4" atomRefs2="9 2" order="S"/>
+          <bond id="9" atomRefs2="11 5" order="S"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="5" atomRefs2="8 3" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H20N2O2/c1-2-8(7-12)10-4-3-9-5-6-11/h8-12H,2-7H2,1H3/t8-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FHNAGFJTKBSBFN-MRVPVSSYSA-N</scalar>
+      </molecule>
+      <molecule id="ethambutol_f1" formula="C10H23N2O">
+        <atomArray>
+          <atom id="9" elementType="C" x2="10.3789" y2="-9.4152" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="10.3789" y2="-8.5902" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="9.6691" y2="-8.1682" formalCharge="0" isotopeNumber="14"/>
+          <atom id="7" elementType="C" x2="8.94" y2="-8.5902" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="8.2493" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="7.501" y2="-8.5711" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="6.8103" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.8103" y2="-7.3432" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="O" x2="7.501" y2="-6.9211" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="C" x2="6.0621" y2="-8.5711" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="5.3522" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="11.108" y2="-8.1682" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="11.8227" y2="-8.5802" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="8" atomRefs2="5 9" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="5 0" order="S"/>
+          <bond id="1" atomRefs2="7 0" order="S"/>
+          <bond id="10" atomRefs2="7 6" order="S"/>
+          <bond id="2" atomRefs2="6 1" order="S"/>
+          <bond id="3" atomRefs2="4 1" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="5" atomRefs2="8 3" order="S"/>
+          <bond id="7" atomRefs2="10 4" order="S"/>
+          <bond id="11" atomRefs2="12 10" order="S"/>
+          <bond id="9" atomRefs2="11 5" order="S"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H24N2O/c1-4-9(3)11-6-7-12-10(5-2)8-13/h9-13H,4-8H2,1-3H3/t9-,10-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.071</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VPJXKIPOKPPYSU-UWVGGRQHSA-N</scalar>
+      </molecule>
+      <molecule id="ethambutol" formula="C10H24N2O2">
+        <atomArray>
+          <atom id="0" elementType="N" x2="9.6691" y2="-8.1682" formalCharge="0" hydrogenCount="1" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.31017790042110227</scalar>
+          </atom>
+          <atom id="1" elementType="N" x2="7.501" y2="-8.5711" formalCharge="0" hydrogenCount="1" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.31017790042110227</scalar>
+          </atom>
+          <atom id="2" elementType="O" x2="11.108" y2="-9.8373" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.39412843628253924</scalar>
+          </atom>
+          <atom id="3" elementType="O" x2="7.501" y2="-6.9211" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.39412843628253924</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="6.8103" y2="-8.1682" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.030097382436608065</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="10.3789" y2="-8.5902" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.030097382436608065</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="8.2493" y2="-8.1682" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.008396187350506441</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="8.94" y2="-8.5902" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.008396187350506441</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="6.8103" y2="-7.3432" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.058956541156131914</scalar>
+          </atom>
+          <atom id="9" elementType="C" x2="10.3789" y2="-9.4152" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.058956541156131914</scalar>
+          </atom>
+          <atom id="10" elementType="C" x2="6.0621" y2="-8.5711" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.038333746680042004</scalar>
+          </atom>
+          <atom id="11" elementType="C" x2="11.108" y2="-8.1682" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.038333746680042004</scalar>
+          </atom>
+          <atom id="12" elementType="C" x2="5.3522" y2="-8.1682" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.06380280078656049</scalar>
+          </atom>
+          <atom id="13" elementType="C" x2="11.8227" y2="-8.5802" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.06380280078656049</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="5 0" order="S"/>
+          <bond id="1" atomRefs2="7 0" order="S"/>
+          <bond id="2" atomRefs2="6 1" order="S"/>
+          <bond id="3" atomRefs2="4 1" order="S"/>
+          <bond id="4" atomRefs2="9 2" order="S"/>
+          <bond id="5" atomRefs2="8 3" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="7" atomRefs2="10 4" order="S"/>
+          <bond id="8" atomRefs2="5 9" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="9" atomRefs2="11 5" order="S"/>
+          <bond id="10" atomRefs2="7 6" order="S"/>
+          <bond id="11" atomRefs2="12 10" order="S"/>
+          <bond id="12" atomRefs2="11 13" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H24N2O2/c1-3-9(7-13)11-5-6-12-10(4-2)8-14/h9-14H,3-8H2,1-2H3/t9-,10-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">ethambutol</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AEUTYOVWOVBAKS-UWVGGRQHSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">204.183778</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

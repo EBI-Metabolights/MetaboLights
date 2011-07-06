@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="ethinamate" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="ethinamate"/>
+        <metadata name="ms:exactMass" content="167.09463"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="154.086803624" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="ethinamate_f1"/>
+        </peak>
+        <peak xValue="111.0320284" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="ethinamate_f2"/>
+        </peak>
+        <peak xValue="97.016378336" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="ethinamate_f3"/>
+        </peak>
+        <peak xValue="153.078978592" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="ethinamate_f4"/>
+        </peak>
+        <peak xValue="139.063328528" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="ethinamate_f5"/>
+        </peak>
+        <peak xValue="125.047678464" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="ethinamate_f6"/>
+        </peak>
+        <peak xValue="107.086075352" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="ethinamate_f7"/>
+        </peak>
+        <peak xValue="60.008553303999996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="ethinamate_f8"/>
+        </peak>
+        <peak xValue="123.080989972" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak9">
+          <molecule ref="ethinamate_f9"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="ethinamate"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="ethinamate_f7"/>
+        </product>
+        <product>
+          <molecule ref="ethinamate_f8"/>
+        </product>
+        <product>
+          <molecule ref="ethinamate_f9"/>
+        </product>
+        <product>
+          <molecule ref="ethinamate_f3"/>
+        </product>
+        <product>
+          <molecule ref="ethinamate_f4"/>
+        </product>
+        <product>
+          <molecule ref="ethinamate_f5"/>
+        </product>
+        <product>
+          <molecule ref="ethinamate_f6"/>
+        </product>
+        <product>
+          <molecule ref="ethinamate_f1"/>
+        </product>
+        <product>
+          <molecule ref="ethinamate_f2"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="ethinamate_f7" formula="C8H11">
+        <atomArray>
+          <atom id="2" elementType="C" x2="5.081" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="5.7145" y2="-13.9915" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="6.3439" y2="-14.5214" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.6664" y2="-14.1779" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.8414" y2="-14.1779" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="3.431" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="3.8414" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="4.6664" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="4" atomRefs2="4 5" order="S"/>
+          <bond id="5" atomRefs2="5 6" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+          <bond id="7" atomRefs2="2 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H12/c1-2-8-6-4-3-5-7-8/h1,8H,3-7H2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.092</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SSDZYLQUYMOSAK-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="ethinamate_f8" formula="CH2NO2">
+        <atomArray>
+          <atom id="8" elementType="O" x2="5.7145" y2="-12.9316" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="C" x2="6.4852" y2="-13.2159" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="7.1187" y2="-12.686" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="N" x2="6.6306" y2="-14.0303" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="10" atomRefs2="9 10" order="D"/>
+          <bond id="11" atomRefs2="9 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH3NO2/c2-1(3)4/h2H2,(H,3,4)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.092</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=KXDHJXZQYSOELW-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="ethinamate_f9" formula="C8H11O">
+        <atomArray>
+          <atom id="8" elementType="O" x2="5.7145" y2="-12.9316" formalCharge="0" isotopeNumber="16"/>
+          <atom id="2" elementType="C" x2="5.081" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="5.7145" y2="-13.9915" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="6.3439" y2="-14.5214" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.6664" y2="-14.1779" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.8414" y2="-14.1779" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="3.431" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="3.8414" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="4.6664" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="8" atomRefs2="2 8" order="S"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="4" atomRefs2="4 5" order="S"/>
+          <bond id="5" atomRefs2="5 6" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+          <bond id="7" atomRefs2="2 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H12O/c1-2-8(9)6-4-3-5-7-8/h1,9H,3-7H2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.095</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QYLFHLNFIHBCPR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="ethinamate_f3" formula="C4H3NO2">
+        <atomArray>
+          <atom id="2" elementType="C" x2="5.081" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="5.7145" y2="-13.9915" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="6.3439" y2="-14.5214" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="O" x2="5.7145" y2="-12.9316" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="C" x2="6.4852" y2="-13.2159" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="7.1187" y2="-12.686" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="N" x2="6.6306" y2="-14.0303" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="8" atomRefs2="2 8" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="10" atomRefs2="9 10" order="D"/>
+          <bond id="11" atomRefs2="9 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H5NO2/c1-2-3-7-4(5)6/h1H,3H2,(H2,5,6)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.011,0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QVCOXWYMPCBIMH-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="ethinamate_f4" formula="C8H11NO2">
+        <atomArray>
+          <atom id="2" elementType="C" x2="5.081" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="5.7145" y2="-13.9915" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="6.3439" y2="-14.5214" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="4.6664" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="3.8414" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="3.431" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.8414" y2="-14.1779" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="O" x2="5.7145" y2="-12.9316" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="C" x2="6.4852" y2="-13.2159" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="7.1187" y2="-12.686" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="N" x2="6.6306" y2="-14.0303" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="7" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+          <bond id="5" atomRefs2="5 6" order="S"/>
+          <bond id="4" atomRefs2="4 5" order="S"/>
+          <bond id="8" atomRefs2="2 8" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="10" atomRefs2="9 10" order="D"/>
+          <bond id="11" atomRefs2="9 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H13NO2/c1-3-5-6-7(4-2)11-8(9)10/h2,7H,3,5-6H2,1H3,(H2,9,10)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=GHESTBOZYFJDAP-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="ethinamate_f5" formula="C7H9NO2">
+        <atomArray>
+          <atom id="2" elementType="C" x2="5.081" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="5.7145" y2="-13.9915" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="6.3439" y2="-14.5214" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="4.6664" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="3.8414" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="3.431" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="O" x2="5.7145" y2="-12.9316" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="C" x2="6.4852" y2="-13.2159" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="7.1187" y2="-12.686" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="N" x2="6.6306" y2="-14.0303" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="7" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+          <bond id="5" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="2 8" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="10" atomRefs2="9 10" order="D"/>
+          <bond id="11" atomRefs2="9 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H11NO2/c1-3-5-6(4-2)10-7(8)9/h2,6H,3,5H2,1H3,(H2,8,9)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IGUJQFMQEXMFMA-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="ethinamate_f6" formula="C6H7NO2">
+        <atomArray>
+          <atom id="2" elementType="C" x2="5.081" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="5.7145" y2="-13.9915" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="6.3439" y2="-14.5214" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="4.6664" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="3.8414" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="O" x2="5.7145" y2="-12.9316" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="C" x2="6.4852" y2="-13.2159" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="7.1187" y2="-12.686" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="N" x2="6.6306" y2="-14.0303" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="7" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+          <bond id="8" atomRefs2="2 8" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="10" atomRefs2="9 10" order="D"/>
+          <bond id="11" atomRefs2="9 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H9NO2/c1-3-5(4-2)9-6(7)8/h1,5H,4H2,2H3,(H2,7,8)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IEWNAUUPQWNKLU-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="ethinamate_f1" formula="C8H12NO2">
+        <atomArray>
+          <atom id="1" elementType="C" x2="5.7145" y2="-13.9915" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.081" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.6664" y2="-14.1779" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.8414" y2="-14.1779" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="3.431" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="3.8414" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="4.6664" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="O" x2="5.7145" y2="-12.9316" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="C" x2="6.4852" y2="-13.2159" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="7.1187" y2="-12.686" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="N" x2="6.6306" y2="-14.0303" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="4" atomRefs2="4 5" order="S"/>
+          <bond id="5" atomRefs2="5 6" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+          <bond id="7" atomRefs2="2 7" order="S"/>
+          <bond id="8" atomRefs2="2 8" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="10" atomRefs2="9 10" order="D"/>
+          <bond id="11" atomRefs2="9 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H15NO2/c1-8(11-7(9)10)5-3-2-4-6-8/h2-6H2,1H3,(H2,9,10)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.058</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AKIHTGIGOHBKGE-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="ethinamate_f2" formula="C5H5NO2">
+        <atomArray>
+          <atom id="2" elementType="C" x2="5.081" y2="-13.4615" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="5.7145" y2="-13.9915" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="6.3439" y2="-14.5214" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="4.6664" y2="-12.7493" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="O" x2="5.7145" y2="-12.9316" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="C" x2="6.4852" y2="-13.2159" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="7.1187" y2="-12.686" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="N" x2="6.6306" y2="-14.0303" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="7" atomRefs2="2 7" order="S"/>
+          <bond id="8" atomRefs2="2 8" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="10" atomRefs2="9 10" order="D"/>
+          <bond id="11" atomRefs2="9 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H7NO2/c1-3-4(2)8-5(6)7/h1,4H,2H3,(H2,6,7)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FULOALYTAAILPU-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="ethinamate" formula="C9H13NO2">
+        <atomArray>
+          <atom id="0" elementType="C" x2="6.3439" y2="-14.5214" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.11666857403542809</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="5.7145" y2="-13.9915" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.07044240119386903</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="5.081" y2="-13.4615" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.13932461722478248</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="4.6664" y2="-14.1779" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.011760597824284335</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="3.8414" y2="-14.1779" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.049540457338079276</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="3.431" y2="-13.4615" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.052922166955744775</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="3.8414" y2="-12.7493" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.049540457338079276</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="4.6664" y2="-12.7493" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.011760597824284335</scalar>
+          </atom>
+          <atom id="8" elementType="O" x2="5.7145" y2="-12.9316" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2833047744269399</scalar>
+          </atom>
+          <atom id="9" elementType="C" x2="6.4852" y2="-13.2159" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.3360290996734579</scalar>
+          </atom>
+          <atom id="10" elementType="O" x2="7.1187" y2="-12.686" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.24627166931225403</scalar>
+          </atom>
+          <atom id="11" elementType="N" x2="6.6306" y2="-14.0303" formalCharge="0" hydrogenCount="2" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.24707618435868384</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="2" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 4" order="S"/>
+          <bond id="4" atomRefs2="4 5" order="S"/>
+          <bond id="5" atomRefs2="5 6" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+          <bond id="7" atomRefs2="2 7" order="S"/>
+          <bond id="8" atomRefs2="2 8" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="S"/>
+          <bond id="10" atomRefs2="9 10" order="D"/>
+          <bond id="11" atomRefs2="9 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H13NO2/c1-2-9(12-8(10)11)6-4-3-5-7-9/h1H,3-7H2,(H2,10,11)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">ethinamate</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=GXRZIMHKGDIBEW-UHFFFAOYSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">167.094629</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

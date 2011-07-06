@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="(-)-ureidoglycolic acid" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="(-)-ureidoglycolic acid"/>
+        <metadata name="ms:exactMass" content="134.03276"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="118.03784205199999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="(-)-ureidoglycolic acid_f1"/>
+        </peak>
+        <peak xValue="90.01911798799999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="(-)-ureidoglycolic acid_f2"/>
+        </peak>
+        <peak xValue="117.03001701999999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="(-)-ureidoglycolic acid_f3"/>
+        </peak>
+        <peak xValue="59.024537716" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="(-)-ureidoglycolic acid_f4"/>
+        </peak>
+        <peak xValue="75.008218956" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="(-)-ureidoglycolic acid_f5"/>
+        </peak>
+        <peak xValue="89.0351024" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="(-)-ureidoglycolic acid_f6"/>
+        </peak>
+        <peak xValue="118.014032608" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="(-)-ureidoglycolic acid_f7"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="(-)-ureidoglycolic acid"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="(-)-ureidoglycolic acid_f7"/>
+        </product>
+        <product>
+          <molecule ref="(-)-ureidoglycolic acid_f6"/>
+        </product>
+        <product>
+          <molecule ref="(-)-ureidoglycolic acid_f5"/>
+        </product>
+        <product>
+          <molecule ref="(-)-ureidoglycolic acid_f4"/>
+        </product>
+        <product>
+          <molecule ref="(-)-ureidoglycolic acid_f3"/>
+        </product>
+        <product>
+          <molecule ref="(-)-ureidoglycolic acid_f2"/>
+        </product>
+        <product>
+          <molecule ref="(-)-ureidoglycolic acid_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="(-)-ureidoglycolic acid_f7" formula="C3H4NO4">
+        <atomArray>
+          <atom id="0" elementType="C" x2="-1.0717" y2="-0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="-1.0717" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="1" elementType="N" x2="-0.3572" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="0.3572" y2="-0.2063" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.0717" y2="0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="1.0717" y2="1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="1.7862" y2="-0.2063" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="O" x2="0.3572" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="7 0" order="D"/>
+          <bond id="1" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="1 4" order="S"/>
+          <bond id="5" atomRefs2="4 2" order="S"/>
+          <bond id="2" atomRefs2="6 2" order="D"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H5NO4/c5-1-4-2(6)3(7)8/h1-2,6H,(H,4,5)(H,7,8)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.04</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HFMGWPFNALEJOO-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="(-)-ureidoglycolic acid_f6" formula="C2H5N2O2">
+        <atomArray>
+          <atom id="4" elementType="C" x2="0.3572" y2="-0.2063" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="-0.3572" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="-1.0717" y2="-0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="-1.0717" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="N" x2="-1.7862" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="O" x2="0.3572" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="1 4" order="S"/>
+          <bond id="1" atomRefs2="0 1" order="S"/>
+          <bond id="0" atomRefs2="7 0" order="D"/>
+          <bond id="7" atomRefs2="5 0" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H6N2O2/c3-2(6)4-1-5/h5H,1H2,(H3,3,4,6)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.019</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VGGLHLAESQEWCR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="(-)-ureidoglycolic acid_f5" formula="C2H3O3">
+        <atomArray>
+          <atom id="4" elementType="C" x2="0.3572" y2="-0.2063" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.0717" y2="0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="1.0717" y2="1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="1.7862" y2="-0.2063" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="O" x2="0.3572" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="4 2" order="S"/>
+          <bond id="2" atomRefs2="6 2" order="D"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H4O3/c3-1-2(4)5/h3H,1H2,(H,4,5)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AEMRFAOFKBGASW-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="(-)-ureidoglycolic acid_f4" formula="CH3N2O">
+        <atomArray>
+          <atom id="1" elementType="N" x2="-0.3572" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="-1.0717" y2="-0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="-1.0717" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="N" x2="-1.7862" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="0 1" order="S"/>
+          <bond id="0" atomRefs2="7 0" order="D"/>
+          <bond id="7" atomRefs2="5 0" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH4N2O/c2-1(3)4/h(H4,2,3,4)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XSQUKJJJFZCRTK-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="(-)-ureidoglycolic acid_f3" formula="C3H5N2O3">
+        <atomArray>
+          <atom id="2" elementType="C" x2="1.0717" y2="0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="1.0717" y2="1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="4" elementType="C" x2="0.3572" y2="-0.2063" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="-0.3572" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="-1.0717" y2="-0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="-1.0717" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="N" x2="-1.7862" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="O" x2="0.3572" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="6 2" order="D"/>
+          <bond id="5" atomRefs2="4 2" order="S"/>
+          <bond id="4" atomRefs2="1 4" order="S"/>
+          <bond id="1" atomRefs2="0 1" order="S"/>
+          <bond id="0" atomRefs2="7 0" order="D"/>
+          <bond id="7" atomRefs2="5 0" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H6N2O3/c4-3(8)5-2(7)1-6/h1-2,7H,(H3,4,5,8)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.086</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=BORRXNIYEQRYCS-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="(-)-ureidoglycolic acid_f2" formula="C2H4NO3">
+        <atomArray>
+          <atom id="1" elementType="N" x2="-0.3572" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="0.3572" y2="-0.2063" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.0717" y2="0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="1.0717" y2="1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="1.7862" y2="-0.2063" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="O" x2="0.3572" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="1 4" order="S"/>
+          <bond id="5" atomRefs2="4 2" order="S"/>
+          <bond id="2" atomRefs2="6 2" order="D"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H5NO3/c3-1(4)2(5)6/h1,4H,3H2,(H,5,6)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.046</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ZHWLPDIRXJCEJY-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="(-)-ureidoglycolic acid_f1" formula="C3H6N2O3">
+        <atomArray>
+          <atom id="0" elementType="C" x2="-1.0717" y2="-0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="-0.3572" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="0.3572" y2="-0.2063" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="1.0717" y2="0.2062" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="1.0717" y2="1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="1.7862" y2="-0.2063" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="O" x2="0.3572" y2="-1.0312" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="N" x2="-1.7862" y2="0.2063" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="1 4" order="S"/>
+          <bond id="5" atomRefs2="4 2" order="S"/>
+          <bond id="2" atomRefs2="6 2" order="D"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="7" atomRefs2="5 0" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H8N2O3/c4-1-5-2(6)3(7)8/h2,5-6H,1,4H2,(H,7,8)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.169</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=WLNOBCFKHYLMHH-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="(-)-ureidoglycolic acid" formula="C3H6N2O4">
+        <atomArray>
+          <atom id="0" elementType="C" x2="-1.0717" y2="-0.2062" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2717395918402573</scalar>
+          </atom>
+          <atom id="1" elementType="N" x2="-0.3572" y2="0.2063" formalCharge="0" hydrogenCount="1" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.21009424406413202</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="1.0717" y2="0.2062" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.3035190611563716</scalar>
+          </atom>
+          <atom id="3" elementType="O" x2="1.7862" y2="-0.2063" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3284260984914633</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="0.3572" y2="-0.2063" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.19975755402868822</scalar>
+          </atom>
+          <atom id="5" elementType="N" x2="-1.7862" y2="0.2063" formalCharge="0" hydrogenCount="2" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.25839228536443076</scalar>
+          </atom>
+          <atom id="6" elementType="O" x2="1.0717" y2="1.0312" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2614217582068439</scalar>
+          </atom>
+          <atom id="7" elementType="O" x2="-1.0717" y2="-1.0312" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.26172357820815434</scalar>
+          </atom>
+          <atom id="8" elementType="O" x2="0.3572" y2="-1.0312" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.36860681395810824</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="7 0" order="D"/>
+          <bond id="1" atomRefs2="0 1" order="S"/>
+          <bond id="2" atomRefs2="6 2" order="D"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="4" atomRefs2="1 4" order="S"/>
+          <bond id="5" atomRefs2="4 2" order="S"/>
+          <bond id="6" atomRefs2="4 8" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="7" atomRefs2="5 0" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H6N2O4/c4-3(9)5-1(6)2(7)8/h1,6H,(H,7,8)(H3,4,5,9)/t1-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">(-)-ureidoglycolic acid</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NWZYYCVIOKVTII-SFOWXEAESA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">134.032757</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

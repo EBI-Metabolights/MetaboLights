@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="acetylenedicarboxylate(2-)" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="acetylenedicarboxylate(2-)"/>
+        <metadata name="ms:exactMass" content="111.97966"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="67.99037781990927" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="acetylenedicarboxylate(2-)_f1"/>
+        </peak>
+        <peak xValue="95.98529243990926" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="acetylenedicarboxylate(2-)_f2"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="acetylenedicarboxylate(2-)"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="acetylenedicarboxylate(2-)_f2"/>
+        </product>
+        <product>
+          <molecule ref="acetylenedicarboxylate(2-)_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="acetylenedicarboxylate(2-)_f2" formula="C4O3">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.2375" y2="0.0" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.4125" y2="0.0" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-0.4125" y2="-0.0" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.2375" y2="-0.0" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="-1.65" y2="0.7145" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="6" elementType="O" x2="-1.65" y2="-0.7145" formalCharge="0" isotopeNumber="16"/>
+          <atom id="4" elementType="O" x2="1.65" y2="0.7145" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="T"/>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="5" atomRefs2="7 3" order="S"/>
+          <bond id="6" atomRefs2="6 3" order="D"/>
+          <bond id="2" atomRefs2="4 0" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H2O3/c5-3-1-2-4(6)7/h3H,(H,6,7)/p-1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.193</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=GFXJNGOOVZVTSF-UHFFFAOYSA-M</scalar>
+      </molecule>
+      <molecule id="acetylenedicarboxylate(2-)_f1" formula="C3O2">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.4125" y2="0.0" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-0.4125" y2="-0.0" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.2375" y2="-0.0" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="-1.65" y2="0.7145" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="6" elementType="O" x2="-1.65" y2="-0.7145" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="2 1" order="T"/>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="5" atomRefs2="7 3" order="S"/>
+          <bond id="6" atomRefs2="6 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H2O2/c1-2-3(4)5/h1H,(H,4,5)/p-1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.0</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=UORVCLMRJXCDCP-UHFFFAOYSA-M</scalar>
+      </molecule>
+      <molecule id="acetylenedicarboxylate(2-)" formula="C4O4">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.2375" y2="0.0" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.430273449079331</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="0.4125" y2="0.0" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.032050909081329</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="-0.4125" y2="-0.0" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.032050909081329</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="-1.2375" y2="-0.0" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.430273449079331</scalar>
+          </atom>
+          <atom id="4" elementType="O" x2="1.65" y2="0.7145" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23116217908033</scalar>
+          </atom>
+          <atom id="5" elementType="O" x2="1.65" y2="-0.7145" formalCharge="-1" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23116217908033</scalar>
+          </atom>
+          <atom id="6" elementType="O" x2="-1.65" y2="-0.7145" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23116217908033</scalar>
+          </atom>
+          <atom id="7" elementType="O" x2="-1.65" y2="0.7145" formalCharge="-1" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23116217908033</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="5 0" order="S"/>
+          <bond id="2" atomRefs2="4 0" order="D"/>
+          <bond id="3" atomRefs2="2 1" order="T"/>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="5" atomRefs2="7 3" order="S"/>
+          <bond id="6" atomRefs2="6 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H2O4/c5-3(6)1-2-4(7)8/h(H,5,6)(H,7,8)/p-2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">acetylenedicarboxylate(2-)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YTIVTFGABIZHHX-UHFFFAOYSA-L</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">111.979658</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

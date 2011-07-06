@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="5,7-dihydroxy-4'-methoxyflavone" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="5,7-dihydroxy-4'-methoxyflavone"/>
+        <metadata name="ms:exactMass" content="284.06847"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="268.073558864" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f1"/>
+        </peak>
+        <peak xValue="136.01604398799998" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f2"/>
+        </peak>
+        <peak xValue="108.021129368" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f3"/>
+        </peak>
+        <peak xValue="165.01878363999998" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f4"/>
+        </peak>
+        <peak xValue="152.010958608" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f5"/>
+        </peak>
+        <peak xValue="160.052429496" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f6"/>
+        </peak>
+        <peak xValue="124.01604398799999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f7"/>
+        </peak>
+        <peak xValue="243.065733832" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f8"/>
+        </peak>
+        <peak xValue="256.073558864" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak9">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f9"/>
+        </peak>
+        <peak xValue="271.060648452" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak10">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f10"/>
+        </peak>
+        <peak xValue="177.01878363999998" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak11">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f11"/>
+        </peak>
+        <peak xValue="267.06573383200003" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak12">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f12"/>
+        </peak>
+        <peak xValue="253.05008376799998" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak13">
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f13"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f10"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f12"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f11"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f13"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f1"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f6"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f7"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f8"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f9"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f2"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f3"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f4"/>
+        </product>
+        <product>
+          <molecule ref="5,7-dihydroxy-4'-methoxyflavone_f5"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f10" formula="C15H11O5">
+        <atomArray>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="3.7295" y2="-4.0893" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="3.0209" y2="-4.5118" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.3123" y2="-4.1253" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="1.5882" y2="-4.5763" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="1.6166" y2="-5.4008" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="2.3535" y2="-5.8027" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="3.0338" y2="-5.3647" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="O" x2="0.908" y2="-5.8233" formalCharge="0" isotopeNumber="16"/>
+          <atom id="20" elementType="C" x2="0.9363" y2="-6.6479" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="5 1" order="S"/>
+          <bond id="9" atomRefs2="13 5" order="S"/>
+          <bond id="15" atomRefs2="14 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="16 14" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="18 16" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="18 17" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="17 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="16" atomRefs2="15 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="21" atomRefs2="19 18" order="S"/>
+          <bond id="22" atomRefs2="20 19" order="S"/>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H14O5/c1-19-12-4-2-10(3-5-12)9-20-15-7-11(17)6-14(18)13(15)8-16/h2-8,17-18H,9H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.004,0.002</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=UEQAICZERAGAMU-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f12" formula="C16H11O4">
+        <atomArray>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="3.7295" y2="-4.0893" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.7166" y2="-3.2364" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="C" x2="3.0209" y2="-4.5118" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.3123" y2="-4.1253" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="1.5882" y2="-4.5763" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="1.6166" y2="-5.4008" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="2.3535" y2="-5.8027" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="3.0338" y2="-5.3647" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="O" x2="0.908" y2="-5.8233" formalCharge="0" isotopeNumber="16"/>
+          <atom id="20" elementType="C" x2="0.9363" y2="-6.6479" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="5 1" order="S"/>
+          <bond id="8" atomRefs2="5 4" order="D"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+          <bond id="9" atomRefs2="13 5" order="S"/>
+          <bond id="15" atomRefs2="14 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="16 14" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="18 16" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="18 17" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="17 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="16" atomRefs2="15 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="21" atomRefs2="19 18" order="S"/>
+          <bond id="22" atomRefs2="20 19" order="S"/>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H12O4/c1-19-12-5-2-10(3-6-12)15-9-14(18)13-7-4-11(17)8-16(13)20-15/h2-9,17H,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.082</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SQVXWIUVAILQRH-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f11" formula="C9H5O4">
+        <atomArray>
+          <atom id="5" elementType="C" x2="3.7295" y2="-4.0893" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.7166" y2="-3.2364" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="5 1" order="S"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="8" atomRefs2="5 4" order="D"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H6O4/c10-5-3-7(12)9-6(11)1-2-13-8(9)4-5/h1-4,10,12H</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.006</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NYCXYKOXLNBYID-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f13" formula="C15H9O4">
+        <atomArray>
+          <atom id="18" elementType="C" x2="1.6166" y2="-5.4008" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="1.5882" y2="-4.5763" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.3123" y2="-4.1253" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="3.0209" y2="-4.5118" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="3.7295" y2="-4.0893" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.7166" y2="-3.2364" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="3.0338" y2="-5.3647" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="2.3535" y2="-5.8027" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="19" atomRefs2="18 16" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="16 14" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="14 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="13 5" order="S"/>
+          <bond id="3" atomRefs2="5 1" order="S"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="8" atomRefs2="5 4" order="D"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+          <bond id="16" atomRefs2="15 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="17 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="18 17" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H10O4/c16-10-6-11(17)15-12(18)8-13(19-14(15)7-10)9-4-2-1-3-5-9/h1-8,16-17H</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.082</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RTIXKCRFFJGDFG-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f1" formula="C16H12O4">
+        <atomArray>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.7166" y2="-3.2364" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="3.7295" y2="-4.0893" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="3.0209" y2="-4.5118" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.3123" y2="-4.1253" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="1.5882" y2="-4.5763" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="1.6166" y2="-5.4008" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="2.3535" y2="-5.8027" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="3.0338" y2="-5.3647" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="O" x2="0.908" y2="-5.8233" formalCharge="0" isotopeNumber="16"/>
+          <atom id="20" elementType="C" x2="0.9363" y2="-6.6479" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="8" atomRefs2="5 4" order="D"/>
+          <bond id="9" atomRefs2="13 5" order="S"/>
+          <bond id="15" atomRefs2="14 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="16 14" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="18 16" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="18 17" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="17 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="16" atomRefs2="15 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="21" atomRefs2="19 18" order="S"/>
+          <bond id="22" atomRefs2="20 19" order="S"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H14O4/c1-20-13-6-2-11(3-7-13)4-9-15(18)14-8-5-12(17)10-16(14)19/h2-10,17,19H,1H3/b9-4+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.088,0.088</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ADRQFDIWPRFKSP-RUDMXATFSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f6" formula="C10H8O2">
+        <atomArray>
+          <atom id="5" elementType="C" x2="3.7295" y2="-4.0893" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.7166" y2="-3.2364" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="C" x2="3.0209" y2="-4.5118" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.3123" y2="-4.1253" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="1.5882" y2="-4.5763" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="1.6166" y2="-5.4008" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="2.3535" y2="-5.8027" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="3.0338" y2="-5.3647" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="O" x2="0.908" y2="-5.8233" formalCharge="0" isotopeNumber="16"/>
+          <atom id="20" elementType="C" x2="0.9363" y2="-6.6479" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="8" atomRefs2="5 4" order="D"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+          <bond id="9" atomRefs2="13 5" order="S"/>
+          <bond id="15" atomRefs2="14 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="16 14" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="18 16" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="18 17" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="17 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="16" atomRefs2="15 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="21" atomRefs2="19 18" order="S"/>
+          <bond id="22" atomRefs2="20 19" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H10O2/c1-12-10-6-4-9(5-7-10)3-2-8-11/h2-8H,1H3/b3-2+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.002,0.088</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AXCXHFKZHDEKTP-NSCUHMNNSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f7" formula="C6H4O3">
+        <atomArray>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H6O3/c7-4-1-5(8)3-6(9)2-4/h1-3,7-9H</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.002,0.088</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QCDYQQDYXPDABM-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f8" formula="C14H11O4">
+        <atomArray>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="3.7295" y2="-4.0893" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="3.0209" y2="-4.5118" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.3123" y2="-4.1253" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="1.5882" y2="-4.5763" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="1.6166" y2="-5.4008" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="2.3535" y2="-5.8027" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="3.0338" y2="-5.3647" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="O" x2="0.908" y2="-5.8233" formalCharge="0" isotopeNumber="16"/>
+          <atom id="20" elementType="C" x2="0.9363" y2="-6.6479" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="5 1" order="S"/>
+          <bond id="9" atomRefs2="13 5" order="S"/>
+          <bond id="15" atomRefs2="14 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="16 14" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="18 16" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="18 17" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="17 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="16" atomRefs2="15 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="21" atomRefs2="19 18" order="S"/>
+          <bond id="22" atomRefs2="20 19" order="S"/>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H14O4/c1-17-13-4-2-10(3-5-13)9-18-14-7-11(15)6-12(16)8-14/h2-8,15-16H,9H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.004,0.002</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XVOVEZNPYPHHRI-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f9" formula="C15H12O4">
+        <atomArray>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="C" x2="3.7295" y2="-4.0893" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.7166" y2="-3.2364" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="3.0209" y2="-4.5118" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.3123" y2="-4.1253" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="1.5882" y2="-4.5763" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="1.6166" y2="-5.4008" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="2.3535" y2="-5.8027" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="3.0338" y2="-5.3647" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="O" x2="0.908" y2="-5.8233" formalCharge="0" isotopeNumber="16"/>
+          <atom id="20" elementType="C" x2="0.9363" y2="-6.6479" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="5 1" order="S"/>
+          <bond id="8" atomRefs2="5 4" order="D"/>
+          <bond id="9" atomRefs2="13 5" order="S"/>
+          <bond id="15" atomRefs2="14 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="16 14" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="18 16" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="18 17" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="17 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="16" atomRefs2="15 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="21" atomRefs2="19 18" order="S"/>
+          <bond id="22" atomRefs2="20 19" order="S"/>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H14O4/c1-10(11-3-5-14(18-2)6-4-11)19-15-8-12(16)7-13(17)9-15/h3-9,16-17H,1H2,2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.002,0.002</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XRODPOKPEHVRQA-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f2" formula="C7H4O3">
+        <atomArray>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H6O3/c8-4-5-1-2-6(9)3-7(5)10/h1-4,9-10H</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.002,0.088</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IUNJCFABHJZSKB-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f3" formula="C6H4O2">
+        <atomArray>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H6O2/c7-5-2-1-3-6(8)4-5/h1-4,7-8H</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.002,0.088</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=GHMLBKRAJCXXBS-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f4" formula="C8H5O4">
+        <atomArray>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="3.7166" y2="-3.2364" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H8O4/c1-4(9)8-6(11)2-5(10)3-7(8)12/h2-3,10-12H,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.004,0.088</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XLEYFDVVXLMULC-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone_f5" formula="C7H4O4">
+        <atomArray>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H6O4/c8-3-5-6(10)1-4(9)2-7(5)11/h1-3,9-11H</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.002,0.088</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=BTQAJGSMXCDDAJ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="5,7-dihydroxy-4'-methoxyflavone" formula="C16H12O5">
+        <atomArray>
+          <atom id="0" elementType="C" x2="5.1337" y2="-4.0094" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.09860799280896508</scalar>
+          </atom>
+          <atom id="1" elementType="O" x2="4.4664" y2="-4.4912" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.30821672241631903</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="5.1621" y2="-3.2158" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.08246598671969552</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="4.4251" y2="-2.8138" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.19339455007022566</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="3.7166" y2="-3.2364" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.017357990718244252</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="3.7295" y2="-4.0893" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.0935036159781173</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="5.899" y2="-4.4268" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-3.3159608972060543E-4</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="5.814" y2="-2.7623" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.08798992186148807</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="6.5509" y2="-3.1642" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.0011348145879264292</scalar>
+          </atom>
+          <atom id="9" elementType="C" x2="6.5793" y2="-3.9888" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.07700572049652825</scalar>
+          </atom>
+          <atom id="10" elementType="O" x2="4.4251" y2="-2.0047" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.28801266250797875</scalar>
+          </atom>
+          <atom id="11" elementType="O" x2="5.814" y2="-1.9532" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.35947058599140924</scalar>
+          </atom>
+          <atom id="12" elementType="O" x2="7.3317" y2="-4.3624" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3602162287785973</scalar>
+          </atom>
+          <atom id="13" elementType="C" x2="3.0209" y2="-4.5118" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.005674869105965595</scalar>
+          </atom>
+          <atom id="14" elementType="C" x2="2.3123" y2="-4.1253" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04970344840988424</scalar>
+          </atom>
+          <atom id="15" elementType="C" x2="3.0338" y2="-5.3647" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04970344840988424</scalar>
+          </atom>
+          <atom id="16" elementType="C" x2="1.5882" y2="-4.5763" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.031088196470836185</scalar>
+          </atom>
+          <atom id="17" elementType="C" x2="2.3535" y2="-5.8027" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.031088196470836185</scalar>
+          </atom>
+          <atom id="18" elementType="C" x2="1.6166" y2="-5.4008" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.07518982306754893</scalar>
+          </atom>
+          <atom id="19" elementType="O" x2="0.908" y2="-5.8233" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3486554718706179</scalar>
+          </atom>
+          <atom id="20" elementType="C" x2="0.9363" y2="-6.6479" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.04260067357712673</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="6 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="5 1" order="S"/>
+          <bond id="4" atomRefs2="3 2" order="S"/>
+          <bond id="5" atomRefs2="7 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="7" atomRefs2="10 3" order="D"/>
+          <bond id="8" atomRefs2="5 4" order="D"/>
+          <bond id="9" atomRefs2="13 5" order="S"/>
+          <bond id="10" atomRefs2="9 6" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="8 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="12" atomRefs2="11 7" order="S"/>
+          <bond id="13" atomRefs2="9 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="12 9" order="S"/>
+          <bond id="15" atomRefs2="14 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="16" atomRefs2="15 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="16 14" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="18" atomRefs2="17 15" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="19" atomRefs2="18 16" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="20" atomRefs2="18 17" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="21" atomRefs2="19 18" order="S"/>
+          <bond id="22" atomRefs2="20 19" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H12O5/c1-20-11-4-2-9(3-5-11)14-8-13(19)16-12(18)6-10(17)7-15(16)21-14/h2-8,17-18H,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">5,7-dihydroxy-4'-methoxyflavone</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DANYIYRPLHHOCZ-UHFFFAOYSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">284.068473</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="2,5-didehydro-D-gluconate" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="2,5-didehydro-D-gluconate"/>
+        <metadata name="ms:exactMass" content="191.01918"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="101.99585712390926" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="2,5-didehydro-D-gluconate_f1"/>
+        </peak>
+        <peak xValue="132.00642180790928" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="2,5-didehydro-D-gluconate_f2"/>
+        </peak>
+        <peak xValue="160.00133642790925" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="2,5-didehydro-D-gluconate_f3"/>
+        </peak>
+        <peak xValue="174.01698649190925" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="2,5-didehydro-D-gluconate_f4"/>
+        </peak>
+        <peak xValue="175.02481152390925" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="2,5-didehydro-D-gluconate_f5"/>
+        </peak>
+        <peak xValue="119.034433704" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="2,5-didehydro-D-gluconate_f6"/>
+        </peak>
+        <peak xValue="71.98529243990926" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="2,5-didehydro-D-gluconate_f7"/>
+        </peak>
+        <peak xValue="147.029348324" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="2,5-didehydro-D-gluconate_f8"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="2,5-didehydro-D-gluconate"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="2,5-didehydro-D-gluconate_f6"/>
+        </product>
+        <product>
+          <molecule ref="2,5-didehydro-D-gluconate_f5"/>
+        </product>
+        <product>
+          <molecule ref="2,5-didehydro-D-gluconate_f8"/>
+        </product>
+        <product>
+          <molecule ref="2,5-didehydro-D-gluconate_f7"/>
+        </product>
+        <product>
+          <molecule ref="2,5-didehydro-D-gluconate_f2"/>
+        </product>
+        <product>
+          <molecule ref="2,5-didehydro-D-gluconate_f1"/>
+        </product>
+        <product>
+          <molecule ref="2,5-didehydro-D-gluconate_f4"/>
+        </product>
+        <product>
+          <molecule ref="2,5-didehydro-D-gluconate_f3"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="2,5-didehydro-D-gluconate_f6" formula="C4H7O4">
+        <atomArray>
+          <atom id="7" elementType="C" x2="-0.2785" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.993" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.7074" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-2.4219" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="-3.1364" y2="4.5395" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="-1.7074" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="-0.993" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="O" x2="-0.2785" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="7 4" order="S"/>
+          <bond id="1" atomRefs2="4 2" order="S"/>
+          <bond id="2" atomRefs2="2 0" order="S"/>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="D"/>
+          <bond id="5" atomRefs2="4 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H8O4/c5-1-3(7)4(8)2-6/h3,5-7H,1-2H2/t3-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.021</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=UQPHVQVXLPRNCX-VKHMYHEASA-N</scalar>
+      </molecule>
+      <molecule id="2,5-didehydro-D-gluconate_f5" formula="C6H7O6">
+        <atomArray>
+          <atom id="2" elementType="C" x2="-1.7074" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.993" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-0.2785" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="-0.2785" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="C" x2="0.436" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="1.1504" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="1.8649" y2="4.1271" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="1.1503" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="0.436" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="-0.993" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="-2.4219" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="-3.1364" y2="4.5395" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="4 2" order="S"/>
+          <bond id="0" atomRefs2="7 4" order="S"/>
+          <bond id="6" atomRefs2="7 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="7" atomRefs2="7 8" order="S"/>
+          <bond id="8" atomRefs2="8 11" order="S"/>
+          <bond id="10" atomRefs2="11 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="9" atomRefs2="8 9" order="D"/>
+          <bond id="5" atomRefs2="4 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="2" atomRefs2="2 0" order="S"/>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H10O6/c7-2-1-3(8)4(9)5(10)6(11)12/h3-4,7-9H,1-2H2,(H,11,12)/p-1/t3-,4-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.156</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=CRXPWQCJVGZDPI-QWWZWVQMSA-M</scalar>
+      </molecule>
+      <molecule id="2,5-didehydro-D-gluconate_f8" formula="C5H7O5">
+        <atomArray>
+          <atom id="8" elementType="C" x2="0.436" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-0.2785" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.993" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.7074" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-2.4219" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="-3.1364" y2="4.5395" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="-1.7074" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="-0.993" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="O" x2="-0.2785" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="0.436" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="7 8" order="S"/>
+          <bond id="0" atomRefs2="7 4" order="S"/>
+          <bond id="1" atomRefs2="4 2" order="S"/>
+          <bond id="2" atomRefs2="2 0" order="S"/>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="D"/>
+          <bond id="5" atomRefs2="4 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="9" atomRefs2="8 9" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H8O5/c6-1-3(8)5(10)4(9)2-7/h1,3,5,7-8,10H,2H2/t3-,5-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.055</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XIIKTJZKWRJKSI-UCORVYFPSA-N</scalar>
+      </molecule>
+      <molecule id="2,5-didehydro-D-gluconate_f7" formula="C2O3">
+        <atomArray>
+          <atom id="8" elementType="C" x2="0.436" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="1.1504" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="1.8649" y2="4.1271" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="1.1503" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="0.436" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="8" atomRefs2="8 11" order="S"/>
+          <bond id="10" atomRefs2="11 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="9" atomRefs2="8 9" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H2O3/c3-1-2(4)5/h1H,(H,4,5)/p-1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.021</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HHLFWLYXYJOTON-UHFFFAOYSA-M</scalar>
+      </molecule>
+      <molecule id="2,5-didehydro-D-gluconate_f2" formula="C4H4O5">
+        <atomArray>
+          <atom id="4" elementType="C" x2="-0.993" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-0.2785" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="-0.2785" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="C" x2="0.436" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="1.1504" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="1.8649" y2="4.1271" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="1.1503" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="0.436" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="-0.993" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="7 4" order="S"/>
+          <bond id="6" atomRefs2="7 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="7" atomRefs2="7 8" order="S"/>
+          <bond id="8" atomRefs2="8 11" order="S"/>
+          <bond id="10" atomRefs2="11 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="9" atomRefs2="8 9" order="D"/>
+          <bond id="5" atomRefs2="4 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H6O5/c5-1-2(6)3(7)4(8)9/h2,5-6H,1H2,(H,8,9)/p-1/t2-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.021</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=CODPBKJMVNZFKR-UWTATZPHSA-M</scalar>
+      </molecule>
+      <molecule id="2,5-didehydro-D-gluconate_f1" formula="C3H2O4">
+        <atomArray>
+          <atom id="7" elementType="C" x2="-0.2785" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="-0.2785" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="C" x2="0.436" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="1.1504" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="1.8649" y2="4.1271" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="1.1503" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="0.436" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="7 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="7" atomRefs2="7 8" order="S"/>
+          <bond id="8" atomRefs2="8 11" order="S"/>
+          <bond id="10" atomRefs2="11 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="9" atomRefs2="8 9" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H4O4/c4-1-2(5)3(6)7/h4H,1H2,(H,6,7)/p-1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.021</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HHDDCCUIIUWNGJ-UHFFFAOYSA-M</scalar>
+      </molecule>
+      <molecule id="2,5-didehydro-D-gluconate_f4" formula="C6H6O6">
+        <atomArray>
+          <atom id="0" elementType="C" x2="-2.4219" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.7074" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.993" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-0.2785" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="-0.2785" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="C" x2="0.436" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="1.1504" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="1.8649" y2="4.1271" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="1.1503" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="0.436" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="-0.993" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="-1.7074" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="2 0" order="S"/>
+          <bond id="1" atomRefs2="4 2" order="S"/>
+          <bond id="0" atomRefs2="7 4" order="S"/>
+          <bond id="6" atomRefs2="7 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="7" atomRefs2="7 8" order="S"/>
+          <bond id="8" atomRefs2="8 11" order="S"/>
+          <bond id="10" atomRefs2="11 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="9" atomRefs2="8 9" order="D"/>
+          <bond id="5" atomRefs2="4 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="4" atomRefs2="2 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H8O6/c1-2(7)3(8)4(9)5(10)6(11)12/h3-4,8-9H,1H3,(H,11,12)/p-1/t3-,4-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.075</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RCITZOWMKQLNAI-QWWZWVQMSA-M</scalar>
+      </molecule>
+      <molecule id="2,5-didehydro-D-gluconate_f3" formula="C5H4O6">
+        <atomArray>
+          <atom id="2" elementType="C" x2="-1.7074" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.993" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-0.2785" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="-0.2785" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="C" x2="0.436" y2="4.127" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="1.1504" y2="4.5395" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="1.8649" y2="4.1271" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="1.1503" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="0.436" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="-0.993" y2="3.302" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="-1.7074" y2="5.3645" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="4 2" order="S"/>
+          <bond id="0" atomRefs2="7 4" order="S"/>
+          <bond id="6" atomRefs2="7 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="7" atomRefs2="7 8" order="S"/>
+          <bond id="8" atomRefs2="8 11" order="S"/>
+          <bond id="10" atomRefs2="11 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+          <bond id="9" atomRefs2="8 9" order="D"/>
+          <bond id="5" atomRefs2="4 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="4" atomRefs2="2 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H6O6/c6-1-2(7)3(8)4(9)5(10)11/h1-3,7-8H,(H,10,11)/p-1/t2-,3-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=CJRYDTGWKPHOBT-PWNYCUMCSA-M</scalar>
+      </molecule>
+      <molecule id="2,5-didehydro-D-gluconate" formula="C6H7O7">
+        <atomArray>
+          <atom id="0" elementType="C" x2="-2.4219" y2="4.127" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.10470713330759175</scalar>
+          </atom>
+          <atom id="1" elementType="O" x2="-3.1364" y2="4.5395" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.38796439828718904</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="-1.7074" y2="4.5395" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.18936187951512104</scalar>
+          </atom>
+          <atom id="3" elementType="O" x2="-1.7074" y2="5.3645" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.29308261331492985</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="-0.993" y2="4.127" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.148243770161554</scalar>
+          </atom>
+          <atom id="5" elementType="O" x2="-0.993" y2="3.302" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3815692653530504</scalar>
+          </atom>
+          <atom id="6" elementType="O" x2="-0.2785" y2="5.3645" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.38103008426202084</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="-0.2785" y2="4.5395" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.1569041340531571</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="0.436" y2="4.127" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2748743815811129</scalar>
+          </atom>
+          <atom id="9" elementType="O" x2="0.436" y2="3.302" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2827609772184059</scalar>
+          </atom>
+          <atom id="10" elementType="O" x2="1.8649" y2="4.1271" formalCharge="-1" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23756072888578442</scalar>
+          </atom>
+          <atom id="11" elementType="C" x2="1.1504" y2="4.5395" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.4239871208165121</scalar>
+          </atom>
+          <atom id="12" elementType="O" x2="1.1503" y2="5.3645" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23756072888578442</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="7 4" order="S"/>
+          <bond id="1" atomRefs2="4 2" order="S"/>
+          <bond id="2" atomRefs2="2 0" order="S"/>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="D"/>
+          <bond id="5" atomRefs2="4 5" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="7" atomRefs2="7 8" order="S"/>
+          <bond id="8" atomRefs2="8 11" order="S"/>
+          <bond id="9" atomRefs2="8 9" order="D"/>
+          <bond id="10" atomRefs2="11 10" order="S"/>
+          <bond id="11" atomRefs2="11 12" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H8O7/c7-1-2(8)3(9)4(10)5(11)6(12)13/h3-4,7,9-10H,1H2,(H,12,13)/p-1/t3-,4+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">2,5-didehydro-D-gluconate</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RXMWXENJQAINCC-DMTCNVIQSA-M</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">191.019178</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

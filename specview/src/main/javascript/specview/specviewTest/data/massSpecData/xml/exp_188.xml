@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="(R)-camphor" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="(R)-camphor"/>
+        <metadata name="ms:exactMass" content="152.12012"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="110.07316494" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="(R)-camphor_f1"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="(R)-camphor"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="(R)-camphor_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="(R)-camphor_f1" formula="C7H10O">
+        <atomArray>
+          <atom id="0" elementType="C" x2="0.0" y2="0.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="0.0075" y2="1.65" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.7144" y2="0.4125" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="0.7145" y2="-0.4125" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.0" y2="-0.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.4125" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="-0.7145" y2="0.4125" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-1.4138" y2="0.8475" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="0 10" order="S"/>
+          <bond id="2" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="8" atomRefs2="5 4" order="S"/>
+          <bond id="7" atomRefs2="0 5" order="S"/>
+          <bond id="9" atomRefs2="5 9" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H12O/c1-6-4-2-3-5-7(6)8/h6H,2-5H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.01,0.01</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=LFSAPCRASZRSKS-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="(R)-camphor" formula="C10H16O">
+        <atomArray>
+          <atom id="0" elementType="C" x2="0.0" y2="0.825" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.03154679928703641</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="0.7144" y2="0.4125" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04009218606132567</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="0.7145" y2="-0.4125" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.048489337760539694</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="0.0" y2="-0.825" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.028345705969792623</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.4125" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.009979678761363558</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="-0.7145" y2="0.4125" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.13931026549132122</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="1.1759" y2="-0.4188" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.058673733770319134</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="0.4651" y2="1.0E-4" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.0198033308438692</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="1.1833" y2="0.4061" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.058673733770319134</scalar>
+          </atom>
+          <atom id="9" elementType="O" x2="-1.4138" y2="0.8475" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.298527496888187</scalar>
+          </atom>
+          <atom id="10" elementType="C" x2="0.0075" y2="1.65" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.052179130716902646</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 7" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="1" atomRefs2="0 10" order="S"/>
+          <bond id="2" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="5" atomRefs2="3 7" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="7" atomRefs2="0 5" order="S"/>
+          <bond id="8" atomRefs2="5 4" order="S"/>
+          <bond id="9" atomRefs2="5 9" order="D"/>
+          <bond id="10" atomRefs2="7 6" order="S"/>
+          <bond id="11" atomRefs2="7 8" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H16O/c1-9(2)7-4-5-10(9,3)8(11)6-7/h7H,4-6H2,1-3H3/t7-,10+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">(R)-camphor</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DSSYKIVIOFKYAU-XCBNKYQSSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">152.120115</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

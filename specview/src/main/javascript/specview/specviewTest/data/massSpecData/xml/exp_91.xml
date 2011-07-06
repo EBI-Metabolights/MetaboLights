@@ -1,0 +1,2373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="gatifloxacin" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="gatifloxacin"/>
+        <metadata name="ms:exactMass" content="375.15943"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="361.14378434" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="gatifloxacin_f1"/>
+        </peak>
+        <peak xValue="347.128134276" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="gatifloxacin_f2"/>
+        </peak>
+        <peak xValue="318.10158518000003" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="gatifloxacin_f3"/>
+        </peak>
+        <peak xValue="332.11723524399997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="gatifloxacin_f4"/>
+        </peak>
+        <peak xValue="360.148535372" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="gatifloxacin_f5"/>
+        </peak>
+        <peak xValue="250.11175594" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="gatifloxacin_f6"/>
+        </peak>
+        <peak xValue="222.11684132" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="gatifloxacin_f7"/>
+        </peak>
+        <peak xValue="153.042593084" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="gatifloxacin_f8"/>
+        </peak>
+        <peak xValue="320.11723524399997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak9">
+          <molecule ref="gatifloxacin_f9"/>
+        </peak>
+        <peak xValue="55.042199159999996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak10">
+          <molecule ref="gatifloxacin_f10"/>
+        </peak>
+        <peak xValue="307.109410212" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak11">
+          <molecule ref="gatifloxacin_f11"/>
+        </peak>
+        <peak xValue="68.050024192" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak12">
+          <molecule ref="gatifloxacin_f12"/>
+        </peak>
+        <peak xValue="334.12030924400005" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak13">
+          <molecule ref="gatifloxacin_f13"/>
+        </peak>
+        <peak xValue="305.1539551" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak14">
+          <molecule ref="gatifloxacin_f14"/>
+        </peak>
+        <peak xValue="277.15904048" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak15">
+          <molecule ref="gatifloxacin_f15"/>
+        </peak>
+        <peak xValue="98.000393924" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak16">
+          <molecule ref="gatifloxacin_f16"/>
+        </peak>
+        <peak xValue="362.151609372" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak17">
+          <molecule ref="gatifloxacin_f17"/>
+        </peak>
+        <peak xValue="347.164519784" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak18">
+          <molecule ref="gatifloxacin_f18"/>
+        </peak>
+        <peak xValue="290.166865512" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak19">
+          <molecule ref="gatifloxacin_f19"/>
+        </peak>
+        <peak xValue="318.161780132" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak20">
+          <molecule ref="gatifloxacin_f20"/>
+        </peak>
+        <peak xValue="359.164519784" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak21">
+          <molecule ref="gatifloxacin_f21"/>
+        </peak>
+        <peak xValue="276.067211052" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak22">
+          <molecule ref="gatifloxacin_f22"/>
+        </peak>
+        <peak xValue="356.161031184" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak23">
+          <molecule ref="gatifloxacin_f23"/>
+        </peak>
+        <peak xValue="290.07028505200003" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak24">
+          <molecule ref="gatifloxacin_f24"/>
+        </peak>
+        <peak xValue="333.112484212" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak25">
+          <molecule ref="gatifloxacin_f25"/>
+        </peak>
+        <peak xValue="304.085935116" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak26">
+          <molecule ref="gatifloxacin_f26"/>
+        </peak>
+        <peak xValue="346.13288530799997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak27">
+          <molecule ref="gatifloxacin_f27"/>
+        </peak>
+        <peak xValue="360.135959308" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak28">
+          <molecule ref="gatifloxacin_f28"/>
+        </peak>
+        <peak xValue="330.161780132" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak29">
+          <molecule ref="gatifloxacin_f29"/>
+        </peak>
+        <peak xValue="358.156694752" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak30">
+          <molecule ref="gatifloxacin_f30"/>
+        </peak>
+        <peak xValue="344.141044688" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak31">
+          <molecule ref="gatifloxacin_f31"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="gatifloxacin"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="gatifloxacin_f22"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f23"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f24"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f25"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f20"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f21"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f27"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f3"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f26"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f2"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f29"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f1"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f28"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f7"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f6"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f5"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f4"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f9"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f8"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f31"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f13"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f14"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f11"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f30"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f12"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f10"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f19"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f18"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f17"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f16"/>
+        </product>
+        <product>
+          <molecule ref="gatifloxacin_f15"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="gatifloxacin_f22" formula="C14H11FNO4">
+        <atomArray>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H12FNO4/c1-20-11-5-7(15)4-9-12(11)16(8-2-3-8)6-10(13(9)17)14(18)19/h4-6,8H,2-3H2,1H3,(H,18,19)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.042</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NHCCKIWKKUCHEH-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f23" formula="C19H22N3O4">
+        <atomArray>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C19H23N3O4/c1-11-9-21(8-7-20-11)15-6-5-13-16(18(15)26-2)22(12-3-4-12)10-14(17(13)23)19(24)25/h5-6,10-12,20H,3-4,7-9H2,1-2H3,(H,24,25)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.13</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FMQKPIVQURNJBR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f24" formula="C14H11FN2O4">
+        <atomArray>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+        </atomArray>
+        <bondArray>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H13FN2O4/c1-21-13-10(16)9(15)4-7-11(13)17(6-2-3-6)5-8(12(7)18)14(19)20/h4-6H,2-3,16H2,1H3,(H,19,20)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.041,0.041</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HFMKHBDEIOYPRL-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f25" formula="C16H16FN3O4">
+        <atomArray>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H18FN3O4/c1-24-15-12(19-5-4-18)11(17)6-9-13(15)20(8-2-3-8)7-10(14(9)21)16(22)23/h6-8,19H,2-5,18H2,1H3,(H,22,23)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.039,0.041</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VRWBCRPZUUYZMQ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f20" formula="C17H21FN3O2">
+        <atomArray>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C17H24FN3O2/c1-11-9-21(7-6-19-11)16-14(18)8-12(10-22)15(17(16)23-3)20(2)13-4-5-13/h8,10-11,13,19H,4-7,9H2,1-3H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005,0.015</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QGHOAEQOSLAVBY-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f21" formula="C19H22FN3O3">
+        <atomArray>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C19H24FN3O3/c1-11-9-22(6-5-21-11)17-15(20)8-12-7-13(19(24)25)10-23(14-3-4-14)16(12)18(17)26-2/h8,10-11,14,21H,3-7,9H2,1-2H3,(H,24,25)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.157</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RPKGWQMPVZFAFM-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f27" formula="C18H19FN2O4">
+        <atomArray>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C18H21FN2O4/c1-4-7-20(2)15-13(19)8-11-14(17(15)25-3)21(10-5-6-10)9-12(16(11)22)18(23)24/h8-10H,4-7H2,1-3H3,(H,23,24)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.039,0.012</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ZPKRECJUZTUSIY-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f3" formula="C16H15FN2O4">
+        <atomArray>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+        </atomArray>
+        <bondArray>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H17FN2O4/c1-3-18-12-11(17)6-9-13(15(12)23-2)19(8-4-5-8)7-10(14(9)20)16(21)22/h6-8,18H,3-5H2,1-2H3,(H,21,22)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.041,0.038</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OQLHUMZYZJONAL-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f26" formula="C15H13FN2O4">
+        <atomArray>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H15FN2O4/c1-17-11-10(16)5-8-12(14(11)22-2)18(7-3-4-7)6-9(13(8)19)15(20)21/h5-7,17H,3-4H2,1-2H3,(H,20,21)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.012,0.041</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DQXJRGNKDHYIHD-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f2" formula="C17H18FN3O4">
+        <atomArray>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C17H20FN3O4/c1-8(19)6-20-13-12(18)5-10-14(16(13)25-2)21(9-3-4-9)7-11(15(10)22)17(23)24/h5,7-9,20H,3-4,6,19H2,1-2H3,(H,23,24)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.041,0.038</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=WMDWMECNQOEVCJ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f29" formula="C18H21FN3O2">
+        <atomArray>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C18H22FN3O2/c1-11-10-21(8-6-20-11)17-14(19)9-13-15(23)5-7-22(12-3-4-12)16(13)18(17)24-2/h5,7,9,11-12,20H,3-4,6,8,10H2,1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FRPRRGVUHVKYKT-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f1" formula="C18H20FN3O4">
+        <atomArray>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+        </atomArray>
+        <bondArray>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C18H22FN3O4/c1-4-21-9-12(18(24)25)16(23)11-7-13(19)15(17(26-3)14(11)21)22-6-5-20-10(2)8-22/h7,9-10,20H,4-6,8H2,1-3H3,(H,24,25)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OYJJFGHPXNHDON-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f28" formula="C18H19FN3O4">
+        <atomArray>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C18H20FN3O4/c1-26-17-14-11(8-13(19)15(17)21-6-4-20-5-7-21)16(23)12(18(24)25)9-22(14)10-2-3-10/h8-10,20H,2-7H2,1H3,(H,24,25)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XJCSNIFKGXSDGN-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f7" formula="C12H15FN2O">
+        <atomArray>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C12H17FN2O/c1-9-8-15(7-6-14-9)12-10(13)4-3-5-11(12)16-2/h3-5,9,14H,6-8H2,1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QZGFUGWTOLUTNX-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f6" formula="C13H15FN2O2">
+        <atomArray>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C13H17FN2O2/c1-9-7-16(4-3-15-9)13-11(14)5-10(8-17)6-12(13)18-2/h5-6,8-9,15H,3-4,7H2,1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005,0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SEBUZGLABVDXET-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f5" formula="C19H21FN2O4">
+        <atomArray>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C19H23FN2O4/c1-4-8-21(5-2)16-14(20)9-12-15(18(16)26-3)22(11-6-7-11)10-13(17(12)23)19(24)25/h9-11H,4-8H2,1-3H3,(H,24,25)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.039,0.038</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=UGCCNIWNGVYECQ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f4" formula="C17H17FN2O4">
+        <atomArray>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C17H19FN2O4/c1-4-19(2)14-12(18)7-10-13(16(14)24-3)20(9-5-6-9)8-11(15(10)21)17(22)23/h7-9H,4-6H2,1-3H3,(H,22,23)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.01,0.038</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MFTYCYDCQQJJQP-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f9" formula="C16H17FN2O4">
+        <atomArray>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H19FN2O4/c1-9-8-19(5-4-18-9)14-12(17)6-11(7-13(14)23-3)15(20)10(2)16(21)22/h6-7,9,18H,2,4-5,8H2,1,3H3,(H,21,22)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.045,0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JIFHBAJDKLOIQN-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f8" formula="C7H7NO3">
+        <atomArray>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H9NO3/c9-4-5(7(10)11)3-8-6-1-2-6/h3-4,6,8H,1-2H2,(H,10,11)/b5-3-</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XECDOQSZIZEABT-HYXAFXHYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f31" formula="C18H19FN3O3">
+        <atomArray>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C18H20FN3O3/c1-10-8-21(5-4-20-10)16-7-15-12(6-14(16)19)17(23)13(18(24)25)9-22(15)11-2-3-11/h6-7,9-11,20H,2-5,8H2,1H3,(H,24,25)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.085</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DYRWTUITSIYILW-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f13" formula="C16H17FN3O4">
+        <atomArray>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H18FN3O4/c1-8-7-20(4-3-18-8)13-11(17)5-9-12(15(13)24-2)19-6-10(14(9)21)16(22)23/h5-6,8,18H,3-4,7H2,1-2H3,(H,19,21)(H,22,23)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.046</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AJUURTRETAMJJJ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f14" formula="C16H20FN3O2">
+        <atomArray>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H22FN3O2/c1-10-8-20(6-5-18-10)15-13(17)7-11(9-21)14(16(15)22-2)19-12-3-4-12/h7,9-10,12,18-19H,3-6,8H2,1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005,0.045</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YLOWMZWPACXLQO-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f11" formula="C15H16FN2O4">
+        <atomArray>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H19FN2O4/c1-9-8-18(4-3-17-9)15-11(16)5-10(6-13(15)22-2)12(19)7-14(20)21/h5-6,9,17H,3-4,7-8H2,1-2H3,(H,20,21)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.015,0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IPHWIFCIDXPEDT-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f30" formula="C19H21FN3O3">
+        <atomArray>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C19H22FN3O3/c1-11-8-22(6-5-21-11)17-15(20)7-14-16(19(17)26-2)23(13-3-4-13)9-12(10-24)18(14)25/h7,9-11,13,21H,3-6,8H2,1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.087</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=BYHHJTKSGXTENS-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f12" formula="C4H6N">
+        <atomArray>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H9N/c1-5-4-2-3-4/h4-5H,2-3H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.015,0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VEBLEROFGPOMPB-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f10" formula="C3H5N">
+        <atomArray>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H7N/c4-3-1-2-3/h3H,1-2,4H2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.045,0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HTJDQJBWANPRPF-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f19" formula="C16H21FN3O">
+        <atomArray>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H24FN3O/c1-11-10-20(9-8-18-11)15-13(17)6-7-14(16(15)21-3)19(2)12-4-5-12/h6-7,11-12,18H,4-5,8-10H2,1-3H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.015,0.007</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RWUFNDSZWSNNJA-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f18" formula="C18H22FN3O3">
+        <atomArray>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C18H24FN3O3/c1-12-11-21(10-8-20-12)17-14(19)5-6-15(18(17)25-2)22(13-3-4-13)9-7-16(23)24/h5-7,9,12-13,20H,3-4,8,10-11H2,1-2H3,(H,23,24)/b9-7-</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005,0.007</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YUDVOTYREQDKIF-CLFYSBASSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f17" formula="C18H21FN3O4">
+        <atomArray>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C18H24FN3O4/c1-10-9-22(6-5-20-10)17-13(19)7-12(14(23)8-15(24)25)16(18(17)26-2)21-11-3-4-11/h7,10-11,20-21H,3-6,8-9H2,1-2H3,(H,24,25)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.015,0.045</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RCNDTCPHUDCMQC-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f16" formula="C4H2O3">
+        <atomArray>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" isotopeNumber="16"/>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" isotopeNumber="16"/>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H4O3/c1-3(2-5)4(6)7/h2H,1H2,(H,6,7)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.045</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YXFPBALCEOJUME-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin_f15" formula="C15H20FN3O">
+        <atomArray>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" isotopeNumber="14"/>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" isotopeNumber="16"/>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" isotopeNumber="14"/>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" isotopeNumber="14"/>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" isotopeNumber="19"/>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H22FN3O/c1-10-9-19(8-7-17-10)14-12(16)5-6-13(15(14)20-2)18-11-3-4-11/h5-6,10-11,17-18H,3-4,7-9H2,1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.045</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=TXIAWXJOGDHALS-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="gatifloxacin" formula="C19H22FN3O4">
+        <atomArray>
+          <atom id="0" elementType="C" x2="17.3705" y2="-8.8597" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.06534036096933478</scalar>
+          </atom>
+          <atom id="1" elementType="N" x2="18.089" y2="-9.2687" formalCharge="0" hydrogenCount="0" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.24438399042819567</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="17.3636" y2="-8.038" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.04653738360716716</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="16.6587" y2="-9.2791" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.11515741452799418</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="18.0821" y2="-10.0974" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.01937122657250791</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="18.7973" y2="-8.8459" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.002517325953722067</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="18.0718" y2="-7.6219" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.20148958968038547</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="16.6483" y2="-7.6254" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.011980924865106482</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="15.9436" y2="-8.8734" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.08588209403858892</scalar>
+          </atom>
+          <atom id="9" elementType="C" x2="18.4947" y2="-10.816" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03522363463133808</scalar>
+          </atom>
+          <atom id="10" elementType="C" x2="17.6627" y2="-10.8092" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03522363463133808</scalar>
+          </atom>
+          <atom id="11" elementType="C" x2="18.7904" y2="-8.0242" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.10514130968763243</scalar>
+          </atom>
+          <atom id="12" elementType="O" x2="18.0649" y2="-6.7933" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2873292890647029</scalar>
+          </atom>
+          <atom id="13" elementType="C" x2="15.9401" y2="-8.0414" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.14446638907307463</scalar>
+          </atom>
+          <atom id="14" elementType="N" x2="15.2765" y2="-9.3306" formalCharge="0" hydrogenCount="0" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.267213785087949</scalar>
+          </atom>
+          <atom id="15" elementType="F" x2="15.2215" y2="-7.6323" formalCharge="0" hydrogenCount="0" isotopeNumber="19">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.20443499399687104</scalar>
+          </atom>
+          <atom id="16" elementType="C" x2="15.2765" y2="-10.1557" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.01870956511614116</scalar>
+          </atom>
+          <atom id="17" elementType="C" x2="14.5613" y2="-8.9215" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.01611208022627663</scalar>
+          </atom>
+          <atom id="18" elementType="C" x2="14.5648" y2="-10.5718" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.01749669258719265</scalar>
+          </atom>
+          <atom id="19" elementType="C" x2="13.8461" y2="-9.3306" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.008965173144888837</scalar>
+          </atom>
+          <atom id="20" elementType="N" x2="13.8461" y2="-10.1557" formalCharge="0" hydrogenCount="1" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3113783495752771</scalar>
+          </atom>
+          <atom id="21" elementType="C" x2="14.5544" y2="-11.397" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04849387171638423</scalar>
+          </atom>
+          <atom id="22" elementType="C" x2="19.5048" y2="-7.6117" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.29547374065228255</scalar>
+          </atom>
+          <atom id="23" elementType="O" x2="20.2193" y2="-8.0242" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.32755735967572885</scalar>
+          </atom>
+          <atom id="24" elementType="O" x2="19.5048" y2="-6.7867" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.25999583275681387</scalar>
+          </atom>
+          <atom id="25" elementType="O" x2="16.6655" y2="-10.1041" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.34527609451099317</scalar>
+          </atom>
+          <atom id="26" elementType="C" x2="15.9544" y2="-10.5224" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.04275110712863082</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="8 13" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="9 10" order="S"/>
+          <bond id="2" atomRefs2="19 20" order="S"/>
+          <bond id="3" atomRefs2="0 1" order="S"/>
+          <bond id="4" atomRefs2="0 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="0 3" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="6" atomRefs2="1 4" order="S"/>
+          <bond id="7" atomRefs2="1 5" order="S"/>
+          <bond id="8" atomRefs2="2 6" order="S"/>
+          <bond id="9" atomRefs2="2 7" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="10" atomRefs2="3 8" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="11" atomRefs2="4 9" order="S"/>
+          <bond id="12" atomRefs2="4 10" order="S"/>
+          <bond id="13" atomRefs2="5 11" order="D"/>
+          <bond id="14" atomRefs2="6 12" order="D"/>
+          <bond id="15" atomRefs2="7 13" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="16" atomRefs2="8 14" order="S"/>
+          <bond id="17" atomRefs2="13 15" order="S"/>
+          <bond id="18" atomRefs2="14 16" order="S"/>
+          <bond id="19" atomRefs2="14 17" order="S"/>
+          <bond id="20" atomRefs2="16 18" order="S"/>
+          <bond id="21" atomRefs2="17 19" order="S"/>
+          <bond id="22" atomRefs2="18 20" order="S"/>
+          <bond id="23" atomRefs2="18 21" order="S"/>
+          <bond id="24" atomRefs2="6 11" order="S"/>
+          <bond id="25" atomRefs2="11 22" order="S"/>
+          <bond id="26" atomRefs2="22 23" order="S"/>
+          <bond id="27" atomRefs2="22 24" order="D"/>
+          <bond id="28" atomRefs2="3 25" order="S"/>
+          <bond id="29" atomRefs2="25 26" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C19H22FN3O4/c1-10-8-22(6-5-21-10)16-14(20)7-12-15(18(16)27-2)23(11-3-4-11)9-13(17(12)24)19(25)26/h7,9-11,21H,3-6,8H2,1-2H3,(H,25,26)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">gatifloxacin</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XUBOMFCQGDBHNK-UHFFFAOYSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">375.159434</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

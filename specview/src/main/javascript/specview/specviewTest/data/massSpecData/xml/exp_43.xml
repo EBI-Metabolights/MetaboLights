@@ -1,0 +1,1596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="cilastatin" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="cilastatin"/>
+        <metadata name="ms:exactMass" content="358.15624"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="42.046950192" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="cilastatin_f1"/>
+        </peak>
+        <peak xValue="316.10929274" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="cilastatin_f2"/>
+        </peak>
+        <peak xValue="56.062600255999996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="cilastatin_f3"/>
+        </peak>
+        <peak xValue="302.093642676" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="cilastatin_f4"/>
+        </peak>
+        <peak xValue="344.140592868" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="cilastatin_f5"/>
+        </peak>
+        <peak xValue="69.070425288" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="cilastatin_f6"/>
+        </peak>
+        <peak xValue="289.08581764400003" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="cilastatin_f7"/>
+        </peak>
+        <peak xValue="261.090903024" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="cilastatin_f8"/>
+        </peak>
+        <peak xValue="97.065339908" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak9">
+          <molecule ref="cilastatin_f9"/>
+        </peak>
+        <peak xValue="246.08000399199997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak10">
+          <molecule ref="cilastatin_f10"/>
+        </peak>
+        <peak xValue="112.07623894" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak11">
+          <molecule ref="cilastatin_f11"/>
+        </peak>
+        <peak xValue="44.997654272" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak12">
+          <molecule ref="cilastatin_f12"/>
+        </peak>
+        <peak xValue="313.15858865999996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak13">
+          <molecule ref="cilastatin_f13"/>
+        </peak>
+        <peak xValue="74.024203368" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak14">
+          <molecule ref="cilastatin_f14"/>
+        </peak>
+        <peak xValue="284.132039564" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak15">
+          <molecule ref="cilastatin_f15"/>
+        </peak>
+        <peak xValue="342.161328312" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak16">
+          <molecule ref="cilastatin_f16"/>
+        </peak>
+        <peak xValue="189.08234972" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak17">
+          <molecule ref="cilastatin_f17"/>
+        </peak>
+        <peak xValue="169.07389321199997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak18">
+          <molecule ref="cilastatin_f18"/>
+        </peak>
+        <peak xValue="342.13751886800003" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak19">
+          <molecule ref="cilastatin_f19"/>
+        </peak>
+        <peak xValue="341.15350328" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak20">
+          <molecule ref="cilastatin_f20"/>
+        </peak>
+        <peak xValue="343.13276783599997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak21">
+          <molecule ref="cilastatin_f21"/>
+        </peak>
+        <peak xValue="120.011924432" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak22">
+          <molecule ref="cilastatin_f22"/>
+        </peak>
+        <peak xValue="88.039853432" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak23">
+          <molecule ref="cilastatin_f23"/>
+        </peak>
+        <peak xValue="270.11638949999997" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak24">
+          <molecule ref="cilastatin_f24"/>
+        </peak>
+        <peak xValue="176.074524688" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak25">
+          <molecule ref="cilastatin_f25"/>
+        </peak>
+        <peak xValue="182.081718244" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak26">
+          <molecule ref="cilastatin_f26"/>
+        </peak>
+        <peak xValue="134.027574496" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak27">
+          <molecule ref="cilastatin_f27"/>
+        </peak>
+        <peak xValue="224.128668436" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak28">
+          <molecule ref="cilastatin_f28"/>
+        </peak>
+        <peak xValue="162.058874624" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak29">
+          <molecule ref="cilastatin_f29"/>
+        </peak>
+        <peak xValue="196.097368308" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak30">
+          <molecule ref="cilastatin_f30"/>
+        </peak>
+        <peak xValue="148.04322456" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak31">
+          <molecule ref="cilastatin_f31"/>
+        </peak>
+        <peak xValue="210.113018372" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak32">
+          <molecule ref="cilastatin_f32"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="cilastatin"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="cilastatin_f18"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f19"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f16"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f17"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f9"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f8"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f7"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f6"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f5"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f4"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f3"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f26"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f2"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f25"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f1"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f24"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f23"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f22"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f21"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f20"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f32"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f30"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f31"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f13"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f29"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f12"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f28"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f15"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f27"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f14"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f11"/>
+        </product>
+        <product>
+          <molecule ref="cilastatin_f10"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="cilastatin_f18" formula="C8H11NO3">
+        <atomArray>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H13NO3/c1-8(2)3-5(8)7(12)9-4-6(10)11/h5H,3-4H2,1-2H3,(H,9,12)(H,10,11)/t5-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ROGWJWJYSUDOGV-RXMQYKEDSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f19" formula="C16H24NO5S">
+        <atomArray>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H25NO5S/c1-16(2)10-11(16)14(20)17-12(15(21)22)6-4-3-5-8-23-9-7-13(18)19/h6,11H,3-5,7-10H2,1-2H3,(H,17,20)(H,18,19)(H,21,22)/b12-6-/t11-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.036</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RUUBVVGCVOUCMW-MDUDVEDUSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f16" formula="C16H26N2O4S">
+        <atomArray>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H28N2O4S/c1-16(2)8-11(16)9-18-13(15(21)22)6-4-3-5-7-23-10-12(17)14(19)20/h6,11-12,18H,3-5,7-10,17H2,1-2H3,(H,19,20)(H,21,22)/b13-6-/t11-,12+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.159</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NFWWWSCBKYXAQU-HMRUYPERSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f17" formula="C8H15NO2S">
+        <atomArray>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H17NO2S/c1-2-3-4-5-12-6-7(9)8(10)11/h7H,2-6,9H2,1H3,(H,10,11)/t7-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DGCQOWOCQPEQIN-ZETCQYMHSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f9" formula="C6H9O">
+        <atomArray>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H10O/c1-6(2)3-5(6)4-7/h4-5H,3H2,1-2H3/t5-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=PQTDYOQEPYGGHF-RXMQYKEDSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f8" formula="C10H17N2O4S">
+        <atomArray>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H18N2O4S/c11-7(9(13)14)4-2-1-3-5-17-6-8(12)10(15)16/h4,8H,1-3,5-6,11-12H2,(H,13,14)(H,15,16)/b7-4-/t8-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VKZNCRJEJLXRIA-NZGHECTNSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f7" formula="C11H17N2O5S">
+        <atomArray>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C11H18N2O5S/c12-8(10(15)16)6-19-5-3-1-2-4-9(11(17)18)13-7-14/h4,7-8H,1-3,5-6,12H2,(H,13,14)(H,15,16)(H,17,18)/b9-4-/t8-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.004</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JISCZUQFOBRLNH-ZKUGPGMGSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f6" formula="C5H9">
+        <atomArray>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H10/c1-5(2)3-4-5/h3-4H2,1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.004</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=PBIJFSCPEFQXBB-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f5" formula="C15H24N2O5S">
+        <atomArray>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H26N2O5S/c1-10(2)8-13(18)17-12(15(21)22)6-4-3-5-7-23-9-11(16)14(19)20/h6,10-11H,3-5,7-9,16H2,1-2H3,(H,17,18)(H,19,20)(H,21,22)/b12-6-/t11-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=KIWRUKTUCYIZIT-RMCZBGCRSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f4" formula="C12H18N2O5S">
+        <atomArray>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C12H20N2O5S/c1-8(15)14-10(12(18)19)5-3-2-4-6-20-7-9(13)11(16)17/h5,9H,2-4,6-7,13H2,1H3,(H,14,15)(H,16,17)(H,18,19)/b10-5-/t9-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=UQGIQWORIFUWAE-QFQXNISHSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f3" formula="C4H8">
+        <atomArray>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H10/c1-4(2)3/h4H,1-3H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NNPPMTNAJDCUHE-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f26" formula="C9H12NO3">
+        <atomArray>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H13NO3/c1-5(8(12)13)10-7(11)6-4-9(6,2)3/h6H,1,4H2,2-3H3,(H,10,11)(H,12,13)/t6-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QEESFGJMQBONPV-ZCFIWIBFSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f2" formula="C13H20N2O5S">
+        <atomArray>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C13H22N2O5S/c1-2-11(16)15-10(13(19)20)6-4-3-5-7-21-8-9(14)12(17)18/h6,9H,2-5,7-8,14H2,1H3,(H,15,16)(H,17,18)(H,19,20)/b10-6-/t9-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=KXBIVXSNCCFULB-LKJZUNMESA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f25" formula="C7H14NO2S">
+        <atomArray>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H15NO2S/c1-2-3-4-11-5-6(8)7(9)10/h6H,2-5,8H2,1H3,(H,9,10)/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FFGXHYXBEDRCNM-LURJTMIESA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f1" formula="C3H6">
+        <atomArray>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H8/c1-3-2/h3H2,1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.011</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ATUOYWHBWRKTHZ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f24" formula="C13H20NO3S">
+        <atomArray>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C13H21NO3S/c1-13(2)8-9(13)11(15)14-10(12(16)17)6-4-3-5-7-18/h6,9,18H,3-5,7-8H2,1-2H3,(H,14,15)(H,16,17)/b10-6-/t9-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.052</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FVJBQPJCEQRZFL-WPVMNKCKSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f23" formula="C3H6NO2">
+        <atomArray>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H7NO2/c1-2(4)3(5)6/h2H,4H2,1H3,(H,5,6)/t2-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.052</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QNAYBMKLOCPYGJ-REOHCLBHSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f22" formula="C3H6NO2S">
+        <atomArray>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H7NO2S/c4-2(1-7)3(5)6/h2,7H,1,4H2,(H,5,6)/t2-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.051</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XUJNEKJLAYXESH-REOHCLBHSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f21" formula="C15H23N2O5S">
+        <atomArray>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H24N2O5S/c1-9-7-10(9)13(18)17-12(15(21)22)5-3-2-4-6-23-8-11(16)14(19)20/h5,9-11H,2-4,6-8,16H2,1H3,(H,17,18)(H,19,20)(H,21,22)/b12-5-/t9?,10-,11-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HNRAOZFRJWJCPY-MCUHKNEWSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f20" formula="C16H25N2O4S">
+        <atomArray>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H26N2O4S/c1-16(2)8-12(16)14(20)18-11(9-19)6-4-3-5-7-23-10-13(17)15(21)22/h6,9,12-13H,3-5,7-8,10,17H2,1-2H3,(H,18,20)(H,21,22)/b11-6-/t12-,13+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.086</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MZCHITVGKQYKEX-CUBYMHMKSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f32" formula="C11H16NO3">
+        <atomArray>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C11H17NO3/c1-4-5-8(10(14)15)12-9(13)7-6-11(7,2)3/h5,7H,4,6H2,1-3H3,(H,12,13)(H,14,15)/b8-5-/t7-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SWRDTUBIOYDACT-BESBCXERSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f30" formula="C10H14NO3">
+        <atomArray>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H15NO3/c1-4-7(9(13)14)11-8(12)6-5-10(6,2)3/h4,6H,5H2,1-3H3,(H,11,12)(H,13,14)/b7-4-/t6-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NESNNVKHFUUNGQ-CDXJMXTPSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f31" formula="C5H10NO2S">
+        <atomArray>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H11NO2S/c1-2-9-3-4(6)5(7)8/h4H,2-3,6H2,1H3,(H,7,8)/t4-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ULXKXLZEOGLCRJ-BYPYZUCNSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f13" formula="C15H25N2O3S">
+        <atomArray>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H26N2O3S/c1-15(2)9-11(15)13(18)17-7-5-3-4-6-8-21-10-12(16)14(19)20/h5,7,11-12H,3-4,6,8-10,16H2,1-2H3,(H,17,18)(H,19,20)/b7-5-/t11-,12+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.012</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=WTBLKKRBALFROP-OXTPZFROSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f29" formula="C6H12NO2S">
+        <atomArray>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H13NO2S/c1-2-3-10-4-5(7)6(8)9/h5H,2-4,7H2,1H3,(H,8,9)/t5-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=WAAGBMYUYFBZIW-YFKPBYRVSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f12" formula="CHO2">
+        <atomArray>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH2O2/c2-1-3/h1H,(H,2,3)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.012</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=BDAGIHXWWSANSR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f28" formula="C12H18NO3">
+        <atomArray>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C12H19NO3/c1-4-5-6-9(11(15)16)13-10(14)8-7-12(8,2)3/h6,8H,4-5,7H2,1-3H3,(H,13,14)(H,15,16)/b9-6-/t8-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FXENFQRQJUHCSD-WSQKDGNHSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f15" formula="C14H22NO3S">
+        <atomArray>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H23NO3S/c1-14(2)9-10(14)12(16)15-11(13(17)18)7-5-4-6-8-19-3/h7,10H,4-6,8-9H2,1-3H3,(H,15,16)(H,17,18)/b11-7-/t10-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.01</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JDAQSZFXZYCZBI-PAKSIRSJSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f27" formula="C4H8NO2S">
+        <atomArray>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H9NO2S/c1-8-2-3(5)4(6)7/h3H,2,5H2,1H3,(H,6,7)/t3-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IDIDJDIHTAOVLG-VKHMYHEASA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f14" formula="C2H4NO2">
+        <atomArray>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H5NO2/c3-1-2(4)5/h1,3H2,(H,4,5)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.01</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DHMQDGOQFOQNFH-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f11" formula="C6H10NO">
+        <atomArray>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H11NO/c1-6(2)3-4(6)5(7)8/h4H,3H2,1-2H3,(H2,7,8)/t4-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YBZQRYWKYBZZNT-SCSAIBSYSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin_f10" formula="C10H16NO4S">
+        <atomArray>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" isotopeNumber="32"/>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H17NO4S/c11-8(10(14)15)7-16-6-4-2-1-3-5-9(12)13/h3,5,8H,1-2,4,6-7,11H2,(H,12,13)(H,14,15)/b5-3+/t8-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.047</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MSSQQHZQHOEQAL-WGAJWPLOSA-N</scalar>
+      </molecule>
+      <molecule id="cilastatin" formula="C16H26N2O5S">
+        <atomArray>
+          <atom id="0" elementType="C" x2="9.3926" y2="-9.9643" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.038572223100137505</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="8.7276" y2="-11.1161" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.02344037290256967</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="10.0576" y2="-11.1161" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03574984065533273</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="9.3926" y2="-8.6343" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.20810014345499123</scalar>
+          </atom>
+          <atom id="4" elementType="N" x2="10.5444" y2="-7.9693" formalCharge="0" hydrogenCount="1" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.22327799488258918</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="10.5444" y2="-6.6393" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.09027690177320033</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="9.3926" y2="-5.9743" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.30154138016476584</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="20.9107" y2="-5.9743" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2766900897840188</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="19.7589" y2="-6.6393" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.10039733786921017</scalar>
+          </atom>
+          <atom id="9" elementType="O" x2="8.2407" y2="-7.9693" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.27985538312221164</scalar>
+          </atom>
+          <atom id="10" elementType="O" x2="9.3926" y2="-4.6443" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2590624279868539</scalar>
+          </atom>
+          <atom id="11" elementType="O" x2="20.9107" y2="-4.6443" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.264196630830145</scalar>
+          </atom>
+          <atom id="12" elementType="C" x2="11.6962" y2="-5.9743" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.0599157869835224</scalar>
+          </atom>
+          <atom id="13" elementType="N" x2="19.7589" y2="-7.9693" formalCharge="0" hydrogenCount="2" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3186962674729747</scalar>
+          </atom>
+          <atom id="14" elementType="O" x2="8.2407" y2="-6.6393" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.326931770019653</scalar>
+          </atom>
+          <atom id="15" elementType="O" x2="22.0625" y2="-6.6393" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.33029106161863353</scalar>
+          </atom>
+          <atom id="16" elementType="C" x2="7.3976" y2="-11.1161" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.05912206197541735</scalar>
+          </atom>
+          <atom id="17" elementType="C" x2="8.0626" y2="-12.2679" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.05912206197541735</scalar>
+          </atom>
+          <atom id="18" elementType="S" x2="17.4553" y2="-6.6393" formalCharge="0" hydrogenCount="0" isotopeNumber="32">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.15926780415197075</scalar>
+          </atom>
+          <atom id="19" elementType="C" x2="18.6071" y2="-5.9743" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.018142832340490616</scalar>
+          </atom>
+          <atom id="20" elementType="C" x2="12.848" y2="-6.6393" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03286569173140774</scalar>
+          </atom>
+          <atom id="21" elementType="C" x2="16.3034" y2="-5.9743" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.006462762355993041</scalar>
+          </atom>
+          <atom id="22" elementType="C" x2="13.9998" y2="-5.9743" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04889253190097979</scalar>
+          </atom>
+          <atom id="23" elementType="C" x2="15.1516" y2="-6.6393" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.043789007592628736</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 0" order="S"/>
+          <bond id="2" atomRefs2="0 3" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="3" atomRefs2="4 3" order="S"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="6" atomRefs2="7 8" order="S"/>
+          <bond id="7" atomRefs2="8 19" order="S"/>
+          <bond id="8" atomRefs2="9 3" order="D"/>
+          <bond id="9" atomRefs2="10 6" order="D"/>
+          <bond id="10" atomRefs2="11 7" order="D"/>
+          <bond id="11" atomRefs2="12 5" order="D"/>
+          <bond id="12" atomRefs2="8 13" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="13" atomRefs2="14 6" order="S"/>
+          <bond id="14" atomRefs2="15 7" order="S"/>
+          <bond id="15" atomRefs2="16 1" order="S"/>
+          <bond id="16" atomRefs2="17 1" order="S"/>
+          <bond id="17" atomRefs2="18 21" order="S"/>
+          <bond id="18" atomRefs2="19 18" order="S"/>
+          <bond id="19" atomRefs2="20 12" order="S"/>
+          <bond id="20" atomRefs2="21 23" order="S"/>
+          <bond id="21" atomRefs2="22 20" order="S"/>
+          <bond id="22" atomRefs2="23 22" order="S"/>
+          <bond id="23" atomRefs2="1 2" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C16H26N2O5S/c1-16(2)8-10(16)13(19)18-12(15(22)23)6-4-3-5-7-24-9-11(17)14(20)21/h6,10-11H,3-5,7-9,17H2,1-2H3,(H,18,19)(H,20,21)(H,22,23)/b12-6-/t10-,11+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">cilastatin</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DHSUYTOATWAVLW-WFVMDLQDSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">358.156243</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

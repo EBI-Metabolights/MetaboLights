@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)"/>
+        <metadata name="ms:exactMass" content="213.00353"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="197.0102586197278" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f1"/>
+        </peak>
+        <peak xValue="169.0147954198185" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f2"/>
+        </peak>
+        <peak xValue="154.9991453558185" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f3"/>
+        </peak>
+        <peak xValue="99.00876753590926" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f4"/>
+        </peak>
+        <peak xValue="127.00423073581854" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f5"/>
+        </peak>
+        <peak xValue="72.99311747190926" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f6"/>
+        </peak>
+        <peak xValue="140.01205576781854" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f7"/>
+        </peak>
+        <peak xValue="196.0024335877278" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f8"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f8"/>
+        </product>
+        <product>
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f6"/>
+        </product>
+        <product>
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f7"/>
+        </product>
+        <product>
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f4"/>
+        </product>
+        <product>
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f5"/>
+        </product>
+        <product>
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f2"/>
+        </product>
+        <product>
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f3"/>
+        </product>
+        <product>
+          <molecule ref="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f8" formula="C8H4O6">
+        <atomArray>
+          <atom id="6" elementType="C" x2="-2.1434" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="-1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.0" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="1.4289" y2="1.0607" formalCharge="0" isotopeNumber="16"/>
+          <atom id="1" elementType="O" x2="2.1434" y2="-0.1768" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="8" elementType="C" x2="-1.0E-4" y2="1.0607" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.7145" y2="1.4732" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="0.7144" y2="1.4732" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="-2.1434" y2="-1.0019" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-1.429" y2="-1.4144" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="-2.8579" y2="-1.4144" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="6 5" order="D"/>
+          <bond id="6" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="4 3" order="D"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="2" atomRefs2="0 2" order="S"/>
+          <bond id="0" atomRefs2="7 0" order="D"/>
+          <bond id="1" atomRefs2="1 0" order="S"/>
+          <bond id="4" atomRefs2="8 3" order="S"/>
+          <bond id="10" atomRefs2="9 8" order="D"/>
+          <bond id="11" atomRefs2="10 8" order="S"/>
+          <bond id="8" atomRefs2="11 6" order="S"/>
+          <bond id="12" atomRefs2="12 11" order="S"/>
+          <bond id="13" atomRefs2="13 11" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H8O6/c9-6(10)3-1-2-5(8(13)14)4-7(11)12/h1-3H,4H2,(H,9,10)(H,11,12)(H,13,14)/p-3/b3-1-,5-2-</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.082</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JKUIKMJPDDZKHM-LEWNYYKSSA-K</scalar>
+      </molecule>
+      <molecule id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f6" formula="C2HO3">
+        <atomArray>
+          <atom id="6" elementType="C" x2="-2.1434" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-2.1434" y2="-1.0019" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-1.429" y2="-1.4144" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="-2.8579" y2="-1.4144" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="-2.8579" y2="0.2356" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="8" atomRefs2="11 6" order="S"/>
+          <bond id="12" atomRefs2="12 11" order="S"/>
+          <bond id="13" atomRefs2="13 11" order="D"/>
+          <bond id="9" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H4O3/c3-1-2(4)5/h3H,1H2,(H,4,5)/p-1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.026</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AEMRFAOFKBGASW-UHFFFAOYSA-M</scalar>
+      </molecule>
+      <molecule id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f7" formula="C6H4O4">
+        <atomArray>
+          <atom id="5" elementType="C" x2="-1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.0" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="1.4289" y2="1.0607" formalCharge="0" isotopeNumber="16"/>
+          <atom id="1" elementType="O" x2="2.1434" y2="-0.1768" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="8" elementType="C" x2="-1.0E-4" y2="1.0607" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.7145" y2="1.4732" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="0.7144" y2="1.4732" formalCharge="-1" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="4 3" order="D"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="2" atomRefs2="0 2" order="S"/>
+          <bond id="0" atomRefs2="7 0" order="D"/>
+          <bond id="1" atomRefs2="1 0" order="S"/>
+          <bond id="4" atomRefs2="8 3" order="S"/>
+          <bond id="10" atomRefs2="9 8" order="D"/>
+          <bond id="11" atomRefs2="10 8" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H8O4/c1-2-4(6(9)10)3-5(7)8/h2H,3H2,1H3,(H,7,8)(H,9,10)/p-2/b4-2-</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.026</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NRSMWHGLCNBZSO-RQOWECAXSA-L</scalar>
+      </molecule>
+      <molecule id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f4" formula="C4H3O3">
+        <atomArray>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="-1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="-2.1434" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-2.1434" y2="-1.0019" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-1.429" y2="-1.4144" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="-2.8579" y2="-1.4144" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="-2.8579" y2="0.2356" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="5 4" order="S"/>
+          <bond id="7" atomRefs2="6 5" order="D"/>
+          <bond id="8" atomRefs2="11 6" order="S"/>
+          <bond id="12" atomRefs2="12 11" order="S"/>
+          <bond id="13" atomRefs2="13 11" order="D"/>
+          <bond id="9" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H6O3/c1-2-3(5)4(6)7/h2,5H,1H3,(H,6,7)/p-1/b3-2+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.026</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RTWLEDIMOQVWDF-NSCUHMNNSA-M</scalar>
+      </molecule>
+      <molecule id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f5" formula="C5H3O4">
+        <atomArray>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.0" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="1.4289" y2="1.0607" formalCharge="0" isotopeNumber="16"/>
+          <atom id="1" elementType="O" x2="2.1434" y2="-0.1768" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="8" elementType="C" x2="-1.0E-4" y2="1.0607" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.7145" y2="1.4732" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="0.7144" y2="1.4732" formalCharge="-1" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="4 3" order="D"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="2" atomRefs2="0 2" order="S"/>
+          <bond id="0" atomRefs2="7 0" order="D"/>
+          <bond id="1" atomRefs2="1 0" order="S"/>
+          <bond id="4" atomRefs2="8 3" order="S"/>
+          <bond id="10" atomRefs2="9 8" order="D"/>
+          <bond id="11" atomRefs2="10 8" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H6O4/c1-3(5(8)9)2-4(6)7/h1-2H2,(H,6,7)(H,8,9)/p-2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.025</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=LVHBHZANLOWSRM-UHFFFAOYSA-L</scalar>
+      </molecule>
+      <molecule id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f2" formula="C7H5O5">
+        <atomArray>
+          <atom id="2" elementType="C" x2="0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.0" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-1.0E-4" y2="1.0607" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.7145" y2="1.4732" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="0.7144" y2="1.4732" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="-1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="-2.1434" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-2.1434" y2="-1.0019" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-1.429" y2="-1.4144" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="-2.8579" y2="-1.4144" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="-2.8579" y2="0.2356" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="4" atomRefs2="8 3" order="S"/>
+          <bond id="10" atomRefs2="9 8" order="D"/>
+          <bond id="11" atomRefs2="10 8" order="S"/>
+          <bond id="5" atomRefs2="4 3" order="D"/>
+          <bond id="6" atomRefs2="5 4" order="S"/>
+          <bond id="7" atomRefs2="6 5" order="D"/>
+          <bond id="8" atomRefs2="11 6" order="S"/>
+          <bond id="12" atomRefs2="12 11" order="S"/>
+          <bond id="13" atomRefs2="13 11" order="D"/>
+          <bond id="9" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H8O5/c1-4(6(9)10)2-3-5(8)7(11)12/h2-3,8H,1H3,(H,9,10)(H,11,12)/p-2/b4-2-,5-3+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.001</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=PQXOJASKFLIATD-VOERYJCWSA-L</scalar>
+      </molecule>
+      <molecule id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f3" formula="C6H3O5">
+        <atomArray>
+          <atom id="3" elementType="C" x2="0.0" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-1.0E-4" y2="1.0607" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.7145" y2="1.4732" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="0.7144" y2="1.4732" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="-1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="-2.1434" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-2.1434" y2="-1.0019" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-1.429" y2="-1.4144" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="-2.8579" y2="-1.4144" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="-2.8579" y2="0.2356" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="8 3" order="S"/>
+          <bond id="10" atomRefs2="9 8" order="D"/>
+          <bond id="11" atomRefs2="10 8" order="S"/>
+          <bond id="5" atomRefs2="4 3" order="D"/>
+          <bond id="6" atomRefs2="5 4" order="S"/>
+          <bond id="7" atomRefs2="6 5" order="D"/>
+          <bond id="8" atomRefs2="11 6" order="S"/>
+          <bond id="12" atomRefs2="12 11" order="S"/>
+          <bond id="13" atomRefs2="13 11" order="D"/>
+          <bond id="9" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H6O5/c7-4(6(10)11)2-1-3-5(8)9/h1-3,7H,(H,8,9)(H,10,11)/p-2/b3-1-,4-2+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JBEBGTMCZIGUTK-HSFFGMMNSA-L</scalar>
+      </molecule>
+      <molecule id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)_f1" formula="C8H5O6">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="2.1434" y2="-0.1768" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="2" elementType="C" x2="0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.0" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="-1.0E-4" y2="1.0607" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.7145" y2="1.4732" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="0.7144" y2="1.4732" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="-1.4289" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="-2.1434" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-2.1434" y2="-1.0019" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-1.429" y2="-1.4144" formalCharge="-1" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="-2.8579" y2="-1.4144" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="O" x2="-2.8579" y2="0.2356" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 0" order="S"/>
+          <bond id="2" atomRefs2="0 2" order="S"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="4" atomRefs2="8 3" order="S"/>
+          <bond id="10" atomRefs2="9 8" order="D"/>
+          <bond id="11" atomRefs2="10 8" order="S"/>
+          <bond id="5" atomRefs2="4 3" order="D"/>
+          <bond id="6" atomRefs2="5 4" order="S"/>
+          <bond id="7" atomRefs2="6 5" order="D"/>
+          <bond id="8" atomRefs2="11 6" order="S"/>
+          <bond id="12" atomRefs2="12 11" order="S"/>
+          <bond id="13" atomRefs2="13 11" order="D"/>
+          <bond id="9" atomRefs2="14 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H9O6/c9-4-3-5(7(11)12)1-2-6(10)8(13)14/h1-2,10H,3-4H2,(H,11,12)(H,13,14)/q-1/p-2/b5-1-,6-2+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.182</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ICFVLSJXJWMBRX-SOSXVSKCSA-L</scalar>
+      </molecule>
+      <molecule id="(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)" formula="C8H5O7">
+        <atomArray>
+          <atom id="0" elementType="C" x2="1.4289" y2="0.2357" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.36008751068650957</scalar>
+          </atom>
+          <atom id="1" elementType="O" x2="2.1434" y2="-0.1768" formalCharge="-1" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.246545681854163</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="0.7145" y2="-0.1768" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.08182478073713115</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="0.0" y2="0.2357" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.05226282551403416</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="-0.7145" y2="-0.1768" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.0483174317902974</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="-1.4289" y2="0.2357" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.024001775656622124</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="-2.1434" y2="-0.1768" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.16185077563934128</scalar>
+          </atom>
+          <atom id="7" elementType="O" x2="1.4289" y2="1.0607" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.246545681854163</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="-1.0E-4" y2="1.0607" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.38279217712286134</scalar>
+          </atom>
+          <atom id="9" elementType="O" x2="-0.7145" y2="1.4732" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.24141194279237219</scalar>
+          </atom>
+          <atom id="10" elementType="O" x2="0.7144" y2="1.4732" formalCharge="-1" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.24141194279237219</scalar>
+          </atom>
+          <atom id="11" elementType="C" x2="-2.1434" y2="-1.0019" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.4084840965816047</scalar>
+          </atom>
+          <atom id="12" elementType="O" x2="-1.429" y2="-1.4144" formalCharge="-1" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23874746248303066</scalar>
+          </atom>
+          <atom id="13" elementType="O" x2="-2.8579" y2="-1.4144" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23874746248303066</scalar>
+          </atom>
+          <atom id="14" elementType="O" x2="-2.8579" y2="0.2356" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3542503000074321</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="7 0" order="D"/>
+          <bond id="1" atomRefs2="1 0" order="S"/>
+          <bond id="2" atomRefs2="0 2" order="S"/>
+          <bond id="3" atomRefs2="3 2" order="S"/>
+          <bond id="4" atomRefs2="8 3" order="S"/>
+          <bond id="5" atomRefs2="4 3" order="D"/>
+          <bond id="6" atomRefs2="5 4" order="S"/>
+          <bond id="7" atomRefs2="6 5" order="D"/>
+          <bond id="8" atomRefs2="11 6" order="S"/>
+          <bond id="9" atomRefs2="14 6" order="S"/>
+          <bond id="10" atomRefs2="9 8" order="D"/>
+          <bond id="11" atomRefs2="10 8" order="S"/>
+          <bond id="12" atomRefs2="12 11" order="S"/>
+          <bond id="13" atomRefs2="13 11" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H8O7/c9-5(8(14)15)2-1-4(7(12)13)3-6(10)11/h1-2,9H,3H2,(H,10,11)(H,12,13)(H,14,15)/p-3/b4-1-,5-2+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">(2Z,4E)-5-hydroxypenta-2,4-diene-1,2,5-tricarboxylate(3-)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HJIBROWPWNLWHX-AGRHYVPTSA-K</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">213.003528</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

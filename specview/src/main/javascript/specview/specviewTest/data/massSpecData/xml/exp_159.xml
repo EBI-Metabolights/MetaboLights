@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="acetyl dihydrogen phosphate" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="acetyl dihydrogen phosphate"/>
+        <metadata name="ms:exactMass" content="139.98746"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="123.99254527" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="acetyl dihydrogen phosphate_f1"/>
+        </peak>
+        <peak xValue="124.963984794" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="acetyl dihydrogen phosphate_f2"/>
+        </peak>
+        <peak xValue="122.984720238" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="acetyl dihydrogen phosphate_f3"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="acetyl dihydrogen phosphate"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="acetyl dihydrogen phosphate_f3"/>
+        </product>
+        <product>
+          <molecule ref="acetyl dihydrogen phosphate_f2"/>
+        </product>
+        <product>
+          <molecule ref="acetyl dihydrogen phosphate_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="acetyl dihydrogen phosphate_f3" formula="C2H4O4P">
+        <atomArray>
+          <atom id="6" elementType="P" x2="0.7145" y2="-0.0589" formalCharge="0" isotopeNumber="31"/>
+          <atom id="0" elementType="O" x2="0.7145" y2="0.7661" formalCharge="0" isotopeNumber="16"/>
+          <atom id="1" elementType="O" x2="0.0" y2="-0.4714" formalCharge="0" isotopeNumber="16"/>
+          <atom id="2" elementType="C" x2="-0.7145" y2="-0.0589" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="O" x2="-0.7145" y2="0.7661" formalCharge="0" isotopeNumber="16"/>
+          <atom id="4" elementType="C" x2="-1.4289" y2="-0.4714" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="O" x2="1.127" y2="-0.7734" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="6 0" order="D"/>
+          <bond id="1" atomRefs2="6 1" order="S"/>
+          <bond id="2" atomRefs2="1 2" order="S"/>
+          <bond id="3" atomRefs2="2 3" order="D"/>
+          <bond id="4" atomRefs2="2 4" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H5O4P/c1-2(3)6-7(4)5/h7H,1H3,(H,4,5)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.089</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ZOAGEUGZLVQYJV-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="acetyl dihydrogen phosphate_f2" formula="CH2O5P">
+        <atomArray>
+          <atom id="2" elementType="C" x2="-0.7145" y2="-0.0589" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="O" x2="0.0" y2="-0.4714" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="P" x2="0.7145" y2="-0.0589" formalCharge="0" isotopeNumber="31"/>
+          <atom id="0" elementType="O" x2="0.7145" y2="0.7661" formalCharge="0" isotopeNumber="16"/>
+          <atom id="5" elementType="O" x2="1.5114" y2="-0.2724" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="O" x2="1.127" y2="-0.7734" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="-0.7145" y2="0.7661" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="1 2" order="S"/>
+          <bond id="1" atomRefs2="6 1" order="S"/>
+          <bond id="0" atomRefs2="6 0" order="D"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+          <bond id="3" atomRefs2="2 3" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH3O5P/c2-1-6-7(3,4)5/h1H,(H2,3,4,5)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.0</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=TVISEJUYYBUVNV-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="acetyl dihydrogen phosphate_f1" formula="C2H5O4P">
+        <atomArray>
+          <atom id="6" elementType="P" x2="0.7145" y2="-0.0589" formalCharge="0" isotopeNumber="31"/>
+          <atom id="1" elementType="O" x2="0.0" y2="-0.4714" formalCharge="0" isotopeNumber="16"/>
+          <atom id="2" elementType="C" x2="-0.7145" y2="-0.0589" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="O" x2="-0.7145" y2="0.7661" formalCharge="0" isotopeNumber="16"/>
+          <atom id="4" elementType="C" x2="-1.4289" y2="-0.4714" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="O" x2="1.5114" y2="-0.2724" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="O" x2="1.127" y2="-0.7734" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="6 1" order="S"/>
+          <bond id="2" atomRefs2="1 2" order="S"/>
+          <bond id="3" atomRefs2="2 3" order="D"/>
+          <bond id="4" atomRefs2="2 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H5O4P/c1-2(3)6-7(4)5/h4-5H,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.197</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=GFLWEDAHIMRSQR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="acetyl dihydrogen phosphate" formula="C2H5O5P">
+        <atomArray>
+          <atom id="0" elementType="O" x2="0.7145" y2="0.7661" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.22093989340904807</scalar>
+          </atom>
+          <atom id="1" elementType="O" x2="0.0" y2="-0.4714" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2111464074966781</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="-0.7145" y2="-0.0589" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2677018094001431</scalar>
+          </atom>
+          <atom id="3" elementType="O" x2="-0.7145" y2="0.7661" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.26598440082076913</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="-1.4289" y2="-0.4714" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.022502055411829983</scalar>
+          </atom>
+          <atom id="5" elementType="O" x2="1.5114" y2="-0.2724" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2988609495213557</scalar>
+          </atom>
+          <atom id="6" elementType="P" x2="0.7145" y2="-0.0589" formalCharge="0" hydrogenCount="0" isotopeNumber="31">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.45605791022318276</scalar>
+          </atom>
+          <atom id="7" elementType="O" x2="1.127" y2="-0.7734" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2988609495213557</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="6 0" order="D"/>
+          <bond id="1" atomRefs2="6 1" order="S"/>
+          <bond id="2" atomRefs2="1 2" order="S"/>
+          <bond id="3" atomRefs2="2 3" order="D"/>
+          <bond id="4" atomRefs2="2 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="S"/>
+          <bond id="6" atomRefs2="6 7" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H5O5P/c1-2(3)7-8(4,5)6/h1H3,(H2,4,5,6)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">acetyl dihydrogen phosphate</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=LIPOUNRJVLNBCD-UHFFFAOYSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">139.987460</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

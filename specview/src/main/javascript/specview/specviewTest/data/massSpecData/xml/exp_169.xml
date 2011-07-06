@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="propynoate" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="propynoate"/>
+        <metadata name="ms:exactMass" content="68.99765"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="53.002739652" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="propynoate_f1"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="propynoate"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="propynoate_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="propynoate_f1" formula="C3HO">
+        <atomArray>
+          <atom id="2" elementType="C" x2="1.0313" y2="-0.0553" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.3168" y2="-0.4678" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-0.3977" y2="-0.8802" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="O" x2="1.0313" y2="0.7698" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="3" atomRefs2="3 2" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H2O/c1-2-3-4/h1,3H</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.193</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IJNJLGFTSIAHEA-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="propynoate" formula="C3HO2">
+        <atomArray>
+          <atom id="0" elementType="C" x2="-0.3977" y2="-0.8802" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.10765997957080972</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="0.3168" y2="-0.4678" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.016643917414628992</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="1.0313" y2="-0.0553" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.42947067846309017</scalar>
+          </atom>
+          <atom id="3" elementType="O" x2="1.0313" y2="0.7698" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23118803343233343</scalar>
+          </atom>
+          <atom id="4" elementType="O" x2="1.7457" y2="-0.4678" formalCharge="-1" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.23118803343233343</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="0 1" order="T"/>
+          <bond id="1" atomRefs2="1 2" order="S"/>
+          <bond id="2" atomRefs2="4 2" order="S"/>
+          <bond id="3" atomRefs2="3 2" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H2O2/c1-2-3(4)5/h1H,(H,4,5)/p-1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">propynoate</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=UORVCLMRJXCDCP-UHFFFAOYSA-M</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">68.997654</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

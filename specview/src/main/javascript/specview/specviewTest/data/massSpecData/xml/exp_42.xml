@@ -1,0 +1,1602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="cidofovir anhydrous" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="cidofovir anhydrous"/>
+        <metadata name="ms:exactMass" content="279.06202"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="27.99491462" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="cidofovir anhydrous_f1"/>
+        </peak>
+        <peak xValue="251.067107178" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="cidofovir anhydrous_f2"/>
+        </peak>
+        <peak xValue="211.02457367" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="cidofovir anhydrous_f3"/>
+        </peak>
+        <peak xValue="68.037448128" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="cidofovir anhydrous_f4"/>
+        </peak>
+        <peak xValue="224.032398702" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="cidofovir anhydrous_f5"/>
+        </peak>
+        <peak xValue="55.029623095999995" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="cidofovir anhydrous_f6"/>
+        </peak>
+        <peak xValue="237.040223734" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="cidofovir anhydrous_f7"/>
+        </peak>
+        <peak xValue="42.021798063999995" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="cidofovir anhydrous_f8"/>
+        </peak>
+        <peak xValue="265.05894779799996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak9">
+          <molecule ref="cidofovir anhydrous_f9"/>
+        </peak>
+        <peak xValue="183.02965904999996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak10">
+          <molecule ref="cidofovir anhydrous_f10"/>
+        </peak>
+        <peak xValue="96.032362748" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak11">
+          <molecule ref="cidofovir anhydrous_f11"/>
+        </peak>
+        <peak xValue="196.037484082" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak12">
+          <molecule ref="cidofovir anhydrous_f12"/>
+        </peak>
+        <peak xValue="83.024537716" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak13">
+          <molecule ref="cidofovir anhydrous_f13"/>
+        </peak>
+        <peak xValue="209.04530911399996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak14">
+          <molecule ref="cidofovir anhydrous_f14"/>
+        </peak>
+        <peak xValue="70.016712684" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak15">
+          <molecule ref="cidofovir anhydrous_f15"/>
+        </peak>
+        <peak xValue="237.064033178" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak16">
+          <molecule ref="cidofovir anhydrous_f16"/>
+        </peak>
+        <peak xValue="41.99798862" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak17">
+          <molecule ref="cidofovir anhydrous_f17"/>
+        </peak>
+        <peak xValue="80.97415555399999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak18">
+          <molecule ref="cidofovir anhydrous_f18"/>
+        </peak>
+        <peak xValue="198.087866244" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak19">
+          <molecule ref="cidofovir anhydrous_f19"/>
+        </peak>
+        <peak xValue="54.034374127999996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak20">
+          <molecule ref="cidofovir anhydrous_f20"/>
+        </peak>
+        <peak xValue="225.02764766999996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak21">
+          <molecule ref="cidofovir anhydrous_f21"/>
+        </peak>
+        <peak xValue="41.026549096" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak22">
+          <molecule ref="cidofovir anhydrous_f22"/>
+        </peak>
+        <peak xValue="238.035472702" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak23">
+          <molecule ref="cidofovir anhydrous_f23"/>
+        </peak>
+        <peak xValue="28.018724064" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak24">
+          <molecule ref="cidofovir anhydrous_f24"/>
+        </peak>
+        <peak xValue="251.043297734" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak25">
+          <molecule ref="cidofovir anhydrous_f25"/>
+        </peak>
+        <peak xValue="253.046371734" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak26">
+          <molecule ref="cidofovir anhydrous_f26"/>
+        </peak>
+        <peak xValue="266.05419676599996" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak27">
+          <molecule ref="cidofovir anhydrous_f27"/>
+        </peak>
+        <peak xValue="94.98980561799999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak28">
+          <molecule ref="cidofovir anhydrous_f28"/>
+        </peak>
+        <peak xValue="169.02658505" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak29">
+          <molecule ref="cidofovir anhydrous_f29"/>
+        </peak>
+        <peak xValue="110.035436748" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak30">
+          <molecule ref="cidofovir anhydrous_f30"/>
+        </peak>
+        <peak xValue="263.067107178" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak31">
+          <molecule ref="cidofovir anhydrous_f31"/>
+        </peak>
+        <peak xValue="168.07730156000002" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak32">
+          <molecule ref="cidofovir anhydrous_f32"/>
+        </peak>
+        <peak xValue="110.984720238" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak33">
+          <molecule ref="cidofovir anhydrous_f33"/>
+        </peak>
+        <peak xValue="262.059282146" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak34">
+          <molecule ref="cidofovir anhydrous_f34"/>
+        </peak>
+        <peak xValue="155.010934986" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak35">
+          <molecule ref="cidofovir anhydrous_f35"/>
+        </peak>
+        <peak xValue="124.051086812" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak36">
+          <molecule ref="cidofovir anhydrous_f36"/>
+        </peak>
+        <peak xValue="263.043297734" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak37">
+          <molecule ref="cidofovir anhydrous_f37"/>
+        </peak>
+        <peak xValue="31.018389715999998" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak38">
+          <molecule ref="cidofovir anhydrous_f38"/>
+        </peak>
+        <peak xValue="248.043632082" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak39">
+          <molecule ref="cidofovir anhydrous_f39"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="28.031300127999998" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="16alpha-hydroxyestrone_f1_f1"/>
+        </peak>
+        <peak xValue="27.023475096" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="16alpha-hydroxyestrone_f1_f2"/>
+        </peak>
+      </peakList>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="cidofovir anhydrous"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="cidofovir anhydrous_f24"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f23"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f22"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f21"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f20"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f9"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f7"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f8"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f5"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f6"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f3"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f4"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f29"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f1"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f2"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f27"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f28"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f25"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f26"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f11"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f10"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f31"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f13"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f30"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f12"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f33"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f32"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f35"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f34"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f36"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f18"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f37"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f19"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f38"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f39"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f14"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f15"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f16"/>
+        </product>
+        <product>
+          <molecule ref="cidofovir anhydrous_f17"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="16alpha-hydroxyestrone_f1_f1"/>
+        </product>
+        <product>
+          <molecule ref="16alpha-hydroxyestrone_f1_f2"/>
+        </product>
+      </productList>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="cidofovir anhydrous_f24" formula="CH2N">
+        <atomArray>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH5N/c1-2/h2H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.091</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=BAVYZALUXZFZLV-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f23" formula="C6H11N2O6P">
+        <atomArray>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H15N2O6P/c1-8(6(7)10)2-5(3-9)14-4-15(11,12)13/h5,9H,2-4H2,1H3,(H2,7,10)(H2,11,12,13)/t5-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.091</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DXYGBIAYPLYZHA-YFKPBYRVSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f22" formula="C2H3N">
+        <atomArray>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H7N/c1-2-3/h2-3H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.091</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QUSNBJAOOMFDIB-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f21" formula="C5H10N2O6P">
+        <atomArray>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H13N2O6P/c6-5(9)7-1-4(2-8)13-3-14(10,11)12/h4,8H,1-3H2,(H3,6,7,9)(H2,10,11,12)/t4-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048,0.091</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NPLIWWVCUGCOJV-BYPYZUCNSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f20" formula="C3H4N">
+        <atomArray>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H7N/c1-2-3-4/h2H,1,3-4H2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048,0.091</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VVJKKWFAADXIJK-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f9" formula="C8H14N2O6P">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H17N2O6P/c9-2-1-3-10(6-12)4-8(5-11)16-7-17(13,14)15/h1,3,6,8,11H,2,4-5,7,9H2,(H2,13,14,15)/b3-1-/t8-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.091,0.094</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IBKKAJQSHDXWAM-CJKINAQCSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f7" formula="C7H12NO6P">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H14NO6P/c1-2-8(5-10)3-7(4-9)14-6-15(11,12)13/h2,5,7,9H,1,3-4,6H2,(H2,11,12,13)/t7-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.094</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=WHZBMEPLSYWYOA-ZETCQYMHSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f8" formula="CH2N2">
+        <atomArray>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH4N2/c2-1-3/h1H,(H3,2,3)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.094</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=PNKUSGQVOMIXLU-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f5" formula="C6H11NO6P">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H14NO6P/c1-7(4-9)2-6(3-8)13-5-14(10,11)12/h4,6,8H,2-3,5H2,1H3,(H2,10,11,12)/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.094</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JAAYMOIKUUAKQV-LURJTMIESA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f6" formula="C2H3N2">
+        <atomArray>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H6N2/c1-2(3)4/h1H3,(H3,3,4)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.094</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OQLZINXFSUDMHM-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f3" formula="C5H10NO6P">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H12NO6P/c7-2-5(1-6-3-8)12-4-13(9,10)11/h3,5,7H,1-2,4H2,(H,6,8)(H2,9,10,11)/t5-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048,0.094</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YGVOTJBKCBLMGK-YFKPBYRVSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f4" formula="C3H4N2">
+        <atomArray>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H6N2/c1-2-3(4)5/h2H,1H2,(H3,4,5)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048,0.094</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AXPUQAAUHKSVKR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f29" formula="C4H10O5P">
+        <atomArray>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H11O5P/c1-4(2-5)9-3-10(6,7)8/h4-5H,2-3H2,1H3,(H2,6,7,8)/t4-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=JTSVVSMIUFIGRT-BYPYZUCNSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f1" formula="CO">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH2O/c1-2/h1H2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.049,0.094</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=WSFSSNUMVMOOMR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f2" formula="C7H14N3O5P">
+        <atomArray>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H16N3O5P/c8-7(9)1-2-10-3-6(4-11)15-5-16(12,13)14/h1-2,6,10-11H,3-5H2,(H3,8,9)(H2,12,13,14)/b2-1-/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.049,0.094</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AWCDOXZRFWETGP-UDIFJAKLSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f27" formula="C7H13N3O6P">
+        <atomArray>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H16N3O6P/c1-10(7(12)9-4-8)2-6(3-11)16-5-17(13,14)15/h4,6,11H,2-3,5H2,1H3,(H2,8,9,12)(H2,13,14,15)/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.027</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AJCGCSPNVHJPNS-LURJTMIESA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f28" formula="CH4O3P">
+        <atomArray>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH5O3P/c1-5(2,3)4/h1H3,(H2,2,3,4)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.081</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YACKEPLHDIMKIO-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f25" formula="C7H12N2O6P">
+        <atomArray>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H15N2O6P/c1-2-9(7(8)11)3-6(4-10)15-5-16(12,13)14/h2,6,10H,1,3-5H2,(H2,8,11)(H2,12,13,14)/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.091</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SXWWJMGJXDEPTP-LURJTMIESA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f26" formula="C6H12N3O6P">
+        <atomArray>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H14N3O6P/c7-3-9-6(11)8-1-5(2-10)15-4-16(12,13)14/h3,5,10H,1-2,4H2,(H2,12,13,14)(H3,7,8,9,11)/t5-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048,0.027</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=LRSYKKCOAUMFCQ-YFKPBYRVSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f11" formula="C4H4N2O">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H6N2O/c1-2-4(5)6-3-7/h2-3H,1H2,(H2,5,6,7)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048,0.049</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=BUUXSQBOQJMKQI-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f10" formula="C4H10NO5P">
+        <atomArray>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H12NO5P/c5-1-4(2-6)10-3-11(7,8)9/h4,6H,1-3,5H2,(H2,7,8,9)/t4-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048,0.049</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=CLNAQQSTFXWIDE-BYPYZUCNSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f31" formula="C8H14N3O5P">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H16N3O5P/c9-8-1-2-11(5-10-8)3-7(4-12)16-6-17(13,14)15/h1-2,7,12H,3-6H2,(H2,9,10)(H2,13,14,15)/t7-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.177</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NJKADEQJOBDDFN-ZETCQYMHSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f13" formula="C3H3N2O">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H6N2O/c1-3(4)5-2-6/h2H,1H3,(H2,4,5,6)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.049</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XLXDQULHNNCKLI-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f30" formula="C4H4N3O">
+        <atomArray>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C4H5N3O/c5-3-1-2-6-4(8)7-3/h1-2H,(H3,5,6,7,8)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.048</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OPTASPLRGRRNAP-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f12" formula="C5H11NO5P">
+        <atomArray>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H14NO5P/c1-6-2-5(3-7)11-4-12(8,9)10/h5-7H,2-4H2,1H3,(H2,8,9,10)/t5-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.049</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QCPHCRCAXWZYOE-YFKPBYRVSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f33" formula="CH4O4P">
+        <atomArray>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH5O4P/c2-1-6(3,4)5/h2H,1H2,(H2,3,4,5)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.079</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=GTTBQSNGUYHPNK-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f32" formula="C7H10N3O2">
+        <atomArray>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H11N3O2/c8-6-2-4-10(3-1-5-11)7(12)9-6/h2,4,11H,1,3,5H2,(H2,8,9,12)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.079</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SYKDOHYGZVIGQJ-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f35" formula="C3H8O5P">
+        <atomArray>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H9O5P/c4-1-2-8-3-9(5,6)7/h4H,1-3H2,(H2,5,6,7)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.015</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QICXSLZOOCTRKP-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f34" formula="C8H13N3O5P">
+        <atomArray>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H14N3O5P/c9-7-1-2-11(8(13)10-7)3-6(4-12)16-5-17(14)15/h1-2,6,12,17H,3-5H2,(H,14,15)(H2,9,10,13)/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.087</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MMSDTPFLRNWEPO-LURJTMIESA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f36" formula="C5H6N3O">
+        <atomArray>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C5H7N3O/c1-8-3-2-4(6)7-5(8)9/h2-3H,1H3,(H2,6,7,9)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.015</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HWPZZUQOWRWFDB-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f18" formula="H2O3P">
+        <atomArray>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/H3O3P/c1-4(2)3/h4H,(H2,1,2,3)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ABLZXFCXXLZCGV-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f37" formula="C8H12N2O6P">
+        <atomArray>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H13N2O6P/c11-5-7(16-6-17(13,14)15)4-10-3-1-2-9-8(10)12/h1-3,7,11H,4-6H2,(H2,13,14,15)/t7-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.037</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=QIHAXTPJSPRLTL-ZETCQYMHSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f19" formula="C8H12N3O3">
+        <atomArray>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H13N3O3/c1-14-6(5-12)4-11-3-2-7(9)10-8(11)13/h2-3,6,12H,4-5H2,1H3,(H2,9,10,13)/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=AMARNVROLBMTOW-LURJTMIESA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f38" formula="CH3O">
+        <atomArray>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH4O/c1-2/h2H,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.025</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OKKJLVBELUTLKV-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f39" formula="C7H11N3O5P">
+        <atomArray>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H12N3O5P/c8-6-1-2-10(7(11)9-6)3-4-15-5-16(12,13)14/h1-2H,3-5H2,(H2,8,9,11)(H2,12,13,14)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.025</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XXUKNWCJFNYLDP-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f14" formula="C6H12NO5P">
+        <atomArray>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H14NO5P/c1-2-7-3-6(4-8)12-5-13(9,10)11/h2,6-8H,1,3-5H2,(H2,9,10,11)/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.049</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MDFMRGCIBDMCNP-LURJTMIESA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f15" formula="C2H2N2O">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H4N2O/c3-1-4-2-5/h1-2H,(H2,3,4,5)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.027,0.049</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SIVOYXYNAPYGQY-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f16" formula="C7H14N2O5P">
+        <atomArray>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" isotopeNumber="14"/>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" isotopeNumber="31"/>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" isotopeNumber="16"/>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" isotopeNumber="16"/>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" isotopeNumber="16"/>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" isotopeNumber="14"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H17N2O5P/c8-2-1-3-9-4-7(5-10)14-6-15(11,12)13/h1,3,7,9-10H,2,4-6,8H2,(H2,11,12,13)/b3-1-/t7-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.091,0.049</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OXWIZQZMWCISOB-YYHMEYGGSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous_f17" formula="CNO">
+        <atomArray>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" isotopeNumber="14"/>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/CH3NO/c2-1-3/h1H,(H2,2,3)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.091,0.049</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=ZHNUHDYFZUAESO-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="16alpha-hydroxyestrone_f1_f1" formula="C2H4">
+        <atomArray>
+          <atom id="14" elementType="C" x2="8.9014" y2="-6.1184" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="9.6159" y2="-5.7059" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="15" atomRefs2="15 14" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H6/c1-2/h1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.026</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OTMSDBZUPAUEDD-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="16alpha-hydroxyestrone_f1_f2" formula="C2H3">
+        <atomArray>
+          <atom id="23" elementType="C" x2="10.3303" y2="-3.6434" formalCharge="0" isotopeNumber="12"/>
+          <atom id="25" elementType="C" x2="10.3303" y2="-2.8185" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="27" atomRefs2="23 25" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H6/c1-2/h1-2H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.012,0.008</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OTMSDBZUPAUEDD-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cidofovir anhydrous" formula="C8H14N3O6P">
+        <atomArray>
+          <atom id="0" elementType="N" x2="0.5875" y2="-0.0667" formalCharge="0" hydrogenCount="0" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.18677045779325321</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="0.5875" y2="-0.8917" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.32722243207778473</scalar>
+          </atom>
+          <atom id="2" elementType="N" x2="1.3" y2="-1.3042" formalCharge="0" hydrogenCount="0" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.1979352545976551</scalar>
+          </atom>
+          <atom id="3" elementType="P" x2="4.15" y2="-2.1625" formalCharge="0" hydrogenCount="0" isotopeNumber="31">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.3366440246988709</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="1.3" y2="0.3458" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.10909930776625064</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="2.0167" y2="-0.0667" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.013929222734717861</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="2.0167" y2="-0.8917" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.0073520024385442416</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="3.4292" y2="-2.5667" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.14824015200923804</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="1.2917" y2="-2.1292" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.04077149690170502</scalar>
+          </atom>
+          <atom id="9" elementType="O" x2="-0.1333" y2="-1.3042" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.25209685651974845</scalar>
+          </atom>
+          <atom id="10" elementType="O" x2="4.1542" y2="-1.3375" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2510587815749088</scalar>
+          </atom>
+          <atom id="11" elementType="O" x2="2.7167" y2="-2.1417" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.361629187707956</scalar>
+          </atom>
+          <atom id="12" elementType="O" x2="4.8625" y2="-2.5792" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3198209346170004</scalar>
+          </atom>
+          <atom id="13" elementType="O" x2="4.1417" y2="-2.9792" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3198209346170004</scalar>
+          </atom>
+          <atom id="14" elementType="C" x2="2.0042" y2="-2.5542" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.09521163334960621</scalar>
+          </atom>
+          <atom id="15" elementType="N" x2="1.2917" y2="1.1708" formalCharge="0" hydrogenCount="2" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.28672090288053476</scalar>
+          </atom>
+          <atom id="16" elementType="O" x2="2.7042" y2="-3.7917" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3933378892637731</scalar>
+          </atom>
+          <atom id="17" elementType="C" x2="1.9917" y2="-3.3792" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.0708918977141083</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="2 1" order="S"/>
+          <bond id="2" atomRefs2="3 7" order="S"/>
+          <bond id="3" atomRefs2="4 0" order="D"/>
+          <bond id="4" atomRefs2="5 4" order="S"/>
+          <bond id="5" atomRefs2="6 5" order="D"/>
+          <bond id="6" atomRefs2="7 11" order="S"/>
+          <bond id="7" atomRefs2="8 2" order="S"/>
+          <bond id="8" atomRefs2="9 1" order="D"/>
+          <bond id="9" atomRefs2="10 3" order="D"/>
+          <bond id="10" atomRefs2="14 11" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="11" atomRefs2="12 3" order="S"/>
+          <bond id="12" atomRefs2="13 3" order="S"/>
+          <bond id="13" atomRefs2="14 8" order="S"/>
+          <bond id="14" atomRefs2="15 4" order="S"/>
+          <bond id="15" atomRefs2="16 17" order="S"/>
+          <bond id="16" atomRefs2="17 14" order="S"/>
+          <bond id="17" atomRefs2="6 2" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H14N3O6P/c9-7-1-2-11(8(13)10-7)3-6(4-12)17-5-18(14,15)16/h1-2,6,12H,3-5H2,(H2,9,10,13)(H2,14,15,16)/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">cidofovir anhydrous</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VWFCHDSQECPREK-LURJTMIESA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">279.062022</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

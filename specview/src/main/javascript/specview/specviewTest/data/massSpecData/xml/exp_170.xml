@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="acetylsalicylic acid" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="acetylsalicylic acid"/>
+        <metadata name="ms:exactMass" content="180.04226"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="164.04734411599998" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="acetylsalicylic acid_f1"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="acetylsalicylic acid"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="acetylsalicylic acid_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="acetylsalicylic acid_f1" formula="C9H8O3">
+        <atomArray>
+          <atom id="6" elementType="C" x2="1.4289" y2="0.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="0.7145" y2="0.4125" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="0.0" y2="0.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-0.7145" y2="0.4125" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="-0.7145" y2="-0.4125" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="0.0" y2="-0.825" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.7145" y2="-0.4125" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="O" x2="-2.0E-4" y2="1.65" formalCharge="0" isotopeNumber="16"/>
+          <atom id="10" elementType="C" x2="-0.7145" y2="2.0625" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.429" y2="1.65" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.7145" y2="2.8875" formalCharge="0" isotopeNumber="16"/>
+          <atom id="7" elementType="O" x2="2.1433" y2="0.4126" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="3 6" order="S"/>
+          <bond id="4" atomRefs2="3 4" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="3" atomRefs2="4 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="0" atomRefs2="1 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="7" atomRefs2="1 5" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="6" atomRefs2="5 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="9 4" order="S"/>
+          <bond id="10" atomRefs2="10 9" order="S"/>
+          <bond id="11" atomRefs2="11 10" order="S"/>
+          <bond id="12" atomRefs2="12 10" order="D"/>
+          <bond id="8" atomRefs2="7 6" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H10O3/c1-7(11)12-9-5-3-2-4-8(9)6-10/h2-5,10H,6H2,1H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.172</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YFPXKFCSFLHFNR-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="acetylsalicylic acid" formula="C9H8O4">
+        <atomArray>
+          <atom id="0" elementType="C" x2="-0.7145" y2="-0.4125" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.05943136359272244</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="0.0" y2="-0.825" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.0610654114606499</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="-0.7145" y2="0.4125" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03028375897933774</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="0.7145" y2="0.4125" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.07724475977873106</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="0.0" y2="0.825" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.09878527303793859</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="0.7145" y2="-0.4125" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04626406053047449</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="1.4289" y2="0.825" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.29322029600154537</scalar>
+          </atom>
+          <atom id="7" elementType="O" x2="2.1433" y2="0.4126" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.327615593445393</scalar>
+          </atom>
+          <atom id="8" elementType="O" x2="1.4289" y2="1.6501" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2600812516206582</scalar>
+          </atom>
+          <atom id="9" elementType="O" x2="-2.0E-4" y2="1.65" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2773516882649061</scalar>
+          </atom>
+          <atom id="10" elementType="C" x2="-0.7145" y2="2.0625" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.26336804546973863</scalar>
+          </atom>
+          <atom id="11" elementType="C" x2="-1.429" y2="1.65" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.022171265427754983</scalar>
+          </atom>
+          <atom id="12" elementType="O" x2="-0.7145" y2="2.8875" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2657213933966418</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="1" atomRefs2="2 0" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="2" atomRefs2="3 6" order="S"/>
+          <bond id="3" atomRefs2="4 2" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="4" atomRefs2="3 4" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="5" atomRefs2="9 4" order="S"/>
+          <bond id="6" atomRefs2="5 3" order="S">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="7" atomRefs2="1 5" order="D">
+            <bondType dictRef="cdk:aromaticBond"/>
+          </bond>
+          <bond id="8" atomRefs2="7 6" order="S"/>
+          <bond id="9" atomRefs2="8 6" order="D"/>
+          <bond id="10" atomRefs2="10 9" order="S"/>
+          <bond id="11" atomRefs2="11 10" order="S"/>
+          <bond id="12" atomRefs2="12 10" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H8O4/c1-6(10)13-8-5-3-2-4-7(8)9(11)12/h2-5H,1H3,(H,11,12)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">acetylsalicylic acid</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=BSYNRYMUTXBXSQ-UHFFFAOYSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">180.042259</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

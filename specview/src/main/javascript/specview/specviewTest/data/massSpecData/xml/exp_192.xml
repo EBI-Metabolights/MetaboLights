@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="(+)-neomenthol" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="(+)-neomenthol"/>
+        <metadata name="ms:exactMass" content="156.15141"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="114.104465068" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="(+)-neomenthol_f1"/>
+        </peak>
+        <peak xValue="142.135765196" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="(+)-neomenthol_f2"/>
+        </peak>
+        <peak xValue="139.148675608" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="(+)-neomenthol_f3"/>
+        </peak>
+        <peak xValue="141.127940164" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="(+)-neomenthol_f4"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="(+)-neomenthol"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="(+)-neomenthol_f2"/>
+        </product>
+        <product>
+          <molecule ref="(+)-neomenthol_f1"/>
+        </product>
+        <product>
+          <molecule ref="(+)-neomenthol_f4"/>
+        </product>
+        <product>
+          <molecule ref="(+)-neomenthol_f3"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="(+)-neomenthol_f2" formula="C9H18O">
+        <atomArray>
+          <atom id="0" elementType="C" x2="9.376" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="10.0813" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="9.376" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="8.0662" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="7.3609" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="6.0309" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="11.4113" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="12.0763" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="12.0763" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="10.0209" y2="-4.4543" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="5" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="8" atomRefs2="4 7" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="4" atomRefs2="1 9" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="9" atomRefs2="9 8" order="S"/>
+          <bond id="10" atomRefs2="10 9" order="S"/>
+          <bond id="2" atomRefs2="0 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H20O/c1-4-5-6-9(7-10)8(2)3/h8-10H,4-7H2,1-3H3/t9-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.009</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=TYJGFKNNHJGWKN-VIFPVBQESA-N</scalar>
+      </molecule>
+      <molecule id="(+)-neomenthol_f1" formula="C7H14O">
+        <atomArray>
+          <atom id="0" elementType="C" x2="9.376" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="10.0813" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="9.376" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="8.0662" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="11.4113" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="12.0763" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="12.0763" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="10.0209" y2="-4.4543" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="5" atomRefs2="3 2" order="S"/>
+          <bond id="4" atomRefs2="1 9" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="9" atomRefs2="9 8" order="S"/>
+          <bond id="10" atomRefs2="10 9" order="S"/>
+          <bond id="2" atomRefs2="0 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H16O/c1-4-7(5-8)6(2)3/h6-8H,4-5H2,1-3H3/t7-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.008,0.009</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OXFFPTMSBXBVLZ-ZETCQYMHSA-N</scalar>
+      </molecule>
+      <molecule id="(+)-neomenthol_f4" formula="C9H17O">
+        <atomArray>
+          <atom id="4" elementType="C" x2="7.3609" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="8.0662" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="9.376" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="10.0813" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="9.376" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="8.0662" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="O" x2="10.0209" y2="-4.4543" formalCharge="0" isotopeNumber="16"/>
+          <atom id="9" elementType="C" x2="11.4113" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="12.0763" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="12.0763" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="5" atomRefs2="3 2" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="5 0" order="S"/>
+          <bond id="7" atomRefs2="5 4" order="S"/>
+          <bond id="2" atomRefs2="0 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="4" atomRefs2="1 9" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="9" atomRefs2="9 8" order="S"/>
+          <bond id="10" atomRefs2="10 9" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H18O/c1-7(2)8-5-3-4-6-9(8)10/h7-10H,3-6H2,1-2H3/t8-,9+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.006</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IXVGVVQGNQZQGD-BDAKNGLRSA-N</scalar>
+      </molecule>
+      <molecule id="(+)-neomenthol_f3" formula="C10H19">
+        <atomArray>
+          <atom id="0" elementType="C" x2="9.376" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="10.0813" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="9.376" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="8.0662" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="7.3609" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="8.0662" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="6.0309" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="11.4113" y2="-6.7516" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="12.0763" y2="-5.603" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="12.0763" y2="-7.9002" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="5" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="7" atomRefs2="5 4" order="S"/>
+          <bond id="1" atomRefs2="5 0" order="S"/>
+          <bond id="8" atomRefs2="4 7" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="4" atomRefs2="1 9" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="9" atomRefs2="9 8" order="S"/>
+          <bond id="10" atomRefs2="10 9" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H20/c1-8(2)10-6-4-9(3)5-7-10/h8-10H,4-7H2,1-3H3/t9-,10+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.073</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=CFJYNSNXFXLKNS-AOOOYVTPSA-N</scalar>
+      </molecule>
+      <molecule id="(+)-neomenthol" formula="C10H20O">
+        <atomArray>
+          <atom id="0" elementType="C" x2="9.376" y2="-5.603" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.057899738694119664</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="10.0813" y2="-6.7516" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.012777337771879409</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="9.376" y2="-7.9002" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04743573666232793</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="8.0662" y2="-7.9002" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.05014559916997438</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="7.3609" y2="-6.7516" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.041669434391931416</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="8.0662" y2="-5.603" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.024067465912673097</scalar>
+          </atom>
+          <atom id="6" elementType="O" x2="10.0209" y2="-4.4543" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3921716696319668</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="6.0309" y2="-6.7516" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.0623749677962483</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="12.0763" y2="-5.603" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.06237390861485729</scalar>
+          </atom>
+          <atom id="9" elementType="C" x2="11.4113" y2="-6.7516" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.04168811427769956</scalar>
+          </atom>
+          <atom id="10" elementType="C" x2="12.0763" y2="-7.9002" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.06237390861485729</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="5 0" order="S"/>
+          <bond id="2" atomRefs2="0 6" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="4" atomRefs2="1 9" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="5" atomRefs2="3 2" order="S"/>
+          <bond id="6" atomRefs2="4 3" order="S"/>
+          <bond id="7" atomRefs2="5 4" order="S"/>
+          <bond id="8" atomRefs2="4 7" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="9" atomRefs2="9 8" order="S"/>
+          <bond id="10" atomRefs2="10 9" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H20O/c1-7(2)9-5-4-8(3)6-10(9)11/h7-11H,4-6H2,1-3H3/t8-,9+,10+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">(+)-neomenthol</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=NOOLISFMXDJSKH-UTLUCORTSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">156.151415</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

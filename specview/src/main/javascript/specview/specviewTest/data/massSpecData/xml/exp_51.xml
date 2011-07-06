@@ -1,0 +1,1110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="costunolide" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="costunolide"/>
+        <metadata name="ms:exactMass" content="232.14633"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="204.115029752" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="costunolide_f1"/>
+        </peak>
+        <peak xValue="218.130679816" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="costunolide_f2"/>
+        </peak>
+        <peak xValue="192.115029752" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak3">
+          <molecule ref="costunolide_f3"/>
+        </peak>
+        <peak xValue="178.099379688" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak4">
+          <molecule ref="costunolide_f4"/>
+        </peak>
+        <peak xValue="164.083729624" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak5">
+          <molecule ref="costunolide_f5"/>
+        </peak>
+        <peak xValue="95.086075352" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak6">
+          <molecule ref="costunolide_f6"/>
+        </peak>
+        <peak xValue="137.060254528" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak7">
+          <molecule ref="costunolide_f7"/>
+        </peak>
+        <peak xValue="124.052429496" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak8">
+          <molecule ref="costunolide_f8"/>
+        </peak>
+        <peak xValue="177.091554656" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak9">
+          <molecule ref="costunolide_f9"/>
+        </peak>
+        <peak xValue="151.075904592" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak10">
+          <molecule ref="costunolide_f10"/>
+        </peak>
+        <peak xValue="81.070425288" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak11">
+          <molecule ref="costunolide_f11"/>
+        </peak>
+        <peak xValue="136.125200512" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak12">
+          <molecule ref="costunolide_f12"/>
+        </peak>
+        <peak xValue="150.06807956" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak13">
+          <molecule ref="costunolide_f13"/>
+        </peak>
+        <peak xValue="82.07825032" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak14">
+          <molecule ref="costunolide_f14"/>
+        </peak>
+        <peak xValue="96.093900384" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak15">
+          <molecule ref="costunolide_f15"/>
+        </peak>
+        <peak xValue="136.052429496" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak16">
+          <molecule ref="costunolide_f16"/>
+        </peak>
+        <peak xValue="123.11737547999999" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak17">
+          <molecule ref="costunolide_f17"/>
+        </peak>
+        <peak xValue="109.101725416" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak18">
+          <molecule ref="costunolide_f18"/>
+        </peak>
+        <peak xValue="217.122854784" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak19">
+          <molecule ref="costunolide_f19"/>
+        </peak>
+        <peak xValue="162.140850576" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak20">
+          <molecule ref="costunolide_f20"/>
+        </peak>
+        <peak xValue="26.015650064" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak21">
+          <molecule ref="costunolide_f21"/>
+        </peak>
+        <peak xValue="178.135765196" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak22">
+          <molecule ref="costunolide_f22"/>
+        </peak>
+        <peak xValue="54.010564684" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak23">
+          <molecule ref="costunolide_f23"/>
+        </peak>
+        <peak xValue="188.15650064" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak24">
+          <molecule ref="costunolide_f24"/>
+        </peak>
+        <peak xValue="204.15141526" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak25">
+          <molecule ref="costunolide_f25"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="costunolide"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="costunolide_f21"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f20"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f23"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f22"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f24"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f25"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f12"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f7"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f11"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f6"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f10"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f9"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f8"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f1"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f3"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f2"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f5"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f4"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f19"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f17"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f18"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f15"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f16"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f13"/>
+        </product>
+        <product>
+          <molecule ref="costunolide_f14"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="costunolide_f21" formula="C2H2">
+        <atomArray>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C2H4/c1-2/h1-2H2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005,0.003</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VGGSQFUCUMXWEO-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f20" formula="C12H18">
+        <atomArray>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C12H20/c1-11-7-4-3-5-8-12(2)10-6-9-11/h7,10H,3-6,8-9H2,1-2H3/b11-7+,12-10+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.086,0.003</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=UAHADQOCWJLDQW-CRALUGIISA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f23" formula="C3H2O">
+        <atomArray>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H4O/c1-2-3-4/h2-3H,1H2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.091,0.003</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HGINCPLSRVDWNT-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f22" formula="C12H18O">
+        <atomArray>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C12H20O/c1-10-5-3-7-11(2)9-12(13)8-4-6-10/h5,9,12-13H,3-4,6-8H2,1-2H3/b10-5+,11-9+/t12-/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.091,0.003</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HCUSXTRNMDTORK-XPKRXADPSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f24" formula="C14H20">
+        <atomArray>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H22/c1-4-14-10-8-12(2)6-5-7-13(3)9-11-14/h4,6,9,14H,1,5,7-8,10-11H2,2-3H3/b12-6+,13-9+/t14-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005,0.086</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OUBCSKDWQFJVIO-GAZHYCJLSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f25" formula="C14H20O">
+        <atomArray>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H22O/c1-4-13-9-8-11(2)6-5-7-12(3)10-14(13)15/h4,6,10,13-15H,1,5,7-9H2,2-3H3/b11-6+,12-10+/t13-,14-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.005,0.091</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HKQDSBQBLUAOSY-GXAHUOMZSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f12" formula="C10H16">
+        <atomArray>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H18/c1-5-10(4)8-6-7-9(2)3/h8H,2,5-7H2,1,3-4H3/b10-8+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=YOKUQXUXDHNYKC-CSKARUKUSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f7" formula="C8H9O2">
+        <atomArray>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H12O2/c1-4-7-5(2)8(9)10-6(7)3/h6-7H,2,4H2,1,3H3/t6-,7+/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=MVZZPFHZRNFXOZ-NKWVEPMBSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f11" formula="C6H9">
+        <atomArray>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H12/c1-4-5-6(2)3/h2,4-5H2,1,3H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023,0.021</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=WWUVJRULCWHUSA-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f6" formula="C7H11">
+        <atomArray>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H14/c1-3-5-7-6-4-2/h3,5H,4,6-7H2,1-2H3/b5-3-</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=OTTZHAVKAVGASB-HYXAFXHYSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f10" formula="C9H11O2">
+        <atomArray>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H14O2/c1-3-4-5-8-6-11-9(10)7(8)2/h8H,2-6H2,1H3/t8-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023,0.021</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=TVGUZZJJJZFGLG-QMMMGPOBSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f9" formula="C11H13O2">
+        <atomArray>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C11H16O2/c1-4-5-8(2)6-10-7-9(3)11(12)13-10/h6,10H,3-5,7H2,1-2H3/b8-6+/t10-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.021</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XEWXCSWPTKPHLR-PCGIRMHASA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f8" formula="C7H8O2">
+        <atomArray>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H10O2/c1-3-6-4-9-7(8)5(6)2/h6H,2-4H2,1H3/t6-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=LJTGGGVGGOBONY-LURJTMIESA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f1" formula="C13H16O2">
+        <atomArray>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C13H18O2/c1-4-5-6-7-10(2)8-12-9-11(3)13(14)15-12/h4-5,8,12H,3,6-7,9H2,1-2H3/b5-4-,10-8+/t12-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=VCEAXLFIJZEEEZ-FUIFSSKUSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f3" formula="C12H16O2">
+        <atomArray>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C12H18O2/c1-5-8(3)7-11-10(6-2)9(4)12(13)14-11/h7,10-11H,4-6H2,1-3H3/b8-7+/t10-,11+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.021,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=WGOSLKIWXZDEIB-SFEFJYQLSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f2" formula="C14H18O2">
+        <atomArray>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H20O2/c1-5-6-7-8-10(2)9-13-11(3)12(4)14(15)16-13/h5-6,9,11,13H,4,7-8H2,1-3H3/b6-5-,10-9+/t11-,13+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SHRYEAVFGNDBKV-WJUBDPBUSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f5" formula="C10H12O2">
+        <atomArray>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C10H14O2/c1-4-6-9-8(5-2)7(3)10(11)12-9/h4,6,8-9H,3,5H2,1-2H3/b6-4-/t8-,9+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=SCROICQBBIQGTN-XGLIGSBPSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f4" formula="C11H14O2">
+        <atomArray>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C11H16O2/c1-5-9-8(4)11(12)13-10(9)6-7(2)3/h6,9-10H,4-5H2,1-3H3/t9-,10+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.01,0.022</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=GIEBLZXWAAZCDF-ZJUUUORDSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f19" formula="C14H17O2">
+        <atomArray>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C14H18O2/c1-10-6-4-3-5-7-13-12(9-8-10)11(2)14(15)16-13/h5-7,12-13H,2-4,8-9H2,1H3/b7-5+,10-6+/t12-,13+/m1/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DHWMWFVAJCRDSZ-ZRFHOTNHSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f17" formula="C9H15">
+        <atomArray>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H18/c1-4-6-7-8-9(3)5-2/h8H,4-7H2,1-3H3/b9-8+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=RRPHUUXRVVPAAY-CMDGGOBGSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f18" formula="C8H13">
+        <atomArray>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H16/c1-4-5-6-7-8(2)3/h7H,4-6H2,1-3H3</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=WEPNJTDVIIKRIK-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f15" formula="C7H12">
+        <atomArray>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C7H14/c1-4-6-7(3)5-2/h6H,4-5H2,1-3H3/b7-6+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=FHHSSXNRVNXTBG-VOTSOKGWSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f16" formula="C8H8O2">
+        <atomArray>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C8H10O2/c1-3-4-7-5-6(2)8(9)10-7/h3-4,7H,2,5H2,1H3/b4-3-/t7-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.023</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=IFZJODBJRBGXII-AVALRIAPSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f13" formula="C9H10O2">
+        <atomArray>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" isotopeNumber="12"/>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" isotopeNumber="12"/>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" isotopeNumber="12"/>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" isotopeNumber="16"/>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" isotopeNumber="16"/>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" isotopeNumber="12"/>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C9H12O2/c1-6(2)4-8-5-7(3)9(10)11-8/h4,8H,3,5H2,1-2H3/t8-/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.01</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=COFWNAHPNJXTSK-QMMMGPOBSA-N</scalar>
+      </molecule>
+      <molecule id="costunolide_f14" formula="C6H10">
+        <atomArray>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" isotopeNumber="12"/>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" isotopeNumber="12"/>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" isotopeNumber="12"/>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" isotopeNumber="12"/>
+        </atomArray>
+        <bondArray>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C6H12/c1-4-6(3)5-2/h4H,5H2,1-3H3/b6-4+</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.007,0.01</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=BEQGRRJLJLVQAQ-GQCTYLIASA-N</scalar>
+      </molecule>
+      <molecule id="costunolide" formula="C15H20O2">
+        <atomArray>
+          <atom id="0" elementType="C" x2="0.046" y2="-0.6248" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.0932936027616005</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="-0.599" y2="0.7146" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.08501518201445564</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="-1.8685" y2="0.3021" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.028607922687382548</scalar>
+          </atom>
+          <atom id="3" elementType="C" x2="-1.3836" y2="0.9695" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03096306026595747</scalar>
+          </atom>
+          <atom id="4" elementType="C" x2="-0.599" y2="-0.1104" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.05558904461623199</scalar>
+          </atom>
+          <atom id="5" elementType="C" x2="0.8504" y2="1.0454" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03149081134909702</scalar>
+          </atom>
+          <atom id="6" elementType="C" x2="1.2083" y2="0.3021" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.03962950125793932</scalar>
+          </atom>
+          <atom id="7" elementType="C" x2="-1.3836" y2="-0.3654" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.07410865147879843</scalar>
+          </atom>
+          <atom id="8" elementType="C" x2="0.046" y2="1.2289" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.07689760339326289</scalar>
+          </atom>
+          <atom id="9" elementType="C" x2="0.8504" y2="-0.4412" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.020094538681039317</scalar>
+          </atom>
+          <atom id="10" elementType="C" x2="-0.1375" y2="2.0332" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.043862294574700256</scalar>
+          </atom>
+          <atom id="11" elementType="C" x2="-1.6385" y2="-1.15" formalCharge="0" hydrogenCount="3" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.043763633858462624</scalar>
+          </atom>
+          <atom id="12" elementType="O" x2="-0.0279" y2="-1.4464" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3038926462202037</scalar>
+          </atom>
+          <atom id="13" elementType="C" x2="0.7307" y2="-1.7707" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2895287839788559</scalar>
+          </atom>
+          <atom id="14" elementType="C" x2="1.2735" y2="-1.1494" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.023166913688488548</scalar>
+          </atom>
+          <atom id="15" elementType="C" x2="2.0985" y2="-1.1494" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.0894055451481925</scalar>
+          </atom>
+          <atom id="16" elementType="O" x2="0.9443" y2="-2.5676" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2603228901757243</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="8 5" order="S"/>
+          <bond id="1" atomRefs2="8 1" order="D"/>
+          <bond id="2" atomRefs2="0 4" order="S"/>
+          <bond id="3" atomRefs2="3 1" order="S"/>
+          <bond id="4" atomRefs2="2 3" order="S"/>
+          <bond id="5" atomRefs2="2 7" order="S"/>
+          <bond id="6" atomRefs2="4 7" order="D"/>
+          <bond id="7" atomRefs2="5 6" order="S"/>
+          <bond id="8" atomRefs2="9 6" order="S"/>
+          <bond id="9" atomRefs2="7 11" order="S"/>
+          <bond id="10" atomRefs2="8 10" order="S"/>
+          <bond id="11" atomRefs2="9 14" order="S">
+            <bondStereo dictRef="cml:W"/>
+          </bond>
+          <bond id="12" atomRefs2="9 0" order="S"/>
+          <bond id="13" atomRefs2="0 12" order="S">
+            <bondStereo dictRef="cml:H"/>
+          </bond>
+          <bond id="14" atomRefs2="12 13" order="S"/>
+          <bond id="15" atomRefs2="13 14" order="S"/>
+          <bond id="16" atomRefs2="14 15" order="D"/>
+          <bond id="17" atomRefs2="13 16" order="D"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C15H20O2/c1-10-5-4-6-11(2)9-14-13(8-7-10)12(3)15(16)17-14/h5,9,13-14H,3-4,6-8H2,1-2H3/b10-5+,11-9+/t13-,14+/m0/s1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">costunolide</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=HRYLQFBHBWLLLL-AHNJNIBGSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">232.146330</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>

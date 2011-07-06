@@ -54,7 +54,7 @@ function initPage(){
 //			var toolbar = new specview.controller.DefaultToolbar.makeDefaultMoleculeToolbar(goog.dom.getElement('moleculeEditorToolbar'));  
 			
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[1]);//XML document
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[31]);//XML document
 			spectrumData=new specview.model.NMRdata();
 			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
 			
@@ -395,7 +395,7 @@ Hide the window
 <script type = "text/javascript">
 
 function launch(){
-	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/nmrData/xml/";
+	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/massSpecData/xml/";
 	dir += document.getElementById("cmlInputFile").value;
 	document.experimentOfTheUser = document.javaApplet.parse(dir)
 	xmlDoc=specview.io.SpectrumCMLParser.getDocument(document.experimentOfTheUser);//XML document

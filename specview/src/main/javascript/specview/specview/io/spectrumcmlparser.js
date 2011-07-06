@@ -138,6 +138,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 
 	nmrData.mainMoleculeName=THEMOLECULENAME;
 
+	
 	for(var molecule=0;molecule<listOfMolecules.length;molecule++){
 		var XmlTextElement=false;
 		try{
@@ -158,9 +159,11 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				if(MS){
 					
 					try{
-						moleculeName=moleculeNode.attributes[0].value;	
+	//					specview.io.SpectrumCMLParser.logger.info("dans le try : "+moleculeNode.attributes["id"].value)
+						moleculeName=moleculeNode.attributes["id"].value;	
 					}catch(err){
-						moleculeName=moleculeNode.childNodes[1].attributes[0].value;	
+						moleculeName=moleculeNode.childNodes[1].attributes["id"].value;	
+	//					specview.io.SpectrumCMLParser.logger.info("dans le catch : "+moleculeNode.attributes["id"].value)
 					}
 				}else if(NMR){
 					moleculeName=THEMOLECULENAME;
@@ -332,7 +335,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				}
 				if(nmrData.experienceType=="MS"){
 //					alert(moleculeName)
-//					specview.io.SpectrumCMLParser.logger.info(moleculeName);
+					specview.io.SpectrumCMLParser.logger.info(moleculeName);
 					if(moleculeName==THEMOLECULENAME){
 						nmrData.molecule=new specview.model.Molecule(THEMOLECULENAME);
 					}
@@ -514,7 +517,10 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		}
 		var TMTWTSIA = null;
 			try{
+//				alert(specview.util.Utilities.getAssoArrayLength(nmrData.ArrayOfSecondaryMolecules))
+			//	alert(specspec[spec].attributes["id"].value)
 				TMTWTSIA = nmrData.ArrayOfSecondaryMolecules[specspec[spec].attributes["id"].value];
+//				alert(TMTWTSIA)
 				nmrData.ArrayOfPrimaryMolecules[TMTWTSIA.name] = TMTWTSIA;
 			}catch(err){
 				TMTWTSIA = nmrData.molecule;

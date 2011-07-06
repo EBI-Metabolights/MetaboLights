@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
+  <list dictRef="cml:spectrumList">
+    <spectrum id="cysteine" moleculeRef="PubChem:-1" type="MS2">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="cysteine"/>
+        <metadata name="ms:exactMass" content="121.01975"/>
+      </metadataList>
+      <peakList>
+        <peak xValue="105.024834844" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak1">
+          <molecule ref="cysteine_f1"/>
+        </peak>
+        <peak xValue="105.0010254" xUnits="units:mz" yValue="1000.0" yUnits="units:cps" id="peak2">
+          <molecule ref="cysteine_f2"/>
+        </peak>
+      </peakList>
+    </spectrum>
+    <spectrum id="16alpha-hydroxyestrone_f1" moleculeRef="PubChem:-1" type="MS3">
+      <conditionList>
+        <scalar dataType="xsd:integer" dictRef="cml:collisionenergy" units="siUnits:eV">-1</scalar>
+        <scalar dataType="xsd:string" dictRef="cml:polarity">in silico</scalar>
+      </conditionList>
+      <metadataList>
+        <metadata name="ms:assignmentMethod" content="MetFragMod"/>
+        <metadata name="ms:name" content="16alpha-hydroxyestrone_f1"/>
+        <metadata name="ms:exactMass" content="214.13577"/>
+      </metadataList>
+      <peakList/>
+    </spectrum>
+  </list>
+  <reactionList>
+    <reaction id="0" title="Level1">
+      <reactantList>
+        <reactant>
+          <molecule ref="cysteine"/>
+        </reactant>
+      </reactantList>
+      <productList>
+        <product>
+          <molecule ref="cysteine_f2"/>
+        </product>
+        <product>
+          <molecule ref="cysteine_f1"/>
+        </product>
+      </productList>
+    </reaction>
+    <reaction id="1" title="Level2">
+      <reactantList>
+        <reactant>
+          <molecule ref="16alpha-hydroxyestrone_f1"/>
+        </reactant>
+      </reactantList>
+      <productList/>
+    </reaction>
+  </reactionList>
+  <list dictRef="cdk:moleculeSet">
+    <moleculeList>
+      <molecule id="cysteine_f2" formula="C3H5O2S">
+        <atomArray>
+          <atom id="1" elementType="C" x2="-0.1021" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="0" elementType="C" x2="0.6124" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="4" elementType="O" x2="0.6124" y2="1.0607" formalCharge="0" isotopeNumber="16"/>
+          <atom id="3" elementType="O" x2="1.3269" y2="-0.1768" formalCharge="0" isotopeNumber="16"/>
+          <atom id="2" elementType="C" x2="-0.8165" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="S" x2="-1.531" y2="-0.1768" formalCharge="0" isotopeNumber="32"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="4 0" order="D"/>
+          <bond id="2" atomRefs2="3 0" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="5" atomRefs2="6 2" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H6O2S/c4-3(5)1-2-6/h6H,1-2H2,(H,4,5)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.036</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=DKIDEFUBRARXTE-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cysteine_f1" formula="C3H7NOS">
+        <atomArray>
+          <atom id="0" elementType="C" x2="0.6124" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="1" elementType="C" x2="-0.1021" y2="-0.1768" formalCharge="0" isotopeNumber="12"/>
+          <atom id="2" elementType="C" x2="-0.8165" y2="0.2357" formalCharge="0" isotopeNumber="12"/>
+          <atom id="6" elementType="S" x2="-1.531" y2="-0.1768" formalCharge="0" isotopeNumber="32"/>
+          <atom id="5" elementType="N" x2="-0.1021" y2="-1.0018" formalCharge="0" isotopeNumber="14"/>
+          <atom id="3" elementType="O" x2="1.3269" y2="-0.1768" formalCharge="0" isotopeNumber="16"/>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="5" atomRefs2="6 2" order="S"/>
+          <bond id="4" atomRefs2="5 1" order="S"/>
+          <bond id="2" atomRefs2="3 0" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H9NOS/c4-3(1-5)2-6/h3,5-6H,1-2,4H2</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TreeDepth" dataType="xsd:string">1</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="PartialChargeDiff" dataType="xsd:string">0.169</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=CFBPGADIXTVKBS-UHFFFAOYSA-N</scalar>
+      </molecule>
+      <molecule id="cysteine" formula="C3H7NO2S">
+        <atomArray>
+          <atom id="0" elementType="C" x2="0.6124" y2="0.2357" formalCharge="0" hydrogenCount="0" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.2766810567832544</scalar>
+          </atom>
+          <atom id="1" elementType="C" x2="-0.1021" y2="-0.1768" formalCharge="0" hydrogenCount="1" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.10015320458750135</scalar>
+          </atom>
+          <atom id="2" elementType="C" x2="-0.8165" y2="0.2357" formalCharge="0" hydrogenCount="2" isotopeNumber="12">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">0.015131148644225621</scalar>
+          </atom>
+          <atom id="3" elementType="O" x2="1.3269" y2="-0.1768" formalCharge="0" hydrogenCount="1" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3302911627962223</scalar>
+          </atom>
+          <atom id="4" elementType="O" x2="0.6124" y2="1.0607" formalCharge="0" hydrogenCount="0" isotopeNumber="16">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.2641967783632141</scalar>
+          </atom>
+          <atom id="5" elementType="N" x2="-0.1021" y2="-1.0018" formalCharge="0" hydrogenCount="2" isotopeNumber="14">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.3187035164454533</scalar>
+          </atom>
+          <atom id="6" elementType="S" x2="-1.531" y2="-0.1768" formalCharge="0" hydrogenCount="1" isotopeNumber="32">
+            <scalar dictRef="cdk:partialCharge" dataType="xsd:double">-0.17669819249275318</scalar>
+          </atom>
+        </atomArray>
+        <bondArray>
+          <bond id="0" atomRefs2="1 0" order="S"/>
+          <bond id="1" atomRefs2="4 0" order="D"/>
+          <bond id="2" atomRefs2="3 0" order="S"/>
+          <bond id="3" atomRefs2="2 1" order="S"/>
+          <bond id="4" atomRefs2="5 1" order="S"/>
+          <bond id="5" atomRefs2="6 2" order="S"/>
+        </bondArray>
+        <scalar dictRef="cdk:molecularProperty" title="InChI" dataType="xsd:string">InChI=1S/C3H7NO2S/c4-2(1-7)3(5)6/h2,7H,1,4H2,(H,5,6)</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="TrivialName" dataType="xsd:string">cysteine</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="InChIKey" dataType="xsd:string">InChIKey=XUJNEKJLAYXESH-UHFFFAOYSA-N</scalar>
+        <scalar dictRef="cdk:molecularProperty" title="FragmentMass" dataType="xsd:string">121.019749</scalar>
+      </molecule>
+    </moleculeList>
+  </list>
+</cml>
