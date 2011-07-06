@@ -31,33 +31,33 @@
   </atomArray>
   <bondArray>
    <bond id="b1" atomRefs2="a1 a2" order="D"/>
-   <bond id="b2" atomRefs2="a2 a3" order="D"/>
-   <bond id="b3" atomRefs2="a3 a4" order="D"/>
-   <bond id="b4" atomRefs2="a4 a5" order="D"/>
-   <bond id="b5" atomRefs2="a4 a26" order="D"/>
+   <bond id="b2" atomRefs2="a2 a3" order="S"/>
+   <bond id="b3" atomRefs2="a3 a4" order="S"/>
+   <bond id="b4" atomRefs2="a4 a5" order="S"/>
+   <bond id="b5" atomRefs2="a4 a26" order="S"/>
    <bond id="b6" atomRefs2="a5 a24" order="D"/>
-   <bond id="b7" atomRefs2="a5 a23" order="D"/>
-   <bond id="b8" atomRefs2="a6 a26" order="D"/>
+   <bond id="b7" atomRefs2="a5 a23" order="S"/>
+   <bond id="b8" atomRefs2="a6 a26" order="S"/>
    <bond id="b9" atomRefs2="a6 a22" order="D"/>
-   <bond id="b10" atomRefs2="a6 a25" order="D"/>
-   <bond id="b11" atomRefs2="a7 a25" order="D"/>
-   <bond id="b12" atomRefs2="a7 a8" order="D"/>
-   <bond id="b13" atomRefs2="a8 a9" order="D"/>
-   <bond id="b14" atomRefs2="a8 a12" order="D"/>
+   <bond id="b10" atomRefs2="a6 a25" order="S"/>
+   <bond id="b11" atomRefs2="a7 a25" order="S"/>
+   <bond id="b12" atomRefs2="a7 a8" order="S"/>
+   <bond id="b13" atomRefs2="a8 a9" order="S"/>
+   <bond id="b14" atomRefs2="a8 a12" order="S"/>
    <bond id="b15" atomRefs2="a9 a10" order="D"/>
-   <bond id="b16" atomRefs2="a9 a19" order="D"/>
-   <bond id="b17" atomRefs2="a10 a11" order="D"/>
-   <bond id="b18" atomRefs2="a10 a20" order="D"/>
+   <bond id="b16" atomRefs2="a9 a19" order="S"/>
+   <bond id="b17" atomRefs2="a10 a11" order="S"/>
+   <bond id="b18" atomRefs2="a10 a20" order="S"/>
    <bond id="b19" atomRefs2="a11 a12" order="D"/>
-   <bond id="b20" atomRefs2="a11 a15" order="D"/>
-   <bond id="b21" atomRefs2="a12 a14" order="D"/>
+   <bond id="b20" atomRefs2="a11 a15" order="S"/>
+   <bond id="b21" atomRefs2="a12 a14" order="S"/>
    <bond id="b22" atomRefs2="a13 a14" order="D"/>
-   <bond id="b23" atomRefs2="a13 a16" order="D"/>
+   <bond id="b23" atomRefs2="a13 a16" order="S"/>
    <bond id="b24" atomRefs2="a15 a16" order="D"/>
-   <bond id="b25" atomRefs2="a17 a18" order="D"/>
+   <bond id="b25" atomRefs2="a17 a18" order="S"/>
    <bond id="b26" atomRefs2="a17 a20" order="D"/>
    <bond id="b27" atomRefs2="a18 a19" order="D"/>
-   <bond id="b28" atomRefs2="a21 a23" order="D"/>
+   <bond id="b28" atomRefs2="a21 a23" order="S"/>
   </bondArray>
   <scalar dictRef="cdk:molecularProperty" title="cdk:Remark" dataType="xsd:string">NMRShiftDB 20221745</scalar>
  </molecule>
@@ -92,4 +92,3 @@
   </peakList>
  </spectrum>
 </cml>
-

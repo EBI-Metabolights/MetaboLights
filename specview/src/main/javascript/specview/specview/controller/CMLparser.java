@@ -43,8 +43,35 @@ public class CMLparser extends Applet{
 		    g.drawString("YOur file", 20,10);
 	   }
 	   
-	   public String parse(){
-		   return "/home/epu/test1_frag.cml.1.xml";
+	   public String parse(String s){
+//		   String res = "cool";
+//		   DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+//		     SecurityManager security = System.getSecurityManager();
+		   File f = new File(s);
+//		   security.checkRead(s);
+//		   try{
+//			   InputStream inputStream = new FileInputStream(f);   
+//		   }catch(java.io.FileNotFoundException e){
+//			   res = "not cool";
+//			   return e.toString();
+//		   }
+//		   return res;
+
+		   try{ 
+		       DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance(); 
+		       InputStream inputStream = new FileInputStream(f);
+		       org.w3c.dom.Document doc = documentBuilderFactory.newDocumentBuilder().parse(inputStream); 
+		       StringWriter stw = new StringWriter(); 
+		       Transformer serializer = TransformerFactory.newInstance().newTransformer(); 
+		       serializer.transform(new DOMSource(doc), new StreamResult(stw)); 
+		       return stw.toString(); 
+		     } 
+		     catch (Exception e) { 
+		       e.printStackTrace(); 
+		     } 
+		       return null; 
+		       
+		   
 	   }
 		/*
 		   String fileName = "/home/epu/test1_frag.cml.1.xml";

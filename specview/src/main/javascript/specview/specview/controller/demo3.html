@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
+
+
 <script src="../../third-party/closure/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script src="../../specviewTest/data/cmlfile.js"></script>
@@ -35,6 +37,8 @@ document.peakSensitivity = 10;
 document.changeAtomColor = false;
 document.changeBondColor = false;
 document.changePeakColor = false;
+
+document.experimentOfTheUser = null;
 
 //document.decimalcolor = null;
 
@@ -133,6 +137,7 @@ function initPage(){
 		          idx=0;
 		      }
 		      var molfile=cmlData[idx];
+//		      alert(molfile)
 		      var xmlDox;
 			      xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
 			      spectrumData=new specview.model.NMRdata();
@@ -325,7 +330,6 @@ function ReverseContentDisplay(d) {
 
 
 
-
 <div 
  id="floatingBox" 
  style="display:none; 
@@ -373,20 +377,52 @@ Hide the window
 </a>
 </li>
 </div>
-<input class = "button" type = "button" name = "chk1" onmouseover = "ShowContent('floatingBoxHelp')" value = "A little help?">
+<input class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxHelp')" value = "A little help?">
 <input class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum">
 <input class = "button" type = "button" name = "chk1" onclick = "toHex(255)" value = "Unzoom KO">
 <input class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule">
 <input class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Move molecule? KO">
-<input class = "button" id="cmlInputFile" type = "button" name = "chk1" onclick = "javascript:getCMLString()" value="test" >
+<input class = "button" id = "launch" type = "button" onclick = "launch()" value="View experiment">
+
+<input class = "button" 
+	   id="cmlInputFile" 
+	   type = "file"
+	   name = "chk1"> 
 
 
 
 <script type = "text/javascript">
 
+function launch(){
+	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/nmrData/xml/";
+	dir += document.getElementById("cmlInputFile").value;
+	document.experimentOfTheUser = document.javaApplet.parse(dir)
+	xmlDoc=specview.io.SpectrumCMLParser.getDocument(document.experimentOfTheUser);//XML document
+    spectrumData=new specview.model.NMRdata();
+    spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+	spectrumData.setCoordinatesWithPixels(editor,0)
+	editor.setSpecObject(spectrumData);
+	editor.setModels([spectrumData]);
+	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+	document.metaSpecObject = spectrumData;
+}
+
+
 function getCMLString(){
-	alert(document.javaApplet.parse("/home/epu/test1_frag.cml.1.xml"));
+
+ 	var f = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/massSpecData/test.xml"
+	var g = "/home/epu/test1_frag.cml.1.xml"
+	var g1 = "/home/epu/specData/ms/test1_frag.cml.1.xml"
+	var g2 = "/home/epu/test1_frag.cml.2.xml"
+	var h = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/nmrData/nmrTest1.xml"
+	var i = "/home/epu/specData/nmr/nmrTest1.xml"
+	
+	
+	var j = "/home/epu/specData/ms/test1_frag.cml.1.xml"
+	document.experimentOfTheUser = document.javaApplet.parse(i);
+//	alert(document.javaApplet.parse(i));
 }
 
 var count = 0;
@@ -781,7 +817,12 @@ Hide the window
      <br>
      </div>
 <H1>A Java applet example</H1>
-<P>Here it is: <APPLET name="javaApplet" code="CMLparser" archive="example.jar" WIDTH="200" HEIGHT="70">
+<P>Here it is: <APPLET name="javaApplet" 
+					   code="CMLparser" 
+					   archive="example.jar"
+					   WIDTH="200" 
+					   HEIGHT="70"
+					   mayscript="mayscript">
 This is where HelloWorld.class runs.</APPLET>
 
 <param name="text" value="Bonjour les loulous">
