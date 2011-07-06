@@ -6,7 +6,7 @@ hibernate.connection.driver_class=com.mysql.jdbc.Driver
 hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 
 # Change these paths as you need
-hibernate.search.default.indexBase=/ebi/bii/luceneindex
+hibernate.search.default.indexBase=/ebi/sp/pro1/metabolights/lucene/
 
 # Change this to get some debug info
 hibernate.show_sql=false
