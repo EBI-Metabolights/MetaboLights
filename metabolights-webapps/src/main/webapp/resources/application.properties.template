@@ -9,6 +9,8 @@ ftpServerMainSubDir=upload
 ftpUser=CHANGE
 ftpPassword=CHANGE
 
-uploadDirectory=/ebi/ftp/private/mtblight
+uploadDirectory=/ebi/ftp/private/mtblight/isatab
 
-luceneIndexDirectory=/ebi/bii/luceneindex/
+mtblAdminEmailAddress=admin@metabolights.com
+
+luceneIndexDirectory=/ebi/sp/pro1/metabolights/lucene/bii
