@@ -1,8 +1,12 @@
 package uk.ac.ebi.metabolights.controller;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
+import uk.ac.ebi.metabolights.search.Filter;
+import uk.ac.ebi.metabolights.search.FilterItem;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult.Assay;
 import uk.ac.ebi.metabolights.service.SearchService;
@@ -42,57 +49,35 @@ public class SearchController extends AbstractController{
 	@RequestMapping(value = "/search", method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView luceneSearch (HttpServletRequest request) {
 
-	    List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>();
-
-	    List<String> organisms = new ArrayList<String>(); 
-	    List<String> technology = new ArrayList<String>();
-	    
-	    //HashMap<String, Set> filters = new HashMap();
-	    
-	    //Get the user free text search
-	    String query = request.getParameter("query")!=null? request.getParameter("query"): "";   
-	    
+		//Search results
+		List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>();
+	   
+		//Instantiate a filter class
+		Filter filter = new Filter(request);
+			    
 		try {
-			logger.info("searching for "+query);
-			resultSet = searchService.search(query);
+			logger.info("searching for "+ filter.getQuery());
+			resultSet = searchService.search(filter.getQuery());
 			logger.debug("Found #results = "+resultSet.size());
 			
-			Iterator iter = resultSet.iterator();
-			while (iter.hasNext()){ //Is there a better Lucene way of doing this?  Getting unique values from the index?
-				LuceneSearchResult result = (LuceneSearchResult) iter.next();
-				
-				if (result.getOrganism()!=null && !organisms.contains(result.getOrganism())) //Add unique entries to the list
-					organisms.add(result.getOrganism());
-
-				
-				//Get the list of technologies..
-				Iterator <Assay> assIter = result.getAssays().iterator();
-				while (assIter.hasNext()){
-					Assay assay = (Assay) assIter.next();
-					if (!technology.contains(assay.getTechnology()))
-						technology.add(assay.getTechnology()); 
-				}
-				
-				
-			}
+			//Load filter with unique data items
+			filter.loadFilter(resultSet);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	ModelAndView mav = new ModelAndView("searchResult");
+
+		ModelAndView mav = new ModelAndView("searchResult");
     	mav.addObject("searchResults", resultSet);
-    	mav.addObject("userQuery", query);
-    	if (!query.isEmpty())
-    		mav.addObject("userQueryClean", query.replaceAll("\\*", "")); //TODO, % as well
-    	if (organisms.size()>1)
-    		mav.addObject("organisms", organisms);
-    	if (technology.size()>1)
-    		mav.addObject("technology", technology);
-    	
+    	mav.addObject("userQuery", filter.getQuery());
+    	if (!filter.getQuery().isEmpty())
+    		mav.addObject("userQueryClean", filter.getQuery().replaceAll("\\*", "")); //TODO, % as well
+
+    	mav.addObject("filters", filter);
     	
     	return mav;
 	}
-	
+
 
 }
 
