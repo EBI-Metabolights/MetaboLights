@@ -3,23 +3,26 @@
 
 <script type="text/javascript" src="javascript/jquery-1.6.1.min.js"></script>
 <br />
-
-		<div style='width: 200px; border: 3px solid #D5AE60;'>
-			<b><spring:message code="label.organism" /> </b>
-			<ul id="organisms">
-				<c:forEach var="species" items="${organisms}">
-					<i><input type="checkbox" name="organisms" value="${species}"> ${species}</i>
-					<br />
-				</c:forEach>
-			</ul>
-		</div>
-
-		<div style='width: 200px; border: 3px solid #D5AE60;'>
-			<b><spring:message code="label.technology" /> </b>
-			<ul id="technology">
-				<c:forEach var="techs" items="${technology}">
-					<i><input type="checkbox" name="technology" value="${techs}"> ${techs}</i>
-					<br />
-				</c:forEach>
-			</ul>
-		</div>
+		
+		<form name="searchFilter" action="search" method="post" accept-charset="utf-8">				
+		<c:forEach var="group" items="${filters}">
+			<div style='width: 200px; border: 3px solid #D5AE60;'>
+				<b>${group.key}</b>
+				<ul class="filteritem" id="${group.key}">
+					<c:forEach var="filter" items="${group.value}">
+						<i><input	type="checkbox"
+								 	name="${filter.value.name}" 
+								  	value="${filter.value.value}"
+								  	<c:if test='${filter.value.isChecked}'>
+    								CHECKED
+									</c:if>
+								  	onclick="this.form.submit();">${filter.value.text}
+						</i>
+						<br/>
+					</c:forEach>
+					
+				</ul>
+			</div>
+		</c:forEach>
+		</form>
+		
