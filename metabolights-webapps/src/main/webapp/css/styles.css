@@ -11,6 +11,10 @@ html,body {
 	font-weight: normal;
 }
 
+a {
+    font-size: 12px;
+}
+	
 /* Main structure styles (used to layout the header/footer) */
 .wrapper {
 	background: #ffffff url(../img/searchBox.png) repeat-x left top;
@@ -18,8 +22,7 @@ html,body {
 	margin: -11px auto -4em;
 	position: relative;width: 1024px;
     font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
-    font-size: 11px;
-    
+    font-size: 12px;
 }
 
 #footer {
@@ -188,7 +191,6 @@ html,body {
 
 #resultList li
 {
-	line-height: 0.8em;
 	text-indent: 5px;
 	list-style-position: outside;
 	list-style-image: url(../img/brownBullet.jpg);list-style-type: square;
@@ -196,10 +198,39 @@ html,body {
 	margin: 0px;
 }
 
+#resultListText li
+{
+    text-indent: 0px;
+    list-style-position: outside;
+    list-style-image: url(../img/brownBullet.jpg);list-style-type: square;
+    padding: 2px;
+    margin: 0px;
+}
+
+
 /* Search Highlights */
-.highlight { background-color: yellow }
+.highlight { 
+	background-color: yellow }
+
+.title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.entryBox {
+    border: 1px solid #006666;
+    padding:20px;
+    float: left;
+    margin-top: 5px;
+    width: 900px;
+    
+}
+
+
 
 
 /* Class for Filter items */
 .filteritem {padding-left:5px;}
+
+
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/

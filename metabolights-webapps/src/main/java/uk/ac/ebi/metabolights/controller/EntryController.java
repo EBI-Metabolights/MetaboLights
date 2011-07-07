@@ -1,25 +1,23 @@
 package uk.ac.ebi.metabolights.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
+import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
-import uk.ac.ebi.metabolights.service.SearchService;
+import uk.ac.ebi.bioinvindex.model.AssayResult;
+import uk.ac.ebi.bioinvindex.model.Study;
+import uk.ac.ebi.metabolights.service.StudyService;
 
 /**
- * Forwards the request for an entry to the BII inv website
- * http://stackoverflow.com/questions/1536863/spring-mvc-get-the-part-url-of-the-current-request-relative-to-the-controller
- * 
- * @author markr
+ * Controller for entry (=study) details.
  * 
  */
 @Controller
@@ -27,27 +25,31 @@ public class EntryController extends AbstractController {
 
 	private static Logger logger = Logger.getLogger(EntryController.class);
 
-	private List<LuceneSearchResult> luceneDocs = new ArrayList<LuceneSearchResult>();
-	
 	@Autowired
-	private SearchService searchService;
+	private StudyService studyService;
 
-	//TODO, change to /entry/{metabolightsId}, remove '='
+	
 	@RequestMapping(value = "/entry={metabolightsId}")
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, Map<String, Object> map) {
 		logger.info("requested entry " + mtblId);
-
-		try {
-			logger.info("Retrieving lucene entry for Study " + mtblId);
-			luceneDocs = searchService.search(mtblId); // TODO, should be populated and unique				
-		} catch (Exception e) {
-			e.printStackTrace();
+		Study study = studyService.getBiiStudy(mtblId);
+		
+		Collection<String> organismNames = new TreeSet<String>();
+		for (AssayResult assRes : study.getAssayResults()) {
+			for (PropertyValue<?> pv : assRes.getCascadedPropertyValues()) {
+				if (pv.getType().getValue().equals("organism")) {
+					organismNames.add(pv.getType().getValue()+":"+pv.getValue());
+					logger.debug("adding "+pv.getValue());
+				}
+			}
 		}
+		
+		ModelAndView mav = new ModelAndView("entry"); ;
+		mav.addObject("study", study);
+		mav.addObject("organismNames", organismNames);
 
-		String biiUrl = "/entry=" + mtblId;
-		ModelAndView mav = new ModelAndView("entry", "biiUrl", biiUrl);
-		mav.addObject("document", luceneDocs.get(0));
 		return mav;
 	}
+
 
 }

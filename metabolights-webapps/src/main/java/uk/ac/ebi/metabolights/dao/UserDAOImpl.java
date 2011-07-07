@@ -1,6 +1,5 @@
 package uk.ac.ebi.metabolights.dao;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -10,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 /**
