@@ -230,26 +230,35 @@ specview.model.NeighborList.prototype.getObjects = function(type,x1,x2,opt_y1,op
 	var c=0;
 	var cells =  type=="spectrum" ? this.cells_samy_spectrum_2 :
 				  	(type=="molecule" ? this.cells_samy_molecule_2 : null);
-//	alert(x1+"; "+x2+"; "+opt_y1+"; "+opt_y2)
 	for(key in cells){
 		c++;
-//		var truc=key.substr(1).split(",");
 		var coord = cells[key][0];
-//		if(!opt_y1 || !opt_y2){
 			if(coord.x < x2 && coord.x > x1){
-//				alert()
 				arrayOfObjects.push(cells[key][1]);
-//			}	
-//		}else{
-//			var y = parseInt(specview.util.Utilities.getStringBeforeCharacter(truc[1],")"));
-//			if(truc[0] < x2 && truc[0] > x1 && y < opt_y1 && y > opt_y2){
-//				alert(truc)
-//				arrayOfObjects.push(this.cells_samy[key]);
-//			}
 		}
 	}
    	return arrayOfObjects;
-}
+};
+
+
+/**
+ * If the user manually specify spectrum value (in file unit, e.g ppm) then this method is invoked
+ * @param x1
+ * @param x2
+ */
+specview.model.NeighborList.prototype.getObjectsFromXvalue = function(type,x1,x2){
+	var arrayOfObjects = new Array();
+	var c=0;
+	var cells =  type=="spectrum" ? this.cells_samy_spectrum_2 :
+				  	(type=="molecule" ? this.cells_samy_molecule_2 : null);
+	for(key in cells){
+		var object = cells[key][1];
+		if(object.xValue < x2 && object.xValue > x1){
+			arrayOfObjects.push(cells[key][1]);
+		}
+	}
+	return arrayOfObjects;
+};
 
 
 /**

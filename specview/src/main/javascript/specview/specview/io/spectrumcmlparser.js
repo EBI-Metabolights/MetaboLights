@@ -160,11 +160,12 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 					
 					try{
 	//					specview.io.SpectrumCMLParser.logger.info("dans le try : "+moleculeNode.attributes["id"].value)
-						moleculeName=moleculeNode.attributes["id"].value;	
+						moleculeName=moleculeNode.attributes["id"].value;
 					}catch(err){
 						moleculeName=moleculeNode.childNodes[1].attributes["id"].value;	
 	//					specview.io.SpectrumCMLParser.logger.info("dans le catch : "+moleculeNode.attributes["id"].value)
 					}
+//					alert(moleculeName)
 				}else if(NMR){
 					moleculeName=THEMOLECULENAME;
 				}
@@ -427,34 +428,49 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	var spectrum = XMLdoc.getElementsByTagName("peakList");
 
 	nmrData.dimension = spectrum.length
-//	alert(spectrum.length)
-//	alert(nmrData.molecule)
+	/**
+	 *<spectrum> balise contains all the information about the spectrum :
+	 * -- The name of the molecule to which the spectrum is assigned
+	 * -- The list of the peaks that will build the spectrum 
+	 */
 	for(var spec=0; spec<spectrum.length; spec+=1){
-//alert(specspec[spec].attributes["id"].value)
 		var peaks=spectrum[spec].childNodes;//Peaks are the same for MS and NMR
 		var lenPeak=peaks.length;
 		
-//		alert("peakk: "+lenPeak)
+		/**
+		 * <spectrumid="16alpha-hydroxyestrone" moleculeRef="PubChem:-1" type="MS2">
+		 * We shall get the name of the molecule : "id" of the balise spectrum. This is the reference of the spectrum 
+		 */
+		var TMTWTSIA = null;
+		var dimensionDegreeOfTheSpectrum = null;
+		try{
+			TMTWTSIA = nmrData.ArrayOfSecondaryMolecules[specspec[spec].attributes["id"].value];
+			nmrData.ArrayOfPrimaryMolecules[TMTWTSIA.name] = TMTWTSIA;
+		}catch(err){
+			TMTWTSIA = nmrData.molecule;
+		}
+		try{
+			dimensionDegreeOfTheSpectrum = specspec[spec].attributes["type"].value;
+		}catch(err){
+			dimensionDegreeOfTheSpectrum = "not available";
+		}
+		/**
+		 * Build each peak
+		 */
 		for(var k=0;k<lenPeak;k++){
-			
 //			if(peaks[k] instanceof Element){
 				var peak=peaks[k];
-//				alert(peak)
 				if(peak!=null && !(peak instanceof Text)){
 					var moleculeRef=null;
 					
 					var isThereAmoleculeAssignedToThePeak=(peak.childNodes[1]==undefined) ? false : true;
 					if(isThereAmoleculeAssignedToThePeak){
-//						alert("caca")
 						moleculeRef=peak.childNodes[1].attributes[0].value;			
-//						alert(moleculeRef)
 					}
 					specview.io.SpectrumCMLParser.logger.info(k)
 					for(var attributeIndice=0;attributeIndice<peak.attributes.length;attributeIndice++){
 						var attributeName=peak.attributes[attributeIndice].name;
 						var attributeValue=peak.attributes[attributeIndice].value;
-//						alert(attributeName+' : '+attributeValue)
-//						specview.io.SpectrumCMLParser.logger.info(attributeName);
 						switch(attributeName){
 						case "xValue":
 							xValue=parseFloat(attributeValue);
@@ -492,7 +508,6 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 					if(nmrData.experienceType=="NMR"){
 						for(at in atomRefs){
 							var atomRef=atomRefs[at];
-//							this.logger.info(atomRef);
 							for(s in ArrayOfAtoms){
 								var atom=ArrayOfAtoms[s];
 								var innerIdentifier=atom.innerIdentifier;
@@ -506,25 +521,13 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 					height = height ? height : 50 ; // Should be more precise on the height	
 					var peakToBuild=new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,moleculeRef,xUnits,yUnits,true,true);
 					var PTB = new specview.model.Peak(xValue,height,peakId,atomRefs,multiplicity,moleculeRef,xUnits,yUnits,true,false);
-				//	alert(peakToBuild)
-//					specview.io.SpectrumCMLParser.logger.info("SpectrumCMLParser09.js: "+peakToBuild);
 					molRefs=null;atomRefs=null;
 					nmrData.ArrayOfPeaks[peakId]=peakToBuild;
 					goog.array.insert(ArrayOfPeaks,peakToBuild);
 					goog.array.insert(ArrayOfPeaks2,PTB);
-					
 				}
 		}
-		var TMTWTSIA = null;
-			try{
-//				alert(specview.util.Utilities.getAssoArrayLength(nmrData.ArrayOfSecondaryMolecules))
-			//	alert(specspec[spec].attributes["id"].value)
-				TMTWTSIA = nmrData.ArrayOfSecondaryMolecules[specspec[spec].attributes["id"].value];
-//				alert(TMTWTSIA)
-				nmrData.ArrayOfPrimaryMolecules[TMTWTSIA.name] = TMTWTSIA;
-			}catch(err){
-				TMTWTSIA = nmrData.molecule;
-			}
+
 			nmrData.ArrayOfSpectrum[TMTWTSIA.name] = new specview.model.Spectrum(TMTWTSIA,null,true);
 			nmrData.ArrayOfSpectrum[TMTWTSIA.name].xUnit = xUnits;
 			nmrData.ArrayOfSpectrum[TMTWTSIA.name].yUnit = yUnits;
@@ -534,9 +537,11 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 			ArrayOfPeaks = new Array();
 			ArrayOfPeaks2 = new Array();
 			
-			
-			// Dangerous  : because we assume that the first spectrum of the file is the FIRST dimension. Hence, their is no flexibility
-			// on that side for the cml file. It should be done with the name reference
+			/**
+			 * Finally, since we loop over all the spectrum, we need a way to set the FIRST spectrum.
+			 * The way to do it is to check the "type" attribute of the spectrum : if it is set to MS2 (shall it not be MS1 ???)
+			 * then it means that it is the first fragmentation pattern of the ion molecule M+1.
+			 */
 			if(spec==0){
 				nmrData.spectrum = nmrData.ArrayOfSpectrum[TMTWTSIA.name];
 			}

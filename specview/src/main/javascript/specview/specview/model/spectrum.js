@@ -61,6 +61,8 @@ specview.model.Spectrum=function(optMolecule, optPeaklist,optMain)
 	
 	this.spectrumId;
 	
+	this.dimensionSpectrum;
+	
 
 	};
 goog.exportSymbol("specview.model.Spectrum", specview.model.Spectrum);

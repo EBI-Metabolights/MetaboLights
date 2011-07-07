@@ -133,6 +133,10 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
             peakPath.moveTo(peak.xPixel, peak.yPixel); 
             peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
     	}
+//    	alert(peak.arrayOfSecondaryMolecules)
+//    	for(k in metaSpecObject.ArrayOfPrimaryMolecules){
+ //  		alert(k)
+  //  	}
     	metaSpecObject.ArrayOfPrimaryMolecules[peak.arrayOfSecondaryMolecules] != undefined ? peak.parentPeak = true : peak.parentPeak = false;
     	
     	peak.parentPeak ? this.graphics.drawPath(peakPath, peakStroke2, peakFill) : this.graphics.drawPath(peakPath, peakStroke, peakFill);

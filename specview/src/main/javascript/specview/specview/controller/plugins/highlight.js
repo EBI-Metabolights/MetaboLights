@@ -171,6 +171,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						var intersect = specview.util.Utilities.intersect(arrayOfAtomIds,
 								this.getSerieOfAtoms(currentMetaSpecObject.ArrayOfSecondaryMolecules[currentMetaSpecObject.mainMoleculeName]))
 						if(intersect){
+//							alert("caca")
 							var arrayOfBonds = newMoleculeToDisplay.bonds;
 							for(var k=0;k<arrayOfAtomIds.length;k++){
 								var atomObject=currentMetaSpecObject.ArrayOfAtoms[arrayOfAtomIds[k]];
@@ -178,6 +179,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 							}
 							e.currentTarget.highlightGroup = this.highlightSubMolecule(arrayOfBonds, arrayOfAtoms)
 							if(currentMetaSpecObject.dimension > 1 && target.parentPeak){
+								//alert("caca")
 								//Set the actual molecule and spectrum as being the parent
 								currentMetaSpecObject.parentMolecule = currentMetaSpecObject.molecule;
 								currentMetaSpecObject.parentSpectrum = currentMetaSpecObject.spectrum;
@@ -325,24 +327,13 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	}else if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
-			var type = "spectrum"
+			var type = "spectrum";
 			var listOfPeaks = this.getObjects(type,
 					specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 					specview.controller.plugins.Highlight.zoomObject.rectangle.left+
 					specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-			this.editorObject.specObject.spectrum.peakList = listOfPeaks;
-			this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
-			this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
-			this.editorObject.setModels([this.editorObject.specObject]);
-			this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
-			this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-					 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-			this.setDraggingTool(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-					 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-			
-			specview.controller.plugins.Highlight.zoomObject = null;
-			this.reDrawGrid();
-			this.reDrawAxis();	
+			this.zoomOnSpectrum(listOfPeaks);
+	
 		}
 	}
 	/*
@@ -357,6 +348,51 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 };
 
 
+
+
+specview.controller.plugins.Highlight.prototype.cacacaca = function(){
+	return "cacacaca";
+}
+
+/**
+ * zooming
+ * @param type
+ */
+specview.controller.plugins.Highlight.prototype.zoomOnSpectrum = function(listOfPeaks){
+	var type="spectrum"
+	this.editorObject.specObject.spectrum.peakList = listOfPeaks;
+	this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
+	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
+	this.editorObject.setModels([this.editorObject.specObject]);
+	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
+	this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+	this.setDraggingTool(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+	
+	specview.controller.plugins.Highlight.zoomObject = null;
+	this.reDrawGrid();
+	this.reDrawAxis();
+};
+
+
+specview.controller.plugins.Highlight.prototype.zoomOnSpectrum2 = function(listOfPeaks){
+	this.editorObject = this.editorObject != undefined ? this.editorObject : document.editorObject;
+	var type="spectrum"
+	this.editorObject.specObject.spectrum.peakList = listOfPeaks;
+	this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
+	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
+	this.editorObject.setModels([this.editorObject.specObject]);
+//	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
+//	this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+//			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+//	this.setDraggingTool(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+//			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+	
+//	specview.controller.plugins.Highlight.zoomObject = null;
+	this.reDrawGrid();
+	this.reDrawAxis();
+};
 /**
  * method called when the user click the option unselect everything. HEnce we must unselect every atom
  * @param editorObject

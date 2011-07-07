@@ -570,6 +570,15 @@ count = 0;
 			 break;
 	 }
  }  
+ 
+ function zoomOnSpectrum(){
+	 var x1 = document.getElementById("zoomMinValue").value;
+	 var x2 = document.getElementById("zoomMaxValue").value;
+	 var arrayOfPeaks = document.editorObject.neighborList.getObjectsFromXvalue("spectrum",x1,x2);
+	 var highlightObject = new specview.controller.plugins.Highlight();
+	 editor = document.editorObject;
+	 highlightObject.zoomOnSpectrum2(arrayOfPeaks,editor);
+ }
 </script>
 
 
@@ -605,6 +614,29 @@ count = 0;
    -Peaks<br>
    </div>
    
+   <div
+		style="top: 233px;
+		left: 920px;
+		position: absolute;
+		z-index: 1;
+		visibility: show;"   
+   >
+      +<b>Zoom between the value:</b><br>   
+   </div>
+   <div
+   		style="top: 253px;
+		left: 920px;
+		position: absolute;
+		z-index: 1;
+		visibility: show;"
+   >
+   
+    <input  id="zoomMinValue" type="text"> and
+    <input  id="zoomMaxValue" type="text"><br>
+    
+   <input class="button" type="button" id="zoom" value="zoom" onclick="javascript:zoomOnSpectrum()"><br>   
+   
+   </div>
    <div class="smallButton" id="sliderAtomOpacity"><script>document.write("<->")</script></div>	
    <div class="smallButton" id="sliderBondOpacity"><script>document.write("<->")</script></div>
    <div class="smallButton" id="sliderPeakopacity"><script>document.write("<->")</script></div>
