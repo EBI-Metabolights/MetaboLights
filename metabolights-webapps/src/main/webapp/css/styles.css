@@ -1,3 +1,6 @@
+/* . is for a class: class=
+ * # is for an id
+ */
 
 * {
 	margin: 0px;
@@ -196,4 +199,7 @@ html,body {
 /* Search Highlights */
 .highlight { background-color: yellow }
 
+
+/* Class for Filter items */
+.filteritem {padding-left:5px;}
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/
