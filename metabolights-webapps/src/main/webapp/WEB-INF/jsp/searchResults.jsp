@@ -77,11 +77,10 @@
 		</div>
 	</div>
 	<br>
-	<br>
 	<div id="pagingControlsBot"></div>
 	<br>
+	<c:if test="${!empty userQueryClean}"> <a href="javascript:void($('#highlight-plugin').removeHighlight().highlight('${userQueryClean}'));">Highlight Search Term</a></c:if>
 	<br>
-	<a href="javascript:void($('#highlight-plugin').removeHighlight().highlight('${userQueryClean}'));">Highlight Search Term</a>
 
 </c:if>
 
