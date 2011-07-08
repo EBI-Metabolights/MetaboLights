@@ -39,6 +39,7 @@ public class SearchController extends AbstractController{
 	private SearchService searchService;
 	
 
+
 	/**
 	 * 
 	 * @param request
@@ -52,10 +53,12 @@ public class SearchController extends AbstractController{
 	   
 		//Instantiate a filter class
 		Filter filter = new Filter(request);
+		
+		String luceneQuery = filter.getLuceneQuery();
 			    
 		try {
-			logger.info("searching for "+ filter.getQuery());
-			resultSet = searchService.search(filter.getQuery());
+			logger.info("searching for "+ luceneQuery);
+			resultSet = searchService.search(luceneQuery);
 			logger.debug("Found #results = "+resultSet.size());
 			
 			//Load filter with unique data items
@@ -67,12 +70,11 @@ public class SearchController extends AbstractController{
 
 		ModelAndView mav = new ModelAndView("searchResult");
     	mav.addObject("searchResults", resultSet);
-    	mav.addObject("userQuery", filter.getQuery());
-    	if (!filter.getQuery().isEmpty())
-    		mav.addObject("userQueryClean", filter.getQuery().replaceAll("\\*", "").replaceAll("\\%", ""));
+       	mav.addObject("filters", filter);
+       	mav.addObject("freeTextQuery", filter.getFreeTextQuery());
+       	if (!filter.getFreeTextQuery().isEmpty())
+    		mav.addObject("userQueryClean", filter.getFreeTextQuery().replaceAll("\\*", "").replaceAll("\\%", ""));
 
-    	mav.addObject("filters", filter);
-    	
     	return mav;
 	}
 
