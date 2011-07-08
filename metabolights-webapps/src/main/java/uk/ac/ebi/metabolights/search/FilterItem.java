@@ -4,7 +4,7 @@ public class FilterItem {
 	private String text;
 	private String name;
 	private String value;
-	private String valueForLucene;
+	private int number = 0;
 	private boolean isChecked;
 	public FilterItem(String text, String name){
 		this.text = text;
@@ -26,7 +26,10 @@ public class FilterItem {
 	public String getValue(){
 		return this.value;
 	}
-	public String getValueForLucene(){
-		return valueForLucene;
+	public int getNumber(){
+		return number;
+	}
+	public void oneMore(){
+		number++;
 	}
 }

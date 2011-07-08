@@ -11,6 +11,9 @@ public class FilterSet extends HashMap<String, FilterItem>{
 		this.name = name;
 		this.field = field;
 	}
+	public FilterSet(String name){
+		this.name = name;
+	}
 	public String getName(){
 		return name;
 	}

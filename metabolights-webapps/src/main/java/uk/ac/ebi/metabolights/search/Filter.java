@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.search;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,33 +21,30 @@ public class Filter extends HashMap<String,FilterSet>{
     //List with filter items, each one will be a group of checkboxes
     private FilterSet organisms = new FilterSet("organisms", StudyBrowseField.ORGANISM); 
     private FilterSet technology = new FilterSet("technology",StudyBrowseField.ASSAY_INFO);
-    
-    private String query;
+    private String freeTextQuery = "";
+        
     
 	public Filter(HttpServletRequest request){
 	
 		//Mount the structure
 		mountFilterStructure();
-		
-		//Get the user free text search
-	    query = request.getParameter("query")!=null? request.getParameter("query"): "";   
 	
 	    //Fill the filter hash with the parameters
 	    parseRequest(request);
 	    
 	}
 
+	
+	public String getFreeTextQuery(){
+		return freeTextQuery;
+	}
 	private void mountFilterStructure(){
 		
 		//Add all the list of filters to the hash...
 		this.put(organisms.getName(), organisms);
 		this.put(technology.getName(), technology);
-		
 	}
 
-	
-	
-	public String getQuery(){ return query;}
 	
 	/**request can come with 2 parameters:
 	 * query: freetext query
@@ -62,6 +60,14 @@ public class Filter extends HashMap<String,FilterSet>{
 		while (paramenum.hasMoreElements()) { 
 			// Get the name of the request parameter 
 			String name = (String)paramenum.nextElement(); 
+			
+			//If the parameter is the freetext one
+			if (name.equals("freeTextQuery")) {
+				//There should be only one...
+				freeTextQuery = request.getParameter(name);
+				continue;
+			}
+						
 			
 			//Get the Corresponding filterSet
 			FilterSet fs = this.get(name);
@@ -88,6 +94,61 @@ public class Filter extends HashMap<String,FilterSet>{
 			}
 		}	
 	}
+	/**
+	 * Composes the query to be run into lucene search engine using the loaded parameters.
+	 * @return
+	 */
+	public String getLuceneQuery(){
+		
+		String luceneQuery = freeTextQuery.isEmpty()? "*" : "*" + value2Lucene(freeTextQuery) + "*";
+		
+				
+		//Go through the Filters set
+		for (Entry<String,FilterSet> entry: this.entrySet()){
+			
+			//Get the filter set organisms, technologies,... 
+			FilterSet fs = entry.getValue();
+			
+			//Get the lucene index field name
+			String field = fs.getField().getName();
+			
+			String luceneQueryBlock="";
+			
+			//For each filter item we shall make an OR filter
+			for (Entry<String,FilterItem> entry1: fs.entrySet()){
+				
+				//Get the filter item.
+				FilterItem fi = entry1.getValue();
+			
+				//Join terms with an OR
+				luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":*" + value2Lucene(fi.getValue()) + "*", "OR") ;
+				
+			}
+			
+			//Join Blocks with an and
+			luceneQuery = joinFilterTerms(luceneQuery, luceneQueryBlock, "AND");
+			
+		}
+						
+		return luceneQuery;
+		
+	}
+	private String joinFilterTerms (String term1, String term2, String op){
+				
+		if(term1.isEmpty()) {return term2;}
+		if(term2.isEmpty()) {return term1;}
+		
+		return "(" + term1 + " " + op + " " + term2 + ")";
+		
+	}
+	
+	private String value2Lucene(String value){
+		return value.replace(" ", "\\ ").replace("(", "\\(").replace(")","\\)");
+	}
+	/**
+	 * Load all the possible unique filter items to be offer them in the page.
+	 * @param resultSet
+	 */
 	public void loadFilter(List<LuceneSearchResult> resultSet){
 		
 		//Get the iterator
@@ -99,19 +160,30 @@ public class Filter extends HashMap<String,FilterSet>{
 			//Get the result (one lucene index document)
 			LuceneSearchResult result = (LuceneSearchResult) iter.next();
 			
-			//If we haven't stored the item yet...
-			if (result.getOrganism()!=null && !organisms.containsKey(result.getOrganism())) //Add unique entries to the list
+			//Add unique entries to the list
 			
-				organisms.put( result.getOrganism(), new FilterItem(result.getOrganism(), organisms.getName()));
-
-			
+			//If there is any organism
+			if (result.getOrganism()!=null){
+				//If we haven't stored the item yet...
+				if(!organisms.containsKey(result.getOrganism())){
+					organisms.put( result.getOrganism(), new FilterItem(result.getOrganism(), organisms.getName()));
+				}
+		
+				//Increase the count of organisms
+				organisms.get(result.getOrganism()).oneMore();
+			}
 			
 			//Get the list of technologies..
 			Iterator <Assay> assIter = result.getAssays().iterator();
 			while (assIter.hasNext()){
 				Assay assay = (Assay) assIter.next();
-				if (!technology.containsKey(assay.getTechnology()))
-					technology.put(assay.getTechnology(), new FilterItem ( assay.getTechnology() , technology.getName())); 
+				if (!technology.containsKey(assay.getTechnology())){
+					technology.put(assay.getTechnology(), new FilterItem ( assay.getTechnology() , technology.getName()));
+				}
+
+				//Increase the count of technologies
+				technology.get(assay.getTechnology()).oneMore();
+				
 			}
 		}
 	}
