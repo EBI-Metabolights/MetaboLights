@@ -7,8 +7,8 @@
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 
 <div id="text_header">
-	<spring:message code="msg.searchResults" />
-	<c:if test="${!empty userQuery}">"${userQuery}"</c:if>
+	${totalHits} <spring:message code="msg.searchResults" />
+	<c:if test="${!empty userQuery}"> for "${userQuery}"</c:if>
 </div>
 
 <br />
