@@ -1,12 +1,25 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
        
        <div id="top_bar">
 		  <a href="index"><h1>foobar</h1></a>
           <div id="search-box">
 		   <form name="searchForm" action="search" method="post" accept-charset="utf-8">
-		      <input type="text" name="query"  id="query" value="${userQuery}"/>
+		      <input type="text" name="freeTextQuery"  id="query" value="${freeTextQuery}"/>
+	
+				<!-- Add FiterItems cheched -->
+				<c:forEach var="group" items="${filters}">
+					<c:forEach var="filter" items="${group.value}">
+						<c:if test='${filter.value.isChecked}'>
+    						<input 	type="hidden"
+								name="${filter.value.name}" 
+								value="${filter.value.value}"/>
+						</c:if>
+							
+					</c:forEach>
+				</c:forEach>
 		      <button type="submit" class="search-box-button"></button>
 		   </form>
          </div>
@@ -28,8 +41,6 @@
               </sec:authorize> 
 		  </ul>  
        </div>
- 
-
 <script type="text/javascript" language="javascript">
    document.searchForm.query.focus();
 </script>
