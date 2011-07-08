@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
@@ -25,20 +24,22 @@ public class LuceneSearchResult {
 	private List<Assay> assays;
 	private HashMap<String,Set<String>> factors;
 	private HashMap<String,Set<String>> properties;
+	private List<Publication> publications;
 	private List<String> technologies;
 	private List<String> platforms;
-
 	
 	public LuceneSearchResult(Document doc, float score) {
 		this.doc=doc;
 		this.score=score;
 		//Call version 13 this.assays=parseAssays();
-		this.assays = parseAssays13();
+		this.assays = parseAssays();
 		
 		//Field is called factors in the 1.3 version (not in the enum..yet)
 		this.factors=parseKeyValue("factors");
 		this.properties=parseKeyValue("characteristics");
 		//No longer exist in 1.3 index version:this.technologies=getValues("assay_technology_name");
+		
+		this.publications = parsePublications();
 		
 		this.platforms=getValues("assay_platform");
 	}
@@ -88,14 +89,6 @@ public class LuceneSearchResult {
 		return assays;
 	}
 
-	public String getPubAuthors() {
-		return doc.get("publication_authorList");
-	}
-
-	public String getPubId() {
-		return doc.get("publication_id");
-	}
-
 	public String getUserName() {
 		return doc.get("user_userName");
 	}
@@ -112,6 +105,19 @@ public class LuceneSearchResult {
 		return doc.get("design_value");
 	}	
 	
+	public void setScore(float score) {
+		this.score = score;
+	}
+	
+	public float getScore() {
+		return score;
+	}	
+	
+	public List<Publication> getPublications() {
+		return publications;
+	}
+
+
 	/**
 	 * Holds assay information related to a study.
 	 * @author markr
@@ -150,6 +156,96 @@ public class LuceneSearchResult {
 			this.count=count;
 		}
 	}
+	
+	/*
+	 * Publication information for a study, for Lucene parsing
+	 * @author kenneth
+	 */
+	public class Publication {
+		
+		private String title;
+		private String authors;
+		private String pubmedId;
+		private String doi;
+		
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public String getAuthors() {
+			return authors;
+		}
+
+		public void setAuthors(String authors) {
+			this.authors = authors;
+		}
+
+		public String getPubmedId() {
+			return pubmedId;
+		}
+
+		public void setPubmedId(String pubmedId) {
+			this.pubmedId = pubmedId;
+		}
+
+		public String getDoi() {
+			return doi;
+		}
+
+		public void setDoi(String doi) {
+			this.doi = doi;
+		}
+
+		public Publication() {
+		}
+		
+		public Publication(String title, String authors, String pubmedId, String doi) {
+			this.title = title;
+			this.authors = authors;
+			this.pubmedId = pubmedId;
+			this.doi = doi;
+		}
+	}
+	
+	private List<Publication> parsePublications() {
+
+		List<Publication> pubList = new ArrayList<Publication>();
+		String pubTitle = "", pubAuthors = "", pubmedId ="", doi="";
+		int idx = 0;
+
+		String publicationString = doc.get("publication");
+		if (publicationString==null)
+			return pubList;
+		
+		publicationString = publicationString.replaceAll("title:", "").replaceAll("authors:", "").replaceAll("pubmed:", "").replaceAll("doi:doi:", "doi:");
+		// Lucene field publication contains "title:zxc:as:vxzvc|authors:lots, of, authors|pubmed:123123|doi:doi:123.1232/asdf"
+
+		StringTokenizer tokzr = new StringTokenizer(publicationString, "|");
+
+		while (tokzr.hasMoreElements()) {
+			String token = (String) tokzr.nextElement();
+			switch (idx) {
+				case 0: pubTitle = token; break; 	
+				case 1: pubAuthors = token; break; 
+				case 2: pubmedId = token; break; 	
+				case 3:	doi = token; break; 		
+			}
+			idx++;
+		}
+		
+		Publication publication = new Publication(pubTitle, pubAuthors, pubmedId, doi);
+		pubList.add(publication);
+
+		return pubList;
+
+	}
+	
+	
+	
 	/**
 	 * Why is a Set necessary? Because there are duplicates in the result. Like the same factor over and over.. 
 	 * @param fieldName
@@ -167,39 +263,11 @@ public class LuceneSearchResult {
 	}
 
 	/**
-	 * Parses an assay info string (pipe separated) into a list of Assays.
-	 * @return
-	 */
-	private List<Assay> parseAssays() {
-		List<Assay> assays = new ArrayList<Assay>();
-		String[] assayStrings = doc.getValues(StudyBrowseField.ASSAY_INFO.getName());
-		for (String assayString :assayStrings) {
-			StringTokenizer tokzr = new StringTokenizer(assayString, "|");
-			int idx=0;
-			String measurement="";
-			String technology="";
-			String count="";
-
-			while (tokzr.hasMoreElements()) {
-				String token = (String) tokzr.nextElement();
-				switch (idx) {
-				case 0 : measurement=token; break;
-				case 1 : technology=token; break;
-				case 2 : count=token; break;
-				}
-				idx++;
-			}
-			Assay assay = new Assay(measurement,technology,count);
-			assays.add(assay);
-		}
-		return assays;
-	}
-	/**
-	 * Parse ASSAY field based in the 1.3 version of the lucene index:
+	 * Parse ASSAY field based in the 1.3 version of the lucene index implementation in BII:
 	 * Sample: assay(transcription profiling|DNA microarray|14):?xref(E-MAXD-4->AE:RAW):?xref(E-MAXD-4->AE:WEB)
 	 * @return
 	 */
-	private List<Assay> parseAssays13() {
+	private List<Assay> parseAssays() {
 		List<Assay> assays = new ArrayList<Assay>();
 		String[] assayStrings = doc.getValues(StudyBrowseField.ASSAY_INFO.getName());
 		for (String assayString :assayStrings) {
@@ -290,10 +358,5 @@ public class LuceneSearchResult {
 		}
 		return sb.toString();
 	}
-	public void setScore(float score) {
-		this.score = score;
-	}
-	public float getScore() {
-		return score;
-	}
+
 }

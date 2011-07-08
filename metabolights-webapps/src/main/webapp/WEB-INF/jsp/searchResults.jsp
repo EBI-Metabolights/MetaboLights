@@ -34,16 +34,14 @@
 							<spring:message code="label.expFact" />
 							<ul id="resultList">
 								<c:forEach var="factor" items="${searchResult.factors}">
-									<li><b>${factor.key}:</b>${factor.value}</li>
+									<li><b>${factor.key}:</b> ${factor.value}</li>
 								</c:forEach>
 							</ul>
 						</div>
 
 						<div style='width: 200px;' class='iscell'>
-							<spring:message code="label.expId" />
-							: ${searchResult.accStudy}<br>
-							<spring:message code="label.subm" />
-							${searchResult.userName}
+							<spring:message code="label.expId" />: ${searchResult.accStudy}<br>
+							<spring:message code="label.subm" /> TODO ${searchResult.userName}<br>						
 						</div>
 						
 						
@@ -58,22 +56,17 @@
 								</c:forEach>
 							</ul>
 						</div>
+						
 						<div style='width: 400px;' class='iscell'>
-							<spring:message code="label.pubBy" /> TODO ${searchResult.pubAuthors},<spring:message code="label.pubIn" />
-								<a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${searchResult.pubId}&dataSource=MED">Citexplore</a>
-						</div>
-
-						<div style='clear: both;'></div>
-						<!-- new row -->
-
-						<div style='width: 800px;' class='iscell'>
-							<spring:message code="label.properties" />
-							<ul id="resultList">
-								<c:forEach var="property" items="${searchResult.properties}">
-									<li>${property.key}: ${property.value}</li>
-								</c:forEach>
-							</ul>
-						</div>
+							<c:if test="${not empty searchResult.publications}">
+					            <spring:message code="label.pubIn"/>
+					            <c:forEach var="pub" items="${searchResult.publications}">
+						               <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pubmedId}&dataSource=MED">${pub.title}</a> 
+						            <BR>
+					            </c:forEach>
+					            <br>
+					   		</c:if>
+					   	</div>	
 
 						<div style='clear: both;'></div>
 						<!-- new row -->

@@ -69,7 +69,7 @@ public class SearchController extends AbstractController{
     	mav.addObject("searchResults", resultSet);
     	mav.addObject("userQuery", filter.getQuery());
     	if (!filter.getQuery().isEmpty())
-    		mav.addObject("userQueryClean", filter.getQuery().replaceAll("\\*", "")); //TODO, % as well
+    		mav.addObject("userQueryClean", filter.getQuery().replaceAll("\\*", "").replaceAll("\\%", ""));
 
     	mav.addObject("filters", filter);
     	
