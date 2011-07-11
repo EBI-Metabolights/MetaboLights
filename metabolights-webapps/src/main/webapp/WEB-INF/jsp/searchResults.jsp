@@ -20,7 +20,7 @@
 		<div id="content">
 			<c:forEach var="searchResult" items="${searchResults}">
 				<div class="z">
-					<div style='width: 800px; border: 1px solid #D5AE60; margin-bottom: 10px;'>
+					<div style='width: 800px; border: 1px solid #D5AE60; margin-bottom: 10px;' class="resultItem">
 						
 						<!-- div style='width: 950px;' class='iscell'><b><a href="http://wwwdev.ebi.ac.uk/mtbl/entry=${searchResult.accStudy}">${searchResult.title}</a></b></div-->
 						<div style='width: 750px;' class='iscell'>

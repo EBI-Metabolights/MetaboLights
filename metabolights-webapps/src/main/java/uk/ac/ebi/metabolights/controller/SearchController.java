@@ -43,7 +43,7 @@ public class SearchController extends AbstractController{
 		//Search results
 		List<LuceneSearchResult> resultList = new ArrayList<LuceneSearchResult>();
 		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
-		Integer totalHits = 0;	//Number of documents found in the search
+		Integer totalHits = 0;
 	   
 		//Instantiate a filter class
 		Filter filter = new Filter(request);
@@ -54,7 +54,7 @@ public class SearchController extends AbstractController{
 			logger.info("searching for "+ luceneQuery);
 			
 			searchResultHash = searchService.search(luceneQuery); //Total hits, searchResults
-			totalHits = searchResultHash.entrySet().iterator().next().getKey(); //Number of hist reported by Lucene
+			totalHits = searchResultHash.entrySet().iterator().next().getKey(); //Number of documents found in the search, reported by Lucene
 			resultList = searchResultHash.entrySet().iterator().next().getValue(); //Search results
 	
 			logger.debug("Found #results = "+resultList.size());

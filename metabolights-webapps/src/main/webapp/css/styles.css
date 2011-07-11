@@ -127,7 +127,6 @@ a {
     width: 100%;
 }
 
-
 .messageBox {
 	border: 1px solid #006666;
 	padding:5px 5px 5px 5px;
@@ -226,11 +225,19 @@ a {
     
 }
 
-
-
+/* Rounded borders */
+.resultItem {
+	border: 1px solid #D5AE60;
+	border-radius:15px 15px 15px 15px;
+   	-moz-border-radius: 15px 15px 15px 15px;
+   	-webkit-border-radius:15px 15px 15px 15px;
+}
 
 /* Class for Filter items */
-.filteritem {padding-left:5px;}
+.filteritem {
+	font-size: 10px;
+	padding-left:5px;
+}
 
 
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/
