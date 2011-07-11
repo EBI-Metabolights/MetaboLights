@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
@@ -17,7 +18,7 @@ public interface SearchService {
 	 * @param queryText input query
 	 * @return list of results
 	 */
-	List<LuceneSearchResult> search(String queryText) throws Exception;
+	HashMap<Integer, List<LuceneSearchResult>> search(String queryText) throws Exception;
 	String getIndexDirectory();
 
 }

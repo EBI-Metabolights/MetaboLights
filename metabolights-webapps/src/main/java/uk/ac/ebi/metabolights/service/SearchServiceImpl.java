@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -28,12 +29,15 @@ public class SearchServiceImpl implements SearchService{
 	private IndexProviderService indexProvider; 
 	private int topN=5000;
 		
-	public List<LuceneSearchResult> search(String queryText) throws IOException, ParseException {
+	public HashMap<Integer, List<LuceneSearchResult>> search(String queryText) throws IOException, ParseException {
 		List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>(); 
+		Integer numDocs = 0;
+		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>();
 		
 		if (queryText==null || queryText.trim().equals("")) {
 			IndexReader indexReader = indexProvider.getReader();
 			int loops = indexReader.maxDoc()<topN?indexReader.maxDoc():topN;
+			numDocs = indexReader.numDocs(); //Total number of documents found
 			for (int i = 0; i < loops; i++) {
 				Document doc = indexReader.document(i);
 				if (doc==null)
@@ -49,6 +53,7 @@ public class SearchServiceImpl implements SearchService{
 			Query query=queryBuilder.buildQuery(queryText);
 			TopDocs results = indexSearcher.search(query,topN);
 			ScoreDoc[] hits = results.scoreDocs;
+			numDocs = results.totalHits;  //Total number of documents found
 
 			for (ScoreDoc hit : hits) {
 				Document doc = indexSearcher.doc(hit.doc);
@@ -57,7 +62,10 @@ public class SearchServiceImpl implements SearchService{
 				logger.debug(searchResult);
 			}
 		}
-		return resultSet;
+		
+		searchResultHash.put(numDocs, resultSet);
+		
+		return searchResultHash;
 	}
 
 	public String getIndexDirectory () {

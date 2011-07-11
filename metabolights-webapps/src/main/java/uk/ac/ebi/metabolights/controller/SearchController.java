@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,9 @@ public class SearchController extends AbstractController{
 	public ModelAndView luceneSearch (HttpServletRequest request) {
 
 		//Search results
-		List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>();
+		List<LuceneSearchResult> resultList = new ArrayList<LuceneSearchResult>();
+		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
+		Integer totalHits = 0;	//Number of documents found in the search
 	   
 		//Instantiate a filter class
 		Filter filter = new Filter(request);
@@ -49,24 +52,27 @@ public class SearchController extends AbstractController{
 			    
 		try {
 			logger.info("searching for "+ luceneQuery);
-			resultSet = searchService.search(luceneQuery);
-			logger.debug("Found #results = "+resultSet.size());
+			
+			searchResultHash = searchService.search(luceneQuery); //Total hits, searchResults
+			totalHits = searchResultHash.entrySet().iterator().next().getKey(); //Number of hist reported by Lucene
+			resultList = searchResultHash.entrySet().iterator().next().getValue(); //Search results
+	
+			logger.debug("Found #results = "+resultList.size());
 			
 			//Load filter with unique data items
-			filter.loadFilter(resultSet);
+			filter.loadFilter(resultList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		ModelAndView mav = new ModelAndView("searchResult");
-    	mav.addObject("searchResults", resultSet);
+    	mav.addObject("searchResults", resultList);
        	mav.addObject("filters", filter);
        	mav.addObject("freeTextQuery", filter.getFreeTextQuery());
+    	mav.addObject("totalHits", totalHits);
        	if (!filter.getFreeTextQuery().isEmpty())
     		mav.addObject("userQueryClean", filter.getFreeTextQuery().replaceAll("\\*", "").replaceAll("\\%", ""));
-
-    	mav.addObject("totalHits", resultSet.size());
     	
     	return mav;
 	}
