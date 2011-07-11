@@ -19,13 +19,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
-				<!-- configuration>
-					<webResources>
-						<resource>
-							<directory>src/main/webapps/metabolights</directory>
-						</resource>
-					</webResources>
-				</configuration-->
 			</plugin>
 		</plugins>
 	</build>
@@ -144,14 +137,8 @@
 		<dependency>
 			<groupId>uk.ac.ebi.metabolights</groupId>
 			<artifactId>metabolights-uploader</artifactId>
-			<version>0.0.5-SNAPSHOT</version>
+			<version>0.0.6-SNAPSHOT</version>
 			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.isatools.isatab</groupId>
-			<artifactId>ISAtools-import-deps-FORK</artifactId>
-			<version>1.2.1.7</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
