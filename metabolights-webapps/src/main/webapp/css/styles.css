@@ -227,6 +227,7 @@ a {
 
 /* Rounded borders */
 .resultItem {
+	padding-left:10px;
 	border: 1px solid #D5AE60;
 	border-radius:15px 15px 15px 15px;
    	-moz-border-radius: 15px 15px 15px 15px;
