@@ -336,7 +336,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				}
 				if(nmrData.experienceType=="MS"){
 //					alert(moleculeName)
-					specview.io.SpectrumCMLParser.logger.info(moleculeName);
+					//specview.io.SpectrumCMLParser.logger.info(moleculeName);
 					if(moleculeName==THEMOLECULENAME){
 						nmrData.molecule=new specview.model.Molecule(THEMOLECULENAME);
 					}
@@ -433,6 +433,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 	 * -- The name of the molecule to which the spectrum is assigned
 	 * -- The list of the peaks that will build the spectrum 
 	 */
+	var dimensionDegreeOfTheSpectrum = null;
 	for(var spec=0; spec<spectrum.length; spec+=1){
 		var peaks=spectrum[spec].childNodes;//Peaks are the same for MS and NMR
 		var lenPeak=peaks.length;
@@ -442,18 +443,22 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		 * We shall get the name of the molecule : "id" of the balise spectrum. This is the reference of the spectrum 
 		 */
 		var TMTWTSIA = null;
-		var dimensionDegreeOfTheSpectrum = null;
+//		dimensionDegreeOfTheSpectrum = null;
 		try{
 			TMTWTSIA = nmrData.ArrayOfSecondaryMolecules[specspec[spec].attributes["id"].value];
 			nmrData.ArrayOfPrimaryMolecules[TMTWTSIA.name] = TMTWTSIA;
 		}catch(err){
 			TMTWTSIA = nmrData.molecule;
 		}
+		//if(specspec[spec].attributes["type"].value != dimensionDegreeOfTheSpectrum){
+		//	specview.io.SpectrumCMLParser.logger.info(specspec[spec].attributes["type"].value)	
+		//}
 		try{
 			dimensionDegreeOfTheSpectrum = specspec[spec].attributes["type"].value;
 		}catch(err){
 			dimensionDegreeOfTheSpectrum = "not available";
 		}
+		
 		/**
 		 * Build each peak
 		 */
@@ -467,7 +472,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 					if(isThereAmoleculeAssignedToThePeak){
 						moleculeRef=peak.childNodes[1].attributes[0].value;			
 					}
-					specview.io.SpectrumCMLParser.logger.info(k)
+			//		specview.io.SpectrumCMLParser.logger.info(k)
 					for(var attributeIndice=0;attributeIndice<peak.attributes.length;attributeIndice++){
 						var attributeName=peak.attributes[attributeIndice].name;
 						var attributeValue=peak.attributes[attributeIndice].value;
@@ -548,7 +553,8 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 
 
 	}
-
+	
+	nmrData.zoomMap[0] = nmrData.spectrum.peakList;
 	return nmrData;
 	
 };

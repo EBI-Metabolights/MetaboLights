@@ -96,6 +96,7 @@ specview.controller.Controller = function(element, opt_config) {
 	// currently selected model objects
 	this.selected = [];
 	this.neighborList = [];
+	this.staticNeighborList = [];
 	
 	/**
 	 * If true, then it is possible to draw rectangle to zoom on the spectrum or on the molecule
@@ -225,6 +226,7 @@ specview.controller.Controller.prototype.setScaleFactor = function(scale) {
 specview.controller.Controller.prototype.setModels = function(models,opt_peak,opt_main_molecule){
 	this.clear();
 	this.models = models; // the model objects we wand to put on canvas
+	/*
 	var objects = goog.array.flatten(goog.array.map(models, function(model) {
 		if (model instanceof specview.model.Molecule) {
 			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
@@ -234,12 +236,36 @@ specview.controller.Controller.prototype.setModels = function(models,opt_peak,op
 	}));
 
 	if (objects.length > 0) {
+//		alert("caca")
 		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
 	}
+	*/
+	this.setNeighborListTrue(models);
 	this.render(opt_peak,opt_main_molecule);
 };
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
 
+/**
+ * Actualising the neighborlist array independantly
+ * @param models
+ * @returns
+ */
+specview.controller.Controller.prototype.setNeighborListTrue = function(models){
+	var objects = goog.array.flatten(goog.array.map(models, function(model) {
+		if (model instanceof specview.model.Molecule) {
+			return specview.model.NeighborList.moleculesToNeighbors( [ model ]);
+		}else if(model instanceof  specview.model.NMRdata){
+			return specview.model.NeighborList.metaSpecToNeighbors([model]); 
+		}
+	}));
+
+	if (objects.length > 0) {
+//		alert("caca")
+		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
+	}
+	return this.neighborList;
+//	return objects;
+};
 
 /**
  * Re adapt the neighborlist object to the controll object without rendering.
@@ -285,7 +311,7 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	            var spectrum=model.spectrum;
 	            var molBox=model.mainMolBox;
 	            var specBox=model.mainSpecBox;
-	            this.logger.info(specBox);
+	          //  this.logger.info(specBox);
 	            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
 	            peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
 	            box = goog.math.Box.boundingBox.apply(null, atom_coords);
@@ -324,9 +350,6 @@ specview.controller.Controller.prototype.mapZoomSpectrum = function(left,width,e
 }
 
 specview.controller.Controller.prototype.setDraggingTool = function(left,width,editor){
-//	alert(this.specObject.secondSpecBox["top"]+
-//			   document.getElementById("fieldSet").offsetTop)
-//	alert(document.getElementById("moleculeContainer").offset)
     var stroke = new goog.graphics.Stroke(0.3,'black');
 	var fill = new goog.graphics.SolidFill('black');
     var font1 = new goog.graphics.Font(18, 'Comics');
@@ -335,13 +358,83 @@ specview.controller.Controller.prototype.setDraggingTool = function(left,width,e
 	this.specObject.dragOnSpectrum.left = left;
 	this.specObject.dragOnSpectrum.width = width;
 
-	editor.graphics.drawText("bablababa",this.specObject.secondSpecBox["left"],this.specObject.secondSpecBox["top"],600,200,"center",null,font2,stroke,fill)
-	
+	/*
+	 * Setting up the div element representing the dragging tool
+	 */
 	document.getElementById("draggingBarSpectrum").style.display = "block";
 	document.getElementById("draggingBarSpectrum").style.left = left+"px";
 	document.getElementById("draggingBarSpectrum").style.top = this.specObject.secondSpecBox["top"]+"px" 
 	document.getElementById("draggingBarSpectrum").style.width = width+"px";
+	
+	this.specObject.draggingTool = document.getElementById("draggingBarSpectrum");
+	
+	
 }
+
+/**
+ * Unzooming
+ */
+
+specview.controller.Controller.prototype.unzoom = function(){
+	if(this.specObject.zoomLevel>0){
+		this.specObject.spectrum.peakList = this.specObject.zoomMap[this.specObject.zoomLevel - 1];
+		this.setNewSpectrum(this.specObject.spectrum.peakList);
+		this.specObject.zoomLevel -= 1;	
+	}else{
+		alert("minimum unzoom level reached !")
+	}
+	
+};
+
+
+/**
+ * Zooming
+ */
+
+specview.controller.Controller.prototype.zoom = function(listOfPeaks){
+	this.specObject.zoomLevel += 1;
+	this.specObject.zoomMap[this.specObject.zoomLevel] = listOfPeaks ;
+	this.setNewSpectrum(listOfPeaks);	
+};
+
+
+/**
+ * Method to draw a new spectrum
+ */
+
+specview.controller.Controller.prototype.setNewSpectrum = function(listOfPeaks){
+	
+//	this.specObject.zoomLevel += 1;
+	this.specObject.zoomMap[this.specObject.zoomMap.length] = listOfPeaks ; 
+	this.specObject.spectrum.peakList = listOfPeaks;
+	this.specObject.setCoordinatesPixelOfSpectrum();
+	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
+	
+	this.neighborList = this.setNeighborListTrue([this.specObject]);
+	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
+	this.spectrumRenderer.render(this.specObject,
+								 this.specObject.transform,
+								 this.specObject.mainSpecBox);
+	
+	if(specview.controller.plugins.Highlight.zoomObject != null){
+		this.spectrumRenderer.clearRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this);
+		this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+				 specview.controller.plugins.Highlight.zoomObject.rectangle.width,this);
+		this.setDraggingTool(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
+				 specview.controller.plugins.Highlight.zoomObject.rectangle.width);	
+	}
+
+	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,
+									 'black',
+									 this.specObject.spectrum);
+
+	
+	this.spectrumRenderer.renderAxis(this.specObject,
+									 this.spectrumRenderer.box,
+									 'black');
+
+};
+
 
 /**
  * To be able to render the spectrum independently;
@@ -523,7 +616,7 @@ specview.controller.Controller.prototype.findTarget = function(e) {
 	var targets = this.findTargetList(e);
 	
 	var target= this.findTargetListPixel(e);//return the object
-	this.logger.info(target)
+	//this.logger.info(target)
 	return target;
 	
 	//The molecule to which the atom belongs to.
@@ -778,7 +871,7 @@ specview.controller.Controller.prototype.findTargetList = function(e) {
 		x : target.x,
 		y : target.y
 	});
-	this.logger.info(pos);
+//	this.logger.info(pos);
 //	return this.neighborList.getNearestList({//HERE WE ARE PASSING THE PIXEL COORDINATES
 //		x : pos.x,
 //		y : pos.y

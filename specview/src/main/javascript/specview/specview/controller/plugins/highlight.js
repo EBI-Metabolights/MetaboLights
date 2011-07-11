@@ -132,6 +132,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					 * If a related peak exists, then we highlight it.
 					 */
 					if(peakObjectCorrespondingToThePeakId){
+						alert(peakObjectCorrespondingToThePeakId.isVisible)
 						this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
 						e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);
 						this.drawTextInformation(peakObjectCorrespondingToThePeakId, currentMetaSpecObject)
@@ -217,7 +218,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 						this.drawTextInformation(target, currentMetaSpecObject)
 					}
 				}
-			}	
+			}
 			/**
 			 * If this is a bond
 			 */
@@ -302,8 +303,11 @@ document.onmousedown = function(e){
 specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 	var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
-	if(isInMolecule){
-//		alert(specview.controller.plugins.Highlight.zoomObject)
+	var isZooming = specview.controller.plugins.Highlight.zoomObject == null ? false : true;
+	if(!isZooming && this.editorObject.specObject.isDraggingToolSelected){
+		document.getElementById("draggingBarSpectrum").style.backgroundColor = "#E49319";
+//		alert(document.getElementById("draggingBarSpectrum").style.left)
+	}else if(isInMolecule){
 		if(specview.controller.plugins.Highlight.zoomObject == null){
 			var object = this.editorObject.neighborList.getObjectFromCoord(e,this.editorObject.specObject)
 			object.isSelected ? this.unselectObject(object) : this.selectObject(object,e);
@@ -359,11 +363,24 @@ specview.controller.plugins.Highlight.prototype.cacacaca = function(){
  * @param type
  */
 specview.controller.plugins.Highlight.prototype.zoomOnSpectrum = function(listOfPeaks){
-	var type="spectrum"
+	var type="spectrum";
+	this.editorObject.zoom(listOfPeaks);
+//	this.editorObject.setNewSpectrum(listOfPeaks);
+	/*
+	this.editorObject.specObject.zoomLevel += 1;
+	this.editorObject.specObject.zoomMap[this.editorObject.specObject.zoomMap.length] = listOfPeaks ; 
 	this.editorObject.specObject.spectrum.peakList = listOfPeaks;
 	this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
 	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
-	this.editorObject.setModels([this.editorObject.specObject]);
+//	this.editorObject.setModels([this.editorObject.specObject]);
+	
+	this.editorObject.neighborList = this.editorObject.setNeighborListTrue([this.editorObject.specObject]);
+	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
+	this.editorObject.spectrumRenderer.render(this.editorObject.specObject,
+								 this.editorObject.specObject.transform,
+								 this.editorObject.specObject.mainSpecBox);
+	
+	
 	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
 	this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
 			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
@@ -371,8 +388,12 @@ specview.controller.plugins.Highlight.prototype.zoomOnSpectrum = function(listOf
 			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
 	
 	specview.controller.plugins.Highlight.zoomObject = null;
+	
 	this.reDrawGrid();
 	this.reDrawAxis();
+	*/
+	specview.controller.plugins.Highlight.zoomObject = null;
+
 };
 
 
@@ -383,13 +404,6 @@ specview.controller.plugins.Highlight.prototype.zoomOnSpectrum2 = function(listO
 	this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
 	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
 	this.editorObject.setModels([this.editorObject.specObject]);
-//	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
-//	this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-//			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-//	this.setDraggingTool(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-//			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-	
-//	specview.controller.plugins.Highlight.zoomObject = null;
 	this.reDrawGrid();
 	this.reDrawAxis();
 };

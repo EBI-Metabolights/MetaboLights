@@ -189,6 +189,7 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(e,specObject){
 		if(isInMolecule && goog.math.Coordinate.distance(coord,new goog.math.Coordinate(x,y)) < document.atomSensitivity){
 			return cells[k][1];
 		}else if(isInSpectrum && goog.math.nearlyEquals(coord.x,parseInt(x),document.peakSensitivity)){
+//			cells[k][1].isVisible = false;
 			return cells[k][1];
 		}	
 	}
@@ -235,7 +236,7 @@ specview.model.NeighborList.prototype.getObjects = function(type,x1,x2,opt_y1,op
 		var coord = cells[key][0];
 			if(coord.x < x2 && coord.x > x1){
 				arrayOfObjects.push(cells[key][1]);
-		}
+			}
 	}
    	return arrayOfObjects;
 };

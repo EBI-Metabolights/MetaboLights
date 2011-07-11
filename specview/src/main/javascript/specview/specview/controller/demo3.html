@@ -40,6 +40,7 @@ document.changePeakColor = false;
 
 document.experimentOfTheUser = null;
 
+
 //document.decimalcolor = null;
 
 function initPage(){
@@ -54,7 +55,7 @@ function initPage(){
 //			var toolbar = new specview.controller.DefaultToolbar.makeDefaultMoleculeToolbar(goog.dom.getElement('moleculeEditorToolbar'));  
 			
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[31]);//XML document
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[5]);//XML document
 			spectrumData=new specview.model.NMRdata();
 			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
 			
@@ -235,6 +236,7 @@ function displayColor(){
 <script type="text/javascript" language="JavaScript">
 var cX = 0; var cY = 0; var rX = 0; var rY = 0;
 
+
 function UpdateCursorPosition(e){
 	cX = e.pageX; cY = e.pageY;
 }
@@ -379,7 +381,7 @@ Hide the window
 </div>
 <input class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxHelp')" value = "A little help?">
 <input class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum">
-<input class = "button" type = "button" name = "chk1" onclick = "toHex(255)" value = "Unzoom KO">
+<input class = "button" type = "button" name = "chk1" onclick = "unzoom()" value = "Unzoom">
 <input class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule">
 <input class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum">
 <input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Move molecule? KO">
@@ -388,11 +390,17 @@ Hide the window
 <input class = "button" 
 	   id="cmlInputFile" 
 	   type = "file"
-	   name = "chk1"> 
+	   name = "chk1"
+	   onchange = "launch()"> 
 
 
 
 <script type = "text/javascript">
+
+function unzoom(){
+//	alert(document.editorObject.specObject.zoomLevel)
+	document.editorObject.unzoom();
+}
 
 function launch(){
 	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/massSpecData/xml/";
@@ -478,27 +486,7 @@ count = 0;
 	 
 
 <script>
-  var $ = goog.dom.getElement;
-  var Z = 5;
 
-  var limits = new goog.math.Rect(515,95,300,0)
-  //To move the spectra and to adjust the zoom
-  var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits);
-  var previousPercent=50;
-  goog.events.listen(sliderMoveSpectra,'drag',function(e){
-      var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
-	          e.dragger.limits.width)-100);
-  })
-  
-  var limits2 = new goog.math.Rect(515,95,300,0)
-  //To move the spectra and to adjust the zoom
-  var sliderMoveSpectra=new goog.fx.Dragger($('slider4'),null,limits2);
-  var previousPercent=50;
-  goog.events.listen(sliderMoveSpectra,'drag',function(e){
-      var percent = Math.abs(Math.round(100 * (e.left - e.dragger.limits.left) /
-	          e.dragger.limits.width)-100);
-  })
- 
   function modifySensitivity(object,sign){
 		switch(object){
 		case "atom" :
@@ -646,13 +634,16 @@ count = 0;
       <div id="moleculeContainer" style="height:800px">
       
       <div
-	class="draggingBar"
-	id="draggingBarSpectrum"
-	style="width:100px;
-		   position:relative;
-		   top:700px;
-		   left:100px;
-		   display:none"
+      	onmouseover=" javascript:dragger()"
+      	onmouseout="javascript:donnut()"
+      	onmouseup = "javascript:setDraggingToolSelection(false)"
+		class="draggingBar"
+		id="draggingBarSpectrum"
+		style="width:100px;
+		position:relative;
+		top:700px;
+		left:100px;
+		display:none"
 >
 <--drag--->
 
@@ -860,7 +851,25 @@ This is where HelloWorld.class runs.</APPLET>
 <param name="text" value="Bonjour les loulous">
 </P>
 
+<script type="text/javascript">
 
+function dragger(){
+	document.editorObject.specObject.isDraggingToolSelected = true;
+	var $ = goog.dom.getElement;
+	document.getElementById("draggingBarSpectrum").style.backgroundColor = "red"
+	var limits = document.editorObject.specObject.draggingToolBoundaries;
+	var sliderY=new goog.fx.Dragger($('draggingBarSpectrum'),null,limits) 
+}
+function setDraggingToolSelection(bool){
+//	document.editorObject.specObject.isDraggingToolSelected = bool
+//	alert(document.editorObject.specObject.isDraggingToolSelected)
+}
+function donnut(){
+//	this.style.backgroundColor= '#E49319'
+// alert(document.onmousedown)
+}
+
+</script>
 
 </body>
 </html>

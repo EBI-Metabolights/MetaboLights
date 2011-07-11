@@ -199,7 +199,36 @@ specview.model.NMRdata=function(){
      * dragOnSpectrum.with
      */
     this.dragOnSpectrum = new Object();
+    
+    /**
+     * div element that appear to move on different parts of the spectrum
+     */
+    this.draggingTool = null;
+    
+    /**
+     * The draggingToolBoundaries is an object goog.math.REct(top,left,width,height) that representing the space in which
+     * the draggingTool can be dragged.
+     */
+    this.draggingToolBoundaries = null;
 	
+    
+    /**
+     * Setting to true from the demo page when the user clik on the dragger
+     */
+    this.isDraggingToolSelected = false;
+    
+    
+    /**
+     * TODO comment
+     */
+    
+    this.zoomMap = new Array();
+    
+    /**
+     * TODO comment
+     */
+    this.zoomLevel = 0;
+    
 };
 
 specview.model.NMRdata.prototype.toString = function() {
@@ -260,6 +289,10 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
   	
   	this.secondSpecBox=this.getSecondSpectrumBox();
   	this.zoomBox = this.secondSpecBox;
+  	this.draggingToolBoundaries = new goog.math.Rect(this.zoomBox["left"],
+  													 this.zoomBox["top"],
+  													 this.zoomBox["right"] - this.zoomBox["left"],
+  													 0);
   	this.setCoordinatesPixelOfSecondSpectrum();
 	 
 	this.molBoxBox = new goog.math.Box(this.mainMolBox[0].y,this.mainMolBox[0].x,this.mainMolBox[0].y,this.mainMolBox[0].x);
@@ -478,13 +511,7 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 				}else{
 					adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
 				}
-//				alert("min: "+minValueOfPeak+"\n\ncurrent: "+peak.xValue
-//						+"\n\nrapport"+peak.xValue/maxValueOfPeak
-//						+"\n\nmaxValueOfPeak: "+maxValueOfPeak
-//						+"\n\nxPixel: "+adjustXvalue
-//						+"\n\nvalue to add: "+valueToAdd
-//						+"\n\necart: "+ecart)
-//				alert(adjustXvalue)
+
 				peak.isVisible=(adjustXvalue+valueToAdd<this.mainSpecBox[1].x &&
 						adjustXvalue+valueToAdd>this.mainSpecBox[0].x) ? true : false;
 				peak.setCoordinates(adjustXvalue+valueToAdd,

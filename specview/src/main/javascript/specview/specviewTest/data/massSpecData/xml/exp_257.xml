@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <cml xmlns="http://www.xml-cml.org/schema" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:units="http://www.xml-cml.org/units/units" convention="mzAnnot">
   <list dictRef="cml:spectrumList">

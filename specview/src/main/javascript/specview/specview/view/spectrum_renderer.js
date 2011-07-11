@@ -127,16 +127,16 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     var peakFill = null;   
 
 
+    /*
+     * big spectrum
+     */
     goog.array.forEach(spectrum.peakList,
     function(peak) {
     	if(peak.isVisible){
             peakPath.moveTo(peak.xPixel, peak.yPixel); 
             peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
     	}
-//    	alert(peak.arrayOfSecondaryMolecules)
-//    	for(k in metaSpecObject.ArrayOfPrimaryMolecules){
- //  		alert(k)
-  //  	}
+
     	metaSpecObject.ArrayOfPrimaryMolecules[peak.arrayOfSecondaryMolecules] != undefined ? peak.parentPeak = true : peak.parentPeak = false;
     	
     	peak.parentPeak ? this.graphics.drawPath(peakPath, peakStroke2, peakFill) : this.graphics.drawPath(peakPath, peakStroke, peakFill);
@@ -144,6 +144,9 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     },
     this);
 
+    /*
+     * small spectrum
+     */
     goog.array.forEach(spectrum.secondpeakList,
     	    function(peak) {
     	    	if(peak.isVisible){
@@ -256,6 +259,7 @@ specview.view.SpectrumRenderer.prototype.clearSpectrum = function(box,graphics){
 
 
 specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
+//	alert(peak.isVisible)
 	opt_element_array = new specview.graphics.ElementArray();
 	var fill = new goog.graphics.SolidFill("#55bb00", .3);
     var peakPath = new goog.graphics.Path();

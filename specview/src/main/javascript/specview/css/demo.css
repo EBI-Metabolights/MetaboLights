@@ -44,6 +44,9 @@ input.button, {
     text-decoration: none;
 }
 
+
+
+
 input.smallButton {
     background: transparent url('bg_button_a.gif') no-repeat scroll top right;
     color: #444;
@@ -80,6 +83,7 @@ input.button:active {
     }
     
     div.draggingBar {
+    
             -webkit-transform: rotateX( 35deg );
         position: relative;
         display: inline-block;
@@ -98,7 +102,7 @@ input.button:active {
         border-color: #fff;
         border-radius: 16px;
         -moz-border-radius: 16px;
-        -webkit-border-radius: 16px;
+        -webkit-border-radius: 16px; 
     }
     
     
