@@ -14,7 +14,7 @@
 <br />
 
 <c:if test="${!empty searchResults}">
-	<div id="pagingControlsTop"></div>
+	<div id="pagingControlsTop" align="right"></div>
 	<br>
 	<div id="highlight-plugin">
 		<div id="content">

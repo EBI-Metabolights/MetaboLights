@@ -16,7 +16,7 @@ public interface SearchService {
 	/**
 	 * Perform a Lucene search with the provided text query. 
 	 * @param queryText input query
-	 * @return list of results
+	 * @return Number of hist for the search and the list of results
 	 */
 	HashMap<Integer, List<LuceneSearchResult>> search(String queryText) throws Exception;
 	String getIndexDirectory();
