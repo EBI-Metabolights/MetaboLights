@@ -232,6 +232,9 @@ a {
 	border-radius:15px 15px 15px 15px;
    	-moz-border-radius: 15px 15px 15px 15px;
    	-webkit-border-radius:15px 15px 15px 15px;
+    box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);	
 }
 
 /* Class for Filter items */
