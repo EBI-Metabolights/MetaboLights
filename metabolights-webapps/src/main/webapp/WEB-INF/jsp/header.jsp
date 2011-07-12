@@ -9,7 +9,7 @@
 		   <form name="searchForm" action="search" method="post" accept-charset="utf-8">
 		      <input type="text" name="freeTextQuery"  id="query" value="${freeTextQuery}"/>
 	
-				<!-- Add FiterItems cheched -->
+				<!-- Add FiterItems cheched 
 				<c:forEach var="group" items="${filters}">
 					<c:forEach var="filter" items="${group.value}">
 						<c:if test='${filter.value.isChecked}'>
@@ -20,6 +20,7 @@
 							
 					</c:forEach>
 				</c:forEach>
+				-->
 		      <button type="submit" class="search-box-button"></button>
 		   </form>
          </div>
