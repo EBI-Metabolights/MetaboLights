@@ -100,7 +100,7 @@ public class Filter extends HashMap<String,FilterSet>{
 	 */
 	public String getLuceneQuery(){
 		
-		String luceneQuery = freeTextQuery.isEmpty()? "*" : "*" + value2Lucene(freeTextQuery) + "*";
+		String luceneQuery = freeTextQuery.isEmpty()? "*" :  "*" + value2Lucene(freeTextQuery) + "*";
 		
 				
 		//Go through the Filters set
@@ -164,13 +164,14 @@ public class Filter extends HashMap<String,FilterSet>{
 			
 			//If there is any organism
 			if (result.getOrganism()!=null){
+				
 				//If we haven't stored the item yet...
 				if(!organisms.containsKey(result.getOrganism())){
 					organisms.put( result.getOrganism(), new FilterItem(result.getOrganism(), organisms.getName()));
 				}
 		
 				//Increase the count of organisms
-				organisms.get(result.getOrganism()).oneMore();
+				organisms.get(result.getOrganism()).addToNumber(1);
 			}
 			
 			//Get the list of technologies..
@@ -182,7 +183,7 @@ public class Filter extends HashMap<String,FilterSet>{
 				}
 
 				//Increase the count of technologies
-				technology.get(assay.getTechnology()).oneMore();
+				technology.get(assay.getTechnology()).addToNumber(assay.getCount());
 				
 			}
 		}

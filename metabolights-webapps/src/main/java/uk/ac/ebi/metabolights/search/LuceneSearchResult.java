@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.lucene.document.Document;
 
@@ -137,20 +139,20 @@ public class LuceneSearchResult {
 		public void setTechnology(String technology) {
 			this.technology = technology;
 		}
-		public String getCount() {
+		public int getCount() {
 			return count;
 		}
-		public void setCount(String count) {
+		public void setCount(int count) {
 			this.count = count;
 		}
 		private String measurement;
 		private String technology;
-		private String count;
+		private int count;
 		
 		public Assay() {
 		}
 
-		public Assay(String measurement, String technology, String count) {
+		public Assay(String measurement, String technology, int count) {
 			this.measurement=measurement;
 			this.technology=technology;
 			this.count=count;
@@ -271,21 +273,21 @@ public class LuceneSearchResult {
 		List<Assay> assays = new ArrayList<Assay>();
 		String[] assayStrings = doc.getValues(StudyBrowseField.ASSAY_INFO.getName());
 		for (String assayString :assayStrings) {
-			StringTokenizer tokzr = new StringTokenizer(assayString, "()|");
-			int idx=0;
-			String measurement="";
-			String technology="";
-			String count="";
+			
+			//CREATE THE PATTERN			
+            Pattern pattern = Pattern.compile("assay\\(([^\\|]*)\\|([^\\|]*)\\|(\\d*)\\):"); 
 
-			while (tokzr.hasMoreElements()) {
-				String token = (String) tokzr.nextElement();
-				switch (idx) {
-				case 1 : measurement=token; break;
-				case 2 : technology=token; break;
-				case 3 : count=token; break;
-				}
-				idx++;
-			}
+            Matcher matcher = 
+            pattern.matcher(assayString);
+
+            //Find groups...
+            matcher.find(); 
+            
+            //Get group 1,2,3
+			String measurement=matcher.group(1);
+			String technology=matcher.group(2);
+			int count=Integer.parseInt(matcher.group(3));
+			
 			Assay assay = new Assay(measurement,technology,count);
 			assays.add(assay);
 		}

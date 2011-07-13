@@ -29,7 +29,7 @@ public class FilterItem {
 	public int getNumber(){
 		return number;
 	}
-	public void oneMore(){
-		number++;
+	public void addToNumber(int value){
+		number= number + value;
 	}
 }
