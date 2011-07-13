@@ -14,7 +14,7 @@
 						<c:when test="${group.key=='technology'}"><spring:message code="msg.technologies"/></c:when>
 						<c:otherwise>${group.key}</c:otherwise>
 					</c:choose>
-				</b><br/>				
+				</b><br/><br/>				
 				<ul class="filteritem" id="${group.key}">
 					<c:forEach var="filter" items="${group.value}">
 						<input	type="checkbox"
