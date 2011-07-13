@@ -28,8 +28,8 @@ public class EntryController extends AbstractController {
 	@Autowired
 	private StudyService studyService;
 
-	
-	@RequestMapping(value = "/entry={metabolightsId}")
+	//(value = "/entry/{metabolightsId}")
+	@RequestMapping(value = "/{metabolightsId}") 
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, Map<String, Object> map) {
 		logger.info("requested entry " + mtblId);
 		Study study = studyService.getBiiStudy(mtblId);

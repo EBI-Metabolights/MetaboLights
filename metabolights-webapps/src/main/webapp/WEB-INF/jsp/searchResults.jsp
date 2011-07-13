@@ -24,7 +24,7 @@
 						
 						<!-- div style='width: 950px;' class='iscell'><b><a href="http://wwwdev.ebi.ac.uk/mtbl/entry=${searchResult.accStudy}">${searchResult.title}</a></b></div-->
 						<div style='width: 750px;' class='iscell'>
-							<b><a href="entry=${searchResult.accStudy}">${searchResult.title}</a></b>
+							<b><a href="${searchResult.accStudy}">${searchResult.title}</a></b>
 						</div>
 						
 						<div style='clear: both;'></div>
