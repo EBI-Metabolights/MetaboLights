@@ -128,12 +128,13 @@
         </property>
         <property name="configurationClass">
             <value>org.hibernate.cfg.AnnotationConfiguration</value>
-        </property>
+        </property>       
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>
                 <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.search.default.indexBase">/ebi/sp/pro1/metabolights/lucene</prop>
             </props>
         </property>
     </bean>
