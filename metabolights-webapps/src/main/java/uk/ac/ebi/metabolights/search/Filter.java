@@ -18,11 +18,17 @@ import uk.ac.ebi.metabolights.search.LuceneSearchResult.Assay;
  */
 public class Filter extends HashMap<String,FilterSet>{
 	
-    //List with filter items, each one will be a group of checkboxes
+	private static final long serialVersionUID = -8290724660711400374L;
+
+	//List with filter items, each one will be a group of checkboxes
     private FilterSet organisms = new FilterSet("organisms", StudyBrowseField.ORGANISM); 
     private FilterSet technology = new FilterSet("technology",StudyBrowseField.ASSAY_INFO);
     private String freeTextQuery = "";
-        
+
+    // the currently displayed page number, paging through results 
+    private int pageNumber=1;
+    // the number of entries on a displayed page
+    private final int pageSize=10;    
     
 	public Filter(HttpServletRequest request){
 	
@@ -33,11 +39,20 @@ public class Filter extends HashMap<String,FilterSet>{
 	    parseRequest(request);
 	    
 	}
-
 	
 	public String getFreeTextQuery(){
 		return freeTextQuery;
 	}
+
+	public int getPageNumber(){
+		return pageNumber;
+	}
+
+	public int getPageSize(){
+		return pageSize;
+	}
+
+	
 	private void mountFilterStructure(){
 		
 		//Add all the list of filters to the hash...
@@ -67,7 +82,13 @@ public class Filter extends HashMap<String,FilterSet>{
 				freeTextQuery = request.getParameter(name);
 				continue;
 			}
-						
+
+			//Which page are we on
+			if (name.equals("pageNumber")) {
+				pageNumber = Integer.valueOf(request.getParameter(name));
+				continue;
+			}
+
 			
 			//Get the Corresponding filterSet
 			FilterSet fs = this.get(name);

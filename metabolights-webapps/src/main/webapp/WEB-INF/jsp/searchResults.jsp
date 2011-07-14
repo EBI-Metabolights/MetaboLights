@@ -6,16 +6,58 @@
 <script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 
-<div id="text_header">
-	${totalHits} <spring:message code="msg.searchResults" />
-	<c:if test="${!empty userQuery}"> for "${userQuery}"</c:if>
+
+<script type="text/javascript">
+function navigate(_pageNumber) {
+	filterForm = document.forms['filterForm'];
+	pageNumberField = filterForm.elements["pageNumber"];
+	pageNumberField.value=_pageNumber;
+    filterForm.submit();
+}
+</script>
+
+
+<div id="text_header" >
+    ${totalHits} <spring:message code="msg.searchResults" />
+    <c:if test="${totalHits gt 1}"> 
+	    showing ${1+((pageNumber-1)*pageSize)} to 
+        <c:if test="${((pageNumber-1)*pageSize)+pageSize lt totalHits }">
+	       ${((pageNumber-1)*pageSize)+pageSize}
+	    </c:if>
+	    <c:if test="${((pageNumber-1)*pageSize)+pageSize ge totalHits }">
+	       ${totalHits}
+	    </c:if>
+    </c:if>     
+
 </div>
 
-<br />
+
+<table width="100%">
+ <tr>
+   <td align="right" >
+        <c:if test="${pageNumber ne 1}"> 
+           <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${pageNumber-1})" ></a>
+        </c:if>
+        <c:if test="${totalNumberOfPages > 1}">
+        <c:forEach var="i" begin="${pagerLeft}" end="${pagerRight}" step="1" varStatus ="status">
+            <c:if test="${pageNumber eq (i)}"> 
+                <b><c:out value="${i}"/></b>&nbsp;
+            </c:if>
+            <c:if test="${pageNumber ne (i)}"> 
+                <a href="#" style="text-decoration:none" > <span style="font-weight:normal" onClick="navigate(${i})"><c:out value="${i}"/></span></a>&nbsp;
+            </c:if>
+        </c:forEach>            
+        </c:if>
+        <c:if test="${(((pageNumber-1)*pageSize)+pageSize) lt totalHits}"> 
+           <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${pageNumber+1})" ></a>
+        </c:if>
+   </td>
+ </tr>
+</table>
+
 
 <c:if test="${!empty searchResults}">
-	<div id="pagingControlsTop" align="right"></div>
-	<br>
+
 	<div id="highlight-plugin">
 		<div id="content">
 			<c:forEach var="searchResult" items="${searchResults}">
@@ -76,10 +118,32 @@
 			</c:forEach>
 		</div>
 	</div>
-	<br>
-	<div id="pagingControlsBot"></div>
-	<br>
+
+	<table width="100%">
+	 <tr>
+	   <td align="right" >
+	        <c:if test="${pageNumber ne 1}"> 
+	           <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${pageNumber-1})" ></a>
+	        </c:if>
+	        <c:if test="${totalNumberOfPages > 1}">
+	        <c:forEach var="i" begin="${pagerLeft}" end="${pagerRight}" step="1" varStatus ="status">
+	            <c:if test="${pageNumber eq (i)}"> 
+	                <b><c:out value="${i}"/></b>&nbsp;
+	            </c:if>
+	            <c:if test="${pageNumber ne (i)}"> 
+	                <a href="#" style="text-decoration:none" > <span style="font-weight:normal" onClick="navigate(${i})"><c:out value="${i}"/></span></a>&nbsp;
+	            </c:if>
+	        </c:forEach>            
+	        </c:if>
+	        <c:if test="${(((pageNumber-1)*pageSize)+pageSize) lt totalHits}"> 
+	           <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${pageNumber+1})" ></a>
+	        </c:if>
+	   </td>
+	 </tr>
+	</table>
+
 	<c:if test="${!empty userQueryClean}"> <a href="javascript:void($('#highlight-plugin').removeHighlight().highlight('${userQueryClean}'));">Highlight Search Term</a></c:if>
+
 	<br>
 
 </c:if>
@@ -98,12 +162,4 @@
 </c:if>
 
 
-<script type="text/javascript">
-var pager = new Imtech.Pager();
-$(document).ready(function() {
-    pager.paragraphsPerPage = 10; // set amount elements per page
-    pager.pagingContainer = $('#content'); // set of main container
-    pager.paragraphs = $('div.z', pager.pagingContainer); // set of required containers
-    pager.showPage(1);
-});
-</script>
+</script-->

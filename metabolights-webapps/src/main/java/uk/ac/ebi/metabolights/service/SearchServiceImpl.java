@@ -24,27 +24,29 @@ import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 public class SearchServiceImpl implements SearchService{
 	
 	private static Logger logger = Logger.getLogger(SearchServiceImpl.class);
+	private final int topN=10000; // some max value of results we want
 
 	@Autowired
 	private IndexProviderService indexProvider; 
-	private int topN=5000;
 		
 	public HashMap<Integer, List<LuceneSearchResult>> search(String queryText) throws IOException, ParseException {
 		List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>(); 
 		Integer numDocs = 0;
 		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>();
+
 		
 		if (queryText==null || queryText.trim().equals("")) {
 			IndexReader indexReader = indexProvider.getReader();
 			int loops = indexReader.maxDoc()<topN?indexReader.maxDoc():topN;
 			numDocs = indexReader.numDocs(); //Total number of documents found
+			
 			for (int i = 0; i < loops; i++) {
 				Document doc = indexReader.document(i);
 				if (doc==null)
 					break;
 				LuceneSearchResult searchResult = new LuceneSearchResult(doc,1);
 				resultSet.add(searchResult);
-				logger.debug(searchResult);
+				//logger.debug(searchResult);
 			}
 		}
 		else {	
@@ -55,16 +57,16 @@ public class SearchServiceImpl implements SearchService{
 			ScoreDoc[] hits = results.scoreDocs;
 			numDocs = results.totalHits;  //Total number of documents found
 
+			int i=0;
 			for (ScoreDoc hit : hits) {
 				Document doc = indexSearcher.doc(hit.doc);
 				LuceneSearchResult searchResult = new LuceneSearchResult(doc,hit.score);
 				resultSet.add(searchResult);
-				logger.debug(searchResult);
+				//logger.debug(searchResult);
+				i++;
 			}
 		}
-		
 		searchResultHash.put(numDocs, resultSet);
-		
 		return searchResultHash;
 	}
 
