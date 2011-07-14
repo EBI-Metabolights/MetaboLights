@@ -26,7 +26,7 @@
     <isatab_source>
         <location
                 filesystem_path="/ebi/ftp/private/mtblight/meta_data/study_${study-acc}"
-                web_url="file:////ebi/ftp/private/mtblight/meta_data/study_${study-acc}"
+                web_url="ftp:////ftp.ebi.ac.uk/pub/databases/mtblight/meta_data/study_${study-acc}"
                 />
     </isatab_source>
 
