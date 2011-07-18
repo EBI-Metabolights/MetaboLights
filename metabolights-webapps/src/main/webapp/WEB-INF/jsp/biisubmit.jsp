@@ -61,7 +61,7 @@
 				<spring:message code="msg.uploaded.ok2"/><br/>
 				<b><spring:message code="msg.uploaded.ok3"/></b><br/>
 				<c:forEach items="${accessions}" var="accessionEntry">
-					  <b>${accessionEntry.key}</b> <spring:message code="msg.uploaded.ok4"/><a href="<c:out value="entry=${accessionEntry.value}"/>">${accessionEntry.value}</a>.<br/>
+					  <b>${accessionEntry.key}</b> <spring:message code="msg.uploaded.ok4"/><a href="<c:out value="${accessionEntry.value}"/>">${accessionEntry.value}</a>.<br/>
 				</c:forEach> 	
 			</td>
 		</tr>
