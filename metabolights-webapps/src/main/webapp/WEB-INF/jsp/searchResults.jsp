@@ -83,7 +83,11 @@ function navigate(_pageNumber) {
 
 						<div style='width: 200px;' class='iscell'>
 							<spring:message code="label.expId" />: ${searchResult.accStudy}<br>
-							<spring:message code="label.subm" /> TODO ${searchResult.userName}<br>						
+							<spring:message code="label.subm" /> ${searchResult.submitter.name} ${searchResult.submitter.surname}<br>
+							<c:if test="${!searchResult.isPublic}">
+								<spring:message code="label.expPrivate" /><br>
+							</c:if>
+													
 						</div>
 						
 						
@@ -130,12 +134,12 @@ function navigate(_pageNumber) {
 	            <c:if test="${pageNumber eq (i)}"> 
 	                <b><c:out value="${i}"/></b>&nbsp;
 	            </c:if>
-	            <c:if test="${pageNumber ne (i)}"> 
+		         <c:if test="${pageNumber ne (i)}"> 
 	                <a href="#" style="text-decoration:none" > <span style="font-weight:normal" onClick="navigate(${i})"><c:out value="${i}"/></span></a>&nbsp;
 	            </c:if>
 	        </c:forEach>            
 	        </c:if>
-	        <c:if test="${(((pageNumber-1)*pageSize)+pageSize) lt totalHits}"> 
+	       	<c:if test="${(((pageNumber-1)*pageSize)+pageSize) lt totalHits}"> 
 	           <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${pageNumber+1})" ></a>
 	        </c:if>
 	   </td>
