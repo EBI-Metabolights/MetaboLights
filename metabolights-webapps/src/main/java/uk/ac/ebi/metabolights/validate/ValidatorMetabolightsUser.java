@@ -16,7 +16,7 @@ import uk.ac.ebi.metabolights.service.EmailService;
 public class ValidatorMetabolightsUser implements Validator {
 
 	public final static int MIN_PASSWORD_LEN=6;
-	public final static int MIN_USERNAME_LEN=3;
+	//public final static int MIN_USERNAME_LEN=3;
 
 	/**
 	 * Validation for {@link uk.ac.ebi.metabolights.model.MetabolightsUser MetabolightsUser}, 
@@ -32,7 +32,7 @@ public class ValidatorMetabolightsUser implements Validator {
 		// :( not so nice to hard code attribute names here as Strings.. ah, Joy of Spring.
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "firstName", "NotEmpty.metabolightsUser.firstName");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "lastName", "NotEmpty.metabolightsUser.lastName");
-		ValidationUtils.rejectIfEmptyOrWhitespace(e, "userName", "NotEmpty.metabolightsUser.userName");
+	    //ValidationUtils.rejectIfEmptyOrWhitespace(e, "userName", "NotEmpty.metabolightsUser.userName");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "dbPassword", "NotEmpty.metabolightsUser.dbPassword");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "userVerifyDbPassword", "NotEmpty.metabolightsUser.userVerifyDbPassword");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "email", "NotEmpty.metabolightsUser.email");
@@ -51,12 +51,12 @@ public class ValidatorMetabolightsUser implements Validator {
 				e.rejectValue("dbPassword", "Size.metabolightsUser.password");
 			}
 		}
-		if (e.getFieldError("userName")==null) {
+		//if (e.getFieldError("userName")==null) {
 			// Check minimum size user name
-			if (user.getUserName().length()<MIN_USERNAME_LEN) {
-				e.rejectValue("userName", "Size.metabolightsUser.username");
-			}
-		}
+		//	if (user.getUserName().length()<MIN_USERNAME_LEN) {
+		//		e.rejectValue("userName", "Size.metabolightsUser.username");
+		//	}
+		//}
 	}
 
 	@Override

@@ -8,6 +8,7 @@
         <form:hidden path="userId" />
         <form:hidden path="userName" />
         <form:hidden path="status" />
+        <form:hidden path="email" />
         
         <table cellpadding="5px" cellspacing="0px">
             <tr class="formheader">
@@ -21,7 +22,7 @@
             </tr>
             <tr>
                 <td><spring:message code="label.userName" />:</td>
-                <td><c:out value="${metabolightsUser.userName}" /> </td>
+                <td><c:out value="${metabolightsUser.email}" /> </td>
                 <td></td>
             </tr>
 

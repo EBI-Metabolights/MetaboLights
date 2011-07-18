@@ -24,7 +24,7 @@
 
       </div>
       
-     <div id="text-fullwidth">
+     <!-- div id="text-fullwidth">
        <HR>
        <br>
        <img src="img/isatab_logo.png">
@@ -36,5 +36,5 @@
        <br>
        <br>
        
-      </div>               
+      </div-->               
  

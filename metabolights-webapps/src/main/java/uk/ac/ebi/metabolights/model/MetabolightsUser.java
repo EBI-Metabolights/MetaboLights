@@ -67,7 +67,6 @@ public class MetabolightsUser implements Serializable{
     private String email;
 
 	@Column(name="USERNAME")
-    @NotEmpty
     private String userName;
 
 	@Column(name="PASSWORD")
@@ -101,6 +100,9 @@ public class MetabolightsUser implements Serializable{
 	@Column(name="AFFILIATION")
 	private String affiliation;
 
+	@Column(name="AFFILIATION_URL")
+	private String affiliationUrl;
+
 	// Extra Metabolights column to be able to create a user account
 	// that still needs approval. 
 	@Column(name="STATUS")
@@ -133,6 +135,14 @@ public class MetabolightsUser implements Serializable{
 
 	public void setAffiliation(String affiliation) {
 		this.affiliation = affiliation;
+	}
+
+	public String getAffiliationUrl() {
+		return affiliationUrl;
+	}
+
+	public void setAffiliationUrl(String affiliationURL) {
+		this.affiliationUrl = affiliationURL;
 	}
 
 	public String getFirstName() {
@@ -179,7 +189,7 @@ public class MetabolightsUser implements Serializable{
 
 	public void setUserName(String userName) {
 		if (userName!=null)
-			userName=userName.trim();
+			userName=userName.trim().toLowerCase();
 		this.userName = userName;
 	}
 

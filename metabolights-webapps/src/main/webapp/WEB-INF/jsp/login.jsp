@@ -15,7 +15,7 @@
         </tr>
 	
 		<tr>
-			<td><spring:message code="label.username" />:</td>
+			<td><spring:message code="label.email" />:</td>
 			<td colspan='2'><input type='text' name='j_username'/></td>
 		</tr>
 		<tr>

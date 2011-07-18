@@ -93,7 +93,7 @@
       Database connection 
      -->
     <bean id="propertyConfigurer"
-        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="classpath:jdbc.properties" />
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="classpath:application.properties" />
 
     <tx:annotation-driven />
     <bean id="transactionManager"
@@ -132,9 +132,9 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>
-                <prop key="hibernate.show_sql">false</prop>
-                <prop key="hibernate.format_sql">false</prop>
-                <prop key="hibernate.search.default.indexBase">/ebi/sp/pro1/metabolights/lucene</prop>
+                <prop key="hibernate.show_sql">${jdbc.show_sql}</prop>
+                <prop key="hibernate.format_sql">${jdbc.format_sql}</prop>
+                <prop key="hibernate.search.default.indexBase">${luceneIndexDirectoryShort}</prop>
             </props>
         </property>
     </bean>
@@ -182,7 +182,7 @@
     <bean id="activateAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="from" value="metabolights-webapp@ebi.ac.uk"/>
       <property name="subject" value="New Metabolights account request"/>
-      <property name="to">  <list><value>metabolights-help@ebi.ac.uk</value></list> </property>  <!--  -->
+      <property name="to">  <list><value>${mtblAdminEmailAddress}</value></list> </property>  
     </bean>
 
     <bean id="accountApprovedTemplate" class="org.springframework.mail.SimpleMailMessage">

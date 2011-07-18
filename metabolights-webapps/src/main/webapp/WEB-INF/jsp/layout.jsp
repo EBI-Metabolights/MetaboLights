@@ -45,10 +45,10 @@
                     <div class="wrapper" >
                         <div id="topAndBody"  >
                             <tiles:insertAttribute name="header"/>
-                            <div style="width: 220px; float: left">
+                            <div id="leftFilterdiv" style="width:0px; float: left">
                                 <tiles:insertAttribute name="bodyleft" />
                             </div>
-                            <div style="width: 800px; float: left">
+                            <div id="bodyDiv" style="width:1000px; float: left">
                                 <tiles:insertAttribute name="body" />
                             </div>
                         </div>

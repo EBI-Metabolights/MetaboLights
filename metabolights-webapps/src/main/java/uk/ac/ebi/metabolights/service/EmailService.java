@@ -79,7 +79,7 @@ public class EmailService {
 		SimpleMailMessage msg = new SimpleMailMessage(this.activateAccountTemplate);
 		String body = PropertyLookup.getMessage("msg.accountRequest",
 				usr.getFirstName(),usr.getLastName(),usr.getUserName(),usr.getUserId()+"",
-				usr.getEmail(),usr.getAffiliation(),CountryService.lookupCountry(usr.getAddress()),
+				usr.getEmail(),usr.getAffiliation(),usr.getAffiliationUrl(),CountryService.lookupCountry(usr.getAddress()),
 				url);
 		msg.setText(body);
 		this.mailSender.send(msg);

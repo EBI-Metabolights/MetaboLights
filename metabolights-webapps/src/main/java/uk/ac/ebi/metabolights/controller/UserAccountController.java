@@ -77,8 +77,6 @@ public class UserAccountController extends AbstractController{
      * Verify form input, check for clashes in database, store the
      * new account (status 'NEW') and let the user verify the request.
      *  
-     * TODO Ajax username lookup.
-     *  
      * @param MetabolightsUser user details
      * @param result Binding result
      * @param model 
@@ -87,38 +85,32 @@ public class UserAccountController extends AbstractController{
 	@RequestMapping(value = "/createNewAccount", method = RequestMethod.POST)
     public ModelAndView createNewAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model) {
 
-    	boolean duplicateUser=false;
+    	// The isatab schema works with a USERNAME. For Metabolights, we set the email address to be the user name,
+    	// it's easier for people to remember that
+    	metabolightsUser.setUserName(metabolightsUser.getEmail());
+
     	boolean duplicateEmailAddress=false;
 
-    	if (TextUtils.textHasContent(metabolightsUser.getUserName()) && result.getFieldError("userName")==null && 
-    			userNameExists (metabolightsUser.getUserName())) {
-    		duplicateUser=true;
-    	}
     	if (TextUtils.textHasContent(metabolightsUser.getEmail()) && result.getFieldError("email")==null &&
     			emailExists (metabolightsUser.getEmail())) {
     		duplicateEmailAddress=true;
     	}
-
-    	if (result.hasErrors()|| duplicateUser|| duplicateEmailAddress) {
+    	
+    	if (result.hasErrors()|| duplicateEmailAddress) {
         	ModelAndView mav = new ModelAndView("createAccount");
         	mav.addObject(metabolightsUser);
-        	if (duplicateUser) {
-        		// .. It should be possible to set the message through the object error but I didn't manage
-        		//ObjectError duplicateUserError = new ObjectError("metabolightsUser", new String() {".."});
-        		mav.addObject("dupUserMessage", PropertyLookup.getMessage("Duplicate.metabolightsUser.userName"));
-        	}
         	if (duplicateEmailAddress) {
         		mav.addObject("duplicateEmailAddress", PropertyLookup.getMessage("Duplicate.metabolightsUser.email"));
         	}
         	return mav;
         }
 
+
     	Long newUserId=null;
 
     	try {
 			//Store the user information in the database, status NEW means still inactive (to be authorized).
 			metabolightsUser.setStatus(MetabolightsUser.UserStatus.NEW.getValue()); // make account non usable yet
-			metabolightsUser.setUserName(metabolightsUser.getUserName().toLowerCase());
 			metabolightsUser.setDbPassword(IsaTabAuthenticationProvider.encode(metabolightsUser.getDbPassword()));
 			newUserId = userService.insert(metabolightsUser);
 
@@ -136,22 +128,10 @@ public class UserAccountController extends AbstractController{
 		}
     	
     	//Let the user know what will happen next
-    	return new ModelAndView("redirect:accountRequested="+metabolightsUser.getUserName());
+    	String emailShort=metabolightsUser.getEmail().substring(0,metabolightsUser.getEmail().indexOf('@'));
+    	return new ModelAndView("redirect:accountRequested="+emailShort);
 
 	}
-
-    /**
-     * Look userName up in database. 
-     * @param newUserName
-     * @return true if userName exists
-     */
-    private boolean userNameExists (String newUserName) {
-    	MetabolightsUser mtblUser = userService.lookupByUserName(newUserName);
-		if (mtblUser != null) {
-			return true;
-		}
-    	return false;
-    }
 
     /**
      * Look email up in database. 
@@ -182,7 +162,7 @@ public class UserAccountController extends AbstractController{
 
 	
 	/**
-	 * After user has filled in a new account creation form.
+	 * For redirection after a user has filled in a new account form.
 	 * @param userName
 	 * @param map
 	 * @return
@@ -309,5 +289,5 @@ public class UserAccountController extends AbstractController{
 	    return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.updatedAccount"));
     }
 
-	
+
 }

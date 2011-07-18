@@ -16,11 +16,18 @@ function navigate(_pageNumber) {
 }
 </script>
 
+<script>
+  var filterWidth=document.getElementById('leftFilterdiv');
+  filterWidth.style.width="220px";
+  var bodyWidth=document.getElementById('bodyDiv');
+  bodyWidth.style.width="800px";
+</script>
 
+<br>
 <div id="text_header" >
     ${totalHits} <spring:message code="msg.searchResults" />
     <c:if test="${totalHits gt 1}"> 
-	    showing ${1+((pageNumber-1)*pageSize)} to 
+	    <spring:message code="msg.showing" /> ${1+((pageNumber-1)*pageSize)} <spring:message code="msg.to" /> 
         <c:if test="${((pageNumber-1)*pageSize)+pageSize lt totalHits }">
 	       ${((pageNumber-1)*pageSize)+pageSize}
 	    </c:if>
@@ -62,17 +69,16 @@ function navigate(_pageNumber) {
 		<div id="content">
 			<c:forEach var="searchResult" items="${searchResults}">
 				<div class="z">
-					<div style='width: 800px; border: 1px solid #D5AE60; margin-bottom: 10px;' class="resultItem">
+					<div style='width: 750x; border: 1px solid #D5AE60; margin-bottom: 10px;' class="resultItem">
 						
-						<!-- div style='width: 950px;' class='iscell'><b><a href="http://wwwdev.ebi.ac.uk/mtbl/entry=${searchResult.accStudy}">${searchResult.title}</a></b></div-->
-						<div style='width: 750px;' class='iscell'>
+						<div style='width: 700px;' class='iscell'>
 							<b><a href="${searchResult.accStudy}">${searchResult.title}</a></b>
 						</div>
 						
 						<div style='clear: both;'></div>
 						<!-- new row -->
 
-						<div style='width: 550px;' class='iscell'>
+						<div style='width: 500px;' class='iscell'>
 							<spring:message code="label.expFact" />
 							<ul id="resultList">
 								<c:forEach var="factor" items="${searchResult.factors}">
@@ -94,7 +100,7 @@ function navigate(_pageNumber) {
 						<div style='clear: both;'></div>
 						<!-- new row -->
 
-						<div style='width: 350px;' class='iscell'>
+						<div style='width: 300px;' class='iscell'>
 							<spring:message code="label.assays" />
 							<ul id="resultList">
 								<c:forEach var="assay" items="${searchResult.assays}">

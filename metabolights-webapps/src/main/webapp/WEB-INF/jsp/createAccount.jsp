@@ -15,19 +15,20 @@
 			<tr>
 				<td colspan='3'>&nbsp;</td>
 			</tr>
+
 	        <tr>
-	            <td><spring:message code="label.userName" />:</td>
-	            <td><form:input path="userName"  maxlength="255" size="20"/> </td>
-	            <td>(*)&nbsp;<span class="error">
-	                            <form:errors path="userName" />
-	                            <c:if test="${not empty dupUserMessage}"><c:out value="${dupUserMessage}" /></c:if>
-	                         </span>
+	            <td><spring:message code="label.email" />:</td>
+	            <td><form:input path="email"  maxlength="255" size="40" /> </td>
+	            <td>(*)&nbsp;
+	               <span class="error">
+	                  <form:errors path="email" />
+	                  <form:errors path="userName" />
+                      <c:if test="${not empty duplicateEmailAddress}"><c:out value="${duplicateEmailAddress}" /></c:if>
+	              </span>
 	            </td>
 	        </tr>
 
-
 			<jsp:include page="accountFormFields.jsp" />
-
 
 			<tr>
 				<td></td>

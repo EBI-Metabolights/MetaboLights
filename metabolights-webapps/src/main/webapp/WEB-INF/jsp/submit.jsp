@@ -20,10 +20,6 @@
 		            <td><spring:message code="label.file" />:</td>
 		            <td><input type="file" name="file" /></td>
 		        </tr>
-		        <!-- tr>
-		            <td><spring:message code="label.filename" />:</td>
-		            <td><input type="text" name="name" /></td>
-		        </tr-->
 		        <tr>
 		            <td colspan='2'><input name="submit" type="submit" value="<spring:message code="label.upload"/>">
                     <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
