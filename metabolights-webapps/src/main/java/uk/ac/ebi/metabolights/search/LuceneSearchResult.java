@@ -29,7 +29,11 @@ public class LuceneSearchResult {
 	private List<Publication> publications;
 	private List<String> technologies;
 	private List<String> platforms;
-	
+	private Document doc;
+	private float score;
+	private Submitter submitter;
+	private boolean isPublic;
+		
 	public LuceneSearchResult(Document doc, float score) {
 		this.doc=doc;
 		this.score=score;
@@ -44,11 +48,13 @@ public class LuceneSearchResult {
 		this.publications = parsePublications();
 		
 		this.platforms=getValues("assay_platform");
+		
+		this.submitter = parseSubmitter();
+		
+		this.isPublic = doc.get("status").equals("PUBLIC");
 	}
 	
-	private Document doc;
-	private float score;
-	
+
 	public Document getDoc() {
 		return doc;
 	}
@@ -91,12 +97,11 @@ public class LuceneSearchResult {
 		return assays;
 	}
 
-	public String getUserName() {
-		return doc.get("user_userName");
+	public Submitter getSubmitter() {
+		return this.submitter;
 	}
-
-	public String getUserId() {
-		return doc.get("user_id");
+	public boolean getIsPublic(){
+		return this.isPublic;
 	}
 
 	public String getDescription() {
@@ -211,6 +216,48 @@ public class LuceneSearchResult {
 			this.pubmedId = pubmedId;
 			this.doi = doi;
 		}
+	}
+	
+	public class Submitter{
+		private String userName, forename, surname, email;
+		public Submitter(){};
+		public Submitter(String userName, String forename, String surname, String email){
+			this.userName = userName;
+			this.forename = forename;
+			this.surname= surname;
+			this.email=email;
+		}
+
+		public String getName(){ return this.forename;}
+		public String getSurname(){return this.surname;}
+		public String getEmail(){return this.email;}
+		public String getUserName(){return this.userName;}
+	}
+	
+	/*Parses the user field in the lucene index (there must be only one)
+	 * Sample:  username:conesa|forename:Pablo|surname:Conesa|email:conesa@ebi.ac.uk
+	 */
+	private Submitter parseSubmitter(){
+		
+		//Get the user field from the lucene index
+		String submitterString = this.doc.get("user");
+		
+		//If null
+		if (submitterString == null) {return new Submitter();}
+		
+		System.out.println("Parsing " + submitterString);
+		//Remove "captions:"
+		submitterString= submitterString.replace("username:", "").replaceAll("forename:", "").replace("surname:","").replaceAll("email:", "");
+		
+		//Now we should have something like this: conesa|Pablo|Conesa|conesa@ebi.ac.uk
+		//Attention: the split parameter is a regular expression. As it, the pipe means null and therefore it split one character by one
+		//http://hoskinator.blogspot.com/2006/11/trouble-using-pipe-with-stringsplit.html
+		String[] values = submitterString.split("\\|");
+		
+		//Create submitter...
+		return new Submitter(values[0],values[1],values[2],values[3]);
+		
+		
 	}
 	
 	private List<Publication> parsePublications() {

@@ -24,20 +24,25 @@ public class Filter extends HashMap<String,FilterSet>{
     private FilterSet organisms = new FilterSet("organisms", StudyBrowseField.ORGANISM); 
     private FilterSet technology = new FilterSet("technology",StudyBrowseField.ASSAY_INFO);
     private String freeTextQuery = "";
-
+    private String userName ="";
     // the currently displayed page number, paging through results 
     private int pageNumber=1;
     // the number of entries on a displayed page
     private final int pageSize=10;    
     
-	public Filter(HttpServletRequest request){
+	public Filter(HttpServletRequest request, String userName){
 	
+		this(request);
+		this.userName = userName;		
+	    
+	}
+	public Filter (HttpServletRequest request){
+		
 		//Mount the structure
 		mountFilterStructure();
 	
 	    //Fill the filter hash with the parameters
 	    parseRequest(request);
-	    
 	}
 	
 	public String getFreeTextQuery(){
@@ -121,6 +126,7 @@ public class Filter extends HashMap<String,FilterSet>{
 	 */
 	public String getLuceneQuery(){
 		
+		//Start with the freeTextQuery
 		String luceneQuery = freeTextQuery.isEmpty()? "*" :  "*" + value2Lucene(freeTextQuery) + "*";
 		
 				
@@ -151,8 +157,27 @@ public class Filter extends HashMap<String,FilterSet>{
 			
 		}
 						
+		//Add the filter for private studies...
+		luceneQuery = joinFilterTerms(getStatusFilter(), luceneQuery, "AND");
+		
+		
 		return luceneQuery;
 		
+	}
+	
+	private String getStatusFilter(){
+		
+		//To start, all public studies can be retrieved
+		String statusFilter = "status:PUBLIC*";
+		
+		//If the user is not empty
+		if (!this.userName.isEmpty()){
+			//Add an or clause for the private ones the user owns
+			statusFilter = joinFilterTerms(statusFilter, "user:\"username:" + this.userName + "\"*", "OR");
+		}
+		
+		//Return the filter
+		return statusFilter;
 	}
 	private String joinFilterTerms (String term1, String term2, String op){
 				
