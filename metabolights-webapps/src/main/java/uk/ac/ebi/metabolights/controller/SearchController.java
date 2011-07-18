@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.search.Filter;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.SearchService;
@@ -43,9 +45,20 @@ public class SearchController extends AbstractController{
 		List<LuceneSearchResult> displayedResultList = new ArrayList<LuceneSearchResult>();
 		Integer totalHits = 0;
 	   
-		//Instantiate a filter class
-		Filter filter = new Filter(request);
+		String userName = "";
 		
+		//If there is any user...
+		if ( SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof MetabolightsUser){
+		
+			//Get the user
+			MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		
+			userName =user.getUserName();
+		}
+		
+		//Instantiate a filter class
+		Filter filter = new Filter(request, userName);
+
 		String luceneQuery = filter.getLuceneQuery();
 			    
 		try {
