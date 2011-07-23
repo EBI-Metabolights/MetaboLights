@@ -138,7 +138,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 
 	nmrData.mainMoleculeName=THEMOLECULENAME;
 
-	
+	alert(THEMOLECULENAME)
 	for(var molecule=0;molecule<listOfMolecules.length;molecule++){
 		var XmlTextElement=false;
 		try{
