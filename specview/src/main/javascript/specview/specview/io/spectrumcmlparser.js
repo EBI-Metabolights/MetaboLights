@@ -332,7 +332,9 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 				
 				
 				if(THEMOLECULENAME.length > 70){
+//					alert(THEMOLECULENAME)
 					THEMOLECULENAME = specview.util.Utilities.insertCarriageReturnInString(THEMOLECULENAME,"<br>",55);
+//					alert(THEMOLECULENAME)
 				}
 				if(nmrData.experienceType=="MS"){
 //					alert(moleculeName)
@@ -450,9 +452,6 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 		}catch(err){
 			TMTWTSIA = nmrData.molecule;
 		}
-		//if(specspec[spec].attributes["type"].value != dimensionDegreeOfTheSpectrum){
-		//	specview.io.SpectrumCMLParser.logger.info(specspec[spec].attributes["type"].value)	
-		//}
 		try{
 			dimensionDegreeOfTheSpectrum = specspec[spec].attributes["type"].value;
 		}catch(err){

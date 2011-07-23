@@ -57,34 +57,52 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 	/**
 	 * If the user has MOUSED DOWN in the canvas, it means that he wants to zoom
 	 */
+
 	if(specview.controller.plugins.Highlight.zoomObject!=null && document.getElementById("floatingBox").style.display == "none"){
 		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
-		if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
+		if(specview.controller.plugins.Highlight.zoomObject.rectangle != null){
 			if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
 				specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum = true;
-				this.clearSpectrum();
-				this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
-				this.reDrawSpectrum();	
 			}else if(isInMolecule){
 				this.clearMolecule();
 				this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
 				this.reDrawMolecule();
 			}
 		}
-		specview.controller.plugins.Highlight.zoomObject.finalCoordinates = specview.controller.Controller.getMouseCoords(e);
-		specview.controller.plugins.Highlight.zoomObject.rectangle = 
-			specview.controller.plugins.Zoom.setRectangle(specview.controller.plugins.Highlight.zoomObject.initialCoordinates,
+
+		
+		specview.controller.plugins.Highlight.zoomObject.finalCoordinates = 
+			new goog.math.Coordinate(e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft,
+									 e.clientY + document.body.scrollTop + document.documentElement.scrollTop);
+		
+		/*
+		 * Rectangle is not really a rectangle , it is an associative array {left: , top: , width: , height: }
+		 */
+		var zoomArrayTopLeftWidthHeight = 
+			specview.controller.plugins.Zoom.setRectangleZoom(specview.controller.plugins.Highlight.zoomObject.initialCoordinates,
 														  specview.controller.plugins.Highlight.zoomObject.finalCoordinates,
 														  this.editorObject.specObject.mainSpecBox);
-		this.drawZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
+		
+		
+		document.getElementById("win3").style.left = zoomArrayTopLeftWidthHeight["left"];
+		document.getElementById("win3").style.top = zoomArrayTopLeftWidthHeight["top"]
+		document.getElementById("win3").style.width = zoomArrayTopLeftWidthHeight["width"]
+		document.getElementById("win3").style.height = zoomArrayTopLeftWidthHeight["height"]
+		document.getElementById("win3").style.display = "block";
+		
+		specview.controller.plugins.Highlight.zoomObject.rectangle = document.getElementById("win3") ;
+
+		
+		
+	}else if(!specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject) && 
+			!specview.controller.Controller.isInMolecule(e, this.editorObject.specObject)){
+
 	}
-	
 	/**
 	 * The highlight shall only be allowed if the user is NOT trying to draw a rectangle.(Efficiency matter)
 	 */
 	else{
-//		alert(e.button)
 		var newMoleculeToDisplay;
 		/**
 		 * If the mouse is in the canvas
@@ -132,7 +150,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					 * If a related peak exists, then we highlight it.
 					 */
 					if(peakObjectCorrespondingToThePeakId){
-						alert(peakObjectCorrespondingToThePeakId.isVisible)
+//						alert(peakObjectCorrespondingToThePeakId.isVisible)
 						this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
 						e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);
 						this.drawTextInformation(peakObjectCorrespondingToThePeakId, currentMetaSpecObject)
@@ -276,19 +294,37 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
  */
 document.onmousedown = function(e){
 	if(specview.controller.Controller.isInSpectrum(e,document.metaSpecObject)){
-		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
+		
+		var initialCoordinates = new goog.math.Coordinate(e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft,
+													  e.clientY + document.body.scrollTop + document.documentElement.scrollTop)
+		
 		specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
 		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
+		
+		
+		
 	}else if(specview.controller.Controller.isInMolecule(e,document.metaSpecObject)){
-		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
+		
+		var initialCoordinates = new goog.math.Coordinate(e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft,
+				  e.clientY + document.body.scrollTop + document.documentElement.scrollTop)
+//		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
 		if(document.editorObject.neighborList.getObjectFromCoord(e,document.editorObject.specObject) == undefined){
 			specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
 			specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
 		}
 	}else if (specview.controller.Controller.isInSecondarySpectrum(e)){
 	}else{
+
+
 	}
 };	
+
+
+
+
+
+
+
 
 
 /**
@@ -301,12 +337,14 @@ document.onmousedown = function(e){
  * @param e
  */
 specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
+	
 	var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 	var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 	var isZooming = specview.controller.plugins.Highlight.zoomObject == null ? false : true;
+
+//	specview.controller.plugins.Highlight.logger2.info("isZooming : "+isZooming + " ; " + specview.controller.plugins.Highlight.zoomObject.rectangle);
 	if(!isZooming && this.editorObject.specObject.isDraggingToolSelected){
 		document.getElementById("draggingBarSpectrum").style.backgroundColor = "#E49319";
-//		alert(document.getElementById("draggingBarSpectrum").style.left)
 	}else if(isInMolecule){
 		if(specview.controller.plugins.Highlight.zoomObject == null){
 			var object = this.editorObject.neighborList.getObjectFromCoord(e,this.editorObject.specObject)
@@ -314,11 +352,17 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			this.editorObject.specObject.selected.push(object);
 			document.ShowContent("floatingBoxSelectMultiplePeaks")
 		}else{
-			var type = "molecule"
-				var listOfAtoms = this.getObjects(type,
-						specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-						specview.controller.plugins.Highlight.zoomObject.rectangle.left+
-						specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+			var left = parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.left));
+			var right = left + parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.width));
+			var top = parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.top));
+			var bottom = top + parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.height));
+			
+			var listOfAtoms = this.getObjects("molecule",
+											  left-document.getElementById("moleculeContainer").offsetLeft,
+											  right-document.getElementById("moleculeContainer").offsetLeft,
+											  top-document.getElementById("moleculeContainer").offsetTop,
+											  bottom-document.getElementById("moleculeContainer").offsetTop);
+			document.getElementById("win3").style.display = "none";
 			for(k in listOfAtoms){
 				listOfAtoms[k].isSelected = true;
 				this.editorObject.specObject.selected.push(listOfAtoms[k]);
@@ -328,15 +372,17 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			specview.controller.plugins.Highlight.zoomObject = null;
 			specview.controller.plugins.Highlight.highlightSerieOfPeaks(this.editorObject)
 		}
-	}else if(specview.controller.plugins.Highlight.zoomObject.rectangle instanceof goog.math.Rect){
+	}else if(specview.controller.plugins.Highlight.zoomObject!=null && specview.controller.plugins.Highlight.zoomObject.rectangle != null){
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
 			var type = "spectrum";
+			var left = parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.left));
+			var right = left + parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.width));
 			var listOfPeaks = this.getObjects(type,
-					specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-					specview.controller.plugins.Highlight.zoomObject.rectangle.left+
-					specview.controller.plugins.Highlight.zoomObject.rectangle.width);
+											  left,
+											  right);
 			this.zoomOnSpectrum(listOfPeaks);
+			document.getElementById("win3").style.display = "none";
 	
 		}
 	}
@@ -344,7 +390,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 	 * It means that the user has MOUSE DOWN and immediately MOUSE UP without drawing a rectangle.
 	 * Hence, we must set the zoomObject to null, otherwise the rectangle will be drawn even if the user has MOUSE UP
 	 */
-	else{
+	else if(specview.controller.plugins.Highlight.zoomObject != null){
 			specview.controller.plugins.Highlight.zoomObject.zooming_on_molecule = false;
 			specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum = false;
 			specview.controller.plugins.Highlight.zoomObject = null;	
@@ -359,39 +405,12 @@ specview.controller.plugins.Highlight.prototype.cacacaca = function(){
 }
 
 /**
- * zooming
  * @param type
+ * zooming
  */
 specview.controller.plugins.Highlight.prototype.zoomOnSpectrum = function(listOfPeaks){
 	var type="spectrum";
 	this.editorObject.zoom(listOfPeaks);
-//	this.editorObject.setNewSpectrum(listOfPeaks);
-	/*
-	this.editorObject.specObject.zoomLevel += 1;
-	this.editorObject.specObject.zoomMap[this.editorObject.specObject.zoomMap.length] = listOfPeaks ; 
-	this.editorObject.specObject.spectrum.peakList = listOfPeaks;
-	this.editorObject.specObject.setCoordinatesPixelOfSpectrum();
-	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
-//	this.editorObject.setModels([this.editorObject.specObject]);
-	
-	this.editorObject.neighborList = this.editorObject.setNeighborListTrue([this.editorObject.specObject]);
-	this.editorObject.spectrumRenderer.clearSpectrum(this.editorObject.specObject.mainSpecBox,this.editorObject.graphics);
-	this.editorObject.spectrumRenderer.render(this.editorObject.specObject,
-								 this.editorObject.specObject.transform,
-								 this.editorObject.specObject.mainSpecBox);
-	
-	
-	this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this.editorObject);
-	this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-	this.setDraggingTool(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-			 specview.controller.plugins.Highlight.zoomObject.rectangle.width);
-	
-	specview.controller.plugins.Highlight.zoomObject = null;
-	
-	this.reDrawGrid();
-	this.reDrawAxis();
-	*/
 	specview.controller.plugins.Highlight.zoomObject = null;
 
 };
@@ -446,8 +465,9 @@ specview.controller.plugins.Highlight.prototype.setDraggingTool = function(left,
 };
 
 
-specview.controller.plugins.Highlight.prototype.getObjects = function(x1,x2,opt_y1,opt_y2){
-	return this.editorObject.neighborList.getObjects(x1,x2,opt_y1,opt_y2);
+specview.controller.plugins.Highlight.prototype.getObjects = function(type,x1,x2,opt_y1,opt_y2){
+//	alert(type+" ; "+x1+" ; "+x2+" ; "+opt_y1+" ; "+opt_y2)
+	return this.editorObject.neighborList.getObjects(type,x1,x2,opt_y1,opt_y2);
 };
 	
 specview.controller.plugins.Highlight.prototype.reDrawAxis = function(){

@@ -63,7 +63,6 @@ specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
     var scaleX=(bottomRight.x-bottomLeft.x)/21;
     var scaleY=(bottomLeft.y-topLeft.y)/9;
     //Vertical grid
-//    alert(scaleX)
     for(var k=bottomLeft.x+100;k<bottomRight.x;k+=scaleX){
     	boxPath.moveTo(k,bottomRight.y);
     	boxPath.lineTo(k,topRight.y+10);

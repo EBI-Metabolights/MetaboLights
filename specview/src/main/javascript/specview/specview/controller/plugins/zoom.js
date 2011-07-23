@@ -55,6 +55,7 @@ specview.controller.plugins.Zoom.COMMAND = {
  * We pas this argument to ensure that the rectangle is not drawn OUTSIDE the box
  * @param box
  */
+/*
 specview.controller.plugins.Zoom.setRectangle = function(initialCoordinates,finalCoordinates,box){
 	var lower_boundary = box[3].y;
 	var upper_boundary = box[0].y;
@@ -70,9 +71,7 @@ specview.controller.plugins.Zoom.setRectangle = function(initialCoordinates,fina
 	var topLeft = finalCoordinates.x < initialCoordinates.x && finalCoordinates.y < initialCoordinates.y;
 	var bottomRight = finalCoordinates.x > initialCoordinates.x && finalCoordinates.y > initialCoordinates.y;
 	var topRight = finalCoordinates.x > initialCoordinates.x && finalCoordinates.y < initialCoordinates.y;
-	/*
-	 * Draw the rectangle according to the direction of the mouse
-	 */
+	// * Draw the rectangle according to the direction of the mouse
 	if(bottomLeft){
 		if(finalCoordinates.x < left_boundary){
 			finalCoordinates.x = left_boundary + 2;
@@ -120,24 +119,96 @@ specview.controller.plugins.Zoom.setRectangle = function(initialCoordinates,fina
 	}
 	
 	
-	/*
-	if(finalCoordinates.y >= lower_boundary){// if the mouse is dragged below the box
-			finalCoordinates.y = lower_boundary - 5;
-	}else if(finalCoordinates.x >= right_boundary){// if the mouse is dragged on the right side of the box
-		finalCoordinates.x = right_boundary.x - 2
-	}else if(finalCoordinates.x <= left_boundary){// if the mouse is dragged on the left side of the box
-		finalCoordinates.x = left_boundary.x + 2
-	}
 	
-	rect = rect == null ? new goog.math.Rect(
-			initialCoordinates.x + document.getElementById("moleculeContainer").offsetLeft,
-			initialCoordinates.y + document.getElementById("moleculeContainer").offsetTop,
-			finalCoordinates.x-initialCoordinates.x,
-			finalCoordinates.y-initialCoordinates.y) : rect ;
-	*/		
 	return rect;
 
 }
+*/
+
+
+/**
+ * 
+ * @param initialCoordinates of the zoom rectangle (where the mouse clicked)
+ * @param finalCoordinates of the zoom rectangle where the mouse is dragging
+ * @param box
+ * @returns {Array}
+ */
+specview.controller.plugins.Zoom.setRectangleZoom = function(initialCoordinates , finalCoordinates , box){
+
+	var lower_boundary = box[3].y;
+	var upper_boundary = box[0].y;
+	var left_boundary = box[0].x;
+	var right_boundary = box[1].x;
+	
+	var too_bellow = (finalCoordinates.y - document.getElementById("moleculeContainer").offsetTop) > lower_boundary;
+	var too_left = (finalCoordinates.x - document.getElementById("moleculeContainer").offsetLeft) < left_boundary;
+	var too_top = (finalCoordinates.y - document.getElementById("moleculeContainer").offsetTop) < upper_boundary;
+	var too_right = (finalCoordinates.x - document.getElementById("moleculeContainer").offsetLeft) > right_boundary;
+	
+
+	var rect = null;
+	
+	var ar = new Array();
+	
+	var left;
+	var top;
+	var height;
+	var width;
+
+	var bottomLeft = finalCoordinates.x < initialCoordinates.x && finalCoordinates.y > initialCoordinates.y;
+	var topLeft = finalCoordinates.x < initialCoordinates.x && finalCoordinates.y < initialCoordinates.y;
+	var bottomRight = finalCoordinates.x > initialCoordinates.x && finalCoordinates.y > initialCoordinates.y;
+	var topRight = finalCoordinates.x > initialCoordinates.x && finalCoordinates.y < initialCoordinates.y;
+
+	if(bottomLeft){
+			left = finalCoordinates.x + 15;
+			top = initialCoordinates.y;
+			width = initialCoordinates.x - finalCoordinates.x;
+			height = finalCoordinates.y - initialCoordinates.y - 15;
+	}else if(topLeft){
+		left = finalCoordinates.x + 15;
+		top = finalCoordinates.y + 15;
+		width = initialCoordinates.x - finalCoordinates.x;
+		height = initialCoordinates.y - finalCoordinates.y;
+	}else if(bottomRight){
+		left = initialCoordinates.x - 15;
+		top = initialCoordinates.y - 15;
+		width = finalCoordinates.x - initialCoordinates.x;
+		height = finalCoordinates.y - initialCoordinates.y;		
+	}else if(topRight){
+		left = initialCoordinates.x;
+		top = finalCoordinates.y + 15;
+		width = finalCoordinates.x - initialCoordinates.x - 15;
+		height = initialCoordinates.y - finalCoordinates.y ;
+	}
+	
+	if(too_bellow){
+		height = lower_boundary - top - 10;
+//		alert("too below")
+//		specview.controller.plugins.Zoom.logger2.info(width)
+	}else if(too_right){
+		width = right_boundary - left - 10;
+//		alert("right")
+//		specview.controller.plugins.Zoom.logger2.info("too right")
+	}else if(too_left){
+		left = left_boundary + 10;
+//		alert("left")
+//		specview.controller.plugins.Zoom.logger2.info("too left")
+	}else if(too_top){
+//		specview.controller.plugins.Zoom.logger2.info(top+ " ; "+upper_boundary)
+		top = upper_boundary + 10 + document.getElementById("moleculeContainer").offsetTop;
+//		alert("top")
+//		specview.controller.plugins.Zoom.logger2.info("too top")
+	}
+//	specview.controller.plugins.Zoom.logger2.info(eid)
+	ar["left"] = left + "px";
+	ar["top"] = top + "px";
+	ar["width"] = width + "px";
+	ar["height"] = height + "px";
+	
+	return ar;
+	
+};
 
 
 
@@ -185,3 +256,6 @@ specview.controller.plugins.Zoom.prototype.execCommand = function(command,
  */
 specview.controller.plugins.Zoom.prototype.logger = goog.debug.Logger
 		.getLogger('specview.controller.plugins.Zoom');
+
+specview.controller.plugins.Zoom.logger2 = goog.debug.Logger
+.getLogger('specview.controller.plugins.Zoom');

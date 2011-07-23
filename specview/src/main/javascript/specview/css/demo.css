@@ -54,6 +54,7 @@ input.smallButton {
 	}
 
 input.button:active {
+	cursor:pointer;
     background-position: bottom right;
     color: #000;
     outline: none; /* hide dotted outline in Firefox */
@@ -229,6 +230,16 @@ input.button:active {
       border: 1px solid #999;
       cursor: default;
     }
+    
+    
+
+ 
+
+      background-color: rgb(250,200,200);
+      border: 1px solid #F99;
+    }
+
+
     
     
     

@@ -22,6 +22,17 @@
     goog.require('goog.ui.DragDropDetector');
     goog.require('goog.style');
     goog.require('goog.graphics');
+    
+    
+    goog.require('goog.debug.DivConsole');
+    goog.require('goog.debug.Logger');
+    goog.require('goog.debug.LogManager');
+    goog.require('goog.dom');
+    goog.require('goog.events');
+    goog.require('goog.object');
+    goog.require('goog.ui.Component.EventType');
+    goog.require('goog.ui.DimensionPicker');
+    
 </script>
 
 <script>
@@ -156,6 +167,20 @@ function initPage(){
 		      
 		    });
 		    
+		    //Display all the buttons
+	//	    <input id="helpButton" style="display:none" class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxHelp')" value = "A little help?">
+	//	    <input id="expandButton" style="display:none" class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum">
+	//	    <input id="unzoomButton" style="display:none" class = "button" type = "button" name = "chk1" onclick = "unzoom()" value = "Unzoom">
+	//	    <input id="resetMoleculeButton" style="display:none" class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule">
+	//	    <input id="resetSpectrumButton" style="display:none" class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum">
+	//	    document.getElementById("expandButton").style.top = spectrumData.mainSpecBox[2].y;
+	//	    document.getElementById("expandButton").style.display="block";
+	//	    document.getElementById("unzoomButton").style.top = spectrumData.mainSpecBox[2].y;
+	//	    document.getElementById("unzoomButton").style.display="block";
+	//	    document.getElementById("resetSpectrumButton").style.left = spectrumData.mainSpecBox[2].y;
+	//	    document.getElementById("resetSpectrumButton").style.display="block";
+	//	    document.getElementById("helpButton").style.display="block";
+	//	    document.getElementById("resetMoleculeButton").style.display="block";
 };
 goog.events.listen(window, goog.events.EventType.LOAD, initPage);
 
@@ -379,19 +404,19 @@ Hide the window
 </a>
 </li>
 </div>
-<input class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxHelp')" value = "A little help?">
-<input class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum">
-<input class = "button" type = "button" name = "chk1" onclick = "unzoom()" value = "Unzoom">
-<input class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule">
-<input class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum">
-<input class = "button" type = "button" name = "chk1" onclick = "newPage('http://www.yourPopUppage.com')" value = "Move molecule? KO">
-<input class = "button" id = "launch" type = "button" onclick = "launch()" value="View experiment">
+<input id="helpButton"  class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxHelp')" value = "A little help?">
+<input id="expandButton"  class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum">
+<input id="unzoomButton"  class = "button" type = "button" name = "chk1" onclick = "unzoom()" value = "Unzoom">
+<!-- <input id="resetMoleculeButton"  class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule">
+<input id="resetSpectrumButton"  class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum">
+ -->
 
-<input class = "button" 
-	   id="cmlInputFile" 
-	   type = "file"
-	   name = "chk1"
-	   onchange = "launch()"> 
+ 
+ 	<input class = "button" id = "launch" type = "button" onclick = "launch()" value="View experiment">
+ 	
+ 	<input class = "button"	id="cmlInputFile"	type = "file"> 
+
+
 
 
 
@@ -403,7 +428,9 @@ function unzoom(){
 }
 
 function launch(){
-	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/massSpecData/xml/";
+//	alert(document.getElementById("launch").innerHTML)
+	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/cml/";
+//	var dir = "../../specviewTest/data/cml/"
 	dir += document.getElementById("cmlInputFile").value;
 	document.experimentOfTheUser = document.javaApplet.parse(dir)
 	xmlDoc=specview.io.SpectrumCMLParser.getDocument(document.experimentOfTheUser);//XML document
@@ -454,7 +481,7 @@ count = 0;
 
 </script>
 
-	<fieldset id="fieldSet" style="width:1200px">
+	<fieldset id="fieldSet" style="width:1200px; border: none" >
       <legendstyle="top:143px"><h1>MetaboLight Spectrum viewer</h1></legend>
       <br>
       <li id="molName"></li>
@@ -472,7 +499,7 @@ count = 0;
 	<b>+Select your highlighting options</b><br><br>
 	 -Atoms
    <input type="button"  id = "atomHighlightColor" size="1" value="#FF4924">
-   <input class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxColor','atom')" value = "More color?"> <br>
+   <input  class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxColor','atom')"  value = "More color?"> <br>
 	-Bonds
    <input type="button" id = "bondHighlightColor" size="1" value="#FF4924">
    <input class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxColor','bond')" value = "More color?"><br>
@@ -590,20 +617,10 @@ count = 0;
 			<input class="smallButton" type="button" id="atomSensitivity" value="+" onclick="modifySensitivity('peak','+')">
 			<input class = "smallButton" type="text" id="peakSensitivityValue" value="10px" onchange="setSensitivity('peak')">
 </div>
-	 <div id="opacityOption"
-      style="top: 143px;
-			   left: 920px;
-  		   position: absolute;
-		       z-index: 1;
-  		   visibility: show;">
-   +<b>Select your opacity preference</b><br><br>
-   -Atoms<br>     
-   -Bonds<br> 
-   -Peaks<br>
-   </div>
+
    
    <div
-		style="top: 233px;
+		style="top: 143px;
 		left: 920px;
 		position: absolute;
 		z-index: 1;
@@ -612,22 +629,20 @@ count = 0;
       +<b>Zoom between the value:</b><br>   
    </div>
    <div
-   		style="top: 253px;
+   		style="top: 163px;
 		left: 920px;
 		position: absolute;
 		z-index: 1;
 		visibility: show;"
    >
    
-    <input  id="zoomMinValue" type="text"> and
-    <input  id="zoomMaxValue" type="text"><br>
+    <input  id="zoomMinValue" type="text" size="5"> and
+    <input  id="zoomMaxValue" type="text" size="5"><br>
     
    <input class="button" type="button" id="zoom" value="zoom" onclick="javascript:zoomOnSpectrum()"><br>   
    
    </div>
-   <div class="smallButton" id="sliderAtomOpacity"><script>document.write("<->")</script></div>	
-   <div class="smallButton" id="sliderBondOpacity"><script>document.write("<->")</script></div>
-   <div class="smallButton" id="sliderPeakopacity"><script>document.write("<->")</script></div>
+
    
       <label id="selectMolecule">Select a spectrum to render: </label>
       <br>
@@ -643,7 +658,9 @@ count = 0;
 		position:relative;
 		top:700px;
 		left:100px;
+		cursor:pointer;
 		display:none"
+		
 >
 <--drag--->
 
@@ -719,12 +736,8 @@ count = 0;
  });
 })();
 </script>
-<a 
- onmouseover="document.HideContent('floatingBoxColor'); return true;"
- href="javascript:HideContent('floatingBoxColor')">
-Hide the window
-</a>
-    </div>
+<input type="button" onclick="document.HideContent('floatingBoxColor'); return true;" value="Set color">
+</div>
 
 
 <div style=""></div>
@@ -839,8 +852,7 @@ Hide the window
      <br>
      <br>
      </div>
-<H1>A Java applet example</H1>
-<P>Here it is: <APPLET name="javaApplet" 
+<APPLET name="javaApplet" 
 					   code="CMLparser" 
 					   archive="example.jar"
 					   WIDTH="200" 
@@ -870,6 +882,18 @@ function donnut(){
 }
 
 </script>
+  <div 
+  	  id="win3" ,
+	  style="
+  	  display:none;
+  	  position:absolute;
+      left: 0px;
+      top: 0px;
+      width: 0px;
+      height: 0px;
+      background-color: transparent;
+      border: 1px solid black;"
+  >
 
 </body>
 </html>

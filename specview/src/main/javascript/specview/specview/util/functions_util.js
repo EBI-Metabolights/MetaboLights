@@ -105,7 +105,6 @@ specview.util.Utilities.insertCarriageReturnInString = function(string,CR,step){
 	var toreturn="";
 	for(var k=0;k<len-step;k+=step){
 		toreturn+=toreturn+string.substring(k,k+step)+CR;
-//		alert(toreturn)
 	}
 	return toreturn;
 }

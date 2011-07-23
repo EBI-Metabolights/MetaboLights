@@ -399,31 +399,34 @@ specview.controller.Controller.prototype.zoom = function(listOfPeaks){
 
 
 /**
- * Method to draw a new spectrum
+ * Method to draw a new spectrum invoked when zooming on the spectrum
+ * It automatically expand the spectrum
  */
 
 specview.controller.Controller.prototype.setNewSpectrum = function(listOfPeaks){
-	
-//	this.specObject.zoomLevel += 1;
 	this.specObject.zoomMap[this.specObject.zoomMap.length] = listOfPeaks ; 
 	this.specObject.spectrum.peakList = listOfPeaks;
-	this.specObject.setCoordinatesPixelOfSpectrum();
+
+//	this.specObject.setCoordinatesPixelOfSpectrum();
 	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
 	
 	this.neighborList = this.setNeighborListTrue([this.specObject]);
-	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
-	this.spectrumRenderer.render(this.specObject,
-								 this.specObject.transform,
-								 this.specObject.mainSpecBox);
+//	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
+//	this.spectrumRenderer.render(this.specObject,
+//								 this.specObject.transform,
+//								 this.specObject.mainSpecBox);
+	this.expandSpectrum();
 	
 	if(specview.controller.plugins.Highlight.zoomObject != null){
+		var left = parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.left));
+		var right = left + parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.width));
 		this.spectrumRenderer.clearRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this);
-		this.mapZoomSpectrum(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-				 specview.controller.plugins.Highlight.zoomObject.rectangle.width,this);
-		this.setDraggingTool(specview.controller.plugins.Highlight.zoomObject.rectangle.left,
-				 specview.controller.plugins.Highlight.zoomObject.rectangle.width);	
+		this.mapZoomSpectrum(left,right-left,this);
+		this.setDraggingTool(left,right-left);	
 	}
 
+	/*
+	
 	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,
 									 'black',
 									 this.specObject.spectrum);
@@ -433,6 +436,7 @@ specview.controller.Controller.prototype.setNewSpectrum = function(listOfPeaks){
 									 this.spectrumRenderer.box,
 									 'black');
 
+*/
 };
 
 

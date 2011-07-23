@@ -223,10 +223,18 @@ specview.model.NeighborList.prototype.setNeighborList = function(array,type){
 /**
  * This methods returns all the objects between coordinates x1 and x2.
  * This is useful when the user zoom by drawing a rectangle
- * x1 is the left bound of the rectangle
- * x2 is the right bound of the rectangle
+ * @param
+ * -x1 is the left bound of the rectangle
+ * -x2 is the right bound of the rectangle
+ * -opt_y1 is the upper bound
+ * -opt_y2 is the lower bound
+ * -type is a string : either "molecule" or "spectrum" and helpe to decide in which array_cells to look. Helpful for efficiency
+ *  matter
+ * @return
+ * the objects in the specified limits
  */
 specview.model.NeighborList.prototype.getObjects = function(type,x1,x2,opt_y1,opt_y2){
+//	alert(y1 + " ; "+y2)
 	var arrayOfObjects = new Array();
 	var c=0;
 	var cells =  type=="spectrum" ? this.cells_samy_spectrum_2 :
@@ -234,9 +242,17 @@ specview.model.NeighborList.prototype.getObjects = function(type,x1,x2,opt_y1,op
 	for(key in cells){
 		c++;
 		var coord = cells[key][0];
+		if(opt_y1==undefined && opt_y2==undefined){
 			if(coord.x < x2 && coord.x > x1){
 				arrayOfObjects.push(cells[key][1]);
+			}	
+		}else{
+//			specview.model.NeighborList.logger2.info(coord+ "|||" +"("+x1 + ";" +x2+")"+ "---" +"("+opt_y1+";"+opt_y2+")");
+			if(coord.x < x2 && coord.x > x1 && coord.y > opt_y1 && coord.y < opt_y2){
+//				alert("caca")
+				arrayOfObjects.push(cells[key][1]);
 			}
+		}
 	}
    	return arrayOfObjects;
 };
