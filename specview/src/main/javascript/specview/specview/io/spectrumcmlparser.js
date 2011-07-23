@@ -60,6 +60,7 @@ specview.io.SpectrumCMLParser.getDocument=function(cmlString) {
  * @returns {specview.model.NMRdata()}
  */
 specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
+	alert("caca")
 	var string = (new XMLSerializer()).serializeToString(XMLdoc);
 	var molToBuild=new Array();
 //			alert(XMLdoc.getElementsByTagName("metadataList"))
@@ -138,7 +139,7 @@ specview.io.SpectrumCMLParser.parseDocument=function(NMRdataObject,XMLdoc){
 
 	nmrData.mainMoleculeName=THEMOLECULENAME;
 
-	alert(THEMOLECULENAME)
+//	alert(THEMOLECULENAME)
 	for(var molecule=0;molecule<listOfMolecules.length;molecule++){
 		var XmlTextElement=false;
 		try{
