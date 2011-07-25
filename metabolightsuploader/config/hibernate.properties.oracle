@@ -1,7 +1,7 @@
 # Database parameters
-hibernate.connection.username=isatab
-hibernate.connection.password=isatab
-hibernate.connection.url=jdbc:oracle:thin:@pernod.ebi.ac.uk:1571:MTAPRO
+hibernate.connection.username=xxxxxx
+hibernate.connection.password=xxxxxx
+hibernate.connection.url=jdbc:oracle:thin:@xxxxxx:1521:xxxxxx
 hibernate.connection.driver_class=oracle.jdbc.driver.OracleDriver
 hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
 
