@@ -18,18 +18,22 @@
 	</definition>
 
 	<definition name="index" extends="base.definition">
-		<put-attribute name="title"
-			value="Metabolights - Metabolomics Portal" />
+		<put-attribute name="title" value="MetaboLights - Metabolomics Portal" />
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
 	</definition>
 
 	<definition name="about" extends="base.definition">
-		<put-attribute name="title" value="About Metabolights" />
+		<put-attribute name="title" value="About MetaboLights" />
 		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
+	</definition>
+	
+	<definition name="contact" extends="base.definition">
+		<put-attribute name="title" value="Contact MetaboLights" />
+		<put-attribute name="body" value="/WEB-INF/jsp/contact.jsp" />
 	</definition>
 
     <definition name="login" extends="base.definition">
-        <put-attribute name="title" value="Log in to Metabolights" />
+        <put-attribute name="title" value="Log in to MetaboLights" />
         <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
     </definition>
 
@@ -39,17 +43,17 @@
     </definition>
 
     <definition name="submit" extends="base.definition">
-        <put-attribute name="title" value="Metabolights file upload for submission" />
+        <put-attribute name="title" value="MetaboLights file upload for submission" />
         <put-attribute name="body" value="/WEB-INF/jsp/submit.jsp" />
     </definition>
 
     <definition name="biisubmit" extends="base.definition">
-        <put-attribute name="title" value="Metabolights BII upload for submission" />
+        <put-attribute name="title" value="MetaboLights ISA-archive upload for submission" />
         <put-attribute name="body" value="/WEB-INF/jsp/biisubmit.jsp" />
     </definition>
 
     <definition name="forgotPassword" extends="base.definition">
-        <put-attribute name="title" value="Metabolights password lost" />
+        <put-attribute name="title" value="MetaboLights password lost" />
         <put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp" />
     </definition>
 
@@ -59,22 +63,22 @@
     </definition>
 
     <definition name="submitOk" extends="base.definition">
-        <put-attribute name="title" value="Metabolights upload successful" />
+        <put-attribute name="title" value="MetaboLights upload successful" />
         <put-attribute name="body" value="/WEB-INF/jsp/submitOk.jsp" />
     </definition>
 
     <definition name="entry" extends="base.definition">
-        <put-attribute name="title" value="Metabolights entry" />
+        <put-attribute name="title" value="MetaboLights entry" />
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
 
     <definition name="timeout" extends="base.definition">
-        <put-attribute name="title" value="Timed out of Metabolights" />
+        <put-attribute name="title" value="Timed out of MetaboLights" />
         <put-attribute name="body" value="/WEB-INF/jsp/timeout.jsp" />
     </definition>
 
     <definition name="createAccount" extends="base.definition">
-        <put-attribute name="title" value="Create a new account for Metabolights" />
+        <put-attribute name="title" value="Create a new account for MetaboLights" />
         <put-attribute name="body" value="/WEB-INF/jsp/createAccount.jsp" />
     </definition>
 
@@ -89,7 +93,7 @@
     </definition>
 
     <definition name="searchResult" extends="base.definition">
-        <put-attribute name="title" value="Metabolights search results" />
+        <put-attribute name="title" value="MetaboLights search results" />
         <put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp" />
 		<put-attribute name="bodyleft" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>

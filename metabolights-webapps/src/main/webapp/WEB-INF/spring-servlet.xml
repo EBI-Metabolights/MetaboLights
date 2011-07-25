@@ -101,12 +101,6 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
  
-    <!-- bean id="dataSource"
-        class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-        p:driverClassName="${jdbc.driverClassName}"
-        p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
-        p:password="${jdbc.password}" /-->
- 
     <!-- read settings from jdbc.properties file -->
     <bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
 		<property name="driverClass" value="${jdbc.driverClassName}"/>
@@ -189,7 +183,11 @@
       <property name="from" value="no-reply@ebi.ac.uk"/>
       <property name="subject" value="Your account for Metabolights is now active"/>
     </bean>
-
+    
+    <bean id="contactUsTemplate" class="org.springframework.mail.SimpleMailMessage">
+      <property name="subject" value="MetaboLights Website General Request"/>
+      <property name="to">  <list><value>${mtblAdminEmailAddress}</value></list> </property>  
+    </bean>
 
     
 </beans>

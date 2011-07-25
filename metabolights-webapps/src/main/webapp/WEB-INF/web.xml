@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 
-	<display-name>Metabolights</display-name>
+	<display-name>MetaboLights</display-name>
 
     <!-- Location of the XML file that defines the root application context. Applied by ContextLoaderListener.-->
     <context-param>
