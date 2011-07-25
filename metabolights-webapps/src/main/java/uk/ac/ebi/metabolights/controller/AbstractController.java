@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
-import uk.ac.ebi.metabolights.authenticate.IsaTabAuthentication;
 import uk.ac.ebi.metabolights.service.TextUtils;
 
 /**

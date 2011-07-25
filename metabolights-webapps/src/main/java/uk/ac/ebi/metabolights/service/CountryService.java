@@ -17,7 +17,7 @@ public class CountryService {
 
         countries.put ("","                  ");
 		countries.put ("AF","Afghanistan");
-        countries.put ("AX","Åland Islands");
+        //countries.put ("AX","Åland Islands");
         countries.put ("AL","Albania");
         countries.put ("DZ","Algeria");
         countries.put ("AS","American Samoa");

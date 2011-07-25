@@ -44,7 +44,7 @@ public class EntryController extends AbstractController {
 			}
 		}
 		
-		ModelAndView mav = new ModelAndView("entry"); ;
+		ModelAndView mav = new ModelAndView("entry");
 		mav.addObject("study", study);
 		mav.addObject("organismNames", organismNames);
 

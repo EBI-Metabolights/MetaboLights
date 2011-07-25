@@ -8,6 +8,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
+import uk.ac.ebi.metabolights.form.ContactValidation;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 
@@ -32,6 +33,9 @@ public class EmailService {
 
 	@Autowired
 	private SimpleMailMessage accountApprovedTemplate; // template for notification that account is active
+	
+	@Autowired
+	private SimpleMailMessage contactUsTemplate; // template for general website requests
 
 	
 	public void setMailSender(MailSender mailSender) {
@@ -70,7 +74,7 @@ public class EmailService {
 	}
 
 	/**
-	 * Sends an email to MTBL admin for notification of a new account request.
+	 * Sends an email to MetaboLights admin for notification of a new account request.
 	 * Admin then needs to authorize this by clicking a private URL in the email. 
 	 * 
 	 * @param usr detail of the new account requested
@@ -99,6 +103,25 @@ public class EmailService {
 
 	
 	/**
+	 * Sends an email to MetaboLights, general request.
+	 * 
+	 * @param usr details for the email message
+	 */
+	public void sendContactUsAlert (ContactValidation usr) {
+		SimpleMailMessage msg = new SimpleMailMessage(this.contactUsTemplate);
+		String body = PropertyLookup.getMessage("msg.emailContactUsTo");
+		msg.setFrom(usr.getEmailAddress());
+		body = body + "\n\n" +
+				"From: " + usr.getFirstName() +" "+ usr.getLastName() + "\n\n" +
+				"Email: " + usr.getEmailAddress() + "\n\n" +
+				"Affiliaction: "+ usr.getAffiliation() +" "+ usr.getAffiliationUrl() + "\n\n" +
+				"Message: " + usr.getMessage() + "\n";
+		msg.setText(body);
+		this.mailSender.send(msg);
+	}	
+	
+	
+	/**
 	 * For use by a Sping Validator, to check if an email looks likely.
 	 * @param aEmailAddress
 	 */
@@ -107,9 +130,12 @@ public class EmailService {
 		boolean result = true;
 		try {
 			InternetAddress emailAddr = new InternetAddress(aEmailAddress);
+			emailAddr.validate(); //Validate the email address, standard Java
+			
 			if ( ! hasNameAndDomain(aEmailAddress) ) {
 				result = false;
 			}
+			
 		}
 		catch (AddressException ex){
 			result = false;
@@ -124,11 +150,13 @@ public class EmailService {
 	private static boolean hasNameAndDomain(String aEmailAddress){
 		String[] tokens = aEmailAddress.split("@");
 		return 
-		tokens.length == 2 &&
-		TextUtils.textHasContent( tokens[0] ) && 
-		TextUtils.textHasContent( tokens[1] ) ;
+			tokens.length == 2 &&
+			TextUtils.textHasContent( tokens[0] ) && 
+			TextUtils.textHasContent( tokens[1] ) &&
+			tokens[1].contains("."); //Must have a somewhere.domain
 	}
 
+	
 
 
 }
