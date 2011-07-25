@@ -38,3 +38,6 @@
        
       </div-->               
  
+  	<div id="text-fullwidth">
+  		<a href="<spring:url value="contact"/>"><spring:message code="menu.contact"/></a>
+   	</div>
