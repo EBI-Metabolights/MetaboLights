@@ -27,9 +27,24 @@
 	            <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
 	            </td>
 	        </tr>
+	        
+	   		<tr>
+	   			<td colspan='3'>
+			       <HR>
+			       <br>
+			       <img src="img/isatab_logo.png">
+			       <br>
+			       <br>
+			       <spring:message code="msg.metabolightsAbout6" />
+			       <br/>
+			       <br/>
+			       <a href="<spring:url value="submitHelp"/>"><spring:message code="menu.submitHelp"/></a>
+			       <br>       
+		    	</td>  	
+	        </tr>
 	    </table>
 		
-	</form>
+	</form> 
 
 	 <c:if test="${not empty message}">
 	    <div class="error">

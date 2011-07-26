@@ -46,6 +46,11 @@
         <put-attribute name="title" value="MetaboLights file upload for submission" />
         <put-attribute name="body" value="/WEB-INF/jsp/submit.jsp" />
     </definition>
+    
+    <definition name="submitHelp" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights - How to upload files for submission" />
+        <put-attribute name="body" value="/WEB-INF/jsp/submitHelp.jsp" />
+    </definition>
 
     <definition name="biisubmit" extends="base.definition">
         <put-attribute name="title" value="MetaboLights ISA-archive upload for submission" />
