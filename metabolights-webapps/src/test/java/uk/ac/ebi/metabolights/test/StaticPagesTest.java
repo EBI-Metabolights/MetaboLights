@@ -12,12 +12,15 @@ import junit.framework.TestCase;
  */
 public class StaticPagesTest extends TestCase {
 	
+	//TODO, read properties file, like messages_en.properties for string matching
+	
 	//String baseUrl = "http://localhost:8080/metabolights";
 	String baseUrl   = "http://wwwdev.ebi.ac.uk/metabolights/";
 	String aboutUrl  = "about";
 	String loginUrl  = "log in";
 	String submitUrl = "submit";
 	String homeUrl   = "home";
+	String forgotPw  = "forgotPassword";
     
 	//These links has to be on the home page
 	private String[] urls = {homeUrl, submitUrl, aboutUrl, loginUrl};
@@ -31,9 +34,12 @@ public class StaticPagesTest extends TestCase {
 		  "Griffin", "Metabolomics Standards Initiative" };
 	
 	//Login form test
-	private String successUrl = "login-success";
+	private String loginSuccessUrl = "login-success";
 	private String userName   = "metabolights@ebi.ac.uk";
-	private String password   = "metabolights";
+	private String password   = "81c808"; //TODO, change before testing. After test, a new password is emailed 
+	
+	//Forgotten password form
+	private String resetSuccess = "password was sent";
 	
 	
 	public void testHomePageLinks() throws IOException, SAXException {
@@ -103,12 +109,11 @@ public class StaticPagesTest extends TestCase {
 	        form.setParameter( "freeTextQuery", searchTerm );      	// set search term
 	        
 	        //TODO, does not handle javascript
-	        form.submit();         									// submit the form 
+	        //form.submit();         									// submit the form 
 	        
-	        WebResponse searchResponse = wc.getCurrentPage();
-	        
-	        int resultsLenght = searchResponse.getContentLength();
-	        TextBlock[] textBlocks = searchResponse.getTextBlocks();
+	        //WebResponse searchResponse = wc.getCurrentPage();
+	        //int resultsLenght = searchResponse.getContentLength();
+	        //TextBlock[] textBlocks = searchResponse.getTextBlocks();
 
 	      } catch (Exception e) {
 	         System.err.println( "Exception: " + e );
@@ -137,11 +142,39 @@ public class StaticPagesTest extends TestCase {
 	        
 	        String url = loginResponse.getURL().toString();
 	        
-	        if (url.equals(baseUrl+successUrl)) {
+	        if (url.equals(baseUrl+loginSuccessUrl)) {
 	        	assertTrue("Login sucessfull", true);
 	        } else {
 	        	fail("Login failed");
 	        }
+	        	
+
+	      } catch (Exception e) {
+	         System.err.println( "Exception: " + e );
+	      }
+	    
+	}
+	
+	public void testForgottenPasswordForm() throws IOException, SAXException {
+	    try {
+	    	
+	    	// create the conversation object which will maintain state
+	        WebConversation wc = new WebConversation();
+
+	        // Obtain the main page
+	        WebRequest request = new GetMethodWebRequest( baseUrl+ forgotPw );
+	        WebResponse response = wc.getResponse( request );
+
+	        //Test the login form
+	        System.out.println( "Testing '"+baseUrl+forgotPw+"' for "+userName);
+	        WebForm form = response.getFormWithName("resetForm");	// select the login form in the page
+	        form.setParameter( "emailAddress", userName );	      
+	        form.submit();         			// submit the form 
+	        
+	        WebResponse resetResponse = wc.getCurrentPage(); //Read the new page text
+	        String text = resetResponse.getText();
+	        
+	        assertTrue("Should have contained the text '"+resetSuccess+"'", text.contains(resetSuccess));
 	        	
 
 	      } catch (Exception e) {
