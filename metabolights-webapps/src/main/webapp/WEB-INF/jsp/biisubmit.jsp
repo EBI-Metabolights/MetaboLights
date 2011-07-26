@@ -30,13 +30,6 @@
 	        
 	   		<tr>
 	   			<td colspan='3'>
-			       <HR>
-			       <br>
-			       <img src="img/isatab_logo.png">
-			       <br>
-			       <br>
-			       <spring:message code="msg.metabolightsAbout6" />
-			       <br/>
 			       <br/>
 			       <a href="<spring:url value="submitHelp"/>"><spring:message code="menu.submitHelp"/></a>
 			       <br>       
