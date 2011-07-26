@@ -58,16 +58,16 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 	 * If the user has MOUSED DOWN in the canvas, it means that he wants to zoom
 	 */
 
-	if(specview.controller.plugins.Highlight.zoomObject!=null && document.getElementById("floatingBox").style.display == "none"){
+	if(specview.controller.plugins.Highlight.zoomObject!=null &&
+			document.getElementById("floatingBox").style.display == "none" &&
+			document.getElementById("floatingBoxSelectMultiplePeaks").style.display == "none"){
 		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
 		if(specview.controller.plugins.Highlight.zoomObject.rectangle != null){
 			if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
 				specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum = true;
-			}else if(isInMolecule){
-				this.clearMolecule();
-				this.clearZoomRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle);
-				this.reDrawMolecule();
+			}else if(isInMolecule || specview.controller.plugins.Highlight.zoomObject.zooming_on_molecule){
+				specview.controller.plugins.Highlight.zoomObject.zooming_on_molecule = true;
 			}
 		}
 
@@ -79,10 +79,13 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 		/*
 		 * Rectangle is not really a rectangle , it is an associative array {left: , top: , width: , height: }
 		 */
+//		specview.controller.plugins.Highlight.logger2.info("zooming in spectrum : "+specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum+ " +++++ zooming in molecule : "+ specview.controller.plugins.Highlight.zoomObject.zooming_on_molecule)
 		var zoomArrayTopLeftWidthHeight = 
 			specview.controller.plugins.Zoom.setRectangleZoom(specview.controller.plugins.Highlight.zoomObject.initialCoordinates,
 														  specview.controller.plugins.Highlight.zoomObject.finalCoordinates,
-														  this.editorObject.specObject.mainSpecBox);
+														  this.editorObject.specObject.mainSpecBox,
+														  specview.controller.plugins.Highlight.zoomObject.zooming_on_molecule,
+														  specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum);
 		
 		
 		document.getElementById("win3").style.left = zoomArrayTopLeftWidthHeight["left"];
@@ -294,7 +297,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
  */
 document.onmousedown = function(e){
 	if(specview.controller.Controller.isInSpectrum(e,document.metaSpecObject)){
-		
+		specview.controller.plugins.Highlight.logger2.info("Clicking in the spectru")
 		var initialCoordinates = new goog.math.Coordinate(e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft,
 													  e.clientY + document.body.scrollTop + document.documentElement.scrollTop)
 		
@@ -302,13 +305,13 @@ document.onmousedown = function(e){
 		specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
 		
 		
-		
 	}else if(specview.controller.Controller.isInMolecule(e,document.metaSpecObject)){
-		
+		specview.controller.plugins.Highlight.logger2.info("Mouse down in the molecule")
 		var initialCoordinates = new goog.math.Coordinate(e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft,
-				  e.clientY + document.body.scrollTop + document.documentElement.scrollTop)
-//		var initialCoordinates = specview.controller.Controller.getMouseCoords(e);
+													  e.clientY + document.body.scrollTop + document.documentElement.scrollTop)
+
 		if(document.editorObject.neighborList.getObjectFromCoord(e,document.editorObject.specObject) == undefined){
+			specview.controller.plugins.Highlight.logger2.info("in the molecule about to zoom")
 			specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
 			specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
 		}
@@ -351,7 +354,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			object.isSelected ? this.unselectObject(object) : this.selectObject(object,e);
 			this.editorObject.specObject.selected.push(object);
 			document.ShowContent("floatingBoxSelectMultiplePeaks")
-		}else{
+		}else if(specview.controller.plugins.Highlight.zoomObject.rectangle != null){
 			var left = parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.left));
 			var right = left + parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.width));
 			var top = parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.top));

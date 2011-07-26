@@ -49,81 +49,7 @@ specview.controller.plugins.Zoom.COMMAND = {
 	ZOOM_OUT : 'zoomOut'
 };
 
-/**
- * Draw the zoom rectangle.
- * box can be the mainSpecBox or the mainMolBox
- * We pas this argument to ensure that the rectangle is not drawn OUTSIDE the box
- * @param box
- */
-/*
-specview.controller.plugins.Zoom.setRectangle = function(initialCoordinates,finalCoordinates,box){
-	var lower_boundary = box[3].y;
-	var upper_boundary = box[0].y;
-	var left_boundary = box[0].x;
-	var right_boundary = box[1].x;
 
-	var rect = null;
-	
-	var height;
-	var width;
-
-	var bottomLeft = finalCoordinates.x < initialCoordinates.x && finalCoordinates.y > initialCoordinates.y;
-	var topLeft = finalCoordinates.x < initialCoordinates.x && finalCoordinates.y < initialCoordinates.y;
-	var bottomRight = finalCoordinates.x > initialCoordinates.x && finalCoordinates.y > initialCoordinates.y;
-	var topRight = finalCoordinates.x > initialCoordinates.x && finalCoordinates.y < initialCoordinates.y;
-	// * Draw the rectangle according to the direction of the mouse
-	if(bottomLeft){
-		if(finalCoordinates.x < left_boundary){
-			finalCoordinates.x = left_boundary + 2;
-		}else if(finalCoordinates.y >= lower_boundary){
-			finalCoordinates.y = lower_boundary - 2;
-		}	
-		rect = new goog.math.Rect(
-				  finalCoordinates.x + document.getElementById("moleculeContainer").offsetLeft,
-				  initialCoordinates.y + document.getElementById("moleculeContainer").offsetTop,
-				  initialCoordinates.x-finalCoordinates.x,
-				  finalCoordinates.y-initialCoordinates.y);
-	}else if(topLeft){
-		if(finalCoordinates.x < left_boundary){
-			finalCoordinates.x = left_boundary + 2;
-		}else if(finalCoordinates.y < upper_boundary){
-			finalCoordinates.y = upper_boundary + 2;
-		}
-		rect = new goog.math.Rect(
-				  finalCoordinates.x + document.getElementById("moleculeContainer").offsetLeft,
-				  finalCoordinates.y + document.getElementById("moleculeContainer").offsetTop,
-				  initialCoordinates.x-finalCoordinates.x,
-				  initialCoordinates.y-finalCoordinates.y);
-	}else if(bottomRight){
-		var width = finalCoordinates.x-initialCoordinates.x;
-		if(finalCoordinates.y >= lower_boundary){// if the mouse is dragged below the box
-			finalCoordinates.y = lower_boundary - 5;
-		}else if(finalCoordinates.x >= right_boundary){// if the mouse is dragged on the right side of the box
-//			finalCoordinates.x = right_boundary.x - 2
-//			width = right_boundary - finalCoordinates.x - 2
-		}
-		rect = new goog.math.Rect(
-				initialCoordinates.x + document.getElementById("moleculeContainer").offsetLeft,
-				initialCoordinates.y + document.getElementById("moleculeContainer").offsetTop,
-				finalCoordinates.x-initialCoordinates.x,
-				finalCoordinates.y-initialCoordinates.y);
-	}else if(topRight){
-		if(finalCoordinates.y < upper_boundary){
-			finalCoordinates.y = upper_boundary + 2;
-		}
-		rect = new goog.math.Rect(
-				  initialCoordinates.x + document.getElementById("moleculeContainer").offsetLeft,
-				  finalCoordinates.y + document.getElementById("moleculeContainer").offsetTop,
-				  finalCoordinates.x-initialCoordinates.x,
-				  initialCoordinates.y-finalCoordinates.y);
-	}
-	
-	
-	
-	return rect;
-
-}
-*/
 
 
 /**
@@ -133,12 +59,28 @@ specview.controller.plugins.Zoom.setRectangle = function(initialCoordinates,fina
  * @param box
  * @returns {Array}
  */
-specview.controller.plugins.Zoom.setRectangleZoom = function(initialCoordinates , finalCoordinates , box){
+specview.controller.plugins.Zoom.setRectangleZoom = function(initialCoordinates , finalCoordinates , box, b1, b2){
 
-	var lower_boundary = box[3].y;
-	var upper_boundary = box[0].y;
-	var left_boundary = box[0].x;
-	var right_boundary = box[1].x;
+	var lower_boundary = null;
+	var upper_boundary = null;
+	var left_boundary = null;
+	var right_boundary = null;
+	
+	if(b1){
+			specview.controller.plugins.Zoom.logger2.info("zooming in molecule")
+		 lower_boundary = document.metaSpecObject.mainMolBox[0].y;
+		 upper_boundary = document.metaSpecObject.mainMolBox[3].y;
+		 left_boundary = document.metaSpecObject.mainMolBox[0].x;
+		 right_boundary = document.metaSpecObject.mainMolBox[1].x;		
+		}else if(b2){
+		specview.controller.plugins.Zoom.logger2.info("zooming in spectrum : "+document.editorObject.mainSpecBox)
+		 lower_boundary = document.metaSpecObject.mainSpecBox[3].y;
+		 upper_boundary = document.metaSpecObject.mainSpecBox[0].y;
+		 left_boundary = document.metaSpecObject.mainSpecBox[0].x;
+		 right_boundary = document.metaSpecObject.mainSpecBox[1].x;
+		 	}
+
+
 	
 	var too_bellow = (finalCoordinates.y - document.getElementById("moleculeContainer").offsetTop) > lower_boundary;
 	var too_left = (finalCoordinates.x - document.getElementById("moleculeContainer").offsetLeft) < left_boundary;

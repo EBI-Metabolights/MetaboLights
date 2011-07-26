@@ -311,6 +311,7 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 	            var spectrum=model.spectrum;
 	            var molBox=model.mainMolBox;
 	            var specBox=model.mainSpecBox;
+	//            alert(molecule)
 	          //  this.logger.info(specBox);
 	            atom_coords = goog.array.map(molecule.atoms,function(a) {return a.coord; });//the coords of the file. Simple array
 	            peak_coords = goog.array.map(spectrum.peakList,function(a) {return a.coord;});
