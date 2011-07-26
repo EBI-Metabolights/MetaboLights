@@ -48,7 +48,7 @@ public class ContactUsController extends AbstractController{
     public ModelAndView contactUs(@Valid ContactValidation contactValidation, BindingResult result) {
 
         if (result.hasErrors()) {
-            return new ModelAndView("contact","command", contactValidation);
+            return new ModelAndView("contact","contactValidation", contactValidation);
         }
         
         logger.info("Sending 'Contact Us' email from " + contactValidation.getEmailAddress());
