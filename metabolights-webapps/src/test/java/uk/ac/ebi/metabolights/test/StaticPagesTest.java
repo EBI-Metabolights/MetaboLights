@@ -94,6 +94,7 @@ public class StaticPagesTest extends TestCase {
 	    
 	}
 	
+	/*
 	public void testHomePageSearchForm() throws IOException, SAXException {
 	    try {
 	        // create the conversation object which will maintain state
@@ -119,7 +120,7 @@ public class StaticPagesTest extends TestCase {
 	         System.err.println( "Exception: " + e );
 	      }
 	    
-	}
+	} */
 	
 	public void testLoginForm() throws IOException, SAXException {
 	    try {
@@ -155,9 +156,11 @@ public class StaticPagesTest extends TestCase {
 	    
 	}
 	
+  	/*
+	
 	public void testForgottenPasswordForm() throws IOException, SAXException {
 	    try {
-	    	
+	  
 	    	// create the conversation object which will maintain state
 	        WebConversation wc = new WebConversation();
 
@@ -181,7 +184,7 @@ public class StaticPagesTest extends TestCase {
 	         System.err.println( "Exception: " + e );
 	      }
 	    
-	}
+	} */
 	
 	
 }
