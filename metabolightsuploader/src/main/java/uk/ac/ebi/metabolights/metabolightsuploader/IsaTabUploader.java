@@ -105,7 +105,7 @@ public class IsaTabUploader {
 			Zipper.unzip(this.isaTabArchive,this.unzipFolder);
 
 			//Update CheckList
-			updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File succesfully unzipped.");
+			updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File successfully unzipped.");
 
 		}
 		
@@ -129,7 +129,7 @@ public class IsaTabUploader {
 		
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
-		updateCheckList(SubmissionProcessCheckListSeed.CONTENTVALIDATION, "The file has been succesfully validated using our configuration.");
+		updateCheckList(SubmissionProcessCheckListSeed.CONTENTVALIDATION, "The file has been successfully validated using our configuration.");
 		
 		//Sync unzipfolder with IsaTabIdReplacer
 		itir.setIsaTabFolder(this.unzipFolder);
@@ -142,7 +142,7 @@ public class IsaTabUploader {
 		
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
-		updateCheckList(SubmissionProcessCheckListSeed.FILEPERSISTANCE, "The file has been succesfully persisted into our database.");
+		updateCheckList(SubmissionProcessCheckListSeed.FILEPERSISTANCE, "The file has been successfully stored in our database.");
 		updateCheckList(SubmissionProcessCheckListSeed.SETPERMISSIONS, "The file has been assigned to " + owner + " and the visibility has been set to " + status);
 		
 		

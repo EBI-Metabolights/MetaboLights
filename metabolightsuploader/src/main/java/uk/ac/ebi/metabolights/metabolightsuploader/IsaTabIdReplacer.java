@@ -174,7 +174,7 @@ public class IsaTabIdReplacer
 		}
 		
 		//Check CheckList Item
-		updateCheckList(SubmissionProcessCheckListSeed.FILEVALIDATION, "File basic validation passed: right extension and file found.");
+		updateCheckList(SubmissionProcessCheckListSeed.FILEVALIDATION, "File passed basic validation: correct extension and file found.");
 		
 	}
 
