@@ -62,9 +62,9 @@
         <put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp" />
     </definition>
 
-    <definition name="biisubmiterror" extends="base.definition">
+    <definition name="submitError" extends="base.definition">
 		<put-attribute name="title" value="Submission error"/>
-		<put-attribute name="body" value="/WEB-INF/jsp/biisubmiterror.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/submitError.jsp"/>
     </definition>
 
     <definition name="submitOk" extends="base.definition">

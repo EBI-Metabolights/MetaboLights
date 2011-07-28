@@ -15,25 +15,8 @@
 		</tr>
 	</table>
 </c:if>
- 
-<c:if test="${not empty accessions}">
-	<br/><br/>
-	<table>
-		<tr>
-			<td><img src="img/check.png" height ="30" width="30"></td>
-			<td><spring:message code="msg.uploaded.ok1"/><br/>
-				<spring:message code="msg.uploaded.ok2"/><br/>
-				<b><spring:message code="msg.uploaded.ok3"/></b><br/>
-				<c:forEach items="${accessions}" var="accessionEntry">
-					  <b>${accessionEntry.key}</b> <spring:message code="msg.uploaded.ok4"/><a href="<c:out value="${accessionEntry.value}"/>">${accessionEntry.value}</a>.<br/>
-				</c:forEach> 	
-			</td>
-		</tr>
-	</table>
- </c:if>
- 
- 
- <c:if test="${not empty cl}">
+  
+<c:if test="${not empty cl}">
 	<br/><br/>
 	<table align="center">
 	<tr>
@@ -62,4 +45,5 @@
 
 <br/>
 <br/>
+
 <a href="index"><spring:message code="msg.backToMainPage"/></a>            

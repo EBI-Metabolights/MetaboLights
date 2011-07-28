@@ -67,7 +67,7 @@ public class BIISubmissionController extends AbstractController {
 			logger.info("These are the new accession numbers: " + accessions);
 			
 			
-			ModelAndView mav = new ModelAndView("biisubmit");
+			ModelAndView mav = new ModelAndView("submitOk");
 			mav.addObject("accessions", accessions);
 			mav.addObject("cl", cl);
 			
@@ -76,8 +76,7 @@ public class BIISubmissionController extends AbstractController {
 
 		} catch (Exception e){
 			
-			//return new ModelAndView("biisubmiterror", "cl", cl);
-			ModelAndView mav = new ModelAndView("biisubmit");
+			ModelAndView mav = new ModelAndView("submitError");
 			mav.addObject("cl", cl);
 			mav.addObject("error", e);
 			return mav;
@@ -100,7 +99,7 @@ public class BIISubmissionController extends AbstractController {
 		cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), "File upload checked");
 		
 		
-		ModelAndView mav = new ModelAndView("biisubmit");
+		ModelAndView mav = new ModelAndView("submitOk");
 		mav.addObject("accessions", accessions);
 		mav.addObject("error", e);
 		mav.addObject("cl", cl);
