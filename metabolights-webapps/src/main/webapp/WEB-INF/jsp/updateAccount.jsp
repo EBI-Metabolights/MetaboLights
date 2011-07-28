@@ -21,7 +21,7 @@
                 <td colspan='3'>&nbsp;</td>
             </tr>
             <tr>
-                <td><spring:message code="label.userName" />:</td>
+                <td><spring:message code="label.email" />:</td>
                 <td><c:out value="${metabolightsUser.email}" /> </td>
                 <td></td>
             </tr>

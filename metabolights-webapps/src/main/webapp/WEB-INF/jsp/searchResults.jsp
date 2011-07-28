@@ -20,7 +20,7 @@ function navigate(_pageNumber) {
   var filterWidth=document.getElementById('leftFilterdiv');
   filterWidth.style.width="220px";
   var bodyWidth=document.getElementById('bodyDiv');
-  bodyWidth.style.width="800px";
+  bodyWidth.style.width="785px";
 </script>
 
 <br>
@@ -69,7 +69,7 @@ function navigate(_pageNumber) {
 		<div id="content">
 			<c:forEach var="searchResult" items="${searchResults}">
 				<div class="z">
-					<div style='width: 750x; border: 1px solid #D5AE60; margin-bottom: 10px;' class="resultItem">
+					<div style='margin-bottom: 10px;' class="resultItem">
 						
 						<div style='width: 700px;' class='iscell'>
 							<b><a href="${searchResult.accStudy}">${searchResult.title}</a></b>

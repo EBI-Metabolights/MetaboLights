@@ -27,7 +27,7 @@
               </sec:authorize> 
 		  </ul>  
           <sec:authorize ifAnyGranted="ROLE_SUBMITTER" >
-            <span class="loggedInAs"><spring:message code="menu.loggedInAs"/> : <sec:authentication property="principal.userName"/></span></li>  
+            <!-- span class="loggedInAs"><spring:message code="menu.loggedInAs"/> : <sec:authentication property="principal.userName"/></span-->
           </sec:authorize> 
 
        </div>

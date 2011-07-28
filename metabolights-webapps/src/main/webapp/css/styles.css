@@ -103,12 +103,13 @@ a {
 }
 
 #text_header { 
-	padding: 10px 0px 5px 10px;
-	background-color: #D5AE60  ;
+
+	color: #006666;
+    background: #eef5f5;
+ 	padding: 10px 0px 5px 10px;
 	font-size: 120%;
 	font-weight: bold;
-	color:#006666;
-    border-radius:10px 10px 10px 10px;
+	border-radius:10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
 	
@@ -160,7 +161,7 @@ a {
 }
 
 .formbox {
-    border:1px solid #D5AE60;
+    border:1px solid #006666;
     margin-top:10px;
     padding-top:0px;
     padding-left:20px;
@@ -172,7 +173,7 @@ a {
 }
 
 .formheader{
-   background-color:#D5AE60;
+   background-color:#006666;
    color: #FFFFFF;
 }
 
@@ -237,7 +238,7 @@ a {
 /* Rounded borders */
 .resultItem {
 	padding: 5px 5px 5px 10px; /* top right bottom left */
-	border: 1px solid #D5AE60;
+	border: 1px solid #BBBBBB;
 	border-radius:15px 15px 15px 15px;
    	-moz-border-radius: 15px 15px 15px 15px;
    	-webkit-border-radius:15px 15px 15px 15px;

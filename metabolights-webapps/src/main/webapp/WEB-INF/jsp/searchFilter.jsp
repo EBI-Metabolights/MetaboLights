@@ -2,12 +2,17 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <script type="text/javascript" src="javascript/jquery-1.6.1.min.js"></script>
-<br/>
-		
 		<form name="searchFilter" id="filterForm" action="search" method="get" accept-charset="utf-8">				
-			<c:forEach var="group" items="${filters}">
+			<c:forEach var="group" items="${filters}" varStatus ="status">
 				<br/>
-				<div style="width: 200px" class="resultItem">
+
+				<c:if test="${status.count eq 1 }">
+					<div style="width:200px;margin-top:72px" class="resultItem" >
+				</c:if>
+				<c:if test="${status.count ne 1 }">
+					<div style="width:200px;" class="resultItem" >
+				</c:if>
+
 				<b>
 						<c:choose>
 							<c:when test="${group.key=='organisms'}"><spring:message code="msg.organisms"/></c:when>

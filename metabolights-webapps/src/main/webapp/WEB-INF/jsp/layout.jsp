@@ -48,7 +48,7 @@
                             <div id="leftFilterdiv" style="width:0px; float: left">
                                 <tiles:insertAttribute name="bodyleft" />
                             </div>
-                            <div id="bodyDiv" style="width:1000px; float: left">
+                            <div id="bodyDiv" style="width:1000px; float:right">
                                 <tiles:insertAttribute name="body" />
                             </div>
                         </div>
