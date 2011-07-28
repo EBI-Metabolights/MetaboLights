@@ -2,10 +2,12 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:if test="${not empty message}">
-   <br>
    <div class="messageBox">
       <c:out value="${message}" />
    </div>
+</c:if>
+<c:if test="${empty message}">
+   <div class="messageBox" style="border:0px">&nbsp;</div>
 </c:if>
 
 <div style="margin-bottom:40px; padding-left:120px; padding-top:30px">

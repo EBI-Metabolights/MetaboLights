@@ -11,7 +11,12 @@
 		      <button type="submit" class="search-box-button"></button>
 		   </form>
          </div>
+         <div class="loggedInAsBox">
+          <sec:authorize ifAnyGranted="ROLE_SUBMITTER" >
+            <span class="loggedInAs"><spring:message code="menu.loggedInAs"/> : <sec:authentication property="principal.userName"/></span>
+          </sec:authorize> 
 
+         </div>
 		  <ul id="navigation">
               <li><a href="<spring:url value="index"/>"><spring:message code="menu.home"/></a></li>
 		      <li><a href="biisubmit"><spring:message code="menu.submit"/></a></li>
@@ -26,9 +31,6 @@
                 <li><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />"><spring:message code="menu.logout"/></a><br>
               </sec:authorize> 
 		  </ul>  
-          <sec:authorize ifAnyGranted="ROLE_SUBMITTER" >
-            <!-- span class="loggedInAs"><spring:message code="menu.loggedInAs"/> : <sec:authentication property="principal.userName"/></span-->
-          </sec:authorize> 
 
        </div>
 <script type="text/javascript" language="javascript">

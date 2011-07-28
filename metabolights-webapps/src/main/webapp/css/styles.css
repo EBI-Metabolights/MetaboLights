@@ -46,7 +46,7 @@ a {
 
 /* Style for the top bar (=header) */
 #top_bar {
-	height: 40px;
+	height: 58px;
 }
 #top_bar h1 {
 	margin-top: 7px;
@@ -62,7 +62,6 @@ a {
 }
 #top_bar #navigation {
 	list-style: none;
-	margin-top: 22px;
 	float: right;
 	font-size: 13px;
 	font-weight: bold;
@@ -139,16 +138,22 @@ a {
     margin-top: 3px;
     color:#006666;
     margin-top:-10px;
-	
+    height:15px;
 }
+
 
 .loggedInAs {
 	font-size:12px;
 	margin-left:20px;
 	color:#006666;
-    line-height: 3em;
     font-weight: normal;
 }
+.loggedInAsBox {
+   height:20px;
+   border:0px solid purple;
+   text-align:right;
+}
+
 
 .error {
 	color:#AA0000;
@@ -253,5 +258,9 @@ a {
 	padding-left:5px;
 }
 
+.topSpacer {
+	height:70px;
+}
+	
 
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/

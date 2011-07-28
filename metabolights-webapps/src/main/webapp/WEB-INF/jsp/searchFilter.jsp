@@ -2,23 +2,17 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <script type="text/javascript" src="javascript/jquery-1.6.1.min.js"></script>
+		<div class="topSpacer"></div>
+
 		<form name="searchFilter" id="filterForm" action="search" method="get" accept-charset="utf-8">				
 			<c:forEach var="group" items="${filters}" varStatus ="status">
-				<br/>
-
-				<c:if test="${status.count eq 1 }">
-					<div style="width:200px;margin-top:72px" class="resultItem" >
-				</c:if>
-				<c:if test="${status.count ne 1 }">
-					<div style="width:200px;" class="resultItem" >
-				</c:if>
-
+				<div style="width:200px" class="resultItem" >
 				<b>
-						<c:choose>
-							<c:when test="${group.key=='organisms'}"><spring:message code="msg.organisms"/></c:when>
-							<c:when test="${group.key=='technology'}"><spring:message code="msg.technologies"/></c:when>
-							<c:otherwise>${group.key}</c:otherwise>
-						</c:choose>
+					<c:choose>
+						<c:when test="${group.key=='organisms'}"><spring:message code="msg.organisms"/></c:when>
+						<c:when test="${group.key=='technology'}"><spring:message code="msg.technologies"/></c:when>
+						<c:otherwise>${group.key}</c:otherwise>
+					</c:choose>
 					</b><br/></br>				
 					<ul class="filteritem" id="${group.key}">
 						<c:forEach var="filter" items="${group.value}">
@@ -41,6 +35,7 @@
 						
 					</ul>
 				</div>
+				<br>
 			</c:forEach>
 			<input type="hidden" name="freeTextQuery" value="<c:out value="${freeTextQuery}"/>"/>
 	        <input type="hidden" name="pageNumber" value="1"/>
