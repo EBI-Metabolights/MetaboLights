@@ -125,20 +125,20 @@ specview.controller.plugins.Zoom.setRectangleZoom = function(initialCoordinates 
 	}
 	
 	if(too_bellow){
-		height = lower_boundary - top - 10;
+		height = lower_boundary - top - 1;
 //		alert("too below")
 //		specview.controller.plugins.Zoom.logger2.info(width)
 	}else if(too_right){
-		width = right_boundary - left - 10;
+		width = right_boundary - left - 1;
 //		alert("right")
 //		specview.controller.plugins.Zoom.logger2.info("too right")
 	}else if(too_left){
-		left = left_boundary + 10;
+		left = left_boundary + 1;
 //		alert("left")
 //		specview.controller.plugins.Zoom.logger2.info("too left")
 	}else if(too_top){
 //		specview.controller.plugins.Zoom.logger2.info(top+ " ; "+upper_boundary)
-		top = upper_boundary + 10 + document.getElementById("moleculeContainer").offsetTop;
+		top = upper_boundary + 1 + document.getElementById("moleculeContainer").offsetTop;
 //		alert("top")
 //		specview.controller.plugins.Zoom.logger2.info("too top")
 	}

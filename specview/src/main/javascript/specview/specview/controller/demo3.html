@@ -423,16 +423,17 @@ Hide the window
 <script type = "text/javascript">
 
 function unzoom(){
-//	alert(document.editorObject.specObject.zoomLevel)
 	document.editorObject.unzoom();
 }
 
+
+//Function called when the user click on "view experiment"
 function launch(){
-//	alert(document.getElementById("launch").innerHTML)
+	alert( document.getElementById("cmlInputFile").files[0].getAsText("utf-8"));
 	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/cml/";
-//	var dir = "../../specviewTest/data/cml/"
-	dir += document.getElementById("cmlInputFile").value;
-	document.experimentOfTheUser = document.javaApplet.parse(dir)
+	var dir2 = "../../specviewTest/data/cml/"
+	var file = dir2 + document.getElementById("cmlInputFile").value;
+	document.experimentOfTheUser = document.javaApplet.parse(file)
 	xmlDoc=specview.io.SpectrumCMLParser.getDocument(document.experimentOfTheUser);//XML document
     spectrumData=new specview.model.NMRdata();
     spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
