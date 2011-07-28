@@ -245,7 +245,7 @@ public class LuceneSearchResult {
 		//If null
 		if (submitterString == null) {return new Submitter();}
 		
-		System.out.println("Parsing " + submitterString);
+		//System.out.println("Parsing " + submitterString);
 		//Remove "captions:"
 		submitterString= submitterString.replace("username:", "").replaceAll("forename:", "").replace("surname:","").replaceAll("email:", "");
 		

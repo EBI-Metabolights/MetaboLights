@@ -23,7 +23,13 @@
 								  	<c:if test='${filter.value.isChecked}'>
 	    								CHECKED
 									</c:if>
-								  	onclick="this.form.submit();"> ${filter.value.text} (${filter.value.number})
+								  	onclick="this.form.submit();"
+								  	
+								  	
+								  	
+							> ${filter.value.text} 
+								  	<c:if test="${filter.value.number>0}">(${filter.value.number})</c:if>
+								  	
 							<br/>
 							<br/>
 						</c:forEach>

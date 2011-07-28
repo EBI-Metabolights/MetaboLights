@@ -8,7 +8,16 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TermQuery;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult.Assay;
 
 /**
@@ -18,24 +27,22 @@ import uk.ac.ebi.metabolights.search.LuceneSearchResult.Assay;
  */
 public class Filter extends HashMap<String,FilterSet>{
 	
+	private static final String FREE_TEXT_QUERY = "freeTextQuery";
+
 	private static final long serialVersionUID = -8290724660711400374L;
 
-	//List with filter items, each one will be a group of checkboxes
-    private FilterSet organisms = new FilterSet("organisms", StudyBrowseField.ORGANISM); 
-    private FilterSet technology = new FilterSet("technology",StudyBrowseField.ASSAY_INFO);
+	// List with filter items, each one will be a group of checkboxes
+    private FilterSet organisms = new FilterSet("organisms", StudyBrowseField.ORGANISM,"",""); 
+    private FilterSet technology = new FilterSet("technology",StudyBrowseField.ASSAY_INFO,"*|","|*");
     private String freeTextQuery = "";
-    private String userName ="";
+
     // the currently displayed page number, paging through results 
     private int pageNumber=1;
     // the number of entries on a displayed page
-    private final int pageSize=10;    
+    private final int pageSize=10;
+    // Store if it is necessary to load the filter based on the results...
+    private boolean isFilterLoadNeeded;
     
-	public Filter(HttpServletRequest request, String userName){
-	
-		this(request);
-		this.userName = userName;		
-	    
-	}
 	public Filter (HttpServletRequest request){
 		
 		//Mount the structure
@@ -72,35 +79,31 @@ public class Filter extends HashMap<String,FilterSet>{
 	 * @param request
 	 * @return
 	 */
-	private void parseRequest(HttpServletRequest request){
+	public void parseRequest(HttpServletRequest request){
 			
+		//Check if the filter sets must be reloaded
+		checkIfFilterLoadIsNeeeded(request);
+	
+		//Uncheck all items
+		uncheckAllFilterItems();
+		
+		
 		// Get an enumeration of all parameters
 		Enumeration paramenum = request.getParameterNames(); 
 		//Loop through the enumeration
 		while (paramenum.hasMoreElements()) { 
 			// Get the name of the request parameter 
 			String name = (String)paramenum.nextElement(); 
-			
-			//If the parameter is the freetext one
-			if (name.equals("freeTextQuery")) {
-				//There should be only one...
-				freeTextQuery = request.getParameter(name);
-				continue;
-			}
-
+	
 			//Which page are we on
 			if (name.equals("pageNumber")) {
 				pageNumber = Integer.valueOf(request.getParameter(name));
 				continue;
 			}
 
-			
 			//Get the Corresponding filterSet
 			FilterSet fs = this.get(name);
 		
-			// Get the value of the request parameter 
-			//String value = request.getParameter(name); 
-
 			//If exists...
 			if (fs != null){
 
@@ -109,15 +112,56 @@ public class Filter extends HashMap<String,FilterSet>{
 
 				for (int i=0; i<values.length; i++) { 
 					
-					/* do something */
-					System.out.println("name: " + name + ", value: " + values[i]);
+					//No longer needed: we are using session object to store the this class
+//					//Add a filter item to the corresponding filterset
+//					FilterItem fi = new FilterItem(values[i],fs.getName());
+//					fi.setIsChecked(true);
+//					fs.put(fi.getValue(), fi);
 					
-					//Add a filter item to the corresponding filterset
-					FilterItem fi = new FilterItem(values[i],fs.getName());
+					//We need to update the status (checked/unchecked)
+					FilterItem fi = fs.get(values[i]);
 					fi.setIsChecked(true);
-					fs.put(fi.getValue(), fi);
 				}
 			}
+		}	
+	}
+	private void checkIfFilterLoadIsNeeeded(HttpServletRequest request){
+		
+		//Get the free text (if any...)
+		String freeTextQueryFromRequest = request.getParameter(FREE_TEXT_QUERY);
+
+		//If text from the request equals the previous one...
+		if (freeTextQueryFromRequest.equals(freeTextQuery)){
+			isFilterLoadNeeded = false;
+			
+		}else{
+
+			//Update free text query with the new one
+			freeTextQuery = freeTextQueryFromRequest;
+			
+			isFilterLoadNeeded = true;
+		}
+		
+		//if needed...
+		if (isFilterLoadNeeded) {
+			//...clear the filter items....later they must be populated based on the resultset
+			clearAllFilterItems();
+		}
+		
+		
+		
+	}
+	
+	private void uncheckAllFilterItems(){
+		for (FilterSet fs:this.values()){
+			for (FilterItem fi: fs.values()){
+				fi.reset();
+			}
+		}
+	}
+	private void clearAllFilterItems(){
+		for (FilterSet fs:this.values()){
+			fs.clear();
 		}	
 	}
 	/**
@@ -127,7 +171,7 @@ public class Filter extends HashMap<String,FilterSet>{
 	public String getLuceneQuery(){
 		
 		//Start with the freeTextQuery
-		String luceneQuery = freeTextQuery.isEmpty()? "*" :  "*" + value2Lucene(freeTextQuery) + "*";
+		String luceneQuery = freeTextQuery.isEmpty()? "" :  value2Lucene("*" + freeTextQuery + "*") ;
 		
 				
 		//Go through the Filters set
@@ -146,9 +190,12 @@ public class Filter extends HashMap<String,FilterSet>{
 				
 				//Get the filter item.
 				FilterItem fi = entry1.getValue();
-			
-				//Join terms with an OR
-				luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":*" + value2Lucene(fi.getValue()) + "*", "OR") ;
+				
+				//If filter item id checked
+				if (fi.getIsChecked()){
+					//Join terms with an OR
+					luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix()) , "OR") ;
+				}
 				
 			}
 			
@@ -160,7 +207,6 @@ public class Filter extends HashMap<String,FilterSet>{
 		//Add the filter for private studies...
 		luceneQuery = joinFilterTerms(getStatusFilter(), luceneQuery, "AND");
 		
-		
 		return luceneQuery;
 		
 	}
@@ -168,12 +214,12 @@ public class Filter extends HashMap<String,FilterSet>{
 	private String getStatusFilter(){
 		
 		//To start, all public studies can be retrieved
-		String statusFilter = "status:PUBLIC*";
+		String statusFilter = "status:PUBLIC";
 		
 		//If the user is not empty
-		if (!this.userName.isEmpty()){
+		if (!this.getUserName().isEmpty()){
 			//Add an or clause for the private ones the user owns
-			statusFilter = joinFilterTerms(statusFilter, "user:\"username:" + this.userName + "\"*", "OR");
+			statusFilter = joinFilterTerms(statusFilter, "user:username\\:" + this.getUserName() + "*", "OR");
 		}
 		
 		//Return the filter
@@ -189,8 +235,16 @@ public class Filter extends HashMap<String,FilterSet>{
 	}
 	
 	private String value2Lucene(String value){
-		return value.replace(" ", "\\ ").replace("(", "\\(").replace(")","\\)");
+		
+		//Replace special characters...
+		value = value.replace(" ", "\\ ").replace("(", "\\(").replace(")","\\)");
+			
+		return value;
 	}
+	public boolean getIsFilterLoadNeeded(){
+		return isFilterLoadNeeded;
+	}
+	
 	/**
 	 * Load all the possible unique filter items to be offer them in the page.
 	 * @param resultSet
@@ -233,5 +287,20 @@ public class Filter extends HashMap<String,FilterSet>{
 				
 			}
 		}
+	}
+	private String getUserName(){
+		
+		String userName = "";
+		
+		//If there is any user...
+		if ( SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof MetabolightsUser){
+		
+			//Get the user
+			MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		
+			userName =user.getUserName();
+		}
+		
+		return userName;
 	}
 }

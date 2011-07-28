@@ -32,4 +32,8 @@ public class FilterItem {
 	public void addToNumber(int value){
 		number= number + value;
 	}
+	public void reset(){
+		this.isChecked = false;
+		this.number= 0;
+	}
 }

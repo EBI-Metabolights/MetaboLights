@@ -44,27 +44,16 @@ public class SearchController extends AbstractController{
 		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
 		List<LuceneSearchResult> displayedResultList = new ArrayList<LuceneSearchResult>();
 		Integer totalHits = 0;
-	   
-		String userName = "";
+	  
+		Filter filter = prepareFilter(request);
 		
-		//If there is any user...
-		if ( SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof MetabolightsUser){
+		//Get the query...	
+		String luceneQuery = filter.getFreeTextQuery();
 		
-			//Get the user
-			MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		
-			userName =user.getUserName();
-		}
-		
-		//Instantiate a filter class
-		Filter filter = new Filter(request, userName);
-
-		String luceneQuery = filter.getLuceneQuery();
-			    
 		try {
 			logger.info("Searching for "+ luceneQuery);
 			
-			searchResultHash = searchService.search(luceneQuery); 
+			searchResultHash = searchService.search(filter.getLuceneQuery()); 
 			
 			totalHits = searchResultHash.entrySet().iterator().next().getKey(); //Number of documents found in the search, reported by Lucene
 			totalResultList = searchResultHash.entrySet().iterator().next().getValue(); //Search results
@@ -147,6 +136,29 @@ public class SearchController extends AbstractController{
 		int[] pagerBoundaries = {left,right,totalNumberOfPages};
 		return pagerBoundaries; 
 	}
-	
+	private Filter prepareFilter(HttpServletRequest request){
+		final String FILTER_SESSION_ATRIBUTE = "filter";
+		
+		//Get the filter object from the session
+		Filter filter = (Filter)request.getSession().getAttribute(FILTER_SESSION_ATRIBUTE);
+		
+		//If we have to reset the filters....
+		// 1.- First time visit --> filter is null
+		// 2.- new search term...
+		if (filter == null){
+			//Instantiate a filter class
+			filter = new Filter(request);
+			
+			//Add it to the session
+			request.getSession().setAttribute( FILTER_SESSION_ATRIBUTE, filter);
+			
+		}else{
+			//We already have a filter object that was stored in the session. We need to refresh it with the filter items checked or unchecked.
+			filter.parseRequest(request);
+		}
+		
+		return filter;
+		
+	}
 }
 
