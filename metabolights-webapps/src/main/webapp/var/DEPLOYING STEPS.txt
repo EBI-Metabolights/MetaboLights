@@ -1,0 +1,18 @@
+DEPLOYING STEPS
+Thing to do before deploying
+
+1.- Change header and footer iFrame source:
+
+	STEPS:
+	
+	* Open WEB-INF/jsp/layout.jsp
+	* Replace <iframe src="http://www.ebi.ac.uk/inc/head.html" with <iframe src="/inc/head.html"
+	* Replace <iframe src="http://www.ebi.ac.uk/inc/foot.html" with <iframe src="/inc/foot.html"
+	 
+	REASON:
+	The line <iframe src="/inc/head.html" in layout.jsp does not work if your are not deployed on 
+	the EBI file system. So instead, we use the line <iframe src="http://www.ebi.ac.uk/inc/head.html"
+	This then gives the header on our workstation deployment, but its drop down menu drops behind.
+	It can't be fixed locally, but on real deployment the menu works okay if you swicth back to 
+	<iframe src="/inc/head.html.. 
+
