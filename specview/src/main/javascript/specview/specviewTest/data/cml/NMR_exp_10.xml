@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<cml convention="nmrshiftdb-convention" xmlns="http://www.xml-cml.org/schema">
+ <molecule title="Nodulisporacid A" id="nmrshiftdb20222085">
+  <atomArray>
+   <atom id="a1" elementType="C" x2="-0.2167" y2="1.6426" formalCharge="0" hydrogenCount="0" isotopeNumber="12"/>
+   <atom id="a2" elementType="C" x2="0.9969" y2="0.761" formalCharge="0" hydrogenCount="0" isotopeNumber="12"/>
+   <atom id="a3" elementType="C" x2="0.5333" y2="-0.6656" formalCharge="0" hydrogenCount="0" isotopeNumber="12"/>
+   <atom id="a4" elementType="C" x2="-1.4302" y2="0.761" formalCharge="0" hydrogenCount="1" isotopeNumber="12"/>
+   <atom id="a5" elementType="C" x2="2.4234" y2="1.2245" formalCharge="0" hydrogenCount="0" isotopeNumber="12"/>
+   <atom id="a6" elementType="C" x2="4.387" y2="2.6511" formalCharge="0" hydrogenCount="0" isotopeNumber="12"/>
+   <atom id="a7" elementType="C" x2="4.8505" y2="1.2245" formalCharge="0" hydrogenCount="1" isotopeNumber="12"/>
+   <atom id="a8" elementType="C" x2="3.637" y2="0.3428" formalCharge="0" hydrogenCount="1" isotopeNumber="12"/>
+   <atom id="a9" elementType="C" x2="-2.8568" y2="1.2245" formalCharge="0" hydrogenCount="2" isotopeNumber="12"/>
+   <atom id="a10" elementType="C" x2="-3.1686" y2="2.6917" formalCharge="0" hydrogenCount="0" isotopeNumber="12"/>
+   <atom id="a11" elementType="C" x2="5.2686" y2="3.8646" formalCharge="0" hydrogenCount="2" isotopeNumber="12"/>
+   <atom id="a12" elementType="C" x2="6.7604" y2="3.7078" formalCharge="0" hydrogenCount="1" isotopeNumber="12"/>
+   <atom id="a13" elementType="C" x2="5.8685" y2="2.4164" formalCharge="0" hydrogenCount="3" isotopeNumber="12"/>
+   <atom id="a14" elementType="C" x2="7.6421" y2="4.9213" formalCharge="0" hydrogenCount="3" isotopeNumber="12"/>
+   <atom id="a15" elementType="C" x2="7.3705" y2="2.3375" formalCharge="0" hydrogenCount="2" isotopeNumber="12"/>
+   <atom id="a16" elementType="C" x2="8.8623" y2="2.1807" formalCharge="0" hydrogenCount="3" isotopeNumber="12"/>
+   <atom id="a17" elementType="O" x2="-0.9667" y2="-0.6656" formalCharge="0" hydrogenCount="0" isotopeNumber="16"/>
+   <atom id="a18" elementType="O" x2="2.887" y2="2.6511" formalCharge="0" hydrogenCount="0" isotopeNumber="16"/>
+   <atom id="a19" elementType="O" x2="-0.2167" y2="3.1426" formalCharge="0" hydrogenCount="0" isotopeNumber="16"/>
+   <atom id="a20" elementType="O" x2="1.415" y2="-1.8791" formalCharge="0" hydrogenCount="0" isotopeNumber="16"/>
+   <atom id="a21" elementType="O" x2="-4.5952" y2="3.1552" formalCharge="0" hydrogenCount="1" isotopeNumber="16"/>
+   <atom id="a22" elementType="O" x2="-2.0539" y2="3.6954" formalCharge="0" hydrogenCount="0" isotopeNumber="16"/>
+  </atomArray>
+  <bondArray>
+   <bond id="b1" atomRefs2="a1 a2" order="S"/>
+   <bond id="b2" atomRefs2="a2 a3" order="S"/>
+   <bond id="b3" atomRefs2="a3 a17" order="S"/>
+   <bond id="b4" atomRefs2="a17 a4" order="S"/>
+   <bond id="b5" atomRefs2="a4 a1" order="S"/>
+   <bond id="b6" atomRefs2="a2 a5" order="D"/>
+   <bond id="b7" atomRefs2="a5 a18" order="S"/>
+   <bond id="b8" atomRefs2="a18 a6" order="S"/>
+   <bond id="b9" atomRefs2="a6 a7" order="S"/>
+   <bond id="b10" atomRefs2="a7 a8" order="D"/>
+   <bond id="b11" atomRefs2="a8 a5" order="S"/>
+   <bond id="b12" atomRefs2="a1 a19" order="D"/>
+   <bond id="b13" atomRefs2="a3 a20" order="D"/>
+   <bond id="b14" atomRefs2="a4 a9" order="S">
+    <bondStereo dictRef="cml:H"/>
+   </bond>
+   <bond id="b15" atomRefs2="a9 a10" order="S"/>
+   <bond id="b16" atomRefs2="a10 a21" order="S"/>
+   <bond id="b17" atomRefs2="a10 a22" order="D"/>
+   <bond id="b18" atomRefs2="a6 a11" order="S">
+    <bondStereo dictRef="cml:W"/>
+   </bond>
+   <bond id="b19" atomRefs2="a11 a12" order="S"/>
+   <bond id="b20" atomRefs2="a6 a13" order="S">
+    <bondStereo dictRef="cml:H"/>
+   </bond>
+   <bond id="b21" atomRefs2="a12 a14" order="S"/>
+   <bond id="b22" atomRefs2="a12 a15" order="S"/>
+   <bond id="b23" atomRefs2="a15 a16" order="S"/>
+  </bondArray>
+  <scalar dictRef="cdk:molecularProperty" title="cdk:Remark" dataType="xsd:string">NMRShiftDB 20222085</scalar>
+ </molecule>
+ <spectrum id="nmrshiftdb20228307" moleculeRef="nmrshiftdb20222085" type="NMR" xmlns:macie="http://www.xml-cml.org/dict/macie" xmlns:nmr="http://www.nmrshiftdb.org/dict" xmlns:siUnits="http://www.xml-cml.org/units/siUnits" xmlns:subst="http://www.xml-cml.org/dict/substDict" xmlns:cmlDict="http://www.xml-cml.org/dict/cmlDict" xmlns:cml="http://www.xml-cml.org/dict/cml" xmlns:units="http://www.xml-cml.org/units/units">
+  <conditionList>
+   <scalar dataType="xsd:string" dictRef="cml:field" units="siUnits:megahertz">100</scalar>
+   <scalar dataType="xsd:string" dictRef="cml:temp" units="siUnits:k">Unreported</scalar>
+  </conditionList>
+  <metadataList>
+   <metadata name="nmr:assignmentMethod" content="1D shift positions"/>
+   <metadata name="nmr:OBSERVENUCLEUS" content="13C"/>
+  </metadataList>
+  <substanceList>
+   <substance dictRef="cml:solvent" role="subst:solvent" title="Dimethylsulphoxide-D6 (DMSO-D6, C2D6SO))"/>
+  </substanceList>
+  <peakList>
+   <peak xValue="23.7" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="Q" id="p0" atomRefs="a13"/>
+   <peak xValue="43.7" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="T" id="p1" atomRefs="a11"/>
+   <peak xValue="102.4" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="S" id="p2" atomRefs="a2"/>
+   <peak xValue="163.4" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="D" id="p3" atomRefs="a7"/>
+   <peak xValue="121.7" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="D" id="p4" atomRefs="a8"/>
+   <peak xValue="178.4" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="S" id="p5" atomRefs="a5"/>
+   <peak xValue="171.2" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="S" id="p6" atomRefs="a10"/>
+   <peak xValue="36.1" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="T" id="p7" atomRefs="a9"/>
+   <peak xValue="78.8" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="D" id="p8" atomRefs="a4"/>
+   <peak xValue="194.3" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="S" id="p9" atomRefs="a1"/>
+   <peak xValue="93.8" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="S" id="p10" atomRefs="a6"/>
+   <peak xValue="170.3" xUnits="units:ppm" peakShape="sharp" peakMultiplicity="S" id="p11" atomRefs="a3"/>
+  </peakList>
+ </spectrum>
+</cml>

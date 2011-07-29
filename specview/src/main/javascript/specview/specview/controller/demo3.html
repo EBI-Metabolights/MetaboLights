@@ -429,7 +429,6 @@ function unzoom(){
 
 //Function called when the user click on "view experiment"
 function launch(){
-//	alert(document.getElementById("CMLinputText").value)
 	document.metaSpecObject.cmlString = document.getElementById("CMLinputText").value;
 //	alert( document.getElementById("cmlInputFile").files[0].getAsText("utf-8"));
 //	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/cml/";
@@ -676,12 +675,14 @@ count = 0;
 
 <div
 id="floatingBoxInputCmlContent";
-style="position:absolute; 
+style="display:none;
+	position:absolute; 
     border-style: double;
     background-color: #FFFFFF; 
     padding: 1px;"
-><br/>
-<textarea rows="20" cols="20" id="CMLinputText"></textarea><br/>
+>
+Copy paste here after the content of your .cml file<br/>
+<textarea rows="20" cols="20" id="CMLinputText" value=""></textarea><br/>
 <input type="button" onclick="launch()"; return true;" value="View experiment !"><br/>
 <a 
  onmouseover="document.HideContent('floatingBoxInputCmlContent'); return true;"
@@ -875,7 +876,8 @@ Hide the window
      <br>
      <br>
      </div>
-<APPLET name="javaApplet" 
+     <!-- 
+     <APPLET name="javaApplet" 
 					   code="CMLparser" 
 					   archive="example.jar"
 					   WIDTH="200" 
@@ -885,6 +887,7 @@ This is where HelloWorld.class runs.</APPLET>
 
 <param name="text" value="Bonjour les loulous">
 </P>
+      -->
 
 <script type="text/javascript">
 
