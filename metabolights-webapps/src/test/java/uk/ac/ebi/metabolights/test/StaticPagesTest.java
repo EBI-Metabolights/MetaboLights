@@ -190,7 +190,7 @@ public class StaticPagesTest extends TestCase {
 
 	}
 
-	/*
+	/* ALL FAIL on JavaScript
 
 	public void testNewAccountForm() throws IOException, SAXException {
 		try {
