@@ -20,12 +20,12 @@
 	} 
 </script>
 
-<div id="text_header" style="background-color: white; padding-top: 35px; padding-left:0px;">
+<div id="text_header">
 	<spring:message code="label.metaboLightsEntry" />
 	${study.acc}
 </div>
 
-<div class="entryBox">
+<div class="formbox">
 		<span class="title">${study.title}</span>
 
         <c:if test="${not empty study.objective}">
@@ -33,7 +33,7 @@
         </c:if>
 
         <c:if test="${not empty study.description}">
-            <br><br>${study.description}
+            <br><br><span style="text-align:justify">${study.description}</span>
         </c:if>
 
         <c:if test="${not empty study.submissionDate || not empty study.releaseDate}">
@@ -75,7 +75,7 @@
 	                <br>
 	                <p><a href="javascript:toggle('protTag','moreProtocols','Show all protocols', 'Hide protocols below');" id="protTag">Show all protocols</a> <p>
 	                <br>
-	                <div id="moreProtocols"  style="display:none;border:1px dotted gray" >
+	                <div id="moreProtocols" class="expandbox">
 	                    <ul id="resultListText">
 	                        <c:forEach var="protocol" items="${study.protocols}" begin="2" step="1">
 	                            <li>${protocol.name} ${protocol.version}
@@ -114,7 +114,7 @@
                 <c:if test="${fn:length(study.assayResults) > 2 }">
                     <p><a href="javascript:toggle('assTag','moreAssays','Show all assays', 'Hide assays below');" id="assTag">Show all assays</a> <p>
                     <br>
-                    <div id="moreAssays"  style="display:none;border:1px dotted gray" >
+                    <div id="moreAssays"  class="expandbox" >
                         <c:forEach var="assayResult" items="${study.assayResults}" begin="2" step="1">
                             <li>${assayResult.data.name}</li>
                             <ul id="resultList">
@@ -127,11 +127,13 @@
                                <c:set var="prev" value="${assay.technologyName}"/>
                             </c:forEach>
                             </ul>
-                            <ul id="resultList">
-                            <c:forEach var="fv" items="${assayResult.data.factorValues}">
-                                    <li>${fv.type.value}: ${fv.value} ${fv.unit.value}</li>
-                            </c:forEach>
-                            </ul>
+                            <c:if test="${assayResult.data.factorValues.size gt 0}">
+	                            <ul id="resultList">
+	                            <c:forEach var="fv" items="${assayResult.data.factorValues}">
+	                                    <li>${fv.type.value}: ${fv.value} ${fv.unit.value}</li>
+	                            </c:forEach>
+	                            </ul>
+                            </c:if>
                             <hr>
                         </c:forEach>
                     </div>

@@ -6,7 +6,7 @@
 
 		<form name="searchFilter" id="filterForm" action="search" method="get" accept-charset="utf-8">				
 			<c:forEach var="group" items="${filters}" varStatus ="status">
-				<div style="width:200px" class="resultItem" >
+				<div style="width:200px" class="formbox" >
 				<b>
 					<c:choose>
 						<c:when test="${group.key=='organisms'}"><spring:message code="msg.organisms"/></c:when>

@@ -60,7 +60,7 @@ function navigate(_pageNumber) {
 		<div id="content">
 			<c:forEach var="searchResult" items="${searchResults}">
 				<div class="z">
-					<div style='margin-bottom: 10px;' class="resultItem">
+					<div style='margin-bottom: 10px;' class="formbox">
 						
 						<div style='width: 700px;' class='iscell'>
 							<b><a href="${searchResult.accStudy}">${searchResult.title}</a></b>
@@ -142,7 +142,12 @@ function navigate(_pageNumber) {
 	   </td>
 	 </tr>
 	</table>
-	<c:if test="${!empty userQueryClean}"> <a href="javascript:void($('#highlight-plugin').removeHighlight().highlight('${userQueryClean}'));">Highlight Search Term</a></c:if>
+	<c:if test="${!empty userQueryClean}">
+		<script>
+			$('#highlight-plugin').removeHighlight().highlight('${userQueryClean}');
+		</script>
+	</c:if>
+	
 	<br>
 	</c:if>
 

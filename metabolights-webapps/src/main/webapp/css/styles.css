@@ -168,9 +168,10 @@ a {
 .formbox {
     border:1px solid #006666;
     margin-top:10px;
-    padding-top:0px;
-    padding-left:20px;
-    padding-bottom:15px;
+    padding-top:10px;
+    padding-left:10px;
+    padding-bottom:10px;
+	padding-right:10px;
     border-radius:10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
@@ -202,12 +203,21 @@ a {
      bbborder: 1px solid black;
 }
 
+.expandbox{
+	display:none;
+	border:1px dotted gray;
+	border-radius:10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius:10px 10px 10px 10px;
+	
+}
 
 #resultList li
 {
 	text-indent: 5px;
 	list-style-position: outside;
-	list-style-image: url(../img/brownBullet.jpg);list-style-type: square;
+	list-style-image: url(../img/brownBullet.jpg);
+	list-style-type: square;
 	padding: 2px;
 	margin: 0px;
 }
@@ -216,7 +226,8 @@ a {
 {
     text-indent: 0px;
     list-style-position: outside;
-    list-style-image: url(../img/brownBullet.jpg);list-style-type: square;
+    list-style-image: url(../img/brownBullet.jpg);
+	list-style-type: square;
     padding: 2px;
     margin: 0px;
 }
@@ -224,7 +235,8 @@ a {
 
 /* Search Highlights */
 .highlight { 
-	background-color: yellow }
+	background-color: YellowGreen;
+	font-weight: bold; }
 
 .title {
     font-size: 14px;

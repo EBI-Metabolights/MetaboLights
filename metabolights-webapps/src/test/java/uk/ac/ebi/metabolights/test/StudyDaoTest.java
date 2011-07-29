@@ -59,26 +59,4 @@ public class StudyDaoTest extends TestCase {
 
 	}
 
-	public void testFindStudiesForUser(){		
-
-		try {
-
-			List<Study> studyList = getStudyService().findStudiesForUser("kenneth");
-			Iterator<Study> studyIterator = studyList.iterator();
-
-			while (studyIterator.hasNext()){
-				Study study = (Study) studyIterator.next();
-				studyList.add(study);
-			}
-
-			if (studyList.size() > 0)
-				assertTrue(true);
-
-		} catch (Exception e) {
-			assertTrue(false);
-		}        
-
-	}
-
-
 }

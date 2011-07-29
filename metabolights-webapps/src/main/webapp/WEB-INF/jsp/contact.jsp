@@ -4,7 +4,7 @@
 
 <div class="formbox">
     <form:form name="emailForm" action="contactUsAlert" method="post" commandName="contactValidation">
-        <table>
+        <table cellpadding="5px" cellspacing="0px">
             <tr class="formheader">
                 <th class="tableheader" colspan="3"><spring:message code="label.contact" /> </th>
             </tr>
@@ -25,8 +25,8 @@
 	        </tr>   
 	            
 	        <tr>
-	            <td width="15%"><spring:message code="label.email" />:</td>
-	            <td width="40%"><form:input path="emailAddress" maxlength="255" size="35" /> </td>
+	            <td><spring:message code="label.email" />:</td>
+	            <td><form:input path="emailAddress" maxlength="255" size="35" /> </td>
 	            <td>(*)&nbsp;<span class="error"><form:errors path="emailAddress" /></span></td>
 	        </tr>
 	        <tr>
