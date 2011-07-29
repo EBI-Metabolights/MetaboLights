@@ -1,8 +1,7 @@
 package uk.ac.ebi.metabolights.dao;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
@@ -10,16 +9,16 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import uk.ac.ebi.bioinvindex.model.AssayResult;
-import uk.ac.ebi.bioinvindex.model.Protocol;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.bioinvindex.model.processing.Assay;
-import uk.ac.ebi.bioinvindex.model.term.Design;
-import uk.ac.ebi.bioinvindex.model.term.OntologyTerm;
+import uk.ac.ebi.bioinvindex.model.security.User;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
+
 
 /**
  * DAO implementation for bioinvindex.model.Study.
@@ -33,27 +32,6 @@ public class StudyDAOImpl implements StudyDAO{
 	private SessionFactory sessionFactory;
 
 	/**
-	 * TODO dok
-	 */
-	@Override
-	public List<Study> findStudiesForUser(String userName) {
-		/*
-		 * TODO, fix this.
-		 * Problem: user is queried trough user_studies.user_id -> user_details.id.  
-		 * Have to use the getters to avoid lazy loading errors around Study.assayResults or Study.users 
-		 */
-		Session session = sessionFactory.getCurrentSession();
-		
-		Query q = session.createQuery("FROM Study as s join s.users as u WHERE u.userName = :userName OR s.status = :status");
-		q.setParameter("userName", userName);
-		q.setParameter("status", VisibilityStatus.PUBLIC);
-
-		List<Study> studyList = q.list();
-		session.clear();
-		return studyList;
-	}
-
-	/**
 	 * Retrieve a study based on the accession identifier.  
 	 */
 	@Override
@@ -61,11 +39,49 @@ public class StudyDAOImpl implements StudyDAO{
 
 		Session session = sessionFactory.getCurrentSession();
 		
-		Query q = session.createQuery("FROM Study WHERE acc = :acc");
-		q.setParameter("acc", studyAcc);
+		String queryStr = "FROM Study WHERE acc = :acc";
+		
+		Query q = session.createQuery(queryStr);
+		q.setParameter("acc", studyAcc);	
 
 		logger.debug("retrieving study "+studyAcc);
 		Study study = (Study) q.uniqueResult();
+	
+		if (!study.getStatus().equals(VisibilityStatus.PUBLIC)){ //If not PUBLIC then must be owned by the user
+			
+			Boolean validUser = false;
+			Long userId = new Long(0);
+			
+	 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (!auth.getPrincipal().equals(new String("anonymousUser"))){
+				MetabolightsUser principal = (MetabolightsUser) auth.getPrincipal();
+				userId = principal.getUserId();
+			}
+			
+			if (userId>0){
+				Collection<User> users = study.getUsers();
+				Iterator<User> iter = users.iterator();
+				while (iter.hasNext()){
+					User user = (User) iter.next();
+					if (user.getId().equals(userId)){
+						validUser = true;
+						break;
+					}
+				}
+				
+			}
+			
+			if (!validUser){
+				Study invalidStudy = new Study();
+				invalidStudy.setAcc("PRIVATE STUDY");
+				invalidStudy.setDescription("This is a PRIVATE study, you are not Authorised to view this study.");
+				invalidStudy.setTitle("Please log in as the submitter.");
+				
+				return invalidStudy;
+				
+			}
+				
+		}  // Study PUBLIC
 		
 		/*
 		 * Initialize lazy collections here that we want to display .. otherwise the JSP will throw an error on rendering
@@ -73,6 +89,7 @@ public class StudyDAOImpl implements StudyDAO{
 		Hibernate.initialize(study.getContacts());
 		Hibernate.initialize(study.getAnnotations());
 		Hibernate.initialize(study.getPublications());
+		//Hibernate.initialize(study.getUsers());
 
 		Collection<AssayResult> assayResults = study.getAssayResults();
 		Hibernate.initialize(assayResults);

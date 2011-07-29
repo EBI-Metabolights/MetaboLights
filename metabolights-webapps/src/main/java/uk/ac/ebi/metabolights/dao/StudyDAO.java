@@ -3,8 +3,6 @@
  */
 package uk.ac.ebi.metabolights.dao;
 
-import java.util.List;
-
 import uk.ac.ebi.bioinvindex.model.Study;
 
 /**
@@ -13,7 +11,6 @@ import uk.ac.ebi.bioinvindex.model.Study;
  */
 public interface StudyDAO {
 
-	public List<Study> findStudiesForUser(String userName);
 	public Study getStudy(String studyAcc);
 	
 }
