@@ -404,18 +404,18 @@ Hide the window
 </a>
 </li>
 </div>
+
+
 <input id="helpButton"  class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxHelp')" value = "A little help?">
 <input id="expandButton"  class = "button" type = "button" name = "chk1" onclick = "expandSpectrum()" value = "Expand spetrum">
 <input id="unzoomButton"  class = "button" type = "button" name = "chk1" onclick = "unzoom()" value = "Unzoom">
 <!-- <input id="resetMoleculeButton"  class = "button" type = "button" name = "chk1" onclick = "resetMolecule()" value = "Reset Molecule">
 <input id="resetSpectrumButton"  class = "button" type = "button" name = "chk1" onclick = "resetSpectrum()" value = "Reset Spectrum">
- -->
-
  
- 	<input class = "button" id = "launch" type = "button" onclick = "launch()" value="View experiment">
+  	<input class = "button" id = "launch" type = "button" onclick = "launch()" value="View experiment">
  	
- 	<input class = "button"	id="cmlInputFile"	type = "file"> 
-
+ 	<input class = "button"	id="cmlInputFile"	type = "file"> -->
+<input id="textCmlInput" class="button" type="button" onclick="ShowContent('floatingBoxInputCmlContent')" value="Input file content">
 
 
 
@@ -429,11 +429,14 @@ function unzoom(){
 
 //Function called when the user click on "view experiment"
 function launch(){
-	alert( document.getElementById("cmlInputFile").files[0].getAsText("utf-8"));
-	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/cml/";
-	var dir2 = "../../specviewTest/data/cml/"
-	var file = dir2 + document.getElementById("cmlInputFile").value;
-	document.experimentOfTheUser = document.javaApplet.parse(file)
+//	alert(document.getElementById("CMLinputText").value)
+	document.metaSpecObject.cmlString = document.getElementById("CMLinputText").value;
+//	alert( document.getElementById("cmlInputFile").files[0].getAsText("utf-8"));
+//	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/cml/";
+//	var dir2 = "../../specviewTest/data/cml/"
+//	var file = dir2 + document.getElementById("cmlInputFile").value;
+//	document.experimentOfTheUser = document.javaApplet.parse(file)
+	document.experimentOfTheUser = document.metaSpecObject.cmlString;
 	xmlDoc=specview.io.SpectrumCMLParser.getDocument(document.experimentOfTheUser);//XML document
     spectrumData=new specview.model.NMRdata();
     spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
@@ -671,6 +674,22 @@ count = 0;
       </div>
 	</fieldset>
 
+<div
+id="floatingBoxInputCmlContent";
+style="position:absolute; 
+    border-style: double;
+    background-color: #FFFFFF; 
+    padding: 1px;"
+><br/>
+<textarea rows="20" cols="20" id="CMLinputText"></textarea><br/>
+<input type="button" onclick="launch()"; return true;" value="View experiment !"><br/>
+<a 
+ onmouseover="document.HideContent('floatingBoxInputCmlContent'); return true;"
+ href="javascript:HideContent('floatingBoxInputCmlContent')">
+Hide the window
+</a>
+</div>
+
 <!-- ################################ COLOR FLOATING BOX ############################ -->
 <!--  The following div element is a floatting window presenting all the possible existing colors -->
 <div 
@@ -688,6 +707,9 @@ count = 0;
 <input type="text" maxlength="7" value="FFFFFF" id="startcolor" name="startcolor">
 <button id="newcolor">GO</button>
 </div> 
+
+
+
 <div id="container"></div>
 <!-- javaskripti -->
 
@@ -895,6 +917,7 @@ function donnut(){
       background-color: transparent;
       border: 1px solid black;"
   >
+
 
 </body>
 </html>

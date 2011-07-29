@@ -229,6 +229,12 @@ specview.model.NMRdata=function(){
      */
     this.zoomLevel = 0;
     
+    /**
+     * The string of the cml file of the client
+     */
+    this.cmlString=null;
+    
+    
 };
 
 specview.model.NMRdata.prototype.toString = function() {
