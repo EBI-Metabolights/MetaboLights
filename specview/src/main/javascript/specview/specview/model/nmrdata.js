@@ -313,7 +313,7 @@ specview.model.NMRdata.prototype.setCoordinatesWithPixels = function(editorSpect
 
 }; 
 
-
+/*
 specview.model.NMRdata.prototype.reSetCoordinatesOfMolecule = function(){
   	var centerOfMolecule = this.getMoleculeCenter();
   	var xTransfer = parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width))/2 - centerOfMolecule.x;
@@ -325,7 +325,7 @@ specview.model.NMRdata.prototype.reSetCoordinatesOfMolecule = function(){
 		bond.target.xPixel += xTransfer;
 	});
 }
-
+*/
 /**
  * Build a box for the molecule.
  * We first need to get a box of relative coordinates out of the relative coordinates of the molecule(coordinates found
@@ -476,7 +476,6 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 	var valueToAdd=this.mainSpecBox[0].x;
 	var minPeakStartAt = valueToAdd + 5;
 	var LESPEC = this.spectrum.getPeakList();	
-//	alert(minValueOfPeak)
 	goog.array.forEach(LESPEC,
 		function(peak) {
 		/*
@@ -496,9 +495,9 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 			case "NMR" :
 //				adjustXvalue = (peak.xValue == minValueOfPeak) ? 5 : ecart * ((peak.xValue-minValueOfPeak)/(maxValueOfPeak-minValueOfPeak));
 				if(peak.xValue==maxValueOfPeak){
-					adjustXvalue=ecart-4;
+					adjustXvalue=ecart-20;
 				}else{
-					adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+					adjustXvalue=(peak.xValue*(ecart-20))/maxValueOfPeak;
 				}
 
 //				alert(peak.xValue)
