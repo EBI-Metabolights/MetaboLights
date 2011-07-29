@@ -46,4 +46,4 @@
 <br/>
 <br/>
 
-<a href="index"><spring:message code="msg.backToMainPage"/></a>            
+<a href="biisubmit"><spring:message code="msg.backToSubmitPage"/></a>            
