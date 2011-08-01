@@ -15,61 +15,49 @@ public class StaticPagesTest extends TestCase {
 	//TODO, read properties file, like messages_en.properties for string matching
 
 	//String baseUrl = "http://localhost:8080/metabolights";
-	private static String baseUrl   = "http://wwwdev.ebi.ac.uk/metabolights/";
+	public static String baseUrl   = "http://wwwdev.ebi.ac.uk/metabolights/";
 	private static String aboutUrl  = "about";
 	private static String loginUrl  = "log in";
 	private static String submitUrl = "submit";
 	private static String homeUrl   = "home";
-	private static String forgotPw  = "forgotPassword";
-	
+
 	//Logout
 	private static String logout = "log out";
 	private static String loggedOutSuccess="loggedout";
 
-	//Create new account
-	private static String newAccount = "newAccount";
-	private static String newUserName  = "metabolights-help@ebi.ac.uk";
-	private static String newAccountRequested = "accountRequested";
-	
 	//These links has to be on the home page
 	private static String[] urls = {homeUrl, submitUrl, aboutUrl, loginUrl};
-	
-	//Search term for the searchForm
-	private static String searchTerm = "rat";
-	
-	//Forgotten password form
-	private static String resetSuccess = "password was sent";
-	
+
 	//Terms to search for in the "about" page
 	private static String[] searchTerms = 
 		{ "MetaboLights", "Steinbeck", "European Bioinformatics Institute", 
-			"Griffin", "Metabolomics Standards Initiative" };
+		"Griffin", "Metabolomics Standards Initiative" };
 
 	//Login form test
 	private static String loginSuccessUrl = "login-success";
 	private static String userName   = "metabolights@ebi.ac.uk";
 	private static String password   = "81c808"; //TODO, change before testing. After test, a new password is emailed 
-	
+
 	// create the conversation object which will maintain state
 	private WebConversation wc = new WebConversation();
 
 	private WebResponse getWebResponse(String url){
 		try {
-			
+
 			String lBaseUrl = baseUrl;
-			
+
 			if (!url.isEmpty())
 				lBaseUrl = lBaseUrl+url;
-			
+
 			System.out.println( "Testing URL: " +lBaseUrl );
 			WebRequest request = new GetMethodWebRequest( lBaseUrl );
 			return wc.getResponse( request );
-			
+
 		} catch (Exception e) {
 			System.err.println( "Exception: " + e );
 		}
 		return null;
-		
+
 	}
 
 	public void testHomePageLinks() throws IOException, SAXException {
@@ -98,7 +86,7 @@ public class StaticPagesTest extends TestCase {
 
 			// Obtain the main page
 			WebResponse response = getWebResponse(aboutUrl);
-			
+
 			String text = response.getText();
 			System.out.println( "About page text lenght" +text.length() );
 
@@ -116,9 +104,9 @@ public class StaticPagesTest extends TestCase {
 	}
 
 
-	private WebResponse getLoginResponse(){
+	private WebResponse getLoginResponse(String userName, String password){
 		try {
-		
+
 			// Obtain the main page
 			WebResponse response = getWebResponse("login");
 
@@ -130,7 +118,7 @@ public class StaticPagesTest extends TestCase {
 			form.submit();         			// submit the form 
 
 			return wc.getCurrentPage();
-			
+
 		} catch (Exception e) {
 			System.err.println( "Exception: " + e );
 			fail("Login failed");
@@ -138,12 +126,24 @@ public class StaticPagesTest extends TestCase {
 		return null;
 	}
 
-	
 	public void testLoginForm() throws IOException, SAXException {
+		try {
+			
+			testLoginForm(userName, password);
+			
+		} catch (Exception e) {
+			System.err.println( "Exception: " + e );
+			fail("Login failed");
+		}
+
+	}
+
+
+	public void testLoginForm(String userName, String password) throws IOException, SAXException {
 		try {
 
 			//Get the login WebResponse
-			WebResponse loginResponse = getLoginResponse();
+			WebResponse loginResponse = getLoginResponse(userName,password);
 			String url = loginResponse.getURL().toString();
 
 			if (url.equals(baseUrl+loginSuccessUrl)) {
@@ -160,13 +160,13 @@ public class StaticPagesTest extends TestCase {
 
 	}
 
-	
+
 	public void testlogout() throws IOException, SAXException {
 		try {
 
 			//First you need to be logged in
-			WebResponse response = getLoginResponse();
-			
+			WebResponse response = getLoginResponse(userName,password);
+
 			//Try to find and click on "log out"
 			WebLink httpunitLink = response.getFirstMatchingLink( WebLink.MATCH_CONTAINED_TEXT, logout );
 			response = httpunitLink.click();
@@ -190,91 +190,4 @@ public class StaticPagesTest extends TestCase {
 
 	}
 
-	/* ALL FAIL on JavaScript
-
-	public void testNewAccountForm() throws IOException, SAXException {
-		try {
-			
-			// Obtain the main page
-			WebResponse response = getWebResponse(newAccount);
-
-			//Test the login form
-			System.out.println( "Testing accountForm form at '"+baseUrl+newAccount+"' for "+userName);
-			WebForm form = response.getFormWithName("accountForm");	// select the accountForm form in the page
-			form.setParameter( "email", newUserName );	 //email and username
-			form.setParameter( "firstName", "Mitt" );       
-			form.setParameter( "lastName", "Etternavn" ); 
-			form.setParameter( "dbPassword", password ); 
-			form.setParameter( "userVerifyDbPassword", password ); 
-			form.setParameter( "affiliation", "EMBL-EBI" ); 
-			form.setParameter( "affiliationUrl", "http://www.ebi.ac.uk/~kenneth" );
-			form.setParameter( "address", "GB" ); 
-			
-			form.submit();         			// submit the form 
-
-			String url = response.getURL().toString();  //Where did we end up
-
-			if (url.equals(baseUrl+newAccountRequested)) {
-				assertTrue("Accunt requested sucessfull", true);
-			} else {
-				fail("Account request failed");
-			}
-			
-		} catch (Exception e) {
-			System.err.println( "Exception: " + e );
-		}
-
-	}
-	
-	
-	public void testForgottenPasswordForm() throws IOException, SAXException {
-	    try {
-	        
-	        // Obtain the main page
-			WebResponse response = getWebResponse(forgotPw);
-
-	        //Test the login form
-	        System.out.println( "Testing '"+baseUrl+forgotPw+"' for "+userName);
-	        WebForm form = response.getFormWithName("resetForm");	// select the login form in the page
-	        form.setParameter( "emailAddress", userName );	      
-	        form.submit();         			// submit the form 
-	        
-	        WebResponse resetResponse = wc.getCurrentPage(); //Read the new page text
-	        String text = resetResponse.getText();
-	        
-	        assertTrue("Should have contained the text '"+resetSuccess+"'", text.contains(resetSuccess));
-	        	
-
-	      } catch (Exception e) {
-	         System.err.println( "Exception: " + e );
-	      }
-	    
-	} 
-	
-	
-	public void testHomePageSearchForm() throws IOException, SAXException {
-	    try {
-	        // Obtain the main page
-			WebResponse response = getWebResponse("");
-
-	        //Test the search form
-	        System.out.println( "Testing search for "+searchTerm);
-	        WebForm form = response.getFormWithName("searchForm");	// select the search form in the page
-	        form.setParameter( "freeTextQuery", searchTerm );      	// set search term
-	        
-	        //TODO, does not handle javascript
-	        //form.submit();         									// submit the form 
-	        
-	        //WebResponse searchResponse = wc.getCurrentPage();
-	        //int resultsLenght = searchResponse.getContentLength();
-	        //TextBlock[] textBlocks = searchResponse.getTextBlocks();
-
-	      } catch (Exception e) {
-	         System.err.println( "Exception: " + e );
-	      }
-	    
-	} 
-	
-	*/
-	
 }
