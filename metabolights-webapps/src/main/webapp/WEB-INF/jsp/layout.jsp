@@ -29,10 +29,10 @@
     </style>
 </head>
 
-<body onLoad="if(navigator.userAgent.indexOf('MSIE') != -1) {document.getElementById('head').allowTransparency = true;}">
+<body onLoad="if(navigator.userAgent.indexOf('MSIE') != -1) {document.getElementById('head').allowTransparency = true;}; onloadAction();" onunload="onunloadAction();">
     <div class="headerdiv" id="headerdiv" style="position:absolute; z-index: 1;">
         <!--  remove http://www.ebi.ac.uk  on deployment-->
-        <iframe src="/inc/head.html" name="head" id="head" frameborder="0" marginwidth="0px" marginheight="-10px" scrolling="no"  width="100%" style="position:relative; z-index: 1; height: 57px;"></iframe>
+        <iframe src="http://www.ebi.ac.uk/inc/head.html" name="head" id="head" frameborder="0" marginwidth="0px" marginheight="-10px" scrolling="no"  width="100%" style="position:relative; z-index: 1; height: 57px;"></iframe>
     </div>
     <div class="contents" id="contents"  >
         <table class="contentspane" id="contentspane" summary="The main content pane of the page" style="width: 100%">
@@ -66,7 +66,7 @@
              <td colspan ="4" class="footerrow">
                 <div class="footerdiv" id="footerdiv"  style="z-index:2;">
                     <!--  remove http://www.ebi.ac.uk  on deployment-->
-                    <iframe src="/inc/foot.html" name="foot" frameborder="0" marginwidth="0px" marginheight="0px" scrolling="no"  height="22px" width="100%"  style="z-index:2;">[Your user agent does not support frames or is currently configured not to display iframes.]</iframe>
+                    <iframe src="http://www.ebi.ac.uk/inc/foot.html" name="foot" frameborder="0" marginwidth="0px" marginheight="0px" scrolling="no"  height="22px" width="100%"  style="z-index:2;">[Your user agent does not support frames or is currently configured not to display iframes.]</iframe>
                 </div>
              </td>
            </tr>

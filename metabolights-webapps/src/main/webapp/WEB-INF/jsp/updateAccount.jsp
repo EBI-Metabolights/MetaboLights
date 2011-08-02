@@ -29,7 +29,7 @@
             <jsp:include page="accountFormFields.jsp" />
             <tr>
                 <td></td>
-                <td colspan='2'><input name="submit" type="submit" value="<spring:message code="label.update"/>"> &nbsp;&nbsp;
+                <td height="100px" colspan='2'><input name="submit" type="submit" value="<spring:message code="label.update"/>"> &nbsp;&nbsp;
                 <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
                 </td>
             </tr>

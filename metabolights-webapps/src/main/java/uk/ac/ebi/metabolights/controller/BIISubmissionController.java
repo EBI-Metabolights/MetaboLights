@@ -4,14 +4,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +35,6 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
  * chapter "15.8 Spring's multipart (fileupload) support".
  * 
  * @author conesa
- * 
  */
 @Controller
 public class BIISubmissionController extends AbstractController {
@@ -45,7 +47,7 @@ public class BIISubmissionController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/biiuploadExperiment", method = RequestMethod.POST)
-	public ModelAndView handleFormUpload(@RequestParam("file") MultipartFile file, @RequestParam(required=false,value="public") Boolean publicExp) throws Exception {
+	public ModelAndView handleFormUpload(@RequestParam("file") MultipartFile file, @RequestParam(required=false,value="public") Boolean publicExp, HttpServletRequest request) throws Exception {
 
 		//Convert boolean publicExp into VisibilityStatus
 		VisibilityStatus status =  (publicExp != null)? VisibilityStatus.PUBLIC : VisibilityStatus.PRIVATE;
@@ -60,19 +62,17 @@ public class BIISubmissionController extends AbstractController {
 			
 			String isaTabFile = writeFile(file, cl);
 						
-			//Upload to bii
+			//Upload to BII
 			HashMap<String,String> accessions = uploadToBii(isaTabFile, status, cl);
 			
 			//Log it
 			logger.info("These are the new accession numbers: " + accessions);
+
+			HttpSession httpSession = request.getSession();
+			httpSession.setAttribute("accessionsOK", accessions);
+			httpSession.setAttribute("clOK", cl);
 			
-			
-			ModelAndView mav = new ModelAndView("submitOk");
-			mav.addObject("accessions", accessions);
-			mav.addObject("cl", cl);
-			
-			return mav;
-			
+	    	return new ModelAndView("redirect:submitComplete");
 
 		} catch (Exception e){
 			
@@ -81,31 +81,31 @@ public class BIISubmissionController extends AbstractController {
 			mav.addObject("error", e);
 			return mav;
 		}
+
 	}
 
-	@RequestMapping(value = "/uploadtest")
-	public ModelAndView test(){
-		
-		//For testing success
-		HashMap<String,String> accessions = new HashMap<String,String>();
-		accessions.put("ID1", "MTBL1");
-		accessions.put("ID2", "MTBL2");
-		
-		//For testing failure
-		Exception e = new Exception("This is a test exception");
-		
-		//For testing checklist
-		CheckList cl = new CheckList(SubmissionProcessCheckListSeed.values());
-		cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), "File upload checked");
-		
-		
-		ModelAndView mav = new ModelAndView("submitOk");
-		mav.addObject("accessions", accessions);
-		mav.addObject("error", e);
-		mav.addObject("cl", cl);
-		
+	/**
+	 * Redirection after a user has successfully submitted. This prevents double submit with F5.
+	 */
+	@RequestMapping(value={"/submitComplete"})
+	public ModelAndView accountRequested(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it. 
+		if (request.getSession().getAttribute("accessionsOK")!=null) {
+			mav = new ModelAndView("submitOk");
+			mav.addObject("accessions", request.getSession().getAttribute("accessionsOK"));
+			mav.addObject("cl", request.getSession().getAttribute("clOK"));
+			request.getSession().removeAttribute("accessionsOK");
+			request.getSession().removeAttribute("clOK");
+		}
 		return mav;
 	}
+
+	
+	/**
+	 * TODO document method cabron!
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/reindex")
 	public ModelAndView reindex() throws Exception{
 		
@@ -189,6 +189,31 @@ public class BIISubmissionController extends AbstractController {
 		
 		//Upload the file
 		return itu.Upload();
+	}
+
+	
+	@RequestMapping(value = "/uploadtest")
+	public ModelAndView test(){
+		
+		//For testing success
+		HashMap<String,String> accessions = new HashMap<String,String>();
+		accessions.put("ID1", "MTBL1");
+		accessions.put("ID2", "MTBL2");
+		
+		//For testing failure
+		Exception e = new Exception("This is a test exception");
+		
+		//For testing checklist
+		CheckList cl = new CheckList(SubmissionProcessCheckListSeed.values());
+		cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), "File upload checked");
+		
+		
+		ModelAndView mav = new ModelAndView("submitOk");
+		mav.addObject("accessions", accessions);
+		mav.addObject("error", e);
+		mav.addObject("cl", cl);
+		
+		return mav;
 	}
 
 }

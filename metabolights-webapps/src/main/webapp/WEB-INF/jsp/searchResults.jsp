@@ -154,13 +154,11 @@ function navigate(_pageNumber) {
 	<c:if test="${empty searchResults}">
 	<br />
 	<br />
-	<div class="messageBox">
-		<br />
-		<h3>
-			<spring:message code="msg.nothingFound" />
-		</h3>
-		<br />
-	</div>
+	<br />
+	<h3>
+		<div style="padding-left:100px"><spring:message code="msg.nothingFound" /></div>
+	</h3>
+	<br />
 	</c:if>
 
 

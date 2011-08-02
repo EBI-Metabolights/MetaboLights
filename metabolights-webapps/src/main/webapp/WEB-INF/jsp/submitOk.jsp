@@ -3,7 +3,6 @@
 
 <br/>
 <br/>
-
 <c:if test="${not empty error}">
 	<br/><br/>
 	<table>
@@ -35,7 +34,7 @@
  
  <c:if test="${not empty cl}">
 	<br/><br/>
-	<table align="center">
+	<table >
 	<tr>
 		<td><img src="img/info.png" height="30" width="30"></td>
 		<td><b><spring:message code="msg.uploaded.checkListTitle"/></b></td>
@@ -63,3 +62,5 @@
 <br/>
 <br/>
 <a href="index"><spring:message code="msg.backToMainPage"/></a>            
+
+

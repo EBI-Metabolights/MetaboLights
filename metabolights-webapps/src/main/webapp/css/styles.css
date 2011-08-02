@@ -165,12 +165,13 @@ a {
     font-size: 8px;
 }
 
+
 .formbox {
     border:1px solid #006666;
     margin-top:10px;
-    padding-top:10px;
-    padding-left:10px;
-    padding-bottom:10px;
+    padding-top:0px;
+    padding-left:20px;
+    padding-bottom:15px;
 	padding-right:10px;
     border-radius:10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
