@@ -1,5 +1,9 @@
 DEPLOYING STEPS
-Thing to do before deploying
+
+
+********************************
+Things to do before deploying
+********************************
 
 1.- Change header and footer iFrame source:
 
@@ -16,3 +20,37 @@ Thing to do before deploying
 	It can't be fixed locally, but on real deployment the menu works okay if you swicth back to 
 	<iframe src="/inc/head.html.. 
 
+
+2.- Make the war file (Eclipse):
+	STEPS:
+	* Right click on project metabolights-webapp
+	* Click export and choose "war".
+	* Choose the name you want (xxx.war)
+
+
+
+
+********************************
+DEPLOYING
+********************************
+
+0. Start tomcat (optional)
+	
+	STEPS:
+	
+	*ssh to tomcat-18.
+	*Go to tomcat bin directory
+	*become tc_cm01 user
+	*run start script	
+
+1. Deploy
+
+	STEPS:
+
+	* Copy new war file to a "/reachable/path/to/the/tomacat-18/server"
+	* Go to tomcat-18 manager: http://tomcat-18:21590/manager/html
+	* Remove existing mtbl webapp (metabolights webaap for a stable version)
+	* Fill the "Deploy directory or WAR file located on server" with:
+		Context Path: /mtbls (/metabolights for a stable version)
+		XML Configuration file URL: (empty)
+		WAR or Directory URL: /reachable/path/to/the/tomacat-18/server
