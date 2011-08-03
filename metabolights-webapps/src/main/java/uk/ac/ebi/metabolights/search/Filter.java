@@ -21,25 +21,38 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult.Assay;
 
 /**
- * Manages, store, parse and does everything relted with the filter
+ * Manages, store, parse and does everything related with the filter
  * @author conesa
  *
  */
-public class Filter extends HashMap<String,FilterSet>{
+public class Filter {
 	
+	public static final String STATUS_PRIVATE = "PRIVATE";
+	public static final String STATUS_PUBLIC = "PUBLIC";
+
 	private static final String FREE_TEXT_QUERY = "freeTextQuery";
 
 	private static final long serialVersionUID = -8290724660711400374L;
 
+	// Hash of FilterSets
+	HashMap<String,FilterSet> fss = new HashMap<String,FilterSet>();
+	
 	// List with filter items, each one will be a group of checkboxes
-    private FilterSet organisms = new FilterSet("organisms", StudyBrowseField.ORGANISM,"",""); 
-    private FilterSet technology = new FilterSet("technology",StudyBrowseField.ASSAY_INFO,"*|","|*");
+    private FilterSet organisms = new FilterSet("organisms", "organism","",""); 
+    private FilterSet technology = new FilterSet("technology","assay_info","*|","|*");
+    private FilterSet status = new FilterSet("status","status","","");
+    private FilterSet mystudies = new FilterSet("mystudies", "user","username:", "|*");
     private String freeTextQuery = "";
-
+    
     // the currently displayed page number, paging through results 
     private int pageNumber=1;
     // the number of entries on a displayed page
     private final int pageSize=10;
+    // the initial hits (first time filter items are loaded)
+    private int initialHits=0;
+    // the current hits (with filters applied)
+    private int currentHits=0;
+    
     // Store if it is necessary to load the filter based on the results...
     private boolean isFilterLoadNeeded;
     
@@ -63,15 +76,53 @@ public class Filter extends HashMap<String,FilterSet>{
 	public int getPageSize(){
 		return pageSize;
 	}
-
-	
+	public int getInitialHits(){
+		return initialHits;
+	}
+	public int getCurrentHits(){
+		return currentHits;
+	}
 	private void mountFilterStructure(){
 		
 		//Add all the list of filters to the hash...
-		this.put(organisms.getName(), organisms);
-		this.put(technology.getName(), technology);
+		fss.put(organisms.getName(), organisms);
+		fss.put(technology.getName(), technology);
+		fss.put(status.getName(),status);
+		fss.put(mystudies.getName(), mystudies);
+		
 	}
 
+	private void addStatusFilterSet(){
+
+		//Add fixed items to status filter set (PUBLIC AND PRIVATE)
+		FilterItem fiPublic = new FilterItem("Public studies" ,status.getName());
+		fiPublic.setValue(STATUS_PUBLIC);
+		status.put(fiPublic.getValue(), fiPublic);
+				
+		FilterItem fiPrivate = new FilterItem("Private studies", status.getName());
+		fiPrivate.setValue(STATUS_PRIVATE);
+		status.put(fiPrivate.getValue(), fiPrivate);
+	
+	}
+	
+	private void checkMyStudiesFilterSet(){
+		
+		//If the user id logged on
+		String user = getUserName();
+		
+		if (user.isEmpty()){
+			mystudies.setIsEnabled(false);
+			
+		}else{
+			//Lets disable also here
+			mystudies.setIsEnabled(false);
+			FilterItem fiMyStudies = new FilterItem("My studies",mystudies.getName());
+			fiMyStudies.setValue(user);
+			mystudies.put(user, fiMyStudies);
+		}
+		
+	}
+	
 	
 	/**request can come with 2 parameters:
 	 * query: freetext query
@@ -87,6 +138,14 @@ public class Filter extends HashMap<String,FilterSet>{
 		//Uncheck all items
 		uncheckAllFilterItems();
 		
+		//Reset page number
+		pageNumber = 1;
+		
+		//Load status filters
+		addStatusFilterSet();
+		
+		//Load myStudies filter
+		checkMyStudiesFilterSet();
 		
 		// Get an enumeration of all parameters
 		Enumeration paramenum = request.getParameterNames(); 
@@ -102,7 +161,7 @@ public class Filter extends HashMap<String,FilterSet>{
 			}
 
 			//Get the Corresponding filterSet
-			FilterSet fs = this.get(name);
+			FilterSet fs = fss.get(name);
 		
 			//If exists...
 			if (fs != null){
@@ -119,7 +178,7 @@ public class Filter extends HashMap<String,FilterSet>{
 //					fs.put(fi.getValue(), fi);
 					
 					//We need to update the status (checked/unchecked)
-					FilterItem fi = fs.get(values[i]);
+					FilterItem fi = fs.getFilterItems().get(values[i]);
 					fi.setIsChecked(true);
 				}
 			}
@@ -127,13 +186,15 @@ public class Filter extends HashMap<String,FilterSet>{
 	}
 	private void checkIfFilterLoadIsNeeeded(HttpServletRequest request){
 		
+				
 		//Get the free text (if any...)
 		String freeTextQueryFromRequest = request.getParameter(FREE_TEXT_QUERY);
-
+		
 		//If text from the request equals the previous one...
-		if (freeTextQueryFromRequest.equals(freeTextQuery)){
+		if (freeTextQueryFromRequest == null){
+			isFilterLoadNeeded = true;
+		}else if(freeTextQueryFromRequest.equals(freeTextQuery)){
 			isFilterLoadNeeded = false;
-			
 		}else{
 
 			//Update free text query with the new one
@@ -148,20 +209,18 @@ public class Filter extends HashMap<String,FilterSet>{
 			clearAllFilterItems();
 		}
 		
-		
-		
 	}
 	
 	private void uncheckAllFilterItems(){
-		for (FilterSet fs:this.values()){
-			for (FilterItem fi: fs.values()){
+		for (FilterSet fs:fss.values()){
+			for (FilterItem fi: fs.getFilterItems().values()){
 				fi.reset();
 			}
 		}
 	}
 	private void clearAllFilterItems(){
-		for (FilterSet fs:this.values()){
-			fs.clear();
+		for (FilterSet fs:fss.values()){
+			fs.getFilterItems().clear();
 		}	
 	}
 	/**
@@ -175,18 +234,18 @@ public class Filter extends HashMap<String,FilterSet>{
 		
 				
 		//Go through the Filters set
-		for (Entry<String,FilterSet> entry: this.entrySet()){
+		for (Entry<String,FilterSet> entry: fss.entrySet()){
 			
 			//Get the filter set organisms, technologies,... 
 			FilterSet fs = entry.getValue();
 			
 			//Get the lucene index field name
-			String field = fs.getField().getName();
+			String field = fs.getField();
 			
 			String luceneQueryBlock="";
 			
 			//For each filter item we shall make an OR filter
-			for (Entry<String,FilterItem> entry1: fs.entrySet()){
+			for (Entry<String,FilterItem> entry1: fs.getFilterItems().entrySet()){
 				
 				//Get the filter item.
 				FilterItem fi = entry1.getValue();
@@ -214,7 +273,7 @@ public class Filter extends HashMap<String,FilterSet>{
 	private String getStatusFilter(){
 		
 		//To start, all public studies can be retrieved
-		String statusFilter = "status:PUBLIC";
+		String statusFilter = "status:" + STATUS_PUBLIC;
 		
 		//If the user is not empty
 		if (!this.getUserName().isEmpty()){
@@ -237,7 +296,7 @@ public class Filter extends HashMap<String,FilterSet>{
 	private String value2Lucene(String value){
 		
 		//Replace special characters...
-		value = value.replace(" ", "\\ ").replace("(", "\\(").replace(")","\\)");
+		value = value.replace(":","\\:").replace(" ", "\\ ").replace("(", "\\(").replace(")","\\)");
 			
 		return value;
 	}
@@ -266,27 +325,44 @@ public class Filter extends HashMap<String,FilterSet>{
 			if (result.getOrganism()!=null){
 				
 				//If we haven't stored the item yet...
-				if(!organisms.containsKey(result.getOrganism())){
-					organisms.put( result.getOrganism(), new FilterItem(result.getOrganism(), organisms.getName()));
+				if(!organisms.getFilterItems().containsKey(result.getOrganism())){
+					organisms.getFilterItems().put( result.getOrganism(), new FilterItem(result.getOrganism(), organisms.getName()));
 				}
 		
 				//Increase the count of organisms
-				organisms.get(result.getOrganism()).addToNumber(1);
+				organisms.getFilterItems().get(result.getOrganism()).addToNumber(1);
 			}
 			
 			//Get the list of technologies..
 			Iterator <Assay> assIter = result.getAssays().iterator();
 			while (assIter.hasNext()){
 				Assay assay = (Assay) assIter.next();
-				if (!technology.containsKey(assay.getTechnology())){
+				if (!technology.getFilterItems().containsKey(assay.getTechnology())){
 					technology.put(assay.getTechnology(), new FilterItem ( assay.getTechnology() , technology.getName()));
 				}
 
 				//Increase the count of technologies
-				technology.get(assay.getTechnology()).addToNumber(assay.getCount());
+				technology.getFilterItems().get(assay.getTechnology()).addToNumber(assay.getCount());
 				
 			}
+			
+			//STATUS count
+			if (result.getIsPublic()){
+				status.getFilterItems().get(STATUS_PUBLIC).addToNumber(1);
+			}else{
+				status.getFilterItems().get(STATUS_PRIVATE).addToNumber(1);
+			}
+			
 		}
+		
+		//If it's the first load (no filter item checked and no free text search)
+		if (isFilterLoadNeeded && freeTextQuery.isEmpty()){
+			initialHits = resultSet.size();
+		}
+		
+		//Get the current hits (always)
+		currentHits = resultSet.size();
+		
 	}
 	private String getUserName(){
 		
@@ -302,5 +378,8 @@ public class Filter extends HashMap<String,FilterSet>{
 		}
 		
 		return userName;
+	}
+	public HashMap<String,FilterSet> getFss(){
+		return fss;
 	}
 }

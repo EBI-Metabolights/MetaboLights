@@ -127,7 +127,7 @@
                                <c:set var="prev" value="${assay.technologyName}"/>
                             </c:forEach>
                             </ul>
-                            <c:if test="${assayResult.data.factorValues.size gt 0}">
+                            <c:if test="${not empty assayResult.data.factorValues}">
 	                            <ul id="resultList">
 	                            <c:forEach var="fv" items="${assayResult.data.factorValues}">
 	                                    <li>${fv.type.value}: ${fv.value} ${fv.unit.value}</li>

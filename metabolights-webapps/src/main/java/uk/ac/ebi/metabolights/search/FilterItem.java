@@ -1,6 +1,13 @@
 package uk.ac.ebi.metabolights.search;
 
+import java.io.Serializable;
+
 public class FilterItem {
+	/**
+	 * 
+	 */
+	//private static final long serialVersionUID = 1L;
+	
 	private String text;
 	private String name;
 	private String value;
@@ -25,6 +32,9 @@ public class FilterItem {
 	}
 	public String getValue(){
 		return this.value;
+	}
+	public void setValue(String value){
+		this.value = value;
 	}
 	public int getNumber(){
 		return number;

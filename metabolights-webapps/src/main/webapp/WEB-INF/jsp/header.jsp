@@ -6,7 +6,13 @@
        <div id="top_bar">
 		  <a href="index"><h1>foobar</h1></a>
           <div id="search-box">
-		   <form name="searchForm" action="search" method="get" accept-charset="utf-8">
+ 		   <form 	name="searchForm" 
+		   			action="<c:choose>
+		   						<c:when test="${empty action}">search</c:when>
+		   						<c:otherwise>${action}</c:otherwise>
+		   					</c:choose>"
+		   			method="get"
+		   			accept-charset="utf-8">
 		      <input type="text" name="freeTextQuery"  id="query" value="${freeTextQuery}"/>
 		      <button type="submit" class="search-box-button"></button>
 		   </form>

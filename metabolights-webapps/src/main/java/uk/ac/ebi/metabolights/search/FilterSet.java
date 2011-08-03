@@ -4,12 +4,15 @@ import java.util.HashMap;
 
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
-public class FilterSet extends HashMap<String, FilterItem>{
+public class FilterSet {
+	
+	private  HashMap<String, FilterItem> filterItems = new  HashMap<String, FilterItem>();
 	private String name;
-	private StudyBrowseField field;
+	private String field;
 	private String prefix="";
 	private String suffix="";
-	public FilterSet(String name, StudyBrowseField field, String prefix, String suffix){
+	private boolean isEnabled = true;
+	public FilterSet(String name, String field, String prefix, String suffix){
 		this.name = name;
 		this.field = field;
 		this.prefix = prefix;
@@ -21,7 +24,7 @@ public class FilterSet extends HashMap<String, FilterItem>{
 	public String getName(){
 		return name;
 	}
-	public StudyBrowseField getField(){
+	public String getField(){
 		return field;
 	}
 	public String getPrefix(){
@@ -30,4 +33,18 @@ public class FilterSet extends HashMap<String, FilterItem>{
 	public String getSuffix(){
 		return suffix;
 	}
+	public boolean getIsEnabled(){
+		return isEnabled;
+	}
+		
+	public void setIsEnabled(boolean enabled){
+		this.isEnabled = enabled;
+	}
+	public void put (String key, FilterItem fi){
+		 filterItems.put(key, fi);
+	}
+	public HashMap<String, FilterItem> getFilterItems(){
+		return filterItems;
+	}
+	
 }

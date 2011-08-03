@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <script type="text/javascript" src="javascript/jquery-1.6.1.min.js"></script>
 <script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
@@ -20,6 +21,9 @@ function navigate(_pageNumber) {
 </script>
 	<div class="topSpacer">
 		<div id="text_header" >
+	   		<c:if test="${!empty welcomemessage}">
+			    ${welcomemessage}<br/> 
+			</c:if>
 		    ${totalHits} <spring:message code="msg.searchResults" />
 		    <c:if test="${totalHits gt 1}"> 
 			    <spring:message code="msg.showing" /> ${1+((pageNumber-1)*pageSize)} <spring:message code="msg.to" /> 
@@ -29,7 +33,7 @@ function navigate(_pageNumber) {
 			    <c:if test="${((pageNumber-1)*pageSize)+pageSize ge totalHits }">
 			       ${totalHits}
 			    </c:if>
-		    </c:if>     
+		    </c:if> 
 		</div>
 		<table width="100%">
 		 <tr>
@@ -54,68 +58,18 @@ function navigate(_pageNumber) {
 		 </tr>
 		</table>
 	</div>
-
+	
 	<c:if test="${!empty searchResults}">
 	<div id="highlight-plugin">
 		<div id="content">
 			<c:forEach var="searchResult" items="${searchResults}">
-				<div class="z">
-					<div style='margin-bottom: 10px;' class="formbox">
-						
-						<div style='width: 700px;' class='iscell'>
-							<b><a href="${searchResult.accStudy}">${searchResult.title}</a></b>
-						</div>
-						
-						<div style='clear: both;'></div>
-						<!-- new row -->
-
-						<div style='width: 500px;' class='iscell'>
-							<spring:message code="label.expFact" />
-							<ul id="resultList">
-								<c:forEach var="factor" items="${searchResult.factors}">
-									<li><b>${factor.key}:</b> ${factor.value}</li>
-								</c:forEach>
-							</ul>
-						</div>
-
-						<div style='width: 200px;' class='iscell'>
-							<spring:message code="label.expId" />: ${searchResult.accStudy}<br>
-							<spring:message code="label.subm" /> ${searchResult.submitter.name} ${searchResult.submitter.surname}<br>
-							<c:if test="${!searchResult.isPublic}">
-								<spring:message code="label.expPrivate" /><br>
-							</c:if>
-													
-						</div>
-						
-						
-						<div style='clear: both;'></div>
-						<!-- new row -->
-
-						<div style='width: 300px;' class='iscell'>
-							<spring:message code="label.assays" />
-							<ul id="resultList">
-								<c:forEach var="assay" items="${searchResult.assays}">
-									<li>${assay.technology} (${assay.count})</li>
-								</c:forEach>
-							</ul>
-						</div>
-						
-						<div style='width: 400px;' class='iscell'>
-							<c:if test="${not empty searchResult.publications}">
-					            <spring:message code="label.pubIn"/>
-					            <c:forEach var="pub" items="${searchResult.publications}">
-						               <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pubmedId}&dataSource=MED">${pub.title}</a> 
-						            <BR>
-					            </c:forEach>
-					            <br>
-					   		</c:if>
-					   	</div>	
-
-						<div style='clear: both;'></div>
-						<!-- new row -->
-						
-					</div>
-				</div>
+				
+				<!--
+				***********************************
+				SINGLE ENTRY SUMMARY HERE (Include)
+				***********************************
+				-->
+				<%@include file="entrySummary.jsp" %>				
 			</c:forEach>
 		</div>
 	</div>

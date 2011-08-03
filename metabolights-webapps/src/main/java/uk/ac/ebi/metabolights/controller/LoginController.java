@@ -39,7 +39,9 @@ public class LoginController extends AbstractController{
 	
 	@RequestMapping({"/login-success"})
 	public ModelAndView loggedIn() {
-	    return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
+	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
+		return new ModelAndView ("redirect:mysubmissions");
+	    
     }
 
 	@RequestMapping({"/loggedout"})

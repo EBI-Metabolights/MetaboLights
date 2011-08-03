@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.Filter;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.CountryService;
 import uk.ac.ebi.metabolights.service.SearchService;
 
 /**
@@ -39,14 +41,29 @@ public class SearchController extends AbstractController{
 	@RequestMapping(value = "/search", method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView luceneSearch (HttpServletRequest request) {
 
+		//Prepare the filter
+		Filter filter = prepareFilter(request);
+				
+		//Trigger the search based on the filter
+		ModelAndView mav = search(filter);
+		
+		//Add the action to the ModelAndView
+		mav.addObject("action", "search");
+
+		
+		return mav;
+	}
+
+
+	private ModelAndView search(Filter filter) {
+
 		//Search results
 		List<LuceneSearchResult> totalResultList = new ArrayList<LuceneSearchResult>();
 		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
 		List<LuceneSearchResult> displayedResultList = new ArrayList<LuceneSearchResult>();
 		Integer totalHits = 0;
 	  
-		Filter filter = prepareFilter(request);
-		
+				
 		//Get the query...	
 		String luceneQuery = filter.getFreeTextQuery();
 		
@@ -159,6 +176,43 @@ public class SearchController extends AbstractController{
 		
 		return filter;
 		
+	}
+	@RequestMapping(value = "/mysubmissions")
+	public ModelAndView MySubmissionsSearch (HttpServletRequest request) {
+		
+		//Get the filter object prepared (inside there is a clean up process that revoves any initial filter)
+		Filter filter = prepareFilter(request);
+		
+		//As this page requires authentication we can be sure there is an user
+		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		
+		//Set the filter to private studies
+		filter.getFss().get("mystudies").getFilterItems().get(user.getUserName()).setIsChecked(true);
+		
+		//Get the ModelAndView
+		ModelAndView mav = search(filter);
+		
+		//Add the action to the ModelAndView
+		mav.addObject("action", "mysubmissions");
+		
+		//Add the message to the user
+		String welcomeMessage;
+		
+		//If he doesn't have any study
+		if (filter.getInitialHits() ==0){
+			
+			welcomeMessage = PropertyLookup.getMessage("msg.welcomeWithoutStudies",
+					user.getFirstName());
+			
+		}else{
+			welcomeMessage =  PropertyLookup.getMessage("msg.welcomeWithStudies",
+					user.getFirstName(), Integer.toString(filter.getInitialHits()));
+		}
+		
+		// Add the message to the response
+		mav.addObject("welcomemessage", welcomeMessage);
+			
+		return mav;
 	}
 }
 

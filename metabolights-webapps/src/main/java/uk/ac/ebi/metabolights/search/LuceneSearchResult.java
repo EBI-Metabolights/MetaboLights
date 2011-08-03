@@ -1,7 +1,11 @@
 package uk.ac.ebi.metabolights.search;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +19,10 @@ import java.util.regex.Pattern;
 
 import org.apache.lucene.document.Document;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
+import uk.ac.ebi.metabolights.controller.SearchController;
 
 /**
  * Stores a BII Lucene Document and wraps it with accessors.
@@ -23,6 +30,8 @@ import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
  */
 public class LuceneSearchResult {
 
+	private static Logger logger = Logger.getLogger(LuceneSearchResult.class);
+	
 	private List<Assay> assays;
 	private HashMap<String,Set<String>> factors;
 	private HashMap<String,Set<String>> properties;
@@ -33,6 +42,9 @@ public class LuceneSearchResult {
 	private float score;
 	private Submitter submitter;
 	private boolean isPublic;
+	private Date releaseDate;
+	private Date submissionDate;
+	
 		
 	public LuceneSearchResult(Document doc, float score) {
 		this.doc=doc;
@@ -52,9 +64,13 @@ public class LuceneSearchResult {
 		this.submitter = parseSubmitter();
 		
 		this.isPublic = doc.get("status").equals("PUBLIC");
+		
+			
+		this.releaseDate = parseDate("releaseDate");
+		this.submissionDate = parseDate("submissionDate");
+		
 	}
 	
-
 	public Document getDoc() {
 		return doc;
 	}
@@ -119,6 +135,12 @@ public class LuceneSearchResult {
 	public float getScore() {
 		return score;
 	}	
+	public Date getReleaseDate(){
+		return this.releaseDate;
+	}
+	public Date getSubmissionDate(){
+		return this.submissionDate;
+	}
 	
 	public List<Publication> getPublications() {
 		return publications;
@@ -256,6 +278,30 @@ public class LuceneSearchResult {
 		
 		//Create submitter...
 		return new Submitter(values[0],values[1],values[2],values[3]);
+		
+		
+	}
+	// Parses a date field inside a lucene index. An example is: 20041011230000000
+	private Date parseDate(String dateField) {
+		
+				
+		// Get the formatter
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+		
+		//Get the value of the field
+		String date = doc.get(dateField);
+		
+		//Get only the first 8 characters of the string
+		date = date.substring(0, 8);
+		
+		try {
+			return formatter.parse(date);
+		} catch (ParseException e) {
+			//This should never happen
+			logger.info("Field " + dateField + " with value " + date + " can not be parsed into a date.");
+			return null;
+		}
+		
 		
 		
 	}

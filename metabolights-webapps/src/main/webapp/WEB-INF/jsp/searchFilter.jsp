@@ -2,20 +2,24 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <script type="text/javascript" src="javascript/jquery-1.6.1.min.js"></script>
-		<div class="topSpacer"></div>
 
-		<form name="searchFilter" id="filterForm" action="search" method="get" accept-charset="utf-8">				
-			<c:forEach var="group" items="${filters}" varStatus ="status">
+<div class="topSpacer"></div>
+<!-- If there isn't any result and it is due to the freetext, filter will not be printed -->
+<c:if test="${!((totalHits==0) && filters.isFilterLoadNeeded)}">
+	<form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">				
+		<c:forEach var="filterset" items="${filters.fss}">
+			<c:if test="${filterset.value.isEnabled}">
 				<div style="width:200px" class="formbox" >
-				<b>
-					<c:choose>
-						<c:when test="${group.key=='organisms'}"><spring:message code="msg.organisms"/></c:when>
-						<c:when test="${group.key=='technology'}"><spring:message code="msg.technologies"/></c:when>
-						<c:otherwise>${group.key}</c:otherwise>
-					</c:choose>
-					</b><br/></br>				
-					<ul class="filteritem" id="${group.key}">
-						<c:forEach var="filter" items="${group.value}">
+					<b>
+						<c:choose>
+							<c:when test="${filterset.key=='organisms'}"><spring:message code="label.organism"/></c:when>
+							<c:when test="${filterset.key=='technology'}"><spring:message code="label.technology"/></c:when>
+							<c:when test="${filterset.key=='status'}"><spring:message code="label.status"/></c:when>
+							<c:otherwise>${filterset.key}</c:otherwise>
+						</c:choose>
+					</b><br/><br/>				
+					<ul class="filteritem" id="${filterset.key}">
+						<c:forEach var="filter" items="${filterset.value.filterItems}">
 							<input	type="checkbox"
 								 	name="${filter.value.name}" 
 								  	value="${filter.value.value}"
@@ -23,21 +27,17 @@
 	    								CHECKED
 									</c:if>
 								  	onclick="this.form.submit();"
-								  	
-								  	
-								  	
 							> ${filter.value.text} 
-								  	<c:if test="${filter.value.number>0}">(${filter.value.number})</c:if>
-								  	
+							<c:if test="${filter.value.number>0}">(${filter.value.number})</c:if>
 							<br/>
 							<br/>
 						</c:forEach>
-						
 					</ul>
 				</div>
-				<br>
-			</c:forEach>
-			<input type="hidden" name="freeTextQuery" value="<c:out value="${freeTextQuery}"/>"/>
-	        <input type="hidden" name="pageNumber" value="1"/>
-		
-		</form>
+			</c:if>
+		</c:forEach>
+		<input type="hidden" name="freeTextQuery" value="<c:out value="${freeTextQuery}"/>"/>
+	       <input type="hidden" name="pageNumber" value="1"/>
+	
+	</form>
+</c:if>
