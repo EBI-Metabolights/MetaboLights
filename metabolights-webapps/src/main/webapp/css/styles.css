@@ -179,6 +179,20 @@ a {
     
 }
 
+.filterbox {
+    border:1px solid #006666;
+    margin-top:10px;
+    padding-top:10px;
+    padding-left:10px;
+    padding-bottom:10px;
+	padding-right:10px;
+    border-radius:10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius:10px 10px 10px 10px;
+    
+}
+
+
 .formheader{
    background-color:#006666;
    color: #FFFFFF;

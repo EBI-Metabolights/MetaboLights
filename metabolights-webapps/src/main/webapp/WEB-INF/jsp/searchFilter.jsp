@@ -9,7 +9,7 @@
 	<form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">				
 		<c:forEach var="filterset" items="${filters.fss}">
 			<c:if test="${filterset.value.isEnabled}">
-				<div style="width:200px" class="formbox" >
+				<div style="width:200px" class="filterbox" >
 					<b>
 						<c:choose>
 							<c:when test="${filterset.key=='organisms'}"><spring:message code="label.organism"/></c:when>
