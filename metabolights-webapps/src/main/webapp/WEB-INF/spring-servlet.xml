@@ -139,6 +139,7 @@
     <sec:http use-expressions="true" auto-config='true'>
         <sec:intercept-url pattern="/submit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/biisubmit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
+		<sec:intercept-url pattern="/reindex" access="isAuthenticated()" /> <!-- requires-channel="https" --> <!-- Todo. CURATORS ONLY -->
         <sec:intercept-url pattern="/login" access="permitAll"/> <!-- requires-channel="https" -->  
         <sec:intercept-url pattern="/**" access="permitAll"/> <!-- requires-channel="http" -->
         <sec:logout logout-success-url="/loggedout" delete-cookies="JSESSIONID" />
