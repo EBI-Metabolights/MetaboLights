@@ -341,6 +341,7 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
 //	            alert(molecule)
 	            this.moleculeRenderer.render(molecule,trans,molBox);
 	            this.spectrumRenderer.render(model,model.transform,specBox,opt_peak,opt_main_molecule);
+	            this.spectrumRenderer.renderSecondSpectrum(model,model.transform,specBox,opt_peak,opt_main_molecule);
 	            this.textRenderer.render(model.metadata,model.informationExperimentBox,"black","Experiment Information:");
 	            this.textRenderer.renderZoomInfo();
 	        }

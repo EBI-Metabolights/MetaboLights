@@ -146,7 +146,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 
     /*
      * small spectrum
-     */
+     
     goog.array.forEach(spectrum.secondpeakList,
     	    function(peak) {
     	    	if(peak.isVisible){
@@ -157,7 +157,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 
     		},
     	    this);
-    
+    */
     this.graphics.drawRect(metaSpecObject.zoomBox["left"],
 			   metaSpecObject.zoomBox["top"],
 			   metaSpecObject.zoomBox["right"]-metaSpecObject.zoomBox["left"],
@@ -238,10 +238,42 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     }
 	
 //	this.renderBoundingBox(metaSpecObject.mainSpecBox,'red')
-  
-	
     
 };
+
+
+specview.view.SpectrumRenderer.prototype.renderSecondSpectrum = function(metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color){
+	var color = opt_color!=undefined ? opt_color : 'black';
+	var spectrum=metaSpecObject.spectrum==undefined ? metaSpecObject : metaSpecObject.spectrum;
+    var peakPath = new goog.graphics.Path();
+    var peakPath = new goog.graphics.Path();
+    var peakStroke = new goog.graphics.Stroke(1.05,color);
+    var peakStroke2 = new goog.graphics.Stroke(2.05,"red");
+    var peakFill = null; 
+
+	/*
+     * small spectrum
+     */
+    goog.array.forEach(spectrum.secondpeakList,
+    	    function(peak) {
+    	    	if(peak.isVisible){
+    	            peakPath.moveTo(peak.xPixel, peak.yPixel); 
+    	            peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
+    	    	}
+    	    	metaSpecObject.ArrayOfPrimaryMolecules[peak.arrayOfSecondaryMolecules] != undefined ? peak.parentPeak = true : peak.parentPeak = false;
+
+    		},
+    	    this);
+    
+    this.graphics.drawRect(metaSpecObject.zoomBox["left"],
+			   metaSpecObject.zoomBox["top"],
+			   metaSpecObject.zoomBox["right"]-metaSpecObject.zoomBox["left"],
+			   metaSpecObject.zoomBox["bottom"]-metaSpecObject.zoomBox["top"],
+			   new goog.graphics.Stroke(2, 'black'),
+			   null);
+    
+    this.graphics.drawPath(peakPath, peakStroke, peakFill);  
+}
 
 /**
  * In order to remove the spectrum element from the canvas, we draw and fill a rectangle element.
