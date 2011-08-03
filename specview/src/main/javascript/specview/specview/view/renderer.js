@@ -68,7 +68,7 @@ specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
     	boxPath.lineTo(k,topRight.y+10);
     }
     //Horizontal grid
-    for(var k=topRight.y;k<bottomRight.y;k+=scaleY){
+    for(var k=topRight.y+scaleY;k<bottomRight.y;k+=scaleY){
     	boxPath.moveTo(topLeft.x-10,k);
     	boxPath.lineTo(topRight.x,k);
     }

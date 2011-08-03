@@ -244,12 +244,14 @@ specview.model.NeighborList.prototype.getObjects = function(type,x1,x2,opt_y1,op
 		var coord = cells[key][0];
 		if(opt_y1==undefined && opt_y2==undefined){
 			if(coord.x < x2 && coord.x > x1){
+//				alert(cells[key][1])
 				arrayOfObjects.push(cells[key][1]);
 			}	
 		}else{
 //			specview.model.NeighborList.logger2.info(coord+ "|||" +"("+x1 + ";" +x2+")"+ "---" +"("+opt_y1+";"+opt_y2+")");
 			if(coord.x < x2 && coord.x > x1 && coord.y > opt_y1 && coord.y < opt_y2){
 //				alert("caca")
+//				alert(cells[key][1])
 				arrayOfObjects.push(cells[key][1]);
 			}
 		}

@@ -98,6 +98,9 @@ specview.controller.Controller = function(element, opt_config) {
 	this.neighborList = [];
 	this.staticNeighborList = [];
 	
+	
+	this.secondNeighborList;
+	
 	/**
 	 * If true, then it is possible to draw rectangle to zoom on the spectrum or on the molecule
 	 * If false, then not.
@@ -240,7 +243,11 @@ specview.controller.Controller.prototype.setModels = function(models,opt_peak,op
 		this.neighborList = new specview.model.NeighborList(objects, 1, .3);
 	}
 	*/
-	this.setNeighborListTrue(models);
+//	alert("caca")
+	this.neighborList = this.setNeighborListTrue(models);
+	this.secondNeighborList = this.setNeighborListTrue(models);
+//	this.secondNeighborList = this.neighorList;//This is to make a static reference for the second spectrum
+//	alert(this.secondNeighborList)
 	this.render(opt_peak,opt_main_molecule);
 };
 goog.exportSymbol('specview.controller.Controller.prototype.setModels',	specview.controller.Controller.prototype.setModels);
@@ -345,8 +352,8 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
  * When the  user zoom on the spectrum, a smaller rectangle is rendered on the smaller spectrum to help the user identify
  * which part of the spectrum he focused on
  */
-specview.controller.Controller.prototype.mapZoomSpectrum = function(left,width,editor){
-	this.specObject.setZoomBox(left,width);
+specview.controller.Controller.prototype.mapZoomSpectrum = function(left,width,editor,listOfPeaks){
+	this.specObject.setZoomBox(left,width,listOfPeaks);
 	return this.spectrumRenderer.mapZoomSpectrum(left,width,this.specObject,editor);
 }
 
@@ -390,9 +397,12 @@ specview.controller.Controller.prototype.unzoom = function(){
 
 /**
  * Zooming
+ * @param
+ *  listOfPeaks is the leist of peaks within the zoom area drawn by the client
  */
 
 specview.controller.Controller.prototype.zoom = function(listOfPeaks){
+//	alert(listOfPeaks)
 	this.specObject.zoomLevel += 1;
 	this.specObject.zoomMap[this.specObject.zoomLevel] = listOfPeaks ;
 	this.setNewSpectrum(listOfPeaks);	
@@ -408,36 +418,39 @@ specview.controller.Controller.prototype.setNewSpectrum = function(listOfPeaks){
 	this.specObject.zoomMap[this.specObject.zoomMap.length] = listOfPeaks ; 
 	this.specObject.spectrum.peakList = listOfPeaks;
 
-//	this.specObject.setCoordinatesPixelOfSpectrum();
 	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
 	
 	this.neighborList = this.setNeighborListTrue([this.specObject]);
-//	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
-//	this.spectrumRenderer.render(this.specObject,
-//								 this.specObject.transform,
-//								 this.specObject.mainSpecBox);
+
+	var minBoundary = this.specObject.spectrum.getMaxAndMinXpixelValue(listOfPeaks).minPixel;
+	var maxBoundary = this.specObject.spectrum.getMaxAndMinXpixelValue(listOfPeaks).maxPixel;
+	
+	var minPeak = this.specObject.spectrum.getPeakFromxPixel(minBoundary,listOfPeaks);
+	var maxPeak = this.specObject.spectrum.getPeakFromxPixel(maxBoundary,listOfPeaks);
+	
+	var leftB;
+	var rightB;
+	
 	this.expandSpectrum();
 	
+	for(k in this.secondNeighborList.cells_samy_spectrum_2){
+		if(this.secondNeighborList.cells_samy_spectrum_2[k][1].peakId == minPeak.peakId){
+			leftB = this.secondNeighborList.cells_samy_spectrum_2[k][0].x;
+		}else if(this.secondNeighborList.cells_samy_spectrum_2[k][1].peakId == maxPeak.peakId){
+			rightB = this.secondNeighborList.cells_samy_spectrum_2[k][0].x;
+		}
+	}	
+	
+//	alert(minPeak.peakId  + " : " +leftB + "\n" + maxPeak.peakId + " : " + rightB)
+	
+	
 	if(specview.controller.plugins.Highlight.zoomObject != null){
-		var left = parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.left));
-		var right = left + parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.width));
 		this.spectrumRenderer.clearRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this);
-		this.mapZoomSpectrum(left,right-left,this);
-		this.setDraggingTool(left,right-left);	
+		this.mapZoomSpectrum(leftB,rightB-leftB,this,listOfPeaks);
+		this.setDraggingTool(leftB,rightB-leftB);	
+		
 	}
 
-	/*
-	
-	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,
-									 'black',
-									 this.specObject.spectrum);
-
-	
-	this.spectrumRenderer.renderAxis(this.specObject,
-									 this.spectrumRenderer.box,
-									 'black');
-
-*/
 };
 
 

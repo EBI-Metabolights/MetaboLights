@@ -201,14 +201,30 @@ specview.model.Spectrum.prototype.sortXpixel=function(){
  * @param xValue
  * @returns {Number}
  */
-specview.model.Spectrum.prototype.getPeakFromxValue=function(xValue){
-	goog.array.forEach(this.peakList,function(peak){
+specview.model.Spectrum.prototype.getPeakFromxValue=function(xValue,opt_array){
+	var array = opt_array == undefined ? this.peakList : opt_array;	
+//	alert(array)
+	goog.array.forEach(array,function(peak){
+//		alert(peak.xValue + " compare to " + xValue);
 		if(peak.xValue==xValue){
 			return peak;
 		}
 	},this);
 	return 0;
 };
+
+
+specview.model.Spectrum.prototype.getPeakFromxPixel = function(xPixel,opt_array){
+	var array = opt_array == undefined ? this.peakList : opt_array;
+	
+	for(k in array){
+		if(array[k].xPixel==xPixel){
+			return array[k];
+		}
+	}
+	return 0;
+};
+
 
 /**
  * 
@@ -245,9 +261,11 @@ specview.model.Spectrum.prototype.getNthMaxValueOfPeak=function(zoom,sortedArray
  * Return an array of all the xPixel of the peaks of the spectrum
  * @returns {Array}
  */
-specview.model.Spectrum.prototype.getXpixel=function(){
+specview.model.Spectrum.prototype.getXpixel=function(opt_array){
 	var array=[];
-	goog.array.forEach(this.peakList,function(peak){
+	var ar = opt_array == undefined ? this.peakList : opt_array;
+	//alert(ar)
+	goog.array.forEach(ar,function(peak){
 		array.push(peak.xPixel);
 	});
 	return array;
@@ -256,11 +274,15 @@ specview.model.Spectrum.prototype.getXpixel=function(){
  * return the maximum and minimum xPixel value of peaks belonging to a spectrum
  * @returns {___array0}
  */
-specview.model.Spectrum.prototype.getMaxAndMinXpixelValue=function(){
+specview.model.Spectrum.prototype.getMaxAndMinXpixelValue=function(opt_array){
 	var array=new Object();
-	var arrayOfPixel=this.getXpixel();
+//	if(opt_array != undefined){
+//		alert("nombre de peaks: "+opt_array.length+"\n\n"+opt_array)	
+//	}
+	var arrayOfPixel= opt_array == undefined ? this.getXpixel() : this.getXpixel(opt_array);
 	var max=0;
 	var min=1.7976931348623157E+10308;
+	
 	for(k in arrayOfPixel){
 		
 		var value=arrayOfPixel[k];
@@ -271,6 +293,49 @@ specview.model.Spectrum.prototype.getMaxAndMinXpixelValue=function(){
 	array.minPixel=min;
 	return array;
 };
+
+
+specview.model.Spectrum.prototype.getMaxAndMinXpixelValue2=function(opt_array){
+	var array=new Object();
+
+	var arrayOfPixel= opt_array == undefined ? this.peakList : opt_array;
+
+	var max=0;
+	var min=1.7976931348623157E+10308;
+	for(k in arrayOfPixel){
+		
+		max=(arrayOfPixel[k].xPixel>max) ? arrayOfPixel[k] : max;
+		min=(arrayOfPixel[k].xPixel<min) ? arrayOfPixel[k] : min;
+	}
+	array.maxPixel=max;
+	array.minPixel=min;
+	return array;
+};
+
+
+specview.model.Spectrum.prototype.getMinPeakId=function(opt_array){
+	var array=new Object();
+	var array2= opt_array == undefined ? this.peakList : opt_array;
+	var min=1.7976931348623157E+10308;
+	for(k in array2){
+		min = (array2[k].xPixel < min) ? array2[k] : min;
+	}
+	return min;
+};
+
+
+specview.model.Spectrum.prototype.getMaxPeakId=function(opt_array){
+	var array=new Object();
+	var array2 = opt_array == undefined ? this.peakList : opt_array;
+
+	var max=0;
+
+	for(k in array2){
+		max = (array2[k].xPixel > max) ? array2[k] : max;
+	}
+	return max
+};
+
 
 /**
  * return the maximum value of the peak(in the file unit)

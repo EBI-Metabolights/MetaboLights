@@ -257,7 +257,10 @@ specview.model.NMRdata.prototype.setEditor=function(controllerEditor){
  * @param width
  * @param metaSpecObject
  */
-specview.model.NMRdata.prototype.setZoomBox = function(left,width){
+
+specview.model.NMRdata.prototype.setZoomBox = function(left,width,listOfPeaks){
+	var ar = this.spectrum.getMaxAndMinXpixelValue(listOfPeaks);
+	specview.model.NMRdata.logger.info(ar.minPixel +";"+ar.maxPixel)
 	var percentageLeft=(left-this.mainSpecBox[0].x)/(this.mainSpecBox[1].x-this.mainSpecBox[0].x);
 	var percentageRight=((left+width)-this.mainSpecBox[0].x)/(this.mainSpecBox[1].x-this.mainSpecBox[0].x);
 	var newLeft = percentageLeft*(this.zoomBox["right"]-this.zoomBox["left"]);
@@ -270,6 +273,12 @@ specview.model.NMRdata.prototype.setZoomBox = function(left,width){
 									 newLeft); 
 };
 
+
+//specview.model.NMRdata.prototype.setZoomBox = function(){
+//	var ar = this.spectrum.getMaxAndMinXpixelValue();
+//	specview.model.NMRdata.logger.info(ar.minPixel +";"+ar.maxPixel)
+//	
+//s};
 
 
 /**
@@ -512,9 +521,9 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSpectrum = function(){
 			case "MS" :
 //				adjustXvalue = (peak.xValue == minValueOfPeak) ? 5 : ecart * ((peak.xValue-minValueOfPeak)/(maxValueOfPeak-minValueOfPeak));			
 				if(peak.xValue==maxValueOfPeak){
-					adjustXvalue=ecart-4;
+					adjustXvalue=ecart-20;
 				}else{
-					adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+					adjustXvalue=(peak.xValue*(ecart-20))/maxValueOfPeak;
 				}
 
 				peak.isVisible=(adjustXvalue+valueToAdd<this.mainSpecBox[1].x &&
@@ -699,9 +708,9 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfAllSpectrum = function(){
 				switch(this.experienceType){
 					case "NMR" :
 						if(peak.xValue==maxValueOfPeak){
-							adjustXvalue=ecart-4;
+							adjustXvalue=ecart-20;
 						}else{
-							adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+							adjustXvalue=(peak.xValue*(ecart-20))/maxValueOfPeak;
 						}
 						peak.isVisible=(adjustXvalue+valueToAdd<this.mainSpecBox[1].x &&
 								adjustXvalue+valueToAdd>this.mainSpecBox[0].x) ? true : false;
@@ -713,9 +722,9 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfAllSpectrum = function(){
 						break;
 					case "MS" :
 						if(peak.xValue==maxValueOfPeak){
-							adjustXvalue=ecart-4;
+							adjustXvalue=ecart-20;
 						}else{
-							adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+							adjustXvalue=(peak.xValue*(ecart-20))/maxValueOfPeak;
 						}
 						peak.isVisible=(adjustXvalue+valueToAdd<this.mainSpecBox[1].x &&
 								adjustXvalue+valueToAdd>this.mainSpecBox[0].x) ? true : false;
@@ -773,9 +782,9 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSecondSpectrum = function(
 		switch(this.experienceType){
 		case "NMR" :
 			if(peak.xValue==maxValueOfPeak){
-				adjustXvalue=ecart-4;
+				adjustXvalue=ecart-20;
 			}else{
-				adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+				adjustXvalue=(peak.xValue*(ecart-20))/maxValueOfPeak;
 			}
 			var whereAllThePeakStartFrom=this.secondSpecBox["bottom"];
 			peak.isVisible=(adjustXvalue+valueToAdd<this.secondSpecBox["right"]&&
@@ -788,9 +797,9 @@ specview.model.NMRdata.prototype.setCoordinatesPixelOfSecondSpectrum = function(
 			break;
 		case "MS" :
 			if(peak.xValue==maxValueOfPeak){
-				adjustXvalue=ecart-4;
+				adjustXvalue=ecart-20;
 			}else{
-				adjustXvalue=(peak.xValue*(ecart-4))/maxValueOfPeak;
+				adjustXvalue=(peak.xValue*(ecart-20))/maxValueOfPeak;
 			}
 			var whereAllThePeakStartFrom=this.secondSpecBox["bottom"];
 			peak.isVisible=(adjustXvalue+valueToAdd<this.secondSpecBox["right"]&&

@@ -384,6 +384,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 			var listOfPeaks = this.getObjects(type,
 											  left,
 											  right);
+//			alert(listOfPeaks)
 			this.zoomOnSpectrum(listOfPeaks);
 			document.getElementById("win3").style.display = "none";
 	

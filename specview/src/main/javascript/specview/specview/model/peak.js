@@ -168,7 +168,13 @@ specview.model.Peak.prototype.setXvalue=function(value){
  * Description of the object
  */
 specview.model.Peak.prototype.toString = function() {
-	return "==Peak====\n " + "--"+this.xValue + "; "+"--"+this.intensity+";"+"--"+this.peakId+";"+"--"+this.atomRef+";"+"--"+this.arrayOfSecondaryMolecules;
+	return "==Peak====\n " + "-xValule: "+this.xValue + ";\n"
+	+"-Intensity: "+this.intensity+";\n"
+	+"-xPixel: "+this.xPixel+";\n"
+	+"-peak Id: "+this.peakId+";\n"
+	+"-atomRef: "+this.atomRef
+	+";\n"
+	+"- molecules: "+this.arrayOfSecondaryMolecules+"\n\n\n";
 };
 
 
