@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.ac.ebi.metabolights</groupId>
   <artifactId>metabolights-main</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>MetaboLights main project</name>
   <description>MetaboLights Main Project</description>
@@ -27,6 +27,7 @@
   <!-- Shared version number properties -->
   <properties>
     <org.spring.version>3.1.0.M2</org.spring.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
   <dependencies>
@@ -89,20 +90,20 @@
          <artifactId>ojdbc6</artifactId>
          <version>11.2.0.2</version>
  	</dependency>	
- 	<dependency>
+ 	<!--dependency>
  		<groupId>org.springframework</groupId>
  		<artifactId>spring-context</artifactId>
  		<version>${org.spring.version}</version>
  		<type>jar</type>
  		<scope>compile</scope>
- 	</dependency> 	
-    <dependency>
+ 	</dependency--> 	
+    <!--dependency>
  		<groupId>org.springframework</groupId>
  		<artifactId>spring-aop</artifactId>
  		<version>${org.spring.version}</version>
  		<type>jar</type>
  		<scope>compile</scope>
- 	</dependency>
+ 	</dependency-->
  	<dependency>
  		<groupId>org.springframework</groupId>
  		<artifactId>spring-orm</artifactId>
@@ -117,12 +118,13 @@
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
-      <dependency>
+    <!-- dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-core</artifactId>
-        <version>3.1.0.RC1</version>
-    </dependency>
-
+        <version>${org.spring.version}</version>
+        <type>jar</type>
+ 		<scope>compile</scope> 
+    </dependency-->
  	<dependency>
  		<groupId>org.springframework.security</groupId>
  		<artifactId>spring-security-config</artifactId>
@@ -141,7 +143,7 @@
  		<groupId>org.springframework</groupId>
  		<artifactId>spring-beans</artifactId>
  		<version>${org.spring.version}</version>
- 		<type>pom</type>
+ 		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
  	<dependency>
@@ -154,7 +156,7 @@
  	<dependency>
  		<groupId>org.springframework</groupId>
  		<artifactId>spring-webmvc</artifactId>
- 		<version>3.0.5.RELEASE</version>
+ 		<version>${org.spring.version}</version>
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
