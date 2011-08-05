@@ -33,6 +33,10 @@ specview.controller.plugins.Zoom = function() {
 	this.zooming_on_spectrum = false;
 	this.zooming_on_molecule = false;
 	
+	
+	this.zooming_left = false;
+	this.zooming_right = false;
+	
 	specview.controller.Plugin.call(this);
 }
 goog.inherits(specview.controller.plugins.Zoom, specview.controller.Plugin);

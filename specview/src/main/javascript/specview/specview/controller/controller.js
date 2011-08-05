@@ -456,6 +456,28 @@ specview.controller.Controller.prototype.setNewSpectrum = function(listOfPeaks){
 };
 
 
+specview.controller.Controller.prototype.moveSpectrum = function(listOfPeaks){
+	this.specObject.spectrum.peakList = listOfPeaks;
+	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
+	this.spectrumRenderer.renderSpec(this.specObject.spectrum,document.metaSpecObject,document.metaSpecObject.transform);
+	this.spectrumRenderer.renderAxis(document.metaSpecObject,this.spectrumRenderer.box,'black');
+	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,'black',document.metaSpecObject.spectrum);
+
+//    this.spectrumRenderer.render(document.metaSpecObject,document.metaSpecObject.transform,document.metaSpecObject.specBox);
+	
+};
+
+specview.controller.Controller.prototype.dragSpectrum = function(left,right){
+	var ar = new Array();
+	for(k in this.secondNeighborList.cells_samy_spectrum_2){
+		if(this.secondNeighborList.cells_samy_spectrum_2[k][0].x > left && this.secondNeighborList.cells_samy_spectrum_2[k][0].x  < right){
+			ar[k] = this.secondNeighborList.cells_samy_spectrum_2[k][1];
+		}
+	}
+	this.moveSpectrum(ar)
+};
+
+
 /**
  * To be able to render the spectrum independently;
  */
@@ -822,15 +844,38 @@ specview.controller.Controller.isInMolecule = function(e,specObject) {
 	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
 };
 
+
+
+
 /**
  * Return true if the mouse is the the little spectrum box
  * @param e
  * @returns
  */
 specview.controller.Controller.isInSecondarySpectrum = function(e){
+	/*
 	var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
 			 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+	var top = document.metaSpecObject.secondSpecBox["top"];
+	var left = document.metaSpecObject.secondSpecBox["left"];
+	var right = document.metaSpecObject.secondSpecBox["right"];
+	var bottom = document.metaSpecObject.secondSpecBox["bottom"];
+	
+	
 	return document.metaSpecObject.secondSpecBox.contains(coord);
+	*/
+	var top = document.metaSpecObject.secondSpecBox["top"];
+	var left = document.metaSpecObject.secondSpecBox["left"];
+	var right = document.metaSpecObject.secondSpecBox["right"];
+	var bottom = document.metaSpecObject.secondSpecBox["bottom"];
+	
+	if(e instanceof MouseEvent){
+		var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
+				 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+	}else{
+		var coord = specview.controller.Controller.getMouseCoords(e);
+	}
+	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
 }
 
 

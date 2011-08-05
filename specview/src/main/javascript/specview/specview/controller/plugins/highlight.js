@@ -63,6 +63,8 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			document.getElementById("floatingBoxSelectMultiplePeaks").style.display == "none"){
 		var isInSpectrum = specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject);
 		var isInMolecule = specview.controller.Controller.isInMolecule(e, this.editorObject.specObject);
+		var isInSecondSpectrum = specview.controller.Controller.isInSecondarySpectrum(e)
+		specview.controller.plugins.Highlight.logger2.info(isInSecondSpectrum);
 		if(specview.controller.plugins.Highlight.zoomObject.rectangle != null){
 			if(isInSpectrum || specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum){
 				specview.controller.plugins.Highlight.zoomObject.zooming_on_spectrum = true;
@@ -98,9 +100,46 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 
 		
 		
-	}else if(!specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject) && 
+	}/*else if(!specview.controller.Controller.isInSpectrum(e, this.editorObject.specObject) && 
 			!specview.controller.Controller.isInMolecule(e, this.editorObject.specObject)){
 
+	}*/else if(specview.controller.Controller.isInSecondarySpectrum(e)){
+		var right =	
+			parseInt(specview.util.Utilities.parsePixel(document.getElementById("zoomRectangle").style.left)) + 
+			parseInt(specview.util.Utilities.parsePixel(document.getElementById("zoomRectangle").style.width));	
+		var left = parseInt(specview.util.Utilities.parsePixel(document.getElementById("zoomRectangle").style.left));
+
+		var onRight = goog.math.nearlyEquals(right , e.clientX , 2);
+		var onLeft  = goog.math.nearlyEquals(left , e.clientX , 2);
+
+		if(onLeft){
+			document.getElementById("zoomRectangle").style.cursor = "e-resize";
+			specview.controller.plugins.Highlight.logger2.info("left : " +specview.controller.plugins.Highlight.zoomObject.zooming_left);
+			if(specview.controller.plugins.Highlight.zoomObject.zooming_left){
+				alert("cacac")				
+			}
+		}else if(onRight){
+			document.getElementById("zoomRectangle").style.cursor = "w-resize";
+			if(specview.controller.plugins.Highlight.zoomObject.zooming_right && 
+					(e.clientX > left)){
+				alert("ppipi")				
+			}
+		}
+/*		if(specview.controller.plugins.Highlight.zoomObject.zooming_left &&
+				(e.clientX < right)){
+			alert("caca")
+			document.getElementById("zoomRectangle").style.cursor = "e-resize";
+			
+		}else if(specview.controller.plugins.Highlight.zoomObject.zooming_right && 
+				(e.clientX > left)){
+			document.getElementById("zoomRectangle").style.cursor = "w-resize";
+			
+		}
+*/
+		
+		
+		
+		
 	}
 	/**
 	 * The highlight shall only be allowed if the user is NOT trying to draw a rectangle.(Efficiency matter)
@@ -316,6 +355,22 @@ document.onmousedown = function(e){
 			specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
 		}
 	}else if (specview.controller.Controller.isInSecondarySpectrum(e)){
+		var right =	
+			parseInt(specview.util.Utilities.parsePixel(document.getElementById("zoomRectangle").style.left)) + 
+			parseInt(specview.util.Utilities.parsePixel(document.getElementById("zoomRectangle").style.width));	
+		var left = parseInt(specview.util.Utilities.parsePixel(document.getElementById("zoomRectangle").style.left));
+		var onRight = goog.math.nearlyEquals(right , e.clientX , 2);
+		var onLeft  = goog.math.nearlyEquals(left , e.clientX , 2);
+
+		if(onLeft){
+			specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
+			specview.controller.plugins.Highlight.zoomObject.zooming_left = true;
+			
+		}else if(onRight){
+			specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
+			specview.controller.plugins.Highlight.zoomObject.zooming_right = true;
+		}
+		
 	}else{
 
 
@@ -348,6 +403,12 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 //	specview.controller.plugins.Highlight.logger2.info("isZooming : "+isZooming + " ; " + specview.controller.plugins.Highlight.zoomObject.rectangle);
 	if(!isZooming && this.editorObject.specObject.isDraggingToolSelected){
 		document.getElementById("draggingBarSpectrum").style.backgroundColor = "#E49319";
+//		alert(document.getElementById("draggingBarSpectrum").style.left + " ; " +  document.getElementById("draggingBarSpectrum").style.width)
+		var leftPositionOfTheDraggingBar = parseInt(specview.util.Utilities.parsePixel(document.getElementById("draggingBarSpectrum").style.left));
+		var rightPositionOfTheDraggingBar = parseInt(specview.util.Utilities.parsePixel(document.getElementById("draggingBarSpectrum").style.left)) + 
+		parseInt(specview.util.Utilities.parsePixel(document.getElementById("draggingBarSpectrum").style.width));
+//		alert(leftPositionOfTheDraggingBar + " ; " + rightPositionOfTheDraggingBar)
+		this.dragSpectrum(leftPositionOfTheDraggingBar,rightPositionOfTheDraggingBar);
 	}else if(isInMolecule){
 		if(specview.controller.plugins.Highlight.zoomObject == null){
 			var object = this.editorObject.neighborList.getObjectFromCoord(e,this.editorObject.specObject)
@@ -407,6 +468,12 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 specview.controller.plugins.Highlight.prototype.cacacaca = function(){
 	return "cacacaca";
 }
+
+
+specview.controller.plugins.Highlight.prototype.dragSpectrum = function(left,right){
+	return this.editorObject.dragSpectrum(left,right);
+};   
+
 
 /**
  * @param type

@@ -391,7 +391,7 @@ specview.view.SpectrumRenderer.prototype.mapZoomSpectrum2 = function(left, width
 		 */
 		document.getElementById("zoomRectangle").style.display = "block";
 		document.getElementById("zoomRectangle").style.left = left+ document.getElementById("moleculeContainer").offsetLeft+"px";
-		document.getElementById("zoomRectangle").style.top = metaSpecObject.secondSpecBox["top"]+ document.getElementById("moleculeContainer").offsetTop+"px" 
+		document.getElementById("zoomRectangle").style.top = metaSpecObject.secondSpecBox["top"]+ document.getElementById("moleculeContainer").offsetTop + 20 + "px" 
 		document.getElementById("zoomRectangle").style.height =  metaSpecObject.secondSpecBox["bottom"] - metaSpecObject.secondSpecBox["top"] + "px"
 		document.getElementById("zoomRectangle").style.width = width+"px";
 		
