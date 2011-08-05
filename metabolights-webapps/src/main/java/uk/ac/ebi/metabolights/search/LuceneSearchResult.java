@@ -312,7 +312,7 @@ public class LuceneSearchResult {
 		String pubTitle = "", pubAuthors = "", pubmedId ="", doi="";
 		int idx = 0;
 
-		String publicationString = doc.get("publication");
+		String publicationString = doc.get("publication");  //TODO, can have more than one publication
 		if (publicationString==null)
 			return pubList;
 		
