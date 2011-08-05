@@ -25,8 +25,8 @@
          -->
     <isatab_source>
         <location
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/meta_data/study_${study-acc}"
-                web_url="ftp:////ebi/ftp/pub/databases/metabolights/studies/meta_data/study_${study-acc}"
+                filesystem_path="/dev/null"
+                web_url="ftp:////dev/null"
                 />
     </isatab_source>
 
@@ -40,388 +40,388 @@
          -->
     <datasource measurement_type="transcription profiling" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="DNA methylation profiling" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="SNP analysis" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="copy number variation profiling" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="loss of heterozygosity profiling" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="transcription factor binding site identification" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="protein expression profiling" technology_type="protein microarray ">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="protein-protein interaction detection" technology_type="protein microarray ">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="transcription profiling" technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="transcription profiling" technology_type="real time PCR">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/microarray/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="DNA methylation profiling" technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="transcription factor binding site identification"
                 technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="genome sequencing" technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="metagenome sequencing" technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/nucleotide/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="protein identification" technology_type="mass spectrometry">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="protein expression profiling" technology_type="gel electrophoresis">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="protein expression profiling" technology_type="mass spectrometry">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/proteomics/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="metabolite profiling" technology_type="mass spectrometry">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="metabolite profiling" technology_type="NMR spectroscopy">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
     
     <datasource measurement_type="metabolite profiling" technology_type="real time PCR">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>    
 
     <datasource measurement_type="clinical chemistry analysis" technology_type="">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="histology" technology_type="">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="hematology" technology_type="">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="metabolite profiling" technology_type="clinical chemistry">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="flow cytometry" technology_type="not defined">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/flow_cytometry/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/flow_cytometry/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/flow_cytometry/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/flow_cytometry/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/flow_cytometry/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/flow_cytometry/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
     <datasource measurement_type="histology" technology_type="real time PCR">
         <raw_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/raw_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <processed_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/processed_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
         <generic_data
-                filesystem_path="/ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
-                web_url="file:///ebi/ftp/pub/databases/metabolights/studies/other/generic/study_${study-acc}/generic_data"
+                filesystem_path="/dev/null"
+                web_url="file:///dev/null"
                 />
     </datasource>
 
