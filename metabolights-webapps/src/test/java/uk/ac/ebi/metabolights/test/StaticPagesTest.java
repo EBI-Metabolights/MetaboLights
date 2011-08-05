@@ -14,8 +14,8 @@ public class StaticPagesTest extends TestCase {
 
 	//TODO, read properties file, like messages_en.properties for string matching
 
-	//String baseUrl = "http://localhost:8080/metabolights";
-	public static String baseUrl   = "http://wwwdev.ebi.ac.uk/metabolights/";
+	private static String baseUrl = "http://localhost:8080/metabolights";
+	//public static String baseUrl   = "http://wwwdev.ebi.ac.uk/metabolights/";
 	private static String aboutUrl  = "about";
 	private static String loginUrl  = "log in";
 	private static String submitUrl = "submit";
