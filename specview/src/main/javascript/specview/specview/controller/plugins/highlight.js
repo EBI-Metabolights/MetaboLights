@@ -403,11 +403,10 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 //	specview.controller.plugins.Highlight.logger2.info("isZooming : "+isZooming + " ; " + specview.controller.plugins.Highlight.zoomObject.rectangle);
 	if(!isZooming && this.editorObject.specObject.isDraggingToolSelected){
 		document.getElementById("draggingBarSpectrum").style.backgroundColor = "#E49319";
-//		alert(document.getElementById("draggingBarSpectrum").style.left + " ; " +  document.getElementById("draggingBarSpectrum").style.width)
 		var leftPositionOfTheDraggingBar = parseInt(specview.util.Utilities.parsePixel(document.getElementById("draggingBarSpectrum").style.left));
 		var rightPositionOfTheDraggingBar = parseInt(specview.util.Utilities.parsePixel(document.getElementById("draggingBarSpectrum").style.left)) + 
 		parseInt(specview.util.Utilities.parsePixel(document.getElementById("draggingBarSpectrum").style.width));
-//		alert(leftPositionOfTheDraggingBar + " ; " + rightPositionOfTheDraggingBar)
+		this.reSetZoomRectangle(leftPositionOfTheDraggingBar , rightPositionOfTheDraggingBar,document.metaSpecObject);
 		this.dragSpectrum(leftPositionOfTheDraggingBar,rightPositionOfTheDraggingBar);
 	}else if(isInMolecule){
 		if(specview.controller.plugins.Highlight.zoomObject == null){
@@ -474,6 +473,17 @@ specview.controller.plugins.Highlight.prototype.dragSpectrum = function(left,rig
 	return this.editorObject.dragSpectrum(left,right);
 };   
 
+specview.controller.plugins.Highlight.prototype.reSetZoomRectangle = function(left,right,metaSpecObject){
+	var width = right - left;
+	var l = left + document.getElementById("moleculeContainer").offsetLeft;
+	document.getElementById("zoomRectangle").style.display = "none";
+	document.getElementById("zoomRectangle").style.left = l+"px";
+	document.getElementById("zoomRectangle").style.top = metaSpecObject.secondSpecBox["top"]+ document.getElementById("moleculeContainer").offsetTop + 20 + "px" 
+	document.getElementById("zoomRectangle").style.height =  metaSpecObject.secondSpecBox["bottom"] - metaSpecObject.secondSpecBox["top"] + "px"
+	document.getElementById("zoomRectangle").style.width = width+"px";
+	document.getElementById("zoomRectangle").style.display = "block";
+
+}
 
 /**
  * @param type
