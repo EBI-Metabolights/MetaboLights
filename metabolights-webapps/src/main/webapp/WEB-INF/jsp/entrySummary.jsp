@@ -53,9 +53,9 @@
 	
 	<div style='width: 400px;' class='iscell'>
 		<c:if test="${not empty searchResult.publications}">
-            <spring:message code="label.pubIn"/>
+            <!-- spring:message code="label.pubIn"/-->
             <c:forEach var="pub" items="${searchResult.publications}">
-	               <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pubmedId}&dataSource=MED">${pub.title}</a> 
+	               <IMG src="img/book.png" height="18"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pubmedId}&dataSource=MED">${pub.title}</a> 
 	            <BR>
             </c:forEach>
             <br>

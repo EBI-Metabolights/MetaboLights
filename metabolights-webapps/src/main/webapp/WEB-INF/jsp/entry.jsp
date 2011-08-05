@@ -54,7 +54,7 @@
         <c:if test="${not empty study.publications}">
             <br><br>
             <c:forEach var="pub" items="${study.publications}">
-                <IMG src="img/book.png"/ height="18"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a> 
+                <IMG src="img/book.png" height="18"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a> 
                 <BR>
             </c:forEach>
             <br>
