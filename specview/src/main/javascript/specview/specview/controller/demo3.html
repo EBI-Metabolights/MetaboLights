@@ -98,72 +98,72 @@ function initPage(){
 
 			//Creation of the tool bar
 		    var select1 = new goog.ui.Select();
-		    select1.addItem(new goog.ui.MenuItem('NMR_0', 0));
-		    select1.addItem(new goog.ui.MenuItem('NMR_1', 1));
-		    select1.addItem(new goog.ui.MenuItem('NMR_2', 2));
-		    select1.addItem(new goog.ui.MenuItem('NMR_3', 3));
-		    select1.addItem(new goog.ui.MenuItem('NMR_4', 4));
-		    select1.addItem(new goog.ui.MenuItem('NMR_5', 5));
-		    select1.addItem(new goog.ui.MenuItem('NMR_6', 6));
-		    select1.addItem(new goog.ui.MenuItem('NMR_7', 7));
-		    select1.addItem(new goog.ui.MenuItem('NMR_8', 8));
-		    select1.addItem(new goog.ui.MenuItem('NMR_9', 9));
-		    select1.addItem(new goog.ui.MenuItem('NMR_10', 10));
-		    select1.addItem(new goog.ui.MenuItem('NMR_11', 11));
-		    select1.addItem(new goog.ui.MenuItem('NMR_12', 12));
-		    select1.addItem(new goog.ui.MenuItem('MS_0 (very old cml file)', 13));
-		    select1.addItem(new goog.ui.MenuItem('Narengenin)', 14));
-		    select1.addItem(new goog.ui.MenuItem('chEBI:776', 15)); 
-		    select1.addItem(new goog.ui.MenuItem('chEBI:1734', 16));
-		    select1.addItem(new goog.ui.MenuItem('chEBI:1895 (problem in mol coords)', 17));
-		    select1.addItem(new goog.ui.MenuItem('chEBI:2303', 18));
-		    select1.addItem(new goog.ui.MenuItem('chEBI:776', 19));
-		    select1.addItem(new goog.ui.MenuItem('16alpha-hydroxyestrone (SAIDs NTOBM)', 20));
-		    select1.addItem(new goog.ui.MenuItem('4-O methylsoflavone (SAIDs NNTOM)', 21));
-		    select1.addItem(new goog.ui.MenuItem('8-(1,1-dimethylallyl)galangin (SAIDs NTOBM)', 22));
-		    select1.addItem(new goog.ui.MenuItem('(+)-absicissic acid (SAIDs NNTM)', 23));
-		    select1.addItem(new goog.ui.MenuItem('amoxiciline (SAIDs NNTM)', 24));
-		    select1.addItem(new goog.ui.MenuItem('8-(1,1-dimethylallyl)galangin (SAIDs NNTM)', 25));
-		    select1.addItem(new goog.ui.MenuItem('benzatrapone (SAIDs NNTM)', 26));
-		    select1.addItem(new goog.ui.MenuItem('betaxolone (SAIDs NNTM)', 27));
-		    select1.addItem(new goog.ui.MenuItem('biperiden (SAIDs NNTM)', 28));
-		    select1.addItem(new goog.ui.MenuItem('Bigass molecule (SAIDsc NNTM)', 29));
-		    select1.addItem(new goog.ui.MenuItem('brinzolamide (SAIDsc NNTM)', 30));
-		    select1.addItem(new goog.ui.MenuItem('MS/MS (SAIDsc NNTM)', 31));
-		    select1.addItem(new goog.ui.MenuItem('Fake spectrum(test) ', 32));		     
-		    		    select1.setSelectedIndex(0);
-		    select1.render(goog.dom.getElement('selectMolecule'));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_0', 0));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_1', 1));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_2', 2));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_3', 3));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_4', 4));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_5', 5));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_6', 6));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_7', 7));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_8', 8));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_9', 9));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_10', 10));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_11', 11));
+//		    select1.addItem(new goog.ui.MenuItem('NMR_12', 12));
+//		    select1.addItem(new goog.ui.MenuItem('MS_0 (very old cml file)', 13));
+//		    select1.addItem(new goog.ui.MenuItem('Narengenin)', 14));
+//		    select1.addItem(new goog.ui.MenuItem('chEBI:776', 15)); 
+//		    select1.addItem(new goog.ui.MenuItem('chEBI:1734', 16));
+//		    select1.addItem(new goog.ui.MenuItem('chEBI:1895 (problem in mol coords)', 17));
+//		    select1.addItem(new goog.ui.MenuItem('chEBI:2303', 18));
+//		    select1.addItem(new goog.ui.MenuItem('chEBI:776', 19));
+//		    select1.addItem(new goog.ui.MenuItem('16alpha-hydroxyestrone (SAIDs NTOBM)', 20));
+//		    select1.addItem(new goog.ui.MenuItem('4-O methylsoflavone (SAIDs NNTOM)', 21));
+//		    select1.addItem(new goog.ui.MenuItem('8-(1,1-dimethylallyl)galangin (SAIDs NTOBM)', 22));
+//		    select1.addItem(new goog.ui.MenuItem('(+)-absicissic acid (SAIDs NNTM)', 23));
+//		    select1.addItem(new goog.ui.MenuItem('amoxiciline (SAIDs NNTM)', 24));
+//		    select1.addItem(new goog.ui.MenuItem('8-(1,1-dimethylallyl)galangin (SAIDs NNTM)', 25));
+//		    select1.addItem(new goog.ui.MenuItem('benzatrapone (SAIDs NNTM)', 26));
+//		    select1.addItem(new goog.ui.MenuItem('betaxolone (SAIDs NNTM)', 27));
+//		    select1.addItem(new goog.ui.MenuItem('biperiden (SAIDs NNTM)', 28));
+//		    select1.addItem(new goog.ui.MenuItem('Bigass molecule (SAIDsc NNTM)', 29));
+//		    select1.addItem(new goog.ui.MenuItem('brinzolamide (SAIDsc NNTM)', 30));
+//		    select1.addItem(new goog.ui.MenuItem('MS/MS (SAIDsc NNTM)', 31));
+//		    select1.addItem(new goog.ui.MenuItem('Fake spectrum(test) ', 32));		     
+//		    		    select1.setSelectedIndex(0);
+//		    select1.render(goog.dom.getElement('selectMolecule'));
 		    
 		
-		    goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
-		    function(e) {
-		    	zoom=0;
-		      isGrid=false;
-		      isAxis=false;
-		      var select = e.target;
-		      var idx = select.getValue();
-		      if(cmlData[idx]==undefined){
-		          alert("NO SUCH MOLECULE IN THE ARRAY! Default molecle will be displayed : ")
-		          idx=0;
-		      }
-		      var molfile=cmlData[idx];
+//		    goog.events.listen(select1, goog.ui.Component.EventType.ACTION,
+//		    function(e) {
+//		    	zoom=0;
+//		      isGrid=false;
+//		      isAxis=false;
+//		      var select = e.target;
+//		      var idx = select.getValue();
+//		      if(cmlData[idx]==undefined){
+//		          alert("NO SUCH MOLECULE IN THE ARRAY! Default molecle will be displayed : ")
+//		          idx=0;
+//		      }
+//		      var molfile=cmlData[idx];
 //	      alert(molfile)
-		      var xmlDox;
-		      xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
-			      spectrumData=new specview.model.NMRdata();
-			      spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
-				  spectrumData.setCoordinatesWithPixels(editor,0)
-			//CAREFUL WITH THE FOLLOWING LINE
-			  editor.setSpecObject(spectrumData);
-		      editor.setModels([spectrumData]);
-		      editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
-			  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
-			  document.metaSpecObject = spectrumData;
-			  goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
-			  goog.dom.getElement("molId").innerHTML="<b>Molecule id: </b>"+spectrumData.molecule.molecule_id;
-			  goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
+//		      var xmlDox;
+//		      xmlDoc=specview.io.SpectrumCMLParser.getDocument(molfile);//XML document
+//			      spectrumData=new specview.model.NMRdata();
+//			      spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+//				  spectrumData.setCoordinatesWithPixels(editor,0)
+		//CAREFUL WITH THE FOLLOWING LINE
+//			  editor.setSpecObject(spectrumData);
+//		      editor.setModels([spectrumData]);
+//		      editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+//			  editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+//			  document.metaSpecObject = spectrumData;
+//			  goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
+//			  goog.dom.getElement("molId").innerHTML="<b>Molecule id: </b>"+spectrumData.molecule.molecule_id;
+//			  goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
 		      
-		    });
+//		    });
 	    
 		    //Display all the buttons
 	//	    <input id="helpButton" style="display:none" class = "button" type = "button" name = "chk1" onclick = "ShowContent('floatingBoxHelp')" value = "A little help?">
@@ -667,6 +667,14 @@ count = 0;
 
 </div>
       
+	<div
+		
+			
+	>
+	
+	
+	</div>      
+
       
       </div>
 	</fieldset>
@@ -918,6 +926,26 @@ function donnut(){
       background-color: transparent;
       border: 1px solid black;"
   >
+  </div>
+  
+  
+    <div 
+  	  id="zoomRectangle" ,
+	  style="
+  	  display:none;
+  	  position:absolute;
+      left: 0px;
+      top: 0px;
+      width: 0px;
+      height: 0px;
+      border: 1px solid #99F;
+      font: bold 11px/18px arial;
+      text-indent: 10px;
+ 	  opacity : 0.4;
+ 	  cursor : pointer;
+      background-color: green";
+  >
+  </div>
 
 
 </body>

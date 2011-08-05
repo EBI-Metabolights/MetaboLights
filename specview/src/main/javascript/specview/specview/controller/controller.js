@@ -355,7 +355,7 @@ specview.controller.Controller.prototype.render = function(opt_peak,opt_main_mol
  */
 specview.controller.Controller.prototype.mapZoomSpectrum = function(left,width,editor,listOfPeaks){
 	this.specObject.setZoomBox(left,width,listOfPeaks);
-	return this.spectrumRenderer.mapZoomSpectrum(left,width,this.specObject,editor);
+	return this.spectrumRenderer.mapZoomSpectrum2(left,width,this.specObject,editor);
 }
 
 specview.controller.Controller.prototype.setDraggingTool = function(left,width,editor){
@@ -434,16 +434,17 @@ specview.controller.Controller.prototype.setNewSpectrum = function(listOfPeaks){
 	
 	this.expandSpectrum();
 	
+	
+	
 	for(k in this.secondNeighborList.cells_samy_spectrum_2){
 		if(this.secondNeighborList.cells_samy_spectrum_2[k][1].peakId == minPeak.peakId){
 			leftB = this.secondNeighborList.cells_samy_spectrum_2[k][0].x;
 		}else if(this.secondNeighborList.cells_samy_spectrum_2[k][1].peakId == maxPeak.peakId){
 			rightB = this.secondNeighborList.cells_samy_spectrum_2[k][0].x;
 		}
-	}	
+	}
 	
-//	alert(minPeak.peakId  + " : " +leftB + "\n" + maxPeak.peakId + " : " + rightB)
-	
+//	alert(minPeak.peakId + " : " + leftB + " \n" + maxPeak.peakId + " : " + rightB)
 	
 	if(specview.controller.plugins.Highlight.zoomObject != null){
 		this.spectrumRenderer.clearRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this);

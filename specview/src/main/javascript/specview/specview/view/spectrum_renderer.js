@@ -361,6 +361,8 @@ specview.view.SpectrumRenderer.prototype.clearRectangle = function(rectangle,edi
  */
 specview.view.SpectrumRenderer.prototype.mapZoomSpectrum = function(left,width,metaSpecObject,editor){
 
+//	alert(left + " ; " + width)
+	
     var stroke = new goog.graphics.Stroke(0.01,'black');
 	var fill = new goog.graphics.SolidFill('orange',0.3);
     var font = new goog.graphics.Font(18, 'Comics');
@@ -372,6 +374,33 @@ specview.view.SpectrumRenderer.prototype.mapZoomSpectrum = function(left,width,m
 							 fill);
 
 };
+
+
+specview.view.SpectrumRenderer.prototype.mapZoomSpectrum2 = function(left, width, metaSpecObject, editor){
+	
+	    var stroke = new goog.graphics.Stroke(0.3,'black');
+		var fill = new goog.graphics.SolidFill('black');
+	    var font1 = new goog.graphics.Font(18, 'Comics');
+	    var font2 =	new goog.graphics.Font(13, 'Comics');
+	    
+//		this.specObject.dragOnSpectrum.left = left;
+//		this.specObject.dragOnSpectrum.width = width;
+
+		/*
+		 * Setting up the div element representing the dragging tool
+		 */
+		document.getElementById("zoomRectangle").style.display = "block";
+		document.getElementById("zoomRectangle").style.left = left+ document.getElementById("moleculeContainer").offsetLeft+"px";
+		document.getElementById("zoomRectangle").style.top = metaSpecObject.secondSpecBox["top"]+ document.getElementById("moleculeContainer").offsetTop+"px" 
+		document.getElementById("zoomRectangle").style.height =  metaSpecObject.secondSpecBox["bottom"] - metaSpecObject.secondSpecBox["top"] + "px"
+		document.getElementById("zoomRectangle").style.width = width+"px";
+		
+//		this.specObject.draggingTool = document.getElementById("draggingBarSpectrum");
+	
+};
+
+
+
 
 
 
