@@ -1,8 +1,5 @@
 package uk.ac.ebi.metabolights.test;
 
-import java.util.Iterator;
-import java.util.List;
-
 import junit.framework.TestCase;
 
 import org.springframework.context.ApplicationContext;

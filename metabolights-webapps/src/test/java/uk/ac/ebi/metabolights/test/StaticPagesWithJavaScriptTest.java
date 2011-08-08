@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.xml.sax.SAXException;
+
 import net.sourceforge.jwebunit.junit.WebTestCase;
 import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 
@@ -18,6 +20,19 @@ import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 public class StaticPagesWithJavaScriptTest extends WebTestCase {
 
 	private String baseUrl;
+	
+	// Static pages
+	private String aboutUrl;
+	private String loginUrl;
+	private String submitUrl;
+	private String homeUrl;
+	private String loginTextLabel;
+	private String searchUrl;
+
+	// Logout
+	private String logout;
+	private String loggedOutSuccess;
+	private String logoutTextLabel;
 
 	// Create new account
 	private String newAccount;
@@ -34,12 +49,27 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 
 	// Search term for the searchForm
 	private String searchTerm;
+	private String checkBox1Name;
+	private String checkBox1value;
+	private String searchTerm2;
+	private String checkBox2Name;
+	private String checkBox2value;
+	private String searchTermFail;
 
 	// Forgotten password form
 	private String urlTitlePasswordBefore;
 	private String urlTitlePasswordAfter;
 	private String resetSuccess;
 	private String forgotPw;
+
+	//Terms to search for in the "about" page
+	private static String[] searchTerms = 
+		{ "MetaboLights", "Steinbeck", "European Bioinformatics Institute", 
+		  "Griffin", "Metabolomics Standards Initiative" };
+
+	//Login form test
+	private String loginSuccessUrl;	
+	
 
 	protected Connection conn;
 	Properties properties = new Properties();
@@ -70,6 +100,23 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 		this.forgotPw = properties.getProperty("forgotPw");
 		this.accountCreated = properties.getProperty("accountCreated");
 		this.baseUrl = properties.getProperty("baseUrl");
+		this.aboutUrl = properties.getProperty("aboutUrl");
+		this.loginUrl = properties.getProperty("loginUrl");
+		this.submitUrl = properties.getProperty("submitUrl");
+		this.homeUrl = properties.getProperty("homeUrl");
+		this.logout = properties.getProperty("logout");
+		this.loggedOutSuccess = properties.getProperty("loggedOutSuccess");
+		this.logoutTextLabel = properties.getProperty("logoutTextLabel");
+		this.loginSuccessUrl = properties.getProperty("loginSuccessUrl");
+		this.loginTextLabel = properties.getProperty("loginTextLabel");
+		this.searchUrl = properties.getProperty("searchUrl");
+		this.checkBox1Name = properties.getProperty("checkBox1Name");	
+		this.checkBox1value = properties.getProperty("checkBox1value");
+		this.checkBox2Name = properties.getProperty("checkBox2Name");	
+		this.checkBox2value = properties.getProperty("checkBox2value");
+		this.searchTerm2 = properties.getProperty("searchTerm2");
+		this.searchTermFail = properties.getProperty("searchTermFail");
+		
 	}
 
 	private Connection getDbConnection() throws ClassNotFoundException {
@@ -139,33 +186,115 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 		try {
 			super.setUp();
 			
-			setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT); // use HtmlUnit
-			
 			readProperties(); 	// Read parameters from properties file
 			setLocalValues(); 	// Populate local parameters from properties file
-			removeUser(); 		// Remove test user from database
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		setTestingEngineKey(TestingEngineRegistry.TESTING_ENGINE_HTMLUNIT); // use HtmlUnit
 		setBaseUrl(baseUrl);
+		
 	}
 
 	public void tearDown() throws SQLException {
-		removeUser();
-		conn.close();
+		
 	}
-
-	public void testNewAccountForm() {
+	
+	public void testHomePageLinks() throws IOException, SAXException {
 		try {
 
 			setScriptingEnabled(false); // turn off JavaScript
+			
+			beginAt("/");  // Obtain the main page
 
-			// Test the login form
+			//These links has to be on the home page
+			for (String s: new String[]{homeUrl, submitUrl, aboutUrl, loginTextLabel}){
+				System.out.println( "Seeing if link '"+s+"' is present" );
+				assertLinkPresentWithText(s);
+				System.out.println( "Trying to click '"+s+"' " );
+				clickLinkWithText(s,0); //Click first link on the page with this text
+			}
+
+			System.out.println( "testHomePageLinks done!" );
+			
+		} catch (Exception e) {
+			System.err.println( "Exception: " + e );
+			fail("Home page link test failed");
+		}
+
+	}
+	
+	public void testAboutPage() throws IOException, SAXException {
+		try {
+
+			setScriptingEnabled(false); // turn off JavaScript
+			
+			beginAt(aboutUrl);  // Obtain the main page
+
+			for (String s: searchTerms){
+				System.out.println( "Trying to find term '"+s+"'" );
+				assertTextPresent(s); 
+			}
+
+			System.out.println( "testAboutPage done!" );
+
+		} catch (Exception e) {
+			System.err.println( "Exception: " + e );
+			fail("About page failed");
+		}
+
+	}
+	
+	public void testLoginForm() throws IOException, SAXException {
+		try {
+			testNewAccountForm(false); //Create the account defined in "email", do not remove the new user
+			getLoginResponse(email, password);
+			
+		} catch (Exception e) {
+			System.err.println( "Exception: " + e );
+			fail("Login failed");
+		}
+
+	}
+	
+	private void getLoginResponse(String userName, String password){
+		try {
+
+			setScriptingEnabled(false); // turn off JavaScript
+			
+			beginAt(loginUrl);  // Obtain the login page
+
+			//Test the login form
+			System.out.println( "Testing login at '"+baseUrl+loginUrl+" for "+userName);
+
+			setTextField("j_username", userName);
+	        setTextField("j_password", password);
+	        submit(); // submit the form 
+
+
+		} catch (Exception e) {
+			System.err.println( "Exception: " + e );
+			fail("Login failed");
+		}
+	}
+	
+
+	/*
+	 * Test the login form.  Create a new user and activate the account
+	 */
+	public void testNewAccountForm(Boolean remove) {
+		try {
+			
+			removeUser(); 		// Remove test user from database
+
+			setScriptingEnabled(false); // turn off JavaScript
+
 			System.out.println("Testing accountForm form at '" + baseUrl
 					+ newAccount + "' for " + email);
 
-			beginAt("/newAccount");
+			beginAt("/"+newAccount);
 			assertTitleEquals(urlTitleBefore);
 
 			setTextField("email", email);
@@ -179,20 +308,48 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 
 			submit(); // Submit the form
 			assertTextPresent(accountCreated); // Check if user was created
-			assertTitleEquals(urlTitleAfter); // Check if we are at the correct
-												// page
+			assertTitleEquals(urlTitleAfter);  // Check if we are at the correct page
+			
+			activateUser(); // Update the user in the database
 
 			System.out.println("Tried to create account for " + email);
-
-			activateUser(); //Update the user in the database
 			
-			// setScriptingEnabled(true);
+			if (remove) //Should we remove the user when completed?
+				removeUser();
+			
+			//conn.close();
 
 		} catch (Exception e) {
+			removeUser();
 			System.err.println("Exception: " + e);
 		}
 
 	}
+	
+	public void testLogout() throws IOException, SAXException {
+		try {
+
+			setScriptingEnabled(false); // turn off JavaScript
+
+			//First you need to be logged in
+			beginAt(loginUrl);
+			assertLinkNotPresent(logout);			// Check that logout is not present
+			testLoginForm();						// Set up new user	
+
+			//Try to find and click on "log out"			
+			assertLinkPresentWithText(logoutTextLabel);		// Can we see the log out link?
+			clickLinkWithText(logoutTextLabel,0); 	// Click first logout link
+			assertTextPresent(loggedOutSuccess); 	// Did we display the correct text?
+			assertLinkNotPresent(logout);			// Check that logout is not present after logged out	
+			assertTrue(true);
+
+		} catch (Exception e) {
+			System.err.println( "Exception: " + e );
+			fail("logout failed");
+		}
+
+	}	
+	
 
 	public void testForgottenPasswordForm() {
 		try {
@@ -226,14 +383,19 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 			// Test the search form
 			System.out.println("Testing search for " + searchTerm);
 
-			setScriptingEnabled(false); // turn off JavaScript
+			setScriptingEnabled(false); 						// turn off JavaScript
 
-			beginAt(baseUrl); // Start at the home page
-			assertFormPresent("searchForm"); // Is the search form on the page?
-			assertFormElementPresent("freeTextQuery"); // Does the form have the search field?
-			setTextField("freeTextQuery", searchTerm); // set search term
-			submit();
-			assertTextPresent(searchTerm); // Can we see the search term on the page?
+			beginAt(baseUrl); 									// Start at the Search page
+			assertTablePresent("contentspane");					// Is the main table present
+			assertFormPresent("searchForm"); 					// Is the search form on the page?
+			setWorkingForm("searchForm");						// Switch to the correct form
+			assertFormElementPresent("freeTextQuery");			// Does the form have a search field?
+			setTextField("freeTextQuery", searchTerm);			// Set search term
+			assertTextFieldEquals("freeTextQuery", searchTerm);	// Has the search string been set?			
+
+			submit(); 											// Submit the form
+			
+			assertTextPresent(searchTerm); 						// Can we see the search term on the page?
 
 		} catch (Exception e) {
 			System.err.println("Exception: " + e);
@@ -247,18 +409,61 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 			// Test the search form
 			System.out.println("Testing search for " + searchTerm);
 
-			setScriptingEnabled(false); // turn off JavaScript
+			setScriptingEnabled(false); 						// turn off JavaScript
 
-			beginAt(baseUrl); // Start at the home page
-			assertFormPresent("searchForm"); // Is the search form on the page?
-			assertFormElementPresent("freeTextQuery"); // Does the form have the
-														// search field?
-			setTextField("freeTextQuery", searchTerm); // set search term
-			submit();
-			assertTextPresent(searchTerm); // Can we see the search term on the
-											// page?
-
-			// assertCheckboxPresent(); //Can we see the filter form?
+			beginAt(searchUrl); 								// Start at the Search page
+			assertTablePresent("contentspane");					// Is the main table present
+			assertFormPresent("searchForm"); 					// Is the search form on the page?
+			
+			setWorkingForm("searchForm");						// Switch to the correct form
+			assertFormElementPresent("freeTextQuery");			// Does the form have a search field?
+			
+			//Search term 1
+			setTextField("freeTextQuery", searchTerm);			// Set search term
+			assertTextFieldEquals("freeTextQuery", searchTerm);	// Has the search string been set?			
+			submit(); 											// Submit the form
+			
+			assertTextPresent(searchTerm); 						// Can we see the search term on the page?
+		
+			//Check 1st checkbox
+			assertFormPresent("searchFilter"); 						// Is the filter form on the page? 
+			setWorkingForm("searchFilter");	
+			assertCheckboxPresent(checkBox1Name,checkBox1value);	// Can we see the filter form for organism and <search term>?
+			
+			try { 	//Just to catch and ignore problems with JavaScript
+				setScriptingEnabled(true);
+				checkCheckbox(checkBox1Name,checkBox1value);
+			} catch (Exception e) {
+			}
+			setScriptingEnabled(false); 
+			
+			assertTextPresent(searchTerm); 							// Can we still see the search term on the page?
+			
+			//Check 2nd checkbox
+			assertCheckboxPresent(checkBox2Name,checkBox2value);
+			try {	//Just to catch and ignore problems with JavaScript
+				setScriptingEnabled(true);
+				checkCheckbox(checkBox2Name,checkBox2value);		// Check a non-value in the second checkbox (technology section)
+			} catch (Exception e) {
+			}
+			setScriptingEnabled(false); 
+			
+			assertTextPresent(searchTerm); 							// Can we still see the search term on the page?
+			
+			//String pagesS = getPageSource();  // For debug
+			
+			//Combination of 1 and 2 should give no results
+			assertTextPresent(searchTermFail); 						// Confirm no results, eg. our text when no results
+			
+			//2nd search
+			System.out.println("Testing search for " + searchTerm2);
+			setWorkingForm("searchForm");	
+			setTextField("freeTextQuery", searchTerm2);				// Try another search term, differs from first term
+			submit(); 
+			assertTextPresent(searchTerm2); 
+			setWorkingForm("searchFilter");	
+			assertCheckboxNotPresent(checkBox1Name,checkBox1value); // Should *not* see the same checkbox as for first search
+			
 
 		} catch (Exception e) {
 			System.err.println("Exception: " + e);
