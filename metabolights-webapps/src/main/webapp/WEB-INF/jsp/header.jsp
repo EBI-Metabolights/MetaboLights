@@ -13,8 +13,12 @@
 		   					</c:choose>"
 		   			method="get"
 		   			accept-charset="utf-8">
+		      <input type="text" name="freeTextQuery" type="submit" id="query" value="${freeTextQuery}"/>
+		      <input type="submit" value="" class="search-box-button"/>
+		      <!--
 		      <input type="text" name="freeTextQuery"  id="query" value="${freeTextQuery}"/>
 		      <button type="submit" class="search-box-button"></button>
+		      -->
 		   </form>
          </div>
          <div class="loggedInAsBox">
