@@ -28,6 +28,7 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 	private String homeUrl;
 	private String loginTextLabel;
 	private String searchUrl;
+	private String contactUrl;
 
 	// Logout
 	private String logout;
@@ -66,9 +67,14 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 	private static String[] searchTerms = 
 		{ "MetaboLights", "Steinbeck", "European Bioinformatics Institute", 
 		  "Griffin", "Metabolomics Standards Initiative" };
-
-	//Login form test
-	private String loginSuccessUrl;	
+	
+	//Contact Us Form
+	private String contactMessage;
+	private String messageSent;
+	
+	//Account details form
+	private String accountUrl;
+	private String accountUpdatedMessage;
 	
 
 	protected Connection conn;
@@ -107,7 +113,6 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 		this.logout = properties.getProperty("logout");
 		this.loggedOutSuccess = properties.getProperty("loggedOutSuccess");
 		this.logoutTextLabel = properties.getProperty("logoutTextLabel");
-		this.loginSuccessUrl = properties.getProperty("loginSuccessUrl");
 		this.loginTextLabel = properties.getProperty("loginTextLabel");
 		this.searchUrl = properties.getProperty("searchUrl");
 		this.checkBox1Name = properties.getProperty("checkBox1Name");	
@@ -116,7 +121,11 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 		this.checkBox2value = properties.getProperty("checkBox2value");
 		this.searchTerm2 = properties.getProperty("searchTerm2");
 		this.searchTermFail = properties.getProperty("searchTermFail");
-		
+		this.contactUrl = properties.getProperty("contactUrl");
+		this.contactMessage = properties.getProperty("contactMessage");
+		this.messageSent = properties.getProperty("messageSent");
+		this.accountUrl = properties.getProperty("accountUrl");
+		this.accountUpdatedMessage = properties.getProperty("accountUpdatedMessage");
 	}
 
 	private Connection getDbConnection() throws ClassNotFoundException {
@@ -231,7 +240,7 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 
 			setScriptingEnabled(false); // turn off JavaScript
 			
-			beginAt(aboutUrl);  // Obtain the main page
+			beginAt(contactUrl);  // Obtain the main page
 
 			for (String s: searchTerms){
 				System.out.println( "Trying to find term '"+s+"'" );
@@ -246,6 +255,68 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 		}
 
 	}
+	
+	public void testAboutConcatcUsPage() throws IOException, SAXException {
+		try {
+
+			setScriptingEnabled(false); // turn off JavaScript
+			
+			beginAt(contactUrl);  // Obtain the main page
+			assertFormPresent("emailForm"); 		
+			
+			setTextField("firstName", firstName);
+			setTextField("lastName", lastName);
+			setTextField("emailAddress", email);
+		
+			setTextField("affiliation", affiliation);
+			setTextField("affiliationUrl", affiliationUrl);
+			setTextField("message", contactMessage); 
+
+			submit(); // Submit the form
+			
+			assertTextPresent(messageSent); // Check if user got message that email was sent
+
+			System.out.println( "testAboutConcatcUsPage done!" );
+
+		} catch (Exception e) {
+			System.err.println( "Exception: " + e );
+			fail("About -> Contact Us page failed");
+		}
+
+	}
+	
+	public void testAccountDetailsPage() throws IOException, SAXException {
+		try {
+
+			setScriptingEnabled(false); // turn off JavaScript
+			beginAt(baseUrl);  // Obtain the main page
+			
+			testNewAccountForm(false); 			// Create the account defined in "email", do not remove the new user
+			getLoginResponse(email, password); 	// log in
+			
+			clickLinkWithText(accountUrl);  // Go to the account page
+			
+			setTextField("firstName", firstName + "_upd");
+			setTextField("lastName", lastName + "_upd");
+			setTextField("dbPassword", password);
+			setTextField("userVerifyDbPassword", password);
+			setTextField("affiliation", affiliation);
+			setTextField("affiliationUrl", affiliationUrl);
+			selectOption("address", address); // Country drop-down
+
+			submit(); // Submit the form
+			
+			assertTextPresent(accountUpdatedMessage); // Check if user got message that email was sent
+
+			System.out.println( "testAccountDetailsPage done!" );
+
+		} catch (Exception e) {
+			System.err.println( "Exception: " + e );
+			fail("Account Details page failed");
+		}
+
+	}
+	
 	
 	public void testLoginForm() throws IOException, SAXException {
 		try {
