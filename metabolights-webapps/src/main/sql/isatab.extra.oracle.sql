@@ -24,3 +24,5 @@ INSERT INTO stable_id VALUES (1,'MTBLS',sysdate,1)
 /
 COMMIT
 /
+
+ALTER TABLE study ADD(updated_date DATE DEFAULT sysdate); --For new/replaced submissions AND "Make Public"
