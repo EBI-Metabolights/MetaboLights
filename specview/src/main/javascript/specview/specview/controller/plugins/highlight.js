@@ -156,6 +156,9 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 			 */
 			var target=this.editorObject.findTarget(e);
 			var peakTarget=null;
+			
+			
+			
 			/**
 			 * If this is an atom
 			 */

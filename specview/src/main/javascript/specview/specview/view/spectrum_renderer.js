@@ -115,6 +115,7 @@ specview.view.SpectrumRenderer.prototype.renderSpec = function(spectrum,metaSpec
 specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, transform, opt_box,opt_peak,opt_main_molecule,opt_color) {
 	var color = opt_color!=undefined ? opt_color : 'black';
 	var spectrum=metaSpecObject.spectrum==undefined ? metaSpecObject : metaSpecObject.spectrum;
+//	alert("about to renfder " + specview.util.Utilities.getAssoArrayLength(spectrum.peakList))
 	if(metaSpecObject.dimension > 1){
 //		alert(metaSpecObject.ArrayOfSpectrum[1].peakList.length)
 //		spectrum = metaSpecObject.ArrayOfSpectrum[1]
@@ -124,17 +125,24 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     var peakPath = new goog.graphics.Path();
     var peakStroke = new goog.graphics.Stroke(1.05,color);
     var peakStroke2 = new goog.graphics.Stroke(2.05,"red");
-    var peakFill = null;   
+    var peakFill = null;
+    
+    var Array_Of_Mapping = new Array();
 
 
     /*
      * big spectrum
      */
+    
+    var ccc = 0;
     goog.array.forEach(spectrum.peakList,
     function(peak) {
+    	
     	if(peak.isVisible){
+    		Array_Of_Mapping[ccc] = [new goog.math.Coordinate(peak.xPixel,peak.yPixel) , peak]
             peakPath.moveTo(peak.xPixel, peak.yPixel); 
             peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
+            ccc++;
     	}
 
     	metaSpecObject.ArrayOfPrimaryMolecules[peak.arrayOfSecondaryMolecules] != undefined ? peak.parentPeak = true : peak.parentPeak = false;
@@ -144,6 +152,10 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     },
     this);
 
+    document.editorObject.neighborList.cells_samy_spectrum_2 = Array_Of_Mapping;
+    
+//alert(Array_Of_Mapping.length)
+    
     /*
      * small spectrum
      

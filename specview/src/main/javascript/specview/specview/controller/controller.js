@@ -460,7 +460,9 @@ specview.controller.Controller.prototype.moveSpectrum = function(listOfPeaks){
 	this.specObject.spectrum.peakList = listOfPeaks;
 	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
 	this.neighborList.setNeighborList(this.specObject.spectrum.peakList,"spectrum");
-	this.spectrumRenderer.renderSpec(this.specObject.spectrum,document.metaSpecObject,document.metaSpecObject.transform);
+//	this.spectrumRenderer.renderSpec(this.specObject.spectrum,document.metaSpecObject,document.metaSpecObject.transform);
+//	this.spectrumRenderer.render()
+	this.spectrumRenderer.render(this.specObject,this.specObject.transform,this.specObject.mainSpecBox);
 	this.spectrumRenderer.renderAxis(document.metaSpecObject,this.spectrumRenderer.box,'black');
 	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,'black',document.metaSpecObject.spectrum);
 	
@@ -662,6 +664,7 @@ specview.controller.Controller.prototype.findTarget = function(e) {
 	//this.logger.info(target)
 	return target;
 	
+//	alert("CACACA")
 	//The molecule to which the atom belongs to.
 	var atom_targets = goog.array.filter(targets, function(t) {
 		return t instanceof specview.model.Atom;
@@ -907,6 +910,7 @@ specview.controller.Controller.prototype.findTargetListPixel=function(e){
 //	alert(specview.util.Utilities.getSubSetOfObject(this.neighborlist.cells_samy));
 //	specview.util.Utilities.getSubSetOfObject(this.neighborlist.cells_samy);
 	var pos=specview.controller.Controller.getMouseCoords(e,this);
+//	specview.controller.Controller.logger2.info(pos)
 //	this.logger.info(pos);
 //	this.logger.info("targetlistpixel : "+this.neighborList.getObjectFromCoord(e,this.specObject));
 	return this.neighborList.getObjectFromCoord(e,this.specObject);

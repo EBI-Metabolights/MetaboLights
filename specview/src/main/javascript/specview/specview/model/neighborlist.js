@@ -173,16 +173,19 @@ specview.model.NeighborList = function(objects, opt_cellSize, opt_tolerance) {
 };
 
 /**
- * @param e
+ * @param coord
  * @returns the object associated with the position on the target (graphics)
  */
 specview.model.NeighborList.prototype.getObjectFromCoord=function(e,specObject){
 //	alert("caca")
 	var coord = specview.controller.Controller.getMouseCoords(e);
+//	var coord = coordinates
 	var isInSpectrum = specview.controller.Controller.isInSpectrum(e,specObject);
 	var isInMolecule = specview.controller.Controller.isInMolecule(e,specObject);
 	var cells =  isInSpectrum ? this.cells_samy_spectrum_2 :
 				(isInMolecule ? this.cells_samy_molecule_2 : null);
+	var type = (isInSpectrum ? "spectrum" : (isInMolecule ? "molecule" : "somwhere else"));
+	specview.model.NeighborList.logger2.info("I am in the " + type)
 	for(k in cells){
 		var x = cells[k][0].x
 		var y = cells[k][0].y
