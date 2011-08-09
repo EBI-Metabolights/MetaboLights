@@ -459,10 +459,11 @@ specview.controller.Controller.prototype.setNewSpectrum = function(listOfPeaks){
 specview.controller.Controller.prototype.moveSpectrum = function(listOfPeaks){
 	this.specObject.spectrum.peakList = listOfPeaks;
 	this.spectrumRenderer.clearSpectrum(this.specObject.mainSpecBox,this.graphics);
+	this.neighborList.setNeighborList(this.specObject.spectrum.peakList,"spectrum");
 	this.spectrumRenderer.renderSpec(this.specObject.spectrum,document.metaSpecObject,document.metaSpecObject.transform);
 	this.spectrumRenderer.renderAxis(document.metaSpecObject,this.spectrumRenderer.box,'black');
 	this.spectrumRenderer.renderGrid(this.specObject.mainSpecBox,'black',document.metaSpecObject.spectrum);
-
+	
 //    this.spectrumRenderer.render(document.metaSpecObject,document.metaSpecObject.transform,document.metaSpecObject.specBox);
 	
 };

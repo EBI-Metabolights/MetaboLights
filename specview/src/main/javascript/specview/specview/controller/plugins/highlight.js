@@ -111,7 +111,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 
 		var onRight = goog.math.nearlyEquals(right , e.clientX , 2);
 		var onLeft  = goog.math.nearlyEquals(left , e.clientX , 2);
-
+/*
 		if(onLeft){
 			document.getElementById("zoomRectangle").style.cursor = "e-resize";
 			specview.controller.plugins.Highlight.logger2.info("left : " +specview.controller.plugins.Highlight.zoomObject.zooming_left);
@@ -125,7 +125,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 				alert("ppipi")				
 			}
 		}
-/*		if(specview.controller.plugins.Highlight.zoomObject.zooming_left &&
+		if(specview.controller.plugins.Highlight.zoomObject.zooming_left &&
 				(e.clientX < right)){
 			alert("caca")
 			document.getElementById("zoomRectangle").style.cursor = "e-resize";
@@ -477,7 +477,7 @@ specview.controller.plugins.Highlight.prototype.reSetZoomRectangle = function(le
 	var width = right - left;
 	var l = left + document.getElementById("moleculeContainer").offsetLeft;
 	document.getElementById("zoomRectangle").style.display = "none";
-	document.getElementById("zoomRectangle").style.left = l+"px";
+	document.getElementById("zoomRectangle").style.left = l + "px";
 	document.getElementById("zoomRectangle").style.top = metaSpecObject.secondSpecBox["top"]+ document.getElementById("moleculeContainer").offsetTop + 20 + "px" 
 	document.getElementById("zoomRectangle").style.height =  metaSpecObject.secondSpecBox["bottom"] - metaSpecObject.secondSpecBox["top"] + "px"
 	document.getElementById("zoomRectangle").style.width = width+"px";

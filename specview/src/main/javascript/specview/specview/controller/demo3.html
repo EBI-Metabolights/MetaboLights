@@ -63,9 +63,9 @@ function initPage(){
 			c.setCapturing(true); 
 			
 //			var toolbar = new specview.controller.DefaultToolbar.makeDefaultMoleculeToolbar(goog.dom.getElement('moleculeEditorToolbar'));  
-			
+
 			var cmlData=cmlmolecules.split("$$END$$\n");
-			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[5]);//XML document
+			var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[29]);//XML document
 			spectrumData=new specview.model.NMRdata();
 			spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc,navigator.appName);//a cmlObject
 			
@@ -414,11 +414,42 @@ Hide the window
  	
  	<input class = "button"	id="cmlInputFile"	type = "file"> -->
 <input id="textCmlInput" class="button" type="button" onclick="ShowContent('floatingBoxInputCmlContent')" value="Input file content">
-
+<input id="random entry" class="button" type="button" onclick="ShowRandomEntry()" value="Show random entry">
 
 
 
 <script type = "text/javascript">
+
+function ShowRandomEntry (){
+	var randInt = getRandomInt(0,30);
+	var cmlData=cmlmolecules.split("$$END$$\n");
+
+	var xmlDoc=specview.io.SpectrumCMLParser.getDocument(cmlData[randInt]);//XML document
+
+
+//	xmlDoc=specview.io.SpectrumCMLParser.getDocument(document.experimentOfTheUser);//XML document
+    spectrumData=new specview.model.NMRdata();
+    spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
+	spectrumData.setCoordinatesWithPixels(editor,0)
+	editor.setSpecObject(spectrumData);
+	editor.setModels([spectrumData]);
+	editor.spectrumRenderer.renderAxis(spectrumData,editor.spectrumRenderer.box,'black');
+	editor.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);
+	document.metaSpecObject = spectrumData;
+	
+	//Display the informations about the molecule
+    goog.dom.getElement("molName").innerHTML="<b>Molecule name: </b>"+spectrumData.molecule.name;
+    goog.dom.getElement("molId").innerHTML="<b>Molecule id: </b>"+spectrumData.molecule.molecule_id;
+		goog.dom.getElement("experimentType").innerHTML="<b>Experiment type: </b>"+spectrumData.experienceType;
+
+//	alert(randInt)
+};
+
+
+function getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 
 function unzoom(){
 	document.editorObject.unzoom();
@@ -427,13 +458,13 @@ function unzoom(){
 
 //Function called when the user click on "view experiment"
 function launch(){
-	document.metaSpecObject.cmlString = document.getElementById("CMLinputText").value;
+//	document.metaSpecObject.cmlString = document.getElementById("CMLinputText").value;
 //	alert( document.getElementById("cmlInputFile").files[0].getAsText("utf-8"));
 //	var dir = "/home/epu/metabolomes/metabolomes/trunk/specview/src/main/javascript/specview/specviewTest/data/cml/";
 //	var dir2 = "../../specviewTest/data/cml/"
 //	var file = dir2 + document.getElementById("cmlInputFile").value;
 //	document.experimentOfTheUser = document.javaApplet.parse(file)
-	document.experimentOfTheUser = document.metaSpecObject.cmlString;
+//	document.experimentOfTheUser = document.metaSpecObject.cmlString;
 	xmlDoc=specview.io.SpectrumCMLParser.getDocument(document.experimentOfTheUser);//XML document
     spectrumData=new specview.model.NMRdata();
     spectrumData=specview.io.SpectrumCMLParser.parseDocument(spectrumData,xmlDoc);//a cmlObject
@@ -688,7 +719,7 @@ style="display:none;
     padding: 1px;"
 >
 Copy paste here after the content of your .cml file<br/>
-<textarea rows="20" cols="20" id="CMLinputText" value=""></textarea><br/>
+<textarea rows="20" cols="20" id="CMLinputText" value="" wrap = "off"></textarea><br/>
 <input type="button" onclick="launch()"; return true;" value="View experiment !"><br/>
 <a 
  onmouseover="document.HideContent('floatingBoxInputCmlContent'); return true;"
@@ -938,14 +969,36 @@ function donnut(){
       top: 0px;
       width: 0px;
       height: 0px;
-      border: 1px solid #99F;
+      border: 0px transparent #99F;
       font: bold 11px/18px arial;
       text-indent: 10px;
  	  opacity : 0.4;
- 	  cursor:pointer;
+ 	  cursor:default;
       background-color: green";
   >
   </div>
+
+
+<textarea id = "experimentInformation" rows="10" cols="20" wrap = "off"
+		  style="
+		    position : absolute;
+		  	left : 620px;
+		  	top : 370px;
+	     		"
+	     		
+
+
+></textarea>
+
+<textarea id = "peakInformation" rows="10" cols="20"
+		  style="
+		    position : absolute;
+		  	left : 870px;
+		  	top : 370px;
+	     		"
+
+
+></textarea>
 
 
 </body>

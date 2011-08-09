@@ -61,10 +61,14 @@ specview.view.TextRenderer.prototype.renderZoomInfo = function(){
  */
 specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt_color,textIntro) {
 //	alert(textElementObject)
+	var textAreaElement = textIntro == "Peak information:" ? document.getElementById("peakInformation") : document.getElementById("experimentInformation"); 
 	
+	var innerHTML = "";
 	
 	var xStart = (box==undefined ? 850 : box["left"]);
-	var yStart = (box==undefined ? document.metaSpecObject.mainMolBox[3].y+2 : box["top"]);
+//	var yStart = (box==undefined ? document.metaSpecObject.mainMolBox[3].y+2 : box["top"]);
+//	var yStart = document.getElementById("moleculeContainer").offsetTop;
+	var yStart = 20;
 	/*
 	 * It means that we are dealing with the peakInformation
 	 */
@@ -75,23 +79,35 @@ specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt
 		textElementObject.box.height = 100;
 	}
 	var color = opt_color;
-    var stroke = new goog.graphics.Stroke(0.1,color);
+    var stroke = new goog.graphics.Stroke(0,color);
 	var fill = new goog.graphics.SolidFill(color);
     var font1 = new goog.graphics.Font(18, 'Comics');
     var font2 =	new goog.graphics.Font(11.5, 'Comics');
     this.graphics.drawText(textIntro, xStart, yStart, 600, 200, 'left', null,font1, stroke, fill);
     yStart+=25;
+//alert(document.getElementById("moleculeContainer").offsetTop)
+   // var yIntro = yStart + parseInt(document.getElementById("moleculeContainer").offsetTop);
+    
+//alert(yStart)    
+//    textAreaElement.style.top = yIntro + "px";
+    
     for(k in textElementObject.text){
     	yStart+=15;
-    	this.graphics.drawText("-"+k+": "+textElementObject.text[k],xStart,yStart,0,0,'left',null,font2,stroke,fill)
+    	
+    	innerHTML += k + ": "+textElementObject.text[k]+"\n\n";
+
+//    	this.graphics.drawText("-"+k+": "+textElementObject.text[k],xStart,yStart,0,0,'left',null,font2,stroke,fill)
     }
+//	document.getElementById("experimentInformation").innerHTML = innerHTML
+    
+    textAreaElement.innerHTML = innerHTML;
     this.graphics.drawRect(box["left"],box["top"],box["width"],box["height"],stroke,null)
 };
 
 specview.view.TextRenderer.prototype.clearTextWithBox = function(box){
     var fill = new goog.graphics.SolidFill('white');
     var stroke = new goog.graphics.Stroke(2, 'white');
-    var stroke2 = new goog.graphics.Stroke(0.2, 'grey');
+    var stroke2 = new goog.graphics.Stroke(0, 'grey');
 //    alert(box)
 	this.graphics.drawRect(box.left,box.top,box.width,box.height,stroke,fill);
 	this.graphics.drawRect(box.left,box.top,box.width,box.height,stroke2,null);

@@ -209,7 +209,10 @@ specview.model.NeighborList.prototype.setNeighborList = function(array,type){
 		case "spectrum" :
 			for(k in array){
 				var pos = array[k].cells_samy_spectrum_position;
-				this.cells_samy_spectrum_2[pos][0] = array[k].pixelCoord
+	//			alert(this.cells_samy_spectrum_2[pos])
+				if(this.cells_samy_spectrum_2[pos] != undefined){
+					this.cells_samy_spectrum_2[pos][0] = array[k].pixelCoord	
+				}
 			}
 		break;
 		case "molecule":
