@@ -38,8 +38,8 @@ public class EntryController extends AbstractController {
 		for (AssayResult assRes : study.getAssayResults()) {
 			for (PropertyValue<?> pv : assRes.getCascadedPropertyValues()) {
 				if (pv.getType().getValue().equals("organism")) {
-					organismNames.add(pv.getType().getValue()+":"+pv.getValue());
-					logger.debug("adding "+pv.getValue());
+					organismNames.add(pv.getValue());
+					//logger.debug("adding "+pv.getValue());
 				}
 			}
 		}

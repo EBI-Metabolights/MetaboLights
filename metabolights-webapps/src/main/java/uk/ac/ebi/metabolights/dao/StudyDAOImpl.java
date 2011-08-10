@@ -17,6 +17,7 @@ import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.security.User;
+import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 
@@ -95,6 +96,9 @@ public class StudyDAOImpl implements StudyDAO{
 		Hibernate.initialize(assayResults);
 		for (AssayResult assayResult : assayResults) {
 			Hibernate.initialize(assayResult.getData().getFactorValues());
+			for (FactorValue fv : assayResult.getData().getFactorValues()) {
+				Hibernate.initialize(fv.getOntologyTerms());
+			}
 			Hibernate.initialize(assayResult.getCascadedPropertyValues());
 			Hibernate.initialize(assayResult.getAssays());
 		}

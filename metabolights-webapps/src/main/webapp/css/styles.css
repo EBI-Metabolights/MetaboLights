@@ -75,7 +75,7 @@ a {
 #top_bar #navigation li {
 	display: inline;
 	vertical-align: baseline;
-	padding-left: 10px;
+	padding-left: 8px;
 }
 #top_bar #navigation li.selected a,#top_bar #navigation li a:hover {
 	color: #2DB3B3;
@@ -84,15 +84,15 @@ a {
 /* Style for the search box in the header */
 #search-box input {
 	float: left;
-	width: 300px;
+	width: 280px;
 	border: 1px solid #6F4A00;
-	margin: 13px 0px 0px 10px; /* top right bottom left */
+	margin: 15px 0px 0px 10px; /* top right bottom left */
 	font-size: 14px;
 	height: 17px
 }
 #search-box .search-box-button {
 	float: left;
-	margin: 13px 0px 0px 0px;
+	margin: 15px 0px 0px 0px;
 	padding: 0px;
 	height: 21px;
 	width: 85px;
