@@ -25,8 +25,8 @@
          -->
     <isatab_source>
         <location
-                filesystem_path="/dev/null"
-                web_url="ftp:////dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="ftp:////nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </isatab_source>
 
@@ -34,394 +34,391 @@
           Define an entry for every possible pair that you expect in the ISATAB submission.
           For each entry you have to define the locations for the raw data and the ones for the processed data
           (e.g.: normalized data). You may configure the same destination for the two types.
-
-          TODO: for the moment we only support these two data types only. We ignore files like "Metabolite Assignment File".
-          We will add this type soon.
          -->
     <datasource measurement_type="transcription profiling" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="DNA methylation profiling" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="SNP analysis" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="copy number variation profiling" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="loss of heterozygosity profiling" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="transcription factor binding site identification" technology_type="DNA microarray ">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="protein expression profiling" technology_type="protein microarray ">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="protein-protein interaction detection" technology_type="protein microarray ">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="transcription profiling" technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="transcription profiling" technology_type="real time PCR">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="DNA methylation profiling" technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="transcription factor binding site identification"
                 technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="genome sequencing" technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="metagenome sequencing" technology_type="nucleotide sequencing">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="protein identification" technology_type="mass spectrometry">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="protein expression profiling" technology_type="gel electrophoresis">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="protein expression profiling" technology_type="mass spectrometry">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="metabolite profiling" technology_type="mass spectrometry">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="metabolite profiling" technology_type="NMR spectroscopy">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
     
     <datasource measurement_type="metabolite profiling" technology_type="real time PCR">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>    
 
     <datasource measurement_type="clinical chemistry analysis" technology_type="">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="histology" technology_type="">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="hematology" technology_type="">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="metabolite profiling" technology_type="clinical chemistry">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="flow cytometry" technology_type="not defined">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
     <datasource measurement_type="histology" technology_type="real time PCR">
         <raw_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <processed_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
         <generic_data
-                filesystem_path="/dev/null"
-                web_url="file:///dev/null"
+                filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
+                web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
 
