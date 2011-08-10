@@ -23,14 +23,16 @@
          </div>
          <div class="loggedInAsBox">
           <sec:authorize ifAnyGranted="ROLE_SUBMITTER" >
-            <span class="loggedInAs"><spring:message code="menu.loggedInAs"/> : <sec:authentication property="principal.userName"/></span>
+            <span class="loggedInAs"><spring:message code="menu.loggedInAs"/>: <sec:authentication property="principal.userName"/>
+            </span>
           </sec:authorize> 
 
          </div>
 		  <ul id="navigation">
-              <li><a href="<spring:url value="index"/>"><spring:message code="menu.home"/></a></li>
+              <!--<li><a href="<spring:url value="index"/>"><spring:message code="menu.home"/></a></li>    -->
 		      <li><a href="biisubmit"><spring:message code="menu.submit"/></a></li>
-              <li><a href="about"><spring:message code="menu.about"/></a></li>
+		      <li><a href="download"><spring:message code="menu.download"/></a></li>
+              <!--<li><a href="about"><spring:message code="menu.about"/></a></li>              -->
 
               <sec:authorize ifNotGranted="ROLE_SUBMITTER" >
                 <li><a href="login"><spring:message code="menu.login"/><br>&nbsp;</a></li>
@@ -38,7 +40,7 @@
  
               <sec:authorize ifAnyGranted="ROLE_SUBMITTER" >
                 <li><a href="myAccount"><spring:message code="menu.myAccount"/></a></li>
-                <li><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />"><spring:message code="menu.logout"/></a><br>
+                <li><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />"><spring:message code="menu.logout"/></a></li><br>
               </sec:authorize> 
 		  </ul>  
 
