@@ -21,6 +21,12 @@
 <div id="text-fullwidth">
     <br>
     <spring:message code="msg.metabolightsAbout1" />
+    <div id="homepageLinks">
+	  <a href="about"><a href="contact"><spring:message code="label.aboutMetab"/></a>  
+	  <a href="contact"><spring:message code="label.contact" /> 
+	  </a>
+	</div>
+	  
     <br>
     <br>
     <br>

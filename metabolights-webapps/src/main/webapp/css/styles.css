@@ -288,6 +288,18 @@ a {
 .topSpacer {
 	height:70px;
 }
-	
+
+#homepageLinks{
+	text-align:center;
+	margin-top:30px;
+}
+
+#homepageLinks a{
+	color: #004242;
+	text-decoration: none;
+	font-weight:bold;
+	padding:10px;
+}
+
 
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/
