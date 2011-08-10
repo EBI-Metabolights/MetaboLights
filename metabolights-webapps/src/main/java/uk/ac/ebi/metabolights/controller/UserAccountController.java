@@ -2,6 +2,8 @@ package uk.ac.ebi.metabolights.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -83,7 +85,7 @@ public class UserAccountController extends AbstractController{
      * @return where to navigate next 
      */
 	@RequestMapping(value = "/createNewAccount", method = RequestMethod.POST)
-    public ModelAndView createNewAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model) {
+    public ModelAndView createNewAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model, HttpServletRequest request) {
 
     	// The isatab schema works with a USERNAME. For Metabolights, we set the email address to be the user name,
     	// it's easier for people to remember that
@@ -128,8 +130,14 @@ public class UserAccountController extends AbstractController{
 		}
     	
     	//Let the user know what will happen next
-    	String emailShort=metabolightsUser.getEmail().substring(0,metabolightsUser.getEmail().indexOf('@'));
-    	return new ModelAndView("redirect:accountRequested="+emailShort);
+    	//String emailShort=metabolightsUser.getEmail().substring(0,metabolightsUser.getEmail().indexOf('@'));
+    	
+		HttpSession httpSession = request.getSession();
+		httpSession.setAttribute("user", metabolightsUser);
+		
+    	return new ModelAndView("redirect:accountRequested");
+    		
+    	//return new ModelAndView("redirect:accountRequested="+emailShort);
 
 	}
 
@@ -167,10 +175,17 @@ public class UserAccountController extends AbstractController{
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping(value={"/accountRequested={userName}"})
-	public ModelAndView accountRequested(@PathVariable("userName") String userName, Map<String, Object> map) {
-    	ModelAndView mav = new ModelAndView("accountRequested");
-    	mav.addObject("userName", userName);
+	@RequestMapping(value={"/accountRequested"})
+	public ModelAndView accountRequested(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it. 
+    	MetabolightsUser newUser = (MetabolightsUser) request.getSession().getAttribute("user");
+    	
+		if (newUser!=null){
+			mav = new ModelAndView("accountRequested");
+			mav.addObject("user", newUser);
+			request.getSession().removeAttribute("user");
+		}
+
     	return mav;
 	}
 

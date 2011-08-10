@@ -23,7 +23,7 @@ public class GenericController {
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	@RequestMapping(value={"/index","/about","/submitHelp"})
+	@RequestMapping(value={"/index","/about","/submitHelp" ,"/download"})
 	public String useMoreDeodorant (HttpServletRequest request) {
 		return lastPartOfUrl(request);
 	}
