@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>metabolights-main</artifactId>
 		<groupId>uk.ac.ebi.metabolights</groupId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 	<groupId>uk.ac.ebi.metabolights</groupId>
 	<artifactId>metabolights-webapp</artifactId>
@@ -168,6 +168,8 @@
             <groupId>net.sourceforge.jwebunit</groupId>
             <artifactId>jwebunit-htmlunit-plugin</artifactId>
             <version>2.5</version>
+            <type>jar</type>
+            <scope>test</scope>
         </dependency>		
 	</dependencies>
 
