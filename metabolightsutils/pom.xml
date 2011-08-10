@@ -5,23 +5,14 @@
   <parent>
     <artifactId>metabolights-main</artifactId>
     <groupId>uk.ac.ebi.metabolights</groupId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
   </parent>
   <groupId>uk.ac.ebi.metabolights</groupId>
   <artifactId>metabolights-utils</artifactId>
   <version>0.0.4-SNAPSHOT</version>
   <name>metabolightsutils</name>
-  <url>http://maven.apache.org</url>
+  <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  <dependencies>
-    <dependency>
-    	<groupId>junit</groupId>
-    	<artifactId>junit</artifactId>
-    	<version>4.8.2</version>
-    	<type>jar</type>
-    	<scope>test</scope>
-    </dependency>
-  </dependencies>
 </project>
