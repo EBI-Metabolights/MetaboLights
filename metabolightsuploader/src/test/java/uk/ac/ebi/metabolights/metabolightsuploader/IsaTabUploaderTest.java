@@ -3,12 +3,8 @@ package uk.ac.ebi.metabolights.metabolightsuploader;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.naming.ConfigurationException;
 
 import junit.framework.Assert;
 
@@ -16,14 +12,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
 import org.junit.Test;
 
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabIdReplacerException;
 
 public class IsaTabUploaderTest {
 	@Test

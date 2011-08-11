@@ -2,8 +2,6 @@ package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
