@@ -6,7 +6,7 @@ public enum SubmissionProcessCheckListSeed implements ICheckListItemSeed{
 	FILEUNZIP("3","File unzip"),
 	CONTENTVALIDATION("4","Experiment data validation"),
 	IDREPLACEMENTS("5","Metabolights Id assignment"),
-	FILEPERSISTANCE("6","File persistance"),
+	FILEPERSISTENCE("6","File persistence"),
 	SETPERMISSIONS ("7","Permission and visibility set up")	
 	;
 	

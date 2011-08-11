@@ -142,7 +142,7 @@ public class IsaTabUploader {
 		
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
-		updateCheckList(SubmissionProcessCheckListSeed.FILEPERSISTANCE, "The file has been successfully stored in our database.");
+		updateCheckList(SubmissionProcessCheckListSeed.FILEPERSISTENCE, "The file has been successfully stored in our database.");
 		updateCheckList(SubmissionProcessCheckListSeed.SETPERMISSIONS, "The file has been assigned to " + owner + " and the visibility has been set to " + status);
 		
 		
