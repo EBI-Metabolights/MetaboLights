@@ -1,22 +1,16 @@
 package uk.ac.ebi.metabolights.search;
 
 import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.lucene.index.Term;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanClause.Occur;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult.Assay;
 
@@ -35,7 +29,7 @@ public class Filter {
 	private static final long serialVersionUID = -8290724660711400374L;
 
 	// Hash of FilterSets
-	HashMap<String,FilterSet> fss = new HashMap<String,FilterSet>();
+	Map<String,FilterSet> fss = new LinkedHashMap<String,FilterSet>();
 	
 	// List with filter items, each one will be a group of checkboxes
     private FilterSet organisms = new FilterSet("organisms", "organism","",""); 
@@ -85,9 +79,9 @@ public class Filter {
 	private void mountFilterStructure(){
 		
 		//Add all the list of filters to the hash...
+		fss.put(status.getName(),status);
 		fss.put(organisms.getName(), organisms);
 		fss.put(technology.getName(), technology);
-		fss.put(status.getName(),status);
 		fss.put(mystudies.getName(), mystudies);
 		
 	}
@@ -103,6 +97,9 @@ public class Filter {
 		fiPrivate.setValue(STATUS_PRIVATE);
 		status.put(fiPrivate.getValue(), fiPrivate);
 	
+		// Disable/enable this filter Set: If there is any user legged in, this filter should be enabled.
+		status.setIsEnabled(!getUserName().isEmpty());
+		
 	}
 	
 	private void checkMyStudiesFilterSet(){
@@ -379,7 +376,7 @@ public class Filter {
 		
 		return userName;
 	}
-	public HashMap<String,FilterSet> getFss(){
+	public Map<String,FilterSet> getFss(){
 		return fss;
 	}
 }
