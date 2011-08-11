@@ -1,12 +1,13 @@
 package uk.ac.ebi.metabolights.search;
 
-import java.util.HashMap;
+import java.text.Collator;
+import java.util.Locale;
+import java.util.TreeMap;
 
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 public class FilterSet {
 	
-	private  HashMap<String, FilterItem> filterItems = new  HashMap<String, FilterItem>();
+	private  TreeMap<String, FilterItem> filterItems = new  TreeMap<String, FilterItem>(Collator.getInstance(Locale.ENGLISH));
 	private String name;
 	private String field;
 	private String prefix="";
@@ -43,7 +44,7 @@ public class FilterSet {
 	public void put (String key, FilterItem fi){
 		 filterItems.put(key, fi);
 	}
-	public HashMap<String, FilterItem> getFilterItems(){
+	public TreeMap<String, FilterItem> getFilterItems(){
 		return filterItems;
 	}
 	
