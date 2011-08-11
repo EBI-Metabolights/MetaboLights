@@ -150,7 +150,12 @@
                 </c:forEach>
             </ul>
         </c:if>
-
+        
+        <c:if test="${not empty ftpLocation}">
+            <hr/><br>
+            <IMG src="img/ftp.png" height="18"> <a href="${ftpLocation}"> <spring:message code="mgs.ftpDownload"/></a>
+		</c:if>
+		
         <!-- c:if test="${not empty study.annotations}">
             <br><br>
             <b>Annotations</b>

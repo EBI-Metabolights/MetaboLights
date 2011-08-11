@@ -8,12 +8,12 @@
 	}
 	
 	function disableSubmission() {
-		document.forms['uf'].elements['submit'].disabled=true;
+		//document.forms['uf'].elements['submit'].disabled=true;
 	    document.forms['uf'].elements['cancel'].disabled=true;
 	    document.body.style.cursor = "wait";
 		var hglass = document.getElementById("hourglass");
 		hglass.style.display = "block";
-
+		document.forms['uf'].submit();
 	}
 	
 	function enableSubmission() {
