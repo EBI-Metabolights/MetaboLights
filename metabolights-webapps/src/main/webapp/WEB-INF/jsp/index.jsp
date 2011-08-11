@@ -22,7 +22,7 @@
     <br>
     <spring:message code="msg.metabolightsAbout1" />
     <div id="homepageLinks">
-	  <a href="about"><a href="contact"><spring:message code="label.aboutMetab"/></a>
+	  <a href="about"><spring:message code="label.aboutMetab"/></a>
 	  <br>  
 	  <a href="contact"><spring:message code="label.contact"/></a>
 	</div>
