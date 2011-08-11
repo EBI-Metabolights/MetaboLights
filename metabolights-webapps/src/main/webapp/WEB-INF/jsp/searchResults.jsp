@@ -20,11 +20,14 @@ function navigate(_pageNumber) {
   bodyWidth.style.width="785px";
 </script>
 	<div class="topSpacer">
+   		<c:if test="${!empty welcomemessage}">
+			<div class="formheader">
+				<span class="title">${welcomemessage}</span> 
+			</div>
+			<br/>
+		</c:if>
 		<div id="text_header" >
-	   		<c:if test="${!empty welcomemessage}">
-			    ${welcomemessage}<br/> 
-			</c:if>
-		    ${totalHits} <spring:message code="msg.searchResults" />
+			    ${totalHits} <spring:message code="msg.searchResults" />
 		    <c:if test="${totalHits gt 1}"> 
 			    <spring:message code="msg.showing" /> ${1+((pageNumber-1)*pageSize)} <spring:message code="msg.to" /> 
 		        <c:if test="${((pageNumber-1)*pageSize)+pageSize lt totalHits }">
