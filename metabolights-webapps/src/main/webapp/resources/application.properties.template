@@ -5,6 +5,7 @@ ftpServerMainSubDir=upload
 ftpUser=CHANGE
 ftpPassword=CHANGE
 uploadDirectory=/nfs/production/panda/metabolights/isatab/upload
+publicFtpLocation=/ebi/ftp/pub/databases/metabolights/studies
 mtblAdminEmailAddress=admin@metabolights.com
 luceneIndexDirectory=/nfs/production/panda/metabolights/lucene/bii/
 luceneIndexDirectoryShort=/nfs/production/panda/metabolights/lucene
