@@ -9,7 +9,7 @@
  <parent>
    <artifactId>metabolights-main</artifactId>
    <groupId>uk.ac.ebi.metabolights</groupId>
-   <version>0.0.2-SNAPSHOT</version>
+   <version>0.0.3-SNAPSHOT</version>
  </parent> 
  <build> 
   <finalName>${project.artifactId}</finalName>
@@ -35,6 +35,7 @@
  		<version>2.0.0</version>
  		<type>jar</type>
  		<scope>test</scope>
+ 		<optional>true</optional>
  	</dependency>
  	<dependency>
  		<groupId>uk.ac.ebi.metabolights</groupId>
