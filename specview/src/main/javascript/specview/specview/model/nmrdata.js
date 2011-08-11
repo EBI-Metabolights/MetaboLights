@@ -234,6 +234,12 @@ specview.model.NMRdata=function(){
      */
     this.cmlString=null;
     
+    /**
+     * Each time a spectrum or a sub-spectrum is rendered, only visible peaks are rendered with sometime differnet 
+     * coordinates. This attribute keeps track of the list of new peaks.
+     */
+    this.arrayOfUpdatedPeaks = new Array();
+    
     
 };
 
@@ -563,7 +569,7 @@ specview.model.NMRdata.prototype.expandSpectrum = function(){
 	var minPeakStartAt = valueToAdd + 5;
 	var LESPEC = this.spectrum.getPeakList();	
 //	alert(minValueOfPeak)
-	
+//	alert(LESPEC.length)
 	/**
 	 * The first spectrum
 	 */

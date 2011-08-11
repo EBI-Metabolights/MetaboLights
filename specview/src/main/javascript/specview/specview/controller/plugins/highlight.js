@@ -183,6 +183,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					var currentMetaSpecObject=this.editorObject.getSpecObject();//The metaSpec object
 					var currentAtomInnerIdentifier= target.innerIdentifier;//the atom Id
 					var hypotheticalPeakIdToWhichTheCurrentAtomIsLinked=target.peakMap[currentAtomInnerIdentifier];//its peak Id
+//					alert(hypotheticalPeakIdToWhichTheCurrentAtomIsLinked)
 					var peakObjectCorrespondingToThePeakId=currentMetaSpecObject.ArrayOfPeaks[hypotheticalPeakIdToWhichTheCurrentAtomIsLinked];//Peak
 					/**
 					 * If the text information about the peak is written, then we have to delete it to let the place free
@@ -195,10 +196,15 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 					 * If a related peak exists, then we highlight it.
 					 */
 					if(peakObjectCorrespondingToThePeakId){
-//						alert(peakObjectCorrespondingToThePeakId.isVisible)
-						this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
-						e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);
-						this.drawTextInformation(peakObjectCorrespondingToThePeakId, currentMetaSpecObject)
+//						alert(this.editorObject.specObject.zoomLevel)
+						var bbb = this.editorObject.specObject.spectrum.belongs(peakObjectCorrespondingToThePeakId.peakId , this.editorObject.specObject.zoomMap[this.editorObject.specObject.zoomLevel])
+//						alert(bbb)
+						if(bbb){
+//							alert(peakObjectCorrespondingToThePeakId.isVisible)
+							this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
+							e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);
+							this.drawTextInformation(peakObjectCorrespondingToThePeakId, currentMetaSpecObject)	
+						}
 					}
 				}
 				return true;
@@ -450,6 +456,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 //			alert(listOfPeaks)
 			this.zoomOnSpectrum(listOfPeaks);
 			document.getElementById("win3").style.display = "none";
+//			this.editorObject.specObject.spectrum.updateVisibility(listOfPeaks)
 	
 		}
 	}

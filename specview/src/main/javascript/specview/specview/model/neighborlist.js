@@ -184,8 +184,8 @@ specview.model.NeighborList.prototype.getObjectFromCoord=function(e,specObject){
 	var isInMolecule = specview.controller.Controller.isInMolecule(e,specObject);
 	var cells =  isInSpectrum ? this.cells_samy_spectrum_2 :
 				(isInMolecule ? this.cells_samy_molecule_2 : null);
-	var type = (isInSpectrum ? "spectrum" : (isInMolecule ? "molecule" : "somwhere else"));
-	specview.model.NeighborList.logger2.info("I am in the " + type)
+//	var type = (isInSpectrum ? "spectrum" : (isInMolecule ? "molecule" : "somwhere else"));
+//	specview.model.NeighborList.logger2.info("I am in the " + type)
 	for(k in cells){
 		var x = cells[k][0].x
 		var y = cells[k][0].y

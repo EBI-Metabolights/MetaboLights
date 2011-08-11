@@ -489,11 +489,51 @@ specview.model.Spectrum.prototype.setCoordinatesAccordingToZoom = function(zoom,
 };
 
 
+/*
+specview.model.Spectrum.prototype.updateVisibility = function(){
+//	alert(newArrayOfPeaks.length  + "  ;  " + this.peakList.length + "  ;  " + document.metaSpecObject.zoomMap[0].length)
+	
+	var ctf = 0;
+	var ctt = 0;
+	
+	var  originalArray = document.metaSpecObject.zoomMap[0];
+	for(var p = 0 ; p < originalArray.length ; p++){
+		var peak = originalArray[p];
+		if(this.belongs(peak.peakId)){
+			document.metaSpecObject.ArrayOfPeaks[peak.peakId].isVisible = true;
+			ctt ++;
+		}else{
+			document.metaSpecObject.ArrayOfPeaks[peak.peakId].isVisible = false;;
+			ctf ++;
+		}
+	}
+	alert("changed to false : " + ctf + "\nchanged to true : "+ctt);
+};
+*/
+
+specview.model.Spectrum.prototype.belongs = function(peakId,arrayOfPeaks){
+	/*
+	for(var a = 0 ; a < this.peakList.length ; a++){
+		if(this.peakList.peakId == peakId){
+			return true;
+		}
+	}
+	return false;
+	*/
+	for(var k in arrayOfPeaks){
+		if(arrayOfPeaks[k].peakId == peakId){
+			return true;
+		}
+	}
+	return false;
+};
+
+
 specview.model.Spectrum.prototype.compare = function(){
 	var spec1 = this.displayXpixelNice();
 	var spec2 = this.displayXpixelNice2();
 	return Array(spec1,spec2);
-}
+};
 
 
 

@@ -128,21 +128,32 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     var peakFill = null;
     
     var Array_Of_Mapping = new Array();
-
+    var Array_Of_Updated_Peak = null;
 
     /*
      * big spectrum
      */
-    
+
     var ccc = 0;
     goog.array.forEach(spectrum.peakList,
     function(peak) {
+    	
+//    	specview.view.SpectrumRenderer.logger.info(peak.peakId + " ; " + metaSpecObject.ArrayOfPeaks[peak.peakId])
+    	
+    	var newXpixel = peak.xPixel;
+    	if(metaSpecObject.ArrayOfPeaks[peak.peakId] instanceof specview.model.Peak){
+//    		specview.view.SpectrumRenderer.logger.info("haaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    		metaSpecObject.ArrayOfPeaks[peak.peakId].xPixel = newXpixel;
+    		metaSpecObject.ArrayOfPeaks[peak.peakId].xTpixel = newXpixel;
+    	}
     	
     	if(peak.isVisible){
     		Array_Of_Mapping[ccc] = [new goog.math.Coordinate(peak.xPixel,peak.yPixel) , peak]
             peakPath.moveTo(peak.xPixel, peak.yPixel); 
             peakPath.lineTo(peak.xTpixel,peak.yTpixel);	
             ccc++;
+            
+            metaSpecObject.arrayOfUpdatedPeaks[peak.peakId] = peak;
     	}
 
     	metaSpecObject.ArrayOfPrimaryMolecules[peak.arrayOfSecondaryMolecules] != undefined ? peak.parentPeak = true : peak.parentPeak = false;
@@ -152,6 +163,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
     },
     this);
 
+//    alert(specview.util.Utilities.getAssoArrayLength(metaSpecObject.arrayOfUpdatedPeaks))
     document.editorObject.neighborList.cells_samy_spectrum_2 = Array_Of_Mapping;
     
 //alert(Array_Of_Mapping.length)
