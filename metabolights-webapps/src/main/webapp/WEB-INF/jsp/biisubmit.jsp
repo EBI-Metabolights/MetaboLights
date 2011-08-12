@@ -31,6 +31,7 @@
 	          changeMonth: true,
 	          changeYear: true,
 	          showOtherMonths: true,
+	          showButtonPanel: true,
 	          dateFormat: 'dd-mm-yy',
 	          minDate: '-5y',
 	          maxDate: '+5y',
