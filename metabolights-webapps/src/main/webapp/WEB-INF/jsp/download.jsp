@@ -8,6 +8,9 @@
 	<tr>
 		<td>
 			<br/>
+			<a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"><img src="img/ftp-big.png"></a>
+			<br/>
+			<br/>
 			<spring:message code="msg.metabolightsAbout7" />
 			<br/>
 			<br/>

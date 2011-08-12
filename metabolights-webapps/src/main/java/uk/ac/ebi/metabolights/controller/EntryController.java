@@ -46,7 +46,7 @@ public class EntryController extends AbstractController {
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}") 
-	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, Map<String, Object> map) {
+	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId) {
 		logger.info("requested entry " + mtblId);		
 		Study study = studyService.getBiiStudy(mtblId);
 		
@@ -60,15 +60,12 @@ public class EntryController extends AbstractController {
 			}
 		}
 
-		String ftpLocation = "";
+		String ftpLocation = null;
 		
-		if (study.getStatus().equals(VisibilityStatus.PUBLIC)){  //Serve back public ftp link
-			ftpLocation = ftpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + "/" + study.getAcc() +".zip";
-		} else if (study.getStatus().equals(VisibilityStatus.PRIVATE))
-		{	// Only for the submitter
+		if (study.getStatus().equals(VisibilityStatus.PRIVATE)){	// Only for the submitter
 			ftpLocation = "privatefiles/" + study.getAcc();  //Private download, file stream
-		} else {
-			ftpLocation = null;
+		}  else {  //Serve back public ftp link
+			ftpLocation = ftpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + "/" + study.getAcc() +".zip";
 		}
 
 		ModelAndView mav = new ModelAndView("entry");
@@ -80,20 +77,19 @@ public class EntryController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/privatefiles/{file_name}")
-	public void getFile(@PathVariable("file_name") String fileName,
-			HttpServletResponse response) {
+	public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response) {
 		try {
 
 			Boolean validUser = false;
 			Long userId = new Long(0);
-			
-	 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (!auth.getPrincipal().equals(new String("anonymousUser"))){
 				MetabolightsUser principal = (MetabolightsUser) auth.getPrincipal();
 				userId = principal.getUserId();
 			}
-			
-			if (userId>0){
+
+			if (userId>0){ //Check if the logged in user can access the study
 				Study study = studyService.getBiiStudy(fileName);
 				Collection<User> users = study.getUsers();
 				Iterator<User> iter = users.iterator();
@@ -104,24 +100,28 @@ public class EntryController extends AbstractController {
 						break;
 					}
 				}
-				
+
 			}
-			
+
 			if (!validUser)
 				throw new RuntimeException("You are not authorised to access this file"); //TODO, hack
-			
-			
-			// get your file as InputStream
-			InputStream is = new FileInputStream(ftpDirectory + "/" + fileName + ".zip");
 
-			// let the browser know it's a zip file
-			response.setContentType("application/zip");
 
-			// copy it to response's OutputStream
-			IOUtils.copy(is, response.getOutputStream());
-			
+			try {
+				// get your file as InputStream
+				InputStream is = new FileInputStream(ftpDirectory + "/" + fileName + ".zip");
+
+				// let the browser know it's a zip file
+				response.setContentType("application/zip");
+
+				// copy it to response's OutputStream
+				IOUtils.copy(is, response.getOutputStream());
+			} catch (Exception e) {
+				throw new RuntimeException("File does not exist, please contact the MetaboLights Team"); //TODO, hack
+			}
+
 			response.flushBuffer();
-			
+
 		} catch (IOException ex) {
 			logger.info("Error writing file to output stream. Filename was '"+ fileName + "'");
 			throw new RuntimeException("IOError writing file to output stream");

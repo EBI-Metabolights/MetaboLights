@@ -1,5 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js"></script>
 
 <script type="text/javascript">
 	function onloadAction() {
@@ -12,7 +14,7 @@
 	    document.forms['uf'].elements['cancel'].disabled=true;
 	    document.body.style.cursor = "wait";
 		var hglass = document.getElementById("hourglass");
-		hglass.style.display = "block";
+		hglass.style.display = "block";		
 		document.forms['uf'].submit();
 	}
 	
@@ -23,6 +25,19 @@
 		var hglass = document.getElementById("hourglass");
 		hglass.style.display = "none";
 	}
+	
+	$(function() {
+		$( "#datepicker" ).datepicker( {
+	          changeMonth: true,
+	          changeYear: true,
+	          showOtherMonths: true,
+	          dateFormat: 'dd-mm-yy',
+	          minDate: '-5y',
+	          maxDate: '+5y',
+	          hideIfNoPrevNext: true
+	      });
+	});
+	
 </script>		
 		
 <div class="formbox">
@@ -39,19 +54,36 @@
 	            <td><spring:message code="label.isatabZipFile" />:</td>
 	            <td><input type="file" name="file" /></td>
 	        </tr>
+	       
+	        <tr>
+	        	<td colspan='2'> <hr/> </td>
+	        </tr>
+	        <tr>
+	            <td colspan='2'><b><spring:message code="label.experimentMsgPublic" /> </b></td>
+	        </tr>
 	        <tr>
 	            <td><spring:message code="label.experimentstatuspublic" />:</td>
-	            <td><input type="checkbox" name="public" /></td>
+	            <td><input type="checkbox" name="public" onClick="this.form.pickdate.disabled=this.checked"/></td>
 	        </tr>
+	        <tr>
+	        	<td>or select when you want it do be public:</td>
+	           	<td><input type="text" name="pickdate" id="datepicker"></td>
+	        </tr>
+	       	<tr>
+	        	<td colspan='2'> <hr/> </td>
+	        </tr>
+	        
 	        <tr>
 	            <td height="100px" colspan='2'><input onclick="disableSubmission()" name="submit" type="submit" value="<spring:message code="label.upload"/>">
 	            <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
 	            </td>
 	        </tr>
+	      
+	       
 	        <tr>
 	            <td colspan='2'>
 	            <div id="hourglass">
-	            <img src="img/hourglassAnim.gif"/>&nbsp; <b> <spring:message code="msg.pleaseWaitForUpload"/></b>
+	            <img src="img/wait.gif"/>&nbsp; <b> <spring:message code="msg.pleaseWaitForUpload"/></b>
 	            </div>
 	            </td>
 	        </tr>

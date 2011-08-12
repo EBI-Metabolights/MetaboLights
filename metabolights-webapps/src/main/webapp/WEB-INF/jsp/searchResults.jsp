@@ -2,7 +2,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<script type="text/javascript" src="javascript/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 <script type="text/javascript">

@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<script type="text/javascript" src="javascript/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
 
 <div class="topSpacer"></div>
 <!-- If there isn't any result and it is due to the freetext, filter will not be printed -->

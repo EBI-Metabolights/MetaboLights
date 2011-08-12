@@ -19,6 +19,7 @@
     <link rel="SHORTCUT ICON" href="http://www.ebi.ac.uk/bookmark.ico" />
     <link rel="stylesheet"  href="http://www.ebi.ac.uk/inc/css/sidebars.css"   type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.15.custom.css" media="all" />
 
     <style type="text/css">
         @media print {
