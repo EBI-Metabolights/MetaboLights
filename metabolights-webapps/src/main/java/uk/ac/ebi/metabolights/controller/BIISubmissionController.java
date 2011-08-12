@@ -3,8 +3,9 @@ package uk.ac.ebi.metabolights.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,22 +60,23 @@ public class BIISubmissionController extends AbstractController {
 		//Start the submission process...
 		//Create a check list to report back the user..
 		CheckList cl = new CheckList(SubmissionProcessCheckListSeed.values());
+	
 		
 		try {
 
 			if (file.isEmpty()){ throw new Exception("File must not be empty.");}
 			
-			if (publicExp == null && publicDate != null){ //Not set to public by the submitter and a public date has been given
-				logger.info("Public release date has been given as " + publicDate);
-			}
-			
 			String isaTabFile = writeFile(file, cl);
 						
 			//Upload to BII
-			HashMap<String,String> accessions = uploadToBii(isaTabFile, status, cl);
+			HashMap<String,String> accessions = uploadToBii(isaTabFile, status, cl, publicDate);
 			
 			//Log it
 			logger.info("These are the new accession numbers: " + accessions);
+			if (publicExp == null && publicDate != null){ //Not set to public by the submitter and a public date has been given
+				logger.info("Public release date has been given by the submitter as " + publicDate + " for accession " +accessions);
+			}
+			
 
 			HttpSession httpSession = request.getSession();
 			httpSession.setAttribute("accessionsOK", accessions);
@@ -179,7 +180,7 @@ public class BIISubmissionController extends AbstractController {
 	 * @return
 	 * @throws Exception 
 	 */
-	private HashMap<String,String> uploadToBii (String isaTabFile, VisibilityStatus status, CheckList cl) throws Exception{
+	private HashMap<String,String> uploadToBii (String isaTabFile, VisibilityStatus status, CheckList cl, String publicDate) throws Exception{
 		
 		//Get the user
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -189,9 +190,13 @@ public class BIISubmissionController extends AbstractController {
 		
 		//Get the path for the config folder (where the hibernate properties for the import layer are).
 		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+		
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String submissionDate = formatter.format(currentDate.getTime());
 	
 		//Upload the file to bii
-		IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), status, configPath);
+		IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), status, configPath, publicDate, submissionDate);
 
 		//Set the CheckList to get feedback
 		itu.setCheckList(cl);

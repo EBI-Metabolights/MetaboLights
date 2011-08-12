@@ -38,8 +38,8 @@
 
         <c:if test="${not empty study.submissionDate || not empty study.releaseDate}">
             <br><br>
-            <c:if test="${not empty study.submissionDate}">Submitted: ${study.submissionDate}&nbsp;&nbsp;</c:if>
-            <c:if test="${not empty study.releaseDate}">Released: ${study.releaseDate}</c:if>
+            <c:if test="${not empty study.submissionDate}"><spring:message code="label.subDate"/>: ${study.submissionDate}&nbsp;&nbsp;</c:if>
+            <c:if test="${not empty study.releaseDate}"><spring:message code="label.releaseDate"/>: ${study.releaseDate}</c:if>
         </c:if>
 
         <c:if test="${not empty organismNames}">

@@ -32,8 +32,8 @@
 	          changeYear: true,
 	          showOtherMonths: true,
 	          showButtonPanel: true,
-	          dateFormat: 'dd-mm-yy',
-	          minDate: '-5y',
+	          dateFormat: 'yy-mm-dd',
+	          minDate: '+1d',
 	          maxDate: '+5y',
 	          hideIfNoPrevNext: true
 	      });
