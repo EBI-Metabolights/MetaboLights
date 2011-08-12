@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +41,8 @@ public class EntryController extends AbstractController {
 	@Autowired
 	private StudyService studyService;
 
-    private @Value("#{appProperties.publicFtpLocation}") String ftpDirectory;
+    private @Value("#{appProperties.publicFtpLocation}") String publicFtpDirectory;
+    private @Value("#{appProperties.privateFtpLocation}") String privateFtpDirectory;
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}") 
@@ -65,7 +65,7 @@ public class EntryController extends AbstractController {
 		if (study.getStatus().equals(VisibilityStatus.PRIVATE)){	// Only for the submitter
 			ftpLocation = "privatefiles/" + study.getAcc();  //Private download, file stream
 		}  else {  //Serve back public ftp link
-			ftpLocation = ftpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + "/" + study.getAcc() +".zip";
+			ftpLocation = publicFtpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + "/" + study.getAcc() +".zip";
 		}
 
 		ModelAndView mav = new ModelAndView("entry");
@@ -109,7 +109,7 @@ public class EntryController extends AbstractController {
 
 			try {
 				// get your file as InputStream
-				InputStream is = new FileInputStream(ftpDirectory + "/" + fileName + ".zip");
+				InputStream is = new FileInputStream(privateFtpDirectory + "/" + fileName + ".zip");
 
 				// let the browser know it's a zip file
 				response.setContentType("application/zip");

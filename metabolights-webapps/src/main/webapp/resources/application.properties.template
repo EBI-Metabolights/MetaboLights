@@ -4,11 +4,17 @@ ftpServer=CHANGE
 ftpServerMainSubDir=upload
 ftpUser=CHANGE
 ftpPassword=CHANGE
-uploadDirectory=/nfs/production/panda/metabolights/isatab/upload
-publicFtpLocation=/ebi/ftp/pub/databases/metabolights/studies
+
+# uploadDirectory is used the by the metabolights-uploader module, for BII submissions
+uploadDirectory=CHANGE
+# ftp locations are used by the metabolights-uploader and metabolights-webapp to distibute submitted archives
+publicFtpLocation=CHANGE
+privateFtpLocation=CHANGE
+
 mtblAdminEmailAddress=admin@metabolights.com
-luceneIndexDirectory=/nfs/production/panda/metabolights/lucene/bii/
-luceneIndexDirectoryShort=/nfs/production/panda/metabolights/lucene
+luceneIndexDirectory=CHANGE/bii/
+luceneIndexDirectoryShort=CHANGE
+
 jdbc.driverClassName=oracle.jdbc.OracleDriver
 jdbc.databaseurl=jdbc:oracle:thin:@CHANGE:1521:CHANGE
 jdbc.username=CHANGE

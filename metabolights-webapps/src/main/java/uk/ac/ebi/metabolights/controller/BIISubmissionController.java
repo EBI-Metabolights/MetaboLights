@@ -47,7 +47,12 @@ public class BIISubmissionController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/biiuploadExperiment", method = RequestMethod.POST)
-	public ModelAndView handleFormUpload(@RequestParam("file") MultipartFile file, @RequestParam(required=false,value="public") Boolean publicExp, HttpServletRequest request) throws Exception {
+	public ModelAndView handleFormUpload(
+			@RequestParam("file") MultipartFile file, 
+			@RequestParam(required=false,value="public") Boolean publicExp,
+			@RequestParam(required=false,value="pickdate") String publicDate,
+			HttpServletRequest request) 
+		throws Exception {
 
 		//Convert boolean publicExp into VisibilityStatus
 		VisibilityStatus status =  (publicExp != null)? VisibilityStatus.PUBLIC : VisibilityStatus.PRIVATE;
@@ -59,6 +64,10 @@ public class BIISubmissionController extends AbstractController {
 		try {
 
 			if (file.isEmpty()){ throw new Exception("File must not be empty.");}
+			
+			if (publicExp == null && publicDate != null){ //Not set to public by the submitter and a public date has been given
+				logger.info("Public release date has been given as " + publicDate);
+			}
 			
 			String isaTabFile = writeFile(file, cl);
 						
