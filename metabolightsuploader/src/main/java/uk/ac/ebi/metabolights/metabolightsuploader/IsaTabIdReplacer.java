@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -14,14 +13,12 @@ import javax.naming.ConfigurationException;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import org.slf4j.spi.LoggerFactoryBinder;
 
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.repository.accessionmanager.AccessionManager;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
-import uk.ac.ebi.metabolights.utils.Zipper;
 
 
 /**
@@ -36,7 +33,11 @@ public class IsaTabIdReplacer
 	static final String PROP_IDS = "isatab.ids";
 	static String[] idList;
 	static final String PROP_FILE_WITH_IDS = "isatab.filewithids";
-    static String fileWithIds;
+    static String fileWithIds; 
+	private String publicDate; 		//Date from submitter form
+	private String submissionDate;	//Date from submitter form
+	private String pubDateStr;		//Replace str in i_Investigation.txt
+	private String subDateStr;		//Replace str in i_Investigation.txt
 
     private static final Logger logger = LoggerFactory.getLogger(IsaTabIdReplacer.class);
     
@@ -45,8 +46,25 @@ public class IsaTabIdReplacer
 	private String isaTabFolder;
     
     private HashMap<String,String> ids = new HashMap<String,String>();
+    
+	public String getPublicDate() {
+		return publicDate;
+	}
+
+	public void setPublicDate(String publicDate) {
+		this.publicDate = publicDate;
+	}
 	
-    private CheckList cl;
+    public String getSubmissionDate() {
+		return submissionDate;
+	}
+
+	public void setSubmissionDate(String submissionDate) {
+		this.submissionDate = submissionDate;
+	}
+
+
+	private CheckList cl;
     /**
 	 * 
 	 * @param args
@@ -100,7 +118,7 @@ public class IsaTabIdReplacer
 	public void setCheckList(CheckList newCl){cl= newCl;}
 	
 	
-	private static void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
+	private void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
 		
 		final String PROPS_FILE = "isatabidreplacer.properties";
 		
@@ -123,10 +141,12 @@ public class IsaTabIdReplacer
 			throw new ConfigurationException("The isatabidreplacer.properties file has been found, but it is empty.");
 		}
 		
-		//Initilize idList
+		//Initialise idList
 		String ids = props.getProperty(PROP_IDS);
+		pubDateStr = props.getProperty("isatab.publicReleaseDate");
+		subDateStr = props.getProperty("isatab.studySubDate");
 		
-		logger.info(PROP_IDS + " property retrieved :" + ids);
+		logger.info(PROP_IDS + " property retrieved :" + ids + "," + pubDateStr + "," + subDateStr);
 		
 		//Split it by ; to go through the array
 	    idList = ids.split(";");
@@ -144,6 +164,8 @@ public class IsaTabIdReplacer
 	public void validateIsaTabArchive () throws IsaTabIdReplacerException{
 		String[] msgs = new String[2];
 		String msg;
+		
+		//TODO, one study only
 		
 		
 		//Create a File object
@@ -238,14 +260,19 @@ public class IsaTabIdReplacer
 		
 		//Use a buffered reader
 		BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
-        String line = "";
-        String text = "";
+        String line, text = "";
         
         //Go through the file
         while((line = reader.readLine()) != null)
         {
         	//Replace Id in line (if necessary)
         	line = replaceIdInLine (line);
+        	
+        	//Replace public release date for this study
+        	line = replacePubRelDateInLine(line);
+        	
+        	//Replace study submission date for this study
+        	line = replaceSubmitDateInLine(line);
         	
             //Add the final carriage return and line feed
         	text += line + "\r\n";
@@ -304,4 +331,46 @@ public class IsaTabIdReplacer
 	    return line;
 		
 	}
+	
+private String replacePubRelDateInLine(String line){
+	      
+	      //If the value is present in line, in the first position.
+	      if (line.indexOf(pubDateStr)==0){   
+	    	  
+	    	  String newLine = "Study Public Release Date";
+	    	  
+	    	  logger.info("Study Public Release Date found in line " + line);
+	    	 
+	    	  //Compose the line:Study Public Release Date	"10/03/2009"
+	    	  newLine = newLine + "\t\"" + getPublicDate() + "\"";
+	    		  
+	    	  return newLine;
+	    	  
+	      } else {
+	    	  return line;
+	      }
+		
+	}
+
+private String replaceSubmitDateInLine(String line){
+    
+    //If the value is present in line, in the first position.
+    if (line.indexOf(subDateStr)==0){   
+  	  
+  	  String newLine = "Study Submission Date";
+  	  
+  	  logger.info("Study Submission Date found in line " + line);
+  	 
+  	  //Compose the line:Study Submission Date	"30/04/2007"
+  	  newLine = newLine + "\t\"" + getSubmissionDate() + "\"";
+  		  
+  	  return newLine;
+  	  
+    } else {
+  	  return line;
+    }
+	
+}
+	
+	
 }

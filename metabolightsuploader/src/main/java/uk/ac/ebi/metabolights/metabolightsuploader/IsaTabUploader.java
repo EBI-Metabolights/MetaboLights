@@ -32,6 +32,7 @@ public class IsaTabUploader {
 	
 	public IsaTabUploader(){
 	}
+
 	public IsaTabUploader(String isatabfile, String unzipfolder, String owner){
 		//Set properties
 		this.isaTabArchive = isatabfile;
@@ -39,16 +40,22 @@ public class IsaTabUploader {
 		this.owner = owner;
 	}
 	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, VisibilityStatus status){
-		
 		this(isatabfile,unzipfolder,owner);
 		this.status = status;
-		
 	}
+	
 	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, VisibilityStatus status, String configPath){
 		this(isatabfile,unzipfolder, owner,status);
 		this.configPath = configPath;
-		
 	}
+	
+	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, VisibilityStatus status, String configPath, String publicDate, String submissionDate){
+		this(isatabfile,unzipfolder, owner,status);
+		this.configPath = configPath;
+		itir.setPublicDate(publicDate);
+		itir.setSubmissionDate(submissionDate);
+	}
+	
 	//IsaTabFile property
 	public void setIsaTabFile(String isatabfile){this.isaTabArchive =isatabfile;}
 	public String getIsaTabFile(){return this.isaTabArchive;}
