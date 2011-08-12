@@ -36,8 +36,9 @@ public class IsaTabIdReplacer
     static String fileWithIds; 
 	private String publicDate; 		//Date from submitter form
 	private String submissionDate;	//Date from submitter form
-	private String pubDateStr;		//Replace str in i_Investigation.txt
-	private String subDateStr;		//Replace str in i_Investigation.txt
+	private String pubDateStr;		//Replace str to look for in i_Investigation.txt
+	private String subDateStr;		//Replace str to look for in i_Investigation.txt
+	private Integer singleStudy=0;	//Update when we find study ids in the file
 
     private static final Logger logger = LoggerFactory.getLogger(IsaTabIdReplacer.class);
     
@@ -69,12 +70,10 @@ public class IsaTabIdReplacer
 	 * 
 	 * @param args
 	 * First param must be the file name to work with. It should be a ISATab folder.
-	 * @throws IOException 
-	 * @throws IsaTabIdReplacerException 
-	 * @throws ConfigurationException 
+     * @throws Exception 
 	 * 
 	 */
-	public static void main( String[] args ) throws ConfigurationException, IsaTabIdReplacerException, IOException{
+	public static void main( String[] args ) throws Exception{
 		
 		//Check the arguments. 1 is needed.
 		if (args.length != 1){
@@ -165,9 +164,6 @@ public class IsaTabIdReplacer
 		String[] msgs = new String[2];
 		String msg;
 		
-		//TODO, one study only
-		
-		
 		//Create a File object
 		File isatab = new File(isaTabFolder);
 		
@@ -200,27 +196,30 @@ public class IsaTabIdReplacer
 		
 	}
 
-	public void Execute() throws IsaTabIdReplacerException, IOException, ConfigurationException{
+	public void Execute() throws Exception{
 		
-		logger.info("Starting the replacements of the ids");
+		logger.info("Starting submission upload");
 		
 		//Reset id List, it will be populated with the new accession numbers generated
 		ids.clear();
 		
 		//Load properties
+		logger.info("Loading properties");
 		loadProperties();
 		
 		//Validate
+		logger.info("Validating the archive");
 		validateIsaTabArchive();
 				
 		//Replace id
+		logger.info("Replace study id and study dates");
 		replaceIdInFiles();
 		
 		//Update CheckList
 		updateCheckList(SubmissionProcessCheckListSeed.IDREPLACEMENTS, getIdsNotes());
 		
 	}
-	private void replaceIdInFiles () throws IOException{
+	private void replaceIdInFiles () throws Exception{
 		
 		//Search for the investigation file
 		File isaFolder = new File(isaTabFolder);
@@ -246,43 +245,55 @@ public class IsaTabIdReplacer
 		}
 		
 		//There must be only one, so take the first
-		replaceIdInFile(fileList[0]);
+		logger.info("Loading investigation file");
+		replaceInFile(fileList[0]);
 
 	}
 	/**
 	 * Replaces Id in a single file. Goes through each line and replace the id if it's the correct line.
 	 * @param fileWithId
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	private void replaceIdInFile(File fileWithId) throws IOException{
+	private void replaceInFile(File fileWithId) throws Exception{
 		
 		logger.info("Replacing ids in file -->" + fileWithId.getAbsolutePath());
 		
-		//Use a buffered reader
-		BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
-        String line, text = "";
-        
-        //Go through the file
-        while((line = reader.readLine()) != null)
-        {
-        	//Replace Id in line (if necessary)
-        	line = replaceIdInLine (line);
-        	
-        	//Replace public release date for this study
-        	line = replacePubRelDateInLine(line);
-        	
-        	//Replace study submission date for this study
-        	line = replaceSubmitDateInLine(line);
-        	
-            //Add the final carriage return and line feed
-        	text += line + "\r\n";
-        }
-        
-        //Close the reader
-        reader.close();
-        
-        //Save the file
-        FileUtil.String2File(text, fileWithId.getPath());
+		try {
+			//Use a buffered reader
+			BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
+			String line = "", text = "";
+			
+			//Go through the file
+			while((line = reader.readLine()) != null)
+			{
+				if (singleStudy>1){  //If we already have assigned a study, error the upload
+					 reader.close();
+					 logger.info("Only one study per submission allowed");
+					 System.err.println("Only one study per submission allowed");
+					 throw new Exception("Only one study per submission allowed"); //Todo, read error text
+				}
+					
+				//Replace Id in line (if necessary)
+				line = replaceIdInLine(line);
+				
+				//Replace public release date for this study
+				line = replacePubRelDateInLine(line);
+				
+				//Replace study submission date for this study
+				line = replaceSubmitDateInLine(line);
+				
+			    //Add the final carriage return and line feed
+				text += line + "\r\n";
+			}
+			
+			//Close the reader
+			reader.close();
+			
+			//Save the file
+			FileUtil.String2File(text, fileWithId.getPath());
+		} catch (Exception e) {
+			throw e; 
+		}
 		
 	}
 	
@@ -315,11 +326,14 @@ public class IsaTabIdReplacer
 	    	  //Permissions can only be done to Study Identifier elements.
 	    	  //Only Study Identifier can be linked.
 	    	  if ("Study Identifier".equals(id)){
+	    		  
+	    		  ++singleStudy;  //Count how many study id's we have processed
 	    	  
 	    		//Populate the list of new accession numbers (initialized in Execute method)
 				//accessionNumberList = accessionNumberList + accession + " ";
 				//initialIdValuesList = initialIdValuesList + idInitialValue + " ";
 	    		ids.put(idInitialValue, accession);
+	    		logger.info("Study identifier " + idInitialValue + " replaced with " +accession);
 	    		
 	    	  }
 	    		  
