@@ -192,7 +192,7 @@ public class BIISubmissionController extends AbstractController {
 		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
 		
 		Calendar currentDate = Calendar.getInstance();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
 		String submissionDate = formatter.format(currentDate.getTime());
 	
 		//Upload the file to bii
