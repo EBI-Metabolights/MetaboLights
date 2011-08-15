@@ -30,14 +30,16 @@ import uk.ac.ebi.metabolights.utils.StringUtils;
 public class IsaTabIdReplacer 
 {
 	static private Properties props = new Properties();
+	static private String pubDateStr;		//Replace str to look for in i_Investigation.txt
+	static private String subDateStr;		//Replace str to look for in i_Investigation.txt
+	static private String fileWithIds; 
+	
 	static final String PROP_IDS = "isatab.ids";
 	static String[] idList;
 	static final String PROP_FILE_WITH_IDS = "isatab.filewithids";
-    static String fileWithIds; 
-	private String publicDate; 		//Date from submitter form
+    
+    private String publicDate; 		//Date from submitter form
 	private String submissionDate;	//Date from submitter form
-	private String pubDateStr;		//Replace str to look for in i_Investigation.txt
-	private String subDateStr;		//Replace str to look for in i_Investigation.txt
 	private Integer singleStudy=0;	//Update when we find study ids in the file
 
     private static final Logger logger = LoggerFactory.getLogger(IsaTabIdReplacer.class);
@@ -49,6 +51,8 @@ public class IsaTabIdReplacer
     private HashMap<String,String> ids = new HashMap<String,String>();
     
 	public String getPublicDate() {
+		if (publicDate == null)
+			publicDate = "";
 		return publicDate;
 	}
 
@@ -75,9 +79,9 @@ public class IsaTabIdReplacer
 	 */
 	public static void main( String[] args ) throws Exception{
 		
-		//Check the arguments. 1 is needed.
-		if (args.length != 1){
-			System.out.println("1 argument is required: 1st IsaFolder");
+		//Check the arguments. 2 is needed.
+		if (args.length != 2){
+			System.out.println("2 argument is required: 1st IsaFolder, 2dn Submission Date");
 			return;
 		}
 		
@@ -86,6 +90,7 @@ public class IsaTabIdReplacer
 		
 		//Set the IsaTabArchive
 		itr.setIsaTabFolder(args[0]);
+		itr.setSubmissionDate(args[1]);
 		
 		//Run it
 		itr.Execute();
@@ -351,12 +356,10 @@ private String replacePubRelDateInLine(String line){
 	      //If the value is present in line, in the first position.
 	      if (line.indexOf(pubDateStr)==0){   
 	    	  
-	    	  String newLine = "Study Public Release Date";
-	    	  
 	    	  logger.info("Study Public Release Date found in line " + line);
 	    	 
 	    	  //Compose the line:Study Public Release Date	"10/03/2009"
-	    	  newLine = newLine + "\t\"" + getPublicDate() + "\"";
+	    	  String newLine = pubDateStr + "\t\"" + getPublicDate() + "\"";
 	    		  
 	    	  return newLine;
 	    	  
@@ -371,12 +374,11 @@ private String replaceSubmitDateInLine(String line){
     //If the value is present in line, in the first position.
     if (line.indexOf(subDateStr)==0){   
   	  
-  	  String newLine = "Study Submission Date";
   	  
   	  logger.info("Study Submission Date found in line " + line);
   	 
   	  //Compose the line:Study Submission Date	"30/04/2007"
-  	  newLine = newLine + "\t\"" + getSubmissionDate() + "\"";
+  	  String newLine = subDateStr + "\t\"" + getSubmissionDate() + "\"";
   		  
   	  return newLine;
   	  

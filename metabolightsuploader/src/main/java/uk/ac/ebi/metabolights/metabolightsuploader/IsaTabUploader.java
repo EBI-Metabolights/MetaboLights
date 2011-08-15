@@ -2,16 +2,20 @@ package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import org.isatools.isatab.gui_invokers.GUIInvokerResult;
 import org.isatools.isatab.manager.SimpleManager;
 
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
+import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
 
@@ -25,60 +29,73 @@ public class IsaTabUploader {
 	private IsaTabIdReplacer itir = new IsaTabIdReplacer();
 	private String owner = "";
 	private VisibilityStatus status = VisibilityStatus.PUBLIC;
-	private String configPath;
 	private CheckList cl;
 	private String isaTabArchive;
 	private String unzipFolder;
+	private String copyToPublicFolder;
+	private String copyToPrivateFolder;
+	
+	private SimpleManager sm = new SimpleManager();
 	
 	public IsaTabUploader(){
 	}
-
-	public IsaTabUploader(String isatabfile, String unzipfolder, String owner){
+	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, String copyToPublicFolder, String copyToPrivateFolder){
 		//Set properties
 		this.isaTabArchive = isatabfile;
 		this.unzipFolder= unzipfolder;
+		this.copyToPublicFolder = copyToPublicFolder;
+		this.copyToPrivateFolder = copyToPrivateFolder;
 		this.owner = owner;
 	}
-	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, VisibilityStatus status){
-		this(isatabfile,unzipfolder,owner);
+	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, String copyToPublicFolder, String copyToPrivateFolder, VisibilityStatus status){
+		
+		this(isatabfile,unzipfolder,owner, copyToPublicFolder, copyToPrivateFolder);
 		this.status = status;
+		
 	}
-	
-	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, VisibilityStatus status, String configPath){
-		this(isatabfile,unzipfolder, owner,status);
-		this.configPath = configPath;
-	}
-	
-	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, VisibilityStatus status, String configPath, String publicDate, String submissionDate){
-		this(isatabfile,unzipfolder, owner,status);
-		this.configPath = configPath;
+	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, String copyToPublicFolder, String copyToPrivateFolder, VisibilityStatus status, String configDBPath, String publicDate, String submissionDate){
+		this(isatabfile,unzipfolder, owner, copyToPublicFolder, copyToPrivateFolder, status);
+		this.sm.setDBConfigPath(configDBPath);
 		itir.setPublicDate(publicDate);
 		itir.setSubmissionDate(submissionDate);
+		
 	}
-	
-	//IsaTabFile property
+	// IsaTabFile property
 	public void setIsaTabFile(String isatabfile){this.isaTabArchive =isatabfile;}
 	public String getIsaTabFile(){return this.isaTabArchive;}
 	
-	//UnzipFolder property
-	public void setUnzipFolder(String unzipfolder){
-		this.unzipFolder =unzipfolder;
-	}
+	// UnzipFolder property
+	public void setUnzipFolder(String unzipfolder){	this.unzipFolder =unzipfolder;	}
 	public String getUnzipFolder(){return this.unzipFolder;}
 	
-	//Owner property
+	// CopyTo Public folder property
+	public void setCopyToPublicFolder(String copyToFolder){ this.copyToPublicFolder =copyToFolder;}
+	public String getCopyToPublicFolder(){return this.copyToPublicFolder;}
+	
+	// CopyTo Private folder property
+	public void setCopyToPrivateFolder(String copyToFolder){ this.copyToPrivateFolder =copyToFolder;}
+	public String getCopyToPrivateFolder(){return this.copyToPrivateFolder;}
+
+	// Owner property
 	public void setOwner(String owner){this.owner = owner;}
 	public String getOwner(){return owner;}
 	
-	//Status property
+	// Status property
 	public void setStatus(VisibilityStatus status){this.status = status;}
 	public VisibilityStatus getStatus(){return status;}
 	
-	//Config path property
-	public void setConfigPath(String newConfigPath){this.configPath = newConfigPath;}
-	public String getConfigPath(){return this.configPath;}
+	// Config path property
+	public void setDBConfigPath(String newConfigPath){sm.setDBConfigPath(newConfigPath);}
+	public String getDBConfigPath(){return sm.getDBConfigPath();}
 
-	//CheckList property
+	// Simple manager property
+	public SimpleManager getSimpleManager(){
+		return sm;
+	}
+	
+	
+	
+	// CheckList property
 	public void setCheckList(CheckList newCl){
 		cl= newCl;
 		itir.setCheckList(newCl);
@@ -98,25 +115,34 @@ public class IsaTabUploader {
 	private void Unzip() throws IOException{
 		File isatab = new File (this.isaTabArchive);
 		
-		//If the file is a folder
+		// If the file is a folder
 		if (isatab.isDirectory()) {
 			logger.info( this.isaTabArchive + " is a Folder, no unzip proccess is performed.");
 			
-			//Set unzipfolder
+			// Set unzipfolder
 			this.unzipFolder = this.isaTabArchive;
 			//Update CheckList
 			updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File is a folder. Unzip not done.");
 			
 		}else{
+			
+			// Remove any previous content of the unzip folder.
+			File uf = new File (this.unzipFolder);
+			FileUtil.deleteDir(uf);
+			// Create it again, this time it will be empty..
+			uf.mkdir();
+			
 			logger.info("unziping " + this.isaTabArchive + " to " + this.unzipFolder);
 			Zipper.unzip(this.isaTabArchive,this.unzipFolder);
 
-			//Update CheckList
+			// Update CheckList
 			updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File successfully unzipped.");
 
 		}
 		
 	}
+	
+	
 	/**
 	 * Upload an experiment (Isa Tab zip file) into BII.
 	 * @throws Exception 
@@ -128,12 +154,12 @@ public class IsaTabUploader {
 		//Unzip the file...
 		Unzip();
 		
-		//Create a simple manager with the config path
-		SimpleManager sm = new SimpleManager(configPath);
-	
 		//Validate the file
-		sm.validateISAtab(this.unzipFolder);
+		GUIInvokerResult result = sm.validateISAtab(this.unzipFolder);
 		
+		// If not SUCCESS...
+		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("Validation process before persisting has failed",sm.getLastLog()) ;
+				
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
 		updateCheckList(SubmissionProcessCheckListSeed.CONTENTVALIDATION, "The file has been successfully validated using our configuration.");
@@ -145,25 +171,210 @@ public class IsaTabUploader {
 		itir.Execute();
 			
 		//Load the isatab file
-		sm.loadISATab(this.unzipFolder, owner,status);
+		result = sm.loadISATab(this.unzipFolder, owner,status);
+		
+		// If not SUCCESS...
+		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("File persistance process has failed.",sm.getLastLog()) ;
+		
 		
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
 		updateCheckList(SubmissionProcessCheckListSeed.FILEPERSISTENCE, "The file has been successfully stored in our database.");
 		updateCheckList(SubmissionProcessCheckListSeed.SETPERMISSIONS, "The file has been assigned to " + owner + " and the visibility has been set to " + status);
+
+		//Reindex all the studies...
+		reindexStudies(itir.getIds().values());
 		
+		// Zip the folder using the Study id as a name. (this make sense only it there is only one study, to be done soon).
+		Zip();
 		
 		//Return the new accession numbers
 		return  itir.getIds();
 		
 	}
-	public void validate(String isatabFile) throws Exception{
-		SimpleManager sm = new SimpleManager();
-		sm.validateISAtab(isatabFile);
+	/**
+	 * Zip the folder using the Study id as a name. (this make sense only it there is only one study, to be done soon).
+	 * @throws IOException 
+	 */
+	private void Zip() throws IOException{
+		
+		// Get the Study Id
+		Collection<String> studyCol = itir.getIds().values();
+		
+		// Get the next element (It will return the only one there must be).
+		String study = studyCol.iterator().next();
+		
+		// Get the destination
+		File destination = new File(getStudyFilePath(study, this.status));
+		
+		//If there is already a file....
+		if (destination.exists()){
+			logger.info("Replacing " + destination.getAbsolutePath());
+			destination.delete();
+		}
+		
+		// Zip the folder.
+		Zipper.zip(this.unzipFolder, destination.getAbsolutePath());
+		
+		//Set the status of the file
+		changeFileStatus(destination.getAbsolutePath(), this.status);
+		
 		
 	}
-	public void reindex() throws Exception{
-		SimpleManager sm = new SimpleManager(configPath);
-		sm.reindexDatabase();
+	
+	/**
+	 * The way of making the file public is by letting the "other" read and execute the file.
+	 * @param file
+	 */
+	public void changeFileStatus(String filePath, VisibilityStatus newStatus){
+		
+		// Get the file
+		File file = new File(filePath);
+
+		// Remove permissions to everybody...
+		file.setExecutable(false, false);
+		file.setReadable(false, false);
+
+		//If private, only the owner will be granted
+		Boolean onlyOwner = (newStatus == VisibilityStatus.PRIVATE);
+	
+		//Set them for (owner or all)...
+		file.setExecutable(true, onlyOwner);
+		file.setReadable(true, onlyOwner);
+		
 	}
+	public void changeStudyStatus(VisibilityStatus newStatus, String owner, String study) throws Exception{
+		
+		//Change study status...
+		sm.changeStudyPermissions(newStatus, owner,new String[] {study});
+		
+		// Reindex...
+		reindexStudies(study);
+		
+		// Move the file
+		moveFile (study, getOtherStatus(newStatus));
+		
+		//change the file permissions
+		changeFileStatus(getStudyFilePath(study, newStatus), newStatus);
+		
+	}
+	/**
+	 * Will move the file from the public to the private or viceversa 
+	 * @param study
+	 * @param currentStatus
+	 */
+	public void moveFile(String study, VisibilityStatus currentStatus){
+		
+		// Get the current file location
+		File studyFile = new File(getStudyFilePath(study, currentStatus));
+		
+		//Move it to the other location
+		studyFile.renameTo(new File (getStudyFilePath(study,getOtherStatus(currentStatus))));
+		
+	}
+	public VisibilityStatus getOtherStatus(VisibilityStatus status){
+		return (status == VisibilityStatus.PRIVATE)? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE;
+	}
+	
+	public String getStudyFilePath(String study, VisibilityStatus status) {
+		
+		String folder = (status == VisibilityStatus.PRIVATE)? copyToPrivateFolder: copyToPublicFolder;
+		return folder + study + ".zip";
+	}
+	public void validate(String isatabFile) throws IsaTabException{
+		GUIInvokerResult result;
+		
+		
+		logger.info("Validating " + isatabFile);
+		result = sm.validateISAtab(isatabFile);
+		
+		// If not SUCCESS...
+		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("Validation process while uploading failed",sm.getLastLog()) ;
+		
+		
+	}
+	public void reindex() throws IsaTabException{
+		
+		GUIInvokerResult result;
+		
+		logger.info("Reindexing the whole databse");
+		result = sm.reindexDatabase();
+		
+		// If not SUCCESS...
+		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("Reindex of the whole database has failed",sm.getLastLog()) ;
+		
+	}
+	/**
+	 * 
+	 * @param studiesList: String with accessions separated by "|" (pipes).
+	 * @throws Exception
+	 */
+	
+	public void reindexStudies(String studiesList) throws IsaTabException{
+		
+		GUIInvokerResult result;
+		
+		logger.info("Reindexing studies: " + studiesList);
+		
+		result = sm.reindexStudies(studiesList);
+		
+		// If not SUCCESS...
+		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("Reindex of " + studiesList + " has failed",sm.getLastLog()) ;
+		
+	}
+	public void reindexStudies(Collection<String> studies) throws IsaTabException{
+		String studiesS=""; 
+		// Reindex all the studies...there must be only one
+		for (String study: studies){
+			studiesS = studiesS + study + "|";
+		}
+		
+		reindexStudies(studiesS);
+		
+	}
+	/**
+	 * 
+	 * @param studiesList: String with accessions separated by "|" (pipes).
+	 * @throws IsaTabException 
+	 * @throws Exception
+	 */
+	public void unloadISATabFile(String studyList) throws IsaTabException{
+		
+		GUIInvokerResult result = sm.unLoadISATab(studyList);
+		
+		if (result != GUIInvokerResult.SUCCESS){
+			
+			throw new IsaTabException("Unload of " + studyList + " hasn't succeded.", sm.getLastLog());
+			
+		}
+		
+		//Get the list
+		// TODO: what if there is an error and some has been removed and others not...this step below should be done for each study inside Simple manager
+		// or establish a communication channel (observer, events....) to know when a study has been deleted.
+		// In case of only unloading one study this should be fine.
+		Set<String> studies = sm.Study2Set(studyList);
+	
+		// Go through the list of studies
+		for (String study:studies){
+		
+			// Get the file
+			// TODO: Is it public or is it private.... try to remove from both locations ;-( 
+			File studyfile = new File (getStudyFilePath(study, VisibilityStatus.PRIVATE));
+			
+			// Remove it if it is there...
+			if (studyfile.exists()) { studyfile.delete();}
+			
+			// Remove it if it is there...
+			studyfile = new File (getStudyFilePath(study, VisibilityStatus.PUBLIC));
+			
+			if (studyfile.exists()) { studyfile.delete();}
+			
+			
+		}
+		
+		
+		
+		
+	}
+	
 }
