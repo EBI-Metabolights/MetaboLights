@@ -124,7 +124,7 @@ public class BIISubmissionController extends AbstractController {
 	
 		//Upload the file to bii
 		IsaTabUploader itu = new IsaTabUploader();
-		itu.setConfigPath(configPath);
+		itu.setDBConfigPath(configPath);
 		itu.reindex();
 		
 		return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.indexed"));
@@ -196,7 +196,8 @@ public class BIISubmissionController extends AbstractController {
 		String submissionDate = formatter.format(currentDate.getTime());
 	
 		//Upload the file to bii
-		IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), status, configPath, publicDate, submissionDate);
+		//IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), status, configPath, publicDate, submissionDate);
+		IsaTabUploader itu = new IsaTabUploader();
 
 		//Set the CheckList to get feedback
 		itu.setCheckList(cl);
