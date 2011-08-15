@@ -131,6 +131,10 @@ public class BIISubmissionController extends AbstractController {
 			
 	}
 	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
+	private @Value("#{appProperties.publicFtpLocation}") String publicFtpLocation;
+	private @Value("#{appProperties.privateFtpLocation}") String privateFtpLocation;
+	
+	
 	/**
 	 * Writes a user upload file to designated target directory.
 	 * 
@@ -196,9 +200,8 @@ public class BIISubmissionController extends AbstractController {
 		String submissionDate = formatter.format(currentDate.getTime());
 	
 		//Upload the file to bii
-		//IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), status, configPath, publicDate, submissionDate);
-		IsaTabUploader itu = new IsaTabUploader();
-
+		IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), publicFtpLocation, privateFtpLocation, status, configPath, publicDate, submissionDate);
+		
 		//Set the CheckList to get feedback
 		itu.setCheckList(cl);
 		
