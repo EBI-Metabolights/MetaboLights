@@ -60,26 +60,6 @@ a {
     border:0px;
 	padding:0px;
 }
-#top_bar #navigation {
-	list-style: none;
-	float: right;
-	font-size: 13px;
-	font-weight: bold;
-    color: #004242;
-	
-}
-#top_bar #navigation a {
-	color: #004242;
-	text-decoration: none;
-}
-#top_bar #navigation li {
-	display: inline;
-	vertical-align: baseline;
-	padding-left: 8px;
-}
-#top_bar #navigation li.selected a,#top_bar #navigation li a:hover {
-	color: #2DB3B3;
-}
 
 /* Style for the search box in the header */
 #search-box input {
@@ -300,6 +280,59 @@ a {
 	font-weight:bold;
 	padding:3px;
  }
+
+/* sddm: simple drop down menu
+   CSS from in http://javascript-array.com/scripts/simple_drop_down_menu/
+ */
+
+#sddm
+{	margin: 0;
+	padding: 0;
+	z-index: 30;
+}
+#sddm li
+{	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: left;
+	font-weight: bold;
+	float: right;
+}
+#sddm li a
+{	display: block;
+	margin: 0 1px 0 0;
+	padding: 4px;
+    color: #004242;
+	text-align: center;
+	text-decoration: none;
+}
+#sddm li a:hover
+{/*background: #49A3FF*/
+   color: #feba12;
+}
+#sddm div
+{	position: absolute;
+	visibility: hidden;
+	margin: 0;
+	padding: 0;
+	border: 1px solid 006666}
+#sddm div a
+{	position: relative;
+	display: block;
+	margin: 0;
+	padding: 5px 10px;
+	width: auto;
+	white-space: nowrap;
+	text-align: left;
+	text-decoration: none;
+	background: #eef5f5;
+	font-size: 11px;
+	font-weight:normal;
+}
+#sddm div a:hover
+{	background: #bdd7d7;
+    color: #004242;
+}
 
 
 /*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/
