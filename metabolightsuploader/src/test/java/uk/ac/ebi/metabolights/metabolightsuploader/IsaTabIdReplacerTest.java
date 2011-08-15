@@ -207,8 +207,11 @@ public class IsaTabIdReplacerTest {
 //		String inputfile;
 //		String outputfile;
 		
-		//Configure IsaTabIdReplacer
+		// Configure IsaTabIdReplacer
 		IsaTabIdReplacer itr = new IsaTabIdReplacer(FOLDER_ISATAB1_OUT);
+		
+		// Set the date properties
+		itr.setPublicDate("2011-02-02");
 		
 		try {
 			

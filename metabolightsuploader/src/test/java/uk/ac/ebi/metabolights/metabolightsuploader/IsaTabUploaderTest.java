@@ -1,27 +1,74 @@
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import junit.framework.Assert;
 
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.security.User;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
+import uk.ac.ebi.metabolights.utils.FileUtil;
 
 public class IsaTabUploaderTest {
+
+	private static final String ISA_TAB_CONFIG_FOLDER = "config/";
+
+	static final String FOLDER_TEST_COPYTO_PUBLIC = "./src/test/resources/copyTo/public/";
+	static final String FOLDER_TEST_COPYTO_PRIVATE = "./src/test/resources/copyTo/private/";
+
+	
+	static String lastStudyUploaded;
+	static String userName;
+	
+	@BeforeClass
+	public static void prepareTests(){
+		
+		//Clean Public
+		File out = new File(IsaTabUploaderTest.FOLDER_TEST_COPYTO_PUBLIC);
+		FileUtil.deleteDir(out);
+		out.mkdir();
+		
+		//Clean Private
+		out = new File(IsaTabUploaderTest.FOLDER_TEST_COPYTO_PRIVATE);
+		FileUtil.deleteDir(out);
+		out.mkdir();
+		
+		
+	}
+	
+	
 	@Test
 	public void testSetters() {
+		
 		IsaTabUploader itu = new IsaTabUploader();
 
 		itu.setIsaTabFile("foo");
@@ -32,32 +79,138 @@ public class IsaTabUploaderTest {
 
 		itu.setOwner("owner");
 		assertEquals("owner", itu.getOwner());
-
-
+		
+		itu.setCopyToPublicFolder("public/");
+		assertEquals("public/", itu.getCopyToPublicFolder());
+		
+		itu.setCopyToPrivateFolder("private/");
+		assertEquals("private/", itu.getCopyToPrivateFolder());
+		
+		
+		
+		//Default status id PUBLIC
+		assertEquals(VisibilityStatus.PUBLIC, itu.getStatus());
+		
+		//Test getStudyFilePath...
+		assertEquals("public/MYSTUDY.zip" , itu.getStudyFilePath("MYSTUDY", VisibilityStatus.PUBLIC));
+		
+		// Change status to private now
+		itu.setStatus(VisibilityStatus.PRIVATE);
+		assertEquals(VisibilityStatus.PRIVATE, itu.getStatus());
+		
+		//Test getStudyFilePath...
+		assertEquals("private/MYSTUDY.zip" , itu.getStudyFilePath("MYSTUDY", VisibilityStatus.PRIVATE));
+		
+		//As this path does not exists the library goes for the default one
+		itu.setDBConfigPath("configPath");
+		assertEquals(new File("config").getAbsoluteFile() + "/", itu.getDBConfigPath());
+		
+		//Test getOtherStatus...
+		assertTrue("Test getOtherStatus with PUBLIC", itu.getOtherStatus(VisibilityStatus.PUBLIC)==VisibilityStatus.PRIVATE);
+		assertTrue("Test getOtherStatus with PRIVATE", itu.getOtherStatus(VisibilityStatus.PRIVATE)==VisibilityStatus.PUBLIC);
+		
+			
 	}
 
 	@Test
 	public void testConstructor(){
-		IsaTabUploader itu = new IsaTabUploader("foo","moo", "loo");
+		IsaTabUploader itu = new IsaTabUploader("foo","moo", "loo", "PUBLIC", "PRIVATE", VisibilityStatus.PRIVATE,"src", "2011-02-02", "2011-01-01");
 
-		//Test getters.
+		// Test getters.
 		assertEquals("foo", itu.getIsaTabFile());
 		assertEquals("moo",itu.getUnzipFolder());
 		assertEquals("loo",itu.getOwner());
-
+		assertEquals("PUBLIC", itu.getCopyToPublicFolder());
+		assertEquals("PRIVATE", itu.getCopyToPrivateFolder());
+		assertEquals(VisibilityStatus.PRIVATE, itu.getStatus());
+		assertEquals("src", itu.getDBConfigPath());
+		
 	}
+	@Test
+	public void testChangeStatus() throws IOException{
+		
+		// Instantiate the uploader
+		IsaTabUploader itu = new IsaTabUploader();
+	
+		// Lets test if it uses the Status member (by default= PUBLIC)
+		// Create a file
+		File statusfile = new File (FOLDER_TEST_COPYTO_PUBLIC + "status.txt");
+		
+		// Creates a file (it shouldn't be there)
+		statusfile.createNewFile();
+		
+		// Remove executable permissions to all
+		statusfile.setExecutable(false, false);
+		// Now, allow executable only to owner
+		statusfile.setExecutable(true, true);
+		
+		// Remove readable permissions to all
+		statusfile.setReadable(false, false);
+		// Now, allow readable only to owner
+		statusfile.setReadable(true, true);
+
+		// Call the test method
+		itu.changeFileStatus(statusfile.getAbsolutePath(),VisibilityStatus.PUBLIC);
+		
+		//Check the initial status is public
+		testFilePermissions(statusfile.getAbsolutePath(), VisibilityStatus.PUBLIC);
+			
+		// Change status again, this time to private (-rwx------)
+		itu.changeFileStatus(statusfile.getAbsolutePath(), VisibilityStatus.PRIVATE);
+
+		//Get the permissions: Unix style!! This will not work on windows if CYGWIN not present.
+		testFilePermissions(statusfile.getAbsolutePath(), VisibilityStatus.PRIVATE) ;
+		
+	}
+
+
+	private void testFilePermissions(String file, VisibilityStatus status) throws IOException {
+		
+		// Get the permissions: Unix style!! This will not work on windows if CYGWIN not present.
+		String permissions = getFilePesmissions(file);
+		
+		// Select the mask attending to the status
+		String mask = (status == VisibilityStatus.PRIVATE)? "rwx------":"rwxr-xr-x";
+		
+		// Check
+		assertEquals("Testing mask of " + file , mask, permissions);
+	}
+	
+	private String getFilePesmissions(String file) throws IOException{
+		
+        String s = null;
+              
+    	// run the Unix "ls -l" command
+        // using the Runtime exec method:
+        Process p = Runtime.getRuntime().exec("ls -l " + file);
+        
+        //Set the readers for the output and error
+        BufferedReader stdInput = new BufferedReader(new 
+             InputStreamReader(p.getInputStream()));
+
+        // read the output from the command, we expect a  file so only one line will be returned
+        s = stdInput.readLine();
+        
+        //Parse the output...
+        s = s.substring(1, 10);
+        
+        return s;
+		
+	}
+	
 	@Test
 	public void testValidationOfValidISAFile(){
 
-		//This file passes the validation 
-		//TODO(watch up, others shipped with ISA Creator like BII-S-1 also passes it!!!)...study this behavior
+		//  This file passes the validation 
+		// TODO(watch up, others shipped with ISA Creator like BII-S-1 also passes it!!!)...study this behavior
 		final String ISA_ARCHIVE_FOLDER = "src/test/resources/inputfiles/ISACREATOR1.4_archive_FAST_valid/";
 
 		IsaTabUploader itu = new IsaTabUploader();
+		itu.setDBConfigPath(ISA_TAB_CONFIG_FOLDER);
 		try {
 			itu.validate(ISA_ARCHIVE_FOLDER);
-		}catch (Exception e){
-			fail ("validate method raised and error: " + e.getMessage());
+		}catch (IsaTabException e){
+			fail ("validate method raised an error: " + e.getMessage());
 		}
 	}
 	@Test
@@ -66,9 +219,9 @@ public class IsaTabUploaderTest {
 		IsaTabUploader itu = new IsaTabUploader();
 		try {
 			itu.validate("src/test/resources/inputfiles/foo/");
-			fail ("validate did not raised and error and it should do it with a wrong ISA TAB file");
+			fail ("validate did not raised an error and it should do it with a wrong ISA TAB file");
 		}catch (Exception e){
-			//Expected...
+			// Expected...
 		}
 	}
 	@Test
@@ -78,7 +231,7 @@ public class IsaTabUploaderTest {
 		try {
 			//This should not validate
 			itu.validate("src/test/resources/inputfiles/ISACREATOR1.4_archive_FAST_invalid/");
-			fail ("validate did not raised and error and it should do it with a wrong ISA TAB file");
+			fail ("validate did not raised an error and it should do it with a wrong ISA TAB file");
 		}catch (Exception e){
 			//Expected...
 		}
@@ -102,96 +255,234 @@ public class IsaTabUploaderTest {
 	 */
 	@Test
 	public void testUpload() {
-
+		//final String ISA_ARCHIVE = "src/test/resources/inputfiles/RS_T2DM_GSK.zip";
+		//final String UNZIP_FOLDER = "src/test/resources/outputfiles/testUpload/";
 		
-		//Hibernate init
+		// Hibernate init
 		SessionFactory fac = new AnnotationConfiguration().configure().buildSessionFactory();
     	Session session = fac.openSession();
-		session.beginTransaction();
+		Transaction t = session.beginTransaction();
 
-		//Find a username
-		String userName="UNSET";
+		// Find a username
+		userName="UNSET";
 		Query q = session.createQuery("FROM User");
 		List<User> users = (List<User>) q.list();
 		if(users.size()!=0) {
 			userName = users.get(0).getUserName();
 		}
+		// Otherwise, later, when querying the database we will get a null study.
+		t.rollback();
+	
 		
 		//Upload
 		String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 		final String ISA_ARCHIVE = path+"inputfiles/zuker.zip";
 
 		//Clean out unzip folder first, otherwise we get unpredictable results
-		final String UNZIP_FOLDER =path+"outputfiles/";
+		final String UNZIP_FOLDER =path+"outputfiles/zuker/";
 		File folder = new File(UNZIP_FOLDER);
-		File[] listOfFiles = folder.listFiles();
-	    for (int i = 0; i < listOfFiles.length; i++) {
-	      if (listOfFiles[i].isFile()) {
-	    	  listOfFiles[i].delete();
-	      } else if (listOfFiles[i].isDirectory()) {
-	    	  deleteDirectory(listOfFiles[i]);
-	      }
-	    }
-	    
-		IsaTabUploader itu = new IsaTabUploader(ISA_ARCHIVE, UNZIP_FOLDER, "MrJunit", VisibilityStatus.PUBLIC,"config/"); 
+		FileUtil.deleteDir(folder);
+		
+		// Instantiate with parameters
+		IsaTabUploader itu = new IsaTabUploader(ISA_ARCHIVE, UNZIP_FOLDER, userName, FOLDER_TEST_COPYTO_PUBLIC , FOLDER_TEST_COPYTO_PRIVATE, VisibilityStatus.PUBLIC,ISA_TAB_CONFIG_FOLDER, "2011-02-02", "2011-01-01"); 
 		HashMap<String,String> ids=null;
 
 		try{
-			//Load file...
-			ids = itu.Upload();
+
+			// Test that the uploads deletes all files in the unzip folder before extracting
+			// Create a foo file before uploading...
+			
+			File unzipFolder = new File(UNZIP_FOLDER);
+			
+			// If is not created...
+			if (!unzipFolder.exists())	unzipFolder.mkdir();
+			
+			File foo = new File(UNZIP_FOLDER + "supercalifrajilisticoespialidoso.txt");
+			foo.createNewFile();
+
+			// TODO: create a zip file in the copyto folder to check if it is removed
+			// In this case we need to create this before calling upload an know beforehand
+			// which accession are we going to obtain.
+		
+			// Load file...
+ 			ids = itu.Upload();
+		
+			// If there is no error we assume every thing went well
+			assertTrue("testUpload successful", true);
 			
 			assertEquals("Study id's assigned ", 1,ids.size());
 
-			String iD="UNSET";
 			for (String key : ids.keySet() ) {
 				assertEquals("Original ID ", "I00649",key);
-				iD=ids.get(key);
+				lastStudyUploaded =ids.get(key);
 			}
-
+			
+			//Get the session again, it will reflect the new changes...
+			t = session.beginTransaction();
+			
 			//Now test database for upload results using the newly assigned accession
 			q = session.createQuery("FROM Study WHERE acc = :acc");
-			q.setParameter("acc",iD);
+			q.setString("acc",lastStudyUploaded);
 			
   		    Study study = (Study) q.uniqueResult();
 			Assert.assertEquals("Title", "Zuker rat urine NMR study", study.getTitle());
 			Assert.assertEquals("Description", "Zuker rat urine study by NMR", study.getDescription());
 			for (User owner : study.getUsers()) {
-				Assert.assertEquals("Owner", userName, owner);
+				Assert.assertEquals("Owner", userName, owner.getUserName());
 			}
 
+			t.rollback();
+			
+			// Check foo file has been removed...
+			assertTrue("Clear unzip folder before extraction", foo.exists()==false);
+			
+			//Check there is a zip file in the copyToFolder with the correct name
+			// Get the Study Id
+			Collection<String> studyCol = ids.values();
+			
+			// Get the next element (It will return the only one there must be).
+			lastStudyUploaded = studyCol.iterator().next();
+			
+			//Get the expected zip destination
+			String outputzip = itu.getStudyFilePath(lastStudyUploaded, itu.getStatus());
+			
+			//Check if it is there
+			assertTrue("Check if hte new zip file has been created and copy to the right folder", new File(outputzip).exists());
+
+			
 		}catch (Exception e){
-			e.printStackTrace();
 			fail("testupload threw an exception: " + e.getMessage());
 		}
 	}
-	
+
 	/**
-	 * Used for removal of unzip folder content
+	 * This needs to be tested after testUpload, where lastStudyUploaded is set with a valid study.
+	 * So initially we have lastStudyUploaded and public.
+	 * @throws Exception 
 	 */
-	private boolean deleteDirectory(File path) {
-		if( path.exists() ) {
-			File[] files = path.listFiles();
-			for(int i=0; i<files.length; i++) {
-				if(files[i].isDirectory()) {
-					deleteDirectory(files[i]);
-				}
-				else {
-					files[i].delete();
-				}
-			}
-		}
-		return( path.delete() );
+	@Test
+	public void testChangeStudyStatus() throws Exception{
+		
+		// Configure IsaTabUploader
+		IsaTabUploader itu = new IsaTabUploader();
+		itu.setCopyToPublicFolder(FOLDER_TEST_COPYTO_PUBLIC);
+		itu.setCopyToPrivateFolder(FOLDER_TEST_COPYTO_PRIVATE);
+		itu.setDBConfigPath(ISA_TAB_CONFIG_FOLDER);
+		itu.setOwner(userName);
+		
+		// Get the lucene index document for the last study uploaded
+		Document studyInLucene = getLuceneStudyDocument(lastStudyUploaded);
+		
+		// Get the stud	y file path (.zip)
+		String publicStudyFilePath = itu.getStudyFilePath(lastStudyUploaded, VisibilityStatus.PUBLIC);
+
+		// Check that it is public
+		assertEquals("Study " + lastStudyUploaded + " shuld be initially public.", "PUBLIC", studyInLucene.getValues("status")[0]);
+
+		//Check the status of the file
+		testFilePermissions(publicStudyFilePath, VisibilityStatus.PUBLIC);
+		
+		// Change status, from PUBLIC to PRIVATE.
+		itu.changeStudyStatus(VisibilityStatus.PRIVATE, null, lastStudyUploaded);
+
+		// Get the lucene index document AGAIN for the last study uploaded
+		studyInLucene = getLuceneStudyDocument(lastStudyUploaded);
+		
+		// Check that it is public
+		assertEquals("Study " + lastStudyUploaded + " shuld be now PRIVATE.", "PRIVATE", studyInLucene.getValues("status")[0]);
+		
+		//Check the status and location of the file
+		String privateStudyFilePath = itu.getStudyFilePath(lastStudyUploaded,VisibilityStatus.PRIVATE);
+		testFilePermissions(privateStudyFilePath, VisibilityStatus.PRIVATE);
+		
+		//Test if the public file has been removed from the public folder
+		assertTrue("Zip file (" + publicStudyFilePath + ") must have been removed from the public folder", (new File(publicStudyFilePath).exists()== false));
+		
+		// Change status, from PRIVATE to PUBLIC.
+		itu.changeStudyStatus(VisibilityStatus.PUBLIC, null, lastStudyUploaded);
+		
+
+		// Get the lucene index document AGAIN for the last study uploaded
+		studyInLucene = getLuceneStudyDocument(lastStudyUploaded);
+		
+		// Check that it is public
+		assertEquals("Study " + lastStudyUploaded + " shuld be now PUBLIC.", "PUBLIC", studyInLucene.getValues("status")[0]);
+		
+		//Check the status of the file
+		testFilePermissions(publicStudyFilePath, VisibilityStatus.PUBLIC);
+		
+		//Test if the private file has been removed from the private folder
+		assertTrue("Zip file (" + privateStudyFilePath + ") must have been removed from the private folder", (new File(privateStudyFilePath).exists()== false));
+		
 	}
+	/**
+	 * This needs to be tested after testUpload, where lastStudyUploaded is set with a valid study.
+	 * So initially we have lastStudyUploaded and public.
+	 * @throws IsaTabException 
+	 */
+	@Test
+	public void testRemoveStudy() throws IsaTabException{
+	
+		// Configure IsaTabUploader
+		IsaTabUploader itu = new IsaTabUploader();
+		itu.setCopyToPublicFolder(FOLDER_TEST_COPYTO_PUBLIC);
+		itu.setCopyToPrivateFolder(FOLDER_TEST_COPYTO_PRIVATE);
+		itu.setDBConfigPath(ISA_TAB_CONFIG_FOLDER);
+		itu.setOwner(userName);
+				
+		// Unload the previous uploaded study...
+		itu.unloadISATabFile(lastStudyUploaded);
+		
+		String path = itu.getStudyFilePath(lastStudyUploaded, VisibilityStatus.PUBLIC);
+		// This should have removed the file from the filesytem
+		//Test if the private file has been removed from the private folder
+		assertTrue("Zip file (" + path + ") must have been removed after the unload process.", (new File(path).exists()== false));
+		
+				
+	}
+	
+	private String IsaTabLogToString(List<TabLoggingEventWrapper> log){
+		
+		String result="";
+		
+		// For each line in the log
+		for (TabLoggingEventWrapper line: log){
+			
+			result = result + line.getFormattedMessage() + "\n";
+		}
+		
+		return result;
+	}
+	@SuppressWarnings("deprecation")
+	private Document getLuceneStudyDocument(String study) throws ParseException, IOException{
+	
+		Properties isaTabProps = new Properties();
+		isaTabProps.load(new FileInputStream(ISA_TAB_CONFIG_FOLDER + "hibernate.properties"));
+		
+		//Get the path for the index + bii
+		String luceneDirectory = isaTabProps.getProperty("hibernate.search.default.indexBase");
+		
+        Directory directory = FSDirectory.getDirectory(luceneDirectory + "/bii",false);
+        
+        IndexSearcher searcher = new IndexSearcher(directory);
+        
+        org.apache.lucene.search.Query query = new TermQuery(new Term("acc", study));   
+        TopDocs rs = searcher.search(query, null, 10);
 
-
+        Document firstHit = searcher.doc(rs.scoreDocs[0].doc);
+        
+        return firstHit;
+		
+	}
+	
 	@Test
 	public void testReindex() {
 		IsaTabUploader itu = new IsaTabUploader();
-		//Set the config path
-		itu.setConfigPath("config/");
+		// Set the config path
+		itu.setDBConfigPath(ISA_TAB_CONFIG_FOLDER);
 
 		try{
-			//Reindex the database...
+			// Reindex the database...
 			itu.reindex();
 		}catch(Exception e){
 
