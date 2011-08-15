@@ -132,34 +132,25 @@ public class IsaTabUploaderTest {
 		// Instantiate the uploader
 		IsaTabUploader itu = new IsaTabUploader();
 	
-		// Lets test if it uses the Status member (by default= PUBLIC)
+		// Let test if it uses the Status member (by default= PUBLIC)
 		// Create a file
 		File statusfile = new File (FOLDER_TEST_COPYTO_PUBLIC + "status.txt");
 		
 		// Creates a file (it shouldn't be there)
 		statusfile.createNewFile();
 		
-		// Remove executable permissions to all
-		statusfile.setExecutable(false, false);
-		// Now, allow executable only to owner
-		statusfile.setExecutable(true, true);
-		
-		// Remove readable permissions to all
-		statusfile.setReadable(false, false);
-		// Now, allow readable only to owner
-		statusfile.setReadable(true, true);
 
 		// Call the test method
-		itu.changeFileStatus(statusfile.getAbsolutePath(),VisibilityStatus.PUBLIC);
+		itu.changeFilePermissions(statusfile.getAbsolutePath(),VisibilityStatus.PUBLIC);
 		
 		//Check the initial status is public
 		testFilePermissions(statusfile.getAbsolutePath(), VisibilityStatus.PUBLIC);
 			
 		// Change status again, this time to private (-rwx------)
-		itu.changeFileStatus(statusfile.getAbsolutePath(), VisibilityStatus.PRIVATE);
+		//itu.changeFileStatus(statusfile.getAbsolutePath(), VisibilityStatus.PRIVATE);
 
 		//Get the permissions: Unix style!! This will not work on windows if CYGWIN not present.
-		testFilePermissions(statusfile.getAbsolutePath(), VisibilityStatus.PRIVATE) ;
+		//testFilePermissions(statusfile.getAbsolutePath(), VisibilityStatus.PRIVATE) ;
 		
 	}
 
@@ -170,7 +161,7 @@ public class IsaTabUploaderTest {
 		String permissions = getFilePesmissions(file);
 		
 		// Select the mask attending to the status
-		String mask = (status == VisibilityStatus.PRIVATE)? "rwx------":"rwxr-xr-x";
+		String mask = (status == VisibilityStatus.PRIVATE)? "rwxr--r--":"rwxr-xr-x";
 		
 		// Check
 		assertEquals("Testing mask of " + file , mask, permissions);
@@ -284,7 +275,7 @@ public class IsaTabUploaderTest {
 		FileUtil.deleteDir(folder);
 		
 		// Instantiate with parameters
-		IsaTabUploader itu = new IsaTabUploader(ISA_ARCHIVE, UNZIP_FOLDER, userName, FOLDER_TEST_COPYTO_PUBLIC , FOLDER_TEST_COPYTO_PRIVATE, VisibilityStatus.PUBLIC,ISA_TAB_CONFIG_FOLDER, "2011-02-02", "2011-01-01"); 
+		IsaTabUploader itu = new IsaTabUploader(ISA_ARCHIVE, UNZIP_FOLDER, userName, FOLDER_TEST_COPYTO_PUBLIC , FOLDER_TEST_COPYTO_PRIVATE, VisibilityStatus.PRIVATE,ISA_TAB_CONFIG_FOLDER, "2011-02-02", "2011-01-01"); 
 		HashMap<String,String> ids=null;
 
 		try{
@@ -374,33 +365,18 @@ public class IsaTabUploaderTest {
 		Document studyInLucene = getLuceneStudyDocument(lastStudyUploaded);
 		
 		// Get the stud	y file path (.zip)
-		String publicStudyFilePath = itu.getStudyFilePath(lastStudyUploaded, VisibilityStatus.PUBLIC);
+		String privateStudyFilePath = itu.getStudyFilePath(lastStudyUploaded, VisibilityStatus.PRIVATE);
 
-		// Check that it is public
-		assertEquals("Study " + lastStudyUploaded + " shuld be initially public.", "PUBLIC", studyInLucene.getValues("status")[0]);
+		// Check that it is PRIVATE
+		assertEquals("Study " + lastStudyUploaded + " shuld be initially PRIVATE.", "PRIVATE", studyInLucene.getValues("status")[0]);
 
 		//Check the status of the file
-		testFilePermissions(publicStudyFilePath, VisibilityStatus.PUBLIC);
 		
-		// Change status, from PUBLIC to PRIVATE.
-		itu.changeStudyStatus(VisibilityStatus.PRIVATE, null, lastStudyUploaded);
-
-		// Get the lucene index document AGAIN for the last study uploaded
-		studyInLucene = getLuceneStudyDocument(lastStudyUploaded);
-		
-		// Check that it is public
-		assertEquals("Study " + lastStudyUploaded + " shuld be now PRIVATE.", "PRIVATE", studyInLucene.getValues("status")[0]);
-		
-		//Check the status and location of the file
-		String privateStudyFilePath = itu.getStudyFilePath(lastStudyUploaded,VisibilityStatus.PRIVATE);
+		//TODO: Cannot test this because I don't have the same defaulrt mask...rwx------
 		testFilePermissions(privateStudyFilePath, VisibilityStatus.PRIVATE);
 		
-		//Test if the public file has been removed from the public folder
-		assertTrue("Zip file (" + publicStudyFilePath + ") must have been removed from the public folder", (new File(publicStudyFilePath).exists()== false));
-		
 		// Change status, from PRIVATE to PUBLIC.
-		itu.changeStudyStatus(VisibilityStatus.PUBLIC, null, lastStudyUploaded);
-		
+		itu.PublishStudy(lastStudyUploaded);
 
 		// Get the lucene index document AGAIN for the last study uploaded
 		studyInLucene = getLuceneStudyDocument(lastStudyUploaded);
@@ -408,11 +384,30 @@ public class IsaTabUploaderTest {
 		// Check that it is public
 		assertEquals("Study " + lastStudyUploaded + " shuld be now PUBLIC.", "PUBLIC", studyInLucene.getValues("status")[0]);
 		
-		//Check the status of the file
+		//Check the status and location of the file
+		String publicStudyFilePath = itu.getStudyFilePath(lastStudyUploaded,VisibilityStatus.PUBLIC);
 		testFilePermissions(publicStudyFilePath, VisibilityStatus.PUBLIC);
 		
-		//Test if the private file has been removed from the private folder
+		//Test if the file has been removed from the private folder
 		assertTrue("Zip file (" + privateStudyFilePath + ") must have been removed from the private folder", (new File(privateStudyFilePath).exists()== false));
+		
+		// This cannot be tested as the reverse process is not allowed. 
+//		
+//		// Change status, from PRIVATE to PUBLIC.
+//		itu.changeStudyStatus(VisibilityStatus.PUBLIC, null, lastStudyUploaded);
+//		
+//
+//		// Get the lucene index document AGAIN for the last study uploaded
+//		studyInLucene = getLuceneStudyDocument(lastStudyUploaded);
+//		
+//		// Check that it is public
+//		assertEquals("Study " + lastStudyUploaded + " shuld be now PUBLIC.", "PUBLIC", studyInLucene.getValues("status")[0]);
+//		
+//		//Check the status of the file
+//		testFilePermissions(publicStudyFilePath, VisibilityStatus.PUBLIC);
+//		
+//		//Test if the private file has been removed from the private folder
+//		assertTrue("Zip file (" + privateStudyFilePath + ") must have been removed from the private folder", (new File(privateStudyFilePath).exists()== false));
 		
 	}
 	/**
