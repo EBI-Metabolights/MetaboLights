@@ -42,8 +42,16 @@ public class IsaTabIdReplacerTest {
 	//Constants for IsaTabBII1 test
 	static final String FOLDER_ISATABBII1 = FOLDER_TEST_IN + "BII-I-1/";
 	static final String FILE_ISATABBII1 = FOLDER_TEST_IN + "BII-I-1.zip";
-	
+
 	static final String FOLDER_ISATABBII1_OUT = FOLDER_TEST_OUT + "BII-I-1/";
+
+	
+	//Constants for RS_T2DM_GSK test
+	static final String FOLDER_ISATAB_RS_T2DM_GSK = FOLDER_TEST_IN + "RS_T2DM_GSK/";
+	static final String FILE_ISATAB_RS_T2DM_GSK = FOLDER_TEST_IN + "RS_T2DM_GSK.zip";
+	
+	static final String FOLDER_ISATAB_RS_T2DM_GSK_OUT = FOLDER_TEST_OUT + "RS_T2DM_GSK/";
+
 	
 	//Constants for fake test
 	static final String FOLDER_FAKE = FOLDER_TEST_IN + "fake/";
@@ -63,6 +71,8 @@ public class IsaTabIdReplacerTest {
 			Zipper.zip(FOLDER_ISATAB1, FILE_ISATAB1);
 			Zipper.zip(FOLDER_ISATABBII1, FILE_ISATABBII1);
 			Zipper.zip(FOLDER_FAKE, FILE_FAKE);
+			Zipper.zip(FOLDER_ISATAB_RS_T2DM_GSK, FILE_ISATAB_RS_T2DM_GSK);
+			
 			
 		}catch (IOException ioe){
 			fail("Zipper.zip threw an exception: " + ioe.getMessage());
@@ -71,14 +81,14 @@ public class IsaTabIdReplacerTest {
 		//Delete (empty recursively) the output folder
 		File out = new File (FOLDER_TEST_OUT);
 		FileUtil.deleteDir(out);
-		
 		//Create it again, this time empty	
 		out.mkdir();
 		
-		//Copy all folders in inputfiles into the output folder...
+		//Copy all folders in input files into the output folder...
 		FileUtils.copyDirectory(new File(FOLDER_ISATAB1), new File(FOLDER_ISATAB1_OUT));
 		FileUtils.copyDirectory(new File(FOLDER_ISATABBII1), new File(FOLDER_ISATABBII1_OUT));
 		FileUtils.copyDirectory(new File(FOLDER_FAKE), new File(FOLDER_FAKE_OUT));
+		FileUtils.copyDirectory(new File(FOLDER_ISATAB_RS_T2DM_GSK), new File (FOLDER_ISATAB_RS_T2DM_GSK_OUT));
 		
 	}
 	@Test
@@ -88,7 +98,6 @@ public class IsaTabIdReplacerTest {
 		
 		//Values to test the setters
 		final String EXPECTED_ARCHIVE = "loo";
-		
 		
 		//Creation
 		IsaTabIdReplacer istr = new IsaTabIdReplacer(EXPECTED_ARCHIVE_C);
