@@ -216,8 +216,14 @@ public class IsaTabUploader {
 		// Zip the folder.
 		Zipper.zip(this.unzipFolder, destination.getAbsolutePath());
 		
-		//Set the status of the file
-		changeFileStatus(destination.getAbsolutePath(), this.status);
+		//If public
+		if (this.status == VisibilityStatus.PUBLIC){
+
+			//Set the status of the file
+			changeFilePermissions(destination.getAbsolutePath(), this.status);
+
+		}
+		
 		
 		
 	}
@@ -226,14 +232,16 @@ public class IsaTabUploader {
 	 * The way of making the file public is by letting the "other" read and execute the file.
 	 * @param file
 	 */
-	public void changeFileStatus(String filePath, VisibilityStatus newStatus){
+	public void changeFilePermissions(String filePath, VisibilityStatus newStatus){
+	
+		
 		
 		// Get the file
 		File file = new File(filePath);
 
 		// Remove permissions to everybody...
-		file.setExecutable(false, false);
-		file.setReadable(false, false);
+		// file.setExecutable(false, false);
+		// file.setReadable(false, false);
 
 		//If private, only the owner will be granted
 		Boolean onlyOwner = (newStatus == VisibilityStatus.PRIVATE);
@@ -243,7 +251,11 @@ public class IsaTabUploader {
 		file.setReadable(true, onlyOwner);
 		
 	}
-	public void changeStudyStatus(VisibilityStatus newStatus, String owner, String study) throws Exception{
+	public void PublishStudy(String study) throws Exception{
+		changeStudyStatus(VisibilityStatus.PUBLIC, null, study);
+	}
+	
+	private void changeStudyStatus(VisibilityStatus newStatus, String owner, String study) throws Exception{
 		
 		//Change study status...
 		sm.changeStudyPermissions(newStatus, owner,new String[] {study});
@@ -255,7 +267,7 @@ public class IsaTabUploader {
 		moveFile (study, getOtherStatus(newStatus));
 		
 		//change the file permissions
-		changeFileStatus(getStudyFilePath(study, newStatus), newStatus);
+		changeFilePermissions(getStudyFilePath(study, newStatus), newStatus);
 		
 	}
 	/**
