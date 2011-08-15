@@ -1,24 +1,18 @@
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import javax.naming.ConfigurationException;
-
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.repository.accessionmanager.AccessionManager;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
+
+import javax.naming.ConfigurationException;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -30,15 +24,17 @@ import uk.ac.ebi.metabolights.utils.StringUtils;
 public class IsaTabIdReplacer 
 {
 	static private Properties props = new Properties();
-	static private String pubDateStr;		//Replace str to look for in i_Investigation.txt
-	static private String subDateStr;		//Replace str to look for in i_Investigation.txt
+	static private String pubDateStr;			//Replace str to look for in i_Investigation.txt
+	static private String subDateStr;			//Replace str to look for in i_Investigation.txt
+	static private String metaboliteProfTypeStr;	//String to search for in i_Investigation.txt, only allow metabolite profiling
+	static private String metaboliteProfValueStr;	//String to search for in i_Investigation.txt, only allow metabolite profiling
 	static private String fileWithIds; 
 	
 	static final String PROP_IDS = "isatab.ids";
 	static String[] idList;
 	static final String PROP_FILE_WITH_IDS = "isatab.filewithids";
-    
-    private String publicDate; 		//Date from submitter form
+	
+	private String publicDate; 		//Date from submitter form
 	private String submissionDate;	//Date from submitter form
 	private Integer singleStudy=0;	//Update when we find study ids in the file
 
@@ -149,6 +145,8 @@ public class IsaTabIdReplacer
 		String ids = props.getProperty(PROP_IDS);
 		pubDateStr = props.getProperty("isatab.publicReleaseDate");
 		subDateStr = props.getProperty("isatab.studySubDate");
+		metaboliteProfTypeStr  = props.getProperty("isatab.profilingType");
+		metaboliteProfValueStr = props.getProperty("isatab.profilingValue");
 		
 		logger.info(PROP_IDS + " property retrieved :" + ids + "," + pubDateStr + "," + subDateStr);
 		
@@ -271,14 +269,24 @@ public class IsaTabIdReplacer
 			//Go through the file
 			while((line = reader.readLine()) != null)
 			{
-				if (singleStudy>1){  //If we already have assigned a study, error the upload
-					 reader.close();
-					 logger.info("Only one study per submission allowed");
-					 System.err.println("Only one study per submission allowed");
-					 throw new Exception("Only one study per submission allowed"); //Todo, read error text
+
+				if (!checkIfMetaboliteProfiling(line)){    //Check if this is metabolite profiling
+					String errTxt = "Only metabolite profiling allowed";  //Todo, read error text from properties
+					reader.close();
+					logger.error(errTxt);
+					System.err.println(errTxt);
+					throw new Exception(errTxt); 
+				}
+
+				if (singleStudy>1){  //If we already have assigned a study, fail the upload
+					String errTxt = "Only one study per submission allowed";  //Todo, read error text from properties
+					reader.close();
+					logger.error(errTxt);
+					System.err.println(errTxt);
+					throw new Exception(errTxt); 
 				}
 					
-				//Replace Id in line (if necessary)
+				//Replace Id in line (if necessary), also check for multiple studies reported
 				line = replaceIdInLine(line);
 				
 				//Replace public release date for this study
@@ -351,12 +359,15 @@ public class IsaTabIdReplacer
 		
 	}
 	
-private String replacePubRelDateInLine(String line){
+	/*
+	 * String replace the public release date in i_investigation.txt file
+	 */
+	private String replacePubRelDateInLine(String line){
 	      
 	      //If the value is present in line, in the first position.
 	      if (line.indexOf(pubDateStr)==0){   
 	    	  
-	    	  logger.info("Study Public Release Date found in line " + line);
+	    	  logger.info(pubDateStr + " found in line " + line);
 	    	 
 	    	  //Compose the line:Study Public Release Date	"10/03/2009"
 	    	  String newLine = pubDateStr + "\t\"" + getPublicDate() + "\"";
@@ -369,24 +380,41 @@ private String replacePubRelDateInLine(String line){
 		
 	}
 
-private String replaceSubmitDateInLine(String line){
+	/*
+	 * String replace the MetaboLights submission date in i_investigation.txt file
+	 */
+	private String replaceSubmitDateInLine(String line){
+
+		//If the value is present in line, in the first position.
+		if (line.indexOf(subDateStr)==0){   
+
+			logger.info(subDateStr + " found in line " + line);
+
+			//Compose the line:Study Submission Date	"30/04/2007"
+			String newLine = subDateStr + "\t\"" + getSubmissionDate() + "\"";
+
+			return newLine;
+
+		} else {
+			return line;
+		}
+		
+	}
     
-    //If the value is present in line, in the first position.
-    if (line.indexOf(subDateStr)==0){   
-  	  
-  	  
-  	  logger.info("Study Submission Date found in line " + line);
-  	 
-  	  //Compose the line:Study Submission Date	"30/04/2007"
-  	  String newLine = subDateStr + "\t\"" + getSubmissionDate() + "\"";
-  		  
-  	  return newLine;
-  	  
-    } else {
-  	  return line;
+	/*
+	 * Check if the this is a metabolite profiled study, read from i_investigation.txt file
+	 */
+    private Boolean checkIfMetaboliteProfiling(String line){
+
+    	//Is this metabolite profiling type and the value is metabolite profiling
+    	if ( line.indexOf(metaboliteProfTypeStr)==0 && !line.contains(metaboliteProfValueStr) ){
+    		    logger.error("'"+ metaboliteProfTypeStr + "' found, but no '" +metaboliteProfValueStr+ "' in line: " + line);
+    		    return false;
+    	} 
+
+        return true;  //Not the correct line or correct type/value combo
+
     }
-	
-}
-	
+    
 	
 }
