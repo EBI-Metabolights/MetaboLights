@@ -407,8 +407,8 @@ public class IsaTabIdReplacer
     private Boolean checkIfMetaboliteProfiling(String line){
 
     	//Is this metabolite profiling type and the value is metabolite profiling
-    	if ( line.indexOf(metaboliteProfTypeStr)==0 && !line.contains(metaboliteProfValueStr) ){
-    		    logger.error("'"+ metaboliteProfTypeStr + "' found, but no '" +metaboliteProfValueStr+ "' in line: " + line);
+    	if ( line.indexOf(metaboliteProfTypeStr + "\t")==0 && !line.contains(metaboliteProfValueStr) ){
+    		    logger.error("'"+ metaboliteProfTypeStr + "\t" + "' found, but no '" +metaboliteProfValueStr+ "' in line: " + line);
     		    return false;
     	} 
 
