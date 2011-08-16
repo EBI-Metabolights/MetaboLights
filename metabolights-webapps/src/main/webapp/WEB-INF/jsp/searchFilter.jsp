@@ -3,9 +3,10 @@
 
 <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
 
-<div class="topSpacer"></div>
+<div class="topSpacerFilter"></div>
 <!-- If there isn't any result and it is due to the freetext, filter will not be printed -->
 <c:if test="${!((totalHits==0) && filters.isFilterLoadNeeded)}">
+	<legend><b><spring:message code="label.searchFilter"/></b></legend>
 	<form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">				
 		<c:forEach var="filterset" items="${filters.fss}">
 			<c:if test="${filterset.value.isEnabled}">
@@ -26,9 +27,9 @@
 								  	<c:if test='${filter.value.isChecked}'>
 	    								CHECKED
 									</c:if>
-								  	onclick="this.form.submit();"
-							> ${filter.value.text} 
-							<c:if test="${filter.value.number>0}">(${filter.value.number})</c:if>
+								  	onclick="this.form.submit();"> 
+							<c:if test="${filter.value.number<1}"><span class="gray">${filter.value.text}</span> </c:if>
+							<c:if test="${filter.value.number>0}">${filter.value.text}</c:if>
 							<br/>
 							<br/>
 						</c:forEach>

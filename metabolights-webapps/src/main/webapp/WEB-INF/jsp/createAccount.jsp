@@ -18,7 +18,7 @@
 
 	        <tr>
 	            <td><spring:message code="label.email" />:</td>
-	            <td><form:input path="email"  maxlength="255" size="40" /> </td>
+	            <td><form:input path="email" maxlength="255" size="40" /> </td>
 	            <td>(*)&nbsp;
 	               <span class="error">
 	                  <form:errors path="email" />
@@ -32,7 +32,7 @@
 
 			<tr>
 				<td></td>
-				<td colspan='2'><input name="submit" type="submit"	value="<spring:message code="label.create"/>">
+				<td colspan='2'><input name="submit" type="submit" value="<spring:message code="label.create"/>">
                 <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
                 </td>
 

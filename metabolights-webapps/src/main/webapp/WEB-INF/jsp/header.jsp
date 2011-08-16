@@ -22,17 +22,22 @@
 	</div>
 	<div class="loggedInAsBox">
 		<sec:authorize ifAnyGranted="ROLE_SUBMITTER">
-			<span class="loggedInAs"><spring:message
-					code="menu.loggedInAs" />: <sec:authentication
-					property="principal.userName" /> </span>
+			<!-- <span class="loggedInAs"><spring:message code="menu.loggedInAs" />: <sec:authentication property="principal.userName" /> </span> -->		       		
+			<ul id="sddm">	       		
+			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">
+			  			<sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName" /></a>
+				 <div id="m2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
+					<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a> 
+					<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>  
+					<a href="<spring:url value="/j_spring_security_logout"/>"><spring:message code="menu.logout"/></a> 
+				 </div>  
+			   </li>
+			</ul>   
 		</sec:authorize>
 	</div>
 
 	<ul id="sddm">
-        <sec:authorize ifAnyGranted="ROLE_SUBMITTER" >
-           <li><a href="myAccount"><spring:message code="menu.myAccount"/></a></li>
-           <li><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />"><spring:message code="menu.logout"/></a></li>
-         </sec:authorize> 
+	    <!-- <sec:authorize ifAnyGranted="ROLE_SUBMITTER" >  </sec:authorize> -->
         <sec:authorize ifNotGranted="ROLE_SUBMITTER" >
           <li><a href="login"><spring:message code="menu.login"/><br>&nbsp;</a></li>
         </sec:authorize> 

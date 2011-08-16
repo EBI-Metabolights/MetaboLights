@@ -31,6 +31,18 @@
 	<!-- new row -->
 	
 	<div style='width: 500px;' class='iscell'>
+		<b><spring:message code="label.organism" /></b>
+		<ul id="resultList">
+			<c:forEach var="species" items="${searchResult.organism}">
+				<li>${species}</li>
+			</c:forEach>
+		</ul>
+	</div>
+	
+	<div style='clear: both;'></div>
+	<!-- new row -->
+	
+	<div style='width: 500px;' class='iscell'>
 		<b><spring:message code="label.expFact" /></b>
 		<ul id="resultList">
 			<c:forEach var="factor" items="${searchResult.factors}">

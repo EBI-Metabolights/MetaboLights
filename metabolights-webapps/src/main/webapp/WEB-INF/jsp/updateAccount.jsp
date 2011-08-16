@@ -28,9 +28,9 @@
 
             <jsp:include page="accountFormFields.jsp" />
             <tr>
-                <td></td>
-                <td height="100px" colspan='2'><input name="submit" type="submit" value="<spring:message code="label.update"/>"> &nbsp;&nbsp;
-                <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
+                <td></td> <!-- css style id="big_submit" is not being picked up -->
+                <td height="100px" colspan='2'><input name="submit" type="submit" id="big_submit" value="<spring:message code="label.update"/>"> &nbsp;&nbsp;
+                <a href="index"><spring:message code="label.cancel"/></a>
                 </td>
             </tr>
         </table>

@@ -21,11 +21,11 @@
 <div id="text-fullwidth" style="text-align:center">
     <br>
     <spring:message code="msg.metabolightsAbout1" />
-    <div id="homepageLinks">
+    <!-- div id="homepageLinks">
 	  <a href="about"><spring:message code="label.aboutMetab"/></a>
 	  <br>  
 	  <a href="contact"><spring:message code="label.contact"/></a>
-	</div>
+	</div-->
 	  
     <br>
     <br>

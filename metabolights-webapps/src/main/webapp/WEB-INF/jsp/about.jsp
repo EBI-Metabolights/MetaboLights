@@ -15,6 +15,10 @@
       </div>
       
       <div id="text-fullwidth">
+  		<b><a href="<spring:url value="contact"/>"><spring:message code="label.contact"/></a></b>
+   	  </div>
+      
+      <div id="text-fullwidth">
        <HR>
        <br>
        <img src="img/bbsrcLarge.png">&nbsp;&nbsp;&nbsp; <img src="img/embl.png"> &nbsp;&nbsp;&nbsp; <img src="img/camLogo.png">
@@ -38,6 +42,4 @@
        
       </div-->               
  
-  	<div id="text-fullwidth">
-  		<a href="<spring:url value="contact"/>"><spring:message code="menu.contact"/></a>
-   	</div>
+
