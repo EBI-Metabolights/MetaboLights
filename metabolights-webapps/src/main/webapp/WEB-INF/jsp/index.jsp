@@ -7,7 +7,7 @@
    </div>
 </c:if>
 <c:if test="${empty message}">
-   <div class="messageBox" style="border:0px">&nbsp;</div>
+   <div class="messageBox" style="border:0px;background:white">&nbsp;</div>
 </c:if>
 
 <div style="margin-bottom:40px; padding-left:120px; padding-top:30px">
