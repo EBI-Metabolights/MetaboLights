@@ -32,7 +32,7 @@
 
 			<tr>
 				<td></td>
-				<td height="100px" colspan='2'><input type="submit" name="submit" id="big_submit" class="big_submit" value=" <spring:message code="label.create"/> "> 	
+				<td height="100px" colspan='2'><input type="submit" name="submit" class="big_submit" value=" <spring:message code="label.create"/> "> 	
                 	&nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
 				</td>
 				
