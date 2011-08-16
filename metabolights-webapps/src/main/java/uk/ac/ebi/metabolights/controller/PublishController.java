@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.SearchService;
 
@@ -67,15 +68,18 @@ public class PublishController extends AbstractController {
 			// Publish the study...
 			itu.PublishStudy(study);
 			
+			// Compose the message...
+			String message = PropertyLookup.getMessage("msg.publish.ok",study);
+			
 			// TODO...this is just to test.
-			mav.addObject("message", "Study " + study + " has been made public.");
+			mav.addObject("message", message);
 			mav.addObject("searchResult", getStudy(study));
 		
 		} catch (Exception e) {
 			
 			// Auto-generated catch block
 			e.printStackTrace();
-
+			
 			// Add the error to the page
 			mav.addObject("error", new Exception ("There's been a problem while making the study " + study + " public\n" + e.getMessage()));
 			

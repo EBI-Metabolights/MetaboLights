@@ -11,7 +11,7 @@
 		<form name="searchForm"	
 		   action="<c:choose>
 		      <c:when test="${empty action}">search</c:when>
-		      <c:otherwise>${action}</c:otherwise>
+		      <c:otherwise>search</c:otherwise>
 		   </c:choose>"
 		   method="get" accept-charset="utf-8">
 
