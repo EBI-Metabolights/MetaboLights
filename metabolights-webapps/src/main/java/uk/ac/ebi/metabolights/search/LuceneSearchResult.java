@@ -1,7 +1,5 @@
 package uk.ac.ebi.metabolights.search;
 
-import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +20,6 @@ import org.apache.lucene.document.Document;
 import org.apache.log4j.Logger;
 
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
-import uk.ac.ebi.metabolights.controller.SearchController;
 
 /**
  * Stores a BII Lucene Document and wraps it with accessors.
@@ -43,8 +40,7 @@ public class LuceneSearchResult {
 	private Submitter submitter;
 	private boolean isPublic;
 	private Date releaseDate;
-	private Date submissionDate;
-	
+	private Date submissionDate;	
 		
 	public LuceneSearchResult(Document doc, float score) {
 		this.doc=doc;

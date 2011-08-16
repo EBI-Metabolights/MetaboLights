@@ -70,12 +70,15 @@ public class Filter {
 	public int getPageSize(){
 		return pageSize;
 	}
+	
 	public int getInitialHits(){
 		return initialHits;
 	}
+	
 	public int getCurrentHits(){
 		return currentHits;
 	}
+	
 	private void mountFilterStructure(){
 		
 		//Add all the list of filters to the hash...

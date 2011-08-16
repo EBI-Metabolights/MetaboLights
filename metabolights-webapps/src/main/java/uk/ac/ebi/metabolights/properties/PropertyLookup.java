@@ -1,8 +1,6 @@
 package uk.ac.ebi.metabolights.properties;
 
-import java.io.FileInputStream;
 import java.text.MessageFormat;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
