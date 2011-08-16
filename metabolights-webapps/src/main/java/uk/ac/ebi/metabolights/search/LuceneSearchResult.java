@@ -291,12 +291,23 @@ public class LuceneSearchResult {
 		//Get the value of the field
 		String date = doc.get(dateField);
 		
-		//Get only the first 8 characters of the string
-		date = date.substring(0, 8);
-		
 		try {
-			return formatter.parse(date);
-		} catch (ParseException e) {
+		
+			//If exists...
+			if (date != null){
+			
+				//Get only the first 8 characters of the string
+				date = date.substring(0, 8);
+
+				return formatter.parse(date);
+
+			}else{
+				
+				// It may be null when the field is not present in the index
+				return null;
+			}
+			
+		} catch (Exception e) {
 			//This should never happen
 			logger.info("Field " + dateField + " with value " + date + " can not be parsed into a date.");
 			return null;
