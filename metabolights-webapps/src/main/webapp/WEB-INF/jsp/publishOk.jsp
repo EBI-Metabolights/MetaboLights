@@ -27,6 +27,10 @@
 	</table>
 </c:if>
 
+<c:if test="${not empty searchResult}">
+	<%@include file="entrySummary.jsp" %>
+</c:if>
+
 <br/>
 <br/>
 <a href="index"><spring:message code="msg.backToMainPage"/></a>            

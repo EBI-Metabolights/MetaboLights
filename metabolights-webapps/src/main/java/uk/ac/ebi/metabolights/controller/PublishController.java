@@ -1,8 +1,13 @@
 package uk.ac.ebi.metabolights.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.SearchService;
 
 /**
  * Make a study public. THis implies to change the status in the database, reindex, and move the zip file to the public ftp.
@@ -27,6 +34,10 @@ public class PublishController extends AbstractController {
 	private @Value("#{appProperties.publicFtpLocation}") String publicFtpLocation;
 	private @Value("#{appProperties.privateFtpLocation}") String privateFtpLocation;
 
+	@Autowired
+	private SearchService searchService;
+
+	
 	@RequestMapping(value = { "/publish" })
 	public ModelAndView publish(@RequestParam(required=true,value="study") String study, HttpServletRequest request) throws Exception {
 
@@ -58,6 +69,7 @@ public class PublishController extends AbstractController {
 			
 			// TODO...this is just to test.
 			mav.addObject("message", "Study " + study + " has been made public.");
+			mav.addObject("searchResult", getStudy(study));
 		
 		} catch (Exception e) {
 			
@@ -72,6 +84,33 @@ public class PublishController extends AbstractController {
 		//Return the ModelAndView
 		return mav;
 		
+	}
+	/**
+	 * Gets the study that has jast been published.
+	 * @param study
+	 * @return
+	 * @throws Exception 
+	 */
+	private LuceneSearchResult getStudy(String study) throws Exception{
+		
+		//Search results
+		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
+				
+		//Get the query...	
+		String luceneQuery = "acc:"+ study;
+		
+		logger.info("Searching for "+ luceneQuery);
+		
+		//Get the search result...
+		searchResultHash = searchService.search(luceneQuery); 
+		
+		// Get the result (Study)
+		// There must be only one
+		LuceneSearchResult result = searchResultHash.values().iterator().next().get(0); 
+		
+		return result;
+			
+	
 	}
 
 
