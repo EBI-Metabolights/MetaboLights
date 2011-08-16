@@ -94,7 +94,6 @@ a {
 	
 }
 
-
 #text_header { 
 
 	color: #006666;
@@ -157,6 +156,10 @@ a {
 .white {
     color:#ffffff;
     font-size: 8px;
+}
+
+.gray {
+    color:#B0B0B0;
 }
 
 
@@ -283,6 +286,10 @@ a {
 	height:70px;
 }
 
+.topSpacerFilter {
+	height:55px;
+}
+
 #homepageLinks{
 	text-align:center;
 	margin-top:50px;
@@ -346,6 +353,21 @@ a {
 #sddm div a:hover
 {	background: #bdd7d7;
     color: #004242;
+}
+
+
+.big_submit {
+float: right;
+background-color: #72B55F;
+border: 1px solid #0A4F4F;
+-moz-border-radius: 5px;
+-khtml-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+color: white;
+font-size: 14px;
+padding: 4px 2px;
+margin-top: 4px;
 }
 
 
