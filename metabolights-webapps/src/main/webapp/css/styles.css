@@ -79,7 +79,21 @@ a {
 	cursor: pointer;
 	border: 0px;
 	background-image: url('../img/searchButton.png');
+	
 }
+
+#publish .publish-button {
+	float: left;
+	margin: 0px 0px 0px 0px;
+	padding: 0px;
+	height: 21px;
+	width: 85px;
+	cursor: pointer;
+	border: 0px;
+	background-image: url('../img/makePublicButton.png');
+	
+}
+
 
 #text_header { 
 
