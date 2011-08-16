@@ -32,9 +32,14 @@
 
 			<tr>
 				<td></td>
-				<td colspan='2'><input name="submit" type="submit" value="<spring:message code="label.create"/>">
+				<td height="100px" colspan='2'><input type="submit" name="submit" id="big_submit" class="big_submit" value=" <spring:message code="label.create"/> "> 	
+                	&nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
+				</td>
+				
+				<!-- 
+				<td colspan='2'><input name="submit" type="submit" class="big_submit" value=" <spring:message code="label.create"/> ">
                 <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
-                </td>
+                 -->
 
 			</tr>
 		</table>
