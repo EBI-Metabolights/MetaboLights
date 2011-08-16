@@ -108,7 +108,7 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/download.jsp" />
 	</definition>
     
-    <definition name="searchFilter">
+    <definition name="searchFilter"> <!--  Is this still used? -->
         <put-attribute name="searchFilter" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
 	
