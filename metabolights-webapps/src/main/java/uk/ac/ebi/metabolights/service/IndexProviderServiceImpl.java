@@ -1,6 +1,9 @@
 package uk.ac.ebi.metabolights.service;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.FSDirectory;
@@ -22,15 +25,21 @@ public class IndexProviderServiceImpl implements IndexProviderService {
 	
 	public IndexSearcher getSearcher() {
 		logger.debug("Singleton hash code is "+this.hashCode());
-		if (indexSearcher==null)
-			setUp();
+	
+		//Refresh index
+		setUp();
+		
 		return indexSearcher;
+		
 	}
 
+	
 	public IndexReader getReader() {
 		logger.debug("Singleton hash code is "+this.hashCode());
-		if (indexReader==null)
-			setUp();
+	
+		//Refresh index if out of date.
+		setUp();
+				
 		return indexReader;
 	}
 	
@@ -46,22 +55,33 @@ public class IndexProviderServiceImpl implements IndexProviderService {
 	 *  
 	 */
 	private synchronized void setUp() {
-		if (indexReader==null && indexReader==null ) {
-			logger.info("Using index directory "+getIndexDirectory());
-			try {
-				FSDirectory directory= FSDirectory.getDirectory(getIndexDirectory());
-				
-				//Do we need a lock ? Must read the manual.
-				//directory.setLockFactory(new SimpleFSLockFactory());
-				
-				indexSearcher =new IndexSearcher(directory );
-				indexReader = IndexReader.open(directory);
-	
-			} catch (Exception e) {
+		
+		boolean setUpNeeded = false;
+		
+		try {
+
+			// If indexReader is null
+			if (indexReader == null){
+				setUpNeeded = true;
+			// Or is not up to date.
+			}else if (!indexReader.isCurrent()){
+				setUpNeeded = true;
+			}
+		
+			if (setUpNeeded) {
+				logger.info("Using index directory "+getIndexDirectory());
+					FSDirectory directory= FSDirectory.getDirectory(getIndexDirectory());
+					
+					//Do we need a lock ? Must read the manual.
+					//directory.setLockFactory(new SimpleFSLockFactory());
+					
+					indexSearcher =new IndexSearcher(directory );
+					indexReader = IndexReader.open(directory, true);
+			}
+		} catch (Exception e) {
 				e.printStackTrace();
 				logger.error(TextUtils.getErrorStackAsHTML(e));
 				logger.error("MAJOR ERROR - could not instantiate Lucene index");
-			}
 		}
 	}
 }

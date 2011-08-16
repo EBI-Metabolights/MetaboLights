@@ -112,7 +112,7 @@ public class BIISubmissionController extends AbstractController {
 
 	
 	/**
-	 * TODO document method cabron!
+	 * Will reindex the whole index, to use carefully. After it, a tomcat restart is needed.
 	 * @return
 	 * @throws Exception
 	 */

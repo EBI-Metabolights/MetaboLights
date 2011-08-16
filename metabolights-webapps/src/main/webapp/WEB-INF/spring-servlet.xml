@@ -137,6 +137,7 @@
     The security department
      -->
     <sec:http use-expressions="true" auto-config='true'>
+        <sec:intercept-url pattern="/publish" access="isAuthenticated()" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/submit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/biisubmit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/mysubmissions" access="isAuthenticated()" /> <!-- requires-channel="https" -->

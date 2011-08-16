@@ -21,7 +21,7 @@
 			&nbsp;
 			<!-- TODO: place it in the same line as Private Study -->
 			<form name="publish-form" action="publish" method="post">
-				<input type="hidden" value="${searchResult.accStudy}"/>
+				<input type="hidden" name="study" value="${searchResult.accStudy}"/>
 				<input type="submit" value="" class="publish-button" />
 			</form>
 		</c:if>
