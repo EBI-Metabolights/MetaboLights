@@ -27,6 +27,7 @@ import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.StudyService;
 
 /**
@@ -65,7 +66,7 @@ public class EntryController extends AbstractController {
 		if (study.getStatus().equals(VisibilityStatus.PRIVATE)){	// Only for the submitter
 			ftpLocation = "privatefiles/" + study.getAcc();  //Private download, file stream
 		}  else {  //Serve back public ftp link
-			ftpLocation = publicFtpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + "/" + study.getAcc() +".zip";
+			ftpLocation = publicFtpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + study.getAcc() +".zip";
 		}
 
 		ModelAndView mav = new ModelAndView("entry");
@@ -104,12 +105,12 @@ public class EntryController extends AbstractController {
 			}
 
 			if (!validUser)
-				throw new RuntimeException("You are not authorised to access this file"); //TODO, hack
+				throw new RuntimeException(PropertyLookup.getMessage("Entry.notAuthorised")); 
 
 
 			try {
 				// get your file as InputStream
-				InputStream is = new FileInputStream(privateFtpDirectory + "/" + fileName + ".zip");
+				InputStream is = new FileInputStream(privateFtpDirectory + fileName + ".zip");
 
 				// let the browser know it's a zip file
 				response.setContentType("application/zip");
@@ -117,7 +118,7 @@ public class EntryController extends AbstractController {
 				// copy it to response's OutputStream
 				IOUtils.copy(is, response.getOutputStream());
 			} catch (Exception e) {
-				throw new RuntimeException("File does not exist, please contact the MetaboLights Team"); //TODO, hack
+				throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing")); 
 			}
 
 			response.flushBuffer();

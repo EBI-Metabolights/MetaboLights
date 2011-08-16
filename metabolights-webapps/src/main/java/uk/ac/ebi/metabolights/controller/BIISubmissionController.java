@@ -64,7 +64,7 @@ public class BIISubmissionController extends AbstractController {
 		
 		try {
 
-			if (file.isEmpty()){ throw new Exception("File must not be empty.");}
+			if (file.isEmpty()){ throw new Exception(PropertyLookup.getMessage("BIISubmit.fileEmpty"));}
 			
 			String isaTabFile = writeFile(file, cl);
 						
@@ -72,7 +72,7 @@ public class BIISubmissionController extends AbstractController {
 			HashMap<String,String> accessions = uploadToBii(isaTabFile, status, cl, publicDate);
 			
 			//Log it
-			logger.info("These are the new accession numbers: " + accessions);
+			logger.info(PropertyLookup.getMessage("BIISubmit.newAccNumbers") + accessions);
 			if (publicExp == null && publicDate != null){ //Not set to public by the submitter and a public date has been given
 				logger.info("Public release date has been given by the submitter as " + publicDate + " for accession " +accessions);
 			}
@@ -172,7 +172,7 @@ public class BIISubmissionController extends AbstractController {
 		fos.close();
 		
 		//Check Item in CheckList
-		cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), "File upload complete for " + file.getOriginalFilename());
+		cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), PropertyLookup.getMessage("BIISubmit.fileUploadComplete") +" "+ file.getOriginalFilename());
 		
 		return isaTabFile;
 	}
