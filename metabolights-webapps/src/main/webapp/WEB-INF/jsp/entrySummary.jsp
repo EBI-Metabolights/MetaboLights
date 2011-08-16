@@ -12,25 +12,25 @@
 	<div style='clear: both;'></div>
 	<!-- new row -->
 
-	<div style='width: 500px;' class='iscell'>
+	<div style='width: 700px;' class='iscell'>
 		<b><spring:message code="label.releaseDate"/>:</b> <fmt:formatDate pattern="dd MMM yyyy" value="${searchResult.releaseDate}"/>
 		<c:if test="${!searchResult.isPublic}">
 			&nbsp;
 			<img src="img/warning.png" height="24px" width="24px" style="vertical-align: middle"/>
-			<b><spring:message code="label.expPrivate" /></b>
+			<b><spring:message code="label.expPrivate"/></b>
+			&nbsp;
+			<!-- TODO: place it in the same line as Private Study -->
+			<form name="publish-form" action="publish" method="post">
+				<input type="hidden" value="${searchResult.accStudy}"/>
+				<input type="submit" value="" class="publish-button" />
+			</form>
 		</c:if>
 	</div>
-	
-	<div style='width: 200px;' class='iscell'>
-		<spring:message code="label.expId" />: <b>${searchResult.accStudy}</b><br>
-		<spring:message code="label.subm" /> ${searchResult.submitter.name} ${searchResult.submitter.surname}<br>
-	</div>
-	
 	
 	<div style='clear: both;'></div>
 	<!-- new row -->
 	
-	<div style='width: 700px;' class='iscell'>
+	<div style='width: 500px;' class='iscell'>
 		<b><spring:message code="label.expFact" /></b>
 		<ul id="resultList">
 			<c:forEach var="factor" items="${searchResult.factors}">
@@ -38,6 +38,12 @@
 			</c:forEach>
 		</ul>
 	</div>
+	
+	<div style='width: 200px;' class='iscell'>
+		<spring:message code="label.expId" />: <b>${searchResult.accStudy}</b><br>
+		<spring:message code="label.subm" /> ${searchResult.submitter.name} ${searchResult.submitter.surname}<br>
+	</div>
+	
 
 	<div style='clear: both;'></div>
 	<!-- new row -->
