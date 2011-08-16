@@ -252,6 +252,7 @@ public class IsaTabIdReplacer
 		replaceInFile(fileList[0]);
 
 	}
+	
 	/**
 	 * Replaces Id in a single file. Goes through each line and replace the id if it's the correct line.
 	 * @param fileWithId
