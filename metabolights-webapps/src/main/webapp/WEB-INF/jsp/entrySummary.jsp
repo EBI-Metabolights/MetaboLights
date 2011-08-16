@@ -19,11 +19,12 @@
 			<img src="img/warning.png" height="24px" width="24px" style="vertical-align: middle"/>
 			<b><spring:message code="label.expPrivate"/></b>
 			&nbsp;
-			<!-- TODO: place it in the same line as Private Study -->
-			<form name="publish-form" action="publish" method="post">
+			<div style="float: right; margin-right:200px"">
+			<form name="publish-form" action="publish" method="post" class="one-button-form">
 				<input type="hidden" name="study" value="${searchResult.accStudy}"/>
 				<input type="submit" value="" class="publish-button" />
 			</form>
+			</div>
 		</c:if>
 	</div>
 	
