@@ -1,0 +1,11 @@
+# DB settings for Junit tests that use Hibernate
+
+hibernate.connection.username=xx
+hibernate.connection.password=xx
+hibernate.connection.url=jdbc:oracle:thin:@xx:1521:xxx
+hibernate.connection.driver_class=oracle.jdbc.driver.OracleDriver
+hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+hibernate.show_sql=true
+hibernate.hbm2ddl.auto=manual
+hibernate.mapping.precedence=hbm,class
+hibernate.format_sql=true
