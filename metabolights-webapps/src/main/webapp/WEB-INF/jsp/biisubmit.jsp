@@ -10,12 +10,11 @@
 	}
 	
 	function disableSubmission() {
-		//document.forms['uf'].elements['submit'].disabled=true;
+		document.forms['uf'].elements['submit'].disabled=true;
 	    document.forms['uf'].elements['cancel'].disabled=true;
 	    document.body.style.cursor = "wait";
 		var hglass = document.getElementById("hourglass");
 		hglass.style.display = "block";		
-		document.forms['uf'].submit();
 	}
 	
 	function enableSubmission() {
@@ -53,7 +52,7 @@
 </script>		
 		
 <div class="formbox">
-	<form method="post" action="biiuploadExperiment" enctype="multipart/form-data" name="uf">
+	<form method="post" action="biiuploadExperiment" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
            <table border="0" cellpadding="5px" cellspacing="0px">
 	        <tr class="formheader">
 	             <th class="tableheader" colspan="2"><spring:message code="msg.upload" /> </th>
@@ -89,7 +88,7 @@
 	        </tr>
 	        
 	        <tr>
-	            <td height="100px" colspan='2'><input onclick="disableSubmission()" name="submit" type="submit" value="<spring:message code="label.upload"/>">
+	            <td height="100px" colspan='2'><input name="submit" type="submit" value="<spring:message code="label.upload"/>">
 	            <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
 	            </td>
 	        </tr>
