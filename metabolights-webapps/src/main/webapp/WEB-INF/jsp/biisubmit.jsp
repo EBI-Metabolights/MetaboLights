@@ -32,12 +32,23 @@
 	          changeYear: true,
 	          showOtherMonths: true,
 	          showButtonPanel: true,
+	          //showAnim: 'fold',
+	          //showOn: 'both',
+	          buttonText: 'Choose Date',
 	          dateFormat: 'yy-mm-dd',
 	          minDate: '+1d',
 	          maxDate: '+5y',
 	          hideIfNoPrevNext: true
 	      });
 	});
+	
+	function togglePublic() {
+		document.forms['uf'].elements['public'].checked=false;
+		document.forms['uf'].elements['pickdate'].disabled=false;
+		document.forms['uf'].elements['pickdate'].focus();
+		return false; 
+	}
+	
 	
 </script>		
 		
@@ -67,8 +78,11 @@
 	            <td><input type="checkbox" name="public" onClick="this.form.pickdate.disabled=this.checked"/></td>
 	        </tr>
 	        <tr>
-	        	<td>or select when you want it do be public:</td>
-	           	<td><input type="text" name="pickdate" id="datepicker"></td>
+	        	<td><spring:message code="label.publicDate"/></td>
+				<td>
+					<input type="text" name="pickdate" id="datepicker" readonly="readonly" />
+					<input type="image" src="img/calendar.gif" onclick="return togglePublic()" />
+				</td> 
 	        </tr>
 	       	<tr>
 	        	<td colspan='2'> <hr/> </td>

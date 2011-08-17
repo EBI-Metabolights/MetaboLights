@@ -56,11 +56,11 @@
      
 		
 		<li><a href="biisubmit"><spring:message code="menu.submit"/></a></li>
+		<li><a href="download"><spring:message code="menu.download"/></a></li>
 		<li><a href="<spring:url value="index"/>" onmouseover="mopen('m1')"onmouseout="mclosetime()"><spring:message code="menu.home"/><span class="smallArrow"></span></a>
 			<div id="m1" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
 				<a href="<spring:url value="about"/>"><spring:message code="menu.about"/></a>  
 				<a href="<spring:url value="contact"/>"><spring:message code="menu.contact"/></a> 
-				<a href="download"><spring:message code="menu.download"/></a>
 			</div>
 		</li>
 	</ul>
