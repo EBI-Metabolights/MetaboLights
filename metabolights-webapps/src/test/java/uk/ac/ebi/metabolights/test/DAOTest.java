@@ -10,6 +10,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.metabolights.service.StudyService;
 
+/**
+ * Test class for testing through Spring services. Spring is configurated through
+ * local test xml file 'test.spring.xml' which refers to test.db.properties but 
+ * regular appication.properties.
+ *  
+ * @author markr
+ */
 public class DAOTest {
 
 	private ApplicationContext applicationContext;
@@ -28,7 +35,7 @@ public class DAOTest {
 	@Test
 	public void getStudy() {
 		Study study = studyService.getBiiStudy("XXXX"); //TODO -> pre-defined test set
-		System.out.println(study.getTitle());
+		// System.out.println(study.getTitle());
 		// do assertions here
 		
 	}
