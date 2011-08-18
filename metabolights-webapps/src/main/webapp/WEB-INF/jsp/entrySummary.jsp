@@ -2,7 +2,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<!-- <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>-->
 <div style='margin-bottom: 10px;' class="formbox">
 	
 	<div style='width: 700px;' class='iscell'>
@@ -20,9 +20,9 @@
 			<b><spring:message code="label.expPrivate"/></b>
 			&nbsp;
 			<div style="float: right; margin-right:200px"">
-			<form name="publish-form" action="publish" method="post" class="one-button-form">
+			<form name="publish-form" action="makestudypublic" method="post" class="one-button-form">
 				<input type="hidden" name="study" value="${searchResult.accStudy}"/>
-				<input type="submit" value="" class="publish-button" />
+				<input type="submit" id="publish" value="" class="publish-button" />
 			</form>
 			</div>
 		</c:if>

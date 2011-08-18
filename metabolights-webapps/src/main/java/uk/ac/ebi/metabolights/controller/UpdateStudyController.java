@@ -1,6 +1,5 @@
 package uk.ac.ebi.metabolights.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,9 +26,9 @@ import uk.ac.ebi.metabolights.service.SearchService;
  * @author conesa
  */
 @Controller
-public class PublishController extends AbstractController {
+public class UpdateStudyController extends AbstractController {
 
-	private static Logger logger = Logger.getLogger(PublishController.class);
+	private static Logger logger = Logger.getLogger(UpdateStudyController.class);
 
 	//Ftp locations
 	private @Value("#{appProperties.publicFtpLocation}") String publicFtpLocation;
@@ -38,6 +37,66 @@ public class PublishController extends AbstractController {
 	@Autowired
 	private SearchService searchService;
 
+	/**
+	 * Receives the study that is going to be published and shows the updateStudy Page to let the user to set the public release date.
+	 * 
+	 * @param study
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/makestudypublic"})
+	public ModelAndView makeStudyPublic(@RequestParam(required=true,value="study") String study, HttpServletRequest request) throws Exception{
+		
+		// Get the correspondent ModelAndView
+		return getModelAndView(study, false);
+		
+		
+		
+	}
+	/**
+	 * Return the model and view ready to be rendered in the jsp that share 2 modes. Update and MakeStudyPublic
+	 * @param study
+	 * @param isUpdateMode
+	 * @return
+	 * @throws Exception 
+	 */
+	private ModelAndView getModelAndView(String study, boolean isUpdateMode) throws Exception{
+		
+		//Get the study data
+		LuceneSearchResult luceneStudy = getStudy(study);
+		
+		ModelAndView mav = new ModelAndView("updateStudy");
+		
+		// Add objects to the model and view
+		mav.addObject("searchResult", luceneStudy);
+		mav.addObject("isUpdateMode", isUpdateMode);
+		mav.addObject("study", study);
+		
+		String title ="", msg ="", action="", submitText="";
+		
+		if (isUpdateMode){
+			
+			title = PropertyLookup.getMessage("msg.updatestudy.title", study,  luceneStudy.getTitle().substring(0, 50) + "...");
+			msg = PropertyLookup.getMessage("msg.updatestudy.msg");
+			submitText = PropertyLookup.getMessage("label.updatestudy");
+			action = "resubmit";
+			
+		}else{
+			
+			title = PropertyLookup.getMessage("msg.makestudypublic.title", study, luceneStudy.getTitle().substring(0, 50) + "...");
+			msg = PropertyLookup.getMessage("msg.makestudypublic.msg");
+			submitText = PropertyLookup.getMessage("label.makestudypublic");
+			action = "publish";
+			
+		}
+		
+		mav.addObject("title", title);
+		mav.addObject("message", msg);
+		mav.addObject("action", action);
+		mav.addObject("submitText", submitText);
+		return mav;
+	}
 	
 	@RequestMapping(value = { "/publish" })
 	public ModelAndView publish(@RequestParam(required=true,value="study") String study, HttpServletRequest request) throws Exception {
@@ -49,7 +108,7 @@ public class PublishController extends AbstractController {
 		logger.info("Publishing the study " + study + " owned by " + user.getUserName());
 		
 		//Get the path for the config folder (where the hibernate properties for the import layer are).
-		String configPath = PublishController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+		String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
 	
 		//Create the uploader
 		IsaTabUploader itu = new IsaTabUploader();
@@ -60,7 +119,7 @@ public class PublishController extends AbstractController {
 		itu.setCopyToPublicFolder(publicFtpLocation);
 		
 		//Create the view
-		ModelAndView mav = new ModelAndView("publishOk");
+		ModelAndView mav = new ModelAndView("updateStudy");
 		
 		// Change the status
 		try {
@@ -68,12 +127,11 @@ public class PublishController extends AbstractController {
 			// Publish the study...
 			itu.PublishStudy(study);
 			
-			// Compose the message...
-			String message = PropertyLookup.getMessage("msg.publish.ok",study);
-			
-			// TODO...this is just to test.
-			mav.addObject("message", message);
+			// Compose the messages...
+			mav.addObject("title", PropertyLookup.getMessage("msg.makestudypublic.ok.title"));
+			mav.addObject("message", PropertyLookup.getMessage("msg.makestudypublic.ok.msg"));
 			mav.addObject("searchResult", getStudy(study));
+			mav.addObject("updated", true);
 		
 		} catch (Exception e) {
 			
@@ -90,7 +148,7 @@ public class PublishController extends AbstractController {
 		
 	}
 	/**
-	 * Gets the study that has jast been published.
+	 * Gets the study that has just been published.
 	 * @param study
 	 * @return
 	 * @throws Exception 

@@ -112,9 +112,9 @@
         <put-attribute name="searchFilter" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
 	
-	   <definition name="publishOk" extends="base.definition">
-        <put-attribute name="title" value="Publish study" />
-        <put-attribute name="body" value="/WEB-INF/jsp/publishOk.jsp" />
+	   <definition name="updateStudy" extends="base.definition">
+        <put-attribute name="title" value="Update study" />
+        <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
     </definition>
 
 </tiles-definitions>
