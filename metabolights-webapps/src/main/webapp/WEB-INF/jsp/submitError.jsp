@@ -8,7 +8,10 @@
 	<br/><br/>
 	<table>
 		<tr>
-			<td><img src="img/warning.png" height ="30" width="30"></td>
+			<td>
+			   <!-- img src="img/warning.png" height ="30" width="30"-->
+			   <img src="img/ebi-icons/32px/alert.png">
+			</td>
 			<td><spring:message code="msg.uploaded.wrong"/><br/>
 				<b><c:out value="${error.message}"/></b>
 			</td>
@@ -18,19 +21,27 @@
   
 <c:if test="${not empty cl}">
 	<br/><br/>
-	<table align="center">
+	<table align="center" cellpadding="5px" cellspacing="0px">
+	
 	<tr>
-		<td><img src="img/info.png" height="30" width="30"></td>
-		<td><b><spring:message code="msg.uploaded.checkListTitle"/></b></td>
+		<td>
+		  <!-- img src="img/info.png" height="30" width="30"-->
+		  <img src="img/ebi-icons/32px/info.png">
+		</td>
+		<td><b><span style="text-decoration:underline"><spring:message code="msg.uploaded.checkListTitle"/></span></b></td>
 	<c:forEach items="${cl}" var="mapEntry">
 		<tr>
 			<td>
 				<c:choose>
 		  			<c:when test="${mapEntry.value.isChecked}">
-	      				<img src="img/check.png" height ="20" width="20">
+	      				<!-- img src="img/check.png" height ="20" width="20"-->
+				    	<img src="img/ebi-icons/16px/check.png">
+
 	      			</c:when>
 	      			<c:otherwise>
-						<img src="img/uncheck.png" height="20" width="20">
+						<!-- img src="img/uncheck.png" height="20" width="20"-->
+				    	<img src="img/ebi-icons/16px/delete.png">
+
 	      			</c:otherwise>
 	    		</c:choose>
 			</td>		

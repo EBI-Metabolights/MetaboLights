@@ -47,7 +47,7 @@ public class CountryService {
         countries.put ("BW","Botswana");
         countries.put ("BV","Bouvet Island");
         countries.put ("BR","Brazil");
-        countries.put ("IO","British Indian Ocean Territory");
+        //countries.put ("IO","British Indian Ocean Territory");
         countries.put ("BN","Brunei Darussalam");
         countries.put ("BG","Bulgaria");
         countries.put ("BF","Burkina Faso");
@@ -65,7 +65,7 @@ public class CountryService {
         countries.put ("CC","Cocos (Keeling) Islands");
         countries.put ("CO","Colombia");
         countries.put ("KM","Comoros");
-        countries.put ("CG","Congo");
+        //countries.put ("CG","Congo");
         countries.put ("CD","Congo, The Democratic Republic of The");
         countries.put ("CK","Cook Islands");
         countries.put ("CR","Costa Rica");
@@ -110,8 +110,8 @@ public class CountryService {
         countries.put ("GW","Guinea-bissau");
         countries.put ("GY","Guyana");
         countries.put ("HT","Haiti");
-        countries.put ("HM","Heard Island and Mcdonald Islands");
-        countries.put ("VA","Holy See (Vatican City State)");
+        //countries.put ("HM","Heard Island and Mcdonald Islands");
+        //countries.put ("VA","Holy See (Vatican City State)");
         countries.put ("HN","Honduras");
         countries.put ("HK","Hong Kong");
         countries.put ("HU","Hungary");
@@ -179,12 +179,12 @@ public class CountryService {
         countries.put ("NG","Nigeria");
         countries.put ("NU","Niue");
         countries.put ("NF","Norfolk Island");
-        countries.put ("MP","Northern Mariana Islands");
+        //countries.put ("MP","Northern Mariana Islands");
         countries.put ("NO","Norway");
         countries.put ("OM","Oman");
         countries.put ("PK","Pakistan");
         countries.put ("PW","Palau");
-        countries.put ("PS","Palestinian Territory, Occupied");
+        //countries.put ("PS","Palestinian Territory, Occupied");
         countries.put ("PA","Panama");
         countries.put ("PG","Papua New Guinea");
         countries.put ("PY","Paraguay");
@@ -247,7 +247,7 @@ public class CountryService {
         countries.put ("AE","United Arab Emirates");
         countries.put ("GB","United Kingdom");
         countries.put ("US","United States");
-        countries.put ("UM","United States Minor Outlying Islands");
+        //countries.put ("UM","United States Minor Outlying Islands");
         countries.put ("UY","Uruguay");
         countries.put ("UZ","Uzbekistan");
         countries.put ("VU","Vanuatu");

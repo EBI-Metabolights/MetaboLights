@@ -3,6 +3,7 @@
 
 <br/><br/>
 <img src="img/error.png"/>
+<!-- img src="img/ebi-icons/64px/stop.png"-->
 
 <br/><br/>
 <span class="error">

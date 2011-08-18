@@ -32,14 +32,16 @@
 		</tr-->
 		<tr>
             <td></td>
-			<td colspan='2'><input name="submit" type="submit" value="<spring:message code="label.login"/>">
-            <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
-
+			<td colspan='2'><input name="submit" type="submit" class="big_submit" value="<spring:message code="label.login"/>">
+            &nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
 			</td>
 		</tr>
         <tr >
             <td valign="top" align="right" style="padding-top:30px">
-                 <a href="newAccount" ><img src="img/newUser.png" border="0px"/></a>
+                 <a href="newAccount" >
+                   <!-- img src="img/newUser.png" border="0px"/-->
+                   <img src="img/ebi-icons/32px/user-add.png" border="0px"/>
+                 </a>
             </td>
             <td colspan='2' valign="top" style="padding-top:30px">
                  <a href="newAccount" ><spring:message code="label.needNewAccount" /></a>

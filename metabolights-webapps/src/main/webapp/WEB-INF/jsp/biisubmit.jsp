@@ -79,8 +79,9 @@
 	        <tr>
 	        	<td><spring:message code="label.publicDate"/></td>
 				<td>
-					<input type="text" name="pickdate" id="datepicker" readonly="readonly" />
-					<input type="image" src="img/calendar.gif" onclick="return togglePublic()" />
+					<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return togglePublic()" />
+					<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="10"/>
+					
 				</td> 
 	        </tr>
 	       	<tr>
@@ -88,7 +89,7 @@
 	        </tr>
 	        
 	        <tr>
-	            <td height="100px" colspan='2'><input name="submit" type="submit" value="<spring:message code="label.upload"/>">
+	            <td height="100px" colspan='2'><input name="submit" type="submit" class="big_submit" value="<spring:message code="label.upload"/>">
 	            <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
 	            </td>
 	        </tr>
