@@ -48,6 +48,16 @@
 		return false; 
 	}
 	
+	function syncDateBox() {
+		
+		document.forms['uf'].elements['pickdate'].disabled=document.forms['uf'].elements['public'].checked;
+		
+		if (document.forms['uf'].elements['public'].checked){
+			//$("#datepicker").datepicker("setDate", new Date());
+			document.forms['uf'].elements['pickdate'].value = "";
+		}
+	}
+	
 	
 </script>		
 		
@@ -74,14 +84,13 @@
 	        </tr>
 	        <tr>
 	            <td><spring:message code="label.experimentstatuspublic" />:</td>
-	            <td><input type="checkbox" name="public" onClick="this.form.pickdate.disabled=this.checked"/></td>
+	            <td><input type="checkbox" name="public" onClick="syncDateBox()"/></td>
 	        </tr>
 	        <tr>
 	        	<td><spring:message code="label.publicDate"/></td>
 				<td>
 					<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return togglePublic()" />
 					<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="10"/>
-					
 				</td> 
 	        </tr>
 	       	<tr>
