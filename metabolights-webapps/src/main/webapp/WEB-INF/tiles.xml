@@ -93,7 +93,7 @@
     </definition>
 
     <definition name="updateAccount" extends="base.definition">
-        <put-attribute name="title" value="Update your account for Metabolights" />
+        <put-attribute name="title" value="My Account" />
         <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
     </definition>
 
