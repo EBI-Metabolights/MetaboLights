@@ -265,7 +265,7 @@ public class UserAccountController extends AbstractController{
 	 * @return
 	 */
 	@RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
-    public ModelAndView updateAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model) {
+    public ModelAndView updateAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model, HttpServletRequest request) {
 
     	if (result.hasErrors()) {
         	ModelAndView mav = new ModelAndView("updateAccount");
@@ -289,7 +289,9 @@ public class UserAccountController extends AbstractController{
 			e.printStackTrace(); 
 		}
     	
-		//Back to home page, tell user
+		//Redirect to account confirmation page
+    	HttpSession httpSession = request.getSession();
+		httpSession.setAttribute("user", metabolightsUser);
     	return new ModelAndView("redirect:update-success");
 	}
 
@@ -297,8 +299,21 @@ public class UserAccountController extends AbstractController{
 	 * After succesful update.
 	 */
 	@RequestMapping({"/update-success"})
-	public ModelAndView updateDone() {
-	    return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.updatedAccount"));
+	public ModelAndView updateDone(HttpServletRequest request) {
+	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.updatedAccount"));
+		
+		// default action for this request, unless the session has candy in it. 
+		ModelAndView mav = new ModelAndView("index", "message", PropertyLookup.getMessage("msg.updatedAccount")); 
+    	MetabolightsUser newUser = (MetabolightsUser) request.getSession().getAttribute("user");
+    	
+		if (newUser!=null){
+			mav = new ModelAndView("accountRequested");
+			mav.addObject("user", newUser);
+			mav.addObject("updated","updated");  //Just to enable us to display a different text when requesting and updating the account
+			request.getSession().removeAttribute("user");
+		}
+
+    	return mav;
     }
 
 

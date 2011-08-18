@@ -4,7 +4,10 @@
 <div class="formbox">
 	<table cellpadding="15px" cellspacing="0px" width="90%">
 	    <tr class="formheader">
-	        <th class="tableheader" colspan="3"><spring:message code="msg.feedbackAccountRequestedHeader"/>: <c:out value="${user.email}"/> </th>
+	        <th class="tableheader" colspan="3">
+	        	<c:if test="${not empty updated}"> <spring:message code="msg.updatedAccount" /></c:if>  <!--  only display on update account -->
+            	<c:if test="${empty updated}">	 <spring:message code="msg.feedbackAccountRequestedHeader" /></c:if> <!--  only display on new account creation -->
+	        : <c:out value="${user.email}"/> </th>
 	    </tr>
 	    
 	    <tr>
@@ -36,14 +39,20 @@
         </tr>
         
         <tr>
-            <td colspan='3'><spring:message code="msg.feedbackAccountRequestedBody" /></td>
+            <td colspan='3'>
+            	 <c:if test="${empty updated}">	 <spring:message code="msg.feedbackAccountRequestedBody" /></c:if> <!--  only display on new account creation -->
+            </td>
         </tr>
         <tr>
             <td colspan='3'><a href="index"><spring:message code="msg.mainPage"/></a></td>
         </tr>
-        <tr>
-            <td colspan='3'><img src="img/clock.png" ></img> </td>
-        </tr>
+        
+        <c:if test="${empty updated}">  <!--  only display on new account creation -->
+        	<tr>
+            	<td colspan='3'><img src="img/clock.png" ></img> </td>
+        	</tr>
+       </c:if>   
+       	
 	</table>
 </div>
 
