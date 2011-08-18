@@ -18,13 +18,15 @@
 			&nbsp;
 			<img src="img/warning.png" height="24px" width="24px" style="vertical-align: middle"/>
 			<b><spring:message code="label.expPrivate"/></b>
+			<c:if test="${empty nopublish}">
 			&nbsp;
-			<div style="float: right; margin-right:200px"">
+			<div style="float: right; margin-right:150px"">
 			<form name="publish-form" action="makestudypublic" method="post" class="one-button-form">
 				<input type="hidden" name="study" value="${searchResult.accStudy}"/>
-				<input type="submit" id="publish" value="" class="publish-button" />
+				<input type="submit" id="publish" value="<spring:message code="label.makestudypublic"/>" class="big_submit" />
 			</form>
 			</div>
+			</c:if>
 		</c:if>
 	</div>
 	

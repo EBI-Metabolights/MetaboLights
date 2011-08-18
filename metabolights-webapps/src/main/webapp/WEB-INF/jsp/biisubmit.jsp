@@ -99,7 +99,7 @@
 	        
 	        <tr>
 	            <td height="100px" colspan='2'><input name="submit" type="submit" class="big_submit" value="<spring:message code="label.upload"/>">
-	            <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
+	            &nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
 	            </td>
 	        </tr>
 	      

@@ -57,7 +57,8 @@ function syncDateBox() {
 		document.forms['uf'].elements['pickdate'].value = "";
 	}
 }
-</script>	
+</script>
+
 
 <div class="formbox">
 	<table border="0px" "cellpadding="15px" cellspacing="0px" width="90%">
@@ -70,12 +71,13 @@ function syncDateBox() {
 	    </tr>
 		<c:if test="${not empty message}">
 			<tr>
-				<td><br/>${message}<br/><br/><br/></td>
+				<td><br/>${message}<br/><br/></td>
 			</tr>
 		</c:if>
 		<c:if test="${not empty searchResult}">
 			<tr>
 				<td>
+					<c:set var="nopublish" value="true"/>
 					<%@include file="entrySummary.jsp" %>
 				</td>
 			</tr>
@@ -83,10 +85,10 @@ function syncDateBox() {
 	</table>
 	
 	<c:if test="${empty updated}">
-	
+		<br/><br/>
 		<form method="post" action="${action}" name="uf" onsubmit="disableSubmission()">
 	    	<input type="hidden" value="${study}" name="study"/>
-		    <table cellpadding="15px" cellspacing="0px" width="90%">
+		    <table cellpadding="0px" cellspacing="15px" width="50%">
 				<c:if test="${isUpdateMode}">
 					<tr><td>File upload stuff here</td></tr>
 				</c:if>
@@ -98,12 +100,13 @@ function syncDateBox() {
 		        	<td><spring:message code="label.publicDate"/></td>
 					<td>
 						<input type="text" name="pickdate" id="datepicker" readonly="readonly" />
-						<input type="image" src="img/calendar.gif" onclick="return togglePublic()" style="vertical-align: middle"/>
+						<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return togglePublic()" style="vertical-align: middle" size=10/>
 					</td> 
 		        </tr>
 		        <tr>
 		        	<td colspan='2'>
-						<input type="submit" name="submit" value="${submitText}">
+						<input type="submit" name="submit" class="big_submit" value="${submitText}">
+						&nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
 		        	</td>
 		        </tr>
 		        <tr>
@@ -117,3 +120,4 @@ function syncDateBox() {
 		</form>   
 	</c:if>
 </div>
+<br/><br/>
