@@ -35,7 +35,10 @@
         </tr>   
         <tr>
 	    	<td><spring:message code="label.country" />:</td>
-	    	<td colspan='2'>${user.address}</td>	    
+	    	<td colspan='2'>
+	    		<c:if test="${empty country}"> ${user.address}</c:if>  <!--  Short name UK -->
+	    		<c:if test="${not empty country}"> ${country}</c:if>	<!--  Long name United Kingdom -->
+	    	</td>	    
         </tr>
         
         <tr>

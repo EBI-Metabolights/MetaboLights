@@ -88,7 +88,7 @@
     </definition>
 
     <definition name="accountRequested" extends="base.definition">
-        <put-attribute name="title" value="Account has been requested" />
+        <put-attribute name="title" value="Account information" />
         <put-attribute name="body" value="/WEB-INF/jsp/accountRequested.jsp" />
     </definition>
 

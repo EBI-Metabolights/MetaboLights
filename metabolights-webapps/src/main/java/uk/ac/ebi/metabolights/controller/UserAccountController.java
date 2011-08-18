@@ -131,6 +131,7 @@ public class UserAccountController extends AbstractController{
     	
 		HttpSession httpSession = request.getSession();
 		httpSession.setAttribute("user", metabolightsUser);
+		httpSession.setAttribute("country",metabolightsUser.getListOfAllCountries().get(metabolightsUser.getAddress()));
 		
     	return new ModelAndView("redirect:accountRequested");
     		
@@ -310,6 +311,7 @@ public class UserAccountController extends AbstractController{
 			mav = new ModelAndView("accountRequested");
 			mav.addObject("user", newUser);
 			mav.addObject("updated","updated");  //Just to enable us to display a different text when requesting and updating the account
+			mav.addObject("country",newUser.getListOfAllCountries().get(newUser.getAddress()));
 			request.getSession().removeAttribute("user");
 		}
 
