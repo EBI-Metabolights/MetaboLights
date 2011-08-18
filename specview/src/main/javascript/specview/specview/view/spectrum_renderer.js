@@ -314,14 +314,16 @@ specview.view.SpectrumRenderer.prototype.clearSpectrum = function(box,graphics){
 };
 
 
-specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor) {
+specview.view.SpectrumRenderer.prototype.highlightOn = function(peak,editor,opt_color) {
 //	alert(peak.isVisible)
 	opt_element_array = new specview.graphics.ElementArray();
 	var fill = new goog.graphics.SolidFill("#55bb00", .3);
     var peakPath = new goog.graphics.Path();
+    var color = opt_color == undefined ? document.editorObject.peakColor : opt_color;
+    
     peakPath.moveTo(peak.xPixel, peak.yPixel); 
-    peakPath.lineTo(peak.xTpixel,peak.yTpixel);
-    opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,document.editorObject.peakColor),null));
+    peakPath.lineTo(peak.xTpixel,peak.yTpixel);    
+    opt_element_array.add(this.graphics.drawPath(peakPath,new goog.graphics.Stroke(2,color),null));
 	return opt_element_array;
 };
 

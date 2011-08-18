@@ -354,11 +354,17 @@ document.onmousedown = function(e){
 		
 		
 	}else if(specview.controller.Controller.isInMolecule(e,document.metaSpecObject)){
+		
+//		alert("")
 		specview.controller.plugins.Highlight.logger2.info("Mouse down in the molecule")
 		var initialCoordinates = new goog.math.Coordinate(e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft,
 													  e.clientY + document.body.scrollTop + document.documentElement.scrollTop)
-
-		if(document.editorObject.neighborList.getObjectFromCoord(e,document.editorObject.specObject) == undefined){
+		
+//		alert(document.getElementById("floatingBoxSelectMultiplePeaks").style.display)
+		
+		if(document.editorObject.neighborList.getObjectFromCoord(e,document.editorObject.specObject) == undefined && 
+				document.getElementById("floatingBoxSelectMultiplePeaks").style.display == "none"){
+//			alert("I am going to set the zoom tool to not null")
 			specview.controller.plugins.Highlight.logger2.info("in the molecule about to zoom")
 			specview.controller.plugins.Highlight.zoomObject = new specview.controller.plugins.Zoom();
 			specview.controller.plugins.Highlight.zoomObject.initialCoordinates = initialCoordinates;
@@ -418,10 +424,24 @@ specview.controller.plugins.Highlight.prototype.handleMouseUp = function(e){
 		this.reSetZoomRectangle(leftPositionOfTheDraggingBar , rightPositionOfTheDraggingBar,document.metaSpecObject);
 		this.dragSpectrum(leftPositionOfTheDraggingBar,rightPositionOfTheDraggingBar);
 	}else if(isInMolecule){
+//		alert(specview.controller.plugins.Highlight.zoomObject )
 		if(specview.controller.plugins.Highlight.zoomObject == null){
+//			alert("caca")
 			var object = this.editorObject.neighborList.getObjectFromCoord(e,this.editorObject.specObject)
-			object.isSelected ? this.unselectObject(object) : this.selectObject(object,e);
-			this.editorObject.specObject.selected.push(object);
+//			alert(object.isSelected)
+//			object.isSelected ? this.unselectObject(object) : this.selectObject(object,e);
+//			alert(object.isSelected)
+			if(object.isSelected){
+				this.unselectObject(object)
+				for(k in this.editorObject.specObject.selected){
+					if(this.editorObject.specObject.selected[k] == object){
+						this.editorObject.specObject.selected[k] = null;
+					}
+				}
+			}else{
+				this.selectObject(object,e)
+				this.editorObject.specObject.selected.push(object);
+			}
 			document.ShowContent("floatingBoxSelectMultiplePeaks")
 		}else if(specview.controller.plugins.Highlight.zoomObject.rectangle != null){
 			var left = parseInt(specview.util.Utilities.parsePixel(specview.controller.plugins.Highlight.zoomObject.rectangle.style.left));
@@ -523,6 +543,7 @@ specview.controller.plugins.Highlight.prototype.zoomOnSpectrum2 = function(listO
  */
 specview.controller.plugins.Highlight.reDrawMolecule = function(editorObject){
 	for(k in editorObject.specObject.molecule.atoms){
+		specview.controller.plugins.Highlight.UnhighlightPeak(editorObject.specObject.molecule.atoms[k])
 		editorObject.specObject.molecule.atoms[k].isSelected = false;
 	}
 	for(k in editorObject.specObject.molecule.bonds){
@@ -597,14 +618,15 @@ specview.controller.plugins.Highlight.prototype.drawZoomRectangle = function(rec
 	return this.editorObject.spectrumRenderer.drawRectangle(rectangle,this.editorObject);
 };
 
-specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak,editor){
-	return this.editorObject.spectrumRenderer.highlightOn(peak,editor);
+specview.controller.plugins.Highlight.prototype.highlightPeak=function(peak,editor,opt_color){
+	return this.editorObject.spectrumRenderer.highlightOn(peak,editor,opt_color);
 };
 
 
 specview.controller.plugins.Highlight.highlightSerieOfPeaks = function(editor){
 //	alert(editor)
 	
+//	alert(editor.specObject.selected.length)
 	var ArrayOfPeaks = new Array();
 	//alert(specview.util.Utilities.getAssoArrayLength(editor.specObject.selected))
 	for(k in editor.specObject.selected){
@@ -623,6 +645,67 @@ specview.controller.plugins.Highlight.highlightSerieOfPeaks = function(editor){
 		editor.spectrumRenderer.highlightOnSerieOfPeaks(ArrayOfPeaks,editor);
 }
 
+specview.controller.plugins.Highlight.UnhighlightSerieOfPeaks = function(){
+	var currentMetaSpecObject=this.editorObject.getSpecObject();//The metaSpec object
+	var currentAtomInnerIdentifier= target.innerIdentifier;//the atom Id
+	var hypotheticalPeakIdToWhichTheCurrentAtomIsLinked=target.peakMap[currentAtomInnerIdentifier];//its peak Id
+//	alert(hypotheticalPeakIdToWhichTheCurrentAtomIsLinked)
+	var peakObjectCorrespondingToThePeakId=currentMetaSpecObject.ArrayOfPeaks[hypotheticalPeakIdToWhichTheCurrentAtomIsLinked];//Peak
+	/**
+	 * If the text information about the peak is written, then we have to delete it to let the place free
+	 * for the new peak.
+	 */
+	if(this.editorObject.peakInfoRenderer.box.height!=undefined){
+		this.clearTextInformation(this.editorObject.peakInfoRenderer.box);
+	}
+	/**
+	 * If a related peak exists, then we highlight it.
+	 */
+	if(peakObjectCorrespondingToThePeakId){
+//		alert(this.editorObject.specObject.zoomLevel)
+		var bbb = this.editorObject.specObject.spectrum.belongs(peakObjectCorrespondingToThePeakId.peakId , this.editorObject.specObject.zoomMap[this.editorObject.specObject.zoomLevel])
+//		alert(bbb)
+		if(bbb){
+//			alert(peakObjectCorrespondingToThePeakId.isVisible)
+			this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
+			e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);
+			this.drawTextInformation(peakObjectCorrespondingToThePeakId, currentMetaSpecObject)	
+		}
+	}
+};
+
+
+
+specview.controller.plugins.Highlight.UnhighlightPeak = function(object){
+	var currentMetaSpecObject=document.editorObject.getSpecObject();//The metaSpec object
+	var currentAtomInnerIdentifier= object.innerIdentifier;//the atom Id
+	var hypotheticalPeakIdToWhichTheCurrentAtomIsLinked=object.peakMap[currentAtomInnerIdentifier];//its peak Id
+//	alert(hypotheticalPeakIdToWhichTheCurrentAtomIsLinked)
+	var peakObjectCorrespondingToThePeakId=currentMetaSpecObject.ArrayOfPeaks[hypotheticalPeakIdToWhichTheCurrentAtomIsLinked];//Peak
+	/**
+	 * If the text information about the peak is written, then we have to delete it to let the place free
+	 * for the new peak.
+	 */
+//	if(this.editorObject.peakInfoRenderer.box.height!=undefined){
+//		this.clearTextInformation(this.editorObject.peakInfoRenderer.box);
+//	}
+	/**
+	 * If a related peak exists, then we highlight it.
+	 */
+	if(peakObjectCorrespondingToThePeakId){
+//		alert(this.editorObject.specObject.zoomLevel)
+		var bbb = document.editorObject.specObject.spectrum.belongs(peakObjectCorrespondingToThePeakId.peakId , document.editorObject.specObject.zoomMap[document.editorObject.specObject.zoomLevel])
+//		alert(bbb)
+		if(bbb){
+//			alert(peakObjectCorrespondingToThePeakId.isVisible)
+		//	this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
+//			e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId);
+//			this.drawTextInformation(peakObjectCorrespondingToThePeakId, currentMetaSpecObject)	
+			document.editorObject.spectrumRenderer.highlightOn(peakObjectCorrespondingToThePeakId , document.editorObject , "black");
+		}
+	}
+};
+
 specview.controller.plugins.Highlight.prototype.highlightAtom = function(atom) {
 	return this.editorObject.moleculeRenderer.atomRenderer.highlightOn(atom,this.HIGHLIGHT_COLOR);
 };
@@ -636,6 +719,33 @@ specview.controller.plugins.Highlight.prototype.unselectObject = function(object
 	object.isSelected = false;
 	this.editorObject.moleculeRenderer.clearMolecule(this.editorObject.specObject.mainMolBox,this.editorObject.graphics)
 	this.editorObject.moleculeRenderer.render(this.editorObject.specObject.molecule,this.editorObject.staticTransform,this.editorObject.specObject.mainMolBox)
+	
+	
+	/*
+	var currentMetaSpecObject=this.editorObject.getSpecObject();//The metaSpec object
+	var currentAtomInnerIdentifier= object.innerIdentifier;//the atom Id
+	var hypotheticalPeakIdToWhichTheCurrentAtomIsLinked=object.peakMap[currentAtomInnerIdentifier];//its peak Id
+//	alert(hypotheticalPeakIdToWhichTheCurrentAtomIsLinked)
+	var peakObjectCorrespondingToThePeakId=currentMetaSpecObject.ArrayOfPeaks[hypotheticalPeakIdToWhichTheCurrentAtomIsLinked];//Peak
+
+//	if(this.editorObject.peakInfoRenderer.box.height!=undefined){
+//		this.clearTextInformation(this.editorObject.peakInfoRenderer.box);
+//	}
+
+	if(peakObjectCorrespondingToThePeakId){
+//		alert(this.editorObject.specObject.zoomLevel)
+		var bbb = this.editorObject.specObject.spectrum.belongs(peakObjectCorrespondingToThePeakId.peakId , this.editorObject.specObject.zoomMap[this.editorObject.specObject.zoomLevel])
+//		alert(bbb)
+		if(bbb){
+//			alert(peakObjectCorrespondingToThePeakId.isVisible)
+//			this.lastPeakHighlighted=peakObjectCorrespondingToThePeakId;
+//			e.currentTarget.highlightPeak=this.highlightPeak(peakObjectCorrespondingToThePeakId,document.editorObject , "black");
+			this(peakObjectCorrespondingToThePeakId,document.editorObject , "black");
+//			this.drawTextInformation(peakObjectCorrespondingToThePeakId, currentMetaSpecObject)	
+		}
+	}
+	*/
+	specview.controller.plugins.Highlight.UnhighlightPeak(object)
 };
 
 

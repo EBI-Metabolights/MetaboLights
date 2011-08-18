@@ -94,6 +94,9 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
 	var maxHeight=metaSpecObject.spectrum.getMaxHeightPeak();
 	var maxValue=metaSpecObject.spectrum.getMaxValuePeak();
 
+	
+//	alert(maxValue)
+	
 	var boxCoords=metaSpecObject.mainSpecBox;
 	var topLeft=boxCoords[0];
 	var topRight=boxCoords[1];
@@ -132,7 +135,12 @@ specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_c
      */
     var ecartNouveau = metaSpecObject.spectrum.getMaxValuePeak() - metaSpecObject.spectrum.getMinValuePeak();
     
+    metaSpecObject.expand = true;
     var valueToStart = metaSpecObject.expand ? metaSpecObject.spectrum.getMinValuePeak() : 0;
+    
+//    alert(valueToStart)
+  
+//    alert(ecartNouveau)
     
     switch(metaSpecObject.experienceType){
     case "NMR" :

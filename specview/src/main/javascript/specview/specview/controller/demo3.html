@@ -899,6 +899,11 @@ Hide the window
      <li>
      <a href="javascript:specview.controller.plugins.Highlight.highlightSerieOfPeaks(document.editorObject)">Identify the peaks of the atoms you selected</a>
      </li><br>
+     
+	 <li>
+     <a href="javascript:specview.controller.plugins.Highlight.UnhighlightSerieOfPeaks(document.editorObject)">Unselect the peaks of this atom</a>
+     </li><br>
+     
      <li>
           <a href="javascript:specview.controller.plugins.Highlight.reDrawMolecule(document.editorObject)">Unselect everything</a>
 	 </li><br>
@@ -990,7 +995,7 @@ function donnut(){
 
 ></textarea>
 
-<textarea id = "peakInformation" rows="10" cols="20"
+<textarea id = "peakInformation" rows="10" cols="20" wrap = "off"
 		  style="
 		    position : absolute;
 		  	left : 870px;
