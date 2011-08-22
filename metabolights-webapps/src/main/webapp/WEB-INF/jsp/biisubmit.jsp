@@ -10,19 +10,19 @@
 	}
 	
 	function disableSubmission() {
-		document.forms['uf'].elements['submit'].disabled=true;
-	    document.forms['uf'].elements['cancel'].disabled=true;
 	    document.body.style.cursor = "wait";
 		var hglass = document.getElementById("hourglass");
 		hglass.style.display = "block";		
+		var buttons = document.getElementById("hideableButtons");
+		buttons.style.display = "none";
 	}
 	
 	function enableSubmission() {
-	    document.forms['uf'].elements['submit'].disabled=false;
-	    document.forms['uf'].elements['cancel'].disabled=false;
 	    document.body.style.cursor = "default";
 		var hglass = document.getElementById("hourglass");
 		hglass.style.display = "none";
+		var buttons = document.getElementById("hideableButtons");
+		buttons.style.display = "block";
 	}
 	
 	$(function() {
@@ -98,9 +98,13 @@
 	        </tr>
 	        
 	        <tr>
-	            <td height="100px" colspan='2'><input name="submit" type="submit" class="big_submit" value="<spring:message code="label.upload"/>">
-	            &nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
-	            </td>
+	            <td height="100px" colspan='2'>
+		             <div id="hideableButtons" style="display:none">
+                     <input name="submit" type="submit" class="big_submit" value="<spring:message code="label.upload"/>">
+		             &nbsp;&nbsp;
+		             <a href="index"><spring:message code="label.cancel"/></a>
+			         </div>
+            	</td>
 	        </tr>
 	      
 	       

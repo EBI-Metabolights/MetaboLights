@@ -42,7 +42,9 @@ var http = createRequestObject();
 function tagTextWithWhatizit() {
     //make a connection to the server ... specifying that you intend to make a GET request 
     //to the server. Specifiy the page name and the URL parameters to send
-    http.open('get', 'tagText');
+    //
+    //Did not work in IE, needed an extra dummy refresh enforcer. See: http://weblogs.asp.net/pleloup/archive/2006/06/08/451583.aspx
+    http.open('get', 'tagText?dummy='+ new Date().getTime());
     //assign a handler for the response
     http.onreadystatechange = processResponse;
     //actually send the request to the server

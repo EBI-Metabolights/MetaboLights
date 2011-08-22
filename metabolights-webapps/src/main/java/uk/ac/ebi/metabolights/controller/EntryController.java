@@ -76,9 +76,10 @@ public class EntryController extends AbstractController {
         mav.addObject("ftpLocation",ftpLocation);
 
         //Stick text for tagging (Whatizit) in the session..
-        if (study.getDescription()!=null)
+        if (study.getDescription()!=null) {
+        	logger.debug("placing study description in session for Ajax highlighting");
         	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
-
+        }
 		return mav;
 	}
 	
@@ -145,6 +146,7 @@ public class EntryController extends AbstractController {
 			logger.debug("Calling WhatWhatIzIt");
 			String taggedContent = textTagger.tagText(description);
 			mav.addObject("taggedContent", taggedContent);
+			logger.debug(taggedContent);
     	}
     	else 
     		mav.addObject("taggedContent", null);
