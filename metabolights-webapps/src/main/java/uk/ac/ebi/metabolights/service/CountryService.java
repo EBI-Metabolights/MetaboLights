@@ -65,7 +65,7 @@ public class CountryService {
         countries.put ("CC","Cocos (Keeling) Islands");
         countries.put ("CO","Colombia");
         countries.put ("KM","Comoros");
-        //countries.put ("CG","Congo");
+        countries.put ("CG","Congo, Republic of The");
         countries.put ("CD","Congo, The Democratic Republic of The");
         countries.put ("CK","Cook Islands");
         countries.put ("CR","Costa Rica");
