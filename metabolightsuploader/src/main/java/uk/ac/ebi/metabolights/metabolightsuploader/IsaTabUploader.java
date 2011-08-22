@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -175,8 +176,7 @@ public class IsaTabUploader {
 		
 		// If not SUCCESS...
 		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("File persistance process has failed.",sm.getLastLog()) ;
-		
-		
+				
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
 		updateCheckList(SubmissionProcessCheckListSeed.FILEPERSISTENCE, "The file has been successfully stored in our database.");
@@ -205,7 +205,21 @@ public class IsaTabUploader {
 		String study = studyCol.iterator().next();
 		
 		// Get the destination
-		File destination = new File(getStudyFilePath(study, this.status));
+		String destinationS = getStudyFilePath(study, this.status);
+
+		Zip(destinationS);
+		
+		
+	}
+	/**
+	 * Zip the folder to the specified destination and change the status
+	 * @param destinationS
+	 * @throws IOException
+	 */
+	private void Zip(String destinationS) throws IOException{
+		
+		// Get the destination
+		File destination = new File(destinationS);
 		
 		//If there is already a file....
 		if (destination.exists()){
@@ -224,8 +238,6 @@ public class IsaTabUploader {
 
 		}
 		
-		
-		
 	}
 	
 	/**
@@ -233,8 +245,6 @@ public class IsaTabUploader {
 	 * @param file
 	 */
 	public void changeFilePermissions(String filePath, VisibilityStatus newStatus){
-	
-		
 		
 		// Get the file
 		File file = new File(filePath);
@@ -254,7 +264,30 @@ public class IsaTabUploader {
 	public void PublishStudy(String study) throws Exception{
 		changeStudyStatus(VisibilityStatus.PUBLIC, null, study);
 	}
-	
+	/**
+	 * Replaces values in IsaTab zip file based on the hash (Field - value)
+	 * @param study
+	 * @param replacementHash: Key should be an IsaTab field, Value any value to use in the replacement.
+	 * @throws Exception 
+	 */
+	public void changeStudyFields(String study, HashMap<String,String> replacementHash) throws Exception{
+		
+		// Get the file, where ever it is...
+		isaTabArchive = getCurrentStudyFilePath(study);
+		
+		// Un zip it to the upload folder (be sure it is clean)
+		Unzip();
+		
+		// Replace the fields
+		itir.setIsaTabFolder(unzipFolder);
+		itir.replaceFields(replacementHash);
+		
+		//Zip it again to the specified folder
+		Zip(isaTabArchive);
+		
+		
+		
+	}
 	private void changeStudyStatus(VisibilityStatus newStatus, String owner, String study) throws Exception{
 		
 		//Change study status...
@@ -287,7 +320,38 @@ public class IsaTabUploader {
 	public VisibilityStatus getOtherStatus(VisibilityStatus status){
 		return (status == VisibilityStatus.PRIVATE)? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE;
 	}
-	
+
+	private String getCurrentStudyFilePath(String study) throws FileNotFoundException{
+		
+		// As we don't whether the study is public or private, try to guess it...
+		// Try the public...
+		File fileStudyPublic = new File (getStudyFilePath(study, VisibilityStatus.PUBLIC));
+		
+		// If exists...
+		if (fileStudyPublic.exists()){
+			this.status = VisibilityStatus.PUBLIC;
+			return fileStudyPublic.getAbsolutePath();
+		}else {
+			
+			// Try the private...
+			File fileStudyPrivate = new File (getStudyFilePath(study, VisibilityStatus.PRIVATE));
+			
+			// If exists...
+			if (fileStudyPrivate.exists()){
+				this.status = VisibilityStatus.PRIVATE;
+				return fileStudyPrivate.getAbsolutePath();
+			
+			}else{
+			
+				//There isn't anywhere...
+				throw new FileNotFoundException("Study file for " + study + "not found neither in public nor private folder.");
+			
+			}
+
+		}
+		
+		
+	}
 	public String getStudyFilePath(String study, VisibilityStatus status) {
 		
 		String folder = (status == VisibilityStatus.PRIVATE)? copyToPrivateFolder: copyToPublicFolder;

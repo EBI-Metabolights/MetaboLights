@@ -11,6 +11,7 @@ import java.util.HashMap;
 //import javax.naming.ConfigurationException;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import org.apache.commons.io.FileUtils;
@@ -23,51 +24,55 @@ import uk.ac.ebi.metabolights.utils.Zipper;
 
 public class IsaTabIdReplacerTest {
 
-	//Folders
+	// Folders
 	static final String FOLDER_TEST_IN = "./src/test/resources/inputfiles/";
 	static final String FOLDER_TEST_OUT = "./src/test/resources/outputfiles/";
 	
-	//Files for validation
+	// Files for validation
 	static final String FILE_NOEXISTS_TXT = "1234567890.txt";
 	static final String FILE_NOEXISTS_ZIP = "1234567890.zip";
 	static final String FILE_EXISTS_ZIP = FOLDER_TEST_IN + "fake.zip";
 	static final String FILE_EXISTS_TXT = FOLDER_TEST_IN + "fake.txt";
 
-	//Constants for IsaTab1 test
+	// Constants for IsaTab1 test
 	static final String FOLDER_ISATAB1 = FOLDER_TEST_IN + "isatab1/";
 	static final String FILE_ISATAB1 = FOLDER_TEST_IN + "isatab1.zip";
 	
 	static final String FOLDER_ISATAB1_OUT = FOLDER_TEST_OUT + "isatab1/";
 	
-	//Constants for IsaTabBII1 test
+	// Constants for IsaTabBII1 test
 	static final String FOLDER_ISATABBII1 = FOLDER_TEST_IN + "BII-I-1/";
 	static final String FILE_ISATABBII1 = FOLDER_TEST_IN + "BII-I-1.zip";
 
 	static final String FOLDER_ISATABBII1_OUT = FOLDER_TEST_OUT + "BII-I-1/";
 
 	
-	//Constants for RS_T2DM_GSK test
+	// Constants for RS_T2DM_GSK test
 	static final String FOLDER_ISATAB_RS_T2DM_GSK = FOLDER_TEST_IN + "RS_T2DM_GSK/";
 	static final String FILE_ISATAB_RS_T2DM_GSK = FOLDER_TEST_IN + "RS_T2DM_GSK.zip";
 	
 	static final String FOLDER_ISATAB_RS_T2DM_GSK_OUT = FOLDER_TEST_OUT + "RS_T2DM_GSK/";
 
 	
-	//Constants for fake test
+	// Constants for fake test
 	static final String FOLDER_FAKE = FOLDER_TEST_IN + "fake/";
 	static final String FILE_FAKE = FOLDER_TEST_IN + "fake.zip";
 	
 	static final String FOLDER_FAKE_OUT = FOLDER_TEST_OUT + "fake/";
 	
+	// Constants for field replacement
+	static final String FOLDER_REPLACEMENT = FOLDER_TEST_IN + "FieldReplacement/";
 	
+	static final String FOLDER_REPLACEMENT_OUT = FOLDER_TEST_OUT + "FieldReplacement/";
 	
-	//TODO: First time, BII-I-1 zip is not found for IsaTabUploaderTest (why?) I would like to invoke
-	//this method before any test start.
-	@Before
-	public void prepareInputFiles() throws IOException{
+			
+	// First time, BII-I-1 zip is not found for IsaTabUploaderTest (why?) I would like to invoke
+	// this method before any test start.
+	@BeforeClass
+	public static void prepareInputFiles() throws IOException{
 		
 		try{
-			//Zip all files needed to the test.
+			// Zip all files needed to the test.
 			Zipper.zip(FOLDER_ISATAB1, FILE_ISATAB1);
 			Zipper.zip(FOLDER_ISATABBII1, FILE_ISATABBII1);
 			Zipper.zip(FOLDER_FAKE, FILE_FAKE);
@@ -78,37 +83,69 @@ public class IsaTabIdReplacerTest {
 			fail("Zipper.zip threw an exception: " + ioe.getMessage());
 		}
 			
-		//Delete (empty recursively) the output folder
+		// Delete (empty recursively) the output folder
 		File out = new File (FOLDER_TEST_OUT);
 		FileUtil.deleteDir(out);
-		//Create it again, this time empty	
+		// Create it again, this time empty	
 		out.mkdir();
 		
-		//Copy all folders in input files into the output folder...
+		// Copy all folders in input files into the output folder...
 		FileUtils.copyDirectory(new File(FOLDER_ISATAB1), new File(FOLDER_ISATAB1_OUT));
 		FileUtils.copyDirectory(new File(FOLDER_ISATABBII1), new File(FOLDER_ISATABBII1_OUT));
 		FileUtils.copyDirectory(new File(FOLDER_FAKE), new File(FOLDER_FAKE_OUT));
 		FileUtils.copyDirectory(new File(FOLDER_ISATAB_RS_T2DM_GSK), new File (FOLDER_ISATAB_RS_T2DM_GSK_OUT));
+		FileUtils.copyDirectory(new File(FOLDER_REPLACEMENT), new File (FOLDER_REPLACEMENT_OUT));
+		
 		
 	}
 	@Test
 	public void testMembers(){
-		//Values for the constructor
+		// Values for the constructor
 		final String EXPECTED_ARCHIVE_C = "foo";
 		
-		//Values to test the setters
+		// Values to test the setters
 		final String EXPECTED_ARCHIVE = "loo";
 		
-		//Creation
+		// Creation
 		IsaTabIdReplacer istr = new IsaTabIdReplacer(EXPECTED_ARCHIVE_C);
 		
-		//Test Members after constructor
+		// Test Members after constructor
 		assertEquals(EXPECTED_ARCHIVE_C,istr.getIsaTabFolder());
 		
-		//Test setters
-		//Test IsaTabArchive member
+		// Test setters
+		// Test IsaTabArchive member
 		istr.setIsaTabFolder(EXPECTED_ARCHIVE);
 		assertEquals(EXPECTED_ARCHIVE, istr.getIsaTabFolder());
+		
+		// Test methods...
+		assertEquals("This is a field", istr.getFieldInLine("This is a field\t\"this is the value\""));
+		assertEquals(null, istr.getFieldInLine("notabline"));
+		
+		
+	}
+	
+	@Test
+	public void testReplacementWithHash() throws Exception{
+		
+		// Set the replacement folder
+		IsaTabIdReplacer istr = new IsaTabIdReplacer(FOLDER_REPLACEMENT_OUT);
+		
+		// Create the hash with the replacement matrix
+		HashMap<String, String> replacementData = new HashMap<String,String>();
+		
+		// Create the replacement data
+		replacementData.put("none", "nothing to do");
+		replacementData.put("Study Public Release Date", "09/09/2011");
+		
+		
+		// Invoke replacement method
+		istr.replaceFields(replacementData);
+		
+		String output = FileUtil.file2String(FOLDER_REPLACEMENT_OUT + "i_Investigation.txt");
+		
+		//Look for the new text...
+		assertTrue("Looking for replacement done in Study Public Release Date", output.indexOf("Study Public Release Date\t\"09/09/2011\"")!=-1);
+		
 		
 	}
 

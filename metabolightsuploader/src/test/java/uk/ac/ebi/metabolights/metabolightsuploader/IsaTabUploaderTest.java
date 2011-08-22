@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import junit.framework.Assert;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
@@ -37,6 +38,7 @@ import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.metabolights.utils.FileUtil;
+import uk.ac.ebi.metabolights.utils.Zipper;
 
 public class IsaTabUploaderTest {
 
@@ -151,6 +153,47 @@ public class IsaTabUploaderTest {
 
 		//Get the permissions: Unix style!! This will not work on windows if CYGWIN not present.
 		//testFilePermissions(statusfile.getAbsolutePath(), VisibilityStatus.PRIVATE) ;
+		
+	}
+	
+	@Test
+	public void testChangeStudyFields() throws Exception{
+	
+		final String UNZIP_FOLDER = "src/test/resources/outputfiles/changestudyfields/";
+		final String ZIP_FILE = FOLDER_TEST_COPYTO_PRIVATE + "STUDY1.zip";
+		
+		
+		// Set up folders...
+		FileUtils.copyFile(new File("src/test/resources/inputfiles/isatab1.zip"), new File (ZIP_FILE));
+		
+		// Get IsaTabUploader
+		IsaTabUploader itu = new IsaTabUploader();
+		itu.setCopyToPrivateFolder(FOLDER_TEST_COPYTO_PRIVATE);
+		itu.setCopyToPublicFolder(FOLDER_TEST_COPYTO_PUBLIC);
+		itu.setUnzipFolder(UNZIP_FOLDER);
+		
+		// Create a replacement hash...
+		HashMap<String,String> replacement = new HashMap<String,String>();
+		
+		replacement.put("Study Public Release Date", "09/09/2010");
+		
+		// Invoke the replacement...
+		itu.changeStudyFields("STUDY1", replacement);
+		
+		// Test it...
+		
+		// Clear the unzip folder...
+		FileUtils.deleteDirectory(new File (UNZIP_FOLDER));
+		
+		// Unzip the final file
+		Zipper.unzip(ZIP_FILE, UNZIP_FOLDER);
+		
+		//Open the investigation file
+		String investigationfile = FileUtil.file2String(UNZIP_FOLDER + "i_Investigation.txt");
+		
+		assertTrue("ChangeStudyFields test. Investigation file under " + UNZIP_FOLDER + " should have a Study Public Release Date of 09/09/2010",
+					investigationfile.indexOf("Study Public Release Date\t\"09/09/2010\"") !=-1);
+		
 		
 	}
 

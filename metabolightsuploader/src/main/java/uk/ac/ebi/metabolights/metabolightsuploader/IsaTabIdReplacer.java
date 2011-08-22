@@ -93,8 +93,8 @@ public class IsaTabIdReplacer
 		
 	}
 	
-	public IsaTabIdReplacer(String isaTabArchive){
-		this.isaTabFolder = isaTabArchive;
+	public IsaTabIdReplacer(String isaTabFolder){
+		this.isaTabFolder = isaTabFolder;
 	}
 	public IsaTabIdReplacer(){}
 	
@@ -224,10 +224,30 @@ public class IsaTabIdReplacer
 	}
 	private void replaceIdInFiles () throws Exception{
 		
+		// Get the investigation file
+		File isaTabFile = getInvestigationFile();
+		
+		
+		logger.info("Loading investigation file");
+		
+		// Replace the id
+		replaceInFile(isaTabFile);
+
+	}
+
+	/**
+	 * @return
+	 * @throws IOException 
+	 * @throws ConfigurationException 
+	 */
+	private File getInvestigationFile() throws ConfigurationException, IOException {
+
 		//Search for the investigation file
 		File isaFolder = new File(isaTabFolder);
 		File[] fileList;
 		
+		// Load properties
+		loadProperties();
 		
 		//Define a filename filter
 		FilenameFilter filter = new FilenameFilter() {
@@ -248,9 +268,7 @@ public class IsaTabIdReplacer
 		}
 		
 		//There must be only one, so take the first
-		logger.info("Loading investigation file");
-		replaceInFile(fileList[0]);
-
+		return fileList[0];
 	}
 	
 	/**
@@ -416,6 +434,91 @@ public class IsaTabIdReplacer
         return true;  //Not the correct line or correct type/value combo
 
     }
+    /**
+     * Replaces values in an ISATab file using the replacementHash,
+     *  <LI> it goes through the file</LI>
+     *  <LI> search for any field in replacement.keys</LI>
+     *  <LI> replaces it with correspondent value</LI>
+     * @param replacementHash: Hash where the key is the Tag to search for and the value is the value to write.
+     * @throws Exception 
+     */
+    public void replaceFields(HashMap<String,String> replacementHash) throws Exception{
+ 
+		// Get the investigation file
+		File isaTabFile = getInvestigationFile();
+		
+		// Replace the id
+		replaceFieldsInFile(isaTabFile, replacementHash);
+
+    	
+    }
+    private void replaceFieldsInFile(File fileWithId, HashMap<String,String> replacementHash) throws Exception{
+		
+		logger.info("Replacing fields in file -->" + fileWithId.getAbsolutePath());
+		
+		try {
+			//Use a buffered reader
+			BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
+			String line = "", text = "";
+			
+			//Go through the file
+			while((line = reader.readLine()) != null)
+			{
+
+				//Replace fields in file
+				line = replaceFieldsInLine(line, replacementHash);
+				
+			    //Add the final carriage return and line feed
+				text += line + "\r\n";
+			}
+			
+			//Close the reader
+			reader.close();
+			
+			//Save the file
+			FileUtil.String2File(text, fileWithId.getPath());
+			
+		} catch (Exception e) {
+			throw e; 
+		}
+	}
+
+    public String getFieldInLine(String line){
+    	
+    	int tabPos = line.indexOf("\t");
+    	
+    	// If there isn't any tab
+    	if (tabPos == -1){
+    		return null;
+    	}else{
+    		return line.substring(0, tabPos);
+    	}
+    	
+    }
+    	
+    private String replaceFieldsInLine(String line, HashMap<String,String> replacementHash){
     
-	
+    	// Get the field of the line
+    	String field = getFieldInLine(line);
+    	
+    	// If the line has a field
+    	if (field != null){
+    		
+    		// If the field is present in the hash
+    		if (replacementHash.containsKey(field)){
+    			
+    			// Get the value
+    			String value = replacementHash.get(field);
+    			    			
+    			logger.info("Field found: " + field + " in line " + line + ". Replacing value with " + value );
+    			
+    			line = field + "\t\"" + value + "\""; 
+    		}
+    		
+    	}
+    	
+    	// Return the line
+    	return line;
+		
+	}
 }
