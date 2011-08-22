@@ -2,9 +2,25 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+
 <div class="formbox">
-    <form:form name="accountForm" action="updateAccount" method="post" commandName="metabolightsUser">
-        
+
+	<form:form name="mySubmForm" action="mysubmissions">
+    	<table cellpadding="5px" cellspacing="0px" width="90%">
+        	<tr class="formheader">
+            	<th class="tableheader" colspan="3"><spring:message code="menu.myAccountCaps" /></th>
+            </tr>
+            <tr>
+            	<td></td>
+            	<td height="100px" colspan='2'><input type="submit" name="submit" class="big_submit" value=" <spring:message code="label.viewMySubmissions"/> "> </td>
+            </tr>
+            <tr>
+            	<td colspan='3'> <hr/> 	</td>
+            </tr>
+		</table>
+    </form:form>
+
+    <form:form name="accountForm" action="updateAccount" method="post" commandName="metabolightsUser">        
         <form:hidden path="userId" />
         <form:hidden path="userName" />
         <form:hidden path="status" />
@@ -12,9 +28,7 @@
         
         <table cellpadding="5px" cellspacing="0px">
             <tr class="formheader">
-                <th class="tableheader" colspan="2"><spring:message
-                        code="msg.updateAccount" />
-                </th>
+                <th class="tableheader" colspan="2"><spring:message code="msg.updateAccount" /> </th>
                 <th><spring:message code="msg.starRequired"/></th>
             </tr>
             <tr>
