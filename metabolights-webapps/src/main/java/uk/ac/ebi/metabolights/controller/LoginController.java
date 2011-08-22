@@ -54,7 +54,8 @@ public class LoginController extends AbstractController{
 
 	@RequestMapping(value={"/login"})
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
-		final String url = getRedirectUrl(request,response);
+		String url = " ";  //Have to reset the string, caching issues
+		url = getRedirectUrl(request,response);
     	ModelAndView mav = new ModelAndView("login");
     	if (url.contains("submit")) //If we come from the submit menu, show different text in the login jsp
     		mav.addObject("source",url);
@@ -123,7 +124,7 @@ public class LoginController extends AbstractController{
      	
 	protected String getRedirectUrl(HttpServletRequest request, HttpServletResponse response) {
 	    HttpSession session = request.getSession(false);
-	    String url = "";
+	    String url = "login";
 	    if (session != null) {
 	    	SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
 	    	if (savedRequest != null)

@@ -7,11 +7,13 @@
     <table cellpadding="5px" cellspacing="0px">
 
         <tr class="formheader">
-             <th class="tableheader" colspan="3"><spring:message code="msg.credentials" />
+             <th class="tableheader" colspan="3">
+            	<c:if test="${empty source}"><spring:message code="msg.credentials" /></c:if> 
+             	<c:if test="${not empty source}"><spring:message code="msg.submCredentials" /></c:if> 
              </th>
         </tr>
         <tr>
-            <td colspan='3'>&nbsp;</td>
+            <td colspan='3'><c:if test="${not empty source}"><br/><br/><spring:message code="msg.submHeader"/><br/><br/></c:if>&nbsp;</td>
         </tr>
 	
 		<tr>
