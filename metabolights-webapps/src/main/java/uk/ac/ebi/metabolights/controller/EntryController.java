@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
@@ -27,6 +28,7 @@ import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.StudyService;
+import uk.ac.ebi.metabolights.service.TextTaggerService;
 
 /**
  * Controller for entry (=study) details.
@@ -36,6 +38,7 @@ import uk.ac.ebi.metabolights.service.StudyService;
 public class EntryController extends AbstractController {
 
 	private static Logger logger = Logger.getLogger(EntryController.class);
+	private final String DESCRIPTION="descr";
 
 	@Autowired
 	private StudyService studyService;
@@ -45,7 +48,7 @@ public class EntryController extends AbstractController {
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}") 
-	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId) {
+	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId,HttpServletRequest request) {
 		logger.info("requested entry " + mtblId);		
 		Study study = studyService.getBiiStudy(mtblId);
 		
@@ -71,6 +74,10 @@ public class EntryController extends AbstractController {
 		mav.addObject("study", study);
 		mav.addObject("organismNames", organismNames);
         mav.addObject("ftpLocation",ftpLocation);
+
+        //Stick text for tagging (Whatizit) in the session..
+        if (study.getDescription()!=null)
+        	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
 
 		return mav;
 	}
@@ -120,6 +127,28 @@ public class EntryController extends AbstractController {
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 
+	}
+
+    @Autowired
+    private TextTaggerService textTagger;
+
+    /**
+     * Intended for an asynchronous call, to tag the description in a study.
+     * @param request
+     * @return ugly pixie 
+     */
+	@RequestMapping(value="/tagText")
+	public ModelAndView whatIzItStuff (HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("taggedText");
+		String description = (String) request.getSession().getAttribute(DESCRIPTION);
+    	if(description!=null) {
+			logger.debug("Calling WhatWhatIzIt");
+			String taggedContent = textTagger.tagText(description);
+			mav.addObject("taggedContent", taggedContent);
+    	}
+    	else 
+    		mav.addObject("taggedContent", null);
+		return mav;
 	}
 
 }

@@ -117,4 +117,6 @@
         <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
     </definition>
 
+	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
+
 </tiles-definitions>

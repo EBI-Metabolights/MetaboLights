@@ -23,7 +23,7 @@ public class DAOTest {
 	private SessionFactory sessionFactory;
     private Session session;
     private StudyService studyService;
-
+    
 	@Before
 	public void letsGo() {
 		if (applicationContext==null){

@@ -2,6 +2,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
 <script language="javascript"> 
 	function toggle(anctag,darg,showMsg,hideMsg) 
 	{
@@ -20,12 +21,59 @@
 	} 
 </script>
 
+<script language="Javascript" type="text/javascript">
+
+function createRequestObject() {
+    var tmpXmlHttpObject;
+    //depending on what the browser supports, use the right way to create the XMLHttpRequest object
+    if (window.XMLHttpRequest) { 
+        // Mozilla, Safari would use this method ...
+        tmpXmlHttpObject = new XMLHttpRequest();
+    } else if (window.ActiveXObject) { 
+        // IE would use this method ...
+        tmpXmlHttpObject = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    return tmpXmlHttpObject;
+}
+
+//call the above function to create the XMLHttpRequest object
+var http = createRequestObject();
+
+function tagTextWithWhatizit() {
+    //make a connection to the server ... specifying that you intend to make a GET request 
+    //to the server. Specifiy the page name and the URL parameters to send
+    http.open('get', 'tagText');
+    //assign a handler for the response
+    http.onreadystatechange = processResponse;
+    //actually send the request to the server
+    http.send(null);
+}
+
+function processResponse() {
+    //check if the response has been received from the server
+    if(http.readyState == 4){
+        //read and assign the response from the server
+        var response = http.responseText;
+        //do additional parsing of the response, if needed
+        //in this case simply assign the response to the contents of the <div> on the page. 
+        document.getElementById('description').innerHTML = response;
+        //If the server returned an error message like a 404 error, that message would be shown within the div tag!!. 
+        //So it may be worth doing some basic error before setting the contents of the <div>
+    }
+}
+
+function onloadAction() {
+	tagTextWithWhatizit();
+}
+</script>
+
 <div id="text_header">
 	<spring:message code="label.metaboLightsEntry" />
 	${study.acc}
 </div>
 
 <div class="formbox">
+		<br/><br/>
 		<span class="title">${study.title}</span>
 
         <c:if test="${not empty study.objective}">
@@ -33,7 +81,7 @@
         </c:if>
 
         <c:if test="${not empty study.description}">
-            <br><br><span style="text-align:justify">${study.description}</span>
+            <br><br><span style="text-align:justify"><div id="description">${study.description}</div></span>
         </c:if>
 
         <c:if test="${not empty study.submissionDate || not empty study.releaseDate}">
