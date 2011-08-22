@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.service;
 
+
 import uk.ac.ebi.bioinvindex.model.Study;
 
 
@@ -11,6 +12,7 @@ import uk.ac.ebi.bioinvindex.model.Study;
 public interface StudyService {
 
 	public Study getBiiStudy(String studyAcc);
+	public void update(Study study);
 }
 
 

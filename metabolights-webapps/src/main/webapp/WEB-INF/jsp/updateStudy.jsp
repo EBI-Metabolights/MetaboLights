@@ -106,7 +106,7 @@ function syncDateBox() {
 		        <tr>
 		        	<td colspan='2'>
 						<input type="submit" name="submit" class="big_submit" value="${submitText}">
-						&nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
+						&nbsp;&nbsp;<a href="index" name="cancel"><spring:message code="label.cancel"/></a>
 		        	</td>
 		        </tr>
 		        <tr>

@@ -103,9 +103,21 @@ public class StudyDAOImpl implements StudyDAO{
 			Hibernate.initialize(assayResult.getAssays());
 		}
 		Hibernate.initialize(study.getProtocols());
-		
-		session.clear();
+		// Removed
+		//session.clear();
 		return study;
 	}
 
+	@Override
+	public void update(Study study) {
+		Session session = sessionFactory.getCurrentSession();
+		// Note: Spring manages the transaction, and the commit
+		// This doesn't work. THrows next exception:
+		// Found two representations of same collection:
+		// See https://forum.hibernate.org/viewtopic.php?p=2231400.
+		// We are using session.clear() at the end of getStudy.
+		// If removed, it works. Is this problem?
+		session.update(study);
+
+	}
 }

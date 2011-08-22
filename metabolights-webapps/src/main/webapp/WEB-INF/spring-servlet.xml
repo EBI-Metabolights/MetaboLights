@@ -102,18 +102,26 @@
     </bean>
  
     <!-- read settings from jdbc.properties file -->
-    <bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
+	<!--
+	<bean name="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		<property name="url" value="${jdbc.databaseurl}"/>
+	</bean>
+	-->		
+	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
 		<property name="driverClass" value="${jdbc.driverClassName}"/>
+		<property name="user" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		<property name="jdbcUrl" value="${jdbc.databaseurl}"/>
 		<property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
 		<property name="minPoolSize" value="${jdbc.minPoolSize}"/>
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
 		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
 		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/>
-		<property name="user" value="${jdbc.username}"/>
-		<property name="password" value="${jdbc.password}"/>
-		<property name="jdbcUrl" value="${jdbc.databaseurl}"/>
-    </bean>
- 
+	</bean>
+    
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
@@ -137,7 +145,7 @@
     The security department
      -->
     <sec:http use-expressions="true" auto-config='true'>
-        <sec:intercept-url pattern="/publish" access="isAuthenticated()" /> <!-- requires-channel="https" -->
+        <sec:intercept-url pattern="/updatepublicreleasedate" access="isAuthenticated()" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/submit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/biisubmit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/mysubmissions" access="isAuthenticated()" /> <!-- requires-channel="https" -->

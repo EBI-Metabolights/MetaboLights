@@ -24,6 +24,8 @@ public class StudyServiceImpl implements StudyService {
 			return new Study();
 		return study;
 	}
-
-
+	@Transactional
+	public void update(Study study){
+		studyDAO.update(study);
+	}
 }
