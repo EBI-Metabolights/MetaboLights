@@ -20,7 +20,7 @@
  
 <div id="text-fullwidth" style="text-align:center">
     <br>
-    <spring:message code="msg.metabolightsAbout1" />
+    <spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" />
     <!-- div id="homepageLinks">
 	  <a href="about"><spring:message code="label.aboutMetab"/></a>
 	  <br>  
