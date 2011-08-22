@@ -57,7 +57,7 @@ function processResponse() {
         //read and assign the response from the server
         var response = http.responseText;
         //do additional parsing of the response, if needed
-        //in this case simply assign the response to the contents of the <div> on the page. 
+        //in this case simply assign the response to the contents of the <div> on the page.
         document.getElementById('description').innerHTML = response;
         //If the server returned an error message like a 404 error, that message would be shown within the div tag!!. 
         //So it may be worth doing some basic error before setting the contents of the <div>

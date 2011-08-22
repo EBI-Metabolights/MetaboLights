@@ -24,10 +24,12 @@ public class TextTaggerWhatizitImpl implements TextTaggerService {
 
 	private static Logger logger = Logger.getLogger(TextTaggerService.class);
 	private final String xsltFileName = "chemicals.xslt";
+	//private final String xsltFileName = "ebimed.xslt";
 
 	//See various pipelines listed at http://www.ebi.ac.uk/webservices/whatizit/info.jsf
 	//private final String pipeLine = "whatizitEBIMedDiseaseChemicals"; 
 	private final String pipeLine = "whatizitChebiDict"; 
+	//private final String pipeLine = "whatizitUkPmcChemicals";
 	
 	/**
 	 * Takes in a text String to be marked up by the WhatIzit pipeline.
@@ -80,16 +82,5 @@ public class TextTaggerWhatizitImpl implements TextTaggerService {
 		}
 		return output;
 	}
-
-
-	public static void main(String[] args) {
-		TextTaggerWhatizitImpl xx = new TextTaggerWhatizitImpl();
-		String inp =
-			"Genistein and bromotetramisole (Br-t) strongly activate cystic fibrosis transmembrane conductance regulator (CFTR; ABCC7) chloride channels on Chinese hamster ovary cells and human airway epithelial cells. We have examined the possible role of phosphatases in stimulation by these drugs using patch-clamp and biochemical methods. Genistein inhibited the spontaneous rundown of channel activity that occurs after membrane patches are excised from cAMP-stimulated cells but had no effect on purified protein phosphatase type 1 (PP1), PP2A, PP2B, PP2C, or endogenous phosphatases when assayed as [(32)P]PO(4) release from prelabeled casein, recombinant GST-R domain fusion protein, or immunoprecipitated full-length CFTR. Br-t also slowed rundown of CFTR channels, but, in marked contrast to genistein, it did inhibit all four protein phosphatases tested. Half-maximal inhibition of PP2A and PP2C was observed with 0.5 and 1.5 mM Br-t, respectively. Protein phosphatases were also sensitive to (+)-p-Br-t, a stereoisomer of Br-t that does not inhibit alkaline phosphatases. Br-t appeared to act exclusively through phosphatases since it did not affect CFTR channels in patches that had low apparent endogenous phosphatase activity (i.e., those lacking spontaneous rundown). We conclude that genistein and Br-t act through different mechanisms. Genistein stimulates CFTR without inhibiting phosphatases, whereas Br-t acts by inhibiting a membrane-associated protein phosphatase (probably PP2C) that presumably allows basal phosphorylation to accumulate.";
-
-		System.out.println(xx.tagText(inp));
-
-	}
-
 
 }
