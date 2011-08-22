@@ -4,9 +4,13 @@ package uk.ac.ebi.metabolights.controller;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,7 +39,6 @@ public class LoginController extends AbstractController{
 
 	@Autowired
 	private UserService userService;
-
 	
 	@RequestMapping({"/login-success"})
 	public ModelAndView loggedIn() {
@@ -49,11 +52,20 @@ public class LoginController extends AbstractController{
 	    return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedOut"));
     }
 
-	@RequestMapping(value={"/login", "/timeout"})
-	public String resolveRequest (HttpServletRequest request) {
+	@RequestMapping(value={"/login"})
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+		final String url = getRedirectUrl(request,response);
+    	ModelAndView mav = new ModelAndView("login");
+    	if (url.contains("submit")) //If we come from the submit menu, show different text in the login jsp
+    		mav.addObject("source",url);
+    	return mav;
+	}
+	
+	@RequestMapping(value={"/timeout"})
+	public String resolveRequest (HttpServletRequest request) {		
 		return GenericController.lastPartOfUrl(request);
 	}
-
+	
  
 	@RequestMapping(value = "/forgotPassword")
    	public ModelAndView passWordReset() {
@@ -109,5 +121,18 @@ public class LoginController extends AbstractController{
     	return tempPw;
 	}
      	
+	protected String getRedirectUrl(HttpServletRequest request, HttpServletResponse response) {
+	    HttpSession session = request.getSession(false);
+	    String url = "";
+	    if (session != null) {
+	    	SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+	    	if (savedRequest != null)
+	    		return savedRequest.getRedirectUrl();
+	    }
+
+	    /* return a sane default in case data isn't there */
+	    return url;
+	}    
+    
 }
 
