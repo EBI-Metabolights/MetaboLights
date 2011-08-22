@@ -3,6 +3,7 @@ package uk.ac.ebi.metabolights.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -16,8 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.StudyService;
 
@@ -78,25 +76,19 @@ public class EntryController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/privatefiles/{file_name}")
-	public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response) {
+	public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response, Principal principal) {
 		try {
 
 			Boolean validUser = false;
-			Long userId = new Long(0);
+			final String currentUser = principal.getName(); //The logged in user.  principal = MetabolightsUser
 
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (!auth.getPrincipal().equals(new String("anonymousUser"))){
-				MetabolightsUser principal = (MetabolightsUser) auth.getPrincipal();
-				userId = principal.getUserId();
-			}
-
-			if (userId>0){ //Check if the logged in user can access the study
+			if (currentUser != null){ //Check if the logged in user can access the study
 				Study study = studyService.getBiiStudy(fileName);
 				Collection<User> users = study.getUsers();
 				Iterator<User> iter = users.iterator();
 				while (iter.hasNext()){
 					User user = (User) iter.next();
-					if (user.getId().equals(userId)){
+					if (user.getUserName().equals(currentUser)){
 						validUser = true;
 						break;
 					}
@@ -107,7 +99,6 @@ public class EntryController extends AbstractController {
 			if (!validUser)
 				throw new RuntimeException(PropertyLookup.getMessage("Entry.notAuthorised")); 
 
-
 			try {
 				// get your file as InputStream
 				InputStream is = new FileInputStream(privateFtpDirectory + fileName + ".zip");
@@ -117,6 +108,7 @@ public class EntryController extends AbstractController {
 
 				// copy it to response's OutputStream
 				IOUtils.copy(is, response.getOutputStream());
+				
 			} catch (Exception e) {
 				throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing")); 
 			}
