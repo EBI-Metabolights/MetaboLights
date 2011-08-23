@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.tagext.ValidationMessage;
 
 import org.apache.log4j.Logger;
+import org.apache.soap.providers.com.Log;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.mchange.v2.codegen.bean.Property;
 
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
@@ -114,7 +120,9 @@ public class UpdateStudyController extends AbstractController {
 	}
 	
 	@RequestMapping(value = { "/updatepublicreleasedate" })
-	public ModelAndView changePublicReleaseDate(@RequestParam(required=true,value="study") String study, 
+	public ModelAndView changePublicReleaseDate(
+								@RequestParam(required=true,value="study") String study,
+								@RequestParam(required=false,value="public") Boolean publicExp,
 								@RequestParam(required=true, value="pickdate") String publicReleaseDateS,
 								HttpServletRequest request) throws Exception {
 
@@ -123,22 +131,69 @@ public class UpdateStudyController extends AbstractController {
 
 		// Log start
 		logger.info("Updating the public release date of the study " + study + " owned by " + user.getUserName());
+
+		// Validate the parameters...
+		String validationmsg =getChangePublicReleaseValidationMessage(publicReleaseDateS, publicExp, study);
+
+		// If there is validation message...
+		if (!validationmsg.isEmpty()){
+			
+			// Prepare the same view but this time with the validation message.
+			ModelAndView validation = getModelAndView(study, false);
+			validation.addObject("validationmsg", validationmsg);
+			return validation;
+		}
 		
-		//Get the path for the config folder (where the hibernate properties for the import layer are).
-		String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
-	
+		Date publicReleaseDate;
+		VisibilityStatus status;
+		
 		// Convert the date
-		Date publicReleaseDate =  new SimpleDateFormat("yyyy-MM-dd").parse(publicReleaseDateS);
-		
+		// If is going to turn into public
+		if (publicExp == null) {
+			publicReleaseDate =  new SimpleDateFormat("dd-MM-yyyy").parse(publicReleaseDateS);
+			status = VisibilityStatus.PRIVATE;
+		}else{
+			publicReleaseDate= DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
+			status = VisibilityStatus.PUBLIC;
+		}
+			
 		// Add the user id to the unzip folder
 		String unzipFolder = uploadDirectory + user.getUserId();
 		
+		// Create the uploader
+		IsaTabUploader itu = new IsaTabUploader();
+		
+		// Set properties for file copying...
+		itu.setCopyToPrivateFolder(privateFtpLocation);
+		itu.setCopyToPublicFolder(publicFtpLocation);
+
 		//Create the view
 		ModelAndView mav = new ModelAndView("updateStudy");
 		
 		// Change the status
 		try {
 
+			
+			//Check if the zip file exists before changing anything else
+			File zipFile = new File (itu.getStudyFilePath(study, VisibilityStatus.PUBLIC));
+			
+			// If not in public folder...
+			if (!zipFile.exists()){
+			
+				// Try it in the private
+				zipFile = new File (itu.getStudyFilePath(study, VisibilityStatus.PRIVATE));
+			
+				// Check if it exists
+				if (!zipFile.exists()){
+					
+					// Throw an exception
+					throw new FileNotFoundException (PropertyLookup.getMessage("msg.makestudypublic.nofilefound", study));
+					
+				}
+			}
+			
+			
+			
 			// ************************
 			// Update the database first...
 			// ************************
@@ -147,12 +202,6 @@ public class UpdateStudyController extends AbstractController {
 			
 			// Set the new Public Release Date
 			biiStudy.setReleaseDate(publicReleaseDate);
-			
-			// Get the difference
-			long datediff = publicReleaseDate.getTime() - DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH).getTime() ; 
-									
-			// Set the status, it may turn into public...
-			VisibilityStatus status = (datediff< 0) ?VisibilityStatus.PRIVATE:VisibilityStatus.PUBLIC;
 			biiStudy.setStatus(status);
 			
 			logger.info("Updating study (database)");
@@ -164,10 +213,9 @@ public class UpdateStudyController extends AbstractController {
 			// ************************
 			// Index it...
 			// ************************
-			
-			// Create the uploader
-			IsaTabUploader itu = new IsaTabUploader();
-			
+			//Get the path for the config folder (where the hibernate properties for the import layer are).
+			String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+		
 			// Set the config folder, and the ftp folders
 			itu.setDBConfigPath(configPath);
 			
@@ -179,10 +227,7 @@ public class UpdateStudyController extends AbstractController {
 			// ************************
 			// Change the zip file
 			// ************************
-			
-			// Set properties for file copying...
-			itu.setCopyToPrivateFolder(privateFtpLocation);
-			itu.setCopyToPublicFolder(publicFtpLocation);
+			// Set the unzip folder
 			itu.setUnzipFolder(unzipFolder);
 
 			// Create the replacement Hash
@@ -204,16 +249,34 @@ public class UpdateStudyController extends AbstractController {
 		
 		} catch (Exception e) {
 			
+			String message = "There's been a problem while changing the Public Release date of the study " + study + "\n" + e.getMessage();
+			
 			// Auto-generated catch block
-			e.printStackTrace();
+			logger.error(message);
 			
 			// Add the error to the page
-			mav.addObject("error", new Exception ("There's been a problem while making the study " + study + " public\n" + e.getMessage()));
+			throw new Exception (message);
 			
 		}
 		
 		//Return the ModelAndView
 		return mav;
+		
+	}
+	
+	private String getChangePublicReleaseValidationMessage(String publicReleaseDateS, Boolean publicExp, String study){
+		
+		String message = "";
+		
+		// If public release date is empty...
+		if (publicReleaseDateS.isEmpty() && (publicExp == null)){
+			
+			// a date is required
+			message = PropertyLookup.getMessage("msg.makestudypublic.daterequired");
+		}
+		
+		return message;
+
 		
 	}
 	/**
