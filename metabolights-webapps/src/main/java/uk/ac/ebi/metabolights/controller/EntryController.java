@@ -50,7 +50,7 @@ public class EntryController extends AbstractController {
 	@RequestMapping(value = "/{metabolightsId}") 
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId,HttpServletRequest request) {
 		logger.info("requested entry " + mtblId);		
-		Study study = studyService.getBiiStudy(mtblId);
+		Study study = studyService.getBiiStudy(mtblId,true);
 		
 		Collection<String> organismNames = new TreeSet<String>();
 		for (AssayResult assRes : study.getAssayResults()) {
@@ -91,7 +91,7 @@ public class EntryController extends AbstractController {
 			final String currentUser = principal.getName(); //The logged in user.  principal = MetabolightsUser
 
 			if (currentUser != null){ //Check if the logged in user can access the study
-				Study study = studyService.getBiiStudy(fileName);
+				Study study = studyService.getBiiStudy(fileName,true);
 				Collection<User> users = study.getUsers();
 				Iterator<User> iter = users.iterator();
 				while (iter.hasNext()){

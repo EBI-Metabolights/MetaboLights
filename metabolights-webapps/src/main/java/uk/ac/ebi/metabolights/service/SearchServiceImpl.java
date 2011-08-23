@@ -122,6 +122,48 @@ public class SearchServiceImpl implements SearchService{
 		return indexProvider.getIndexDirectory(); 
 	}
 	
-	
+	/**
+	 * Calculates values for page links to page through search results, used for display in JSP.<br>
+	 * Example: there are 304 results, we use a display page size of 10. So there are 31 pages to show in total.
+	 * We keep track of the current page, and with this function define a page range around that.<br>
+	 * If the user were to be on page 14, and we show a maximum of 10 other pages to go to, we'd want a result
+	 * here of [9 10 11 12 13 14 15 16 17 18 19] as page-links to click. The is conform Google pagin style, you limit
+	 * the span because if you have a large amount of pages, you don't show them all but only the ones close by. 
+	 * 
+	 * @param pageSize
+	 * @param totalHits
+	 * @param currentPage
+	 * @return {l,r,t} with l being the left most page number of the pager, r the right, t total number of pages
+	 */
+	public int[] getPagingRange (double pageSize, double totalHits, int currentPage) {
+
+		// how many links should be displayed max
+		int maxPagerSpan=10;
+		
+		int totalNumberOfPages = (int)(Math.ceil(totalHits/pageSize));
+		int left=currentPage, right=currentPage;
+
+		calc_span:
+		for (int i = 0; i < maxPagerSpan-1; ) {
+			int incr=0;
+			if(left-1 >=1) {
+				left--;
+				incr++;
+			}
+			if (right-left+1 ==maxPagerSpan )
+				break calc_span;
+
+			if(right+1<=totalNumberOfPages) {
+				right++;
+				incr++;
+			}
+			if (incr==0 )
+				break calc_span;
+			else
+				i+=incr;
+		}
+		int[] pagerBoundaries = {left,right,totalNumberOfPages};
+		return pagerBoundaries; 
+	}
 
 }

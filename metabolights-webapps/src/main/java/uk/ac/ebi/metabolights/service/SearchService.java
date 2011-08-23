@@ -21,5 +21,7 @@ public interface SearchService {
 	 */
 	HashMap<Integer, List<LuceneSearchResult>> search(String text) throws Exception;
 	String getIndexDirectory();
+	int[] getPagingRange (double pageSize, double totalHits, int currentPage);
+
 
 }

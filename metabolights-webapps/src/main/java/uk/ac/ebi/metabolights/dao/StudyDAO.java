@@ -12,7 +12,7 @@ import uk.ac.ebi.bioinvindex.model.Study;
  */
 public interface StudyDAO {
 
-	public Study getStudy(String studyAcc);
+	public Study getStudy(String studyAcc, boolean clearSession);
 	public void update(Study study);
 	
 }

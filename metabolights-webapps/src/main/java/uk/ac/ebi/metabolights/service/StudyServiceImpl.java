@@ -18,8 +18,8 @@ public class StudyServiceImpl implements StudyService {
 	private StudyDAO studyDAO;
 
 	@Transactional
-	public Study getBiiStudy(String studyAcc){
-		Study study = studyDAO.getStudy(studyAcc);
+	public Study getBiiStudy(String studyAcc,boolean clearSession){
+		Study study = studyDAO.getStudy(studyAcc,clearSession);
 		if (studyAcc.isEmpty() || study.getAcc().isEmpty())
 			return new Study();
 		return study;

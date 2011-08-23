@@ -34,7 +34,7 @@ public class DAOTest {
 
 	@Test
 	public void getStudy() {
-		Study study = studyService.getBiiStudy("XXXX"); //TODO -> pre-defined test set
+		Study study = studyService.getBiiStudy("XXXX",true); //TODO -> pre-defined test set
 		// System.out.println(study.getTitle());
 		// do assertions here
 		

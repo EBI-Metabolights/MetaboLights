@@ -104,7 +104,7 @@ cgi-bin/getCard.cgi?CARD={$str}"><xsl:value-of select="$str"/></a>
 
   <xsl:template match="z:chebi">
     <span title="Chemical Entity of Biological Interest">
-    <a style="text-decoration:none;	color: #006666;background: #eef5f5;" 
+    <a style="text-decoration:none;	color: #006666;background: #eef5f5;text-decoration:underline;" 
        href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI%3A{@ids}">
       <xsl:value-of select="." disable-output-escaping="yes"/>
     </a>

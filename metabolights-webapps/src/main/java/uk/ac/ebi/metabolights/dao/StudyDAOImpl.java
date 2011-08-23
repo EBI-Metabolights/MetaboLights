@@ -33,10 +33,12 @@ public class StudyDAOImpl implements StudyDAO{
 	private SessionFactory sessionFactory;
 
 	/**
-	 * Retrieve a study based on the accession identifier.  
+	 * Retrieve a study based on the accession identifier.
+	 * @param studyAcc accession number of desired Study
+	 * @param hibnerate hack, set to true when only selecting (faster)  
 	 */
 	@Override
-	public Study getStudy(String studyAcc) {
+	public Study getStudy(String studyAcc, boolean clearSession) {
 
 		Session session = sessionFactory.getCurrentSession();
 		
@@ -103,8 +105,10 @@ public class StudyDAOImpl implements StudyDAO{
 			Hibernate.initialize(assayResult.getAssays());
 		}
 		Hibernate.initialize(study.getProtocols());
-		// Removed
-		//session.clear();
+		
+		if (clearSession)
+			session.clear();
+
 		return study;
 	}
 

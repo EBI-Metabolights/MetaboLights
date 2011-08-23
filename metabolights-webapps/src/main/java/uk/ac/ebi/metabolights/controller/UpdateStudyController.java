@@ -143,7 +143,7 @@ public class UpdateStudyController extends AbstractController {
 			// Update the database first...
 			// ************************
 			// Get the study object
-			Study biiStudy = studyService.getBiiStudy(study);
+			Study biiStudy = studyService.getBiiStudy(study,false);
 			
 			// Set the new Public Release Date
 			biiStudy.setReleaseDate(publicReleaseDate);
