@@ -207,7 +207,6 @@ public class UpdateStudyController extends AbstractController {
 			// Save it
 			studyService.update(biiStudy);
 
-
 			
 			// ************************
 			// Index it...
@@ -220,7 +219,6 @@ public class UpdateStudyController extends AbstractController {
 			
 			// reindex the study...
 			itu.reindexStudies(study);
-
 
 			
 			// ************************
@@ -238,7 +236,19 @@ public class UpdateStudyController extends AbstractController {
 			logger.info("Replacing Study Public Release Date in zip file. with " + publicReleaseDate);
 			// Call the replacement method...
 			itu.changeStudyFields(study, replacementHash);
-			itu.moveFile(study, VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
+			
+			// If the new status is public...
+			if (status == VisibilityStatus.PUBLIC){
+		
+				// Move the file from the private
+				itu.moveFile(study, VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
+				
+				// Change the permissions
+				String studyPath = itu.getStudyFilePath(study, VisibilityStatus.PUBLIC);
+				itu.changeFilePermissions(studyPath, VisibilityStatus.PUBLIC);
+			}
+			
+			
 			
 			
 			// Compose the messages...
