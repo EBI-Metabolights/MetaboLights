@@ -123,12 +123,15 @@ public class UpdateStudyController extends AbstractController {
 	public ModelAndView changePublicReleaseDate(
 								@RequestParam(required=true,value="study") String study,
 								@RequestParam(required=false,value="public") Boolean publicExp,
-								@RequestParam(required=true, value="pickdate") String publicReleaseDateS,
+								@RequestParam(required=false, value="pickdate") String publicReleaseDateS,
 								HttpServletRequest request) throws Exception {
 
 		// Get the user
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
+		// 
+		if (publicReleaseDateS == null) publicReleaseDateS = "";
+		
 		// Log start
 		logger.info("Updating the public release date of the study " + study + " owned by " + user.getUserName());
 
@@ -267,9 +270,9 @@ public class UpdateStudyController extends AbstractController {
 	private String getChangePublicReleaseValidationMessage(String publicReleaseDateS, Boolean publicExp, String study){
 		
 		String message = "";
-		
+				
 		// If public release date is empty...
-		if (publicReleaseDateS.isEmpty() && (publicExp == null)){
+		if ( publicReleaseDateS.isEmpty() && (publicExp == null)){
 			
 			// a date is required
 			message = PropertyLookup.getMessage("msg.makestudypublic.daterequired");
