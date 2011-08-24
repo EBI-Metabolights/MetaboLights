@@ -9,10 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.tagext.ValidationMessage;
 
 import org.apache.log4j.Logger;
-import org.apache.soap.providers.com.Log;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.mchange.v2.codegen.bean.Property;
 
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
@@ -242,6 +238,7 @@ public class UpdateStudyController extends AbstractController {
 			logger.info("Replacing Study Public Release Date in zip file. with " + publicReleaseDate);
 			// Call the replacement method...
 			itu.changeStudyFields(study, replacementHash);
+			itu.moveFile(study, VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
 			
 			
 			// Compose the messages...
