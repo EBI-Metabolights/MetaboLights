@@ -43,8 +43,8 @@ public class EntryController extends AbstractController {
 	@Autowired
 	private StudyService studyService;
 
-    private @Value("#{appProperties.publicFtpLocation}") String publicFtpDirectory;
-    private @Value("#{appProperties.privateFtpLocation}") String privateFtpDirectory;
+    private static @Value("#{appProperties.publicFtpLocation}") String publicFtpDirectory;
+    private static @Value("#{appProperties.privateFtpLocation}") String privateFtpDirectory;
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}") 
@@ -62,13 +62,8 @@ public class EntryController extends AbstractController {
 			}
 		}
 
-		String ftpLocation = null;
-		
-		if (study.getStatus().equals(VisibilityStatus.PRIVATE)){	// Only for the submitter
-			ftpLocation = "privatefiles/" + study.getAcc();  //Private download, file stream
-		}  else {  //Serve back public ftp link
-			ftpLocation = publicFtpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + study.getAcc() +".zip";
-		}
+		// Get the DownloadLink
+		String ftpLocation = getDownloadLink(study.getAcc(), study.getStatus());
 
 		ModelAndView mav = new ModelAndView("entry");
 		mav.addObject("study", study);
@@ -151,6 +146,20 @@ public class EntryController extends AbstractController {
     	else 
     		mav.addObject("taggedContent", null);
 		return mav;
+	}
+	public static String getDownloadLink(String study, VisibilityStatus status){
+		
+		String ftpLocation = null;
+		
+		if (status.equals(VisibilityStatus.PRIVATE)){	// Only for the submitter
+			ftpLocation = "privatefiles/" + study;  //Private download, file stream
+		}  else {  //Serve back public ftp link
+			ftpLocation = publicFtpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + study +".zip";
+		}
+		
+		return ftpLocation;
+
+		
 	}
 
 }

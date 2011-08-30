@@ -67,6 +67,25 @@ public class UpdateStudyController extends AbstractController {
 		
 		
 	}
+	
+	/**
+	 * Receives the study that is going to be updated and shows the updateStudy Page to let the user to set the public release date and upload the new file.
+	 * 
+	 * @param study
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/updatestudy"})
+	public ModelAndView updateStudy(@RequestParam(required=true,value="study") String study, HttpServletRequest request) throws Exception{
+		
+		// Get the correspondent ModelAndView
+		return getModelAndView(study, true);
+		
+		
+	}
+	
+	
 	/**
 	 * Return the model and view ready to be rendered in the jsp that share 2 modes. Update and MakeStudyPublic
 	 * @param study
@@ -86,6 +105,7 @@ public class UpdateStudyController extends AbstractController {
 		mav.addObject("isUpdateMode", isUpdateMode);
 		mav.addObject("study", study);
 		
+		
 		String title ="", msg ="", action="", submitText="";
 		
 		String studyShortTitle = luceneStudy.getTitle();
@@ -98,6 +118,10 @@ public class UpdateStudyController extends AbstractController {
 			msg = PropertyLookup.getMessage("msg.updatestudy.msg");
 			submitText = PropertyLookup.getMessage("label.updatestudy");
 			action = "resubmit";
+			
+			// Get the DownloadLink
+			String ftpLocation = EntryController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );
+			mav.addObject("ftpLocation", ftpLocation);
 			
 		}else{
 			
@@ -247,9 +271,7 @@ public class UpdateStudyController extends AbstractController {
 				String studyPath = itu.getStudyFilePath(study, VisibilityStatus.PUBLIC);
 				itu.changeFilePermissions(studyPath, VisibilityStatus.PUBLIC);
 			}
-			
-			
-			
+									
 			
 			// Compose the messages...
 			mav.addObject("title", PropertyLookup.getMessage("msg.makestudypublic.ok.title"));
@@ -273,6 +295,8 @@ public class UpdateStudyController extends AbstractController {
 		return mav;
 		
 	}
+	
+	
 	
 	private String getChangePublicReleaseValidationMessage(String publicReleaseDateS, Boolean publicExp, String study){
 		
