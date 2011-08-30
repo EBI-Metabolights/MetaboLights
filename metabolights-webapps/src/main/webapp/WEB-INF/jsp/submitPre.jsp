@@ -19,13 +19,13 @@
 				<td colspan='3'>&nbsp;</td>
 			</tr>
 			<tr>
-				<td height="100px" width="250px" class="big_submit">
-					<a href="biisubmit"><spring:message code="label.submitNewStudy"/></a> 
+				<td height="100px" width="300px" class="big_submit">
+					<a href="biisubmit" style="color:white; font-size:20px"><spring:message code="label.submitNewStudy"/></a> 
 					<br/><br/><spring:message code="label.submitNewStudySub"/><br/>&nbsp;&nbsp;
 				</td>
 				<td>&nbsp;</td>
-				<td height="100px" width="250px" class="big_submit">
-					<a href="biisubmit"><spring:message code="label.updateOldStudy"/></a>	
+				<td height="100px" width="300px" class="big_submit">
+					<a href="biisubmit" style="color:white; font-size:20px"><spring:message code="label.updateOldStudy"/></a>	
 					<br/><br/><spring:message code="label.updateOldStudySub"/>
 				</td>
 			</tr>
