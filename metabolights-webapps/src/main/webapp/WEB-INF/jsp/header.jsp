@@ -55,7 +55,7 @@
 		</sec:authorize>	 
      
 		
-		<li><a href="biisubmit"><spring:message code="menu.submit"/></a></li>
+		<li><a href="presubmit"><spring:message code="menu.submit"/></a></li>
 		<li><a href="download"><spring:message code="menu.download"/></a></li>
 		<li><a href="index"><spring:message code="menu.home"/></a></li>
 		<!-- 

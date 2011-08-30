@@ -46,6 +46,21 @@ public class BIISubmissionController extends AbstractController {
 		return GenericController.lastPartOfUrl(request);
 	}
 	
+	@RequestMapping(value = { "/presubmit" })
+	public ModelAndView preSubmit(HttpServletRequest request) {
+		MetabolightsUser user = null;
+		
+		ModelAndView mav = new ModelAndView("submitPre"); // Call the Pre-Submit page
+    	//MetabolightsUser user = (MetabolightsUser) request.getSession().getAttribute("user"); //Logged in?
+		if (request.getUserPrincipal() != null)
+			user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+		if (user != null)
+			mav.addObject("user", user);
+		
+		return mav;
+	}
+	
 	@RequestMapping(value = "/biiuploadExperiment", method = RequestMethod.POST)
 	public ModelAndView handleFormUpload(
 			@RequestParam("file") MultipartFile file, 

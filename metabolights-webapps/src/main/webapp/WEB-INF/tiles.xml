@@ -112,9 +112,14 @@
         <put-attribute name="searchFilter" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
 	
-	   <definition name="updateStudy" extends="base.definition">
+	<definition name="updateStudy" extends="base.definition">
         <put-attribute name="title" value="Update study" />
         <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
+    </definition>
+    
+    <definition name="submitPre" extends="base.definition">
+        <put-attribute name="title" value="MetaboLight study submission" />
+        <put-attribute name="body" value="/WEB-INF/jsp/submitPre.jsp" />
     </definition>
 
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
