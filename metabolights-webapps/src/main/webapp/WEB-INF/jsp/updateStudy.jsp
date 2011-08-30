@@ -64,7 +64,7 @@ function syncDateBox() {
 <div class="formbox">
 	<table border="0px" "cellpadding="15px" cellspacing="0px" width="90%">
 	    <tr class="formheader">
-	        <th class="tableheader">
+	        <th colspan=2 class="tableheader">
 	        	<c:if test="${not empty title}">
 					<c:out value="${title}"/>
 				</c:if>
@@ -72,12 +72,21 @@ function syncDateBox() {
 	    </tr>
 		<c:if test="${not empty message}">
 			<tr>
-				<td><br/>${message}<br/><br/></td>
+				<td colspan=2><br/>${message}<br/><br/><br/></td>
 			</tr>
+		</c:if>
+		
+		<c:if test="${not empty ftpLocation}">
+            <tr><td class="big_submit" width="80px">
+            
+            	<IMG src="img/ftp.png" height="18"> <a href="${ftpLocation}" style="color:white; font-size:14px"> <spring:message code="label.ftpDownload"/></a>
+            <br>
+			</td></tr>
 		</c:if>
 		<c:if test="${not empty searchResult}">
 			<tr>
-				<td>
+				<td colspan=2>
+					<br/>
 					<c:set var="nopublish" value="true"/>
 					<%@include file="entrySummary.jsp" %>
 				</td>
@@ -91,7 +100,13 @@ function syncDateBox() {
 	    	<input type="hidden" value="${study}" name="study"/>
 		    <table cellpadding="0px" cellspacing="15px" width="70%">
 				<c:if test="${isUpdateMode}">
-					<tr><td>File upload stuff here</td></tr>
+					<tr>
+					    <td colspan='2'>&nbsp;</td>
+					</tr>
+					<tr>
+					    <td><spring:message code="label.isatabZipFile" />:</td>
+					    <td><input type="file" name="file" /></td>
+					</tr>
 				</c:if>
 			    <tr>
 		            <td><spring:message code="label.experimentstatuspublic" />:</td>
