@@ -25,7 +25,7 @@
 				</td>
 				<td>&nbsp;</td>
 				<td height="100px" width="300px" class="big_submit">
-					<a href="biisubmit" style="color:white; font-size:20px"><spring:message code="label.updateOldStudy"/></a>	
+					<a href="mysubmissions?status=PRIVATE" style="color:white; font-size:20px"><spring:message code="label.updateOldStudy"/></a>	
 					<br/><br/><spring:message code="label.updateOldStudySub"/>
 				</td>
 			</tr>
