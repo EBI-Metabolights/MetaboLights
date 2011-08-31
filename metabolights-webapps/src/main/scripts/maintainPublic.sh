@@ -22,7 +22,7 @@ source /homes/oracle/ora11setup.sh
 EMAILTO=kenneth@ebi.ac.uk
 #MAILTO=`grep mtblAdminEmailAddress ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=` 
 PROPS_FILE=/homes/mtbl/metabolights/metabolights-webapps/src/main/webapp/resources/application.properties
-NUM_DAYS=10
+NUM_DAYS=20
 
 #################################
 #  End of Configurable Options  #
@@ -35,6 +35,7 @@ DB_CONNECTION=$DB_CONNECTION'@'`grep jdbc.databaseurl ${PROPS_FILE} | grep -v '!
 PUB_FTP=`grep publicFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 PRIV_FTP=`grep privateFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 SQL_BASIC_STR="whenever sqlerror exit failure;\n set head off;\n set pagesize 0;\n "
+# This SQL will get all id's that are private, release date is in the past or today AND it has been modified over the last few days
 GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 0 AND (trunc(relase_date) <= trunc(sysdate)) AND (trunc(updated_date) >= trunc(sysdate-${NUM_DAYS}));"
 
 Info ------------------------------------------------------------------------------------------ 
