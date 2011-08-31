@@ -145,7 +145,7 @@ public class BIISubmissionController extends AbstractController {
 		return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.indexed"));
 			
 	}
-	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
+	private static @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
 	private @Value("#{appProperties.publicFtpLocation}") String publicFtpLocation;
 	private @Value("#{appProperties.privateFtpLocation}") String privateFtpLocation;
 	
@@ -158,7 +158,7 @@ public class BIISubmissionController extends AbstractController {
 	 * @throws IOException 
 	 * @throws Exception 
 	 */
-	private String writeFile(MultipartFile file, CheckList cl) throws IOException  {
+	public static String writeFile(MultipartFile file, CheckList cl) throws IOException  {
 		//TODO get separator from props
 
 		byte[] bytes = file.getBytes();
@@ -186,8 +186,11 @@ public class BIISubmissionController extends AbstractController {
 		fos.write(bytes);
 		fos.close();
 		
-		//Check Item in CheckList
-		cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), PropertyLookup.getMessage("BIISubmit.fileUploadComplete") +" "+ file.getOriginalFilename());
+		// If there is a CheckList
+		if (cl != null){
+			//Check Item in CheckList
+			cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), PropertyLookup.getMessage("BIISubmit.fileUploadComplete") +" "+ file.getOriginalFilename());
+		}
 		
 		return isaTabFile;
 	}

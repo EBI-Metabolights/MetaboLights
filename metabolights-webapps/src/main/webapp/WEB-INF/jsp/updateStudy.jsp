@@ -96,7 +96,7 @@ function syncDateBox() {
 	
 	<c:if test="${empty updated}">
 		<br/><br/>
-		<form method="post" action="${action}" name="uf" onsubmit="disableSubmission()">
+		<form method="post" action="${action}" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
 	    	<input type="hidden" value="${study}" name="study"/>
 		    <table cellpadding="0px" cellspacing="15px" width="70%">
 				<c:if test="${isUpdateMode}">

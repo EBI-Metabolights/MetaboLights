@@ -11,7 +11,7 @@
 				<b><a href="${searchResult.accStudy}">${searchResult.title}</a></b>
 			</div>
 			<div style='width: 100px;' class='iscell'>
-				<form name="update-form" action="updatestudy" method="post" class="one-button-form">
+				<form name="update-form" action="updatestudyform" method="post" class="one-button-form">
 					<input type="hidden" name="study" value="${searchResult.accStudy}"/>
 					<input type="submit" id="update" value="<spring:message code="label.updatestudy"/>" class="big_submit" />
 				</form>
@@ -36,7 +36,7 @@
 			<c:if test="${!empty welcomemessage}">
 			&nbsp;
 			<div style="float: right; margin-right:150px">
-			<form name="publish-form" action="makestudypublic" method="post" class="one-button-form">
+			<form name="publish-form" action="updatepublicreleasedateform" method="post" class="one-button-form">
 				<input type="hidden" name="study" value="${searchResult.accStudy}"/>
 				<input type="submit" id="publish" value="<spring:message code="label.makestudypublic"/>" class="big_submit" />
 			</form>

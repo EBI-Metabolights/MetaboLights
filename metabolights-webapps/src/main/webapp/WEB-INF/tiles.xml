@@ -112,7 +112,7 @@
         <put-attribute name="searchFilter" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
 	
-	<definition name="updateStudy" extends="base.definition">
+	<definition name="updateStudyForm" extends="base.definition">
         <put-attribute name="title" value="Update study" />
         <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
     </definition>
