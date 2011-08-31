@@ -12,7 +12,7 @@
 ##########################################################################
 clear
 
-. /homes/mtbl/metabolights/metabolights-webapps/src/main/scripts/logging_functions
+. /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/logging_functions
 source /homes/oracle/ora11setup.sh
 
 #################################
@@ -21,23 +21,26 @@ source /homes/oracle/ora11setup.sh
 
 EMAILTO=kenneth@ebi.ac.uk
 #MAILTO=`grep mtblAdminEmailAddress ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=` 
-PROPS_FILE=/homes/mtbl/metabolights/metabolights-webapps/src/main/webapp/resources/application.properties
-NUM_DAYS=2
+PROPS_FILE=/nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/webapp/resources/application.properties
+NUM_DAYS=5
 
 #################################
 #  End of Configurable Options  #
 #################################
 
-SHELL_LOG_FILE=/homes/mtbl/maintainPublic.log.`date +"%Y-%m-%d %H:%M:%S"` 
+SHELL_LOG_FILE=/nfs/production/panda/metabolights/maintainPublic.log.`date +"%Y-%m-%d %H:%M:%S"` 
 DB_CONNECTION=`grep jdbc.username ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 DB_CONNECTION=$DB_CONNECTION'/'`grep jdbc.password ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 DB_CONNECTION=$DB_CONNECTION'@'`grep jdbc.databaseurl ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f6 -d:`  
 PUB_FTP=`grep publicFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 PRIV_FTP=`grep privateFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 SQL_BASIC_STR="whenever sqlerror exit failure;\n set feedback off head off pagesize 0;\n "
-# This SQL will get all id's that are private, release date is in the past or today AND it has been modified over the last few days
+
+# Update the studies that are passed the release date
+UPDATE_STUDIES_SQL="${SQL_BASIC_STR} update study set status = 0, updated_date=SYSDATE WHERE trunc(releasedate)<=trunc(sysdate) AND status = 1 AND acc ="
+# Get private studies that are passed the release date
 # NB! updated_date is our column, we have to add this if we upgrade the schema
-GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 0 AND trunc(releasedate)<=trunc(sysdate) AND trunc(updated_date)>=trunc(sysdate-${NUM_DAYS});"
+GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 1 AND trunc(releasedate)<=trunc(sysdate) AND trunc(updated_date)>=trunc(sysdate-${NUM_DAYS});"
 
 Info ------------------------------------------------------------------------------------------ 
 Info Settings:
@@ -61,10 +64,18 @@ Info ---------------------------------------------------------------------------
 Info "Start"
 Info "Getting study data modified in the last ${NUM_DAYS} days"  
 
+
 PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
  
 for studies in $PUBLIC_STUDIES
 do
+	# Update studies in the database
+	UPDATE_STUDIES_SQL="${SQL_BASIC_STR} update study set status = 0, updated_date=SYSDATE WHERE trunc(releasedate)<=trunc(sysdate) AND status = 1 AND acc ='${studies}';"
+    echo -e $UPDATE_STUDIES_SQL | sqlplus -s ${DB_CONNECTION}
+    
+    # Update the lucene index
+    
+
     # Check if file exists
 	[ -f $PRIV_FTP$studies.zip ] || Info "ERROR: File $PRIV_FTP$studies.zip does not exist"
 	[ -f $PUB_FTP$studies.zip ] && Info "File $studies.zip already exists in $PUB_FTP"

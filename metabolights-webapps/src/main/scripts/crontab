@@ -1,6 +1,0 @@
-# Crontab for mtbl on ebi-003
-
-# Tidy up old files under the BII upload directory
-0 1 * * * /homes/mtbl/metabolights/metabolights-webapps/src/main/scripts/tidy.sh
-0 2 * * * /homes/mtbl/metabolights/metabolights-webapps/src/main/scripts/maintainPublic.sh
-
