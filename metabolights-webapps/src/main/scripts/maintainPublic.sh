@@ -63,8 +63,8 @@ PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
  
 for studies in $PUBLIC_STUDIES
 do
-    ls -Fla $PRIV_FTP/$studies
-    ls -Fla $PUB_FTP/$studies
+    ls -Fla $PRIV_FTP/$studies.zip
+    ls -Fla $PUB_FTP/$studies.zip
     Info "Study ${studies}"
 done
 
