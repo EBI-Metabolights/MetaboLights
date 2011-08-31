@@ -19,7 +19,7 @@ source /homes/oracle/ora11setup.sh
 #  Configurable Options Follow  #
 #################################
 
-EMAILTO=kenneth@ebi.ac.uk, conesa@ebi.ac.uk
+EMAILTO=kenneth@ebi.ac.uk
 #MAILTO=`grep mtblAdminEmailAddress ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=` 
 PROPS_FILE=/homes/mtbl/metabolights/metabolights-webapps/src/main/webapp/resources/application.properties
 NUM_DAYS=2
