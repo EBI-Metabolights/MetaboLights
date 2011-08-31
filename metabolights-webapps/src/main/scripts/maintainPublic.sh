@@ -65,9 +65,8 @@ for studies in $PUBLIC_STUDIES
 do
     # Check if file exists
 	[ -f $PRIV_FTP$studies.zip ] || Error "ERROR: File $PRIV_FTP$studies.zip does not exist"
-	[ -f $PUB_FTP$studies.zip ] && Info "ERROR: File $studies.zip already exists in $PUB_FTP"
 	
-	# Move the archive to the public location
+	# Move the archive, if it exists, to the public location
 	[ -f $PRIV_FTP$studies.zip ] && mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip;chmod +rx $PUB_FTP$studies.zip; Info "Study ${studies} moved to ${PUB_FTP}"
        
 done
