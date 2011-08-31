@@ -35,7 +35,7 @@ DB_CONNECTION=$DB_CONNECTION'@'`grep jdbc.databaseurl ${PROPS_FILE} | grep -v '!
 PUB_FTP=`grep publicFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 PRIV_FTP=`grep privateFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 SQL_BASIC_STR="whenever sqlerror exit failure;\n set head off;\n set pagesize 0;\n "
-GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 0 AND trunc(updated_date) >= trunc(sysdate-${NUM_DAYS});"
+GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 0 AND (trunc(relase_date) <= trunc(sysdate)) AND (trunc(updated_date) >= trunc(sysdate-${NUM_DAYS}));"
 
 Info ------------------------------------------------------------------------------------------ 
 Info Settings:
