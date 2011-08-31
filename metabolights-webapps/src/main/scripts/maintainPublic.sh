@@ -40,6 +40,7 @@ Info "Testing required parameters"
 [ -z $PRIV_FTP ] && Error "MetaboLights PRIVATE ftp location is not set, exiting"
 [ -z $PUB_FTP ] && Error "MetaboLights PUBLIC ftp location is not set, exiting"
 [ -z $SQL_DIRECTORY ] && Error "MetaboLights SQL script location is not set, exiting"
+[ -z $GET_STUDIES_SQL ] && Error "GET_STUDIES_SQL is not set, exiting"
 
 
 Info ------------------------------------------------------------------------------------------
@@ -54,6 +55,7 @@ for study in $ALL_TAP_TABLES
 PUBLIC_STUDIES="`echo $GET_STUDIES_SQL | sqlplus -s $DB_CONNECTION`"
 Info "Public Studies found " $PUBLIC_STUDIES
 Info "SQL " $GET_STUDIES_SQL
+Info "SQL2 " $SQL_BASIC_STR
  
 for studies in $PUBLIC_STUDIES
 do
@@ -61,7 +63,7 @@ do
     Info "Study " $studies
 done
 
-mailx -s 'MetaboLights Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}
+#mailx -s 'MetaboLights Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}
 
 
 
