@@ -34,7 +34,8 @@ DB_CONNECTION=$DB_CONNECTION'/'`grep jdbc.password ${PROPS_FILE} | grep -v '!' |
 DB_CONNECTION=$DB_CONNECTION'@'`grep jdbc.databaseurl ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f6 -d:`  
 PUB_FTP=`grep publicFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 PRIV_FTP=`grep privateFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
-GET_STUDIES_SQL="select acc from study where status = 0 AND trunc(updated_date) >= trunc(sysdate-${NUM_DAYS});"
+SQL_BASIC_STR="whenever sqlerror exit failure;\n set head off;\n set pagesize 0;\n "
+GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 0 AND trunc(updated_date) >= trunc(sysdate-${NUM_DAYS});"
 
 Info ------------------------------------------------------------------------------------------ 
 Info Settings:
@@ -58,7 +59,7 @@ Info ---------------------------------------------------------------------------
 Info "Start"
 Info "Getting study data modified in the last ${NUM_DAYS} days"  
 
-PUBLIC_STUDIES=`echo ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
+PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
 PUBLIC_STUDIES=`grep -v '-' $PUBLIC_STUDIES`
 Info "Public Studies found ${PUBLIC_STUDIES}"
 Info "SQL ${GET_STUDIES_SQL}"
