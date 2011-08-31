@@ -23,6 +23,7 @@ EMAILTO=kenneth@ebi.ac.uk
 #MAILTO=`grep mtblAdminEmailAddress ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=` 
 PROPS_FILE=/nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/webapp/resources/application.properties
 NUM_DAYS=5
+LUCENE=/nfs/production/panda/metabolights/lucene_updater
 
 #################################
 #  End of Configurable Options  #
@@ -41,6 +42,8 @@ UPDATE_STUDIES_SQL="${SQL_BASIC_STR} update study set status = 0, updated_date=S
 # Get private studies that are passed the release date
 # NB! updated_date is our column, we have to add this if we upgrade the schema
 GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 1 AND trunc(releasedate)<=trunc(sysdate) AND trunc(updated_date)>=trunc(sysdate-${NUM_DAYS});"
+#Classpath for lucene updater
+CP="$LUCENE/ojdbc6.jar:$LUCENE/isatools_deps.jar"
 
 Info ------------------------------------------------------------------------------------------ 
 Info Settings:
@@ -74,8 +77,8 @@ do
     echo -e $UPDATE_STUDIES_SQL | sqlplus -s ${DB_CONNECTION}
     
     # Update the lucene index
+    java -Xms256m -Xmx1024m -XX:PermSize=64m -XX:MaxPermSize=128m -cp "$CP" org.isatools.isatab.manager.SimpleManager "reindex" "${studies}"
     
-
     # Check if file exists
 	[ -f $PRIV_FTP$studies.zip ] || Info "ERROR: File $PRIV_FTP$studies.zip does not exist"
 	[ -f $PUB_FTP$studies.zip ] && Info "File $studies.zip already exists in $PUB_FTP"
