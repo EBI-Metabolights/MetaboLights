@@ -63,8 +63,10 @@ PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
  
 for studies in $PUBLIC_STUDIES
 do
-    ls -Fla $PRIV_FTP/$studies.zip
-    ls -Fla $PUB_FTP/$studies.zip
+    
+	[ -f $PRIV_FTP/$studies.zip ] || Error "File $PRIV_FTP/$studies.zip does not exist"
+	[ -f $PRIV_FTP/$studies.zip ] && ls -Fla $PRIV_FTP/$studies.zip
+    
     Info "Study ${studies}"
 done
 
