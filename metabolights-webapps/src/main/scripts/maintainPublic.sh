@@ -22,7 +22,7 @@ source /homes/oracle/ora11setup.sh
 EMAILTO=kenneth@ebi.ac.uk
 #MAILTO=`grep mtblAdminEmailAddress ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=` 
 PROPS_FILE=/homes/mtbl/metabolights/metabolights-webapps/src/main/webapp/resources/application.properties
-NUM_DAYS=20
+NUM_DAYS=90
 
 #################################
 #  End of Configurable Options  #
@@ -66,7 +66,8 @@ PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
 for studies in $PUBLIC_STUDIES
 do
     # Check if file exists
-	[ -f $PRIV_FTP$studies.zip ] || Error "ERROR: File $PRIV_FTP$studies.zip does not exist"
+	[ -f $PRIV_FTP$studies.zip ] || Info "ERROR: File $PRIV_FTP$studies.zip does not exist"
+	[ -f $PUB_FTP$studies.zip ] && Info "File $studies.zip already exists in $PUB_FTP"
 	
 	# Move the archive, if it exists, to the public location
 	[ -f $PRIV_FTP$studies.zip ] && mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip;chmod +rx $PUB_FTP$studies.zip; Info "Study ${studies} moved to ${PUB_FTP}"
