@@ -2,7 +2,7 @@
 
 clear
 
-. $CHEBI_HOME/compounds/prg/cronJobs/chembl_mapping/logging_functions
+. /homes/mtbl/metabolights/metabolights-webapps/src/main/scripts/logging_functions
 
 #Settings
 PROPS_FILE=/homes/mtbl/metabolights/metabolights-webapps/src/main/webapp/resources/application.properties
@@ -22,6 +22,4 @@ Info ---------------------------------------------------------------------------
 Info "Testing required parameters"
 [ -z $PROPS_FILE ] && Error "Properties file not found, exiting"
 [ -z $DB_CONNECTION ] && Error "Database connection string is not set, exiting"
-
-
 

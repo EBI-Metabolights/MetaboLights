@@ -1,0 +1,30 @@
+_do_log () {
+	
+  LF_logging_file_mode=664
+  datestring=`date +"%Y-%m-%d %H:%M:%S"`
+  typestring=''
+  messagelevel=$1
+ 
+  case $messagelevel in
+    1) typestring=ERROR ;;
+    2) typestring=TRACE ;;
+    3) typestring=INFO ;;
+    *) typestring=UNKNOWN ;;
+  esac
+  
+  if [ ! -f $SHELL_LOG_FILE ]; then
+    touch $SHELL_LOG_FILE
+    chmod $LF_logging_file_mode $SHELL_LOG_FILE
+  fi  
+  
+  echo $datestring $typestring $2 >> $SHELL_LOG_FILE
+  echo $2
+  
+  if [ $messagelevel -eq 1 ]; then
+    exit
+  fi
+}
+
+alias Error='_do_log 1 '
+alias Trace='_do_log 2 '
+alias Info='_do_log 3 '
