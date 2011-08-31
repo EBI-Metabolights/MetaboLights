@@ -60,13 +60,11 @@ Info "Start"
 Info "Getting study data modified in the last ${NUM_DAYS} days"  
 
 PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
-PUBLIC_STUDIES=`grep -v '-' $PUBLIC_STUDIES`
-Info "Public Studies found ${PUBLIC_STUDIES}"
-Info "SQL ${GET_STUDIES_SQL}"
  
 for studies in $PUBLIC_STUDIES
 do
-    ls -Fla $studies
+    ls -Fla $PRIV_FTP/$studies
+    ls -Fla $PUB_FTP/$studies
     Info "Study ${studies}"
 done
 
