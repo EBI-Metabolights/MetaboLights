@@ -28,4 +28,3 @@ _do_log () {
 alias Error='_do_log 1 '
 alias Trace='_do_log 2 '
 alias Info='_do_log 3 '
-alias Date='echo $datestring'
