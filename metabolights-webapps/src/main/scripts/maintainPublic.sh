@@ -22,7 +22,7 @@ source /homes/oracle/ora11setup.sh
 EMAILTO=kenneth@ebi.ac.uk
 #MAILTO=`grep mtblAdminEmailAddress ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=` 
 PROPS_FILE=/homes/mtbl/metabolights/metabolights-webapps/src/main/webapp/resources/application.properties
-NUM_DAYS=25
+NUM_DAYS=10
 
 #################################
 #  End of Configurable Options  #
@@ -59,7 +59,7 @@ Info "Start"
 Info "Getting study data modified in the last ${NUM_DAYS} days"  
 
 PUBLIC_STUDIES=`echo ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
-PUBLIC_STUDIES=`grep -v $PUBLIC_STUDIES`
+PUBLIC_STUDIES=`grep -v '-' $PUBLIC_STUDIES`
 Info "Public Studies found ${PUBLIC_STUDIES}"
 Info "SQL ${GET_STUDIES_SQL}"
  
