@@ -53,7 +53,6 @@ Info "Testing required parameters"
 [ -z $DB_CONNECTION ] && Error "Database connection string is not set, exiting"
 [ -z $PRIV_FTP ] && Error "MetaboLights PRIVATE ftp location is not set, exiting"
 [ -z $PUB_FTP ] && Error "MetaboLights PUBLIC ftp location is not set, exiting"
-[ -z $SQL_DIRECTORY ] && Error "MetaboLights SQL script location is not set, exiting"
 [ -z $GET_STUDIES_SQL ] && Error "GET_STUDIES_SQL is not set, exiting"
 
 
