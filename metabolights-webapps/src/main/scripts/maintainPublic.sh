@@ -64,10 +64,10 @@ PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
 for studies in $PUBLIC_STUDIES
 do
     #Check if file exists and move the file
-	[ -f $PRIV_FTP/$studies.zip ] || Error "ERROR: File $PRIV_FTP/$studies.zip does not exist"
-	[ -f $PUB_FTP/$studies.zip ] && Info "ERROR: File $PUB_FTP/$studies.zip already exists in $PUB_FTP"
+	[ -f $PRIV_FTP$studies.zip ] || Error "ERROR: File $PRIV_FTP$studies.zip does not exist"
+	[ -f $PUB_FTP$studies.zip ] && Info "ERROR: File $studies.zip already exists in $PUB_FTP"
 	
-	[ -f $PRIV_FTP/$studies.zip ] && ls -Fla $PRIV_FTP/$studies.zip
+	[ -f $PRIV_FTP$studies.zip ] && ls -Fla $PRIV_FTP$studies.zip
     
     Info "Study ${studies}"
 done
