@@ -68,7 +68,7 @@ do
 	[ -f $PUB_FTP$studies.zip ] && Info "ERROR: File $studies.zip already exists in $PUB_FTP"
 	
 	# Move the archive to the public location
-	[ -f $PRIV_FTP$studies.zip ] && mv $PRIV_FTP$studies.zip $PUB_FTP$studies.zip;chmod +rx $PUB_FTP$studies.zip; Info "Study ${studies} moved to ${PUB_FTP}"
+	[ -f $PRIV_FTP$studies.zip ] && mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip;chmod +rx $PUB_FTP$studies.zip; Info "Study ${studies} moved to ${PUB_FTP}"
        
 done
 
