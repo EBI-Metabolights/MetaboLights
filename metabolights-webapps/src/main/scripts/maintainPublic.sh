@@ -52,7 +52,9 @@ for study in $ALL_TAP_TABLES
 
 
 PUBLIC_STUDIES="`echo $GET_STUDIES_SQL | sqlplus -s $DB_CONNECTION`"
-
+Info "Public Studies found " $PUBLIC_STUDIES
+Info "SQL " $GET_STUDIES_SQL
+ 
 for studies in $PUBLIC_STUDIES
 do
     ls -Fla $studies
