@@ -346,16 +346,44 @@ a {
 }
 
 .big_submit {
-background-color: #006666;
-border: 1px solid #0A4F4F;
--moz-border-radius: 5px;
--khtml-border-radius: 5px;
--webkit-border-radius: 5px;
-border-radius: 5px;
-color: white;
-font-size: 14px;
-padding: 4px 2px;
-margin-top: 4px;
+	background-color: #006666;
+	border: 1px solid #0A4F4F;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	color: white;
+	font-size: 14px;
+	padding: 4px 2px;
+	margin-top: 4px;
+}
+
+.button_cell_dark {
+	background-color: #006666;
+	border: 1px solid #0A4F4F;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	color: white;
+	font-size: 14px;
+	padding: 4px 2px;
+	margin-top: 4px;
+	text-align: center;
+}
+
+.button_cell_pale {
+	background-color: #008C54;
+	border: 1px solid #0A4F4F;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	color: white;
+	font-size: 14px;
+	padding: 4px 2px;
+	margin-top: 4px;
+	text-align: center;
 }
 
 .smallArrow {
