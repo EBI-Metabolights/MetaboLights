@@ -1,5 +1,5 @@
 # Crontab for tc_cm01 on tomcat-18
 # Maintain public studies
-#0 2 * * * /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/maintainPublic.sh 2>&1 >/dev/null
+0 2 * * * /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/maintainPublic.sh 2>&1 >/dev/null
 # Make sure access rights are set on the public ftp site
 0 3 * * *  chmod -R go+rx /ebi/ftp/pub/databases/metabolights/studies/public/*.zip 2>&1 >/dev/null
