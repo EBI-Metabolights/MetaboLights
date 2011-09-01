@@ -75,7 +75,7 @@ do
     
     # Update the lucene index
     #java -Xms256m -Xmx1024m -XX:PermSize=64m -XX:MaxPermSize=128m -cp "$CP" org.isatools.isatab.manager.SimpleManager "reindex" "${studies}"
-    $LUCENE ${studies}
+    $LUCENE/reindex.sh ${studies}
     
     
     # Check if file exists
