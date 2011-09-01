@@ -21,7 +21,7 @@ source /homes/oracle/ora11setup.sh
 
 EMAILTO=kenneth@ebi.ac.uk
 #MAILTO=`grep mtblAdminEmailAddress ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=` 
-PROPS_FILE=/nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/webapp/resources/application.properties
+PROPS_FILE=/nfs/production/panda/metabolights/lucene_updater/config/hibernate.properties
 NUM_DAYS=5
 LUCENE=/nfs/production/panda/metabolights/lucene_updater
 
@@ -30,18 +30,16 @@ LUCENE=/nfs/production/panda/metabolights/lucene_updater
 #################################
 
 SHELL_LOG_FILE=/nfs/production/panda/metabolights/maintainPublic.log.`date +"%Y-%m-%d %H:%M:%S"` 
-DB_CONNECTION=`grep jdbc.username ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
-DB_CONNECTION=$DB_CONNECTION'/'`grep jdbc.password ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
-DB_CONNECTION=$DB_CONNECTION'@'`grep jdbc.databaseurl ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f6 -d:`  
+DB_CONNECTION=`grep hibernate.connection.username ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
+DB_CONNECTION=$DB_CONNECTION'/'`grep hibernate.connection.password ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
+DB_CONNECTION=$DB_CONNECTION'@'`grep hibernate.connection.url ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f6 -d:`  
 PUB_FTP=`grep publicFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 PRIV_FTP=`grep privateFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 SQL_BASIC_STR="whenever sqlerror exit failure;\n set feedback off head off pagesize 0;\n "
 
-# Update the studies that are passed the release date
-UPDATE_STUDIES_SQL="${SQL_BASIC_STR} update study set status = 0, updated_date=SYSDATE WHERE trunc(releasedate)<=trunc(sysdate) AND status = 1 AND acc ="
 # Get private studies that are passed the release date
 # NB! updated_date is our column, we have to add this if we upgrade the schema
-GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 1 AND trunc(releasedate)<=trunc(sysdate) AND trunc(updated_date)>=trunc(sysdate-${NUM_DAYS});"
+GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 1 AND trunc(releasedate)<=trunc(sysdate);"
 #Classpath for lucene updater
 CP="$LUCENE/ojdbc6.jar:$LUCENE/isatools_deps.jar"
 
@@ -84,7 +82,7 @@ do
 	[ -f $PUB_FTP$studies.zip ] && Info "File $studies.zip already exists in $PUB_FTP"
 	
 	# Move the archive, if it exists, to the public location
-	[ -f $PRIV_FTP$studies.zip ] && mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip;chmod +rx $PUB_FTP$studies.zip; Info "Study ${studies} moved to ${PUB_FTP}"
+	[ -f $PRIV_FTP$studies.zip ] && mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip;chmod og+rx $PUB_FTP$studies.zip; Info "Study ${studies} moved to ${PUB_FTP}"
        
 done
 
