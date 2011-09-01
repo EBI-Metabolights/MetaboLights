@@ -77,13 +77,17 @@ do
     #java -Xms256m -Xmx1024m -XX:PermSize=64m -XX:MaxPermSize=128m -cp "$CP" org.isatools.isatab.manager.SimpleManager "reindex" "${studies}"
     $LUCENE/reindex.sh ${studies}
     
-    
     # Check if file exists
 	[ -f $PRIV_FTP$studies.zip ] || Info "ERROR: File $PRIV_FTP$studies.zip does not exist"
 	[ -f $PUB_FTP$studies.zip ] && Info "File $studies.zip already exists in $PUB_FTP"
 	
 	# Move the archive, if it exists, to the public location
-	[ -f $PRIV_FTP$studies.zip ] && mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip;chmod og+rx $PUB_FTP$studies.zip; Info "Study ${studies} moved to ${PUB_FTP}"
+	[ -f $PRIV_FTP$studies.zip ] && mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip
+	
+	# Can change the premissions regardless
+	chmod og+rx $PUB_FTP$studies.zip
+	 
+	Info "Study ${studies} is now public"
        
 done
 
