@@ -21,9 +21,9 @@ source /homes/oracle/ora11setup.sh
 
 EMAILTO=kenneth@ebi.ac.uk
 #MAILTO=`grep mtblAdminEmailAddress ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=` 
-PROPS_FILE=/nfs/production/panda/metabolights/lucene_updater/config/hibernate.properties
-NUM_DAYS=5
 LUCENE=/nfs/production/panda/metabolights/lucene_updater
+PROPS_FILE=$LUCENE/config/hibernate.properties
+NUM_DAYS=5
 
 #################################
 #  End of Configurable Options  #
@@ -36,7 +36,6 @@ DB_CONNECTION=$DB_CONNECTION'@'`grep hibernate.connection.url ${PROPS_FILE} | gr
 PUB_FTP=`grep publicFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 PRIV_FTP=`grep privateFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 SQL_BASIC_STR="whenever sqlerror exit failure;\n set feedback off head off pagesize 0;\n "
-
 # Get private studies that are passed the release date
 # NB! updated_date is our column, we have to add this if we upgrade the schema
 GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 1 AND trunc(releasedate)<=trunc(sysdate);"
