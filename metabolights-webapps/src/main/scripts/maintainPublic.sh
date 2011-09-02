@@ -19,8 +19,7 @@ source /homes/oracle/ora11setup.sh
 #  Configurable Options Follow  #
 #################################
 
-EMAILTO=kenneth@ebi.ac.uk
-#MAILTO=`grep mtblAdminEmailAddress ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=` 
+EMAILTO=metabolights-help@ebi.ac.uk
 LUCENE=/nfs/production/panda/metabolights/lucene_updater
 PROPS_FILE=$LUCENE/config/hibernate.properties
 NUM_DAYS=5
@@ -37,10 +36,7 @@ PUB_FTP=`grep publicFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -
 PRIV_FTP=`grep privateFtpLocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 SQL_BASIC_STR="whenever sqlerror exit failure;\n set feedback off head off pagesize 0;\n "
 # Get private studies that are passed the release date
-# NB! updated_date is our column, we have to add this if we upgrade the schema
 GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 1 AND trunc(releasedate)<=trunc(sysdate);"
-#Classpath for lucene updater
-CP="$LUCENE/ojdbc6.jar:$LUCENE/isatools_deps.jar"
 
 Info ------------------------------------------------------------------------------------------ 
 Info Settings:
@@ -70,11 +66,11 @@ PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
 for studies in $PUBLIC_STUDIES
 do
 	# Update studies in the database
+	# NB! updated_date is our column, we have to add this if we upgrade the schema
 	UPDATE_STUDIES_SQL="${SQL_BASIC_STR} update study set status = 0, updated_date=SYSDATE WHERE trunc(releasedate)<=trunc(sysdate) AND status = 1 AND acc ='${studies}';"
     echo -e $UPDATE_STUDIES_SQL | sqlplus -s ${DB_CONNECTION}
     
     # Update the lucene index
-    #java -Xms256m -Xmx1024m -XX:PermSize=64m -XX:MaxPermSize=128m -cp "$CP" org.isatools.isatab.manager.SimpleManager "reindex" "${studies}"
     $LUCENE/reindex.sh ${studies}
     
     # Check if file exists
