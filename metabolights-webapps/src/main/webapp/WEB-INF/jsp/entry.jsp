@@ -104,7 +104,7 @@ function onloadAction() {
         <c:if test="${not empty study.publications}">
             <br><br>
             <c:forEach var="pub" items="${study.publications}">
-                <IMG src="img/book.png" height="18"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a> 
+                <IMG src="img/ebi-icons/32px/book.png" class="img_alignment"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a> 
                 <BR>
             </c:forEach>
             <br>
@@ -203,7 +203,7 @@ function onloadAction() {
         
         <c:if test="${not empty ftpLocation}">
             <hr/><br>
-            <IMG src="img/ftp.png" height="18"> <a href="${ftpLocation}"> <spring:message code="label.ftpDownload"/></a>
+            <IMG src="img/ebi-icons/32px/download.png" class="img_alignment"> <a href="${ftpLocation}"> <spring:message code="label.ftpDownload"/></a>
 		</c:if>
 		
         <!-- c:if test="${not empty study.annotations}">

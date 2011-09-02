@@ -365,7 +365,7 @@ a {
 	-khtml-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	color: white;
+	color: #feba12;
 	font-size: 14px;
 	padding: 4px 2px;
 	margin-top: 4px;
@@ -373,17 +373,22 @@ a {
 }
 
 .button_cell_pale {
-	background-color: #008C54;
+	background-color: #feba12;
 	border: 1px solid #0A4F4F;
 	-moz-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	color: white;
+	color: #006666;
 	font-size: 14px;
 	padding: 4px 2px;
 	margin-top: 4px;
 	text-align: center;
+}
+
+.img_alignment {
+	vertical-align: middle; 
+	background:#feba12;
 }
 
 .smallArrow {
