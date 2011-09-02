@@ -6,7 +6,7 @@
 
 <table cellpadding="5px" cellspacing="0px" border="0">
 	<tr>
-		<td align="center" width="15%" class="img_alignment">
+		<td align="center" width="15%" class="img_alignment_yellow">
 			<br/>
 			<a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/">
 					<img src="img/ebi-icons/64px/download.png"></a>

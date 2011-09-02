@@ -48,6 +48,7 @@ a {
 #top_bar {
 	height: 58px;
 }
+
 #top_bar h1 {
 	margin-top: 7px;
 	width: 250px;
@@ -70,6 +71,7 @@ a {
 	font-size: 14px;
 	height: 17px
 }
+
 #search-box .search-box-button {
 	float: left;
 	margin: 15px 0px 0px 0px;
@@ -79,12 +81,9 @@ a {
 	cursor: pointer;
 	border: 0px;
 	background-image: url('../img/searchButton.png');
-	
 }
 
-
 #text_header { 
-
 	color: #006666;
     background: #eef5f5;
  	padding: 10px 0px 5px 10px;
@@ -93,8 +92,8 @@ a {
 	border-radius:10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
-	
 }
+
 #text-column {
 	padding: 10px 10px 15px 10px;
 	float: left;
@@ -104,8 +103,7 @@ a {
 	width: 30%;
 }
 
-#text-fullwidth
-{
+#text-fullwidth {
     padding: 5px 5px 5px 5px;
     float: left;
     color: #444444;
@@ -125,7 +123,6 @@ a {
     font-weight:bold;
 }
 
-
 .loggedInAs {
 	font-size:12px;
 	margin-left:20px;
@@ -133,11 +130,10 @@ a {
     font-weight: normal;
 }
 .loggedInAsBox {
-   height:20px;
-   border:0px solid purple;
-   text-align:right;
+	height:20px;
+	border:0px solid purple;
+	text-align:right;
 }
-
 
 .error {
 	color:#AA0000;
@@ -153,7 +149,6 @@ a {
     color:#B0B0B0;
 }
 
-
 .formbox {
     border:1px solid #006666;
     margin-top:10px;
@@ -164,7 +159,6 @@ a {
     border-radius:10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
-    
 }
 
 .filterbox {
@@ -177,45 +171,60 @@ a {
     border-radius:10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
-    
 }
 
-.formheader{
+.formheader {
    background-color:#006666;
    color: #FFFFFF;
 }
 
-.tableheader{
+.tableheader {
     padding: 10px 10px 10px 10px;
 }
 
 /* paging */
-#content p{text-align:left;}
-#pagingControlsBot ul{display:inline;padding-left:0.5em}
-#pagingControlsBot li{display:inline;padding:0 0.5em}
-#pagingControlsTop ul{display:inline;padding-left:0.5em}
-#pagingControlsTop li{display:inline;padding:0 0.5em}
-
-/* table like div tag stuff */
-.iscell{
-     float: left;
-     padding: 5px 5px 5px 10px; /* top right bottom left */
-     text-align:left;
-     text-indent:0px;
-     bbborder: 1px solid black;
+#content p {
+	text-align:left;
 }
 
-.expandbox{
+#pagingControlsBot ul {
+	display:inline;
+	padding-left:0.5em
+}
+
+#pagingControlsBot li { 
+	display:inline;
+	padding:0 0.5em
+}
+
+#pagingControlsTop ul {
+	display:inline;
+	padding-left:0.5em
+}
+
+#pagingControlsTop li {
+	display:inline;
+	padding:0 0.5em
+}
+
+/* table like div tag stuff */
+.iscell {
+    float: left;
+    padding: 5px 5px 5px 10px; /* top right bottom left */
+    text-align:left;
+    text-indent:0px;
+    bbborder: 1px solid black;
+}
+
+.expandbox {
 	display:none;
 	border:1px dotted gray;
 	border-radius:10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
-	
 }
 
-#resultList li
-{
+#resultList li {
 	text-indent: 5px;
 	list-style-position: outside;
 	list-style-image: url(../img/brownBullet.jpg);
@@ -224,8 +233,7 @@ a {
 	margin: 0px;
 }
 
-#resultListText li
-{
+#resultListText li {
     text-indent: 0px;
     list-style-position: outside;
     list-style-image: url(../img/brownBullet.jpg);
@@ -234,11 +242,11 @@ a {
     margin: 0px;
 }
 
-
 /* Search Highlights */
 .highlight { 
 	background-color: YellowGreen;
-	font-weight: bold; }
+	font-weight: bold; 
+}
 
 .title {
     font-size: 14px;
@@ -251,7 +259,6 @@ a {
     float: left;
     margin-top: 5px;
     width: 900px;
-    
 }
 
 /* Rounded borders */
@@ -280,12 +287,12 @@ a {
 	height:55px;
 }
 
-#homepageLinks{
+#homepageLinks {
 	text-align:center;
 	margin-top:50px;
 }
 
-#homepageLinks a{
+#homepageLinks a {
 	color: #004242;
 	text-decoration: none;
 	font-weight:bold;
@@ -296,39 +303,45 @@ a {
    CSS from in http://javascript-array.com/scripts/simple_drop_down_menu/
  */
 
-#sddm
-{	margin: 0;
+#sddm {	
+	margin: 0;
 	padding: 0;
 	z-index: 30;
 }
-#sddm li
-{	margin: 0;
+
+#sddm li {	
+	margin: 0;
 	padding: 0;
 	list-style: none;
 	float: left;
 	font-weight: bold;
 	float: right;
 }
-#sddm li a
-{	display: block;
+
+#sddm li a {	
+	display: block;
 	margin: 0 1px 0 0;
 	padding: 4px;
     color: #004242;
 	text-align: center;
 	text-decoration: none;
 }
-#sddm li a:hover
-{/*background: #49A3FF*/
+
+#sddm li a:hover {
+	/*background: #49A3FF*/
    color: #feba12;
 }
-#sddm div
-{	position: absolute;
+
+#sddm div {	
+	position: absolute;
 	visibility: hidden;
 	margin: 0;
 	padding: 0;
-	border: 1px solid 006666}
-#sddm div a
-{	position: relative;
+	border: 1px solid 006666
+}
+
+#sddm div a {	
+	position: relative;
 	display: block;
 	margin: 0;
 	padding: 5px 10px;
@@ -340,8 +353,9 @@ a {
 	font-size: 11px;
 	font-weight:normal;
 }
-#sddm div a:hover
-{	background: #bdd7d7;
+
+#sddm div a:hover {	
+	background: #bdd7d7;
     color: #004242;
 }
 
@@ -386,26 +400,33 @@ a {
 	text-align: center;
 }
 
-.img_alignment {
+.img_alignment_yellow {
 	vertical-align: middle; 
-	background:#feba12;
+	background: #feba12;
+	padding: 4px
+}
+
+.img_alignment_green {
+	vertical-align: middle; 
+	background:#eef5f5;
+	padding: 4px
 }
 
 .smallArrow {
-position: relative;
-top: -1px;
-border-style: solid dashed dashed;
-border-color: transparent;
-border-top-color: #feba12;
-display: -moz-inline-box;
-display: inline-block;
-font-size: 0;
-height: 0;
-line-height: 0;
-width: 0;
-border-width: 5px 5px 0;
-padding-top: 1px;
-left: 4px;
+	position: relative;
+	top: -1px;
+	border-style: solid dashed dashed;
+	border-color: transparent;
+	border-top-color: #feba12;
+	display: -moz-inline-box;
+	display: inline-block;
+	font-size: 0;
+	height: 0;
+	line-height: 0;
+	width: 0;
+	border-width: 5px 5px 0;
+	padding-top: 1px;
+	left: 4px;
 }
 
 

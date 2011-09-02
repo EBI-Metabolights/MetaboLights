@@ -42,7 +42,7 @@
             <td valign="top" align="right" style="padding-top:30px">
                  <a href="newAccount" >
                    <!-- img src="img/newUser.png" border="0px"/-->
-                   <img src="img/ebi-icons/32px/user-add.png" border="0px"/>
+                   <img src="img/ebi-icons/32px/user-add.png" class="img_alignment_green"/>
                  </a>
             </td>
             <td colspan='2' valign="top" style="padding-top:30px">
