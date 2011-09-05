@@ -145,7 +145,7 @@ public class BIISubmissionController extends AbstractController {
 		return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.indexed"));
 			
 	}
-	private static @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
+	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
 	private @Value("#{appProperties.publicFtpLocation}") String publicFtpLocation;
 	private @Value("#{appProperties.privateFtpLocation}") String privateFtpLocation;
 	
@@ -158,7 +158,7 @@ public class BIISubmissionController extends AbstractController {
 	 * @throws IOException 
 	 * @throws Exception 
 	 */
-	public static String writeFile(MultipartFile file, CheckList cl) throws IOException  {
+	public String writeFile(MultipartFile file, CheckList cl) throws IOException  {
 		//TODO get separator from props
 
 		byte[] bytes = file.getBytes();
@@ -204,29 +204,58 @@ public class BIISubmissionController extends AbstractController {
 	 */
 	private HashMap<String,String> uploadToBii (String isaTabFile, VisibilityStatus status, CheckList cl, String publicDate) throws Exception{
 		
-		//Get the user
-		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		
-		//Calculate the unzip folder (remove the extension + .)
-		String unzipFolder = StringUtils.truncate(isaTabFile, 4);
-		
-		//Get the path for the config folder (where the hibernate properties for the import layer are).
-		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
-		
-		Calendar currentDate = Calendar.getInstance();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
-		String submissionDate = formatter.format(currentDate.getTime());
 	
-		//Upload the file to bii
-		IsaTabUploader itu = new IsaTabUploader(isaTabFile, unzipFolder , user.getUserName(), publicFtpLocation, privateFtpLocation, status, configPath, publicDate, submissionDate);
+		// Upload the file to bii
+		IsaTabUploader itu = getIsaTabUploader(isaTabFile, status, publicDate);
 		
-		//Set the CheckList to get feedback
+		// Set the CheckList to get feedback
 		itu.setCheckList(cl);
 		
-		//Upload the file
+		// Upload the file
 		return itu.Upload();
 	}
 
+	/**
+	 * Returns a default configured uploader. After it you may probably need to set:
+	 * UnzipFolder
+	 * 
+	 * @return
+	 */
+	public IsaTabUploader getIsaTabUploader(String isaTabFile, VisibilityStatus status, String publicDate){
+
+		// Get the user
+		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+		// Get the path for the config folder (where the hibernate properties for the import layer are).
+		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+
+		// Get today's date.
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
+		String submissionDate = formatter.format(currentDate.getTime());
+		
+		
+		IsaTabUploader itu = new IsaTabUploader();
+		
+		// Set common properties
+		itu.setOwner(user.getUserName());
+		itu.setCopyToPrivateFolder(privateFtpLocation);
+		itu.setCopyToPublicFolder(publicFtpLocation);
+		itu.setDBConfigPath(configPath);
+		itu.setSubmissionDate(submissionDate);
+
+		// Set properties related with the file itself...
+		// Calculate the unzip folder (remove the extension + .)
+		String unzipFolder = StringUtils.truncate(isaTabFile, 4);
+		itu.setUnzipFolder(unzipFolder);
+		itu.setIsaTabFile(isaTabFile);
+		itu.setPublicDate(publicDate);
+		itu.setStatus(status);
+		
+		return itu;
+
+	}
+	
 	
 	@RequestMapping(value = "/uploadtest")
 	public ModelAndView test(){

@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -152,7 +153,7 @@ public class UpdateStudyController extends AbstractController {
 		if (!params.validationmsg.isEmpty()){
 			
 			// Prepare the same view but this time with the validation message.
-			ModelAndView validation = getModelAndView(params.study, params.isUpdateStudyMode);
+			ModelAndView validation = getModelAndView(params.studyId, params.isUpdateStudyMode);
 			validation.addObject("validationmsg", params.validationmsg);
 			return validation;
 		}
@@ -170,24 +171,21 @@ public class UpdateStudyController extends AbstractController {
 								@RequestParam(required=false, value="pickdate") String publicReleaseDateS,
 								HttpServletRequest request) throws Exception {
 
-		// Get the user
-		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-
-		// Log start
-		logger.info("Updating the public release date of the study " + study + " owned by " + user.getUserName());
 
 		// Instantiate the param objects
 		RequestParameters params = new RequestParameters(publicReleaseDateS, publicExp, study);
+
+		// Log start
+		logger.info("Updating the public release date of the study " + study + " owned by " + params.user.getUserName());
 		
 		// Validate the parameters...
 		ModelAndView validation = validateParameters(params);
 		
 		// If there is validation view...return it
 		if (validation != null){return validation;}
-
 		
 		// Add the user id to the unzip folder
-		String unzipFolder = uploadDirectory + user.getUserId();
+		String unzipFolder = uploadDirectory + params.user.getUserId();
 		
 		// Create the uploader
 		IsaTabUploader itu = new IsaTabUploader();
@@ -300,6 +298,31 @@ public class UpdateStudyController extends AbstractController {
 		
 	}
 	
+	/**
+	 * Re-submit process:
+		Each step must successfully validate, if not then stop and display an error
+		no need to allocate a new MTBLS id during this process
+		Check that the logged in user owns the chosen study
+		Check that the study is PRIVATE (? what do we think ?).  This could stop submitters from "nullifying" a public study.
+		Unzip the new zipfile and check that the study id is matching (MTBLS id)
+		Update new zipfile with Public date from the resubmission form
+		Unload the old study
+		IF SUCCESSFULLY UNLOADED =  DO NOT Remove old study zipfile
+		IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
+		Upload the new study (includes Lucene re-index)
+		IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
+		Copy the new zipfile to the correct folder (public or private locations)
+		Remove old study zipfile
+		Display a success or error page to the submitter.  Email metabolights-help and submitter with results
+	 * @param file
+	 * @param study
+	 * @param publicExp
+	 * @param publicReleaseDateS
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	
 	@RequestMapping(value = { "/updatestudy" })
 	public ModelAndView updateStudy(
 			@RequestParam("file") MultipartFile file, 
@@ -320,15 +343,29 @@ public class UpdateStudyController extends AbstractController {
 		
 		try {
 
-			//if (file.isEmpty()){ throw new Exception(PropertyLookup.getMessage("BIISubmit.fileEmpty"));}
+			BIISubmissionController submisionController = new BIISubmissionController();
 			
 			// Write the file to the proper location
-			//String isaTabFile = BIISubmissionController.writeFile(file, null);
+			String isaTabFile = submisionController.writeFile(file, null);
+			
+			// Get the uploader configured...
+			IsaTabUploader itu = submisionController.getIsaTabUploader(isaTabFile, params.status, params.publicReleaseDateS);
+			
+			// Check that the new zip file has the same studyID
+			Map<String,String> zipValues = itu.getStudyFields(new File(isaTabFile), new String[]{"Study Identifier"});
+			
+			String newStudyId = zipValues.get("Study Identifier");
+			
+			// If Ids do not match...
+			if (!study.equals(newStudyId)){
+				throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
+			}
+			
 			
 			
 			
 		}catch (Exception e){
-			
+			throw e;
 			
 		}
 		
@@ -343,7 +380,7 @@ public class UpdateStudyController extends AbstractController {
 	 * @return
 	 * @throws Exception 
 	 */
-	private LuceneSearchResult getStudy(String study) throws Exception{
+	public LuceneSearchResult getStudy(String study) throws Exception{
 		
 		//Search results
 		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
@@ -377,22 +414,29 @@ public class UpdateStudyController extends AbstractController {
 		Boolean publicExp;
 		VisibilityStatus status;
 		MultipartFile file;
-		String study;
+		String studyId;
 		String validationmsg;
 		Boolean isUpdateStudyMode;
+		LuceneSearchResult study;
+		MetabolightsUser user;
 		
-		
-		public RequestParameters(String publicReleaseDateS, Boolean publicExp, String study){
+		public RequestParameters(String publicReleaseDateS, Boolean publicExp, String studyId) throws Exception{
 			
 			// "normalize" the date
 			this.publicReleaseDateS = publicReleaseDateS == null? "": publicReleaseDateS;
 			this.publicExp = publicExp;
-			this.study = study;
-			this.isUpdateStudyMode = false;		
+			this.studyId = studyId;
+			this.study = getStudy(studyId);
+			this.isUpdateStudyMode = false;	
+			
+			// Get the user
+			this.user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+			
 		}
 		
 		
-		public RequestParameters(String publicReleaseDateS, Boolean publicExp, String study, MultipartFile file){
+		public RequestParameters(String publicReleaseDateS, Boolean publicExp, String study, MultipartFile file) throws Exception{
 			
 			this(publicReleaseDateS, publicExp, study);
 			this.isUpdateStudyMode = true;
@@ -411,13 +455,25 @@ public class UpdateStudyController extends AbstractController {
 			// If public release date is empty...
 			if ( publicReleaseDateS.isEmpty() && (publicExp == null)){
 				
-				// a date is required
-				validationmsg = PropertyLookup.getMessage("msg.makestudypublic.daterequired") + ". ";
+				// a date is required, not any more
+				//validationmsg = PropertyLookup.getMessage("msg.makestudypublic.daterequired");
 			}
 			
-			if (isUpdateStudyMode && file == null){
+			if (isUpdateStudyMode && file.isEmpty()){
 				// file is required
 				validationmsg = validationmsg +  PropertyLookup.getMessage("msg.upload.notValid"); 
+			}
+			
+			// Double check the user owns the study
+			if (!study.getSubmitter().getUserName().equals(user.getUserName())){
+				// ... user do not own the study
+				validationmsg = validationmsg +  PropertyLookup.getMessage("msg.validation.studynotowned");
+			}
+			
+			// Do not continue if the study is public.
+			if (study.getIsPublic()){
+				// ... a public study cannot be modified
+				validationmsg = validationmsg +  PropertyLookup.getMessage("msg.validation.publicstudynoteditable");
 			}
 			
 			return validationmsg ;
@@ -428,7 +484,12 @@ public class UpdateStudyController extends AbstractController {
 			
 			// If there is not a publicExp param
 			if (publicExp == null) {
-				publicReleaseDate =  new SimpleDateFormat("dd-MM-yyyy").parse(publicReleaseDateS);
+				
+				// Public release date can be null, in this case it will never be public
+				if (!publicReleaseDateS.isEmpty()){
+					publicReleaseDate =  new SimpleDateFormat("dd-MM-yyyy").parse(publicReleaseDateS);
+				}
+				
 				status = VisibilityStatus.PRIVATE;
 				publicExp = false;
 			}else{
