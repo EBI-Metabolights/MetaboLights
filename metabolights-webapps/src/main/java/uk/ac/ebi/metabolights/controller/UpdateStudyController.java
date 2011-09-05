@@ -47,11 +47,14 @@ public class UpdateStudyController extends AbstractController {
 	private @Value("#{appProperties.privateFtpLocation}") String privateFtpLocation;
 	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
 	
-
 	@Autowired
 	private SearchService searchService;
+	
 	@Autowired
 	private StudyService studyService;
+
+	@Autowired
+	private EntryController entryController;
 
 	/**
 	 * Receives the study that is going to be published and shows the updateStudy Page to let the user to set the public release date.
@@ -66,8 +69,6 @@ public class UpdateStudyController extends AbstractController {
 		
 		// Get the correspondent ModelAndView
 		return getModelAndView(study, false);
-		
-		
 		
 	}
 	
@@ -84,8 +85,7 @@ public class UpdateStudyController extends AbstractController {
 		
 		// Get the correspondent ModelAndView
 		return getModelAndView(study, true);
-		
-		
+	
 	}
 	
 	
@@ -123,10 +123,10 @@ public class UpdateStudyController extends AbstractController {
 			action = "updatestudy";
 			
 			// Get the DownloadLink
-			String ftpLocation = EntryController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );
+			String ftpLocation = entryController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );
 			mav.addObject("ftpLocation", ftpLocation);
 			
-		}else{
+		} else {
 			
 			title = PropertyLookup.getMessage("msg.makestudypublic.title", study, studyShortTitle);
 			msg = PropertyLookup.getMessage("msg.makestudypublic.msg");

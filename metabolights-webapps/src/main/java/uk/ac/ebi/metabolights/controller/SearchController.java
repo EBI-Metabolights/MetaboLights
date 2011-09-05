@@ -18,7 +18,6 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.Filter;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
-import uk.ac.ebi.metabolights.service.CountryService;
 import uk.ac.ebi.metabolights.service.SearchService;
 
 /**

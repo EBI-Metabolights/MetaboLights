@@ -43,12 +43,12 @@ public class EntryController extends AbstractController {
 	@Autowired
 	private StudyService studyService;
 
-    private static @Value("#{appProperties.publicFtpLocation}") String publicFtpDirectory;
-    private static @Value("#{appProperties.privateFtpLocation}") String privateFtpDirectory;
+    private @Value("#{appProperties.publicFtpLocation}") String publicFtpDirectory;
+    private @Value("#{appProperties.privateFtpLocation}") String privateFtpDirectory;
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}") 
-	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId,HttpServletRequest request) {
+	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblId);		
 		Study study = studyService.getBiiStudy(mtblId,true);
 		
@@ -147,18 +147,18 @@ public class EntryController extends AbstractController {
     		mav.addObject("taggedContent", null);
 		return mav;
 	}
-	public static String getDownloadLink(String study, VisibilityStatus status){
+	
+	public String getDownloadLink(String study, VisibilityStatus status){
 		
 		String ftpLocation = null;
 		
 		if (status.equals(VisibilityStatus.PRIVATE)){	// Only for the submitter
 			ftpLocation = "privatefiles/" + study;  //Private download, file stream
-		}  else {  //Serve back public ftp link
+		} else {  //Serve back public ftp link
 			ftpLocation = publicFtpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + study +".zip";
 		}
 		
 		return ftpLocation;
-
 		
 	}
 
