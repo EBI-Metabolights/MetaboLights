@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 //import java.io.IOException;
 
 //import javax.naming.ConfigurationException;
@@ -121,11 +122,15 @@ public class IsaTabIdReplacerTest {
 		assertEquals("This is a field", istr.getFieldInLine("This is a field\t\"this is the value\""));
 		assertEquals(null, istr.getFieldInLine("notabline"));
 		
+		assertEquals("this is the value", istr.getValueInLine("This is a field\t\"this is the value\""));
+		assertEquals(null, istr.getValueInLine("notabline"));
+		
+		
 		
 	}
 	
 	@Test
-	public void testReplacementWithHash() throws Exception{
+	public void testReplacementWithHashAndGetFields() throws Exception{
 		
 		// Set the replacement folder
 		IsaTabIdReplacer istr = new IsaTabIdReplacer(FOLDER_REPLACEMENT_OUT);
@@ -143,8 +148,22 @@ public class IsaTabIdReplacerTest {
 		
 		String output = FileUtil.file2String(FOLDER_REPLACEMENT_OUT + "i_Investigation.txt");
 		
-		//Look for the new text...
+		// Look for the new text...
 		assertTrue("Looking for replacement done in Study Public Release Date", output.indexOf("Study Public Release Date\t\"09/09/2011\"")!=-1);
+		
+		// Search for the fields
+		Map<String,String> result = istr.getFields(new String[]{"Study Public Release Date", "Study Design Type"}); 
+		
+		// Test returned values
+		assertEquals("Number of values found in file.", 2,result.size());
+		assertEquals("Study Design must value test", "intervention design", result.get("Study Design Type"));
+		assertEquals("Study Public Release Date value test", "09/09/2011", result.get("Study Public Release Date"));
+		
+		
+		
+		
+		
+		
 		
 		
 	}

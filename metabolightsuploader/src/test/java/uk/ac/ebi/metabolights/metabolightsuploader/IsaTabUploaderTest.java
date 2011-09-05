@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import junit.framework.Assert;
@@ -88,8 +89,6 @@ public class IsaTabUploaderTest {
 		itu.setCopyToPrivateFolder("private/");
 		assertEquals("private/", itu.getCopyToPrivateFolder());
 		
-		
-		
 		//Default status id PUBLIC
 		assertEquals(VisibilityStatus.PUBLIC, itu.getStatus());
 		
@@ -111,6 +110,15 @@ public class IsaTabUploaderTest {
 		assertTrue("Test getOtherStatus with PUBLIC", itu.getOtherStatus(VisibilityStatus.PUBLIC)==VisibilityStatus.PRIVATE);
 		assertTrue("Test getOtherStatus with PRIVATE", itu.getOtherStatus(VisibilityStatus.PRIVATE)==VisibilityStatus.PUBLIC);
 		
+		// Test Submission date property
+		itu.setSubmissionDate("hello");
+		assertEquals("Test Submission date property", "hello", itu.getSubmissionDate());
+		
+		// Test public date property
+		itu.setPublicDate("byebye");
+		assertEquals("Test public date property", "byebye", itu.getPublicDate());
+		
+		
 			
 	}
 
@@ -126,6 +134,7 @@ public class IsaTabUploaderTest {
 		assertEquals("PRIVATE", itu.getCopyToPrivateFolder());
 		assertEquals(VisibilityStatus.PRIVATE, itu.getStatus());
 		assertEquals("src", itu.getDBConfigPath());
+		
 		
 	}
 	@Test
@@ -194,6 +203,39 @@ public class IsaTabUploaderTest {
 		assertTrue("ChangeStudyFields test. Investigation file under " + UNZIP_FOLDER + " should have a Study Public Release Date of 09/09/2010",
 					investigationfile.indexOf("Study Public Release Date\t\"09/09/2010\"") !=-1);
 		
+		
+	}
+
+	@Test
+	public void testGetStudyFields() throws Exception{
+	
+		final String UNZIP_FOLDER = "src/test/resources/outputfiles/getstudyfields/";
+		final String ZIP_FILE = FOLDER_TEST_COPYTO_PRIVATE + "GETFIELDS.zip";
+		
+		
+		// Set up folders...
+		FileUtils.copyFile(new File("src/test/resources/inputfiles/isatab1.zip"), new File (ZIP_FILE));
+		
+		// Get IsaTabUploader
+		IsaTabUploader itu = new IsaTabUploader();
+		itu.setCopyToPrivateFolder(FOLDER_TEST_COPYTO_PRIVATE);
+		itu.setCopyToPublicFolder(FOLDER_TEST_COPYTO_PUBLIC);
+		itu.setUnzipFolder(UNZIP_FOLDER);
+		
+		// Declare the result hash
+		Map<String,String> result = itu.getStudyFields("GETFIELDS", new String[]{"Study Identifier", "Study PubMed ID"});
+
+		// Test returned values
+		assertEquals("Number of values found in file.", 2,result.size());
+		assertEquals("Study Identifier value test", "BII-S-6", result.get("Study Identifier"));
+		assertEquals("Study PubMed ID value test", "17203948", result.get("Study PubMed ID"));
+		
+		// Test it with a File
+		result = itu.getStudyFields(new File(ZIP_FILE), new String[]{"Study Submission Date", "Study File Name"});
+		assertEquals("Number of values found in file 2.", 2,result.size());
+		assertEquals("Study Submission Date", "12/10/2004", result.get("Study Submission Date"));
+		assertEquals("Study File Name", "s_BII-S-6.txt", result.get("Study File Name"));
+
 		
 	}
 

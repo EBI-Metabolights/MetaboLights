@@ -10,9 +10,12 @@ import uk.ac.ebi.metabolights.utils.StringUtils;
 
 import javax.naming.ConfigurationException;
 import java.io.*;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 
 /**
@@ -495,6 +498,19 @@ public class IsaTabIdReplacer
     	}
     	
     }
+    public String getValueInLine(String line){
+
+    	int tabPos = line.indexOf("\t");
+    	
+    	// If there isn't any tab
+    	if (tabPos == -1){
+    		return null;
+    	}else{
+    		// Return the value without double quotes
+    		return line.substring(tabPos+2, line.length()-1);
+    	}
+    	
+    }
     	
     private String replaceFieldsInLine(String line, HashMap<String,String> replacementHash){
     
@@ -513,6 +529,80 @@ public class IsaTabIdReplacer
     			logger.info("Field found: " + field + " in line " + line + ". Replacing value with " + value );
     			
     			line = field + "\t\"" + value + "\""; 
+    		}
+    		
+    	}
+    	
+    	// Return the line
+    	return line;
+		
+	}
+    /**
+     * Get the values corresponding to the fields passed as parameter. Its a basic method, 
+     * @param fields
+     * @return HashMap with the field (key) and the value(value). In case of the field exists twice in the file it will return unpredicted results.
+     * @throws Exception 
+     */
+    public Map<String,String> getFields(String[] fields) throws Exception{
+    	
+		// Get the investigation file
+		File isaTabFile = getInvestigationFile();
+		
+		// Get Fields in file
+		return getFieldsInFile(isaTabFile, fields);
+
+    }
+    private Map<String,String> getFieldsInFile(File fileWithId, String[] fields) throws Exception{
+    	
+    	logger.info("Getting fields in file -->" + fileWithId.getAbsolutePath());
+		
+		try {
+			//Use a buffered reader
+			BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
+			
+			String line = "";
+			HashMap <String,String> result = new HashMap<String,String>();
+			
+			// Convert the array into a Set
+			Set<String> fieldsSet = new HashSet<String>(Arrays.asList(fields));
+			
+			//Go through the file
+			while((line = reader.readLine()) != null)
+			{
+
+				//Replace fields in file
+				getFieldsInLine(line, fieldsSet, result);
+				
+			}
+			
+			//Close the reader
+			reader.close();
+			
+			return result;
+			
+		} catch (Exception e) {
+			throw e; 
+		}
+    }
+    
+    private String getFieldsInLine(String line, Set<String> fields, HashMap<String,String> result){
+        
+    	// Get the field of the line
+    	String field = getFieldInLine(line);
+    	
+    	// If the line has a field
+    	if (field != null){
+    		
+    		// If the field is present in the field set
+    		if (fields.contains(field)){
+    			
+    			// Insert the value into the result Hash
+    			String value = getValueInLine(line);
+    			    			
+    			logger.info("Field found: " + field + " in line " + line + ". Getting value: " + value );
+    			
+    			//Add a new entry
+    			result.put(field, value);
     		}
     		
     	}

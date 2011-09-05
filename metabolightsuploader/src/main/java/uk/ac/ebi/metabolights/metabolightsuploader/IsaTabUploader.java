@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.LoggerFactory;
@@ -88,6 +89,14 @@ public class IsaTabUploader {
 	// Config path property
 	public void setDBConfigPath(String newConfigPath){sm.setDBConfigPath(newConfigPath);}
 	public String getDBConfigPath(){return sm.getDBConfigPath();}
+
+	// Submission Date Property
+	public void setSubmissionDate(String submissionDate){itir.setSubmissionDate(submissionDate);}
+	public String getSubmissionDate(){return itir.getSubmissionDate();}
+	
+	// Public Date Property
+	public void setPublicDate(String publicDate){itir.setPublicDate(publicDate);}
+	public String getPublicDate(){return itir.getPublicDate();}
 
 	// Simple manager property
 	public SimpleManager getSimpleManager(){
@@ -288,6 +297,31 @@ public class IsaTabUploader {
 		
 		
 	}
+	
+	public Map<String,String> getStudyFields(String study, String[] fields) throws Exception{
+		
+		// Get the file, where ever it is...
+		File isaTabArchive = new File(getCurrentStudyFilePath(study));
+		
+		return getStudyFields(isaTabArchive, fields);
+		
+	}
+	
+	public Map<String,String> getStudyFields(File isaTabArchive, String[] fields) throws Exception{
+		
+		// Get the file, where ever it is...
+		this.isaTabArchive = isaTabArchive.getAbsolutePath();
+		
+		// Un zip it to the upload folder (be sure it is clean)
+		Unzip();
+		
+		// Get the fields
+		itir.setIsaTabFolder(unzipFolder);
+		return itir.getFields(fields);
+		
+	}
+	
+	
 	private void changeStudyStatus(VisibilityStatus newStatus, String owner, String study) throws Exception{
 		
 		//Change study status...
