@@ -3,7 +3,7 @@
          charsetMapperClass="org.apache.catalina.util.CharsetMapper"
          crossContext="false"
          debug="1"
-         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp-ux.war"
+         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp.war"
          mapperClass="org.apache.catalina.core.StandardContextMapper"
          path="/metabolights-ux"
          privileged="false"
@@ -16,16 +16,17 @@
     <!-- Stop sessions being recovered from disk on server restart. -->
     <Manager className="org.apache.catalina.session.StandardManager" pathname=""/>
 
-<Resource name="jdbc/metabolightsConnPool/prod" auth="Container" type="oracle.jdbc.pool.OracleDataSource"
-factory="oracle.jdbc.pool.OracleDataSourceFactory"
-connectionCachingEnabled="true"
-user="xx" password="xx"
-driverClassName="oracle.jdbc.OracleDriver"
-url="jdbc:oracle:thin:@host:PORT:SID"
-removeAbandoned="true"
-removeAbandonedTimeout="30"
-maxActive="50"
-maxIdle="10" maxwait="-1"/>
+<Resource name="jdbc/metabolights/ux" auth="Container"
+	type="oracle.jdbc.pool.OracleDataSource"
+	factory="oracle.jdbc.pool.OracleDataSourceFactory"
+	connectionCachingEnabled="true"
+	user="xx" 
+	password="xx"
+	driverClassName="oracle.jdbc.OracleDriver"
+	url="jdbc:oracle:thin:@HOST:PORT:SID"
+	removeAbandoned="true"
+	removeAbandonedTimeout="30"
+	maxActive="50"
+	maxIdle="10" maxwait="-1"/>
 
 </Context>
-
