@@ -56,8 +56,7 @@
 	        </list>
 	    </property>
     </bean>
-
-
+    
 	<!-- 
 	We will provide a feature where user will be able to select language for the application. This is implemented by using 
 	org.springframework.web.servlet.i18n.LocaleChangeInterceptor class. The LocaleChangeInterceptor class will intercept any changes in the locale. 
@@ -101,16 +100,9 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
  
-    <!-- read settings from jdbc.properties file -->
-	<!--
-	<bean name="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driverClassName}"/>
-		<property name="username" value="${jdbc.username}"/>
-		<property name="password" value="${jdbc.password}"/>
-		<property name="url" value="${jdbc.databaseurl}"/>
-	</bean>
-	-->		
-	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
+    <!-- read settings from application.properties file
+         NB! only for local testing -->
+	<!-- bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
 		<property name="driverClass" value="${jdbc.driverClassName}"/>
 		<property name="user" value="${jdbc.username}"/>
 		<property name="password" value="${jdbc.password}"/>
@@ -120,6 +112,12 @@
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
 		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
 		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/>
+	</bean-->
+	
+	<!-- For EBI tomcat server deployment  -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+      	<property name="jndiName" value="java:comp/env/jdbc/metabolights/prod"/>  <!-- Change this when required -->
+      	<property name="resourceRef" value="true" /> 
 	</bean>
     
     <bean id="sessionFactory"

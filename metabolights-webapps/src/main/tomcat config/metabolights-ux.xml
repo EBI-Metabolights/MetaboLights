@@ -3,7 +3,7 @@
          charsetMapperClass="org.apache.catalina.util.CharsetMapper"
          crossContext="false"
          debug="1"
-         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp.war"
+         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp-ux.war"
          mapperClass="org.apache.catalina.core.StandardContextMapper"
          path="/metabolights-ux"
          privileged="false"
@@ -11,7 +11,7 @@
          swallowOutput="true"
          useNaming="true"
          wrapperClass="org.apache.catalina.core.StandardWrapper"
-         unpackWAR="false">
+         unpackWAR="true">
 
     <!-- Stop sessions being recovered from disk on server restart. -->
     <Manager className="org.apache.catalina.session.StandardManager" pathname=""/>

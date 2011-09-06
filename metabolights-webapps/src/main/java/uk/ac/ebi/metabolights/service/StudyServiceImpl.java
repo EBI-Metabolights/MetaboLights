@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.metabolights.dao.StudyDAO;
-import uk.ac.ebi.metabolights.dao.UserDAO;
 
 @Service
 public class StudyServiceImpl implements StudyService {
