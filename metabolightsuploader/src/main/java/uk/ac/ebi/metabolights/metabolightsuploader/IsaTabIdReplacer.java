@@ -31,7 +31,7 @@ public class IsaTabIdReplacer
 	static private String subDateStr;			//Replace str to look for in i_Investigation.txt
 	static private String metaboliteProfTypeStr;	//String to search for in i_Investigation.txt, only allow metabolite profiling
 	static private String metaboliteProfValueStr;	//String to search for in i_Investigation.txt, only allow metabolite profiling
-	static private String fileWithIds; 
+	static private String fileWithIds;
 	
 	static final String PROP_IDS = "isatab.ids";
 	static String[] idList;
@@ -41,6 +41,8 @@ public class IsaTabIdReplacer
 	private String submissionDate;	//Date from submitter form
 	private Integer singleStudy=0;	//Update when we find study ids in the file
 
+	private String studyIdToUse; // When updating a study, replacement must not be done.
+	
     private static final Logger logger = LoggerFactory.getLogger(IsaTabIdReplacer.class);
     
     static private AccessionManager am = AccessionManager.getInstance();
@@ -66,7 +68,9 @@ public class IsaTabIdReplacer
 	public void setSubmissionDate(String submissionDate) {
 		this.submissionDate = submissionDate;
 	}
-
+	
+	public String getStudyIdToUse(){return studyIdToUse;}
+	public void setStudyIdToUse(String studyIdToUse){ this.studyIdToUse = studyIdToUse;}
 
 	private CheckList cl;
     /**
@@ -221,6 +225,9 @@ public class IsaTabIdReplacer
 		logger.info("Replace study id and study dates");
 		replaceIdInFiles();
 		
+		// If we are updating a study we have already the id
+		if (studyIdToUse != null) ids.put(studyIdToUse, studyIdToUse);
+		
 		//Update CheckList
 		updateCheckList(SubmissionProcessCheckListSeed.IDREPLACEMENTS, getIdsNotes());
 		
@@ -309,7 +316,9 @@ public class IsaTabIdReplacer
 				}
 					
 				//Replace Id in line (if necessary), also check for multiple studies reported
-				line = replaceIdInLine(line);
+				if (studyIdToUse == null){
+					line = replaceIdInLine(line);
+				}
 				
 				//Replace public release date for this study
 				line = replacePubRelDateInLine(line);

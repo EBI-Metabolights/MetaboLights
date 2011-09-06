@@ -103,7 +103,8 @@ public class IsaTabUploader {
 		return sm;
 	}
 	
-	
+	// IsaTab Replacer
+	public IsaTabIdReplacer getIsaTabIdReplacer(){return itir;}
 	
 	// CheckList property
 	public void setCheckList(CheckList newCl){
@@ -201,18 +202,30 @@ public class IsaTabUploader {
 		return  itir.getIds();
 		
 	}
+	
+	/**
+	 * Upload and study without replacing the ids. 
+	 * @param studyToUpdate: Study that is being uploaded, necessary for calculating the zip destination
+	 * @throws Exception
+	 */
+	public void UploadWithoutIdReplacement(String studyToUpdate) throws Exception{
+		itir.setStudyIdToUse(studyToUpdate);
+		Upload();
+	}
 	/**
 	 * Zip the folder using the Study id as a name. (this make sense only it there is only one study, to be done soon).
 	 * @throws IOException 
 	 */
 	private void Zip() throws IOException{
 		
+		String study;
+		
 		// Get the Study Id
 		Collection<String> studyCol = itir.getIds().values();
 		
 		// Get the next element (It will return the only one there must be).
-		String study = studyCol.iterator().next();
-		
+		study = studyCol.iterator().next();
+
 		// Get the destination
 		String destinationS = getStudyFilePath(study, this.status);
 
@@ -355,7 +368,7 @@ public class IsaTabUploader {
 		return (status == VisibilityStatus.PRIVATE)? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE;
 	}
 
-	private String getCurrentStudyFilePath(String study) throws FileNotFoundException{
+	public String getCurrentStudyFilePath(String study) throws FileNotFoundException{
 		
 		// As we don't whether the study is public or private, try to guess it...
 		// Try the public...
