@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +56,9 @@ public class UpdateStudyController extends AbstractController {
 
 	@Autowired
 	private EntryController entryController;
+	
+	@Autowired
+	private BIISubmissionController submissionController;
 
 	/**
 	 * Receives the study that is going to be published and shows the updateStudy Page to let the user to set the public release date.
@@ -195,7 +199,7 @@ public class UpdateStudyController extends AbstractController {
 		itu.setCopyToPublicFolder(publicFtpLocation);
 
 		//Create the view
-		ModelAndView mav = new ModelAndView("updateStudy");
+		ModelAndView mav = new ModelAndView("updateStudyForm");
 		
 		// Change the status
 		try {
@@ -302,9 +306,9 @@ public class UpdateStudyController extends AbstractController {
 	 * Re-submit process:
 		Each step must successfully validate, if not then stop and display an error
 		no need to allocate a new MTBLS id during this process
-		Check that the logged in user owns the chosen study
-		Check that the study is PRIVATE (? what do we think ?).  This could stop submitters from "nullifying" a public study.
-		Unzip the new zipfile and check that the study id is matching (MTBLS id)
+		OK - Check that the logged in user owns the chosen study
+		OK - Check that the study is PRIVATE (? what do we think ?).  This could stop submitters from "nullifying" a public study.
+		OK - Unzip the new zipfile and check that the study id is matching (MTBLS id)
 		Update new zipfile with Public date from the resubmission form
 		Unload the old study
 		IF SUCCESSFULLY UNLOADED =  DO NOT Remove old study zipfile
@@ -332,6 +336,8 @@ public class UpdateStudyController extends AbstractController {
 			HttpServletRequest request) throws Exception{
 		
 		
+		logger.info("Starting Updating study " + study);
+		
 		// Instantiate the param objects
 		RequestParameters params = new RequestParameters(publicReleaseDateS, publicExp, study, file);
 		
@@ -341,18 +347,25 @@ public class UpdateStudyController extends AbstractController {
 		// If there is validation view...return it
 		if (validation != null){return validation;}
 		
+		
+		// Define the back up path of the existing file 
+		File backup = new File(uploadDirectory + "backup/" + study + ".zip");
+		boolean needRestore = false;
+		
 		try {
-
-			BIISubmissionController submisionController = new BIISubmissionController();
 			
 			// Write the file to the proper location
-			String isaTabFile = submisionController.writeFile(file, null);
+			File isaTabFile = new File(submissionController.writeFile(file, null));
 			
 			// Get the uploader configured...
-			IsaTabUploader itu = submisionController.getIsaTabUploader(isaTabFile, params.status, params.publicReleaseDateS);
+			IsaTabUploader itu = submissionController.getIsaTabUploader(isaTabFile.getAbsolutePath(), params.status, params.publicReleaseDateS);
+			
+			// Set the properties: status and public release date
+			itu.setStatus(params.status);
+			itu.setPublicDate(params.publicReleaseDateS);
 			
 			// Check that the new zip file has the same studyID
-			Map<String,String> zipValues = itu.getStudyFields(new File(isaTabFile), new String[]{"Study Identifier"});
+			Map<String,String> zipValues = itu.getStudyFields(isaTabFile, new String[]{"Study Identifier"});
 			
 			String newStudyId = zipValues.get("Study Identifier");
 			
@@ -361,16 +374,68 @@ public class UpdateStudyController extends AbstractController {
 				throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
 			}
 			
+			// Check there isn't any previous back up
+			if (backup.exists()){
+				throw new Exception(PropertyLookup.getMessage("msg.validation.backupFileExists", study));
+			}
 			
+			// Make the backup...
+			File currentFile = new File(itu.getStudyFilePath(study, VisibilityStatus.PRIVATE));
+			FileUtils.copyFile(currentFile, backup);
 			
+			// Unload the study, this will remove the file too.
+			logger.info("Deleting previous study " + study);
+			itu.unloadISATabFile(study);
+			
+			// From this point restoring the backup must be done in case of an exception
+			needRestore = true;
+			
+			// upload the new study with the new date
+			// NOTE: this will unzip again the file (done previously in the getStudyFields
+			// To avoid unziping it twice (specially for large files) we can set the isaTabFile property
+			// to the unzipped folder and it should work...
+			itu.setIsaTabFile(itu.getUnzipFolder());
+			
+			logger.info("Uploading new study"); 
+			
+			itu.UploadWithoutIdReplacement(study);
+
+			// Remove the backup
+			needRestore = false;
+			backup.delete();
+			
+			// Return the result
+			// Compose the messages...
+			ModelAndView mav = new ModelAndView("updateStudyForm");
+			mav.addObject("title", PropertyLookup.getMessage("msg.updatestudy.ok.title", study));
+			mav.addObject("message", PropertyLookup.getMessage("msg.updatestudy.ok.msg",study));
+			mav.addObject("searchResult", params.study);
+			mav.addObject("updated", true);
+				
+			return mav;
 			
 		}catch (Exception e){
-			throw e;
 			
+			// If there is a need of restoring the backup
+			if (needRestore){
+			 
+				// Restore process...
+				// Calculate the previous status
+				VisibilityStatus oldStatus = params.study.getIsPublic()?VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE;
+
+				// Get the uploader configured
+				IsaTabUploader itu = submissionController.getIsaTabUploader(backup.getAbsolutePath(), oldStatus, null);
+				
+				// Upload the old study
+				itu.Upload();
+				
+				// TODO: Send email. Return a different response...
+				throw new Exception("There was an error while updating the study. We have restored the previous experiment. " + e.getMessage());
+				
+			}else{
+				throw e;
+			}
 		}
-		
-		
-		return null;
 		
 	}
 	
