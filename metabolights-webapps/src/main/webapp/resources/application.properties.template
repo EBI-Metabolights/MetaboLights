@@ -11,12 +11,13 @@ uploadDirectory=CHANGE
 publicFtpLocation=CHANGE
 privateFtpLocation=CHANGE
 
-mtblAdminEmailAddress=admin@metabolights.com
+mtblAdminEmailAddress=admin@email.com
 luceneIndexDirectory=CHANGE/bii/
 luceneIndexDirectoryShort=CHANGE
 
+# Only used for local testing
 jdbc.driverClassName=oracle.jdbc.OracleDriver
-jdbc.databaseurl=jdbc:oracle:thin:@CHANGE:1521:CHANGE
+jdbc.databaseurl=jdbc:oracle:thin:@HOST:PORT:SID
 jdbc.username=CHANGE
 jdbc.password=CHANGE
 jdbc.dialect=org.hibernate.dialect.OracleDialect
