@@ -28,7 +28,7 @@
 	<!-- new row -->
 
 	<div style='width: 700px;' class='iscell'>
-		<b><spring:message code="label.releaseDate"/>:</b> <fmt:formatDate pattern="dd-MM-yyyy" value="${searchResult.releaseDate}"/>
+		<b><spring:message code="label.releaseDate"/>:</b> <fmt:formatDate pattern="dd-MMM-yyyy" value="${searchResult.releaseDate}"/>
 		<c:if test="${!searchResult.isPublic}">
 			&nbsp;<img src="img/ebi-icons/32px/flag.png" class="img_alignment_yellow"/><b>&nbsp;<spring:message code="label.expPrivate"/></b>
 			<c:if test="${!empty welcomemessage}">&nbsp;

@@ -34,7 +34,7 @@
 	          //showAnim: 'fold',
 	          //showOn: 'both',
 	          buttonText: 'Choose Date',
-	          dateFormat: 'yy-mm-dd',
+	          dateFormat: 'dd-M-yy',
 	          minDate: '+1d',
 	          maxDate: '+5y',
 	          hideIfNoPrevNext: true
@@ -90,7 +90,7 @@
 	        	<td><spring:message code="label.publicDate"/></td>
 				<td>
 					<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return togglePublic()" />
-					<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="10"/>
+					<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
 				</td> 
 	        </tr>
 	       	<tr>

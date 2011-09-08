@@ -3,8 +3,10 @@ package uk.ac.ebi.metabolights.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -31,7 +33,7 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 
 /**
- * Controls multi part file upload as described in Reference Documentaion 3.0,
+ * Controls multi part file upload as described in Reference Documentation 3.0,
  * chapter "15.8 Spring's multipart (fileupload) support".
  * 
  * @author conesa
@@ -218,11 +220,14 @@ public class BIISubmissionController extends AbstractController {
 	/**
 	 * Returns a default configured uploader. After it you may probably need to set:
 	 * UnzipFolder
-	 * 
+	 * publicDate : Format expected --> dd-MMM-yyyy
 	 * @return
+	 * @throws ParseException 
 	 */
-	public IsaTabUploader getIsaTabUploader(String isaTabFile, VisibilityStatus status, String publicDate){
+	public IsaTabUploader getIsaTabUploader(String isaTabFile, VisibilityStatus status, String publicDate) throws ParseException{
 
+		//ISA TAB FORMAT spec: Dates should be supplied in the ISO 8601 format ÒYYYY-MM-DDÓ
+		if (publicDate == null) publicDate = "";
 		// Get the user
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
@@ -231,9 +236,16 @@ public class BIISubmissionController extends AbstractController {
 
 		// Get today's date.
 		Calendar currentDate = Calendar.getInstance();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
-		String submissionDate = formatter.format(currentDate.getTime());
+		SimpleDateFormat isaTabFormatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
+		String submissionDate = isaTabFormatter.format(currentDate.getTime());
 		
+		// If there is public date
+		if (!publicDate.equals("")){
+			SimpleDateFormat webDateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
+			Date publicDateD = webDateFormatter.parse(publicDate);
+			// Format public date to IsaTab format date
+			publicDate = isaTabFormatter.format(publicDateD);
+		}
 		
 		IsaTabUploader itu = new IsaTabUploader();
 		

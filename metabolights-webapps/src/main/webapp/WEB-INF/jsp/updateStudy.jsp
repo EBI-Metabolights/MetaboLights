@@ -35,7 +35,7 @@ $(function() {
           //showAnim: 'fold',
           //showOn: 'both',
           buttonText: 'Choose Date',
-          dateFormat: 'dd-mm-yy',
+          dateFormat: 'dd-M-yy',
           minDate: '+1d',
           maxDate: '+5y',
           hideIfNoPrevNext: true
@@ -79,7 +79,7 @@ function syncDateBox() {
 		<c:if test="${not empty ftpLocation}">
             <tr><td class="big_submit" width="80px">
             
-            	<IMG src="img/ftp.png" height="18"> <a href="${ftpLocation}" style="color:white; font-size:14px"> <spring:message code="label.ftpDownload"/></a>
+            	<IMG src="img/ebi-icons/16px/download.png" class="img_alignment_dark"> <a href="${ftpLocation}" style="color:white; font-size:14px"> <spring:message code="label.ftpDownload"/></a>
             <br>
 			</td></tr>
 		</c:if>
@@ -98,7 +98,7 @@ function syncDateBox() {
 		<br/><br/>
 		<form method="post" action="${action}" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
 	    	<input type="hidden" value="${study}" name="study"/>
-		    <table cellpadding="0px" cellspacing="15px" width="70%">
+		    <table cellpadding="0px" cellspacing="15px" width="90%">
 				<c:if test="${isUpdateMode}">
 					<tr>
 					    <td colspan='2'>&nbsp;</td>
@@ -109,14 +109,14 @@ function syncDateBox() {
 					</tr>
 				</c:if>
 			    <tr>
-		            <td><spring:message code="label.experimentstatuspublic" />:</td>
+		            <td width="33%"><spring:message code="label.experimentstatuspublic" />:</td>
 		            <td><input type="checkbox" name="public" onClick='syncDateBox()'/></td>
 		        </tr>
 		        <tr>
 		        	<td><spring:message code="label.publicDate"/></td>
 					<td>
-						<input type="text" name="pickdate" id="datepicker" readonly="readonly" />
 						<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return togglePublic()" style="vertical-align: middle" size=10/>
+						<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
 					</td> 
 		        </tr>
 		        <tr>

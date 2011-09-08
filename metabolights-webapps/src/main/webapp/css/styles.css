@@ -412,6 +412,13 @@ a {
 	padding: 4px
 }
 
+.img_alignment_dark {
+	vertical-align: middle; 
+	background:#006666;
+	padding: 4px
+}
+
+
 .smallArrow {
 	position: relative;
 	top: -1px;

@@ -189,7 +189,7 @@ public class UpdateStudyController extends AbstractController {
 		if (validation != null){return validation;}
 		
 		// Add the user id to the unzip folder
-		String unzipFolder = uploadDirectory + params.user.getUserId();
+		String unzipFolder = uploadDirectory + params.user.getUserId() + "/" + study;
 		
 		// Create the uploader
 		IsaTabUploader itu = new IsaTabUploader();
@@ -260,8 +260,8 @@ public class UpdateStudyController extends AbstractController {
 			// Create the replacement Hash
 			HashMap<String,String> replacementHash = new HashMap<String,String>();
 			
-			// Add the Public release date field with the new value...
-			replacementHash.put("Study Public Release Date", new SimpleDateFormat("dd/MM/yyyy").format(params.publicReleaseDate));
+			// Add the Public release date field with the new value...TODO: What if the date comes empty, shall we remove the line
+			replacementHash.put("Study Public Release Date", new SimpleDateFormat("yyyy-MM-dd").format(params.publicReleaseDate));
 
 			logger.info("Replacing Study Public Release Date in zip file. with " + params.publicReleaseDate);
 			// Call the replacement method...
@@ -309,14 +309,14 @@ public class UpdateStudyController extends AbstractController {
 		OK - Check that the logged in user owns the chosen study
 		OK - Check that the study is PRIVATE (? what do we think ?).  This could stop submitters from "nullifying" a public study.
 		OK - Unzip the new zipfile and check that the study id is matching (MTBLS id)
-		Update new zipfile with Public date from the resubmission form
-		Unload the old study
-		IF SUCCESSFULLY UNLOADED =  DO NOT Remove old study zipfile
-		IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
-		Upload the new study (includes Lucene re-index)
-		IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
-		Copy the new zipfile to the correct folder (public or private locations)
-		Remove old study zipfile
+		OK - Update new zipfile with Public date from the resubmission form
+		OK - Unload the old study
+		OK - IF SUCCESSFULLY UNLOADED =  DO NOT Remove old study zipfile
+		OK - IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
+		OK - Upload the new study (includes Lucene re-index)
+		OK - IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
+		OK - Copy the new zipfile to the correct folder (public or private locations)
+		OK - Remove old study zipfile
 		Display a success or error page to the submitter.  Email metabolights-help and submitter with results
 	 * @param file
 	 * @param study
@@ -359,11 +359,7 @@ public class UpdateStudyController extends AbstractController {
 			
 			// Get the uploader configured...
 			IsaTabUploader itu = submissionController.getIsaTabUploader(isaTabFile.getAbsolutePath(), params.status, params.publicReleaseDateS);
-			
-			// Set the properties: status and public release date
-			itu.setStatus(params.status);
-			itu.setPublicDate(params.publicReleaseDateS);
-			
+						
 			// Check that the new zip file has the same studyID
 			Map<String,String> zipValues = itu.getStudyFields(isaTabFile, new String[]{"Study Identifier"});
 			
@@ -371,10 +367,13 @@ public class UpdateStudyController extends AbstractController {
 			
 			// If Ids do not match...
 			if (!study.equals(newStudyId)){
-				throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
+				validation = getModelAndView(study, true);
+				validation.addObject("validationmsg", PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
+				//throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
+				return validation;
 			}
 			
-			// Check there isn't any previous back up
+			// Check there is a previous back up
 			if (backup.exists()){
 				throw new Exception(PropertyLookup.getMessage("msg.validation.backupFileExists", study));
 			}
@@ -409,7 +408,8 @@ public class UpdateStudyController extends AbstractController {
 			ModelAndView mav = new ModelAndView("updateStudyForm");
 			mav.addObject("title", PropertyLookup.getMessage("msg.updatestudy.ok.title", study));
 			mav.addObject("message", PropertyLookup.getMessage("msg.updatestudy.ok.msg",study));
-			mav.addObject("searchResult", params.study);
+			// We need the new study, the old might have wrong Public release date.
+			mav.addObject("searchResult", getStudy(study));
 			mav.addObject("updated", true);
 				
 			return mav;
@@ -485,10 +485,22 @@ public class UpdateStudyController extends AbstractController {
 		LuceneSearchResult study;
 		MetabolightsUser user;
 		
+		/**
+		 * 
+		 * @param publicReleaseDateS: Should be in a "dd/mm/yyyy" format
+		 * @param publicExp
+		 * @param studyId
+		 * @throws Exception
+		 */
 		public RequestParameters(String publicReleaseDateS, Boolean publicExp, String studyId) throws Exception{
 			
-			// "normalize" the date
-			this.publicReleaseDateS = publicReleaseDateS == null? "": publicReleaseDateS;
+			// "normalize" the date to IsaTabFormat..
+			if (publicReleaseDateS == null){
+				this.publicReleaseDateS = "";
+			}else{
+				this.publicReleaseDateS = publicReleaseDateS;
+			}
+			 
 			this.publicExp = publicExp;
 			this.studyId = studyId;
 			this.study = getStudy(studyId);
@@ -552,7 +564,7 @@ public class UpdateStudyController extends AbstractController {
 				
 				// Public release date can be null, in this case it will never be public
 				if (!publicReleaseDateS.isEmpty()){
-					publicReleaseDate =  new SimpleDateFormat("dd-MM-yyyy").parse(publicReleaseDateS);
+					publicReleaseDate =  new SimpleDateFormat("dd-MMM-yyyy").parse(publicReleaseDateS);
 				}
 				
 				status = VisibilityStatus.PRIVATE;

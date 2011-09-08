@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
 <script language="javascript"> 
@@ -88,8 +89,8 @@ function onloadAction() {
 
         <c:if test="${not empty study.submissionDate || not empty study.releaseDate}">
             <br><br>
-            <c:if test="${not empty study.submissionDate}"><spring:message code="label.subDate"/>: ${study.submissionDate}&nbsp;&nbsp;</c:if>
-            <c:if test="${not empty study.releaseDate}"><spring:message code="label.releaseDate"/>: ${study.releaseDate}</c:if>
+            <c:if test="${not empty study.submissionDate}"><spring:message code="label.subDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/>&nbsp;&nbsp;</c:if>
+            <c:if test="${not empty study.releaseDate}"><spring:message code="label.releaseDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></c:if>
         </c:if>
 
         <c:if test="${not empty organismNames}">
