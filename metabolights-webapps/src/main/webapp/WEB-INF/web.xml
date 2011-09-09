@@ -13,15 +13,6 @@
             /WEB-INF/spring-servlet.xml
         </param-value>
     </context-param>
-
-    <!-- Defines the base JNDI namespace used in $CATALINA_HOME/conf/Catalina/localhost/metabolights.xml files
-       See spring-servlet.xml for dataSource references -->
-    <resource-ref>
-        <description>DB Connection</description>
-        <res-ref-name>jdbc/metabolights</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-    </resource-ref>
     
     <filter>
 		<filter-name>HealthFilter</filter-name>
@@ -88,5 +79,15 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
+    <resource-ref>
+        <res-ref-name>jdbc/metabolights/prod</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 
+    <resource-ref>
+        <res-ref-name>jdbc/metabolights/dev</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 </web-app>
