@@ -20,12 +20,18 @@ Things to do before deploying
 	It can't be fixed locally, but on real deployment the menu works okay if you swicth back to 
 	<iframe src="/inc/head.html.. 
 
+2.- Change the dataSource under spring-servlet.  Make sure the JNDI dataSource is configured, 
+	eg. the dataSoruce for the local database parameters is commented out!  
 
-2.- Make the war file (Eclipse):
+3.-	Check that the correct dataSource is selected, see point 2!
+
+4.- Make the war file (Eclipse):
 	STEPS:
 	* Right click on project metabolights-webapp
 	* Click export and choose "war".
-	* Choose the name you want (xxx.war)
+	* Choose the name you want (metabolights.war, metabolights-dev.war, metabolights-test.war), 
+	  Store this file under /nfs/production/panda/metabolights/deploy, if not here you can not test 
+	  tomcat deployment as it is on the cluster!
 
 
 
@@ -38,19 +44,20 @@ DEPLOYING
 	
 	STEPS:
 	
-	*ssh to tomcat-18.
-	*Go to tomcat bin directory
-	*become tc_cm01 user
-	*run start script	
+	* ssh to tomcat-18
+	* become tc_cm01 user
+	* Go to tomcat bin directory, /ebi/www/jtest/servers/tc-cm-metabolights/bin
+	* run start script	
 
 1. Deploy
 
+	Please keep in mind that metabolights tomcat configurations are stored under $CATALINA_HOME/conf/Catalina/localhost 
+	(Files are metabolights.xml, metabolights-dev.xml, metabolights-test.xml)
+	
+	The server configuraiton file points to the correct database and war file.
+
 	STEPS:
 
-	* Copy new war file to a "/reachable/path/to/the/tomacat-18/server"
+	* Copy new war file to "/nfs/production/panda/metabolights/deploy"
 	* Go to tomcat-18 manager: http://tomcat-18:21590/manager/html
-	* Remove existing mtbl webapp (metabolights webaap for a stable version)
-	* Fill the "Deploy directory or WAR file located on server" with:
-		Context Path: /mtbls (/metabolights for a stable version)
-		XML Configuration file URL: (empty)
-		WAR or Directory URL: /reachable/path/to/the/tomacat-18/server
+	* start and stop the /metabolights service 
