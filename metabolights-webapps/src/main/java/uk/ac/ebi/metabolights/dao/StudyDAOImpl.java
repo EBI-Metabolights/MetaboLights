@@ -76,7 +76,7 @@ public class StudyDAOImpl implements StudyDAO{
 			
 			if (!validUser){
 				Study invalidStudy = new Study();
-				invalidStudy.setAcc("PRIVATE STUDY");
+				invalidStudy.setAcc(VisibilityStatus.PRIVATE.toString());
 				invalidStudy.setDescription("This is a PRIVATE study, you are not Authorised to view this study.");
 				invalidStudy.setTitle("Please log in as the submitter.");
 				

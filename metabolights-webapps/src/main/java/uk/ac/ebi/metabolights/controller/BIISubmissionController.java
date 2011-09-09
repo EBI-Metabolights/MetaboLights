@@ -226,7 +226,7 @@ public class BIISubmissionController extends AbstractController {
 	 */
 	public IsaTabUploader getIsaTabUploader(String isaTabFile, VisibilityStatus status, String publicDate) throws ParseException{
 
-		//ISA TAB FORMAT spec: Dates should be supplied in the ISO 8601 format ÒYYYY-MM-DDÓ
+		//ISA TAB FORMAT spec: Dates should be supplied in the ISO 8601 format "YYYY-MM-DD"
 		if (publicDate == null) publicDate = "";
 		// Get the user
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());

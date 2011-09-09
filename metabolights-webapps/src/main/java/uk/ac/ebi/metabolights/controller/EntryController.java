@@ -1,5 +1,24 @@
 package uk.ac.ebi.metabolights.controller;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.bioinvindex.model.AssayResult;
+import uk.ac.ebi.bioinvindex.model.Study;
+import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
+import uk.ac.ebi.bioinvindex.model.security.User;
+import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.StudyService;
+import uk.ac.ebi.metabolights.service.TextTaggerService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,28 +26,6 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeSet;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
-
-import uk.ac.ebi.bioinvindex.model.security.User;
-import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import uk.ac.ebi.bioinvindex.model.AssayResult;
-import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.service.StudyService;
-import uk.ac.ebi.metabolights.service.TextTaggerService;
 
 /**
  * Controller for entry (=study) details.
@@ -68,7 +65,8 @@ public class EntryController extends AbstractController {
 		ModelAndView mav = new ModelAndView("entry");
 		mav.addObject("study", study);
 		mav.addObject("organismNames", organismNames);
-        mav.addObject("ftpLocation",ftpLocation);
+        if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))    //User is not authorised to view this study
+            mav.addObject("ftpLocation",ftpLocation);
 
         //Stick text for tagging (Whatizit) in the session..
         if (study.getDescription()!=null) {
