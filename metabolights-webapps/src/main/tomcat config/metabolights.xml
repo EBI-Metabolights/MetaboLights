@@ -8,11 +8,11 @@
          mapperClass="org.apache.catalina.core.StandardContextMapper"
          path="/metabolights"
          privileged="false"
-         reloadable="false"
+         reloadable="true"
          swallowOutput="true"
          useNaming="true"
          wrapperClass="org.apache.catalina.core.StandardWrapper"
-         unpackWAR="true">
+         unpackWAR="false">
 
     <!-- Stop sessions being recovered from disk on server restart. -->
     <Manager className="org.apache.catalina.session.StandardManager" pathname=""/>
