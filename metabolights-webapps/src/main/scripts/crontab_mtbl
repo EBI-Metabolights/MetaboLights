@@ -1,5 +1,5 @@
 # Crontab for mtbl on ebi-003
 
-# Tidy up old files under the BII upload directory
+# Tidy up old files under the BII upload directory, also old log files from the public release script
 0 1 * * * /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/tidy.sh 2>&1 >/dev/null
 
