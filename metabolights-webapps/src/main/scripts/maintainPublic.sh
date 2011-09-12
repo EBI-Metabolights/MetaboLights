@@ -8,6 +8,7 @@
 #             archive files to the public ftp location
 #
 # 20110831  : Ken Haug - Created script
+# 20110912  : Ken Haug - Simplified and more comprenensive file checks
 #
 ##########################################################################
 clear
@@ -29,7 +30,7 @@ NUM_DAYS=5
 #  End of Configurable Options  #
 #################################
 
-SHELL_LOG_FILE=/nfs/production/panda/metabolights/maintainPublic.log.`date +"%Y-%m-%d %H:%M:%S"` 
+SHELL_LOG_FILE=/nfs/production/panda/metabolights/logs/maintainPublic.log.`date +"%Y-%m-%d %H:%M:%S"` 
 DB_CONNECTION=`grep hibernate.connection.username ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 DB_CONNECTION=$DB_CONNECTION'/'`grep hibernate.connection.password ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 DB_CONNECTION=$DB_CONNECTION'@'`grep hibernate.connection.url ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f6 -d:`  
