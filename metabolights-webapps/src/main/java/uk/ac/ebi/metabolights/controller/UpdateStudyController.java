@@ -378,6 +378,20 @@ public class UpdateStudyController extends AbstractController {
 				throw new Exception(PropertyLookup.getMessage("msg.validation.backupFileExists", study));
 			}
 			
+			//Validate the new file
+			try{
+				// It has to be a directory...the call to getStudyFile has unzipped the file to unzip folder. We will use it.
+				itu.validate(itu.getUnzipFolder());
+				
+			}catch (Exception e){
+				
+				validation = getModelAndView(study, true);
+				validation.addObject("validationmsg", PropertyLookup.getMessage("msg.validation.invalid"));
+				validation.addObject("isatablog", itu.getSimpleManager().getLastLog().get(0).getFormattedMessage());
+				//throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
+				return validation;
+			}
+			
 			// Make the backup...
 			File currentFile = new File(itu.getStudyFilePath(study, VisibilityStatus.PRIVATE));
 			FileUtils.copyFile(currentFile, backup);
@@ -423,11 +437,18 @@ public class UpdateStudyController extends AbstractController {
 				// Calculate the previous status
 				VisibilityStatus oldStatus = params.study.getIsPublic()?VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE;
 
+				
+//				// Error:
+//				Caused by: java.lang.InterruptedException: sleep interrupted
+//				at java.lang.Thread.sleep(Native Method)
+//				at org.isatools.isatab.commandline.AbstractImportLayerShellCommand.createDataLocationManager(AbstractImportLayerShellCommand.java:402)
+				
 				// Get the uploader configured
+				
 				IsaTabUploader itu = submissionController.getIsaTabUploader(backup.getAbsolutePath(), oldStatus, null);
 				
 				// Upload the old study
-				itu.Upload();
+				itu.UploadWithoutIdReplacement(study);
 				
 				// TODO: Send email. Return a different response...
 				throw new Exception("There was an error while updating the study. We have restored the previous experiment. " + e.getMessage());

@@ -60,6 +60,24 @@ function syncDateBox() {
 }
 </script>
 
+<script language="javascript"> 
+	function toggle(anctag,darg,showMsg,hideMsg) 
+	{
+	  var ele = document.getElementById(darg);
+	  var text = document.getElementById(anctag);
+	  if(ele.style.display == "block") 
+	  {
+	    ele.style.display = "none";
+	    text.innerHTML = showMsg;
+	  }
+	  else 
+	  {
+	    ele.style.display = "block";
+	    text.innerHTML = hideMsg;
+	  }
+	} 
+</script>
+
 
 <div class="formbox">
 	<table border="0px" "cellpadding="15px" cellspacing="0px" width="90%">
@@ -130,6 +148,19 @@ function syncDateBox() {
 		        		<c:if test="${not empty validationmsg}">
 		        			<span class="error">${validationmsg}</span>
 		        		</c:if>
+
+		        		<c:if test="${not empty isatablog}">
+		        			<br/>
+		        			<a href="javascript:toggle('logTag','isatablog','Show log', 'Hide log');" id="logTag">Show log</a>
+			                <br>
+			                <div id="isatablog" class="expandbox">
+			                    <ul id="resultListText">
+			                        <c:forEach var="log" items="${isatablog}">
+			                            <li>${log}</li>
+			                        </c:forEach>
+			                    </ul>
+			                </div>
+						</c:if>
 		        	</td>
 		        </tr>
 		        <tr>
