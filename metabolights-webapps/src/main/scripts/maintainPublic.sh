@@ -19,7 +19,8 @@ source /homes/oracle/ora11setup.sh
 #  Configurable Options Follow  #
 #################################
 
-EMAILTO=metabolights-help@ebi.ac.uk
+#EMAILTO=metabolights-help@ebi.ac.uk
+EMAILTO=kenneth
 LUCENE=/nfs/production/panda/metabolights/lucene_updater
 PROPS_FILE=$LUCENE/config/hibernate.properties
 NUM_DAYS=5
@@ -66,7 +67,7 @@ PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
 for studies in $PUBLIC_STUDIES
 do
 	# Update studies in the database
-	# NB! updated_date is our column, we have to add this if we upgrade the schema
+	# NB! updated_date is our column, we have to add this if we upgrade the ISA schema
 	UPDATE_STUDIES_SQL="${SQL_BASIC_STR} update study set status = 0, updated_date=SYSDATE WHERE trunc(releasedate)<=trunc(sysdate) AND status = 1 AND acc ='${studies}';"
     echo -e $UPDATE_STUDIES_SQL | sqlplus -s ${DB_CONNECTION}
     
@@ -74,17 +75,29 @@ do
     $LUCENE/reindex.sh ${studies}
     
     # Check if file exists
-	[ -f $PRIV_FTP$studies.zip ] || Info "ERROR: File $PRIV_FTP$studies.zip does not exist"
-	[ -f $PUB_FTP$studies.zip ] && Info "File $studies.zip already exists in $PUB_FTP"
+	if [ -f $PRIV_FTP$studies.zip ] 
+	then
+	  	# Move the archive, to the public location, overwrite any existing files
+		mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip
 	
-	# Move the archive, if it exists, to the public location
-	[ -f $PRIV_FTP$studies.zip ] && mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip
+		# Change the permissions
+		chmod og+rx $PUB_FTP$studies.zip
+	  
+	else
 	
-	# Can change the premissions regardless
-	chmod og+rx $PUB_FTP$studies.zip
+		# Check if the file already exists in the public folder
+		if [ -f $PUB_FTP$studies.zip ]
+		then
+			Info "File $studies.zip already exists in $PUB_FTP"
+		else
+	  		Info "ERROR: File $PRIV_FTP$studies.zip does not exist"
+	  	fi	
+	  	
+	fi
 	 
 	Info "Study ${studies} is now public"
-       
+	
+	   
 done
 
 [ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}
