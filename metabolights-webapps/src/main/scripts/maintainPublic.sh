@@ -20,8 +20,7 @@ source /homes/oracle/ora11setup.sh
 #  Configurable Options Follow  #
 #################################
 
-#EMAILTO=metabolights-help@ebi.ac.uk
-EMAILTO=kenneth
+EMAILTO=metabolights-help@ebi.ac.uk
 LUCENE=/nfs/production/panda/metabolights/lucene_updater
 PROPS_FILE=$LUCENE/config/hibernate.properties
 NUM_DAYS=5
