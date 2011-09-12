@@ -62,6 +62,9 @@ public class Filter {
 	public String getFreeTextQuery(){
 		return freeTextQuery;
 	}
+	public void setFreeTextQuery(String freeTextQuery){
+		this.freeTextQuery = freeTextQuery; 
+	}
 
 	public int getPageNumber(){
 		return pageNumber;

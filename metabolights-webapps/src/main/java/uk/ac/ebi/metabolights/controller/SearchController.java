@@ -139,8 +139,11 @@ public class SearchController extends AbstractController{
 	@RequestMapping(value = "/mysubmissions")
 	public ModelAndView MySubmissionsSearch (HttpServletRequest request) {
 		
-		//Get the filter object prepared (inside there is a clean up process that revoves any initial filter)
+		//Get the filter object prepared (inside there is a clean up process that removes any initial filter)
 		Filter filter = prepareFilter(request);
+		
+		// Clean the free text search (It can be store in the session object during a previous free text search)
+		filter.setFreeTextQuery("");
 		
 		//As this page requires authentication we can be sure there is an user
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
