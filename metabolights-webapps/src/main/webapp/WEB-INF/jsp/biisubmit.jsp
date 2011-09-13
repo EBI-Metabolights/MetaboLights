@@ -24,38 +24,23 @@
 		var buttons = document.getElementById("hideableButtons");
 		buttons.style.display = "block";
 	}
-	
+
 	$(function() {
 		$( "#datepicker" ).datepicker( {
 	          changeMonth: true,
 	          changeYear: true,
 	          showOtherMonths: true,
-	          showButtonPanel: true,
-	          //showAnim: 'fold',
-	          //showOn: 'both',
+	          //showButtonPanel: true,
 	          buttonText: 'Choose Date',
 	          dateFormat: 'dd-M-yy',
-	          minDate: '+1d',
+	          minDate: '0',
 	          maxDate: '+5y',
-	          hideIfNoPrevNext: true
 	      });
 	});
 	
-	function togglePublic() {
-		document.forms['uf'].elements['public'].checked=false;
-		document.forms['uf'].elements['pickdate'].disabled=false;
-		document.forms['uf'].elements['pickdate'].focus();
+	function toggleDate() {
+        document.forms['uf'].elements['pickdate'].focus();
 		return false; 
-	}
-	
-	function syncDateBox() {
-		
-		document.forms['uf'].elements['pickdate'].disabled=document.forms['uf'].elements['public'].checked;
-		
-		if (document.forms['uf'].elements['public'].checked){
-			//$("#datepicker").datepicker("setDate", new Date());
-			document.forms['uf'].elements['pickdate'].value = "";
-		}
 	}
 	
 	
@@ -83,13 +68,9 @@
 	            <td colspan='2'><b><spring:message code="label.experimentMsgPublic" /> </b></td>
 	        </tr>
 	        <tr>
-	            <td><spring:message code="label.experimentstatuspublic" />:</td>
-	            <td><input type="checkbox" name="public" onClick="syncDateBox()"/></td>
-	        </tr>
-	        <tr>
 	        	<td><spring:message code="label.publicDate"/></td>
 				<td>
-					<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return togglePublic()" />
+					<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
 					<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
 				</td> 
 	        </tr>
