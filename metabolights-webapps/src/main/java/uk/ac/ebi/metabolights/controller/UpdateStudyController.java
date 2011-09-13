@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -387,8 +388,9 @@ public class UpdateStudyController extends AbstractController {
 				
 				validation = getModelAndView(study, true);
 				validation.addObject("validationmsg", PropertyLookup.getMessage("msg.validation.invalid"));
-				validation.addObject("isatablog", itu.getSimpleManager().getLastLog().get(0).getFormattedMessage());
-				//throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
+				List<TabLoggingEventWrapper> isaTabLog = itu.getSimpleManager().getLastLog();
+				validation.addObject("isatablog", isaTabLog);
+				
 				return validation;
 			}
 			
@@ -408,6 +410,9 @@ public class UpdateStudyController extends AbstractController {
 			// To avoid unziping it twice (specially for large files) we can set the isaTabFile property
 			// to the unzipped folder and it should work...
 			itu.setIsaTabFile(itu.getUnzipFolder());
+			
+			// To test the restore backup
+			//if (needRestore){throw new Exception("fake exception");}
 			
 			logger.info("Uploading new study"); 
 			
@@ -449,6 +454,9 @@ public class UpdateStudyController extends AbstractController {
 				
 				// Upload the old study
 				itu.UploadWithoutIdReplacement(study);
+				
+				// Delete the backup
+				backup.delete();
 				
 				// TODO: Send email. Return a different response...
 				throw new Exception("There was an error while updating the study. We have restored the previous experiment. " + e.getMessage());
