@@ -379,7 +379,7 @@ a {
 	-khtml-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	color: #feba12;
+	color: white;
 	font-size: 14px;
 	padding: 4px 2px;
 	margin-top: 4px;
@@ -387,13 +387,13 @@ a {
 }
 
 .button_cell_pale {
-	background-color: #feba12;
+	background-color: #ffd98f;
 	border: 1px solid #0A4F4F;
 	-moz-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	color: #006666;
+	color: #000000;
 	font-size: 14px;
 	padding: 4px 2px;
 	margin-top: 4px;
@@ -402,7 +402,7 @@ a {
 
 .img_alignment_yellow {
 	vertical-align: middle; 
-	background: #feba12;
+	background: #ffd98f;
 	padding: 4px
 }
 
