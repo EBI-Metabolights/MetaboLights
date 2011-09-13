@@ -52,8 +52,15 @@
 	        <tr class="formheader">
 	             <th class="tableheader" colspan="2"><spring:message code="msg.upload" /> </th>
 	        </tr>
+	       	<tr>
+	       		<td colspan='2'>
+	       		<spring:message code="msg.upload.desc"/>
+	       		<br/>
+	       		<spring:message code="msg.upload.desc2"/>
+	       		</td>
+	       	</tr>
 	        <tr>
-	            <td colspan='2'>&nbsp;</td>
+	            <td colspan='2'><br/>&nbsp;</td>
 	        </tr>
 
 	        <tr>
@@ -95,14 +102,6 @@
 	            <img src="img/wait.gif"/>&nbsp; <b> <spring:message code="msg.pleaseWaitForUpload"/></b>
 	            </div>
 	            </td>
-	        </tr>
-	        
-	   		<tr>
-	   			<td colspan='2'>
-			       <br/>
-			       <a href="<spring:url value="submitHelp"/>"><spring:message code="menu.submitHelp"/></a>
-			       <br>       
-		    	</td>  	
 	        </tr>
 	    </table>
 	    
