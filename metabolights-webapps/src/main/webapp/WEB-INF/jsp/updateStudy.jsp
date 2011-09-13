@@ -156,7 +156,11 @@ function syncDateBox() {
 			                <div id="isatablog" class="expandbox">
 			                    <ul id="resultListText">
 			                        <c:forEach var="log" items="${isatablog}">
-			                            <li>${log}</li>
+			                        	<c:set var="event" value="${log.logEvent}"/> 
+			                        	<c:set var="level" value="${event.level}"/> 
+			                        	<c:if test="${level eq 'ERROR'}">
+			                            <li>${event.message}</li>
+			                            </c:if>
 			                        </c:forEach>
 			                    </ul>
 			                </div>
