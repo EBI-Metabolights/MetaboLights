@@ -65,23 +65,33 @@ public class BIISubmissionController extends AbstractController {
 	
 	@RequestMapping(value = "/biiuploadExperiment", method = RequestMethod.POST)
 	public ModelAndView handleFormUpload(
-			@RequestParam("file") MultipartFile file, 
-			@RequestParam(required=false,value="public") Boolean publicExp,
-			@RequestParam(required=false,value="pickdate") String publicDate,
+			@RequestParam("file") MultipartFile file,
+			@RequestParam(required=true,value="pickdate") String publicDate,
 			HttpServletRequest request) 
 		throws Exception {
 
-		//Convert boolean publicExp into VisibilityStatus
-		VisibilityStatus status =  (publicExp != null)? VisibilityStatus.PUBLIC : VisibilityStatus.PRIVATE;
-		
 		//Start the submission process...
 		//Create a check list to report back the user..
 		CheckList cl = new CheckList(SubmissionProcessCheckListSeed.values());
-	
-		
+
 		try {
 
-			if (file.isEmpty()){ throw new Exception(PropertyLookup.getMessage("BIISubmit.fileEmpty"));}
+			if (publicDate.isEmpty())
+				throw new Exception(PropertyLookup.getMessage("BIISubmit.dateEmpty"));
+				
+			if (file.isEmpty())
+				throw new Exception(PropertyLookup.getMessage("BIISubmit.fileEmpty"));
+
+            //Check if the study is public today
+            VisibilityStatus status = VisibilityStatus.PRIVATE;         //Defaults to a private study
+            if (publicDate != null){
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+                Date publicDateD = sdf.parse(publicDate);               //Date from the form
+
+                if (publicDateD.before(new Date())){  //The date received from the form does not contain time, so this should always be before "now"
+                    status = VisibilityStatus.PUBLIC;
+                }
+            }
 			
 			String isaTabFile = writeFile(file, cl);
 						
@@ -90,7 +100,7 @@ public class BIISubmissionController extends AbstractController {
 			
 			//Log it
 			logger.info(PropertyLookup.getMessage("BIISubmit.newAccNumbers") + accessions);
-			if (publicExp == null && publicDate != null){ //Not set to public by the submitter and a public date has been given
+			if (publicDate != null){ //The submitter picked the public date
 				logger.info("Public release date has been given by the submitter as " + publicDate + " for accession " +accessions);
 			}
 			
