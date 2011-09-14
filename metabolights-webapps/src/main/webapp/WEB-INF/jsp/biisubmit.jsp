@@ -30,11 +30,10 @@
 	          changeMonth: true,
 	          changeYear: true,
 	          showOtherMonths: true,
-	          //showButtonPanel: true,
 	          buttonText: 'Choose Date',
 	          dateFormat: 'dd-M-yy',
 	          minDate: '0',
-	          maxDate: '+5y',
+	          maxDate: '+5y'
 	      });
 	});
 	
