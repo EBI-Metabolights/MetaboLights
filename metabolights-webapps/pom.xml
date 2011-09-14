@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>metabolights-main</artifactId>
 		<groupId>uk.ac.ebi.metabolights</groupId>
-		<version>0.1.0-SNAPSHOT</version>
+		<version>0.1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>uk.ac.ebi.metabolights</groupId>
 	<artifactId>metabolights-webapp</artifactId>
@@ -82,14 +82,14 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.5.11</version>
+			<version>1.6.2</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.11</version>
+			<version>1.6.2</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -129,26 +129,6 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>uk.ac.ebi.metabolights</groupId>
-			<artifactId>metabolights-utils</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>uk.ac.ebi.metabolights</groupId>
-			<artifactId>metabolights-uploader</artifactId>
-			<version>0.1.5-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>uk.ac.ebi.metabolights</groupId>
-			<artifactId>metabolights-accessionmanager</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>rhino</groupId>
 			<artifactId>js</artifactId>
 			<version>1.7R2</version>
@@ -175,6 +155,36 @@
   			<groupId>commons-httpclient</groupId>
   			<artifactId>commons-httpclient</artifactId>
   			<version>3.1</version>
+		</dependency>
+        <dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>slf4j-simple</artifactId>
+        	<version>1.6.2</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>javassist</groupId>
+        	<artifactId>javassist</artifactId>
+        	<version>3.12.1.GA</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+		<dependency>
+			<groupId>org.isatools.isatab</groupId>
+			<artifactId>ISAtools-import-deps-FORK</artifactId>
+			<version>1.2.1.11</version>
+			<type>jar</type>
+			<exclusions>
+				<exclusion>
+					<artifactId>hibernate-core</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-core</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+			</exclusions>			
 		</dependency>
 	</dependencies>
 
