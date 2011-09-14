@@ -1,5 +1,0 @@
-"Source Name"	"Characteristics[organism]"	"Term Source REF"	"Term Accession Number"	"Protocol REF"	"Sample Name"	"Factor Value[Gender]"	"Term Source REF"	"Term Accession Number"
-"ADG10003u"	"Homo sapiens (Human)"	"NEWT"	"9606"	"nmr sample"	"ADG10003u_007"	"Male Gender"	"NCIt"	"Male_Gender"
-"ADG10003u"	"Homo sapiens (Human)"	"NEWT"	"9606"	"nmr sample"	"ADG10003u_008"	"Male Gender"	"NCIt"	"Male_Gender"
-"ADG10004u"	"Homo sapiens (Human)"	"NEWT"	"9606"	"nmr sample"	"ADG10003u_009"	"Female Gender"	"NCIt"	"Female_Gender"
-"ADG10004u"	"Homo sapiens (Human)"	"NEWT"	"9606"	"nmr sample"	"ADG10003u_010"	"Female Gender"	"NCIt"	"Female_Gender"

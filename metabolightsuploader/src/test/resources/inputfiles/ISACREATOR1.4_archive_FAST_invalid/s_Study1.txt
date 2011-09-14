@@ -1,2 +1,0 @@
-"Source Name"	"Characteristics[organism]"	"Term Source REF"	"Term Accession Number"	"Sample Name"
-"crop"	"Drosophila melanogaster (Fruit fly)"	"NEWT"	"7227"	"crop01"

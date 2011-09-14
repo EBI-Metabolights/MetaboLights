@@ -1,5 +1,0 @@
-Investigation Identifier	"BII-I-1"
-foo Investigation identifier	"do not touch"
-Study Identifier	"BII-S-1"
-Study Identifier	"BII-S-2"
-foo Study Identifier	"do not touch"
