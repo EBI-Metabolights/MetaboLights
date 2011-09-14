@@ -102,7 +102,7 @@
  
     <!-- read settings from application.properties file
          NB! only for local testing -->
-	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
+	<!-- bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
 		<property name="driverClass" value="${jdbc.driverClassName}"/>
 		<property name="user" value="${jdbc.username}"/>
 		<property name="password" value="${jdbc.password}"/>
@@ -112,13 +112,13 @@
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
 		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
 		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/>
-	</bean>
+	</bean-->
 	
 	<!-- For EBI tomcat server deployment  -->
-	<!-- bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
       	<property name="jndiName" value="java:comp/env/jdbc/metabolights/prod"/>  
       	<property name="resourceRef" value="true" /> 
-	</bean -->
+	</bean>
     
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
