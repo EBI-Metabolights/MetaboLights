@@ -14,16 +14,22 @@
 			<td colspan='3'>&nbsp;<br/><br/></td>
 		</tr>
 		<tr>
-			<td height="100px" width="300px" class="button_cell_dark" onclick="window.location.href='biisubmit';">
-				<spring:message code="label.submitNewStudy" /><br/><br/>
-				<spring:message code="label.submitNewStudySub" /><br/>&nbsp;&nbsp;
+			<td>
+			     <a class="multi-line-button main" href="biisubmit" style="width:350px; height:100px">
+	       			 <span class="titlemlb"><spring:message code="label.submitNewStudy"/></span>
+	        		 <span class="subtitlemlb"><spring:message code="label.submitNewStudySub"/></span>
+      			 </a>
 			</td>
 			<td>&nbsp;&nbsp;&nbsp;</td>
-			<td height="100px" width="300px" class="button_cell_pale" onclick="window.location.href='mysubmissions?status=PRIVATE';">
-				<spring:message	code="label.updateOldStudy" /><br/><br/>
-				<spring:message code="label.updateOldStudySub" />
+			<td>
+			     <a class="multi-line-button highlight" href="mysubmissions?status=PRIVATE" style="width:350px; height:100px; color: black">
+	       			 <span class="titlemlb"><spring:message	code="label.updateOldStudy"/></span>
+	        		 <span class="subtitlemlb"><spring:message code="label.updateOldStudySub"/></span>
+      			 </a>
 			</td>
 		</tr>
+
+		
 	</table>
 	<br/>
 	<br/>

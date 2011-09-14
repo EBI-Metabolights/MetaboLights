@@ -150,7 +150,7 @@ a {
 }
 
 .formbox {
-    border:1px solid #006666;
+    border:1px solid #408c8c;
     margin-top:10px;
     padding-top:0px;
     padding-left:20px;
@@ -162,7 +162,7 @@ a {
 }
 
 .filterbox {
-    border:1px solid #006666;
+    border:1px solid #408c8c;
     margin-top:10px;
     padding-top:10px;
     padding-left:10px;
@@ -174,7 +174,7 @@ a {
 }
 
 .formheader {
-   background-color:#006666;
+   background-color:#408c8c;
    color: #FFFFFF;
 }
 
