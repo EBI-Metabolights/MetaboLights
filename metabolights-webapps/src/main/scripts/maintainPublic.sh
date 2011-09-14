@@ -8,7 +8,8 @@
 #             archive files to the public ftp location
 #
 # 20110831  : Ken Haug - Created script
-# 20110912  : Ken Haug - Simplified and more comprenensive file checks
+# 20110912  : Ken Haug - Simplified and more comprehensive file checks
+# 20110914  : Ken Haug - Changed email notifications to Metabolights-dev@ebi.ac.uk
 #
 ##########################################################################
 clear
@@ -20,7 +21,7 @@ source /homes/oracle/ora11setup.sh
 #  Configurable Options Follow  #
 #################################
 
-EMAILTO=metabolights-help@ebi.ac.uk
+EMAILTO=metabolights-dev@ebi.ac.uk
 LUCENE=/nfs/production/panda/metabolights/lucene_updater
 PROPS_FILE=$LUCENE/config/hibernate.properties
 NUM_DAYS=5
