@@ -1,20 +1,8 @@
 package uk.ac.ebi.metabolights.controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
@@ -33,6 +20,13 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Make a study public. THis implies to change the status in the database, reindex, and move the zip file to the public ftp.
@@ -172,13 +166,12 @@ public class UpdateStudyController extends AbstractController {
 	@RequestMapping(value = { "/updatepublicreleasedate" })
 	public ModelAndView changePublicReleaseDate(
 								@RequestParam(required=true,value="study") String study,
-								@RequestParam(required=false,value="public") Boolean publicExp,
-								@RequestParam(required=false, value="pickdate") String publicReleaseDateS,
+								@RequestParam(required=true, value="pickdate") String publicReleaseDateS,
 								HttpServletRequest request) throws Exception {
 
 
 		// Instantiate the param objects
-		RequestParameters params = new RequestParameters(publicReleaseDateS, publicExp, study);
+		RequestParameters params = new RequestParameters(publicReleaseDateS, study);
 
 		// Log start
 		logger.info("Updating the public release date of the study " + study + " owned by " + params.user.getUserName());
@@ -261,7 +254,7 @@ public class UpdateStudyController extends AbstractController {
 			// Create the replacement Hash
 			HashMap<String,String> replacementHash = new HashMap<String,String>();
 			
-			// Add the Public release date field with the new value...TODO: What if the date comes empty, shall we remove the line
+			// Add the Public release date field with the new value
 			replacementHash.put("Study Public Release Date", new SimpleDateFormat("yyyy-MM-dd").format(params.publicReleaseDate));
 
 			logger.info("Replacing Study Public Release Date in zip file. with " + params.publicReleaseDate);
@@ -332,7 +325,6 @@ public class UpdateStudyController extends AbstractController {
 	public ModelAndView updateStudy(
 			@RequestParam("file") MultipartFile file, 
 			@RequestParam(required=true,value="study") String study,
-			@RequestParam(required=false,value="public") Boolean publicExp,
 			@RequestParam(required=false, value="pickdate") String publicReleaseDateS,
 			HttpServletRequest request) throws Exception{
 		
@@ -340,7 +332,7 @@ public class UpdateStudyController extends AbstractController {
 		logger.info("Starting Updating study " + study);
 		
 		// Instantiate the param objects
-		RequestParameters params = new RequestParameters(publicReleaseDateS, publicExp, study, file);
+		RequestParameters params = new RequestParameters(publicReleaseDateS, study, file);
 		
 		// Validate the parameters...
 		ModelAndView validation = validateParameters(params);
@@ -505,7 +497,6 @@ public class UpdateStudyController extends AbstractController {
 		
 		String publicReleaseDateS;
 		Date publicReleaseDate;
-		Boolean publicExp;
 		VisibilityStatus status;
 		MultipartFile file;
 		String studyId;
@@ -517,11 +508,10 @@ public class UpdateStudyController extends AbstractController {
 		/**
 		 * 
 		 * @param publicReleaseDateS: Should be in a "dd/mm/yyyy" format
-		 * @param publicExp
 		 * @param studyId
 		 * @throws Exception
 		 */
-		public RequestParameters(String publicReleaseDateS, Boolean publicExp, String studyId) throws Exception{
+		public RequestParameters(String publicReleaseDateS, String studyId) throws Exception{
 			
 			// "normalize" the date to IsaTabFormat..
 			if (publicReleaseDateS == null){
@@ -529,8 +519,7 @@ public class UpdateStudyController extends AbstractController {
 			}else{
 				this.publicReleaseDateS = publicReleaseDateS;
 			}
-			 
-			this.publicExp = publicExp;
+
 			this.studyId = studyId;
 			this.study = getStudy(studyId);
 			this.isUpdateStudyMode = false;	
@@ -542,9 +531,9 @@ public class UpdateStudyController extends AbstractController {
 		}
 		
 		
-		public RequestParameters(String publicReleaseDateS, Boolean publicExp, String study, MultipartFile file) throws Exception{
+		public RequestParameters(String publicReleaseDateS, String study, MultipartFile file) throws Exception{
 			
-			this(publicReleaseDateS, publicExp, study);
+			this(publicReleaseDateS, study);
 			this.isUpdateStudyMode = true;
 			this.file = file;
 
@@ -559,10 +548,10 @@ public class UpdateStudyController extends AbstractController {
 			validationmsg = "";
 			
 			// If public release date is empty...
-			if ( publicReleaseDateS.isEmpty() && (publicExp == null)){
+			if ( publicReleaseDateS.isEmpty()){
 				
-				// a date is required, not any more
-				//validationmsg = PropertyLookup.getMessage("msg.makestudypublic.daterequired");
+				// a date is required
+				validationmsg = PropertyLookup.getMessage("msg.makestudypublic.daterequired");
 			}
 			
 			if (isUpdateStudyMode && file.isEmpty()){
@@ -585,29 +574,22 @@ public class UpdateStudyController extends AbstractController {
 			return validationmsg ;
 
 		}
-						
-		public void calculateStatusAndDate() throws ParseException{
+
+		public void calculateStatusAndDate() throws ParseException {
 			
-			// If there is not a publicExp param
-			if (publicExp == null) {
-				
-				// Public release date can be null, in this case it will never be public
-				if (!publicReleaseDateS.isEmpty()){
-					publicReleaseDate =  new SimpleDateFormat("dd-MMM-yyyy").parse(publicReleaseDateS);
-				}
-				
-				status = VisibilityStatus.PRIVATE;
-				publicExp = false;
-			}else{
-				// publicExp must be true
-				publicReleaseDate= DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
-				status = VisibilityStatus.PUBLIC;
-			}
-			
-			
-			
+			//Check if the study is public today
+            status = VisibilityStatus.PRIVATE;   //Defaults to a private study
+            publicReleaseDate = DateUtils.truncate(new Date(),Calendar.DAY_OF_MONTH); //Defaults to today.  Should come from the form, so just to be sure
+            
+            if (!publicReleaseDateS.isEmpty()) {
+            	publicReleaseDate = new SimpleDateFormat("dd-MMM-yyyy").parse(publicReleaseDateS);  //Date from the form             
+
+                if (publicReleaseDate.before(new Date())){  //The date received from the form does not contain time, so this should always be before "now"
+                    status = VisibilityStatus.PUBLIC;
+                }
+            }
+
 		}
-		
 		
 		
 	}

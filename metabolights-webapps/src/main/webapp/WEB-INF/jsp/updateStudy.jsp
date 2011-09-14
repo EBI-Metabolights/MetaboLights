@@ -4,63 +4,45 @@
 <script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js"></script>
 
 <script type="text/javascript">
-function onloadAction() {
-	//standard call from layout.jsp
-	enableSubmission();		
-}
+    function onloadAction() {
+        //standard call from layout.jsp
+        enableSubmission();
+    }
 
 
-function disableSubmission() {
-    document.body.style.cursor = "wait";
-	var hglass = document.getElementById("hourglass");
-	hglass.style.display = "block";		
-	var buttons = document.getElementById("hideableButtons");
-	buttons.style.display = "none";
-}
+    function disableSubmission() {
+        document.body.style.cursor = "wait";
+        var hglass = document.getElementById("hourglass");
+        hglass.style.display = "block";
+        var buttons = document.getElementById("hideableButtons");
+        buttons.style.display = "none";
+    }
 
-function enableSubmission() {
-    document.body.style.cursor = "default";
-	var hglass = document.getElementById("hourglass");
-	hglass.style.display = "none";
-	var buttons = document.getElementById("hideableButtons");
-	buttons.style.display = "block";
-}
+    function enableSubmission() {
+        document.body.style.cursor = "default";
+        var hglass = document.getElementById("hourglass");
+        hglass.style.display = "none";
+        var buttons = document.getElementById("hideableButtons");
+        buttons.style.display = "block";
+    }
 
-$(function() {
-	$( "#datepicker" ).datepicker( {
-          changeMonth: true,
-          changeYear: true,
-          showOtherMonths: true,
-          showButtonPanel: true,
-          //showAnim: 'fold',
-          //showOn: 'both',
-          buttonText: 'Choose Date',
-          dateFormat: 'dd-M-yy',
-          minDate: '+1d',
-          maxDate: '+5y',
-          hideIfNoPrevNext: true
-      });
-});
+	$(function() {
+		$( "#datepicker" ).datepicker( {
+	          changeMonth: true,
+	          changeYear: true,
+	          showOtherMonths: true,
+	          buttonText: 'Choose Date',
+	          dateFormat: 'dd-M-yy',
+	          minDate: '0',
+	          maxDate: '+5y'
+	      });
+	});
 
-function togglePublic() {
-	document.forms['uf'].elements['public'].checked=false;
-	document.forms['uf'].elements['pickdate'].disabled=false;
-	document.forms['uf'].elements['pickdate'].focus();
-	return false; 
-}	
-
-function syncDateBox() {
-	
-	document.forms['uf'].elements['pickdate'].disabled=document.forms['uf'].elements['public'].checked;
-	
-	if (document.forms['uf'].elements['public'].checked){
-		//$("#datepicker").datepicker("setDate", new Date());
-		document.forms['uf'].elements['pickdate'].value = "";
+	function toggleDate() {
+        document.forms['uf'].elements['pickdate'].focus();
+		return false;
 	}
-}
-</script>
 
-<script language="javascript"> 
 	function toggle(anctag,darg,showMsg,hideMsg) 
 	{
 	  var ele = document.getElementById(darg);
@@ -76,11 +58,12 @@ function syncDateBox() {
 	    text.innerHTML = hideMsg;
 	  }
 	} 
+	
 </script>
 
 
 <div class="formbox">
-	<table border="0px" "cellpadding="15px" cellspacing="0px" width="90%">
+	<table border="0px" cellpadding="15px" cellspacing="0px" width="90%">
 	    <tr class="formheader">
 	        <th colspan=2 class="tableheader">
 	        	<c:if test="${not empty title}">
@@ -126,14 +109,10 @@ function syncDateBox() {
 					    <td><input type="file" name="file" /></td>
 					</tr>
 				</c:if>
-			    <tr>
-		            <td width="33%"><spring:message code="label.experimentstatuspublic" />:</td>
-		            <td><input type="checkbox" name="public" onClick='syncDateBox()'/></td>
-		        </tr>
 		        <tr>
 		        	<td><spring:message code="label.publicDate"/></td>
 					<td>
-						<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return togglePublic()" style="vertical-align: middle" size=10/>
+						<input type="image" src="img/ebi-icons/16px/calendar.png" style="vertical-align: middle" onclick="return toggleDate()"/>
 						<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
 					</td> 
 		        </tr>

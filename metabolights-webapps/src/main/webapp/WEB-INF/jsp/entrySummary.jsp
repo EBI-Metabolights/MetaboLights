@@ -30,7 +30,7 @@
 	<div style='width: 700px;' class='iscell'>
 		<b><spring:message code="label.releaseDate"/>:</b> <fmt:formatDate pattern="dd-MMM-yyyy" value="${searchResult.releaseDate}"/>
 		<c:if test="${!searchResult.isPublic}">
-			&nbsp;<img src="img/ebi-icons/32px/flag.png" class="img_alignment_yellow"/><b>&nbsp;<spring:message code="label.expPrivate"/></b>
+			&nbsp;<img src="img/ebi-icons/32px/key.png" class="img_alignment_yellow"/><b>&nbsp;<spring:message code="label.expPrivate"/></b>
 			<c:if test="${!empty welcomemessage}">&nbsp;
 			<div style="float: right; margin-right:140px;">
 			<form name="publish-form" action="updatepublicreleasedateform" method="post" class="one-button-form">
