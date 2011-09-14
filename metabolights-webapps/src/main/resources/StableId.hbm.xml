@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 9, 2011 9:18:35 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping package="uk.ac.ebi.metabolights.repository.accessionmanager">
+	
+	<class name="StableId" table="STABLE_ID">
+		<id name="id" column="ID">
+			<!--generator class="native"/-->
+		</id>
+		<property name="seq" column="SEQ"/>
+		<property name="prefix" column="PREFIX"/>
+	</class>
+    
+</hibernate-mapping>
