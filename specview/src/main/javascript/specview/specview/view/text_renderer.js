@@ -99,9 +99,9 @@ specview.view.TextRenderer.prototype.render = function(textElementObject,box,opt
 //    	this.graphics.drawText("-"+k+": "+textElementObject.text[k],xStart,yStart,0,0,'left',null,font2,stroke,fill)
     }
 //	document.getElementById("experimentInformation").innerHTML = innerHTML
-    
+//    alert("caca")
     textAreaElement.innerHTML = innerHTML;
-    this.graphics.drawRect(box["left"],box["top"],box["width"],box["height"],stroke,null)
+  //  this.graphics.drawRect(box["left"],box["top"],box["width"],box["height"],stroke,null)
 };
 
 specview.view.TextRenderer.prototype.clearTextWithBox = function(box){

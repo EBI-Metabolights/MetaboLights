@@ -213,6 +213,11 @@ specview.model.NMRdata=function(){
 	
     
     /**
+     * 
+     */
+    this.draggingToolTracking = new Array();
+    
+    /**
      * Setting to true from the demo page when the user clik on the dragger
      */
     this.isDraggingToolSelected = false;

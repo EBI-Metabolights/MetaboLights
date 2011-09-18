@@ -254,6 +254,7 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 								currentMetaSpecObject.parentMolecule = currentMetaSpecObject.molecule;
 								currentMetaSpecObject.parentSpectrum = currentMetaSpecObject.spectrum;
 								//Set the child molecule and spectrum
+								
 								currentMetaSpecObject.childMolecule = newMoleculeToDisplay;
 								currentMetaSpecObject.childSpectrum = currentMetaSpecObject.ArrayOfSpectrum[currentMetaSpecObject.ArrayOfSecondaryMolecules[target.arrayOfSecondaryMolecules].name];
 
@@ -265,7 +266,8 @@ specview.controller.plugins.Highlight.prototype.handleMouseMove = function(e) {
 							currentMetaSpecObject.setCoordinatesPixelOfMolecule(this.editorObject);
 							this.drawNewMolecule(currentMetaSpecObject,this.editorObject,target);
 							this.clearTextInformation()
-							this.drawTextInformation(target, currentMetaSpecObject)
+							this.drawTextInformation(target, currentMetaSpecObject);
+						//	alert("caca")
 							this.editorObject.spectrumRenderer.renderAxis(currentMetaSpecObject,editor.spectrumRenderer.box,'black');
 							this.editorObject.spectrumRenderer.renderGrid(editor.specObject.mainSpecBox,'black',spectrumData.spectrum);	
 						}

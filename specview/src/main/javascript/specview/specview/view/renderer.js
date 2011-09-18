@@ -90,7 +90,7 @@ specview.view.Renderer.prototype.renderGrid = function(box, opt_color){
  * @param opt_expand type bool. spectrumData.expand set to false by default. When set to true, 
  */
 specview.view.Renderer.prototype.renderAxis = function(metaSpecObject,boxo,opt_color){
-	
+	//alert("I am called")
 	var maxHeight=metaSpecObject.spectrum.getMaxHeightPeak();
 	var maxValue=metaSpecObject.spectrum.getMaxValuePeak();
 

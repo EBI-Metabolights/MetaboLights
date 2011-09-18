@@ -1,6 +1,1163 @@
 var cmlmolecules="";
 
 
+cmlmolecules = cmlmolecules + 
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+        "<cml xmlns=\"http://www.xml-cml.org/schema\" xmlns:cml=\"http://www.xml-cml.org/dict/cml\" xmlns:cmlDict=\"http://www.xml-cml.org/dict/cmlDict\" xmlns:siUnits=\"http://www.xml-cml.org/units/siUnits\" xmlns:units=\"http://www.xml-cml.org/units/units\" convention=\"mzAnnot\">\n" + 
+        "  <list dictRef=\"cml:spectrumList\">\n" + 
+        "    <spectrum id=\"16alpha-hydroxyestrone\" moleculeRef=\"PubChem:-1\" type=\"MS2\">\n" + 
+        "      <conditionList>\n" + 
+        "        <scalar dataType=\"xsd:integer\" dictRef=\"cml:collisionenergy\" units=\"siUnits:eV\">-1</scalar>\n" + 
+        "        <scalar dataType=\"xsd:string\" dictRef=\"cml:polarity\">in silico</scalar>\n" + 
+        "      </conditionList>\n" + 
+        "      <metadataList>\n" + 
+        "        <metadata name=\"ms:assignmentMethod\" content=\"MetFragMod\"/>\n" + 
+        "        <metadata name=\"ms:name\" content=\"16alpha-hydroxyestrone\"/>\n" + 
+        "        <metadata name=\"ms:exactMass\" content=\"286.1569\"/>\n" + 
+        "      </metadataList>\n" + 
+        "      <peakList>\n" + 
+        "        <peak xValue=\"214.135765196\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak1\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"242.130679816\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak2\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f2\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"272.14124449999997\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak3\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f3\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"258.12559443600003\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak4\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f4\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"258.161979944\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak5\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f5\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"228.15141526\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak6\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f6\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"256.14632988\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak7\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f7\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"270.161979944\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak8\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f8\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"269.15415491199997\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak9\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f9\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"271.133419468\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak10\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f10\"/>\n" + 
+        "        </peak>\n" + 
+        "      </peakList>\n" + 
+        "    </spectrum>\n" + 
+        "    <spectrum id=\"16alpha-hydroxyestrone_f1\" moleculeRef=\"PubChem:-1\" type=\"MS3\">\n" + 
+        "      <conditionList>\n" + 
+        "        <scalar dataType=\"xsd:integer\" dictRef=\"cml:collisionenergy\" units=\"siUnits:eV\">-1</scalar>\n" + 
+        "        <scalar dataType=\"xsd:string\" dictRef=\"cml:polarity\">in silico</scalar>\n" + 
+        "      </conditionList>\n" + 
+        "      <metadataList>\n" + 
+        "        <metadata name=\"ms:assignmentMethod\" content=\"MetFragMod\"/>\n" + 
+        "        <metadata name=\"ms:name\" content=\"16alpha-hydroxyestrone_f1\"/>\n" + 
+        "        <metadata name=\"ms:exactMass\" content=\"214.13577\"/>\n" + 
+        "      </metadataList>\n" + 
+        "      <peakList>\n" + 
+        "        <peak xValue=\"201.127940164\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak1\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1_f1\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"197.133025544\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak2\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1_f2\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"200.120115132\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak3\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1_f3\"/>\n" + 
+        "        </peak>\n" + 
+        "        <peak xValue=\"199.1122901\" xUnits=\"units:mz\" yValue=\"1000.0\" yUnits=\"units:cps\" id=\"peak4\">\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1_f4\"/>\n" + 
+        "        </peak>\n" + 
+        "      </peakList>\n" + 
+        "    </spectrum>\n" + 
+        "  </list>\n" + 
+        "  <reactionList>\n" + 
+        "    <reaction id=\"0\" title=\"Level1\">\n" + 
+        "      <reactantList>\n" + 
+        "        <reactant>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone\"/>\n" + 
+        "        </reactant>\n" + 
+        "      </reactantList>\n" + 
+        "      <productList>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f9\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f8\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f10\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f5\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f4\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f7\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f6\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f2\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f3\"/>\n" + 
+        "        </product>\n" + 
+        "      </productList>\n" + 
+        "    </reaction>\n" + 
+        "    <reaction id=\"1\" title=\"Level2\">\n" + 
+        "      <reactantList>\n" + 
+        "        <reactant>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1\"/>\n" + 
+        "        </reactant>\n" + 
+        "      </reactantList>\n" + 
+        "      <productList>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1_f1\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1_f3\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1_f2\"/>\n" + 
+        "        </product>\n" + 
+        "        <product>\n" + 
+        "          <molecule ref=\"16alpha-hydroxyestrone_f1_f4\"/>\n" + 
+        "        </product>\n" + 
+        "      </productList>\n" + 
+        "    </reaction>\n" + 
+        "  </reactionList>\n" + 
+        "  <list dictRef=\"cdk:moleculeSet\">\n" + 
+        "    <moleculeList>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f9\" formula=\"C18H21O2\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"11.115\" y2=\"-3.3884\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"8\" elementType=\"O\" x2=\"11.3698\" y2=\"-2.6039\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"11.5999\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"11.115\" y2=\"-4.7233\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"23\" elementType=\"O\" x2=\"12.4249\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"20\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"19 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"11\" atomRefs2=\"2 8\" order=\"D\"/>\n" + 
+        "          <bond id=\"18\" atomRefs2=\"2 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"7\" atomRefs2=\"4 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"21 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"26\" atomRefs2=\"4 23\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"19 20\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"15 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"1 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"20\" atomRefs2=\"7 9\" order=\"S\"/>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C18H22O2/c1-18-9-8-13-12-5-3-2-4-11(12)6-7-14(13)15(18)10-16(19)17(18)20/h2-5,13-16,19H,6-10H2,1H3/t13-,14-,15+,16+,18+/m1/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.079</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=PKCYHELNAHVTBH-LFRCEIEQSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f8\" formula=\"C18H22O2\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"11.115\" y2=\"-3.3884\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"20\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"11.115\" y2=\"-4.7233\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"11.5999\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"23\" elementType=\"O\" x2=\"12.4249\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"19 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"17\" atomRefs2=\"13 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"20\" atomRefs2=\"7 9\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"1 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"15 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"19 20\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"21 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"7\" atomRefs2=\"4 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"18\" atomRefs2=\"2 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"26\" atomRefs2=\"4 23\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C18H24O2/c1-18-7-6-15-14-5-3-12(19)8-11(14)2-4-16(15)17(18)9-13(20)10-18/h3,5,8,13,15-17,19-20H,2,4,6-7,9-10H2,1H3/t13-,15+,16+,17-,18+/m0/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.155</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=DVMAUGGKVWJBDV-IREHDKGXSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f10\" formula=\"C17H19O3\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"11.115\" y2=\"-3.3884\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"8\" elementType=\"O\" x2=\"11.3698\" y2=\"-2.6039\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"11.5999\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"11.115\" y2=\"-4.7233\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"23\" elementType=\"O\" x2=\"12.4249\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"17\" atomRefs2=\"13 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"20\" atomRefs2=\"7 9\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"1 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"15 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"19 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"11\" atomRefs2=\"2 8\" order=\"D\"/>\n" + 
+        "          <bond id=\"18\" atomRefs2=\"2 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"7\" atomRefs2=\"4 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"21 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"26\" atomRefs2=\"4 23\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C17H20O3/c18-10-2-4-11-9(7-10)1-3-13-12(11)5-6-14-15(13)8-16(19)17(14)20/h2,4,7,12-16,18-19H,1,3,5-6,8H2/t12-,13-,14?,15+,16+/m1/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.007</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=CIYFPMYHUBEEHT-YXZSXWLRSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f5\" formula=\"C17H22O2\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"20\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"11.115\" y2=\"-4.7233\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"11.5999\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"23\" elementType=\"O\" x2=\"12.4249\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"17\" atomRefs2=\"13 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"20\" atomRefs2=\"7 9\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"1 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"15 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"19 20\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"21 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"7\" atomRefs2=\"4 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"26\" atomRefs2=\"4 23\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C17H24O2/c1-11-2-5-17-15-7-4-13(19)10-12(15)3-6-16(17)14(11)8-9-18/h4,7,10-11,14,16-19H,2-3,5-6,8-9H2,1H3/t11-,14-,16+,17-/m1/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.022,0.003</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=LQIGCFDSKSZPHE-QQDQCYIDSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f4\" formula=\"C16H18O3\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"11.115\" y2=\"-3.3884\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"8\" elementType=\"O\" x2=\"11.3698\" y2=\"-2.6039\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"11.5999\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"11.115\" y2=\"-4.7233\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"23\" elementType=\"O\" x2=\"12.4249\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"20\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"19 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"11\" atomRefs2=\"2 8\" order=\"D\"/>\n" + 
+        "          <bond id=\"18\" atomRefs2=\"2 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"7\" atomRefs2=\"4 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"21 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"26\" atomRefs2=\"4 23\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"17\" atomRefs2=\"13 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"19 20\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C16H20O3/c1-16-7-6-11(10-2-4-13(17)5-3-10)8-12(16)9-14(18)15(16)19/h2-5,11-12,14,17-18H,6-9H2,1H3/t11-,12+,14-,16-/m0/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.026,0.008</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=BHLYBGGLWADQGU-LMWOUKEDSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f7\" formula=\"C17H20O2\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"11.115\" y2=\"-4.7233\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"11.115\" y2=\"-3.3884\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"8\" elementType=\"O\" x2=\"11.3698\" y2=\"-2.6039\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"20\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"21 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"17\" atomRefs2=\"13 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"20\" atomRefs2=\"7 9\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"1 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"15 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"19 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"11\" atomRefs2=\"2 8\" order=\"D\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"19 20\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C17H22O2/c1-11-14-5-3-12-9-13(19)4-6-15(12)16(14)7-8-17(11,2)10-18/h4,6,9-11,14,16,19H,3,5,7-8H2,1-2H3/t11-,14-,16-,17+/m0/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.022,0.01</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=HKVIWWHRXRLGCI-YJOCZYATSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f6\" formula=\"C16H20O\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"20\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"11.115\" y2=\"-4.7233\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"17\" atomRefs2=\"13 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"20\" atomRefs2=\"7 9\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"1 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"15 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"19 20\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"21 0\" order=\"S\"/>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C16H22O/c1-10-3-6-16-14(11(10)2)7-4-12-9-13(17)5-8-15(12)16/h5,8-11,14,16-17H,3-4,6-7H2,1-2H3/t10-,11-,14+,16+/m1/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.01,0.003</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=BXFBOYQJCIXGAJ-XYJYNPGVSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f1\" formula=\"C15H18O\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.028252417034954604</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.030409012114687887</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.01261219058479857</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.04095454752194476</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.041698149799763565</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.02853392861977251</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.0721795146807191</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"7\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.3603896002036746</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.03171567762905113</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.05574917282128299</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"14\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.027135394366131833</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.04543184217430254</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.045476279767079096</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"22\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.04637056061144929</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"23\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.02324680003427607</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"25\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.05880364808289432</scalar>\n" + 
+        "          </atom>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"0 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"1 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"2 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"3 4\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"4 5\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"5 6\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"6 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"9 6\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"10 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"3 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"14 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"15 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"1 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"22\" atomRefs2=\"2 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"23\" atomRefs2=\"22 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"23 22\" order=\"S\"/>\n" + 
+        "          <bond id=\"25\" atomRefs2=\"0 23\" order=\"S\"/>\n" + 
+        "          <bond id=\"27\" atomRefs2=\"23 25\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C15H20O/c1-10-2-6-14-11(8-10)3-4-12-9-13(16)5-7-15(12)14/h5,7,9-11,14,16H,2-4,6,8H2,1H3/t10-,11+,14+/m1/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.003,0.01</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=KCIVMNHTNRWYNY-SUNKGSAMSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f2\" formula=\"C16H18O2\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"11.115\" y2=\"-3.3884\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"8\" elementType=\"O\" x2=\"11.3698\" y2=\"-2.6039\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"20\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"17\" atomRefs2=\"13 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"20\" atomRefs2=\"7 9\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"1 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"15 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"19 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"11\" atomRefs2=\"2 8\" order=\"D\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"19 20\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C16H20O2/c1-16(10-17)7-6-15-12(9-16)3-2-11-8-13(18)4-5-14(11)15/h4-5,8,10,12,15,18H,2-3,6-7,9H2,1H3/t12-,15-,16-/m0/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.022,0.01</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=IKRPZHKBLKELII-RCBQFDQVSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f3\" formula=\"C17H20O3\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"11.115\" y2=\"-3.3884\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"8\" elementType=\"O\" x2=\"11.3698\" y2=\"-2.6039\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"11.5999\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"23\" elementType=\"O\" x2=\"12.4249\" y2=\"-4.0559\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"20\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"17\" atomRefs2=\"13 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"20\" atomRefs2=\"7 9\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"1 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"15 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"19 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"11\" atomRefs2=\"2 8\" order=\"D\"/>\n" + 
+        "          <bond id=\"18\" atomRefs2=\"2 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"26\" atomRefs2=\"4 23\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"19 20\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C17H22O3/c1-17(16(20)10-18)7-6-15-12(9-17)3-2-11-8-13(19)4-5-14(11)15/h4-5,8,12,15,18-19H,2-3,6-7,9-10H2,1H3/t12-,15-,17-/m0/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.01,0.01</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=LVJAYAZQWBJFEX-NUTKFTJISA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f1_f1\" formula=\"C14H17O\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"22\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"23\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"25\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"1 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"2 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"3 4\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"4 5\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"5 6\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"6 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"9 6\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"10 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"3 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"14 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"15 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"1 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"22\" atomRefs2=\"2 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"23\" atomRefs2=\"22 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"23 22\" order=\"S\"/>\n" + 
+        "          <bond id=\"27\" atomRefs2=\"23 25\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C14H20O/c1-2-3-5-11-6-4-7-12-10-13(15)8-9-14(11)12/h8-11,15H,2-7H2,1H3/t11-/m0/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.012,0.01</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=OZKUWCOKCAOAPH-NSHDSACASA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f1_f3\" formula=\"C14H16O\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"23\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"22\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"25\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"3 4\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"2 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"1 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"0 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"25\" atomRefs2=\"0 23\" order=\"S\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"23 22\" order=\"S\"/>\n" + 
+        "          <bond id=\"23\" atomRefs2=\"22 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"22\" atomRefs2=\"2 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"27\" atomRefs2=\"23 25\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"1 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"3 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"10 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"9 6\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"5 6\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"4 5\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"6 7\" order=\"S\"/>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C14H20O/c1-10-3-8-14(11(2)9-10)12-4-6-13(15)7-5-12/h4-7,10-11,14-15H,3,8-9H2,1-2H3/t10-,11+,14+/m1/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.008,0.026</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=SHRKAPUVGVMZJX-SUNKGSAMSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f1_f2\" formula=\"C15H17\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"23\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"22\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"25\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"5 6\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"4 5\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"3 4\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"2 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"1 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"0 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"25\" atomRefs2=\"0 23\" order=\"S\"/>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"23 22\" order=\"S\"/>\n" + 
+        "          <bond id=\"23\" atomRefs2=\"22 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"22\" atomRefs2=\"2 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"27\" atomRefs2=\"23 25\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"1 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"15 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"14 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"3 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"10 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"9 6\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C15H20/c1-11-6-9-15-13(10-11)8-7-12-4-2-3-5-14(12)15/h2-5,11,13,15H,6-10H2,1H3/t11-,13+,15+/m1/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.081</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=NLUCHJZAGHHYKZ-ZLDLUXBVSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone_f1_f4\" formula=\"C14H15O\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"23\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"22\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"14\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"12\"/>\n" + 
+        "          <atom id=\"7\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" isotopeNumber=\"16\"/>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"23 22\" order=\"S\"/>\n" + 
+        "          <bond id=\"23\" atomRefs2=\"22 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"22\" atomRefs2=\"2 21\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"1 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"0 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"25\" atomRefs2=\"0 23\" order=\"S\"/>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"1 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"15 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"14 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"3 4\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"2 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"3 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"10 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"9 6\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"5 6\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"4 5\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"6 7\" order=\"S\"/>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C14H18O/c15-12-7-8-14-11(9-12)6-5-10-3-1-2-4-13(10)14/h7-10,13,15H,1-6H2/t10-,13+/m1/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TreeDepth\" dataType=\"xsd:string\">1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"PartialChargeDiff\" dataType=\"xsd:string\">0.005</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=WDBMRQULPXMXAQ-MFKMUULPSA-N</scalar>\n" + 
+        "      </molecule>\n" + 
+        "      <molecule id=\"16alpha-hydroxyestrone\" formula=\"C18H22O3\">\n" + 
+        "        <atomArray>\n" + 
+        "          <atom id=\"0\" elementType=\"C\" x2=\"11.115\" y2=\"-4.7233\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.01576054175921339</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"1\" elementType=\"C\" x2=\"9.6159\" y2=\"-5.7059\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.04545494548689072</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"2\" elementType=\"C\" x2=\"11.115\" y2=\"-3.3884\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.16706914575184525</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"3\" elementType=\"C\" x2=\"9.6159\" y2=\"-3.2309\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.03994308255613814</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"4\" elementType=\"C\" x2=\"11.5999\" y2=\"-4.0559\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.11327661017013373</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"5\" elementType=\"C\" x2=\"8.1869\" y2=\"-4.8809\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.04109479309510698</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"6\" elementType=\"C\" x2=\"8.9014\" y2=\"-3.6434\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.04510612502834062</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"7\" elementType=\"C\" x2=\"8.9014\" y2=\"-6.1184\" formalCharge=\"0\" hydrogenCount=\"2\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.02717448285780946</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"8\" elementType=\"O\" x2=\"11.3698\" y2=\"-2.6039\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"16\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.2956556851250658</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"9\" elementType=\"C\" x2=\"8.1869\" y2=\"-5.7059\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.041810447425072915</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"10\" elementType=\"C\" x2=\"7.4725\" y2=\"-4.4684\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.05581825537822341</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"11\" elementType=\"C\" x2=\"7.4725\" y2=\"-6.1184\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.028555670433700938</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"12\" elementType=\"C\" x2=\"6.7581\" y2=\"-4.8809\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.031745999135177005</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"13\" elementType=\"C\" x2=\"6.7581\" y2=\"-5.7059\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.07184379667636939</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"14\" elementType=\"O\" x2=\"6.0436\" y2=\"-6.1184\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"16\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.3606706397676933</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"15\" elementType=\"C\" x2=\"9.6159\" y2=\"-4.8809\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.03025142709680336</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"17\" elementType=\"C\" x2=\"8.9014\" y2=\"-4.4684\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.012670934134125178</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"19\" elementType=\"C\" x2=\"10.3303\" y2=\"-3.6434\" formalCharge=\"0\" hydrogenCount=\"0\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">0.03208484279198288</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"20\" elementType=\"C\" x2=\"10.3303\" y2=\"-2.8185\" formalCharge=\"0\" hydrogenCount=\"3\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.0523214631945441</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"21\" elementType=\"C\" x2=\"10.3303\" y2=\"-4.4684\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"12\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.02265658466218358</scalar>\n" + 
+        "          </atom>\n" + 
+        "          <atom id=\"23\" elementType=\"O\" x2=\"12.4249\" y2=\"-4.0559\" formalCharge=\"0\" hydrogenCount=\"1\" isotopeNumber=\"16\">\n" + 
+        "            <scalar dictRef=\"cdk:partialCharge\" dataType=\"xsd:double\">-0.38505316209873514</scalar>\n" + 
+        "          </atom>\n" + 
+        "        </atomArray>\n" + 
+        "        <bondArray>\n" + 
+        "          <bond id=\"0\" atomRefs2=\"21 15\" order=\"S\"/>\n" + 
+        "          <bond id=\"1\" atomRefs2=\"21 19\" order=\"S\"/>\n" + 
+        "          <bond id=\"2\" atomRefs2=\"21 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"3\" atomRefs2=\"15 17\" order=\"S\"/>\n" + 
+        "          <bond id=\"4\" atomRefs2=\"15 1\" order=\"S\"/>\n" + 
+        "          <bond id=\"5\" atomRefs2=\"19 2\" order=\"S\"/>\n" + 
+        "          <bond id=\"6\" atomRefs2=\"19 3\" order=\"S\"/>\n" + 
+        "          <bond id=\"7\" atomRefs2=\"4 0\" order=\"S\"/>\n" + 
+        "          <bond id=\"8\" atomRefs2=\"17 5\" order=\"S\"/>\n" + 
+        "          <bond id=\"9\" atomRefs2=\"17 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"10\" atomRefs2=\"1 7\" order=\"S\"/>\n" + 
+        "          <bond id=\"11\" atomRefs2=\"2 8\" order=\"D\"/>\n" + 
+        "          <bond id=\"12\" atomRefs2=\"5 9\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"13\" atomRefs2=\"5 10\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"14\" atomRefs2=\"9 11\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"15\" atomRefs2=\"10 12\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"16\" atomRefs2=\"11 13\" order=\"D\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"17\" atomRefs2=\"13 14\" order=\"S\"/>\n" + 
+        "          <bond id=\"18\" atomRefs2=\"2 4\" order=\"S\"/>\n" + 
+        "          <bond id=\"19\" atomRefs2=\"3 6\" order=\"S\"/>\n" + 
+        "          <bond id=\"20\" atomRefs2=\"7 9\" order=\"S\"/>\n" + 
+        "          <bond id=\"21\" atomRefs2=\"12 13\" order=\"S\">\n" + 
+        "            <bondType dictRef=\"cdk:aromaticBond\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"24\" atomRefs2=\"19 20\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:W\"/>\n" + 
+        "          </bond>\n" + 
+        "          <bond id=\"26\" atomRefs2=\"4 23\" order=\"S\">\n" + 
+        "            <bondStereo dictRef=\"cml:H\"/>\n" + 
+        "          </bond>\n" + 
+        "        </bondArray>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChI\" dataType=\"xsd:string\">InChI=1S/C18H22O3/c1-18-7-6-13-12-5-3-11(19)8-10(12)2-4-14(13)15(18)9-16(20)17(18)21/h3,5,8,13-16,19-20H,2,4,6-7,9H2,1H3/t13-,14-,15+,16-,18+/m1/s1</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"TrivialName\" dataType=\"xsd:string\">16alpha-hydroxyestrone</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"InChIKey\" dataType=\"xsd:string\">InChIKey=WPOCIZJTELRQMF-QFXBJFAPSA-N</scalar>\n" + 
+        "        <scalar dictRef=\"cdk:molecularProperty\" title=\"FragmentMass\" dataType=\"xsd:string\">286.156895</scalar>\n" + 
+        "      </molecule>\n" + 
+        "    </moleculeList>\n" + 
+        "  </list>\n" + 
+        "</cml>"+
+    	"$$END$$\n" ;
+
+
 cmlmolecules=cmlmolecules+
 	"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + 
 	"<cml convention=\"nmrshiftdb-convention\" xmlns=\"http://www.xml-cml.org/schema\">\n" + 

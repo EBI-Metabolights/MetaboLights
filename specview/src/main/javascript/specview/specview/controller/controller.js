@@ -388,8 +388,23 @@ specview.controller.Controller.prototype.unzoom = function(){
 	if(this.specObject.zoomLevel>0){
 		this.specObject.spectrum.peakList = this.specObject.zoomMap[this.specObject.zoomLevel - 1];
 		this.setNewSpectrum(this.specObject.spectrum.peakList);
-		this.specObject.zoomLevel -= 1;	
+		this.specObject.zoomLevel -= 1;
+		var left =  specview.util.Utilities.parsePixel(this.specObject.draggingToolTracking[this.specObject.zoomLevel][0]) +
+					document.getElementById("moleculeContainer").offsetLeft;
+		var width =  specview.util.Utilities.parsePixel(this.specObject.draggingToolTracking[this.specObject.zoomLevel][1]) +
+					document.getElementById("moleculeContainer").offsetLeft;
+		document.getElementById("zoomRectangle").style.left = left + "px"
+		document.getElementById("zoomRectangle").style.width = width + "px"
+//					alert(document.getElementById("moleculeContainer").offsetLeft)
+
+		left -= 18;
+					
+		document.getElementById("draggingBarSpectrum").style.left = left + "px";
+		document.getElementById("draggingBarSpectrum").style.width = width + "px";
+
 	}else{
+		document.getElementById("draggingBarSpectrum").style.display = "none";
+		document.getElementById("zoomRectangle").style.display = "none";
 		alert("minimum unzoom level reached !")
 	}
 	
@@ -406,6 +421,7 @@ specview.controller.Controller.prototype.zoom = function(listOfPeaks){
 //	alert(listOfPeaks)
 	this.specObject.zoomLevel += 1;
 	this.specObject.zoomMap[this.specObject.zoomLevel] = listOfPeaks ;
+//	this.specObject.draggingToolTracking[this.specObject.zoomLevel] = 
 	this.setNewSpectrum(listOfPeaks);	
 };
 
@@ -449,7 +465,12 @@ specview.controller.Controller.prototype.setNewSpectrum = function(listOfPeaks){
 	if(specview.controller.plugins.Highlight.zoomObject != null){
 		this.spectrumRenderer.clearRectangle(specview.controller.plugins.Highlight.zoomObject.rectangle, this);
 		this.mapZoomSpectrum(leftB,rightB-leftB,this,listOfPeaks);
-		this.setDraggingTool(leftB,rightB-leftB);	
+		this.setDraggingTool(leftB,rightB-leftB);
+		/*
+		 * Now, keep track of the dimension and location of the draggin bar, otherwise it will not make sens when unzooming
+		 */
+		var a = new Array(document.getElementById("draggingBarSpectrum").style.left, document.getElementById("draggingBarSpectrum").style.width);
+		this.specObject.draggingToolTracking[this.specObject.zoomLevel] = a;
 		
 	}
 
@@ -519,12 +540,13 @@ specview.controller.Controller.prototype.renderText = function(peak,metaSpecObje
 	this.peakInfoRenderer = textElementObject;
 //	alert(textElementObject)
 	this.textRenderer.render(this.peakInfoRenderer,undefined,"black","Peak information:");
+//	alert("caca")
 };
 
 specview.controller.Controller.prototype.clearPeakInfo = function(){
 //	alert(document.getElementById("fieldSet").style.width)
-	var box = new goog.math.Rect(this.specObject.informationExperimentBox["left"]+this.specObject.informationExperimentBox["width"]+5,
-								 this.specObject.informationExperimentBox["top"],
+	var box = new goog.math.Rect(this.specObject.informationExperimentBox["left"]+this.specObject.informationExperimentBox["width"]+35,
+								 this.specObject.informationExperimentBox["top"] - 15,
 								 parseInt(specview.util.Utilities.parsePixel(document.getElementById("fieldSet").style.width)),
 								 this.specObject.informationExperimentBox["top"]+this.specObject.informationExperimentBox["height"]-15);
 //	alert("the clearing box : "+box)
