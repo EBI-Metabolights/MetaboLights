@@ -240,6 +240,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 	var bottom = metaSpecObject.mainSpecBox[2].y;
 	
 	var spectrumBox = new Array(top,right,bottom,left);
+	/*
     if(metaSpecObject.dimension > 1 ){
         var stroke = new goog.graphics.Stroke(0.3,'black');
     	var fill = new goog.graphics.SolidFill('black');
@@ -260,7 +261,7 @@ specview.view.SpectrumRenderer.prototype.render = function(metaSpecObject, trans
 				stroke,
 				fill);
     }
-	
+	*/
 //	this.renderBoundingBox(metaSpecObject.mainSpecBox,'red')
     
 };
