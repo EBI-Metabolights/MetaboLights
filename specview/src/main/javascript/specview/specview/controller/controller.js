@@ -835,17 +835,19 @@ specview.controller.Controller.getMouseCoords = function(e) {
  * @param e
  */
 specview.controller.Controller.isInSpectrum = function(e,specObject) {
-	var top = specObject.mainSpecBox[0].y;
-	var left = specObject.mainSpecBox[0].x;
-	var right = specObject.mainSpecBox[1].x;
-	var bottom = specObject.mainSpecBox[2].y;
-	if(e instanceof MouseEvent){
-		var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
-				 e.pageY-document.getElementById('moleculeContainer').offsetTop);
-	}else{
-		var coord = specview.controller.Controller.getMouseCoords(e);
+	if(specObject != undefined){
+		var top = specObject.mainSpecBox[0].y;
+		var left = specObject.mainSpecBox[0].x;
+		var right = specObject.mainSpecBox[1].x;
+		var bottom = specObject.mainSpecBox[2].y;
+		if(e instanceof MouseEvent){
+			var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
+					 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+		}else{
+			var coord = specview.controller.Controller.getMouseCoords(e);
+		}
+		return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);	
 	}
-	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
 };
 
 /**
@@ -857,17 +859,19 @@ specview.controller.Controller.isInMolecule = function(e,specObject) {
 //	var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
 //										 e.pageY-document.getElementById('moleculeContainer').offsetTop);
 	var coord = null;
-	var top = specObject.mainMolBox[2].y;
-	var left = specObject.mainMolBox[0].x;
-	var right = specObject.mainMolBox[1].x;
-	var bottom = specObject.mainMolBox[0].y;
-	if(e instanceof MouseEvent){
-		 coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
-				 e.pageY-document.getElementById('moleculeContainer').offsetTop);
-	}else{
-		 coord = specview.controller.Controller.getMouseCoords(e);
+	if(specObject != undefined){
+		var top = specObject.mainMolBox[2].y;
+		var left = specObject.mainMolBox[0].x;
+		var right = specObject.mainMolBox[1].x;
+		var bottom = specObject.mainMolBox[0].y;
+		if(e instanceof MouseEvent){
+			 coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
+					 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+		}else{
+			 coord = specview.controller.Controller.getMouseCoords(e);
+		}
+		return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);	
 	}
-	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
 };
 
 
@@ -890,18 +894,20 @@ specview.controller.Controller.isInSecondarySpectrum = function(e){
 	
 	return document.metaSpecObject.secondSpecBox.contains(coord);
 	*/
-	var top = document.metaSpecObject.secondSpecBox["top"];
-	var left = document.metaSpecObject.secondSpecBox["left"];
-	var right = document.metaSpecObject.secondSpecBox["right"];
-	var bottom = document.metaSpecObject.secondSpecBox["bottom"];
-	
-	if(e instanceof MouseEvent){
-		var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
-				 e.pageY-document.getElementById('moleculeContainer').offsetTop);
-	}else{
-		var coord = specview.controller.Controller.getMouseCoords(e);
+	if(document.metaSpecObject != undefined){
+		var top = document.metaSpecObject.secondSpecBox["top"];
+		var left = document.metaSpecObject.secondSpecBox["left"];
+		var right = document.metaSpecObject.secondSpecBox["right"];
+		var bottom = document.metaSpecObject.secondSpecBox["bottom"];
+		
+		if(e instanceof MouseEvent){
+			var coord = new goog.math.Coordinate(e.pageX-document.getElementById('moleculeContainer').offsetLeft,
+					 e.pageY-document.getElementById('moleculeContainer').offsetTop);
+		}else{
+			var coord = specview.controller.Controller.getMouseCoords(e);
+		}
+		return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);	
 	}
-	return (coord.y > top && coord.y < bottom && coord.x < right && coord.x > left);
 }
 
 
