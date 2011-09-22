@@ -1,0 +1,21 @@
+#URL for new account creations, this is included in the emails sent
+urlConfirmNewAccount=http://wwwdev.ebi.ac.uk/mtbl_bii/confirmAccountRequest
+urlActivateNewAccount=http://wwwdev.ebi.ac.uk/mtbl_bii/activateAccount__NotifyUser
+
+# uploadDirectory is used the by the metabolights-uploader module, for BII submissions
+uploadDirectory=CHANGE
+# ftp locations are used by the metabolights-uploader and metabolights-webapp to distibute submitted archives
+publicFtpLocation=CHANGE
+privateFtpLocation=CHANGE
+
+mtblAdminEmailAddress=admin@email.com
+luceneIndexDirectory=CHANGE/bii/
+luceneIndexDirectoryShort=CHANGE
+
+# Settings for ISAtab load/replacement.  Should not change this
+isatab.ids=Study Identifier;Investigation Identifier
+isatab.filewithids=i_Investigation.txt
+isatab.publicReleaseDate=Study Public Release Date
+isatab.studySubDate=Study Submission Date
+isatab.profilingType=Study Assay Measurement Type
+isatab.profilingValue=metabolite profiling

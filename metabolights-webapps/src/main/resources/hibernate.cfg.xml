@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+ 
+<hibernate-configuration>
+    <session-factory >
+        <mapping class="uk.ac.ebi.metabolights.model.MetabolightsUser" />
+        <mapping class="uk.ac.ebi.metabolights.model.StableId" />
+  
+        <mapping class="uk.ac.ebi.bioinvindex.model.Study" />
+        <mapping class="uk.ac.ebi.bioinvindex.model.VisibilityStatus"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Study"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Publication"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Protocol"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Material"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Investigation"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Identifiable"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.HasReferences"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Data"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Contact"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.AssayResult"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Annotation"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Annotatable"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.Accessible"/>
+
+        <mapping class="uk.ac.ebi.bioinvindex.model.xref.AssayTypeDataLocation"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.xref.ReferenceSource"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.xref.ResourceType"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.xref.Xref"/>
+
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.AnnotationType"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.AnnotationTypes"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.AssayTechnology"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.BIISourceReferences"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.Characteristic"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.CharacteristicValue"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.ContactRole"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.DataType"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.Design"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.Factor"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.FactorValue"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.FreeTextTerm"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.MaterialRole"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.MaterialRoles"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.Measurement"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.OntologyEntry"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.OntologyTerm"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.Parameter"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.ParameterValue"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.Property"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.PropertyRole"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.PropertyValue"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.ProtocolComponent"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.ProtocolType"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.PublicationStatus"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.Unit"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.term.UnitValue"/>
+
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.Assay"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.DataAcquisition"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.DataNode"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.DataProcessing"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.GraphElement"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.MaterialNode"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.MaterialProcessing"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.Node"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.Processing"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.processing.ProtocolApplication"/>
+
+        <mapping class="uk.ac.ebi.bioinvindex.model.security.UserRole"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.security.User"/>
+        <mapping class="uk.ac.ebi.bioinvindex.model.security.Person"/>
+
+        <mapping class="uk.ac.ebi.bioinvindex.mibbi.MIProject"/>
+
+    </session-factory>
+</hibernate-configuration>
