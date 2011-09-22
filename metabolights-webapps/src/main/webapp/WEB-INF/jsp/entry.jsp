@@ -4,7 +4,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
-<script language="javascript"> 
+<script language="javascript">
 	function toggle(anctag,darg,showMsg,hideMsg) 
 	{
 	  var ele = document.getElementById(darg);
@@ -19,7 +19,7 @@
 	    ele.style.display = "block";
 	    text.innerHTML = hideMsg;
 	  }
-	} 
+	}
 </script>
 
 <script language="Javascript" type="text/javascript">
@@ -27,10 +27,10 @@
 function createRequestObject() {
     var tmpXmlHttpObject;
     //depending on what the browser supports, use the right way to create the XMLHttpRequest object
-    if (window.XMLHttpRequest) { 
+    if (window.XMLHttpRequest) {
         // Mozilla, Safari would use this method ...
         tmpXmlHttpObject = new XMLHttpRequest();
-    } else if (window.ActiveXObject) { 
+    } else if (window.ActiveXObject) {
         // IE would use this method ...
         tmpXmlHttpObject = new ActiveXObject("Microsoft.XMLHTTP");
     }
@@ -41,7 +41,7 @@ function createRequestObject() {
 var http = createRequestObject();
 
 function tagTextWithWhatizit() {
-    //make a connection to the server ... specifying that you intend to make a GET request 
+    //make a connection to the server ... specifying that you intend to make a GET request
     //to the server. Specifiy the page name and the URL parameters to send
     //
     //Did not work in IE, needed an extra dummy refresh enforcer. See: http://weblogs.asp.net/pleloup/archive/2006/06/08/451583.aspx
@@ -60,7 +60,7 @@ function processResponse() {
         //do additional parsing of the response, if needed
         //in this case simply assign the response to the contents of the <div> on the page.
         document.getElementById('description').innerHTML = response;
-        //If the server returned an error message like a 404 error, that message would be shown within the div tag!!. 
+        //If the server returned an error message like a 404 error, that message would be shown within the div tag!!.
         //So it may be worth doing some basic error before setting the contents of the <div>
     }
 }
@@ -70,12 +70,12 @@ function onloadAction() {
 }
 </script>
 
-<div id="text_header">
+<div class="text_header">
 	<spring:message code="label.metaboLightsEntry" />
 	${study.acc}
 </div>
 
-<div class="formbox">
+<div class="formbox border">
 		<br/><br/>
 		<span class="title">${study.title}</span>
 

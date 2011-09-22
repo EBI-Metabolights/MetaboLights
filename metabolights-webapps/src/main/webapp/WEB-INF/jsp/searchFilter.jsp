@@ -3,9 +3,20 @@
 
 <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
 
-<div class="topSpacerFilter"></div>
 <!-- If there isn't any result and it is due to the freetext, filter will not be printed -->
 <c:if test="${!((totalHits==0) && filters.isFilterLoadNeeded)}">
+   	<c:if test="${!empty welcomemessage}">
+		<div class="text_header yellow">
+            <span class="title"><spring:message code="menu.myStudiesCap" /></span>
+		</div>
+	</c:if>
+
+    <div class="topSpacerFilter"></div>             <!-- Add first top spacer -->
+    <c:if test="${empty welcomemessage}">
+        <div class="topSpacerFilter noText"></div>  <!-- Add second top spacer if no heading displayed -->
+    </c:if>
+
+
 	<legend><b><spring:message code="label.searchFilter"/></b></legend>
 	<form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">				
 		<c:forEach var="filterset" items="${filters.fss}">

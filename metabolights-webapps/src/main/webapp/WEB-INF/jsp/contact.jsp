@@ -2,11 +2,10 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<div class="formbox">
     <form:form name="emailForm" action="contactUsAlert" method="post" commandName="contactValidation">
         <table cellpadding="5px" cellspacing="0px">
-            <tr class="formheader">
-                <th class="tableheader" colspan="3" align="middle">
+            <tr>
+                <th class="text_header plain" colspan="3">
                 	<spring:message code="label.contact" />
                 </th>
             </tr>
@@ -50,15 +49,21 @@
         	</tr>
         	
 	        <tr>
-                <td>&nbsp;</td>
-	            <td colspan='2'><input name="submit" type="submit" class="big_submit" value="<spring:message code="label.submit"/>">
-               	&nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
+                <td>&nbsp;&nbsp;</td>
+	            <td colspan="2">
+                    <div class='iscell left'>
+                        <input name="submit" type="submit" class='multi-line-button main' value="<spring:message code="label.submit"/>">
+                    </div>
+                    <div class='iscell'>
+                        <br/><a href="index"><spring:message code="label.cancel"/></a>
+                    </div>
 	            </td>
 	        </tr>
 	        
 	    </table>
 	</form:form>
-</div>
+
+
 <br/>
 <br/>
 <c:if test="${not empty message}">

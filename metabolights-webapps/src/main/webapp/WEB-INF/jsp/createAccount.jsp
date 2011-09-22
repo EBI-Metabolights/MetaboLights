@@ -7,7 +7,7 @@
 		commandName="metabolightsUser">
 		<table cellpadding="5px" cellspacing="0px">
 			<tr class="formheader">
-				<th class="tableheader" colspan="2"><spring:message
+				<th class="text_header plain" colspan="2"><spring:message
 						code="msg.newAccount" />
 				</th>
 				<th><spring:message code="msg.starRequired"/></th>
@@ -31,16 +31,15 @@
 			<jsp:include page="accountFormFields.jsp" />
 
 			<tr>
-				<td></td>
-				<td height="100px" colspan='2'><input type="submit" name="submit" class="big_submit" value=" <spring:message code="label.create"/> "> 	
-                	&nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
-				</td>
-				
-				<!-- 
-				<td colspan='2'><input name="submit" type="submit" class="big_submit" value=" <spring:message code="label.create"/> ">
-                <a href="index"><input type="button" name="cancel" value="<spring:message code="label.cancel"/>" /></a>
-                 -->
-
+				<td>&nbsp;</td>
+                <td colspan="2">
+                    <div class='iscell left'>
+				        <input type="submit" name="submit" class="multi-line-button main" value="<spring:message code="label.create"/> ">
+                    </div>
+                    <div class='iscell'>
+                        <br/><a href="index"><spring:message code="label.cancel"/></a>
+                    </div>
+                </td>
 			</tr>
 		</table>
 	</form:form>

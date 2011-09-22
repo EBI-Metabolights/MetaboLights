@@ -63,67 +63,104 @@
 
 
 <div class="formbox">
-	<table border="0px" cellpadding="15px" cellspacing="0px" width="90%">
-	    <tr class="formheader">
-	        <th colspan=2 class="tableheader">
-	        	<c:if test="${not empty title}">
-					<c:out value="${title}"/>
-				</c:if>
-	        </th>
-	    </tr>
+	<div>
+
+	    <div class="text_header plain">
+	        <c:if test="${not empty title}">
+			    <c:out value="${title}"/>
+			</c:if>
+	    </div>
+
 		<c:if test="${not empty message}">
-			<tr>
-				<td colspan=2><br/>${message}<br/><br/><br/></td>
-			</tr>
+			<div>
+				<br/>${message}<br/><br/>
+			</div>
 		</c:if>
 		
 		<c:if test="${not empty ftpLocation}">
-            <tr><td class="big_submit" width="80px">
-            
-            	<IMG src="img/ebi-icons/16px/download.png" class="img_alignment_dark"> <a href="${ftpLocation}" style="color:white; font-size:14px"> <spring:message code="label.ftpDownload"/></a>
-            <br>
-			</td></tr>
+            <div>
+                <div class='iscell left'>
+                    <div class='multi-line-button highlight'>
+                        <IMG src="img/ebi-icons/16px/download.png">
+                        <a href="${ftpLocation}"  style="text-decoration: none; color: #000000;font-size: 14px;">
+                            <spring:message code="label.ftpDownload"/></a>
+                    </div>
+                </div>
+                <br/><br/><br/>
+            </div>
 		</c:if>
+
+        <br/><br/>
+
 		<c:if test="${not empty searchResult}">
-			<tr>
-				<td colspan=2>
-					<br/>
-					<c:set var="nopublish" value="true"/>
-					<%@include file="entrySummary.jsp" %>
-				</td>
-			</tr>
+			<div>
+			    <br/>
+				<c:set var="nopublish" value="true"/>
+				<%@include file="entrySummary.jsp" %>
+			</div>
 		</c:if>
-	</table>
+
+	</div>
 	
 	<c:if test="${empty updated}">
 		<br/><br/>
 		<form method="post" action="${action}" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
 	    	<input type="hidden" value="${study}" name="study"/>
-		    <table cellpadding="0px" cellspacing="15px" width="90%">
+		    <div>
+
 				<c:if test="${isUpdateMode}">
-					<tr>
-					    <td colspan='2'>&nbsp;</td>
-					</tr>
-					<tr>
-					    <td><spring:message code="label.isatabZipFile" />:</td>
-					    <td><input type="file" name="file" /></td>
-					</tr>
+
+				    <div>
+
+                        <div class='iscell left'>
+					        <spring:message code="label.isatabZipFile" />:
+                        </div>
+
+                        <div class='iscell'>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+
+                        <div class='iscell'>
+                            <input type="file" name="file" />
+                        </div>
+
+					</div>
+
 				</c:if>
-		        <tr>
-		        	<td><spring:message code="label.publicDate"/></td>
-					<td>
-						<input type="image" src="img/ebi-icons/16px/calendar.png" style="vertical-align: middle" onclick="return toggleDate()"/>
+
+                <br/><br/>
+
+		        <div>
+
+                    <div class='iscell left'>
+                        <spring:message code="label.publicDate" />:
+                    </div>
+
+                    <div class='iscell'>
+                        &nbsp;&nbsp;&nbsp;
+                    </div>
+
+                    <div class='iscell'>
+                        <input type="image" src="img/ebi-icons/16px/calendar.png" style="vertical-align: middle" onclick="return toggleDate()"/>
 						<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
-					</td> 
-		        </tr>
-		        <tr>
-		        	<td>
-			            <div id="hideableButtons" style="display:none">
-						<input type="submit" name="submit" class="big_submit" value="${submitText}">
-						&nbsp;&nbsp;<a href="index" name="cancel"><spring:message code="label.cancel"/></a>
+                    </div>
+
+		        </div>
+
+                <br/><br/><br/><br/>
+
+		        <div>
+		        	<div>
+			            <div id="hideableButtons" style="display:none;">
+			          		<div class='iscell left'>
+		                        <input name="submit" type="submit" class="multi-line-button main" value="${submitText}">
+		                    </div>
+		                    <div class='iscell'>
+		                        <br/><a href="index" name="cancel"><spring:message code="label.cancel"/></a>
+		                    </div>
 						</div>
-		        	</td>
-		        	<td>
+		        	</div>
+		        	<div>
 		        		<c:if test="${not empty validationmsg}">
 		        			<span class="error">${validationmsg}</span>
 		        		</c:if>
@@ -144,17 +181,17 @@
 			                    </ul>
 			                </div>
 						</c:if>
-		        	</td>
-		        </tr>
-		        <tr>
-		            <td colspan='2'>
-		            <div id="hourglass">
-		            <img src="img/wait.gif"/>&nbsp; <b> <spring:message code="msg.pleaseWaitForUpload"/></b>
+		        	</div>
+		        </div>
+		        <div>
+		            <div>
+                        <div class='iscell left' id="hourglass">
+                            <img src="img/wait.gif"/>&nbsp; <b> <spring:message code="msg.pleaseWaitForUpload"/></b>
+                        </div>
 		            </div>
-		            </td>
-		        </tr>
-			</table>
+		        </div>
+			</div>
 		</form>   
 	</c:if>
+    <br/><br/><br/><br/>
 </div>
-<br/><br/>

@@ -3,7 +3,7 @@
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!-- <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>-->
-<div style='margin-bottom: 10px;' class="formbox">
+<div style='margin-bottom: 10px;' class="formbox border">
 	
 	<c:choose>
 		<c:when test="${!empty welcomemessage && !searchResult.isPublic}">
@@ -13,7 +13,8 @@
 			<div style='width: 100px;' class='iscell'>
 				<form name="update-form" action="updatestudyform" method="post" class="one-button-form">
 					<input type="hidden" name="study" value="${searchResult.accStudy}"/>
-					<input type="submit" id="update" value="<spring:message code="label.updatestudy"/>" class="big_submit" />
+                     <input type="submit" id="update" class="multi-line-button main" value=" <spring:message code="label.updatestudy"/> ">
+					<!--input type="submit" id="update" value="<spring:message code="label.updatestudy"/>" class="big_submit" /-->
 				</form>
 			</div>
 		</c:when>
@@ -32,10 +33,12 @@
 		<c:if test="${!searchResult.isPublic}">
 			&nbsp;<img src="img/ebi-icons/32px/key.png" class="img_alignment_yellow"/><b>&nbsp;<spring:message code="label.expPrivate"/></b>
 			<c:if test="${!empty welcomemessage}">&nbsp;
-			<div style="float: right; margin-right:140px;">
-			<form name="publish-form" action="updatepublicreleasedateform" method="post" class="one-button-form">
+			<div style="float: right; margin-right:90px;">
+			<!--form name="publish-form" action="updatepublicreleasedateform" method="post" class="one-button-form"-->
+            <form name="publish-form" action="updatepublicreleasedateform" method="post">
 				<input type="hidden" name="study" value="${searchResult.accStudy}"/>
-				<input type="submit" id="publish" value="<spring:message code="label.makestudypublic"/>" class="big_submit" />
+                <input type="submit" id="publish" class="multi-line-button main" value=" <spring:message code="label.makestudypublic"/> ">
+				<!--input type="submit" id="publish" value="<spring:message code="label.makestudypublic"/>" class="big_submit" /-->
 			</form>
 			</div>
 			</c:if>

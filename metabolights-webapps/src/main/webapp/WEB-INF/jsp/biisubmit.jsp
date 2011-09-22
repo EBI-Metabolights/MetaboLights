@@ -47,62 +47,71 @@
 		
 <div class="formbox">
 	<form method="post" action="biiuploadExperiment" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
-           <table border="0" cellpadding="5px" cellspacing="0px">
-	        <tr class="formheader">
-	             <th class="tableheader" colspan="2"><spring:message code="msg.upload" /> </th>
+		<table  cellpadding="5px" cellspacing="0px">
+
+	        <tr class="text_header plain">
+	             <th colspan="2"><spring:message code="msg.upload" /> </th>
 	        </tr>
-	       	<tr>
+
+            <tr>
 	       		<td colspan='2'>
-	       		<spring:message code="msg.upload.desc"/>
-	       		<br/>
-	       		<spring:message code="msg.upload.desc2"/>
+	       			<spring:message code="msg.upload.desc"/>
+	       			<br/>
+	       			<spring:message code="msg.upload.desc2"/>
 	       		</td>
 	       	</tr>
-	        <tr>
+
+            <tr>
 	            <td colspan='2'><br/>&nbsp;</td>
 	        </tr>
 
-	        <tr>
+            <tr>
 	            <td><spring:message code="label.isatabZipFile" />:</td>
 	            <td><input type="file" name="file" /></td>
 	        </tr>
-	       
-	        <tr>
+
+            <tr>
 	        	<td colspan='2'> <hr/> </td>
 	        </tr>
-	        <tr>
+
+            <tr>
 	            <td colspan='2'><b><spring:message code="label.experimentMsgPublic" /> </b></td>
 	        </tr>
-	        <tr>
+
+            <tr>
 	        	<td><spring:message code="label.publicDate"/></td>
 				<td>
 					<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
 					<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
 				</td> 
 	        </tr>
-	       	<tr>
+
+            <tr>
 	        	<td colspan='2'> <hr/> </td>
-	        </tr>
-	        
-	        <tr>
-	            <td height="100px" colspan='2'>
-		             <div id="hideableButtons" style="display:none">
-                     <input name="submit" type="submit" class="big_submit" value="<spring:message code="label.upload"/>">
-		             &nbsp;&nbsp;
-		             <a href="index"><spring:message code="label.cancel"/></a>
+	        </tr>   
+
+            <tr>
+	            <td colspan='2'>
+		             <div id="hideableButtons" style="display:none;">
+                         <div class='iscell left'>
+                     	    <input name="submit" type="submit" class="multi-line-button main" value="<spring:message code="label.upload"/>">
+                        </div>
+                        <div class='iscell'>
+                            <br/><a href="index"><spring:message code="label.cancel"/></a>
+                        </div>
 			         </div>
             	</td>
 	        </tr>
-	      
-	       
-	        <tr>
+
+            <tr>
 	            <td colspan='2'>
-	            <div id="hourglass">
-	            <img src="img/wait.gif"/>&nbsp; <b> <spring:message code="msg.pleaseWaitForUpload"/></b>
-	            </div>
+	            	<div id="hourglass">
+	            		<img src="img/wait.gif"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
+	            	</div>
 	            </td>
 	        </tr>
-	    </table>
+
+        </table>
 	    
 	</form> 
 	 <c:if test="${not empty message}">

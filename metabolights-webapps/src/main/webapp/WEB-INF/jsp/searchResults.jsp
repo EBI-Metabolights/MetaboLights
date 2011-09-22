@@ -18,19 +18,15 @@ function navigate(_pageNumber) {
   filterWidth.style.width="220px";
   var bodyWidth=document.getElementById('bodyDiv');
   bodyWidth.style.width="785px";
+  var topSpacerFilterHeight=document.getElementById('topSpacerFilter');
 </script>
 	<div class="topSpacer">
-   		<c:if test="${!empty welcomemessage}">
-			<div class="formheader">
-				<span class="title">${welcomemessage}</span> 
-			</div>
-			<br/>
-		</c:if>
-		<div id="text_header" >
-		
+
+		<div class="text_header" >
+
 			<c:if test="${empty welcomemessage}"> <!-- Not show this part if called from "my submissions" -->
-			    ${totalHits} <spring:message code="msg.searchResults" />
-			</c:if>	     
+			     ${totalHits} <spring:message code="msg.searchResults" />
+			</c:if>
 			    
 			<c:if test="${totalHits gt 1}"> 
 				<spring:message code="msg.showing" /> ${1+((pageNumber-1)*pageSize)} <spring:message code="msg.to" /> 
@@ -40,7 +36,12 @@ function navigate(_pageNumber) {
 				<c:if test="${((pageNumber-1)*pageSize)+pageSize ge totalHits }">
 				   ${totalHits}
 				</c:if>
-			</c:if> 
+			</c:if>
+
+            <c:if test="${!empty welcomemessage}"> <!-- Show this part if called from "my submissions" -->
+			     of ${totalHits} <spring:message code="msg.studies" />
+			</c:if>
+
 	    
 		</div>
 		

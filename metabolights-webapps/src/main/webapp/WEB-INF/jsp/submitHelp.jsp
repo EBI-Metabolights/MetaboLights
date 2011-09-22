@@ -1,6 +1,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<div id="text_header" style="background-color: white; padding-top: 35px">
+<div class="text_header" style="background-color: white; padding-top: 35px">
 	<spring:message code="menu.submitHelp" />
 </div>
 

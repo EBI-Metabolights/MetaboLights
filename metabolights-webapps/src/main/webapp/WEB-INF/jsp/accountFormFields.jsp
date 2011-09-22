@@ -2,7 +2,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-
         <tr>
             <td><spring:message code="label.firstName" />:</td>
             <td><form:input path="firstName" maxlength="255" size="30" /> </td>

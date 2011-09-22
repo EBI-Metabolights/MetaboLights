@@ -15,9 +15,8 @@
 		   </c:choose>"
 		   method="get" accept-charset="utf-8">
 
-		   <input type="text" name="freeTextQuery" type="submit" id="query"
-				value="${freeTextQuery}" /> <input type="submit" value=""
-				class="search-box-button" />
+		   <input type="text" name="freeTextQuery" type="submit" placeholder="<spring:message code="label.searchMetabolights"/>" id="query" value="${freeTextQuery}" />
+           <input type="submit" value="" class="search-box-button" />
 		</form>
 	</div>
 

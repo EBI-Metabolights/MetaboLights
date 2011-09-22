@@ -14,23 +14,16 @@
    <img src="img/litehouseLogo.png" ></img> 
 </div>
 
-<div id="text_header" style="text-align:center">
+<div class="text_header" style="text-align:center">
     <spring:message code="msg.metabolights" />
 </div>
  
-<div id="text-fullwidth" style="text-align:center">
+<div class="text-fullwidth center">
     <br>
     <spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" />
-    <!-- div id="homepageLinks">
-	  <a href="about"><spring:message code="label.aboutMetab"/></a>
-	  <br>  
-	  <a href="contact"><spring:message code="label.contact"/></a>
-	</div-->
-	  
     <br>
     <br>
     <br>
     <br>
     <br>
-
 </div>

@@ -39,6 +39,9 @@
         <iframe src="/inc/head.html" name="head" id="head" frameborder="0" marginwidth="0px" marginheight="-10px" scrolling="no"  width="100%" style="position:relative; z-index: 1; height: 57px;"></iframe>
     </div>
     <div class="contents" id="contents"  >
+        <div class="beta_link">
+            <img src="img/betabanner.png" />
+        </div>
         <table class="contentspane" id="contentspane" summary="The main content pane of the page" style="width: 100%">
             <tr>
               <td class="leftmargin"><img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></td>

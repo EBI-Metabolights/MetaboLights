@@ -7,12 +7,14 @@
 
 	<form:form name="mySubmForm" action="mysubmissions">
     	<table cellpadding="5px" cellspacing="0px" width="90%">
-        	<tr class="formheader">
-            	<th class="tableheader" colspan="3"><spring:message code="menu.myAccountCaps" /></th>
+        	<tr class="text_header plain">
+            	<th colspan="3"><spring:message code="menu.myAccountCaps" /></th>
             </tr>
             <tr>
             	<td></td>
-            	<td height="100px" colspan='2'><input type="submit" name="submit" class="big_submit" value=" <spring:message code="label.viewMySubmissions"/> "> </td>
+            	<td height="100px" colspan='2'>
+                    <input type="submit" name="submit" class="multi-line-button highlight" value=" <spring:message code="label.viewMySubmissions"/> ">
+                </td>
             </tr>
             <tr>
             	<td colspan='3'> <hr/> 	</td>
@@ -28,7 +30,7 @@
         
         <table cellpadding="5px" cellspacing="0px">
             <tr class="formheader">
-                <th class="tableheader" colspan="2"><spring:message code="msg.updateAccount" /> </th>
+                <th class="text_header plain" colspan="2"><spring:message code="msg.updateAccount" /> </th>
                 <th><spring:message code="msg.starRequired"/></th>
             </tr>
             <tr>
@@ -41,10 +43,17 @@
             </tr>
 
             <jsp:include page="accountFormFields.jsp" />
+
             <tr>
-                <td></td> <!-- css style id="big_submit" is not being picked up -->
-                <td height="100px" colspan='2'><input type="submit" name="submit" class="big_submit" value=" <spring:message code="label.update"/> "> 	
-                	&nbsp;&nbsp;<a href="index"><spring:message code="label.cancel"/></a>
+                <td></td>
+                <td colspan='2'>
+                    <br/><br/>
+                    <div class='iscell left'>
+                        <input type="submit" name="submit" class="multi-line-button main" value=" <spring:message code="label.update"/> ">
+                    </div>
+                    <div class='iscell'>
+                	    <br/><a href="index"><spring:message code="label.cancel"/></a>
+                    </div>
                 </td>
             </tr>
         </table>
