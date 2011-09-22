@@ -35,7 +35,7 @@ public class StudyDAOImpl implements StudyDAO{
 	/**
 	 * Retrieve a study based on the accession identifier.
 	 * @param studyAcc accession number of desired Study
-	 * @param hibnerate hack, set to true when only selecting (faster)  
+	 * @param hibernate hack, set to true when only selecting (faster)
 	 */
 	@Override
 	public Study getStudy(String studyAcc, boolean clearSession) {
@@ -50,6 +50,14 @@ public class StudyDAOImpl implements StudyDAO{
 		logger.debug("retrieving study "+studyAcc);
 		Study study = (Study) q.uniqueResult();
 	
+		if (study == null){
+			Study emptyStudy = new Study();
+			emptyStudy.setAcc("Error");
+			emptyStudy.setDescription("Error.  Study " +studyAcc+ " could not be found.");
+			return emptyStudy;
+		}
+			
+		
 		if (!study.getStatus().equals(VisibilityStatus.PUBLIC)){ //If not PUBLIC then must be owned by the user
 			
 			Boolean validUser = false;
