@@ -91,8 +91,19 @@
     <!--  
       Database connection 
      -->
+    <!--bean id="propertyConfigurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="classpath:application.properties" /-->
+
     <bean id="propertyConfigurer"
-        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="classpath:application.properties" />
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="locations">
+			<list>
+                <value>classpath:application.properties</value>
+				<value>classpath:hibernate.properties</value>
+			</list>
+		</property>
+	</bean>
 
     <tx:annotation-driven />
     <bean id="transactionManager"
@@ -102,23 +113,23 @@
  
     <!-- read settings from application.properties file
          NB! only for local testing -->
-	<!-- bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
-		<property name="driverClass" value="${jdbc.driverClassName}"/>
-		<property name="user" value="${jdbc.username}"/>
-		<property name="password" value="${jdbc.password}"/>
-		<property name="jdbcUrl" value="${jdbc.databaseurl}"/>
+	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
+		<property name="driverClass" value="${hibernate.connection.driver_class}"/>
+		<property name="user" value="${hibernate.connection.username}"/>
+		<property name="password" value="${hibernate.connection.password}"/>
+		<property name="jdbcUrl" value="${hibernate.connection.url}"/>
 		<property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
 		<property name="minPoolSize" value="${jdbc.minPoolSize}"/>
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
 		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
 		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/>
-	</bean-->
+	</bean>
 	
 	<!-- For EBI tomcat server deployment  -->
-	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<!--bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
       	<property name="jndiName" value="java:comp/env/jdbc/metabolights/prod"/>  
       	<property name="resourceRef" value="true" /> 
-	</bean>
+	</bean-->
     
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
@@ -131,7 +142,7 @@
         </property>       
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.show_sql">${jdbc.show_sql}</prop>
                 <prop key="hibernate.format_sql">${jdbc.format_sql}</prop>
                 <prop key="hibernate.search.default.indexBase">${luceneIndexDirectoryShort}</prop>
@@ -164,9 +175,9 @@
         <sec:form-login login-page='/login' authentication-failure-url="/login?login_error=1" default-target-url="/login-success"  />
     </sec:http>
     <sec:authentication-manager>
-        <sec:authentication-provider ref="isaTabAuthenticationProvider" />
+        <sec:authentication-provider ref="isaTabAuthenticationProv" />
     </sec:authentication-manager>
-    <bean id="isaTabAuthenticationProvider" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
+    <bean id="isaTabAuthenticationProv" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
 
     <!-- 
     Email stuff
