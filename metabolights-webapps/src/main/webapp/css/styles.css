@@ -83,7 +83,7 @@ a {
 	background-image: url('../img/searchButton.png');
 }
 
-#text_header { 
+.text_header {
 	color: #006666;
     background: #eef5f5;
  	padding: 10px 0px 5px 10px;
@@ -94,8 +94,19 @@ a {
     -webkit-border-radius:10px 10px 10px 10px;
 }
 
-#text-column {
-	padding: 10px 10px 15px 10px;
+.text_header.plain {
+    background: #ffffff;
+    padding: 10px 0px 5px 0px;
+}
+
+.text_header.yellow {
+    background: #ffd98f;
+    color: #000000;
+    padding: 10px 0px 5px 5px;
+}
+
+.text-column {
+	padding: 10px 10px 15px 0px;
 	float: left;
 	color: #444444;
 	font-weight: lighter;
@@ -103,12 +114,20 @@ a {
 	width: 30%;
 }
 
-#text-fullwidth {
-    padding: 5px 5px 5px 5px;
+.text-fullwidth {
+    padding: 5px 5px 5px 0px;
     float: left;
     color: #444444;
     line-height: 1.5;
     width: 100%;
+}
+
+.text-fullwidth.bold {
+    font-weight: bold;
+}
+
+.text-fullwidth.center {
+    text-align:center;
 }
 
 .messageBox {
@@ -150,15 +169,19 @@ a {
 }
 
 .formbox {
-    border:1px solid #408c8c;
     margin-top:10px;
     padding-top:0px;
-    padding-left:20px;
+    padding-left:10px;
     padding-bottom:15px;
 	padding-right:10px;
     border-radius:10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
+}
+
+/* extend formbox with a border, for entry and searchresults etc */
+.formbox.border {
+    border:1px solid #408c8c;
 }
 
 .filterbox {
@@ -174,8 +197,8 @@ a {
 }
 
 .formheader {
-   background-color:#408c8c;
-   color: #FFFFFF;
+   /*background-color:#408c8c;color: #FFFFFF;*/
+  color: #408c8c;
 }
 
 .tableheader {
@@ -214,6 +237,10 @@ a {
     text-align:left;
     text-indent:0px;
     bbborder: 1px solid black;
+}
+
+.iscell.left{
+    padding: 5px 5px 5px 0px; /* top right bottom left */
 }
 
 .expandbox {
@@ -284,7 +311,11 @@ a {
 }
 
 .topSpacerFilter {
-	height:55px;
+	height:23px;
+}
+
+.topSpacerFilter.noText {
+	height:32px;
 }
 
 #homepageLinks {
@@ -424,7 +455,7 @@ a {
 	top: -1px;
 	border-style: solid dashed dashed;
 	border-color: transparent;
-	border-top-color: #feba12;
+	border-top-color: #ffd98f;
 	display: -moz-inline-box;
 	display: inline-block;
 	font-size: 0;
@@ -434,6 +465,12 @@ a {
 	border-width: 5px 5px 0;
 	padding-top: 1px;
 	left: 4px;
+}
+
+.beta_link {
+    position: absolute;
+    left: 0;
+    z-index: 100;
 }
 
 
