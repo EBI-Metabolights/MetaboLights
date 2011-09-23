@@ -21,7 +21,7 @@
     <context:annotation-config/>
 
     <!--  register the application properties -->
-    <util:properties id="appProperties" location="classpath:application.properties"/>
+    <util:properties id="appProperties" location="classpath:src/main/resources/application.properties"/>
 
     <!--  
       Database connection 
