@@ -3,6 +3,7 @@ package uk.ac.ebi.metabolights.repository.accessionmanager;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import uk.ac.ebi.metabolights.model.StableId;
 
 public class StableIdTest {
 

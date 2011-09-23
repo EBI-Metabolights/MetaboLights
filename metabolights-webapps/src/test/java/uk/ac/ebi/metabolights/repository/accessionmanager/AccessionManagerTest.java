@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.ac.ebi.metabolights.repository.accessionmanager.AccessionManager;
+import uk.ac.ebi.metabolights.model.StableId;
 
 public class AccessionManagerTest {
 
