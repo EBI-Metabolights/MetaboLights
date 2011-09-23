@@ -37,17 +37,6 @@ public class AccessionServiceImpl implements AccessionService {
 		this.defaultPrefix = defaultPrefix;
 	}
 
-    @Transactional
-    private StableId getStableId() {
-        stableId = stableIdDAO.getStableId();
-        return stableId;
-    }
-
-    @Transactional
-    public void update(StableId stableId) {
-        stableIdDAO.update(stableId);
-    }
-
 	/**
 	 * It has the logic concatenating the Id and the prefix. It also increase the Id by one,
 	 * and invoke persistance of the new value to the database with the new Id increased
@@ -64,20 +53,12 @@ public class AccessionServiceImpl implements AccessionService {
 		//Get the stable id object (this is also a static variable, shall we use it instead...)
 		stableId = getNextStableId();
 
-		//Compose the accession number
+		//Get the new accession number
 		accession = stableId.getPrefix() + stableId.getSeq();
 
-		logger.info("Accession composed is " + accession);
+		logger.info("New Accession number is " + accession);
 
-		//Increment the id by one
-		stableId.setSeq(stableId.getSeq() + 1);
-
-		logger.info("persisting incremented accession sequence");
-		//stableIdDAO.update(stableId);
-
-		logger.info("Saved the new stable id "+ stableId.getSeq());
-
-		//Return the accession
+		//Return the accession number
 		return accession;
 	}
 
@@ -96,7 +77,7 @@ public class AccessionServiceImpl implements AccessionService {
 		logger.info("Asking hibernate session for the StableId object.");
 
 		//Get the list of StableId, there should be only one...
-		StableId stableId = getStableId();
+		StableId stableId = stableIdDAO.getNextStableId();
 
 		if (stableId == null ) {
 
@@ -108,13 +89,16 @@ public class AccessionServiceImpl implements AccessionService {
 			//Populate with default values
 			//Populate de id of the row.
 			stableId.setId(1);
-			stableId.setSeq(1);
+			stableId.setSeq(0);  //Update below
 			stableId.setPrefix(defaultPrefix);
 
-			//Persist it
-			//update(stableId);
-
 		}
+
+        //Increment the id by one
+        stableId.setSeq(stableId.getSeq() + 1);
+        stableIdDAO.update(stableId);
+
+        logger.info("Got a new (Accession number) stable id "+ stableId.getSeq());
 
 		//Return stableId instance
 		return stableId;

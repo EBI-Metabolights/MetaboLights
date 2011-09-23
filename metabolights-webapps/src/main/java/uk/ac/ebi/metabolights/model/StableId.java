@@ -2,10 +2,7 @@ package uk.ac.ebi.metabolights.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *  Data structure to hold information for the accession number
@@ -26,6 +23,7 @@ public class StableId {
 
 	@Column(name="SEQ")
     @NotEmpty
+
 	private Integer seq;
 
     @Column(name="PREFIX")

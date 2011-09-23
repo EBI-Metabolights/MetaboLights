@@ -10,8 +10,6 @@
 
 package uk.ac.ebi.metabolights.service;
 
-import uk.ac.ebi.metabolights.model.StableId;
-
 /**
  * Created by IntelliJ IDEA.
  * User: kenneth
@@ -22,6 +20,5 @@ import uk.ac.ebi.metabolights.model.StableId;
 public interface AccessionService {
 
     public String getAccessionNumber();
-    public void update(StableId stableId);
 
 }

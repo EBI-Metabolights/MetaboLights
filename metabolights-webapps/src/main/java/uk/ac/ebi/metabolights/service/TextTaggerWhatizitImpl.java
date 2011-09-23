@@ -2,7 +2,6 @@ package uk.ac.ebi.metabolights.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 
 import javax.xml.transform.Source;
@@ -13,17 +12,14 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import uk.ac.ebi.metabolights.dao.UserDAO;
 
 @Service
 public class TextTaggerWhatizitImpl implements TextTaggerService {
 
 
 	private static Logger logger = Logger.getLogger(TextTaggerService.class);
-	private final String xsltFileName = "chemicals.xslt";
+	private final String xsltFileName = "src/main/resources/chemicals.xslt";
 	//private final String xsltFileName = "ebimed.xslt";
 
 	//See various pipelines listed at http://www.ebi.ac.uk/webservices/whatizit/info.jsf
@@ -71,7 +67,9 @@ public class TextTaggerWhatizitImpl implements TextTaggerService {
 
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(originalPipeOutputText.getBytes("UTF-8"));
 			ByteArrayOutputStream transformedOutputStream = new ByteArrayOutputStream();
-			transformer.transform(new StreamSource(inputStream), new StreamResult(transformedOutputStream));
+            try { //This may throw and error, ignore
+                transformer.transform(new StreamSource(inputStream), new StreamResult(transformedOutputStream));
+            }   catch (Exception e) {}
 
 			output = new String(transformedOutputStream.toByteArray(), "UTF-8").replaceAll(WhatizitHttpClient.XML_START, "").replaceAll(WhatizitHttpClient.XML_END, "");
 			client.close();

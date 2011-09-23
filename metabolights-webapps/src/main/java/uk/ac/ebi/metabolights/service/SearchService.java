@@ -3,7 +3,6 @@ package uk.ac.ebi.metabolights.service;
 import java.util.HashMap;
 import java.util.List;
 
-import uk.ac.ebi.metabolights.search.Filter;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 
 /**
