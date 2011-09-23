@@ -271,7 +271,7 @@ a {
 
 /* Search Highlights */
 .highlight { 
-	background-color: YellowGreen;
+	background-color: #9acd32;
 	font-weight: bold; 
 }
 
@@ -448,7 +448,6 @@ a {
 	background:#006666;
 	padding: 4px
 }
-
 
 .smallArrow {
 	position: relative;
