@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.ac.ebi.metabolights</groupId>
   <artifactId>metabolights-main</artifactId>
-  <version>0.1.1-SNAPSHOT</version>
+  <version>0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>MetaboLights main project</name>
   <description>MetaboLights Main Project</description>
