@@ -1,19 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,15 +10,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.utils.StringUtils;
-
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.utils.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Controls multi part file upload as described in Reference Documentation 3.0,
@@ -42,6 +39,9 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 public class BIISubmissionController extends AbstractController {
 
 	private static Logger logger = Logger.getLogger(BIISubmissionController.class);
+
+    @Autowired
+    private IsaTabUploader itu;
 	
 	@RequestMapping(value = { "/biisubmit" })
 	public String submit(HttpServletRequest request) {
@@ -53,7 +53,6 @@ public class BIISubmissionController extends AbstractController {
 		MetabolightsUser user = null;
 		
 		ModelAndView mav = new ModelAndView("submitPre"); // Call the Pre-Submit page
-    	//MetabolightsUser user = (MetabolightsUser) request.getSession().getAttribute("user"); //Logged in?
 		if (request.getUserPrincipal() != null)
 			user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
@@ -76,14 +75,15 @@ public class BIISubmissionController extends AbstractController {
 
 		try {
 
+            if (file.isEmpty())
+				throw new Exception(PropertyLookup.getMessage("BIISubmit.fileEmpty"));
+
 			if (publicDate.isEmpty())
 				throw new Exception(PropertyLookup.getMessage("BIISubmit.dateEmpty"));
-				
-			if (file.isEmpty())
-				throw new Exception(PropertyLookup.getMessage("BIISubmit.fileEmpty"));
 
             //Check if the study is public today
             VisibilityStatus status = VisibilityStatus.PRIVATE;         //Defaults to a private study
+
             if (publicDate != null){
                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
                 Date publicDateD = sdf.parse(publicDate);               //Date from the form
@@ -147,10 +147,10 @@ public class BIISubmissionController extends AbstractController {
 	public ModelAndView reindex() throws Exception{
 		
 		//Get the path for the config folder (where the hibernate properties for the import layer are).
-		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath();
 	
 		//Upload the file to bii
-		IsaTabUploader itu = new IsaTabUploader();
+		//IsaTabUploader itu = new IsaTabUploader();
 		itu.setDBConfigPath(configPath);
 		itu.reindex();
 		
@@ -166,7 +166,7 @@ public class BIISubmissionController extends AbstractController {
 	 * Writes a user upload file to designated target directory.
 	 * 
 	 * @param file user upload
-	 * @param status 
+	 * @param CheckList
 	 * @throws IOException 
 	 * @throws Exception 
 	 */
@@ -218,7 +218,8 @@ public class BIISubmissionController extends AbstractController {
 		
 	
 		// Upload the file to bii
-		IsaTabUploader itu = getIsaTabUploader(isaTabFile, status, publicDate);
+		//IsaTabUploader itu = getIsaTabUploader(isaTabFile, status, publicDate);
+        itu = getIsaTabUploader(isaTabFile, status, publicDate);
 		
 		// Set the CheckList to get feedback
 		itu.setCheckList(cl);
@@ -242,7 +243,8 @@ public class BIISubmissionController extends AbstractController {
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
 		// Get the path for the config folder (where the hibernate properties for the import layer are).
-		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+		//String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+        String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath();
 
 		// Get today's date.
 		Calendar currentDate = Calendar.getInstance();
@@ -257,7 +259,7 @@ public class BIISubmissionController extends AbstractController {
 			publicDate = isaTabFormatter.format(publicDateD);
 		}
 		
-		IsaTabUploader itu = new IsaTabUploader();
+		//IsaTabUploader itu = new IsaTabUploader();
 		
 		// Set common properties
 		itu.setOwner(user.getUserName());

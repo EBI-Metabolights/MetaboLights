@@ -1,11 +1,5 @@
 package uk.ac.ebi.metabolights.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,12 +7,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.Filter;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.SearchService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Controller for Metabolights searching.  
@@ -49,7 +47,6 @@ public class SearchController extends AbstractController{
 		//Add the action to the ModelAndView
 		mav.addObject("action", "search");
 
-		
 		return mav;
 	}
 
@@ -161,12 +158,11 @@ public class SearchController extends AbstractController{
 		String welcomeMessage;
 		
 		//If he doesn't have any study
+        //TODO, the two text messages are no longer displayed, BUT the welcomeMessage string must be present in the JSP
 		if (filter.getInitialHits() ==0){
-			
 			welcomeMessage = PropertyLookup.getMessage("msg.welcomeWithoutStudies",
 					user.getFirstName());
-			
-		}else{
+		} else {
 			welcomeMessage =  PropertyLookup.getMessage("msg.welcomeWithStudies",
 					user.getFirstName(), Integer.toString(filter.getInitialHits()));
 		}

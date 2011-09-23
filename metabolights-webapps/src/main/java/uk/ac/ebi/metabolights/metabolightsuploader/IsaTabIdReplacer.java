@@ -2,20 +2,17 @@ package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
-import uk.ac.ebi.metabolights.repository.accessionmanager.AccessionManager;
+import uk.ac.ebi.metabolights.service.AccessionService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
 
 import javax.naming.ConfigurationException;
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -24,6 +21,8 @@ import java.util.Set;
  * 
  *@author conesa
  */
+
+@Controller
 public class IsaTabIdReplacer 
 {
 	static private Properties props = new Properties();
@@ -44,13 +43,18 @@ public class IsaTabIdReplacer
 	private String studyIdToUse; // When updating a study, replacement must not be done.
 	
     private static final Logger logger = LoggerFactory.getLogger(IsaTabIdReplacer.class);
-    
-    static private AccessionManager am = AccessionManager.getInstance();
        
 	private String isaTabFolder;
     
     private HashMap<String,String> ids = new HashMap<String,String>();
-    
+
+    @Autowired
+    public AccessionService accessionService;
+   
+    public AccessionService getAccessionService() {
+		return accessionService;
+	}
+
 	public String getPublicDate() {
 		if (publicDate == null)
 			publicDate = "";
@@ -69,10 +73,16 @@ public class IsaTabIdReplacer
 		this.submissionDate = submissionDate;
 	}
 	
-	public String getStudyIdToUse(){return studyIdToUse;}
-	public void setStudyIdToUse(String studyIdToUse){ this.studyIdToUse = studyIdToUse;}
+	public String getStudyIdToUse(){
+        return studyIdToUse;
+    }
+
+    public void setStudyIdToUse(String studyIdToUse){
+        this.studyIdToUse = studyIdToUse;
+    }
 
 	private CheckList cl;
+	
     /**
 	 * 
 	 * @param args
@@ -103,11 +113,18 @@ public class IsaTabIdReplacer
 	public IsaTabIdReplacer(String isaTabFolder){
 		this.isaTabFolder = isaTabFolder;
 	}
-	public IsaTabIdReplacer(){}
+	public IsaTabIdReplacer(){
+		
+	}
 	
 	//IsaTabArchive properties
-	public String getIsaTabFolder(){return isaTabFolder;}
-	public void setIsaTabFolder(String folder){isaTabFolder = folder;}
+	public String getIsaTabFolder(){
+        return isaTabFolder;
+    }
+
+    public void setIsaTabFolder(String isaTabFolder) {
+        this.isaTabFolder = isaTabFolder;
+    }
 	
 	//Ids property
 	public HashMap<String,String> getIds(){return ids;}
@@ -127,7 +144,8 @@ public class IsaTabIdReplacer
 	
 	private void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
 		
-		final String PROPS_FILE = "isatabidreplacer.properties";
+		//final String PROPS_FILE = "isatabidreplacer.properties";
+        final String PROPS_FILE = "application.properties";
 		
 		//If properties are loaded
 		if (!props.isEmpty()) {return;}
@@ -145,7 +163,7 @@ public class IsaTabIdReplacer
 			props = null;
 			
 			//Throw an exception
-			throw new ConfigurationException("The isatabidreplacer.properties file has been found, but it is empty.");
+			throw new ConfigurationException("The application.properties file has been found, but it is empty.");
 		}
 		
 		//Initialise idList
@@ -226,12 +244,14 @@ public class IsaTabIdReplacer
 		replaceIdInFiles();
 		
 		// If we are updating a study we have already the id
-		if (studyIdToUse != null) ids.put(studyIdToUse, studyIdToUse);
+		if (studyIdToUse != null)
+            ids.put(studyIdToUse, studyIdToUse);
 		
 		//Update CheckList
 		updateCheckList(SubmissionProcessCheckListSeed.IDREPLACEMENTS, getIdsNotes());
 		
 	}
+
 	private void replaceIdInFiles () throws Exception{
 		
 		// Get the investigation file
@@ -355,7 +375,7 @@ public class IsaTabIdReplacer
 	    	  logger.info("Id found in line " + line);
 	    	
 	    	  //Get the accession number
-	    	  String accession = am.getAccessionNumber();
+	    	  String accession = getAccessionService().getAccessionNumber();
 	    	  
 	    	  //Get the Id Value (i.e.: BII-1-S)
 	    	  String idInitialValue = StringUtils.replace(line, id + "\t\"", "");
@@ -377,6 +397,7 @@ public class IsaTabIdReplacer
 				//accessionNumberList = accessionNumberList + accession + " ";
 				//initialIdValuesList = initialIdValuesList + idInitialValue + " ";
 	    		ids.put(idInitialValue, accession);
+                //setStudyIdToUse(accession);
 	    		logger.info("Study identifier " + idInitialValue + " replaced with " +accession);
 	    		
 	    	  }
@@ -464,6 +485,7 @@ public class IsaTabIdReplacer
 
     	
     }
+
     private void replaceFieldsInFile(File fileWithId, HashMap<String,String> replacementHash) throws Exception{
 		
 		logger.info("Replacing fields in file -->" + fileWithId.getAbsolutePath());

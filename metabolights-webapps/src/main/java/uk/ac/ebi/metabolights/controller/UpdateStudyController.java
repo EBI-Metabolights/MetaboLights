@@ -236,7 +236,8 @@ public class UpdateStudyController extends AbstractController {
 			// Index it...
 			// ************************
 			//Get the path for the config folder (where the hibernate properties for the import layer are).
-			String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
+			//String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath() + "biiconfig/";
+            String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath();
 		
 			// Set the config folder, and the ftp folders
 			itu.setDBConfigPath(configPath);
@@ -516,7 +517,7 @@ public class UpdateStudyController extends AbstractController {
 			// "normalize" the date to IsaTabFormat..
 			if (publicReleaseDateS == null){
 				this.publicReleaseDateS = "";
-			}else{
+			} else {
 				this.publicReleaseDateS = publicReleaseDateS;
 			}
 

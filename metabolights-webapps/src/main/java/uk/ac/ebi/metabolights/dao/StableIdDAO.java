@@ -19,7 +19,7 @@ import uk.ac.ebi.metabolights.model.StableId;
  */
 public interface StableIdDAO {
 
-    public StableId getStableId();
-	public void update(StableId stableId);
+    public StableId getNextStableId();
+    public void update(StableId stableId);
 
 }

@@ -1,5 +1,17 @@
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
+import org.isatools.isatab.gui_invokers.GUIInvokerResult;
+import org.isatools.isatab.manager.SimpleManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
+import uk.ac.ebi.metabolights.checklists.CheckList;
+import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
+import uk.ac.ebi.metabolights.utils.FileUtil;
+import uk.ac.ebi.metabolights.utils.Zipper;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,27 +20,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-
-import org.isatools.isatab.gui_invokers.GUIInvokerResult;
-import org.isatools.isatab.manager.SimpleManager;
-
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.checklists.CheckList;
-import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
-import uk.ac.ebi.metabolights.utils.FileUtil;
-import uk.ac.ebi.metabolights.utils.Zipper;
-
-
-
+@Service
 public class IsaTabUploader {
 	
 	//Logger
 	private static final Logger logger = LoggerFactory.getLogger(IsaTabUploader.class);
 	
-	//Use IsaTabReplacerId
-	private IsaTabIdReplacer itir = new IsaTabIdReplacer();
+	@Autowired
+	public IsaTabIdReplacer itir;
+	//private IsaTabIdReplacer itir = new IsaTabIdReplacer();
+
+    public IsaTabIdReplacer getItir() {
+        if (itir == null)
+            itir = new IsaTabIdReplacer();
+        return itir;
+    }
+
 	private String owner = "";
 	private VisibilityStatus status = VisibilityStatus.PUBLIC;
 	private CheckList cl;
@@ -41,6 +48,7 @@ public class IsaTabUploader {
 	
 	public IsaTabUploader(){
 	}
+
 	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, String copyToPublicFolder, String copyToPrivateFolder){
 		//Set properties
 		this.isaTabArchive = isatabfile;
@@ -49,19 +57,19 @@ public class IsaTabUploader {
 		this.copyToPrivateFolder = copyToPrivateFolder;
 		this.owner = owner;
 	}
+
 	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, String copyToPublicFolder, String copyToPrivateFolder, VisibilityStatus status){
-		
 		this(isatabfile,unzipfolder,owner, copyToPublicFolder, copyToPrivateFolder);
 		this.status = status;
-		
 	}
+
 	public IsaTabUploader(String isatabfile, String unzipfolder, String owner, String copyToPublicFolder, String copyToPrivateFolder, VisibilityStatus status, String configDBPath, String publicDate, String submissionDate){
 		this(isatabfile,unzipfolder, owner, copyToPublicFolder, copyToPrivateFolder, status);
 		this.sm.setDBConfigPath(configDBPath);
 		itir.setPublicDate(publicDate);
 		itir.setSubmissionDate(submissionDate);
-		
 	}
+
 	// IsaTabFile property
 	public void setIsaTabFile(String isatabfile){this.isaTabArchive =isatabfile;}
 	public String getIsaTabFile(){return this.isaTabArchive;}
@@ -119,6 +127,7 @@ public class IsaTabUploader {
 			cl.CheckItem(spcls.getKey(), newNotes);
 		}
 	}
+
 	/**
 	 * Unzips ISATab file if it is a zip file, otherwise it will do nothing
 	 * @throws IOException 
@@ -264,7 +273,7 @@ public class IsaTabUploader {
 	
 	/**
 	 * The way of making the file public is by letting the "other" read and execute the file.
-	 * @param file
+	 * @param filePath
 	 */
 	public void changeFilePermissions(String filePath, VisibilityStatus newStatus){
 		
@@ -301,14 +310,12 @@ public class IsaTabUploader {
 		Unzip();
 		
 		// Replace the fields
-		itir.setIsaTabFolder(unzipFolder);
-		itir.replaceFields(replacementHash);
+		getItir().setIsaTabFolder(unzipFolder);     //TODO, Null pointer
+		getItir().replaceFields(replacementHash);
 		
 		//Zip it again to the specified folder
 		Zip(isaTabArchive);
-		
-		
-		
+
 	}
 	
 	public Map<String,String> getStudyFields(String study, String[] fields) throws Exception{
@@ -416,17 +423,19 @@ public class IsaTabUploader {
 		
 		
 	}
+
 	public void reindex() throws IsaTabException{
 		
 		GUIInvokerResult result;
 		
-		logger.info("Reindexing the whole databse");
+		logger.info("Reindexing the whole database");
 		result = sm.reindexDatabase();
 		
 		// If not SUCCESS...
 		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("Reindex of the whole database has failed",sm.getLastLog()) ;
 		
 	}
+
 	/**
 	 * 
 	 * @param studiesList: String with accessions separated by "|" (pipes).
@@ -445,6 +454,7 @@ public class IsaTabUploader {
 		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("Reindex of " + studiesList + " has failed",sm.getLastLog()) ;
 		
 	}
+
 	public void reindexStudies(Collection<String> studies) throws IsaTabException{
 		String studiesS=""; 
 		// Reindex all the studies...there must be only one
@@ -455,9 +465,10 @@ public class IsaTabUploader {
 		reindexStudies(studiesS);
 		
 	}
+
 	/**
 	 * 
-	 * @param studiesList: String with accessions separated by "|" (pipes).
+	 * @param studyList: String with accessions separated by "|" (pipes).
 	 * @throws IsaTabException 
 	 * @throws Exception
 	 */
@@ -495,9 +506,7 @@ public class IsaTabUploader {
 			
 		}
 		
-		
-		
-		
+
 	}
 	
 }

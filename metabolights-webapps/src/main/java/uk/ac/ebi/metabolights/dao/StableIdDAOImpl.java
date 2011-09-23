@@ -17,7 +17,7 @@ public class StableIdDAOImpl implements StableIdDAO {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public StableId getStableId() {
+	public StableId getNextStableId() {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query q = session.createQuery("from StableId");
@@ -25,12 +25,10 @@ public class StableIdDAOImpl implements StableIdDAO {
 		logger.debug("retrieving StableId");
 		StableId stableId = (StableId) q.uniqueResult();
 		logger.debug("Got StableId sequence =" +stableId.getSeq());
-        session.clear();
-		
+
 		return stableId;
 	}
 
-	@Override
 	public void update(StableId stableId) {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(stableId);
