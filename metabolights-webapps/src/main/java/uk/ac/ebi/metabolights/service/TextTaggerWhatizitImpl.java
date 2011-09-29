@@ -1,25 +1,24 @@
 package uk.ac.ebi.metabolights.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 @Service
 public class TextTaggerWhatizitImpl implements TextTaggerService {
 
 
 	private static Logger logger = Logger.getLogger(TextTaggerService.class);
-	private final String xsltFileName = "src/main/resources/chemicals.xslt";
+	private final String xsltFileName = "chemicals.xslt";
 	//private final String xsltFileName = "ebimed.xslt";
 
 	//See various pipelines listed at http://www.ebi.ac.uk/webservices/whatizit/info.jsf
