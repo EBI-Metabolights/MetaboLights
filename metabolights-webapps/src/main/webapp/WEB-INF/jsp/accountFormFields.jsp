@@ -26,18 +26,19 @@
         <tr>
             <td><spring:message code="label.affili" />:</td>
             <td><form:input path="affiliation"  maxlength="255" size="40" /> </td>
-            <td>&nbsp;</td>
+            <td>(*)&nbsp;<span class="error"><form:errors path="affiliation" /></span></td>
         </tr>
 
         <tr>
             <td><spring:message code="label.affiliUrl" />:</td>
             <td><form:input path="affiliationUrl"  maxlength="4000" size="50" /> </td>
-            <td>&nbsp;</td>
+            <td>(*)&nbsp;<span class="error"><form:errors path="affiliationUrl" /></span></td>
         </tr>
 
         <tr>
             <td><spring:message code="label.country" />:</td>
-            <td colspan="2"><form:select path="address" items="${metabolightsUser.listOfAllCountries}"/></td>
+            <td><form:select path="address" items="${metabolightsUser.listOfAllCountries}"/></td>
+            <td>(*)&nbsp;<span class="error"><form:errors path="address" /></span></td>
         </tr>
 
 

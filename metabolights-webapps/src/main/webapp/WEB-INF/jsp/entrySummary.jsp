@@ -14,7 +14,6 @@
 				<form name="update-form" action="updatestudyform" method="post" class="one-button-form">
 					<input type="hidden" name="study" value="${searchResult.accStudy}"/>
                      <input type="submit" id="update" class="multi-line-button main" value=" <spring:message code="label.updatestudy"/> ">
-					<!--input type="submit" id="update" value="<spring:message code="label.updatestudy"/>" class="big_submit" /-->
 				</form>
 			</div>
 		</c:when>
@@ -34,11 +33,9 @@
 			&nbsp;<img src="img/ebi-icons/32px/key.png" class="img_alignment_yellow"/><b>&nbsp;<spring:message code="label.expPrivate"/></b>
 			<c:if test="${!empty welcomemessage}">&nbsp;
 			<div style="float: right; margin-right:90px;">
-			<!--form name="publish-form" action="updatepublicreleasedateform" method="post" class="one-button-form"-->
             <form name="publish-form" action="updatepublicreleasedateform" method="post">
 				<input type="hidden" name="study" value="${searchResult.accStudy}"/>
                 <input type="submit" id="publish" class="multi-line-button main" value=" <spring:message code="label.makestudypublic"/> ">
-				<!--input type="submit" id="publish" value="<spring:message code="label.makestudypublic"/>" class="big_submit" /-->
 			</form>
 			</div>
 			</c:if>

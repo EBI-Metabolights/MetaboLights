@@ -36,6 +36,10 @@ public class ValidatorMetabolightsUser implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "dbPassword", "NotEmpty.metabolightsUser.dbPassword");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "userVerifyDbPassword", "NotEmpty.metabolightsUser.userVerifyDbPassword");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "email", "NotEmpty.metabolightsUser.email");
+        ValidationUtils.rejectIfEmptyOrWhitespace(e, "affiliation", "NotEmpty.metabolightsUser.affiliation");
+        ValidationUtils.rejectIfEmptyOrWhitespace(e, "affiliationUrl", "NotEmpty.metabolightsUser.affiliationUrl");
+        ValidationUtils.rejectIfEmptyOrWhitespace(e, "address", "NotEmpty.metabolightsUser.address");
+
 
 		// Check email valid pattern (TODO: better use regex)
 		if (e.getFieldError("email")==null)

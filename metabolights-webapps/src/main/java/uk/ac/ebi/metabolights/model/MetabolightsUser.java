@@ -1,25 +1,16 @@
 package uk.ac.ebi.metabolights.model;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import uk.ac.ebi.metabolights.authenticate.AppRole;
+import uk.ac.ebi.metabolights.service.CountryService;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import uk.ac.ebi.metabolights.authenticate.AppRole;
-import uk.ac.ebi.metabolights.service.CountryService;
 
 /**
  * Represents a user of the Metabolights / Isatab application.
@@ -94,13 +85,16 @@ public class MetabolightsUser implements Serializable{
 	private String lastName;
 
 	@Column(name="ADDRESS")
+    @NotEmpty
 	private String address;
 
 	@Column(name="AFFILIATION")
+    @NotEmpty
 	private String affiliation;
 
 	@Column(name="AFFILIATION_URL")
-	private String affiliationUrl;
+	@NotEmpty
+    private String affiliationUrl;
 
 	// Extra Metabolights column to be able to create a user account
 	// that still needs approval. 
