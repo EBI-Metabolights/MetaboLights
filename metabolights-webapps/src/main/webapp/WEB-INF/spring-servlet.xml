@@ -127,7 +127,7 @@
 	
 	<!-- For EBI tomcat server deployment  -->
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-      	<property name="jndiName" value="java:comp/env/jdbc/metabolights/prod"/>  
+      	<property name="jndiName" value="java:comp/env/jdbc/metabolights/dev"/>  
       	<property name="resourceRef" value="true" /> 
 	</bean>
     
