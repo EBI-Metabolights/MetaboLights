@@ -280,13 +280,13 @@
 
 
         <!-- Kenneth - Changed from data-type="Ontology term" to data-type="List" -->
-        <field header="Study Publication Status" section="STUDY PUBLICATIONS" data-type="List"
+	<!-- Kenneth - Changed back as this does not work do to ISAcreator parser issues, Eamonn 20111024 -->
+        <field header="Study Publication Status" section="STUDY PUBLICATIONS" data-type="Ontology term"
                is-file-field="false" is-multiple-value="false"
                is-required="true">
             <description>The status of this publication, e.g. Published, Submitted, etc.
             </description>
             <default-value></default-value>
-            <list-values>Published,Submitted,Delayed,Rejected</list-values>
         </field>
 
 
@@ -388,13 +388,16 @@
         <!--Study Designs Section -->
 
         <!-- Kenneth - Changed from data-type="Ontology term" to List type -->
-        <field header="Study Design Type" section="STUDY DESIGN DESCRIPTORS" data-type="List" is-file-field="false"
+		<!-- Kenneth - Changed back as this does not work do to ISAcreator parser issues, Eamonn 20111024 
+	             - Changed description to include our suggested list values -->
+        <field header="Study Design Type" section="STUDY DESIGN DESCRIPTORS" data-type="Ontology term" is-file-field="false"
                is-multiple-value="false"
                is-required="true">
-            <description>The type of study design being employed, e.g. Observation, Intervention, Cross-Over, etc.
+            <description>
+		The type of study design being employed, Metabolomics/Metabonomics, Lipidomics, Metabolic Footprinting, Metabolic Fingerprinting, Targeted Profiling, Global Profiling.
             </description>
             <default-value>Metabolomics/Metabonomics</default-value>
-            <list-values>Metabolomics/Metabonomics,Lipidomics,Metabolic Footprinting,Metabolic Fingerprinting,Targeted Profiling,Global Profiling</list-values>
+            <list-values></list-values>
         </field>
 
         <!--Study Assays Section -->
