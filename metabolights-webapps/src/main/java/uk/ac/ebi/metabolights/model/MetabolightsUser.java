@@ -233,7 +233,18 @@ public class MetabolightsUser implements Serializable{
 		return status;
 	}
 
+
+    public Boolean isCurator(){
+        if (getRole().equals(1)) //Integer 1 is stored in the database if you are a curator
+            return true;
+
+        return false;
+    }
+
     public Integer getRole() {
+        if (role == null)  //Normal users don't have a role (only curators) so the default field is null
+            return 0;
+
         return role;
     }
 

@@ -1,25 +1,14 @@
 package uk.ac.ebi.metabolights.search;
 
+import org.apache.log4j.Logger;
+import org.apache.lucene.document.Document;
+import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.StringTokenizer;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.lucene.document.Document;
-
-import org.apache.log4j.Logger;
-
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 /**
  * Stores a BII Lucene Document and wraps it with accessors.
@@ -70,6 +59,7 @@ public class LuceneSearchResult {
 	public Document getDoc() {
 		return doc;
 	}
+
 	public void setDoc(Document doc) {
 		this.doc = doc;
 	}
@@ -101,6 +91,7 @@ public class LuceneSearchResult {
 	public List<String> getPlatforms() {
 		return platforms;
 	}
+
 	public HashMap<String,Set<String>> getFactors() {
 		return factors;
 	}
@@ -112,6 +103,7 @@ public class LuceneSearchResult {
 	public Submitter getSubmitter() {
 		return this.submitter;
 	}
+
 	public boolean getIsPublic(){
 		return this.isPublic;
 	}
@@ -130,10 +122,12 @@ public class LuceneSearchResult {
 	
 	public float getScore() {
 		return score;
-	}	
+	}
+
 	public Date getReleaseDate(){
 		return this.releaseDate;
 	}
+
 	public Date getSubmissionDate(){
 		return this.submissionDate;
 	}
@@ -141,7 +135,6 @@ public class LuceneSearchResult {
 	public List<Publication> getPublications() {
 		return publications;
 	}
-
 
 	/**
 	 * Holds assay information related to a study.
@@ -393,6 +386,7 @@ public class LuceneSearchResult {
 		}
 		return assays;
 	}
+
 	private HashMap<String,Set<String>> parseKeyValue(String fieldName){
 
 		HashMap<String,Set<String>> keyValue = new HashMap<String,Set<String>>();

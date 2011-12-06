@@ -70,8 +70,7 @@ public class StudyDAOImpl implements StudyDAO{
 			if (!auth.getPrincipal().equals(new String("anonymousUser"))){
 				MetabolightsUser principal = (MetabolightsUser) auth.getPrincipal();
 				userId = principal.getUserId();
-                if (principal.getRole() != null)
-                    curator = principal.getRole().equals(1); //Curator!
+                curator = principal.isCurator(); //To Curate or not to Curate....
 			}
 			
 			if (userId>0){

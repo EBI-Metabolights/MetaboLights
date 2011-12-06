@@ -1,18 +1,13 @@
 package uk.ac.ebi.metabolights.search;
 
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult.Assay;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Manages, store, parse and does everything related with the filter
@@ -116,7 +111,7 @@ public class Filter {
 		if (user.isEmpty()){
 			mystudies.setIsEnabled(false);
 			
-		}else{
+		} else {
 			//Lets disable also here
 			mystudies.setIsEnabled(false);
 			FilterItem fiMyStudies = new FilterItem("My studies",mystudies.getName());
@@ -221,11 +216,13 @@ public class Filter {
 			}
 		}
 	}
+
 	private void clearAllFilterItems(){
 		for (FilterSet fs:fss.values()){
 			fs.getFilterItems().clear();
 		}	
 	}
+
 	/**
 	 * Composes the query to be run into lucene search engine using the loaded parameters.
 	 * @return
@@ -267,26 +264,31 @@ public class Filter {
 		}
 						
 		//Add the filter for private studies...
-		luceneQuery = joinFilterTerms(getStatusFilter(), luceneQuery, "AND");
+        if (!getStatusFilter().isEmpty())
+		    luceneQuery = joinFilterTerms(getStatusFilter(), luceneQuery, "AND");
 		
 		return luceneQuery;
 		
 	}
 	
 	private String getStatusFilter(){
-		
-		//To start, all public studies can be retrieved
-		String statusFilter = "status:" + STATUS_PUBLIC;
-		
-		//If the user is not empty
-		if (!this.getUserName().isEmpty()){
-			//Add an or clause for the private ones the user owns
-			statusFilter = joinFilterTerms(statusFilter, "user:username\\:" + this.getUserName() + "*", "OR");
-		}
-		
+
+        if (getUser().isCurator()) //If you are a curator, display everything, so no filtering on status or username
+            return "status:P*";
+
+        //To start, all public studies can be retrieved
+        String statusFilter = "status:" + STATUS_PUBLIC;
+
+        //If the user is not empty
+        if (!getUserName().isEmpty()){
+            //Add an or clause for the private ones the user owns
+            statusFilter = joinFilterTerms(statusFilter, "user:username\\:" + this.getUserName() + "*", "OR");
+        }
+
 		//Return the filter
 		return statusFilter;
 	}
+
 	private String joinFilterTerms (String term1, String term2, String op){
 				
 		if(term1.isEmpty()) {return term2;}
@@ -303,6 +305,7 @@ public class Filter {
 			
 		return value;
 	}
+
 	public boolean getIsFilterLoadNeeded(){
 		return isFilterLoadNeeded;
 	}
@@ -367,21 +370,48 @@ public class Filter {
 		currentHits = resultSet.size();
 		
 	}
+
+    private MetabolightsUser getUser() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        MetabolightsUser user = new MetabolightsUser();
+
+        if (!auth.equals(new String("anonymousUser")) && auth.getPrincipal() instanceof MetabolightsUser )
+		     user = (MetabolightsUser) (auth.getPrincipal());
+
+        return user;
+
+    }
+
 	private String getUserName(){
-		
 		String userName = "";
 		
 		//If there is any user...
-		if ( SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof MetabolightsUser){
-		
-			//Get the user
-			MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		
-			userName =user.getUserName();
-		}
+		if ( getUser().getUserName() != null)
+			userName = getUser().getUserName();
 		
 		return userName;
 	}
+
+
+    private String getUserName2(){
+
+		String userName = "";
+
+		//If there is any user...
+		if ( SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof MetabolightsUser){
+
+			//Get the user
+			MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+			userName =user.getUserName();
+		}
+
+		return userName;
+	}
+
+
+
 	public Map<String,FilterSet> getFss(){
 		return fss;
 	}
