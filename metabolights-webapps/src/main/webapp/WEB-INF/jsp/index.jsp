@@ -11,7 +11,7 @@
 </c:if>
 
 <div style="margin-bottom:40px; padding-left:120px; padding-top:30px">
-   <img src="img/litehouseLogo.png" ></img> 
+   <img src="img/litehouseLogoBeta.png" />
 </div>
 
 <div class="text_header" style="text-align:center">

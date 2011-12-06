@@ -25,7 +25,7 @@ public class MetabolightsUser implements Serializable{
 	
 	public static enum UserStatus {
 		
-		NEW("NEW"), VERIFIED("VERIFIED"), ACTIVE("ACTIVE"), FROZEN("FROZEN"); 
+		NEW("NEW"), VERIFIED("VERIFIED"), ACTIVE("ACTIVE"), FROZEN("FROZEN");
 
 		private String val;
 		UserStatus(String val) {
@@ -34,7 +34,7 @@ public class MetabolightsUser implements Serializable{
 		public String getValue() {
 			return val;
 		}
-	}; 
+	};
 	
 	private static final long serialVersionUID = -775643268878161432L;
 
@@ -101,6 +101,9 @@ public class MetabolightsUser implements Serializable{
 	@Column(name="STATUS")
     @NotEmpty
 	private String status;
+
+    @Column(name="ROLE")
+    private Integer role;
 	
 	//_______________________________________________
 	// Getters and setters
@@ -229,5 +232,13 @@ public class MetabolightsUser implements Serializable{
 	public String getStatus() {
 		return status;
 	}
-	
+
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
 }

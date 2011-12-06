@@ -1,10 +1,5 @@
 package uk.ac.ebi.metabolights.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
@@ -20,8 +15,12 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class SearchServiceImpl implements SearchService{
@@ -32,7 +31,7 @@ public class SearchServiceImpl implements SearchService{
 	@Autowired
 	private IndexProviderService indexProvider; 
 		
-	public HashMap<Integer, List<LuceneSearchResult>> search(String QueryText) throws IOException, ParseException {	
+	public HashMap<Integer, List<LuceneSearchResult>> search(String QueryText) throws IOException, ParseException {
 		
 		List<LuceneSearchResult> resultSet = new ArrayList<LuceneSearchResult>(); 
 		Integer numDocs = 0;
@@ -44,7 +43,7 @@ public class SearchServiceImpl implements SearchService{
 		//Get the text
 		Query luceneQuery = buildQuery(QueryText);
 
-		TopDocs results = indexSearcher. search(luceneQuery,topN);
+		TopDocs results = indexSearcher.search(luceneQuery,topN);
 		logger.info("The query is now:"+luceneQuery.toString());
 		ScoreDoc[] hits = results.scoreDocs;
 		numDocs = results.totalHits;  //Total number of documents found

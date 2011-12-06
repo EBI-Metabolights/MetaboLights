@@ -126,12 +126,12 @@ public class BIISubmissionController extends AbstractController {
 	 */
 	@RequestMapping(value={"/submitComplete"})
 	public ModelAndView accountRequested(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it. 
+		ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it.
 		if (request.getSession().getAttribute("accessionsOK")!=null) {
 			mav = new ModelAndView("submitOk");
 			mav.addObject("accessions", request.getSession().getAttribute("accessionsOK"));
 			mav.addObject("cl", request.getSession().getAttribute("clOK"));
-			request.getSession().removeAttribute("accessionsOK");
+            request.getSession().removeAttribute("accessionsOK");
 			request.getSession().removeAttribute("clOK");
 		}
 		return mav;

@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.dao;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
@@ -17,7 +18,9 @@ import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.security.User;
+import uk.ac.ebi.bioinvindex.model.security.UserRole;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
+import uk.ac.ebi.metabolights.authenticate.AppRole;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 
@@ -60,21 +63,23 @@ public class StudyDAOImpl implements StudyDAO{
 		
 		if (!study.getStatus().equals(VisibilityStatus.PUBLIC)){ //If not PUBLIC then must be owned by the user
 			
-			Boolean validUser = false;
+			Boolean validUser = false, curator = false;
 			Long userId = new Long(0);
 			
 	 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (!auth.getPrincipal().equals(new String("anonymousUser"))){
 				MetabolightsUser principal = (MetabolightsUser) auth.getPrincipal();
 				userId = principal.getUserId();
+                if (principal.getRole() != null)
+                    curator = principal.getRole().equals(1); //Curator!
 			}
 			
 			if (userId>0){
-				Collection<User> users = study.getUsers();
+				Collection<User> users = study.getUsers();    //These are the users that have access to the Study, NOT the logged in user
 				Iterator<User> iter = users.iterator();
 				while (iter.hasNext()){
 					User user = (User) iter.next();
-					if (user.getId().equals(userId)){
+					if (user.getId().equals(userId) || curator ){
 						validUser = true;
 						break;
 					}
@@ -82,14 +87,14 @@ public class StudyDAOImpl implements StudyDAO{
 				
 			}
 			
-			if (!validUser){
+			if ( !validUser) {
 				Study invalidStudy = new Study();
 				invalidStudy.setAcc(VisibilityStatus.PRIVATE.toString());
 				invalidStudy.setDescription("This is a PRIVATE study, you are not Authorised to view this study.");
 				invalidStudy.setTitle("Please log in as the submitter.");
-				
-				return invalidStudy;
-				
+
+			    return invalidStudy;
+
 			}
 				
 		}  // Study PUBLIC

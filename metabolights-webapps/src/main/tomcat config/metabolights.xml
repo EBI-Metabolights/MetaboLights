@@ -4,7 +4,7 @@
          charsetMapperClass="org.apache.catalina.util.CharsetMapper"
          crossContext="false"
          debug="1"
-         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp.war"
+         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp-production.war"
          mapperClass="org.apache.catalina.core.StandardContextMapper"
          path="/metabolights"
          privileged="false"
@@ -17,7 +17,7 @@
     <!-- Stop sessions being recovered from disk on server restart. -->
     <Manager className="org.apache.catalina.session.StandardManager" pathname=""/>
 
-<Resource name="jdbc/metabolights/prod" auth="Container"
+<Resource name="jdbc/metabolights/production" auth="Container"
 	type="oracle.jdbc.pool.OracleDataSource"
 	factory="oracle.jdbc.pool.OracleDataSourceFactory"
 	connectionCachingEnabled="true"

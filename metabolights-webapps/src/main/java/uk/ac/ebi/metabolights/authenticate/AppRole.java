@@ -11,7 +11,7 @@ public enum AppRole implements GrantedAuthority {
 
     // not used:
     ROLE_SUPER_USER (1),
-    ROLE_WANKER (2);
+    ROLE_NA(2);
 
     private final int bit;
 
