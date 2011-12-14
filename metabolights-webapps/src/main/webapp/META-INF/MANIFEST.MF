@@ -1,3 +1,30 @@
 Manifest-Version: 1.0
-Class-Path: 
+Class-Path: tiles-api-2.2.2.jar tiles-core-2.2.2.jar commons-digester-
+ 2.0.jar commons-beanutils-1.8.0.jar jcl-over-slf4j-1.5.8.jar slf4j-ap
+ i-1.6.2.jar tiles-jsp-2.2.2.jar tiles-servlet-2.2.2.jar tiles-templat
+ e-2.2.2.jar validation-api-1.0.0.GA.jar commons-io-2.0.1.jar commons-
+ pool-1.5.6.jar commons-fileupload-1.2.2.jar commons-dbcp-1.4.jar slf4
+ j-log4j12-1.6.2.jar log4j-1.2.16.jar hibernate-validator-4.0.2.GA.jar
+  jaxb-api-2.1.jar stax-api-1.0-2.jar activation-1.1.jar jaxb-impl-2.1
+ .3.jar hibernate-search-analyzers-3.4.0.Final.jar lucene-core-2.9.2.j
+ ar lucene-analyzers-3.1.0.jar solr-analysis-extras-3.1.0.jar solr-cor
+ e-3.1.0.jar solr-solrj-3.1.0.jar lucene-highlighter-3.1.0.jar lucene-
+ memory-3.1.0.jar lucene-misc-3.1.0.jar lucene-spatial-3.1.0.jar lucen
+ e-spellchecker-3.1.0.jar solr-commons-csv-3.1.0.jar commons-codec-1.2
+ .jar commons-lang-2.4.jar lucene-smartcn-3.1.0.jar lucene-stempel-3.1
+ .0.jar c3p0-0.9.1.2.jar jstl-1.2.jar servlet-api-2.5.jar xml-apis-1.0
+ .b2.jar commons-collections-3.2.1.jar commons-httpclient-3.1.jar comm
+ ons-logging-1.0.4.jar slf4j-simple-1.6.2.jar javassist-3.12.1.GA.jar 
+ ISAtools-import-deps-FORK-1.2.1.11.jar hibernate-annotations-3.4.0.GA
+ .jar ejb3-persistence-1.0.2.GA.jar hibernate-commons-annotations-3.1.
+ 0.GA.jar hibernate-core-3.3.0.SP1.jar antlr-2.7.6.jar dom4j-1.6.1.jar
+  jta-1.1.jar ojdbc6-11.2.0.2.jar spring-context-3.1.0.M2.jar spring-a
+ op-3.1.0.M2.jar aopalliance-1.0.jar spring-asm-3.1.0.M2.jar spring-be
+ ans-3.1.0.M2.jar spring-core-3.1.0.M2.jar spring-expression-3.1.0.M2.
+ jar spring-orm-3.1.0.M2.jar spring-jdbc-3.1.0.M2.jar spring-tx-3.1.0.
+ M2.jar spring-web-3.1.0.M2.jar spring-security-core-3.1.0.RC1.jar asp
+ ectjrt-1.6.10.jar spring-security-config-3.1.0.M2.jar aspectjweaver-1
+ .6.10.jar spring-security-taglibs-3.1.0.M2.jar spring-security-acl-3.
+ 1.0.M2.jar spring-security-web-3.1.0.M2.jar spring-context-support-3.
+ 1.0.M2.jar spring-webmvc-3.0.5.RELEASE.jar
 
