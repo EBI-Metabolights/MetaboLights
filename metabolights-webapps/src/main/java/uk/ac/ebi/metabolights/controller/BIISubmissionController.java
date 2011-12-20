@@ -114,6 +114,7 @@ public class BIISubmissionController extends AbstractController {
 		} catch (Exception e){
 			
 			ModelAndView mav = new ModelAndView("submitError");
+			logger.error(e);
 			mav.addObject("cl", cl);
 			mav.addObject("error", e);
 			return mav;
@@ -223,7 +224,7 @@ public class BIISubmissionController extends AbstractController {
 		
 		// Set the CheckList to get feedback
 		itu.setCheckList(cl);
-		
+				
 		// Upload the file
 		return itu.Upload();
 	}
