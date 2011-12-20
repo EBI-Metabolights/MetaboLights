@@ -24,7 +24,12 @@ public class StableIdDAOImpl implements StableIdDAO {
 
 		logger.debug("retrieving StableId");
 		StableId stableId = (StableId) q.uniqueResult();
-		logger.debug("Got StableId sequence =" +stableId.getSeq());
+		
+		if (stableId != null){
+			logger.debug("Got StableId sequence = " + stableId.getSeq());
+		}else{
+			logger.debug("WARNING: No StableId");
+		}
 
 		return stableId;
 	}
