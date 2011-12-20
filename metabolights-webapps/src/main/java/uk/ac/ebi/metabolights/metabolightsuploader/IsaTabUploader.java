@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 @Service
 public class IsaTabUploader {
 	
@@ -43,6 +46,9 @@ public class IsaTabUploader {
 	private String unzipFolder;
 	private String copyToPublicFolder;
 	private String copyToPrivateFolder;
+	
+	//@PersistenceContext(unitName = "sessionFactory")
+    EntityManager entityManager;
 	
 	private SimpleManager sm = new SimpleManager();
 	
@@ -189,9 +195,9 @@ public class IsaTabUploader {
 		
 		//Replace the id
 		itir.Execute();
-			
+		
 		//Load the isatab file
-		result = sm.loadISATab(this.unzipFolder, owner,status);
+		result = sm.loadISAtab(this.unzipFolder, owner,status);
 		
 		// If not SUCCESS...
 		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("File persistance process has failed.",sm.getLastLog()) ;
@@ -474,7 +480,7 @@ public class IsaTabUploader {
 	 */
 	public void unloadISATabFile(String studyList) throws IsaTabException{
 		
-		GUIInvokerResult result = sm.unLoadISATab(studyList);
+		GUIInvokerResult result = sm.unLoadISAtab(studyList);
 		
 		if (result != GUIInvokerResult.SUCCESS){
 			
