@@ -310,6 +310,9 @@ public class IsaTabIdReplacer
 		
 		logger.info("Replacing ids in file -->" + fileWithId.getAbsolutePath());
 		
+		// Reset number of studies.
+		singleStudy= 0;
+		
 		try {
 			//Use a buffered reader
 			BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
