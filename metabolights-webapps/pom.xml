@@ -178,15 +178,10 @@
         	<scope>compile</scope>
         </dependency>
 		<dependency>
-			<groupId>org.isatools.isatab</groupId>
-			<artifactId>ISAtools-import-deps-FORK</artifactId>
-			<version>1.2.1.11</version>
-			<type>jar</type>
-			<!-- 			
-			<groupId>org.isatools</groupId>
-			<artifactId>import_layer_FORK</artifactId>
-			<version>1.3.2-SNAPSHOT</version> 
-			-->
+        	<groupId>org.isatools</groupId>
+        	<artifactId>ISAtools-import-deps-MTBLS</artifactId>
+        	<version>1.3.2.2-SNAPSHOT</version>
+        	<type>jar</type>
 			<exclusions>
 				<exclusion>
 					<artifactId>hibernate-core</artifactId>
