@@ -12,6 +12,7 @@ import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
+import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,9 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Service
 public class IsaTabUploader {
@@ -184,7 +182,7 @@ public class IsaTabUploader {
 		GUIInvokerResult result = sm.validateISAtab(this.unzipFolder);
 		
 		// If not SUCCESS...
-		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("Validation process before persisting has failed",sm.getLastLog()) ;
+		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("We could not successfully validate the study archive.",sm.getLastLog()) ;
 				
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.

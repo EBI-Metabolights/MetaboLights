@@ -191,9 +191,9 @@ public class Filter {
 		//If text from the request equals the previous one...
 		if (freeTextQueryFromRequest == null){
 			isFilterLoadNeeded = true;
-		}else if(freeTextQueryFromRequest.equals(freeTextQuery)){
+		} else if (freeTextQueryFromRequest.equals(freeTextQuery)){
 			isFilterLoadNeeded = false;
-		}else{
+		} else {
 
 			//Update free text query with the new one
 			freeTextQuery = freeTextQueryFromRequest;
@@ -231,7 +231,6 @@ public class Filter {
 		
 		//Start with the freeTextQuery
 		String luceneQuery = freeTextQuery.isEmpty()? "" :  value2Lucene("*" + freeTextQuery + "*") ;
-		
 				
 		//Go through the Filters set
 		for (Entry<String,FilterSet> entry: fss.entrySet()){
@@ -301,7 +300,8 @@ public class Filter {
 	private String value2Lucene(String value){
 		
 		//Replace special characters...
-		value = value.replace(":","\\:").replace(" ", "\\ ").replace("(", "\\(").replace(")","\\)");
+		value = value.replace(":","\\:").replace(" ", "\\ *").replace("(", "\\(").replace(")","\\)");
+        value = value.toLowerCase();
 			
 		return value;
 	}
