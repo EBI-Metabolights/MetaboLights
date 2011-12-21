@@ -4,7 +4,7 @@
          charsetMapperClass="org.apache.catalina.util.CharsetMapper"
          crossContext="false"
          debug="1"
-         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp-production.war"
+         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp-dev.war"
          mapperClass="org.apache.catalina.core.StandardContextMapper"
          path="/metabolights"
          privileged="false"

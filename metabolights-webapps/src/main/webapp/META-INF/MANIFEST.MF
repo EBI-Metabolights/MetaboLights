@@ -26,5 +26,6 @@ Class-Path: tiles-api-2.2.2.jar tiles-core-2.2.2.jar commons-digester-
  ectjrt-1.6.10.jar spring-security-config-3.1.0.M2.jar aspectjweaver-1
  .6.10.jar spring-security-taglibs-3.1.0.M2.jar spring-security-acl-3.
  1.0.M2.jar spring-security-web-3.1.0.M2.jar spring-context-support-3.
- 1.0.M2.jar spring-webmvc-3.0.5.RELEASE.jar
+ 1.0.M2.jar spring-webmvc-3.0.5.RELEASE.jar i mport_layer_MTBLS-1.3.2.
+ 2-SNAPSHOT.jar
 
