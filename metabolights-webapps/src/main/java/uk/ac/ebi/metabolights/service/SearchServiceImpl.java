@@ -80,7 +80,8 @@ public class SearchServiceImpl implements SearchService{
                  "investigation_acc",
                  "investigation_description",
                  "investigation_title",
-                 "user"
+                 "user",
+                 "Metabolites_identifier", "Metabolites_description"
                };
 
         PerFieldAnalyzerWrapper aWrapper =

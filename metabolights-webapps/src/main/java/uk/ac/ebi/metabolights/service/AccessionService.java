@@ -20,5 +20,7 @@ package uk.ac.ebi.metabolights.service;
 public interface AccessionService {
 
     public String getAccessionNumber();
+    public String getDefaultPrefix ();
+    public void setDefaultPrefix(String defaultPrefix);
 
 }
