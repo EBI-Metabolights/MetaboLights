@@ -12,7 +12,6 @@ import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
-import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -46,7 +45,13 @@ public class IsaTabUploader {
 	private String copyToPrivateFolder;
 	
 	//@PersistenceContext(unitName = "sessionFactory")
-    EntityManager entityManager;
+    //Object em;
+    //private EntityManagerFactory emf;
+
+    //@PersistenceUnit
+    //public void setEntityManagerFactory(EntityManagerFactory emf) {
+    //    this.emf = emf;
+    //}
 	
 	private SimpleManager sm = new SimpleManager();
 	
