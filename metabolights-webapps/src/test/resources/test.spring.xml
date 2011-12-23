@@ -21,7 +21,7 @@
     <context:annotation-config/>
 
     <!--  register the application properties -->
-    <util:properties id="appProperties" location="classpath:src/main/resources/application.properties"/>
+    <util:properties id="appProperties" location="classpath:application.properties"/>
 
     <!--  
       Database connection 
@@ -35,6 +35,8 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
  
+    <!-- read settings from application.properties file
+         NB! only for local testing -->
     <bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
 		<property name="driverClass" value="${hibernate.connection.driver_class}"/>
 		<property name="initialPoolSize" value="1"/>
