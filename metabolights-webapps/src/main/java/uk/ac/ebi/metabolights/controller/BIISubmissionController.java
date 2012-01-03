@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,6 +100,10 @@ public class BIISubmissionController extends AbstractController {
 			//Upload to BII
 			HashMap<String,String> accessions = uploadToBii(isaTabFile, status, cl, publicDate);
 			
+			// Clean directory
+			new File(isaTabFile).delete();
+			FileUtil.deleteDir(new File(itu.getUnzipFolder()));
+			
 			//Log it
 			logger.info(PropertyLookup.getMessage("BIISubmit.newAccNumbers") + accessions);
 			if (publicDate != null){ //The submitter picked the public date
@@ -110,7 +116,7 @@ public class BIISubmissionController extends AbstractController {
 			httpSession.setAttribute("clOK", cl);
 			
 	    	return new ModelAndView("redirect:submitComplete");
-
+	    	
 		} catch (Exception e){
 			
 			ModelAndView mav = new ModelAndView("submitError");
@@ -224,11 +230,11 @@ public class BIISubmissionController extends AbstractController {
 		
 		// Set the CheckList to get feedback
 		itu.setCheckList(cl);
-				
+		
 		// Upload the file
 		return itu.Upload();
 	}
-
+	
 	/**
 	 * Returns a default configured uploader. After it you may probably need to set:
 	 * UnzipFolder
