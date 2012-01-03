@@ -179,8 +179,8 @@
         </dependency>
 		<dependency>
         	<groupId>org.isatools</groupId>
-        	<artifactId>import_layer_MTBLS</artifactId>
-        	<version>1.3.2.2-SNAPSHOT</version>
+        	<artifactId>ISAtools-import-deps-MTBLS</artifactId>
+        	<version>1.3.2.3-SNAPSHOT</version>
         	<type>jar</type>
 			<exclusions>
 				<exclusion>

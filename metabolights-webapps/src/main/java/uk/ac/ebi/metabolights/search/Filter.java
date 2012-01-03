@@ -230,7 +230,7 @@ public class Filter {
 	public String getLuceneQuery(){
 		
 		//Start with the freeTextQuery
-		String luceneQuery = freeTextQuery.isEmpty()? "" :  value2Lucene("*" + freeTextQuery + "*") ;
+		String luceneQuery = freeTextQuery.isEmpty()? "" :  value2Lucene("*" + freeTextQuery + "*", true) ;
 				
 		//Go through the Filters set
 		for (Entry<String,FilterSet> entry: fss.entrySet()){
@@ -252,7 +252,7 @@ public class Filter {
 				//If filter item id checked
 				if (fi.getIsChecked()){
 					//Join terms with an OR
-					luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix()) , "OR") ;
+					luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix(), false) , "OR") ;
 				}
 				
 			}
@@ -297,11 +297,13 @@ public class Filter {
 		
 	}
 	
-	private String value2Lucene(String value){
+	private String value2Lucene(String value, Boolean toLower){
 		
 		//Replace special characters...
 		value = value.replace(":","\\:").replace(" ", "\\ *").replace("(", "\\(").replace(")","\\)");
-        value = value.toLowerCase();
+        
+        if (toLower)
+            value = value.toLowerCase();
 			
 		return value;
 	}
