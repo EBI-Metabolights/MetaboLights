@@ -254,7 +254,7 @@ a {
 #resultList li {
 	text-indent: 5px;
 	list-style-position: outside;
-	list-style-image: url(../img/brownBullet.jpg);
+	list-style-image: url(../img/orangeBullet.jpg);
 	list-style-type: square;
 	padding: 2px;
 	margin: 0px;
@@ -263,7 +263,7 @@ a {
 #resultListText li {
     text-indent: 0px;
     list-style-position: outside;
-    list-style-image: url(../img/brownBullet.jpg);
+    list-style-image: url(../img/orangeBullet.jpg);
 	list-style-type: square;
     padding: 2px;
     margin: 0px;
