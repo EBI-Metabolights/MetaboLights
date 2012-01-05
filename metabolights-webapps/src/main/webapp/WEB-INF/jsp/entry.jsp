@@ -79,19 +79,11 @@ $(function() {
 });
 </script>
 
-<script>
-
-$(function() {
-	$("#aff2").attr('title', 'This is the hover-over text');
-});
-
-</script>
-
-<div class="text_header">
+<div class="text_header" style='height:46px'>
 	<c:if test="${not empty ftpLocation}">
 		<div style='width:20%; float:right'><IMG src="img/ebi-icons/32px/download.png" class="img_alignment_yellow"> <a href="${ftpLocation}"> <spring:message code="label.ftpDownload"/></a></div>
 	</c:if>
-	<div style='width:80%'>${study.acc}: ${study.title}</div>	
+	<div style='width:75%'>${study.acc}: ${study.title}</div>
 </div>
 
 <div class="formbox border">
