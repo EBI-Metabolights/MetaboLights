@@ -79,38 +79,43 @@ $(function() {
 });
 </script>
 
+<script>
+
+$(function() {
+	$("#aff2").attr('title', 'This is the hover-over text');
+});
+
+</script>
 
 <div class="text_header">
-	${study.acc}: ${study.title}
+	<c:if test="${not empty ftpLocation}">
+		<div style='width:20%; float:right'><IMG src="img/ebi-icons/32px/download.png" class="img_alignment_yellow"> <a href="${ftpLocation}"> <spring:message code="label.ftpDownload"/></a></div>
+	</c:if>
+	<div style='width:80%'>${study.acc}: ${study.title}</div>	
 </div>
 
 <div class="formbox border">
-		<br/>
-        <c:if test="${not empty study.submissionDate || not empty study.releaseDate}">
-            <br><br>
-            <c:if test="${not empty study.submissionDate}"><spring:message code="label.subDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/>&nbsp;&nbsp;</c:if>
-            <c:if test="${not empty study.releaseDate}"><spring:message code="label.releaseDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></c:if>
+
+       <c:if test="${not empty study.contacts}">
+            <br>
+            <c:forEach var="contact" items="${study.contacts}">
+                <span id="aff" 
+                	<c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>
+                >${contact.firstName} ${contact.lastName},</span>
+            </c:forEach>
+			<br/>
         </c:if>
 
-        <c:if test="${not empty study.contacts}">
-            <br><br>
-            <b>Contact</b>
-            <ul id="resultList">
-                <c:forEach var="contact" items="${study.contacts}">
-                    <li>${contact.firstName} ${contact.lastName} <c:if test="${not empty contact.email}">(${contact.email})</c:if><c:if test="${not empty contact.affiliation}">- ${contact.affiliation}</c:if></li>
-                </c:forEach>
-            </ul>
+        <c:if test="${not empty study.submissionDate || not empty study.releaseDate}">
+            <br>
+            <c:if test="${not empty study.submissionDate}"><spring:message code="label.subDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/>&nbsp;&nbsp;</c:if>
+            <c:if test="${not empty study.releaseDate}"><spring:message code="label.releaseDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></c:if>
         </c:if>
         
 	    <c:if test="${not empty study.description}">
    		     <br><br><span style="text-align:justify"><div id="description">${study.description}</div></span>
 	    </c:if>
-  
-        <c:if test="${not empty ftpLocation}">
-            <br>
-            <IMG src="img/ebi-icons/32px/download.png" class="img_alignment_yellow"> <a href="${ftpLocation}"> <spring:message code="label.ftpDownload"/></a>
-            <br><br>
-		</c:if>
+ 		<br>
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1"><spring:message code="label.studyDesign"/></a></li>
