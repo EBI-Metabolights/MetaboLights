@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
+import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.security.UserRole;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
@@ -104,6 +105,7 @@ public class StudyDAOImpl implements StudyDAO{
 		Hibernate.initialize(study.getContacts());
 		Hibernate.initialize(study.getAnnotations());
 		Hibernate.initialize(study.getPublications());
+		Hibernate.initialize(study.getAssays());
 		//Hibernate.initialize(study.getUsers());
 
 		Collection<AssayResult> assayResults = study.getAssayResults();
@@ -115,6 +117,11 @@ public class StudyDAOImpl implements StudyDAO{
 			}
 			Hibernate.initialize(assayResult.getCascadedPropertyValues());
 			Hibernate.initialize(assayResult.getAssays());
+			
+			for (Assay assay: assayResult.getAssays()){
+				Hibernate.initialize(assay.getAnnotations());
+			}
+			
 		}
 		Hibernate.initialize(study.getProtocols());
 		

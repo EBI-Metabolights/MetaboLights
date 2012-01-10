@@ -5,14 +5,17 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
+import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
+import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
@@ -24,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -65,6 +69,7 @@ public class EntryController extends AbstractController {
 		ModelAndView mav = new ModelAndView("entry");
 		mav.addObject("study", study);
 		mav.addObject("organismNames", organismNames);
+		mav.addObject("assays", getMLAssays(study));
         if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))    //User is not authorised to view this study
             mav.addObject("ftpLocation",ftpLocation);
 
@@ -75,6 +80,39 @@ public class EntryController extends AbstractController {
         }
 		return mav;
 	}
+	private Collection<MLAssay> getMLAssays(Study study){
+		
+		HashMap<String,MLAssay> mlAssays = new HashMap<String, MLAssay>();
+		
+		for (AssayResult ar : study.getAssayResults()){
+			
+			MLAssay mlAssay= null;
+			
+			for (Assay assay: ar.getAssays()){
+				
+				String assayName = MLAssay.getAssayNameFromAssay(assay);
+				
+				
+				// If we don't have the MLAssay
+				if (!mlAssays.containsKey(assayName)){
+					mlAssay = new MLAssay(assay);
+					mlAssays.put(assayName, mlAssay);
+				} else {
+					mlAssay = mlAssays.get(assayName);
+				}
+				
+				mlAssay.addAssayLines(assay);
+				
+			}
+			
+			// Add the assay line to the assay
+			mlAssay.addAssayResult(ar);
+
+		}
+		return mlAssays.values();
+		
+	}
+
 	
 	@RequestMapping(value = "/privatefiles/{file_name}")
 	public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response, Principal principal) {
