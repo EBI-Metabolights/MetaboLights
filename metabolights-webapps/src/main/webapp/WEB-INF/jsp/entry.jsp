@@ -5,6 +5,7 @@
 <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js"></script>
 
+ 
 <script language="javascript">
 	function toggle(anctag,darg,showMsg,hideMsg) 
 	{
@@ -22,8 +23,6 @@
 	  }
 	}
 </script>
-
-
 <script language="Javascript" type="text/javascript">
 
 function createRequestObject() {
@@ -116,100 +115,94 @@ $(function() {
 				<!--li><a href="#tabs-4"><spring:message code="label.metaboliteIdentification"/></a></li-->
 			</ul>
 			<div id="tabs-1">
-		        <c:if test="${not empty study.objective}">
-		            <br><br>${study.objective}
-		        </c:if>
 		        <c:if test="${not empty organismNames}">
-		            <BR>
-		            <BR><b>Organism(s): </b>
-		            <c:forEach var="organismName" items="${organismNames}" >
-		                ${organismName}
-		            </c:forEach>
+		            <br/>
+		            <fieldset>
+		            	<legend><spring:message code="label.organisms"/>:</legend>
+			            <br/>
+			            <c:forEach var="organismName" items="${organismNames}" >
+			                ${organismName}<br/>
+			            </c:forEach>
+		            </fieldset>
 		        </c:if>
+
+		        <c:if test="${not empty study.objective}">
+		            <br/>
+		            <fieldset>
+		            	<legend><spring:message code="label.studyDesign"/></legend>
+			            <br><br>${study.objective}
+			       </fieldset>
+		        </c:if>
+
 		        <c:if test="${not empty study.publications}">
-		            <br><br>
-		            <c:forEach var="pub" items="${study.publications}">
-		                <IMG src="img/ebi-icons/32px/book.png" class="img_alignment_green"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a> 
-		                <BR>
-		            </c:forEach>
-		            <br>
+					<br/>
+		            <fieldset>
+		            	<legend><spring:message code="label.publications"/></legend>
+						<c:forEach var="pub" items="${study.publications}">
+							<br/>
+		                	<IMG src="img/ebi-icons/32px/book.png" class="img_alignment_green"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a> 
+		            	</c:forEach>
+		            	<br>
+		            </fieldset>
 		        </c:if>
+		        <c:if test="${not empty study.objective}">
+		        	<br/>
+		            <fieldset>
+		            	<legend><spring:message code="label.studyFactors"/></legend>
+			            <br>Go and get them...lazy man.
+			        </fieldset>
+		        </c:if>
+		        
 			</div>
 			<div id="tabs-2">
 				<c:if test="${not empty study.protocols}">
-		            <ul id="resultListText">
-		                <c:forEach var="protocol" items="${study.protocols}" begin="0" end="1" step="1">
-		                    <li>${protocol.name} ${protocol.version}
-		                    <BR><span style="color:#666666">${protocol.description}</span> </li>
-		                </c:forEach>
-		            </ul>
-		            <c:if test="${fn:length(study.protocols) > 2 }">
-		                <br>
-		                <p><a href="javascript:toggle('protTag','moreProtocols2','Show all protocols', 'Hide protocols below');" id="protTag">Show all protocols</a> <p>
-		                <br>
-		                <div id="moreProtocols2" style="display:none">
-		                    <ul id="resultListText">
-		                        <c:forEach var="protocol" items="${study.protocols}" begin="2" step="1">
-		                            <li>${protocol.name} ${protocol.version}
-		                            <BR><span style="color:#666666">${protocol.description}</span> </li>
-		                        </c:forEach>
-		                    </ul>
-		                </div>
-		            </c:if>
+		            <table width="100%">
+						<thead class='text_header'>
+							<tr>
+								<th>Protocol</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>	
+			                <c:forEach var="protocol" items="${study.protocols}" varStatus="loopStatus">
+	                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
+			                    	<td class="tableitem">${protocol.name}</td>
+			                    	<td class="tableitem">${protocol.description}</td>
+			                    </tr>
+			                </c:forEach>
+		            	</tbody>
+		            </table>
 		        </c:if>
 			</div> <!-- ends tabs-2 -->
 			<div id="tabs-3">
-				<c:if test="${not empty study.assayResults}">
-		            <ul id="resultList">
-		                <c:forEach var="assayResult" items="${study.assayResults}" begin="0" end="1" step="1">
-		                    <li>${assayResult.data.name}</li>
-		                    <ul id="resultList">
-		                    <c:set var="prev" value=""/>
-		                    <c:forEach var="assay" items="${assayResult.assays}">
-		                       <c:if test="${prev ne assay.technologyName}"> 
-		                            <!-- if tests prevents duplicate lines on the screen -->                               
-		                            <li>${assay.technologyName} - ${assay.measurement.name} -  ${assay.assayPlatform}</li>
-		                       </c:if>
-		                       <c:set var="prev" value="${assay.technologyName}"/>
-		                    </c:forEach>
-		                    </ul>
-		                    <ul id="resultList">
-		                    <c:forEach var="fv" items="${assayResult.data.factorValues}">
-		                            <li>${fv.type.value}: ${fv.value} ${fv.unit.value}</li>
-		                    </c:forEach>
-		                    </ul>
-		                    <hr>
-		                </c:forEach>
-		             </ul>
-		             <c:if test="${fn:length(study.assayResults) > 2 }">
-	                    <p><a href="javascript:toggle('assTag','moreAssays2','Show all assays', 'Hide assays below');" id="assTag">Show all assays</a> <p>
-	                    <br>
-	                    <div id="moreAssays2"  style="display:none" >
-	                       	<ul id="resultList">
-	                        <c:forEach var="assayResult" items="${study.assayResults}" begin="2" step="1">
-	                            <li>${assayResult.data.name}</li>
-	                            <ul id="resultList">
-	                            <c:set var="prev" value=""/>
-	                            <c:forEach var="assay" items="${assayResult.assays}">
-	                               <c:if test="${prev ne assay.technologyName}"> 
-	                                    <!-- if tests prevents duplicate lines on the screen -->                               
-	                                    <li>${assay.technologyName} - ${assay.measurement.name} -  ${assay.assayPlatform}</li>
-	                               </c:if>
-	                               <c:set var="prev" value="${assay.technologyName}"/>
-	                            </c:forEach>
-	                            </ul>
-	                            <c:if test="${not empty assayResult.data.factorValues}">
-		                            <ul id="resultList">
-		                            <c:forEach var="fv" items="${assayResult.data.factorValues}">
-		                                    <li>${fv.type.value}: ${fv.value} ${fv.unit.value}</li>
-		                            </c:forEach>
-		                            </ul>
-	                            </c:if>
-	                            <hr>
-	                        </c:forEach>
-	                        </ul>
-	                    </div>
-	                </c:if>
+				<c:if test="${not empty assays}">
+	                <c:forEach var="assay" items="${assays}">
+						<br/>
+						<br/>
+			            <table width="100%">
+							<thead class='text_header'>
+								<tr>
+									<th>Raw Data Group</th>
+									<th>Raw Data Name</th>
+									<!-- Add one column per factor -->
+									<c:forEach var="factor" items="${assay.factors}">
+										<th>${factor.value}</th>
+									</c:forEach>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="assayResult" items="${assay.assayResult}" varStatus="loopStatus">	
+	                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
+			                    	<td class="tableitem">${assay.fileName}</td>
+	                    			<td class="tableitem">${assay.technology} - ${assay.measurement} -  ${assay.platform}</td>
+	                    			<c:forEach var="fv" items="${assayResult.data.factorValues}">
+	                    				<td class="tableitem">${fv.value} ${fv.unit.value}</td>
+	                    			</c:forEach>
+			                    </tr>
+			                    </c:forEach>
+			            	</tbody>
+			            </table>
+	                </c:forEach>
 		        </c:if>
 			</div> <!--  ends tabs-3 -->
 		</div> <!-- end tabs -->
