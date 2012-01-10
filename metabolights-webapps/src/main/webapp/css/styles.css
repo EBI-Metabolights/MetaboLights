@@ -204,6 +204,15 @@ a {
 .tableheader {
     padding: 10px 10px 10px 10px;
 }
+/* Table data styles*/
+.tableitem {
+    margin-top:10px;
+    padding-top:10px;
+    padding-left:10px;
+    padding-bottom:10px;
+	padding-right:10px;
+}
+
 
 /* paging */
 #content p {
