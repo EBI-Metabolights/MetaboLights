@@ -94,7 +94,7 @@ public class IsaTabIdReplacer
 		
 		//Check the arguments. 2 is needed.
 		if (args.length != 2){
-			System.out.println("2 argument is required: 1st IsaFolder, 2dn Submission Date");
+			System.out.println("2 arguments are required. 1: IsaFolder, 2: Submission Date");
 			return;
 		}
 		
@@ -256,8 +256,7 @@ public class IsaTabIdReplacer
 		
 		// Get the investigation file
 		File isaTabFile = getInvestigationFile();
-		
-		
+
 		logger.info("Loading investigation file");
 		
 		// Replace the id
@@ -312,6 +311,9 @@ public class IsaTabIdReplacer
 		
 		// Reset number of studies.
 		singleStudy= 0;
+
+        //Set the new accession number, one per file  (Investigation Id and Study Id)
+        String accessionNumber = getAccessionService().getAccessionNumber();
 		
 		try {
 			//Use a buffered reader
@@ -323,7 +325,7 @@ public class IsaTabIdReplacer
 			{
 
 				if (!checkIfMetaboliteProfiling(line)){    //Check if this is metabolite profiling
-					String errTxt = "Only metabolite profiling allowed";  //Todo, read error text from properties
+					String errTxt = "Only metabolite profiling accepted in MetaboLights";  //Todo, read error text from properties
 					reader.close();
 					logger.error(errTxt);
 					System.err.println(errTxt);
@@ -331,7 +333,7 @@ public class IsaTabIdReplacer
 				}
 
 				if (singleStudy>1){  //If we already have assigned a study, fail the upload
-					String errTxt = "Only one study per submission allowed";  //Todo, read error text from properties
+					String errTxt = "Only one study per submission accepted in MetaboLights";  //Todo, read error text from properties
 					reader.close();
 					logger.error(errTxt);
 					System.err.println(errTxt);
@@ -340,7 +342,8 @@ public class IsaTabIdReplacer
 					
 				//Replace Id in line (if necessary), also check for multiple studies reported
 				if (studyIdToUse == null){
-					line = replaceIdInLine(line);
+                    //Pass in the accession number to use for both study and investigation accession (same id per submission)
+					line = replaceIdInLine(line, accessionNumber);
 				}
 				
 				//Replace public release date for this study
@@ -364,7 +367,7 @@ public class IsaTabIdReplacer
 		
 	}
 	
-	private String replaceIdInLine(String line){
+	private String replaceIdInLine(String line, String accessionNumber){
 		
 	    //For each id...
 	    for (int i=0;i<idList.length;i++) {
@@ -378,14 +381,14 @@ public class IsaTabIdReplacer
 	    	  logger.info("Id found in line " + line);
 	    	
 	    	  //Get the accession number
-	    	  String accession = getAccessionService().getAccessionNumber();
+	    	  //String accession = getAccessionService().getAccessionNumber();        //Moved outside this method to ensure the same id used for both study and investigation
 	    	  
 	    	  //Get the Id Value (i.e.: BII-1-S)
 	    	  String idInitialValue = StringUtils.replace(line, id + "\t\"", "");
 	    	  idInitialValue = StringUtils.truncate(idInitialValue);
 	    	  
 	    	  //Compose the line:         Study Identifier   "MTBL1"
-	    	  line = id + "\t\"" + accession + "\"";
+	    	  line = id + "\t\"" + accessionNumber + "\"";
 	    	  
 	    	  //If the value is a study identifier
 	    	  //This is necessary for the uploading using command line tools.
@@ -399,9 +402,9 @@ public class IsaTabIdReplacer
 	    		//Populate the list of new accession numbers (initialized in Execute method)
 				//accessionNumberList = accessionNumberList + accession + " ";
 				//initialIdValuesList = initialIdValuesList + idInitialValue + " ";
-	    		ids.put(idInitialValue, accession);
+	    		ids.put(idInitialValue, accessionNumber);
                 //setStudyIdToUse(accession);
-	    		logger.info("Study identifier " + idInitialValue + " replaced with " +accession);
+	    		logger.info("Study identifier " + idInitialValue + " replaced with " +accessionNumber);
 	    		
 	    	  }
 	    		  
