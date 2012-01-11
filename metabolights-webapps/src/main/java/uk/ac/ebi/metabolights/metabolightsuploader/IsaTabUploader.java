@@ -153,7 +153,7 @@ public class IsaTabUploader {
 			//Update CheckList
 			updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File is a folder. Unzip not done.");
 			
-		}else{
+		} else {
 			
 			// Remove any previous content of the unzip folder.
 			File uf = new File (this.unzipFolder);
@@ -200,7 +200,7 @@ public class IsaTabUploader {
 		itir.Execute();
 		
 		//Load the isatab file
-		result = sm.loadISAtab(this.unzipFolder, owner,status);
+		result = sm.loadISAtab(this.unzipFolder, owner, status, false);
 		
 		// If not SUCCESS...
 		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("File persistance process has failed.",sm.getLastLog()) ;
@@ -394,7 +394,7 @@ public class IsaTabUploader {
 		if (fileStudyPublic.exists()){
 			this.status = VisibilityStatus.PUBLIC;
 			return fileStudyPublic.getAbsolutePath();
-		}else {
+		} else {
 			
 			// Try the private...
 			File fileStudyPrivate = new File (getStudyFilePath(study, VisibilityStatus.PRIVATE));
