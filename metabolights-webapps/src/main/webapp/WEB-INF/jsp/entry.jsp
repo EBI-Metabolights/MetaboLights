@@ -117,7 +117,7 @@ $(function() {
 			<div id="tabs-1">
 		        <c:if test="${not empty organismNames}">
 		            <br/>
-		            <fieldset>
+		            <fieldset class="filterbox">
 		            	<legend><spring:message code="label.organisms"/>:</legend>
 			            <br/>
 			            <c:forEach var="organismName" items="${organismNames}" >
@@ -125,10 +125,19 @@ $(function() {
 			            </c:forEach>
 		            </fieldset>
 		        </c:if>
-
+				<c:if test="${not empty study.designs}">
+		            <br/>
+		            <fieldset class="filterbox">
+		            	<legend><spring:message code="label.studyDesign"/>:</legend>
+			            <br/>
+			            <c:forEach var="design" items="${study.designs}" >
+			                ${design.value}<br/>
+			            </c:forEach>
+		            </fieldset>
+		        </c:if>
 		        <c:if test="${not empty study.objective}">
 		            <br/>
-		            <fieldset>
+		            <fieldset class="filterbox">
 		            	<legend><spring:message code="label.studyDesign"/></legend>
 			            <br><br>${study.objective}
 			       </fieldset>
@@ -136,7 +145,7 @@ $(function() {
 
 		        <c:if test="${not empty study.publications}">
 					<br/>
-		            <fieldset>
+		            <fieldset class="filterbox">
 		            	<legend><spring:message code="label.publications"/></legend>
 						<c:forEach var="pub" items="${study.publications}">
 							<br/>
@@ -147,7 +156,7 @@ $(function() {
 		        </c:if>
 		        <c:if test="${not empty study.objective}">
 		        	<br/>
-		            <fieldset>
+		            <fieldset class="filterbox">
 		            	<legend><spring:message code="label.studyFactors"/></legend>
 			            <br>Go and get them...lazy man.
 			        </fieldset>
@@ -182,8 +191,8 @@ $(function() {
 			            <table width="100%">
 							<thead class='text_header'>
 								<tr>
-									<th>Raw Data Group</th>
-									<th>Raw Data Name</th>
+									<th><spring:message code="label.data.table.groupName"/></th>
+									<th><spring:message code="label.data.table.name"/></th>
 									<!-- Add one column per factor -->
 									<c:forEach var="factor" items="${assay.factors}">
 										<th>${factor.value}</th>

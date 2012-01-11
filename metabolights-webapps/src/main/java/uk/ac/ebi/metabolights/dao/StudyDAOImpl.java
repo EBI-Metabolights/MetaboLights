@@ -106,6 +106,7 @@ public class StudyDAOImpl implements StudyDAO{
 		Hibernate.initialize(study.getAnnotations());
 		Hibernate.initialize(study.getPublications());
 		Hibernate.initialize(study.getAssays());
+		Hibernate.initialize(study.getDesign());
 		//Hibernate.initialize(study.getUsers());
 
 		Collection<AssayResult> assayResults = study.getAssayResults();
