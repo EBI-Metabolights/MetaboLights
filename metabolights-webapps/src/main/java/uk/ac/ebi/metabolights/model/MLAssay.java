@@ -27,7 +27,7 @@ public class MLAssay {
 	public static String getAssayNameFromAssay(Assay assay){
 		
 		for (Annotation annotation: assay.getAnnotations()){
-			if (annotation.getType().getId() == 11){
+			if (annotation.getType().getValue().equals("assayFileId")){
 				return annotation.getText();
 			}
 		}
