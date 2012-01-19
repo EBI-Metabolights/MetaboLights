@@ -112,7 +112,7 @@ function navigate(_pageNumber) {
 		</script>
 	</c:if>
 	
-	<br>
+	<br/>
 	</c:if>
 
 	<c:if test="${empty searchResults}">

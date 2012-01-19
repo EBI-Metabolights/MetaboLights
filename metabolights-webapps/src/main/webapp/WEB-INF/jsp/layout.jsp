@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="eng"><!-- InstanceBegin template="/Templates/new_template_no_menus.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta name="description" content="Metabolights metabolmics experiments" />
     <meta name="author" content="The Metabolights team" />
     <meta http-equiv="Content-Language" content="en-GB" />
@@ -33,15 +33,15 @@
     </style>
 </head>
 
-<body onLoad="if(navigator.userAgent.indexOf('MSIE') != -1) {document.getElementById('head').allowTransparency = true;}; onloadAction();" onunload="onunloadAction();">
+<body onload="if(navigator.userAgent.indexOf('MSIE') != -1) {document.getElementById('head').allowTransparency = true;}; onloadAction();" onunload="onunloadAction();">
     <div class="headerdiv" id="headerdiv" style="position:absolute; z-index: 1;">
         <!-- remove http://www.ebi.ac.uk on deployment to public servers -->
-        <iframe src="/inc/head.html" name="head" id="head" frameborder="0" marginwidth="0px" marginheight="-10px" scrolling="no"  width="100%" style="position:relative; z-index: 1; height: 57px;"></iframe>
+        <iframe src="/inc/head.html" name="head" id="head" frameborder="0" marginwidth="0px" marginheight="-10px" scrolling="no" width="100%" style="position:relative; z-index: 1; height: 57px;"></iframe>
     </div>
     <div class="contents" id="contents"  >
         <table class="contentspane" id="contentspane" summary="The main content pane of the page" style="width: 100%">
             <tr>
-              <td class="leftmargin"><img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></td>
+              <!-- <td class="leftmargin"><img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></td>  -->
               <td class="leftmenucell" id="leftmenucell"> <div class="leftmenu" id="leftmenu" style="1px; visibility: hidden; display: none;">
                 <img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></div></td>
                 <td class="contentsarea" id="contentsarea">

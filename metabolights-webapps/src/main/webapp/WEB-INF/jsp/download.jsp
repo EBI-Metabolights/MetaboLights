@@ -16,12 +16,12 @@
             <td colspan='3'>
                 <br/>
                 <HR>
-                <br>
+                <br/>
                 <img src="img/isatab_logo.png">
-                <br>
-                <br>
+                <br/>
+                <br/>
                 <spring:message code="msg.metabolightsAbout6" />
-                <br>
+                <br/>
             </td>
         </tr>
 

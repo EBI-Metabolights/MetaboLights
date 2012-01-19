@@ -67,8 +67,8 @@
 	</div>
 	
 	<div style='width: 200px;' class='iscell'>
-		<spring:message code="label.expId" />: <b>${searchResult.accStudy}</b><br>
-		<spring:message code="label.subm" /> ${searchResult.submitter.name} ${searchResult.submitter.surname}<br>
+		<spring:message code="label.expId" />: <b>${searchResult.accStudy}</b><br/>
+		<spring:message code="label.subm" /> ${searchResult.submitter.name} ${searchResult.submitter.surname}<br/>
 	</div>
 	
 
@@ -89,9 +89,9 @@
 		<c:if test="${not empty searchResult.publications}">
             <c:forEach var="pub" items="${searchResult.publications}">
 	               <IMG src="img/book.png" height="18"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pubmedId}&dataSource=MED">${pub.title}</a> 
-	            <BR>
+	            <br/>
             </c:forEach>
-            <br>
+            <br/>
    		</c:if>
    	</div>
    	-->	

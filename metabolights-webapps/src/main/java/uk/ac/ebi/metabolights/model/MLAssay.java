@@ -1,13 +1,23 @@
-package uk.ac.ebi.metabolights.model;
+/*
+ * EBI MetaboLights Project - 2012.
+ *
+ * File: MLAssay.java
+ *
+ * Modified by:   kenneth
+ *
+ * European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK.
+ */
 
-import java.util.ArrayList;
-import java.util.List;
+package uk.ac.ebi.metabolights.model;
 
 import uk.ac.ebi.bioinvindex.model.Annotation;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.Factor;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * THis is a Metabolights assay as it is needed in the webapp

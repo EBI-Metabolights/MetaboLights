@@ -50,7 +50,7 @@
 
     <c:if test="${not empty message}">
         <span class="error"> <c:out value="${message}" /> </span>
-        <br>
+        <br/>
     </c:if>
 
 </div>

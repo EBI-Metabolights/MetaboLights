@@ -11,7 +11,7 @@
   <c:out value="${errorMainMessage}"/>
 
 </span>
-<br>
+<br/>
 
 <span class="white">
 <c:out value="${errorStack}" escapeXml="false"  />

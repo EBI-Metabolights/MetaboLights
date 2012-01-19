@@ -168,7 +168,7 @@
 		        		<c:if test="${not empty isatablog}">
 		        			<br/>
 		        			<a href="javascript:toggle('logTag','isatablog','Show log', 'Hide log');" id="logTag">Show log</a>
-			                <br>
+			                <br/>
 			                <div id="isatablog" class="expandbox">
 			                    <ul id="resultListText">
 			                        <c:forEach var="log" items="${isatablog}">

@@ -88,7 +88,7 @@ $(function() {
 <div class="formbox border">
 
        <c:if test="${not empty study.contacts}">
-            <br>
+            <br/>
             <c:forEach var="contact" items="${study.contacts}">
                 <span id="aff" 
                 	<c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>
@@ -98,15 +98,15 @@ $(function() {
         </c:if>
 
         <c:if test="${not empty study.submissionDate || not empty study.releaseDate}">
-            <br>
+            <br/>
             <c:if test="${not empty study.submissionDate}"><spring:message code="label.subDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/>&nbsp;&nbsp;</c:if>
             <c:if test="${not empty study.releaseDate}"><spring:message code="label.releaseDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></c:if>
         </c:if>
         
 	    <c:if test="${not empty study.description}">
-   		     <br><br><span style="text-align:justify"><div id="description">${study.description}</div></span>
+   		     <br/><br/><span style="text-align:justify"><div id="description">${study.description}</div></span>
 	    </c:if>
- 		<br>
+ 		<br/>
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1"><spring:message code="label.studyDesign"/></a></li>
@@ -139,7 +139,7 @@ $(function() {
 		            <br/>
 		            <fieldset class="filterbox">
 		            	<legend><spring:message code="label.studyDesign"/></legend>
-			            <br><br>${study.objective}
+			            <br/><br/>${study.objective}
 			       </fieldset>
 		        </c:if>
 
@@ -151,14 +151,14 @@ $(function() {
 							<br/>
 		                	<IMG src="img/ebi-icons/32px/book.png" class="img_alignment_green"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a> 
 		            	</c:forEach>
-		            	<br>
+		            	<br/>
 		            </fieldset>
 		        </c:if>
 		        <c:if test="${not empty study.objective}">
 		        	<br/>
 		            <fieldset class="filterbox">
 		            	<legend><spring:message code="label.studyFactors"/></legend>
-			            <br>Go and get them...lazy man.
+			            <br/>Go and get them...
 			        </fieldset>
 		        </c:if>
 		        

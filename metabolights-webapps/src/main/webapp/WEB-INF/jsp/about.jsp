@@ -25,9 +25,9 @@
         <HR>
         <br/>
         <img src="img/bbsrcLarge.png">&nbsp;&nbsp;&nbsp; <img src="img/embl.png"> &nbsp;&nbsp;&nbsp; <img src="img/camLogo.png">
-        <br>
-            <spring:message code="msg.metabolightsAbout5" /><br>
-        <br>
+        <br/>
+            <spring:message code="msg.metabolightsAbout5" /><br/>
+        <br/>
 
     </div>
 

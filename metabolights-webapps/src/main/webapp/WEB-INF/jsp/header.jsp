@@ -38,7 +38,7 @@
  
 	<ul id="sddm">
         <sec:authorize ifNotGranted="ROLE_SUBMITTER" >
-          <li><a href="login"><spring:message code="menu.login"/><br>&nbsp;</a></li>
+          <li><a href="login"><spring:message code="menu.login"/><br/>&nbsp;</a></li>
         </sec:authorize> 
         <sec:authorize ifAnyGranted="ROLE_SUBMITTER">		
 			<ul id="sddm">	       		

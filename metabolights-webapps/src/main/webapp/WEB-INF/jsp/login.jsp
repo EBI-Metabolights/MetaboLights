@@ -56,10 +56,10 @@
 
     <c:if test="${not empty param.login_error}">
         <span class="error">
-            <br>
+            <br/>
             <!-- Your login attempt was not successful, try again.<br/>-->
             <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
-            <br>
+            <br/>
         </span>
     </c:if>
 

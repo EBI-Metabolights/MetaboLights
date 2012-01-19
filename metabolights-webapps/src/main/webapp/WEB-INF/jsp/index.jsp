@@ -11,7 +11,7 @@
 </c:if>
 
 <div style="margin-bottom:40px; padding-left:120px; padding-top:30px">
-   <img src="img/litehouseLogoBeta.png" />
+   <img src="img/litehouseLogoBeta.png" alt="beta"/>
 </div>
 
 <div class="text_header" style="text-align:center">
@@ -19,11 +19,11 @@
 </div>
  
 <div class="text-fullwidth center">
-    <br>
+    <br/>
     <spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" />
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 </div>

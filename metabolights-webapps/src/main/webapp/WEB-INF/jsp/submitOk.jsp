@@ -52,7 +52,7 @@
 			</td>		
 	    	<td>
 	        	<b>${mapEntry.value.title}</b>
-	        	<br>${mapEntry.value.notes}
+	        	<br/>${mapEntry.value.notes}
 	    	</td>
 		</tr>
 	</c:forEach> 
