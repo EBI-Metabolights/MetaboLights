@@ -17,6 +17,8 @@ import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
 
@@ -29,6 +31,7 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
@@ -43,6 +46,8 @@ public class EntryController extends AbstractController {
 
 	@Autowired
 	private StudyService studyService;
+	@Autowired
+	private SearchService searchService;
 
     private @Value("#{appProperties.publicFtpLocation}") String publicFtpDirectory;
     private @Value("#{appProperties.privateFtpLocation}") String privateFtpDirectory;
@@ -63,6 +68,22 @@ public class EntryController extends AbstractController {
 			}
 		}
 
+		// Look for metabolites (in the index)
+		LuceneSearchResult sr = null;
+		
+		try {
+			 HashMap<Integer,List<LuceneSearchResult>> srStudies = searchService.search(mtblId);
+			 List<LuceneSearchResult> srList = (srStudies.values().iterator().next());	
+			 sr = srList.get(0);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 		// Get the DownloadLink
 		String ftpLocation = getDownloadLink(study.getAcc(), study.getStatus());
 
@@ -73,6 +94,9 @@ public class EntryController extends AbstractController {
         if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))    //User is not authorised to view this study
             mav.addObject("ftpLocation",ftpLocation);
 
+        
+        mav.addObject("metabolites", sr.getMetabolites());
+        
         //Stick text for tagging (Whatizit) in the session..
         if (study.getDescription()!=null) {
         	logger.debug("placing study description in session for Ajax highlighting");
@@ -126,7 +150,7 @@ public class EntryController extends AbstractController {
 				Collection<User> users = study.getUsers();
 				Iterator<User> iter = users.iterator();
 				while (iter.hasNext()){
-					User user = (User) iter.next();
+					User user = iter.next();
 					if (user.getUserName().equals(currentUser)){
 						validUser = true;
 						break;

@@ -2,6 +2,8 @@ package uk.ac.ebi.metabolights.search;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+
+import antlr.StringUtils;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 import java.text.SimpleDateFormat;
@@ -24,6 +26,7 @@ public class LuceneSearchResult {
 	private List<Publication> publications;
 	private List<String> technologies;
 	private List<String> platforms;
+	private List<Metabolite>metabolites;
 	private Document doc;
 	private float score;
 	private Submitter submitter;
@@ -53,6 +56,8 @@ public class LuceneSearchResult {
 			
 		this.releaseDate = parseDate("releaseDate");
 		this.submissionDate = parseDate("submissionDate");
+		
+		this.metabolites= parseMetabolites();
 		
 	}
 	
@@ -134,6 +139,9 @@ public class LuceneSearchResult {
 	
 	public List<Publication> getPublications() {
 		return publications;
+	}
+	public List<Metabolite> getMetabolites(){
+		return metabolites;
 	}
 
 	/**
@@ -243,6 +251,44 @@ public class LuceneSearchResult {
 		public String getSurname(){return this.surname;}
 		public String getEmail(){return this.email;}
 		public String getUserName(){return this.userName;}
+	}
+	public class Metabolite{
+		private String identifier, description;
+		public Metabolite(String identifier, String description){
+			this.identifier = identifier;
+			this.description= description;
+		}
+		public String getIdentifier(){return this.identifier;}
+		public String getDescription(){return this.description;}
+	}
+	
+	
+	/*
+	 * Parser the metabolites present in the index
+	 * FORMAT: ~description~identfier
+	 * SAMPLE: ~adenosin~CHEBI:12345
+	 * WARNING: at least there must be one item and the separator "~" will be always present (so, split will give you always same number of elements).
+	 * 		valid: ~~CHEBI:12345, ~adenosin~
+	 * 		invalid: ~~, ~adenosin, ~CHEBI:12345.
+	 */
+	private ArrayList<Metabolite> parseMetabolites(){
+		
+		
+		String [] metabolites = this.doc.getValues("Metabolite");
+		ArrayList <Metabolite> metList = new ArrayList<Metabolite>();
+		
+		for (String metabolite:metabolites){
+			
+			// Get the values splitted (use -1 to have empty elements), first item will be always empty.
+			String[] metaboliteValues = metabolite.split("~", -1);
+			
+			// Create and add the metabolite to the list
+			metList.add(new Metabolite(metaboliteValues[2],metaboliteValues[1]));
+			
+		}
+		
+		return metList;
+	
 	}
 	
 	/*Parses the user field in the lucene index (there must be only one)
