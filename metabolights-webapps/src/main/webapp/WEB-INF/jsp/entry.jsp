@@ -23,6 +23,22 @@
 	  }
 	}
 </script>
+<script language="javascript" type="text/javascript">
+<!--
+
+//-->
+$(function() {
+	  $("#toggle").click(function() {
+	    if ($("#hidden").is(":hidden")) {
+	      $(this).text("Show less");
+	    } else {
+	      $(this).text("Show more");
+	    }
+	    $("#hidden").slideToggle();
+	    return false;
+	  });
+	});
+</script>
 <script language="Javascript" type="text/javascript">
 
 function createRequestObject() {
@@ -112,6 +128,7 @@ $(function() {
 				<li><a href="#tabs-1"><spring:message code="label.studyDesign"/></a></li>
 				<li><a href="#tabs-2"><spring:message code="label.protocols"/></a></li>
 				<li><a href="#tabs-3"><spring:message code="label.data"/></a></li>
+				<li><a href="#tabs-4"><spring:message code="label.metabolites"/></a></li>
 				<!--li><a href="#tabs-4"><spring:message code="label.metaboliteIdentification"/></a></li-->
 			</ul>
 			<div id="tabs-1">
@@ -214,6 +231,33 @@ $(function() {
 	                </c:forEach>
 		        </c:if>
 			</div> <!--  ends tabs-3 -->
+			<div id="tabs-4">
+				<c:if test="${not empty metabolites}">
+					<br/>
+					<br/>
+		            <table width="100%">
+						<thead class='text_header'>
+							<tr>
+								<th><spring:message code="label.metabolites.description"/></th>
+								<th><spring:message code="label.metabolites.identifier"/></th>
+							</tr>
+						</thead>
+						<tbody>			
+		                <c:forEach var="metabolite" items="${metabolites}" varStatus="loopStatus">
+                    		
+                    		<c:if test="${loopStatus.index == 10}">
+                    			<tr><td><a href="#" id="toggle">Show more</a></td></tr>
+                    			</tbody><tbody id="hidden" style='display:none'>
+                    		</c:if>
+                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
+		                    	<td class="tableitem">${metabolite.description}</td>
+                    			<td class="tableitem">${metabolite.identifier}</td>
+		                    </tr>
+		                </c:forEach>
+		                </tbody>
+		            </table>
+		        </c:if>
+			</div> <!--  ends tabs-4 -->
 		</div> <!-- end tabs -->
  </div>	
 
