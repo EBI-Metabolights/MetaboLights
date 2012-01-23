@@ -239,7 +239,7 @@ $(function() {
 						<thead class='text_header'>
 							<tr>
 								<th><spring:message code="label.metabolites.description"/></th>
-								<th><spring:message code="label.metabolites.identifier"/></th>
+								<%-- <th><spring:message code="label.metabolites.identifier"/></th> --%>
 							</tr>
 						</thead>
 						<tbody>			
@@ -250,8 +250,13 @@ $(function() {
                     			</tbody><tbody id="hidden" style='display:none'>
                     		</c:if>
                     		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
-		                    	<td class="tableitem">${metabolite.description}</td>
-                    			<td class="tableitem">${metabolite.identifier}</td>
+		                    	<td class="tableitem">${metabolite.description} (<!-- </td> -->
+                    			<!-- <td class="tableitem"> -->
+                    				<c:choose>
+                    					<c:when test="${metabolite.link == ''}">${metabolite.identifier}</c:when>
+                    					<c:otherwise><a href="${metabolite.link}" target="_blank">${metabolite.identifier}</a></c:otherwise>
+                    				</c:choose>
+                    			)</td>
 		                    </tr>
 		                </c:forEach>
 		                </tbody>

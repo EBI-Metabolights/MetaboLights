@@ -260,8 +260,63 @@ public class LuceneSearchResult {
 		}
 		public String getIdentifier(){return this.identifier;}
 		public String getDescription(){return this.description;}
-	}
-	
+		public String getLink(){
+			return inferLink();
+		}
+		/*
+		 * Infers the link that will take the user to the Reference repository.
+		 */
+		private String inferLink(){
+			
+			String PRIORITYIDPATTERNS = "^CHEBI:[0-9]+$~^HMDB[0-9]+$~^LM[A-Z]{2}[0-9]+$~^C[0-9]{5}$";
+			String ACCESSION_URLS =  "http://www.ebi.ac.uk/chebi/searchId.do?chebiId=" +
+						  "~http://www.hmdb.ca/metabolites/" +
+						  "~http://www.lipidmaps.org/data/LMSDRecord.php?LMID=" +
+						  "~http://www.genome.jp/dbget-bin/www_bget?cpd:";
+			
+	    	/**
+	    	 * URL Samples for ID:
+	    	 * CHEBI:		http://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15365			(Whole value)
+	    	 * HMDB:		http://www.hmdb.ca/metabolites/HMDB03459							(Whole value)
+	    	 * LIPIDMAPS:	http://www.lipidmaps.org/data/LMSDRecord.php?LMID=LMFA01010001		(Whole Value)
+	    	 * KEGG:		http://www.genome.jp/dbget-bin/www_bget?cpd:C01401					(Whole Value)
+	    	 */
+			
+			
+			
+	    	// If value is not null
+	    	if (this.identifier != null){
+	    		
+	    		String[] remotePriorityPatterns = PRIORITYIDPATTERNS.split("~");
+	    		String[] remoteAccessionURL = ACCESSION_URLS.split("~");
+	    		
+	    		for (int i =0; i <remotePriorityPatterns.length; i++){
+	    			
+	    			// Get the pattern
+	    			String pattern = remotePriorityPatterns[i];
+	    			
+	    			// If the value matches the pattern...
+	    			if (this.identifier.matches(pattern)){
+	    				
+	    				// Get the url
+	    				String url = remoteAccessionURL[i];
+	    				
+	    				// If the url is not empty...
+	    				if (!url.isEmpty()){
+	    					
+	    					// Append the id at the end...
+	    					url = url + this.identifier;
+	    					
+	    					// Return the link..
+	    					return url;
+	    				}
+	    			}
+	    		}
+	    	}
+	    	
+	    	return "";
+		} // End method
+	} // End Class
 	
 	/*
 	 * Parser the metabolites present in the index
