@@ -7,6 +7,10 @@
 <table cellpadding="5px" cellspacing="0px">
 	<tr>
 		<td>
+            <br/>
+            <spring:message code="msg.metabolightsAbout8" />
+            <br/>
+            <br/>
 			<HR> 
 			<br/> 
 			<img src="img/isatab_logo.png"> 

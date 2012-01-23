@@ -1,10 +1,10 @@
 package uk.ac.ebi.metabolights.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Generic class to get Spring controlled forwards to a java server page.<br><br>
@@ -23,7 +23,7 @@ public class GenericController {
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	@RequestMapping(value={"/index","/about","/submitHelp" ,"/download"})
+	@RequestMapping(value={"/index","/about","/submitHelp","/download","/plugindownload"})
 	public String useMoreDeodorant (HttpServletRequest request) {
 		return lastPartOfUrl(request);
 	}

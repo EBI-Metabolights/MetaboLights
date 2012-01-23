@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,11 +27,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Controller for entry (=study) details.
@@ -53,9 +48,13 @@ public class EntryController extends AbstractController {
     private @Value("#{appProperties.privateFtpLocation}") String privateFtpDirectory;
 
 	//(value = "/entry/{metabolightsId}")
-	@RequestMapping(value = "/{metabolightsId}") 
+	@RequestMapping(value = "/{metabolightsId}")
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
-		logger.info("requested entry " + mtblId);		
+		logger.info("requested entry " + mtblId);
+
+        //if (!mtblId.startsWith("MTBLS") && !mtblId.startsWith("BII")) //Fix, in case the entry controller picks up another page
+        //    return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.noPageFound") +mtblId);
+
 		Study study = studyService.getBiiStudy(mtblId,true);
 		
 		Collection<String> organismNames = new TreeSet<String>();
@@ -80,10 +79,7 @@ public class EntryController extends AbstractController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+
 		// Get the DownloadLink
 		String ftpLocation = getDownloadLink(study.getAcc(), study.getStatus());
 
@@ -93,7 +89,6 @@ public class EntryController extends AbstractController {
 		mav.addObject("assays", getMLAssays(study));
         if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))    //User is not authorised to view this study
             mav.addObject("ftpLocation",ftpLocation);
-
         
         mav.addObject("metabolites", sr.getMetabolites());
         
@@ -102,6 +97,7 @@ public class EntryController extends AbstractController {
         	logger.debug("placing study description in session for Ajax highlighting");
         	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
         }
+
 		return mav;
 	}
 	private Collection<MLAssay> getMLAssays(Study study){

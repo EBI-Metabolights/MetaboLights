@@ -13,6 +13,7 @@
             </td>
             <td colspan='2'><spring:message code="msg.metabolightsAbout7" /></td>
         </tr>
+        <tr>
             <td colspan='3'>
                 <br/>
                 <HR>

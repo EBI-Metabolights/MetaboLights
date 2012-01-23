@@ -57,6 +57,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/biisubmit.jsp" />
     </definition>
 
+    <definition name="plugindownload" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights - Metabolite identification plugin" />
+        <put-attribute name="body" value="/WEB-INF/jsp/plugindownload.jsp" />
+    </definition>
+
     <definition name="forgotPassword" extends="base.definition">
         <put-attribute name="title" value="MetaboLights password lost" />
         <put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp" />
