@@ -33,7 +33,7 @@
     </style>
 </head>
 
-<body onload="if(navigator.userAgent.indexOf('MSIE') != -1) {document.getElementById('head').allowTransparency = true;}; onloadAction();" onunload="onunloadAction();">
+<body onload="if(navigator.userAgent.indexOf('MSIE') != -1) {document.getElementById('head').allowTransparency = true;};;" onunload="">
     <div class="headerdiv" id="headerdiv" style="position:absolute; z-index: 1;">
         <!-- remove http://www.ebi.ac.uk on deployment to public servers -->
         <iframe src="/inc/head.html" name="head" id="head" frameborder="0" marginwidth="0px" marginheight="-10px" scrolling="no" width="100%" style="position:relative; z-index: 1; height: 57px;"></iframe>
