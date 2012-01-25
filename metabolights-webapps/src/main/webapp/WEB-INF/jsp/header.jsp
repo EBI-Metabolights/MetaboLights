@@ -5,8 +5,11 @@
 <script type="text/javascript" src="javascript/menu.js"></script>
 
 <div id="top_bar">
-	<a href="index"><h1>foobar</h1>
+	<a href="index"> <!--h1>foobar</h1-->
 	</a>
+
+    <h1></h1>
+
 	<div id="search-box">
 		<form name="searchForm"	
 		   action="<c:choose>
@@ -15,7 +18,7 @@
 		   </c:choose>"
 		   method="get" accept-charset="utf-8">
 
-		   <input type="text" name="freeTextQuery" placeholder="<spring:message code="label.searchMetabolights"/>" id="query" value="${freeTextQuery}" />
+		   <input type="text" name="freeTextQuery" id="query" value="${freeTextQuery}" />
            <input type="submit" value="" class="search-box-button" />
 		</form>
 	</div>
@@ -57,6 +60,7 @@
 		<li><a href="presubmit"><spring:message code="menu.submit"/></a></li>
 		<li><a href="download"><spring:message code="menu.download"/></a></li>
 		<li><a href="index"><spring:message code="menu.home"/></a></li>
+        <li><a href="search"><spring:message code="menu.browse"/></a></li>
 		<!-- 
 		<li><a href="<spring:url value="index"/>" onmouseover="mopen('m1')"onmouseout="mclosetime()"><spring:message code="menu.home"/><span class="smallArrow"></span></a>
 			<div id="m1" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">

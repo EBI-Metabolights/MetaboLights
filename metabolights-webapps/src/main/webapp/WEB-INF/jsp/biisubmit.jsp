@@ -106,7 +106,7 @@
             <tr>
 	            <td colspan='2'>
 	            	<div id="hourglass">
-	            		<img src="img/wait.gif"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
+	            		<img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
 	            	</div>
 	            </td>
 	        </tr>

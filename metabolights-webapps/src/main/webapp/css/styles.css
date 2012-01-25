@@ -20,7 +20,8 @@ a {
 	background: #ffffff url(../img/searchBox.png) repeat-x left top;
 	height: auto !important;
 	margin: -11px auto -4em;
-	position: relative;width: 1024px;
+	position: relative;
+    width: 1024px;
     font-family: Verdana, Arial, Helvetica, Geneva, sans-serif;
     font-size: 12px;
 }
@@ -46,7 +47,7 @@ a {
 
 /* Style for the top bar (=header) */
 #top_bar {
-	height: 58px;
+	height: 57px;
 }
 
 #top_bar h1 {

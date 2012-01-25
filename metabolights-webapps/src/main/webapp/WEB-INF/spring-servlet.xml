@@ -123,7 +123,7 @@
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
 		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
 		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/>
-	</bean>      -->
+	</bean>           -->
 
 	<!--bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${hibernate.connection.driver_class}"/>
@@ -132,7 +132,7 @@
 		<property name="url" value="${hibernate.connection.url}"/>
 	</bean-->
 	
-	<!--For EBI tomcat server deployment  -->
+	<!--For EBI tomcat server deployment    -->
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
       	<property name="jndiName" value="java:comp/env/jdbc/metabolights/dev"/>  
       	<property name="resourceRef" value="true" /> 

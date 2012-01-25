@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-    <form name="loginForm" action="<c:url value='j_spring_security_check'/>" method="POST">
+    <form name="loginForm" action="<c:url value='j_spring_security_check'/>" method="post">
 
         <div class="text_header plain">
              <c:if test="${empty source}"><spring:message code="msg.credentials" /></c:if>
@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <td><spring:message code="label.password" />:</td>
-                <td><input type='password' name='j_password'></td>
+                <td><input type='password' name='j_password'/></td>
                 <td><a href="forgotPassword"><spring:message code="label.oopsForgot" /></a></td>
             </tr>
 
@@ -42,7 +42,7 @@
                 <td valign="top" align="right" style="padding-top:30px">
                      <a href="newAccount" >
                        <!-- img src="img/newUser.png" border="0px"/-->
-                       <img src="img/ebi-icons/32px/user-add.png" class="img_alignment_green"/>
+                       <img src="img/ebi-icons/32px/user-add.png" class="img_alignment_green" alt="NewAccount"/>
                      </a>
                 </td>
                 <td colspan='2' valign="top" style="padding-top:30px">

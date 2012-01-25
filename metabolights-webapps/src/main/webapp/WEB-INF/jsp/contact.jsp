@@ -5,9 +5,10 @@
     <form:form name="emailForm" action="contactUsAlert" method="post" commandName="contactValidation">
         <table cellpadding="5px" cellspacing="0px">
             <tr>
-                <th class="text_header plain" colspan="3">
+                <th class="text_header plain" colspan="2">
                 	<spring:message code="label.contact" />
                 </th>
+                <th><spring:message code="msg.starRequired"/></th>
             </tr>
             <tr>
                 <td colspan='3'>&nbsp;</td>
@@ -52,7 +53,7 @@
                 <td>&nbsp;&nbsp;</td>
 	            <td colspan="2">
                     <div class='iscell left'>
-                        <input name="submit" type="submit" class='multi-line-button main' value="<spring:message code="label.submit"/>">
+                        <input name="submit" type="submit" class='multi-line-button main' value="<spring:message code="label.submit"/>" />
                     </div>
                     <div class='iscell'>
                         <br/><a href="index"><spring:message code="label.cancel"/></a>

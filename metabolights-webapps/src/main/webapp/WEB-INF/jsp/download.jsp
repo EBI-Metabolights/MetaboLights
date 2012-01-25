@@ -9,21 +9,21 @@
     <table>
         <tr>
             <td align="center" class="img_alignment_yellow">
-                <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"><img src="img/ebi-icons/32px/download.png"></a>
+                <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"><img src="img/ebi-icons/32px/download.png" alt="FTP download"/></a>
             </td>
-            <td colspan='2'><spring:message code="msg.metabolightsAbout7" /></td>
-        </tr>
-        <tr>
-            <td colspan='3'>
-                <br/>
-                <HR>
-                <br/>
-                <img src="img/isatab_logo.png">
-                <br/>
-                <br/>
-                <spring:message code="msg.metabolightsAbout6" />
-                <br/>
-            </td>
+            <td colspan='2'> <spring:message code="msg.metabolightsAbout7" /></td>
         </tr>
 
     </table>
+
+    <div class="text-fullwidth">
+        <br/>
+        <hr/>
+        <br/>
+        <div class="text-column">
+            <a href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo.png" alt="ISAtools"/></a>
+            <br/>
+        </div>
+        <spring:message code="msg.metabolightsAbout6" />
+    </div>
+
