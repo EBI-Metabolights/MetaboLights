@@ -13,6 +13,7 @@ import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
+import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
@@ -94,6 +95,7 @@ public class EntryController extends AbstractController {
 		ModelAndView mav = new ModelAndView("entry");
 		mav.addObject("study", study);
 		mav.addObject("organismNames", organismNames);
+		mav.addObject("factors", getFactorsSummary(study));
 		mav.addObject("assays", getMLAssays(study));
         if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))    //User is not authorised to view this study
             mav.addObject("ftpLocation",ftpLocation);
@@ -223,6 +225,45 @@ public class EntryController extends AbstractController {
 		}
 		
 		return ftpLocation;
+		
+	}
+	
+	private HashMap<String,ArrayList<String>> getFactorsSummary(Study study){
+		
+		HashMap<String, ArrayList<String>> fvSummary = new HashMap<String, ArrayList<String>>();
+		
+		// Loop through the assay results
+		for (AssayResult ar:study.getAssayResults()){
+			
+			// For each factor value in Data item
+			for (FactorValue fv:ar.getData().getFactorValues()){
+				
+				
+				// ... if we don't have the factor already in the collection
+				if (!fvSummary.containsKey(fv.getType().getValue())){
+					fvSummary.put(fv.getType().getValue(),new ArrayList<String>());
+				}
+				
+				// Get the values for that factor...
+				ArrayList<String> values = fvSummary.get(fv.getType().getValue());
+				
+				
+				String value;
+				
+				// Add the new value
+				if (!(fv.getUnit() == null)){
+					value = fv.getValue() + " " + fv.getUnit().getValue();
+				} else {
+					value = fv.getValue();
+				}
+				
+				if (!values.contains(value)) values.add(value);
+				
+			}
+		}
+		
+		return fvSummary;
+		
 		
 	}
 

@@ -174,14 +174,24 @@ $(function() {
 		            	<br/>
 		            </fieldset>
 		        </c:if>
-		        <c:if test="${not empty study.objective}">
+		        <c:if test="${not empty factors}">
 		        	<br/>
 		            <fieldset class="filterbox">
 		            	<legend><spring:message code="label.experimentalFactors"/></legend>
-			            <br/>Go and get them...
+		                    <ul>
+				                <c:forEach var="fv" items="${factors}">
+				                	<li>${fv.key}: [
+				                		<c:forEach var="value" items="${fv.value}" varStatus="loopStatus">
+				                			<c:if test="${loopStatus.index ne 0}">
+				                				, 
+				                			</c:if>
+				                			${value}
+				                		</c:forEach>
+				                	]</li>
+				                </c:forEach>
+					        </ul>
 			        </fieldset>
 		        </c:if>
-		        
 			</div>
 			<div id="tabs-2">
 				<c:if test="${not empty study.protocols}">
