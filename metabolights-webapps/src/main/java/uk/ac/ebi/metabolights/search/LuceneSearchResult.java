@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.search;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+import org.hibernate.annotations.MetaValue;
 
 import antlr.StringUtils;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
@@ -337,9 +338,18 @@ public class LuceneSearchResult {
 			// Get the values splitted (use -1 to have empty elements), first item will be always empty.
 			String[] metaboliteValues = metabolite.split("~", -1);
 			
-			// Create and add the metabolite to the list
-			metList.add(new Metabolite(metaboliteValues[2],metaboliteValues[1]));
+			// Get the values
+			// Description
+			String description = metaboliteValues[1];
+			// Identifier
+			String identifier = metaboliteValues[2];
+
+			// If it is not an unknown
+			if (!description.toLowerCase().startsWith("unknown")){
 			
+				// Create and add the metabolite to the list
+				metList.add(new Metabolite(metaboliteValues[2],metaboliteValues[1]));
+			}
 		}
 		
 		return metList;

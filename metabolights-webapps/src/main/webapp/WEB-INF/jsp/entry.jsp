@@ -250,13 +250,15 @@ $(function() {
                     			</tbody><tbody id="hidden" style='display:none'>
                     		</c:if>
                     		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
-		                    	<td class="tableitem">${metabolite.description} (<!-- </td> -->
+		                    	<td class="tableitem">${metabolite.description}<!-- </td> -->
                     			<!-- <td class="tableitem"> -->
-                    				<c:choose>
-                    					<c:when test="${metabolite.link == ''}">${metabolite.identifier}</c:when>
-                    					<c:otherwise><a href="${metabolite.link}" target="_blank">${metabolite.identifier}</a></c:otherwise>
-                    				</c:choose>
-                    			)</td>
+                    				<c:if test="${not empty metabolite.identifier}">
+	                    				<c:choose>
+	                    					<c:when test="${empty metabolite.link }"> (${metabolite.identifier})</c:when>
+	                    					<c:otherwise><a href="${metabolite.link}" target="_blank">(${metabolite.identifier})</a></c:otherwise>
+	                    				</c:choose>
+                    				</c:if>
+                    			</td>
 		                    </tr>
 		                </c:forEach>
 		                </tbody>
