@@ -1,9 +1,10 @@
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="eng"><!-- InstanceBegin template="/Templates/new_template_no_menus.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <meta name="description" content="Metabolights metabolmics experiments" />
     <meta name="author" content="The Metabolights team" />
     <meta http-equiv="Content-Language" content="en-GB" />
@@ -22,7 +23,7 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
     <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.15.custom.css" media="all" />
 
-    
+    <%@page contentType="text/html;charset=UTF-8"%>
 
     <style type="text/css">
         @media print {
@@ -46,8 +47,7 @@
 
 <body onload="if(navigator.userAgent.indexOf('MSIE') != -1) {document.getElementById('head').allowTransparency = true;};onloadAction();" onunload="onunloadAction();">
     <div class="headerdiv" id="headerdiv" style="position:absolute; z-index: 1; width: 100%">
-        <!-- remove http://www.ebi.ac.uk on deployment to public servers -->
-        <iframe src="/inc/head.html" name="head" id="head" frameborder="0" marginwidth="0px" marginheight="-10px" scrolling="no" width="100%" style="position:relative; z-index: 1; height: 57px;"></iframe>
+        <iframe src="<spring:message code="url.EBIheaderTop"/>" name="head" id="head" frameborder="0" marginwidth="0px" marginheight="-10px" scrolling="no" width="100%" style="position:relative; z-index: 1; height: 57px;"></iframe>
     </div>
     <div class="contents" id="contents" >
         <table class="contentspane" id="contentspane" summary="The main content pane of the page" style="width: 100%; position:relative;">
@@ -81,8 +81,7 @@
            <tr>
              <td colspan ="4" class="footerrow">
                 <div class="footerdiv" id="footerdiv"  style="z-index:2;">
-                    <!--  remove http://www.ebi.ac.uk  on deployment-->
-                    <iframe src="/inc/foot.html" name="foot" frameborder="0" marginwidth="0px" marginheight="0px" scrolling="no"  height="22px" width="100%"  style="z-index:2;">[Your user agent does not support frames or is currently configured not to display iframes.]</iframe>
+                    <iframe src="<spring:message code="url.EBIheaderFoot"/>" name="foot" frameborder="0" marginwidth="0px" marginheight="0px" scrolling="no"  height="22px" width="100%"  style="z-index:2;">[Your user agent does not support frames or is currently configured not to display iframes.]</iframe>
                 </div>
              </td>
            </tr>

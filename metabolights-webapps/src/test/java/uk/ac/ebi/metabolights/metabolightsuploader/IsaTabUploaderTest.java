@@ -195,7 +195,7 @@ public class IsaTabUploaderTest {
 		FileUtils.deleteDirectory(new File (UNZIP_FOLDER));
 		
 		// Unzip the final file
-		Zipper.unzip(ZIP_FILE, UNZIP_FOLDER);
+		Zipper.unzip2(ZIP_FILE, UNZIP_FOLDER);
 		
 		//Open the investigation file
 		String investigationfile = FileUtil.file2String(UNZIP_FOLDER + "i_Investigation.txt");

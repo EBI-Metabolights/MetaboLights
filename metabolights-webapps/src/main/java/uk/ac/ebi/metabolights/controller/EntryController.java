@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.*;
 
@@ -55,7 +56,14 @@ public class EntryController extends AbstractController {
         //if (!mtblId.startsWith("MTBLS") && !mtblId.startsWith("BII")) //Fix, in case the entry controller picks up another page
         //    return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.noPageFound") +mtblId);
 
-		Study study = studyService.getBiiStudy(mtblId,true);
+
+        try {
+            request.setCharacterEncoding("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //TODO, change
+        }
+
+        Study study = studyService.getBiiStudy(mtblId,true);
 		
 		Collection<String> organismNames = new TreeSet<String>();
 		for (AssayResult assRes : study.getAssayResults()) {

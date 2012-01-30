@@ -6,12 +6,13 @@ using Java ZipOutputStream class. This program also shows how to add
 directory and sub-directories to zip file.
 */
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.utils.IOUtils;
+
+import java.io.*;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -126,7 +127,8 @@ private static void addDirectory(ZipOutputStream zout, File fileSource, String i
 	}
 
 }
-public static void unzip (String strZipFile) throws IOException{
+
+public static void unzip (String strZipFile) throws IOException, ArchiveException {
 
 	/*
 	 * STEP 1 : Create directory with the name of the zip file
@@ -145,14 +147,52 @@ public static void unzip (String strZipFile) throws IOException{
 	System.out.println(zipPath + " created");
 	
 	//Call unzip with the path
-	unzip (strZipFile,zipPath);
+	unzip2(strZipFile, zipPath);
 	
 }
+
+    public static void unzip2(String strZipFile, String folder) throws IOException, ArchiveException{
+
+        //Check if the file exists
+        FileUtil.fileExists(strZipFile, true);
+
+        final InputStream is = new FileInputStream(strZipFile);
+        ArchiveInputStream in = new ArchiveStreamFactory().createArchiveInputStream("zip", is);
+
+        ZipArchiveEntry entry = null;
+        OutputStream out = null;
+
+
+        while ((entry = (ZipArchiveEntry) in.getNextEntry()) != null) {
+
+            //create directories if required.
+            File zipPath = new File(folder);
+            File destinationFilePath = new File(zipPath, entry.getName());
+            destinationFilePath.getParentFile().mkdirs();
+
+            //if the entry is directory, leave it. Otherwise extract it.
+            if(entry.isDirectory())
+            {
+                continue;
+            }
+            else {
+                out = new FileOutputStream(new File(folder, entry.getName()));
+                IOUtils.copy(in, out);
+                out.close();
+            }
+
+        }
+
+        in.close();
+
+    }
+
+
 public static void unzip(String strZipFile, String folder) throws IOException {
 	 
 	try
 	{
-		
+
 		//Check existence
 		FileUtil.fileExists(strZipFile, true);
 		

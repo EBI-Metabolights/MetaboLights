@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>uk.ac.ebi.metabolights</groupId>
 	<artifactId>metabolights-webapp</artifactId>
-	<version>0.4-SNAPSHOT</version>
+	<version>0.5-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>metabolights-webapp</name>
 	<description>MetaboLights Web Application</description>
@@ -58,6 +58,13 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.3</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>

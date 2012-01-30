@@ -162,9 +162,14 @@ public class IsaTabUploader {
 			uf.mkdir();
 			
 			logger.info("unziping " + this.isaTabArchive + " to " + this.unzipFolder);
-			Zipper.unzip(this.isaTabArchive,this.unzipFolder);
+            try {
+                Zipper.unzip2(this.isaTabArchive,this.unzipFolder);
+                //Zipper.unzip(this.isaTabArchive,this.unzipFolder);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-			// Update CheckList
+            // Update CheckList
 			updateCheckList(SubmissionProcessCheckListSeed.FILEUNZIP, "File successfully unzipped.");
 
 		}

@@ -1,9 +1,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
-<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js"></script>
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@page pageEncoding="UTF-8"%>
+<script type="text/javascript" src="javascript/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js" type="text/javascript" charset="utf-8"></script>
 
  
 <script language="javascript">
@@ -83,8 +85,9 @@ function processResponse() {
 }
 
 function onloadAction() {
-	tagTextWithWhatizit();
+	//tagTextWithWhatizit();                   //TODO, fix when whatizit works again
 }
+
 </script>
 
 
@@ -174,7 +177,7 @@ $(function() {
 		        <c:if test="${not empty study.objective}">
 		        	<br/>
 		            <fieldset class="filterbox">
-		            	<legend><spring:message code="label.studyFactors"/></legend>
+		            	<legend><spring:message code="label.experimentalFactors"/></legend>
 			            <br/>Go and get them...
 			        </fieldset>
 		        </c:if>

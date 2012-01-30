@@ -155,6 +155,11 @@ public class BIISubmissionController extends AbstractController {
 		
 		//Get the path for the config folder (where the hibernate properties for the import layer are).
 		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath();
+
+        //The logged in user.  principal = MetabolightsUser
+        MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if (!user.isCurator())
+            return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.notindexed"));
 	
 		//Upload the file to bii
 		//IsaTabUploader itu = new IsaTabUploader();
