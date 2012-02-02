@@ -80,9 +80,15 @@ public class EntryController extends AbstractController {
 		LuceneSearchResult sr = null;
 		
 		try {
-			 HashMap<Integer,List<LuceneSearchResult>> srStudies = searchService.search(mtblId);
-			 List<LuceneSearchResult> srList = (srStudies.values().iterator().next());	
-			 sr = srList.get(0);
+            List<LuceneSearchResult> srList = null;
+
+            HashMap<Integer,List<LuceneSearchResult>> srStudies = searchService.search(mtblId);
+            if (srStudies.size() != 0){
+			    srList = (srStudies.values().iterator().next());
+
+                if (srList != null)
+			        sr = srList.get(0);
+            }
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -99,8 +105,9 @@ public class EntryController extends AbstractController {
 		mav.addObject("assays", getMLAssays(study));
         if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))    //User is not authorised to view this study
             mav.addObject("ftpLocation",ftpLocation);
-        
-        mav.addObject("metabolites", sr.getMetabolites());
+
+        if (sr != null)
+            mav.addObject("metabolites", sr.getMetabolites());
         
         //Stick text for tagging (Whatizit) in the session..
         if (study.getDescription()!=null) {

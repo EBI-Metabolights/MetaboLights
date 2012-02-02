@@ -59,8 +59,8 @@
 		
 		<li><a href="presubmit"><spring:message code="menu.submit"/></a></li>
 		<li><a href="download"><spring:message code="menu.download"/></a></li>
-		<li><a href="index"><spring:message code="menu.home"/></a></li>
         <li><a href="search"><spring:message code="menu.browse"/></a></li>
+		<li><a href="index"><spring:message code="menu.home"/></a></li>
 		<!-- 
 		<li><a href="<spring:url value="index"/>" onmouseover="mopen('m1')"onmouseout="mclosetime()"><spring:message code="menu.home"/><span class="smallArrow"></span></a>
 			<div id="m1" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">

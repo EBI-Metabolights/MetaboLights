@@ -1,5 +1,6 @@
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="eng"><!-- InstanceBegin template="/Templates/new_template_no_menus.dwt" codeOutsideHTMLIsLocked="false" -->
@@ -22,8 +23,6 @@
     <link rel="stylesheet" type="text/css" href="css/multi-line-button.css" media="all" />
     <link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
     <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.15.custom.css" media="all" />
-
-    <%@page contentType="text/html;charset=UTF-8"%>
 
     <style type="text/css">
         @media print {

@@ -28,5 +28,14 @@ Class-Path: tiles-api-2.2.2.jar tiles-core-2.2.2.jar commons-digester-
  1.0.M2.jar spring-security-web-3.1.0.M2.jar spring-context-support-3.
  1.0.M2.jar spring-webmvc-3.0.5.RELEASE.jar ISAtools-import-deps-MTBLS
  -1.3.2.5-SNAPSHOT.jar import_layer_MTBLS-1.3.2.7-SNAPSHOT.jar commons
- -compress-1.3.jar
+ -compress-1.3.jar spring-context-3.1.0.RELEASE.jar spring-aop-3.1.0.R
+ ELEASE.jar spring-asm-3.1.0.RELEASE.jar spring-beans-3.1.0.RELEASE.ja
+ r spring-core-3.1.0.RELEASE.jar spring-expression-3.1.0.RELEASE.jar s
+ pring-orm-3.1.0.RELEASE.jar spring-jdbc-3.1.0.RELEASE.jar spring-tx-3
+ .1.0.RELEASE.jar spring-web-3.1.0.RELEASE.jar spring-security-core-3.
+ 1.0.RELEASE.jar spring-security-crypto-3.1.0.RELEASE.jar spring-secur
+ ity-config-3.1.0.RELEASE.jar spring-security-taglibs-3.1.0.RELEASE.ja
+ r spring-security-web-3.1.0.RELEASE.jar spring-security-acl-3.1.0.REL
+ EASE.jar spring-context-support-3.1.0.RELEASE.jar spring-webmvc-3.1.0
+ .RELEASE.jar import_layer_MTBLS-1.3.2.8-SNAPSHOT.jar
 

@@ -1,14 +1,12 @@
 package uk.ac.ebi.metabolights.utils;
 
-import static org.junit.Assert.*;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-import org.junit.runner.notification.Failure;
+import static org.junit.Assert.*;
 
 public class ZipperTest {
 
@@ -36,9 +34,11 @@ public class ZipperTest {
 		
 		}catch (IOException ioe){
 			fail(ioe.getMessage());
-		}
-			
-		//Check the output files and folders are correct
+		} catch (ArchiveException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        //Check the output files and folders are correct
 		outMap = getFolderMap(outFolder);
 		
 		assertEquals(inMap, outMap);
@@ -96,9 +96,11 @@ public class ZipperTest {
 		}catch(IOException ioe){
 			
 			assertTrue("IOException expected", true);
-		}
-		
-	}
+		} catch (ArchiveException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+    }
 	@Test
 	public void testInvalidFileToZip(){
 	
@@ -125,9 +127,11 @@ public class ZipperTest {
 			Zipper.unzip(ISAArchive);
 		} catch (IOException ioe) {
 			fail(ioe.getMessage());
-		}
-		
-	}
+		} catch (ArchiveException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+    }
 	
 	
 }
