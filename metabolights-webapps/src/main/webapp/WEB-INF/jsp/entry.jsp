@@ -129,9 +129,23 @@ $(function() {
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1"><spring:message code="label.studyDesign"/></a></li>
-				<li><a href="#tabs-2"><spring:message code="label.protocols"/></a></li>
-				<li><a href="#tabs-3"><spring:message code="label.data"/></a></li>
-				<li><a href="#tabs-4"><spring:message code="label.metabolites"/></a></li>
+				<li>
+					<a href="#tabs-2"><spring:message code="label.protocols"/>
+						<c:if test="${not empty study.protocols}">
+							(${fn:length(study.protocols)})
+						</c:if>
+					</a>
+				</li>
+				<li>
+					<a href="#tabs-3"><spring:message code="label.data"/></a>
+				</li>
+				<li>
+					<a href="#tabs-4"><spring:message code="label.metabolites"/>
+					<c:if test="${not empty metabolites}">
+						(${fn:length(metabolites)})
+					</c:if>
+					</a>
+				</li>
 				<!--li><a href="#tabs-4"><spring:message code="label.metaboliteIdentification"/></a></li-->
 			</ul>
 			<div id="tabs-1">
