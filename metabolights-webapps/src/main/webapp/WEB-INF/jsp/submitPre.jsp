@@ -27,3 +27,11 @@
 	    	<span class="subtitlemlb"><spring:message code="label.updateOldStudySub"/></span>
       	</a>
     </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="text-fullwidth">
+        <spring:message code="msg.metabolightsAbout11" />
+    </div>
