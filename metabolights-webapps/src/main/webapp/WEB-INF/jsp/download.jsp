@@ -14,7 +14,24 @@
             <td colspan='2'> <spring:message code="msg.metabolightsAbout7" /></td>
         </tr>
 
+        <tr>
+            <td colspan='2'>
+                <br/>
+                <br/>
+                <spring:message code="msg.metabolightsAbout9" />
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan='2'>
+                <br/>
+                <br/>
+                <spring:message code="msg.metabolightsAbout12" />
+            </td>
+        </tr>
+
     </table>
+
 
     <div class="text-fullwidth">
         <br/>

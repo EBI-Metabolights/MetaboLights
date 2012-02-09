@@ -23,6 +23,10 @@
             such as ":", are replaced by '_', in order to avoid OS file naming problems.
 
          -->
+    <!--
+
+        REPLACE / nfs/production/panda/metabolights/isatab / with / net/isilonP/public/rw/homes/tc_cm01/isatab / for production deployment
+    -->
     <isatab_source>
         <location
                 filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
@@ -316,7 +320,7 @@
                 web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
     </datasource>
-    
+
     <datasource measurement_type="metabolite profiling" technology_type="real time PCR">
         <raw_data
                 filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
@@ -330,7 +334,7 @@
                 filesystem_path="/nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 web_url="file:///nfs/production/panda/metabolights/isatab/metadata/study_${study-acc}"
                 />
-    </datasource>    
+    </datasource>
 
     <datasource measurement_type="clinical chemistry analysis" technology_type="">
         <raw_data

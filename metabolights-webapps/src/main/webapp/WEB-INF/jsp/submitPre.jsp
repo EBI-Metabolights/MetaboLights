@@ -28,10 +28,10 @@
       	</a>
     </div>
 
-    <br/>
-    <br/>
-    <br/>
-    <br/>
     <div class="text-fullwidth">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <spring:message code="msg.metabolightsAbout11" />
     </div>
