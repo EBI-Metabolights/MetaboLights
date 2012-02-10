@@ -170,8 +170,8 @@ public class BIISubmissionController extends AbstractController {
 			
 	}
 	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
-	private @Value("#{appProperties.publicFtpLocation}") String publicFtpLocation;
-	private @Value("#{appProperties.privateFtpLocation}") String privateFtpLocation;
+	private @Value("#{appProperties.publicFtpStageLocation}") String publicFtpLocation;      //TODO, short term fix until filesystem is mounted RW
+	private @Value("#{appProperties.privateFtpStageLocation}") String privateFtpLocation;
 	
 	
 	/**
