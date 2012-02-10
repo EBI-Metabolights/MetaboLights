@@ -164,9 +164,11 @@ $(function() {
 		            <fieldset class="filterbox">
 		            	<legend><spring:message code="label.studyDesign"/>:</legend>
 			            <br/>
+			            <ul>
 			            <c:forEach var="design" items="${study.designs}" >
-			                ${design.value}<br/>
+			                <li>${design.value}
 			            </c:forEach>
+			            </ul>
 		            </fieldset>
 		        </c:if>
 		        <c:if test="${not empty study.objective}">
