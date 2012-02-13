@@ -47,7 +47,7 @@ public class EntryController extends AbstractController {
 	private SearchService searchService;
 
     private @Value("#{appProperties.publicFtpLocation}") String publicFtpDirectory;
-    private @Value("#{appProperties.privateFtpLocation}") String privateFtpDirectory;
+    private @Value("#{appProperties.privateFtpStageLocation}") String privateFtpDirectory;         //TODO, short term fix until filesystem is mounted RW
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}")

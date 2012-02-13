@@ -74,6 +74,7 @@ public class BIISubmissionController extends AbstractController {
 		//Start the submission process...
 		//Create a check list to report back the user..
 		CheckList cl = new CheckList(SubmissionProcessCheckListSeed.values());
+        logger.info("BIISubmit. Start");
 
 		try {
 
@@ -94,13 +95,16 @@ public class BIISubmissionController extends AbstractController {
                     status = VisibilityStatus.PUBLIC;
                 }
             }
-			
+
+            logger.info("BIISubmit. Writing the file");
 			String isaTabFile = writeFile(file, cl);
 						
 			//Upload to BII
+            logger.info("BIISubmit. Upload to BII");
 			HashMap<String,String> accessions = uploadToBii(isaTabFile, status, cl, publicDate);
 			
 			// Clean directory
+            logger.info("BIISubmit. Clean directory");
 			new File(isaTabFile).delete();
 			FileUtil.deleteDir(new File(itu.getUnzipFolder()));
 			
@@ -109,12 +113,14 @@ public class BIISubmissionController extends AbstractController {
 			if (publicDate != null){ //The submitter picked the public date
 				logger.info("Public release date has been given by the submitter as " + publicDate + " for accession " +accessions);
 			}
-			
 
+
+            logger.info("BIISubmit. Add data to session");
 			HttpSession httpSession = request.getSession();
 			httpSession.setAttribute("accessionsOK", accessions);
 			httpSession.setAttribute("clOK", cl);
-			
+
+            logger.info("BIISubmit. Return new mav for "+accessions);
 	    	return new ModelAndView("redirect:submitComplete");
 	    	
 		} catch (Exception e){
@@ -185,7 +191,10 @@ public class BIISubmissionController extends AbstractController {
 	public String writeFile(MultipartFile file, CheckList cl) throws IOException  {
 		//TODO get separator from props
 
+        logger.info("BII how large is the file = "+file.getSize());
+        logger.info("BII writeFile to bytes");
 		byte[] bytes = file.getBytes();
+
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		String targetDir=uploadDirectory+ "/"+user.getUserId()+"/";
 

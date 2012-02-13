@@ -1,8 +1,8 @@
 #!/bin/ksh
 
 base_dir=/net/isilonP/public/rw/homes/tc_cm01/studies
-private_public="private public"
-
+#private_public="private public"  #if you wanna move both private and public archives
+private_public="private"
 cd $base_dir
 for priv_pub in $private_public
 do

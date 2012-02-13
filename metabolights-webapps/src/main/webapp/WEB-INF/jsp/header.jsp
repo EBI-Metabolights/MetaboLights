@@ -42,30 +42,30 @@
 	<ul id="sddm">
         <sec:authorize ifNotGranted="ROLE_SUBMITTER" >
           <li><a href="login"><spring:message code="menu.login"/><br/>&nbsp;</a></li>
-        </sec:authorize> 
-        <sec:authorize ifAnyGranted="ROLE_SUBMITTER">		
-			<ul id="sddm">	       		
-			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()"> 
+        </sec:authorize>
+        <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+			<ul id="sddm">
+			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">
 			  			<sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName"/><span class="smallArrow"></span></a>
 				 <div id="m2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
-					<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a> 
-					<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>  
-					<a href="<spring:url value="/j_spring_security_logout"/>"><spring:message code="menu.logout"/></a> 
-				 </div>  
+					<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a>
+					<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>
+					<a href="<spring:url value="/j_spring_security_logout"/>"><spring:message code="menu.logout"/></a>
+				 </div>
 			   </li>
-			</ul>   
-		</sec:authorize>	 
-     
-		
+			</ul>
+		</sec:authorize>
+
+
 		<li><a href="presubmit"><spring:message code="menu.submit"/></a></li>
 		<li><a href="download"><spring:message code="menu.download"/></a></li>
         <li><a href="search"><spring:message code="menu.browse"/></a></li>
 		<li><a href="index"><spring:message code="menu.home"/></a></li>
-		<!-- 
+		<!--
 		<li><a href="<spring:url value="index"/>" onmouseover="mopen('m1')"onmouseout="mclosetime()"><spring:message code="menu.home"/><span class="smallArrow"></span></a>
 			<div id="m1" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
-				<a href="<spring:url value="about"/>"><spring:message code="menu.about"/></a>  
-				<a href="<spring:url value="contact"/>"><spring:message code="menu.contact"/></a> 
+				<a href="<spring:url value="about"/>"><spring:message code="menu.about"/></a>
+				<a href="<spring:url value="contact"/>"><spring:message code="menu.contact"/></a>
 			</div>
 		</li>
 		 -->
