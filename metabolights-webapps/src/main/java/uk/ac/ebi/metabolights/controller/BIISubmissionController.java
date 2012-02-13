@@ -195,6 +195,7 @@ public class BIISubmissionController extends AbstractController {
         logger.info("BII writeFile to bytes");
 		byte[] bytes = file.getBytes();
 
+        logger.info("BII find user info");
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		String targetDir=uploadDirectory+ "/"+user.getUserId()+"/";
 
