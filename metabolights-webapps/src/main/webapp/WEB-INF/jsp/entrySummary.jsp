@@ -2,6 +2,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@page pageEncoding="UTF-8"%>
 <!-- <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>-->
 <div style='margin-bottom: 10px;' class="formbox border">
 	

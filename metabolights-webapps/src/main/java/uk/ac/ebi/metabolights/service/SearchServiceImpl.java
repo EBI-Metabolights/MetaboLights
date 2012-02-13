@@ -93,7 +93,7 @@ public class SearchServiceImpl implements SearchService{
 
         QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, productFields, aWrapper);
         parser.setAllowLeadingWildcard(true);
-        parser.setLowercaseExpandedTerms(false);
+        parser.setLowercaseExpandedTerms(true);
 
         org.apache.lucene.search.Query luceneQuery = parser.parse(freeText);
 

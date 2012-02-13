@@ -2,9 +2,6 @@ package uk.ac.ebi.metabolights.search;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
-import org.hibernate.annotations.MetaValue;
-
-import antlr.StringUtils;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 import java.text.SimpleDateFormat;
@@ -516,7 +513,10 @@ public class LuceneSearchResult {
 				}
 				idx++;
 			}
-			
+
+            //Quickfix for problem with ":?" values
+            value = value.replaceAll(":\\?",":"); //TODO, fix in lucene index builder
+
 			//If there is a key already
 			if (keyValue.containsKey(key)){
 				
