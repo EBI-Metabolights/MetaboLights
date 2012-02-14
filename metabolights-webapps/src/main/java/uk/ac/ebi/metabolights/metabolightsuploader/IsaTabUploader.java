@@ -234,6 +234,7 @@ public class IsaTabUploader {
 	public void UploadWithoutIdReplacement(String studyToUpdate) throws Exception{
 		itir.setStudyIdToUse(studyToUpdate);
 		Upload();
+		itir.setStudyIdToUse(null);
 	}
 	/**
 	 * Zip the folder using the Study id as a name. (this make sense only it there is only one study, to be done soon).
