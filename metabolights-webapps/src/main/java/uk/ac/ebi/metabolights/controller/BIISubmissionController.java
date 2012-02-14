@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
@@ -23,7 +22,6 @@ import uk.ac.ebi.metabolights.utils.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -184,7 +182,7 @@ public class BIISubmissionController extends AbstractController {
 	 * Writes a user upload file to designated target directory.
 	 * 
 	 * @param file user upload
-	 * @param CheckList
+	 * @param cl
 	 * @throws IOException 
 	 * @throws Exception 
 	 */
@@ -193,15 +191,15 @@ public class BIISubmissionController extends AbstractController {
 
         logger.info("BII how large is the file = "+file.getSize());
         logger.info("BII writeFile to bytes");
-		byte[] bytes = file.getBytes();
+		//byte[] bytes = file.getBytes();
 
         logger.info("BII find user info");
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		String targetDir=uploadDirectory+ "/"+user.getUserId()+"/";
 
-		logger.info("Upload by user= "+user.getUserId()+" "+user.getUserName());
-		logger.info("File #bytes   = "+bytes.length + " for file "+ file.getOriginalFilename()+" from user.. ");
-		logger.info("Target dir    = "+targetDir);
+		logger.info("Upload by user = "+user.getUserId()+" "+user.getUserName());
+		logger.info("File size      = "+file.getSize() + " for file "+ file.getOriginalFilename()+" from user.. ");
+		logger.info("Target dir     = "+targetDir);
 
 		// Check if dir needs to be created
 		File dir=new File(targetDir);
@@ -216,9 +214,13 @@ public class BIISubmissionController extends AbstractController {
 		String isaTabFile = uploadDirectory+ "/"+user.getUserId()+"/"+file.getOriginalFilename();
 		
 		//Write the file in the file system
-		FileOutputStream fos = new FileOutputStream(isaTabFile); // or original..
-		fos.write(bytes);
-		fos.close();
+        logger.info("Write the file in the file system "+ isaTabFile);
+        File newFile = new File(isaTabFile);
+        logger.info("The new file is created, now we transfer the file from memory to the filesystem");
+        file.transferTo(newFile);
+		//FileOutputStream fos = new FileOutputStream(isaTabFile); // or original..
+		//fos.write(bytes);
+		//fos.close();
 		
 		// If there is a CheckList
 		if (cl != null){
