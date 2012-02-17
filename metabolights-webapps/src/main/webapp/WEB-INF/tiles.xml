@@ -127,6 +127,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/submitPre.jsp" />
     </definition>
 
+    <definition name="config" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights - Congiguration" />
+        <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
+    </definition>
+	
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
 
 </tiles-definitions>
