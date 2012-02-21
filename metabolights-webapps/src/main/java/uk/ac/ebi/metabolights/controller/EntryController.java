@@ -75,24 +75,28 @@ public class EntryController extends AbstractController {
 				}
 			}
 		}
-
+		
 		// Look for metabolites (in the index)
 		LuceneSearchResult sr = null;
 		
-		try {
-            List<LuceneSearchResult> srList = null;
+		// If the study is not a fake one (user not allowed to view it)
+		if (study.getAcc().equals(VisibilityStatus.PRIVATE.toString())){
 
-            HashMap<Integer,List<LuceneSearchResult>> srStudies = searchService.search(mtblId);
-            if (srStudies.size() != 0){
-			    srList = (srStudies.values().iterator().next());
-
-                if (srList != null)
-			        sr = srList.get(0);
-            }
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+	            List<LuceneSearchResult> srList = null;
+	
+	            HashMap<Integer,List<LuceneSearchResult>> srStudies = searchService.search(mtblId);
+	            if (srStudies.size() != 0){
+				    srList = (srStudies.values().iterator().next());
+	
+	                if (srList != null)
+				        sr = srList.get(0);
+	            }
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		// Get the DownloadLink
