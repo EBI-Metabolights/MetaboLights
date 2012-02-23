@@ -172,6 +172,13 @@ public class MetabolightsUser implements Serializable{
 	}
 
 	public Set<AppRole> getAuthorities() {
+		
+		if (isCurator()){
+			if (!authorities.contains(AppRole.ROLE_SUPER_USER)){
+				authorities.add(AppRole.ROLE_SUPER_USER);
+			}
+		}
+		
 		return authorities;
 	}
 
