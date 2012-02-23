@@ -134,7 +134,7 @@
 	
 	<!--For EBI tomcat server deployment      -->
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-      	<property name="jndiName" value="java:comp/env/jdbc/metabolights/prod"/>
+      	<property name="jndiName" value="java:comp/env/jdbc/metabolights/test"/>
       	<property name="resourceRef" value="true" /> 
 	</bean>
     
@@ -168,8 +168,8 @@
         <sec:intercept-url pattern="/mysubmissions" access="isAuthenticated()" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/privatefiles" access="isAuthenticated()" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/updateAccount" access="isAuthenticated()" /> <!-- requires-channel="https" -->
-		<sec:intercept-url pattern="/reindex" access="hasRole('ROLE_SUPER_USER')" /> <!-- requires-channel="https" --> <!-- Todo. CURATORS ONLY -->
-		<sec:intercept-url pattern="/config" access="hasRole('ROLE_SUPER_USER')" /> <!-- requires-channel="https" --> <!-- Todo. CURATORS ONLY -->
+		<sec:intercept-url pattern="/reindex" access="hasRole('ROLE_SUPER_USER')" /> <!-- requires-channel="https" -->
+		<sec:intercept-url pattern="/config" access="hasRole('ROLE_SUPER_USER')" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/login" access="permitAll"/> <!-- requires-channel="https" -->  
         <sec:intercept-url pattern="/**" access="permitAll"/> <!-- requires-channel="http" -->
         <sec:logout logout-success-url="/loggedout" delete-cookies="JSESSIONID" />
