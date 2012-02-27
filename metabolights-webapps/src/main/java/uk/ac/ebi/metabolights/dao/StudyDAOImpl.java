@@ -1,9 +1,5 @@
 package uk.ac.ebi.metabolights.dao;
 
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.Iterator;
-
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -13,16 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
-
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
-import uk.ac.ebi.bioinvindex.model.security.UserRole;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
-import uk.ac.ebi.metabolights.authenticate.AppRole;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 
 /**
@@ -45,7 +41,7 @@ public class StudyDAOImpl implements StudyDAO{
 	public Study getStudy(String studyAcc, boolean clearSession) {
 
 		Session session = sessionFactory.getCurrentSession();
-		
+
 		String queryStr = "FROM Study WHERE acc = :acc";
 		
 		Query q = session.createQuery(queryStr);
@@ -128,6 +124,9 @@ public class StudyDAOImpl implements StudyDAO{
 		
 		if (clearSession)
 			session.clear();
+
+        if (session.isOpen())
+            session.close();
 
 		return study;
 	}
