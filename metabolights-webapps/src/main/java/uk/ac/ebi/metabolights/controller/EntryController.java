@@ -54,17 +54,17 @@ public class EntryController extends AbstractController {
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblId);
 
-        //if (!mtblId.startsWith("MTBLS") && !mtblId.startsWith("BII")) //Fix, in case the entry controller picks up another page
-        //    return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.noPageFound") +mtblId);
-
+        Study study = null;
 
         try {
             request.setCharacterEncoding("UTF-8");
+            study = studyService.getBiiStudy(mtblId,true);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();  //TODO, change
         }
-
-        Study study = studyService.getBiiStudy(mtblId,true);
+        
+        if (study.getAcc() == null || study.getAcc().equals("Error"))
+            return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
 		
 		Collection<String> organismNames = new TreeSet<String>();
 		for (AssayResult assRes : study.getAssayResults()) {
@@ -121,6 +121,7 @@ public class EntryController extends AbstractController {
 
 		return mav;
 	}
+
 	private Collection<MLAssay> getMLAssays(Study study){
 		
 		HashMap<String,MLAssay> mlAssays = new HashMap<String, MLAssay>();

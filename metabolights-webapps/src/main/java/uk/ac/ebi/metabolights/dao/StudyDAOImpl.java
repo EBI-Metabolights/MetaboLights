@@ -35,7 +35,7 @@ public class StudyDAOImpl implements StudyDAO{
 	/**
 	 * Retrieve a study based on the accession identifier.
 	 * @param studyAcc accession number of desired Study
-	 * @param hibernate hack, set to true when only selecting (faster)
+	 * @param clearSession hibernate hack, set to true when only selecting (faster)
 	 */
 	@Override
 	public Study getStudy(String studyAcc, boolean clearSession) {
@@ -124,9 +124,6 @@ public class StudyDAOImpl implements StudyDAO{
 		
 		if (clearSession)
 			session.clear();
-
-        if (session.isOpen())
-            session.close();
 
 		return study;
 	}
