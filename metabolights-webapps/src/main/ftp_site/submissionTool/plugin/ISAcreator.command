@@ -5,7 +5,7 @@ if [ `uname` != "Darwin" ]; then
   exit
 fi  
 
-JAVA_OPTS="-Dfile.encoding=UTF-8 -Xmx2048m -Xms512m $JAVA_OPTS"
+JAVA_OPTS="-Dfile.encoding=UTF-8 -Xmx2048m -Xms512m $JAVA_OPTS";export JAVA_OPTS
 
 CURR_DIR=`dirname $0`
 ISACREATOR_VERSION="1.5.0"
