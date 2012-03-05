@@ -4,6 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.SearchService;
@@ -99,8 +102,8 @@ public class EntryController extends AbstractController {
 			}
 		}
 
-		// Get the DownloadLink
-		String ftpLocation = getDownloadLink(study.getAcc(), study.getStatus());
+        // Get the DownloadLink
+        String ftpLocation = getDownloadLink(study.getAcc(), study.getStatus());
 
 		ModelAndView mav = new ModelAndView("entry");
 		mav.addObject("study", study);
@@ -161,9 +164,18 @@ public class EntryController extends AbstractController {
 		try {
 
 			Boolean validUser = false;
-			final String currentUser = principal.getName(); //The logged in user.  principal = MetabolightsUser
+            final String currentUser = principal.getName(); //The logged in user.  principal = MetabolightsUser
 
-			if (currentUser != null){ //Check if the logged in user can access the study
+            //TODO, not very elegant, this is just to determine if the logged in user us a curator
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (!auth.getPrincipal().equals(new String("anonymousUser"))){
+                MetabolightsUser metabolightsUser = (MetabolightsUser) auth.getPrincipal();
+
+                if (metabolightsUser != null && metabolightsUser.isCurator())
+                    validUser = true;
+            }
+
+			if (currentUser != null) { //Check if the logged in user can access the study
 				Study study = studyService.getBiiStudy(fileName,true);
 				Collection<User> users = study.getUsers();
 				Iterator<User> iter = users.iterator();
@@ -178,7 +190,7 @@ public class EntryController extends AbstractController {
 			}
 
 			if (!validUser)
-				throw new RuntimeException(PropertyLookup.getMessage("Entry.notAuthorised")); 
+				throw new RuntimeException(PropertyLookup.getMessage("Entry.notAuthorised"));
 
 			try {
 				// get your file as InputStream

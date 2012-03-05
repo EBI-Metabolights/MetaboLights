@@ -19,7 +19,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "USER_DETAIL")
-//COmment this for MySQL
+//Oracle sequence, comment this *out* for MySQL
 @SequenceGenerator(name="userSeq", sequenceName="USER_DETAIL_SEQ", allocationSize=1)
 
 public class MetabolightsUser implements Serializable{
