@@ -3,6 +3,7 @@
 # Ken Haug.  Mac OS X startup script to set UTF-8 and memory parameters
 # The MetaboLights team
 #
+
 if [ `uname` != "Darwin" ]; then
   echo "This file is only for Mac OS X"
   exit
