@@ -15,13 +15,13 @@ if [ -f $CURR_DIR/ISAcreator$ISACREATOR_VERSION.jar ]
 then
     echo "Found $CURR_DIR/ISAcreator$ISACREATOR_VERSION.jar"
     java -jar $JAVA_OPTS $CURR_DIR/ISAcreator$ISACREATOR_VERSION.jar &
-elif [ -f $CURR_DIR/ISAcreator.jar ]
-then
-    echo "Found $CURR_DIR/ISAcreator.jar"
-    java -jar $JAVA_OPTS $CURR_DIR/ISAcreator.jar &
 elif [ -f $CURR_DIR/ISAcreator-$ISACREATOR_VERSION.jar ]
 then
     echo "Found $CURR_DIR/ISAcreator-$ISACREATOR_VERSION.jar"
+    java -jar $JAVA_OPTS $CURR_DIR/ISAcreator-$ISACREATOR_VERSION.jar &
+elif [ -f $CURR_DIR/ISAcreator.jar ]
+then
+    echo "Found $CURR_DIR/ISAcreator.jar"
     java -jar $JAVA_OPTS $CURR_DIR/ISAcreator.jar &
 else
   echo "Can not find ISAcreator!"
