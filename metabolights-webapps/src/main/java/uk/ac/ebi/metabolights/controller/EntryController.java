@@ -65,8 +65,9 @@ public class EntryController extends AbstractController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();  //TODO, change
         }
-        
-        if (study.getAcc() == null || study.getAcc().equals("Error"))
+
+        // Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
+        if (study.getAcc() == null || study.getAcc().equals("Error") || study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
             return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
 		
 		Collection<String> organismNames = new TreeSet<String>();
@@ -81,26 +82,22 @@ public class EntryController extends AbstractController {
 		
 		// Look for metabolites (in the index)
 		LuceneSearchResult sr = null;
-		
-		// If the study is not a fake one (user not allowed to view it)
-		if (study.getAcc().equals(VisibilityStatus.PRIVATE.toString())){
 
-			try {
-	            List<LuceneSearchResult> srList = null;
-	
-	            HashMap<Integer,List<LuceneSearchResult>> srStudies = searchService.search(mtblId);
-	            if (srStudies.size() != 0){
-				    srList = (srStudies.values().iterator().next());
-	
-	                if (srList != null)
-				        sr = srList.get(0);
-	            }
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+        try {
+            List<LuceneSearchResult> srList = null;
+
+            HashMap<Integer,List<LuceneSearchResult>> srStudies = searchService.search(mtblId);
+            if (srStudies.size() != 0){
+                srList = (srStudies.values().iterator().next());
+
+                if (srList != null)
+                    sr = srList.get(0);
+            }
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         // Get the DownloadLink
         String ftpLocation = getDownloadLink(study.getAcc(), study.getStatus());
@@ -110,7 +107,9 @@ public class EntryController extends AbstractController {
 		mav.addObject("organismNames", organismNames);
 		mav.addObject("factors", getFactorsSummary(study));
 		mav.addObject("assays", getMLAssays(study));
-        if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))    //User is not authorised to view this study
+
+        //Have to give the user the download stream as the study is not on the public ftp
+        if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
             mav.addObject("ftpLocation",ftpLocation);
 
         if (sr != null)

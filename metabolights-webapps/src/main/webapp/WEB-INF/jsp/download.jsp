@@ -18,7 +18,7 @@
             <td colspan='3'>
                 <br/>
                 <br/>
-                <spring:message code="msg.metabolightsAbout9" />
+                <spring:message code="msg.metabolightsAbout12" />
             </td>
         </tr>
 
@@ -26,7 +26,7 @@
             <td colspan='3'>
                 <br/>
                 <br/>
-                <spring:message code="msg.metabolightsAbout12" />
+                <spring:message code="msg.metabolightsAbout9" />
             </td>
         </tr>
 

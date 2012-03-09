@@ -337,7 +337,7 @@ public class LuceneSearchResult {
 			
 			// Get the values
 			// Description
-			String description = metaboliteValues[1];
+			String description = metaboliteValues[1].toLowerCase(); //TODO, testing if this will make searching better
 			// Identifier
 			String identifier = metaboliteValues[2];
 

@@ -87,9 +87,13 @@ public class SearchServiceImpl implements SearchService{
         PerFieldAnalyzerWrapper aWrapper =
                 new PerFieldAnalyzerWrapper(analyzer);
         aWrapper.addAnalyzer("acc", new KeywordAnalyzer());
-        aWrapper.addAnalyzer("investigation_acc", new KeywordAnalyzer());
         aWrapper.addAnalyzer("protocol", new KeywordAnalyzer());
         aWrapper.addAnalyzer("status", new KeywordAnalyzer());
+        aWrapper.addAnalyzer("investigation_acc", new KeywordAnalyzer());
+        //aWrapper.addAnalyzer("investigation_description", new KeywordAnalyzer());
+        //aWrapper.addAnalyzer("investigation_title", new KeywordAnalyzer());
+        //aWrapper.addAnalyzer("Metabolite", new KeywordAnalyzer());
+
 
         QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, productFields, aWrapper);
         parser.setAllowLeadingWildcard(true);
