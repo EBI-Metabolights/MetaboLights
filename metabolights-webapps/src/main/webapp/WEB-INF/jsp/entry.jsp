@@ -108,10 +108,11 @@ $(function() {
 
        <c:if test="${not empty study.contacts}">
             <br/>
-            <c:forEach var="contact" items="${study.contacts}">
-                <span id="aff" 
+            <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
+				<c:if test="${loopStatus.index ne 0}">,</c:if>
+	            <span id="aff" 
                 	<c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>
-                >${contact.firstName} ${contact.lastName},</span>
+                >${contact.firstName} ${contact.lastName}</span>
             </c:forEach>
 			<br/>
         </c:if>
@@ -146,7 +147,6 @@ $(function() {
 					</c:if>
 					</a>
 				</li>
-				<!--li><a href="#tabs-4"><spring:message code="label.metaboliteIdentification"/></a></li-->
 			</ul>
 			<div id="tabs-1">
 		        <c:if test="${not empty organismNames}">
