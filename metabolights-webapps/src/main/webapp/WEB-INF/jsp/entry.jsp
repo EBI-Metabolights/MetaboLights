@@ -261,38 +261,47 @@ $(function() {
 		        </c:if>
 			</div> <!--  ends tabs-3 -->
 			<div id="tabs-4">
-				<c:if test="${not empty metabolites}">
-					<br/>
-					<br/>
-		            <table width="100%">
-						<thead class='text_header'>
-							<tr>
-								<th><spring:message code="label.metabolites.description"/></th>
-								<%-- <th><spring:message code="label.metabolites.identifier"/></th> --%>
-							</tr>
-						</thead>
-						<tbody>			
-		                <c:forEach var="metabolite" items="${metabolites}" varStatus="loopStatus">
-                    		
-                    		<c:if test="${loopStatus.index == 10}">
-                    			<tr><td><a href="#" id="toggle">Show more</a></td></tr>
-                    			</tbody><tbody id="hidden" style='display:none'>
-                    		</c:if>
-                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
-		                    	<td class="tableitem">${metabolite.description}<!-- </td> -->
-                    			<!-- <td class="tableitem"> -->
-                    				<c:if test="${not empty metabolite.identifier}">
+			        
+				<c:if test="${not empty assays}">
+
+					<c:forEach var="mlAssay" items="${assays}">
+					
+						<br/>
+						<br/>
+			            <table width="100%">
+							<thead class='text_header'>
+								<tr>
+									<th><spring:message code="label.metabolites.description"/> - "${mlAssay.fileName}"</th>
+									<th>Formula</th>
+								</tr>
+							</thead>
+							<tbody>			
+			                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatus">
+	                    		
+	                    		<c:if test="${loopStatus.index == 10}">
+	                    			<tr><td colspan=2><a href="#" id="toggle">Show more</a></td></tr>
+	                    			</tbody><tbody id="hidden" style='display:none'>
+	                    		</c:if>
+	                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
+			                    	<td class="tableitem">
+			                    		${met.metabolite.description}
 	                    				<c:choose>
-	                    					<c:when test="${empty metabolite.link }"> (${metabolite.identifier})</c:when>
-	                    					<c:otherwise><a href="${metabolite.link}" target="_blank">(${metabolite.identifier})</a></c:otherwise>
+	                    					<c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
+	                    					<c:otherwise><a href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
 	                    				</c:choose>
-                    				</c:if>
-                    			</td>
-		                    </tr>
-		                </c:forEach>
-		                </tbody>
-		            </table>
-		        </c:if>
+		                    		</td>
+	                    			<td class="tableitem">
+			                    		${met.metabolite.chemical_formula}
+	                    			</td>
+										                    			
+			                    </tr>
+			                </c:forEach>
+			                </tbody>
+			            </table>
+			        </c:forEach> <!-- For each assayGroup -->					
+		        </c:if>		        
+		        
+		        
 			</div> <!--  ends tabs-4 -->
 		</div> <!-- end tabs -->
  </div>	

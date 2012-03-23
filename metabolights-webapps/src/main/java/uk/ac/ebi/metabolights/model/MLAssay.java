@@ -11,7 +11,9 @@
 package uk.ac.ebi.metabolights.model;
 
 import uk.ac.ebi.bioinvindex.model.Annotation;
+import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
+import uk.ac.ebi.bioinvindex.model.Metabolite;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.Factor;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
@@ -32,6 +34,8 @@ public class MLAssay {
 	private List<Factor> factors = new ArrayList();
 	private List<AssayResult> assayResult = new ArrayList();
 	private List<Assay> assayLines = new ArrayList();
+	private List<MetaboliteGUI> metabolites = new ArrayList();
+	private AssayGroup ag;
 	
 	
 	public static String getAssayNameFromAssay(Assay assay){
@@ -112,6 +116,28 @@ public class MLAssay {
 			}
 		}
 		 return false;
+	}
+	public void setAssayGroup (AssayGroup ag){
+		this.ag = ag;
+		addGUIMetabolites();
+		
+	}
+	public List<MetaboliteGUI> getMetabolitesGUI(){
+		return metabolites;
+	}
+	
+	private void addGUIMetabolites(){
+		
+		for (Metabolite met: ag.getMetabolites()){
+			
+			// Only add metabolites known
+			if (!met.getDescription().toLowerCase().startsWith("unk")){
+			
+				metabolites.add(new MetaboliteGUI(met));
+				
+			}
+		}
+		
 	}
 	
 }

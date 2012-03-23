@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
+
+import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
@@ -103,6 +105,7 @@ public class StudyDAOImpl implements StudyDAO{
 		Hibernate.initialize(study.getPublications());
 		Hibernate.initialize(study.getAssays());
 		Hibernate.initialize(study.getDesign());
+		Hibernate.initialize(study.getAssayGroups());
 		//Hibernate.initialize(study.getUsers());
 
 		Collection<AssayResult> assayResults = study.getAssayResults();
@@ -121,6 +124,15 @@ public class StudyDAOImpl implements StudyDAO{
 			
 		}
 		Hibernate.initialize(study.getProtocols());
+		
+		
+		// For each assay group..initialize metabolite collection
+		for (AssayGroup ag: study.getAssayGroups()){
+			Hibernate.initialize(ag.getMetabolites());
+		}
+		
+		
+		
 		
 		if (clearSession)
 			session.clear();

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
@@ -20,7 +22,6 @@ import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
@@ -79,25 +80,6 @@ public class EntryController extends AbstractController {
 				}
 			}
 		}
-		
-		// Look for metabolites (in the index)
-		LuceneSearchResult sr = null;
-
-        try {
-            List<LuceneSearchResult> srList = null;
-
-            HashMap<Integer,List<LuceneSearchResult>> srStudies = searchService.search(mtblId);
-            if (srStudies.size() != 0){
-                srList = (srStudies.values().iterator().next());
-
-                if (srList != null)
-                    sr = srList.get(0);
-            }
-
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
         // Get the DownloadLink
         String ftpLocation = getDownloadLink(study.getAcc(), study.getStatus());
@@ -111,9 +93,6 @@ public class EntryController extends AbstractController {
         //Have to give the user the download stream as the study is not on the public ftp
         if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
             mav.addObject("ftpLocation",ftpLocation);
-
-        if (sr != null)
-            mav.addObject("metabolites", sr.getMetabolites());
         
         //Stick text for tagging (Whatizit) in the session..
         if (study.getDescription()!=null) {
@@ -153,10 +132,22 @@ public class EntryController extends AbstractController {
 			mlAssay.addAssayResult(ar);
 
 		}
+		
+		// Assign AssayGroup and metabolites
+		for (AssayGroup ag: study.getAssayGroups()){
+			MLAssay mlAssay = mlAssays.get(ag.getFileName());
+		
+			if (mlAssay == null){
+				logger.info("Oh! Not MLAssay forund for AssayGroup: " + ag.getFileName());
+			}else{
+				mlAssay.setAssayGroup(ag);
+			}
+		}
+		
+		
 		return mlAssays.values();
 		
 	}
-
 	
 	@RequestMapping(value = "/privatefiles/{file_name}")
 	public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response, Principal principal) {

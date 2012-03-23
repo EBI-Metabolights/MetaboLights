@@ -24,7 +24,6 @@ public class LuceneSearchResult {
 	private List<Publication> publications;
 	private List<String> technologies;
 	private List<String> platforms;
-	private List<Metabolite>metabolites;
 	private Document doc;
 	private float score;
 	private Submitter submitter;
@@ -55,7 +54,6 @@ public class LuceneSearchResult {
 		this.releaseDate = parseDate("releaseDate");
 		this.submissionDate = parseDate("submissionDate");
 		
-		this.metabolites= parseMetabolites();
 		
 	}
 	
@@ -137,9 +135,6 @@ public class LuceneSearchResult {
 	
 	public List<Publication> getPublications() {
 		return publications;
-	}
-	public List<Metabolite> getMetabolites(){
-		return metabolites;
 	}
 
 	/**
@@ -250,112 +245,8 @@ public class LuceneSearchResult {
 		public String getEmail(){return this.email;}
 		public String getUserName(){return this.userName;}
 	}
-	public class Metabolite{
-		private String identifier, description;
-		public Metabolite(String identifier, String description){
-			this.identifier = identifier;
-			this.description= description;
-		}
-		public String getIdentifier(){return this.identifier;}
-		public String getDescription(){return this.description;}
-		public String getLink(){
-			return inferLink();
-		}
-		/*
-		 * Infers the link that will take the user to the Reference repository.
-		 */
-		private String inferLink(){
-			
-			String PRIORITYIDPATTERNS = "^CHEBI:[0-9]+$~^HMDB[0-9]+$~^LM[A-Z]{2}[0-9]+$~^C[0-9]{5}$";
-			String ACCESSION_URLS =  "http://www.ebi.ac.uk/chebi/searchId.do?chebiId=" +
-						  "~http://www.hmdb.ca/metabolites/" +
-						  "~http://www.lipidmaps.org/data/LMSDRecord.php?LMID=" +
-						  "~http://www.genome.jp/dbget-bin/www_bget?cpd:";
-			
-	    	/**
-	    	 * URL Samples for ID:
-	    	 * CHEBI:		http://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15365			(Whole value)
-	    	 * HMDB:		http://www.hmdb.ca/metabolites/HMDB03459							(Whole value)
-	    	 * LIPIDMAPS:	http://www.lipidmaps.org/data/LMSDRecord.php?LMID=LMFA01010001		(Whole Value)
-	    	 * KEGG:		http://www.genome.jp/dbget-bin/www_bget?cpd:C01401					(Whole Value)
-	    	 */
-			
-			
-			
-	    	// If value is not null
-	    	if (this.identifier != null){
-	    		
-	    		String[] remotePriorityPatterns = PRIORITYIDPATTERNS.split("~");
-	    		String[] remoteAccessionURL = ACCESSION_URLS.split("~");
-	    		
-	    		for (int i =0; i <remotePriorityPatterns.length; i++){
-	    			
-	    			// Get the pattern
-	    			String pattern = remotePriorityPatterns[i];
-	    			
-	    			// If the value matches the pattern...
-	    			if (this.identifier.matches(pattern)){
-	    				
-	    				// Get the url
-	    				String url = remoteAccessionURL[i];
-	    				
-	    				// If the url is not empty...
-	    				if (!url.isEmpty()){
-	    					
-	    					// Append the id at the end...
-	    					url = url + this.identifier;
-	    					
-	    					// Return the link..
-	    					return url;
-	    				}
-	    			}
-	    		}
-	    	}
-	    	
-	    	return "";
-		} // End method
-	} // End Class
 	
-	/*
-	 * Parser the metabolites present in the index
-	 * FORMAT: description~identfier
-	 * SAMPLE: adenosin~CHEBI:12345
-	 * 		valid: null~CHEBI:12345, adenosin~null
-	 * 		invalid: null~null, adenosin~, ~CHEBI:12345.
-	 */
-	private ArrayList<Metabolite> parseMetabolites(){
-		
-		
-		String [] metabolites = this.doc.getValues("Metabolite");
-		ArrayList <Metabolite> metList = new ArrayList<Metabolite>();
-		
-		for (String metabolite:metabolites){
-			
-			// Get the values splitted .
-			String[] metaboliteValues = metabolite.split("~");
-			
-			// Get the values
-			// Description
-			String description = metaboliteValues[0].toLowerCase(); //TODO, testing if this will make searching better
-			// Identifier
-			String identifier = metaboliteValues[1];
-			
-			// Avoid null strings:
-			if (description.equals(null)) description = "";
-			if (identifier.equals(null)) identifier = "";
-			
 
-			// If it is not an unknown
-			if (!description.toLowerCase().startsWith("unk")){
-			
-				// Create and add the metabolite to the list
-				metList.add(new Metabolite(identifier,description));
-			}
-		}
-		
-		return metList;
-	
-	}
 	
 	/*Parses the user field in the lucene index (there must be only one)
 	 * Sample:  username:conesa|forename:Pablo|surname:Conesa|email:conesa@ebi.ac.uk
