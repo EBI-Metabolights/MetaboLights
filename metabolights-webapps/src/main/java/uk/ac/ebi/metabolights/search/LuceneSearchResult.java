@@ -318,11 +318,10 @@ public class LuceneSearchResult {
 	
 	/*
 	 * Parser the metabolites present in the index
-	 * FORMAT: ~description~identfier
-	 * SAMPLE: ~adenosin~CHEBI:12345
-	 * WARNING: at least there must be one item and the separator "~" will be always present (so, split will give you always same number of elements).
-	 * 		valid: ~~CHEBI:12345, ~adenosin~
-	 * 		invalid: ~~, ~adenosin, ~CHEBI:12345.
+	 * FORMAT: description~identfier
+	 * SAMPLE: adenosin~CHEBI:12345
+	 * 		valid: null~CHEBI:12345, adenosin~null
+	 * 		invalid: null~null, adenosin~, ~CHEBI:12345.
 	 */
 	private ArrayList<Metabolite> parseMetabolites(){
 		
@@ -332,20 +331,25 @@ public class LuceneSearchResult {
 		
 		for (String metabolite:metabolites){
 			
-			// Get the values splitted (use -1 to have empty elements), first item will be always empty.
-			String[] metaboliteValues = metabolite.split("~", -1);
+			// Get the values splitted .
+			String[] metaboliteValues = metabolite.split("~");
 			
 			// Get the values
 			// Description
-			String description = metaboliteValues[1].toLowerCase(); //TODO, testing if this will make searching better
+			String description = metaboliteValues[0].toLowerCase(); //TODO, testing if this will make searching better
 			// Identifier
-			String identifier = metaboliteValues[2];
+			String identifier = metaboliteValues[1];
+			
+			// Avoid null strings:
+			if (description.equals(null)) description = "";
+			if (identifier.equals(null)) identifier = "";
+			
 
 			// If it is not an unknown
-			if (!description.toLowerCase().startsWith("unknown")){
+			if (!description.toLowerCase().startsWith("unk")){
 			
 				// Create and add the metabolite to the list
-				metList.add(new Metabolite(metaboliteValues[2],metaboliteValues[1]));
+				metList.add(new Metabolite(identifier,description));
 			}
 		}
 		

@@ -70,7 +70,7 @@ $(function() {
 							<td>
 								${test.key}
 							</td>
-							<td>
+							<td <c:if test="${not test.value}">class="error"</c:if>	>								
 								${test.value}
 							</td>
 						</tr>
