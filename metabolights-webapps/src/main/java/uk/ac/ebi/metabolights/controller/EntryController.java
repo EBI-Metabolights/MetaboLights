@@ -124,12 +124,15 @@ public class EntryController extends AbstractController {
 					mlAssay = mlAssays.get(assayName);
 				}
 				
+				
 				mlAssay.addAssayLines(assay);
 				
 			}
 			
 			// Add the assay line to the assay
 			mlAssay.addAssayResult(ar);
+			
+			if (ar.getAssays().size()!=1) logger.info("*****WARNING:Assays collection's size is different from 1, we expect to have a one-to-one relationship!!!: " + ar.getAssays().size());
 
 		}
 		

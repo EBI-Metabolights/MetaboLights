@@ -90,7 +90,7 @@ public class MLAssay {
 	public void addAssayResult(AssayResult newAssayResult){
 		assayResult.add(newAssayResult);
 		checkFactors(newAssayResult);
-		
+			
 	}
 	public List<Assay> getAssayLines(){
 		return assayLines;

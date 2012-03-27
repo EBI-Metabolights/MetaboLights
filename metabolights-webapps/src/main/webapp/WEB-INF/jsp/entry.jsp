@@ -26,10 +26,7 @@
 	}
 </script>
 <script language="javascript" type="text/javascript">
-<!--
-
-//-->
-$(function() {
+/* $(function() {
 	  $("#toggle").click(function() {
 	    if ($("#hidden").is(":hidden")) {
 	      $(this).text("Show less");
@@ -39,7 +36,34 @@ $(function() {
 	    $("#hidden").slideToggle();
 	    return false;
 	  });
-	});
+	}); */
+$(document).ready(function() {
+    $("a.showLink").click(function(event) {
+        var clickedId = event.target.id;
+        var idClickedSplit = clickedId.split("_");
+        /*id of the link is made up by 3 parts:
+           part 1: name of the div (eg.: syn) this is used to distinguish the show more
+            link of synonyms from the show more link in other divs
+            part 2: "link" to distinguish the link for show more link from other
+            ordinary links
+            part 3: the order of the result item to distinguish the show more button
+            in the result list is click. In case of filters of species or compounds
+            the order is always 0
+            */
+        var idPrefixClicked = idClickedSplit[0];
+        /*var itemClicked = idClickedSplit[1];*/
+        var orderOfItemClicked = idClickedSplit[2];
+        var idOfHiddenText = "#"+idPrefixClicked+"_"+orderOfItemClicked;
+        var jqClickedId= "#"+clickedId;
+        if ($(idOfHiddenText).is(":hidden")){
+        	$(jqClickedId).text("Show less");
+        }else{
+        	$(jqClickedId).text("Show more");
+        }
+        $(idOfHiddenText).slideToggle();
+        
+    });
+});
 </script>
 <script language="Javascript" type="text/javascript">
 
@@ -137,7 +161,7 @@ $(function() {
 						</c:if>
 					</a>
 				</li>
-				<li>
+				<li title="sdsds">
 					<a href="#tabs-3"><spring:message code="label.data"/></a>
 				</li>
 				<li>
@@ -231,7 +255,7 @@ $(function() {
 			</div> <!-- ends tabs-2 -->
 			<div id="tabs-3">
 				<c:if test="${not empty assays}">
-	                <c:forEach var="assay" items="${assays}">
+	                <c:forEach var="assay" items="${assays}" varStatus="loopStatusAssay">
 						<br/>
 						<br/>
 			            <table width="100%">
@@ -248,7 +272,17 @@ $(function() {
 							<tbody>
 								<c:forEach var="assayResult" items="${assay.assayResult}" varStatus="loopStatus">	
 	                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
-			                    	<td class="tableitem">${assay.fileName}</td>
+			                   		<c:if test="${loopStatus.index == 10}">
+		                    			<%-- <tr><td colspan=2><a href="#" class="showLink" id="data_link_${loopStatusAssay.index}">Show more</a></td></tr> --%>
+		                    			</tbody><tbody id="data_${loopStatusAssay.index}" style='display:none'>
+		                    		</c:if>
+			                    	<%-- <td class="tableitem">${assay.fileName} ${fn:length(assayResult.assays)}</td> --%>
+			                    	<td class="tableitem">
+			                    		<!-- we expect only one assay per assayResult, so we can loop the assay collection and get the first -->
+			                    		<c:forEach var="assayline" items="${assayResult.assays}" varStatus="loopStatus">
+			                    			${assayline.material.name}
+			                    		</c:forEach>
+			                    		</td>
 	                    			<td class="tableitem">${assay.technology} - ${assay.measurement} -  ${assay.platform}</td>
 	                    			<c:forEach var="fv" items="${assayResult.data.factorValues}">
 	                    				<td class="tableitem">${fv.value} ${fv.unit.value}</td>
@@ -257,6 +291,8 @@ $(function() {
 			                    </c:forEach>
 			            	</tbody>
 			            </table>
+			            <c:if test="${fn:length(assay.assayResult) > 10}"><a href="#" class="showLink" id="data_link_${loopStatusAssay.index}">Show more</a></c:if>
+			            <br/>
 	                </c:forEach>
 		        </c:if>
 			</div> <!--  ends tabs-3 -->
@@ -264,7 +300,7 @@ $(function() {
 			        
 				<c:if test="${not empty assays}">
 
-					<c:forEach var="mlAssay" items="${assays}">
+					<c:forEach var="mlAssay" items="${assays}" varStatus="loopStatusAssay">
 					
 						<br/>
 						<br/>
@@ -276,13 +312,12 @@ $(function() {
 								</tr>
 							</thead>
 							<tbody>			
-			                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatus">
+			                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
 	                    		
-	                    		<c:if test="${loopStatus.index == 10}">
-	                    			<tr><td colspan=2><a href="#" id="toggle">Show more</a></td></tr>
-	                    			</tbody><tbody id="hidden" style='display:none'>
+	                    		<c:if test="${loopStatusMet.index == 10}">
+	                    			</tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
 	                    		</c:if>
-	                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
+	                    		<tr style="background: ${loopStatusMet.index % 2 == 0 ? '' : '#eef5f5'}">
 			                    	<td class="tableitem">
 			                    		${met.metabolite.description}
 	                    				<c:choose>
@@ -298,6 +333,10 @@ $(function() {
 			                </c:forEach>
 			                </tbody>
 			            </table>
+			            
+			             <c:if test="${fn:length(mlAssay.metabolitesGUI) > 10}"><a href="#" class="showLink" id="met_link_${loopStatusAssay.index}">Show more</a></c:if>
+			             <br/>
+			            
 			        </c:forEach> <!-- For each assayGroup -->					
 		        </c:if>		        
 		        
