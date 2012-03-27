@@ -1,5 +1,13 @@
+MAILTO=metabolights-dev
 # Crontab for mtbl on ebi-003
 
 # Tidy up old files under the BII upload directory, also old log files from the public release script
 0 1 * * * /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/tidy.sh 2>&1 >/dev/null
-
+# Move archives to public ftp
+0,15,30,45 * * * * /net/isilonP/public/rw/homes/tc_cm01/studies/move_studies_to_ftp.sh 2>&1 >/dev/null
+# Backup mtapro, temporarily only
+0 2 * * * /homes/mtbl/scripts/backup_isa.csh
+# Maintain public studies
+30 1 * * * /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/maintainPublic.sh 2>&1 >/dev/null
+# Make sure access rights are set on the public ftp site
+0 3 * * *  chmod -R go+rx /ebi/ftp/pub/databases/metabolights/studies/public/*.zip 2>&1 >/dev/null
