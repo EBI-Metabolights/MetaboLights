@@ -73,6 +73,10 @@
         <mapping class="uk.ac.ebi.bioinvindex.model.security.Person"/>
 
         <mapping class="uk.ac.ebi.bioinvindex.mibbi.MIProject"/>
+		
+		<mapping class="uk.ac.ebi.bioinvindex.model.AssayGroup"/>
+		<mapping class="uk.ac.ebi.bioinvindex.model.Metabolite"/>
+		
 
     </session-factory>
 </hibernate-configuration>
