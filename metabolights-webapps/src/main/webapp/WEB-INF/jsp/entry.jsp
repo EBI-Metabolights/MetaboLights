@@ -161,7 +161,7 @@ $(function() {
 						</c:if>
 					</a>
 				</li>
-				<li title="sdsds">
+				<li>
 					<a href="#tabs-3"><spring:message code="label.data"/></a>
 				</li>
 				<li>
