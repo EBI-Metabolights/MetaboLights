@@ -10,9 +10,9 @@
 # 20110831  : Ken Haug - Created script
 # 20110912  : Ken Haug - Simplified and more comprehensive file checks
 # 20110914  : Ken Haug - Changed email notifications to Metabolights-dev@ebi.ac.uk
+# 20120328  : Ken Haug - Removed "clear" as this is dependent on a TERM set, like xterm
 #
 ##########################################################################
-clear
 
 . /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/logging_functions
 source /homes/oracle/ora11setup.sh
