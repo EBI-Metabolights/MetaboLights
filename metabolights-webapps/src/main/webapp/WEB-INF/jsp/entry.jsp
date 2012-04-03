@@ -305,32 +305,52 @@ $(function() {
 						<br/>
 						<br/>
 			            <table width="100%">
-							<thead class='text_header'>
-								<tr>
-									<th><spring:message code="label.metabolites.description"/> - "${mlAssay.fileName}"</th>
-									<th>Formula</th>
+
+		                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
+
+							<!-- Write the header, only the first time -->
+	                  		<c:if test="${loopStatusMet.index == 1}">
+								<thead class='text_header'>
+									<tr>
+										<th><spring:message code="label.metabolites.description"/> - "${mlAssay.fileName}"</th>
+										<th><spring:message code="label.metabolites.formula"/></th>
+			                   			<c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
+			                   				<th>${sampleHeader.sampleName}</th>
+			                   			</c:forEach>
+			                   			
+									</tr>
+								</thead>
+								<tbody>			
+	                  		</c:if>
+
+   	                   		<!-- Show more stuff...show only ten lines by default -->
+	                  		<c:if test="${loopStatusMet.index == 10}">
+	                  			</tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
+	                  		</c:if>
+	
+							<!-- Line itself -->
+	                  		<tr style="background: ${loopStatusMet.index % 2 == 0 ? '' : '#eef5f5'}">
+		                    	<td class="tableitem">
+		                    		${met.metabolite.description}
+	                  				<c:choose>
+	                  					<c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
+	                  					<c:otherwise><a href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
+	                  				</c:choose>
+		                   		</td>               			
+	                   			<td class="tableitem">
+		                    		${met.metabolite.chemical_formula}
+	                  			</td>
+
+								<!-- sampleValues -->                   			
+	                   			<c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >
+	                  				<td class="tableitem">
+	                  					${sample.value}
+	                  				</td>
+		                    	</c:forEach> <!-- For each sample -->
+
 								</tr>
-							</thead>
-							<tbody>			
-			                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
-	                    		
-	                    		<c:if test="${loopStatusMet.index == 10}">
-	                    			</tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
-	                    		</c:if>
-	                    		<tr style="background: ${loopStatusMet.index % 2 == 0 ? '' : '#eef5f5'}">
-			                    	<td class="tableitem">
-			                    		${met.metabolite.description}
-	                    				<c:choose>
-	                    					<c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
-	                    					<c:otherwise><a href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
-	                    				</c:choose>
-		                    		</td>
-	                    			<td class="tableitem">
-			                    		${met.metabolite.chemical_formula}
-	                    			</td>
 										                    			
-			                    </tr>
-			                </c:forEach>
+			                </c:forEach> <!-- For each metabolite (line)-->
 			                </tbody>
 			            </table>
 			            

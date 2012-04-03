@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
+import uk.ac.ebi.bioinvindex.model.Metabolite;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
@@ -129,6 +130,10 @@ public class StudyDAOImpl implements StudyDAO{
 		// For each assay group..initialize metabolite collection
 		for (AssayGroup ag: study.getAssayGroups()){
 			Hibernate.initialize(ag.getMetabolites());
+			
+			for (Metabolite met: ag.getMetabolites()){
+				Hibernate.initialize(met.getMetaboliteSamples());
+			}
 		}
 		
 		
