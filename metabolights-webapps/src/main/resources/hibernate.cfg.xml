@@ -76,6 +76,8 @@
 		
 		<mapping class="uk.ac.ebi.bioinvindex.model.AssayGroup"/>
 		<mapping class="uk.ac.ebi.bioinvindex.model.Metabolite"/>
+		<mapping class="uk.ac.ebi.bioinvindex.model.MetaboliteSample"/>
+		
 		
 
     </session-factory>
