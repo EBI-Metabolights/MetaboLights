@@ -21,6 +21,7 @@ import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesStrategyFixed;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
@@ -114,11 +115,11 @@ public class EntryController extends AbstractController {
 			for (Assay assay: ar.getAssays()){
 				
 				String assayName = MLAssay.getAssayNameFromAssay(assay);
-				
-				
+								
 				// If we don't have the MLAssay
 				if (!mlAssays.containsKey(assayName)){
 					mlAssay = new MLAssay(assay);
+					mlAssay.setStudy(study);
 					mlAssays.put(assayName, mlAssay);
 				} else {
 					mlAssay = mlAssays.get(assayName);
@@ -143,6 +144,7 @@ public class EntryController extends AbstractController {
 			if (mlAssay == null){
 				logger.info("Oh! Not MLAssay forund for AssayGroup: " + ag.getFileName());
 			}else{
+				// First set the study
 				mlAssay.setAssayGroup(ag);
 			}
 		}
@@ -151,6 +153,7 @@ public class EntryController extends AbstractController {
 		return mlAssays.values();
 		
 	}
+	
 	
 	@RequestMapping(value = "/privatefiles/{file_name}")
 	public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response, Principal principal) {

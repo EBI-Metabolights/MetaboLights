@@ -4,39 +4,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
-<script type="text/javascript" src="javascript/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery-1.6.2.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>
 
- 
-<script language="javascript">
-	function toggle(anctag,darg,showMsg,hideMsg) 
-	{
-	  var ele = document.getElementById(darg);
-	  var text = document.getElementById(anctag);
-	  if(ele.style.display == "block") 
-	  {
-	    ele.style.display = "none";
-	    text.innerHTML = showMsg;
-	  }
-	  else 
-	  {
-	    ele.style.display = "block";
-	    text.innerHTML = hideMsg;
-	  }
-	}
-</script>
 <script language="javascript" type="text/javascript">
-/* $(function() {
-	  $("#toggle").click(function() {
-	    if ($("#hidden").is(":hidden")) {
-	      $(this).text("Show less");
-	    } else {
-	      $(this).text("Show more");
-	    }
-	    $("#hidden").slideToggle();
-	    return false;
-	  });
-	}); */
 $(document).ready(function() {
     $("a.showLink").click(function(event) {
         var clickedId = event.target.id;
@@ -299,9 +271,38 @@ $(function() {
 			<div id="tabs-4">
 			        
 				<c:if test="${not empty assays}">
-
+				
+					
 					<c:forEach var="mlAssay" items="${assays}" varStatus="loopStatusAssay">
 					
+						<!-- Parallel Coordinates stuff -->
+						<c:set var="paralleldataset" value="${mlAssay.parallelCoordinatesDataset}"/>
+						<c:if test="${not empty paralleldataset}">
+							<style type="text/css">
+								#fig {
+								  width: 880px;
+								  height: 460px;
+								}
+							</style>
+							<br/>
+							<br/>
+							<div id="fig">
+							
+							<script type="text/javascript">
+								var metabolites = [
+								<c:out escapeXml='false'value="${paralleldataset.seriesToString}"/>
+								];
+								
+								var units = {
+									<c:out escapeXml='false'value="${paralleldataset.unitsToString}"/>
+								};
+							</script>
+							<%@include file="../../javascript/protovis_graph.js" %>
+						
+						</div>
+						</c:if>
+						<!-- Parallel Coordinates stuff ends-->
+	
 						<br/>
 						<br/>
 						<div style="overflow: auto">

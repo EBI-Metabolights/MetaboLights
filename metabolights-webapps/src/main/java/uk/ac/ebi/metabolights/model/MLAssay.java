@@ -14,9 +14,13 @@ import uk.ac.ebi.bioinvindex.model.Annotation;
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Metabolite;
+import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.Factor;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
+import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesDataSet;
+import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesStrategyAllCombinations;
+import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesStrategyFixed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,8 @@ public class MLAssay {
 	private List<Assay> assayLines = new ArrayList();
 	private List<MetaboliteGUI> metabolites = new ArrayList();
 	private AssayGroup ag;
+	private Study study;
+	private ParallelCoordinatesDataSet pcds;
 	
 	
 	public static String getAssayNameFromAssay(Assay assay){
@@ -47,6 +53,12 @@ public class MLAssay {
 		}
 		return "";
 		
+	}
+	public Study getStudy() {
+		return study;
+	}
+	public void setStudy(Study study) {
+		this.study = study;
 	}
 	public MLAssay(Assay assay){
 		this.fileName = getAssayNameFromAssay(assay);
@@ -120,6 +132,7 @@ public class MLAssay {
 	public void setAssayGroup (AssayGroup ag){
 		this.ag = ag;
 		addGUIMetabolites();
+		addParallelCoordinatesDataSet();
 		
 	}
 	public List<MetaboliteGUI> getMetabolitesGUI(){
@@ -138,6 +151,18 @@ public class MLAssay {
 			}
 		}
 		
+	}
+	private void addParallelCoordinatesDataSet(){
+		
+		
+		new ParallelCoordinatesStrategyAllCombinations().Proccess(ag, study);
+		// Get data for the parallel coordinates
+		pcds = (new ParallelCoordinatesStrategyFixed()).Proccess(this.ag, null);
+
+		
+	}
+	public ParallelCoordinatesDataSet getParallelCoordinatesDataset(){
+		return pcds;
 	}
 	
 }
