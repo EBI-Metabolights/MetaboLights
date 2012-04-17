@@ -132,7 +132,7 @@ public class MLAssay {
 	public void setAssayGroup (AssayGroup ag){
 		this.ag = ag;
 		addGUIMetabolites();
-		addParallelCoordinatesDataSet();
+		//addParallelCoordinatesDataSet();
 		
 	}
 	public List<MetaboliteGUI> getMetabolitesGUI(){
