@@ -198,22 +198,22 @@ public class ParallelCoordinatesStrategyAllCombinations implements ParallelCoord
 	private void printStudy(){
 		
 		
-		System.out.println("STUDY\t\t\t" + study.toString().replace("\n", "\\n"));
+		System.out.println("STUDY\t\t\t" + study.getDescription());
 		
 		
 		for (AssayResult ar: study.getAssayResults()){
 			
 			
-			System.out.println("STUDY\tASSAYRESULT\t\t" + ar.toString().replace("\n", "\\n"));
+			System.out.println("STUDY\tASSAYRESULT\t\t" + ar.getId());
 			
 			for (Assay assay: ar.getAssays() ){
-				System.out.println("STUDY\tASSAYRESULT\tASSAY\t" + assay.toString().replace("\n", "\\n"));
+				System.out.println("STUDY\tASSAYRESULT\tASSAY\t" + assay.getAcc());
 			}
 			
 			System.out.println("\n\n\n");
 			
 			for (FactorValue fv: ar.getFactorValues() ){
-				System.out.println("STUDY\tASSAYRESULT\tFACTOR VALUES\t" + fv.toString().replace("\n", "\\n"));
+				System.out.println("STUDY\tASSAYRESULT\tFACTOR VALUES\t" + fv.getValue());
 			}
 			
 			

@@ -1,0 +1,132 @@
+
+<!-- saved from url=(0089)http://webfolder.eurac.edu/EURAC/Commul/linfovis/StructuredParCoords/examples/ngrams.html -->
+<html><!--
+  /* (This is the new BSD license.)
+* Copyright (c) 2010-2012, Europaeische Akademie Bozen/Accademia Euoropea Bolzano
+* All rights reserved.
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions are met:
+*     * Redistributions of source code must retain the above copyright
+*       notice, this list of conditions and the following disclaimer.
+*     * Redistributions in binary form must reproduce the above copyright
+*       notice, this list of conditions and the following disclaimer in the
+*       documentation and/or other materials provided with the distribution.
+*     * Neither the name of the Europaeische Akademie Bozen/Accademia Europea 
+*	Bolzano nor the of its contributors may be used to endorse or promote 
+*	products from this software without specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED BY Europaeische Akademie Bozen/Accademia Europea
+* Bolzano``AS IS'' AND ANY OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+* THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+* ARE DISCLAIMED. IN NO EVENT SHALL Europaeische Akademie Bozen/Accademia Europea 
+* Bolzano BE LIABLE FOR ANY, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+* CONSEQUENTIAL DAMAGES INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+* GOODS OR SERVICES; OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+* CAUSED AND ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
+* TORT INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+* THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+--><!--
+/**
+ *
+ * 
+ * &copy; Copyright 2010-2012 Accademia Europea Bolzano<br>
+ * Software: Structured Parallel Coordinates
+ * Original: 20100823<br>
+ * Revised: 20120112<br>
+ *
+ * Greatly modified from the parallel coordinates example at http://vis.stanford.edu/protovis/ex/cars.html
+ *
+ * @author Chris Culy, modifications Verena Lyding
+ * @version 1.16
+ *
+ */
+--><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Structured Parallel Coordinates</title>
+    
+    <script type="text/javascript" src="./Structured Parallel Coordinates_files/protovis-r3.2.js"></script>
+	<script type="text/javascript" src="./Structured Parallel Coordinates_files/structuredParallelCoords.js"></script> <!-- CC NB: type is just text/javascript, not with +protovis -->
+    <script type="text/javascript" src="./Structured Parallel Coordinates_files/ngrams-happy_sad.js"></script>
+	<script type="text/javascript" src="./Structured Parallel Coordinates_files/debug.js"></script>
+	
+	<script type="text/javascript">
+	var spc = StructuredParallelCoordinates();
+	
+	spc.setDisplaySize(820,620); //tried 1020,720
+	
+	//CC overriding showVal in StructuredParallelCoordinates
+	spc.showVal = function(theDim, thisRec) { 
+		document.getElementById("vals").innerHTML = "Selected line: " + spc.valToString(theDim, thisRec); 
+	}
+	
+	</script>
+	
+	<script type="text/javascript">
+	function selectline(line)
+	{
+		spc.line.index = line;
+		//spc.line.lineWidth(spc.hilitedActiveLineWidth);
+		//spc.line.render();
+		
+		spc.onItemMouseOver("f1Order", null);
+	}
+	</script>
+	
+    <style type="text/css">
+
+h1, h2, h3 {
+	text-align:center;
+}
+h3 {
+	font-size:0.9em;
+}
+
+    </style>
+  </head>
+  <body>
+  <h1>MetaboLights Parallel Coordinates</h1>
+  <h3><a href="http://www.eurac.edu/en/research/institutes/multilingualism/Projects/LInfoVis/StructuredParallelCoordinates.html">Structured Parallel Coordinates home page</a> | <a href="http://www.eurac.edu/linfovis">EURAC LInfoVis page</a></h3>
+  <hr>
+  <div id="center">
+		
+  	<span id="vals">&nbsp;</span>
+
+	<div id="fig">
+		<div id="pc"></div> <!--CC new, for the parallel coordinates-->
+		<script type="text/javascript">
+			spc.resetVis("pc","emotGrams");
+    	</script>
+		
+  	</div>
+	  
+  	<div id="data">
+  		<table border=1 width="820px">
+	  		<tr>
+	  			<th>Name</th>
+				<th>Male-control</th>
+				<th>Female-control</th>
+				<th>Male-disease</th>
+				<th>Female-disease</th>
+	  		</tr>
+			<tr>
+				<td>D-alanine</td>
+				<td><a href="#" onclick="selectline(1);">0.0012</a></td>
+				<td>0.0018</td>
+				<td>0.0016</td>
+				<td>0.0013</td>
+			</tr>
+			<tr>
+				<td>Glucose</td>
+				<td>0.0025</td>
+				<td>0.0056</td>
+				<td>0.0027</td>
+				<td>0.0045</td>
+			</tr>
+	  	</table>
+	</div>  
+  </div>
+  <div id="debug"></div>
+  
+
+</body></html>
