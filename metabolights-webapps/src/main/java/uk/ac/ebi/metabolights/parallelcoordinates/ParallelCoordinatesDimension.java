@@ -19,11 +19,11 @@ package uk.ac.ebi.metabolights.parallelcoordinates;
  * @author conesa
  *
  */
-public class ParallelCoordinatesUnit {
+public class ParallelCoordinatesDimension {
 	
 	private String unit, abbreviation, name;
 	
-	public ParallelCoordinatesUnit(String abbreviation, String name, String unit){
+	public ParallelCoordinatesDimension(String abbreviation, String name, String unit){
 		this.abbreviation = abbreviation;
 		this.name = name;
 		this.unit = unit;

@@ -6,13 +6,13 @@ import java.util.List;
 public class ParallelCoordinatesDataSet {
 	
 	List<ParallelCoordinatesSeries> series = new ArrayList<ParallelCoordinatesSeries>();
-	List<ParallelCoordinatesUnit> units = new ArrayList<ParallelCoordinatesUnit>();
+	List<ParallelCoordinatesDimension> units = new ArrayList<ParallelCoordinatesDimension>();
 
-	public List<ParallelCoordinatesUnit> getUnits() {
+	public List<ParallelCoordinatesDimension> getUnits() {
 		return units;
 	}
 
-	public void setUnits(List<ParallelCoordinatesUnit> units) {
+	public void setUnits(List<ParallelCoordinatesDimension> units) {
 		this.units = units;
 	}
 
@@ -28,7 +28,7 @@ public class ParallelCoordinatesDataSet {
 	public String getUnitsToString(){
 		String result = "";
 		
-		for (ParallelCoordinatesUnit unit: units){
+		for (ParallelCoordinatesDimension unit: units){
 			result = result.concat("," + unit.toString()) ;
 		}
 		

@@ -6,12 +6,12 @@ var foods2= [{"name":"Butter oil, anhydrous","group":"Dairy and Egg Products","p
             ]
 
 var foods= [
-           {"name":"D-alanine","group":"Aminoacids","mass":89.09322,"Average concentration":0.0012,"gender":1,"condition":1},
-           {"name":"D-alanine","group":"Aminoacids","mass":89.09322,"Average concentration":0.0016,"gender":2,"condition":1},
-           {"name":"D-alanine","group":"Aminoacids","mass":89.09322,"Average concentration":0.0018,"gender":1,"condition":2},
-           {"name":"D-alanine","group":"Aminoacids","mass":89.09322,"Average concentration":0.0013,"gender":2,"condition":2},
-           {"name":"Glucose","group":"Sugars","mass":180.15588,"Average concentration":0.0025,"gender":1,"condition":1},
-           {"name":"Glucose","group":"Sugars","mass":180.15588,"Average concentration":0.0027,"gender":2,"condition":1},
-           {"name":"Glucose","group":"Sugars","mass":180.15588,"Average concentration":0.0056,"gender":1,"condition":2},
-           {"name":"Glucose","group":"Sugars","mass":180.15588,"Average concentration":0.0045,"gender":2,"condition":2}
+           {"name":"D-alanine","group":"Aminoacids","gender":"Male","condition":"control","mass":89.09322,"Average concentration":0.0012},
+           {"name":"D-alanine","group":"Aminoacids","gender":"Female","condition":"control","mass":89.09322,"Average concentration":0.0016},
+           {"name":"D-alanine","group":"Aminoacids","gender":"Male","condition":"disease","mass":89.09322,"Average concentration":0.0018},
+           {"name":"D-alanine","group":"Aminoacids","gender":"Female","condition":"disease","mass":89.09322,"Average concentration":0.0013},
+           {"name":"Glucose","group":"Sugars","mass":180.15588,"Average concentration":0.0025,"gender":"Male","condition":"control"},
+           {"name":"Glucose","group":"Sugars","mass":180.15588,"Average concentration":0.0027,"gender":"Female","condition":"control"},
+           {"name":"Glucose","group":"Sugars","mass":180.15588,"Average concentration":0.0056,"gender":"Male","condition":"disease"},
+           {"name":"Glucose","group":"Sugars","mass":180.15588,"Average concentration":0.0045,"gender":"Female","condition":"disease"}
            ]

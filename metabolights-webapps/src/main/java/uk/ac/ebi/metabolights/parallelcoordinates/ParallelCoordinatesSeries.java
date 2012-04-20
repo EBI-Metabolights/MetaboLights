@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Represents a date series in a parallel coordinates graphic
+ * Represents a data series in a parallel coordinates graphic
  * It will hold the name of the series and the series data values (numeric):
  * {name:"water", siv:50, st:1, dsp:307, hp:130, lbs:3504, acc:12, year:789, origin:1},
  */

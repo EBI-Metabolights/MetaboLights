@@ -19,7 +19,7 @@ import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.Factor;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesDataSet;
-import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesStrategyAllCombinations;
+import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesStrategyGroupingByFactorsValue;
 import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesStrategyFixed;
 
 import java.util.ArrayList;
@@ -155,7 +155,7 @@ public class MLAssay {
 	private void addParallelCoordinatesDataSet(){
 		
 		
-		new ParallelCoordinatesStrategyAllCombinations().Proccess(ag, study);
+		new ParallelCoordinatesStrategyGroupingByFactorsValue().Proccess(ag, study);
 		// Get data for the parallel coordinates
 		pcds = (new ParallelCoordinatesStrategyFixed()).Proccess(this.ag, null);
 

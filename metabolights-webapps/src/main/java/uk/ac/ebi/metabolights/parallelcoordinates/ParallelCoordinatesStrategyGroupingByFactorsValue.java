@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
@@ -86,12 +87,12 @@ import uk.ac.ebi.metabolights.service.SearchServiceImpl;
  *
  * 
  * NOMENCLATURE:
- * Males-control,..:	Lets call it units,.
+ * Males-control,..:	Lets call it dimension,.
  * METX: 		Lets call it Serie. Corresponds to a line in parallel coordinates, It must have as much values as units.
  */
-public class ParallelCoordinatesStrategyAllCombinations implements ParallelCoordinatesStrategy{
+public class ParallelCoordinatesStrategyGroupingByFactorsValue implements ParallelCoordinatesStrategy{
 	
-	private static Logger logger = Logger.getLogger(ParallelCoordinatesStrategyAllCombinations.class);
+	private static Logger logger = Logger.getLogger(ParallelCoordinatesStrategyGroupingByFactorsValue.class);
 	private AssayGroup ag;
 	private Study study;
 	private ParallelCoordinatesDataSet ds;
@@ -101,6 +102,7 @@ public class ParallelCoordinatesStrategyAllCombinations implements ParallelCoord
 	//		<"SAMPLE2", "Male-disease">
 	// 		...
 	private Map<String,String> sampleNameToUnitName = new HashMap<String,String>();
+	private Map<String,PCGroupingByFactorsValueDimension> dimensions = new HashMap<String,PCGroupingByFactorsValueDimension>();
 	
 	
 	@Override
@@ -114,50 +116,83 @@ public class ParallelCoordinatesStrategyAllCombinations implements ParallelCoord
 		this.ds = new ParallelCoordinatesDataSet();
 		
 		// Fill the samplenameToUnitName map
-		fillSampleNameToUnitNameMap();
+		calculateDimensionsAndMaps();
 		
 		// Generate the dataset for the parallel coordinates
 		// Go through all the metabolites
 		for(Metabolite met:ag.getMetabolites()){
 				
 				// Process the metabolite
-				ParallelCoordinatesSeries serie = processMetabolite(met);
-				
-				// Add it to the data set
-				ds.getSeries().add(serie);
-				
+				processMetabolite(met);
+			
 		}
+
+		
 		
 		return null;
 		
 	}
-	private ParallelCoordinatesSeries processMetabolite(Metabolite met){
-				
+	
+	/*
+	 * This process a metabolite line
+	 * This will generate several series as data will be grouped by "combinations of factors" (male-disease, male-control, female-disease, female-control).
+	 */
+	private void processMetabolite(Metabolite met){
+
 		
-		// Instantiate a series with the metabolite name
-		ParallelCoordinatesSeries series = new ParallelCoordinatesSeries(met.getDescription());
+		// Clean any previous value in the dimensions
+		for (PCGroupingByFactorsValueDimension dim : dimensions.values()){
+			
+			dim.getValues().clear();
+		}
 		
+		// For each sample we need to find what group does it belongs to and add the value for a later mean calculation.
 		for (MetaboliteSample sample:met.getMetaboliteSamples()){
 			
-			// Get the unit name from the hashmap
-			String factors = sampleNameToUnitName.get(sample.getSampleName());
+			// Get the dimension name from the hashmap
+			String dimensionName = sampleNameToUnitName.get(sample.getSampleName());
+			
+			// Get the correspondent dimension
+			PCGroupingByFactorsValueDimension dim = dimensions.get(dimensionName);
+			
+			// If not is null
+			if (dim != null && sample.getValue()!= null) {
+				
+				if (StringUtils.isNumeric(sample.getValue())){
+					dim.getValues().add(Double.parseDouble(sample.getValue()));
+				}
+			}
 			
 		}
 		
-		return series;
+		
+		// At this point we have all the dimensions populated with all the values, now we summarise it
+		for (PCGroupingByFactorsValueDimension dim : dimensions.values()){
+			
+			// Calculate the mean
+			dim.calculateMean();
+			
+			// Create the serie
+			ParallelCoordinatesSeries series = new ParallelCoordinatesSeries(met.getDescription());
+			
+			// Add the factor as a value for the series
+			series.values.add(new ParallelCoordinatesSerieValue(dim.getAbbreviation(), dim.getName()));
+			
+			
+		}
+		
 		
 	}
 
-	private void fillSampleNameToUnitNameMap(){
+	private void calculateDimensionsAndMaps(){
 		
-		logger.info("Filling sampleNameToUnitName map");
+		logger.info("Calculating dimensions and map");
 		
-		String unitName="";
-		
-		printStudy();
+		//printStudy();
 		
 		// Clear the map
 		sampleNameToUnitName.clear();
+		dimensions.clear();
 		
 		// Loop through the assay results
 		for (AssayResult ar:study.getAssayResults()){
@@ -166,13 +201,15 @@ public class ParallelCoordinatesStrategyAllCombinations implements ParallelCoord
 			String sampleName = ar.getAssays().iterator().next().getMaterial().getName();
 			
 			// If we do not have this sample name in the map
-			if (!sampleNameToUnitName.containsKey(sampleName)){
+			if (sampleName != null && !sampleNameToUnitName.containsKey(sampleName)){
 
+				String dimensionName="";
+				
 				// For each factor value in Data item
 				for (FactorValue fv:ar.getData().getFactorValues()){
 					
 					
-					String value;
+					String value="";
 					
 					// Add the new value
 					if (!(fv.getUnit() == null)){
@@ -182,16 +219,26 @@ public class ParallelCoordinatesStrategyAllCombinations implements ParallelCoord
 					}
 					
 					// Concatenate the factor value
-					unitName = unitName.concat(" - " + value);
+					dimensionName = dimensionName.concat(" - " + value);
 					
 				}
 			
 				// Clean first "-"
-				unitName = unitName.replaceFirst(" - ", "");
+				dimensionName = dimensionName.replaceFirst(" - ", "");
 
-				// Add an item to the map
-				sampleNameToUnitName.put(sampleName, unitName);
-			} // If
+				// Add an item to the samples map
+				sampleNameToUnitName.put(sampleName, dimensionName);
+				
+				
+				// If we don't have this dimension..
+				if (!dimensions.containsKey(dimensionName)) {
+					// Add a dimension
+					PCGroupingByFactorsValueDimension dim = new PCGroupingByFactorsValueDimension("d" + dimensions.size()+1, dimensionName, "");
+					dimensions.put(dimensionName, dim);
+				}
+				
+				
+			} // If sampleName
 		} // For each assayresult
 	}
 	
@@ -212,7 +259,7 @@ public class ParallelCoordinatesStrategyAllCombinations implements ParallelCoord
 			
 			System.out.println("\n\n\n");
 			
-			for (FactorValue fv: ar.getFactorValues() ){
+			for (FactorValue fv: ar.getData().getFactorValues() ){
 				System.out.println("STUDY\tASSAYRESULT\tFACTOR VALUES\t" + fv.getValue());
 			}
 			
