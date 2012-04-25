@@ -4,30 +4,30 @@
   
   <title>Nutrient Contents - Parallel Coordinates</title>
         
-  <script type="text/javascript" src="./Nutrient Contents - Parallel Coordinates_files/d3.js"></script>
-  <script type="text/javascript" src="./Nutrient Contents - Parallel Coordinates_files/d3.csv.js"></script>
-  <script type="text/javascript" src="./Nutrient Contents - Parallel Coordinates_files/d3.layout.js"></script>
-  <script type="text/javascript" src="./Nutrient Contents - Parallel Coordinates_files/parallel-coordinates-veggie.js"></script>
+  <script type="text/javascript" src="../PCd3/Nutrient Contents - Parallel Coordinates_files/d3.js"></script>
+  <script type="text/javascript" src="../PCd3/Nutrient Contents - Parallel Coordinates_files/d3.csv.js"></script>
+  <script type="text/javascript" src="../PCd3/Nutrient Contents - Parallel Coordinates_files/d3.layout.js"></script>
+  <script type="text/javascript" src="../PCd3/Nutrient Contents - Parallel Coordinates_files/parallel-coordinates-veggie.js"></script>
 
-  <script type="text/javascript" src="./Nutrient Contents - Parallel Coordinates_files/jquery.js"></script>
-  <script type="text/javascript" src="./Nutrient Contents - Parallel Coordinates_files/underscore.js"></script>
-  <script type="text/javascript" src="./Nutrient Contents - Parallel Coordinates_files/backbone.js"></script>
+  <script type="text/javascript" src="../PCd3/Nutrient Contents - Parallel Coordinates_files/jquery.js"></script>
+  <script type="text/javascript" src="../PCd3/Nutrient Contents - Parallel Coordinates_files/underscore.js"></script>
+  <script type="text/javascript" src="../PCd3/Nutrient Contents - Parallel Coordinates_files/backbone.js"></script>
 
-  <script src="./Nutrient Contents - Parallel Coordinates_files/jquery-ui-1.8.16.custom.min.js"></script>
-  <script type="text/javascript" src="./Nutrient Contents - Parallel Coordinates_files/filter.js"></script>
+  <script src="../PCd3/Nutrient Contents - Parallel Coordinates_files/jquery-ui-1.8.16.custom.min.js"></script>
+  <script type="text/javascript" src="../PCd3/Nutrient Contents - Parallel Coordinates_files/filter.js"></script>
   
   <!-- SlickGrid -->
-  <link rel="stylesheet" href="./Nutrient Contents - Parallel Coordinates_files/slick.grid.css" type="text/css" media="screen" charset="utf-8">
-  <script src="./Nutrient Contents - Parallel Coordinates_files/jquery.event.drag-2.0.min.js"></script>
-  <script src="./Nutrient Contents - Parallel Coordinates_files/slick.core.js"></script>
-  <script src="./Nutrient Contents - Parallel Coordinates_files/slick.grid.js"></script>
-  <script src="./Nutrient Contents - Parallel Coordinates_files/slick.dataview.js"></script>
-  <script src="./Nutrient Contents - Parallel Coordinates_files/slick.pager.js"></script>
-  <script src="./Nutrient Contents - Parallel Coordinates_files/grid.js"></script>
-  <script src="./Nutrient Contents - Parallel Coordinates_files/pie.js"></script>
-  <script src="./Nutrient Contents - Parallel Coordinates_files/options.js"></script>
-  <script src="./Nutrient Contents - Parallel Coordinates_files/food-table.js"></script>
-  <link rel="stylesheet" href="./Nutrient Contents - Parallel Coordinates_files/style.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="../PCd3/Nutrient Contents - Parallel Coordinates_files/slick.grid.css" type="text/css" media="screen" charset="utf-8">
+  <script src="../PCd3/Nutrient Contents - Parallel Coordinates_files/jquery.event.drag-2.0.min.js"></script>
+  <script src="../PCd3/Nutrient Contents - Parallel Coordinates_files/slick.core.js"></script>
+  <script src="../PCd3/Nutrient Contents - Parallel Coordinates_files/slick.grid.js"></script>
+  <script src="../PCd3/Nutrient Contents - Parallel Coordinates_files/slick.dataview.js"></script>
+  <script src="../PCd3/Nutrient Contents - Parallel Coordinates_files/slick.pager.js"></script>
+  <script src="../PCd3/Nutrient Contents - Parallel Coordinates_files/grid.js"></script>
+  <script src="../PCd3/Nutrient Contents - Parallel Coordinates_files/pie.js"></script>
+  <script src="../PCd3/Nutrient Contents - Parallel Coordinates_files/options.js"></script>
+  <script src="food-table.js"></script>
+  <link rel="stylesheet" href="../PCd3/Nutrient Contents - Parallel Coordinates_files/style.css" type="text/css" charset="utf-8">
 <style type="text/css" rel="stylesheet">.slickgrid_139882 .slick-header-column { left: 1000px; } .slickgrid_139882 .slick-top-panel { height:25px; } .slickgrid_139882 .slick-headerrow-columns { height:25px; } .slickgrid_139882 .slick-cell { height:22px; } .slickgrid_139882 .slick-row { width:1620px; height:25px; } .slickgrid_139882 .lr { float:none; position:absolute; } .slickgrid_139882 .l0 { left: 0px; } .slickgrid_139882 .r0 { right: 1300px; } .slickgrid_139882 .l1 { left: 320px; } .slickgrid_139882 .r1 { right: 1120px; } .slickgrid_139882 .l2 { left: 500px; } .slickgrid_139882 .r2 { right: 1040px; } .slickgrid_139882 .l3 { left: 580px; } .slickgrid_139882 .r3 { right: 960px; } .slickgrid_139882 .l4 { left: 660px; } .slickgrid_139882 .r4 { right: 880px; } .slickgrid_139882 .l5 { left: 740px; } .slickgrid_139882 .r5 { right: 800px; } .slickgrid_139882 .l6 { left: 820px; } .slickgrid_139882 .r6 { right: 720px; } .slickgrid_139882 .l7 { left: 900px; } .slickgrid_139882 .r7 { right: 640px; } .slickgrid_139882 .l8 { left: 980px; } .slickgrid_139882 .r8 { right: 560px; } .slickgrid_139882 .l9 { left: 1060px; } .slickgrid_139882 .r9 { right: 480px; } .slickgrid_139882 .l10 { left: 1140px; } .slickgrid_139882 .r10 { right: 400px; } .slickgrid_139882 .l11 { left: 1220px; } .slickgrid_139882 .r11 { right: 320px; } .slickgrid_139882 .l12 { left: 1300px; } .slickgrid_139882 .r12 { right: 240px; } .slickgrid_139882 .l13 { left: 1380px; } .slickgrid_139882 .r13 { right: 160px; } .slickgrid_139882 .l14 { left: 1460px; } .slickgrid_139882 .r14 { right: 80px; } .slickgrid_139882 .l15 { left: 1540px; } .slickgrid_139882 .r15 { right: 0px; }</style></head>
 
 <body>
@@ -84,10 +84,10 @@
     var axes = _(columns).without('name', 'group');
 
     var foodgroups =
-      ["Aminoacids","Sugars"];
+      ["na","Sugars"];
     
     var colors = {
-      "Aminoacids" : '#487f0e',
+      "na" : '#487f0e',
       "Sugars" : '#7e6768'
     }
     
