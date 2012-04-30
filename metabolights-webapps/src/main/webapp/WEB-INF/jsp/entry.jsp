@@ -7,6 +7,10 @@
 <script type="text/javascript" src="javascript/jquery-1.6.2.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
+
+
 
 <script language="javascript" type="text/javascript">
 $(document).ready(function() {
@@ -35,9 +39,42 @@ $(document).ready(function() {
         $(idOfHiddenText).slideToggle();
         
     });
+    
+    function loadMetaboliteInfo(metaboliteId) {
+    	
+	 
+	 	if (metaboliteId.indexOf("CHEBI:")==0){
+
+	 		chebiId = metaboliteId.replace('CHEBI:','');
+	    	var instance = new Biojs.ChEBICompound({target: 'chebiInfo', id: chebiId, height:300, width:450, proxyUrl:'./proxy'});
+	 	}
+    	
+    };
+    
+/*  There is problem with the position of the "popup" div, but acceptable in Chrome, Firefox, Opera, Safari, but not in IE8!!).  
+	$(".metLink").mouseover(function(){
+ 
+        // $('#chebiInfo').css({'top':100,'left':300, 'position':'absolute'}).fadeIn('slow');
+        
+        var link = $(this);
+                
+        loadMetaboliteInfo($(this).attr('identifier'));
+        
+        var lmouseX = link.offset().left + link.width() -100;
+        var lmouseY = link.offset().top + link.height() - 300;
+
+        $('#chebiInfo').css({'top':lmouseY,'left':lmouseX , 'position':'absolute', 'z-index':10}).fadeIn('slow');
+        
+    });
+
+    $(".metLink").mouseout(function(){
+    	$('#chebiInfo').fadeOut('slow');
+    });
+ */    
 });
 </script>
 <script language="Javascript" type="text/javascript">
+
 
 function createRequestObject() {
     var tmpXmlHttpObject;
@@ -100,6 +137,7 @@ $(function() {
 	<div style='width:75%'>${study.acc}: ${study.title}</div>
 </div>
 
+<div id="chebiInfo" style="display:none">Hola DIV chebiInfo<br/><br/></div>
 <div class="formbox border">
 
        <c:if test="${not empty study.contacts}">
@@ -250,7 +288,7 @@ $(function() {
 		                    		</c:if>
 			                    	<%-- <td class="tableitem">${assay.fileName} ${fn:length(assayResult.assays)}</td> --%>
 			                    	<td class="tableitem">
-			                    		<!-- we expect only one assay per assayResult, so we can loop the assay collection and get the first -->
+			                    		<%-- we expect only one assay per assayResult, so we can loop the assay collection and get the first --%>
 			                    		<c:forEach var="assayline" items="${assayResult.assays}" varStatus="loopStatus">
 			                    			${assayline.material.name}
 			                    		</c:forEach>
@@ -268,10 +306,9 @@ $(function() {
 	                </c:forEach>
 		        </c:if>
 			</div> <!--  ends tabs-3 -->
-			<div id="tabs-4">
-			        
+			<div id="tabs-4"> <!-- Metabolites Identified -->
+			    
 				<c:if test="${not empty assays}">
-				
 					
 					<c:forEach var="mlAssay" items="${assays}" varStatus="loopStatusAssay">
 					
@@ -337,7 +374,7 @@ $(function() {
 			                    		${met.metabolite.description}
 		                  				<c:choose>
 		                  					<c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
-		                  					<c:otherwise><a href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
+		                  					<c:otherwise><a class="metLink" identifier="${met.metabolite.identifier}" href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
 		                  				</c:choose>
 			                   		</td>               			
 		                   			<td class="tableitem">
@@ -363,7 +400,6 @@ $(function() {
 			            
 			        </c:forEach> <!-- For each assayGroup -->					
 		        </c:if>		        
-		        
 		        
 			</div> <!--  ends tabs-4 -->
 		</div> <!-- end tabs -->

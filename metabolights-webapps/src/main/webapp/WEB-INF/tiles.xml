@@ -133,5 +133,6 @@
     </definition>
 	
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
+	<definition name="proxy" template="/WEB-INF/jsp/proxy.jsp"/>
 
 </tiles-definitions>

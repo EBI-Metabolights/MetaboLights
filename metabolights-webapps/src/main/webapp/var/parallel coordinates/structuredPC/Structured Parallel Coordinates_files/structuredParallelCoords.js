@@ -1767,6 +1767,24 @@ function StructuredParallelCoordinates() {
 		});
 	}
 	
+	
+	/**
+	 * TO select a line...
+	 */
+	spc.selectLine = function ( dim, value ){
+
+		spc.filter[ dim ] = [{ "dim": dim }];
+
+		spc.filter[ dim ][0].min = value;
+
+		spc.filter[ dim ][0].max = value;
+
+		spc.line.lineWidth(spc.hilitedActiveLineWidth);
+
+		spc.updateSelectionView();
+
+	}
+	
 	return spc;
 } //end StructuredParallelCoordinates
 
