@@ -4,9 +4,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.metabolights.dao.StudyDAO;
+
+import java.util.List;
 
 @Service
 public class StudyServiceImpl implements StudyService {
@@ -23,8 +24,16 @@ public class StudyServiceImpl implements StudyService {
 			return new Study();
 		return study;
 	}
+
 	@Transactional
 	public void update(Study study){
 		studyDAO.update(study);
 	}
+
+    @Transactional
+    public List<Study> findStudiesToGoPublic() {
+        return studyDAO.findStudiesToGoPublic();
+    }
+
+
 }

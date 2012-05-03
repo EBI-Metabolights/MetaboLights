@@ -9,19 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
-
-import uk.ac.ebi.bioinvindex.model.AssayGroup;
-import uk.ac.ebi.bioinvindex.model.AssayResult;
-import uk.ac.ebi.bioinvindex.model.Metabolite;
-import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
+import uk.ac.ebi.bioinvindex.model.*;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 
 /**
@@ -145,7 +139,50 @@ public class StudyDAOImpl implements StudyDAO{
 		return study;
 	}
 
-	@Override
+    /*
+       Method to find studies that are scheduled to be public in the next week.
+       Looks for PRIVATE studies with a public date in the next week or now
+     */
+    @Override
+    public List<Study> findStudiesToGoPublic() {
+
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+
+        // get next week's date
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DAY_OF_YEAR, 7);
+        Date nextWeek = calendar.getTime();
+
+        System.out.println("retrieving studies with a public date after  "+currentDate+ " or " +nextWeek);
+
+        Session session = sessionFactory.getCurrentSession();
+
+        Query q = session.createQuery("SELECT acc FROM Study WHERE status = :status and ( trunc(releaseDate) <= trunc(:nextWeek) or trunc(releaseDate) <= trunc(:currentDate) )");
+        q.setParameter("status", VisibilityStatus.PRIVATE);
+        q.setParameter("nextWeek", nextWeek);
+        q.setParameter("currentDate", currentDate);
+        List<Study> studyList = new ArrayList<Study>();
+
+        Iterator iterator = q.iterate();
+        while (iterator.hasNext()){
+            String studyAcc = (String) iterator.next();
+            if (studyAcc != null){
+                Study completeStudy = getStudy(studyAcc,false);
+                if (completeStudy != null)
+                    studyList.add(completeStudy);
+            }
+
+        }
+
+        if(studyList == null)
+            System.out.println("No studies found");
+
+        return studyList;
+
+    }
+
+    @Override
 	public void update(Study study) {
 		Session session = sessionFactory.getCurrentSession();
 		// Note: Spring manages the transaction, and the commit

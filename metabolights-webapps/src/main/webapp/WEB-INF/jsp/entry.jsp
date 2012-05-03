@@ -352,7 +352,7 @@ $(function() {
 		                  		<c:if test="${loopStatusMet.index == 1}">
 									<thead class='text_header'>
 										<tr>
-											<th><spring:message code="label.metabolites.description"/> - "${mlAssay.fileName}"</th>
+											<th><spring:message code="label.metabolites.description"/></th>
 											<th><spring:message code="label.metabolites.formula"/></th>
 				                   			<c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
 				                   				<th>${sampleHeader.sampleName}</th>

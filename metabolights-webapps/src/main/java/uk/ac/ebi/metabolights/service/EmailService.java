@@ -1,16 +1,15 @@
 package uk.ac.ebi.metabolights.service;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
-
 import uk.ac.ebi.metabolights.form.ContactValidation;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 /**
  * Uses a central Spring interface for sending emails (the MailSender interface). 
@@ -22,6 +21,7 @@ public class EmailService {
 
 	@Autowired
 	private MailSender mailSender; // configured in servlet XML
+
 	@Autowired
 	private SimpleMailMessage reminderTemplate; // template for password reminder, configured in servlet XML
 
@@ -36,6 +36,9 @@ public class EmailService {
 	
 	@Autowired
 	private SimpleMailMessage contactUsTemplate; // template for general website requests
+
+    @Autowired
+    private SimpleMailMessage studyPublicTemplate; // template to notify users when studies go public
 
 	
 	public void setMailSender(MailSender mailSender) {
@@ -91,7 +94,7 @@ public class EmailService {
 
 	/**
 	 * Sends an email to the user to mention that the requested account has become active. 
-	 * @param usr detail of the new account requested
+	 * @param user detail of the new account requested
 	 */
 	public void sendAccountHasbeenActivated (MetabolightsUser user) {
 		SimpleMailMessage msg = new SimpleMailMessage(this.accountApprovedTemplate);
@@ -118,8 +121,26 @@ public class EmailService {
 				"Message: " + usr.getMessage() + "\n";
 		msg.setText(body);
 		this.mailSender.send(msg);
-	}	
-	
+	}
+
+
+    /**
+     * Sends an email to a user to the submitter that a study is about to go public.
+     * @param emailAddress
+     */
+    public void sendStudyToGoPublicMessage (String emailAddress, String studyAcc, String studyDate, boolean madePublic) {
+
+        SimpleMailMessage msg = new SimpleMailMessage(this.studyPublicTemplate);
+        String body = PropertyLookup.getMessage("msg.studytogopublic", studyAcc, studyDate);
+
+        if (madePublic)  //We just made your study public
+            body = PropertyLookup.getMessage("msg.studynowpublic", studyAcc);
+
+        msg.setTo(emailAddress);
+        msg.setText(body);
+        this.mailSender.send(msg);
+    }
+
 	
 	/**
 	 * For use by a Sping Validator, to check if an email looks likely.

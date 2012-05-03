@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
+import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
@@ -162,8 +163,116 @@ public class UpdateStudyController extends AbstractController {
 		
 		return null;
 	}
-	
-	@RequestMapping(value = { "/updatepublicreleasedate" })
+
+    /*
+        Update the studies release date and status
+     */
+    public void updatePublicReleaseDate(String study, VisibilityStatus status, Date publicReleaseDate, Long userId) throws Exception {
+
+        // Add the user id to the unzip folder
+        String unzipFolder = uploadDirectory + userId + "/" + study;
+
+        // Create the uploader
+        IsaTabUploader itu = new IsaTabUploader();
+
+        // Set properties for file copying...
+        itu.setCopyToPrivateFolder(privateFtpLocation);
+        itu.setCopyToPublicFolder(publicFtpLocation);
+
+        // Change the status
+        try {
+
+            //Check if the zip file exists before changing anything else
+            File zipFile = new File (itu.getStudyFilePath(study, VisibilityStatus.PUBLIC));
+
+            // If not in public folder...
+            if (!zipFile.exists()){
+
+                // Try it in the private
+                zipFile = new File (itu.getStudyFilePath(study, VisibilityStatus.PRIVATE));
+
+                // Check if it exists
+                if (!zipFile.exists()){
+
+                    // Throw an exception
+                    throw new FileNotFoundException (PropertyLookup.getMessage("msg.makestudypublic.nofilefound", study));
+
+                }
+            }
+
+
+            // ************************
+            // Update the database first...
+            // ************************
+            // Get the study object
+            Study biiStudy = studyService.getBiiStudy(study,false);
+
+            // Set the new Public Release Date
+            biiStudy.setReleaseDate(publicReleaseDate);
+            biiStudy.setStatus(status);
+
+            logger.info("Updating study (database)");
+            // Save it
+            studyService.update(biiStudy);
+
+
+            // ************************
+            // Index it...
+            // ************************
+            //Get the path for the config folder (where the hibernate properties for the import layer are).
+            //String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath() + "biiconfig/";
+            String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath();
+
+            // Set the config folder, and the ftp folders
+            itu.setDBConfigPath(configPath);
+
+            // reindex the study...
+            itu.reindexStudies(study);
+
+
+            // ************************
+            // Change the zip file
+            // ************************
+            // Set the unzip folder
+            itu.setUnzipFolder(unzipFolder);
+
+            // Create the replacement Hash
+            HashMap<String,String> replacementHash = new HashMap<String,String>();
+
+            // Add the Public release date field with the new value
+            replacementHash.put("Study Public Release Date", new SimpleDateFormat("yyyy-MM-dd").format(publicReleaseDate));
+
+            logger.info("Replacing Study Public Release Date in zip file. with " + publicReleaseDate);
+            // Call the replacement method...
+            itu.changeStudyFields(study, replacementHash);
+
+            // If the new status is public...
+            if (status == VisibilityStatus.PUBLIC){
+
+                // Move the file from the private
+                itu.moveFile(study, VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
+
+                // Change the permissions
+                String studyPath = itu.getStudyFilePath(study, VisibilityStatus.PUBLIC);
+                itu.changeFilePermissions(studyPath, VisibilityStatus.PUBLIC);
+            }
+
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IsaTabException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (Exception e) {
+            throw new Exception("updatePublicReleaseDate error");
+        }
+
+
+    }
+
+
+     @RequestMapping(value = { "/updatepublicreleasedate" })
 	public ModelAndView changePublicReleaseDate(
 								@RequestParam(required=true,value="study") String study,
 								@RequestParam(required=true, value="pickdate") String publicReleaseDateS,
@@ -181,98 +290,13 @@ public class UpdateStudyController extends AbstractController {
 		
 		// If there is validation view...return it
 		if (validation != null){return validation;}
-		
-		// Add the user id to the unzip folder
-		String unzipFolder = uploadDirectory + params.user.getUserId() + "/" + study;
-		
-		// Create the uploader
-		IsaTabUploader itu = new IsaTabUploader();
-		
-		// Set properties for file copying...
-		itu.setCopyToPrivateFolder(privateFtpLocation);
-		itu.setCopyToPublicFolder(publicFtpLocation);
 
-		//Create the view
-		ModelAndView mav = new ModelAndView("updateStudyForm");
-		
-		// Change the status
-		try {
-			
-			//Check if the zip file exists before changing anything else
-			File zipFile = new File (itu.getStudyFilePath(study, VisibilityStatus.PUBLIC));
-			
-			// If not in public folder...
-			if (!zipFile.exists()){
-			
-				// Try it in the private
-				zipFile = new File (itu.getStudyFilePath(study, VisibilityStatus.PRIVATE));
-			
-				// Check if it exists
-				if (!zipFile.exists()){
-					
-					// Throw an exception
-					throw new FileNotFoundException (PropertyLookup.getMessage("msg.makestudypublic.nofilefound", study));
-					
-				}
-			}
-			
-			
-			// ************************
-			// Update the database first...
-			// ************************
-			// Get the study object
-			Study biiStudy = studyService.getBiiStudy(study,false);
-			
-			// Set the new Public Release Date
-			biiStudy.setReleaseDate(params.publicReleaseDate);
-			biiStudy.setStatus(params.status);
-			
-			logger.info("Updating study (database)");
-			// Save it
-			studyService.update(biiStudy);
+        //Create the view
+        ModelAndView mav = new ModelAndView("updateStudyForm");
 
-			
-			// ************************
-			// Index it...
-			// ************************
-			//Get the path for the config folder (where the hibernate properties for the import layer are).
-			//String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath() + "biiconfig/";
-            String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath();
-		
-			// Set the config folder, and the ftp folders
-			itu.setDBConfigPath(configPath);
-			
-			// reindex the study...
-			itu.reindexStudies(study);
+        try{
 
-			
-			// ************************
-			// Change the zip file
-			// ************************
-			// Set the unzip folder
-			itu.setUnzipFolder(unzipFolder);
-
-			// Create the replacement Hash
-			HashMap<String,String> replacementHash = new HashMap<String,String>();
-			
-			// Add the Public release date field with the new value
-			replacementHash.put("Study Public Release Date", new SimpleDateFormat("yyyy-MM-dd").format(params.publicReleaseDate));
-
-			logger.info("Replacing Study Public Release Date in zip file. with " + params.publicReleaseDate);
-			// Call the replacement method...
-			itu.changeStudyFields(study, replacementHash);
-			
-			// If the new status is public...
-			if (params.status == VisibilityStatus.PUBLIC){
-		
-				// Move the file from the private
-				itu.moveFile(study, VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
-				
-				// Change the permissions
-				String studyPath = itu.getStudyFilePath(study, VisibilityStatus.PUBLIC);
-				itu.changeFilePermissions(studyPath, VisibilityStatus.PUBLIC);
-			}
-									
+            updatePublicReleaseDate(study, params.status, params.publicReleaseDate, params.user.getUserId());
 			
 			// Compose the messages...
 			mav.addObject("title", PropertyLookup.getMessage("msg.makestudypublic.ok.title"));
@@ -315,7 +339,6 @@ public class UpdateStudyController extends AbstractController {
 		Display a success or error page to the submitter.  Email metabolights-help and submitter with results
 	 * @param file
 	 * @param study
-	 * @param publicExp
 	 * @param publicReleaseDateS
 	 * @param request
 	 * @return
@@ -426,7 +449,7 @@ public class UpdateStudyController extends AbstractController {
 				
 			return mav;
 			
-		}catch (Exception e){
+		} catch (Exception e){
 			
 			// If there is a need of restoring the backup
 			if (needRestore){
@@ -592,6 +615,7 @@ public class UpdateStudyController extends AbstractController {
 
 		}
 		
-		
 	}
+
+
 }
