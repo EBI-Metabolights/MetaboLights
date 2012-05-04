@@ -9,12 +9,18 @@
 <script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
+<link rel="stylesheet"  href="css/ChEBICompound.css" type="text/css" />
 
 
 
 <script language="javascript" type="text/javascript">
 $(document).ready(function() {
-    $("a.showLink").click(function(event) {
+    
+
+	var instance = new Biojs.ChEBICompound({target: 'chebiInfo', height:'300px', width:'400px',proxyUrl:'./proxy'});
+	
+	
+	$("a.showLink").click(function(event) {
         var clickedId = event.target.id;
         var idClickedSplit = clickedId.split("_");
         /*id of the link is made up by 3 parts:
@@ -40,37 +46,89 @@ $(document).ready(function() {
         
     });
     
-    function loadMetaboliteInfo(metaboliteId) {
+/*     function loadMetaboliteInfo(metaboliteId) {
     	
 	 
 	 	if (metaboliteId.indexOf("CHEBI:")==0){
 
 	 		chebiId = metaboliteId.replace('CHEBI:','');
-	    	var instance = new Biojs.ChEBICompound({target: 'chebiInfo', id: chebiId, height:300, width:450, proxyUrl:'./proxy'});
+	 		
+	 		instance.setId(chebiId);
+	 		
+	 		$('#chebiInfo').fadeIn('slow');
+	    	
 	 	}
     	
-    };
+    }; */
     
-/*  There is problem with the position of the "popup" div, but acceptable in Chrome, Firefox, Opera, Safari, but not in IE8!!).  
-	$(".metLink").mouseover(function(){
- 
-        // $('#chebiInfo').css({'top':100,'left':300, 'position':'absolute'}).fadeIn('slow');
+/*  There is problem with the position of the "popup" div, but ok in Chrome, Opera, Safari, IE8, but not in Firefox12!!).  */
+/* 	$(".metLink").mouseover(function(e){
+       	
+		
+		
+		var link = e.srcElement;
+		var mouseX = link.offsetLeft + link.offsetParent.offsetLeft + link.offsetWidth + 80;
+		var mouseYa = link.offsetTop + link.offsetParent.offsetTop + link.offsetParent.offsetParent.offsetTop;
+		
+		$('#chebiInfo').css({'top':mouseYa,'left':mouseX,'float':'left','position':'absolute','z-index':10});
+       
+		loadMetaboliteInfo($(this).attr('identifier'));
         
-        var link = $(this);
-                
-        loadMetaboliteInfo($(this).attr('identifier'));
-        
-        var lmouseX = link.offset().left + link.width() -100;
-        var lmouseY = link.offset().top + link.height() - 300;
-
-        $('#chebiInfo').css({'top':lmouseY,'left':lmouseX , 'position':'absolute', 'z-index':10}).fadeIn('slow');
         
     });
 
     $(".metLink").mouseout(function(){
     	$('#chebiInfo').fadeOut('slow');
-    });
- */    
+    }); */
+    var timer = 0; // 0 is a safe "no timer" value
+   
+    (function() {
+ 
+        $('.metLink').live('mouseenter', function(e) {
+            // I'm assuming you don't want to stomp on an existing timer
+            if (!timer) {
+                timer = setTimeout(loadMetabolite(e), 4000); // Or whatever value you want
+            }
+        }).live('mouseleave', function() {
+            // Cancel the timer if it hasn't already fired
+            if (timer) {
+                clearTimeout(timer);
+                timer = 0;
+                
+            }
+            $('#chebiInfo').fadeOut('slow');
+        })
+
+        function loadMetabolite(e) {
+            // Clear this as flag there's no timer outstanding
+            timer = 0;
+            
+            var link = e.srcElement;
+    		var metaboliteId = link.getAttribute('identifier');
+    		
+
+    		
+            // If its a chebi id
+    	 	if (metaboliteId.indexOf("CHEBI:")==0){
+
+        		var mouseX = link.offsetLeft + link.offsetParent.offsetLeft + link.offsetWidth + 80;
+        		var mouseY = link.offsetTop + link.offsetParent.offsetTop + link.offsetParent.offsetParent.offsetTop;
+    	 		
+    	 		chebiId = metaboliteId.replace('CHEBI:','');
+    	 		
+    	 		instance.setId(chebiId);
+
+        		$('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
+    	 		$('#chebiInfo').fadeIn('slow');
+    	    	
+    	 	}
+            
+            
+            
+        }
+
+    })();
+     
 });
 </script>
 <script language="Javascript" type="text/javascript">
@@ -137,7 +195,6 @@ $(function() {
 	<div style='width:75%'>${study.acc}: ${study.title}</div>
 </div>
 
-<div id="chebiInfo" style="display:none">Hola DIV chebiInfo<br/><br/></div>
 <div class="formbox border">
 
        <c:if test="${not empty study.contacts}">
@@ -307,6 +364,9 @@ $(function() {
 		        </c:if>
 			</div> <!--  ends tabs-3 -->
 			<div id="tabs-4"> <!-- Metabolites Identified -->
+			
+				<!-- Add the target div to the Biojs ChEBICompound-->
+				<div id='chebiInfo' style="display:none"></div>
 			    
 				<c:if test="${not empty assays}">
 					
@@ -348,7 +408,7 @@ $(function() {
 	
 			                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
 	
-								<!-- Write the header, only the first time -->
+								<%-- Write the header, only the first time --%>
 		                  		<c:if test="${loopStatusMet.index == 1}">
 									<thead class='text_header'>
 										<tr>
@@ -363,16 +423,17 @@ $(function() {
 									<tbody>			
 		                  		</c:if>
 	
-	   	                   		<!-- Show more stuff...show only ten lines by default -->
+	   	                   		<%-- Show more stuff...show only ten lines by default --%>
 		                  		<c:if test="${loopStatusMet.index == 10}">
 		                  			</tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
 		                  		</c:if>
 		
-								<!-- Line itself -->
+								<%--Line itself --%>
 		                  		<tr style="background: ${loopStatusMet.index % 2 == 0 ? '' : '#eef5f5'}">
 			                    	<td class="tableitem">
 			                    		${met.metabolite.description}
 		                  				<c:choose>
+		                  					<c:when test="${empty met.metabolite.identifier}"></c:when>
 		                  					<c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
 		                  					<c:otherwise><a class="metLink" identifier="${met.metabolite.identifier}" href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
 		                  				</c:choose>
@@ -381,16 +442,16 @@ $(function() {
 			                    		${met.metabolite.chemical_formula}
 		                  			</td>
 	
-									<!-- sampleValues -->                   			
+									<%-- sampleValues --%>                   			
 		                   			<c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >
 		                  				<td class="tableitem">
 		                  					${sample.value}
 		                  				</td>
-			                    	</c:forEach> <!-- For each sample -->
+			                    	</c:forEach> <%-- For each sample --%>
 	
 									</tr>
 											                    			
-				                </c:forEach> <!-- For each metabolite (line)-->
+				                </c:forEach> <%-- For each metabolite (line)--%>
 				                </tbody>
 				            </table>
 						</div>

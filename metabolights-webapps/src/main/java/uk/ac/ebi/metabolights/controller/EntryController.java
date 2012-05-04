@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
+import uk.ac.ebi.bioinvindex.model.Material;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
@@ -72,15 +73,7 @@ public class EntryController extends AbstractController {
         if (study.getAcc() == null || study.getAcc().equals("Error") || study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
             return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
 		
-		Collection<String> organismNames = new TreeSet<String>();
-		for (AssayResult assRes : study.getAssayResults()) {
-			for (PropertyValue<?> pv : assRes.getCascadedPropertyValues()) {
-				if (pv.getType().getValue().equals("organism")) {
-					organismNames.add(pv.getValue());
-					//logger.debug("adding "+pv.getValue());
-				}
-			}
-		}
+		Collection<String> organismNames = getOrganisms(study);
 
         // Get the DownloadLink
         String ftpLocation = getDownloadLink(study.getAcc(), study.getStatus());
@@ -102,6 +95,32 @@ public class EntryController extends AbstractController {
         }
 
 		return mav;
+	}
+
+	/**
+	 * @param study
+	 * @return
+	 */
+	private Collection<String> getOrganisms(Study study) {
+
+		
+		Collection<String> organismNames = new TreeSet<String>();
+		
+		
+		
+		for (AssayResult assRes : study.getAssayResults()) {
+			for (PropertyValue<?> pv : assRes.getCascadedPropertyValues()) {
+				if (pv.getType().getValue().equalsIgnoreCase("organism")) {
+					organismNames.add(pv.getValue());
+
+				}
+			}
+		}
+		
+
+
+		
+		return organismNames;
 	}
 
 	private Collection<MLAssay> getMLAssays(Study study){
