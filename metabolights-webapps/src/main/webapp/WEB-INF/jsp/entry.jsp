@@ -349,10 +349,15 @@ $(function() {
 			                    	<td class="tableitem">
 			                    		<%-- we expect only one assay per assayResult, so we can loop the assay collection and get the first --%>
 			                    		<c:forEach var="assayline" items="${assayResult.assays}" varStatus="loopStatus">
-                                            <%-- ${assayline.material.name}   --%>
                                             <%-- Replace the string <ACCESION>:assay: before displaying. NB!! only display up to first "." --%>
-                                            <c:set var="stringFormated" value="${fn:replace(assayline.acc,stringToFind,'')}" />
-                                            ${fn:substringBefore(stringFormated,'.')}
+                                            <c:set var="stringFormated" value="${fn:substringBefore(fn:replace(assayline.acc,stringToFind,''),'.')}" />
+                                            <c:set var="materialName" value="${assayline.material.name}" />
+                                            <c:choose>
+                                                <c:when test="${not empty stringFormated}">${stringFormated}</c:when>
+                                                <c:when test="${not empty materialName}">${materialName}</c:when>
+                                                <c:otherwise>NA</c:otherwise>
+                                            </c:choose>
+
 			                    		</c:forEach>
 			                    		</td>
 	                    			<td class="tableitem">${assay.technology} - ${assay.measurement} -  ${assay.platform}</td>
