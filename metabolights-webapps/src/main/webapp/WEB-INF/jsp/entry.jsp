@@ -195,6 +195,8 @@ $(function() {
 	<div style='width:75%'>${study.acc}: ${study.title}</div>
 </div>
 
+<c:set var="stringToFind" value="${study.acc}:assay:" />
+
 <div class="formbox border">
 
        <c:if test="${not empty study.contacts}">
@@ -347,7 +349,10 @@ $(function() {
 			                    	<td class="tableitem">
 			                    		<%-- we expect only one assay per assayResult, so we can loop the assay collection and get the first --%>
 			                    		<c:forEach var="assayline" items="${assayResult.assays}" varStatus="loopStatus">
-			                    			${assayline.material.name}
+                                            <%-- ${assayline.material.name}   --%>
+                                            <%-- Replace the string <ACCESION>:assay: before displaying. NB!! only display up to first "." --%>
+                                            <c:set var="stringFormated" value="${fn:replace(assayline.acc,stringToFind,'')}" />
+                                            ${fn:substringBefore(stringFormated,'.')}
 			                    		</c:forEach>
 			                    		</td>
 	                    			<td class="tableitem">${assay.technology} - ${assay.measurement} -  ${assay.platform}</td>
@@ -364,14 +369,14 @@ $(function() {
 		        </c:if>
 			</div> <!--  ends tabs-3 -->
 			<div id="tabs-4"> <!-- Metabolites Identified -->
-			
+
 				<!-- Add the target div to the Biojs ChEBICompound-->
 				<div id='chebiInfo' style="display:none"></div>
-			    
+
 				<c:if test="${not empty assays}">
-					
+
 					<c:forEach var="mlAssay" items="${assays}" varStatus="loopStatusAssay">
-					
+
 						<!-- Parallel Coordinates stuff -->
 						<c:set var="paralleldataset" value="${mlAssay.parallelCoordinatesDataset}"/>
 						<c:if test="${not empty paralleldataset}">
@@ -384,30 +389,30 @@ $(function() {
 							<br/>
 							<br/>
 							<div id="fig">
-							
+
 							<script type="text/javascript">
 								var metabolites = [
 								<c:out escapeXml='false'value="${paralleldataset.seriesToString}"/>
 								];
-								
+
 								var units = {
 									<c:out escapeXml='false'value="${paralleldataset.unitsToString}"/>
 								};
 							</script>
 							<%@include file="../../javascript/protovis_graph.js" %>
-						
+
 						</div>
 						</c:if>
 						<!-- Parallel Coordinates stuff ends-->
-	
+
 						<br/>
 						<br/>
 						<div style="overflow: auto">
 
 				            <table width="100%">
-	
+
 			                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
-	
+
 								<%-- Write the header, only the first time --%>
 		                  		<c:if test="${loopStatusMet.index == 1}">
 									<thead class='text_header'>
