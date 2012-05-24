@@ -651,6 +651,3 @@ Biojs = Biojs.extend({
 	Utils: Biojs.Utils
 	
 });
-
-
-

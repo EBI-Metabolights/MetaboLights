@@ -17,7 +17,11 @@
 $(document).ready(function() {
     
 
-	var instance = new Biojs.ChEBICompound({target: 'chebiInfo', height:'300px', width:'400px',proxyUrl:'./proxy'});
+	$("body").append('<div id="chebiInfo"></div>');
+	var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:'./proxy'});
+	$('#chebiInfo').hide();
+	
+	//var instance;
 	
 	
 	$("a.showLink").click(function(event) {
@@ -61,16 +65,15 @@ $(document).ready(function() {
     	
     }; */
     
-/*  There is problem with the position of the "popup" div, but ok in Chrome, Opera, Safari, IE8, but not in Firefox12!!).  */
-/* 	$(".metLink").mouseover(function(e){
+/*  There is problem with the position of the "popup" div, but ok in Chrome, Opera, Safari, IE8, but not in Firefox12!!).  
+ 	$(".metLink").mouseover(function(e){
        	
-		
-		
 		var link = e.srcElement;
 		var mouseX = link.offsetLeft + link.offsetParent.offsetLeft + link.offsetWidth + 80;
 		var mouseYa = link.offsetTop + link.offsetParent.offsetTop + link.offsetParent.offsetParent.offsetTop;
 		
 		$('#chebiInfo').css({'top':mouseYa,'left':mouseX,'float':'left','position':'absolute','z-index':10});
+		//$('#chebiInfo').empty();
        
 		loadMetaboliteInfo($(this).attr('identifier'));
         
@@ -79,55 +82,63 @@ $(document).ready(function() {
 
     $(".metLink").mouseout(function(){
     	$('#chebiInfo').fadeOut('slow');
-    }); */
-    var timer = 0; // 0 is a safe "no timer" value
+    });
+*/    
+    
+    var metLinkTimer = 0; // 0 is a safe "no timer" value
    
-    (function() {
+    
  
-        $('.metLink').live('mouseenter', function(e) {
-            // I'm assuming you don't want to stomp on an existing timer
-            if (!timer) {
-                timer = setTimeout(loadMetabolite(e), 4000); // Or whatever value you want
-            }
-        }).live('mouseleave', function() {
-            // Cancel the timer if it hasn't already fired
-            if (timer) {
-                clearTimeout(timer);
-                timer = 0;
-                
-            }
-            $('#chebiInfo').fadeOut('slow');
-        })
+     $('.metLink').live('mouseenter', function(e) {
+         // I'm assuming you don't want to stomp on an existing timer
+         if (!metLinkTimer) {
+         	metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
+         }
+     }).live('mouseleave', function() {
+         // Cancel the timer if it hasn't already fired
+         if (metLinkTimer) {
+             clearTimeout(metLinkTimer);
+             metLinkTimer = 0;
+             
+         }
+         $('#chebiInfo').fadeOut('slow');
+     });
 
-        function loadMetabolite(e) {
-            // Clear this as flag there's no timer outstanding
-            timer = 0;
-            
-            var link = e.srcElement;
-    		var metaboliteId = link.getAttribute('identifier');
-    		
+     function loadMetabolite(e) {
+         // Clear this as flag there's no timer outstanding
+         metLinkTimer = 0;
+         
+         var metlink;
+         metlink = $(e.target);
+ 		 var metaboliteId = metlink.attr('identifier');
+ 		
 
-    		
-            // If its a chebi id
-    	 	if (metaboliteId.indexOf("CHEBI:")==0){
+ 		
+         // If its a chebi id
+ 	 	if (metaboliteId.indexOf("CHEBI:")==0){
 
-        		var mouseX = link.offsetLeft + link.offsetParent.offsetLeft + link.offsetWidth + 80;
-        		var mouseY = link.offsetTop + link.offsetParent.offsetTop + link.offsetParent.offsetParent.offsetTop;
-    	 		
-    	 		chebiId = metaboliteId.replace('CHEBI:','');
-    	 		
-    	 		instance.setId(chebiId);
+     		//var mouseX = metlink.left + metlink.offsetParent.offsetLeft + metlink.offsetWidth + 80;
+     		//var mouseY = metlink.top + metlink.offsetParent.offsetTop + metlink.offsetParent.offsetParent.offsetTop;
+ 	 		var offset = metlink.offset();
+ 	 		var mouseX = offset.left + metlink.outerWidth() + 20;
+     		var mouseY = offset.top;
+ 	 		
+ 	 		
+     		
+ 	 		//chebiId = metaboliteId.replace('CHEBI:','');
+ 	 		chebiId = metaboliteId;
+ 	 		
+ 	 		$('#chebiInfo img:last-child').remove;
+ 	 		
+     		$('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
+ 	 		$('#chebiInfo').fadeIn('slow');
+     		
+ 	 		chebiInfoDiv.setId(chebiId);
 
-        		$('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
-    	 		$('#chebiInfo').fadeIn('slow');
-    	    	
-    	 	}
-            
-            
-            
-        }
-
-    })();
+ 	    	
+ 	 	}
+           
+	}
      
 });
 </script>
@@ -313,10 +324,12 @@ $(function() {
 						</thead>
 						<tbody>	
 			                <c:forEach var="protocol" items="${study.protocols}" varStatus="loopStatus">
-	                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
-			                    	<td class="tableitem">${protocol.name}</td>
-			                    	<td class="tableitem">${protocol.description}</td>
-			                    </tr>
+	                    		<c:if test="${not empty protocol.description}">
+		                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
+				                    	<td class="tableitem">${protocol.name}</td>
+				                    	<td class="tableitem">${protocol.description}</td>
+				                    </tr>
+			                    </c:if>
 			                </c:forEach>
 		            	</tbody>
 		            </table>
@@ -375,8 +388,8 @@ $(function() {
 			</div> <!--  ends tabs-3 -->
 			<div id="tabs-4"> <!-- Metabolites Identified -->
 
-				<!-- Add the target div to the Biojs ChEBICompound-->
-				<div id='chebiInfo' style="display:none"></div>
+				<%-- Add the target div to the Biojs ChEBICompound--%>
+				<!-- div id='chebiInfo'></div-->
 
 				<c:if test="${not empty assays}">
 
