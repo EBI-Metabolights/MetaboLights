@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.service.AccessionService;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
 
@@ -22,7 +23,7 @@ import java.util.*;
  *@author conesa
  */
 
-@Controller
+//@Controller
 public class IsaTabIdReplacer 
 {
 	static private Properties props = new Properties();
@@ -48,11 +49,16 @@ public class IsaTabIdReplacer
     
     private HashMap<String,String> ids = new HashMap<String,String>();
 
-    @Autowired
+    //@Autowired
     public AccessionService accessionService;
    
     public AccessionService getAccessionService() {
-		return accessionService;
+		
+    	if (accessionService == null){
+    		accessionService = AppContext.getApplicationContext().getBean(AccessionService.class);
+    		
+    	}
+    	return accessionService;
 	}
 
 	public String getPublicDate() {

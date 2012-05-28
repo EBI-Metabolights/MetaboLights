@@ -50,40 +50,6 @@ $(document).ready(function() {
         
     });
     
-/*     function loadMetaboliteInfo(metaboliteId) {
-    	
-	 
-	 	if (metaboliteId.indexOf("CHEBI:")==0){
-
-	 		chebiId = metaboliteId.replace('CHEBI:','');
-	 		
-	 		instance.setId(chebiId);
-	 		
-	 		$('#chebiInfo').fadeIn('slow');
-	    	
-	 	}
-    	
-    }; */
-    
-/*  There is problem with the position of the "popup" div, but ok in Chrome, Opera, Safari, IE8, but not in Firefox12!!).  
- 	$(".metLink").mouseover(function(e){
-       	
-		var link = e.srcElement;
-		var mouseX = link.offsetLeft + link.offsetParent.offsetLeft + link.offsetWidth + 80;
-		var mouseYa = link.offsetTop + link.offsetParent.offsetTop + link.offsetParent.offsetParent.offsetTop;
-		
-		$('#chebiInfo').css({'top':mouseYa,'left':mouseX,'float':'left','position':'absolute','z-index':10});
-		//$('#chebiInfo').empty();
-       
-		loadMetaboliteInfo($(this).attr('identifier'));
-        
-        
-    });
-
-    $(".metLink").mouseout(function(){
-    	$('#chebiInfo').fadeOut('slow');
-    });
-*/    
     
     var metLinkTimer = 0; // 0 is a safe "no timer" value
    

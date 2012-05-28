@@ -20,15 +20,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@Service
+//@Service
 public class IsaTabUploader {
 	
 	//Logger
 	private static final Logger logger = LoggerFactory.getLogger(IsaTabUploader.class);
 	
-	@Autowired
-	public IsaTabIdReplacer itir;
-	//private IsaTabIdReplacer itir = new IsaTabIdReplacer();
+	//@Autowired
+	//public IsaTabIdReplacer itir;
+	private IsaTabIdReplacer itir = new IsaTabIdReplacer();
 
     public IsaTabIdReplacer getItir() {
         if (itir == null)
@@ -43,15 +43,6 @@ public class IsaTabUploader {
 	private String unzipFolder;
 	private String copyToPublicFolder;
 	private String copyToPrivateFolder;
-	
-	//@PersistenceContext(unitName = "sessionFactory")
-    //Object em;
-    //private EntityManagerFactory emf;
-
-    //@PersistenceUnit
-    //public void setEntityManagerFactory(EntityManagerFactory emf) {
-    //    this.emf = emf;
-    //}
 	
 	private SimpleManager sm = new SimpleManager();
 	

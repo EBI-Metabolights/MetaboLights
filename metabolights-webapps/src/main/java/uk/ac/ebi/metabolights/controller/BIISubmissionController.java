@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
@@ -40,8 +41,8 @@ public class BIISubmissionController extends AbstractController {
 
 	private static Logger logger = Logger.getLogger(BIISubmissionController.class);
 
-    @Autowired
-    private IsaTabUploader itu;
+    //@Autowired
+    private IsaTabUploader itu = new IsaTabUploader();
 	
 	@RequestMapping(value = { "/biisubmit" })
 	public String submit(HttpServletRequest request) {
@@ -62,6 +63,12 @@ public class BIISubmissionController extends AbstractController {
 		return mav;
 	}
 	
+	// For testing ajax calls	
+	  @RequestMapping(value = "/status", method = RequestMethod.GET)
+	  public @ResponseBody String getStatus() {
+	    String result = "Status is " + new Date().toString();
+	    return result;
+	  }	
 	@RequestMapping(value = "/biiuploadExperiment", method = RequestMethod.POST)
 	public ModelAndView handleFormUpload(
 			@RequestParam("file") MultipartFile file,

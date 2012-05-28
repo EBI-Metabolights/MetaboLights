@@ -43,8 +43,22 @@
 	}
 	
 	
-</script>		
-		
+</script>	
+<%--
+<script type="text/javascript">
+    function doAjax() {
+      $.ajax({
+        url: 'status',
+        data: ({name : "me"}),
+        success: function(data) {
+          $('#time').html(data);
+        }
+      });
+    }
+  </script>
+  
+<button id="demo" onclick="doAjax()" title="Button">Get the time!</button>
+--%> 
 <div class="formbox">
 	<form method="post" action="biiuploadExperiment" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
 		<table  cellpadding="5px" cellspacing="0px">

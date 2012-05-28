@@ -82,6 +82,12 @@
 	        <ref bean="localeChangeInterceptor" />
 	    </property>
 	</bean>
+	
+	<!--
+	Provider of SpringApplication Context
+	Source: http://blog.jdevelop.eu/2008/07/06/access-the-spring-applicationcontext-from-everywhere-in-your-application/
+	-->
+	<bean id="contextApplicationContextProvider" class="uk.ac.ebi.metabolights.service.ApplicationContextProvider"></bean>  
 
 
     <!--  register the application properties -->
