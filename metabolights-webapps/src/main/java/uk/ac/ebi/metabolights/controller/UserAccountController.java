@@ -68,7 +68,7 @@ public class UserAccountController extends AbstractController{
     	return mav;
     }
 	
-	private @Value("#{appProperties.urlConfirmNewAccount}") String confirmNewAccountUrl;
+	private @Value("#{urlConfirmNewAccount}") String confirmNewAccountUrl;
 
 	
     /**
@@ -188,7 +188,7 @@ public class UserAccountController extends AbstractController{
 	}
 
 	
-	private @Value("#{appProperties.urlActivateNewAccount}") String activateNewAccountUrl;
+	private @Value("#{urlActivateNewAccount}") String activateNewAccountUrl;
 
 	/**
 	 * User has verified new account request by clicking a link sent by email. Update the status

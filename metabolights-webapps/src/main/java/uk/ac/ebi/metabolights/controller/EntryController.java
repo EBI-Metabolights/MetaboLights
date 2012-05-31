@@ -10,10 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
-import uk.ac.ebi.bioinvindex.model.Material;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
@@ -22,7 +20,6 @@ import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
-import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesStrategyFixed;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
@@ -52,8 +49,8 @@ public class EntryController extends AbstractController {
 	@Autowired
 	private SearchService searchService;
 
-    private @Value("#{appProperties.publicFtpLocation}") String publicFtpDirectory;
-    private @Value("#{appProperties.privateFtpStageLocation}") String privateFtpDirectory;         //TODO, short term fix until filesystem is mounted RW
+    private @Value("#{publicFtpLocation}") String publicFtpDirectory;
+    private @Value("#{privateFtpStageLocation}") String privateFtpDirectory;         //TODO, short term fix until filesystem is mounted RW
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}")

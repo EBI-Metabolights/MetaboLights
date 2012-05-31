@@ -43,7 +43,7 @@ public class IndexProviderServiceImpl implements IndexProviderService {
 		return luceneIndexDirectory; 
 	}
 
-	private @Value("#{appProperties.luceneIndexDirectory}") String luceneIndexDirectory;
+	private @Value("#{luceneIndexDirectory}") String luceneIndexDirectory;
 	/**
 	 * Sets up the Lucene index reader and searcher.
 	 * Could do this in the constructor, but that Value for the directory 

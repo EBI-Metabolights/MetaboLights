@@ -1,10 +1,9 @@
-<!-- To be stored under $CATALINA_HOME/conf/Catalina/localhost -->
 <Context className="org.apache.catalina.core.StandardContext"
          cachingAllowed="true"
          charsetMapperClass="org.apache.catalina.util.CharsetMapper"
          crossContext="false"
          debug="1"
-         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp-dev.war"
+         docBase="/nfs/production/panda/metabolights/deploy/metabolights-webapp.war"
          mapperClass="org.apache.catalina.core.StandardContextMapper"
          path="/metabolights"
          privileged="false"
@@ -12,22 +11,42 @@
          swallowOutput="true"
          useNaming="true"
          wrapperClass="org.apache.catalina.core.StandardWrapper"
-         unpackWAR="false">
+         unpackWAR="true">
 
     <!-- Stop sessions being recovered from disk on server restart. -->
     <Manager className="org.apache.catalina.session.StandardManager" pathname=""/>
 
-<Resource name="jdbc/metabolights/production" auth="Container"
-	type="oracle.jdbc.pool.OracleDataSource"
-	factory="oracle.jdbc.pool.OracleDataSourceFactory"
-	connectionCachingEnabled="true"
-	user="xx" 
-	password="xx"
-	driverClassName="oracle.jdbc.OracleDriver"
-	url="jdbc:oracle:thin:@HOST:PORT:SID"
-	removeAbandoned="true"
-	removeAbandonedTimeout="30"
-	maxActive="50"
-	maxIdle="10" maxwait="-1"/>
+    <Resource name="jdbc/metabolights"
+              auth="Container"
+              type="oracle.jdbc.pool.OracleDataSource"
+              factory="oracle.jdbc.pool.OracleDataSourceFactory"
+              connectionCachingEnabled="true"
+              user="xxxxx"
+              password="xxxxx"
+              driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@host:PORT:SID"
+              removeAbandoned="true"
+              removeAbandonedTimeout="30"
+              maxActive="50"
+              maxIdle="10"
+              maxwait="-1"/>
+
+    <!-- URL for new account creations, this is included in the emails sent -->
+    <Environment name="urlConfirmNewAccount" value="http://wwwdev.ebi.ac.uk/metabolights/confirmAccountRequest" type="java.lang.String"/>
+    <Environment name="urlActivateNewAccount" value="http://wwwdev.ebi.ac.uk/metabolights/activateAccount__NotifyUser" type="java.lang.String"/>
+
+    <!-- uploadDirectory is used the by the metabolights-uploader module, for BII submissions -->
+    <Environment name="uploadDirectory" value="/nfs/production/panda/metabolights/isatab/upload/" type="java.lang.String"/>
+
+    <!-- ftp locations are used by the metabolights-uploader and metabolights-webapp to distibute submitted archives -->
+    <Environment name="publicFtpStageLocation" value="/nfs/production/panda/metabolights/isatab/ftp_stage/public/" type="java.lang.String"/>
+    <Environment name="privateFtpStageLocation" value="/nfs/production/panda/metabolights/isatab/ftp_stage/private/" type="java.lang.String"/>
+    <Environment name="publicFtpLocation" value="/ebi/ftp/pub/databases/metabolights/studies/public/" type="java.lang.String"/>
+    <Environment name="privateFtpLocation" value="/ebi/ftp/pub/databases/metabolights/studies/private/" type="java.lang.String"/>
+
+    <!-- This is where the web app looks for the lucene index -->
+    <Environment name="luceneIndexDirectory" value="/nfs/production/panda/metabolights/lucene/dev/bii/" type="java.lang.String"/>
+    <Environment name="luceneIndexDirectoryShort" value="/nfs/production/panda/metabolights/lucene/dev/" type="java.lang.String"/>
 
 </Context>
+

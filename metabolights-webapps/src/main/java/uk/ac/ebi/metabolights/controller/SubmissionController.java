@@ -3,7 +3,6 @@ package uk.ac.ebi.metabolights.controller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,6 @@ import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
-import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
@@ -188,9 +186,9 @@ public class SubmissionController extends AbstractController {
 		return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.indexed"));
 			
 	}
-	private @Value("#{appProperties.uploadDirectory}") String uploadDirectory;
-	private @Value("#{appProperties.publicFtpStageLocation}") String publicFtpLocation;      //TODO, short term fix until filesystem is mounted RW
-	private @Value("#{appProperties.privateFtpStageLocation}") String privateFtpLocation;
+	private @Value("#{uploadDirectory}") String uploadDirectory;
+	private @Value("#{publicFtpStageLocation}") String publicFtpLocation;      //TODO, short term fix until filesystem is mounted RW
+	private @Value("#{privateFtpStageLocation}") String privateFtpLocation;
 	
 	
 	/**

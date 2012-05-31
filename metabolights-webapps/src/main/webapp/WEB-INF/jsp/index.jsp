@@ -34,7 +34,7 @@
 </c:if>
 
 <div style="margin-bottom:40px; padding-left:120px; padding-top:30px">
-   <img src="img/litehouseLogoBeta.png" alt="beta"/>
+   <img src="img/litehouseLogo.png" alt="beta"/>
 </div>
 
 <div class="text_header" style="text-align:center">
