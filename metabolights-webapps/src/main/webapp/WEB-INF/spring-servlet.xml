@@ -160,12 +160,9 @@
     <jee:jndi-lookup id="privateFtpLocation"        jndi-name="java:comp/env/privateFtpLocation" />
     <jee:jndi-lookup id="publicFtpStageLocation"    jndi-name="java:comp/env/publicFtpStageLocation" />
     <jee:jndi-lookup id="privateFtpStageLocation"   jndi-name="java:comp/env/privateFtpStageLocation" />
-
     <jee:jndi-lookup id="urlConfirmNewAccount"      jndi-name="java:comp/env/urlConfirmNewAccount" />
     <jee:jndi-lookup id="urlActivateNewAccount"     jndi-name="java:comp/env/urlActivateNewAccount" />
-
     <jee:jndi-lookup id="uploadDirectory"           jndi-name="java:comp/env/uploadDirectory" />
-
     <jee:jndi-lookup id="luceneIndexDirectory"      jndi-name="java:comp/env/luceneIndexDirectory" />
     <jee:jndi-lookup id="luceneIndexDirectoryShort" jndi-name="java:comp/env/luceneIndexDirectoryShort" />
 
