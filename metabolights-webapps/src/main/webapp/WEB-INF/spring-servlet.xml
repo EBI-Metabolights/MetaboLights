@@ -93,7 +93,7 @@
     <!--util:properties id="appProperties" location="classpath:application.properties"/-->
 
 
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean id="propertyConfigurer" class="uk.ac.ebi.metabolights.utils.PropertiesUtil">
 		<property name="ignoreUnresolvablePlaceholders" value="true"/>
 		<property name="locations">
 			<list>
@@ -237,6 +237,11 @@
         <property name="from" value="no-reply@ebi.ac.uk"/>
         <property name="subject" value="Your MetaboLights study is about to be publicly available"/>
     </bean>
+
+	<bean id="devMailTemplate" class="org.springframework.mail.SimpleMailMessage">
+		<property name="to"><list><value>${mtblDevEmailAddress}</value></list></property>
+    </bean>
+
 
     
 </beans>
