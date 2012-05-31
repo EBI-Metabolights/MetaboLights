@@ -39,6 +39,9 @@ public class EmailService {
 
     @Autowired
     private SimpleMailMessage studyPublicTemplate; // template to notify users when studies go public
+    
+    @Autowired
+    private SimpleMailMessage devMailTemplate; //Template for sending emails to development team.
 
 	
 	public void setMailSender(MailSender mailSender) {
@@ -140,6 +143,33 @@ public class EmailService {
         msg.setText(body);
         this.mailSender.send(msg);
     }
+
+    /**
+     * Sends an email to development account for log information purposes
+     * @param emailAddress
+     */
+    public void sendDevMessage (String sender, String subject, String body) {
+    	
+    	
+        SimpleMailMessage msg = new SimpleMailMessage(this.devMailTemplate);
+        msg.setText(body);
+        msg.setSubject(subject);
+        msg.setFrom(sender);
+        this.mailSender.send(msg);
+    }
+    
+	public void sendSimpleEmail (String from, String to, String subject, String body) {
+		SimpleMailMessage msg = new SimpleMailMessage();
+
+		msg.setFrom(from);
+		msg.setTo(to);
+		msg.setSubject(subject);
+		msg.setText(body);
+		
+		this.mailSender.send(msg);
+	}
+	
+	
 
 	
 	/**

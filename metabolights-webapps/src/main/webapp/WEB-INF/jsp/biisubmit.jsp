@@ -60,7 +60,11 @@
 <button id="demo" onclick="doAjax()" title="Button">Get the time!</button>
 --%> 
 <div class="formbox">
+	<%-- 
+	Change action to the queue mode
 	<form method="post" action="biiuploadExperiment" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
+	--%>
+	<form method="post" action="queueExperiment" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
 		<table  cellpadding="5px" cellspacing="0px">
 
 	        <tr class="text_header plain">

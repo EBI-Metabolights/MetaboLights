@@ -54,7 +54,7 @@ public class UpdateStudyController extends AbstractController {
 	private EntryController entryController;
 	
 	@Autowired
-	private BIISubmissionController submissionController;
+	private SubmissionController submissionController;
 
 	/**
 	 * Receives the study that is going to be published and shows the updateStudy Page to let the user to set the public release date.

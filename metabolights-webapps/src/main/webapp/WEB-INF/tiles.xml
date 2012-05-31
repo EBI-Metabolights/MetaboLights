@@ -76,8 +76,8 @@
         <put-attribute name="title" value="MetaboLights upload successful" />
         <put-attribute name="body" value="/WEB-INF/jsp/submitOk.jsp" />
     </definition>
-
-    <definition name="entry" extends="base.definition">
+	
+	<definition name="entry" extends="base.definition">
         <put-attribute name="title" value="MetaboLights entry" />
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
@@ -134,5 +134,10 @@
 	
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
 	<definition name="proxy" template="/WEB-INF/jsp/proxy.jsp"/>
+	
+	<definition name="queuedOk" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights study queued" />
+        <put-attribute name="body" value="/WEB-INF/jsp/queuedOk.jsp" />
+    </definition>
 
 </tiles-definitions>

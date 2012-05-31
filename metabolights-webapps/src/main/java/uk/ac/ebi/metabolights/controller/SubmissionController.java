@@ -3,6 +3,7 @@ package uk.ac.ebi.metabolights.controller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,9 @@ import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
 
@@ -30,6 +33,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+
+
 /**
  * Controls multi part file upload as described in Reference Documentation 3.0,
  * chapter "15.8 Spring's multipart (fileupload) support".
@@ -37,9 +42,12 @@ import java.util.HashMap;
  * @author conesa
  */
 @Controller
-public class BIISubmissionController extends AbstractController {
+public class SubmissionController extends AbstractController {
 
-	private static Logger logger = Logger.getLogger(BIISubmissionController.class);
+	@Autowired
+	private EmailService emailService;
+	
+	private static Logger logger = Logger.getLogger(SubmissionController.class);
 
     //@Autowired
     private IsaTabUploader itu = new IsaTabUploader();
@@ -165,7 +173,7 @@ public class BIISubmissionController extends AbstractController {
 	public ModelAndView reindex() throws Exception{
 		
 		//Get the path for the config folder (where the hibernate properties for the import layer are).
-		String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath();
+		String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
 
         //The logged in user.  principal = MetabolightsUser
         //		 MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -237,6 +245,7 @@ public class BIISubmissionController extends AbstractController {
 		
 		return isaTabFile;
 	}
+
 	
 	/**
 	 * Upload the IsaTabFile (zip) into BII database replacing the id with our own accession numbers.
@@ -275,7 +284,7 @@ public class BIISubmissionController extends AbstractController {
 
 		// Get the path for the config folder (where the hibernate properties for the import layer are).
 		//String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath()+ "biiconfig/";
-        String configPath = BIISubmissionController.class.getClassLoader().getResource("").getPath();
+        String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
 
 		// Get today's date.
 		Calendar currentDate = Calendar.getInstance();
@@ -334,6 +343,6 @@ public class BIISubmissionController extends AbstractController {
 		mav.addObject("cl", cl);
 		
 		return mav;
-	}
+	}	
 
 }
