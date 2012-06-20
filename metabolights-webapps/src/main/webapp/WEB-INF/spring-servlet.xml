@@ -173,11 +173,13 @@
 		<sec:intercept-url pattern="/updatestudy" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/submit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/biisubmit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
+		<sec:intercept-url pattern="/submittoqueue" access="isAuthenticated()" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/mysubmissions" access="isAuthenticated()" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/privatefiles" access="isAuthenticated()" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/updateAccount" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/reindex" access="hasRole('ROLE_SUPER_USER')" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/config" access="hasRole('ROLE_SUPER_USER')" /> <!-- requires-channel="https" -->
+		<sec:intercept-url pattern="/switchqueue" access="hasRole('ROLE_SUPER_USER')" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/checkpublic" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/login" access="permitAll"/> <!-- requires-channel="https" -->  
         <sec:intercept-url pattern="/**" access="permitAll"/> <!-- requires-channel="http" -->
@@ -216,7 +218,7 @@
     <bean id="activateAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="from" value="no-reply@ebi.ac.uk"/>
       <property name="subject" value="New MetaboLights account request"/>
-      <property name="to">  <list><value>${mtblAdminEmailAddress}</value></list> </property>  
+      <property name="to"><list><value>${mtblAdminEmailAddress}</value></list> </property>  
     </bean>
 
     <bean id="accountApprovedTemplate" class="org.springframework.mail.SimpleMailMessage">
@@ -226,18 +228,12 @@
     
     <bean id="contactUsTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="subject" value="MetaboLights Website General Request"/>
-      <property name="to">  <list><value>${mtblAdminEmailAddress}</value></list> </property>  
+      <property name="to"><list><value>${mtblAdminEmailAddress}</value></list></property>  
     </bean>
 
     <bean id="studyPublicTemplate" class="org.springframework.mail.SimpleMailMessage">
         <property name="from" value="no-reply@ebi.ac.uk"/>
         <property name="subject" value="Your MetaboLights study is about to be publicly available"/>
     </bean>
-
-	<bean id="devMailTemplate" class="org.springframework.mail.SimpleMailMessage">
-		<property name="to"><list><value>${mtblDevEmailAddress}</value></list></property>
-    </bean>
-
-
-    
+    <bean id="queueManager" class="uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager"/>
 </beans>

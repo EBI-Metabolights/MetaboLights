@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.controller;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,9 @@ import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
+import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
@@ -50,10 +53,36 @@ public class SubmissionQueueController extends AbstractController {
 	private static Logger logger = Logger.getLogger(SubmissionQueueController.class);
 
 	
+	
+	@RequestMapping(value = { "/submittoqueue" })
+	public ModelAndView preSubmit(HttpServletRequest request) {
+		MetabolightsUser user = null;
+		
+		ModelAndView mav = new ModelAndView("biisubmit"); // Call the Submission form page
+		if (request.getUserPrincipal() != null)
+			user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+		if (user != null){
+			//mav.addObject("user", user);
+			
+			try {
+				mav.addObject("queueditems",SubmissionQueue.getQueuedForUserId(user.getUserName().toString()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return mav;
+	}
+	
+	
 	@RequestMapping(value = "/queueExperiment", method = RequestMethod.POST)
 	public ModelAndView queueExperiment(
 			@RequestParam("file") MultipartFile file,
 			@RequestParam(required=true,value="pickdate") String publicDate,
+			@RequestParam(required=false,value="study") String study,
 			HttpServletRequest request) 
 		throws Exception {
 
@@ -74,6 +103,10 @@ public class SubmissionQueueController extends AbstractController {
 
 			if (publicDate.isEmpty())
 				throw new Exception(PropertyLookup.getMessage("BIISubmit.dateEmpty"));
+			
+			if (!file.getOriginalFilename().toLowerCase().endsWith("zip")){
+				throw new Exception(PropertyLookup.getMessage("BIISubmit.fileExtension"));
+			}
 
             //Check if the study is public today
             VisibilityStatus status = VisibilityStatus.PRIVATE;         //Defaults to a private study
@@ -89,23 +122,30 @@ public class SubmissionQueueController extends AbstractController {
             // Extend the message...
           	messageBody.append("\nFileName: " + file.getOriginalFilename() );
     		messageBody.append("\nUser: " + user.getUserName() );
-    		messageBody.append("\nNEW STUDY");
+    		if (study==null){
+    			messageBody.append("\nNEW STUDY");
+    		}else{
+    			messageBody.append("\nSTUDY: " + study);
+    		}
     		messageBody.append("\nPublic Release Date: " + publicDate);
     		
     		
-            logger.info("Queue Experiment. Submitting queue Item");
-			SubmissionItem si = new SubmissionItem(file, user, publicDateD, null);
+            logger.info("Queueing study");
+			SubmissionItem si = new SubmissionItem(file, user, publicDateD, study);
             
 			// Submit the item to the queue...
             si.submitToQueue();
             
             messageBody.append("\n\n File Successfully queued.");
             
-            logger.info("Queue Experiment. Add data to session");
+            logger.info("Queued study. Adding data to session");
 			HttpSession httpSession = request.getSession();
 			httpSession.setAttribute("itemQueued", true);
 			
-			emailService.sendDevMessage(this.getClass().getCanonicalName() + "@ebi.ac.uk", "queueExperiment SUCCEDED in " + hostName + " by " + user.getUserName() , messageBody.toString());
+			// Cannot load the queue
+			emailService.sendQueuedStudyEmail(si.getUserId(),si.getOriginalFileName() , FileUtils.byteCountToDisplaySize(si.getFileQueued().length()), si.getPublicReleaseDate(), hostName, study);
+			
+			
 			
 	    	return new ModelAndView("redirect:itemQueued");
 	    	
@@ -116,7 +156,7 @@ public class SubmissionQueueController extends AbstractController {
 			mav.addObject("error", e);
 
 			messageBody.append("\n\nERROR!!!!!\n\n" + e.getMessage() );
-			emailService.sendDevMessage(this.getClass().getCanonicalName() + "@ebi.ac.uk", "queueExperiment FAILED in " + hostName + " by " + user.getUserName() , messageBody.toString());
+			emailService.sendSimpleEmail( "queueExperiment FAILED in " + hostName + " by " + user.getUserName() , messageBody.toString());
 			
 			return mav;
 		
@@ -139,8 +179,6 @@ public class SubmissionQueueController extends AbstractController {
 		}
 		return mav;
 	}
-	
-
 	
 
 }

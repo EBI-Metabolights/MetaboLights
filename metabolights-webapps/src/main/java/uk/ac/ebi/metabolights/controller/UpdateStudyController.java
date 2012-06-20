@@ -120,7 +120,10 @@ public class UpdateStudyController extends AbstractController {
 			title = PropertyLookup.getMessage("msg.updatestudy.title", study,  studyShortTitle);
 			msg = PropertyLookup.getMessage("msg.updatestudy.msg");
 			submitText = PropertyLookup.getMessage("label.updatestudy");
-			action = "updatestudy";
+			
+			// Redirect to que the queue system: action = "updatestudy";
+			action ="queueExperiment";
+			
 			
 			// Get the DownloadLink
 			String ftpLocation = entryController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );

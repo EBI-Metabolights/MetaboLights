@@ -9,7 +9,8 @@
     </div>
 
     <div class='iscell'>
-        <a class="multi-line-button main" href="biisubmit"
+        <%--<a class="multi-line-button main" href="biisubmit" --%>
+        <a class="multi-line-button main" href="submittoqueue"
            style="width:310px; height:100px; text-decoration: none; color: #ffffff;">
             <span class="titlemlb"><spring:message code="label.submitNewStudy"/></span>
 	        <span class="subtitlemlb"><spring:message code="label.submitNewStudySub"/></span>

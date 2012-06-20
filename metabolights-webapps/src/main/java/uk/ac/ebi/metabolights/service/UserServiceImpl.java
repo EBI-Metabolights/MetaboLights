@@ -14,7 +14,7 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
  * It is appropriate to annotate the service-layer classes with @Service to facilitate processing by tools or anticipating any future
  * service-specific capabilities that may be added to this annotation.
  */
-@Service
+@Service("myService") 
 public class UserServiceImpl implements UserService{
 	 
     @Autowired

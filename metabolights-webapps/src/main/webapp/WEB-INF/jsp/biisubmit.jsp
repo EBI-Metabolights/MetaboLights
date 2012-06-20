@@ -1,5 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js"></script>
 
@@ -64,10 +65,46 @@
 	Change action to the queue mode
 	<form method="post" action="biiuploadExperiment" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
 	--%>
+	
+	<div>
+	<p class="text_header plain"><spring:message code="msg.upload" /></p>
+	<spring:message code="msg.upload.desc"/>
+	<spring:message code="msg.upload.desc2"/>
+	<br/><br/><br/><br/>
+	        
+    <c:if test="${not empty queueditems}">
+		<spring:message code="msg.upload.queueditems"/>
+		<br/>
+		<table>
+			<thead class='text_header'>
+				<tr>
+					<th>File name</th>
+					<th>Status</th>
+					<th>Type</th>
+					<th>Public by</th>
+				</tr>
+			</thead>			
+       	<c:forEach var="qi" items="${queueditems}">
+			<tr>
+				<td>${qi.originalFileName}</td>
+				<td>QUEUED</td>
+				<td>
+					<c:choose>
+			        	<c:when test="${not empty qi.accession}">${qi.accession}</c:when>
+						<c:otherwise>NEW</c:otherwise>
+					</c:choose>
+				</td>
+				<td><fmt:formatDate pattern="dd-MMM-yyyy" value="${qi.publicReleaseDate}"/></td>
+			</tr>
+        </c:forEach>
+        </table>
+		<br/><br/><br/><br/>
+    </c:if>
+	</div>
 	<form method="post" action="queueExperiment" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
 		<table  cellpadding="5px" cellspacing="0px">
 
-	        <tr class="text_header plain">
+<%-- 	        <tr class="text_header plain">
 	             <th colspan="2"><spring:message code="msg.upload" /> </th>
 	        </tr>
 
@@ -82,20 +119,44 @@
             <tr>
 	            <td colspan='2'><br/>&nbsp;</td>
 	        </tr>
+	        
+	        <c:if test="${not empty queueditems}">
+		        <tr>
+		        	<td colspan='2'>
+		        		<spring:message code="msg.upload.queueditems"/>
+		        	</td>
+		        </tr>
+		        <c:forEach var="qi" items="${queueditems}">
+			        <tr>
+						<td>
+							<c:choose>
+					        	<c:when test="${not empty qi.accession}">${qi.accession}</c:when>
+								<c:otherwise>NEW</c:otherwise>
+							</c:choose>
+							
+						</td>
+						<td>
+							${qi.originalFileName}
+						</td>
+			        </tr>
+		        </c:forEach>
+		            <tr>
+	            <td colspan='2'><br/>&nbsp;</td></tr>
+		    </c:if> --%>
+	        
 
+            <tr>
+	        	<td colspan='2'> <hr/> </td>
+	        </tr>
             <tr>
 	            <td><spring:message code="label.isatabZipFile" />:</td>
 	            <td><input type="file" name="file" /></td>
 	        </tr>
 
             <tr>
-	        	<td colspan='2'> <hr/> </td>
-	        </tr>
-
-            <tr>
 	            <td colspan='2'><b><spring:message code="label.experimentMsgPublic" /> </b></td>
 	        </tr>
-
+			<tr><td colspan='2'><br/>&nbsp;</td></tr>
             <tr>
 	        	<td><spring:message code="label.publicDate"/></td>
 				<td>

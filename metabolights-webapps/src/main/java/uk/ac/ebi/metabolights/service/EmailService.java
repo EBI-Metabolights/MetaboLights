@@ -1,12 +1,18 @@
 package uk.ac.ebi.metabolights.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+
+import com.mchange.v2.codegen.bean.Property;
+
 import uk.ac.ebi.metabolights.form.ContactValidation;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -40,10 +46,7 @@ public class EmailService {
     @Autowired
     private SimpleMailMessage studyPublicTemplate; // template to notify users when studies go public
     
-    @Autowired
-    private SimpleMailMessage devMailTemplate; //Template for sending emails to development team.
-
-	
+  
 	public void setMailSender(MailSender mailSender) {
 		this.mailSender = mailSender;
 	}
@@ -143,22 +146,8 @@ public class EmailService {
         msg.setText(body);
         this.mailSender.send(msg);
     }
-
-    /**
-     * Sends an email to development account for log information purposes
-     * @param emailAddress
-     */
-    public void sendDevMessage (String sender, String subject, String body) {
-    	
-    	
-        SimpleMailMessage msg = new SimpleMailMessage(this.devMailTemplate);
-        msg.setText(body);
-        msg.setSubject(subject);
-        msg.setFrom(sender);
-        this.mailSender.send(msg);
-    }
-    
-	public void sendSimpleEmail (String from, String to, String subject, String body) {
+   
+	public void sendSimpleEmail (String from, String[] to, String subject, String body) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 
 		msg.setFrom(from);
@@ -168,10 +157,66 @@ public class EmailService {
 		
 		this.mailSender.send(msg);
 	}
+	public void sendSimpleEmail ( String[] to, String subject, String body) {
+		String from = PropertyLookup.getMessage("mail.noreplyaddress");
+		sendSimpleEmail(from , to ,subject, body);
+	}
 	
-	
+	public void sendSimpleEmail (String subject, String body) {
+		String[] to  = {PropertiesUtil.getProperty("mtblDevEmailAddress")};
+		sendSimpleEmail( to ,subject, body);
+	}
 
+	/*
+	 * Email to send when a study its being queued...
+	 */
+	public void sendQueuedStudyEmail(String userEmail, String fileName, String fileSize, Date publicReleaseDate, String hostName, String studyToUpdate){
+		String from = PropertyLookup.getMessage("mail.noreplyaddress");
+		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
+		String subject = PropertyLookup.getMessage("mail.queuedStudy.subject", fileName);
+		String body = PropertyLookup.getMessage("mail.queuedStudy.body", new String[]{userEmail, fileName, fileSize, publicReleaseDate.toString(), hostName, (studyToUpdate==null?"NEW STUDY":"UPDATING " + studyToUpdate)});
+		
+		sendSimpleEmail(from, to, subject, body);
+		
+	}
 	
+	/*
+	 * Email to send when a study its being successfully submitted...
+	 */
+	public void sendQueuedStudySubmitted(String userEmail, String fileName, Date publicReleaseDate, String ID){
+		String from = PropertyLookup.getMessage("mail.noreplyaddress");
+		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
+		String subject = PropertyLookup.getMessage("mail.submittedStudy.subject", ID);
+		String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString()});
+		
+		sendSimpleEmail(from, to, subject, body);
+		
+	}
+	
+	/*
+	 * Email to send when a study it's been successfully updated ...
+	 */
+	public void sendQueuedStudyUpdated(String userEmail,String ID, Date publicReleaseDate){
+		String from = PropertyLookup.getMessage("mail.noreplyaddress");
+		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
+		String subject = PropertyLookup.getMessage("mail.updateStudy.subject", ID);
+		String body = PropertyLookup.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString()});
+		
+		sendSimpleEmail(from, to, subject, body);
+		
+	}
+	/*
+	 * Email to send when the submission process fails...
+	 */
+	public void sendSubmissionError(String userEmail, String fileName, String error ){
+		String from = PropertiesUtil.getProperty("mtblDevEmailAddress");
+		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
+		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
+		String body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error});
+		
+		sendSimpleEmail(from, to, subject, body);
+		
+	}
 	/**
 	 * For use by a Sping Validator, to check if an email looks likely.
 	 * @param aEmailAddress

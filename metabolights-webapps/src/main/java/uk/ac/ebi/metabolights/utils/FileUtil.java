@@ -7,8 +7,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
+
 public class FileUtil {
 
+	private static Logger logger = Logger.getLogger (FileUtil.class);
+	
 	public static void replace (String fileToSearchIn, String textToSearch, String textToReplace) throws IOException{
 		String text;
 		
@@ -107,4 +112,5 @@ public class FileUtil {
 		return result;
 		
 	}
+	
 }

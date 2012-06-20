@@ -6,11 +6,22 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
+import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
+import uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -30,60 +41,80 @@ public class ManagerController extends AbstractController{
 	@RequestMapping({"/config"})
 	public ModelAndView config() {
 		
-		Properties appProps = null,hibProps= null;
+
+		Map<String,String> properties=null;
 		
-		try {
+		properties = PropertiesUtil.getProperties();
 			
-			// Load application properties
-			Resource resource = new ClassPathResource("/application.properties");
-			appProps = PropertiesLoaderUtils.loadProperties(resource);
-			
-			// Load hibernate properties
-			resource = new ClassPathResource("/hibernate.properties");
-			hibProps = PropertiesLoaderUtils.loadProperties(resource);
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
 		
 		// Validation result
 		Map<String,Boolean> validationResult = new HashMap<String,Boolean>();
 		
 		// Validate lucene index
-		validationResult.put("Lucene index consistency", (hibProps.getProperty("hibernate.search.default.indexBase").equals(appProps.getProperty("luceneIndexDirectoryShort"))));
+		validationResult.put("Lucene index consistency", (PropertiesUtil.getProperty("hibernate.search.default.indexBase").equals(PropertiesUtil.getProperty("luceneIndexDirectoryShort"))));
 		
 		// Validate end character of path properties
-		validationResult.put("uploadDirectory ends with /", (appProps.getProperty("uploadDirectory").endsWith("/")));
-		validationResult.put("publicFtpLocation ends with /", (appProps.getProperty("publicFtpLocation").endsWith("/")));
-		validationResult.put("privateFtpLocation ends with /", (appProps.getProperty("privateFtpLocation").endsWith("/")));
-		validationResult.put("publicFtpStageLocation ends with /", (appProps.getProperty("publicFtpStageLocation").endsWith("/")));
-		validationResult.put("privateFtpStageLocation ends with /", (appProps.getProperty("privateFtpStageLocation").endsWith("/")));
-		validationResult.put("luceneIndexDirectory ends with /", (appProps.getProperty("luceneIndexDirectory").endsWith("/")));
-		validationResult.put("luceneIndexDirectoryShort ends with /", (appProps.getProperty("luceneIndexDirectoryShort").endsWith("/")));
+		validationResult.put("uploadDirectory ends with /", (PropertiesUtil.getProperty("uploadDirectory").endsWith("/")));
+		validationResult.put("publicFtpLocation ends with /", (PropertiesUtil.getProperty("publicFtpLocation").endsWith("/")));
+		validationResult.put("privateFtpLocation ends with /", (PropertiesUtil.getProperty("privateFtpLocation").endsWith("/")));
+		validationResult.put("publicFtpStageLocation ends with /", (PropertiesUtil.getProperty("publicFtpStageLocation").endsWith("/")));
+		validationResult.put("privateFtpStageLocation ends with /", (PropertiesUtil.getProperty("privateFtpStageLocation").endsWith("/")));
+		validationResult.put("luceneIndexDirectory ends with /", (PropertiesUtil.getProperty("luceneIndexDirectory").endsWith("/")));
+		validationResult.put("luceneIndexDirectoryShort ends with /", (PropertiesUtil.getProperty("luceneIndexDirectoryShort").endsWith("/")));
 		
 		// Validate paths variable exists
-		validationResult.put("uploadDirectory existance", (new File(appProps.getProperty("uploadDirectory")).exists()));
-		validationResult.put("publicFtpLocation existance", (new File(appProps.getProperty("publicFtpLocation")).exists()));
-		validationResult.put("privateFtpLocation existance", (new File(appProps.getProperty("privateFtpLocation")).exists()));
-		validationResult.put("publicFtpStageLocation existance", (new File(appProps.getProperty("publicFtpStageLocation")).exists()));
-		validationResult.put("privateFtpStageLocation existance", (new File(appProps.getProperty("privateFtpStageLocation")).exists()));
-		validationResult.put("luceneIndexDirectory existance", (new File(appProps.getProperty("luceneIndexDirectory")).exists()));
-		validationResult.put("luceneIndexDirectoryShort existance", (new File(appProps.getProperty("luceneIndexDirectoryShort")).exists()));
+		validationResult.put("uploadDirectory existance", (new File(PropertiesUtil.getProperty("uploadDirectory")).exists()));
+		validationResult.put("publicFtpLocation existance", (new File(PropertiesUtil.getProperty("publicFtpLocation")).exists()));
+		validationResult.put("privateFtpLocation existance", (new File(PropertiesUtil.getProperty("privateFtpLocation")).exists()));
+		validationResult.put("publicFtpStageLocation existance", (new File(PropertiesUtil.getProperty("publicFtpStageLocation")).exists()));
+		validationResult.put("privateFtpStageLocation existance", (new File(PropertiesUtil.getProperty("privateFtpStageLocation")).exists()));
+		validationResult.put("luceneIndexDirectory existance", (new File(PropertiesUtil.getProperty("luceneIndexDirectory")).exists()));
+		validationResult.put("luceneIndexDirectoryShort existance", (new File(PropertiesUtil.getProperty("luceneIndexDirectoryShort")).exists()));
 		
 		
+		List<SubmissionItem> queue= null;
 		
-		
+		// Get the files in the queue
+		try {
+			queue = SubmissionQueue.getQueue();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		ModelAndView mav = new ModelAndView("config");
-		mav.addObject("appProps", appProps);		
-		mav.addObject("hibProps", hibProps);
+		mav.addObject("props", properties);
 		mav.addObject("validation", validationResult);
+		mav.addObject("queue", queue);
+		mav.addObject("queuerunnig", SubmissionQueueManager.getIsRunning());
 		return mav;
 
     }
+	
+	@RequestMapping(value = "/switchqueue", method = RequestMethod.GET)
+	public @ResponseBody String switchqueue(@RequestParam String command) {
+		
+		String result = "";
+		
+		try{
+			
+			if (command.equals("on")){
+			
+				SubmissionQueueManager.start();
+			
+				result = "Queue started";
+			}else{
+				SubmissionQueueManager.stop();
+				result = "Queue stopped";
+			}
+			
+		}catch (Exception e){
+			result = e.getMessage();
+		}
+		
+	    return result;
+	}
 
     
 }

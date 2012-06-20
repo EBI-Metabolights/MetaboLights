@@ -121,7 +121,7 @@
                         </div>
 
                         <div class='iscell'>
-                            <input type="file" name="file" />
+                            <input type="file" name="file"/>
                         </div>
 
 					</div>

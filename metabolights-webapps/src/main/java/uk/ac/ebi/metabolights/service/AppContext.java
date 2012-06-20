@@ -11,10 +11,12 @@ import org.springframework.context.ApplicationContext;
 public class AppContext {
 
     private static ApplicationContext ctx;
+	private static EmailService emailService;
+	private static UserService userService;
 
     /**
      * Injected from the class "ApplicationContextProvider" which is automatically
-     * loaded during Spring-Initialization.
+     * loaded during Spring-Initialisation.
      */
     public static void setApplicationContext(ApplicationContext applicationContext) {
         ctx = applicationContext;
@@ -28,4 +30,19 @@ public class AppContext {
     public static ApplicationContext getApplicationContext() {
         return ctx;
     }
+    
+    public static EmailService getEmailService(){
+    	if (emailService == null){
+    		emailService =ctx.getBean(EmailService.class);
+    	}
+    	
+    	return emailService;
+    }
+    public static UserService getUserService(){
+    	if (userService == null){
+    		userService = (UserService) ctx.getBean("myService");
+    	}
+    	return userService;
+    }
+    
 } 
