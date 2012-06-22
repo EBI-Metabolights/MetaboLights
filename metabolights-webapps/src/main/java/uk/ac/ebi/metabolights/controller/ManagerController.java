@@ -1,6 +1,8 @@
 package uk.ac.ebi.metabolights.controller;
 
 
+import org.apache.tiles.context.MapEntry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager;
+import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 import java.io.File;
@@ -38,6 +42,8 @@ public class ManagerController extends AbstractController{
 	 * Show config properties and check if some of them are consistent
 	 * @return
 	 */
+	@Autowired
+	private UserService userService;
 	@RequestMapping({"/config"})
 	public ModelAndView config() {
 		
@@ -115,7 +121,33 @@ public class ManagerController extends AbstractController{
 		
 	    return result;
 	}
+	
+	@RequestMapping({"/users"})
+	public ModelAndView users(){
+		ModelAndView mav = new ModelAndView("users");
+		
+		List<MetabolightsUser> users = userService.getAll();
+		
+		mav.addObject("users",users);
+		mav.addObject("usersMap", getUsersMap(users));
+		return mav;
+	}
 
-    
+    private Map<String,Integer> getUsersMap(List<MetabolightsUser> users){
+    	Map<String,Integer> map = new HashMap<String,Integer>();
+    	
+    	for (MetabolightsUser user: users){
+    		// If we do NOT have already the country
+    		if(!map.containsKey(user.getAddress())){
+    			// ... add the country.
+    			map.put(user.getAddress(), 1);
+    		}else{
+    			Integer value = map.get(user.getAddress());
+    			map.put( user.getAddress() , value+1);
+    		}
+    	}
+    	
+    	return map;
+    }
 }
 

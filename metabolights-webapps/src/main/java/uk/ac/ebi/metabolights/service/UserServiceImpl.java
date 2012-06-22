@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +16,7 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
  * It is appropriate to annotate the service-layer classes with @Service to facilitate processing by tools or anticipating any future
  * service-specific capabilities that may be added to this annotation.
  */
-@Service("myService") 
+@Service 
 public class UserServiceImpl implements UserService{
 	 
     @Autowired
@@ -48,6 +50,11 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public void delete(MetabolightsUser user) {
 		userDAO.delete(user);
+	}
+
+	@Transactional
+	public List<MetabolightsUser> getAll() {
+		return userDAO.getAll();
 	}
 
 }

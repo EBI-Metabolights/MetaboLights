@@ -35,6 +35,20 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	public List<MetabolightsUser> getAll() {
+
+		Session session = sessionFactory.getCurrentSession();
+		Query q = session.createQuery("from MetabolightsUser");
+		List<MetabolightsUser> list = q.list();
+		session.clear();
+
+		if (list !=null && list.size()>0)
+			return list;
+		else
+			return null;
+
+	}
+
 	@Override
 	public MetabolightsUser findByEmail(String email) {
 		Session session = sessionFactory.getCurrentSession();

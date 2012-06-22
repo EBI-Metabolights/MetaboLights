@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.dao;
 
+import java.util.List;
+
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 
 /**
@@ -19,6 +21,11 @@ public interface UserDAO {
      */
     public MetabolightsUser findByEmail(String email);
 
+    /**
+     * Get all users.
+     */
+    public List<MetabolightsUser> getAll();
+    
     /**
      * Store a user in the database.
      * @param user
