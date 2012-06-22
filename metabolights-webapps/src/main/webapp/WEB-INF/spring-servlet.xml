@@ -181,6 +181,7 @@
 		<sec:intercept-url pattern="/config" access="hasRole('ROLE_SUPER_USER')" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/switchqueue" access="hasRole('ROLE_SUPER_USER')" /> <!-- requires-channel="https" -->
         <sec:intercept-url pattern="/checkpublic" access="hasRole('ROLE_SUPER_USER')" />
+		<sec:intercept-url pattern="/users" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/login" access="permitAll"/> <!-- requires-channel="https" -->  
         <sec:intercept-url pattern="/**" access="permitAll"/> <!-- requires-channel="http" -->
         <sec:logout logout-success-url="/loggedout" delete-cookies="JSESSIONID" />
