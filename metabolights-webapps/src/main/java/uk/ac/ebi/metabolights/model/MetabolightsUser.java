@@ -20,7 +20,7 @@ import java.util.Set;
 @Entity
 @Table(name = "USER_DETAIL")
 //Oracle sequence, comment this *out* for MySQL
-//@SequenceGenerator(name="userSeq", sequenceName="USER_DETAIL_SEQ", allocationSize=1)
+@SequenceGenerator(name="userSeq", sequenceName="USER_DETAIL_SEQ", allocationSize=1)
 
 public class MetabolightsUser implements Serializable{
 	
@@ -50,7 +50,7 @@ public class MetabolightsUser implements Serializable{
 	@Id
 	@Column(name="ID")
     //COmment this for MySQL
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="userSeq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="userSeq")
 	private Long userId;
 
 	@Column(name="EMAIL")
