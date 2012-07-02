@@ -24,7 +24,7 @@
 	</div>
 
 	<div class="loggedInAsBox">
-			<!-- <sec:authorize ifAnyGranted="ROLE_SUBMITTER">		
+ 			<!-- <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
 			<ul id="sddm">	       		
 			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">
 			  			<sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName"/><span class="smallArrow"></span></a>
@@ -35,7 +35,8 @@
 				 </div>  
 			   </li>
 			</ul>   
-		</sec:authorize>	      	--> 
+		</sec:authorize>	      	-->
+        <a href="https://docs.google.com/document/d/1uL97eA5rozKHyXUbngQJNy-iwQXic7GMVK8bAQSWaCU/view">Help</a>
 	</div>	 
 
  
