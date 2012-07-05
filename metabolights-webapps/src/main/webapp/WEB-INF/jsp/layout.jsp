@@ -12,7 +12,8 @@
     <meta http-equiv="Window-target" content="_top" />
     <meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/" />
     <meta name="generator" content="Dreamweaver 8" />
-
+    <meta name="keywords" content="metabolite, metabolism, metabolic, metabonomics, metabolomics study, metabolomics experiment, metabolic pathway, metabolite database" />
+   
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
 
     <link rel="stylesheet"  href="http://www.ebi.ac.uk/inc/css/contents.css"     type="text/css" />

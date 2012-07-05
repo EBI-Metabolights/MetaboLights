@@ -18,6 +18,8 @@ public class Filter {
 	
 	public static final String STATUS_PRIVATE = "PRIVATE";
 	public static final String STATUS_PUBLIC = "PUBLIC";
+    public static final String ORGANISM_FILTER = "organism";
+    public static final String TECHNOLOGY_FILTER = "technology";
 
 	private static final String FREE_TEXT_QUERY = "freeTextQuery";
 
@@ -27,8 +29,8 @@ public class Filter {
 	Map<String,FilterSet> fss = new LinkedHashMap<String,FilterSet>();
 	
 	// List with filter items, each one will be a group of checkboxes
-    private FilterSet organisms = new FilterSet("organisms", "organism","",""); 
-    private FilterSet technology = new FilterSet("technology","assay_info","*|","|*");
+    private FilterSet organisms = new FilterSet(ORGANISM_FILTER, "organism","","");
+    private FilterSet technology = new FilterSet(TECHNOLOGY_FILTER,"assay_info","*|","|*");
     private FilterSet status = new FilterSet("status","status","","");
     private FilterSet mystudies = new FilterSet("mystudies", "user","username:", "|*");
     private String freeTextQuery = "";
@@ -230,7 +232,7 @@ public class Filter {
 	public String getLuceneQuery(){
 		
 		//Start with the freeTextQuery
-		String luceneQuery = freeTextQuery.isEmpty()? "" :  value2Lucene("*" + freeTextQuery + "*", true) ;
+		String luceneQuery = freeTextQuery.isEmpty()? "" :  value2Lucene("*" + freeTextQuery + "*", true, false) ;
 				
 		//Go through the Filters set
 		for (Entry<String,FilterSet> entry: fss.entrySet()){
@@ -252,7 +254,11 @@ public class Filter {
 				//If filter item id checked
 				if (fi.getIsChecked()){
 					//Join terms with an OR
-					luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix(), false) , "OR") ;
+					//luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix(), false) , "OR") ;
+                    if (fi.getName().equals(ORGANISM_FILTER))   //Need exact match for organism filter
+                        luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix(), false, true) , "OR") ;
+                    else
+                        luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + fs.getPrefix() + fi.getValue().replace(" ", "\\ *") + fs.getSuffix(), "OR") ;
 				}
 				
 			}
@@ -297,11 +303,15 @@ public class Filter {
 		
 	}
 	
-	private String value2Lucene(String value, Boolean toLower){
+	private String value2Lucene(String value, Boolean toLower, Boolean exactMatch){
 		
 		//Replace special characters...
-		value = value.replace(":","\\:").replace(" ", "\\ *").replace("(", "\\(").replace(")","\\)");
-        
+		//value = value.replace(":","\\:").replace(" ", "\\ *").replace("(", "\\(").replace(")","\\)");
+        if (exactMatch)
+            value = '"' + value.replaceAll("|","") + '"';         //Query is from the filter facets, so exact match only
+        else
+            value = value.replace(":","\\:").replace(" ", " *").replace("(", "\\(").replace(")","\\)");
+
         if (toLower)
             value = value.toLowerCase();
 			

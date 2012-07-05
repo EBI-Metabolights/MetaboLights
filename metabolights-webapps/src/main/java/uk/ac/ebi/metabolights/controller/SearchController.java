@@ -29,7 +29,26 @@ public class SearchController extends AbstractController{
 	
 	@Autowired
 	private SearchService searchService;
-	
+
+
+    /**
+     * Controller for a browse (empty search) request
+     */
+    @RequestMapping(value = "/browse")
+    public ModelAndView browse(HttpServletRequest request) {
+
+            //Prepare the filter
+            Filter filter = prepareFilter(request);
+            filter.setFreeTextQuery("");
+
+            //Trigger the search based on the filter
+            ModelAndView mav = search(filter);
+
+            //Add the action to the ModelAndView
+            mav.addObject("action", "search");
+
+            return mav;
+    }
 
 	/**
 	 * Controller for a search request, including possible filters. 
@@ -125,7 +144,7 @@ public class SearchController extends AbstractController{
 			//Add it to the session
 			request.getSession().setAttribute( FILTER_SESSION_ATRIBUTE, filter);
 			
-		}else{
+		} else {
 			//We already have a filter object that was stored in the session. We need to refresh it with the filter items checked or unchecked.
 			filter.parseRequest(request);
 		}

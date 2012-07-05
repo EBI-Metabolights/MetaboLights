@@ -66,7 +66,7 @@ public class SearchServiceImpl implements SearchService{
     	
         String[] productFields =
                { "title",
-                 "description",
+                 "description",              //TODO, is this in the index at all?
                  "design_value",
                  "objective",
                  "acc",

@@ -18,7 +18,7 @@
 	</definition>
 
 	<definition name="index" extends="base.definition">
-		<put-attribute name="title" value="MetaboLights - Metabolomics Portal" />
+		<put-attribute name="title" value="MetaboLights - Metabolomics experiments and derived information" />
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
 	</definition>
 
