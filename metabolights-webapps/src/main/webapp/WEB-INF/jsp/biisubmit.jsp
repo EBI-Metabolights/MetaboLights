@@ -34,7 +34,7 @@
 	          buttonText: 'Choose Date',
 	          dateFormat: 'dd-M-yy',
 	          minDate: '0',
-	          maxDate: '+5y'
+	          maxDate: '+1y'
 	      });
 	});
 	

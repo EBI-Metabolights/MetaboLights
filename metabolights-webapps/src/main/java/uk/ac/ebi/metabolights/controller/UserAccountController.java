@@ -241,22 +241,54 @@ public class UserAccountController extends AbstractController{
      * @return Spring model and view
      */
 	@RequestMapping(value = "/myAccount")
-   	public ModelAndView updateAccount() {
+   	public ModelAndView myAccount() {
 		
 		ModelAndView mav = null;
 
 		MetabolightsUser principal = ((MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
 		if (principal==null) {
         	mav = new ModelAndView("index"); // probably logged out
+     	} else{
+     		mav = getModelAndViewForUser(principal.getUserId());
      	}
 
-		MetabolightsUser metabolightsUser = userService.lookupById(principal.getUserId());
- 		mav = new ModelAndView("updateAccount");
+		
+    	return mav;
+    }
+	
+    /**
+     * Look up user details for the id requested as parameter. 
+     * @return Spring model and view
+     */
+	@RequestMapping(value = "/userAccount")
+   	public ModelAndView userAccount(@RequestParam("usrId") long usrId) {
+		
+    	return getModelAndViewForUser(usrId);
+    	
+    }
+	/* Returns a modelANDView for the userID passed as parameter.*/
+	private ModelAndView getModelAndViewForUser(long userId){
+		
+		ModelAndView mav = null;
+		
+		MetabolightsUser metabolightsUser = userService.lookupById(userId);
+ 		
+		if (metabolightsUser==null) {
+        	mav = new ModelAndView("index"); // Not found
+        	mav.addObject("messsage", "User ID " + userId + " not found.");
+     	}
+		
+		mav = new ModelAndView("updateAccount");
  		metabolightsUser.setUserVerifyDbPassword(metabolightsUser.getDbPassword());
     	mav.addObject(metabolightsUser);
     	logger.info("showing account details for "+metabolightsUser.getUserName()+" ID="+metabolightsUser.getUserId());
     	return mav;
-    }
+
+	}
+	
+	
+	
+	
 
 	/**
 	 * Updates the user details in the database. 
@@ -283,17 +315,31 @@ public class UserAccountController extends AbstractController{
     	
     	//Update the user information in the database
     	userService.update(metabolightsUser);
-    	//Update the current security context with new attributes
-    	try {
-			BeanUtils.copyProperties((MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal()), metabolightsUser);
-		} catch (Exception e) {
-			e.printStackTrace(); 
-		}
     	
-		//Redirect to account confirmation page
-    	HttpSession httpSession = request.getSession();
-		httpSession.setAttribute("user", metabolightsUser);
-    	return new ModelAndView("redirect:update-success");
+    	
+    	// Get the current user...
+    	MetabolightsUser currentUser = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal()); 
+    	
+    	// If the user matches the account just been edited (now curators can edit accounts).
+    	if (currentUser.getUserId().equals(userCheck.getUserId())){
+	    	//Update the current security context with new attributes
+	    	try {
+				BeanUtils.copyProperties(currentUser, metabolightsUser);
+			} catch (Exception e) {
+				e.printStackTrace(); 
+			}
+			
+			//Redirect to account confirmation page
+	    	HttpSession httpSession = request.getSession();
+			httpSession.setAttribute("user", metabolightsUser);
+	    	return new ModelAndView("redirect:update-success");
+    	
+    	// Is a curator....go back to user list
+    	} else {
+    		return new ModelAndView("redirect:users");
+    	}
+    	
+
 	}
 
 	/**

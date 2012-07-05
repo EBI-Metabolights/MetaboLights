@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 
 
 <div class="formbox">
@@ -25,7 +26,10 @@
     <form:form name="accountForm" action="updateAccount" method="post" commandName="metabolightsUser">        
         <form:hidden path="userId" />
         <form:hidden path="userName" />
-        <form:hidden path="status" />
+        <sec:authorize ifNotGranted="ROLE_SUPER_USER" >
+        	<form:hidden path="status" />
+        </sec:authorize>
+        
         <form:hidden path="email" />
         
         <table cellpadding="5px" cellspacing="0px">
@@ -56,6 +60,8 @@
                     </div>
                 </td>
             </tr>
+ 
+            
         </table>
     </form:form>
 

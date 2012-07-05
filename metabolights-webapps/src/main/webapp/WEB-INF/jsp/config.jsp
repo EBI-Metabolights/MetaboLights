@@ -23,8 +23,9 @@ $(function() {
   </script>
 
 	<div class="text_header plain">
+	     <br/><br/>
 	    Configuration
-	    <br/> <br/>
+	    <br/><br/><br/> <br/>
 	</div>
 
 

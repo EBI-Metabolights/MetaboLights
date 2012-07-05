@@ -236,6 +236,9 @@ public class MetabolightsUser implements Serializable{
 	public Map<String,String> getListOfAllCountries() {
 		return CountryService.getCountries();
 	}
+	public UserStatus[] getListOfAllStatus(){
+		return UserStatus.values();
+	}
 
 	public void setStatus(String status) {
 		this.status = status;

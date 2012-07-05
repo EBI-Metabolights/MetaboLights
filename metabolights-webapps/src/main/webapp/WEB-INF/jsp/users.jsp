@@ -27,7 +27,7 @@
 	              };
 	
 	        var chart = new google.visualization.GeoChart(document.getElementById('usersMapDiv'));
-	        chart.draw(data);
+	        chart.draw(data, options);
 	    };
     </script>
 
@@ -64,7 +64,7 @@
 				</tr>
 				<c:forEach var="user" items="${users}">
 					<tr>
-						<td>${user.userName}</td>
+						<td><a href="userAccount?usrId=${user.userId}">${user.userName}</a></td>
 						<td>${user.firstName}</td>
 						<td>${user.lastName}</td>
 						<td>
@@ -77,7 +77,7 @@
 						</td>
 						<td>${user.country}</td>
 						<td>${user.status}</td>
-						<td>${user.joinDate}</td>
+						<td><fmt:formatDate pattern="dd-MMM-yyyy" value="${user.joinDate}"/></td>
 					</tr>
 				</c:forEach>
 			</table>

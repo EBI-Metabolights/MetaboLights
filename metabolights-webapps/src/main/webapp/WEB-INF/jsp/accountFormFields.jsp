@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 
         <tr>
             <td><spring:message code="label.firstName" />:</td>
@@ -41,4 +42,12 @@
             <td>(*)&nbsp;<span class="error"><form:errors path="address" /></span></td>
         </tr>
 
+        <sec:authorize ifAnyGranted="ROLE_SUPER_USER" >
+	        <tr>
+	            <td><spring:message code="label.userStatus" />:</td>
+	            <td><form:select path="status" items="${metabolightsUser.listOfAllStatus}"/></td>
+	            <td>(*)&nbsp;<span class="error"><form:errors path="status" /></span></td>
+	        </tr>
+
+        </sec:authorize>
 

@@ -24,7 +24,7 @@
 	</div>
 
 	<div class="loggedInAsBox">
- 			<!-- <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+			<!-- <sec:authorize ifAnyGranted="ROLE_SUBMITTER">		
 			<ul id="sddm">	       		
 			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">
 			  			<sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName"/><span class="smallArrow"></span></a>
@@ -52,6 +52,11 @@
 					<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a>
 					<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>
 					<a href="<spring:url value="/j_spring_security_logout"/>"><spring:message code="menu.logout"/></a>
+					<sec:authorize ifAnyGranted="ROLE_SUPER_USER">
+					<a href="<spring:url value="/config"/>"><spring:message code="menu.config"/></a>
+					<a href="<spring:url value="/users"/>"><spring:message code="menu.users"/></a>
+					</sec:authorize>
+					
 				 </div>
 			   </li>
 			</ul>
