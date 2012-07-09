@@ -24,6 +24,7 @@ public class LuceneSearchResult {
 	private List<Publication> publications;
 	private List<String> technologies;
 	private List<String> platforms;
+    private List<String> metabolites;
 	private Document doc;
 	private float score;
 	private Submitter submitter;
@@ -45,6 +46,7 @@ public class LuceneSearchResult {
 		this.publications = parsePublications();
 		
 		this.platforms=getValues("assay_platform");
+        this.metabolites = getValues("Metabolite");
 		
 		this.submitter = parseSubmitter();
 		
@@ -92,6 +94,10 @@ public class LuceneSearchResult {
 	public List<String> getPlatforms() {
 		return platforms;
 	}
+
+    public List<String> getMetabolites() {
+        return metabolites;
+    }
 
 	public HashMap<String,Set<String>> getFactors() {
 		return factors;

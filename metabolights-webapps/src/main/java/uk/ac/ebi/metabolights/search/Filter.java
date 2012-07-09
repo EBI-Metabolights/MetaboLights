@@ -20,6 +20,7 @@ public class Filter {
 	public static final String STATUS_PUBLIC = "PUBLIC";
     public static final String ORGANISM_FILTER = "organism";
     public static final String TECHNOLOGY_FILTER = "technology";
+    public static final String METABOLITE_FILTER = "metabolite";
 
 	private static final String FREE_TEXT_QUERY = "freeTextQuery";
 
@@ -29,8 +30,9 @@ public class Filter {
 	Map<String,FilterSet> fss = new LinkedHashMap<String,FilterSet>();
 	
 	// List with filter items, each one will be a group of checkboxes
-    private FilterSet organisms = new FilterSet(ORGANISM_FILTER, "organism","","");
+    private FilterSet organism = new FilterSet(ORGANISM_FILTER, "organism","","");
     private FilterSet technology = new FilterSet(TECHNOLOGY_FILTER,"assay_info","*|","|*");
+    private FilterSet metabolite = new FilterSet(METABOLITE_FILTER, "Metabolite","","");
     private FilterSet status = new FilterSet("status","status","","");
     private FilterSet mystudies = new FilterSet("mystudies", "user","username:", "|*");
     private String freeTextQuery = "";
@@ -83,9 +85,10 @@ public class Filter {
 		
 		//Add all the list of filters to the hash...
 		fss.put(status.getName(),status);
-		fss.put(organisms.getName(), organisms);
+		fss.put(organism.getName(), organism);
 		fss.put(technology.getName(), technology);
 		fss.put(mystudies.getName(), mystudies);
+        fss.put(metabolite.getName(), metabolite);
 		
 	}
 
@@ -347,18 +350,19 @@ public class Filter {
 			if (result.getOrganism()!=null){
 				
 				//If we haven't stored the item yet...
-				if(!organisms.getFilterItems().containsKey(result.getOrganism())){
-					organisms.getFilterItems().put( result.getOrganism(), new FilterItem(result.getOrganism(), organisms.getName()));
+				if(!organism.getFilterItems().containsKey(result.getOrganism())){
+					organism.getFilterItems().put( result.getOrganism(), new FilterItem(result.getOrganism(), organism.getName()));
 				}
 		
 				//Increase the count of organisms
-				organisms.getFilterItems().get(result.getOrganism()).addToNumber(1);
+				organism.getFilterItems().get(result.getOrganism()).addToNumber(1);
 			}
 			
 			//Get the list of technologies..
 			Iterator <Assay> assIter = result.getAssays().iterator();
 			while (assIter.hasNext()){
 				Assay assay = (Assay) assIter.next();
+
 				if (!technology.getFilterItems().containsKey(assay.getTechnology())){
 					technology.put(assay.getTechnology(), new FilterItem ( assay.getTechnology() , technology.getName()));
 				}
@@ -367,6 +371,23 @@ public class Filter {
 				technology.getFilterItems().get(assay.getTechnology()).addToNumber(assay.getCount());
 				
 			}
+
+            if (result.getMetabolites() != null){
+
+                Iterator<String> metaboIter = result.getMetabolites().iterator();
+                while (metaboIter.hasNext()){
+                    String metabo = metaboIter.next();
+                    metabo = metabo.subSequence(0, metabo.indexOf("~")).toString();
+
+                    if(!metabolite.getFilterItems().containsKey(metabo))
+                        metabolite.getFilterItems().put(metabo , new FilterItem(metabo, metabolite.getName()));
+
+                    //Increase the count of metabolites
+                    metabolite.getFilterItems().get(metabo).addToNumber(1);
+
+                }
+
+            }
 			
 			//STATUS count
 			if (result.getIsPublic()){

@@ -24,9 +24,10 @@
 				<div style="width:200px" class="filterbox" >
 					<b>
 						<c:choose>
-							<c:when test="${filterset.key=='organisms'}"><spring:message code="label.organism"/></c:when>
-							<c:when test="${filterset.key=='technology'}"><spring:message code="label.technology"/></c:when>
-							<c:when test="${filterset.key=='status'}"><spring:message code="label.status"/></c:when>
+							<c:when test="${filterset.key=='organism'}">  <spring:message code="label.organism"/></c:when>
+							<c:when test="${filterset.key=='technology'}"> <spring:message code="label.technology"/></c:when>
+							<c:when test="${filterset.key=='status'}">     <spring:message code="label.status"/></c:when>
+                            <c:when test="${filterset.key=='metabolite'}"> <spring:message code="label.metabolite"/></c:when>
 							<c:otherwise>${filterset.key}</c:otherwise>
 						</c:choose>
 					</b><br/><br/>				
