@@ -271,6 +271,10 @@ public class Filter {
 		//Add the filter for private studies...
         if (!getStatusFilter().isEmpty())
 		    luceneQuery = joinFilterTerms(getStatusFilter(), luceneQuery, "AND");
+
+        //Quick fix, hack.
+        if (luceneQuery.contains("username:"))
+            luceneQuery = luceneQuery.replace("username:","username?");         // TODO, implement a better value2lucene to handle all the different scenario
 		
 		return luceneQuery;
 		
