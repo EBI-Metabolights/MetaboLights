@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.service;
 
+import org.springframework.aop.framework.Advised;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -13,6 +14,7 @@ public class AppContext {
     private static ApplicationContext ctx;
 	private static EmailService emailService;
 	private static UserService userService;
+	private static StudyService studyService;
 
     /**
      * Injected from the class "ApplicationContextProvider" which is automatically
@@ -40,9 +42,24 @@ public class AppContext {
     }
     public static UserService getUserService(){
     	if (userService == null){
-    		userService = (UserService) ctx.getBean("myService");
+    		userService = (UserService) ctx.getBean(UserService.class);
     	}
     	return userService;
+    }
+    public static StudyService getStudyService(){
+    	if (studyService == null)
+    	{
+    		//studyService = (StudyService) ctx.getBean(StudyService.class);
+    		
+    		Advised advised = (Advised)ctx.getBean(StudyService.class);;
+    		try {
+				studyService = (StudyService) advised.getTargetSource().getTarget();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	return studyService;
     }
     
 } 

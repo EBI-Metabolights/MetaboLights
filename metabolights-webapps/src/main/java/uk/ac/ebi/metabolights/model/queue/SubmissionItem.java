@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
+import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
@@ -33,6 +34,7 @@ public class SubmissionItem {
 	private static Logger logger = Logger.getLogger(SubmissionItem.class);
 	
 	static final String FILE_NAME_SEP = "~";
+	static final String FILE_NAME_FOR_PRD_UPDATES = "PRDupdatedate.zip";
 	// Format the date to a canonical format (YYYYMMDD)
 	static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	
@@ -42,7 +44,7 @@ public class SubmissionItem {
 		this.userId =user.getUserName().toString();
 		this.publicReleaseDate = publicReleaseDate;
 		this.accession = accession ==null?"":accession;
-		this.originalFileName = file.getOriginalFilename();
+		this.originalFileName = file==null?FILE_NAME_FOR_PRD_UPDATES:file.getOriginalFilename();
 	}
 	public SubmissionItem (File fileQueued) throws ParseException{
 		
@@ -74,8 +76,16 @@ public class SubmissionItem {
 		//Write the file in the file system, in the queue folder
         logger.info("Write the file in the file system "+ fullPathFileName);
         File newFile = new File(fullPathFileName);
-        logger.info("The new file is created, now we transfer the file from memory to the filesystem");
-        fileToQueue.transferTo(newFile);
+        
+        // For new files or updates we should have a file, but not for updating public release date
+        if (fileToQueue != null)
+        {
+        	logger.info("The new file is created, now we transfer the file from memory to the filesystem");
+        	fileToQueue.transferTo(newFile);
+        }else{
+        	newFile.createNewFile();
+        }
+        
         fileQueued = newFile;
 		
 		
@@ -95,13 +105,16 @@ public class SubmissionItem {
 	 * 
 	 * Set up file name and unzip folder
  	 * For the queue system the name must have this format:
- 	 * USERID~[ACCESSION]~PUBLICRELEASEDATE~ORIGINALFILENAME(with any ~ replaced)
+ 	 * USERNAME~[ACCESSION]~PUBLICRELEASEDATE~ORIGINALFILENAME(with any ~ replaced)
  	 * 
 	 * For UPDATES the accession part must be present: 
-	 * 163~MTBLS1~20120624~myresubmissionarchive.zip
+	 * conesa@ebi.ac.uk~MTBLS1~20120624~myresubmissionarchive.zip
 	 * 
 	 * For NEW submissions accession is not present
-	 * 163~~20120516~mynewsubmissionarchive.zip
+	 * conesa@ebi.ac.uk~~20120516~mynewsubmissionarchive.zip
+	 * 
+	 * For updating "Public Release Date" (No file is provided).
+	 * conesa@ebi.ac.uk~MTBLS1~20120516~updatedate.empty
 	 */
 	private String ComposeFileName(){
 
@@ -120,7 +133,7 @@ public class SubmissionItem {
 	 * 
 	 * de compose file an already submitted file ans get userid, date,...
  	 * For the queue system the name must have this format:
- 	 * USERID~[ACCESSION]~PUBLICRELEASEDATE~ORIGINALFILENAME(with any ~ replaced)
+ 	 * USERNAME~[ACCESSION]~PUBLICRELEASEDATE~ORIGINALFILENAME(with any ~ replaced)
  	 * 
 	 * For UPDATES the accession part must be present: 
 	 * conesa@ebi.ac.uk~MTBLS1~20120624~myresubmissionarchive.zip
@@ -153,6 +166,9 @@ public class SubmissionItem {
 		
 		fileQueued = destination;
 		
+	}
+	public VisibilityStatus getStatus(){
+		return (getPublicReleaseDate().before(new Date())?VisibilityStatus.PUBLIC:VisibilityStatus.PRIVATE);
 	}
 	@Override
 	public String toString(){

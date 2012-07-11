@@ -17,14 +17,17 @@ import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -53,6 +56,9 @@ public class UpdateStudyController extends AbstractController {
 	@Autowired
 	private EntryController entryController;
 	
+	@Autowired
+	private EmailService emailService;
+		
 	@Autowired
 	private SubmissionController submissionController;
 
@@ -299,6 +305,8 @@ public class UpdateStudyController extends AbstractController {
 
         try{
 
+        	//mav = queuePublicReleaseDate(study, params.publicReleaseDate, params.user);
+        	
             updatePublicReleaseDate(study, params.status, params.publicReleaseDate, params.user.getUserId());
 			
 			// Compose the messages...
@@ -323,6 +331,31 @@ public class UpdateStudyController extends AbstractController {
 		return mav;
 		
 	}
+    
+    /**
+     * This method will create a file in the queue folder that represent the task of updating the public release date of a single study.
+     * @param study
+     * @param status
+     * @param publicReleaseDate
+     * @param userName
+     * @return
+     * @throws IOException
+     * @throws IllegalStateException 
+     */
+    private ModelAndView queuePublicReleaseDate(String accesion, Date publicReleaseDate, MetabolightsUser user) throws IllegalStateException, IOException{
+    	 
+    	String hostName = java.net.InetAddress.getLocalHost().getHostName();
+    	
+    	SubmissionItem si = new SubmissionItem(null,user,publicReleaseDate,accesion);
+    	si.submitToQueue();
+    	
+		// Cannot load the queue
+		emailService.sendQueuedPRLUpdate(si.getUserId(), si.getPublicReleaseDate(), hostName, accesion);
+		
+    	return new ModelAndView("redirect:itemQueued");
+
+    	 
+    }
 	
 	/**
 	 * Re-submit process:

@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.service;
 
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -181,7 +182,21 @@ public class EmailService {
 	}
 	
 	/*
-	 * Email to send when a study its being successfully submitted...
+	 * Email to send when an Public Release Date update is being requested...
+	 */
+	public void sendQueuedPRLUpdate( String userEmail, Date publicReleaseDate, String hostName, String studyToUpdate){
+		String from = PropertyLookup.getMessage("mail.noreplyaddress");
+		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
+		String subject = PropertyLookup.getMessage("mail.queuedPRDUpdate.subject", studyToUpdate );
+		String body = PropertyLookup.getMessage("mail.queuedPRDUpdate.body", new String[]{userEmail, studyToUpdate,publicReleaseDate.toString(), hostName});
+		
+		sendSimpleEmail(from, to, subject, body);
+		
+	}
+	
+	
+	/*
+	 * Email to send when a study is being successfully submitted...
 	 */
 	public void sendQueuedStudySubmitted(String userEmail, String fileName, Date publicReleaseDate, String ID){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
@@ -194,7 +209,7 @@ public class EmailService {
 	}
 	
 	/*
-	 * Email to send when a study it's been successfully updated ...
+	 * Email to send when a study is been successfully updated ...
 	 */
 	public void sendQueuedStudyUpdated(String userEmail,String ID, Date publicReleaseDate){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
@@ -205,6 +220,20 @@ public class EmailService {
 		sendSimpleEmail(from, to, subject, body);
 		
 	}
+	
+	/*
+	 * Email to send when a study's public release date is been successfully updated ...
+	 */
+	public void sendQueuedPublicReleaseDateUpdated(String userEmail,String ID, Date publicReleaseDate){
+		String from = PropertyLookup.getMessage("mail.noreplyaddress");
+		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
+		String subject = PropertyLookup.getMessage("mail.publicReleaseDate.subject", ID);
+		String body = PropertyLookup.getMessage("mail.publicReleaseDate.body", new String[]{  ID, publicReleaseDate.toString()});
+		
+		sendSimpleEmail(from, to, subject, body);
+		
+	}
+	
 	/*
 	 * Email to send when the submission process fails...
 	 */
