@@ -8,7 +8,7 @@
 <c:if test="${not empty usersMap}">
 	<br/>
 	<br/>
-    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript' src='http://www.google.com/jsapi'></script>
    	<script type='text/javascript'>
     		google.load('visualization', '1', {'packages': ['geochart']});
     		google.setOnLoadCallback(drawRegionsMap);
@@ -16,17 +16,14 @@
 	      function drawRegionsMap() {
 	        var data = google.visualization.arrayToDataTable([
 	          ['Country', 'Users']
-	          <c:forEach var="country" items="${usersMap}">
-	          	,['${country.key}', '${country.value}']
-	          </c:forEach>
+	          <c:forEach var="country" items="${usersMap}">,['${country.key}', ${country.value}]</c:forEach>
 	        ]);
 	
 	        var options = {
-	                colorAxis: {minValue:0, colors: ['white', 'blue']},
-	                magnifyingGlass:{enable: true, zoomFactor: 7.5}
-	              };
+	                  colorAxis: {minValue:0, colors: ['#EEF5F5','#006666','#FFD98F', '#feba12']}
+	                };
 	
-	        var chart = new google.visualization.GeoChart(document.getElementById('usersMapDiv'));
+	        var chart = new google.visualization.GeoChart(document.getElementById('visualization'));
 	        chart.draw(data, options);
 	    };
     </script>
@@ -70,7 +67,7 @@
 						<td>
 							<c:choose>
 								<c:when test="${not empty user.affiliationUrl}">
-									<a href="${user.affiliationUrl}" target="_blank">${user.affiliation}</a>
+									<a href="http://${user.affiliationUrl}" target="_blank">${user.affiliation}</a>
 								</c:when>
 								<c:otherwise>${user.affiliation}</c:otherwise>
 							</c:choose>
@@ -84,6 +81,6 @@
 		</c:if>
 		
 	</div>
-	<div id="usersMapDiv" style="width: 900px; height: 500px;">
+	<div id="visualization" style="width: 900px; height: 500px;">
 		
 	</div>

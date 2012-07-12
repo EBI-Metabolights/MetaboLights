@@ -289,13 +289,19 @@ $(function() {
 							</tr>
 						</thead>
 						<tbody>	
+							<c:set var="blanks" value="0"/>
 			                <c:forEach var="protocol" items="${study.protocols}" varStatus="loopStatus">
-	                    		<c:if test="${not empty protocol.description}">
-		                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
-				                    	<td class="tableitem">${protocol.name}</td>
-				                    	<td class="tableitem">${protocol.description}</td>
-				                    </tr>
-			                    </c:if>
+	                    		<c:choose>
+	                    			<c:when test="${not empty protocol.description}">
+			                    		<tr style="background: ${(loopStatus.index+blanks) % 2 == 0 ? '' : '#eef5f5'}">
+					                    	<td class="tableitem">${protocol.name}</td>
+					                    	<td class="tableitem">${protocol.description}</td>
+					                    </tr>
+				                    </c:when>
+				                    <c:otherwise>
+				                    	<c:set var="blanks" value="${blanks+1}"/>
+				                    </c:otherwise>
+				                </c:choose>
 			                </c:forEach>
 		            	</tbody>
 		            </table>
