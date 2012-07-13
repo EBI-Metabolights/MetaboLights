@@ -376,14 +376,16 @@ public class Filter {
 
                 Iterator<String> metaboIter = result.getMetabolites().iterator();
                 while (metaboIter.hasNext()){
-                    String metabo = metaboIter.next();
-                    metabo = metabo.subSequence(0, metabo.indexOf("~")).toString();
+                    String metabo = cleanMetaboliteName(metaboIter.next());
 
-                    if(!metabolite.getFilterItems().containsKey(metabo))
-                        metabolite.getFilterItems().put(metabo , new FilterItem(metabo, metabolite.getName()));
+                    if (metabo != ""){  //Skip if not known etc
 
-                    //Increase the count of metabolites
-                    metabolite.getFilterItems().get(metabo).addToNumber(1);
+                        if(!metabolite.getFilterItems().containsKey(metabo))
+                            metabolite.getFilterItems().put(metabo , new FilterItem(metabo, metabolite.getName()));
+
+                        //Increase the count of metabolites
+                        metabolite.getFilterItems().get(metabo).addToNumber(1);
+                    }
 
                 }
 
@@ -407,6 +409,32 @@ public class Filter {
 		currentHits = resultSet.size();
 		
 	}
+
+    private String cleanMetaboliteName(String metabo){
+
+        metabo = metabo.toLowerCase().trim();
+
+        if (metabo.contains("~"))
+            metabo = metabo.subSequence(0, metabo.indexOf("~")).toString();    //Remove ~CHEBI id's
+
+        if (metabo.contains("|"))
+            metabo = metabo.subSequence(0, metabo.indexOf("|")).toString();    //Remove names separated by "|"  //TODO, should split not remove
+
+        if (metabo.contains("+"))
+            metabo = metabo.subSequence(0, metabo.indexOf("+")).toString();    //Remove names separated by "+"
+
+        if (metabo.contains(", "))
+            metabo = metabo.subSequence(0, metabo.indexOf(", ")).toString();    //Remove names separated by comma and space
+
+
+        if (metabo.contains("unknown")     //Not known and typos
+                || metabo.contains("unassiged")
+                || metabo.contains("unassigned")
+                || metabo.contains(" or "))
+            metabo = "";
+
+        return metabo;
+    }
 
     private MetabolightsUser getUser() {
 
