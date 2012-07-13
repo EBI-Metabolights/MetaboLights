@@ -11,6 +11,7 @@ import java.util.List;
 public interface StudyService {
 
 	public Study getBiiStudy(String studyAcc, boolean clearSession);
+    public Study getBiiStudy(String studyAcc, boolean clearSession, boolean fromQueue);
 	public void update(Study study);
     public List<Study> findStudiesToGoPublic();
 

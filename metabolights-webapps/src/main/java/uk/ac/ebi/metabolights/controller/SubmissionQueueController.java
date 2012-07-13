@@ -3,40 +3,25 @@ package uk.ac.ebi.metabolights.controller;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.checklists.CheckList;
-import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
-import uk.ac.ebi.metabolights.controller.UpdateStudyController.RequestParameters;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
-import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
-import uk.ac.ebi.metabolights.utils.FileUtil;
-import uk.ac.ebi.metabolights.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 
 
@@ -93,7 +78,7 @@ public class SubmissionQueueController extends AbstractController {
 	    
 	   StringBuffer messageBody = new StringBuffer();
 	   String hostName = java.net.InetAddress.getLocalHost().getHostName();
-	   messageBody.append("Study submission triggered in " + hostName);
+	   messageBody.append("Study submission started from machine " + hostName);
 	   
   		// Get the user
 		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());

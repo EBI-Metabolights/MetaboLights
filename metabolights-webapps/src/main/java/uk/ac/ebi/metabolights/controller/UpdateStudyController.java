@@ -305,15 +305,15 @@ public class UpdateStudyController extends AbstractController {
 
         try{
 
-        	//mav = queuePublicReleaseDate(study, params.publicReleaseDate, params.user);
+        	mav = queuePublicReleaseDate(study, params.publicReleaseDate, params.user);
         	
-            updatePublicReleaseDate(study, params.status, params.publicReleaseDate, params.user.getUserId());
+            //updatePublicReleaseDate(study, params.status, params.publicReleaseDate, params.user.getUserId());
 			
 			// Compose the messages...
-			mav.addObject("title", PropertyLookup.getMessage("msg.makestudypublic.ok.title"));
-			mav.addObject("message", PropertyLookup.getMessage("msg.makestudypublic.ok.msg"));
-			mav.addObject("searchResult", getStudy(study));
-			mav.addObject("updated", true);
+			//mav.addObject("title", PropertyLookup.getMessage("msg.makestudypublic.ok.title"));
+			//mav.addObject("message", PropertyLookup.getMessage("msg.makestudypublic.ok.msg"));
+			//mav.addObject("searchResult", getStudy(study));
+			//mav.addObject("updated", true);
 		
 		} catch (Exception e) {
 			

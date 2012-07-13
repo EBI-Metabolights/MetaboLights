@@ -17,12 +17,19 @@ public class StudyServiceImpl implements StudyService {
 	@Autowired
 	private StudyDAO studyDAO;
 
+    //Called from the study Queue system
+    @Transactional
+    public Study getBiiStudy(String studyAcc,boolean clearSession, boolean fromQueue){
+        Study study = studyDAO.getStudy(studyAcc,clearSession, fromQueue);
+        if (studyAcc.isEmpty() || study.getAcc().isEmpty())
+            return new Study();
+        return study;
+    }
+
+    //Called from user interation in the webapp
 	@Transactional
-	public Study getBiiStudy(String studyAcc,boolean clearSession){
-		Study study = studyDAO.getStudy(studyAcc,clearSession);
-		if (studyAcc.isEmpty() || study.getAcc().isEmpty())
-			return new Study();
-		return study;
+	public Study getBiiStudy(String studyAcc, boolean clearSession){
+		return getBiiStudy(studyAcc, clearSession, false);
 	}
 
 	@Transactional

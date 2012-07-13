@@ -1,13 +1,13 @@
 package uk.ac.ebi.metabolights.model.queue;
 
+import org.springframework.transaction.annotation.Transactional;
+import uk.ac.ebi.metabolights.service.AppContext;
+
 import java.text.ParseException;
 import java.util.List;
 import java.util.TimerTask;
 
-import org.apache.commons.io.FileUtils;
-
-import uk.ac.ebi.metabolights.service.AppContext;
-
+@Transactional
 public class SubmissionQueueScan extends TimerTask{
 
 	@Override

@@ -15,6 +15,7 @@ import java.util.List;
 public interface StudyDAO {
 
 	public Study getStudy(String studyAcc, boolean clearSession);
+    public Study getStudy(String studyAcc, boolean clearSession, boolean fromQueue);
     public List<Study> findStudiesToGoPublic();
 	public void update(Study study);
 	

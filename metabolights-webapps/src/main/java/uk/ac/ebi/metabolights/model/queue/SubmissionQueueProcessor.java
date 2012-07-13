@@ -1,49 +1,35 @@
 package uk.ac.ebi.metabolights.model.queue;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
+import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
+import org.springframework.transaction.annotation.Transactional;
+import uk.ac.ebi.bioinvindex.model.Study;
+import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
+import uk.ac.ebi.metabolights.controller.SubmissionController;
+import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabException;
+import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.utils.FileUtil;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.utils.StringUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
-import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.service.AppContext;
-import uk.ac.ebi.metabolights.service.UserService;
-import uk.ac.ebi.metabolights.utils.FileUtil;
-
-import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.controller.SubmissionController;
-import uk.ac.ebi.metabolights.controller.UpdateStudyController;
-import uk.ac.ebi.metabolights.controller.UpdateStudyController.RequestParameters;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabException;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
-import uk.ac.ebi.metabolights.model.MetabolightsUser;
-import uk.ac.ebi.metabolights.utils.PropertiesUtil;
-import uk.ac.ebi.metabolights.utils.StringUtils;
-
 /*
  * Process a single item in the queue (upload a zip file to the database and move it to the correspondent folder)
  */
+
+@Transactional
 public class SubmissionQueueProcessor {
-	
-	
+
 	private static Logger logger = Logger.getLogger(SubmissionQueueProcessor.class);
 	private static String publicFtpLocation = PropertiesUtil.getProperty("publicFtpStageLocation");
 	private static String privateFtpLocation = PropertiesUtil.getProperty("privateFtpStageLocation");
@@ -357,6 +343,7 @@ public class SubmissionQueueProcessor {
 	/*
     Update the studies release date and status
 	 */
+    @Transactional
 	public void updatePublicReleaseDate() throws Exception {
 
 	    // Add the user id to the unzip folder
@@ -395,7 +382,7 @@ public class SubmissionQueueProcessor {
 	        // Update the database first...
 	        // ************************
 	        // Get the study object
-	        Study biiStudy = AppContext.getStudyService().getBiiStudy(si.getAccession(),false);
+	        Study biiStudy = AppContext.getStudyService().getBiiStudy(si.getAccession(),false, true);
 	
 	        // Set the new Public Release Date
 	        biiStudy.setReleaseDate(si.getPublicReleaseDate());

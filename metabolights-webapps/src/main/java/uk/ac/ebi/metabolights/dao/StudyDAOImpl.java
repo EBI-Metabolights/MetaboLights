@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.bioinvindex.model.*;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
@@ -29,13 +30,26 @@ public class StudyDAOImpl implements StudyDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 
+    /**
+     * Retrieve a study based on the accession identifier.
+     * @param studyAcc accession number of desired Study
+     * @param clearSession hibernate hack, set to true when only selecting (faster)
+     */
+    @Override
+    @Transactional
+    public Study getStudy(String studyAcc, boolean clearSession) {
+        return getStudy(studyAcc, clearSession, false);
+    }
+
 	/**
 	 * Retrieve a study based on the accession identifier.
 	 * @param studyAcc accession number of desired Study
 	 * @param clearSession hibernate hack, set to true when only selecting (faster)
+     * @param fromQueue, is this initiated from the queue system
 	 */
 	@Override
-	public Study getStudy(String studyAcc, boolean clearSession) {
+    @Transactional
+	public Study getStudy(String studyAcc, boolean clearSession, boolean fromQueue) {
 
 		Session session = sessionFactory.getCurrentSession();
 
@@ -54,43 +68,45 @@ public class StudyDAOImpl implements StudyDAO{
 			return emptyStudy;
 		}
 			
-		
-		if (!study.getStatus().equals(VisibilityStatus.PUBLIC)){ //If not PUBLIC then must be owned by the user
-			
-			Boolean validUser = false, curator = false;
-			Long userId = new Long(0);
-			
-	 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (!auth.getPrincipal().equals(new String("anonymousUser"))){
-				MetabolightsUser principal = (MetabolightsUser) auth.getPrincipal();
-				userId = principal.getUserId();
-                curator = principal.isCurator(); //To Curate or not to Curate....
-			}
-			
-			if (userId>0){
-				Collection<User> users = study.getUsers();    //These are the users that have access to the Study, NOT the logged in user
-				Iterator<User> iter = users.iterator();
-				while (iter.hasNext()){
-					User user = (User) iter.next();
-					if (user.getId().equals(userId) || curator ){
-						validUser = true;
-						break;
-					}
-				}
-				
-			}
-			
-			if ( !validUser) {
-				Study invalidStudy = new Study();
-				invalidStudy.setAcc(VisibilityStatus.PRIVATE.toString());
-				invalidStudy.setDescription("This is a PRIVATE study, you are not Authorised to view this study.");
-				invalidStudy.setTitle("Please log in as the submitter or a MetaboLights curator.");
+		if (!fromQueue){   //Only check the user if called from the webapplication
 
-			    return invalidStudy;
+            if (!study.getStatus().equals(VisibilityStatus.PUBLIC)){ //If not PUBLIC then must be owned by the user
 
-			}
-				
-		}  // Study PUBLIC
+                Boolean validUser = false, curator = false;
+                Long userId = new Long(0);
+
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                if (!auth.getPrincipal().equals(new String("anonymousUser"))){
+                    MetabolightsUser principal = (MetabolightsUser) auth.getPrincipal();
+                    userId = principal.getUserId();
+                    curator = principal.isCurator(); //To Curate or not to Curate....
+                }
+
+                if (userId>0){
+                    Collection<User> users = study.getUsers();    //These are the users that have access to the Study, NOT the logged in user
+                    Iterator<User> iter = users.iterator();
+                    while (iter.hasNext()){
+                        User user = (User) iter.next();
+                        if (user.getId().equals(userId) || curator ){
+                            validUser = true;
+                            break;
+                        }
+                    }
+
+                }
+
+                if ( !validUser) {
+                    Study invalidStudy = new Study();
+                    invalidStudy.setAcc(VisibilityStatus.PRIVATE.toString());
+                    invalidStudy.setDescription("This is a PRIVATE study, you are not Authorised to view this study.");
+                    invalidStudy.setTitle("Please log in as the submitter or a MetaboLights curator.");
+
+                    return invalidStudy;
+
+                }
+
+            }  // Study PUBLIC
+        } //Called from the queue?
 		
 		/*
 		 * Initialize lazy collections here that we want to display .. otherwise the JSP will throw an error on rendering
@@ -183,6 +199,7 @@ public class StudyDAOImpl implements StudyDAO{
     }
 
     @Override
+    @Transactional
 	public void update(Study study) {
 		Session session = sessionFactory.getCurrentSession();
 		// Note: Spring manages the transaction, and the commit
