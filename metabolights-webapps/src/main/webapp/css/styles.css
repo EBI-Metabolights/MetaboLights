@@ -84,6 +84,9 @@ a {
 	background-image: url('../img/searchButton.png');
 }
 
+.inputDiscrete {
+	border: 1px solid #6F4A00;
+}
 .text_header {
 	color: #006666;
     background: #eef5f5;
