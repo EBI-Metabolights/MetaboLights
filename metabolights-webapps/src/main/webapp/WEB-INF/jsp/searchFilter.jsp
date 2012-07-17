@@ -17,7 +17,10 @@
 						console.log("select triggered");
 						
 						var checkedItem = $("input[value='" + $( "#"+id ).val()+ "']");
-						$("input[value='" + $( "#"+id ).val()+ "']").prop("checked", true).submit();
+						checkedItem.prop("checked", true);
+						
+						$("#filterForm").submit();
+						
 					}
 		});
 		

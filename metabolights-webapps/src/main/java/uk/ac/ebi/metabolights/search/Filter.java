@@ -32,7 +32,7 @@ public class Filter {
 	// List with filter items, each one will be a group of checkboxes
     private FilterSet organism = new FilterSet(ORGANISM_FILTER, "organism","","");
     private FilterSet technology = new FilterSet(TECHNOLOGY_FILTER,"assay_info","*|","|*");
-    private FilterSet metabolite = new FilterSet(METABOLITE_FILTER, "Metabolite","","");
+    private FilterSet metabolite = new FilterSet(METABOLITE_FILTER, "Metabolite","","*");
     private FilterSet status = new FilterSet("status","status","","");
     private FilterSet mystudies = new FilterSet("mystudies", "user","username:", "|*");
     private String freeTextQuery = "";
@@ -260,8 +260,13 @@ public class Filter {
 					//luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix(), false) , "OR") ;
                     if (fi.getName().equals(ORGANISM_FILTER))   //Need exact match for organism filter
                         luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix(), false, true) , "OR") ;
+                    else if (fi.getName().equals(METABOLITE_FILTER) && (fi.getValue().indexOf(" ") != -1))
+                    	luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + splitLuceneValue(fi.getValue())  , "OR") ;
                     else
                         luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + fs.getPrefix() + fi.getValue().replace(" ", "\\ *") + fs.getSuffix(), "OR") ;
+                    	
+                    
+                    
 				}
 				
 			}
@@ -325,9 +330,17 @@ public class Filter {
 		return value;
 	}
 
+	private String splitLuceneValue(String value){
+		
+	
+		return ("(+" + value.replace(" ", " +") + ")");
+	
+	
+	}
 	public boolean getIsFilterLoadNeeded(){
 		return isFilterLoadNeeded;
 	}
+	
 	
 	/**
 	 * Load all the possible unique filter items to be offer them in the page.
