@@ -179,14 +179,27 @@ public class Filter {
 //					FilterItem fi = new FilterItem(values[i],fs.getName());
 //					fi.setIsChecked(true);
 //					fs.put(fi.getValue(), fi);
-					
+
+                    String val = values[i];
+                    if (val == null)
+                        val = "";
+
 					//We need to update the status (checked/unchecked)
-					FilterItem fi = fs.getFilterItems().get(values[i]);
-					fi.setIsChecked(true);
+					FilterItem fi = fs.getFilterItems().get(val);
+
+                    if (fi != null)   // Just in case the value is missing or we cannot access it, this will prevent a null pointer
+					    fi.setIsChecked(true);
+                    else {
+                        fi = new FilterItem(val, METABOLITE_FILTER, val);
+                        fi.setUTF8Value(val);
+                        fi.setIsChecked(true);
+                    }
+
 				}
 			}
 		}	
 	}
+
 	private void checkIfFilterLoadIsNeeeded(HttpServletRequest request){
 		
 				
@@ -331,12 +344,11 @@ public class Filter {
 	}
 
 	private String splitLuceneValue(String value){
-		
-	
+
 		return ("(+" + value.replace(" ", " +") + ")");
 	
-	
 	}
+
 	public boolean getIsFilterLoadNeeded(){
 		return isFilterLoadNeeded;
 	}

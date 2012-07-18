@@ -4,8 +4,6 @@ import org.isatools.isatab.gui_invokers.GUIInvokerResult;
 import org.isatools.isatab.manager.SimpleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
@@ -401,10 +399,10 @@ public class IsaTabUploader {
 				this.status = VisibilityStatus.PRIVATE;
 				return fileStudyPrivate.getAbsolutePath();
 			
-			}else{
+			} else {
 			
 				//There isn't anywhere...
-				throw new FileNotFoundException("Study file for " + study + "not found neither in public nor private folder.");
+				throw new FileNotFoundException("Study file for " + study + " not found neither in public nor private folder.");
 			
 			}
 
