@@ -52,9 +52,9 @@
     <div class="contents" id="contents" >
         <table class="contentspane" id="contentspane" summary="The main content pane of the page" style="width: 100%; position:relative;">
             <tr>
-              <td class="leftmargin"><img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></td>
+              <td class="leftmargin"><img src="img/spacer.gif" class="spacer" alt="spacer" /></td>
               <td class="leftmenucell" id="leftmenucell"> <div class="leftmenu" id="leftmenu" style="width: 1px; visibility: hidden; display: none;">
-                <img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></div></td>
+                <img src="img/spacer.gif" class="spacer" alt="spacer" /></div></td>
                 <td class="contentsarea" id="contentsarea">
 
                     <div class="wrapper" >
@@ -69,10 +69,10 @@
                         </div>
                     </div>
 
-                   <img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" />
+                   <img src="img/spacer.gif" class="spacer" alt="spacer" />
                 </td>
                 <td class="rightmenucell" id="rightmenucell">
-                  <div class="rightmenu" id="rightmenu"><img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></div>
+                  <div class="rightmenu" id="rightmenu"><img src="img/spacer.gif" class="spacer" alt="spacer" /></div>
                 </td>
             </tr>
         </table>

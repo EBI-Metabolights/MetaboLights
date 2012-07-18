@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,10 +72,12 @@ public class UpdateStudyController extends AbstractController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/updatepublicreleasedateform"})
-	public ModelAndView updatePublicReleaseDate(@RequestParam(required=true,value="study") String study, HttpServletRequest request) throws Exception{
+	public ModelAndView updatePublicReleaseDate(@RequestParam(required=true,value="study") String study,
+												@RequestParam(required=false,value="date") String defaultDate,
+												HttpServletRequest request) throws Exception{
 		
 		// Get the correspondent ModelAndView
-		return getModelAndView(study, false);
+		return getModelAndView(study, defaultDate, false);
 		
 	}
 	
@@ -87,10 +90,12 @@ public class UpdateStudyController extends AbstractController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/updatestudyform"})
-	public ModelAndView updateStudy(@RequestParam(required=true,value="study") String study, HttpServletRequest request) throws Exception{
+	public ModelAndView updateStudy(@RequestParam(required=true,value="study") String study,
+									@RequestParam(required=false,value="date") String defaultDate,
+									HttpServletRequest request) throws Exception{
 		
 		// Get the correspondent ModelAndView
-		return getModelAndView(study, true);
+		return getModelAndView(study, defaultDate, true);
 	
 	}
 	
@@ -102,7 +107,7 @@ public class UpdateStudyController extends AbstractController {
 	 * @return
 	 * @throws Exception 
 	 */
-	private ModelAndView getModelAndView(String study, boolean isUpdateMode) throws Exception{
+	private ModelAndView getModelAndView(String study, String defaultDate, boolean isUpdateMode) throws Exception{
 		
 		//Get the study data
 		LuceneSearchResult luceneStudy = getStudy(study);
@@ -114,11 +119,13 @@ public class UpdateStudyController extends AbstractController {
 		mav.addObject("isUpdateMode", isUpdateMode);
 		mav.addObject("study", study);
 		
+		// If there is a default date...
+		if (defaultDate != null) mav.addObject("defaultDate", new SimpleDateFormat("dd-MMM-yyyy").parse(defaultDate));
 		
 		String title ="", msg ="", action="", submitText="";
 		
 		String studyShortTitle = luceneStudy.getTitle();
-		if (studyShortTitle.length() > 47) studyShortTitle = (studyShortTitle.substring(0, 47) + "...");
+		if (studyShortTitle.length() > 50) studyShortTitle = (studyShortTitle.substring(0, 47) + "...");
 		
 		// Fill the output title, msg, ...depending on the mode
 		if (isUpdateMode){
@@ -162,7 +169,7 @@ public class UpdateStudyController extends AbstractController {
 		if (!params.validationmsg.isEmpty()){
 			
 			// Prepare the same view but this time with the validation message.
-			ModelAndView validation = getModelAndView(params.studyId, params.isUpdateStudyMode);
+			ModelAndView validation = getModelAndView(params.studyId, params.publicReleaseDateS, params.isUpdateStudyMode);
 			validation.addObject("validationmsg", params.validationmsg);
 			return validation;
 		}
@@ -420,7 +427,7 @@ public class UpdateStudyController extends AbstractController {
 			
 			// If Ids do not match...
 			if (!study.equals(newStudyId)){
-				validation = getModelAndView(study, true);
+				validation = getModelAndView(study, params.publicReleaseDateS, true);
 				validation.addObject("validationmsg", PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
 				//throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
 				return validation;
@@ -438,7 +445,7 @@ public class UpdateStudyController extends AbstractController {
 				
 			}catch (Exception e){
 				
-				validation = getModelAndView(study, true);
+				validation = getModelAndView(study,params.publicReleaseDateS, true);
 				validation.addObject("validationmsg", PropertyLookup.getMessage("msg.validation.invalid"));
 				List<TabLoggingEventWrapper> isaTabLog = itu.getSimpleManager().getLastLog();
 				validation.addObject("isatablog", isaTabLog);

@@ -142,7 +142,7 @@
 
                     <div class='iscell'>
                         <input type="image" src="img/ebi-icons/16px/calendar.png" style="vertical-align: middle" onclick="return toggleDate()"/>
-						<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
+						<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12" value="<fmt:formatDate pattern="dd-MMM-yyyy" value="${defaultDate}"/>"/>
                     </div>
 
 		        </div>

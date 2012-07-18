@@ -255,7 +255,12 @@ $(function() {
 		            	<legend><spring:message code="label.publications"/></legend>
 						<c:forEach var="pub" items="${study.publications}">
 							<br/>
-		                	<IMG src="img/ebi-icons/32px/book.png" class="img_alignment_green"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a> 
+		                	<c:choose>
+		                	<c:when test="${not empty pub.pmid}">
+		                		<IMG src="img/ebi-icons/32px/book.png" class="img_alignment_green"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a>
+		                	</c:when>
+		                	<c:otherwise>${pub.title}</c:otherwise>
+		                	</c:choose>
 		            	</c:forEach>
 		            	<br/>
 		            </fieldset>

@@ -178,9 +178,9 @@ a {
     padding-left:10px;
     padding-bottom:15px;
 	padding-right:10px;
-    border-radius:10px 10px 10px 10px;
+/*    border-radius:10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
-    -webkit-border-radius:10px 10px 10px 10px;
+    -webkit-border-radius:10px 10px 10px 10px;*/
 }
 
 /* extend formbox with a border, for entry and searchresults etc */
@@ -484,6 +484,3 @@ a {
     left: 0;
     z-index: 100;
 }
-
-
-/*credits: http://ryanfait.com/resources/footer-stick-to-bottom-of-page/*/

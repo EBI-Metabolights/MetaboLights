@@ -12,10 +12,26 @@
 				<b><a href="${searchResult.accStudy}">${searchResult.title}</a></b>
 			</div>
 			<div style='width: 100px;' class='iscell'>
+				<!--
 				<form name="update-form" action="updatestudyform" method="post" class="one-button-form">
 					<input type="hidden" name="study" value="${searchResult.accStudy}"/>
-                     <input type="submit" id="update" class="multi-line-button main" value=" <spring:message code="label.updatestudy"/> ">
+                    <input type="submit" id="update" class="multi-line-button main" value=" <spring:message code="label.updatestudy"/> ">
 				</form>
+				 -->
+				<ul id="sddm">
+					<ul id="sddm">
+					  <li><a onmouseover="mopen('actions${searchResult.accStudy}')"onmouseout="mclosetime()">
+					  	Actions<span class="smallArrow"></span></a>
+						<div id="actions${searchResult.accStudy}" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
+							<a href="updatestudyform?study=${searchResult.accStudy}"><spring:message code="label.updatestudy"/></a>
+							<a href="updatepublicreleasedateform?study=${searchResult.accStudy}"><spring:message code="label.makestudypublic"/>,</a>
+							<!-- <a href="deletestudy">Delete</a> -->
+							<jsp:useBean id="now" class="java.util.Date" scope="page" />
+							<a href="updatepublicreleasedateform?study=${searchResult.accStudy}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${now}" />">Make it public</a>
+						 </div>
+					   </li>
+					</ul>
+				</ul>
 			</div>
 		</c:when>
 		<c:otherwise>
@@ -32,6 +48,7 @@
 		<b><spring:message code="label.releaseDate"/>:</b> <fmt:formatDate pattern="dd-MMM-yyyy" value="${searchResult.releaseDate}"/>
 		<c:if test="${!searchResult.isPublic}">
 			&nbsp;<img src="img/ebi-icons/32px/key.png" class="img_alignment_yellow"/><b>&nbsp;<spring:message code="label.expPrivate"/></b>
+			<!--
 			<c:if test="${!empty welcomemessage}">&nbsp;
 			<div style="float: right; margin-right:90px;">
             <form name="publish-form" action="updatepublicreleasedateform" method="post">
@@ -40,6 +57,7 @@
 			</form>
 			</div>
 			</c:if>
+			 -->
 		</c:if>
 	</div>
 	
