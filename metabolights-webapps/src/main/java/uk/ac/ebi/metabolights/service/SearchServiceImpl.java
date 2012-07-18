@@ -92,12 +92,12 @@ public class SearchServiceImpl implements SearchService{
         aWrapper.addAnalyzer("investigation_acc", new KeywordAnalyzer());
         //aWrapper.addAnalyzer("investigation_description", new KeywordAnalyzer());
         //aWrapper.addAnalyzer("investigation_title", new KeywordAnalyzer());
-        //aWrapper.addAnalyzer("Metabolite", new KeywordAnalyzer());
+        //aWrapper.addAnalyzer("Metabolite", new SimpleAnalyzer());
 
 
         QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, productFields, aWrapper);
         parser.setAllowLeadingWildcard(true);
-        parser.setLowercaseExpandedTerms(false);     //TODO, set to true and test again
+        parser.setLowercaseExpandedTerms(true);     //TODO, set to true and test again
 
         org.apache.lucene.search.Query luceneQuery = parser.parse(freeText);
 
