@@ -200,7 +200,7 @@
     <bean id="isaTabAuthenticationProv" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
 
     <!-- 
-    Email stuff  NB!  USE "localhost" on the EBI servers
+    Email stuff  NB!  USE "localhost" not "mailserv" on the EBI servers
      -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	  <property name="host" value="localhost"/>
