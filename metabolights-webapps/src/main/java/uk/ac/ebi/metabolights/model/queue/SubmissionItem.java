@@ -35,6 +35,8 @@ public class SubmissionItem {
 	
 	static final String FILE_NAME_SEP = "~";
 	static final String FILE_NAME_FOR_PRD_UPDATES = "PRDupdatedate.zip";
+	static final String FILE_NAME_FOR_DELETIONS = "DELETE.zip";
+	
 	// Format the date to a canonical format (YYYYMMDD)
 	static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	
@@ -44,7 +46,21 @@ public class SubmissionItem {
 		this.userId =user.getUserName().toString();
 		this.publicReleaseDate = publicReleaseDate;
 		this.accession = accession ==null?"":accession;
-		this.originalFileName = file==null?FILE_NAME_FOR_PRD_UPDATES:file.getOriginalFilename();
+		
+		// If there is no file could be a Public release date update or a deletion...
+		if (file == null)
+		{
+			//If date is null...then is a deletion
+			if (publicReleaseDate == null)
+			{
+				this.originalFileName = FILE_NAME_FOR_DELETIONS;
+			} else {
+				
+				this.originalFileName = FILE_NAME_FOR_PRD_UPDATES;
+			}
+		}else{
+			this.originalFileName = file.getOriginalFilename();
+		}
 	}
 	public SubmissionItem (File fileQueued) throws ParseException{
 		

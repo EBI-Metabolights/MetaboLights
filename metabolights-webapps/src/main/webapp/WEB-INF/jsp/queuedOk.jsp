@@ -6,8 +6,8 @@
 <table>
 	<tr>
 		<td><img src="img/ebi-icons/32px/check.png" class="img_alignment_green"></td>
-		<td><spring:message code="msg.studyQueueSuccesfully"/>
-		</td>
+		<!--<td><spring:message code="msg.studyQueueSuccesfully"/></td>-->
+		<td><spring:message code="${msg}"/></td>
 	</tr>
 </table>
 

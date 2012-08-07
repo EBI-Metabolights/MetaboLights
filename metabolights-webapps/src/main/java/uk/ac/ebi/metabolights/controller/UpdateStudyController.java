@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.http.HttpRequest;
 import org.apache.log4j.Logger;
 import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -312,7 +315,7 @@ public class UpdateStudyController extends AbstractController {
 
         try{
 
-        	mav = queuePublicReleaseDate(study, params.publicReleaseDate, params.user);
+        	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.user);
         	
             //updatePublicReleaseDate(study, params.status, params.publicReleaseDate, params.user.getUserId());
 			
@@ -349,7 +352,7 @@ public class UpdateStudyController extends AbstractController {
      * @throws IOException
      * @throws IllegalStateException 
      */
-    private ModelAndView queuePublicReleaseDate(String accesion, Date publicReleaseDate, MetabolightsUser user) throws IllegalStateException, IOException{
+    private ModelAndView queuePublicReleaseDate(HttpServletRequest request, String accesion, Date publicReleaseDate, MetabolightsUser user) throws IllegalStateException, IOException{
     	 
     	String hostName = java.net.InetAddress.getLocalHost().getHostName();
     	
@@ -359,11 +362,39 @@ public class UpdateStudyController extends AbstractController {
 		// Cannot load the queue
 		emailService.sendQueuedPRLUpdate(si.getUserId(), si.getPublicReleaseDate(), hostName, accesion);
 		
+        logger.info("Queued study for Public Release Date update: " + accesion);
+		HttpSession httpSession = request.getSession();
+		httpSession.setAttribute("itemQueued", "msg.PRDUpdateQueued");
+		
     	return new ModelAndView("redirect:itemQueued");
 
     	 
     }
-	
+    /**
+     * This method will create a file in the queue folder that represent the task for deleting a single study.
+     * @param study
+     * @param userName
+     * @return
+     * @throws IOException
+     * @throws IllegalStateException 
+     */
+    private ModelAndView queueDeleteStudy(HttpServletRequest request,String accesion, MetabolightsUser user) throws IllegalStateException, IOException{
+    	 
+    	String hostName = java.net.InetAddress.getLocalHost().getHostName();
+    	
+    	SubmissionItem si = new SubmissionItem(null,user,null,accesion);
+    	si.submitToQueue();
+    	
+		// Cannot load the queue
+		//emailService.sendQueuedPRLUpdate(si.getUserId(), si.getPublicReleaseDate(), hostName, accesion);
+		
+        logger.info("Queued delete study: " + accesion);
+		HttpSession httpSession = request.getSession();
+		httpSession.setAttribute("itemQueued", true);
+    	return new ModelAndView("redirect:itemQueued");
+
+    	 
+    }
 	/**
 	 * Re-submit process:
 		Each step must successfully validate, if not then stop and display an error
@@ -585,6 +616,7 @@ public class UpdateStudyController extends AbstractController {
 				this.publicReleaseDateS = "";
 			} else {
 				this.publicReleaseDateS = publicReleaseDateS;
+				this.publicReleaseDate=  new SimpleDateFormat("dd-MMM-yyyy").parse(publicReleaseDateS);
 			}
 
 			this.studyId = studyId;

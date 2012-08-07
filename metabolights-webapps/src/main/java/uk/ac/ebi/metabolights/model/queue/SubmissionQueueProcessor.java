@@ -385,7 +385,12 @@ public class SubmissionQueueProcessor {
 	        Study biiStudy = AppContext.getStudyService().getBiiStudy(si.getAccession(),false, true);
 	
 	        // Set the new Public Release Date
-	        biiStudy.setReleaseDate(si.getPublicReleaseDate());
+	        //NOTE: We need to increase the date by 1 date, since, for some weird reasons, the update decrease the date always by one.
+	        //biiStudy.setReleaseDate(si.getPublicReleaseDate());
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(si.getPublicReleaseDate());
+	        cal.add(Calendar.DATE, 1);
+	        biiStudy.setReleaseDate(cal.getTime());
 	        biiStudy.setStatus(si.getStatus());
 	
 	        logger.info("Updating public release date in study (database)");

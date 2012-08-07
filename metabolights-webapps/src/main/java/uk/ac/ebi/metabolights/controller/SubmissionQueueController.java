@@ -127,7 +127,7 @@ public class SubmissionQueueController extends AbstractController {
             
             logger.info("Queued study. Adding data to session");
 			HttpSession httpSession = request.getSession();
-			httpSession.setAttribute("itemQueued", true);
+			httpSession.setAttribute("itemQueued", "msg.studyQueueSuccesfully");
 			
 			// Cannot load the queue
 			emailService.sendQueuedStudyEmail(si.getUserId(),si.getOriginalFileName() , FileUtils.byteCountToDisplaySize(si.getFileQueued().length()), si.getPublicReleaseDate(), hostName, study);
@@ -161,7 +161,9 @@ public class SubmissionQueueController extends AbstractController {
 		ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it.
 		if (request.getSession().getAttribute("itemQueued")!=null) {
 			mav = new ModelAndView("queuedOk");
+			mav.addObject("msg", request.getSession().getAttribute("itemQueued"));
 			request.getSession().removeAttribute("itemQueued");
+			
 
 		}
 		return mav;
