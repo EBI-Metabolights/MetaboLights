@@ -197,6 +197,9 @@ public class SubmissionQueueProcessor {
 		// Set properties related with the file itself...
 		// Calculate the unzip folder (remove the extension + .)
 		String unzipFolder = StringUtils.truncate(si.getFileQueued().getAbsolutePath(), 4);
+		// Unzip directly to the correct order base on the status
+		//String unzipFolder = (status == VisibilityStatus.PRIVATE? privateFtpLocation: publicFtpLocation) + si.getAccession();
+		
 		itu.setUnzipFolder(unzipFolder);
 		itu.setIsaTabFile(si.getFileQueued().getAbsolutePath());
 		itu.setPublicDate(publicDateS);
@@ -231,13 +234,10 @@ public class SubmissionQueueProcessor {
 	
 	
 	public void updateStudy() throws Exception{
-		
 
-		// Check we have a study id
-		
 		
 		// Define the back up path of the existing file 
-		File backup = new File(SubmissionQueue.getBackUpFolder() + si.getAccession() + ".zip");
+		File backup = new File(SubmissionQueue.getBackUpFolder() + si.getAccession());
 		boolean needRestore = false;
 		
 		try {
@@ -276,7 +276,12 @@ public class SubmissionQueueProcessor {
 			
 			// Make the backup...
 			File currentFile = new File(itu.getCurrentStudyFilePath(si.getAccession()));
-			FileUtils.copyFile(currentFile, backup);
+			// NOTE: This is reseting the status based on the place the study it's been found.(Which makes it fail when the study is private and need to be public.
+			itu.setStatus(si.getStatus());
+			
+			// Now it's unzipped...not a file anymore
+			//FileUtils.copyFile(currentFile, backup);
+			FileUtils.moveDirectory(currentFile, backup);
 			
 			// Unload the study, this will remove the file too.
 			logger.info("Deleting previous study " + si.getAccession());
@@ -300,7 +305,7 @@ public class SubmissionQueueProcessor {
 
 			// Remove the backup
 			needRestore = false;
-			backup.delete();
+			FileUtils.deleteDirectory(backup);
 		
 			
 		} catch (Exception e){
@@ -359,17 +364,17 @@ public class SubmissionQueueProcessor {
 	    // Change the status
 	    try {
 	        
-	    	//Check if the zip file exists before changing anything else
-	        File zipFile = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC));
+	    	//Since now we are storing the studies unzipped....we check if the folder exists
+	        File studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC));
 	
 	        // If not in public folder...
-	        if (!zipFile.exists()){
+	        if (!studyFolder.exists()){
 	
 	            // Try it in the private
-	            zipFile = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PRIVATE));
+	        	studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PRIVATE));
 	
 	            // Check if it exists
-	            if (!zipFile.exists()){
+	            if (!studyFolder.exists()){
 	
 	                // Throw an exception
 	                throw new FileNotFoundException (PropertyLookup.getMessage("msg.makestudypublic.nofilefound", si.getAccession()));
@@ -385,11 +390,10 @@ public class SubmissionQueueProcessor {
 	        Study biiStudy = AppContext.getStudyService().getBiiStudy(si.getAccession(),false, true);
 	
 	        // Set the new Public Release Date
-	        //NOTE: We need to increase the date by 1 date, since, for some weird reasons, the update decrease the date always by one.
 	        //biiStudy.setReleaseDate(si.getPublicReleaseDate());
 	        Calendar cal = Calendar.getInstance();
 	        cal.setTime(si.getPublicReleaseDate());
-	        cal.add(Calendar.DATE, 1);
+	        //cal.add(Calendar.DATE, 1);
 	        biiStudy.setReleaseDate(cal.getTime());
 	        biiStudy.setStatus(si.getStatus());
 	
@@ -413,10 +417,11 @@ public class SubmissionQueueProcessor {
 	
 	
 	        // ************************
-	        // Change the zip file
+	        // Change the investigation file
 	        // ************************
 	        // Set the unzip folder
-	        itu.setUnzipFolder(StringUtils.truncate(si.getFileQueued().getAbsolutePath()));
+	        //itu.setUnzipFolder(StringUtils.truncate(si.getFileQueued().getAbsolutePath()));
+	        itu.setUnzipFolder(studyFolder.getAbsolutePath());
 	
 	        // Create the replacement Hash
 	        HashMap<String,String> replacementHash = new HashMap<String,String>();
@@ -426,7 +431,7 @@ public class SubmissionQueueProcessor {
 	
 	        logger.info("Replacing Study Public Release Date in zip file. with " + si.getPublicReleaseDate());
 	        
-	        // Call the replacement method...it will unzip, replace and zip it again
+	        // Call the replacement method...
 	        itu.changeStudyFields(si.getAccession(), replacementHash);
 	
 	        // If the new status is public...

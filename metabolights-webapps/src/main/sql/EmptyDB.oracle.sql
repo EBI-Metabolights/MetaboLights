@@ -1,4 +1,4 @@
---WARNING: This will remove the users and the stable id
+--WARNING: This will NOT remove the users and the stable id (Comment the IF if you want to do so).
 
 declare
 
@@ -16,9 +16,11 @@ begin
 
  for cur2 in c2 loop
    begin
-     execute immediate 'ALTER TABLE ISATAB.'||cur2.table_name||' disable all triggers';
-     execute immediate 'TRUNCATE TABLE ISATAB.'||cur2.table_name;
-     execute immediate 'ALTER TABLE ISATAB.'||cur2.table_name||' enable all triggers';
+	 IF (cur2.table_name <> 'USER_DETAIL' AND cur2.table_name <> 'STABLE_ID') THEN  
+     	execute immediate 'ALTER TABLE ISATAB.'||cur2.table_name||' disable all triggers';
+     	execute immediate 'TRUNCATE TABLE ISATAB.'||cur2.table_name;
+     	execute immediate 'ALTER TABLE ISATAB.'||cur2.table_name||' enable all triggers';
+     END IF;
    exception when others then null;
   end;
  end loop;

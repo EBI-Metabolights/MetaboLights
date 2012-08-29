@@ -25,7 +25,7 @@ $(function() {
 	<div class="text_header plain">
 	     <br/><br/>
 	    Configuration
-	    <br/><br/><br/> <br/>
+	    <br/><br/>
 	</div>
 
 
@@ -34,7 +34,7 @@ $(function() {
 			<li><a href="#appTab">Application Properties</a></li>
 			<li><a href="#valTab">Validations</a></li>
 			<li><a href="#queueTab">Queue</a></li>
-			
+			<li><a href="#studyHealthTab">Study Health Tab</a></li>
 		</ul>
 	
 		
@@ -83,7 +83,7 @@ $(function() {
 						<tr>
 							<th>File name</th>
 							<th>Status</th>
-							<th>Type</th>
+							<th>Study</th>
 							<th>Public by</th>
 						</tr>
 					</thead>			
@@ -104,6 +104,48 @@ $(function() {
 			</c:if>
 			<br/>
 			<br/>
+			<c:if test="${not empty processFolder}">
+				<br/><b>Process Folder</b>
+				<table cellpadding="5px" cellspacing="0px">
+					<thead class='text_header'>
+						<tr>
+							<th>File name</th>
+						</tr>
+					</thead>			
+		       	<c:forEach var="file" items="${processFolder}">
+					<tr><td>${file.name}</td></tr>
+		        </c:forEach>
+		        </table>
+			</c:if>
+			
+			<c:if test="${not empty errorFolder}">
+				<br/><b>Error Folder</b>
+				<table cellpadding="5px" cellspacing="0px">
+					<thead class='text_header'>
+						<tr>
+							<th>File name</th>
+						</tr>
+					</thead>			
+		       	<c:forEach var="file" items="${errorFolder}">
+					<tr><td>${file.name}</td></tr>
+		        </c:forEach>
+		        </table>
+			</c:if>
+			
+			<c:if test="${not empty backUpFolder}">
+				<br/><b>BackUp Folder</b>
+				<table cellpadding="5px" cellspacing="0px">
+					<thead class='text_header'>
+						<tr>
+							<th>File name</th>
+						</tr>
+					</thead>			
+		       	<c:forEach var="file" items="${backUpFolder}">
+					<tr><td>${file.name}</td></tr>
+		        </c:forEach>
+		        </table>
+			</c:if>
+			<br/><br/>
 			<c:if test="${not empty queuerunnig}">
 				<table>
 					<tr>
@@ -120,6 +162,25 @@ $(function() {
 				
 			</c:if>
 			
+		</div>
+		<div id="studyHealthTab">
+			<br/>
+			<c:if test="${not empty studiesHealth}">
+				<table cellpadding="5px" cellspacing="0px">
+					<tr><th>Study</th><th>is Public?</th><th>Must be under</th><th>is it there?</th></tr>
+					<c:forEach var="study" items="${studiesHealth}">
+						<tr>
+							<td>${study.identifier}</td>
+							<td>${study.isPublic}</td>
+							<td>${study.studyPath}</td>
+							<td <c:if test="${not study.isThere}">class="error"</c:if> >
+								${study.isThere}
+							</td>
+							
+						</tr>
+					</c:forEach>
+				</table>
+			</c:if>
 		</div>
 		
 		

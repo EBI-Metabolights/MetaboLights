@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
 
+import org.apache.log4j.Logger;
 import org.apache.tiles.context.MapEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -17,12 +18,17 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager;
+import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.SearchService;
+import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.webapp.StudyHealth;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +50,12 @@ public class ManagerController extends AbstractController{
 	 */
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private SearchService searchService;
+	
+	
+	private static Logger logger = Logger.getLogger(ManagerController.class);
+	
 	@RequestMapping({"/config"})
 	public ModelAndView config() {
 		
@@ -93,10 +105,44 @@ public class ManagerController extends AbstractController{
 		mav.addObject("props", properties);
 		mav.addObject("validation", validationResult);
 		mav.addObject("queue", queue);
+		mav.addObject("processFolder", (getFilesInFolder(new File(SubmissionQueue.getProcessFolder()))));
+		mav.addObject("errorFolder", (getFilesInFolder(new File(SubmissionQueue.getErrorFolder()))));
+		mav.addObject("backUpFolder", (getFilesInFolder(new File(SubmissionQueue.getBackUpFolder()))));
 		mav.addObject("queuerunnig", SubmissionQueueManager.getIsRunning());
+		mav.addObject("studiesHealth", getStudiesHealth());
 		return mav;
-
+		
+		
     }
+	private File[] getFilesInFolder(File folder){
+		if (!folder.exists()) return new File[]{};
+		
+		return folder.listFiles();
+	}
+	private List<StudyHealth> getStudiesHealth(){
+		
+		List <StudyHealth> studies = new ArrayList<StudyHealth>();
+		List<LuceneSearchResult> totalResultList = new ArrayList<LuceneSearchResult>();
+		
+		HashMap<Integer,List<LuceneSearchResult>> studiesResult;
+		try {
+			studiesResult = searchService.search("*");
+		} catch (Exception e) {
+			logger.info("Can't search for all the studies in lucene index." + e.getMessage());
+			return null;
+		}
+		
+		// Get the total result list
+		totalResultList = studiesResult.entrySet().iterator().next().getValue();
+		
+		// Create the List of StudyHealths
+		for (LuceneSearchResult lsr:totalResultList){
+			StudyHealth newSH = new StudyHealth(lsr);
+			studies.add(newSH);
+		}
+		
+		return studies;
+	}
 	
 	@RequestMapping(value = "/switchqueue", method = RequestMethod.GET)
 	public @ResponseBody String switchqueue(@RequestParam String command) {

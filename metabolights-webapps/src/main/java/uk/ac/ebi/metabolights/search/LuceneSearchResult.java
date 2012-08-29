@@ -54,6 +54,15 @@ public class LuceneSearchResult {
 		
 			
 		this.releaseDate = parseDate("releaseDate");
+		
+		// For weird reason the date in the index is one day less than in the study (file or database)
+		// Let's add, as a quick hack, one day to the public release date
+		// Drawback: queries for public release date in lucene will not be consistent.
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(this.releaseDate);
+        cal.add(Calendar.DATE, 1);
+        this.releaseDate =  cal.getTime();
+		
 		this.submissionDate = parseDate("submissionDate");
 		
 		

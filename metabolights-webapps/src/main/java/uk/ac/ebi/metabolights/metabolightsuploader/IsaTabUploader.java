@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
+import org.apache.commons.io.FileUtils;
 import org.isatools.isatab.gui_invokers.GUIInvokerResult;
 import org.isatools.isatab.manager.SimpleManager;
 import org.slf4j.Logger;
@@ -208,12 +209,32 @@ public class IsaTabUploader {
 		reindexStudies(itir.getIds().values());
 		
 		// Zip the folder using the Study id as a name. (this make sense only it there is only one study, to be done soon).
-		Zip();
+		//DO not zip the studies leave them unzipped: Zip();
+		// Move the unzipped folder to the final destination
+		moveUnzipFolderToFinalDestination();
+		
+		// Delete the original zip file...
+		File isatab = new File (this.isaTabArchive);
+		isatab.delete();
 		
 		//Return the new accession numbers
 		return  itir.getIds();
 		
 	}
+	
+	private void moveUnzipFolderToFinalDestination() throws IOException{
+		
+		//Calculate the destination
+		File destination = new File(getStudyFilePath(getStudyAccesion(), status));
+		
+		// Clean destination
+		FileUtil.deleteDir(destination);
+		
+		FileUtils.moveDirectory(new File(unzipFolder), destination);
+		
+	
+	}
+		
 	
 	/**
 	 * Upload and study without replacing the ids. 
@@ -231,21 +252,25 @@ public class IsaTabUploader {
 	 */
 	private void Zip() throws IOException{
 		
-		String study;
-		
-		// Get the Study Id
-		Collection<String> studyCol = itir.getIds().values();
-		
-		// Get the next element (It will return the only one there must be).
-		study = studyCol.iterator().next();
+
 
 		// Get the destination
-		String destinationS = getStudyFilePath(study, this.status);
+		String destinationS = getStudyFilePath(getStudyAccesion(), this.status);
 
 		Zip(destinationS);
 		
 		
 	}
+	private String getStudyAccesion(){
+	
+		// Get the Study Id
+		Collection<String> studyCol = itir.getIds().values();
+		
+		// Get the next element (It will return the only one there must be).
+		return studyCol.iterator().next();
+	}
+	
+	
 	/**
 	 * Zip the folder to the specified destination and change the status
 	 * @param destinationS
@@ -317,8 +342,8 @@ public class IsaTabUploader {
 		getItir().setIsaTabFolder(unzipFolder);     //TODO, Null pointer
 		getItir().replaceFields(replacementHash);
 		
-		//Zip it again to the specified folder
-		Zip(isaTabArchive);
+		//NO zip is needed: Zip it again to the specified folder
+		//Zip(isaTabArchive);
 
 	}
 	
@@ -413,7 +438,7 @@ public class IsaTabUploader {
 	public String getStudyFilePath(String study, VisibilityStatus status) {
 		
 		String folder = (status == VisibilityStatus.PRIVATE)? copyToPrivateFolder: copyToPublicFolder;
-		return folder + study + ".zip";
+		return folder + study ;
 	}
 	public void validate(String isatabFile) throws IsaTabException{
 		GUIInvokerResult result;

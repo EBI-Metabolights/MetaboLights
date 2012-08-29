@@ -318,8 +318,10 @@ public class IsaTabIdReplacer
 		// Reset number of studies.
 		singleStudy= 0;
 
-        //Set the new accession number, one per file  (Investigation Id and Study Id)
-        String accessionNumber = getAccessionService().getAccessionNumber();
+        // Do not increase the accession count if we are updating (we have studyToUse)
+		//Set the new accession number, one per file  (Investigation Id and Study Id)
+        //String accessionNumber = getAccessionService().getAccessionNumber();
+		String accessionNumber = studyIdToUse==null?getAccessionService().getAccessionNumber():studyIdToUse;
 		
 		try {
 			//Use a buffered reader
