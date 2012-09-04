@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.ac.ebi.metabolights</groupId>
   <artifactId>metabolights-main</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
   <name>MetaboLights main project</name>
   <description>MetaboLights Main Project</description>
@@ -11,13 +11,20 @@
   </modules>
   
   <build>
-    <plugins>
+    <extensions>	
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>1.0-beta-6</version>
+      </extension>
+   </extensions>
+       <plugins>
   	  <plugin>
   		<groupId>org.apache.maven.plugins</groupId>
   		<artifactId>maven-compiler-plugin</artifactId>
   		<version>2.3.2</version>
   	  </plugin>
-    </plugins>
+       </plugins>
   </build>
   
   <!-- Shared version number properties -->
