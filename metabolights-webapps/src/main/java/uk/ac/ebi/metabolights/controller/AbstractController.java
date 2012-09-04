@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.TextUtils;
 
 /**
@@ -25,6 +26,16 @@ public abstract class AbstractController {
 		mav.addObject("errorMainMessage", ex.getMessage());
 		return mav;
 	}
-
+	public ModelAndView printMessage(String title, String message){
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("title",title);
+		mav.addObject("message", message);
+		
+		return mav;
+	}
+	public ModelAndView printMessageFromLookup(String titleTag, String messageTag){
+		
+		return printMessage(PropertyLookup.getMessage(titleTag), PropertyLookup.getMessage(messageTag));
+	}
 
 }

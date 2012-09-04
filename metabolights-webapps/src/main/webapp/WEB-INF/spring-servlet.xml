@@ -171,6 +171,7 @@
     <sec:http use-expressions="true" auto-config='true'>
         <sec:intercept-url pattern="/updatepublicreleasedate" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/updatestudy" access="isAuthenticated()" /> <!-- requires-channel="https" -->
+		<sec:intercept-url pattern="/deleteStudy" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/submit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/biisubmit" access="isAuthenticated()" /> <!-- requires-channel="https" -->
 		<sec:intercept-url pattern="/submittoqueue" access="isAuthenticated()" /> <!-- requires-channel="https" -->

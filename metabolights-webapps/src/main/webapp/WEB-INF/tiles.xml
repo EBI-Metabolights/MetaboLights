@@ -143,5 +143,9 @@
         <put-attribute name="title" value="MetaboLights - User admin page" />
         <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />
     </definition>
+	<definition name="message" extends="base.definition">
+        <put-attribute name="title" value="Message" />
+        <put-attribute name="body" value="/WEB-INF/jsp/message.jsp" />
+	</definition>
 
 </tiles-definitions>

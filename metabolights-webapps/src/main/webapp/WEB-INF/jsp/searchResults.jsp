@@ -6,6 +6,8 @@
 <%@page pageEncoding="UTF-8"%>
 <script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
+<script type="text/javascript" src="javascript/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 function navigate(_pageNumber) {
 	filterForm = document.forms['filterForm'];
@@ -21,6 +23,40 @@ function navigate(_pageNumber) {
   bodyWidth.style.width="785px";
   var topSpacerFilterHeight=document.getElementById('topSpacerFilter');
 </script>
+
+<div id="deletedialog" title=<spring:message code="msg.deleteStudyDialog.title"/> >
+  <spring:message code="msg.deleteStudyDialog.body"/>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#deletedialog").dialog({
+      autoOpen: false,
+      modal: true
+    });
+  
+    $(".confirmLink").click(function(e) {
+        e.preventDefault();
+        var targetUrl = $(this).attr("href");
+
+        $("#deletedialog").dialog({
+          buttons : {
+            "Confirm" : function() {
+              window.location.href = targetUrl;
+            },
+            "Cancel" : function() {
+              $(this).dialog("close");
+            }
+          }
+        });
+
+        $("#deletedialog").dialog("open");
+      });
+    
+  });
+  
+</script>
+
 	<div class="topSpacer">
 
 		<div class="text_header" >

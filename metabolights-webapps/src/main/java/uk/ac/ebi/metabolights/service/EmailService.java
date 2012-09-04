@@ -194,6 +194,18 @@ public class EmailService {
 		
 	}
 	
+	/*
+	 * Email to send when an Public Release Date update is being requested...
+	 */
+	public void sendQueuedDeletion( String userEmail, String hostName, String studyToDelete){
+		String from = PropertyLookup.getMessage("mail.noreplyaddress");
+		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
+		String subject = PropertyLookup.getMessage("mail.queuedDeletion.subject", studyToDelete );
+		String body = PropertyLookup.getMessage("mail.queuedDeletion.body", new String[]{userEmail, studyToDelete, hostName});
+		
+		sendSimpleEmail(from, to, subject, body);
+		
+	}
 	
 	/*
 	 * Email to send when a study is being successfully submitted...
@@ -234,6 +246,15 @@ public class EmailService {
 		
 	}
 	
+	public void sendStudyDeleted(String userEmail,String ID ){
+		String from = PropertyLookup.getMessage("mail.noreplyaddress");
+		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
+		String subject = PropertyLookup.getMessage("mail.studyDeleted.subject", ID);
+		String body = PropertyLookup.getMessage("mail.studyDeleted.body", ID);
+		
+		sendSimpleEmail(from, to, subject, body);
+		
+	}
 	/*
 	 * Email to send when the submission process fails...
 	 */

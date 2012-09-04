@@ -22,6 +22,7 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
@@ -342,6 +343,62 @@ public class UpdateStudyController extends AbstractController {
 		
 	}
     
+     
+     @RequestMapping(value = { "/deleteStudy" })
+ 	public ModelAndView deleteStudy(
+ 								@RequestParam(required=true,value="study") String studyId,
+ 								HttpServletRequest request) throws Exception {
+
+    	MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    	LuceneSearchResult study = getStudy(studyId);
+    	
+ 		// Log start
+ 		logger.info("Deletion request of " + study + " by " + user.getUserName());
+ 		
+ 		// Validate the parameters...
+ 		String validationMsg = "";
+
+ 		// Check the user is the owner
+ 		if (!user.getUserName().equals(study.getSubmitter().getUserName()))
+ 		{
+ 			// User must match
+ 			validationMsg =  PropertyLookup.getMessage("msg.deleteStudy.userValidation", user.getUserName(), studyId,study.getSubmitter().getUserName());
+ 		}
+ 		
+ 		// Check if it's public
+ 		if (study.getIsPublic())
+ 		{
+ 			validationMsg = validationMsg + PropertyLookup.getMessage("msg.deleteStudy.statusValidation",studyId);
+ 		}
+ 		
+ 		// If there is validation view...return it
+ 		if (validationMsg != ""){return printMessage(PropertyLookup.getMessage("msg.deleteStudy.titleValidation"), validationMsg);}
+
+ 		
+ 		ModelAndView mav;
+ 		
+        try{
+
+             //Create the view
+             mav = queueDeleteStudy(request, studyId, user);
+ 		
+ 		} catch (Exception e) {
+ 			
+ 			String message = "There's been a problem while deleting the study " + studyId + "\n" + e.getMessage();
+ 			
+ 			// Auto-generated catch block
+ 			logger.error(message);
+ 			
+ 			// Add the error to the page
+ 			throw new Exception (message);
+ 			
+ 		}
+ 		
+ 		//Return the ModelAndView
+ 		return mav;
+ 		
+ 	}
+     
     /**
      * This method will create a file in the queue folder that represent the task of updating the public release date of a single study.
      * @param study
@@ -386,11 +443,11 @@ public class UpdateStudyController extends AbstractController {
     	si.submitToQueue();
     	
 		// Cannot load the queue
-		//emailService.sendQueuedPRLUpdate(si.getUserId(), si.getPublicReleaseDate(), hostName, accesion);
+		emailService.sendQueuedDeletion(si.getUserId(),  hostName, accesion);
 		
         logger.info("Queued delete study: " + accesion);
 		HttpSession httpSession = request.getSession();
-		httpSession.setAttribute("itemQueued", true);
+		httpSession.setAttribute("itemQueued", "msg.deleteStudyQueued");
     	return new ModelAndView("redirect:itemQueued");
 
     	 

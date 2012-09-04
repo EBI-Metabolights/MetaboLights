@@ -3,7 +3,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script type="text/javascript" src="javascript/menu.js"></script>
-
 <div id="top_bar">
 	<a href="index"> <!--h1>foobar</h1-->
 	</a>

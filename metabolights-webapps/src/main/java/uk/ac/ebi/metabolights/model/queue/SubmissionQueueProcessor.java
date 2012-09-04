@@ -81,7 +81,19 @@ public class SubmissionQueueProcessor {
 				
 				updatePublicReleaseDate();
 				AppContext.getEmailService().sendQueuedPublicReleaseDateUpdated(si.getUserId(), si.getAccession(), si.getPublicReleaseDate());
+			
+			}
+			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
+			else if (si.getOriginalFileName().equals(SubmissionItem.FILE_NAME_FOR_DELETIONS))
+			{
 				
+				
+				//Call deletion...
+				deleteStudy();
+				
+				AppContext.getEmailService().sendStudyDeleted(si.getUserId(), si.getAccession());
+				
+			
 			}// It's then an update
 			else
 			{
@@ -94,16 +106,15 @@ public class SubmissionQueueProcessor {
 				
 			}
 			
-
+			// Clean the process folder anyway
+			cleanProcessFolder();
+	
 		}catch(Exception e){
 			
 			// There was an error in the submission process...
 			si.moveFileTo(SubmissionQueue.getErrorFolder());
 			AppContext.getEmailService().sendSubmissionError(si.getUserId(), si.getOriginalFileName(), e.getMessage());
 			
-			
-		} finally{
-		
 			// Clean the process folder anyway
 			cleanProcessFolder();
 		
@@ -163,6 +174,26 @@ public class SubmissionQueueProcessor {
 		// Upload the file
 		return itu.Upload();
 	}
+	
+	/**
+	 * Delete a study from the system (both: Database and file system).
+	 * @throws Exception 
+	 */
+	private void deleteStudy() throws Exception {
+		
+	    // Get the IsaTabUploader (and unloader) configured
+		itu = getIsaTabUploader();
+		
+		// Unload it from the database, data locations and index.
+	    itu.unloadISATabFile(si.getAccession());
+	    
+	    // Remove files from our staging folder
+	    File studyFolder = new File(itu.getCurrentStudyFilePath(si.getAccession()));
+	    
+	    FileUtils.deleteDirectory(studyFolder);
+	    
+	    
+	}
 	/**
 	 * Returns a default configured uploader. After it you may probably need to set:
 	 * UnzipFolder
@@ -172,38 +203,35 @@ public class SubmissionQueueProcessor {
 	 */
 	private IsaTabUploader getIsaTabUploader() throws Exception{
 
-		
-		// Calculate the visibility based on the Public release date
-		VisibilityStatus status =  si.getStatus();
-		
-		// Get the path for the config folder (where the hibernate properties for the import layer are).
-        String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
-
-		// Get today's date.
-		Calendar currentDate = Calendar.getInstance();
-		SimpleDateFormat isaTabFormatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
-		String submissionDate = isaTabFormatter.format(currentDate.getTime());
-
-		// Format public date to IsaTab format date
-		String publicDateS = isaTabFormatter.format(si.getPublicReleaseDate());
-		
 		// Set common properties
 		itu.setOwner(si.getUserId());
 		itu.setCopyToPrivateFolder(privateFtpLocation);
 		itu.setCopyToPublicFolder(publicFtpLocation);
-		itu.setDBConfigPath(configPath);
+		itu.setStatus(si.getStatus());
+
+		// Get the path for the config folder (where the hibernate properties for the import layer are).
+        String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
+        itu.setDBConfigPath(configPath);
+        
+		// Get today's date.
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat isaTabFormatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
+		String submissionDate = isaTabFormatter.format(currentDate.getTime());
 		itu.setSubmissionDate(submissionDate);
+
+		// For deletion we don't have a public release date
+		if (si.getPublicReleaseDate() != null)
+		{
+			itu.setPublicDate(isaTabFormatter.format(si.getPublicReleaseDate()));
+		}
 
 		// Set properties related with the file itself...
 		// Calculate the unzip folder (remove the extension + .)
 		String unzipFolder = StringUtils.truncate(si.getFileQueued().getAbsolutePath(), 4);
-		// Unzip directly to the correct order base on the status
-		//String unzipFolder = (status == VisibilityStatus.PRIVATE? privateFtpLocation: publicFtpLocation) + si.getAccession();
 		
 		itu.setUnzipFolder(unzipFolder);
+
 		itu.setIsaTabFile(si.getFileQueued().getAbsolutePath());
-		itu.setPublicDate(publicDateS);
-		itu.setStatus(status);
 		
 		return itu;
 		

@@ -134,11 +134,10 @@ public class SubmissionItem {
 	 */
 	private String ComposeFileName(){
 
-		String fileName;
-
-        String date = sdf.format(publicReleaseDate);
 		
-		fileName = userId + FILE_NAME_SEP + accession + FILE_NAME_SEP + date + FILE_NAME_SEP + this.originalFileName;  
+        String date = publicReleaseDate==null?"":sdf.format(publicReleaseDate);
+		
+		String fileName = userId + FILE_NAME_SEP + accession + FILE_NAME_SEP + date + FILE_NAME_SEP + this.originalFileName;  
 		
 		return fileName;
 				
@@ -166,7 +165,7 @@ public class SubmissionItem {
 		// First item should be the user
 		userId = properties[0];
 		accession = properties[1];
-		publicReleaseDate = sdf.parse(properties[2]);
+		publicReleaseDate = properties[2].equalsIgnoreCase("")?null:sdf.parse(properties[2]);
 		originalFileName = properties[3];
 		
 		
@@ -184,6 +183,10 @@ public class SubmissionItem {
 		
 	}
 	public VisibilityStatus getStatus(){
+		
+		// If there is no public release date is because it is a deletion..return private.
+		if (publicReleaseDate == null) return VisibilityStatus.PRIVATE;
+		
 		return (getPublicReleaseDate().before(new Date())?VisibilityStatus.PUBLIC:VisibilityStatus.PRIVATE);
 	}
 	@Override

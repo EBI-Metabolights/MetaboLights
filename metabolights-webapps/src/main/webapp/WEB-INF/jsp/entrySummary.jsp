@@ -4,6 +4,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
+
+<script>
+
+
+</script>
 <div style='margin-bottom: 10px;' class="formbox border">
 	
 	<c:choose>
@@ -25,7 +30,7 @@
 						<div id="actions${searchResult.accStudy}" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
 							<a href="updatestudyform?study=${searchResult.accStudy}"><spring:message code="label.updatestudy"/></a>
 							<a href="updatepublicreleasedateform?study=${searchResult.accStudy}"><spring:message code="label.makestudypublic"/></a>
-							<!-- <a href="deletestudy">Delete</a> -->
+							<a class="confirmLink" href="deleteStudy?study=${searchResult.accStudy}"><spring:message code="label.deleteStudy"/></a>
 							<jsp:useBean id="now" class="java.util.Date" scope="page" />
 							<a href="updatepublicreleasedateform?study=${searchResult.accStudy}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${now}" />">Make it public</a>
 						 </div>
