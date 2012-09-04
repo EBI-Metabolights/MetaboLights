@@ -90,9 +90,6 @@
 	<bean id="contextApplicationContextProvider" class="uk.ac.ebi.metabolights.service.ApplicationContextProvider"></bean>
 
     <!--  register the application properties -->
-    <!--util:properties id="appProperties" location="classpath:application.properties"/-->
-
-
     <bean id="propertyConfigurer" class="uk.ac.ebi.metabolights.utils.PropertiesUtil">
 		<property name="ignoreUnresolvablePlaceholders" value="true"/>
 		<property name="locations">
@@ -160,7 +157,7 @@
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.show_sql">${jdbc.show_sql}</prop>
                 <prop key="hibernate.format_sql">${jdbc.format_sql}</prop>
-                <prop key="hibernate.search.default.indexBase">#{luceneIndexDirectoryShort}</prop>
+                <prop key="hibernate.search.default.indexBase">${hibernate.search.default.indexBase}</prop>
             </props>
         </property>
     </bean>
@@ -200,31 +197,29 @@
     </sec:authentication-manager>
     <bean id="isaTabAuthenticationProv" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
 
-    <!-- 
-    Email stuff  NB!  USE "localhost" not "mailserv" on the EBI servers
-     -->
+    <!-- Email stuff -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-	  <property name="host" value="localhost"/>
+	  <property name="host" value="${mailServer}"/>
 	</bean>
 
 	<bean id="reminderTemplate" class="org.springframework.mail.SimpleMailMessage">
-	  <property name="from" value="no-reply@ebi.ac.uk"/>
+	  <property name="from" value="${replyTo}"/>
 	  <property name="subject" value="Your new MetaboLights password"/>
 	</bean>
 
     <bean id="verifyNewAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
-      <property name="from" value="no-reply@ebi.ac.uk"/>
+      <property name="from" value="${replyTo}"/>
       <property name="subject" value="Please confirm your account request for MetaboLights"/>
     </bean>
 
     <bean id="activateAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
-      <property name="from" value="no-reply@ebi.ac.uk"/>
+      <property name="from" value="${replyTo}"/>
       <property name="subject" value="New MetaboLights account request"/>
       <property name="to"><list><value>${mtblAdminEmailAddress}</value></list> </property>  
     </bean>
 
     <bean id="accountApprovedTemplate" class="org.springframework.mail.SimpleMailMessage">
-      <property name="from" value="no-reply@ebi.ac.uk"/>
+      <property name="from" value="${replyTo}"/>
       <property name="subject" value="Your account for MetaboLights is now active"/>
     </bean>
     
@@ -234,7 +229,7 @@
     </bean>
 
     <bean id="studyPublicTemplate" class="org.springframework.mail.SimpleMailMessage">
-        <property name="from" value="no-reply@ebi.ac.uk"/>
+        <property name="from" value="${replyTo}"/>
         <property name="subject" value="Your MetaboLights study is about to be publicly available"/>
     </bean>
     <bean id="queueManager" class="uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager"/>
