@@ -1,15 +1,9 @@
 package uk.ac.ebi.metabolights.service;
 
-import java.util.Date;
-
-import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
-
-import com.mchange.v2.codegen.bean.Property;
-
 import uk.ac.ebi.metabolights.form.ContactValidation;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
@@ -17,6 +11,7 @@ import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.util.Date;
 
 /**
  * Uses a central Spring interface for sending emails (the MailSender interface). 
@@ -158,6 +153,7 @@ public class EmailService {
 		
 		this.mailSender.send(msg);
 	}
+
 	public void sendSimpleEmail ( String[] to, String subject, String body) {
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
 		sendSimpleEmail(from , to ,subject, body);
