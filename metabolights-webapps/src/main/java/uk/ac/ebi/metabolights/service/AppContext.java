@@ -27,7 +27,7 @@ public class AppContext {
     /**
      * Get access to the Spring ApplicationContext from everywhere in your Application.
      *
-     * @return
+     * @return ctx
      */
     public static ApplicationContext getApplicationContext() {
         return ctx;
