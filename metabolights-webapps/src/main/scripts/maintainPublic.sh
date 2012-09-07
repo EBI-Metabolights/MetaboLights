@@ -45,8 +45,6 @@ Info Settings:
 Info '  Using properties file:             '$PROPS_FILE 
 Info '  Shell script log file:             '$SHELL_LOG_FILE
 Info ------------------------------------------------------------------------------------------
-Info '  MetaboLights Database connection:  '$DB_CONNECTION
-Info ------------------------------------------------------------------------------------------
 Info '  MetaboLights PRIVATE ftp location: '$PRIV_FTP
 Info '  MetaboLights PUBLIC ftp location : '$PUB_FTP
 Info ------------------------------------------------------------------------------------------
