@@ -154,7 +154,7 @@ function navigate(_pageNumber) {
 			<br />
 			<br />
 			<br />
-			<div style="padding-left:100px"><spring:message code="msg.nothingFound" />
+			<div style="padding-left:100px"><spring:message code="msg.nothingFound" />&nbsp;<spring:message code="msg.searchSuggestions" />
 			</div>
 		</c:if>		
 	</h3>

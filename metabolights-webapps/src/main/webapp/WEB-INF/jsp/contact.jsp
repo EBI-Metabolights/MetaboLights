@@ -60,6 +60,14 @@
                     </div>
 	            </td>
 	        </tr>
+
+            <tr>
+                <td colspan="3">
+                    <div class='iscell left'>
+                        <br/><spring:message code="label.sourceforge"/>
+                    </div>
+                </td>
+            </tr>
 	        
 	    </table>
 	</form:form>

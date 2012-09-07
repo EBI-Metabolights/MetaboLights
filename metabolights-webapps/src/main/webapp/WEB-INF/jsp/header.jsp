@@ -17,9 +17,10 @@
 		   </c:choose>"
 		   method="get" accept-charset="utf-8">
 
-		   <input type="text" name="freeTextQuery" id="query" value="${freeTextQuery}" />
+		   <input type="text" name="freeTextQuery" id="query" placeholder="Search MetaboLights" value="${freeTextQuery}" />
            <input type="submit" value="" class="search-box-button" />
 		</form>
+
 	</div>
 
 	<div class="loggedInAsBox">
@@ -35,7 +36,6 @@
 			   </li>
 			</ul>   
 		</sec:authorize>	      	-->
-        <a href="https://docs.google.com/document/d/1uL97eA5rozKHyXUbngQJNy-iwQXic7GMVK8bAQSWaCU/view">Help</a>
 	</div>	 
 
  
@@ -61,7 +61,7 @@
 			</ul>
 		</sec:authorize>
 
-
+        <li><a href="submitHelp"><spring:message code="menu.help"/></a></li>
 		<li><a href="presubmit"><spring:message code="menu.submit"/></a></li>
 		<li><a href="download"><spring:message code="menu.download"/></a></li>
         <li><a href="browse"><spring:message code="menu.browse"/></a></li>

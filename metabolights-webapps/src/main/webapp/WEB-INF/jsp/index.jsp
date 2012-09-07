@@ -24,13 +24,16 @@
 
 <c:if test="${not empty message}">
     <div id="dialog" title="MetaboLights message">
-        <p><b></b><c:out value="${message}" /></b></p>
+        <p><b><c:out value="${message}"/></b></p>
     </div>
    <!-- <div class="messageBox"><c:out value="${message}" /></div>   -->
 </c:if>
 
 <c:if test="${empty message}">
    <div class="messageBox" style="border:0px; background:white">&nbsp;</div>
+    <div class="text-fullwidth">
+        <spring:message code="msg.searchSuggestions" />
+    </div>
 </c:if>
 
 <div style="margin-bottom:40px; padding-left:120px; padding-top:30px">
