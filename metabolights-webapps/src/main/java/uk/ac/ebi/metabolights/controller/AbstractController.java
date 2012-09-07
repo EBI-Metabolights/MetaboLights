@@ -8,7 +8,7 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.TextUtils;
 
 /**
- * Asbtract controller providing common functionality to the real controllers.
+ * Abstract controller providing common functionality to the real controllers.
  * @author markr
  *
  */

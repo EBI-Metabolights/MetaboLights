@@ -1,7 +1,5 @@
 package uk.ac.ebi.metabolights.controller;
 
-import javax.validation.Valid;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,11 +9,12 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.metabolights.form.ContactValidation;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.validate.ValidateContactUsForm;
+
+import javax.validation.Valid;
 
 @Controller
 public class ContactUsController extends AbstractController{
@@ -41,7 +40,7 @@ public class ContactUsController extends AbstractController{
 	
 	 /**
      * Sends an email to MetaboLights, for general questions.<br> 
-     * @param email user form
+     * @param contactValidation user form
      * @param result binding result
      */
     @RequestMapping(value = "/contactUsAlert", method = RequestMethod.POST)

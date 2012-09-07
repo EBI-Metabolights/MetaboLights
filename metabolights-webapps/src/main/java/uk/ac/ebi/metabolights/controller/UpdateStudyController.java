@@ -2,12 +2,10 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.http.HttpRequest;
 import org.apache.log4j.Logger;
 import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,14 +20,12 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
-import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -401,25 +397,25 @@ public class UpdateStudyController extends AbstractController {
      
     /**
      * This method will create a file in the queue folder that represent the task of updating the public release date of a single study.
-     * @param study
-     * @param status
+     * @param request
+     * @param accession
      * @param publicReleaseDate
-     * @param userName
+     * @param user
      * @return
      * @throws IOException
      * @throws IllegalStateException 
      */
-    private ModelAndView queuePublicReleaseDate(HttpServletRequest request, String accesion, Date publicReleaseDate, MetabolightsUser user) throws IllegalStateException, IOException{
+    private ModelAndView queuePublicReleaseDate(HttpServletRequest request, String accession, Date publicReleaseDate, MetabolightsUser user) throws IllegalStateException, IOException{
     	 
     	String hostName = java.net.InetAddress.getLocalHost().getHostName();
     	
-    	SubmissionItem si = new SubmissionItem(null,user,publicReleaseDate,accesion);
+    	SubmissionItem si = new SubmissionItem(null,user,publicReleaseDate,accession);
     	si.submitToQueue();
     	
 		// Cannot load the queue
-		emailService.sendQueuedPRLUpdate(si.getUserId(), si.getPublicReleaseDate(), hostName, accesion);
+		emailService.sendQueuedPRLUpdate(si.getUserId(), si.getPublicReleaseDate(), hostName, accession);
 		
-        logger.info("Queued study for Public Release Date update: " + accesion);
+        logger.info("Queued study for Public Release Date update: " + accession);
 		HttpSession httpSession = request.getSession();
 		httpSession.setAttribute("itemQueued", "msg.PRDUpdateQueued");
 		
@@ -429,23 +425,24 @@ public class UpdateStudyController extends AbstractController {
     }
     /**
      * This method will create a file in the queue folder that represent the task for deleting a single study.
-     * @param study
-     * @param userName
+     * @param request
+     * @param accession
+     * @param user
      * @return
      * @throws IOException
      * @throws IllegalStateException 
      */
-    private ModelAndView queueDeleteStudy(HttpServletRequest request,String accesion, MetabolightsUser user) throws IllegalStateException, IOException{
+    private ModelAndView queueDeleteStudy(HttpServletRequest request, String accession, MetabolightsUser user) throws IllegalStateException, IOException{
     	 
     	String hostName = java.net.InetAddress.getLocalHost().getHostName();
     	
-    	SubmissionItem si = new SubmissionItem(null,user,null,accesion);
+    	SubmissionItem si = new SubmissionItem(null,user,null,accession);
     	si.submitToQueue();
     	
 		// Cannot load the queue
-		emailService.sendQueuedDeletion(si.getUserId(),  hostName, accesion);
+		emailService.sendQueuedDeletion(si.getUserId(),  hostName, accession);
 		
-        logger.info("Queued delete study: " + accesion);
+        logger.info("Queued delete study: " + accession);
 		HttpSession httpSession = request.getSession();
 		httpSession.setAttribute("itemQueued", "msg.deleteStudyQueued");
     	return new ModelAndView("redirect:itemQueued");
