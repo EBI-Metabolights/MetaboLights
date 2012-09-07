@@ -128,7 +128,7 @@
     </definition>
 
     <definition name="config" extends="base.definition">
-        <put-attribute name="title" value="MetaboLights - Congiguration" />
+        <put-attribute name="title" value="MetaboLights - Configuration" />
         <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
     </definition>
 	
