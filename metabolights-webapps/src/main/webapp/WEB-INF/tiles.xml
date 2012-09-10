@@ -108,6 +108,12 @@
 		<put-attribute name="bodyleft" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
 
+    <definition name="browse" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights - Browse studies" />
+        <put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp" />
+        <put-attribute name="bodyleft" value="/WEB-INF/jsp/searchFilter.jsp" />
+    </definition>
+
     <definition name="download" extends="base.definition">
 		<put-attribute name="title" value="Download Public Experiments" />
 		<put-attribute name="body" value="/WEB-INF/jsp/download.jsp" />

@@ -42,10 +42,10 @@ public class SearchController extends AbstractController{
             filter.setFreeTextQuery("");
 
             //Trigger the search based on the filter
-            ModelAndView mav = search(filter);
+            ModelAndView mav = search(filter, "browse");
 
             //Add the action to the ModelAndView
-            mav.addObject("action", "search");
+            mav.addObject("action", "browse");
 
             return mav;
     }
@@ -61,7 +61,7 @@ public class SearchController extends AbstractController{
 		Filter filter = prepareFilter(request);
 				
 		//Trigger the search based on the filter
-		ModelAndView mav = search(filter);
+		ModelAndView mav = search(filter, "searchResult");
 		
 		//Add the action to the ModelAndView
 		mav.addObject("action", "search");
@@ -70,7 +70,7 @@ public class SearchController extends AbstractController{
 	}
 
 
-	private ModelAndView search(Filter filter) {
+	private ModelAndView search(Filter filter, String MAVName) {
 
 		//Search results
 		List<LuceneSearchResult> totalResultList = new ArrayList<LuceneSearchResult>();
@@ -108,8 +108,9 @@ public class SearchController extends AbstractController{
 			e.printStackTrace();
 		}
 
-		ModelAndView mav = new ModelAndView("searchResult");
-    	mav.addObject("searchResults", displayedResultList);
+		//ModelAndView mav = new ModelAndView("searchResult");
+        ModelAndView mav = new ModelAndView(MAVName);
+        mav.addObject("searchResults", displayedResultList);
        	mav.addObject("filters", filter);
        	mav.addObject("freeTextQuery", filter.getFreeTextQuery());
        	mav.addObject("pageNumber", filter.getPageNumber());
@@ -168,7 +169,7 @@ public class SearchController extends AbstractController{
 		filter.getFss().get("mystudies").getFilterItems().get(user.getUserName()).setIsChecked(true);
 		
 		//Get the ModelAndView
-		ModelAndView mav = search(filter);
+		ModelAndView mav = search(filter, "searchResult");
 		
 		//Add the action to the ModelAndView
 		mav.addObject("action", "mysubmissions");
