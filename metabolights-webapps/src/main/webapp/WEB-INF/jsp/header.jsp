@@ -27,7 +27,7 @@
 			<!-- <sec:authorize ifAnyGranted="ROLE_SUBMITTER">		
 			<ul id="sddm">	       		
 			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">
-			  			<sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName"/><span class="smallArrow"></span></a>
+			  			<sec:authentication property="principal.firstName" /><span class="smallArrow"></span></a>
 				 <div id="m2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
 					<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a> 
 					<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>  
@@ -46,7 +46,7 @@
         <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
 			<ul id="sddm">
 			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">
-			  			<sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName"/><span class="smallArrow"></span></a>
+			  			<sec:authentication property="principal.firstName" /><span class="smallArrow"></span></a>
 				 <div id="m2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
 					<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a>
 					<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>
