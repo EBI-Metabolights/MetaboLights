@@ -1,4 +1,5 @@
-<!-- 
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!--
 -- Studies
 select 'Studies', count(*) from study group by 'Studies'
 -- Assays
@@ -23,10 +24,15 @@ group by DB
 -- USers
 select COunt(*) from user_detail
  -->
- 
+
+
+<div class="text_header plain">
+    <spring:message code="msg.statistics" />
+</div>
+
 <br/><br/>
 <H1>Metadata</H1>
-Number of studies:<b>15</b><br/>
+Number of studies: <b>15</b><br/>
 Number of protocols: <b>93</b><br/>
 Number of assays: <b>714</b><br/>
 Different organisms: <b>8</b><br/>
@@ -71,4 +77,12 @@ Different organisms: <b>8</b><br/>
 <br/><br/>
 <H1>Users</H1>
 Users: 38
+
+<br/>
+<br/>
+<br/>
+<br/>
+Generated on the 13th September 2012
+<br/>
+
 

@@ -15,7 +15,7 @@ public class StatisticsController extends AbstractController{
 
 
 	
-	@RequestMapping({"/statistics"})
+	@RequestMapping({"/statistics","/stats"})
 	public ModelAndView showStatistics() {
 	    
 		ModelAndView mav = new ModelAndView ("statistics");

@@ -415,7 +415,7 @@ public class Filter {
                 }
 
             }
-			
+
 			//STATUS count
 			if (result.getIsPublic()){
 				status.getFilterItems().get(STATUS_PUBLIC).addToNumber(1);

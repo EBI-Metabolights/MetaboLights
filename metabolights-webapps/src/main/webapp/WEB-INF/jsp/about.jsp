@@ -21,6 +21,10 @@
   		<a href="<spring:url value="contact"/>"><spring:message code="label.contact"/></a>
    	</div>
 
+    <div class="text-fullwidth bold">
+        <a href="<spring:url value="statistics"/>"><spring:message code="label.stats"/></a>
+    </div>
+
     <div class="text-fullwidth">
         <hr/>
         <div class="text-column">
