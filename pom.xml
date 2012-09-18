@@ -100,7 +100,7 @@
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency> 	
-    <dependency>
+        <dependency>
  		<groupId>org.springframework</groupId>
  		<artifactId>spring-aop</artifactId>
  		<version>${org.spring.version}</version>
@@ -121,12 +121,11 @@
  		<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-core</artifactId>
-        <version>${org.spring.version}</version>
-    </dependency>
-
+        <dependency>
+        	<groupId>org.springframework.security</groupId>
+        	<artifactId>spring-security-core</artifactId>
+        	<version>${org.spring.version}</version>
+        </dependency>
  	<dependency>
  		<groupId>org.springframework.security</groupId>
  		<artifactId>spring-security-config</artifactId>
@@ -191,9 +190,14 @@
 		</repository>
  
   		<repository>
-        	<id>Springframework milestone</id>
-        	<url>http://maven.springframework.org/milestone</url>
-  		</repository> 
+        	  <id>Springframework milestone</id>
+        	  <url>http://maven.springframework.org/milestone</url>
+  		  </repository> 
+
+		<repository>
+		  <id>chebi-repo</id>
+	          <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+		</repository>
   
   	</repositories>  
   
