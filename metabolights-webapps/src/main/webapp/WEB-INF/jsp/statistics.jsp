@@ -31,8 +31,8 @@ select COunt(*) from user_detail
 </div>
 
 <br/><br/>
-<H1>Metadata</H1>
-Number of studies: <b>15</b><br/>
+<H1>Data in MetboLights</H1>
+Number of studies: <b>15</b> (10 Public, 5 Private)<br/>
 Number of protocols: <b>93</b><br/>
 Number of assays: <b>714</b><br/>
 Different organisms: <b>8</b><br/>
@@ -75,10 +75,12 @@ Different organisms: <b>8</b><br/>
 </table>
 
 <br/><br/>
-<H1>Users</H1>
-Users: 38
+<H1>Submitters</H1>
+Number of registered users: 38
 
-<br/>
+<br/><br/>
+<H1>Online access</H1>
+Comming soon!
 <br/>
 <br/>
 <br/>
