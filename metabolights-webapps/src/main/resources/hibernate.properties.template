@@ -1,0 +1,32 @@
+# MySQL settings
+hibernate.connection.username=xxxx
+hibernate.connection.password=xxxxx
+hibernate.connection.url=jdbc:mysql://localhost:3306/metabolights
+hibernate.connection.driver_class=com.mysql.jdbc.Driver
+hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+hibernate.search.default.indexBase=C:\MTBL\xxxx\Lucene\
+
+
+# Only used for local connections, not by EBI server deployment
+jdbc.initialPoolSize=2
+jdbc.minPoolSize=2
+jdbc.maxPoolSize=40
+jdbc.maxIdleTime=25200
+jdbc.autoCommitOnClose=false
+jdbc.show_sql=false
+jdbc.format_sql=false
+
+# Change this to get some debug info
+hibernate.show_sql=false
+
+# Set to 0 if you have problems with the Oracle Driver
+# (See http://forum.hibernate.org/viewtopic.php?t=82)
+hibernate.max_fetch_depth=0
+hibernate.jdbc.batch_size=0
+hibernate.search.worker.batch_size=100
+
+# This shouldn't need to be changed
+hibernate.search.default.directory_provider=org.hibernate.search.store.FSDirectoryProvider
+#hibernate.hbm2ddl.auto=update
+hibernate.search.indexing_strategy=manual
+hibernate.mapping.precedence=hbm,class
