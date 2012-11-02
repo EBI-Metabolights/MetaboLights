@@ -18,11 +18,7 @@ public class StatisticsController extends AbstractController{
 	@RequestMapping({"/statistics","/stats"})
 	public ModelAndView showStatistics() {
 	    
-		ModelAndView mav = new ModelAndView ("statistics");
-		return mav;
-	    
+		ModelAndView mav = new ModelAndView ("statistics"); //name of jsp page must be same as this
+		return mav;    
     }
-	
-    
 }
-

@@ -158,5 +158,11 @@
 		<put-attribute name="title" value="Statistics page" />
 		<put-attribute name="body" value="/WEB-INF/jsp/statistics.jsp" />
 	</definition>
+	
+	<definition name="ebeyehelp" extends="base.definition">
+		<put-attribute name="title" value="Search page" />
+		<put-attribute name="body" value="/WEB-INF/jsp/ebeyehelp.jsp" />
+	</definition>
+	
 
 </tiles-definitions>

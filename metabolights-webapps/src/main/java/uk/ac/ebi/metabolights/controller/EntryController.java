@@ -24,13 +24,13 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
+import uk.ac.ebi.metabolights.utils.FileUtil;
+import uk.ac.ebi.metabolights.utils.Zipper;
+//import uk.ac.ebi.metaboligths.referencelayer.model.ModelObjectFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.security.Principal;
 import java.util.*;
 
@@ -50,13 +50,21 @@ public class EntryController extends AbstractController {
 	private SearchService searchService;
 
     private @Value("#{publicFtpLocation}") String publicFtpDirectory;
-    private @Value("#{privateFtpStageLocation}") String privateFtpDirectory;         //TODO, short term fix until filesystem is mounted RW
+    private @Value("#{privateFtpStageLocation}") String privateFtpDirectory;
+    private @Value("#{ftpServer}") String ftpServer;
+    private @Value("#{filebase}") String filebase;
+    private @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}")
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblId);
 
+		// If mtblID is a compound
+		if (mtblId.startsWith("MTBLC")){ 
+			return showMTBLC(mtblId);
+		}
+		
         Study study = null;
 
         try {
@@ -73,7 +81,7 @@ public class EntryController extends AbstractController {
 		Collection<String> organismNames = getOrganisms(study);
 
         // Get the DownloadLink
-        String ftpLocation = getDownloadLink(study.getAcc(), study.getStatus());
+        String fileLocation = getDownloadLink(study.getAcc(), study.getStatus());
 
 		ModelAndView mav = new ModelAndView("entry");
 		mav.addObject("study", study);
@@ -82,17 +90,28 @@ public class EntryController extends AbstractController {
 		mav.addObject("assays", getMLAssays(study));
 
         //Have to give the user the download stream as the study is not on the public ftp
-        if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
-            mav.addObject("ftpLocation",ftpLocation);
+        //if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
+            mav.addObject("fileLocation",fileLocation); //All zip files are now generated on the fly, so ftpLocation is really fileLocation
         
-        //Stick text for tagging (Whatizit) in the session..
-        if (study.getDescription()!=null) {
-        	logger.debug("placing study description in session for Ajax highlighting");
-        	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
-        }
+        //Stick text for tagging (Whatizit) in the session..                       //TODO, Whatizit is not responding
+        //if (study.getDescription()!=null) {
+        //	logger.debug("placing study description in session for Ajax highlighting");
+        //	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
+        //}
 
 		return mav;
 	}
+	
+	private ModelAndView showMTBLC(String accession){
+		
+		ModelAndView mav = new ModelAndView("compound");
+		//mav.addObject("compound", ModelObjectFactory.getCompound(accession));
+		
+		return mav;
+		
+	}
+	
+	
 
 	/**
 	 * @param study
@@ -169,7 +188,17 @@ public class EntryController extends AbstractController {
 		return mlAssays.values();
 		
 	}
-	
+
+    @RequestMapping(value = "/publicfiles/{file_name}")
+    public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response) {
+        try {
+            serveFile(publicFtpDirectory, zipOnDemandLocation, fileName, response);
+            response.flushBuffer();
+
+        } catch (Exception e) {
+            throw new RuntimeException("IOError writing file to output stream");
+        }
+    }
 	
 	@RequestMapping(value = "/privatefiles/{file_name}")
 	public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response, Principal principal) {
@@ -198,34 +227,73 @@ public class EntryController extends AbstractController {
 						break;
 					}
 				}
-
 			}
 
 			if (!validUser)
 				throw new RuntimeException(PropertyLookup.getMessage("Entry.notAuthorised"));
 
 			try {
-				// get your file as InputStream
-				InputStream is = new FileInputStream(privateFtpDirectory + fileName + ".zip");
+                serveFile(privateFtpDirectory, zipOnDemandLocation, fileName, response);
 
-				// let the browser know it's a zip file
-				response.setContentType("application/zip");
-
-				// copy it to response's OutputStream
-				IOUtils.copy(is, response.getOutputStream());
-				
 			} catch (Exception e) {
 				throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing")); 
 			}
 
 			response.flushBuffer();
 
-		} catch (IOException ex) {
-			logger.info("Error writing file to output stream. Filename was '"+ fileName + "'");
+		} catch (Exception e) {
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 
 	}
+
+
+    private void serveFile(String readFromPath, String writeToPath, String fileName, HttpServletResponse response){
+        try {
+            if (!getZipFile(writeToPath, fileName, response))      // Get the file, stream to the user
+                createZipFile(readFromPath, writeToPath, fileName, response);    // If the file is not there, create the file and send to the user
+        } catch (Exception e) {
+            throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing"));
+        }
+    }
+
+    //Get the file, stream to browser
+    private boolean getZipFile(String path, String fileName, HttpServletResponse response){
+        try {
+            // get your file as InputStream
+            InputStream is = new FileInputStream(path + fileName + ".zip");
+
+            // let the browser know it's a zip file
+            response.setContentType("application/zip");
+
+            // copy it to response's OutputStream
+            IOUtils.copy(is, response.getOutputStream());
+
+            return true;
+
+        } catch (FileNotFoundException e) {
+            logger.info("User requested zip file "+ fileName + ".zip not found, will create now!");
+            return false;
+            //throw new RuntimeException("File not in input stream");
+        } catch (IOException ex) {
+            logger.info("Error writing file to output stream. Filename was '"+ fileName + "'");
+            throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing"));
+        }
+    }
+
+    //Create the requested zip file based on the study folder
+    private void createZipFile(String fromPath, String outPath, String fileName, HttpServletResponse response) throws IOException {
+
+        String zipFile = outPath + fileName + ".zip";
+
+        if (!FileUtil.fileExists(zipFile))  // Just to be sure that the file *don't already* exist
+            Zipper.zip(fromPath + fileName, zipFile);
+
+        if (FileUtil.fileExists(zipFile))  // Just to be sure that the file *now* exist
+            getZipFile(outPath, fileName, response);
+
+    }
+
 
     @Autowired
     private TextTaggerService textTagger;
@@ -251,15 +319,17 @@ public class EntryController extends AbstractController {
 	}
 	
 	public String getDownloadLink(String study, VisibilityStatus status){
-		
+
 		String ftpLocation = null;
 		
 		if (status.equals(VisibilityStatus.PRIVATE)){	// Only for the submitter
 			ftpLocation = "privatefiles/" + study;  //Private download, file stream
 		} else {  //Serve back public ftp link
-			ftpLocation = publicFtpDirectory.replaceFirst("/ebi/ftp/","ftp://ftp.ebi.ac.uk/") + study +".zip";
-		}
-		
+            //No longer downloading zip from ftp, ftp only have unzipped folders, so create a zip file and stream a file on demand
+            //ftpLocation = publicFtpDirectory.replaceFirst(filebase,"ftp://" + ftpServer + "/")  + study +".zip";     //Remove the filesystem (filebase), replase with ftp address (ftpServer)
+            ftpLocation = "publicfiles/" + study;
+        }
+
 		return ftpLocation;
 		
 	}
@@ -299,6 +369,10 @@ public class EntryController extends AbstractController {
 		}
 		
 		return fvSummary;
+		
+		
+	}
+	private void foo(){
 		
 		
 	}

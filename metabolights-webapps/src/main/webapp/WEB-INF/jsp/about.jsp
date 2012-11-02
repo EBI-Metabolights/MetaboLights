@@ -27,18 +27,17 @@
 
     <div class="text-fullwidth">
         <hr/>
-        <div class="text-column">
-            <a href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo.png" alt="isatab"/></a>
-            <br/>
-        </div>
-        <spring:message code="msg.metabolightsAbout6" />
+        <a href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="isatab"/></a>
+        <p><spring:message code="msg.metabolightsAbout6" /></p>
+        <br/>
+        <p><spring:message code="msg.metabolightsAbout10" /></p>
     </div>
 
+    
     <div class="text-fullwidth">
-        <div class="text-column">
-            &nbsp;
-        </div>
-        <spring:message code="msg.metabolightsAbout10" />
+       <a href="http://github.com/ISA-tools/OntoMaton" target="_blank"><img src="http://isatools.files.wordpress.com/2012/07/ontomaton.png?w=250"/></a>
+       <a href="<spring:message code="url.isatools"/>" target="_blank"><img src="http://isatab.sourceforge.net/assets/img/tools/tools-table-images/isacreator.png"/></a>
+       <spring:message code="msg.metabolightsAbout15" />
     </div>
       
     <div class="text-fullwidth">

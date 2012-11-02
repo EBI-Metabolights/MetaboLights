@@ -44,7 +44,7 @@ public static void zip(String thisFileOrDir, String toThisFile) throws IOExcepti
 		//close the ZipOutputStream
 		zout.close();
 
-		System.out.println("Zip file has been created!");
+		System.out.println("Zip file " + toThisFile + " has been created!");
 
 	}
 	catch(IOException ioe)

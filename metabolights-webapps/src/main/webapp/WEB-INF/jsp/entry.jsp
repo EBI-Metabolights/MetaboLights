@@ -166,8 +166,8 @@ $(function() {
 </script>
 
 <div class="text_header" style='height:46px'>
-	<c:if test="${not empty ftpLocation}">
-		<div style='width:20%; float:right'><IMG src="img/ebi-icons/32px/download.png" class="img_alignment_yellow"> <a href="${ftpLocation}"> <spring:message code="label.ftpDownload"/></a></div>
+	<c:if test="${not empty fileLocation}">
+		<div style='width:20%; float:right'><IMG src="img/ebi-icons/32px/download.png" class="img_alignment_yellow"> <a href="${fileLocation}"> <spring:message code="label.ftpDownload"/></a></div>
 	</c:if>
 	<div style='width:75%'>${study.acc}: ${study.title}</div>
 </div>
@@ -342,7 +342,7 @@ $(function() {
                                             <c:choose>
                                                 <c:when test="${not empty stringFormated}">${stringFormated}</c:when>
                                                 <c:when test="${not empty materialName}">${materialName}</c:when>
-                                                <c:otherwise>NA</c:otherwise>
+                                                <c:otherwise> </c:otherwise>
                                             </c:choose>
 
 			                    		</c:forEach>
@@ -384,11 +384,11 @@ $(function() {
 
 							<script type="text/javascript">
 								var metabolites = [
-								<c:out escapeXml='false'value="${paralleldataset.seriesToString}"/>
+								<c:out escapeXml='false' value="${paralleldataset.seriesToString}"/>
 								];
 
 								var units = {
-									<c:out escapeXml='false'value="${paralleldataset.unitsToString}"/>
+									<c:out escapeXml='false' value="${paralleldataset.unitsToString}"/>
 								};
 							</script>
 							<%@include file="../../javascript/protovis_graph.js" %>

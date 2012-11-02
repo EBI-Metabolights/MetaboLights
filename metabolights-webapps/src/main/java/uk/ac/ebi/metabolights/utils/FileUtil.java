@@ -1,13 +1,8 @@
 package uk.ac.ebi.metabolights.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
+
+import java.io.*;
 
 
 public class FileUtil {
@@ -95,11 +90,13 @@ public class FileUtil {
 	    // The directory is now empty so delete it
 	    return dir.delete();
 	}
+
 	public static boolean fileExists(String path){
 		File file = new File(path);
 
 		return file.exists();
 	}
+
 	public static boolean fileExists(String path, boolean throwException) throws FileNotFoundException{
 		
 		boolean result = fileExists(path);

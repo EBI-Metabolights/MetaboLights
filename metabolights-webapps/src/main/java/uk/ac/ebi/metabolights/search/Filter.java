@@ -61,6 +61,7 @@ public class Filter {
 	public String getFreeTextQuery(){
 		return freeTextQuery;
 	}
+
 	public void setFreeTextQuery(String freeTextQuery){
 		this.freeTextQuery = freeTextQuery; 
 	}
@@ -89,6 +90,9 @@ public class Filter {
 		fss.put(technology.getName(), technology);
 		fss.put(mystudies.getName(), mystudies);
         fss.put(metabolite.getName(), metabolite);
+        
+        //TODO,  Disable metabolites filter by now until it is improved
+        metabolite.setIsEnabled(true);
 		
 	}
 
@@ -408,6 +412,7 @@ public class Filter {
                         if(!metabolite.getFilterItems().containsKey(metabo))
                             metabolite.getFilterItems().put(metabo , new FilterItem(metabo, metabolite.getName()));
 
+
                         //Increase the count of metabolites
                         metabolite.getFilterItems().get(metabo).addToNumber(1);
                     }
@@ -419,7 +424,7 @@ public class Filter {
 			//STATUS count
 			if (result.getIsPublic()){
 				status.getFilterItems().get(STATUS_PUBLIC).addToNumber(1);
-			}else{
+			} else {
 				status.getFilterItems().get(STATUS_PRIVATE).addToNumber(1);
 			}
 			
@@ -439,6 +444,7 @@ public class Filter {
 
         metabo = metabo.toLowerCase().trim();
 
+
         if (metabo.contains("~"))
             metabo = metabo.subSequence(0, metabo.indexOf("~")).toString();    //Remove ~CHEBI id's
 
@@ -451,10 +457,31 @@ public class Filter {
         if (metabo.contains(", "))
             metabo = metabo.subSequence(0, metabo.indexOf(", ")).toString();    //Remove names separated by comma and space
 
+        //TODO,change replaceAlls with proper regex OR store correctly "cleaned" name in model
+        metabo = metabo.replaceAll("  "," ");    //Remove two spaces
+
+        metabo = metabo.replaceAll(" \\) ",")"); //Remove space after )
+        metabo = metabo.replaceAll(" \\)",")");  //Remove space before )
+
+        metabo = metabo.replaceAll("] ","]");    //Remove space after ]
+        metabo = metabo.replaceAll(" ]","]");    //Remove space after ]
+
+        metabo = metabo.replaceAll(" /","/");    //Remove space before /
+        metabo = metabo.replaceAll("/ ","/");    //Remove space after /
+        metabo = metabo.replaceAll("-/","/");    //Remove - before /
+        metabo = metabo.replaceAll("/-","/");    //Remove - after /
+        metabo = metabo.replaceAll("/"," ");     //Replace all / with a space.  TODO, should be parsed as two entries
+
+        metabo = metabo.replaceAll(" or "," ");  //Replace all " or " with a space.  TODO, should be parsed as two entries
+        metabo = metabo.replaceAll("\\?","");    //Remove question marks
+        metabo = metabo.replaceAll("\\?","");    //Remove question marks
+
 
         if (metabo.contains("unknown")     //Not known and typos
                 || metabo.contains("unassiged")
                 || metabo.contains("unassigned")
+                || metabo.contains("unk-")
+                || metabo.contains("as #")
                 || metabo.contains(" or "))
             metabo = "";
 

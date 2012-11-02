@@ -23,7 +23,7 @@
                     <input type="submit" id="update" class="multi-line-button main" value=" <spring:message code="label.updatestudy"/> ">
 				</form>
 				 -->
-				<ul id="sddm">
+
 					<ul id="sddm">
 					  <li><a onmouseover="mopen('actions${searchResult.accStudy}')"onmouseout="mclosetime()">
 					  	Actions<span class="smallArrow"></span></a>
@@ -36,7 +36,7 @@
 						 </div>
 					   </li>
 					</ul>
-				</ul>
+
 			</div>
 		</c:when>
 		<c:otherwise>

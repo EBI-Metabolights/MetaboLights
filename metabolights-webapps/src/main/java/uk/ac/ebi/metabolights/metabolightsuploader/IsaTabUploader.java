@@ -534,6 +534,8 @@ public class IsaTabUploader {
 			
 			
 		}
+
+        //TODO, remove the zip file *if* it is there
 		
 
 	}

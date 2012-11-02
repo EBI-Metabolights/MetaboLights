@@ -52,8 +52,9 @@
 					<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>
 					<a href="<spring:url value="/j_spring_security_logout"/>"><spring:message code="menu.logout"/></a>
 					<sec:authorize ifAnyGranted="ROLE_SUPER_USER">
-					<a href="<spring:url value="/config"/>"><spring:message code="menu.config"/></a>
-					<a href="<spring:url value="/users"/>"><spring:message code="menu.users"/></a>
+						<a href="<spring:url value="/config"/>"><spring:message code="menu.config"/></a>
+						<a href="<spring:url value="/users"/>"><spring:message code="menu.users"/></a>
+						<a href="<spring:url value="/ebeyehelp"/>"><spring:message code="menu.Ebeye"/></a>
 					</sec:authorize>
 					
 				 </div>
