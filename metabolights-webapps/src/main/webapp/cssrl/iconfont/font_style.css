@@ -1,0 +1,64 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('icomoon.eot');
+	src:url('icomoon.eot?#iefix') format('embedded-opentype'),
+		url('icomoon.svg#icomoon') format('svg'),
+		url('icomoon.woff') format('woff'),
+		url('icomoon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'icomoon';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+[class^="icon-"]:before, [class*=" icon-"]:before {
+	font-family: 'icomoon';
+	font-style: normal;
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+}
+.icon-lab:before {
+	content: "\21";
+}
+.icon-support:before {
+	content: "\22";
+}
+.icon-clock:before {
+	content: "\23";
+}
+.icon-busy:before {
+	content: "\24";
+}
+.icon-locked:before {
+	content: "\25";
+}
+.icon-key:before {
+	content: "\26";
+}
+.icon-stats-up:before {
+	content: "\27";
+}
+.icon-MetaboLightsLogo:before {
+	content: "\28";
+}
+.icon-MSLogo:before {
+	content: "\29";
+}
+.icon-NMRLogo:before {
+	content: "\2a";
+}
+.icon-mail:before {
+	content: "\2b";
+}
+.icon-book:before {
+	content: "\2c";
+}

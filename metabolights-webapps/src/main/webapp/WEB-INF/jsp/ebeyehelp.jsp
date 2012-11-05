@@ -32,7 +32,6 @@
 <div style='clear: both;'></div>
 
 <c:if test="${not empty getEntries}">
-
 	<div style="overflow: auto; width: 100%" class='iscell'>
 		<table border="1">
 			<c:forEach var="FieldsList" items="${listFields}">

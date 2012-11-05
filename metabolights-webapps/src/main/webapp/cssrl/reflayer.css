@@ -1,0 +1,35 @@
+/* Style cancellations from other css with less priority
+/* --- Links --- */
+a:link,
+a:active,
+a:visited {
+	border-bottom-width: 0px;
+}
+
+/* Generic div */
+.genericDiv {
+	background-color: #ffffff;
+	margin: 0px 2px 2px 4px;
+	padding: 5px 5px 5px 5px; /* top right bottom left */
+	border: 1px solid #ffffff;*/
+	border-radius:2px 2px 2px 2px;
+   	-moz-border-radius: 2px 2px 2px 2px;
+   	-webkit-border-radius:2px 2px 2px 2px;
+}
+
+/* Tag style */
+.tag {
+	background-color: #eeeeee;
+	margin: 3px 1px 3px 1px;
+	padding: 1px 2px 1px 2px; /* top right bottom left */
+	border: 1px solid #aaaaaa;*/
+	border-radius:2px 2px 2px 2px;
+   	-moz-border-radius: 2px 2px 2px 2px;
+   	-webkit-border-radius:2px 2px 2px 2px;
+}
+
+/* Tab style */
+.tab {
+	min-height:200px;
+}
+

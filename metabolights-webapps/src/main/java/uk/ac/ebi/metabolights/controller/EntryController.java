@@ -26,7 +26,7 @@ import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
-//import uk.ac.ebi.metaboligths.referencelayer.model.ModelObjectFactory;
+import uk.ac.ebi.metaboligths.referencelayer.model.ModelObjectFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -104,8 +104,9 @@ public class EntryController extends AbstractController {
 	
 	private ModelAndView showMTBLC(String accession){
 		
-		ModelAndView mav = new ModelAndView("compound");
-		//mav.addObject("compound", ModelObjectFactory.getCompound(accession));
+		//ModelAndView mav = new ModelAndView("compound");
+		ModelAndView mav = StyleController.getFrontierMav("compound");
+		mav.addObject("compound", ModelObjectFactory.getCompound(accession));
 		
 		return mav;
 		

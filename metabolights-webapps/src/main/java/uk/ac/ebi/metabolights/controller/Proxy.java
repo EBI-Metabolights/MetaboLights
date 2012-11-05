@@ -32,7 +32,7 @@ public class Proxy extends AbstractController{
          
         ModelAndView mav = new ModelAndView();
         
-        mav.addObject("response",sbf).toString();
+        mav.addObject("response",sbf);//.toString();
         
         return mav;
         
