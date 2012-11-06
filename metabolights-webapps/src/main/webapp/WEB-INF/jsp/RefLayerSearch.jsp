@@ -4,15 +4,20 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 
-<h3><b>Welcome to Reference Layer Search Page.</b></h3>
-
 	<div class="grid_24" >
 		<div class="grid_24">
 			<div class="grid_6 alpha">
-				<h6><b>Filter your results.</b></h6>
+				<h6><b><spring:message code="ref.msg.filterResults"></spring:message></b></h6>
 			</div>
 			<div class="grid_12">
-				<h6><b>Search results for ${query}</b></h6>
+				<c:choose>
+					<c:when test="${not empty query}">
+						<h6><b>${queryResults} <spring:message code="ref.msg.searchResult">${query}</spring:message></b></h6>
+					</c:when>
+					<c:otherwise>
+						<h6><b>${queryResults} <spring:message code="ref.msg.emptyBrowse" ></spring:message></b></h6>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div class="grid_6 omega">
 				<h6><b>Other EBI results</b></h6>
@@ -25,19 +30,23 @@
 						<b><spring:message code="ref.msg.technology" ></spring:message></b>
 							<c:forEach var="technology" items="${technologyList}">
 								<ul style="max-height:400px; overflow:auto" id="technology" >
-									<input type="checkbox" name="technology" value="${technology}" onclick="this.form.submit();">
-										${technology}
+									<input type="checkbox" name="technology" value="${technology.key}" <c:if test="${technology.value eq true}">CHECKED</c:if>
+									onclick="this.form.submit();">
+										${technology.key}
 								</ul>
 							</c:forEach>
 					</div>
 					<br/>
 					<div class="grid_24 genericDiv">
 						<b><spring:message code="ref.msg.organism" ></spring:message></b>
-						<c:forEach var="organisms" items="${organismList}">
-							<ul style="max-height:400px; overflow:auto" id="organisms">
-								<input type="checkbox" name="organisms" value="${organisms}" onclick="this.form.submit();">
-									${organisms}
-							</ul>
+						<c:forEach var="RefLayerOrg" items="${RefLayer}">
+							<c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
+									<ul style="max-height:400px; overflow:auto" id="organisms">
+									<input type="checkbox" name="organisms" value="${orghash.key}" <c:if test="${orghash.value eq true}">CHECKED</c:if> 
+									onclick="this.form.submit();">
+										${orghash.key}
+								</ul>
+							</c:forEach>
 						</c:forEach>
 					</div>
 					<input type="hidden" name="query" value="<c:out value="${query}"/>"/>
@@ -100,160 +109,3 @@
 		<br/>
 		<br/>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<%--
-
- http://frontier.ebi.ac.uk/interpro/relatedresults?q=${query}
-
-<p><b>Space reserved for Facets.</b></p>
-********Working Code below*******************
-
-		
-		<div class="grid_10 omega">
-			<table border="1">
-				<tr>
-					<td rowspan="3">
-						<img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${ChebiNameImage}" alt="" width="100px" height="100px" class="logo" />
-					</td>
-					<td>
-						<c:forEach var="nameFieldList" items="${Namefields}">
-							<b>${nameFieldList}</b>
-						</c:forEach>
-						<c:forEach var="queryIDList" items="${queryIDfields}">(${queryIDList})</c:forEach>
-						<c:forEach var="ChebiIdList" items="${ChebiNamefields}">
-							<a href="<spring:message code="ref.msg.chebi.url"></spring:message><c:out value="${ChebiIdList}"></c:out>">${ChebiIdList}</a>
-						</c:forEach>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<c:forEach var="iupacNameList" items="${IUPACNamefields}" varStatus="loopStatus">
-							<c:choose>
-								<c:when test="${loopStatus.index eq 0}">
-									<b><spring:message code="ref.msg.iupac"/></b>
-								</c:when>
-								<c:otherwise>
-									,
-								</c:otherwise>
-							</c:choose>
-							${iupacNameList}
-						</c:forEach>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<c:forEach var="MTBLStudiesList" items="${MTBLStudiesfields}" varStatus="loopStatus">
-							<c:choose>
-								<c:when test="${loopStatus.index eq 0}">
-									<b><spring:message code="ref.msg.mtbl.studies"/></b>
-								</c:when>
-								<c:otherwise>
-									,
-								</c:otherwise>
-							</c:choose>
-							<a href="<spring:message code="ref.msg.mtbls.url"></spring:message><c:out value="${MTBLStudiesList}"></c:out>">${MTBLStudiesList}</a>
-						</c:forEach>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
-
-
-**********Working code above**********
-
-
-
-<a href="<spring:message code="ref.msg.chebi.image.url"></spring:message><c:out value="${ChebiNameImage}"></c:out>">${ChebiNameImage}</a>
-
-			</tr>
-		</table>
-	</div>
-	<div class='grid_10'>
-		<table border="1">
-			<tr>
-
-----------------------------------------------------------------------------------
-		</table>
-	</div>
-	<div style="width: 400px;" class='iscell'>
-		<table border="1">
-MTBLStudiesfields
-
-<spring:message code="ref.msg.iupac" />${iupacNameList}
-
-<c:if test="${not empty queryIDfields}"></c:if>
-
-			<c:forEach var="MTBLFieldsList" items="${MTBLReqFields}">
-				<tr>
-
-				</tr>
-			</c:forEach>
-
-<form action="RefLayerSearch">
-</form>
-
-	<input type="text" name="query" placeholder="search" value="${query}">
-	<input type="submit" value="Search">
-
-			<c:forEach var="MTBLFieldsList" items="${MTBLReqFields}">
-				<tr>
-					<c:forEach var="MTBLFields" items="${MTBLFieldsList.string}">
-						<td>${MTBLFields}</td>
-					</c:forEach>
-				</tr>
-			</c:forEach>
-
-			<c:forEach var="MTBLFields" items="${MTBLFields}">
-				<c:if test="${not empty MTBLFields}">
-					<th>${MTBLFields}</th>
-				</c:if>
-			</c:forEach>
-			<c:forEach var="MTBLEntries" items="${getMTBLEntries}">
-				<tr>
-					<c:forEach var="Entries" items="${MTBLEntries.string}">
-							<td>${Entries}</td>
-					</c:forEach>
-				</tr>
-			</c:forEach>
-			
----------------------------------------------
-<div>
-	<table>
-		<tr>
-			<c:forEach value="${MTBLFields}">
-			</c:out>
-		</tr>
-	</table>
-</div>
-
-
-<div>
-	<table border="1" >
-		<c:forEach var="MTBLResults" items="${MTBLResults}">
-			<tr>
-				<td>${MTBLResults}</td>
-			</tr>
-		</c:forEach>
-	</table>
-</div>
- --%>
