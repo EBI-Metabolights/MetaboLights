@@ -198,6 +198,11 @@
 		  <id>chebi-repo</id>
 	          <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
 		</repository>
+		
+		<repository>
+		  <id>ebi-repo</id>
+	          <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+		</repository>
   
   	</repositories>  
   
