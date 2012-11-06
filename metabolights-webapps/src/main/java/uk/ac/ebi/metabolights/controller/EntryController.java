@@ -104,8 +104,8 @@ public class EntryController extends AbstractController {
 	
 	private ModelAndView showMTBLC(String accession){
 		
-		//ModelAndView mav = new ModelAndView("compound");
-		ModelAndView mav = StyleController.getFrontierMav("compound");
+		ModelAndView mav = new ModelAndView("compound");
+		//ModelAndView mav = StyleController.getFrontierMav("compound");
 		mav.addObject("compound", ModelObjectFactory.getCompound(accession));
 		
 		return mav;

@@ -25,6 +25,9 @@
 		<put-attribute name="footer" value="/WEB-INF/jsp/frontier/footer.jsp" />
 	</definition>
 
+	<definition name="base.frontier.filter" template="/WEB-INF/jsp/frontier/filter.jsp">
+		<put-attribute name="body" value="" />
+	</definition>
 	<definition name="index" extends="base.definition">
 		<put-attribute name="title" value="MetaboLights - Metabolomics experiments and derived information" />
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
@@ -173,13 +176,7 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/ebeyehelp.jsp" />
 	</definition>
 	
-	<definition name="RefLayerSearch" extends="base.frontier.definition">
-		<put-attribute name="title" value="Reference Layer Search Page"/>
-		<put-attribute name="body" value="/WEB-INF/jsp/RefLayerSearch.jsp"/>
-	</definition>
-	<definition name="compound" extends="base.frontier.definition">
-		<put-attribute name="title" value="Compound"/>
-		<put-attribute name="body" value="/WEB-INF/jsp/refCompound.jsp"/>
-	</definition>
+	<definition name="RefLayerSearch" template="/WEB-INF/jsp/RefLayerSearch.jsp"/>
+	<definition name="compound" template="/WEB-INF/jsp/refCompound.jsp"/>
 
 </tiles-definitions>

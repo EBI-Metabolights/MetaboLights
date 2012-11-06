@@ -1,0 +1,1 @@
+<tiles:insertAttribute name="body" />
