@@ -1,0 +1,46 @@
+
+{
+    "localMasthead": {
+        "title": "MetaboLights",
+        "search": {
+            "btnText": "Search",
+            "action": "RefLayerSearch",
+            "method": "post",
+            "inputName": "query"
+        },
+        "tabs": [{
+                "selected": false,
+                "title": "Home",
+                "href": "home",
+                "tooltip": "Home page"
+            },{
+                "selected": false,
+                "title": "Reference layer",
+                "href": "RefLayerSearch",
+                "tooltip": "Reference layer"
+
+            },{
+                "selected": false,
+                "title": "Download",
+                "href": "download",
+                "tooltip": "Download"
+            },{
+                "selected": false,
+                "title": "Help",
+                "href": "submitHelp",
+                "tooltip": "Help"
+            }
+        ]
+    },
+    "globalFooter": true,
+    "globalTemplate": {
+        "title": "MetaboLights",
+        "cssType': "fluid",
+        "javascriptList": ["javascript/jquery-1.8.2.js",
+        					"jquery-ui-1.9.0.custom.min.js"],
+        "cssList": ["cssrl/jquery-ui-1.9.0.custom.min.css",
+        			"cssrl/iconfont/font_style.css",
+        			"http://wwwdev.ebi.ac.uk/web_guidelines/css/compliance/develop/embl-petrol-colours.css",
+        			"cssrl/reflayer.css"]
+    }
+}
