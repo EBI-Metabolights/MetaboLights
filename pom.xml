@@ -60,13 +60,26 @@
  		<type>pom</type>
  		<scope>compile</scope>
  	</dependency>
- 	<dependency>
- 		<groupId>org.hibernate</groupId>
- 		<artifactId>hibernate-search</artifactId>
- 		<version>3.4.0.Final</version>
- 		<type>pom</type>
- 		<scope>compile</scope>
- 	</dependency>
+    <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.0.1</version>
+        <type>jar</type>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-search</artifactId>
+        <version>3.4.0.Final</version>
+        <type>pom</type>
+        <scope>compile</scope>
+        <exclusions>
+            <exclusion>
+                <artifactId>commons-io</artifactId>
+                <groupId>org.apache.commons</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
  	<dependency>
  		<groupId>log4j</groupId>
  		<artifactId>log4j</artifactId>
