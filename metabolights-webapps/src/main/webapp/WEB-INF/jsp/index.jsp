@@ -2,8 +2,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@page language="java" contentType="text/html; charset=UTF-8"%>
 
-<script type="text/javascript" src="javascript/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
 
@@ -13,14 +11,12 @@
         $( "#dialog" ).dialog({
             autoOpen: true,
             show: "slide",
-            hide: "explode",
             position: ['center',200]
         });
 
     });
 
 </script>
-
 
 <c:if test="${not empty message}">
     <div id="dialog" title="MetaboLights message">
@@ -31,25 +27,24 @@
 
 <c:if test="${empty message}">
    <div class="messageBox" style="border:0px; background:white">&nbsp;</div>
-    <div class="text-fullwidth">
+    <div class="grid_24 alfa center">
         <spring:message code="msg.searchSuggestions" />
     </div>
 </c:if>
 
-<div style="margin-bottom:40px; padding-left:120px; padding-top:30px">
-   <img src="img/litehouseLogo.png" alt="beta"/>
+<div class="grid_24 alfa center">
+   <img src="img/litehouseLogo.png"/>
 </div>
 
-<div class="text_header" style="text-align:center">
+<div class="grid_24 alfa center" style="text-align:center">
     <spring:message code="msg.metabolights" />
 </div>
  
-<div class="text-fullwidth center">
+<div class="grid_24 alfa center">
     <br/>
     <spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" />
     <br/>
-    <br/>
-    <br/>
+ 
     <br/>
     <br/>
 </div>

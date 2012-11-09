@@ -43,9 +43,12 @@
 		<header>
 			<tiles:insertAttribute name="header" ignore="true" />
 			<tiles:insertAttribute name="localheader" />
-			<tiles:insertAttribute name="body" />
-			<tiles:insertAttribute name="footer" />
 		</header>
+		<div id="content" role="main" class="grid_24 clearfix">
+			<tiles:insertAttribute name="body" />
+	    </div>
+		<tiles:insertAttribute name="footer" />
+
 	</div>
 </body>
 </html>

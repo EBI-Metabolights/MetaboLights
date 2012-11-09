@@ -1,9 +1,9 @@
 /* Style cancellations from other css with less priority
 /* --- Links --- */
-a:link,
-a:active,
-a:visited {
+a.noLine {
 	border-bottom-width: 0px;
+	border-bottom-style: none;
+	border-bottom-color: inherit; 
 }
 
 /* Generic div */
@@ -33,3 +33,14 @@ a:visited {
 	min-height:200px;
 }
 
+/* centered items */
+.center {
+    text-align:center;
+}
+
+.icon{
+	vertical-align:text-bottom;
+	background: #ffd98f;
+    color: #000000;
+    padding: 5px 5px 5px 5px;
+}

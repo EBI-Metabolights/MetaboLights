@@ -12,6 +12,8 @@ import org.springframework.aop.framework.Advised;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jndi.JndiObjectFactoryBean;
 
+import uk.ac.ebi.metabolights.webapp.StyleMAVFactory;
+
 /**
  * This class provides application-wide access to the Spring ApplicationContext.
  * The ApplicationContext is injected by the class "ApplicationContextProvider".
@@ -26,6 +28,7 @@ public class AppContext {
 	private static StudyService studyService;
 	private static String jndiName; 
 	private static DataSource ds;
+	private static StyleMAVFactory mavFactory;
 
     /**
      * Injected from the class "ApplicationContextProvider" which is automatically
@@ -57,6 +60,14 @@ public class AppContext {
     	}
     	return userService;
     }
+    
+    public static StyleMAVFactory getMAVFactory(){
+    	if (mavFactory == null){
+    		mavFactory = (StyleMAVFactory) ctx.getBean(StyleMAVFactory.class);
+    	}
+    	return mavFactory;
+    }
+    
     public static StudyService getStudyService(){
     	if (studyService == null)
     	{
@@ -78,12 +89,6 @@ public class AppContext {
     	
      
     	if (ds == null){
-			//	      // Get a context for the JNDI look up
-			//	      Context ctx = new InitialContext();
-			//	      Context envContext = (Context) ctx.lookup("java:/comp/env");
-			//	        
-			//	      // Look up a data source
-			//	      ds = (javax.sql.DataSource) envContext.lookup (getJndiName()); 
 
     		ds = (DataSource)getApplicationContext().getBean("dataSource");
     	}
@@ -91,16 +96,7 @@ public class AppContext {
       return ds;
     }
     
-//    private static String getJndiName(){
-//    	if (jndiName == null){
-//    		
-//    		JndiObjectFactoryBean ofb = (DataSource)getApplicationContext().getBean("dataSource");
-//    		jndiName = ofb.getJndiName();
-//    	}
-//    	
-//    	return jndiName;
-//    }
-    
+
     public static Connection getConnection () throws SQLException, NamingException
     {
       Connection conn = null;

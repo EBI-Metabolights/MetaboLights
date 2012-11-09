@@ -51,7 +51,7 @@ public class SubmissionController extends AbstractController {
     private IsaTabUploader itu = new IsaTabUploader();
 	
 	@RequestMapping(value = { "/biisubmit" })
-	public String submit(HttpServletRequest request) {
+	public ModelAndView submit(HttpServletRequest request) {
 		return GenericController.lastPartOfUrl(request);
 	}
 	

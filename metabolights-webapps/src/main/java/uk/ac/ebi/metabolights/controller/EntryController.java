@@ -21,6 +21,7 @@ import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
@@ -104,8 +105,8 @@ public class EntryController extends AbstractController {
 	
 	private ModelAndView showMTBLC(String accession){
 		
-		ModelAndView mav = new ModelAndView("compound");
-		//ModelAndView mav = StyleController.getFrontierMav("compound");
+		//ModelAndView mav = new ModelAndView("compound");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("compound");
 		mav.addObject("compound", ModelObjectFactory.getCompound(accession));
 		
 		return mav;

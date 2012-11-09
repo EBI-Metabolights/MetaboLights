@@ -63,7 +63,7 @@ public class LoginController extends AbstractController{
 	}
 	
 	@RequestMapping(value={"/timeout"})
-	public String resolveRequest (HttpServletRequest request) {		
+	public ModelAndView resolveRequest (HttpServletRequest request) {		
 		return GenericController.lastPartOfUrl(request);
 	}
 	

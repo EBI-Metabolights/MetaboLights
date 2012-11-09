@@ -102,11 +102,12 @@
 
 
    <!-- Callback filter for Frontier template addition -->    
+ <!--  
    <bean id="frontierTemplateReferenceLayerFilter" class="uk.ac.ebi.pride.web.util.frontier.FrontierTemplateFilter">
         <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
    </bean>
-
-
+ -->
+ 
     <tx:annotation-driven />
     <bean id="transactionManager"
         class="org.springframework.orm.hibernate3.HibernateTransactionManager">
@@ -152,6 +153,16 @@
     <jee:jndi-lookup id="ftpServer"                 jndi-name="java:comp/env/ftpServer" />
     <jee:jndi-lookup id="filebase"                  jndi-name="java:comp/env/filebase" />
     <jee:jndi-lookup id="ondemand"                  jndi-name="java:comp/env/ondemand" />
+    <jee:jndi-lookup id="headerURL"                 jndi-name="java:comp/env/headerURL" />
+    <jee:jndi-lookup id="localHeaderURL"            jndi-name="java:comp/env/localHeaderURL" />
+    <jee:jndi-lookup id="footerURL"                 jndi-name="java:comp/env/footerURL" />
+    
+    <bean id="modelAndViewFactory" class="uk.ac.ebi.metabolights.webapp.StyleMAVFactory">
+        <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
+        <property name="localHeaderURL" value="#{localHeaderURL}"/>
+        <property name="headerURL" value="#{headerURL}"/>
+        <property name="footerURL" value="#{footerURL}"/>
+   	</bean>
 
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">

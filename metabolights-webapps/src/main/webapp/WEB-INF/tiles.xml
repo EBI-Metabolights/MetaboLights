@@ -24,16 +24,13 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/WEB-INF/jsp/frontier/footer.jsp" />
 	</definition>
-
-	<definition name="base.frontier.filter" template="/WEB-INF/jsp/frontier/filter.jsp">
-		<put-attribute name="body" value="" />
-	</definition>
-	<definition name="index" extends="base.definition">
+	
+	<definition name="indexOLD" extends="base.definition">
 		<put-attribute name="title" value="MetaboLights - Metabolomics experiments and derived information" />
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
 	</definition>
-
-	<definition name="about" extends="base.definition">
+	
+	<definition name="aboutOLD" extends="base.definition">
 		<put-attribute name="title" value="About MetaboLights" />
 		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
 	</definition>
@@ -58,7 +55,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/submit.jsp" />
     </definition>
     
-    <definition name="submitHelp" extends="base.definition">
+    <definition name="submitHelpOLD" extends="base.definition">
         <put-attribute name="title" value="MetaboLights - How to upload files for submission" />
         <put-attribute name="body" value="/WEB-INF/jsp/submitHelp.jsp" />
     </definition>
@@ -125,7 +122,7 @@
         <put-attribute name="bodyleft" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
 
-    <definition name="download" extends="base.definition">
+    <definition name="downloadOLD" extends="base.definition">
 		<put-attribute name="title" value="Download Public Experiments" />
 		<put-attribute name="body" value="/WEB-INF/jsp/download.jsp" />
 	</definition>
@@ -178,5 +175,24 @@
 	
 	<definition name="RefLayerSearch" template="/WEB-INF/jsp/RefLayerSearch.jsp"/>
 	<definition name="compound" template="/WEB-INF/jsp/refCompound.jsp"/>
+	
+	
+	<definition name="index" extends="base.frontier.definition">
+		<put-attribute name="title" value="MetaboLights - Metabolomics experiments and derived information" />
+		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
+	</definition>
+
+	<definition name="about" extends="base.frontier.definition">
+		<put-attribute name="title" value="About MetaboLights" />
+		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
+	</definition>
+    <definition name="submitHelp" extends="base.frontier.definition">
+        <put-attribute name="title" value="MetaboLights - How to upload files for submission" />
+        <put-attribute name="body" value="/WEB-INF/jsp/submitHelp.jsp" />
+    </definition>
+	<definition name="download" extends="base.frontier.definition">
+		<put-attribute name="title" value="Download Public Experiments" />
+		<put-attribute name="body" value="/WEB-INF/jsp/download.jsp" />
+	</definition>
 
 </tiles-definitions>

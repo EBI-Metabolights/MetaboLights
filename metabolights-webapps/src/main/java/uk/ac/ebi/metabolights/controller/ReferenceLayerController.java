@@ -20,6 +20,7 @@ import uk.ac.ebi.ebisearchservice.EBISearchService;
 import uk.ac.ebi.ebisearchservice.EBISearchService_Service;
 import uk.ac.ebi.metabolights.referencelayer.MetabolightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.RefLayerSearchFilter;
+import uk.ac.ebi.metabolights.service.AppContext;
 
 /**
  * Controller for login and related actions.
@@ -64,7 +65,7 @@ public class ReferenceLayerController extends AbstractController {
 			e.printStackTrace();
 		}
 
-		ModelAndView mav = StyleController.getFrontierMav("RefLayerSearch"); // must match the definition attribute in tiles.xml
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("RefLayerSearch"); // must match the definition attribute in tiles.xml
 
 		mav.addObject("query", query);
 		mav.addObject("Chdomain", ChDomain);

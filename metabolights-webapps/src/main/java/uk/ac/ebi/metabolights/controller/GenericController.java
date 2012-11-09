@@ -3,6 +3,9 @@ package uk.ac.ebi.metabolights.controller;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import uk.ac.ebi.metabolights.service.AppContext;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +27,7 @@ public class GenericController {
 	 * @return String indicating JSP target
 	 */
 	@RequestMapping(value={"/index","/about","/submitHelp","/download","/downloadplugin"})
-	public String useMoreDeodorant (HttpServletRequest request) {
+	public ModelAndView useMoreDeodorant (HttpServletRequest request) {
 		return lastPartOfUrl(request);
 	}
 
@@ -34,12 +37,13 @@ public class GenericController {
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	public static String lastPartOfUrl (HttpServletRequest request) {
+	public static ModelAndView lastPartOfUrl (HttpServletRequest request) {
 		String requestUrl = request.getRequestURL().toString();
 		String target=requestUrl.replaceFirst("^(.)*/", "");
 		logger.debug("target is "+target);
 
-		return target!=null&&!target.equals("")?target:"index"; 
+		target = target!=null&&!target.equals("")?target:"index"; 
+		return AppContext.getMAVFactory().getFrontierMav(target); 
 
 	}
 }

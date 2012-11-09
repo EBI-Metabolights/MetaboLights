@@ -46,6 +46,12 @@
     <Environment name="ftpServer" value="ftp.ebi.ac.uk" type="java.lang.String"/>
     <Environment name="filebase" value="/ebi/ftp/" type="java.lang.String"/>
     <Environment name="ondemand" value="/net/isilonP/public/rw/homes/tc_cm01/zip_ondemand/" type="java.lang.String"/>
+    
+    <!-- URLs for the frontier web service -->
+    <Environment name="headerURL" value="http://wwwdev.ebi.ac.uk/frontier/template-service/templates/services/header/main" type="java.lang.String"/>
+	<Environment name="localHeaderURL" value="http://wwwdev.ebi.ac.uk/frontier/template-service/templates/header/specific" type="java.lang.String"/>
+	<Environment name="footerURL" value="http://wwwdev.ebi.ac.uk/frontier/template-service/templates/footer/main" type="java.lang.String"/>
+    
 
     <!-- This is where the web app looks for the lucene index -->
     <Environment name="luceneIndexDirectory" value="/nfs/production/panda/metabolights/lucene/dev/bii/" type="java.lang.String"/>
