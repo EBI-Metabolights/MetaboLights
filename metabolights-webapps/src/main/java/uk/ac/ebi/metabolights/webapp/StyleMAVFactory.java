@@ -164,6 +164,16 @@ public class StyleMAVFactory {
 		
 		return mav;
 	}
+
+	public ModelAndView getFrontierMav(String name, String modelName, Object objectModel) {
+		
+		ModelAndView mav=  getFrontierMav(name);
+		
+		mav.addObject(modelName, objectModel);
+		
+		return mav;
+	}
+	
 	private String getFooter(){
 		return getHtml(footerURL);
 	}

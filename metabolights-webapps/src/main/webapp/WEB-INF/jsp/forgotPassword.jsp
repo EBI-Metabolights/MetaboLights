@@ -4,30 +4,26 @@
 
 
     <form:form name="resetForm" action="resetPassword" method="post" commandName="emailAddress" >
-        <table cellpadding="5px" cellspacing="0px" width="90%">
-            <tr class="text_header plain">
-                <th colspan="3"><spring:message code="msg.pwReset" /> </th>
-            </tr>
-            <tr>
-                <td colspan='3'>&nbsp;</td>
-            </tr>
-	        <tr>
-	            <td width="15%"><spring:message code="label.email" />:</td>
-	            <td width="40%"><form:input path="emailAddress" maxlength="255" size="35" /> </td>
-	            <td class="error">&nbsp;<form:errors path="emailAddress" /></td>
-	        </tr>
-	        <tr>
-                <td></td>
-	            <td colspan='2'>
-                    <div class='iscell left'>
-                        <input name="submit" type="submit" class='multi-line-button main' value="<spring:message code="label.resetPw"/>">
-                    </div>
-                    <div class='iscell'>
-                        <br/><a href="index"><spring:message code="label.cancel"/></a>
-                    </div>
-	            </td>
-	        </tr>
-	    </table>
+        <div class="grid_24">
+                <h3><spring:message code="msg.pwReset" /></h3>
+        </div>
+        <div class="grid_24">
+			<div class="grid_4 alfa">
+				<spring:message code="label.email" />:
+			</div>
+			<div class="grid_20">
+				<form:input path="emailAddress" maxlength="255" size="35" /> 
+			<span class="error">
+				&nbsp;<form:errors path="emailAddress" />
+			</span>
+		</div>
+		<div class="grid_24">
+			<div class="grid_4 alfa">&nbsp;</div>
+			<div class="grid_20">
+        		<input name="submit" type="submit" class="submit" value="<spring:message code="label.resetPw"/>"/>
+           		<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'"/>
+   			</div>
+   		</div>
 	</form:form>
 
 <br/>

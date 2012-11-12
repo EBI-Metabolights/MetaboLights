@@ -17,33 +17,44 @@
 		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
 	</definition>
 	
-	<definition name="base.frontier.definition" template="/WEB-INF/jsp/frontier/layout.jsp">
-		<put-attribute name="title" value="" />
-		<put-attribute name="header" value="/WEB-INF/jsp/frontier/header.jsp" />
-		<put-attribute name="localheader" value="/WEB-INF/jsp/frontier/localheader.jsp" />
-		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/WEB-INF/jsp/frontier/footer.jsp" />
-	</definition>
-	
-	<definition name="indexOLD" extends="base.definition">
+	<!-- 
+	<definition name="index" extends="base.definition">
 		<put-attribute name="title" value="MetaboLights - Metabolomics experiments and derived information" />
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
 	</definition>
 	
-	<definition name="aboutOLD" extends="base.definition">
+	<definition name="about" extends="base.definition">
 		<put-attribute name="title" value="About MetaboLights" />
 		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
 	</definition>
+
+    <definition name="loginOLD" extends="base.definition">
+        <put-attribute name="title" value="Log in to MetaboLights" />
+        <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
+    </definition>
+    
+    <definition name="submitHelpOLD" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights - How to upload files for submission" />
+        <put-attribute name="body" value="/WEB-INF/jsp/submitHelp.jsp" />
+    </definition>
+
+    <definition name="downloadOLD" extends="base.definition">
+		<put-attribute name="title" value="Download Public Experiments" />
+		<put-attribute name="body" value="/WEB-INF/jsp/download.jsp" />
+	</definition>
+    
+    <definition name="forgotPassword" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights password lost" />
+        <put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp" />
+    </definition>
+
+    
+	-->
 	
 	<definition name="contact" extends="base.definition">
 		<put-attribute name="title" value="Contact MetaboLights" />
 		<put-attribute name="body" value="/WEB-INF/jsp/contact.jsp" />
 	</definition>
-
-    <definition name="login" extends="base.definition">
-        <put-attribute name="title" value="Log in to MetaboLights" />
-        <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
-    </definition>
 
     <definition name="error" extends="base.definition">
         <put-attribute name="title" value="Error" />
@@ -54,11 +65,6 @@
         <put-attribute name="title" value="MetaboLights file upload for submission" />
         <put-attribute name="body" value="/WEB-INF/jsp/submit.jsp" />
     </definition>
-    
-    <definition name="submitHelpOLD" extends="base.definition">
-        <put-attribute name="title" value="MetaboLights - How to upload files for submission" />
-        <put-attribute name="body" value="/WEB-INF/jsp/submitHelp.jsp" />
-    </definition>
 
     <definition name="biisubmit" extends="base.definition">
         <put-attribute name="title" value="MetaboLights ISA-archive upload for submission" />
@@ -68,11 +74,6 @@
     <definition name="downloadplugin" extends="base.definition">
         <put-attribute name="title" value="MetaboLights - Metabolite identification plugin" />
         <put-attribute name="body" value="/WEB-INF/jsp/plugindownload.jsp" />
-    </definition>
-
-    <definition name="forgotPassword" extends="base.definition">
-        <put-attribute name="title" value="MetaboLights password lost" />
-        <put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp" />
     </definition>
 
     <definition name="submitError" extends="base.definition">
@@ -122,11 +123,6 @@
         <put-attribute name="bodyleft" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
 
-    <definition name="downloadOLD" extends="base.definition">
-		<put-attribute name="title" value="Download Public Experiments" />
-		<put-attribute name="body" value="/WEB-INF/jsp/download.jsp" />
-	</definition>
-    
     <definition name="searchFilter"> <!--  Is this still used? -->
         <put-attribute name="searchFilter" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
@@ -172,6 +168,19 @@
 		<put-attribute name="title" value="Search page" />
 		<put-attribute name="body" value="/WEB-INF/jsp/ebeyehelp.jsp" />
 	</definition>
+
+
+
+<!-- FONTIER REDISIGN: All the definitions above should be commented once the redesign is finished. -->
+	
+	<definition name="base.frontier.definition" template="/WEB-INF/jsp/frontier/layout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/jsp/frontier/header.jsp" />
+		<put-attribute name="localheader" value="/WEB-INF/jsp/frontier/localheader.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/frontier/footer.jsp" />
+	</definition>
+	
 	
 	<definition name="RefLayerSearch" template="/WEB-INF/jsp/RefLayerSearch.jsp"/>
 	<definition name="compound" template="/WEB-INF/jsp/refCompound.jsp"/>
@@ -194,5 +203,21 @@
 		<put-attribute name="title" value="Download Public Experiments" />
 		<put-attribute name="body" value="/WEB-INF/jsp/download.jsp" />
 	</definition>
+	<definition name="login" extends="base.frontier.definition">
+        <put-attribute name="title" value="Log in to MetaboLights" />
+        <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
+    </definition>
+	    <definition name="timeout" extends="base.frontier.definition">
+        <put-attribute name="title" value="Timed out of MetaboLights" />
+        <put-attribute name="body" value="/WEB-INF/jsp/timeout.jsp" />
+    </definition>
+    
+    <definition name="forgotPassword" extends="base.frontier.definition">
+        <put-attribute name="title" value="MetaboLights password lost" />
+        <put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp" />
+    </definition>
+
+    
+	
 
 </tiles-definitions>

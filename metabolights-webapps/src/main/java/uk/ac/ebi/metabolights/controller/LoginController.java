@@ -22,6 +22,7 @@ import uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider;
 import uk.ac.ebi.metabolights.form.EmailAddress;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.validate.ValidatorMetabolightsUser;
@@ -49,14 +50,16 @@ public class LoginController extends AbstractController{
 
 	@RequestMapping({"/loggedout"})
 	public ModelAndView loggedOut() {
-	    return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedOut"));
+	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedOut"));
+		return AppContext.getMAVFactory().getFrontierMav("index","message", PropertyLookup.getMessage("msg.loggedOut"));
     }
 
 	@RequestMapping(value={"/login"})
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 		String url = " ";  //Have to reset the string, caching issues
 		url = getRedirectUrl(request,response);
-    	ModelAndView mav = new ModelAndView("login");
+    	//ModelAndView mav = new ModelAndView("login");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("login");
     	if (url.contains("submit")) //If we come from the submit menu, show different text in the login jsp
     		mav.addObject("source",url);
     	return mav;
@@ -70,7 +73,8 @@ public class LoginController extends AbstractController{
  
 	@RequestMapping(value = "/forgotPassword")
    	public ModelAndView passWordReset() {
-    	ModelAndView mav = new ModelAndView("forgotPassword");
+    	//ModelAndView mav = new ModelAndView("forgotPassword");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("forgotPassword");
     	mav.addObject(new EmailAddress());
     	return mav;
     }
@@ -83,7 +87,9 @@ public class LoginController extends AbstractController{
      */
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     public ModelAndView resetPassWord(@Valid EmailAddress email, BindingResult result, Model model) {
-    	ModelAndView mav = new ModelAndView("forgotPassword");
+    	//ModelAndView mav = new ModelAndView("forgotPassword");
+    	ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("forgotPassword");
+    	
     	mav.addObject(email); 
         if (result.hasErrors()) {
             return mav;
@@ -106,10 +112,10 @@ public class LoginController extends AbstractController{
 			emailService.sendResetPassword(email.getEmailAddress(), tempPassword, mtblUser.getUserName());
 
 			//TODO = redirect, work out url?x=y
-			return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.pwsent",email.getEmailAddress()));
+			//return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.pwsent",email.getEmailAddress()));
+			return AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.pwsent",email.getEmailAddress()));
 		}
     }
-
 
     private String getTemporaryPassword () {
     	String tempPw="";

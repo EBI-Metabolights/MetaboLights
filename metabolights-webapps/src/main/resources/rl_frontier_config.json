@@ -38,6 +38,16 @@
                 "title": "About MetaboLights",
                 "href": "about",
                 "tooltip": "About MetaboLigths"
+             },{
+                "selected": false,
+                "title": "Log in",
+                "href": "login",
+                "tooltip": "Log in to MetaboLights"
+             },{
+                "selected": false,
+                "title": "Submit",
+                "href": "presubmit",
+                "tooltip": "Submit data to MetaboLights"
             }
         ]
     },

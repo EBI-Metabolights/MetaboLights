@@ -25,6 +25,9 @@
 	<link rel="stylesheet" type="text/css" href="cssrl/jquery-ui-1.9.0.custom.min.css" media="all" />
 	<link rel="stylesheet" type="text/css" href="cssrl/iconfont/font_style.css" media="all" />
 	<link rel="stylesheet" type="text/css" href="cssrl/reflayer.css" media="screen" />
+ 
+ 	<script type="text/javascript" src="javascript/jquery-1.6.2.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js" charset="utf-8"></script>
    
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
 	

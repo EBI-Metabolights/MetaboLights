@@ -40,7 +40,34 @@ a.noLine {
 
 .icon{
 	vertical-align:text-bottom;
-	background: #ffd98f;
+	background: #bbbbbb;/*#ffd98f;*/
     color: #000000;
-    padding: 5px 5px 5px 5px;
+    padding: 3px 3px 3px 3px;
+    
+}
+.icon:hover{
+	background: #dddddd;
+}
+
+form input.cancel{
+	border-color: #999999;	/* P2 */
+	
+	background-color: #eeeeee;	/* colour P1 */
+	background-image: none; 
+	
+	
+	color: #444444;
+	text-shadow: none;
+	box-shadow: none;
+}
+
+/* Cancel default display style for inputs */
+form input.submit,
+input{
+	display:inline;
+}
+
+.error {
+	color:#AA0000;
+	font-weight: bold;
 }

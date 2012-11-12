@@ -3,66 +3,58 @@
 
     <form name="loginForm" action="<c:url value='j_spring_security_check'/>" method="post">
 
-        <div class="text_header plain">
+        <div class="grid_24">
+        	<h3>
              <c:if test="${empty source}"><spring:message code="msg.credentials" /></c:if>
              <c:if test="${not empty source}"><spring:message code="msg.submCredentials" /></c:if>
-        </div>
-
-        <div class="formbox border">
-
-            <table class="" cellpadding="5px" cellspacing="0px" border="0">
-
-            <tr>
-                <td colspan='3'><c:if test="${not empty source}"><br/><br/><spring:message code="msg.submHeader"/><br/><br/></c:if>&nbsp;</td>
-            </tr>
-
-            <tr>
-                <td><spring:message code="label.email" />:</td>
-                <td colspan='2'><input type='text' name='j_username'/></td>
-            </tr>
-            <tr>
-                <td><spring:message code="label.password" />:</td>
-                <td><input type='password' name='j_password'/></td>
-                <td><a href="forgotPassword"><spring:message code="label.oopsForgot" /></a></td>
-            </tr>
-
-            <!-- tr>
-                <td></td>
-                <td><input type="checkbox"
-                    name="_spring_security_remember_me">&nbsp;<spring:message code="label.rememberme" />
-                </td>
-            </tr-->
-
-            <tr>
-                <td></td>
-                <td><input name="submit" type="submit" class="multi-line-button main" value="<spring:message code="label.login"/>"> </td>
-                <td><a href="index"><spring:message code="label.cancel"/></a></td>
-            </tr>
-            <tr >
-                <td valign="top" align="right" style="padding-top:30px">
-                     <a href="newAccount" >
-                       <!-- img src="img/newUser.png" border="0px"/-->
-                       <img src="img/ebi-icons/32px/user-add.png" class="img_alignment_green" alt="NewAccount"/>
-                     </a>
-                </td>
-                <td colspan='2' valign="top" style="padding-top:30px">
-                     <a href="newAccount" ><spring:message code="label.needNewAccount" /></a>
-                </td>
-            </tr>
-        </table>
+            </h3>
+        
+        	<c:if test="${not empty source}">
+        		<p><strong><spring:message code="msg.submHeader"/></strong></p>
+        	</c:if>
+		</div>
+		
+		<c:if test="${not empty param.login_error}">
+	        <div class="grid_24">
+	            <p class="error">
+	            <!-- Your login attempt was not successful, try again.<br/>-->
+	            <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+	            </p>
+			</div>
+    	</c:if>
+    	
+		<div class="grid_24">
+            <div class="grid_4 alfa"><spring:message code="label.email" />:</div>
+            <div class="grid_4"><input type='text' name='j_username'/></div>
+		</div>
+		
+		<div class="grid_24">
+			<div class="grid_4 alfa"><spring:message code="label.password" />:</div>
+            <div class="grid_20">
+            	<input type='password' name='j_password'/>
+            	<a href="forgotPassword"><spring:message code="label.oopsForgot" /></a>
+            </div>
+		</div>
+		
+		<div class="grid_24">
+			<div class="grid_20 prefix_4">
+				<input name="submit" type="submit" class="submit" value="<spring:message code="label.login"/>">		
+				<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
+            </div>
+		</div>
+		<div class="grid_24">
+			&nbsp;
+			<br/><br/>
+			<p>		
+			<a href="newAccount" class="noLine">
+               	<img src="img/ebi-icons/32px/user-add.png" class="icon" alt="New account"/>
+            </a>
+            &nbsp;
+            <a href="newAccount" ><spring:message code="label.needNewAccount"/></a>
+            </p>
         </div>
 
     </form>
-
-    <c:if test="${not empty param.login_error}">
-        <span class="error">
-            <br/>
-            <!-- Your login attempt was not successful, try again.<br/>-->
-            <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
-            <br/>
-        </span>
-    </c:if>
-
 
 <script type="text/javascript" language="javascript">
     document.loginForm.j_username.focus();
