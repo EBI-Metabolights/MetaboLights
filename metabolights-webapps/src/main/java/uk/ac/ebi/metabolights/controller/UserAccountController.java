@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.TextUtils;
 import uk.ac.ebi.metabolights.service.UserService;
@@ -63,7 +64,8 @@ public class UserAccountController extends AbstractController{
 	 */
 	@RequestMapping(value = "/newAccount")
    	public ModelAndView newAccount() {
-    	ModelAndView mav = new ModelAndView("createAccount");
+    	//ModelAndView mav = new ModelAndView("createAccount");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("createAccount");
     	mav.addObject(new MetabolightsUser());
     	return mav;
     }
@@ -96,7 +98,9 @@ public class UserAccountController extends AbstractController{
     	}
     	
     	if (result.hasErrors()|| duplicateEmailAddress) {
-        	ModelAndView mav = new ModelAndView("createAccount");
+        	
+    		//ModelAndView mav = new ModelAndView("createAccount");
+    		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("createAccount");
         	mav.addObject(metabolightsUser);
         	if (duplicateEmailAddress) {
         		mav.addObject("duplicateEmailAddress", PropertyLookup.getMessage("Duplicate.metabolightsUser.email"));
@@ -175,11 +179,13 @@ public class UserAccountController extends AbstractController{
 	 */
 	@RequestMapping(value={"/accountRequested"})
 	public ModelAndView accountRequested(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it. 
+		//ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it.
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index"); // default action for this request, unless the session has candy in it.
     	MetabolightsUser newUser = (MetabolightsUser) request.getSession().getAttribute("user");
     	
 		if (newUser!=null){
-			mav = new ModelAndView("accountRequested");
+			//mav = new ModelAndView("accountRequested");
+			mav = AppContext.getMAVFactory().getFrontierMav("accountRequested");
 			mav.addObject("user", newUser);
 			request.getSession().removeAttribute("user");
 		}
@@ -199,7 +205,7 @@ public class UserAccountController extends AbstractController{
 	 */
 	@RequestMapping(value={"/confirmAccountRequest"}, method = RequestMethod.GET)
 	public ModelAndView confirmAccountRequested(@RequestParam("usr") String userName, @RequestParam("key") String key) {
-		ModelAndView mav = new ModelAndView("index");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
 		MetabolightsUser user = userService.lookupByUserName(userName);
 		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.NEW.getValue()) 
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
@@ -224,7 +230,9 @@ public class UserAccountController extends AbstractController{
 	 */
 	@RequestMapping(value={"/activateAccount__NotifyUser"}, method = RequestMethod.GET)
 	public ModelAndView activateAccount(@RequestParam("usrId") long usrId, @RequestParam("key") String key) {
-		ModelAndView mav = new ModelAndView("index");
+		
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
+		
 		MetabolightsUser user = userService.lookupById(usrId);
 		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.VERIFIED.getValue()) 
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
@@ -247,7 +255,7 @@ public class UserAccountController extends AbstractController{
 
 		MetabolightsUser principal = ((MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
 		if (principal==null) {
-        	mav = new ModelAndView("index"); // probably logged out
+        	mav = AppContext.getMAVFactory().getFrontierMav("index"); // probably logged out
      	} else{
      		mav = getModelAndViewForUser(principal.getUserId());
      	}
@@ -274,11 +282,12 @@ public class UserAccountController extends AbstractController{
 		MetabolightsUser metabolightsUser = userService.lookupById(userId);
  		
 		if (metabolightsUser==null) {
-        	mav = new ModelAndView("index"); // Not found
+        	mav = AppContext.getMAVFactory().getFrontierMav("index"); // Not found
         	mav.addObject("messsage", "User ID " + userId + " not found.");
+        	return mav;
      	}
 		
-		mav = new ModelAndView("updateAccount");
+		mav = AppContext.getMAVFactory().getFrontierMav("updateAccount");
  		metabolightsUser.setUserVerifyDbPassword(metabolightsUser.getDbPassword());
     	mav.addObject(metabolightsUser);
     	logger.info("showing account details for "+metabolightsUser.getUserName()+" ID="+metabolightsUser.getUserId());
@@ -301,7 +310,7 @@ public class UserAccountController extends AbstractController{
     public ModelAndView updateAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model, HttpServletRequest request) {
 
     	if (result.hasErrors()) {
-        	ModelAndView mav = new ModelAndView("updateAccount");
+        	ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateAccount");
         	mav.addObject(metabolightsUser);
        		return mav;
         }
@@ -350,11 +359,11 @@ public class UserAccountController extends AbstractController{
 	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.updatedAccount"));
 		
 		// default action for this request, unless the session has candy in it. 
-		ModelAndView mav = new ModelAndView("index", "message", PropertyLookup.getMessage("msg.updatedAccount")); 
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.updatedAccount")); 
     	MetabolightsUser newUser = (MetabolightsUser) request.getSession().getAttribute("user");
     	
 		if (newUser!=null){
-			mav = new ModelAndView("accountRequested");
+			mav = AppContext.getMAVFactory().getFrontierMav("accountRequested");
 			mav.addObject("user", newUser);
 			mav.addObject("updated","updated");  //Just to enable us to display a different text when requesting and updating the account
 			mav.addObject("country",newUser.getListOfAllCountries().get(newUser.getAddress()));

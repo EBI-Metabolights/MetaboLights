@@ -2,8 +2,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script type="text/javascript" src="javascript/jquery-1.8.2.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/jquery-ui-1.9.0.custom.min.js" charset="utf-8"></script>
 
 <script>
 $(document).ready(function() {

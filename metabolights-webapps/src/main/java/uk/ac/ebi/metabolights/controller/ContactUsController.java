@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.form.ContactValidation;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.validate.ValidateContactUsForm;
 
@@ -33,8 +34,10 @@ public class ContactUsController extends AbstractController{
 	
     @RequestMapping(value = "/contact")
     public ModelAndView contact() {
-    	return new ModelAndView("contact","contactValidation", new ContactValidation());  
-    	//Create form (contact.jsp) with empty ContactValidation (command=ContactValidation)
+    	
+    	//return new ModelAndView("contact","contactValidation", new ContactValidation());  
+    	return AppContext.getMAVFactory().getFrontierMav("contact","contactValidation", new ContactValidation());
+    	
     }
 	
 	
@@ -47,14 +50,16 @@ public class ContactUsController extends AbstractController{
     public ModelAndView contactUs(@Valid ContactValidation contactValidation, BindingResult result) {
 
         if (result.hasErrors()) {
-            return new ModelAndView("contact","contactValidation", contactValidation);
+            //return new ModelAndView("contact","contactValidation", contactValidation);
+        	return AppContext.getMAVFactory().getFrontierMav("contact","contactValidation", contactValidation);
         }
         
         logger.info("Sending 'Contact Us' email from " + contactValidation.getEmailAddress());
         
 		// Send new the email
 		emailService.sendContactUsAlert(contactValidation);
-		return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.emailSent",contactValidation.getEmailAddress()));
+		//return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.emailSent",contactValidation.getEmailAddress()));
+		return AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.emailSent",contactValidation.getEmailAddress()));
 
     }
 

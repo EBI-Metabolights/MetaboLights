@@ -2,24 +2,17 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<div class="formbox">
-	<form:form name="accountForm" action="createNewAccount" method="post"
-		commandName="metabolightsUser">
-		<table cellpadding="5px" cellspacing="0px">
-			<tr class="formheader">
-				<th class="text_header plain" colspan="2"><spring:message
-						code="msg.newAccount" />
-				</th>
-				<th><spring:message code="msg.starRequired"/></th>
-			</tr>
-			<tr>
-				<td colspan='3'>&nbsp;</td>
-			</tr>
 
-	        <tr>
-	            <td><spring:message code="label.email" />:</td>
-	            <td><form:input path="email" maxlength="255" size="40" /> </td>
-	            <td>(*)&nbsp;
+	<form:form name="accountForm" action="createNewAccount" method="post" commandName="metabolightsUser">
+
+		<div class="grid_24">
+			<h3><spring:message	code="msg.newAccount" /></h3>
+
+
+	        
+<spring:message code="label.email" />:
+<form:input path="email" maxlength="255" size="40" />
+(*)&nbsp;
 	               <span class="error">
 	                  <form:errors path="email" />
 	                  <form:errors path="userName" />
@@ -43,6 +36,12 @@
 			</tr>
 		</table>
 	</form:form>
+
+
+
+				<th><spring:message code="msg.starRequired"/></th>
+
+
 
 	<script type="text/javascript" language="javascript">
 	   document.reminderForm.email.focus();
