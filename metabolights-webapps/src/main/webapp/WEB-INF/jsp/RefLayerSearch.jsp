@@ -64,7 +64,7 @@
 					<div  class="grid_16 omega">
 						<div class="grid_24">
 								<b>${entry.name}</b>
-								(${entry.accession})
+								(<a href="http://localhost:8080/metabolights-webapp/${entry.accession}" >${entry.accession}</a>)
 								<a href='<spring:message code="ref.msg.chebi.url"></spring:message>${entry.chebiURL}'>${entry.chebiId}</a>
 						</div>
 						<div class="grid_24">

@@ -67,7 +67,9 @@ function color_for_atom(formulaChar)
 	<div class="grid_18 omega">
 		<div id="tabs">
 			<ul>
-				<li><a href="#tabs-1"><spring:message code="ref.compound.tab.characteristics"/></a></li>
+				<li>
+					<a href="#tabs-1"><spring:message code="ref.compound.tab.characteristics"/></a>
+				</li>
 				<li>
 					<a href="#tabs-2"><spring:message code="ref.compound.tab.foundin"/></a>
 				</li>
@@ -75,7 +77,7 @@ function color_for_atom(formulaChar)
 					<a href="#tabs-3"><spring:message code="ref.compound.tab.pathways"/></a>
 				</li>
 				<li>
-					<a href="#tabs-4"><spring:message code="ref.compound.tab.reactions"/></a>
+					<a href="Reactions?mtblc=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
 				</li>
 				<li>
 					<a href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
@@ -116,11 +118,11 @@ function color_for_atom(formulaChar)
 				<h5>Pathways projector</h5>
 				<a href="http://www.g-language.org/PathwayProjector/" target="blank"><img src="http://www.g-language.org/PathwayProjector/pict/mainpage.png"/></a>
 			</div>
-			<!-- Reactions -->
+			<!-- Reactions 
 			<div id="tabs-4" class="tab">
 				<h4>To be implemented...</h4>
 				<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTLBHrDpm9cZkyAdfU7KdQnVLVZ9MG6SByle5QQM0IpSf2hBezB"/>
-			</div>
+			</div>-->
 			<!-- NMR Spectra -->
 			<div id="tabs-5" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKiJmVL9LDgA1YJFz6bSMLV4jNc_unkwF5Mv9M9YxxX8ZL9guZ"/></div>
 			<!-- MS Spectra -->

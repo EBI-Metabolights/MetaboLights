@@ -22,7 +22,7 @@ public class ModelObjectFactory {
 		
 		try {
 		
-			logger.info("Getting compound" + accession);
+			logger.info("Getting compound " + accession);
 			
 			
 			// Get the MetaboLights compound DAO

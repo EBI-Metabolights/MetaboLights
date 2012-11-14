@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
@@ -28,9 +29,20 @@ import uk.ac.ebi.metabolights.service.TextTaggerService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
 import uk.ac.ebi.metaboligths.referencelayer.model.ModelObjectFactory;
+import uk.ac.ebi.rhea.ws.client.RheaFetchDataException;
+import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
+import uk.ac.ebi.rhea.ws.response.cmlreact.Product;
+import uk.ac.ebi.rhea.ws.response.cmlreact.ProductList;
+import uk.ac.ebi.rhea.ws.response.cmlreact.Reactant;
+import uk.ac.ebi.rhea.ws.response.cmlreact.ReactantList;
+import uk.ac.ebi.rhea.ws.response.cmlreact.Reaction;
+import uk.ac.ebi.rhea.ws.response.cmlreact.ReactionList;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JOptionPane;
+
 import java.io.*;
 import java.security.Principal;
 import java.util.*;
@@ -58,6 +70,7 @@ public class EntryController extends AbstractController {
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}")
+	
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblId);
 
@@ -92,7 +105,7 @@ public class EntryController extends AbstractController {
 
         //Have to give the user the download stream as the study is not on the public ftp
         //if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
-            mav.addObject("fileLocation",fileLocation); //All zip files are now generated on the fly, so ftpLocation is really fileLocation
+        mav.addObject("fileLocation",fileLocation); //All zip files are now generated on the fly, so ftpLocation is really fileLocation
         
         //Stick text for tagging (Whatizit) in the session..                       //TODO, Whatizit is not responding
         //if (study.getDescription()!=null) {
@@ -106,14 +119,121 @@ public class EntryController extends AbstractController {
 	private ModelAndView showMTBLC(String accession){
 		
 		//ModelAndView mav = new ModelAndView("compound");
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("compound");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("compound"); 
 		mav.addObject("compound", ModelObjectFactory.getCompound(accession));
 		
 		return mav;
 		
 	}
 	
-	
+	@RequestMapping(value = "/Reactions")
+	private ModelAndView showReactions(
+			@RequestParam(required = false, value = "mtblc") String compound){
+		
+		//System.out.println(compound);
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("Reaction");
+		
+
+		
+		RheasResourceClient client = new RheasResourceClient();
+		List<Reaction> reactions = null;
+		List<Product> products = null;
+//		Reaction cmlReaction = new Reaction();
+		//ReactantList reactList = new ReactantList();
+		
+		try {
+			reactions = client.getRheasInCmlreact(compound);
+			
+		} catch (RheaFetchDataException e) {
+			e.printStackTrace();
+		}
+		
+		int inc = 0;
+		int reactSize = reactions.size();
+		String[] reactionBufArray = new String[reactSize];
+		
+		for(Reaction cmlReaction:reactions){
+			
+//			System.out.println(reactions.size()); //6 for MTBLC1377
+			StringBuffer reactionBuf = new StringBuffer();
+			for(Object o:cmlReaction.getReactiveCentreAndMechanismAndReactantList()){
+
+				if(o instanceof ReactantList){
+//					int reactSize = ((ReactantList)o).getReactantListOrReactant().size();
+					int x = 0;
+					StringBuffer rectBuf = new StringBuffer();
+					for(Object o2:((ReactantList)o).getReactantListOrReactant()){
+//						reactArray = new String[reactSize];
+						Reactant reactant = (Reactant) o2;
+//						System.out.print(reactant.getConvention());
+						
+//						System.out.println("Reactant - "+reactant.getCount()); //stoich. coefficient
+//						System.out.print("Reactant - "+reactant.getMolecule().getId());  //chebi ID
+						if(x == 0){
+							rectBuf.append(reactant.getMolecule().getTitle());
+						} else {
+							rectBuf.append(" + "+reactant.getMolecule().getTitle());
+						}
+						x++;
+					}
+					reactionBuf.append(rectBuf);
+					
+					String direction = null;
+					
+					String ReactionsDirections = cmlReaction.getConvention();
+					
+					if(ReactionsDirections.contains("BI")){
+						String q = "&#61;";
+						direction = " <"+q+"> ";
+					} else if(ReactionsDirections.contains("LR")){
+						String q = "&#61;";
+						direction = " "+q+"> ";
+					} else {
+						String q = "&#63;";
+						direction = " <"+q+"> ";
+					}
+					
+					if(!direction.equals(null)){
+						reactionBuf.append(direction);
+					} else {
+						String q = "&#63;";
+						direction = " <"+q+"> ";
+					}
+				} else if(o instanceof ProductList){
+//					int productSize = ((ProductList)o).getProductListOrProduct().size();
+					int y = 0;
+					StringBuffer prodBuf = new StringBuffer();
+					for(Object o2:((ProductList)o).getProductListOrProduct()){
+						
+//						productArray = new String[productSize];
+						Product product = (Product) o2;
+						
+//						System.out.println("Product - "+product.getCount());
+//						System.out.print("Product - "+product.getMolecule().getId());
+						if(y == 0){
+							prodBuf.append(product.getMolecule().getTitle());
+						} else {
+							prodBuf.append(" + "+product.getMolecule().getTitle());
+						}
+						y++;
+					}
+					reactionBuf.append(prodBuf);
+				}
+			}
+			reactionBufArray[inc] = (reactionBuf.toString());
+			inc++;
+			System.out.println(cmlReaction.getConvention());
+		}
+		
+//		if(!reactionBufArray.equals(null)){
+//			for(int t=0; t<reactionBufArray.length; t++){
+//				System.out.println(reactionBufArray[t]);
+//			}
+//		}
+		
+		mav.addObject("Reactions", reactionBufArray);
+		return mav;
+	}
 
 	/**
 	 * @param study
@@ -371,10 +491,6 @@ public class EntryController extends AbstractController {
 		}
 		
 		return fvSummary;
-		
-		
-	}
-	private void foo(){
 		
 		
 	}

@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.controller;
 
 import java.net.MalformedURLException;
 
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -65,7 +66,7 @@ public class ReferenceLayerController extends AbstractController {
 			e.printStackTrace();
 		}
 
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("RefLayerSearch"); // must match the definition attribute in tiles.xml
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("RefLayerSearch"); //must match the definition attribute in tiles.xml
 
 		mav.addObject("query", query);
 		mav.addObject("Chdomain", ChDomain);
