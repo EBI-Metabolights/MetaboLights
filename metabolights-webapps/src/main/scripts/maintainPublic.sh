@@ -86,7 +86,7 @@ do
 	else
 	
 		# Check if the file already exists in the public folder
-		if [ -f $PUB_FTP$studies ]
+		if [ -d $PUB_FTP$studies ]
 		then
 			Info "Folder $studies already exists in $PUB_FTP"
 		else
