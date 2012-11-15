@@ -239,6 +239,9 @@
         <put-attribute name="title" value="Create a new account for MetaboLights" />
         <put-attribute name="body" value="/WEB-INF/jsp/createAccount.jsp" />
     </definition>
+    
+    <definition name="Reaction" template="/WEB-INF/jsp/Reaction.jsp">
+    </definition>
 
 	
 </tiles-definitions>
