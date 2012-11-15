@@ -11,6 +11,7 @@
 # 20110912  : Ken Haug - Simplified and more comprehensive file checks
 # 20110914  : Ken Haug - Changed email notifications to Metabolights-dev@ebi.ac.uk
 # 20120328  : Ken Haug - Removed "clear" as this is dependent on a TERM set, like xterm
+# 20121115  : Ken Haug - Move folder as we no longer store the studies as zip files
 #
 ##########################################################################
 
@@ -21,7 +22,7 @@ source /homes/oracle/ora11setup.sh
 #  Configurable Options Follow  #
 #################################
 
-EMAILTO=metabolights-dev@ebi.ac.uk
+EMAILTO=kenneth@ebi.ac.uk
 LUCENE=/nfs/production/panda/metabolights/lucene_updater
 PROPS_FILE=$LUCENE/config/hibernate.properties
 NUM_DAYS=5
@@ -73,23 +74,23 @@ do
     # Update the lucene index
     $LUCENE/reindex.sh ${studies}
     
-    # Check if file exists
-	if [ -f $PRIV_FTP$studies.zip ] 
+    # Check if directory exists
+    if [ -d $PRIV_FTP$studies ]
 	then
 	  	# Move the archive, to the public location, overwrite any existing files
-		mv -f $PRIV_FTP$studies.zip $PUB_FTP$studies.zip
+		mv -f $PRIV_FTP$studies $PUB_FTP
 	
 		# Change the permissions
-		chmod og+rx $PUB_FTP$studies.zip
+		chmod og+rx $PUB_FTP$studies
 	  
 	else
 	
 		# Check if the file already exists in the public folder
-		if [ -f $PUB_FTP$studies.zip ]
+		if [ -f $PUB_FTP$studies ]
 		then
-			Info "File $studies.zip already exists in $PUB_FTP"
+			Info "Folder $studies already exists in $PUB_FTP"
 		else
-	  		Info "ERROR: File $PRIV_FTP$studies.zip does not exist"
+	  		Info "ERROR: Folder $PRIV_FTP$studies does not exist"
 	  	fi	
 	  	
 	fi
