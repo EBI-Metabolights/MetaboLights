@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.io.IOUtils;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.referencelayer.MetabolightsCompound;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
@@ -130,108 +132,22 @@ public class EntryController extends AbstractController {
 	private ModelAndView showReactions(
 			@RequestParam(required = false, value = "mtblc") String compound){
 		
-		//System.out.println(compound);
+		//Instantiate Model and view
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("Reaction");
 		
-
-		
+		//Setting up resource client
 		RheasResourceClient client = new RheasResourceClient();
+		
+		//Initialising and passing chebi Id as compound to Rhea
 		List<Reaction> reactions = null;
-		List<Product> products = null;
-//		Reaction cmlReaction = new Reaction();
-		//ReactantList reactList = new ReactantList();
 		
 		try {
 			reactions = client.getRheasInCmlreact(compound);
-			
 		} catch (RheaFetchDataException e) {
 			e.printStackTrace();
 		}
 		
-		int inc = 0;
-		int reactSize = reactions.size();
-		String[] reactionBufArray = new String[reactSize];
-		
-		for(Reaction cmlReaction:reactions){
-			
-//			System.out.println(reactions.size()); //6 for MTBLC1377
-			StringBuffer reactionBuf = new StringBuffer();
-			for(Object o:cmlReaction.getReactiveCentreAndMechanismAndReactantList()){
-
-				if(o instanceof ReactantList){
-//					int reactSize = ((ReactantList)o).getReactantListOrReactant().size();
-					int x = 0;
-					StringBuffer rectBuf = new StringBuffer();
-					for(Object o2:((ReactantList)o).getReactantListOrReactant()){
-//						reactArray = new String[reactSize];
-						Reactant reactant = (Reactant) o2;
-//						System.out.print(reactant.getConvention());
-						
-//						System.out.println("Reactant - "+reactant.getCount()); //stoich. coefficient
-//						System.out.print("Reactant - "+reactant.getMolecule().getId());  //chebi ID
-						if(x == 0){
-							rectBuf.append(reactant.getMolecule().getTitle());
-						} else {
-							rectBuf.append(" + "+reactant.getMolecule().getTitle());
-						}
-						x++;
-					}
-					reactionBuf.append(rectBuf);
-					
-					String direction = null;
-					
-					String ReactionsDirections = cmlReaction.getConvention();
-					
-					if(ReactionsDirections.contains("BI")){
-						String q = "&#61;";
-						direction = " <"+q+"> ";
-					} else if(ReactionsDirections.contains("LR")){
-						String q = "&#61;";
-						direction = " "+q+"> ";
-					} else {
-						String q = "&#63;";
-						direction = " <"+q+"> ";
-					}
-					
-					if(!direction.equals(null)){
-						reactionBuf.append(direction);
-					} else {
-						String q = "&#63;";
-						direction = " <"+q+"> ";
-					}
-				} else if(o instanceof ProductList){
-//					int productSize = ((ProductList)o).getProductListOrProduct().size();
-					int y = 0;
-					StringBuffer prodBuf = new StringBuffer();
-					for(Object o2:((ProductList)o).getProductListOrProduct()){
-						
-//						productArray = new String[productSize];
-						Product product = (Product) o2;
-						
-//						System.out.println("Product - "+product.getCount());
-//						System.out.print("Product - "+product.getMolecule().getId());
-						if(y == 0){
-							prodBuf.append(product.getMolecule().getTitle());
-						} else {
-							prodBuf.append(" + "+product.getMolecule().getTitle());
-						}
-						y++;
-					}
-					reactionBuf.append(prodBuf);
-				}
-			}
-			reactionBufArray[inc] = (reactionBuf.toString());
-			inc++;
-			System.out.println(cmlReaction.getConvention());
-		}
-		
-//		if(!reactionBufArray.equals(null)){
-//			for(int t=0; t<reactionBufArray.length; t++){
-//				System.out.println(reactionBufArray[t]);
-//			}
-//		}
-		
-		mav.addObject("Reactions", reactionBufArray);
+		mav.addObject("Reactions",reactions);
 		return mav;
 	}
 
@@ -241,23 +157,15 @@ public class EntryController extends AbstractController {
 	 */
 	private Collection<String> getOrganisms(Study study) {
 
-		
 		Collection<String> organismNames = new TreeSet<String>();
-		
-		
-		
+
 		for (AssayResult assRes : study.getAssayResults()) {
 			for (PropertyValue<?> pv : assRes.getCascadedPropertyValues()) {
 				if (pv.getType().getValue().equalsIgnoreCase("organism")) {
 					organismNames.add(pv.getValue());
-
 				}
 			}
 		}
-		
-
-
-		
 		return organismNames;
 	}
 
@@ -306,9 +214,7 @@ public class EntryController extends AbstractController {
 			}
 		}
 		
-		
 		return mlAssays.values();
-		
 	}
 
     @RequestMapping(value = "/publicfiles/{file_name}")
@@ -453,7 +359,6 @@ public class EntryController extends AbstractController {
         }
 
 		return ftpLocation;
-		
 	}
 	
 	private HashMap<String,ArrayList<String>> getFactorsSummary(Study study){
@@ -465,7 +370,6 @@ public class EntryController extends AbstractController {
 			
 			// For each factor value in Data item
 			for (FactorValue fv:ar.getData().getFactorValues()){
-				
 				
 				// ... if we don't have the factor already in the collection
 				if (!fvSummary.containsKey(fv.getType().getValue())){
@@ -486,13 +390,8 @@ public class EntryController extends AbstractController {
 				}
 				
 				if (!values.contains(value)) values.add(value);
-				
 			}
 		}
-		
 		return fvSummary;
-		
-		
 	}
-
 }

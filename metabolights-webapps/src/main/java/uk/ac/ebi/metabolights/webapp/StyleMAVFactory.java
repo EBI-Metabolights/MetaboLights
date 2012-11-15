@@ -198,7 +198,7 @@ public class StyleMAVFactory {
 			    String line;
 			    while ((line = reader.readLine()) != null) {
 			        stringBuilder.append(line);
-			        stringBuilder.append(ls);
+			        //stringBuilder.append(ls);
 			    }
 	
 				// Populate the string 
