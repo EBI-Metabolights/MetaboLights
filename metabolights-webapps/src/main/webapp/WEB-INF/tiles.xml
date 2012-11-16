@@ -62,6 +62,16 @@
         <put-attribute name="title" value="Create a new account for MetaboLights" />
         <put-attribute name="body" value="/WEB-INF/jsp/createAccount.jsp" />
     </definition>
+    
+    <definition name="accountRequested" extends="base.definition">
+        <put-attribute name="title" value="Account information" />
+        <put-attribute name="body" value="/WEB-INF/jsp/accountRequested.jsp" />
+    </definition>
+    
+    <definition name="updateAccount" extends="base.definition">
+        <put-attribute name="title" value="My Account" />
+        <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
+    </definition>
 
 	-->
 	
@@ -98,16 +108,6 @@
 	<definition name="entry" extends="base.definition">
         <put-attribute name="title" value="MetaboLights entry" />
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
-    </definition>
-
-    <definition name="accountRequested" extends="base.definition">
-        <put-attribute name="title" value="Account information" />
-        <put-attribute name="body" value="/WEB-INF/jsp/accountRequested.jsp" />
-    </definition>
-
-    <definition name="updateAccount" extends="base.definition">
-        <put-attribute name="title" value="My Account" />
-        <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
     </definition>
 
     <definition name="searchResult" extends="base.definition">
@@ -240,8 +240,17 @@
         <put-attribute name="body" value="/WEB-INF/jsp/createAccount.jsp" />
     </definition>
     
+    <definition name="accountRequested" extends="base.frontier.definition">
+        <put-attribute name="title" value="Account information" />
+        <put-attribute name="body" value="/WEB-INF/jsp/accountRequested.jsp" />
+    </definition>
+    
+    <definition name="updateAccount" extends="base.frontier.definition">
+        <put-attribute name="title" value="My Account" />
+        <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
+    </definition>
+    
     <definition name="Reaction" template="/WEB-INF/jsp/Reaction.jsp">
     </definition>
-
 	
 </tiles-definitions>

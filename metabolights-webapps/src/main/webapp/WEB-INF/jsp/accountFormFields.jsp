@@ -3,51 +3,72 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 
-        <tr>
-            <td><spring:message code="label.firstName" />:</td>
-            <td><form:input path="firstName" maxlength="255" size="30" /> </td>
-            <td>(*)&nbsp;<span class="error"><form:errors path="firstName" /></span></td>
-        </tr>
-        <tr>
-            <td><spring:message code="label.lastName" />:</td>
-            <td><form:input path="lastName"  maxlength="255" size="40" /> </td>
-            <td>(*)&nbsp;<span class="error"><form:errors path="lastName" /></span></td>
-        </tr>
-        <tr>
-            <td><spring:message code="label.password" />:</td>
-            <td><form:input path="dbPassword"  maxlength="255" size="40" type="password" /> </td>
-            <td>(*)&nbsp;<span class="error"><form:errors path="dbPassword" /></span></td>
-        </tr>
-        <tr>
-            <td><spring:message code="label.passwordRep" />:</td>
-            <td><form:input path="userVerifyDbPassword"  maxlength="255" size="40" type="password" /> </td>
-            <td>(*)&nbsp;<span class="error"><form:errors path="userVerifyDbPassword" /></span></td>
-        </tr>
 
-        <tr>
-            <td><spring:message code="label.affili" />:</td>
-            <td><form:input path="affiliation"  maxlength="255" size="40" /> </td>
-            <td>(*)&nbsp;<span class="error"><form:errors path="affiliation" /></span></td>
-        </tr>
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.firstName" />*:</div>
+		<div class="grid_18 omega"><form:input path="firstName" maxlength="255" size="40" />
+			<span class="error"><form:errors path="firstName" /></span>
+        </div>
+	</div>
 
-        <tr>
-            <td><spring:message code="label.affiliUrl" />:</td>
-            <td><form:input path="affiliationUrl"  maxlength="4000" size="50" /> </td>
-            <td>(*)&nbsp;<span class="error"><form:errors path="affiliationUrl" /></span></td>
-        </tr>
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.lastName" />*:</div>
+		<div class="grid_18 omega">
+			<form:input path="lastName"  maxlength="255" size="40" />
+			<span class="error"><form:errors path="lastName" /></span>
+        </div>
+	</div>
 
-        <tr>
-            <td><spring:message code="label.country" />:</td>
-            <td><form:select path="address" items="${metabolightsUser.listOfAllCountries}"/></td>
-            <td>(*)&nbsp;<span class="error"><form:errors path="address" /></span></td>
-        </tr>
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.password" />*:</div>
+		<div class="grid_18 omega">
+			<form:input path="dbPassword"  maxlength="255" size="40" type="password" />
+			<span class="error"><form:errors path="dbPassword" /></span>
+		</div>
+	</div>
 
-        <sec:authorize ifAnyGranted="ROLE_SUPER_USER" >
-	        <tr>
-	            <td><spring:message code="label.userStatus" />:</td>
-	            <td><form:select path="status" items="${metabolightsUser.listOfAllStatus}"/></td>
-	            <td>(*)&nbsp;<span class="error"><form:errors path="status" /></span></td>
-	        </tr>
 
-        </sec:authorize>
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.passwordRep" />*:</div>
+		<div class="grid_18 omega">
+			<form:input path="userVerifyDbPassword"  maxlength="255" size="40" type="password" />
+			<span class="error"><form:errors path="userVerifyDbPassword" /></span>
+        </div>
+	</div>
+	
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.affili" />*:</div>
+		<div class="grid_18 omega">
+			<form:input path="affiliation"  maxlength="255" size="40" />
+			<span class="error"><form:errors path="affiliation" /></span>
+		</div>
+	</div>
+	
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.affiliUrl" />*:</div>
+		<div class="grid_18 omega">
+			<form:input path="affiliationUrl"  maxlength="4000" size="66" />
+			<span class="error"><form:errors path="affiliationUrl" /></span>
+		</div>
+	</div>
 
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.country" />*:</div>
+		<div class="grid_18 omega">
+			<form:select path="address" items="${metabolightsUser.listOfAllCountries}"/>
+			<span class="error"><form:errors path="address" /></span>
+        </div>
+	</div>
+
+<sec:authorize ifAnyGranted="ROLE_SUPER_USER" >
+	
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.userStatus" />*:</div>
+		<div class="grid_18 omega">
+			<form:select path="status" items="${metabolightsUser.listOfAllStatus}"/>
+			<span class="error"><form:errors path="status" /></span>
+        </div>
+	</div>    
+	        
+
+</sec:authorize>

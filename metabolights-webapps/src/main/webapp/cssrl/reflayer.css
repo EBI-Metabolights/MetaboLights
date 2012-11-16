@@ -38,16 +38,6 @@ a.noLine {
     text-align:center;
 }
 
-.icon{
-	vertical-align:text-bottom;
-	background: #bbbbbb;/*#ffd98f;*/
-    color: #000000;
-    padding: 3px 3px 3px 3px;
-    
-}
-.icon:hover{
-	background: #dddddd;
-}
 
 form input.cancel{
 	border-color: #999999;	/* P2 */
@@ -59,6 +49,10 @@ form input.cancel{
 	color: #444444;
 	text-shadow: none;
 	box-shadow: none;
+}
+
+form input.bigfont {
+	font-size: 20px
 }
 
 /* Cancel default display style for inputs */

@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!doctype html>
@@ -6,7 +7,7 @@
 <head>
   	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <meta name="description" content="Metabolights metabolmics experiments" />
+    <meta name="description" content="MetaboLights metabolomics experiments" />
     <meta name="author" content="The Metabolights team" />
     <meta http-equiv="Content-Language" content="en-GB" />
     <meta http-equiv="Window-target" content="_top" />
@@ -25,11 +26,18 @@
 	<link rel="stylesheet" type="text/css" href="cssrl/jquery-ui-1.9.0.custom.min.css" media="all" />
 	<link rel="stylesheet" type="text/css" href="cssrl/iconfont/font_style.css" media="all" />
 	<link rel="stylesheet" type="text/css" href="cssrl/reflayer.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="cssrl/icons.css" media="screen" />
  	<script type="text/javascript" src="javascript/jquery-1.8.2.js" charset="utf-8"></script>
 	<script type="text/javascript" src="javascript/jquery-ui-1.9.0.custom.min.js" charset="utf-8"></script>
 	
    
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
+	
+	<c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
+    	<script type="text/javascript">var redline = {}; redline.project_id = 196734042;</script>
+    	<script id="redline_js" src="http://www.redline.cc/assets/button.js" type="text/javascript">
+    </script>
+	</c:if>
 	
 </head>
 <body class="level2">

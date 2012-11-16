@@ -45,13 +45,9 @@
 		<div class="grid_24">
 			&nbsp;
 			<br/><br/>
-			<p>		
-			<a href="newAccount" class="noLine">
-               	<img src="img/ebi-icons/32px/user-add.png" class="icon" alt="New account"/>
-            </a>
-            &nbsp;
-            <a href="newAccount" ><spring:message code="label.needNewAccount"/></a>
-            </p>
+			<a href="newAccount" class="noLine"><img class="ebiicon user-add"/></a>
+			<a href="newAccount"><spring:message code="label.needNewAccount"/></a>
+            
         </div>
 
     </form>

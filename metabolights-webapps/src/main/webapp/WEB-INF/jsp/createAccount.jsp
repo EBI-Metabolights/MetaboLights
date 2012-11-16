@@ -3,53 +3,46 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
-	<form:form name="accountForm" action="createNewAccount" method="post" commandName="metabolightsUser">
+<form:form name="accountForm" action="createNewAccount" method="post" commandName="metabolightsUser">
 
-		<div class="grid_24">
-			<h3><spring:message	code="msg.newAccount" /></h3>
+    <div class="grid_24">
+       	<h3><spring:message	code="msg.newAccount" /></h3>
+    </div>
+	
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.email" />*:</div>
+		<div class="grid_18 omega">
+			<form:input path="email" maxlength="255" size="40" />
+			<span class="error">
+				<form:errors path="email" />
+				<form:errors path="userName" />
+				<c:if test="${not empty duplicateEmailAddress}"><c:out value="${duplicateEmailAddress}" /></c:if>
+			</span>
+        </div>
+	</div>
 
-
-	        
-<spring:message code="label.email" />:
-<form:input path="email" maxlength="255" size="40" />
-(*)&nbsp;
-	               <span class="error">
-	                  <form:errors path="email" />
-	                  <form:errors path="userName" />
-                      <c:if test="${not empty duplicateEmailAddress}"><c:out value="${duplicateEmailAddress}" /></c:if>
-	              </span>
-	            </td>
-	        </tr>
-
-			<jsp:include page="accountFormFields.jsp" />
-
-			<tr>
-				<td>&nbsp;</td>
-                <td colspan="2">
-                    <div class='iscell left'>
-				        <input type="submit" name="submit" class="multi-line-button main" value="<spring:message code="label.create"/> ">
-                    </div>
-                    <div class='iscell'>
-                        <br/><a href="index"><spring:message code="label.cancel"/></a>
-                    </div>
-                </td>
-			</tr>
-		</table>
-	</form:form>
+	<jsp:include page="accountFormFields.jsp" />
+	
+	<div class="grid_24">
+		<div class="grid_18 prefix_6 alpha omega">
+			<input name="submit" type="submit" class="submit" value="<spring:message code="label.create"/>">		
+			<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
+         </div>
+	</div>
 
 
+	<div class="grid_24">
+		<br/>
+		<strong><spring:message code="msg.starRequired"/></strong>
+		<br/>
+</form:form>
 
-				<th><spring:message code="msg.starRequired"/></th>
 
+<script type="text/javascript" language="javascript">
+	document.accountForm.email.focus();
+</script>
 
-
-	<script type="text/javascript" language="javascript">
-	   document.reminderForm.email.focus();
-	</script>
-
-    <c:if test="${not empty message}">
-        <span class="error"> <c:out value="${message}" /> </span>
-        <br/>
-    </c:if>
-
-</div>
+<c:if test="${not empty message}">
+	<span class="error"> <c:out value="${message}" /></span>
+    <br/>
+</c:if>

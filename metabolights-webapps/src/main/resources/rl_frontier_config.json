@@ -60,6 +60,7 @@
         "cssList": ["cssrl/jquery-ui-1.9.0.custom.min.css",
         			"cssrl/iconfont/font_style.css",
         			"http://wwwdev.ebi.ac.uk/web_guidelines/css/compliance/develop/embl-petrol-colours.css",
-        			"cssrl/reflayer.css"]
+        			"cssrl/reflayer.css",
+        			"cssrl/icons.css"]
     }
 }
