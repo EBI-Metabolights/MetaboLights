@@ -1,5 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <c:choose>
@@ -36,6 +36,15 @@
 						<c:when test="${Reaction.convention eq 'rhea:direction.LR'}">
 							<b>&#61;&#62;</b>
 						</c:when>
+						<c:when test="${Reaction.convention eq 'rhea:direction.BI'}">
+							<b>&#60;&#61;&#62;</b>
+						</c:when>
+						<c:when test="${Reaction.convention eq 'rhea:direction.RL'}">
+							<b>&#60;&#61;</b>
+						</c:when>
+						<c:otherwise>
+							<b>&#60;&#63;&#62;</b>
+						</c:otherwise>
 					</c:choose>
 				</c:if>
 				<c:if test="${ReactiveMechanism.class.simpleName eq 'ProductList'}">
@@ -87,6 +96,15 @@
 						<c:when test="${Reaction.convention eq 'rhea:direction.LR'}">
 							<b>&#61;&#62;</b>
 						</c:when>
+						<c:when test="${Reaction.convention eq 'rhea:direction.BI'}">
+							<b>&#60;&#61;&#62;</b>
+						</c:when>
+						<c:when test="${Reaction.convention eq 'rhea:direction.RL'}">
+							<b>&#60;&#61;</b>
+						</c:when>
+						<c:otherwise>
+							<b>&#60;&#63;&#62;</b>
+						</c:otherwise>
 					</c:choose>
 				</c:if>
 				<c:if test="${ReactiveMechanism.class.simpleName eq 'ProductList'}">
@@ -120,6 +138,11 @@
 						<c:forEach var="ReactantChebiId" items="${Reactant.molecule.id}">
 							<c:choose>
 								<c:when test="${ReactantLoop.index eq 0}">
+									<c:set var="ReactantStoicCount"
+										value="${fn:replace(Reactant.count, '.0', '')}" />
+									<c:if test="${ReactantStoicCount gt 1 }">
+										<b>${ReactantStoicCount}</b>
+									</c:if>
 									<img
 										src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${ReactantChebiId}"
 										onerror="this.src='img/large_noImage.gif';" width="100px"
@@ -127,6 +150,11 @@
 								</c:when>
 								<c:otherwise>
 									<b>&#43;</b>
+									<c:set var="ReactantStoicCount"
+										value="${fn:replace(Reactant.count, '.0', '')}" />
+									<c:if test="${ReactantStoicCount gt 1 }">
+										<b>${ReactantStoicCount}</b>
+									</c:if>
 									<img
 										src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${ReactantChebiId}"
 										onerror="this.src='img/large_noImage.gif';" width="100px"
@@ -144,6 +172,15 @@
 						<c:when test="${Reaction.convention eq 'rhea:direction.LR'}">
 							<b>&#61;&#62;</b>
 						</c:when>
+						<c:when test="${Reaction.convention eq 'rhea:direction.BI'}">
+							<b>&#60;&#61;&#62;</b>
+						</c:when>
+						<c:when test="${Reaction.convention eq 'rhea:direction.RL'}">
+							<b>&#60;&#61;</b>
+						</c:when>
+						<c:otherwise>
+							<b>&#60;&#63;&#62;</b>
+						</c:otherwise>
 					</c:choose>
 				</c:if>
 				<c:if test="${ReactiveMechanism.class.simpleName eq 'ProductList'}">
