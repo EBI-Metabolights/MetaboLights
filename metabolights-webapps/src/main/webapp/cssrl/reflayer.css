@@ -7,14 +7,15 @@ a.noLine {
 }
 
 /* Generic div */
-.genericDiv {
+.refLayerBox {
 	background-color: #ffffff;
 	margin: 0px 2px 2px 4px;
 	padding: 5px 5px 5px 5px; /* top right bottom left */
-	border: 1px solid #ffffff;*/
-	border-radius:2px 2px 2px 2px;
-   	-moz-border-radius: 2px 2px 2px 2px;
-   	-webkit-border-radius:2px 2px 2px 2px;
+	overflow: auto;
+	border: 1px solid #000000;/**/
+	border-radius:5px 5px 5px 5px;
+   	-moz-border-radius: 5px 5px 5px 5px;
+   	-webkit-border-radius:5px 5px 5px 5px;
 }
 
 /* Tag style */
@@ -22,7 +23,7 @@ a.noLine {
 	background-color: #eeeeee;
 	margin: 3px 1px 3px 1px;
 	padding: 1px 2px 1px 2px; /* top right bottom left */
-	border: 1px solid #aaaaaa;*/
+	border: 1px solid #aaaaaa;
 	border-radius:2px 2px 2px 2px;
    	-moz-border-radius: 2px 2px 2px 2px;
    	-webkit-border-radius:2px 2px 2px 2px;

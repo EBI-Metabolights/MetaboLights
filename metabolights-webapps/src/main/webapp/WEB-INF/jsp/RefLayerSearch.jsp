@@ -26,7 +26,7 @@
 		<div class="grid_6 alpha">
 				<form name="Filters" id="filterForm" action="#" method="post">
 					
-					<div class="grid_24 genericDiv">
+					<div class="grid_24 refLayerBox">
 						<b><spring:message code="ref.msg.technology" ></spring:message></b>
 							<c:forEach var="technology" items="${technologyList}">
 								<ul style="max-height:400px; overflow:auto" id="technology" >
@@ -37,7 +37,7 @@
 							</c:forEach>
 					</div>
 					<br/>
-					<div class="grid_24 genericDiv">
+					<div class="grid_24 refLayerBox">
 						<b><spring:message code="ref.msg.organism" ></spring:message></b>
 						<c:forEach var="RefLayerOrg" items="${RefLayer}">
 							<c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
@@ -57,7 +57,7 @@
 		<div class="grid_12">
 			<c:forEach var="entry" items="${entries}">
 				<div style='clear: both;'></div>
-				<div class="grid_24 genericDiv" >
+				<div class="grid_24 refLayerBox">
 					<div class="grid_8 alpha" >
 						<img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}"  width="100px" height="100px" />
 					</div>
@@ -101,7 +101,7 @@
 			</c:forEach>
 		</div>
 		</c:if>
-		<div class="grid_6 omega genericDiv">
+		<div class="grid_6 omega refLayerBox">
 			<p><b>Space reserved for 'Other EBI results' facet</b></p>
 		</div>
 	</div>
