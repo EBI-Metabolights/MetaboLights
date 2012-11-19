@@ -12,10 +12,37 @@ a.noLine {
 	margin: 0px 2px 2px 4px;
 	padding: 5px 5px 5px 5px; /* top right bottom left */
 	overflow: auto;
-	border: 1px solid #000000;/**/
+	border: 1px solid #aaaaaa;/**/
 	border-radius:5px 5px 5px 5px;
    	-moz-border-radius: 5px 5px 5px 5px;
    	-webkit-border-radius:5px 5px 5px 5px;
+}
+
+/* td attribute for + and ? */
+.tdSymbols {
+	text-align: center;
+	border: 0px 0px 0px 0px;
+	padding-top: 40px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-left-width: 0px;
+	border-bottom-width: 0px;
+	width: 10%;	
+}
+
+/*td attribute for Reaction*/
+.tdReactions{
+	text-align: center; 
+	width: 100px; 
+	height:100px; 
+	border-top-width: 0px; 
+	border-bottom-width: 0px; 
+	padding-top: 0px; 
+	padding-bottom: 0px; 
+	padding-right: 0px; 
+	padding-left: 0px; 
+	border-left-width: 0px; 
+	border-right-width: 0px;
 }
 
 /* Tag style */
