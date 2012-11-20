@@ -11,6 +11,7 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.Filter;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.SearchService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -109,7 +110,8 @@ public class SearchController extends AbstractController{
 		}
 
 		//ModelAndView mav = new ModelAndView("searchResult");
-        ModelAndView mav = new ModelAndView(MAVName);
+        //ModelAndView mav = new ModelAndView(MAVName);
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
         mav.addObject("searchResults", displayedResultList);
        	mav.addObject("filters", filter);
        	mav.addObject("freeTextQuery", filter.getFreeTextQuery());

@@ -18,6 +18,18 @@ a.noLine {
    	-webkit-border-radius:5px 5px 5px 5px;
 }
 
+div .box {
+	background-color: #ffffff;
+	margin: 0px 2px 2px 4px;
+	padding: 5px 5px 5px 5px; /* top right bottom left */
+	overflow: auto;
+	border: 1px solid #aaaaaa;/**/
+	border-radius:5px 5px 5px 5px;
+   	-moz-border-radius: 5px 5px 5px 5px;
+   	-webkit-border-radius:5px 5px 5px 5px;
+}
+
+
 /* td attribute for + and ? */
 .tdSymbols {
 	text-align: center;
@@ -56,6 +68,21 @@ a.noLine {
    	-webkit-border-radius:2px 2px 2px 2px;
 }
 
+.title {
+	color: #006666;
+    background: #eef5f5;
+ 	padding: 10px 0px 5px 10px;
+	font-size: 120%;
+	font-weight: bold;
+	border-radius:5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius:5px 5px 5px 5px;
+}
+.right {
+	float:right;
+}
+
+
 /* Tab style */
 .tab {
 	min-height:200px;
@@ -93,3 +120,81 @@ input{
 	color:#AA0000;
 	font-weight: bold;
 }
+
+/* Class for Filter sets */
+.filterset {
+	/*font-size: 10px;*/
+	padding-left:5px;
+	max-height:400px;
+	overflow : auto
+}
+
+.filteritem {
+	display:block;
+}
+
+.dimmed {
+    color:#B0B0B0;
+}
+
+/* sddm: simple drop down menu
+   CSS from in http://javascript-array.com/scripts/simple_drop_down_menu/
+ */
+
+#sddm {	
+	margin: 0;
+	padding: 0;
+	z-index: 30;
+}
+
+#sddm li {	
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: left;
+	font-weight: bold;
+	float: right;
+}
+
+#sddm li a {	
+	display: block;
+	margin: 0 1px 0 0;
+	padding: 4px;
+    color: #004242;
+	text-align: center;
+	text-decoration: none;
+}
+
+#sddm li a:hover {
+	/*background: #49A3FF*/
+   color: #feba12;
+}
+
+#sddm div {	
+	position: absolute;
+	visibility: hidden;
+	margin: 0;
+	padding: 0;
+	border: 1px solid 006666
+}
+
+#sddm div a {	
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 5px 10px;
+	width: auto;
+	white-space: nowrap;
+	text-align: left;
+	text-decoration: none;
+	background: #eef5f5;
+	font-size: 11px;
+	font-weight:normal;
+}
+
+#sddm div a:hover {	
+	background: #bdd7d7;
+    color: #004242;
+}
+
+
