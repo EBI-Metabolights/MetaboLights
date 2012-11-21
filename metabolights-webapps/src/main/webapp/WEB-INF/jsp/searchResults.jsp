@@ -51,9 +51,13 @@ function navigate(_pageNumber) {
   });
   
 </script>
-<br/>
+<c:if test="${!empty welcomemessage}">
+	<div class="topSpacer"></div>
+</c:if>
+
 <div class="grid_24 title alpha" >
 	<div class="grid_12 alpha">
+		<strong>
 		<c:if test="${empty welcomemessage}"> <!-- Not show this part if called from "my submissions" -->
 		     ${totalHits} <spring:message code="msg.searchResults" />
 		</c:if>
@@ -71,6 +75,7 @@ function navigate(_pageNumber) {
 	          <c:if test="${!empty welcomemessage}"> <!-- Show this part if called from "my submissions" -->
 		     of ${totalHits} <spring:message code="msg.studies" />
 		</c:if>
+		</strong>
 	</div>
 	<div class="grid_12 omega">
 		<span id="pagination" class="right">
@@ -94,27 +99,26 @@ function navigate(_pageNumber) {
 	</div>   
 </div>
 <br/>
-<br/>&nbsp;	
 <c:if test="${!empty searchResults}">
-<div id="highlight-plugin">
-	<c:forEach var="searchResult" items="${searchResults}">
-		<%@include file="entrySummary.jsp" %>				
-	</c:forEach>
-</div>
-
-<br/>
-
-<div id="paginationBottom" class="grid_24 title alpha" ></div>
-<script>$('#pagination').clone().appendTo('#paginationBottom');</script>
-
-<c:if test="${!empty userQueryClean}">
-	<script>
-		$('#highlight-plugin').removeHighlight().highlight('${userQueryClean}');
-	</script>
+	<div id="highlight-plugin">
+		<c:forEach var="searchResult" items="${searchResults}">
+			<%@include file="entrySummary.jsp" %>				
+		</c:forEach>
+	</div>
+	
+	<br/>
+	
+	<div id="paginationBottom" class="grid_24 title alpha" ></div>
+	<script>$('#pagination').clone().appendTo('#paginationBottom');</script>
+	
+	<c:if test="${!empty userQueryClean}">
+		<script>
+			$('#highlight-plugin').removeHighlight().highlight('${userQueryClean}');
+		</script>
+	</c:if>
+	<br/>
 </c:if>
-<br/>
-</c:if>
-	<c:if test="${empty searchResults}">
+<c:if test="${empty searchResults}">
 	<h4>
 		<c:if test="${!empty welcomemessage}"> <div style="padding-left:0px"><spring:message code="msg.nothingFoundPersonal" /></div></c:if>
 		<c:if test="${empty welcomemessage}"> 
@@ -125,5 +129,3 @@ function navigate(_pageNumber) {
 	</h4>
 	<br />
 </c:if>
-
-

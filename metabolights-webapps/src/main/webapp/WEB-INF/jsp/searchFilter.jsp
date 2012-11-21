@@ -38,13 +38,16 @@
     <c:if test="${empty welcomemessage}">
         <div class="topSpacerFilter noText"></div>  <!-- Add second top spacer if no heading displayed -->
     </c:if>
-    
-	<h4><spring:message code="label.searchFilter"/></h4>	
 
-	<form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">				
+	<form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">
+
+		<div class="grid_24 alpha omega title">
+			<spring:message code="label.searchFilter"/>
+		</div>	
+			
 		<c:forEach var="filterset" items="${filters.fss}">
 			<c:if test="${filterset.value.isEnabled}">
-				<div class="grid_24 box alpha omega" >
+				<div class="grid_24 alpha omega box" >
 					<b><c:choose><c:when test="${filterset.key=='organism'}"><spring:message code="label.organism"/></c:when>
 							<c:when test="${filterset.key=='technology'}"><spring:message code="label.technology"/></c:when>
 							<c:when test="${filterset.key=='status'}"><spring:message code="label.status"/></c:when>
@@ -89,8 +92,7 @@
 			</c:if>
 		</c:forEach>
 		<input type="hidden" name="freeTextQuery" value="<c:out value="${freeTextQuery}"/>"/>
-	       <input type="hidden" name="pageNumber" value="1"/>
-	
+	    <input type="hidden" name="pageNumber" value="1"/>
 	</form>
 </c:if>
 &nbsp;

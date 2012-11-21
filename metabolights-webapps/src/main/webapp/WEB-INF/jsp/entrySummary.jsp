@@ -4,8 +4,7 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
 
-<div class="grid_24 box alpha omega">
-	
+<div class="box">
 	<c:choose>
 		<c:when test="${!empty welcomemessage && !searchResult.isPublic}">
 			<div class="grid_20 alpha">
@@ -39,31 +38,16 @@
 		</c:otherwise>
 	</c:choose>
 	
-	<div style='clear: both;'></div>
-	<!-- new row -->
-
-	<div style='width: 700px;' class='iscell'>
-		<b><spring:message code="label.releaseDate"/>:</b> <fmt:formatDate pattern="dd-MMM-yyyy" value="${searchResult.releaseDate}"/>
+	<div class='grid_24 alpha omega'>
+		<strong><spring:message code="label.releaseDate"/>:</strong> <fmt:formatDate pattern="dd-MMM-yyyy" value="${searchResult.releaseDate}"/>
 		<c:if test="${!searchResult.isPublic}">
-			&nbsp;<img src="img/ebi-icons/32px/key.png" class="img_alignment_yellow"/><b>&nbsp;<spring:message code="label.expPrivate"/></b>
-			<!--
-			<c:if test="${!empty welcomemessage}">&nbsp;
-			<div style="float: right; margin-right:90px;">
-            <form name="publish-form" action="updatepublicreleasedateform" method="post">
-				<input type="hidden" name="study" value="${searchResult.accStudy}"/>
-                <input type="submit" id="publish" class="multi-line-button main" value=" <spring:message code="label.makestudypublic"/> ">
-			</form>
-			</div>
-			</c:if>
-			 -->
+			&nbsp;<div class="ebiicon key"></div><strong>&nbsp;<spring:message code="label.expPrivate"/></strong>
 		</c:if>
 	</div>
 	
-	<div style='clear: both;'></div>
-	<!-- new row -->
-	
-	<div style='width: 500px;' class='iscell'>
-		<b><spring:message code="label.organism" /></b>
+	<div class='grid_24 alpha omega'>
+		<br/>
+		<strong><spring:message code="label.organism" /></strong>
 		<ul id="resultList">
 			<c:forEach var="species" items="${searchResult.organism}">
 				<li>${species}</li>
@@ -71,11 +55,8 @@
 		</ul>
 	</div>
 	
-	<div style='clear: both;'></div>
-	<!-- new row -->
-	
-	<div style='width: 500px;' class='iscell'>
-		<b><spring:message code="label.expFact" /></b>
+	<div class='grid_18 alpha'>
+		<strong><spring:message code="label.expFact" /></strong>
 		<ul id="resultList">
 			<c:forEach var="factor" items="${searchResult.factors}">
 				<li>${factor.key}: ${factor.value}</li>
@@ -83,36 +64,19 @@
 		</ul>
 	</div>
 	
-	<div style='width: 200px;' class='iscell'>
-		<spring:message code="label.expId" />: <b>${searchResult.accStudy}</b><br/>
+	<div class='grid_6 omega'>
+		<spring:message code="label.expId" />: <strong>${searchResult.accStudy}</strong><br/>
 		<spring:message code="label.subm" /> ${searchResult.submitter.name} ${searchResult.submitter.surname}<br/>
 	</div>
 	
 
-	<div style='clear: both;'></div>
-	<!-- new row -->
-
-	<div style='width: 300px;' class='iscell'>
-		<b><spring:message code="label.assays" /></b>
+	<div class='grid_24 alpha omega'>
+		<strong><spring:message code="label.assays" /></strong>
 		<ul id="resultList">
 			<c:forEach var="assay" items="${searchResult.assays}">
 				<li>${assay.technology} (${assay.count})</li>
 			</c:forEach>
 		</ul>
 	</div>
-	
-	<!--
-	<div style='width: 400px;' class='iscell'>
-		<c:if test="${not empty searchResult.publications}">
-            <c:forEach var="pub" items="${searchResult.publications}">
-	               <IMG src="img/book.png" height="18"> <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pubmedId}&dataSource=MED">${pub.title}</a> 
-	            <br/>
-            </c:forEach>
-            <br/>
-   		</c:if>
-   	</div>
-   	-->	
 
-	<div style='clear: both;'></div>
-	<!-- new row -->
 </div>
