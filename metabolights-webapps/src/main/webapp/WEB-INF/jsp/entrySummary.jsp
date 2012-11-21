@@ -4,7 +4,7 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
 
-<div class="box">
+<div class="grid_24 alpha omega box">
 	<c:choose>
 		<c:when test="${!empty welcomemessage && !searchResult.isPublic}">
 			<div class="grid_20 alpha">
@@ -29,6 +29,7 @@
 					 </div>
 				   </li>
 				</ul>
+				<div style="clear:both"></div>
 			</div>
 		</c:when>
 		<c:otherwise>
@@ -38,14 +39,14 @@
 		</c:otherwise>
 	</c:choose>
 	
-	<div class='grid_24 alpha omega'>
+	<div class='grid_20 alpha omega'>
 		<strong><spring:message code="label.releaseDate"/>:</strong> <fmt:formatDate pattern="dd-MMM-yyyy" value="${searchResult.releaseDate}"/>
 		<c:if test="${!searchResult.isPublic}">
 			&nbsp;<div class="ebiicon key"></div><strong>&nbsp;<spring:message code="label.expPrivate"/></strong>
 		</c:if>
 	</div>
 	
-	<div class='grid_24 alpha omega'>
+	<div class='grid_20 alpha omega'>
 		<br/>
 		<strong><spring:message code="label.organism" /></strong>
 		<ul id="resultList">
