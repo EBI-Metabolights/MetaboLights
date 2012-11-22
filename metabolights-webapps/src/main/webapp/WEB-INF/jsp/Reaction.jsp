@@ -6,7 +6,7 @@
 <c:choose>
 	<c:when test="${not empty Reactions}">
 		<h3>
-			<b>Rhea Reactions</b>
+			<b><a href="http://www.ebi.ac.uk/rhea/">Rhea Reactions</a></b>
 		</h3>
 		<c:forEach var="Reaction" items="${Reactions}">
 			<div class="refLayerBox" style='clear: both;'>
@@ -69,8 +69,7 @@
 					</c:if>
 				</c:forEach>
 				<br />
-				<table
-					style="border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-right-width: 0px; padding-right: 0px; margin-left: 0px;">
+				<table style="border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-right-width: 0px; padding-right: 0px; margin-left: 0px;">
 					<tr>
 						<c:forEach var="ReactiveMechanism"
 							items="${Reaction.reactiveCentreAndMechanismAndReactantList}"

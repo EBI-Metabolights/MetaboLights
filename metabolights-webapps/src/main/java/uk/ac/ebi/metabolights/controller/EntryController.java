@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.io.IOUtils;
 
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import uk.ac.ebi.biobabel.citations.CitexploreWSClient;
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
@@ -20,31 +23,26 @@ import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
+import uk.ac.ebi.cdb.webservice.AuthorsList;
+import uk.ac.ebi.cdb.webservice.QueryException_Exception;
+import uk.ac.ebi.cdb.webservice.Result;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.referencelayer.MetabolightsCompound;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
-import uk.ac.ebi.metaboligths.referencelayer.model.ModelObjectFactory;
+import uk.ac.ebi.metaboligths.referencelayer.model.*;
 import uk.ac.ebi.rhea.ws.client.RheaFetchDataException;
 import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
-import uk.ac.ebi.rhea.ws.response.cmlreact.Product;
-import uk.ac.ebi.rhea.ws.response.cmlreact.ProductList;
-import uk.ac.ebi.rhea.ws.response.cmlreact.Reactant;
-import uk.ac.ebi.rhea.ws.response.cmlreact.ReactantList;
 import uk.ac.ebi.rhea.ws.response.cmlreact.Reaction;
-import uk.ac.ebi.rhea.ws.response.cmlreact.ReactionList;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
-
 import java.io.*;
 import java.security.Principal;
 import java.util.*;
@@ -64,15 +62,15 @@ public class EntryController extends AbstractController {
 	@Autowired
 	private SearchService searchService;
 
-    private @Value("#{publicFtpLocation}") String publicFtpDirectory;
-    private @Value("#{privateFtpStageLocation}") String privateFtpDirectory;
-    private @Value("#{ftpServer}") String ftpServer;
-    private @Value("#{filebase}") String filebase;
-    private @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
+	private @Value("#{publicFtpLocation}") String publicFtpDirectory;
+	private @Value("#{privateFtpStageLocation}") String privateFtpDirectory;
+	private @Value("#{ftpServer}") String ftpServer;
+	private @Value("#{filebase}") String filebase;
+	private @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId}")
-	
+
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblId);
 
@@ -80,24 +78,24 @@ public class EntryController extends AbstractController {
 		if (mtblId.startsWith("MTBLC")){ 
 			return showMTBLC(mtblId);
 		}
-		
-        Study study = null;
 
-        try {
-            request.setCharacterEncoding("UTF-8");
-            study = studyService.getBiiStudy(mtblId,true);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //TODO, change
-        }
+		Study study = null;
 
-        // Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
-        if (study.getAcc() == null || study.getAcc().equals("Error") || study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
-        	return AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
-		
+		try {
+			request.setCharacterEncoding("UTF-8");
+			study = studyService.getBiiStudy(mtblId,true);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();  //TODO, change
+		}
+
+		// Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
+		if (study.getAcc() == null || study.getAcc().equals("Error") || study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
+			return AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
+
 		Collection<String> organismNames = getOrganisms(study);
 
-        // Get the DownloadLink
-        String fileLocation = getDownloadLink(study.getAcc(), study.getStatus());
+		// Get the DownloadLink
+		String fileLocation = getDownloadLink(study.getAcc(), study.getStatus());
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry");
 		mav.addObject("study", study);
@@ -105,49 +103,83 @@ public class EntryController extends AbstractController {
 		mav.addObject("factors", getFactorsSummary(study));
 		mav.addObject("assays", getMLAssays(study));
 
-        //Have to give the user the download stream as the study is not on the public ftp
-        //if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
-        mav.addObject("fileLocation",fileLocation); //All zip files are now generated on the fly, so ftpLocation is really fileLocation
-        
-        //Stick text for tagging (Whatizit) in the session..                       //TODO, Whatizit is not responding
-        //if (study.getDescription()!=null) {
-        //	logger.debug("placing study description in session for Ajax highlighting");
-        //	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
-        //}
+		//Have to give the user the download stream as the study is not on the public ftp
+		//if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
+		mav.addObject("fileLocation",fileLocation); //All zip files are now generated on the fly, so ftpLocation is really fileLocation
+
+		//Stick text for tagging (Whatizit) in the session..                       //TODO, Whatizit is not responding
+		//if (study.getDescription()!=null) {
+		//	logger.debug("placing study description in session for Ajax highlighting");
+		//	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
+		//}
 
 		return mav;
 	}
-	
+
 	private ModelAndView showMTBLC(String accession){
-		
+
 		//ModelAndView mav = new ModelAndView("compound");
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("compound"); 
 		mav.addObject("compound", ModelObjectFactory.getCompound(accession));
-		
+
 		return mav;
-		
+
 	}
-	
+
 	@RequestMapping(value = "/Reactions")
 	private ModelAndView showReactions(
-			@RequestParam(required = false, value = "mtblc") String compound){
-		
+			@RequestParam(required = false, value = "chebiId") String compound){
+
 		//Instantiate Model and view
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("Reaction");
-		
+
 		//Setting up resource client
 		RheasResourceClient client = new RheasResourceClient();
-		
+
 		//Initialising and passing chebi Id as compound to Rhea
 		List<Reaction> reactions = null;
-		
+
 		try {
 			reactions = client.getRheasInCmlreact(compound);
 		} catch (RheaFetchDataException e) {
 			e.printStackTrace();
 		}
-		
+
 		mav.addObject("Reactions",reactions);
+		return mav;
+	}
+
+	@RequestMapping(value = "/Citations")
+	private ModelAndView showCitations(
+			@RequestParam(required = false, value = "mtblc") String mtblc){
+
+		//Instantiate Model and view
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("Citations");
+
+		//Initialising Reslut
+		Result rslt = null;
+		
+		//Passing MTBLC cmound id to Modelobjectfactory class
+		Compound cmpd = ModelObjectFactory.getCompound(mtblc);
+		
+		//Creating a list object for DataItems
+		List<DataItem> pmid = cmpd.getChebiEntity().getCitations();
+		
+		//Creating a list object for Result
+		List<Result> rsltItems = new  ArrayList<Result>();
+		
+		//Iterating the dataitems to get the citation object
+		for(int x=0; x<pmid.size(); x++){
+			try {
+				rslt = CitexploreWSClient.getCitation(pmid.get(x).getData().toString());
+				rsltItems.add(x, rslt);
+			} catch (QueryException_Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		mav.addObject("citationList", rsltItems);
+
 		return mav;
 	}
 
@@ -170,17 +202,17 @@ public class EntryController extends AbstractController {
 	}
 
 	private Collection<MLAssay> getMLAssays(Study study){
-		
+
 		HashMap<String,MLAssay> mlAssays = new HashMap<String, MLAssay>();
-		
+
 		for (AssayResult ar : study.getAssayResults()){
-			
+
 			MLAssay mlAssay= null;
-			
+
 			for (Assay assay: ar.getAssays()){
-				
+
 				String assayName = MLAssay.getAssayNameFromAssay(assay);
-								
+
 				// If we don't have the MLAssay
 				if (!mlAssays.containsKey(assayName)){
 					mlAssay = new MLAssay(assay);
@@ -189,23 +221,23 @@ public class EntryController extends AbstractController {
 				} else {
 					mlAssay = mlAssays.get(assayName);
 				}
-				
-				
+
+
 				mlAssay.addAssayLines(assay);
-				
+
 			}
-			
+
 			// Add the assay line to the assay
 			mlAssay.addAssayResult(ar);
-			
+
 			if (ar.getAssays().size()!=1) logger.info("*****WARNING:Assays collection's size is different from 1, we expect to have a one-to-one relationship!!!: " + ar.getAssays().size());
 
 		}
-		
+
 		// Assign AssayGroup and metabolites
 		for (AssayGroup ag: study.getAssayGroups()){
 			MLAssay mlAssay = mlAssays.get(ag.getFileName());
-		
+
 			if (mlAssay == null){
 				logger.info("Oh! Not MLAssay forund for AssayGroup: " + ag.getFileName());
 			}else{
@@ -213,36 +245,36 @@ public class EntryController extends AbstractController {
 				mlAssay.setAssayGroup(ag);
 			}
 		}
-		
+
 		return mlAssays.values();
 	}
 
-    @RequestMapping(value = "/publicfiles/{file_name}")
-    public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response) {
-        try {
-            serveFile(publicFtpDirectory, zipOnDemandLocation, fileName, response);
-            response.flushBuffer();
+	@RequestMapping(value = "/publicfiles/{file_name}")
+	public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response) {
+		try {
+			serveFile(publicFtpDirectory, zipOnDemandLocation, fileName, response);
+			response.flushBuffer();
 
-        } catch (Exception e) {
-            throw new RuntimeException("IOError writing file to output stream");
-        }
-    }
-	
+		} catch (Exception e) {
+			throw new RuntimeException("IOError writing file to output stream");
+		}
+	}
+
 	@RequestMapping(value = "/privatefiles/{file_name}")
 	public void getFile(@PathVariable("file_name") String fileName,	HttpServletResponse response, Principal principal) {
 		try {
 
 			Boolean validUser = false;
-            final String currentUser = principal.getName(); //The logged in user.  principal = MetabolightsUser
+			final String currentUser = principal.getName(); //The logged in user.  principal = MetabolightsUser
 
-            //TODO, not very elegant, this is just to determine if the logged in user us a curator
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (!auth.getPrincipal().equals(new String("anonymousUser"))){
-                MetabolightsUser metabolightsUser = (MetabolightsUser) auth.getPrincipal();
+			//TODO, not very elegant, this is just to determine if the logged in user us a curator
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (!auth.getPrincipal().equals(new String("anonymousUser"))){
+				MetabolightsUser metabolightsUser = (MetabolightsUser) auth.getPrincipal();
 
-                if (metabolightsUser != null && metabolightsUser.isCurator())
-                    validUser = true;
-            }
+				if (metabolightsUser != null && metabolightsUser.isCurator())
+					validUser = true;
+			}
 
 			if (currentUser != null) { //Check if the logged in user can access the study
 				Study study = studyService.getBiiStudy(fileName,true);
@@ -261,7 +293,7 @@ public class EntryController extends AbstractController {
 				throw new RuntimeException(PropertyLookup.getMessage("Entry.notAuthorised"));
 
 			try {
-                serveFile(privateFtpDirectory, zipOnDemandLocation, fileName, response);
+				serveFile(privateFtpDirectory, zipOnDemandLocation, fileName, response);
 
 			} catch (Exception e) {
 				throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing")); 
@@ -276,119 +308,119 @@ public class EntryController extends AbstractController {
 	}
 
 
-    private void serveFile(String readFromPath, String writeToPath, String fileName, HttpServletResponse response){
-        try {
-            if (!getZipFile(writeToPath, fileName, response))      // Get the file, stream to the user
-                createZipFile(readFromPath, writeToPath, fileName, response);    // If the file is not there, create the file and send to the user
-        } catch (Exception e) {
-            throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing"));
-        }
-    }
+	private void serveFile(String readFromPath, String writeToPath, String fileName, HttpServletResponse response){
+		try {
+			if (!getZipFile(writeToPath, fileName, response))      // Get the file, stream to the user
+				createZipFile(readFromPath, writeToPath, fileName, response);    // If the file is not there, create the file and send to the user
+		} catch (Exception e) {
+			throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing"));
+		}
+	}
 
-    //Get the file, stream to browser
-    private boolean getZipFile(String path, String fileName, HttpServletResponse response){
-        try {
-            // get your file as InputStream
-            InputStream is = new FileInputStream(path + fileName + ".zip");
+	//Get the file, stream to browser
+	private boolean getZipFile(String path, String fileName, HttpServletResponse response){
+		try {
+			// get your file as InputStream
+			InputStream is = new FileInputStream(path + fileName + ".zip");
 
-            // let the browser know it's a zip file
-            response.setContentType("application/zip");
+			// let the browser know it's a zip file
+			response.setContentType("application/zip");
 
-            // copy it to response's OutputStream
-            IOUtils.copy(is, response.getOutputStream());
+			// copy it to response's OutputStream
+			IOUtils.copy(is, response.getOutputStream());
 
-            return true;
+			return true;
 
-        } catch (FileNotFoundException e) {
-            logger.info("User requested zip file "+ fileName + ".zip not found, will create now!");
-            return false;
-            //throw new RuntimeException("File not in input stream");
-        } catch (IOException ex) {
-            logger.info("Error writing file to output stream. Filename was '"+ fileName + "'");
-            throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing"));
-        }
-    }
+		} catch (FileNotFoundException e) {
+			logger.info("User requested zip file "+ fileName + ".zip not found, will create now!");
+			return false;
+			//throw new RuntimeException("File not in input stream");
+		} catch (IOException ex) {
+			logger.info("Error writing file to output stream. Filename was '"+ fileName + "'");
+			throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing"));
+		}
+	}
 
-    //Create the requested zip file based on the study folder
-    private void createZipFile(String fromPath, String outPath, String fileName, HttpServletResponse response) throws IOException {
+	//Create the requested zip file based on the study folder
+	private void createZipFile(String fromPath, String outPath, String fileName, HttpServletResponse response) throws IOException {
 
-        String zipFile = outPath + fileName + ".zip";
+		String zipFile = outPath + fileName + ".zip";
 
-        if (!FileUtil.fileExists(zipFile))  // Just to be sure that the file *don't already* exist
-            Zipper.zip(fromPath + fileName, zipFile);
+		if (!FileUtil.fileExists(zipFile))  // Just to be sure that the file *don't already* exist
+			Zipper.zip(fromPath + fileName, zipFile);
 
-        if (FileUtil.fileExists(zipFile))  // Just to be sure that the file *now* exist
-            getZipFile(outPath, fileName, response);
+		if (FileUtil.fileExists(zipFile))  // Just to be sure that the file *now* exist
+			getZipFile(outPath, fileName, response);
 
-    }
+	}
 
 
-    @Autowired
-    private TextTaggerService textTagger;
+	@Autowired
+	private TextTaggerService textTagger;
 
-    /**
-     * Intended for an asynchronous call, to tag the description in a study.
-     * @param request
-     * @return ugly pixie 
-     */
+	/**
+	 * Intended for an asynchronous call, to tag the description in a study.
+	 * @param request
+	 * @return ugly pixie 
+	 */
 	@RequestMapping(value="/tagText")
 	public ModelAndView whatIzItStuff (HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("taggedText");
 		String description = (String) request.getSession().getAttribute(DESCRIPTION);
-    	if(description!=null) {
+		if(description!=null) {
 			logger.debug("Calling WhatWhatIzIt");
 			String taggedContent = textTagger.tagText(description);
 			mav.addObject("taggedContent", taggedContent);
 			logger.debug(taggedContent);
-    	}
-    	else 
-    		mav.addObject("taggedContent", null);
+		}
+		else 
+			mav.addObject("taggedContent", null);
 		return mav;
 	}
-	
+
 	public String getDownloadLink(String study, VisibilityStatus status){
 
 		String ftpLocation = null;
-		
+
 		if (status.equals(VisibilityStatus.PRIVATE)){	// Only for the submitter
 			ftpLocation = "privatefiles/" + study;  //Private download, file stream
 		} else {  //Serve back public ftp link
-            //No longer downloading zip from ftp, ftp only have unzipped folders, so create a zip file and stream a file on demand
-            //ftpLocation = publicFtpDirectory.replaceFirst(filebase,"ftp://" + ftpServer + "/")  + study +".zip";     //Remove the filesystem (filebase), replase with ftp address (ftpServer)
-            ftpLocation = "publicfiles/" + study;
-        }
+			//No longer downloading zip from ftp, ftp only have unzipped folders, so create a zip file and stream a file on demand
+			//ftpLocation = publicFtpDirectory.replaceFirst(filebase,"ftp://" + ftpServer + "/")  + study +".zip";     //Remove the filesystem (filebase), replase with ftp address (ftpServer)
+			ftpLocation = "publicfiles/" + study;
+		}
 
 		return ftpLocation;
 	}
-	
+
 	private HashMap<String,ArrayList<String>> getFactorsSummary(Study study){
-		
+
 		HashMap<String, ArrayList<String>> fvSummary = new HashMap<String, ArrayList<String>>();
-		
+
 		// Loop through the assay results
 		for (AssayResult ar:study.getAssayResults()){
-			
+
 			// For each factor value in Data item
 			for (FactorValue fv:ar.getData().getFactorValues()){
-				
+
 				// ... if we don't have the factor already in the collection
 				if (!fvSummary.containsKey(fv.getType().getValue())){
 					fvSummary.put(fv.getType().getValue(),new ArrayList<String>());
 				}
-				
+
 				// Get the values for that factor...
 				ArrayList<String> values = fvSummary.get(fv.getType().getValue());
-				
-				
+
+
 				String value;
-				
+
 				// Add the new value
 				if (!(fv.getUnit() == null)){
 					value = fv.getValue() + " " + fv.getUnit().getValue();
 				} else {
 					value = fv.getValue();
 				}
-				
+
 				if (!values.contains(value)) values.add(value);
 			}
 		}

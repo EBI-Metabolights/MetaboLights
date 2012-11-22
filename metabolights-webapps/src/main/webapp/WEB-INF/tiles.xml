@@ -279,6 +279,9 @@
         <put-attribute name="title" value="MetaboLights entry" />
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
+    
+    <definition name="Citations" template="/WEB-INF/jsp/Citations.jsp">
+    </definition>
 		
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
 	

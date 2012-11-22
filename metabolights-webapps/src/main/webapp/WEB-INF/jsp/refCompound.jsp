@@ -77,7 +77,7 @@ function color_for_atom(formulaChar)
 					<a href="#tabs-3"><spring:message code="ref.compound.tab.pathways"/></a>
 				</li>
 				<li>
-					<a href="Reactions?mtblc=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
+					<a href="Reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
 				</li>
 				<li>
 					<a href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
@@ -86,7 +86,7 @@ function color_for_atom(formulaChar)
 					<a href="#tabs-6"><spring:message code="ref.compound.tab.msspectra"/></a>
 				</li>
 				<li>
-					<a href="#tabs-7"><spring:message code="ref.compound.tab.literature"/></a>
+					<a href="Citations?mtblc=${compound.mc.accession}"><spring:message code="ref.compound.tab.literature"/></a>
 				</li>
 			</ul>
 		
@@ -127,16 +127,16 @@ function color_for_atom(formulaChar)
 			<div id="tabs-5" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKiJmVL9LDgA1YJFz6bSMLV4jNc_unkwF5Mv9M9YxxX8ZL9guZ"/></div>
 			<!-- MS Spectra -->
 			<div id="tabs-6" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE143R-fv5Qf-78aSulo8vvFCTdinc-JULSdvh8i3erXA3kwFnnA"/></div>
-			<!-- Literature -->
+			<!-- Literature 
 			<div id="tabs-7" class="tab">
-				<h4>To be implemented...</h4>
+				<!--<h4>To be implemented...</h4>
 				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIS7_rCf2a4_96A56MVeTRTsvyLmohyfOwBLDrUwds5HAat6RZ"/>
-				<!--
+				<br/>
 				<c:forEach var="citation" items="${compound.chebiEntity.citations}">
 					<span class="tag">${citation.data}</span><br/>
 				</c:forEach>
-				 -->
 			</div>
+			-->
 		</div>
 	</div>
 </div>
