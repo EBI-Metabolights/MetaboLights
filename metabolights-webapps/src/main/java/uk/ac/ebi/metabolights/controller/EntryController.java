@@ -92,14 +92,14 @@ public class EntryController extends AbstractController {
 
         // Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
         if (study.getAcc() == null || study.getAcc().equals("Error") || study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
-            return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
+        	return AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
 		
 		Collection<String> organismNames = getOrganisms(study);
 
         // Get the DownloadLink
         String fileLocation = getDownloadLink(study.getAcc(), study.getStatus());
 
-		ModelAndView mav = new ModelAndView("entry");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry");
 		mav.addObject("study", study);
 		mav.addObject("organismNames", organismNames);
 		mav.addObject("factors", getFactorsSummary(study));

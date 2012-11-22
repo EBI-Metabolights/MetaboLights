@@ -89,6 +89,13 @@
         <put-attribute name="searchFilter" value="/WEB-INF/jsp/searchFilter.jsp" />
     </definition>
 
+	<definition name="entry" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights entry" />
+        <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
+    </definition>
+		
+	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
+
 	-->
 	
     <definition name="error" extends="base.definition">
@@ -120,12 +127,7 @@
         <put-attribute name="title" value="MetaboLights upload successful" />
         <put-attribute name="body" value="/WEB-INF/jsp/submitOk.jsp" />
     </definition>
-	
-	<definition name="entry" extends="base.definition">
-        <put-attribute name="title" value="MetaboLights entry" />
-        <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
-    </definition>
-	
+
 	<definition name="updateStudyForm" extends="base.definition">
         <put-attribute name="title" value="Update study" />
         <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
@@ -140,8 +142,6 @@
         <put-attribute name="title" value="MetaboLights - Configuration" />
         <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
     </definition>
-	
-	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
 
 	<definition name="proxy" template="/WEB-INF/jsp/proxy.jsp"/>
 
@@ -259,9 +259,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
     </definition>
     
-    <definition name="Reaction" template="/WEB-INF/jsp/Reaction.jsp">
-    </definition>
-    
+    <definition name="Reaction" template="/WEB-INF/jsp/Reaction.jsp"></definition>
 
 	<definition name="searchResult.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
         <put-attribute name="leftmenu" value="/WEB-INF/jsp/searchFilter.jsp" />
@@ -276,6 +274,14 @@
 	<definition name="browse" extends="searchResult">
 		<put-attribute name="title" value="MetaboLights - Browse studies" />
 	</definition>
+	
+	<definition name="entry" extends="default">
+        <put-attribute name="title" value="MetaboLights entry" />
+        <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
+    </definition>
+		
+	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
+	
 
 	
 </tiles-definitions>

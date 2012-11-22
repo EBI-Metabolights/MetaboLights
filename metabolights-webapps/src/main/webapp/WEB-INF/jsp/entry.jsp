@@ -4,25 +4,17 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
-<script type="text/javascript" src="javascript/jquery-1.6.2.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
 <link rel="stylesheet"  href="css/ChEBICompound.css" type="text/css" />
 
-
-
 <script language="javascript" type="text/javascript">
 $(document).ready(function() {
-    
 
 	$("body").append('<div id="chebiInfo"></div>');
 	var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:'./proxy'});
 	$('#chebiInfo').hide();
-	
-	//var instance;
-	
 	
 	$("a.showLink").click(function(event) {
         var clickedId = event.target.id;
@@ -50,10 +42,7 @@ $(document).ready(function() {
         
     });
     
-    
     var metLinkTimer = 0; // 0 is a safe "no timer" value
-   
-    
  
      $('.metLink').live('mouseenter', function(e) {
          // I'm assuming you don't want to stomp on an existing timer
@@ -88,10 +77,7 @@ $(document).ready(function() {
  	 		var offset = metlink.offset();
  	 		var mouseX = offset.left + metlink.outerWidth() + 20;
      		var mouseY = offset.top;
- 	 		
- 	 		
      		
- 	 		//chebiId = metaboliteId.replace('CHEBI:','');
  	 		chebiId = metaboliteId;
  	 		
  	 		$('#chebiInfo img:last-child').remove;
@@ -100,16 +86,11 @@ $(document).ready(function() {
  	 		$('#chebiInfo').fadeIn('slow');
      		
  	 		chebiInfoDiv.setId(chebiId);
-
- 	    	
  	 	}
-           
 	}
-     
 });
 </script>
 <script language="Javascript" type="text/javascript">
-
 
 function createRequestObject() {
     var tmpXmlHttpObject;
@@ -151,30 +132,30 @@ function processResponse() {
         //So it may be worth doing some basic error before setting the contents of the <div>
     }
 }
-
 function onloadAction() {
 	//tagTextWithWhatizit();                   //TODO, fix when whatizit works again
 }
-
 </script>
-
-
 <script>
 $(function() {
 	$( "#tabs" ).tabs();
 });
 </script>
 
-<div class="text_header" style='height:46px'>
-	<c:if test="${not empty fileLocation}">
-		<div style='width:20%; float:right'><IMG src="img/ebi-icons/32px/download.png" class="img_alignment_yellow"> <a href="${fileLocation}"> <spring:message code="label.ftpDownload"/></a></div>
-	</c:if>
-	<div style='width:75%'>${study.acc}: ${study.title}</div>
+<div class="grid_24 alpha omega title">
+	<div class="grid_19 alpha">
+		<strong>${study.acc}: ${study.title}</strong>
+	</div>
+	<div class="grid_5 omega">
+		<c:if test="${not empty fileLocation}">
+			<a class="noLine" href="${fileLocation}"><div class="ebiicon download"></div>&nbsp;<spring:message code="label.ftpDownload"/></a>
+		</c:if>
+	</div>
 </div>
 
 <c:set var="stringToFind" value="${study.acc}:assay:" />
 
-<div class="formbox border">
+<div class="grid_24 box">
 
        <c:if test="${not empty study.contacts}">
             <br/>
@@ -199,15 +180,15 @@ $(function() {
  		<br/>
 		<div id="tabs">
 			<ul>
-				<li><a href="#tabs-1"><spring:message code="label.studyDesign"/></a></li>
+				<li><a href="#tabs-1" class="noLine"><spring:message code="label.studyDesign"/></a></li>
 				<li>
-					<a href="#tabs-2"><spring:message code="label.protocols"/></a>
+					<a href="#tabs-2" class="noLine"><spring:message code="label.protocols"/></a>
 				</li>
 				<li>
-					<a href="#tabs-3"><spring:message code="label.data"/></a>
+					<a href="#tabs-3" class="noLine"><spring:message code="label.data"/></a>
 				</li>
 				<li>
-					<a href="#tabs-4"><spring:message code="label.metabolites"/>
+					<a href="#tabs-4" class="noLine"><spring:message code="label.metabolites"/>
 					<c:if test="${not empty metabolites}">
 						(${fn:length(metabolites)})
 					</c:if>
@@ -217,7 +198,7 @@ $(function() {
 			<div id="tabs-1">
 		        <c:if test="${not empty organismNames}">
 		            <br/>
-		            <fieldset class="filterbox">
+		            <fieldset class="box">
 		            	<legend><spring:message code="label.organisms"/>:</legend>
 			            <br/>
 			            <c:forEach var="organismName" items="${organismNames}" >
@@ -227,10 +208,10 @@ $(function() {
 		        </c:if>
 				<c:if test="${not empty study.designs}">
 		            <br/>
-		            <fieldset class="filterbox">
+		            <fieldset class="box">
 		            	<legend><spring:message code="label.studyDesign"/>:</legend>
 			            <br/>
-			            <ul>
+			            <ul id="resultList">
 			            <c:forEach var="design" items="${study.designs}" >
 			                <li>${design.value}
 			            </c:forEach>
@@ -239,7 +220,7 @@ $(function() {
 		        </c:if>
 		        <c:if test="${not empty study.objective}">
 		            <br/>
-		            <fieldset class="filterbox">
+		            <fieldset class="box">
 		            	<legend><spring:message code="label.studyDesign"/></legend>
 			            <br/><br/>${study.objective}
 			       </fieldset>
@@ -247,11 +228,11 @@ $(function() {
 
 		        <c:if test="${not empty study.publications}">
 					<br/>
-		            <fieldset class="filterbox">
+		            <fieldset class="box">
 		            	<legend><spring:message code="label.publications"/></legend>
 						<c:forEach var="pub" items="${study.publications}">
 							<br/>
-							<IMG src="img/ebi-icons/32px/book.png" class="img_alignment_green">
+							<div class="ebiicon book"></div>
 		                	<c:choose>
 		                	<c:when test="${not empty pub.pmid}">
 		                		 <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a>
@@ -264,7 +245,7 @@ $(function() {
 		        </c:if>
 		        <c:if test="${not empty factors}">
 		        	<br/>
-		            <fieldset class="filterbox">
+		            <fieldset class="box">
 		            	<legend><spring:message code="label.experimentalFactors"/></legend>
 		                    <ul>
 				                <c:forEach var="fv" items="${factors}">
@@ -397,68 +378,69 @@ $(function() {
 						</c:if>
 						<!-- Parallel Coordinates stuff ends-->
 
-						<br/>
-						<br/>
-						<div style="overflow: auto">
 
-				            <table width="100%">
-
-			                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
-
-								<%-- Write the header, only the first time --%>
-		                  		<c:if test="${loopStatusMet.index == 1}">
-									<thead class='text_header'>
-										<tr>
-											<th><spring:message code="label.metabolites.description"/></th>
-											<th><spring:message code="label.metabolites.formula"/></th>
-				                   			<c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
-				                   				<th>${sampleHeader.sampleName}</th>
-				                   			</c:forEach>
-				                   			
+						<c:if test="${fn:length(mlAssay.metabolitesGUI) gt 0}">
+							<br/>
+							<br/>
+							<div style="overflow: auto">
+	
+					            <table width="100%">
+	
+				                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
+	
+									<%-- Write the header, only the first time --%>
+			                  		<c:if test="${loopStatusMet.index == 1}">
+										<thead class='text_header'>
+											<tr>
+												<th><spring:message code="label.metabolites.description"/></th>
+												<th><spring:message code="label.metabolites.formula"/></th>
+					                   			<c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
+					                   				<th>${sampleHeader.sampleName}</th>
+					                   			</c:forEach>
+					                   			
+											</tr>
+										</thead>
+										<tbody>			
+			                  		</c:if>
+		
+		   	                   		<%-- Show more stuff...show only ten lines by default --%>
+			                  		<c:if test="${loopStatusMet.index == 10}">
+			                  			</tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
+			                  		</c:if>
+			
+									<%--Line itself --%>
+			                  		<tr style="background: ${loopStatusMet.index % 2 == 0 ? '' : '#eef5f5'}">
+				                    	<td class="tableitem">
+				                    		${met.metabolite.description}
+			                  				<c:choose>
+			                  					<c:when test="${empty met.metabolite.identifier}"></c:when>
+			                  					<c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
+			                  					<c:otherwise><a class="metLink" identifier="${met.metabolite.identifier}" href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
+			                  				</c:choose>
+				                   		</td>               			
+			                   			<td class="tableitem">
+				                    		${met.metabolite.chemical_formula}
+			                  			</td>
+		
+										<%-- sampleValues --%>                   			
+			                   			<c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >
+			                  				<td class="tableitem">
+			                  					${sample.value}
+			                  				</td>
+				                    	</c:forEach> <%-- For each sample --%>
+		
 										</tr>
-									</thead>
-									<tbody>			
-		                  		</c:if>
-	
-	   	                   		<%-- Show more stuff...show only ten lines by default --%>
-		                  		<c:if test="${loopStatusMet.index == 10}">
-		                  			</tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
-		                  		</c:if>
-		
-								<%--Line itself --%>
-		                  		<tr style="background: ${loopStatusMet.index % 2 == 0 ? '' : '#eef5f5'}">
-			                    	<td class="tableitem">
-			                    		${met.metabolite.description}
-		                  				<c:choose>
-		                  					<c:when test="${empty met.metabolite.identifier}"></c:when>
-		                  					<c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
-		                  					<c:otherwise><a class="metLink" identifier="${met.metabolite.identifier}" href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
-		                  				</c:choose>
-			                   		</td>               			
-		                   			<td class="tableitem">
-			                    		${met.metabolite.chemical_formula}
-		                  			</td>
-	
-									<%-- sampleValues --%>                   			
-		                   			<c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >
-		                  				<td class="tableitem">
-		                  					${sample.value}
-		                  				</td>
-			                    	</c:forEach> <%-- For each sample --%>
-	
-									</tr>
-											                    			
-				                </c:forEach> <%-- For each metabolite (line)--%>
-				                </tbody>
-				            </table>
-						</div>
-		
-			             <c:if test="${fn:length(mlAssay.metabolitesGUI) > 10}"><a href="#" class="showLink" id="met_link_${loopStatusAssay.index}">Show more</a></c:if>
-			             <br/>
-			            
-			        </c:forEach> <!-- For each assayGroup -->					
+												                    			
+					                </c:forEach> <%-- For each metabolite (line)--%>
+					                </tbody>
+					            </table>
+							</div>
+			
+				             <c:if test="${fn:length(mlAssay.metabolitesGUI) > 10}"><a href="#" class="showLink" id="met_link_${loopStatusAssay.index}">Show more</a></c:if>
+				             <br/>
+						</c:if>				        
+					</c:forEach> <!-- For each assayGroup -->					
 		        </c:if>		        
-		        
 			</div> <!--  ends tabs-4 -->
 		</div> <!-- end tabs -->
  </div>	

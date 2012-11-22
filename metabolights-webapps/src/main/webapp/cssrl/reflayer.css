@@ -5,6 +5,10 @@ a.noLine {
 	border-bottom-style: none;
 	
 }
+a.noLine:link,
+a.noLine:visited{
+	border-bottom-width: 0px;
+}
 
 /* Generic div */
 .refLayerBox {
