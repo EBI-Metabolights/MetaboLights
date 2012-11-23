@@ -22,7 +22,7 @@
 .airplane{ background-position: 0 -192px; width: 36px; height: 36px; } 
 .alarm{ background-position: 0 -256px; width: 36px; height: 36px; } 
 .album{ background-position: 0 -320px; width: 36px; height: 36px; } 
-.alert{ background-position: 0 -384px; width: 36px; height: 36px; } 
+.alert_i{ background-position: 0 -384px; width: 36px; height: 36px; } 
 .announcement{ background-position: 0 -448px; width: 36px; height: 36px; } 
 .archive{ background-position: 0 -512px; width: 36px; height: 36px; } 
 .arrow-down{ background-position: 0 -576px; width: 36px; height: 36px; } 

@@ -17,6 +17,7 @@ import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.StringUtils;
@@ -30,8 +31,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-
-
 
 /**
  * Controls multi part file upload as described in Reference Documentation 3.0,
@@ -50,16 +49,16 @@ public class SubmissionController extends AbstractController {
     //@Autowired
     private IsaTabUploader itu = new IsaTabUploader();
 	
-	@RequestMapping(value = { "/biisubmit" })
-	public ModelAndView submit(HttpServletRequest request) {
-		return GenericController.lastPartOfUrl(request);
-	}
+//	@RequestMapping(value = { "/biisubmit" })
+//	public ModelAndView submit(HttpServletRequest request) {
+//		return GenericController.lastPartOfUrl(request);
+//	}
 	
 	@RequestMapping(value = { "/presubmit" })
 	public ModelAndView preSubmit(HttpServletRequest request) {
 		MetabolightsUser user = null;
 		
-		ModelAndView mav = new ModelAndView("submitPre"); // Call the Pre-Submit page
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitPre"); // Call the Pre-Submit page
 		if (request.getUserPrincipal() != null)
 			user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
@@ -69,101 +68,8 @@ public class SubmissionController extends AbstractController {
 		return mav;
 	}
 	
-	// For testing ajax calls	
-	  @RequestMapping(value = "/status", method = RequestMethod.GET)
-	  public @ResponseBody String getStatus() {
-	    String result = "Status is " + new Date().toString();
-	    return result;
-	  }	
-	@RequestMapping(value = "/biiuploadExperiment", method = RequestMethod.POST)
-	public ModelAndView handleFormUpload(
-			@RequestParam("file") MultipartFile file,
-			@RequestParam(required=true,value="pickdate") String publicDate,
-			HttpServletRequest request) 
-		throws Exception {
-
-		//Start the submission process...
-		//Create a check list to report back the user..
-		CheckList cl = new CheckList(SubmissionProcessCheckListSeed.values());
-        logger.info("BIISubmit. Start");
-
-		try {
-
-            if (file.isEmpty())
-				throw new Exception(PropertyLookup.getMessage("BIISubmit.fileEmpty"));
-
-			if (publicDate.isEmpty())
-				throw new Exception(PropertyLookup.getMessage("BIISubmit.dateEmpty"));
-
-            //Check if the study is public today
-            VisibilityStatus status = VisibilityStatus.PRIVATE;         //Defaults to a private study
-
-            if (publicDate != null){
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-                Date publicDateD = sdf.parse(publicDate);               //Date from the form
-
-                if (publicDateD.before(new Date())){  //The date received from the form does not contain time, so this should always be before "now"
-                    status = VisibilityStatus.PUBLIC;
-                }
-            }
-
-            logger.info("BIISubmit. Writing the file");
-			String isaTabFile = writeFile(file, cl);
-						
-			//Upload to BII
-            logger.info("BIISubmit. Upload to BII");
-			HashMap<String,String> accessions = uploadToBii(isaTabFile, status, cl, publicDate);
-			
-			// Clean directory
-            logger.info("BIISubmit. Clean directory");
-			new File(isaTabFile).delete();
-			FileUtil.deleteDir(new File(itu.getUnzipFolder()));
-			
-			//Log it
-			logger.info(PropertyLookup.getMessage("BIISubmit.newAccNumbers") + accessions);
-			if (publicDate != null){ //The submitter picked the public date
-				logger.info("Public release date has been given by the submitter as " + publicDate + " for accession " +accessions);
-			}
-
-
-            logger.info("BIISubmit. Add data to session");
-			HttpSession httpSession = request.getSession();
-			httpSession.setAttribute("accessionsOK", accessions);
-			httpSession.setAttribute("clOK", cl);
-
-            logger.info("BIISubmit. Return new mav for "+accessions);
-	    	return new ModelAndView("redirect:submitComplete");
-	    	
-		} catch (Exception e){
-			
-			ModelAndView mav = new ModelAndView("submitError");
-			logger.error(e);
-			mav.addObject("cl", cl);
-			mav.addObject("error", e);
-			return mav;
-		}
-
-	}
-
 	/**
-	 * Redirection after a user has successfully submitted. This prevents double submit with F5.
-	 */
-	@RequestMapping(value={"/submitComplete"})
-	public ModelAndView accountRequested(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it.
-		if (request.getSession().getAttribute("accessionsOK")!=null) {
-			mav = new ModelAndView("submitOk");
-			mav.addObject("accessions", request.getSession().getAttribute("accessionsOK"));
-			mav.addObject("cl", request.getSession().getAttribute("clOK"));
-            request.getSession().removeAttribute("accessionsOK");
-			request.getSession().removeAttribute("clOK");
-		}
-		return mav;
-	}
-
-	
-	/**
-	 * Will reindex the whole index, to use carefully. After it, a tomcat restart is needed.
+	 * Will reindex the whole index, to use carefully.
 	 * @return
 	 * @throws Exception
 	 */
@@ -173,17 +79,10 @@ public class SubmissionController extends AbstractController {
 		//Get the path for the config folder (where the hibernate properties for the import layer are).
 		String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
 
-        //The logged in user.  principal = MetabolightsUser
-        //		 MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		//        if (!user.isCurator())
-		//            return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.notindexed"));
-		//	
-		//Upload the file to bii
-		//IsaTabUploader itu = new IsaTabUploader();
 		itu.setDBConfigPath(configPath);
 		itu.reindex();
 		
-		return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.indexed"));
+		return AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.indexed"));
 			
 	}
 	private @Value("#{uploadDirectory}") String uploadDirectory;
@@ -191,80 +90,80 @@ public class SubmissionController extends AbstractController {
 	private @Value("#{privateFtpStageLocation}") String privateFtpLocation;
 	
 	
-	/**
-	 * Writes a user upload file to designated target directory.
-	 * 
-	 * @param file user upload
-	 * @param cl
-	 * @throws IOException 
-	 * @throws Exception 
-	 */
-	public String writeFile(MultipartFile file, CheckList cl) throws IOException  {
-		//TODO get separator from props
-
-        logger.info("BII how large is the file = "+file.getSize());
-        logger.info("BII writeFile to bytes");
-		//byte[] bytes = file.getBytes();
-
-        logger.info("BII find user info");
-		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		String targetDir=uploadDirectory+ "/"+user.getUserId()+"/";
-
-		logger.info("Upload by user = "+user.getUserId()+" "+user.getUserName());
-		logger.info("File size      = "+file.getSize() + " for file "+ file.getOriginalFilename()+" from user.. ");
-		logger.info("Target dir     = "+targetDir);
-
-		// Check if dir needs to be created
-		File dir=new File(targetDir);
-		if (!dir.exists()) {
-			boolean success = (new File(targetDir)).mkdir();
-			if (success) {
-				logger.info("Target dir " +targetDir+" created");
-			}    
-		}
-
-		//Set up file name and unzip folder
-		String isaTabFile = uploadDirectory+ "/"+user.getUserId()+"/"+file.getOriginalFilename();
-		
-		//Write the file in the file system
-        logger.info("Write the file in the file system "+ isaTabFile);
-        File newFile = new File(isaTabFile);
-        logger.info("The new file is created, now we transfer the file from memory to the filesystem");
-        file.transferTo(newFile);
-		//FileOutputStream fos = new FileOutputStream(isaTabFile); // or original..
-		//fos.write(bytes);
-		//fos.close();
-		
-		// If there is a CheckList
-		if (cl != null){
-			//Check Item in CheckList
-			cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), PropertyLookup.getMessage("BIISubmit.fileUploadComplete") +" "+ file.getOriginalFilename());
-		}
-		
-		return isaTabFile;
-	}
-
+//	/**
+//	 * Writes a user upload file to designated target directory.
+//	 * 
+//	 * @param file user upload
+//	 * @param cl
+//	 * @throws IOException 
+//	 * @throws Exception 
+//	 */
+//	public String writeFile(MultipartFile file, CheckList cl) throws IOException  {
+//		//TODO get separator from props
+//
+//        logger.info("BII how large is the file = "+file.getSize());
+//        logger.info("BII writeFile to bytes");
+//		//byte[] bytes = file.getBytes();
+//
+//        logger.info("BII find user info");
+//		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+//		String targetDir=uploadDirectory+ "/"+user.getUserId()+"/";
+//
+//		logger.info("Upload by user = "+user.getUserId()+" "+user.getUserName());
+//		logger.info("File size      = "+file.getSize() + " for file "+ file.getOriginalFilename()+" from user.. ");
+//		logger.info("Target dir     = "+targetDir);
+//
+//		// Check if dir needs to be created
+//		File dir=new File(targetDir);
+//		if (!dir.exists()) {
+//			boolean success = (new File(targetDir)).mkdir();
+//			if (success) {
+//				logger.info("Target dir " +targetDir+" created");
+//			}    
+//		}
+//
+//		//Set up file name and unzip folder
+//		String isaTabFile = uploadDirectory+ "/"+user.getUserId()+"/"+file.getOriginalFilename();
+//		
+//		//Write the file in the file system
+//        logger.info("Write the file in the file system "+ isaTabFile);
+//        File newFile = new File(isaTabFile);
+//        logger.info("The new file is created, now we transfer the file from memory to the filesystem");
+//        file.transferTo(newFile);
+//		//FileOutputStream fos = new FileOutputStream(isaTabFile); // or original..
+//		//fos.write(bytes);
+//		//fos.close();
+//		
+//		// If there is a CheckList
+//		if (cl != null){
+//			//Check Item in CheckList
+//			cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), PropertyLookup.getMessage("BIISubmit.fileUploadComplete") +" "+ file.getOriginalFilename());
+//		}
+//		
+//		return isaTabFile;
+//	}
+//
 	
-	/**
-	 * Upload the IsaTabFile (zip) into BII database replacing the id with our own accession numbers.
-	 * @param isaTabFile
-	 * @param status
-	 * @return
-	 * @throws Exception 
-	 */
-	private HashMap<String,String> uploadToBii (String isaTabFile, VisibilityStatus status, CheckList cl, String publicDate) throws Exception{
-		
-	
-		// Upload the file to bii
-		//IsaTabUploader itu = getIsaTabUploader(isaTabFile, status, publicDate);
-        itu = getIsaTabUploader(isaTabFile, status, publicDate);
-		
-		// Set the CheckList to get feedback
-		itu.setCheckList(cl);
-		
-		// Upload the file
-		return itu.Upload();
-	}
+//	/**
+//	 * Upload the IsaTabFile (zip) into BII database replacing the id with our own accession numbers.
+//	 * @param isaTabFile
+//	 * @param status
+//	 * @return
+//	 * @throws Exception 
+//	 */
+//	private HashMap<String,String> uploadToBii (String isaTabFile, VisibilityStatus status, CheckList cl, String publicDate) throws Exception{
+//		
+//	
+//		// Upload the file to bii
+//		//IsaTabUploader itu = getIsaTabUploader(isaTabFile, status, publicDate);
+//        itu = getIsaTabUploader(isaTabFile, status, publicDate);
+//		
+//		// Set the CheckList to get feedback
+//		itu.setCheckList(cl);
+//		
+//		// Upload the file
+//		return itu.Upload();
+//	}
 	
 	/**
 	 * Returns a default configured uploader. After it you may probably need to set:
@@ -317,30 +216,6 @@ public class SubmissionController extends AbstractController {
 		return itu;
 
 	}
-	
-	
-	@RequestMapping(value = "/uploadtest")
-	public ModelAndView test(){
-		
-		//For testing success
-		HashMap<String,String> accessions = new HashMap<String,String>();
-		accessions.put("ID1", "MTBL1");
-		accessions.put("ID2", "MTBL2");
-		
-		//For testing failure
-		Exception e = new Exception("This is a test exception");
-		
-		//For testing checklist
-		CheckList cl = new CheckList(SubmissionProcessCheckListSeed.values());
-		cl.CheckItem(SubmissionProcessCheckListSeed.FILEUPLOAD.getKey(), "File upload checked");
-		
-		
-		ModelAndView mav = new ModelAndView("submitOk");
-		mav.addObject("accessions", accessions);
-		mav.addObject("error", e);
-		mav.addObject("cl", cl);
-		
-		return mav;
-	}	
+
 
 }

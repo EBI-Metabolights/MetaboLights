@@ -15,6 +15,7 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +46,7 @@ public class SubmissionQueueController extends AbstractController {
 	public ModelAndView preSubmit(HttpServletRequest request) {
 		MetabolightsUser user = null;
 		
-		ModelAndView mav = new ModelAndView("biisubmit"); // Call the Submission form page
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submittoqueue"); // Call the Submission form page
 		if (request.getUserPrincipal() != null)
 			user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
@@ -138,7 +139,7 @@ public class SubmissionQueueController extends AbstractController {
 	    	
 		} catch (Exception e){
 			
-			ModelAndView mav = new ModelAndView("submitError");
+			ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
 			logger.error(e);
 			mav.addObject("error", e);
 
@@ -158,9 +159,9 @@ public class SubmissionQueueController extends AbstractController {
 	 */
 	@RequestMapping(value={"/itemQueued"})
 	public ModelAndView queueComplete(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it.
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index"); // default action for this request, unless the session has candy in it.
 		if (request.getSession().getAttribute("itemQueued")!=null) {
-			mav = new ModelAndView("queuedOk");
+			mav = AppContext.getMAVFactory().getFrontierMav("queuedOk");
 			mav.addObject("msg", request.getSession().getAttribute("itemQueued"));
 			request.getSession().removeAttribute("itemQueued");
 			
