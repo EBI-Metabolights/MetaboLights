@@ -96,13 +96,21 @@
 		
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
 
-	-->
-	
     <definition name="error" extends="base.definition">
         <put-attribute name="title" value="Error" />
         <put-attribute name="body" value="/WEB-INF/jsp/error.jsp" />
     </definition>
-
+    
+    <definition name="submitOk" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights upload successful" />
+        <put-attribute name="body" value="/WEB-INF/jsp/submitOk.jsp" />
+    </definition>
+    
+    <definition name="submitError" extends="base.definition">
+		<put-attribute name="title" value="Submission error"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/submitError.jsp"/>
+    </definition>
+    
     <definition name="submit" extends="base.definition">
         <put-attribute name="title" value="MetaboLights file upload for submission" />
         <put-attribute name="body" value="/WEB-INF/jsp/submit.jsp" />
@@ -113,32 +121,28 @@
         <put-attribute name="body" value="/WEB-INF/jsp/biisubmit.jsp" />
     </definition>
 
-    <definition name="downloadplugin" extends="base.definition">
-        <put-attribute name="title" value="MetaboLights - Metabolite identification plugin" />
-        <put-attribute name="body" value="/WEB-INF/jsp/plugindownload.jsp" />
+	<definition name="submitPre" extends="base.definition">
+        <put-attribute name="title" value="MetaboLight study submission" />
+        <put-attribute name="body" value="/WEB-INF/jsp/submitPre.jsp" />
     </definition>
 
-    <definition name="submitError" extends="base.definition">
-		<put-attribute name="title" value="Submission error"/>
-		<put-attribute name="body" value="/WEB-INF/jsp/submitError.jsp"/>
-    </definition>
-
-    <definition name="submitOk" extends="base.definition">
-        <put-attribute name="title" value="MetaboLights upload successful" />
-        <put-attribute name="body" value="/WEB-INF/jsp/submitOk.jsp" />
+	<definition name="queuedOk" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights study queued" />
+        <put-attribute name="body" value="/WEB-INF/jsp/queuedOk.jsp" />
     </definition>
 
 	<definition name="updateStudyForm" extends="base.definition">
         <put-attribute name="title" value="Update study" />
         <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
     </definition>
-    
-    <definition name="submitPre" extends="base.definition">
-        <put-attribute name="title" value="MetaboLight study submission" />
-        <put-attribute name="body" value="/WEB-INF/jsp/submitPre.jsp" />
+    -->
+
+    <definition name="downloadplugin" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights - Metabolite identification plugin" />
+        <put-attribute name="body" value="/WEB-INF/jsp/plugindownload.jsp" />
     </definition>
 
-    <definition name="config" extends="base.definition">
+	<definition name="config" extends="base.definition">
         <put-attribute name="title" value="MetaboLights - Configuration" />
         <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
     </definition>
@@ -147,10 +151,6 @@
 
 	<definition name="html" template="/WEB-INF/jsp/html.jsp"/>
 	
-	<definition name="queuedOk" extends="base.definition">
-        <put-attribute name="title" value="MetaboLights study queued" />
-        <put-attribute name="body" value="/WEB-INF/jsp/queuedOk.jsp" />
-    </definition>
 	<definition name="users" extends="base.definition">
         <put-attribute name="title" value="MetaboLights - User admin page" />
         <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />
@@ -280,11 +280,39 @@
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
     
-    <definition name="Citations" template="/WEB-INF/jsp/Citations.jsp">
-    </definition>
+	<definition name="Citations" template="/WEB-INF/jsp/Citations.jsp" />
 		
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
 	
+    <definition name="error" extends="default">
+        <put-attribute name="title" value="Error" />
+        <put-attribute name="body" value="/WEB-INF/jsp/error.jsp" />
+    </definition>
 
+    <definition name="submitError" extends="default">
+		<put-attribute name="title" value="Submission error"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/submitError.jsp"/>
+    </definition>
+
+	<definition name="submitPre" extends="default">
+        <put-attribute name="title" value="MetaboLight study submission" />
+        <put-attribute name="body" value="/WEB-INF/jsp/submitPre.jsp" />
+    </definition>
+
+	<definition name="submittoqueue" extends="default">
+        <put-attribute name="title" value="MetaboLights ISA-archive upload for submission" />
+        <put-attribute name="body" value="/WEB-INF/jsp/biisubmit.jsp" />
+    </definition>
 	
+	<definition name="queuedOk" extends="default">
+        <put-attribute name="title" value="MetaboLights study queued" />
+        <put-attribute name="body" value="/WEB-INF/jsp/queuedOk.jsp" />
+    </definition>
+    
+    <definition name="updateStudyForm" extends="default">
+        <put-attribute name="title" value="Update study" />
+        <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
+    </definition>
+    
+    
 </tiles-definitions>
