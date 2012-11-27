@@ -5,8 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<h1>Welcome to Ebeye-client help/Search Page.</h1>
-<br />
+<h2>Welcome to Ebeye-client help/Search Page.</h2>
 
 <div style='width: 300px;' class='iscell'>
 	<spring:message code="ebeye.msg.query"></spring:message>
@@ -32,7 +31,7 @@
 <div style='clear: both;'></div>
 
 <c:if test="${not empty getEntries}">
-	<div style="overflow: auto; width: 100%" class='iscell'>
+	<div style="overflow: auto; width: 90%" class='iscell'>
 		<table border="1">
 			<c:forEach var="FieldsList" items="${listFields}">
 				<c:if test="${not empty listFields}">

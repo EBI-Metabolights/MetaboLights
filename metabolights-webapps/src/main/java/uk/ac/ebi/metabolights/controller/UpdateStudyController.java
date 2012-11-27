@@ -18,6 +18,7 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
@@ -110,7 +111,7 @@ public class UpdateStudyController extends AbstractController {
 		//Get the study data
 		LuceneSearchResult luceneStudy = getStudy(study);
 		
-		ModelAndView mav = new ModelAndView("updateStudyForm");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateStudyForm");
 		
 		// Add objects to the model and view
 		mav.addObject("searchResult", luceneStudy);
@@ -306,19 +307,11 @@ public class UpdateStudyController extends AbstractController {
 		if (validation != null){return validation;}
 
         //Create the view
-        ModelAndView mav = new ModelAndView("updateStudyForm");
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateStudyForm");
 
         try{
 
         	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.user);
-        	
-            //updatePublicReleaseDate(study, params.status, params.publicReleaseDate, params.user.getUserId());
-			
-			// Compose the messages...
-			//mav.addObject("title", PropertyLookup.getMessage("msg.makestudypublic.ok.title"));
-			//mav.addObject("message", PropertyLookup.getMessage("msg.makestudypublic.ok.msg"));
-			//mav.addObject("searchResult", getStudy(study));
-			//mav.addObject("updated", true);
 		
 		} catch (Exception e) {
 			

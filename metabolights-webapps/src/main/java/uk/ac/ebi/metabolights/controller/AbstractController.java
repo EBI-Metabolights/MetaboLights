@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.TextUtils;
 
 /**
@@ -27,7 +28,7 @@ public abstract class AbstractController {
 		return mav;
 	}
 	public ModelAndView printMessage(String title, String message){
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("message");
 		mav.addObject("title",title);
 		mav.addObject("message", message);
 		

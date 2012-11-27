@@ -1,12 +1,9 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<script type="text/javascript" src="javascript/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/jquery-ui-1.8.15.custom.min.js" type="text/javascript" charset="utf-8"></script>
 
 
 <c:if test="${not empty usersMap}">
-	<br/>
 	<br/>
     <script type='text/javascript' src='http://www.google.com/jsapi'></script>
    	<script type='text/javascript'>
@@ -42,12 +39,8 @@
     }
  </script>
 
-	<div class="text_header plain">
-	    Users
-	    <br/> <br/>
-	</div>
-	<div>
-		<br/>
+	<h3>Users</h3>
+	<div style="max-height:300px; overflow: auto">
 		<c:if test="${not empty users}">
 			<table cellpadding="5px" cellspacing="0px">
 				<tr>

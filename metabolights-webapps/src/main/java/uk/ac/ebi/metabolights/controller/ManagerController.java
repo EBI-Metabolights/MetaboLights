@@ -19,6 +19,7 @@ import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.UserService;
@@ -101,7 +102,7 @@ public class ManagerController extends AbstractController{
 		}
 		
 		
-		ModelAndView mav = new ModelAndView("config");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("config");
 		mav.addObject("props", properties);
 		mav.addObject("validation", validationResult);
 		mav.addObject("queue", queue);
@@ -170,7 +171,7 @@ public class ManagerController extends AbstractController{
 	
 	@RequestMapping({"/users"})
 	public ModelAndView users(){
-		ModelAndView mav = new ModelAndView("users");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("users");
 		
 		List<MetabolightsUser> users = userService.getAll();
 		

@@ -21,8 +21,8 @@
 	<!-- link rel="stylesheet" type="text/css" href="cssrl/metabolights-reflayer-colours.css" media="screen"/> -->
 	<link rel="stylesheet" type="text/css" href="cssrl/jquery-ui-1.9.0.custom.min.css" media="all" />
 	<link rel="stylesheet" type="text/css" href="cssrl/iconfont/font_style.css" media="all" />
-	<link rel="stylesheet" type="text/css" href="cssrl/reflayer.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="cssrl/icons.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="cssrl/reflayer.css" media="screen" />
  	<script type="text/javascript" src="javascript/jquery-1.8.2.js" charset="utf-8"></script>
 	<script type="text/javascript" src="javascript/jquery-ui-1.9.0.custom.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="javascript/menu.js"></script>

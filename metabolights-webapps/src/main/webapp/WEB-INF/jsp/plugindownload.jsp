@@ -1,19 +1,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<div class="text_header plain">
-    <spring:message code="menu.downloadplugin" />
-    <br/> <br/>
+<h3><spring:message code="menu.downloadplugin" /></h3>
+
+<div class="grid_24">
+	<spring:message code="msg.metabolightsAbout9" />
 </div>
-
-
-<table cellpadding="5px" cellspacing="0px">
-	<tr>
-		<td>
-            <br/>
-            <spring:message code="msg.metabolightsAbout9" />
-            <br/>
-            <br/>
-		</td>
-	</tr>
-	
-</table>

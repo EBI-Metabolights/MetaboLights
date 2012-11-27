@@ -135,43 +135,43 @@
         <put-attribute name="title" value="Update study" />
         <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
     </definition>
-    -->
-
-    <definition name="downloadplugin" extends="base.definition">
-        <put-attribute name="title" value="MetaboLights - Metabolite identification plugin" />
-        <put-attribute name="body" value="/WEB-INF/jsp/plugindownload.jsp" />
-    </definition>
 
 	<definition name="config" extends="base.definition">
         <put-attribute name="title" value="MetaboLights - Configuration" />
         <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
     </definition>
-
-	<definition name="proxy" template="/WEB-INF/jsp/proxy.jsp"/>
-
-	<definition name="html" template="/WEB-INF/jsp/html.jsp"/>
-	
-	<definition name="users" extends="base.definition">
+    
+    <definition name="users" extends="base.definition">
         <put-attribute name="title" value="MetaboLights - User admin page" />
         <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />
     </definition>
-    
-	<definition name="message" extends="base.definition">
-        <put-attribute name="title" value="Message" />
-        <put-attribute name="body" value="/WEB-INF/jsp/message.jsp" />
-	</definition>
-	
+
 	<definition name="statistics" extends="base.definition">
 		<put-attribute name="title" value="Statistics page" />
 		<put-attribute name="body" value="/WEB-INF/jsp/statistics.jsp" />
 	</definition>
+	
+	<definition name="proxy" template="/WEB-INF/jsp/proxy.jsp"/>
+
+	<definition name="html" template="/WEB-INF/jsp/html.jsp"/>
 	
 	<definition name="ebeyehelp" extends="base.definition">
 		<put-attribute name="title" value="Search page" />
 		<put-attribute name="body" value="/WEB-INF/jsp/ebeyehelp.jsp" />
 	</definition>
 
+   <definition name="downloadplugin" extends="base.definition">
+        <put-attribute name="title" value="MetaboLights - Metabolite identification plugin" />
+        <put-attribute name="body" value="/WEB-INF/jsp/plugindownload.jsp" />
+    </definition>
+    
+    <definition name="message" extends="base.definition">
+        <put-attribute name="title" value="Message" />
+        <put-attribute name="body" value="/WEB-INF/jsp/message.jsp" />
+	</definition>
+	
 
+    -->
 
 <!-- FONTIER REDISIGN: All the definitions above should be commented once the redesign is finished. -->
 	
@@ -314,5 +314,39 @@
         <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
     </definition>
     
+   	<definition name="config" extends="default">
+        <put-attribute name="title" value="MetaboLights - Configuration" />
+        <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
+    </definition>
+    
+    <definition name="users" extends="default">
+        <put-attribute name="title" value="MetaboLights - User admin page" />
+        <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />
+    </definition>
+
+	<definition name="statistics" extends="default">
+		<put-attribute name="title" value="Statistics page" />
+		<put-attribute name="body" value="/WEB-INF/jsp/statistics.jsp" />
+	</definition>
+	
+	<definition name="proxy" template="/WEB-INF/jsp/proxy.jsp"/>
+
+	<definition name="html" template="/WEB-INF/jsp/html.jsp"/>
+	
+    <definition name="ebeyehelp" extends="default">
+		<put-attribute name="title" value="Ebi-eye test page" />
+		<put-attribute name="body" value="/WEB-INF/jsp/ebeyehelp.jsp" />
+	</definition>
+	
+	<definition name="downloadplugin" extends="default">
+        <put-attribute name="title" value="MetaboLights - Metabolite identification plugin" />
+        <put-attribute name="body" value="/WEB-INF/jsp/plugindownload.jsp" />
+    </definition>
+	
+	<definition name="message" extends="default">
+        <put-attribute name="title" value="Message" />
+        <put-attribute name="body" value="/WEB-INF/jsp/message.jsp" />
+	</definition>
+	
     
 </tiles-definitions>

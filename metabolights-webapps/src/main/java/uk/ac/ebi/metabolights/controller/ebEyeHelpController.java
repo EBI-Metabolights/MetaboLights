@@ -13,6 +13,7 @@ import uk.ac.ebi.ebisearchservice.ArrayOfArrayOfString;
 import uk.ac.ebi.ebisearchservice.ArrayOfString;
 import uk.ac.ebi.ebisearchservice.EBISearchService;
 import uk.ac.ebi.ebisearchservice.EBISearchService_Service;
+import uk.ac.ebi.metabolights.service.AppContext;
 
 
 /**
@@ -48,7 +49,7 @@ public class ebEyeHelpController extends AbstractController{
 		}
 		
 		
-		ModelAndView mav = new ModelAndView ("ebeyehelp"); //name of jsp page must be same as this
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav ("ebeyehelp"); //name of jsp page must be same as this
 		mav.addObject("query", query);
 		mav.addObject("domain", domain);
 		mav.addObject("url", url);

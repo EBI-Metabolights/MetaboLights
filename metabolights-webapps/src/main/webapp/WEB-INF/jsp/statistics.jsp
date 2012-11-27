@@ -26,19 +26,17 @@ select COunt(*) from user_detail
  -->
 
 
-<div class="text_header plain">
-    <spring:message code="msg.statistics" />
-</div>
+<h2><spring:message code="msg.statistics" /></h2>
 
-<br/><br/>
-<H1>Data in MetboLights</H1>
-Number of studies: <b>15</b> (10 Public, 5 Private)<br/>
-Number of protocols: <b>93</b><br/>
-Number of assays: <b>714</b><br/>
-Different organisms: <b>8</b><br/>
+<h3>Data in MetboLights</h3>
+<p>
+Number of studies: <b>18</b> (13 Public, 5 Private)<br/>
+Number of protocols: <b>105</b><br/>
+Number of assays: <b>882</b><br/>
+Different organisms: <b>9</b><br/>
+</p>
 
-<br/><br/>
-<H1>Metabolites identified</H1>
+<H3>Metabolites identified</H3>
 <table>
   <tr>
     <th>Database</th>
@@ -74,17 +72,12 @@ Different organisms: <b>8</b><br/>
   </tr>
 </table>
 
-<br/><br/>
-<H1>Submitters</H1>
-Number of registered users: 38
+<H3>Submitters</H3>
+<p>Number of registered users: 57</p>
 
-<br/><br/>
-<H1>Online access</H1>
-Comming soon!
-<br/>
-<br/>
-<br/>
-Generated on the 13th September 2012
-<br/>
+<H3>Online access</H3>
+<p>Comming soon!</p>
+
+<p>Generated on the 27th November 2012</p>
 
 
