@@ -34,11 +34,11 @@ function navigate(_pageNumber) {
 	</div>
 
 	<div class="grid_24">
-		<span class="right"> <c:set var="RemainderValue"
-				value="${queryResults % 10}" /> <c:set var="CrudeNumOfPages"
-				value="${queryResults / 10}" /> <c:set var="NumOfPages"
-				value="${fn:split(CrudeNumOfPages, '.')}" /> <c:forEach var="loop"
-				items="${NumOfPages}" varStatus="loopStatus">
+		<span class="right"> 
+		<c:set var="RemainderValue"	value="${queryResults % 10}" /> 
+		<c:set var="CrudeNumOfPages" value="${queryResults / 10}" /> 
+		<c:set var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" /> 
+		<c:forEach var="loop" items="${NumOfPages}" varStatus="loopStatus">
 				<c:if test="${loopStatus.index eq 0}">
 					<c:set var="NumOfPages" value="${loop}" />
 				</c:if>
@@ -48,6 +48,7 @@ function navigate(_pageNumber) {
 			</c:forEach> <c:if test="${RemainderItems ne 0 }">
 				<c:set var="NumOfPages" value="${NumOfPages+1}" />
 			</c:if> <c:forEach var="times" begin="1" end="${NumOfPages}" step="1">
+				
 				<a href="#" onClick="navigate(${times})">${times}</a>
 			</c:forEach>
 		</span>
@@ -89,7 +90,7 @@ function navigate(_pageNumber) {
 		</div>
 
 		<input type="hidden" name="query" value="<c:out value="${query}"/>" />
-		<input type="hidden" name="PageNumber" value="" />
+		<input type="hidden" name="PageNumber" value="1" />
 	</form>
 </div>
 <c:if test="${not empty entries}">
