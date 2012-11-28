@@ -34,6 +34,7 @@ function navigate(_pageNumber) {
 	</div>
 
 	<div class="grid_24">
+	<b>Page: ${currrentPage}</b>
 		<span class="right"> 
 		<c:set var="RemainderValue"	value="${queryResults % 10}" /> 
 		<c:set var="CrudeNumOfPages" value="${queryResults / 10}" /> 
@@ -47,8 +48,8 @@ function navigate(_pageNumber) {
 				</c:if>
 			</c:forEach> <c:if test="${RemainderItems ne 0 }">
 				<c:set var="NumOfPages" value="${NumOfPages+1}" />
-			</c:if> <c:forEach var="times" begin="1" end="${NumOfPages}" step="1">
-				
+			</c:if> 
+			<c:forEach var="times" begin="1" end="${NumOfPages}" step="1">	
 				<a href="#" onClick="navigate(${times})">${times}</a>
 			</c:forEach>
 		</span>
@@ -105,8 +106,7 @@ function navigate(_pageNumber) {
 				</div>
 				<div class="grid_16 omega">
 					<div class="grid_24">
-						<b>${entry.name}</b> (<a
-							href="http://localhost:8080/metabolights-webapp/${entry.accession}">${entry.accession}</a>)
+						<b>${entry.name}</b> (<a href="${entry.accession}">${entry.accession}</a>)
 						<a
 							href='<spring:message code="ref.msg.chebi.url"></spring:message>${entry.chebiURL}'>${entry.chebiId}</a>
 					</div>

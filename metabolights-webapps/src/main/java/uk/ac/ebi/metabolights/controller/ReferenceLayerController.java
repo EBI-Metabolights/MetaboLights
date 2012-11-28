@@ -86,6 +86,7 @@ public class ReferenceLayerController extends AbstractController {
 		mav.addObject("query", query);
 		mav.addObject("Chdomain", ChDomain);
 		mav.addObject("MTBLDomain", MTBLDomain);
+		mav.addObject("currrentPage", PageNumber1);
 
 		getSearchResults(rflf, mav, ChDomain, MTBLDomain, query, organisms, technology, beginIndex, indexSize);
 
