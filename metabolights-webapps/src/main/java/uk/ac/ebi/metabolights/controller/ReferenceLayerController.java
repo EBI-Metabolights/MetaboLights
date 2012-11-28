@@ -43,10 +43,25 @@ public class ReferenceLayerController extends AbstractController {
 	public ModelAndView searchAndDisplay(
 			@RequestParam(required = false, value = "query") String query, 
 			@RequestParam(required = false, value = "organisms") String[] organisms, // Parameters from the jsp file relating to the organism filter
-			@RequestParam(required = false, value = "technology") String[] technology) { // Parameters from the jsp file relating to the technology filter
+			@RequestParam(required = false, value = "technology") String[] technology, // Parameters from the jsp file relating to the technology filter
+			@RequestParam(required = false, value = "PageNumber") String PageNumber) { //paramenters are for Page number
 
 		//Create an object for reference layer filter.
 		RefLayerSearchFilter rflf = new RefLayerSearchFilter();
+		
+		//System.out.println("NumOfPages: "+NumOfPages);
+		
+		Integer PageNumber1 = null;
+		
+		if(PageNumber == null){
+			PageNumber1 = 1; //Loading the page for the first time, setting it as 1.
+		} else {
+			PageNumber1 = Integer.parseInt(PageNumber); //else getting it from the jsp
+		}
+
+		Integer indexSize = 10;  //setting the index size to be used in the ebiservices
+		Integer beginIndex = ((PageNumber1 * indexSize) - indexSize);// (PageNumber1-1) * indexSize // setting the beginning of the index.
+		
 		
 		Hashtable<String, Boolean> techHash = new Hashtable<String, Boolean>();
 		Hashtable<String, Boolean> orgHash = new Hashtable<String, Boolean>();
@@ -72,12 +87,12 @@ public class ReferenceLayerController extends AbstractController {
 		mav.addObject("Chdomain", ChDomain);
 		mav.addObject("MTBLDomain", MTBLDomain);
 
-		getSearchResults(rflf, mav, ChDomain, MTBLDomain, query, organisms, technology);
+		getSearchResults(rflf, mav, ChDomain, MTBLDomain, query, organisms, technology, beginIndex, indexSize);
 
 		return mav;
 	}
 
-	public void getSearchResults(RefLayerSearchFilter rflf, ModelAndView mav, String ChDomain, String MTBLDomain, String query, String[] organisms, String[] technology) {
+	public void getSearchResults(RefLayerSearchFilter rflf, ModelAndView mav, String ChDomain, String MTBLDomain, String query, String[] organisms, String[] technology, Integer beginIndex, Integer indexSize) {
 
 		int MTBLnumOfResults = 0;
 
@@ -88,7 +103,7 @@ public class ReferenceLayerController extends AbstractController {
 		MTBLnumOfResults = getDomainNumOfResults(MTBLDomain, query, rflf, MTBLnumOfResults);
 
 		//Get the entries for domain, has method for creating filter
-		getDomainEntries(query, MTBLDomain, MTBLnumOfResults, rflf, mav, organisms, technology);
+		getDomainEntries(query, MTBLDomain, MTBLnumOfResults, rflf, mav, organisms, technology, beginIndex, indexSize);
 	}
 
 	private RefLayerSearchFilter creatQuery(ModelAndView mav, RefLayerSearchFilter rflf, String query, String[] organisms, String[] technology) {
@@ -157,7 +172,7 @@ public class ReferenceLayerController extends AbstractController {
 		return rflf;
 	}
 
-	private RefLayerSearchFilter getDomainEntries(String query, String MTBLDomain, int MTBLnumOfResults, RefLayerSearchFilter rflf, ModelAndView mav, String[] organisms, String[] technology) {
+	private RefLayerSearchFilter getDomainEntries(String query, String MTBLDomain, int MTBLnumOfResults, RefLayerSearchFilter rflf, ModelAndView mav, String[] organisms, String[] technology, Integer beginIndex, Integer indexSize) {
 
 		ArrayOfString MTBLFields = ebiSearchService.listFields(MTBLDomain);
 		MTBLFields.getString().add("CHEBI");
@@ -168,11 +183,11 @@ public class ReferenceLayerController extends AbstractController {
 			ArrayOfString MTBLResults = null;
 
 			if((rflf.getTechQuery()) != null){
-				MTBLResults = ebiSearchService.getAllResultsIds(MTBLDomain, rflf.getTechQuery());
+				MTBLResults = ebiSearchService.getResultsIds(MTBLDomain, rflf.getTechQuery(), beginIndex, indexSize);
 			} else if((rflf.getOrgQuery()) != null){
-				MTBLResults = ebiSearchService.getAllResultsIds(MTBLDomain, rflf.getOrgQuery());
+				MTBLResults = ebiSearchService.getResultsIds(MTBLDomain, rflf.getOrgQuery(), beginIndex, indexSize);
 			} else {
-				MTBLResults = ebiSearchService.getAllResultsIds(MTBLDomain, rflf.getModQuery());
+				MTBLResults = ebiSearchService.getResultsIds(MTBLDomain, rflf.getModQuery(), beginIndex, indexSize);
 			}
 
 			rflf.setMTBLArrayOfEntries(ebiSearchService.getEntries(MTBLDomain, MTBLResults, MTBLFields));
