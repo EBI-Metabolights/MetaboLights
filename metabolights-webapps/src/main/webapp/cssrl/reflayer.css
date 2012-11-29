@@ -38,23 +38,26 @@ div .box {
 /* td attribute for + and ? */
 .tdSymbols {
 	text-align: center;
+	width: 5%;
 	border: 0px 0px 0px 0px;
 	padding-top: 40px;
+	padding-bottom: 0px;
+	padding-right: 0px; 
+	padding-left: 0px; 
 	border-top-width: 0px;
 	border-right-width: 0px;
 	border-left-width: 0px;
 	border-bottom-width: 0px;
-	width: 10%;	
 }
 
 /*td attribute for Reaction*/
 .tdReactions{
 	text-align: center; 
-	width: 100px; 
+	width: auto;
 	height:100px; 
 	border-top-width: 0px; 
 	border-bottom-width: 0px; 
-	padding-top: 0px; 
+	padding-top: 20px; 
 	padding-bottom: 0px; 
 	padding-right: 0px; 
 	padding-left: 0px; 
