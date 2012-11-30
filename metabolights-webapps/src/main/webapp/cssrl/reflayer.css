@@ -159,6 +159,11 @@ input{
     color:#B0B0B0;
 }
 
+.bgcolor {
+    color:#ffffff;
+}
+
+
 /* big buttons */
 .bigbutton {		
 	border-color: #000000;	/* P2 */
@@ -185,6 +190,15 @@ input{
 		
 }
 
+.hidden {
+	display: none;
+}
+
+/*
+div#loginmenu ul{
+	margin-top:1px;
+}
+*/
 /* sddm: simple drop down menu
    CSS from in http://javascript-array.com/scripts/simple_drop_down_menu/
  */

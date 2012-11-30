@@ -17,6 +17,7 @@
         <form:hidden path="userId" />
         <form:hidden path="userName" />
         <form:hidden path="email"/>
+        <form:hidden path="role"/>
         <sec:authorize ifNotGranted="ROLE_SUPER_USER" >
         	<form:hidden path="status" />
         </sec:authorize>
@@ -45,7 +46,7 @@
 		</div>
     
     	<div class="grid_24 alpha omega">
-			<strong><spring:message code="msg.starRequired"/></strong>
+			<p><strong><spring:message code="msg.starRequired"/></strong></p>
 		</div>
     
     </form:form>

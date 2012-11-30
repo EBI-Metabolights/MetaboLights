@@ -155,7 +155,7 @@ $(function() {
 
 <c:set var="stringToFind" value="${study.acc}:assay:" />
 
-<div class="grid_24 box">
+<div class="grid_24 box alpha omega">
 
        <c:if test="${not empty study.contacts}">
             <br/>

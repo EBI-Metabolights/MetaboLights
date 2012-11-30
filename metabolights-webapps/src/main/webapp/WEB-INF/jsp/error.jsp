@@ -11,7 +11,7 @@
   <c:out value="${errorMainMessage}"/>
 </span>
 <br/>
-<span class="dimmed">
+<span class="bgcolor">
 	<c:if test="${!empty errorStack}">
 		<c:out value="${errorStack}" escapeXml="false"  />
 	<br/>

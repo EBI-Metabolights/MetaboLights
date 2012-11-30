@@ -91,8 +91,8 @@ public class Filter {
 		fss.put(mystudies.getName(), mystudies);
         fss.put(metabolite.getName(), metabolite);
         
-        //TODO,  Disable metabolites filter by now until it is improved
-        metabolite.setIsEnabled(false);
+        // To Disable metabolites filter:
+        //metabolite.setIsEnabled(false);
 		
 	}
 

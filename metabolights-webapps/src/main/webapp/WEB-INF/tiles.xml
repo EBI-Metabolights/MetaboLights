@@ -195,12 +195,12 @@
 
 	
 	<definition name="RefLayerSearch" extends="default">
-		<put-attribute name="title" value="MetaboLights - Reference layer search page" />
+		<put-attribute name="title" value="Reference layer search" />
 		<put-attribute name="body" value="/WEB-INF/jsp/RefLayerSearch.jsp" />
 	</definition>
 	
 	<definition name="compound" extends="default">
-		<put-attribute name="title" value="MetaboLights - Compound page" />
+		<put-attribute name="title" value="Compound page" />
 		<put-attribute name="body" value="/WEB-INF/jsp/refCompound.jsp" />
 	</definition>
 	
@@ -214,38 +214,39 @@
 		<put-attribute name="title" value="About MetaboLights" />
 		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
 	</definition>
+  
     <definition name="submitHelp" extends="default">
-        <put-attribute name="title" value="MetaboLights - How to upload files for submission" />
+        <put-attribute name="title" value="How to use" />
         <put-attribute name="body" value="/WEB-INF/jsp/submitHelp.jsp" />
     </definition>
 
 	<definition name="download" extends="default">
-		<put-attribute name="title" value="Download Public Experiments" />
+		<put-attribute name="title" value="Download" />
 		<put-attribute name="body" value="/WEB-INF/jsp/download.jsp" />
 	</definition>
 
 	<definition name="login" extends="default">
-        <put-attribute name="title" value="Log in to MetaboLights" />
+        <put-attribute name="title" value="Log in" />
         <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
     </definition>
 	
 	<definition name="timeout" extends="default">
-        <put-attribute name="title" value="Timed out of MetaboLights" />
+        <put-attribute name="title" value="Timed out" />
         <put-attribute name="body" value="/WEB-INF/jsp/timeout.jsp" />
     </definition>
     
     <definition name="forgotPassword" extends="default">
-        <put-attribute name="title" value="MetaboLights password lost" />
+        <put-attribute name="title" value="Forgot your password" />
         <put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp" />
     </definition>
 
     <definition name="contact" extends="default">
-		<put-attribute name="title" value="Contact MetaboLights" />
+		<put-attribute name="title" value="Contact us" />
 		<put-attribute name="body" value="/WEB-INF/jsp/contact.jsp" />
 	</definition>
     
 	<definition name="createAccount" extends="default">
-        <put-attribute name="title" value="Create a new account for MetaboLights" />
+        <put-attribute name="title" value="Create a new account" />
         <put-attribute name="body" value="/WEB-INF/jsp/createAccount.jsp" />
     </definition>
     
@@ -267,16 +268,16 @@
 	</definition>
 	
 	<definition name="searchResult" extends="default">
-		<put-attribute name="title" value="MetaboLights search results" />
+		<put-attribute name="title" value="Search" />
 		<put-attribute name="body" value="searchResult.def"/>
 	</definition>
 	
 	<definition name="browse" extends="searchResult">
-		<put-attribute name="title" value="MetaboLights - Browse studies" />
+		<put-attribute name="title" value="Browse" />
 	</definition>
 	
 	<definition name="entry" extends="default">
-        <put-attribute name="title" value="MetaboLights entry" />
+        <put-attribute name="title" value="Study" />
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
     
@@ -295,17 +296,17 @@
     </definition>
 
 	<definition name="submitPre" extends="default">
-        <put-attribute name="title" value="MetaboLight study submission" />
+        <put-attribute name="title" value="Study submission" />
         <put-attribute name="body" value="/WEB-INF/jsp/submitPre.jsp" />
     </definition>
 
 	<definition name="submittoqueue" extends="default">
-        <put-attribute name="title" value="MetaboLights ISA-archive upload for submission" />
+        <put-attribute name="title" value="Study submission" />
         <put-attribute name="body" value="/WEB-INF/jsp/biisubmit.jsp" />
     </definition>
 	
 	<definition name="queuedOk" extends="default">
-        <put-attribute name="title" value="MetaboLights study queued" />
+        <put-attribute name="title" value="Study queued" />
         <put-attribute name="body" value="/WEB-INF/jsp/queuedOk.jsp" />
     </definition>
     
@@ -315,12 +316,12 @@
     </definition>
     
    	<definition name="config" extends="default">
-        <put-attribute name="title" value="MetaboLights - Configuration" />
+        <put-attribute name="title" value="Configuration" />
         <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
     </definition>
     
     <definition name="users" extends="default">
-        <put-attribute name="title" value="MetaboLights - User admin page" />
+        <put-attribute name="title" value="User admin" />
         <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />
     </definition>
 
@@ -334,19 +335,20 @@
 	<definition name="html" template="/WEB-INF/jsp/html.jsp"/>
 	
     <definition name="ebeyehelp" extends="default">
-		<put-attribute name="title" value="Ebi-eye test page" />
+		<put-attribute name="title" value="Ebi-eye test" />
 		<put-attribute name="body" value="/WEB-INF/jsp/ebeyehelp.jsp" />
 	</definition>
-	
-	<definition name="downloadplugin" extends="default">
-        <put-attribute name="title" value="MetaboLights - Metabolite identification plugin" />
-        <put-attribute name="body" value="/WEB-INF/jsp/plugindownload.jsp" />
-    </definition>
 	
 	<definition name="message" extends="default">
         <put-attribute name="title" value="Message" />
         <put-attribute name="body" value="/WEB-INF/jsp/message.jsp" />
 	</definition>
+	
+	<definition name="useroptions" extends="default">
+        <put-attribute name="title" value="User options" />
+        <put-attribute name="body" value="/WEB-INF/jsp/useroptions.jsp" />
+	</definition>
+	
 	
     
 </tiles-definitions>

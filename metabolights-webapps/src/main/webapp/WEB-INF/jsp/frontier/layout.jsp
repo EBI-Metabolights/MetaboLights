@@ -18,17 +18,16 @@
 		<header>
 			<tiles:insertAttribute name="header" ignore="true" />
 			<tiles:insertAttribute name="localheader" />
-			<c:if test="${!empty freeTextQuery}">
-				<script>
-					$('[name="freeTextQuery"]').val('${freeTextQuery}');
-				</script>
-			</c:if>
 		</header>
 		<div id="content" role="main" class="grid_24 clearfix">
+			<nav id="breadcrumb">
+				<p>
+					<a href="/index">MetaboLights</a> &gt; <tiles:insertAttribute name="title" ignore="true" />
+				</p>
+			</nav>
 			<tiles:insertAttribute name="body" />
 	    </div>
 		<tiles:insertAttribute name="footer" />
-
 	</div>
 </body>
 </html>
