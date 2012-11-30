@@ -3,15 +3,17 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 ${localfrontierheader}
 <c:if test="${!empty freeTextQuery}">
-	<script>
-		$('[name="freeTextQuery"]').val('${freeTextQuery}');
-	</script>
+<script>
+	$('[name="freeTextQuery"]').val('${freeTextQuery}');
+</script>
 </c:if>
 
 <script>
-		/* For the functional ones....*/
-		$('[href="login"]').parent().addClass("functional last");
-		$('[href="presubmit"]').parent().addClass("functional");
+	/* For the functional ones, right alingment....*/
+	$loginA = $('[href="login"]'); 
+	$loginA.parent().addClass("functional");
+	$loginA.addClass("icon icon-functional").attr("data-icon","l");
+	$('[href="presubmit"]').parent().addClass("functional");
 </script>
 
 <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
@@ -35,7 +37,7 @@ ${localfrontierheader}
 --%>
 	<script>
 	
-		$loginA = $('[href="login"]'); 
+		
 		$loginA.html('<sec:authentication property="principal.firstName" />');
 		$loginA.attr("href", '<spring:url value="useroptions"/>');		
 		//$loginA.html('<sec:authentication property="principal.firstName" /><span id="showloginmenu" class="smallArrow"></span>');

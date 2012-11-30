@@ -22,7 +22,7 @@
 		<div id="content" role="main" class="grid_24 clearfix">
 			<nav id="breadcrumb">
 				<p>
-					<a href="/index">MetaboLights</a> &gt; <tiles:insertAttribute name="title" ignore="true" />
+					<a href="index">MetaboLights</a> &gt; <tiles:insertAttribute name="title" ignore="true" />
 				</p>
 			</nav>
 			<tiles:insertAttribute name="body" />
