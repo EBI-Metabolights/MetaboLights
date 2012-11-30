@@ -26,4 +26,7 @@ function toggle(element) {
 			<br />
 		</c:forEach>
 	</c:when>
+	<c:otherwise>
+		<b>No Literature found!!!</b>
+	</c:otherwise>
 </c:choose>

@@ -36,7 +36,7 @@ import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
-import uk.ac.ebi.metaboligths.referencelayer.model.*;
+import uk.ac.ebi.metabolights.referencelayer.model.*;
 import uk.ac.ebi.rhea.ws.client.RheaFetchDataException;
 import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
 import uk.ac.ebi.rhea.ws.response.cmlreact.Reaction;
