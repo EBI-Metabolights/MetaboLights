@@ -17,7 +17,10 @@ window.onload = function() {
 			'icon-MSLogo' : '&#x29;',
 			'icon-NMRLogo' : '&#x2a;',
 			'icon-mail' : '&#x2b;',
-			'icon-book' : '&#x2c;'
+			'icon-book' : '&#x2c;',
+			'icon-facebook' : '&#x2e;',
+			'icon-twitter' : '&#x2f;',
+			'icon-blogger' : '&#x2d;'
 		},
 		els = document.getElementsByTagName('*'),
 		i, attr, html, c, el;
@@ -29,7 +32,7 @@ window.onload = function() {
 		}
 		c = el.className;
 		c = c.match(/icon-[^\s'"]+/);
-		if (c) {
+		if (c && icons[c[0]]) {
 			addIcon(el, icons[c[0]]);
 		}
 	}

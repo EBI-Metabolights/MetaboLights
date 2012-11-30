@@ -78,7 +78,7 @@
 									<c:if test="${filter.value.number>0}">${filter.value.text}</c:if>
 									<br/>
 									<c:if test="${fn:length(filterset.value.filterItems) gt 5}">
-										<script>availableTags.push('${filter.value.value}')</script>
+										<script>availableTags.push("${filter.value.value}")</script>
 									</c:if>
 								</c:if>	
 							</c:forEach>

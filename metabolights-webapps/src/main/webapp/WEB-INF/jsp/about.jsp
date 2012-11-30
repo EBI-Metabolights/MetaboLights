@@ -21,14 +21,28 @@
 	    </div>
     </div>   
     <div class="grid_24"">
-    	<p/>
+    	<p>
   		<a href="<spring:url value="contact"/>"><strong><spring:message code="label.contact"/></strong></a>
+  		</p>
    	</div>
 
     <div class="grid_24">
-    	<p/>
-        <a href="<spring:url value="statistics"/>"><strong><spring:message code="label.stats"/></strong></a>
+    	<p>
+        <a href="<spring:url value="statistics"/>"><strong><spring:message code="label.stats"/></strong></a></p>
     </div>
+    
+    <div class="grid_24">
+        <p><strong>Follow us on </strong>
+        	<span class="bigfont">
+        		<a href="http://metabolights.blogspot.co.uk" class="icon-blogger"></a>,
+        		<a href="http://www.facebook.com/MetaboLights" class="icon-facebook"></a>, 
+        		<a href="https://twitter.com/metabolights" class="icon-twitter"></a>.
+        	</span>
+        </p>
+    </div>
+
+    icon-blogger
+    
 
     <div class="grid_24">
         <hr/>
@@ -55,3 +69,4 @@
         <br/>
 
     </div>
+  

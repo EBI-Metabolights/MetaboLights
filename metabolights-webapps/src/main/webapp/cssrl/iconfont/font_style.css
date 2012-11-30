@@ -15,6 +15,7 @@
 	content: attr(data-icon);
 	speak: none;
 	font-weight: normal;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -24,6 +25,7 @@
 	font-style: normal;
 	speak: none;
 	font-weight: normal;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 }
 .icon-lab:before {
@@ -61,4 +63,13 @@
 }
 .icon-book:before {
 	content: "\2c";
+}
+.icon-facebook:before {
+	content: "\2e";
+}
+.icon-twitter:before {
+	content: "\2f";
+}
+.icon-blogger:before {
+	content: "\2d";
 }
