@@ -30,8 +30,8 @@ $(function() {
 		    create: function(){
 		    	$('.ui-dialog-titlebar-close').removeClass('ui-dialog-titlebar-close');
 		    },
-		    width: 400,
-		    height: 150,
+		    width: 200,
+		    height: 60,
 		    modal: true,
 		    autoOpen: false
 		});
