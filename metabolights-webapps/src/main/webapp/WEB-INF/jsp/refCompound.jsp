@@ -11,8 +11,43 @@ $(document).ready(function() {
 
 <script>
 $(function() {
-	$( "#tabs" ).tabs();
+	$( "#tabs" ).tabs({
+		cache:true,
+	});
 });
+</script>
+
+
+<script type="text/javascript">
+
+	$(document).ajaxStart(function(){showWait();}).ajaxStop(function(){
+		hideWait();
+	});
+
+	$(document).ready(function() {
+		
+		$("#hourglass").dialog({
+		    create: function(){
+		    	$('.ui-dialog-titlebar-close').removeClass('ui-dialog-titlebar-close');
+		    },
+		    width: 400,
+		    height: 150,
+		    modal: true,
+		    autoOpen: false
+		});
+	});
+	
+	function showWait() {
+	    document.body.style.cursor = "wait";
+	    $('.ui-dialog-titlebar').hide();
+		$( "#hourglass" ).dialog( "open" );
+	}
+	
+	function hideWait(){
+	    document.body.style.cursor = "default";
+		$( "#hourglass" ).dialog("close");
+	}
+	
 </script>
 
 <script>
@@ -49,6 +84,10 @@ function color_for_atom(formulaChar)
 	})( jQuery );
 </script>
 
+	<div id="hourglass">
+   		<img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.fetchingData"/></b>
+   	</div>
+
 <%--  Place holder for the compound --%>
 <div id="content" class="grid_24">
 	<div class="grid_24">
@@ -64,6 +103,7 @@ function color_for_atom(formulaChar)
 		</div>
 	
 	</div>
+
 	<div class="grid_18 omega">
 		<div id="tabs">
 			<ul>
