@@ -34,7 +34,7 @@ function navigate(_pageNumber) {
 	</div>
 
 	<div class="grid_24">
-	<b>Page: ${currrentPage}</b>
+		<b>Page: ${currrentPage}</b>
 		<span class="right"> 
 		<c:set var="RemainderValue"	value="${queryResults % 10}" /> 
 		<c:set var="CrudeNumOfPages" value="${queryResults / 10}" /> 
@@ -100,7 +100,7 @@ function navigate(_pageNumber) {
 			<div style='clear: both;'></div>
 			<div class="grid_24 refLayerBox">
 				<div class="grid_8 alpha">
-					<a href="${entry.accession}"><img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}"
+					<a href="${entry.accession}"><img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}" onerror="this.src='img/large_noImage.gif';"
 						width="100px" height="100px" /></a>
 				</div>
 				<div class="grid_16 omega">
@@ -148,7 +148,40 @@ function navigate(_pageNumber) {
 		<b>Space reserved for 'Other EBI results' facet</b>
 	</p>
 </div>
-
+<div class="grid_24">
+	<br />
+</div>
+<div class="grid_24">
+		<div class="grid_6 alpha">
+		<br/>
+		</div>
+		<div class="grid_12">
+			<div class="grid_24">
+			<b>Page: ${currrentPage}</b>
+			<span class="right"> 
+			<c:set var="RemainderValue"	value="${queryResults % 10}" /> 
+			<c:set var="CrudeNumOfPages" value="${queryResults / 10}" /> 
+			<c:set var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" /> 
+			<c:forEach var="loop" items="${NumOfPages}" varStatus="loopStatus">
+					<c:if test="${loopStatus.index eq 0}">
+						<c:set var="NumOfPages" value="${loop}" />
+					</c:if>
+					<c:if test="${loopStatus.index eq 1}">
+						<c:set var="RemainderItems" value="${loop}" />
+					</c:if>
+				</c:forEach> <c:if test="${RemainderItems ne 0 }">
+					<c:set var="NumOfPages" value="${NumOfPages+1}" />
+				</c:if> 
+				<c:forEach var="times" begin="1" end="${NumOfPages}" step="1">	
+					<a href="#" onClick="navigate(${times})">${times}</a>
+				</c:forEach>
+			</span>
+			</div>
+		</div>
+		<div class="grid_6 omega">
+		<br/>
+		</div>
+	</div>
 <div class="grid_24">
 	<br /> <br />
 </div>

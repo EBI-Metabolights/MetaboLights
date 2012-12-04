@@ -13,22 +13,21 @@
 					<c:forEach var="ReactiveMechanism"
 						items="${Reaction.reactiveCentreAndMechanismAndReactantList}"
 						varStatus="ReactionLoop">
-						<c:if
-							test="${ReactiveMechanism.class.simpleName eq 'ReactantList'}">
+						<c:if test="${ReactiveMechanism.class.simpleName eq 'ReactantList'}">
 							<c:forEach var="Reactant"
 								items="${ReactiveMechanism.reactantListOrReactant}"
 								varStatus="ReactantLoop">
-								<c:forEach var="ReactantName" items="${Reactant.title}">
+								<!--  c:forEach var="ReactantName" items="${Reactant.title}"-->
 									<c:choose>
 										<c:when test="${ReactantLoop.index eq 0}">
-											${ReactantName}
+											${Reactant.title}
 										</c:when>
 										<c:otherwise>
 											<b>&#43;</b>
-											${ReactantName}
+											${Reactant.title}
 										</c:otherwise>
 									</c:choose>
-								</c:forEach>
+								<!-- /c:forEach -->
 							</c:forEach>
 						</c:if>
 						<c:if test="${ReactionLoop.index eq 0}">
@@ -54,17 +53,17 @@
 							<c:forEach var="Product"
 								items="${ReactiveMechanism.productListOrProduct}"
 								varStatus="ProductLoop">
-								<c:forEach var="ProductName" items="${Product.title}">
+								<!-- c:forEach var="ProductName" items="${Product.title}" -->
 									<c:choose>
 										<c:when test="${ProductLoop.index eq 0}">
-											${ProductName}
+											${Product.title}
 										</c:when>
 										<c:otherwise>
 											<b>&#43;</b>
-											${ProductName}
+											${Product.title}
 										</c:otherwise>
 									</c:choose>
-								</c:forEach>
+								<!-- /c:forEach -->
 							</c:forEach>
 						</c:if>
 					</c:forEach>
