@@ -100,15 +100,13 @@ function navigate(_pageNumber) {
 			<div style='clear: both;'></div>
 			<div class="grid_24 refLayerBox">
 				<div class="grid_8 alpha">
-					<img
-						src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}"
-						width="100px" height="100px" />
+					<a href="${entry.accession}"><img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}"
+						width="100px" height="100px" /></a>
 				</div>
 				<div class="grid_16 omega">
 					<div class="grid_24">
 						<b>${entry.name}</b> (<a href="${entry.accession}">${entry.accession}</a>)
-						<a
-							href='<spring:message code="ref.msg.chebi.url"></spring:message>${entry.chebiURL}'>${entry.chebiId}</a>
+						<a href='<spring:message code="ref.msg.chebi.url"></spring:message>${entry.chebiURL}'>${entry.chebiId}</a>
 					</div>
 					<div class="grid_24">
 						<c:forEach var="iupacNameList" items="${entry.iupac}"
