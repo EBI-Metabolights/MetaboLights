@@ -3,9 +3,9 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 ${localfrontierheader}
 <c:if test="${!empty freeTextQuery}">
-<script>
-	$('[name="freeTextQuery"]').val('${freeTextQuery}');
-</script>
+	<script>
+		$('[name="freeTextQuery"]').val('${freeTextQuery}');
+	</script>
 </c:if>
 
 <script>
@@ -15,6 +15,14 @@ ${localfrontierheader}
 	$loginA.addClass("icon icon-functional").attr("data-icon","l");
 	$('[href="presubmit"]').parent().addClass("functional");
 </script>
+
+
+<c:if test="${pageContext.request.serverName=='www.ebi.ac.uk'}" >
+	<script>
+		$('[href="RefLayerSearch"]').hide();
+	</script>
+</c:if>
+
 
 <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
 	

@@ -30,7 +30,7 @@
                 "tooltip": "Download"
             },{
                 "selected": false,
-                "title": "How to use",
+                "title": "Help",
                 "href": "submitHelp",
                 "tooltip": "Help"
             },{
