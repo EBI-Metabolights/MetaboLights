@@ -11,7 +11,7 @@ function navigate(_pageNumber) {
     filterForm.submit();
 }
 </script>
-
+<c:if test="${not empty entries}">
 <div class="grid_6 alpha">
 	<h6>
 		<b><spring:message code="ref.msg.filterResults"></spring:message></b>
@@ -65,7 +65,6 @@ function navigate(_pageNumber) {
 
 <div class="grid_6 alpha">
 	<form name="Filters" id="filterForm" action="#" method="post">
-
 		<div class="grid_24 refLayerBox">
 			<b><spring:message code="ref.msg.technology"></spring:message></b>
 			<c:forEach var="technology" items="${technologyList}">
@@ -94,7 +93,7 @@ function navigate(_pageNumber) {
 		<input type="hidden" name="PageNumber" value="1" />
 	</form>
 </div>
-<c:if test="${not empty entries}">
+
 	<div class="grid_12">
 		<c:forEach var="entry" items="${entries}">
 			<div style='clear: both;'></div>
@@ -142,7 +141,7 @@ function navigate(_pageNumber) {
 			</div>
 		</c:forEach>
 	</div>
-</c:if>
+
 <div class="grid_6 omega refLayerBox">
 	<p>
 		<b>Space reserved for 'Other EBI results' facet</b>
@@ -182,6 +181,18 @@ function navigate(_pageNumber) {
 		<br/>
 		</div>
 	</div>
+</c:if>
+<c:if test="${empty entries }">
+	<div class="grid_6 alpha">
+		<br/>
+	</div>
+	<div class="grid_12">
+		<b><spring:message code="ref.msg.noResult"/><a href="MTBLC1547">Benzene</a>, <a href="MTBLC1358">Acetic acid</a>, <a href="MTBLC1402">Alanine</a> and so on...</b>
+	</div>
+	<div class="grid_6 alpha">
+		<br/>
+	</div>
+</c:if>
 <div class="grid_24">
 	<br /> <br />
 </div>
