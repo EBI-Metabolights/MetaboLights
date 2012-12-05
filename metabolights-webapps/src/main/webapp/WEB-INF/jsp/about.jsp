@@ -34,9 +34,9 @@
     <div class="grid_24">
         <p><strong>Follow us on </strong>
         	<span class="bigfont">
-        		<a href="http://metabolights.blogspot.co.uk" class="icon-blogger"></a>,
-        		<a href="http://www.facebook.com/MetaboLights" class="icon-facebook"></a>, 
-        		<a href="https://twitter.com/metabolights" class="icon-twitter"></a>.
+        		<a href="http://metabolights.blogspot.co.uk" class="icon icon-socialmedia" data-icon="B"></a>,
+        		<a href="http://www.facebook.com/MetaboLights" class="icon icon-socialmedia" data-icon="F"></a>, 
+        		<a href="https://twitter.com/metabolights" class="icon icon-socialmedia" data-icon="T"></a>.
         	</span>
         </p>
     </div>

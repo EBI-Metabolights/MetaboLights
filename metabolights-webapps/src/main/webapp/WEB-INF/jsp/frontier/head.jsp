@@ -19,10 +19,14 @@
 	<link rel="stylesheet" href="http://wwwdev.ebi.ac.uk/web_guidelines/css/compliance/develop/984-24-col-fluid.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="http://wwwdev.ebi.ac.uk/web_guidelines/css/compliance/develop/embl-petrol-colours.css" type="text/css" media="screen">
 -->
-	<link rel="stylesheet" href="http://www.ebi.ac.uk/web_guidelines/css/compliance/develop/boilerplate-style.css">
+<!--
+ 	<link rel="stylesheet" href="http://www.ebi.ac.uk/web_guidelines/css/compliance/develop/boilerplate-style.css">
   	<link rel="stylesheet" href="http://www.ebi.ac.uk/web_guidelines/css/compliance/develop/ebi-global.css" type="text/css" media="screen">
   	<link rel="stylesheet" href="http://www.ebi.ac.uk/web_guidelines/css/compliance/develop/ebi-visual.css" type="text/css" media="screen">
   	<link rel="stylesheet" href="http://www.ebi.ac.uk/web_guidelines/css/compliance/develop/984-24-col-fluid.css" type="text/css" media="screen">
+ -->
+	<link rel="stylesheet" href="//www.ebi.ac.uk/web_guidelines/css/compliance/mini/ebi-fluid-embl.css">
+   	
    	<!-- you can replace this with [projectname]-colours.css. See http://frontier.ebi.ac.uk/web/style/colour for details of how to do this -->
   	<!-- also inform ES so we can host your colour palette file -->
  	<link rel="stylesheet" href="http://www.ebi.ac.uk/web_guidelines/css/compliance/develop/embl-petrol-colours.css" type="text/css" media="screen">
@@ -31,7 +35,9 @@
 	<!-- you can replace this with [projectname]-colours.css. See http://frontier.ebi.ac.uk/web/style/colour for details of how to do this -->
 	<!-- link rel="stylesheet" type="text/css" href="cssrl/metabolights-reflayer-colours.css" media="screen"/> -->
 	<link rel="stylesheet" type="text/css" href="cssrl/jquery-ui-1.9.0.custom.min.css" media="all" />
+	<!-- 
 	<link rel="stylesheet" type="text/css" href="cssrl/iconfont/font_style.css" media="all" />
+	 -->
 	<link rel="stylesheet" type="text/css" href="cssrl/icons.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="cssrl/reflayer.css" media="screen" />
  	<script type="text/javascript" src="javascript/jquery-1.8.2.js" charset="utf-8"></script>

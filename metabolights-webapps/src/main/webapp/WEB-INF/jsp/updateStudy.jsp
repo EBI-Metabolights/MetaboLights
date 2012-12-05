@@ -2,14 +2,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
-<script>
-	
-	function showWait(){
-
-	}
-
-</script>
-
 <script type="text/javascript">
 
 	$(document).ready(function() {
@@ -26,6 +18,45 @@
 
 		
 	});
+
+	function submitStudy(){
+		if (validate()){
+			disableSubmission();
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	function validate(){
+    	
+
+    	isValid = true;
+
+		$fileErrorSpan = $("#fileError")[0];
+    	
+    	// If we are uptading a study...other mode only have datepicker (update public release date.)
+    	if ($fileErrorSpan != null){
+        	$fileErrorSpan.innerText = "";
+
+        	if ($("#studyfile").val() ==''){
+        		$fileErrorSpan.innerText = '<spring:message code="BIISubmit.fileEmpty"/>';
+        		isValid = false;
+        	}
+    	}
+
+		$dateErrorSpan = $("#dateError")[0];
+    	
+		$dateErrorSpan.innerText = "";
+		
+    	if ($("#datepicker").val() ==''){
+    		isValid = false;
+    		$dateErrorSpan.innerText = '<spring:message code="BIISubmit.dateEmpty"/>';
+    	}
+    	
+    	return isValid;
+    }
 	
 	function disableSubmission() {
 	    document.body.style.cursor = "wait";
@@ -84,21 +115,23 @@
 </c:if>
 
 <c:if test="${empty updated}">
-	<form method="post" action="${action}" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
+	<form method="post" action="${action}" enctype="multipart/form-data" name="uf" id="updateStudyForm" onsubmit="return submitStudy()">
 		&nbsp;<br/>	
 	    <input type="hidden" value="${study}" name="study"/>
-
 		<c:if test="${isUpdateMode}">
 			<div class="grid_6 alpha prefix_1"><spring:message code="label.isatabZipFile" />:</div>
 			<div class="grid_17 omega">
-				<input type="file" name="file" />
+				<input type="file" name="file" id="studyfile" />
+				<span id="fileError" class="error"></span>
 		    </div>
 		</c:if>
 		<br/>
+
 		<div class="grid_6 alpha prefix_1"><spring:message code="label.publicDate"/>:</div>
 		<div class="grid_17 omega">
 			<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
 			<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12" value="<fmt:formatDate pattern="dd-MMM-yyyy" value="${defaultDate}"/>"/>
+			<span id="dateError" class="error"></span>
 	    </div>
 		<div id="hideableButtons" class="grid_17 prefix_7 alpha omega">
 			&nbsp;<br/>
@@ -110,10 +143,9 @@
 	   		<img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
 	   	</div>
 	</form> 
+
 	<c:if test="${not empty validationmsg}">
-		<div class="grid_24">
-			<span class="error">${validationmsg}</span>
-		</div>
+		<span class="error">${validationmsg}</span>
 	</c:if>
 
 </c:if>

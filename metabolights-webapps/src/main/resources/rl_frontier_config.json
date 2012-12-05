@@ -1,67 +1,67 @@
-
 {
     "localMasthead": {
         "title": "MetaboLights",
+        "navigationTabs": [{
+            "selected": false,
+            "title": "Home",
+            "href": "index",
+            "tooltip": "Home page"
+            },{
+            "selected": false,
+            "title": "Browse",
+            "href": "browse",
+            "tooltip": "Browse"
+            },{
+            "selected": false,
+            "title": "Reference layer",
+            "href": "RefLayerSearch",
+            "tooltip": "Reference layer"
+            },{
+            "selected": false,
+            "title": "Download",
+            "href": "download",
+            "tooltip": "Download"
+            },{
+            "selected": false,
+            "title": "Help",
+            "href": "submitHelp",
+           "tooltip": "Help"
+            },{
+            "selected": false,
+            "title": "About MetaboLights",
+            "href": "about",
+            "tooltip": "About MetaboLights"
+        }],
+        "functionalTabs": [{
+            "title": "Login",
+            "href": "login",
+            "tooltip": "Log in to MetaboLights",
+            "iconFontSet": "icon-functional",
+            "dataIcon": "l"
+            },{
+            "title": "Submit",
+            "href": "presubmit",
+            "tooltip": "Submit data to MetaboLights",
+            "iconFontSet": "icon-functional",
+            "dataIcon": "_"
+        }],
         "search": {
-            "btnText": "Search",
             "action": "search",
             "method": "post",
-            "inputName": "freeTextQuery"
-        },
-        "tabs": [{
-                "selected": false,
-                "title": "Home",
-                "href": "index",
-                "tooltip": "Home page"
-			},{
-                "selected": false,
-                "title": "Browse",
-                "href": "browse",
-                "tooltip": "Browse"
-            },{
-                "selected": false,
-                "title": "Reference layer",
-                "href": "RefLayerSearch",
-                "tooltip": "Reference layer"
-            },{
-                "selected": false,
-                "title": "Download",
-                "href": "download",
-                "tooltip": "Download"
-            },{
-                "selected": false,
-                "title": "Help",
-                "href": "submitHelp",
-                "tooltip": "Help"
-            },{
-                "selected": false,
-                "title": "About MetaboLights",
-                "href": "about",
-                "tooltip": "About MetaboLigths"
-             },{
-                "selected": false,
-                "title": "Log in",
-                "href": "login",
-                "tooltip": "Log in to MetaboLights"
-             },{
-                "selected": false,
-                "title": "Submit",
-                "href": "presubmit",
-                "tooltip": "Submit data to MetaboLights"
-            }
-        ]
-    },
-    "globalFooter": true,
-    "globalTemplate": {
-        "title": "MetaboLights",
-        "cssType": "fluid",
-        "javascriptList": ["javascript/jquery-1.8.2.js",
-        					"javascript/jquery-ui-1.9.0.custom.min.js",
-        					"javascript/menu.js"],
-        "cssList": ["cssrl/jquery-ui-1.9.0.custom.min.css",
-        			"cssrl/iconfont/font_style.css",
-        			"http://wwwdev.ebi.ac.uk/web_guidelines/css/compliance/develop/embl-petrol-colours.css",
-        			"cssrl/reflayer.css",
-        			"cssrl/icons.css"]
+            "inputName": "freeTextQuery",
+            "examples": [{
+                "title": "alanine",
+                "href": "search?freeTextQuery%3Dalanine"
+                },{
+                "title": "human",
+                "href": "search?freeTextQuery%3Dhuman"
+                },{
+                "title": "urine",
+                "href": "search?freeTextQuery%3Durine"
+                },{
+                "title": "MTBLS1",  
+                "href": "search?freeTextQuery%3DMTBLS1"
+            }]
+        }
     }
 }

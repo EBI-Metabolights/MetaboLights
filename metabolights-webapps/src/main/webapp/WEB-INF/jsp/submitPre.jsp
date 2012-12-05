@@ -30,6 +30,5 @@
         <br/>
         <br/>
         <br/>
-        <br/>
-        <spring:message code="msg.metabolightsAbout11" />
+        <p><spring:message code="msg.metabolightsAbout11" /></p>
     </div>
