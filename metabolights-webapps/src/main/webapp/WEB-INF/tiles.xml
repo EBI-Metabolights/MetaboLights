@@ -207,6 +207,7 @@
 	
 	<definition name="index" extends="default">
 		<put-attribute name="title" value="MetaboLights - Metabolomics experiments and derived information" />
+		<put-attribute name="noBreadCrumb" value="true" />
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
 	</definition>
 

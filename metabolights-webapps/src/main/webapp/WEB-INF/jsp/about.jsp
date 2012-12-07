@@ -5,7 +5,7 @@
     </div>
     
     <div class="grid_24">
-	    <div class="grid_8 alfa">
+	    <div class="grid_8 alpha">
 	        <p>
 	        <spring:message code="msg.metabolightsAbout1" />
 	        <spring:message code="msg.metabolightsAbout2" />

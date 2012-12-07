@@ -17,7 +17,7 @@
     });
 
 </script>
-
+<br/>
 <c:if test="${not empty message}">
     <div id="dialog" title="MetaboLights message">
         <p><b><c:out value="${message}"/></b></p>
@@ -27,20 +27,20 @@
 
 <c:if test="${empty message}">
    <div class="messageBox" style="border:0px; background:white">&nbsp;</div>
-    <div class="grid_24 alfa center">
+    <div class="grid_24 alpha center">
         <spring:message code="msg.searchSuggestions" />
     </div>
 </c:if>
 
-<div class="grid_24 alfa center">
+<div class="grid_24 alpha center">
    <img src="img/litehouseLogo.png"/>
 </div>
 
-<div class="grid_24 alfa center" style="text-align:center">
+<div class="grid_24 alpha center" style="text-align:center">
     <spring:message code="msg.metabolights" />
 </div>
  
-<div class="grid_24 alfa center">
+<div class="grid_24 alpha center">
     <br/>
     <spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" />
     <br/>
