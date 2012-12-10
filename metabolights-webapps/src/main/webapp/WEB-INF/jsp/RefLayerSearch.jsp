@@ -187,7 +187,7 @@ function navigate(_pageNumber) {
 		<br/>
 	</div>
 	<div class="grid_12">
-		<b><spring:message code="ref.msg.noResult"/><a href="MTBLC1547">Benzene</a>, <a href="MTBLC1358">Acetic acid</a>, <a href="MTBLC1402">Alanine</a> and so on...</b>
+		<b><spring:message code="ref.msg.noResult"/><a href="MTBLC1358">Acetic acid</a>, <a href="MTBLC1402">Alanine</a>, <a href="MTBLC1547">Benzene</a> and so on...</b>
 	</div>
 	<div class="grid_6 alpha">
 		<br/>
