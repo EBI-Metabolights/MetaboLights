@@ -108,25 +108,25 @@ function color_for_atom(formulaChar)
 		<div id="tabs">
 			<ul>
 				<li>
-					<a href="#tabs-1"><spring:message code="ref.compound.tab.characteristics"/></a>
+					<a class="noLine" href="#tabs-1"><spring:message code="ref.compound.tab.characteristics"/></a>
 				</li>
 				<li>
-					<a href="#tabs-2"><spring:message code="ref.compound.tab.foundin"/></a>
+					<a class="noLine" href="#tabs-2"><spring:message code="ref.compound.tab.foundin"/></a>
 				</li>
 				<li>
-					<a href="#tabs-3"><spring:message code="ref.compound.tab.pathways"/></a>
+					<a class="noLine" href="#tabs-3"><spring:message code="ref.compound.tab.pathways"/></a>
 				</li>
 				<li>
-					<a href="Reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
+					<a class="noLine" href="Reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
 				</li>
 				<li>
-					<a href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
+					<a class="noLine" href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
 				</li>
 				<li>
-					<a href="#tabs-6"><spring:message code="ref.compound.tab.msspectra"/></a>
+					<a class="noLine" href="#tabs-6"><spring:message code="ref.compound.tab.msspectra"/></a>
 				</li>
 				<li>
-					<a href="Citations?mtblc=${compound.mc.accession}"><spring:message code="ref.compound.tab.literature"/></a>
+					<a class="noLine" href="Citations?mtblc=${compound.mc.accession}"><spring:message code="ref.compound.tab.literature"/></a>
 				</li>
 			</ul>
 		

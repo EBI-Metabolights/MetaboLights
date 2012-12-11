@@ -134,7 +134,7 @@ function navigate(_pageNumber) {
 									</c:otherwise>
 							</c:choose>
 							<a
-								href="<spring:message code="ref.msg.mtbls.url"></spring:message><c:out value="${MTBLStudiesList}"></c:out>">${MTBLStudiesList}</a>
+								href="${MTBLStudiesList}">${MTBLStudiesList}</a>
 						</c:forEach>
 					</div>
 				</div>
