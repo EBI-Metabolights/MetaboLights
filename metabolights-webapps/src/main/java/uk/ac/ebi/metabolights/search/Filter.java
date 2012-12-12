@@ -91,8 +91,8 @@ public class Filter {
 		fss.put(mystudies.getName(), mystudies);
         fss.put(metabolite.getName(), metabolite);
         
-        // To Disable metabolites filter:
-        //metabolite.setIsEnabled(false);
+        //TODO,  Disable metabolites filter by now until it is improved
+        metabolite.setIsEnabled(true);
 		
 	}
 
@@ -271,18 +271,22 @@ public class Filter {
 				//Get the filter item.
 				FilterItem fi = entry1.getValue();
 				
-				//If filter item id checked
+				//If filter item is checked
 				if (fi.getIsChecked()){
 					//Join terms with an OR
 					//luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix(), false) , "OR") ;
                     if (fi.getName().equals(ORGANISM_FILTER))   //Need exact match for organism filter
                         luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + value2Lucene(fs.getPrefix() + fi.getValue() + fs.getSuffix(), false, true) , "OR") ;
-                    else if (fi.getName().equals(METABOLITE_FILTER) && (fi.getValue().indexOf(" ") != -1))
-                    	luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + splitLuceneValue(fi.getValue())  , "OR") ;
+                    else if (fi.getName().equals(METABOLITE_FILTER)){
+                        if (fi.getValue().contains(" "))
+                    	    luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + splitLuceneValue(fi.getValue())  , "OR") ;
+
+                        if (fi.getValue().contains("'"))
+                            luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + splitLuceneValueOnQuote(fi.getValue())  , "OR") ;
+                    }
                     else
                         luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + fs.getPrefix() + fi.getValue().replace(" ", "\\ *") + fs.getSuffix(), "OR") ;
-                    	
-                    
+
                     
 				}
 				
@@ -348,10 +352,12 @@ public class Filter {
 	}
 
 	private String splitLuceneValue(String value){
-
 		return ("(+" + value.replace(" ", " +") + ")");
-	
 	}
+
+    private String splitLuceneValueOnQuote(String value){
+        return ("(+" + value.replace("'", " +").replace("+-","+") + ")");
+    }
 
 	public boolean getIsFilterLoadNeeded(){
 		return isFilterLoadNeeded;
@@ -412,6 +418,7 @@ public class Filter {
                         if(!metabolite.getFilterItems().containsKey(metabo))
                             metabolite.getFilterItems().put(metabo , new FilterItem(metabo, metabolite.getName()));
 
+
                         //Increase the count of metabolites
                         metabolite.getFilterItems().get(metabo).addToNumber(1);
                     }
@@ -423,7 +430,7 @@ public class Filter {
 			//STATUS count
 			if (result.getIsPublic()){
 				status.getFilterItems().get(STATUS_PUBLIC).addToNumber(1);
-			}else{
+			} else {
 				status.getFilterItems().get(STATUS_PRIVATE).addToNumber(1);
 			}
 			
@@ -444,23 +451,7 @@ public class Filter {
         metabo = metabo.toLowerCase().trim();
 
         if (metabo.contains("~"))
-            metabo = metabo.subSequence(0, metabo.indexOf("~")).toString();    //Remove ~CHEBI id's
-
-        if (metabo.contains("|"))
-            metabo = metabo.subSequence(0, metabo.indexOf("|")).toString();    //Remove names separated by "|"  //TODO, should split not remove
-
-        if (metabo.contains("+"))
-            metabo = metabo.subSequence(0, metabo.indexOf("+")).toString();    //Remove names separated by "+"
-
-        if (metabo.contains(", "))
-            metabo = metabo.subSequence(0, metabo.indexOf(", ")).toString();    //Remove names separated by comma and space
-
-
-        if (metabo.contains("unknown")     //Not known and typos
-                || metabo.contains("unassiged")
-                || metabo.contains("unassigned")
-                || metabo.contains(" or "))
-            metabo = "";
+            metabo = metabo.subSequence(0, metabo.indexOf("~")).toString();    //Remove ~CHEBI id's part of the string
 
         return metabo;
     }
