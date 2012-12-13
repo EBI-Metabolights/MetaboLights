@@ -141,8 +141,8 @@ $(function() {
 	$( "#tabs" ).tabs();
 });
 </script>
-
-<div class="grid_24 alpha omega title">
+<div class="grid_24 clearfix">
+<div class="grid_24 title">
 	<div class="grid_19 alpha">
 		<strong>${study.acc}: ${study.title}</strong>
 	</div>
@@ -155,7 +155,7 @@ $(function() {
 
 <c:set var="stringToFind" value="${study.acc}:assay:" />
 
-<div class="grid_24 box alpha omega">
+<div class="grid_24 box">
 
        <c:if test="${not empty study.contacts}">
             <br/>
@@ -443,5 +443,6 @@ $(function() {
 		        </c:if>		        
 			</div> <!--  ends tabs-4 -->
 		</div> <!-- end tabs -->
- </div>	
+ </div>
+ </div>
 

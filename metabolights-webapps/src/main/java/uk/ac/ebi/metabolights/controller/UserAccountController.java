@@ -359,7 +359,7 @@ public class UserAccountController extends AbstractController{
 	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.updatedAccount"));
 		
 		// default action for this request, unless the session has candy in it. 
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.updatedAccount")); 
+		ModelAndView mav = new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.updatedAccount")); 
     	MetabolightsUser newUser = (MetabolightsUser) request.getSession().getAttribute("user");
     	
 		if (newUser!=null){

@@ -90,7 +90,7 @@ public class EntryController extends AbstractController {
 
 		// Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
 		if (study.getAcc() == null || study.getAcc().equals("Error") || study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
-			return AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
+			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
 
 		Collection<String> organismNames = getOrganisms(study);
 

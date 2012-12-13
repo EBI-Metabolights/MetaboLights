@@ -22,29 +22,95 @@
     <div id="dialog" title="MetaboLights message">
         <p><b><c:out value="${message}"/></b></p>
     </div>
-   <!-- <div class="messageBox"><c:out value="${message}" /></div>   -->
 </c:if>
 
-<c:if test="${empty message}">
-   <div class="messageBox" style="border:0px; background:white">&nbsp;</div>
-    <div class="grid_24 alpha center">
-        <spring:message code="msg.searchSuggestions" />
-    </div>
+
+<c:if test="${not empty gallery}">
+	<br/>
+
+	<div id="boxes" class="grid_22 alpha omega">
+	 	<c:forEach var="item" items="${gallery}">
+			<div> 
+			<a href="${item.url}">
+			<h4>${item.title}</h4>
+			
+			<c:if test="${not empty item.imgUrl}">
+				<img src="${item.imgUrl}" onerror="this.src='img/large_noImage.gif';"/>
+			</c:if>
+			<p>${item.description}</p>
+			</a>
+			</div>
+	 	</c:forEach>
+	</div>
+	
 </c:if>
 
-<div class="grid_24 alpha center">
-   <img src="img/litehouseLogo.png"/>
+<br/><br/>
+<div class="grid_8 alpha">
+	<div class="grid_24">
+	   <h3><spring:message code="title.serviceName" /></h3>
+	   <p><strong><spring:message code="msg.metabolights" /></strong></p><p><spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" /></p>
+	</div>
 </div>
 
-<div class="grid_24 alpha center" style="text-align:center">
-    <spring:message code="msg.metabolights" />
+<div class="grid_8">
+	<div class="grid_24">
+			<h3><spring:message code="title.download" /></h3>
+	  		<p>
+	  			<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"><div class="ebiicon clock"></div></a>
+	    	    <spring:message code="msg.metabolightsAbout12" />
+	        </p>
+	   		<p>
+		    	<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"><div class="ebiicon download"></div></a>
+	    		<spring:message code="msg.metabolightsAbout7" />
+	    	</p>
+	</div>
 </div>
- 
-<div class="grid_24 alpha center">
-    <br/>
-    <spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" />
-    <br/>
- 
-    <br/>
-    <br/>
+
+<div class="grid_8 omega">
+	<div class="grid_24">
+	
+		<h3><spring:message code="title.submit" /></h3>
+		<div class="grid_24"><p>&nbsp;</p></div>
+	    <div class='grid_20 alpha omega prefix_2'>
+	        <div class="bigbutton maincolorI">
+		        <a href="submittoqueue">
+		            <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
+			        <span><spring:message code="label.submitNewStudySub"/></span>
+		        </a>
+	        </div>
+	    </div>
+		<div class="grid_24"><p>&nbsp;</p></div>
+	    <div class='grid_20 alpha omega prefix_2'>
+	    	<div class="bigbutton seccolorI">
+		        <a href="mysubmissions?status=PRIVATE">
+			        <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
+			    	<span><spring:message code="label.updateOldStudySub"/></span>
+		      	</a>
+	      	</div>
+	    </div>
+	</div>
 </div>
+
+
+
+<script>
+	/* $('.coolframe').shadow('lifted'); */
+	
+	$(function(){
+	 $('#boxes').movingBoxes({
+		 startPanel: 1,
+		 currentPanel: 'current',
+		 speed: 0,
+		 initialized: function(e, slider, tar){
+		 	slider.options.speed = 500;
+		 },
+		 reducedSize:1,
+		 wrap: true,
+		 fixedHeight: false
+	 }); // add any non-default options inside here
+	}); 
+	
+</script>
+
+ 

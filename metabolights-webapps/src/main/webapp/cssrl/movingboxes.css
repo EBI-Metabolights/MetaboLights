@@ -1,0 +1,125 @@
+/*** Overall MovingBoxes Slider ***/
+.mb-wrapper {
+	border: 1px solid #eee;
+	margin: 0 auto 5px;
+	position: relative;
+	left: 0;
+	top: 0;
+	border-radius: 5px;
+	box-shadow: inset 2px 2px 5px #aaa;
+}
+
+/* Panel Wrapper */
+.mb-slider, .mb-scroll {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+	left: 0;
+	top: 0;
+
+	/***(>'-')> Control Panel Font size here <('-'<)***/
+	font-size: 18px;
+}
+
+/* active slider border highlight */
+.mb-active-slider {
+	border-color: #333;
+}
+
+/*** Slider panel ***/
+.mb-slider .mb-panel {
+	margin: 0;
+	padding: 6px;
+	display: block;
+	cursor: pointer;
+	float: left;
+	list-style: none;
+}
+
+/* Cursor to arrow over current panel, pointer for all others,
+change .current class name using plugin option, currentPanel : 'current' */
+.mb-slider .mb-panel.current {
+	cursor: auto;
+}
+
+/*** Inside the panel ***/
+.mb-inside {
+	padding: 4px;
+	border: 1px solid #999;
+}
+
+.mb-inside * {
+	max-width: 100%;
+}
+
+/*** Left & Right Navigation Arrows ***/
+a.mb-scrollButtons {
+	display: block;
+	width: 45px;
+	height: 58px;
+	background: transparent url(../img/arrows.png) no-repeat;
+	position: absolute;
+	top: 50%;
+	margin-top: -29px; /* if you change the arrow images, you may have to adjust this (1/2 height of arrow image) */
+	cursor: pointer;
+	text-decoration: none;
+	outline: 0;
+	border: 0;
+}
+a.mb-scrollButtons.mb-left {
+	background-position: left top;
+	left: -45px;
+}
+a.mb-scrollButtons.mb-right {
+	background-position: right top;
+	right: -45px;
+}
+a.mb-scrollButtons.mb-left:hover {
+	background-position: left bottom;
+}
+a.mb-scrollButtons.mb-right:hover {
+	background-position: right bottom;
+}
+a.mb-scrollButtons.disabled {
+	display: none;
+}
+
+/*** Controls added below the panels ***/
+.mb-controls {
+	margin: 0 auto;
+	text-align: center;
+	background: #ccc;
+	position: relative;
+	z-index: 100;
+}
+.mb-controls a {
+	color: #666;
+	font: 18px/2.2 Georgia, Serif;
+	display: inline-block;
+	text-decoration: none;
+	padding: 2px;
+	margin: 0 5px 0 0;
+	text-align: center;
+	outline: 0;
+}
+.mb-controls a:hover {
+	color: black;
+}
+.mb-controls a.current {
+	color: white;
+}
+.mb-active-slider .mb-controls {
+	background: #333;
+}
+
+.mb-panel {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+.mb-panel.current {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}

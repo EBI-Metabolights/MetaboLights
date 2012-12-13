@@ -82,7 +82,7 @@ public class SubmissionController extends AbstractController {
 		itu.setDBConfigPath(configPath);
 		itu.reindex();
 		
-		return AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.indexed"));
+		return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.indexed"));
 			
 	}
 	private @Value("#{uploadDirectory}") String uploadDirectory;

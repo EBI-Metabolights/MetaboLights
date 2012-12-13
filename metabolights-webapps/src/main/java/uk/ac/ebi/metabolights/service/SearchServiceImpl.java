@@ -154,4 +154,31 @@ public class SearchServiceImpl implements SearchService{
 		return pagerBoundaries; 
 	}
 
+	@Override
+	public LuceneSearchResult getStudy(String study) {
+
+		//Search results
+		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
+				
+		//Get the query...	
+		String luceneQuery = "acc:"+ study;
+		
+		logger.info("Searching for "+ luceneQuery);
+		
+		//Get the search result...
+		try {
+			searchResultHash = search(luceneQuery);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("Cannot get the study requested:\n" + e.getMessage());
+		} 
+		
+		// Get the result (Study)
+		// There must be only one
+		LuceneSearchResult result = searchResultHash.values().iterator().next().get(0); 
+		
+		return result;
+		
+	}
+
 }

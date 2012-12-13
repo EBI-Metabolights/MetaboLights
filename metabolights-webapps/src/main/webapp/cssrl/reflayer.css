@@ -7,7 +7,10 @@ a.noLine,
 	
 }
 a.noLine:link,
-a.noLine:visited{
+a.noLine:visited,
+a:noLine:hover,
+a:noLine:focus,
+a:noLine:active {
 	border-bottom-width: 0px;
 }
 
@@ -303,3 +306,8 @@ a.hide_closer{
 	visibility: hidden;
 }
 
+.coolframe{
+    height:400px;
+    padding:1em; 
+    background:#fff;
+}

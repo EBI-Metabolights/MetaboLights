@@ -26,10 +26,10 @@ $(function() {
 
 	<div id="tabs">
 		<ul>
-			<li><a href="#appTab">Application Properties</a></li>
-			<li><a href="#valTab">Validations</a></li>
-			<li><a href="#queueTab">Queue</a></li>
-			<li><a href="#studyHealthTab">Study Health Tab</a></li>
+			<li><a class="noLine" href="#appTab">Application Properties</a></li>
+			<li><a class="noLine" href="#valTab">Validations</a></li>
+			<li><a class="noLine" href="#queueTab">Queue</a></li>
+			<li><a class="noLine" href="#studyHealthTab">Study Health Tab</a></li>
 		</ul>
 		
 	<div id="appTab">
@@ -159,6 +159,12 @@ $(function() {
 	</div>
 	<div id="studyHealthTab">
 		<br/>
+		<form method="post" action="setgalleryItems">
+			<label>Gallery Items (comma separated ID):</label>
+			<input type=text value="${galleryIds}" name="galleryitems" size="60"/>
+			<input name="submit" type="submit" class="submit" value="Change gellery Items">	
+		</form>
+		<br/>
 		<c:if test="${not empty studiesHealth}">
 			<table cellpadding="5px" cellspacing="0px">
 				<tr><th>Study</th><th>is Public?</th><th>Must be under</th><th>is it there?</th></tr>
@@ -175,6 +181,7 @@ $(function() {
 				</c:forEach>
 			</table>
 		</c:if>
+
 	</div>
 	</div>
 

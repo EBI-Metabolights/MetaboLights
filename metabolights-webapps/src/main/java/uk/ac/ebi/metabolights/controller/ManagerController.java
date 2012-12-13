@@ -111,6 +111,8 @@ public class ManagerController extends AbstractController{
 		mav.addObject("backUpFolder", (getFilesInFolder(new File(SubmissionQueue.getBackUpFolder()))));
 		mav.addObject("queuerunnig", SubmissionQueueManager.getIsRunning());
 		mav.addObject("studiesHealth", getStudiesHealth());
+		
+		mav.addObject("galleryIds", HomePageController.getGalleryItemsIds());
 		return mav;
 		
 		

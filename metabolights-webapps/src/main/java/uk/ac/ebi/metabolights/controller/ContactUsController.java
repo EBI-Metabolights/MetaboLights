@@ -59,7 +59,7 @@ public class ContactUsController extends AbstractController{
 		// Send new the email
 		emailService.sendContactUsAlert(contactValidation);
 		//return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.emailSent",contactValidation.getEmailAddress()));
-		return AppContext.getMAVFactory().getFrontierMav("index", "message", PropertyLookup.getMessage("msg.emailSent",contactValidation.getEmailAddress()));
+		return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.emailSent",contactValidation.getEmailAddress()));
 
     }
 
