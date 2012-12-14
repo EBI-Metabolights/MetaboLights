@@ -30,9 +30,9 @@ select COunt(*) from user_detail
 
 <h3>Data in MetboLights</h3>
 <p>
-Number of studies: <b>18</b> (13 Public, 5 Private)<br/>
-Number of protocols: <b>105</b><br/>
-Number of assays: <b>882</b><br/>
+Number of studies: <b>19</b> (13 Public, 6 Private)<br/>
+Number of protocols: <b>127</b><br/>
+Number of assays: <b>992</b><br/>
 Different organisms: <b>9</b><br/>
 </p>
 
@@ -44,11 +44,11 @@ Different organisms: <b>9</b><br/>
   </tr>
   <tr>
     <td>ChEBI</td>
-    <td>827</td>
+    <td>857</td>
   </tr>
   <tr>
     <td>No id</td>
-    <td>383</td>
+    <td>380</td>
   </tr>
   <tr>
     <td>HMDB</td>
@@ -56,7 +56,7 @@ Different organisms: <b>9</b><br/>
   </tr>
   <tr>
     <td>PubChem</td>
-    <td>110</td>
+    <td>117</td>
   </tr>
   <tr>
     <td>KEGG</td>
@@ -64,16 +64,16 @@ Different organisms: <b>9</b><br/>
   </tr>
   <tr>
     <td>LIPID MAPS</td>
-    <td>3</td>
+    <td>4</td>
   </tr>
   <tr>
     <th>6 databases</th>
-    <th>1463</th>
+    <th>1498</th>
   </tr>
 </table>
 
 <H3>Submitters</H3>
-<p>Number of registered users: 57</p>
+<p>Number of registered users: 60</p>
 
 <H3>Online access</H3>
 <p>Comming soon!</p>

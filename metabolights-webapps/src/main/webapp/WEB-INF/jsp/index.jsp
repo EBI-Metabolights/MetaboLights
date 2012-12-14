@@ -1,5 +1,6 @@
 <%@taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core"   %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page language="java" contentType="text/html; charset=UTF-8"%>
 
 
@@ -27,17 +28,28 @@
 
 <c:if test="${not empty gallery}">
 	<br/>
-
 	<div id="boxes" class="grid_22 alpha omega">
 	 	<c:forEach var="item" items="${gallery}">
 			<div> 
 			<a href="${item.url}">
-			<h4>${item.title}</h4>
-			
-			<c:if test="${not empty item.imgUrl}">
-				<img src="${item.imgUrl}" onerror="this.src='img/large_noImage.gif';"/>
-			</c:if>
-			<p>${item.description}</p>
+			<table>
+                <tr>
+                    <c:if test="${not empty item.imgUrl}">
+                        <td style="width:150px;"><img src="${item.imgUrl}" onerror="this.src='img/large_noImage.gif';"/></td>
+                        <td>
+                            <h4>${item.title}</h4>
+                            <p>${fn:substring(item.description, 0, 90)}...</p>
+                        </td>
+                    </c:if>
+                    <c:if test="${empty item.imgUrl}">
+                        <td>
+                            <h4>${item.title}</h4>
+                            <p>${fn:substring(item.description, 0, 120)}...</p>
+                        </td>
+                    </c:if>
+                </tr>
+			</table>
+
 			</a>
 			</div>
 	 	</c:forEach>
@@ -70,7 +82,7 @@
 <div class="grid_8 omega">
 	<div class="grid_24">
 	
-		<h3><spring:message code="title.submit" /></h3>
+		<h3><spring:message code="title.submit"/> </h3>
 		<div class="grid_24"><p>&nbsp;</p></div>
 	    <div class='grid_20 alpha omega prefix_2'>
 	        <div class="bigbutton maincolorI">
@@ -107,7 +119,7 @@
 		 },
 		 reducedSize:1,
 		 wrap: true,
-		 fixedHeight: false
+		 fixedHeight: true
 	 }); // add any non-default options inside here
 	}); 
 	

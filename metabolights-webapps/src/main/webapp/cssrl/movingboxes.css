@@ -19,6 +19,7 @@
 	position: relative;
 	left: 0;
 	top: 0;
+    background: #666;
 
 	/***(>'-')> Control Panel Font size here <('-'<)***/
 	font-size: 18px;
@@ -48,7 +49,7 @@ change .current class name using plugin option, currentPanel : 'current' */
 /*** Inside the panel ***/
 .mb-inside {
 	padding: 4px;
-	border: 1px solid #999;
+	border: 0px solid #999;
 }
 
 .mb-inside * {
@@ -62,8 +63,8 @@ a.mb-scrollButtons {
 	height: 58px;
 	background: transparent url(../img/arrows.png) no-repeat;
 	position: absolute;
-	top: 50%;
-	margin-top: -29px; /* if you change the arrow images, you may have to adjust this (1/2 height of arrow image) */
+	top: 0%;
+	margin-top: 0px; /* if you change the arrow images, you may have to adjust this (1/2 height of arrow image) */
 	cursor: pointer;
 	text-decoration: none;
 	outline: 0;
@@ -116,8 +117,9 @@ a.mb-scrollButtons.disabled {
 }
 
 .mb-panel {
-    opacity: 0.5;
-    filter: alpha(opacity=50);
+    opacity: 0.9;
+    filter: alpha(opacity=90);
+    background: #fff;
 }
 .mb-panel.current {
     opacity: 1;
