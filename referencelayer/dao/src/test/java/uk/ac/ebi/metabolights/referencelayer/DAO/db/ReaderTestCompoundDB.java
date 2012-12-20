@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import java.sql.Connection;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -30,7 +31,7 @@ public class ReaderTestCompoundDB extends TestCase{
 		// Set up a simple configuration that logs on the console.
 	    BasicConfigurator.configure();
 	    
-		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV"); //OracleDatabaseInstance.getInstance("metabolightsDEV");
+		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsMYSQL"); //OracleDatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();
 		mcd = new MetaboLightsCompoundDAO(con);
 					
@@ -98,9 +99,31 @@ public class ReaderTestCompoundDB extends TestCase{
 		
 		MetaboLightsCompound mc = mcd.findByCompoundId(Long.parseLong(expected[0]));
 		assertMetabolite(mc, expected);
-	}	
-	
-	public void testDeleteACompound() throws Exception {
+	}
+
+    public void testGetAllCompounds() throws Exception{
+
+        // Get all the compounds
+        Set<MetaboLightsCompound> mcs = mcd.getAllCompounds();
+
+        // There must be at least one
+        assertEquals("testing getAllCompounds, at least there must be one", true, mcs.size()>0);
+
+    }
+
+    public  void testExistCompound() throws Exception{
+
+        boolean exists = mcd.doesCompoundExists(Long.parseLong(expected[0]));
+
+        assertTrue("Compound existence", exists);
+
+        // This one shouldn't exist
+        exists = mcd.doesCompoundExists(new Long(-23));
+
+        assertTrue("Compound in-existence", !exists);
+    }
+
+    public void testDeleteACompound() throws Exception {
 		
 		MetaboLightsCompound mc = mcd.findByCompoundId(Long.parseLong(expected[0]));
 		
@@ -109,9 +132,9 @@ public class ReaderTestCompoundDB extends TestCase{
 		mc = mcd.findByCompoundId(Long.parseLong(expected[0]));
 		
 		assertTrue("Deleted compound must not be found" , mc == null);
-	}	
+	}
 
-	
+
 	private void assertMetabolite(MetaboLightsCompound mc, String[] expectedvalues){
 		
 		assertNotNull(mc);

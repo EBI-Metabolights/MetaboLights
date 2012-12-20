@@ -20,7 +20,7 @@ INSERT INTO DB \
 	VALUES (?)
 
 --delete.database:\
-DELETE DB \
+DELETE FROM DB \
 WHERE {0}
 
 

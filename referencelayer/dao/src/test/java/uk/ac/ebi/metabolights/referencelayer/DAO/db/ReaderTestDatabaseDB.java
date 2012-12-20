@@ -30,7 +30,7 @@ public class ReaderTestDatabaseDB extends TestCase{
 		// Set up a simple configuration that logs on the console.
 	    BasicConfigurator.configure();
 	    
-		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
+		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsMYSQL");
 		con = dbi.getConnection();
 		dbd = new DatabaseDAO(con);
 		

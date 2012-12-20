@@ -6,6 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -87,37 +90,79 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 	}
 
 	public MetaboLightsCompound findByCompoundName(String name) throws DAOException {
-		return findByCompound("--where.compound.by.name",name);
+
+        Collection<MetaboLightsCompound> compounds = findByCompound("--where.compound.by.name",name);
+        return compounds ==null? null:compounds.iterator().next();
 	}
 
 
 	public MetaboLightsCompound findByCompoundAccession(String accession) throws DAOException {
-		return findByCompound("--where.compound.by.accession",accession);
+
+        Collection<MetaboLightsCompound> compounds = findByCompound("--where.compound.by.accession",accession);
+        return compounds ==null? null:compounds.iterator().next();
 	}
 
 	public MetaboLightsCompound findByCompoundId(Long compoundId) throws DAOException {
-		
-		return findByCompound("--where.compound.by.id", compoundId);
+
+        Collection<MetaboLightsCompound> compounds = findByCompound("--where.compound.by.id", compoundId);;
+        return compounds ==null? null:compounds.iterator().next();
 	}
-	
-	private MetaboLightsCompound findByCompound(String where, Object value)
+
+    public Set<MetaboLightsCompound> getAllCompounds() throws DAOException {
+
+        return findByCompound("--where.compound.all",null);
+    }
+
+
+    public boolean doesCompoundExists(Long compoundId) throws DAOException {
+
+        ResultSet rs = null;
+        try {
+            PreparedStatement stm = sqlLoader.getPreparedStatement("--exist.compound", "--where.compound.by.id");
+            stm.clearParameters();
+
+            stm.setLong(1, compoundId);
+
+            rs = stm.executeQuery();
+
+            // Move to the first and only row
+            rs.next();
+
+            return (rs.getInt(1)!=0);
+
+        } catch (SQLException e){
+            throw new DAOException(e);
+        } finally {
+            if (rs != null) try {
+                rs.close();
+            } catch (SQLException ex) {
+                LOGGER.error("Closing ResultSet", ex);
+            }
+        }
+
+    }
+
+    private Set<MetaboLightsCompound> findByCompound(String where, Object value)
 	throws DAOException {
 		ResultSet rs = null;
 		try {
 			MetaboLightsCompound result = null;
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--compound.core", where);
 			stm.clearParameters();
-			
-			// If can be casted as long
-			if (value instanceof Long){
-				stm.setLong(1, (Long) value);
-			} else {
-				stm.setString(1, (String) value);
-			}
-			
+
+            // If not null...
+            if (value != null){
+                // If can be casted as long
+                if (value instanceof Long){
+                    stm.setLong(1, (Long) value);
+                } else {
+                    stm.setString(1, (String) value);
+                }
+            }
+
 			rs = stm.executeQuery();
-			result = loadCompound(rs);
-			return result;
+
+			return loadCompounds(rs);
 			
         } catch (SQLException e){
            throw new DAOException(e);
@@ -130,7 +175,21 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 		}
 	}
 
-	public void save(MetaboLightsCompound compound) throws DAOException {
+    private Set<MetaboLightsCompound> loadCompounds(ResultSet rs) throws SQLException{
+
+        Set<MetaboLightsCompound> result = null;
+        while (rs.next()){
+
+            if (result == null) result = new HashSet<MetaboLightsCompound>();
+            MetaboLightsCompound compound = loadCompound(rs);
+            result.add(compound);
+        }
+        return (result == null)? null : result;
+
+    }
+
+
+    public void save(MetaboLightsCompound compound) throws DAOException {
 		
 		// If its a new Compound
 		if (compound.getId() == 0) {
@@ -179,22 +238,22 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 
 	private MetaboLightsCompound loadCompound(ResultSet rs) throws SQLException {
 		MetaboLightsCompound compound = null;
-		if (rs.next()){
-			compound = new MetaboLightsCompound();
-			long id = rs.getLong("ID");
-			String ACC = rs.getString("ACC");
-			String name = rs.getString("NAME");
-			String description = rs.getString("DESCRIPTION");
-			String inchi = rs.getString("INCHI");
-			String chebiId = rs.getString("TEMP_ID");
+
+        compound = new MetaboLightsCompound();
+        long id = rs.getLong("ID");
+        String ACC = rs.getString("ACC");
+        String name = rs.getString("NAME");
+        String description = rs.getString("DESCRIPTION");
+        String inchi = rs.getString("INCHI");
+        String chebiId = rs.getString("TEMP_ID");
 			
-			compound.setId(id);
-			compound.setAccession(ACC);
-			compound.setName(name);
-			compound.setDescription(description);
-			compound.setInchi(inchi);
-			compound.setChebiId(chebiId);
-		}
+        compound.setId(id);
+        compound.setAccession(ACC);
+        compound.setName(name);
+        compound.setDescription(description);
+        compound.setInchi(inchi);
+        compound.setChebiId(chebiId);
+
 		return compound;
 	}
 
@@ -215,7 +274,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.executeUpdate();
 	
 			ResultSet keys = stm.getGeneratedKeys();
-			
+
        		while (keys.next()) {
     			compound.setId(keys.getLong(1));  //Should only be one 
     	        if (LOGGER.isDebugEnabled())

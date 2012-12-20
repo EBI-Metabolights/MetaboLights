@@ -12,6 +12,10 @@ ACC = ?
 --where.compound.by.id:\
 ID = ?
 
+--where.compound.all:\
+true=true
+
+
 --update.compound:\
 UPDATE REF_METABOLITE \
 	SET ACC = ?, NAME = ?, DESCRIPTION = ?, INCHI = ?, TEMP_ID = ? WHERE ID = ?
@@ -22,6 +26,9 @@ INSERT INTO REF_METABOLITE \
 	VALUES (?,?,?,?,?)
 	
 --delete.compound:\
-DELETE REF_METABOLITE \
+DELETE FROM REF_METABOLITE \
 WHERE {0}
+
+--exist.compound:\
+SELECT COUNT(*) FROM REF_METABOLITE WHERE {0};
 	
