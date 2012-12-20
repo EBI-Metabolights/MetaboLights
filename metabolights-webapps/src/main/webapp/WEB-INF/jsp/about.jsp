@@ -41,9 +41,6 @@
         </p>
     </div>
 
-    icon-blogger
-    
-
     <div class="grid_24">
         <hr/>
         <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="isatab"/></a>

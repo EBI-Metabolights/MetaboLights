@@ -28,7 +28,7 @@
 
 <c:if test="${not empty gallery}">
 	<br/>
-	<div id="boxes" class="grid_22 alpha omega">
+	<div id="boxes" class="grid_16 alpha omega">
 	 	<c:forEach var="item" items="${gallery}">
 			<div> 
 			<a href="${item.url}">

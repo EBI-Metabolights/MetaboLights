@@ -311,3 +311,7 @@ a.hide_closer{
     padding:1em; 
     background:#fff;
 }
+
+#redline_side_car{
+    display: none;
+}

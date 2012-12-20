@@ -63,7 +63,7 @@ a.mb-scrollButtons {
 	height: 58px;
 	background: transparent url(../img/arrows.png) no-repeat;
 	position: absolute;
-	top: 0%;
+	top: 2%;
 	margin-top: 0px; /* if you change the arrow images, you may have to adjust this (1/2 height of arrow image) */
 	cursor: pointer;
 	text-decoration: none;

@@ -42,15 +42,22 @@
 	<script type="text/javascript" src="javascript/jquery-ui-1.9.0.custom.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="javascript/jquery.shadow.js" charset="utf-8"></script>
 	<script type="text/javascript" src="javascript/jquery.movingboxes.js" charset="utf-8"></script>
-	<script type="text/javascript" src="javascript/jquery.simpleSlide_min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="javascript/menu.js"></script>
 	
    
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
-	
-	<c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
-    	<script type="text/javascript">var redline = {};redline.project_id = 196734042;</script>
-    	<script id="redline_js" src="http://www.redline.cc/assets/button.js" type="text/javascript"> </script>
-	</c:if>
-	
+
+    <c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
+        <script type="text/javascript">var redline = {};redline.project_id = 196734042;</script>
+        <script id="redline_js" src="http://www.redline.cc/assets/button.js" type="text/javascript"> </script>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function(){
+                    // Handler for .ready() called.
+                    $("#redline_side_car").css("background-image","url(img/redline_left_button.png)");
+                    $("#redline_side_car").css("display", "block");
+                },1000);
+            });
+        </script>
+    </c:if>
 </head>
