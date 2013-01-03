@@ -20,10 +20,13 @@ private String description;
 private String inchi;
 // ChEBI id
 private String chebiId;
+// Formula
+private String formula;
+// Iupac Names (separated by |)
+private String iupacNames;
 
 
-
-/**
+    /**
  * @return the id
  */
 public long getId() {
@@ -104,6 +107,22 @@ public String getChebiId() {
  */
 public void setChebiId(String chebiId) {
 	this.chebiId = chebiId;
+}
+
+public String getFormula() {
+    return formula;
+}
+
+public void setFormula(String formula) {
+    this.formula = formula;
+}
+
+public String getIupacNames() {
+    return iupacNames;
+}
+
+public void setIupacNames(String iupacNames) {
+    this.iupacNames = iupacNames;
 }
 
 }
