@@ -3,13 +3,11 @@ package uk.ac.ebi.metabolights.referencelayer.importer;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntity;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntityList;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.RelationshipType;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
@@ -67,8 +65,6 @@ public class ReferenceLayerImporter{
         // Now try to save the metabolites
         try {
 
-
-
             // Now we should have a list of chebi ids...
             for (LiteEntity le: el.getListElement()){
 
@@ -92,10 +88,20 @@ public class ReferenceLayerImporter{
         try {
 
             MetaboLightsCompound mc = new MetaboLightsCompound();
+
+
             // Populate the metabolite compound with chebi data.
+            // Get a complete entity....
+            Entity entity = chebiWS.getCompleteEntity(chebiId.getChebiId());
+
             mc.setAccession(chebiID2MetaboLightsID(chebiId.getChebiId()));
             mc.setChebiId(chebiId.getChebiId());
             mc.setName(chebiId.getChebiAsciiName());
+
+            mc.setDescription(entity.getDefinition());
+            mc.setInchi(entity.getInchi());
+            mc.setFormula(extractFormula(entity.getFormulae()));
+            mc.setIupacNames(extractIupacNames(entity.getIupacNames()));
 
             mcd.save(mc);
 
@@ -119,8 +125,31 @@ public class ReferenceLayerImporter{
             } else {
                 throw e;
             }
+        } catch (ChebiWebServiceFault_Exception e) {
+            LOGGER.info("Can't get a Complete entity for " + chebiId.getChebiId() );
+            return 0;
         }
     }
+
+    private String extractIupacNames(List<DataItem> iupacNames){
+
+        if (iupacNames.size()>0) {
+            return iupacNames.iterator().next().getData();
+        }
+
+        return null;
+    }
+
+    private String extractFormula(List<DataItem> formulas){
+
+        if (formulas.size()>0) {
+            return formulas.iterator().next().getData();
+        }
+
+        return null;
+    }
+
+
     private String chebiID2MetaboLightsID(String chebiID){
         return (chebiID.replaceFirst("CHEBI:", "MTBLC"));
     }
