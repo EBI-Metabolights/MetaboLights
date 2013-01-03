@@ -394,9 +394,11 @@ $(function() {
 											<tr>
 												<th><spring:message code="label.metabolites.description"/></th>
 												<th><spring:message code="label.metabolites.formula"/></th>
-					                   			<c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
-					                   				<th>${sampleHeader.sampleName}</th>
-					                   			</c:forEach>
+                                                <th><spring:message code="label.metabolites.smiles"/></th>
+                                                <th><spring:message code="label.metabolites.inchi"/></th>
+					                   			<%--<c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >--%>
+					                   				<%--<th>${sampleHeader.sampleName}</th>--%>
+					                   			<%--</c:forEach>--%>
 					                   			
 											</tr>
 										</thead>
@@ -410,7 +412,7 @@ $(function() {
 			
 									<%--Line itself --%>
 			                  		<tr style="background: ${loopStatusMet.index % 2 == 0 ? '' : '#eef5f5'}">
-				                    	<td class="tableitem">
+				                    	<td>
 				                    		${met.metabolite.description}
 			                  				<c:choose>
 			                  					<c:when test="${empty met.metabolite.identifier}"></c:when>
@@ -418,16 +420,23 @@ $(function() {
 			                  					<c:otherwise><a class="metLink" identifier="${met.metabolite.identifier}" href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
 			                  				</c:choose>
 				                   		</td>               			
-			                   			<td class="tableitem">
+			                   			<td>
 				                    		${met.metabolite.chemical_formula}
 			                  			</td>
-		
+                                          <td>
+                                                  ${met.metabolite.smiles}
+                                          </td>
+                                          <td>
+                                                  ${met.metabolite.inchi}
+                                          </td>
+
 										<%-- sampleValues --%>                   			
-			                   			<c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >
-			                  				<td class="tableitem">
-			                  					${sample.value}
-			                  				</td>
-				                    	</c:forEach> <%-- For each sample --%>
+			                   			<%--<c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >--%>
+			                  				<%--<td class="tableitem">--%>
+			                  					<%--${sample.value}--%>
+			                  				<%--</td>--%>
+				                    	<%--</c:forEach>--%>
+				                    	<%-- For each sample --%>
 		
 										</tr>
 												                    			

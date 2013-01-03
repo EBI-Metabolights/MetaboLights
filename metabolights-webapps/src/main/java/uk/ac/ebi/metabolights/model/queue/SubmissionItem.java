@@ -130,7 +130,7 @@ public class SubmissionItem {
 	 * conesa@ebi.ac.uk~~20120516~mynewsubmissionarchive.zip
 	 * 
 	 * For updating "Public Release Date" (No file is provided).
-	 * conesa@ebi.ac.uk~MTBLS1~20120516~updatedate.empty
+	 * conesa@ebi.ac.uk~MTBLS1~20120516~PRDupdatedate.zip
 	 */
 	private String ComposeFileName(){
 

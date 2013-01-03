@@ -1,67 +1,91 @@
 {
     "localMasthead": {
         "title": "MetaboLights",
-        "navigationTabs": [{
-            "selected": false,
-            "title": "Home",
-            "href": "index",
-            "tooltip": "Home page"
-            },{
-            "selected": false,
-            "title": "Browse",
-            "href": "browse",
-            "tooltip": "Browse"
-            },{
-            "selected": false,
-            "title": "Reference layer",
-            "href": "RefLayerSearch",
-            "tooltip": "Reference layer"
-            },{
-            "selected": false,
-            "title": "Download",
-            "href": "download",
-            "tooltip": "Download"
-            },{
-            "selected": false,
-            "title": "Help",
-            "href": "submitHelp",
-           "tooltip": "Help"
-            },{
-            "selected": false,
-            "title": "About MetaboLights",
-            "href": "about",
-            "tooltip": "About MetaboLights"
-        }],
-        "functionalTabs": [{
-            "title": "Login",
-            "href": "login",
-            "tooltip": "Log in to MetaboLights",
-            "iconFontSet": "icon-functional",
-            "dataIcon": "l"
-            },{
-            "title": "Submit",
-            "href": "presubmit",
-            "tooltip": "Submit data to MetaboLights",
-            "iconFontSet": "icon-functional",
-            "dataIcon": "_"
-        }],
+        "style": "logo-title",
+        "strapline":"A database for Metabolomics experiments and derived information",
+        "homepageUrl": "index",
+        "logo": {
+            "src": "img/logo.png",
+            "alt": "MetaboLights logo",
+            "width": "64",
+            "height": "64"
+        },
+        "navigationTabs": [
+            {
+                "selected": false,
+                "title": "Home",
+                "href": "index",
+                "tooltip": "Home page"
+            },
+            {
+                "selected": false,
+                "title": "Browse",
+                "href": "browse",
+                "tooltip": "Browse"
+            },
+            {
+                "selected": false,
+                "title": "Reference layer",
+                "href": "RefLayerSearch",
+                "tooltip": "Reference layer"
+            },
+            {
+                "selected": false,
+                "title": "Download",
+                "href": "download",
+                "tooltip": "Download"
+            },
+            {
+                "selected": false,
+                "title": "Help",
+                "href": "submitHelp",
+                "tooltip": "Help"
+            },
+            {
+                "selected": false,
+                "title": "About MetaboLights",
+                "href": "about",
+                "tooltip": "About MetaboLights"
+            }
+        ],
+        "functionalTabs": [
+            {
+                "title": "Login",
+                "href": "login",
+                "tooltip": "Log in to MetaboLights",
+                "iconFontSet": "icon-functional",
+                "dataIcon": "l"
+            },
+            {
+                "title": "Submit",
+                "href": "presubmit",
+                "tooltip": "Submit data to MetaboLights",
+                "iconFontSet": "icon-functional",
+                "dataIcon": "_"
+            }
+        ],
         "search": {
             "action": "search",
             "method": "post",
             "inputName": "freeTextQuery",
-            "examples": [{
-                "title": "alanine",
-                "href": "search?freeTextQuery%3Dalanine"
-                },{
-                "title": "human",
-                "href": "search?freeTextQuery%3Dhuman"
-                },{
-                "title": "urine",
-                "href": "search?freeTextQuery%3Durine"
-                },{
-                "title": "MTBLS1",  
-                "href": "search?freeTextQuery%3DMTBLS1"
-            }]
+            "examples": [
+                {
+                    "title": "alanine",
+                    "href": "search?freeTextQuery%3Dalanine"
+                },
+                {
+                    "title": "human",
+                    "href": "search?freeTextQuery%3Dhuman"
+                },
+                {
+                    "title": "urine",
+                    "href": "search?freeTextQuery%3Durine"
+                },
+                {
+                    "title": "MTBLS1",
+                    "href": "search?freeTextQuery%3DMTBLS1"
+                }
+            ]
         }
     }
 }

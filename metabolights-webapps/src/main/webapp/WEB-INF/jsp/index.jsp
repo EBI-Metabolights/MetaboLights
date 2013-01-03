@@ -30,21 +30,29 @@
 	<br/>
 	<div id="boxes" class="grid_16 alpha omega">
 	 	<c:forEach var="item" items="${gallery}">
-			<div> 
+
+            <c:set var="title" value="${item.title}"/>
+            <c:set var="description" value="${item.description}"/>
+
+            <div>
 			<a href="${item.url}">
 			<table>
                 <tr>
                     <c:if test="${not empty item.imgUrl}">
+                        <c:if test="${fn:length(title) gt 45}"><c:set var="title" value="${fn:substring(title, 0, 42)}..."/></c:if>
+                        <c:if test="${fn:length(description) gt 90}"><c:set var="description" value="${fn:substring(description, 0, 87)}..."/></c:if>
                         <td style="width:150px;"><img src="${item.imgUrl}" onerror="this.src='img/large_noImage.gif';"/></td>
                         <td>
-                            <h4>${item.title}</h4>
-                            <p>${fn:substring(item.description, 0, 90)}...</p>
+                            <h6>${title}</h6>
+                            <p>${description}</p>
                         </td>
                     </c:if>
                     <c:if test="${empty item.imgUrl}">
+                        <c:if test="${fn:length(title) gt 40}"><c:set var="title" value="${fn:substring(title, 0, 37)}..."/></c:if>
+                        <c:if test="${fn:length(description) gt 120}"><c:set var="description" value="${fn:substring(description, 0, 117)}..."/></c:if>
                         <td>
-                            <h4>${item.title}</h4>
-                            <p>${fn:substring(item.description, 0, 120)}...</p>
+                            <h6>${title}</h6>
+                            <p>${description}</p>
                         </td>
                     </c:if>
                 </tr>
@@ -61,7 +69,8 @@
 <div class="grid_8 alpha">
 	<div class="grid_24">
 	   <h3><spring:message code="title.serviceName" /></h3>
-	   <p><strong><spring:message code="msg.metabolights" /></strong></p><p><spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" /></p>
+       <br/>
+        <p><spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" /></p>
 	</div>
 </div>
 
@@ -83,7 +92,7 @@
 	<div class="grid_24">
 	
 		<h3><spring:message code="title.submit"/> </h3>
-		<div class="grid_24"><p>&nbsp;</p></div>
+
 	    <div class='grid_20 alpha omega prefix_2'>
 	        <div class="bigbutton maincolorI">
 		        <a href="submittoqueue">
