@@ -246,13 +246,17 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         String description = rs.getString("DESCRIPTION");
         String inchi = rs.getString("INCHI");
         String chebiId = rs.getString("TEMP_ID");
-			
+        String iupacNames = rs.getString("IUPAC_NAMES");
+        String formula = rs.getString("FORMULA");
+
         compound.setId(id);
         compound.setAccession(ACC);
         compound.setName(name);
         compound.setDescription(description);
         compound.setInchi(inchi);
         compound.setChebiId(chebiId);
+        compound.setFormula(formula);
+        compound.setIupacNames(iupacNames);
 
 		return compound;
 	}
@@ -271,6 +275,8 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(3, compound.getDescription());
 			stm.setString(4, compound.getInchi());
 			stm.setString(5, compound.getChebiId());
+            stm.setString(6, compound.getIupacNames());
+            stm.setString(7, compound.getFormula());
 			stm.executeUpdate();
 	
 			ResultSet keys = stm.getGeneratedKeys();
@@ -303,7 +309,9 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(3, compound.getDescription());
 			stm.setString(4, compound.getInchi());
 			stm.setString(5, compound.getChebiId());
-			stm.setLong(6, compound.getId());
+            stm.setString(6, compound.getIupacNames());
+            stm.setString(7, compound.getFormula());
+			stm.setLong(8, compound.getId());
 			stm.executeUpdate();
 	
 		} catch (SQLException ex) {

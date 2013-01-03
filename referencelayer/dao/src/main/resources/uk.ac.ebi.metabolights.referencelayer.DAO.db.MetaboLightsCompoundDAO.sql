@@ -1,5 +1,5 @@
 --compound.core:\
-SELECT ID, ACC, NAME, DESCRIPTION, INCHI, TEMP_ID \
+SELECT ID, ACC, NAME, DESCRIPTION, INCHI, TEMP_ID, IUPAC_NAMES, FORMULA \
 FROM REF_METABOLITE \
 WHERE {0}
 	
@@ -13,22 +13,22 @@ ACC = ?
 ID = ?
 
 --where.compound.all:\
-true=true
+1=1
 
 
 --update.compound:\
 UPDATE REF_METABOLITE \
-	SET ACC = ?, NAME = ?, DESCRIPTION = ?, INCHI = ?, TEMP_ID = ? WHERE ID = ?
+	SET ACC = ?, NAME = ?, DESCRIPTION = ?, INCHI = ?, TEMP_ID = ?, IUPAC_NAMES = ?, FORMULA = ? WHERE ID = ?
 	
 --insert.compound:\
 INSERT INTO REF_METABOLITE \
-	(ACC, NAME, DESCRIPTION, INCHI, TEMP_ID) \
-	VALUES (?,?,?,?,?)
+	(ACC, NAME, DESCRIPTION, INCHI, TEMP_ID, IUPAC_NAMES, FORMULA) \
+	VALUES (?,?,?,?,?,?,?)
 	
 --delete.compound:\
 DELETE FROM REF_METABOLITE \
 WHERE {0}
 
 --exist.compound:\
-SELECT COUNT(*) FROM REF_METABOLITE WHERE {0};
+SELECT COUNT(*) FROM REF_METABOLITE WHERE {0}
 	
