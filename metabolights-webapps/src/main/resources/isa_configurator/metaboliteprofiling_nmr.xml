@@ -31,7 +31,7 @@
             <description><![CDATA[e.g. 5 mm conventional, Shigemi, mircocell etc.]]></description>
             <default-value><![CDATA[]]></default-value>
         </field>
-        <field header="Parameter Value[Solvent]" data-type="String" is-file-field="false" is-multiple-value="false"
+        <field header="Parameter Value[NMR Buffer]" data-type="String" is-file-field="false" is-multiple-value="false"
                is-required="false" is-hidden="false" is-forced-ontology="false">
             <description><![CDATA[D2O, CD3OD, CDCl3, etc]]></description>
             <default-value><![CDATA[]]></default-value>
