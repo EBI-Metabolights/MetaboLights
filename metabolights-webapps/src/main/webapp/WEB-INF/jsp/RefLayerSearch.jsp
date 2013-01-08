@@ -46,7 +46,8 @@ function navigate(_pageNumber) {
 				<c:if test="${loopStatus.index eq 1}">
 					<c:set var="RemainderItems" value="${loop}" />
 				</c:if>
-			</c:forEach> <c:if test="${RemainderItems ne 0 }">
+			</c:forEach> 
+			<c:if test="${RemainderItems ne 0 }">
 				<c:set var="NumOfPages" value="${NumOfPages+1}" />
 			</c:if> 
 			<c:forEach var="times" begin="1" end="${NumOfPages}" step="1">	

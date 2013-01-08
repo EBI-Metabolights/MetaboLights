@@ -48,11 +48,11 @@ public class ReferenceLayerController extends AbstractController {
 
 		//Create an object for reference layer filter.
 		RefLayerSearchFilter rflf = new RefLayerSearchFilter();
-		
+
 		//System.out.println("NumOfPages: "+NumOfPages);
-		
+
 		Integer PageNumber1 = null;
-		
+
 		if(PageNumber == null){
 			PageNumber1 = 1; //Loading the page for the first time, setting it as 1.
 		} else {
@@ -61,8 +61,8 @@ public class ReferenceLayerController extends AbstractController {
 
 		Integer indexSize = 10;  //setting the index size to be used in the ebiservices
 		Integer beginIndex = ((PageNumber1 * indexSize) - indexSize);// (PageNumber1-1) * indexSize // setting the beginning of the index.
-		
-		
+
+
 		Hashtable<String, Boolean> techHash = new Hashtable<String, Boolean>();
 		Hashtable<String, Boolean> orgHash = new Hashtable<String, Boolean>();
 
@@ -71,7 +71,7 @@ public class ReferenceLayerController extends AbstractController {
 
 		rflf.setOrgHash(orgHash);
 		rflf.setTechHash(techHash);
-		
+
 		rflf.setTechCheckedItemsHash(techCheckedItemsHash);
 		rflf.setOrgCheckedItemsHash(orgCheckedItemsHash);
 
@@ -88,26 +88,26 @@ public class ReferenceLayerController extends AbstractController {
 		mav.addObject("MTBLDomain", MTBLDomain);
 		mav.addObject("currrentPage", PageNumber1);
 
-		getSearchResults(rflf, mav, ChDomain, MTBLDomain, query, organisms, technology, beginIndex, indexSize);
+		getSearchResults(rflf, mav, ChDomain, MTBLDomain, query, organisms, technology, PageNumber1);
 
 		return mav;
 	}
 
-	public void getSearchResults(RefLayerSearchFilter rflf, ModelAndView mav, String ChDomain, String MTBLDomain, String query, String[] organisms, String[] technology, Integer beginIndex, Integer indexSize) {
+	public void getSearchResults(RefLayerSearchFilter rflf, ModelAndView mav, String ChDomain, String MTBLDomain, String query, String[] organisms, String[] technology, Integer PageNumber1) {
 
 		int MTBLnumOfResults = 0;
 
 		//Create a method to create a query
-		creatQuery(mav, rflf, query, organisms, technology);
-		
+		createQuery(mav, rflf, query, organisms, technology);
+
 		//Get number of results for the query
 		MTBLnumOfResults = getDomainNumOfResults(MTBLDomain, query, rflf, MTBLnumOfResults);
 
 		//Get the entries for domain, has method for creating filter
-		getDomainEntries(query, MTBLDomain, MTBLnumOfResults, rflf, mav, organisms, technology, beginIndex, indexSize);
+		getDomainEntries(query, MTBLDomain, MTBLnumOfResults, rflf, mav, organisms, technology, PageNumber1);
 	}
 
-	private RefLayerSearchFilter creatQuery(ModelAndView mav, RefLayerSearchFilter rflf, String query, String[] organisms, String[] technology) {
+	private RefLayerSearchFilter createQuery(ModelAndView mav, RefLayerSearchFilter rflf, String query, String[] organisms, String[] technology) {
 
 		rflf.setOrgValue(false);
 		rflf.setTechValue(false);
@@ -173,7 +173,7 @@ public class ReferenceLayerController extends AbstractController {
 		return rflf;
 	}
 
-	private RefLayerSearchFilter getDomainEntries(String query, String MTBLDomain, int MTBLnumOfResults, RefLayerSearchFilter rflf, ModelAndView mav, String[] organisms, String[] technology, Integer beginIndex, Integer indexSize) {
+	private RefLayerSearchFilter getDomainEntries(String query, String MTBLDomain, int MTBLnumOfResults, RefLayerSearchFilter rflf, ModelAndView mav, String[] organisms, String[] technology, Integer PageNumber1) {
 
 		ArrayOfString MTBLFields = ebiSearchService.listFields(MTBLDomain);
 		MTBLFields.getString().add("CHEBI");
@@ -184,39 +184,90 @@ public class ReferenceLayerController extends AbstractController {
 			ArrayOfString MTBLResults = null;
 
 			if((rflf.getTechQuery()) != null){
-				MTBLResults = ebiSearchService.getResultsIds(MTBLDomain, rflf.getTechQuery(), beginIndex, indexSize);
+				MTBLResults = ebiSearchService.getAllResultsIds(MTBLDomain, rflf.getTechQuery());
 			} else if((rflf.getOrgQuery()) != null){
-				MTBLResults = ebiSearchService.getResultsIds(MTBLDomain, rflf.getOrgQuery(), beginIndex, indexSize);
+				MTBLResults = ebiSearchService.getAllResultsIds(MTBLDomain, rflf.getOrgQuery());
 			} else {
-				MTBLResults = ebiSearchService.getResultsIds(MTBLDomain, rflf.getModQuery(), beginIndex, indexSize);
+				MTBLResults = ebiSearchService.getAllResultsIds(MTBLDomain, rflf.getModQuery());
 			}
 
 			rflf.setMTBLArrayOfEntries(ebiSearchService.getEntries(MTBLDomain, MTBLResults, MTBLFields));
 			rflf.setMTBLArrayOfEntriesLen(rflf.getMTBLArrayOfEntries().getArrayOfString().size());
 
-
 			// Declare a collection to store all the entries found
 			Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
 			Collection<RefLayerSearchFilter> rflfs = new ArrayList <RefLayerSearchFilter>();
 
-			for(int i=0; i<rflf.getMTBLArrayOfEntriesLen(); i++){
+			String ChebiName = null;
+			String MTBLStudies = null;
+			String[] SplitChebiName = null;
+			String[] iupacSplit = null;
+			String queryIUPACName = null;
+			String[] MTBLSplit = null;
 
-				rflf.setMTBLEntries(rflf.getMTBLArrayOfEntries().getArrayOfString().get(i));
-				//				String queryID = MTBLEntries.getString().get(2); // Id of the compound in Metabolights
-				String queryIUPACName = rflf.getMTBLEntries().getString().get(3); // IUPAC name of the compound in MetaboLights
-				//				String queryName = MTBLEntries.getString().get(4); //Name of the compound
-				String ChebiName = rflf.getMTBLEntries().getString().get(7); // Chebi name for the compound in Metabolights
-				String MTBLStudies = rflf.getMTBLEntries().getString().get(8); // Studies for that compound
+			int length = rflf.getMTBLArrayOfEntriesLen();
+			int from = 0;
+			int to = 0;
+			
+			Float modLen = (float) rflf.getMTBLArrayOfEntriesLen();
+			Float newLen = (modLen/10);
+			String[] lenSplit = newLen.toString().split("\\.");
+			String bef = lenSplit[0];
+			String aft = lenSplit[1];
+			
+			Integer befInt = Integer.parseInt(bef);
+			Integer aftInt = Integer.parseInt(aft);
+			
+			if(aftInt != 0){
+				befInt = befInt + 1;
+			}
+			
+			from = ((PageNumber1*10)-10);
+
+			if(length < 10){
+				to = length;
+			} else if(PageNumber1 == befInt){
+				to = from + aftInt;
+			} else {
+				to = (PageNumber1*10);
+			}
+
+			for(int z=from; z<to; z++){
+				ChebiName = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7); // Chebi name for the compound in Metabolights
+				MTBLStudies = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(8); // Studies for that compound
 
 				if(queryIUPACName == null){
 					queryIUPACName = "null";
 				}
 
-				String[] SplitChebiName = ChebiName.split(":");
+				SplitChebiName = ChebiName.split(":");
 
-				String[] iupacSplit = queryIUPACName.split("\\n");
+				iupacSplit = queryIUPACName.split("\\n");
 
-				String[] MTBLSplit = MTBLStudies.split("\\s");
+				MTBLSplit = MTBLStudies.split("\\s");
+
+				// Instantiate a new entry...
+				MetabolightsCompound mc = new MetabolightsCompound();
+
+				// Fill its properties...
+				mc.setChebiURL(SplitChebiName[1]);
+				mc.setAccession(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(2)); // Id of the compound in Metabolights
+				mc.setName(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(4)); //Name of the compound
+				mc.setIupac(iupacSplit);
+				//				mc.setTechnologyType(techType); // gets technology_type, which can be NMR Sectroscopy or MS.
+				mc.setChebiId(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7)); // Chebi name for the compound in Metabolights
+				mc.setMTBLStudies(MTBLSplit);
+
+				// Store the metabolite entry in the collection
+				mcs.add(mc);
+			}
+			//}
+
+			for(int i=0; i<rflf.getMTBLArrayOfEntriesLen(); i++){
+
+				rflf.setMTBLEntries(rflf.getMTBLArrayOfEntries().getArrayOfString().get(i));
+				//				String queryID = MTBLEntries.getString().get(2); // Id of the compound in Metabolights
+
 
 				rflf.setTechnology1(technology);
 				rflf.setOrganisms(organisms);
@@ -224,25 +275,10 @@ public class ReferenceLayerController extends AbstractController {
 				rflf.setOrgType(rflf.getMTBLEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
 				rflf.setTechType(rflf.getMTBLEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
 
-				//Setup filters, pass technology and organism arrays.
+				//Setup filters, pass technology and organism arrays as POJO in rflf.
 				refLayerFilterSetup(rflf, mav);
-
-				// Instantiate a new entry...
-				MetabolightsCompound mc = new MetabolightsCompound();
-
-				// Fill its properties...
-				mc.setChebiURL(SplitChebiName[1]);
-				mc.setAccession(rflf.getMTBLEntries().getString().get(2)); // Id of the compound in Metabolights
-				mc.setName(rflf.getMTBLEntries().getString().get(4)); //Name of the compound
-				mc.setIupac(iupacSplit);
-				//				mc.setTechnologyType(techType); // gets technology_type, which can be NMR Sectroscopy or MS.
-				mc.setChebiId(rflf.getMTBLEntries().getString().get(7)); // Chebi name for the compound in Metabolights
-				mc.setMTBLStudies(MTBLSplit);
-
-				// Store the metabolite entry in the collection
-				mcs.add(mc);
 			}
-			
+
 			rflfs.add(rflf);
 			mav.addObject("RefLayer", rflfs);
 			mav.addObject("organismList", rflf.getOrgHash());
