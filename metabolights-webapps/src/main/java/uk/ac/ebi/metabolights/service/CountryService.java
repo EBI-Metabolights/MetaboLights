@@ -184,7 +184,7 @@ public class CountryService {
         countries.put ("OM","Oman");
         countries.put ("PK","Pakistan");
         countries.put ("PW","Palau");
-        //countries.put ("PS","Palestinian Territory, Occupied");
+        countries.put ("PS","State of Palestine");
         countries.put ("PA","Panama");
         countries.put ("PG","Papua New Guinea");
         countries.put ("PY","Paraguay");

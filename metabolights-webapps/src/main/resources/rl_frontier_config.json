@@ -2,11 +2,10 @@
     "localMasthead": {
         "title": "MetaboLights",
         "style": "logo-title",
-        "strapline":"A database for Metabolomics experiments and derived information",
         "homepageUrl": "index",
         "logo": {
-            "src": "img/logo.png",
-            "alt": "MetaboLights logo",
+            "src": "img/MetaboLightsV3.png",
+            "alt": "MetaboLights",
             "width": "64",
             "height": "64"
         },

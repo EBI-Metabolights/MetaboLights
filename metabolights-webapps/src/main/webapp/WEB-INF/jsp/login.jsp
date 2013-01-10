@@ -28,8 +28,9 @@
            	<input type='password' name='j_password'/>
            	<a href="forgotPassword"><spring:message code="label.oopsForgot" /></a>
         </div>
-		
-		<div class="grid_20 prefix_4 omega">
+
+        <div class="grid_4 alpha">&nbsp;</div>
+		<div class="grid_20 omega">
 			<input name="submit" type="submit" class="submit" value="<spring:message code="label.login"/>">		
 			<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
         </div>
@@ -37,12 +38,9 @@
 
     </form>
 
-		<div class="grid_24 alpha omega">
-			&nbsp;
-			<br/><br/>
-			<a href="newAccount" class="noLine"><img class="ebiicon user-add"/></a>
+		<div class="grid_24 omega">
+            <a href="newAccount" class="icon bigfont icon-functional" data-icon="7"></a>
 			<a href="newAccount"><spring:message code="label.needNewAccount"/></a>
-            
         </div>
 
 <script type="text/javascript" language="javascript">

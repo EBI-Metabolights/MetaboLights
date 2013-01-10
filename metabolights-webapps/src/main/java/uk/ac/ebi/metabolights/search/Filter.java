@@ -92,7 +92,7 @@ public class Filter {
         fss.put(metabolite.getName(), metabolite);
         
         //TODO,  Disable metabolites filter by now until it is improved
-        metabolite.setIsEnabled(true);
+        metabolite.setIsEnabled(false);
 		
 	}
 
@@ -407,26 +407,29 @@ public class Filter {
 				
 			}
 
-            if (result.getMetabolites() != null){
 
-                Iterator<String> metaboIter = result.getMetabolites().iterator();
-                while (metaboIter.hasNext()){
-                    String metabo = cleanMetaboliteName(metaboIter.next());
+            // If metabolite filter is enabled
+            if (metabolite.getIsEnabled()){
+                if (result.getMetabolites() != null){
 
-                    if (metabo != ""){  //Skip if not known etc
+                    Iterator<String> metaboIter = result.getMetabolites().iterator();
+                    while (metaboIter.hasNext()){
+                        String metabo = cleanMetaboliteName(metaboIter.next());
 
-                        if(!metabolite.getFilterItems().containsKey(metabo))
-                            metabolite.getFilterItems().put(metabo , new FilterItem(metabo, metabolite.getName()));
+                        if (metabo != ""){  //Skip if not known etc
+
+                            if(!metabolite.getFilterItems().containsKey(metabo))
+                                metabolite.getFilterItems().put(metabo , new FilterItem(metabo, metabolite.getName()));
 
 
-                        //Increase the count of metabolites
-                        metabolite.getFilterItems().get(metabo).addToNumber(1);
+                            //Increase the count of metabolites
+                            metabolite.getFilterItems().get(metabo).addToNumber(1);
+                        }
+
                     }
 
                 }
-
             }
-
 			//STATUS count
 			if (result.getIsPublic()){
 				status.getFilterItems().get(STATUS_PUBLIC).addToNumber(1);

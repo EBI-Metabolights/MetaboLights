@@ -49,8 +49,11 @@ public class MetabolightsUser implements Serializable{
 
 	@Id
 	@Column(name="ID")
-    //COmment this for MySQL
+    // Use this line for ORACLE DB
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="userSeq")
+
+    // Use this for MYSQL
+    // @GeneratedValue
 	private Long userId;
 
 	@Column(name="EMAIL")
