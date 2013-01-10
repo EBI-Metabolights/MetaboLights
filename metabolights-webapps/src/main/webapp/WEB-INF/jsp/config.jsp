@@ -162,7 +162,7 @@ $(function() {
 		<form method="post" action="setgalleryItems">
 			<label>Gallery Items (comma separated ID):</label>
 			<input type=text value="${galleryIds}" name="galleryitems" size="60"/>
-			<input name="submit" type="submit" class="submit" value="Change gellery Items">	
+			<input name="submit" type="submit" class="submit" value="Change gallery Items">
 		</form>
 		<br/>
 		<c:if test="${not empty studiesHealth}">

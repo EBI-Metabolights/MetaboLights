@@ -276,7 +276,7 @@ $(function() {
 			                <c:forEach var="protocol" items="${study.protocols}" varStatus="loopStatus">
 	                    		<c:choose>
 	                    			<c:when test="${not empty protocol.description}">
-			                    		<tr style="background: ${(loopStatus.index+blanks) % 2 == 0 ? '' : '#eef5f5'}">
+			                    		<tr class="${(loopStatus.index+blanks) % 2 == 0 ? '' : 'coloured'}">
 					                    	<td class="tableitem">${protocol.name}</td>
 					                    	<td class="tableitem">${protocol.description}</td>
 					                    </tr>
@@ -308,7 +308,7 @@ $(function() {
 							</thead>
 							<tbody>
 								<c:forEach var="assayResult" items="${assay.assayResult}" varStatus="loopStatus">	
-	                    		<tr style="background: ${loopStatus.index % 2 == 0 ? '' : '#eef5f5'}">
+	                    		<tr class="${loopStatus.index % 2 == 0 ? '' : 'coloured'}">
 			                   		<c:if test="${loopStatus.index == 10}">
 		                    			<%-- <tr><td colspan=2><a href="#" class="showLink" id="data_link_${loopStatusAssay.index}">Show more</a></td></tr> --%>
 		                    			</tbody><tbody id="data_${loopStatusAssay.index}" style='display:none'>
@@ -411,7 +411,7 @@ $(function() {
 			                  		</c:if>
 			
 									<%--Line itself --%>
-			                  		<tr style="background: ${loopStatusMet.index % 2 == 0 ? '' : '#eef5f5'}">
+			                  		<tr class="${loopStatusMet.index % 2 == 0 ? '' : 'coloured'}">
 				                    	<td>
 				                    		${met.metabolite.description}
 			                  				<c:choose>

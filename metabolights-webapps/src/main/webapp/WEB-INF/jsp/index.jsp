@@ -94,21 +94,22 @@
 		<h3><spring:message code="title.submit"/> </h3>
 
 	    <div class='grid_20 alpha omega prefix_2'>
-	        <div class="bigbutton maincolorI">
-		        <a href="submittoqueue">
-		            <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
-			        <span><spring:message code="label.submitNewStudySub"/></span>
-		        </a>
-	        </div>
+            <a href="submittoqueue">
+                <div class="bigbutton maincolorI">
+                    <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
+                    <span><spring:message code="label.submitNewStudySub"/></span>
+                </div>
+            </a>
 	    </div>
 		<div class="grid_24"><p>&nbsp;</p></div>
 	    <div class='grid_20 alpha omega prefix_2'>
-	    	<div class="bigbutton seccolorI">
-		        <a href="mysubmissions?status=PRIVATE">
+            <a href="mysubmissions?status=PRIVATE">
+    	    	<div class="bigbutton seccolorI">
+
 			        <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
 			    	<span><spring:message code="label.updateOldStudySub"/></span>
-		      	</a>
-	      	</div>
+		      	</div>
+            </a>
 	    </div>
 	</div>
 </div>
