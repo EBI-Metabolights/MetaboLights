@@ -41,22 +41,29 @@
 
 	<form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">
 
-		<div class="grid_24 alpha omega title">
-			<spring:message code="label.searchFilter"/>
-		</div>	
-			
+
+		<h3><spring:message code="label.searchFilter"/></h3>
+
 		<c:forEach var="filterset" items="${filters.fss}">
 			<c:if test="${filterset.value.isEnabled}">
-				<div class="grid_24 alpha omega box" >
-					<b><c:choose><c:when test="${filterset.key=='organism'}"><spring:message code="label.organism"/></c:when>
-							<c:when test="${filterset.key=='technology'}"><spring:message code="label.technology"/></c:when>
-							<c:when test="${filterset.key=='status'}"><spring:message code="label.status"/></c:when>
-							<c:when test="${filterset.key=='metabolite'}"><spring:message code="label.metabolite"/></c:when>
-							<c:otherwise>${filterset.key}</c:otherwise>
-					</c:choose></b>
+
+                    <c:set var="caption">
+                        <c:choose><c:when test="${filterset.key=='organism'}"><spring:message code="label.organism"/></c:when>
+                            <c:when test="${filterset.key=='technology'}"><spring:message code="label.technology"/></c:when>
+                            <c:when test="${filterset.key=='status'}"><spring:message code="label.status"/></c:when>
+                            <c:when test="${filterset.key=='metabolite'}"><spring:message code="label.metabolite"/></c:when>
+                            <c:otherwise>${filterset.key}</c:otherwise>
+                        </c:choose>
+                    </c:set>
+					<h4>${caption}</h4>
 					<c:if test="${fn:length(filterset.value.filterItems) gt 5}">
 						<div class="ui-widget">
-							<input  class="inputDiscrete" style="width:270px" id="autocomplete_${filterset.key}"/>
+							<input
+                                    class="inputDiscrete"
+                                    style="width:270px"
+                                    id="autocomplete_${filterset.key}"
+                                    placeholder= "Find your ${caption}"
+                            />
 							<script>var availableTags = new Array();</script>
 						</div>
 					</c:if>
@@ -73,7 +80,7 @@
 										 	name="${filter.value.name}" 
 										  	value="${filter.value.value}"
 										  	<c:if test='${filter.value.isChecked}'>CHECKED</c:if>
-										  	onclick="this.form.submit();"> 
+                                            onclick="this.form.submit();">
 									<c:if test="${filter.value.number<1}"><span class="dimmed">${filter.value.text}</span> </c:if>
 									<c:if test="${filter.value.number>0}">${filter.value.text}</c:if>
 									<br/>
@@ -82,13 +89,13 @@
 									</c:if>
 								</c:if>	
 							</c:forEach>
-							<c:if test='${(times == 0) and (checkedItems gt 0)}'><hr/></c:if>
+							<%--<c:if test='${(times == 0) and (checkedItems gt 0)}'><hr/></c:if>--%>
 						</c:forEach>
 						<c:if test="${fn:length(filterset.value.filterItems) gt 5}">
 							<script>fillAutocomplete('autocomplete_${filterset.key}', availableTags);</script>
 						</c:if> 
 					</ul>
-				</div>
+
 			</c:if>
 		</c:forEach>
 		<input type="hidden" name="freeTextQuery" value="<c:out value="${freeTextQuery}"/>"/>

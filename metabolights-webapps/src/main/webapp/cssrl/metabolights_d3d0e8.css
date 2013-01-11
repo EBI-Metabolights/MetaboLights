@@ -323,3 +323,18 @@ a.hide_closer{
 tr.coloured{
     background: #DDEAF1;
 }
+
+.publication{
+    border: 1px;
+    background-color: #fcf6f3;
+    box-shadow: 6px 6px 3px #bbbbbb;
+    padding: 20px;
+    margin: 20px;
+}
+.pubtitle{
+    font-weight: bold;
+}
+
+.pubjournal{
+    font-style: italic;
+}
