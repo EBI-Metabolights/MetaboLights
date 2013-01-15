@@ -109,18 +109,19 @@ function navigate(_pageNumber) {
 						<a href='<spring:message code="ref.msg.chebi.url"></spring:message>${entry.chebiURL}'>${entry.chebiId}</a>
 					</div>
 					<div class="grid_24">
-						<c:forEach var="iupacNameList" items="${entry.iupac}"
-							varStatus="loopStatus">
-							<c:choose>
-								<c:when test="${loopStatus.index eq 0}">
-									<b><spring:message code="ref.msg.iupac" /></b>
-								</c:when>
-								<c:otherwise>
-										,
+						<c:forEach var="iupacNameList" items="${entry.iupac}" varStatus="loopStatus">
+							<c:if test="${iupacNameList ne 'null' }">
+								<c:choose>
+									<c:when test="${loopStatus.index eq 0}">
+										<b><spring:message code="ref.msg.iupac" /></b>
+									</c:when>
+									<c:otherwise>
+											,
 									</c:otherwise>
-							</c:choose>
+								</c:choose>
 								${iupacNameList}
-							</c:forEach>
+							</c:if>
+						</c:forEach>
 					</div>
 					<br /> <br /> <br />
 					<div class="grid_24">

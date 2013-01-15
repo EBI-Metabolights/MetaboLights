@@ -6,8 +6,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
 
 
@@ -176,8 +174,13 @@ public class ReferenceLayerController extends AbstractController {
 	private RefLayerSearchFilter getDomainEntries(String query, String MTBLDomain, int MTBLnumOfResults, RefLayerSearchFilter rflf, ModelAndView mav, String[] organisms, String[] technology, Integer PageNumber1) {
 
 		ArrayOfString MTBLFields = ebiSearchService.listFields(MTBLDomain);
+//		System.out.println(MTBLFieldLen);
 		MTBLFields.getString().add("CHEBI");
 		MTBLFields.getString().add("METABOLIGHTS");
+//		int MTBLFieldLen = MTBLFields.getString().size();
+//		for(int d=0; d<MTBLFieldLen; d++){
+//			System.out.println(MTBLFields.getString().get(d));
+//		}
 
 		if (MTBLnumOfResults != 0) {
 
@@ -193,14 +196,25 @@ public class ReferenceLayerController extends AbstractController {
 
 			rflf.setMTBLArrayOfEntries(ebiSearchService.getEntries(MTBLDomain, MTBLResults, MTBLFields));
 			rflf.setMTBLArrayOfEntriesLen(rflf.getMTBLArrayOfEntries().getArrayOfString().size());
+			
+//			for(int g=0; g<rflf.getMTBLArrayOfEntriesLen(); g++){
+//				ArrayOfString aos = rflf.getMTBLArrayOfEntries().getArrayOfString().get(g);
+////				System.out.println(aos);
+//				int size1 = aos.getString().size();
+//				for(int h=0; h<size1; h++){
+//					System.out.println(aos.getString().get(h));
+//				}
+//				System.out.println("--------------------------");
+//			}
 
 			// Declare a collection to store all the entries found
 			Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
 			Collection<RefLayerSearchFilter> rflfs = new ArrayList <RefLayerSearchFilter>();
 
+			//Initiating all required variables
 			String ChebiName = null;
 			String MTBLStudies = null;
-			String[] SplitChebiName = null;
+			String[] SplitChebiName = null;		
 			String[] iupacSplit = null;
 			String queryIUPACName = null;
 			String[] MTBLSplit = null;
@@ -209,54 +223,57 @@ public class ReferenceLayerController extends AbstractController {
 			int from = 0;
 			int to = 0;
 			
-			Float modLen = (float) rflf.getMTBLArrayOfEntriesLen();
-			Float newLen = (modLen/10);
-			String[] lenSplit = newLen.toString().split("\\.");
-			String bef = lenSplit[0];
-			String aft = lenSplit[1];
+			Float modLen = (float) rflf.getMTBLArrayOfEntriesLen(); // total number of results.
+			Float newLen = (modLen/10); //Total number of results divided by 10 to get the from and to after some calculations below.
+			String[] lenSplit = newLen.toString().split("\\."); // spliting the above newLen with '.'
+			String bef = lenSplit[0]; //Taking the first value
+			String aft = lenSplit[1]; //Taking the second value
 			
-			Integer befInt = Integer.parseInt(bef);
+			Integer befInt = Integer.parseInt(bef); //Converting from String to Integer.
 			Integer aftInt = Integer.parseInt(aft);
 			
 			if(aftInt != 0){
-				befInt = befInt + 1;
+				befInt = befInt + 1; // increasing befInt by 1 to compare if the befInt equals page number. 
 			}
 			
 			from = ((PageNumber1*10)-10);
-
-			if(length < 10){
-				to = length;
-			} else if(PageNumber1 == befInt){
-				to = from + aftInt;
+			
+			if(PageNumber1.equals(befInt)){
+				to = length; // assigns total length to 'to' if PageNumber1 variable is equal to befInt, Eg: 226 == 226. This is if result is not multiple of 10.
 			} else {
-				to = (PageNumber1*10);
+				to = (PageNumber1*10); // if results are 10 or multiples of 10.
 			}
 
 			for(int z=from; z<to; z++){
-				ChebiName = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7); // Chebi name for the compound in Metabolights
-				MTBLStudies = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(8); // Studies for that compound
-
-				if(queryIUPACName == null){
-					queryIUPACName = "null";
-				}
-
-				SplitChebiName = ChebiName.split(":");
-
-				iupacSplit = queryIUPACName.split("\\n");
-
-				MTBLSplit = MTBLStudies.split("\\s");
-
+				
 				// Instantiate a new entry...
 				MetabolightsCompound mc = new MetabolightsCompound();
+				
+				if(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7) != null){
+					ChebiName = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7); // Chebi name for the compound in Metabolights
+					SplitChebiName = ChebiName.split(":");
+					mc.setChebiURL(SplitChebiName[1]);
+					mc.setChebiId(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7)); // Chebi name for the compound in Metabolights
+				}
+				
+				if(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(8) != null){
+					MTBLStudies = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(8); // Studies for that compound
+					MTBLSplit = MTBLStudies.split("\\s");
+					mc.setMTBLStudies(MTBLSplit);
+				}
+				
+				if(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(3) != null){
+					queryIUPACName = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(3);
+					iupacSplit = queryIUPACName.split("\\n");
+					mc.setIupac(iupacSplit);
+				}
 
 				// Fill its properties...
-				mc.setChebiURL(SplitChebiName[1]);
+				
 				mc.setAccession(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(2)); // Id of the compound in Metabolights
 				mc.setName(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(4)); //Name of the compound
-				mc.setIupac(iupacSplit);
+				
 				//				mc.setTechnologyType(techType); // gets technology_type, which can be NMR Sectroscopy or MS.
-				mc.setChebiId(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7)); // Chebi name for the compound in Metabolights
-				mc.setMTBLStudies(MTBLSplit);
 
 				// Store the metabolite entry in the collection
 				mcs.add(mc);
@@ -267,11 +284,8 @@ public class ReferenceLayerController extends AbstractController {
 
 				rflf.setMTBLEntries(rflf.getMTBLArrayOfEntries().getArrayOfString().get(i));
 				//				String queryID = MTBLEntries.getString().get(2); // Id of the compound in Metabolights
-
-
 				rflf.setTechnology1(technology);
 				rflf.setOrganisms(organisms);
-
 				rflf.setOrgType(rflf.getMTBLEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
 				rflf.setTechType(rflf.getMTBLEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
 
@@ -293,50 +307,53 @@ public class ReferenceLayerController extends AbstractController {
 
 	private RefLayerSearchFilter refLayerFilterSetup(RefLayerSearchFilter rflf, ModelAndView mav) {
 
-		rflf.setTechSplit(rflf.getTechType().split("\\n")); //split the technologies with \n
-		rflf.setTechSplitLen(rflf.getTechSplit().length); //set the number of technologies, in this case 2.		
-
-		rflf.setOrgSplit(rflf.getOrgType().split("\\n")); //split the organisms with \n
-		rflf.setOrgSplitLen(rflf.getOrgSplit().length); //set the number of organisms. The length can vary according to study. 1-4.
-
-		for(int t=0; t<rflf.getTechSplitLen(); t++){
-			if(!rflf.getTechHash().contains(rflf.getTechSplit()[t])){
-				if(rflf.getTechType() != null){
-					rflf.getTechHash().put(rflf.getTechSplit()[t], rflf.getTechValue()); //resetting the for all value to false
+		if(rflf.getTechType() != null){
+			rflf.setTechSplit(rflf.getTechType().split("\\n")); //split the technologies with \n
+			rflf.setTechSplitLen(rflf.getTechSplit().length); //set the number of technologies, in this case 2.
+			
+			for(int t=0; t<rflf.getTechSplitLen(); t++){
+				if(!rflf.getTechHash().contains(rflf.getTechSplit()[t])){
+					if(rflf.getTechType() != null){
+						rflf.getTechHash().put(rflf.getTechSplit()[t], rflf.getTechValue()); //resetting the for all value to false
+					}
+				}
+			}
+			if(rflf.getTechCheckedItems() != null){
+				rflf.setTechCheckedItemsEnum(rflf.getTechCheckedItemsHash().keys()); //setting enum with tech checked items
+				int techChkdItemsLen = rflf.getTechCheckedItems().length;
+				while(rflf.getTechCheckedItemsEnum().hasMoreElements()){ 
+					String techTmpKey = (String) rflf.getTechCheckedItemsEnum().nextElement(); //contains a single checked item (key)
+					for(int it=0; it<techChkdItemsLen; it++){
+						Boolean techValueTrue = true;
+						rflf.getTechHash().remove(techTmpKey); 
+						rflf.getTechHash().put(techTmpKey, techValueTrue);
+					}
 				}
 			}
 		}
-		if(rflf.getTechCheckedItems() != null){
-			rflf.setTechCheckedItemsEnum(rflf.getTechCheckedItemsHash().keys()); //setting enum with tech checked items
-			int techChkdItemsLen = rflf.getTechCheckedItems().length;
-			while(rflf.getTechCheckedItemsEnum().hasMoreElements()){ 
-				String techTmpKey = (String) rflf.getTechCheckedItemsEnum().nextElement(); //contains a single checked item (key)
-				for(int it=0; it<techChkdItemsLen; it++){
-					Boolean techValueTrue = true;
-					rflf.getTechHash().remove(techTmpKey); 
-					rflf.getTechHash().put(techTmpKey, techValueTrue);
+
+		if(rflf.getOrgType() != null){
+			rflf.setOrgSplit(rflf.getOrgType().split("\\n")); //split the organisms with \n
+			rflf.setOrgSplitLen(rflf.getOrgSplit().length); //set the number of organisms. The length can vary according to study. 1-4.
+	
+			for(int o=0; o<rflf.getOrgSplitLen(); o++){
+				//getOrgSplit()[o] will contain single organism
+				if(!rflf.getOrgHash().contains(rflf.getOrgSplit()[o])){
+					if(rflf.getOrgType() != null){
+						rflf.getOrgHash().put(rflf.getOrgSplit()[o], rflf.getOrgValue()); //makes value false for all the items in the list, resetting the value to false
+					}
 				}
 			}
-		}
-
-
-		for(int o=0; o<rflf.getOrgSplitLen(); o++){
-			//getOrgSplit()[o] will contain single organism
-			if(!rflf.getOrgHash().contains(rflf.getOrgSplit()[o])){
-				if(rflf.getOrgType() != null){
-					rflf.getOrgHash().put(rflf.getOrgSplit()[o], rflf.getOrgValue()); //makes value false for all the items in the list, resetting the value to false
-				}
-			}
-		}
-		if(rflf.getOrgCheckedItems() != null){
-			rflf.setOrgCheckedItemsEnum(rflf.getOrgCheckedItemsHash().keys()); //setting enum with organism checked items
-			int orgChkdItemsLen = rflf.getOrgCheckedItems().length;
-			while(rflf.getOrgCheckedItemsEnum().hasMoreElements()){
-				String orgTmpKey = (String) rflf.getOrgCheckedItemsEnum().nextElement(); //contains a single checked item (key)
-				for(int o=0; o<orgChkdItemsLen; o++){
-					Boolean orgValueTrue = true;
-					rflf.getOrgHash().remove(orgTmpKey);
-					rflf.getOrgHash().put(orgTmpKey, orgValueTrue);
+			if(rflf.getOrgCheckedItems() != null){
+				rflf.setOrgCheckedItemsEnum(rflf.getOrgCheckedItemsHash().keys()); //setting enum with organism checked items
+				int orgChkdItemsLen = rflf.getOrgCheckedItems().length;
+				while(rflf.getOrgCheckedItemsEnum().hasMoreElements()){
+					String orgTmpKey = (String) rflf.getOrgCheckedItemsEnum().nextElement(); //contains a single checked item (key)
+					for(int o=0; o<orgChkdItemsLen; o++){
+						Boolean orgValueTrue = true;
+						rflf.getOrgHash().remove(orgTmpKey);
+						rflf.getOrgHash().put(orgTmpKey, orgValueTrue);
+					}
 				}
 			}
 		}
