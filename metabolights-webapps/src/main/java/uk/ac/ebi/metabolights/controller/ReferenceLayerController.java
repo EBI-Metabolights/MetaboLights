@@ -4,9 +4,7 @@ import java.net.MalformedURLException;
 
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
+import java.util.*;
 
 
 import org.springframework.stereotype.Controller;
@@ -35,6 +33,32 @@ public class ReferenceLayerController extends AbstractController {
 
 	String ChDomain = "chebi";
 	String MTBLDomain = "metabolights";
+
+    public enum ColumnMap{
+        description,
+        id,
+        iupac,
+        name,
+        organism,
+        technology_type("technology type"),
+        CHEBI,
+        METABOLIGHTS;
+        ColumnMap(String altName){this.altName = altName;}
+        ColumnMap(){}
+        private int index = -1;
+        private String altName;
+        public int getIndex(){return index;}
+        public void setIndex(int index){this.index = index;}
+
+        public String columnName(){
+            if (altName != null){
+                return altName;
+            }
+
+            return this.name();
+        }
+
+    }
 
 
 	@RequestMapping({ "/RefLayerSearch" })
@@ -212,12 +236,12 @@ public class ReferenceLayerController extends AbstractController {
 			Collection<RefLayerSearchFilter> rflfs = new ArrayList <RefLayerSearchFilter>();
 
 			//Initiating all required variables
-			String ChebiName = null;
-			String MTBLStudies = null;
-			String[] SplitChebiName = null;		
-			String[] iupacSplit = null;
-			String queryIUPACName = null;
-			String[] MTBLSplit = null;
+//			String ChebiName = null;
+//			String MTBLStudies = null;
+//			String[] SplitChebiName = null;
+//			String[] iupacSplit = null;
+//			String queryIUPACName = null;
+//			String[] MTBLSplit = null;
 
 			int length = rflf.getMTBLArrayOfEntriesLen();
 			int from = 0;
@@ -244,38 +268,48 @@ public class ReferenceLayerController extends AbstractController {
 				to = (PageNumber1*10); // if results are 10 or multiples of 10.
 			}
 
+
+            // Map the column Names with the indexes
+            mapColumns(MTBLFields);
+
+
 			for(int z=from; z<to; z++){
-				
+
+                // Get the ebiEye entry
+                List<String> ebiEyeEntry = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString();
+
 				// Instantiate a new entry...
-				MetabolightsCompound mc = new MetabolightsCompound();
-				
-				if(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7) != null){
-					ChebiName = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7); // Chebi name for the compound in Metabolights
-					SplitChebiName = ChebiName.split(":");
-					mc.setChebiURL(SplitChebiName[1]);
-					mc.setChebiId(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7)); // Chebi name for the compound in Metabolights
-				}
-				
-				if(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(8) != null){
-					MTBLStudies = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(8); // Studies for that compound
-					MTBLSplit = MTBLStudies.split("\\s");
-					mc.setMTBLStudies(MTBLSplit);
-				}
-				
-				if(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(3) != null){
-					queryIUPACName = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(3);
-					iupacSplit = queryIUPACName.split("\\n");
-					mc.setIupac(iupacSplit);
-				}
+				MetabolightsCompound mc = ebieyeEntry2Metabolite(ebiEyeEntry);
 
-				// Fill its properties...
-				
-				mc.setAccession(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(2)); // Id of the compound in Metabolights
-				mc.setName(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(4)); //Name of the compound
-				
-				//				mc.setTechnologyType(techType); // gets technology_type, which can be NMR Sectroscopy or MS.
 
-				// Store the metabolite entry in the collection
+// REFACTORED THIS AND MOVED IT INTO A METHOD
+//				if(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7) != null){
+//					ChebiName = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7); // Chebi name for the compound in Metabolights
+//					SplitChebiName = ChebiName.split(":");
+//					mc.setChebiURL(SplitChebiName[1]);
+//					mc.setChebiId(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(7)); // Chebi name for the compound in Metabolights
+//				}
+//
+//				if(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(8) != null){
+//					MTBLStudies = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(8); // Studies for that compound
+//					MTBLSplit = MTBLStudies.split("\\s");
+//					mc.setMTBLStudies(MTBLSplit);
+//				}
+//
+//				if(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(3) != null){
+//					queryIUPACName = rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(3);
+//					iupacSplit = queryIUPACName.split("\\n");
+//					mc.setIupac(iupacSplit);
+//				}
+//
+//				// Fill its properties...
+//
+//				mc.setAccession(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(2)); // Id of the compound in Metabolights
+//				mc.setName(rflf.getMTBLArrayOfEntries().getArrayOfString().get(z).getString().get(4)); //Name of the compound
+//
+//				//				mc.setTechnologyType(techType); // gets technology_type, which can be NMR Spectroscopy or MS.
+//
+//				// Store the metabolite entry in the collection
 				mcs.add(mc);
 			}
 			//}
@@ -304,6 +338,8 @@ public class ReferenceLayerController extends AbstractController {
 		}
 		return rflf;
 	}
+
+
 
 	private RefLayerSearchFilter refLayerFilterSetup(RefLayerSearchFilter rflf, ModelAndView mav) {
 
@@ -373,4 +409,78 @@ public class ReferenceLayerController extends AbstractController {
 		}
 		return MTBLnumOfResults1;
 	}
+
+
+    // Map the filed names of the ebieye entry with position index
+    private void mapColumns(ArrayOfString fields){
+
+        // If not already mapped (only needs to be done once)...index will have -1
+        if (ColumnMap.METABOLIGHTS.getIndex() == -1){
+
+
+            for (int i=0;i < fields.getString().size(); i++){
+
+                String fieldName = fields.getString().get(i);
+
+                // Loop through the enum (not very optimal but the enum is quite short)
+                for (ColumnMap cm : ColumnMap.values()){
+
+                    if (cm.columnName().equals(fieldName)){
+                        cm.setIndex(i);
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+    // Get the value of an ebieye entry by its name
+    private String getValueFromEbieyeEntry(ColumnMap columnName, List<String> ebieyeEntry){
+
+        // If index is -1 the field is not there
+        if (columnName.getIndex() == -1 ) return "";
+
+        // If the ebeeye entry do not have that value....
+        if (ebieyeEntry.size() < columnName.getIndex()){
+            return "";
+        }
+
+        // Get the value
+        String value = ebieyeEntry.get(columnName.getIndex());
+
+        // If it's null
+        return (value == null? "": value);
+
+
+    }
+    private MetabolightsCompound ebieyeEntry2Metabolite(List<String> ebieyeEntry){
+
+        // Instantiate a new Metabolite compound ...
+        MetabolightsCompound mc = new MetabolightsCompound();
+
+        String value;
+
+        // Get the chebiId
+        value = getValueFromEbieyeEntry(ColumnMap.CHEBI, ebieyeEntry);
+        mc.setChebiId(value);
+        if (!value.equals("")) mc.setChebiURL(value.split(":")[1]);
+
+
+        // Get the studies
+        value = getValueFromEbieyeEntry(ColumnMap.METABOLIGHTS, ebieyeEntry);
+        if (!value.equals("")) mc.setMTBLStudies(value.split("\\s"));
+
+        // Get the iupac names
+        value = getValueFromEbieyeEntry(ColumnMap.iupac, ebieyeEntry);
+        if (!value.equals("")) mc.setIupac(value.split("\\n"));
+
+        // Get the ACCESION
+        value = getValueFromEbieyeEntry(ColumnMap.id, ebieyeEntry);
+        mc.setAccession(value);
+
+        // Get the name
+        value = getValueFromEbieyeEntry(ColumnMap.name, ebieyeEntry);
+        mc.setName(value);
+        return mc;
+
+    }
 }
