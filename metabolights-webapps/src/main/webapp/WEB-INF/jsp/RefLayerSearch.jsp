@@ -34,26 +34,73 @@ function navigate(_pageNumber) {
 	</div>
 
 	<div class="grid_24">
-		<b>Page: ${currrentPage}</b>
-		<span class="right"> 
-		<c:set var="RemainderValue"	value="${queryResults % 10}" /> 
-		<c:set var="CrudeNumOfPages" value="${queryResults / 10}" /> 
-		<c:set var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" /> 
-		<c:forEach var="loop" items="${NumOfPages}" varStatus="loopStatus">
-				<c:if test="${loopStatus.index eq 0}">
-					<c:set var="NumOfPages" value="${loop}" />
+		<div class="grid_4 aplha">
+			<b>Page:&nbsp;${currrentPage}</b>
+		</div>
+		<div class="grid_12">
+		<b><spring:message code="ref.msg.Navigate"></spring:message></b>
+			<span id="pagination" class="right"> 
+				<c:set var="RemainderValue"	value="${queryResults % 10}" /> 
+				<c:set var="CrudeNumOfPages" value="${queryResults / 10}" /> 
+				<c:set var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" /> 
+				<c:set var="pageSize" value="10"/>
+				<c:if test="${currentPage eq 1 }">
+					<c:set var="pagerLeft" value="${currentPage}"/>
 				</c:if>
-				<c:if test="${loopStatus.index eq 1}">
-					<c:set var="RemainderItems" value="${loop}" />
-				</c:if>
-			</c:forEach> 
-			<c:if test="${RemainderItems ne 0 }">
-				<c:set var="NumOfPages" value="${NumOfPages+1}" />
-			</c:if> 
-			<c:forEach var="times" begin="1" end="${NumOfPages}" step="1">	
-				<a href="#" onClick="navigate(${times})">${times}</a>
-			</c:forEach>
-		</span>
+				<c:set var="pagerRight" value="${currentPage +1}"/>
+				<c:forEach var="loop" items="${NumOfPages}" varStatus="loopStatus">
+						<c:if test="${loopStatus.index eq 0}">
+							<c:set var="NumOfPages" value="${loop}" />
+						</c:if>
+						<c:if test="${loopStatus.index eq 1}">
+							<c:set var="RemainderItems" value="${loop}" />
+						</c:if>
+				</c:forEach> 
+				<c:if test="${RemainderItems ne 0 }">
+					<c:set var="NumOfPages" value="${NumOfPages+1}" />
+				</c:if> 
+				<c:if test="${currrentPage lt 1}"> 
+		           <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currrentPage})" ></a>
+		        </c:if>
+		        <c:if test="${currrentPage gt 1}"> 
+		           <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currrentPage-1})" ></a>
+		        </c:if>
+			    <c:if test="${NumOfPages > 1}">
+			    	<c:if test="${currrentPage ne 1 }">
+			    		<a href="#" style="text-decoration:none" > <span style="font-weight:normal" onClick="navigate(1)"><c:out value="1"/></span></a>
+			    	</c:if>
+			        <c:if test="${currrentPage > 2 }">
+			        	....<a href="#" style="text-decoration:none" > <span style="font-weight:normal" onClick="navigate(${currrentPage-1})"><c:out value="${currrentPage-1}"/></span></a>&nbsp;
+			        </c:if>
+			        ${currrentPage}&nbsp;
+			        <c:choose>
+			        	<c:when test="${currrentPage eq NumOfPages }">
+			        		&nbsp;
+			        	</c:when>
+			        	<c:otherwise>
+			        		<a href="#" style="text-decoration:none" > <span style="font-weight:normal" onClick="navigate(${currrentPage+1})"><c:out value="${currrentPage+1}"/></span></a>....
+			        	</c:otherwise>
+			        </c:choose>
+			        <c:if test="${currrentPage ne NumOfPages }">
+			        	<a href="#" style="text-decoration:none" > <span style="font-weight:normal" onClick="navigate(${NumOfPages})"><c:out value="${NumOfPages}"/></span></a>
+			      	</c:if>        
+		        </c:if>
+		        <c:if test="${(((currrentPage-1)*pageSize)+pageSize) lt queryResults}"> 
+		           <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${currrentPage+1})" ></a>
+		        </c:if>
+			</span>
+		</div>
+		<!-- Have to work on below Jump To part -->
+		<div class="grid_8 omega">
+		<b><spring:message code="ref.msg.JumpTo"></spring:message></b>
+			<form name="JumpTo" id="JumpToForm" action="#" method="post">
+				<select id = JumpToPage">
+			        <c:forEach var="i" begin="${pagerLeft+1}" end="${NumOfPages}" step="1" varStatus ="status">
+							<option value="${i}">${i}</option>
+					</c:forEach>
+			    </select>
+		    </form>
+		</div>	
 	</div>
 </div>
 <div class="grid_6 omega">
@@ -63,6 +110,9 @@ function navigate(_pageNumber) {
 </div>
 
 <div class="grid_24 clearfix" />
+<div class="grid_24">
+	<br />
+</div>
 
 <div class="grid_6 alpha">
 	<form name="Filters" id="filterForm" action="#" method="post">
@@ -157,27 +207,8 @@ function navigate(_pageNumber) {
 		<br/>
 		</div>
 		<div class="grid_12">
-			<div class="grid_24">
-			<b>Page: ${currrentPage}</b>
-			<span class="right"> 
-			<c:set var="RemainderValue"	value="${queryResults % 10}" /> 
-			<c:set var="CrudeNumOfPages" value="${queryResults / 10}" /> 
-			<c:set var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" /> 
-			<c:forEach var="loop" items="${NumOfPages}" varStatus="loopStatus">
-					<c:if test="${loopStatus.index eq 0}">
-						<c:set var="NumOfPages" value="${loop}" />
-					</c:if>
-					<c:if test="${loopStatus.index eq 1}">
-						<c:set var="RemainderItems" value="${loop}" />
-					</c:if>
-				</c:forEach> <c:if test="${RemainderItems ne 0 }">
-					<c:set var="NumOfPages" value="${NumOfPages+1}" />
-				</c:if> 
-				<c:forEach var="times" begin="1" end="${NumOfPages}" step="1">	
-					<a href="#" onClick="navigate(${times})">${times}</a>
-				</c:forEach>
-			</span>
-			</div>
+			<div id="paginationBottom" class="grid_24 title alpha" ></div>
+				<script>$('#pagination').clone().appendTo('#paginationBottom');</script>
 		</div>
 		<div class="grid_6 omega">
 		<br/>

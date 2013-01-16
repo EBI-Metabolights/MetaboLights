@@ -57,10 +57,10 @@ public class ReferenceLayerController extends AbstractController {
 
             return this.name();
         }
-
+        
     }
 
-
+    
 	@RequestMapping({ "/RefLayerSearch" })
 	public ModelAndView searchAndDisplay(
 			@RequestParam(required = false, value = "query") String query, 
@@ -81,9 +81,6 @@ public class ReferenceLayerController extends AbstractController {
 			PageNumber1 = Integer.parseInt(PageNumber); //else getting it from the jsp
 		}
 
-		Integer indexSize = 10;  //setting the index size to be used in the ebiservices
-		Integer beginIndex = ((PageNumber1 * indexSize) - indexSize);// (PageNumber1-1) * indexSize // setting the beginning of the index.
-
 
 		Hashtable<String, Boolean> techHash = new Hashtable<String, Boolean>();
 		Hashtable<String, Boolean> orgHash = new Hashtable<String, Boolean>();
@@ -102,7 +99,8 @@ public class ReferenceLayerController extends AbstractController {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-
+		
+		
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("RefLayerSearch"); //must match the definition attribute in tiles.xml
 
 		mav.addObject("query", query);
@@ -235,14 +233,6 @@ public class ReferenceLayerController extends AbstractController {
 			Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
 			Collection<RefLayerSearchFilter> rflfs = new ArrayList <RefLayerSearchFilter>();
 
-			//Initiating all required variables
-//			String ChebiName = null;
-//			String MTBLStudies = null;
-//			String[] SplitChebiName = null;
-//			String[] iupacSplit = null;
-//			String queryIUPACName = null;
-//			String[] MTBLSplit = null;
-
 			int length = rflf.getMTBLArrayOfEntriesLen();
 			int from = 0;
 			int to = 0;
@@ -338,8 +328,6 @@ public class ReferenceLayerController extends AbstractController {
 		}
 		return rflf;
 	}
-
-
 
 	private RefLayerSearchFilter refLayerFilterSetup(RefLayerSearchFilter rflf, ModelAndView mav) {
 
