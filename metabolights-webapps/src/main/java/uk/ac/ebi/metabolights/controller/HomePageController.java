@@ -29,7 +29,7 @@ public class HomePageController extends AbstractController{
 	@Autowired
 	private SearchService searchService;
 	
-	private static String galleryItemsIds = "MTBLS1,MTBLC1347,MTBLS3,MTBLC1348,MTBLS4,MTBLC1350";
+	private static String galleryItemsIds = "MTBLS1,MTBLC16159,MTBLS3,MTBLC22660,MTBLS4,MTBLC28300";
 	private List<GalleryItem> gallery;
 	
 
