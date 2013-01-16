@@ -33,12 +33,12 @@ function navigate(_pageNumber) {
 		</c:choose>
 	</div>
 
-	<div class="grid_24">
+	<div class="grid_24 title alpha">
 		<div class="grid_4 aplha">
 			<b>Page:&nbsp;${currrentPage}</b>
 		</div>
-		<div class="grid_12">
-		<b><spring:message code="ref.msg.Navigate"></spring:message></b>
+		<div class="grid_20">
+		<!-- <b><spring:message code="ref.msg.Navigate"/></b>-->
 			<span id="pagination" class="right"> 
 				<c:set var="RemainderValue"	value="${queryResults % 10}" /> 
 				<c:set var="CrudeNumOfPages" value="${queryResults / 10}" /> 
@@ -90,7 +90,7 @@ function navigate(_pageNumber) {
 		        </c:if>
 			</span>
 		</div>
-		<!-- Have to work on below Jump To part -->
+		<!-- Have to work on below Jump To part 
 		<div class="grid_8 omega">
 		<b><spring:message code="ref.msg.JumpTo"></spring:message></b>
 			<form name="JumpTo" id="JumpToForm" action="#" method="post">
@@ -100,7 +100,7 @@ function navigate(_pageNumber) {
 					</c:forEach>
 			    </select>
 		    </form>
-		</div>	
+		</div>	-->
 	</div>
 </div>
 <div class="grid_6 omega">
