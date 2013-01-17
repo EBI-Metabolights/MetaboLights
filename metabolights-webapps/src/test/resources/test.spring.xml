@@ -32,7 +32,7 @@
     <tx:annotation-driven />
     <bean id="transactionManager"
         class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="sessionFactory" ref="sessionFactoryTest" />
     </bean>
  
     <!-- read settings from application.properties file
@@ -49,7 +49,7 @@
 		<property name="jdbcUrl" value="${hibernate.connection.url}"/>
     </bean>
  
-    <bean id="sessionFactory"
+    <bean id="sessionFactoryTest"
         class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation">
