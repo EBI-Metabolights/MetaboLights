@@ -126,6 +126,7 @@ public class SubmissionQueueProcessor {
 	public HashMap<String,String> getIDs(){
 		return IDs;
 	}
+
 	private void cleanProcessFolder(){
 		FileUtil.deleteDir(new File(SubmissionQueue.getProcessFolder()));
 	}
@@ -164,15 +165,19 @@ public class SubmissionQueueProcessor {
 	 * @throws Exception 
 	 */
 	private HashMap<String,String> uploadToBii () throws Exception{
-		
 	    
 		// Upload the file to bii
-		
-		//IsaTabUploader itu = getIsaTabUploader(isaTabFile, status, publicDate);
-        itu = getIsaTabUploader();
-		
-		// Upload the file
-		return itu.Upload();
+
+        try{
+            //IsaTabUploader itu = getIsaTabUploader(isaTabFile, status, publicDate);
+            itu = getIsaTabUploader();
+
+            // Upload the file
+            return itu.Upload();
+        } catch (Exception e){
+            cleanProcessFolder();
+            throw e;
+        }
 	}
 	
 	/**

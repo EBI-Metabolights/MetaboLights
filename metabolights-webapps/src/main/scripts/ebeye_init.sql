@@ -46,3 +46,6 @@ create table study_compound_ref as
       ag.study_id = s.id;  
 
 
+commit;
+exit
+

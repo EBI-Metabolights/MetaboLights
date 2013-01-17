@@ -1,14 +1,14 @@
 package uk.ac.ebi.metabolights.service;
 
-import java.util.List;
-
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+
+import java.util.List;
 
 public interface UserService {
 
 	/**
 	 * Find a user by means of the Id.
-	 * @param Id
+	 * @param id
 	 */
 	public MetabolightsUser lookupById(Long id);
 	
@@ -20,7 +20,7 @@ public interface UserService {
 
 	/**
 	 * Find a user by means of the userName.
-	 * @param userName
+	 * @param username
 	 */
 	public MetabolightsUser lookupByUserName(String username);
 
