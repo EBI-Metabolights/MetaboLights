@@ -2,18 +2,13 @@ package uk.ac.ebi.metabolights.controller;
 
 
 import org.apache.log4j.Logger;
-import org.apache.tiles.context.MapEntry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
@@ -21,20 +16,16 @@ import uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.SearchService;
-import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 
 /**
@@ -51,10 +42,13 @@ public class ManagerController extends AbstractController{
 	 */
 	@Autowired
 	private UserService userService;
+
 	@Autowired
 	private SearchService searchService;
-	
-	
+
+    @Autowired
+	private HomePageController homePageController;
+
 	private static Logger logger = Logger.getLogger(ManagerController.class);
 	
 	@RequestMapping({"/config"})
@@ -112,7 +106,7 @@ public class ManagerController extends AbstractController{
 		mav.addObject("queuerunnig", SubmissionQueueManager.getIsRunning());
 		mav.addObject("studiesHealth", getStudiesHealth());
 		
-		mav.addObject("galleryIds", HomePageController.getGalleryItemsIds());
+		mav.addObject("galleryIds", homePageController.getGalleryItemsIds());
 		return mav;
 		
 		

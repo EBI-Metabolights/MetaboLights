@@ -1,9 +1,9 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!--
 -- Studies
-select 'Studies', count(*) from study group by 'Studies'
+select 'Studies', count(*), status from study group by 'Studies', status;
 -- Assays
-select Count(*)  from ASSAY
+select Count(*) from ASSAY;
 -- Protocols
 Select  Count(*) from PROTOCOL where DESCRIPTION IS NOT NULL
 -- Metabolites identified
@@ -31,7 +31,7 @@ select COunt(*) from user_detail
 <h3>Data in MetboLights</h3>
 <p>
 Number of studies: <b>19</b> (13 Public, 6 Private)<br/>
-Number of protocols: <b>127</b><br/>
+Number of protocols: <b>120</b><br/>
 Number of assays: <b>992</b><br/>
 Different organisms: <b>9</b><br/>
 </p>
@@ -73,11 +73,9 @@ Different organisms: <b>9</b><br/>
 </table>
 
 <H3>Submitters</H3>
-<p>Number of registered users: 60</p>
+<p>Number of registered users: 67</p>
 
-<H3>Online access</H3>
-<p>Comming soon!</p>
 
-<p>Generated on the 27th November 2012</p>
+<p>Generated on the 17th January 2013</p>
 
 

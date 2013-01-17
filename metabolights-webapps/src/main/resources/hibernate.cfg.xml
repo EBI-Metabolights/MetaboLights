@@ -7,6 +7,7 @@
     <session-factory >
         <mapping class="uk.ac.ebi.metabolights.model.MetabolightsUser" />
         <mapping class="uk.ac.ebi.metabolights.model.StableId" />
+        <mapping class="uk.ac.ebi.metabolights.model.MetaboLightsParameters" />
   
         <mapping class="uk.ac.ebi.bioinvindex.model.Study" />
         <mapping class="uk.ac.ebi.bioinvindex.model.VisibilityStatus"/>

@@ -6,13 +6,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
+import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.webapp.GalleryItem;
 import uk.ac.ebi.metabolights.webapp.GalleryItem.GalleryItemType;
-import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +30,12 @@ public class HomePageController extends AbstractController{
 	
 	@Autowired
 	private SearchService searchService;
+
+    @Autowired
+    private MetaboLightsParametersService metaboLightsParametersService;
 	
-	private static String galleryItemsIds = "MTBLS1,MTBLC16159,MTBLS3,MTBLC22660,MTBLS4,MTBLC28300";
+	private String galleryItemsIds = null;
+    private String galleryParam = "GALLERY_ITEMS";
 	private List<GalleryItem> gallery;
 	
 
@@ -100,15 +106,25 @@ public class HomePageController extends AbstractController{
     	return gallery;
     }
     
-    public static String getGalleryItemsIds(){
+    public String getGalleryItemsIds(){
+        MetaboLightsParameters metaboLightsParameters = metaboLightsParametersService.getMetaboLightsParametersOnName(galleryParam);
+        galleryItemsIds = metaboLightsParameters.getParameterValue();
+
+        logger.info("Gallery Items: "+ galleryItemsIds);
+
+        if (galleryItemsIds == null || galleryItemsIds.isEmpty()){
+            galleryItemsIds = "MTBLS1,MTBLC16159,MTBLS3,MTBLC22660,MTBLS4,MTBLC28300,MTBLS2"; //just in case there is nothing in the table
+            logger.warn("Could not find any Gallery Items in the database, using default set: "+ galleryItemsIds);
+        }
     	return galleryItemsIds;
     }
-    
+
+    //Temporaily override the gallery id's, just for this session so a tomcat restart will set back to table defaults
     @RequestMapping(value = "/setgalleryItems")
     public ModelAndView setNewGallery(@RequestParam(required = true, value = "galleryitems") String newGaleryItems) {
 	    
     	gallery = null;
-    	galleryItemsIds =newGaleryItems;
+    	galleryItemsIds = newGaleryItems;
     	
     	
     	// redirect to index

@@ -31,7 +31,6 @@ public class MetaboLightsParametersServiceImpl implements MetaboLightsParameters
     @Autowired
     private MetaboLightsParametersDAO metaboLightsParametersDAO;
 
-
     @Override
     public MetaboLightsParameters getMetaboLightsParametersOnName(String parameterName) {
         MetaboLightsParameters metaboLightsParameters= metaboLightsParametersDAO.getOnName(parameterName);

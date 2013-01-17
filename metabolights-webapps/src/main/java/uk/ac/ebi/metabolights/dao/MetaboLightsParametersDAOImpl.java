@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
 
 import java.util.List;
@@ -31,12 +32,13 @@ import java.util.List;
 @Repository
 public class MetaboLightsParametersDAOImpl implements MetaboLightsParametersDAO{
 
-    private static Logger logger = Logger.getLogger(MetaboLightsParameters.class);
+    private static Logger logger = Logger.getLogger(MetaboLightsParametersDAOImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public MetaboLightsParameters getOnName(String parameterName) {
         Session session = sessionFactory.getCurrentSession();
         Query q = session.createQuery("from MetaboLightsParameters where parameterName =:param");

@@ -45,6 +45,7 @@ Info "Testing required parameters"
 
 Info ------------------------------------------------------------------------------------------
 Info "Start"
+sqlplus -s ${DB_CONNECTION} @ebeye_init.sql
 sqlplus -s ${DB_CONNECTION} @ebeye_export.sql ${SPOOL_FILE} ${VERSION}
 cat ${SPOOL_FILE} | perl -ne 'push(@a, $_); print shift(@a, ) if  $#a >=3 ;' > ${EXPORT_FILE}
 ACTUAL_ENTRIES=`grep "<entry id=" ${EXPORT_FILE}  | wc -l` 
