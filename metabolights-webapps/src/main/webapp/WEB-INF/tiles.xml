@@ -9,11 +9,12 @@
 	is then extended and new definitions are added per page. -->
 
 <tiles-definitions>
-	
+
 	<definition name="twosections.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
 		<put-attribute name="leftmenu" value="" />
 		<put-attribute name="content" value="" />
 	</definition>
+	
 
 	<definition name="default" template="/WEB-INF/jsp/frontier/layout.jsp">
 		<put-attribute name="head" value="/WEB-INF/jsp/frontier/head.jsp" />
@@ -30,7 +31,7 @@
 	
 	<definition name="RefLayerSearch" extends="default">
 		<put-attribute name="title" value="Reference layer search" />
-		<put-attribute name="body" value="/WEB-INF/jsp/RefLayerSearch.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/refLayerSearch.jsp" />
 	</definition>
 	
 	<definition name="compound" extends="default">
@@ -95,7 +96,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
     </definition>
     
-    <definition name="Reaction" template="/WEB-INF/jsp/Reaction.jsp"></definition>
+    <definition name="Reaction" template="/WEB-INF/jsp/reaction.jsp"></definition>
 
 	<definition name="searchResult.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
         <put-attribute name="leftmenu" value="/WEB-INF/jsp/searchFilter.jsp" />
@@ -116,7 +117,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
     
-	<definition name="Citations" template="/WEB-INF/jsp/Citations.jsp" />
+	<definition name="Citations" template="/WEB-INF/jsp/citations.jsp" />
 		
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
 	
@@ -183,7 +184,4 @@
         <put-attribute name="title" value="User options" />
         <put-attribute name="body" value="/WEB-INF/jsp/useroptions.jsp" />
 	</definition>
-	
-	
-    
 </tiles-definitions>
