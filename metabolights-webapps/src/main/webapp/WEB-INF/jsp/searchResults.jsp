@@ -79,22 +79,22 @@ function navigate(_pageNumber) {
 	</div>
 	<div class="grid_12 omega">
 		<span id="pagination" class="right">
-        <c:if test="${pageNumber ne 1}"> 
-           <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${pageNumber-1})" ></a>
-        </c:if>
-        <c:if test="${totalNumberOfPages > 1}">
-        <c:forEach var="i" begin="${pagerLeft}" end="${pagerRight}" step="1" varStatus ="status">
-            <c:if test="${pageNumber eq (i)}"> 
-                <b><c:out value="${i}"/></b>&nbsp;
-            </c:if>
-            <c:if test="${pageNumber ne (i)}"> 
-                <a href="#" style="text-decoration:none" > <span style="font-weight:normal" onClick="navigate(${i})"><c:out value="${i}"/></span></a>&nbsp;
-            </c:if>
-        </c:forEach>            
-        </c:if>
-        <c:if test="${(((pageNumber-1)*pageSize)+pageSize) lt totalHits}"> 
-           <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${pageNumber+1})" ></a>
-        </c:if>
+	        <c:if test="${pageNumber ne 1}"> 
+	           <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${pageNumber-1})" ></a>
+	        </c:if>
+	        <c:if test="${totalNumberOfPages > 1}">
+	        <c:forEach var="i" begin="${pagerLeft}" end="${pagerRight}" step="1" varStatus ="status">
+	            <c:if test="${pageNumber eq (i)}"> 
+	                <b><c:out value="${i}"/></b>&nbsp;
+	            </c:if>
+	            <c:if test="${pageNumber ne (i)}"> 
+	                <a href="#" style="text-decoration:none" > <span style="font-weight:normal" onClick="navigate(${i})"><c:out value="${i}"/></span></a>&nbsp;
+	            </c:if>
+	        </c:forEach>            
+	        </c:if>
+	        <c:if test="${(((pageNumber-1)*pageSize)+pageSize) lt totalHits}"> 
+	           <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${pageNumber+1})" ></a>
+	        </c:if>
         </span>
 	</div>   
 </div>
