@@ -3,7 +3,7 @@
  *
  * File: MetaboLightsParametersController.java
  *
- * Last modified: 1/17/13 11:15 AM
+ * Last modified: 1/17/13 11:29 AM
  * Modified by:   kenneth
  *
  * European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK.
@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MetaboLightsParametersController extends AbstractController {
 
-    @RequestMapping({"/parameters","/param"})
+    @RequestMapping({"/parameters"})
     public ModelAndView showMetaboLightsParameters() {
 
         ModelAndView mav = new ModelAndView ("parameters"); //name of jsp page must be same as this

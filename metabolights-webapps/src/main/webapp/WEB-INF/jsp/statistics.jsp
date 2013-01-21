@@ -1,81 +1,70 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<!--
--- Studies
-select 'Studies', count(*), status from study group by 'Studies', status;
--- Assays
-select Count(*) from ASSAY;
--- Protocols
-Select  Count(*) from PROTOCOL where DESCRIPTION IS NOT NULL
--- Metabolites identified
-select Count(*) from METABOLITE
-
--- Metabolites summary
-SELECT DB, COunt(*) as Total FROM (select CASE
-WHEN instr(identifier,'CHEBI:')=1 THEN 'CHEBI'
-WHEN instr(identifier,'CID')=1 THEN 'PUBCHEM'
-WHEN instr(identifier,'HMDB')=1 THEN 'HMDB'
-WHEN instr(identifier,'LM')=1 THEN 'LIPID MAPS'
-WHEN instr(identifier,'C')=1 THEN 'KEGG'
-WHEN identifier IS NULL THEN 'NO ID'
-ELSE identifier
-END AS DB  from METABOLITE)
-group by DB
-
--- USers
-select COunt(*) from user_detail
- -->
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
-<h2><spring:message code="msg.statistics" /></h2>
-
-<h3>Data in MetboLights</h3>
-<p>
-Number of studies: <b>19</b> (13 Public, 6 Private)<br/>
-Number of protocols: <b>120</b><br/>
-Number of assays: <b>992</b><br/>
-Different organisms: <b>9</b><br/>
+<div class="grid_24">
+    <h3><spring:message code="msg.statistics" /></h3>
+</div>
+</p>
 </p>
 
-<H3>Metabolites identified</H3>
-<table>
-  <tr>
-    <th>Database</th>
-    <th>Total</th>
-  </tr>
-  <tr>
-    <td>ChEBI</td>
-    <td>857</td>
-  </tr>
-  <tr>
-    <td>No id</td>
-    <td>380</td>
-  </tr>
-  <tr>
-    <td>HMDB</td>
-    <td>136</td>
-  </tr>
-  <tr>
-    <td>PubChem</td>
-    <td>117</td>
-  </tr>
-  <tr>
-    <td>KEGG</td>
-    <td>4</td>
-  </tr>
-  <tr>
-    <td>LIPID MAPS</td>
-    <td>4</td>
-  </tr>
-  <tr>
-    <th>6 databases</th>
-    <th>1498</th>
-  </tr>
-</table>
+<div class="grid_24">
+    <c:choose>
+        <c:when test="${not empty dataList}">
+            <p>
+            <H4>Data in MetaboLights</H4>
+            <c:forEach var="dataEntries" items="${dataList}">
+                <div class="grid_8">
+                    ${dataEntries.displayName}
+                </div>
+                <div class="grid_8">
+                    <b>${dataEntries.displayValue} </b>
+                </div>
+                </br>
+            </c:forEach>
+            </p>
+        </c:when>
+    </c:choose>
+</div>
 
-<H3>Submitters</H3>
-<p>Number of registered users: 67</p>
+<div class="grid_24">
+    <c:choose>
+        <c:when test="${not empty identifierList}">
+            <p>
+            <H4>Metabolites identified in other databases</H4>
+            <c:forEach var="idEntries" items="${identifierList}">
+                <div class="grid_8">
+                    ${idEntries.displayName}
+                </div>
+                <div class="grid_8">
+                    <b>${idEntries.displayValue}</b>
+                </div>
+                </br>
+            </c:forEach>
+            </p>
+        </c:when>
+    </c:choose>
+</div>
 
 
-<p>Generated on the 17th January 2013</p>
+<div class="grid_24">
+    <c:choose>
+        <c:when test="${not empty submittersList}">
+            <p>
+            <H4>Submitters</H4>
+            <c:forEach var="submitters" items="${submittersList}">
+                <div class="grid_8">
+                    ${submitters.displayName}
+                </div>
+                <div class="grid_8">
+                    <b>${submitters.displayValue}</b>
+                </div>
+            </c:forEach>
+            </p>
+        </c:when>
+    </c:choose>
+</div>
+
 
 
