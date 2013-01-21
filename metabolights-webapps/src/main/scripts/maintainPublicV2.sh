@@ -72,4 +72,7 @@ do
 
 done
 
+Info "Update statistics table"
+sqlplus -s ${DB_CONNECTION} @/net/isilonP/public/rw/homes/tc_cm01/scripts/ml_stats.sql
+
 [ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}
