@@ -61,6 +61,8 @@ insert into ml_stats(page_section,str_name,str_value) select 'Submitters', 'Numb
 
 commit;
 
+exit
+
 
 
 
