@@ -38,10 +38,11 @@
 
     </form>
 
-		<div class="grid_24 omega">
-            <a href="newAccount" class="icon bigfont icon-functional" data-icon="7"></a>
-			<a href="newAccount"><spring:message code="label.needNewAccount"/></a>
-        </div>
+
+    <p>
+        <a href="newAccount" class="icon bigfont icon-functional" data-icon="7"></a>
+		<a href="newAccount"><spring:message code="label.needNewAccount"/></a>
+    </p>
 
 <script type="text/javascript" language="javascript">
     document.loginForm.j_username.focus();

@@ -1,75 +1,56 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-    <div class="grid_24">
-        <h3><spring:message code="msg.metabolights" /></h3>
-    </div>
-    
-    <div class="grid_24">
-	    <div class="grid_8 alpha">
-	        <p>
-	        <spring:message code="msg.metabolightsAbout1" />
-	        <spring:message code="msg.metabolightsAbout2" />
-	        </p>
-	    </div>
-	
-	    <div class="grid_8">
-	        <p><spring:message code="msg.metabolightsAbout3" /></p>
-	    </div>
-	
-	    <div class="grid_8 omega">
-	        <p><spring:message code="msg.metabolightsAbout4" /></p>
-	    </div>
-    </div>   
-    <div class="grid_24"">
-    	<p>
-  		<a href="<spring:url value="contact"/>"><strong><spring:message code="label.contact"/></strong></a>
-  		</p>
-   	</div>
+    <h3><spring:message code="msg.metabolights" /></h3>
 
-    <div class="grid_24">
-    	<p>
-        <a href="<spring:url value="statistics"/>"><strong><spring:message code="label.stats"/></strong></a></p>
-    </div>
-    
-    <div class="grid_24">
-        <p><strong>Follow us on </strong>
-        	<span class="bigfont">
-        		<a href="http://metabolights.blogspot.co.uk" class="icon icon-socialmedia" data-icon="B"></a>,
-        		<a href="http://www.facebook.com/MetaboLights" class="icon icon-socialmedia" data-icon="F"></a>, 
-        		<a href="https://twitter.com/metabolights" class="icon icon-socialmedia" data-icon="T"></a>.
-        	</span>
+    <div class="grid_8 alpha">
+        <p>
+        <spring:message code="msg.metabolightsAbout1" />
+        <spring:message code="msg.metabolightsAbout2" />
         </p>
     </div>
 
+    <div class="grid_8">
+        <p><spring:message code="msg.metabolightsAbout3" /></p>
+    </div>
+
+    <div class="grid_8 omega">
+        <p><spring:message code="msg.metabolightsAbout4" /></p>
+    </div>
+
+    <p>
+    <a href="<spring:url value="contact"/>"><strong><spring:message code="label.contact"/></strong></a>
+    </p>
+
+   	<p><a href="<spring:url value="statistics"/>"><strong><spring:message code="label.stats"/></strong></a></p>
+    <p><strong>Follow us on </strong>
+        <span class="bigfont">
+            <a href="http://metabolights.blogspot.co.uk" class="icon icon-socialmedia" data-icon="B"></a>,
+            <a href="http://www.facebook.com/MetaboLights" class="icon icon-socialmedia" data-icon="F"></a>,
+            <a href="https://twitter.com/metabolights" class="icon icon-socialmedia" data-icon="T"></a>.
+        </span>
+    </p>
+
     <div class="grid_22 alpha omega publication">
+        <h3>Citing MetaboLights</h3>
         <span class="pubauthor">Kenneth Haug, Reza M. Salek, Pablo Conesa, Janna Hastings, Paula de Matos, Mark Rijnbeek, Tejasvi Mahendraker, Mark Williams, Steffen Neumann, Philippe Rocca-Serra, Eamonn Maguire, Alejandra Gonz&aacute;lez-Beltr&aacute;n, Susanna-Assunta Sansone, Julian L. Griffin and Christoph Steinbeck.</span><br/>
         <a href="http://nar.oxfordjournals.org/content/41/D1/D781" class="pubtitle">MetaboLights-- an open-access general-purpose repository for metabolomics studies and associated meta-data.</a><br/>
         <span class="pubjournal">Nucl. Acids Res. (2012) doi: 10.1093/nar/gks1004</span>
     </div>
 
-    <div class="grid_24">
-        <hr/>
-        <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="isatab"/></a>
-        <p><spring:message code="msg.metabolightsAbout6" /></p>
-        <br/>
-        <p><spring:message code="msg.metabolightsAbout10" /></p>
-    </div>
+    <hr/>
+    <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="isatab"/></a>
+    <p><spring:message code="msg.metabolightsAbout6" /></p>
+    <br/>
+    <p><spring:message code="msg.metabolightsAbout10" /></p>
 
     
-    <div class="grid_24">
-       <a class="noLine" href="http://github.com/ISA-tools/OntoMaton" target="_blank"><img src="http://isatools.files.wordpress.com/2012/07/ontomaton.png?w=250"/></a>
-       <a class="noLine" href="<spring:message code="url.isatools"/>" target="_blank"><img src="http://isatab.sourceforge.net/assets/img/tools/tools-table-images/isacreator.png"/></a>
-       <spring:message code="msg.metabolightsAbout15" />
-    </div>
-      
-    <div class="grid_24">
-        <hr/>
-        <br/>
-        <a class="noLine" href="http://www.bbsrc.ac.uk/pa/grants/AwardDetails.aspx?FundingReference=BB/I000933/1"><img src="img/bbsrcLarge.png" alt="BBSCR"/></a>
-        &nbsp;&nbsp;&nbsp; <img src="img/embl.png" alt="EMBL"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.metabolomics.bioc.cam.ac.uk/metabolomics/"><img src="img/camLogo.png" alt="UC"/></a>
-        <br/>
-            <spring:message code="msg.metabolightsAbout5"/><br/>
-        <br/>
+    <a class="noLine" href="http://github.com/ISA-tools/OntoMaton" target="_blank"><img src="http://isatools.files.wordpress.com/2012/07/ontomaton.png?w=250"/></a>
+    <a class="noLine" href="<spring:message code="url.isatools"/>" target="_blank"><img src="http://isatab.sourceforge.net/assets/img/tools/tools-table-images/isacreator.png"/></a>
+    <p><spring:message code="msg.metabolightsAbout15" /></p>
 
-    </div>
-  
+    <hr/>
+    <br/>
+    <a class="noLine" href="http://www.bbsrc.ac.uk/pa/grants/AwardDetails.aspx?FundingReference=BB/I000933/1"><img src="img/bbsrcLarge.png" alt="BBSCR"/></a>
+        &nbsp;&nbsp;&nbsp; <img src="img/embl.png" alt="EMBL"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.metabolomics.bioc.cam.ac.uk/metabolomics/"><img src="img/camLogo.png" alt="UC"/></a>
+    <br/>
+    <p><spring:message code="msg.metabolightsAbout5"/></p>

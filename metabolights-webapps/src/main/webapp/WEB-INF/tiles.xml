@@ -105,7 +105,7 @@
 	
 	<definition name="searchResult" extends="default">
 		<put-attribute name="title" value="Search" />
-		<put-attribute name="body" value="searchResult.def"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp"/>
 	</definition>
 	
 	<definition name="browse" extends="searchResult">

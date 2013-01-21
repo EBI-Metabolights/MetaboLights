@@ -16,7 +16,8 @@
 				select: function(event, ui)
 						{
 							console.log("select triggered");
-							var checkedItem = $("input[value='" + $( "#"+id ).val()+ "']");
+//							var checkedItem = $("input[value='" + $( "#"+id ).val()+ "']");
+                            var checkedItem = $("input[value='" + ui.item.value + "']");
 							checkedItem.prop("checked", true);
 							$("#filterForm").submit();
 						}

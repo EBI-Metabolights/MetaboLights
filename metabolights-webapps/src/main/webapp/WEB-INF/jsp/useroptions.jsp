@@ -6,24 +6,25 @@
 <h3>Hi <sec:authentication property="principal.firstName" />, <spring:message code="msg.useroptions" /></h3>
 <p></p>
 <div class='grid_6 alpha prefix_1'>
+    <a href="<spring:url value="mysubmissions"/>">
     <div class="bigbutton maincolorI">
-     <a href="<spring:url value="mysubmissions"/>">
          <span class="bigfont"><spring:message code="menu.myStudies" /></span><br/>
-     </a>
     </div>
+    </a>
 </div>
 
 <div class='grid_6 prefix_2'>
-    <div class="bigbutton seccolorI">
      <a href="<spring:url value="myAccount"/>">
+     <div class="bigbutton seccolorI">
          <span class="bigfont"><spring:message code="menu.myAccount" /></span><br/>
+     </div>
      </a>
-    </div>
 </div>
 
 <div class='grid_6 prefix_2 omega'>
+    <a href="<spring:url value="/j_spring_security_logout"/>">
     <div class="bigbutton maincolorI">
-     <a href="<spring:url value="/j_spring_security_logout"/>">
+
          <span class="bigfont"><spring:message code="menu.logout" /></span><br/>
      </a>
     </div>
@@ -37,26 +38,26 @@
 <h3><spring:message code="msg.useroptionscurator" /></h3>
 	
 <div class='grid_6 alpha prefix_1'>
+    <a href="<spring:url value="config"/>">
     <div class="bigbutton seccolorI">
-     <a href="<spring:url value="config"/>">
          <span class="bigfont"><spring:message code="menu.config" /></span><br/>
-     </a>
     </div>
+    </a>
 </div>
 
 <div class='grid_6 prefix_2'>
+    <a href="<spring:url value="users"/>">
     <div class="bigbutton maincolorI">
-     <a href="<spring:url value="users"/>">
          <span class="bigfont"><spring:message code="menu.users" /></span><br/>
-     </a>
     </div>
+    </a>
 </div>
 <div class='grid_6 prefix_2 omega'>
+    <a href="<spring:url value="ebeyehelp"/>">
     <div class="bigbutton seccolorI">
-     <a href="<spring:url value="ebeyehelp"/>">
          <span class="bigfont"><spring:message code="menu.Ebeye" /></span><br/>
-     </a>
     </div>
+    </a>
 </div>
 
 </sec:authorize>
