@@ -1,22 +1,17 @@
 package uk.ac.ebi.metabolights.authenticate;
 
-import java.security.MessageDigest;
-import java.util.ResourceBundle;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
 import sun.misc.BASE64Encoder;
-import uk.ac.ebi.metabolights.controller.AbstractController;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.UserService;
+
+import java.security.MessageDigest;
 
 /**
  * Process an {@link IsaTabAuthentication} implementation. 
@@ -57,9 +52,7 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 
 
 		// Is this the right password?
-		
-
-		logger.info("comparing given password '"+encode(auth.getCredentials().toString())+"' to db password '"+mtblUser.getDbPassword()+"'" );
+		logger.debug("comparing given password '"+encode(auth.getCredentials().toString())+"' to db password '"+mtblUser.getDbPassword()+"'" );
 		if (! encode(auth.getCredentials().toString()).equals(mtblUser.getDbPassword()))	
 			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.incorrUserPw"));
 		
