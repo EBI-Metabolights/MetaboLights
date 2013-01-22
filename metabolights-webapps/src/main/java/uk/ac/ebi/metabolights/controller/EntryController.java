@@ -1,8 +1,6 @@
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.io.IOUtils;
-
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.biobabel.citations.CitexploreWSClient;
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
@@ -23,20 +20,20 @@ import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
-import uk.ac.ebi.cdb.webservice.AuthorsList;
 import uk.ac.ebi.cdb.webservice.QueryException_Exception;
 import uk.ac.ebi.cdb.webservice.Result;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.referencelayer.model.Compound;
+import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
-import uk.ac.ebi.metabolights.referencelayer.model.*;
 import uk.ac.ebi.rhea.ws.client.RheaFetchDataException;
 import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
 import uk.ac.ebi.rhea.ws.response.cmlreact.Reaction;
@@ -126,7 +123,7 @@ public class EntryController extends AbstractController {
 
 	}
 
-	@RequestMapping(value = "/Reactions")
+	@RequestMapping(value = "/reactions")
 	private ModelAndView showReactions(
 			@RequestParam(required = false, value = "chebiId") String compound){
 
@@ -149,7 +146,7 @@ public class EntryController extends AbstractController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/Citations")
+	@RequestMapping(value = "/citations")
 	private ModelAndView showCitations(
 			@RequestParam(required = false, value = "mtblc") String mtblc){
 
