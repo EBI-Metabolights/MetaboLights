@@ -125,8 +125,8 @@ public class HomePageController extends AbstractController{
 	    
     	gallery = null;
     	galleryItemsIds = newGaleryItems;
-    	
-    	
+
+
     	// redirect to index
 	    ModelAndView mav = new ModelAndView("redirect:index?message=New gallery items set: " + newGaleryItems);
 	    
