@@ -55,13 +55,14 @@
 
     <c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
         <script type="text/javascript">var redline = {};redline.project_id = 196734042;</script>
-        <script id="redline_js" src="http://www.redline.cc/ assets/button.js" type="text/javascript"> </script>
+        <script id="redline_js" src="http://www.redline.cc/assets/button.js" type="text/javascript"> </script>
         <script>
             $(document).ready(function() {
                 setTimeout(function(){
                     // Handler for .ready() called.
                     $("#redline_side_car").css("background-image","url(img/redline_left_button.png)");
                     $("#redline_side_car").css("display", "block");
+                    $("#redline_side_car").css("z-index", "-1");
                 },1000);
             });
         </script>

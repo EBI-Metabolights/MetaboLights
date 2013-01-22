@@ -28,7 +28,7 @@
 
 <c:if test="${not empty gallery}">
 	<br/>
-	<div id="boxes" class="grid_16 alpha omega">
+	<div id="boxes" class="grid_14 alpha omega mb-wrapper">
 	 	<c:forEach var="item" items="${gallery}">
 
             <c:set var="title" value="${item.title}"/>

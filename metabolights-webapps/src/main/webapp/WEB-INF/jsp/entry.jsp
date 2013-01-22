@@ -140,9 +140,25 @@ function onloadAction() {
 $(function() {
 	$( "#tabs" ).tabs();
 });
+
+function toggleColumn(tableId, anchor ) {
+    $('#' + tableId + ' tr *:nth-child(1n+5)').toggle();
+
+    dataIcon = $(anchor).attr('data-icon');
+
+    if (dataIcon == 'u'){
+        dataIcon = 'w';
+    }else{
+        dataIcon = 'u';
+    }
+
+    $(anchor).attr('data-icon', dataIcon);
+}
+
+
 </script>
-<div class="grid_24 clearfix">
-<div class="grid_24 title">
+<div class="grid_24">
+<div class="grid_24 title alpha omega">
 	<div class="grid_19 alpha">
 		<strong>${study.acc}: ${study.title}</strong>
 	</div>
@@ -342,116 +358,113 @@ $(function() {
 		        </c:if>
 			</div> <!--  ends tabs-3 -->
 			<div id="tabs-4"> <!-- Metabolites Identified -->
+                <c:if test="${not empty assays}">
 
-				<%-- Add the target div to the Biojs ChEBICompound--%>
-				<!-- div id='chebiInfo'></div-->
+                    <c:forEach var="mlAssay" items="${assays}" varStatus="loopStatusAssay">
 
-				<c:if test="${not empty assays}">
+                        <%--<!-- Parallel Coordinates stuff -->--%>
+                        <%--<c:set var="paralleldataset" value="${mlAssay.parallelCoordinatesDataset}"/>--%>
+                        <%--<c:if test="${not empty paralleldataset}">--%>
+                        <%--<style type="text/css">--%>
+                        <%--#fig {--%>
+                        <%--width: 880px;--%>
+                        <%--height: 460px;--%>
+                        <%--}--%>
+                        <%--</style>--%>
+                        <%--<br/>--%>
+                        <%--<br/>--%>
+                        <%--<div id="fig">--%>
 
-					<c:forEach var="mlAssay" items="${assays}" varStatus="loopStatusAssay">
+                        <%--<script type="text/javascript">--%>
+                        <%--var metabolites = [--%>
+                        <%--<c:out escapeXml='false' value="${paralleldataset.seriesToString}"/>--%>
+                        <%--];--%>
 
-						<!-- Parallel Coordinates stuff -->
-						<c:set var="paralleldataset" value="${mlAssay.parallelCoordinatesDataset}"/>
-						<c:if test="${not empty paralleldataset}">
-							<style type="text/css">
-								#fig {
-								  width: 880px;
-								  height: 460px;
-								}
-							</style>
-							<br/>
-							<br/>
-							<div id="fig">
+                        <%--var units = {--%>
+                        <%--<c:out escapeXml='false' value="${paralleldataset.unitsToString}"/>--%>
+                        <%--};--%>
+                        <%--</script>--%>
+                        <%--<%@include file="../../javascript/protovis_graph.js" %>--%>
 
-							<script type="text/javascript">
-								var metabolites = [
-								<c:out escapeXml='false' value="${paralleldataset.seriesToString}"/>
-								];
+                        <%--</div>--%>
+                        <%--</c:if>--%>
+                        <%--<!-- Parallel Coordinates stuff ends-->--%>
 
-								var units = {
-									<c:out escapeXml='false' value="${paralleldataset.unitsToString}"/>
-								};
-							</script>
-							<%@include file="../../javascript/protovis_graph.js" %>
+                        <c:if test="${fn:length(mlAssay.metabolitesGUI) gt 0}">
+                            <br/>
+                            <br/>
+                            <div style="overflow: auto">
 
-						</div>
-						</c:if>
-						<!-- Parallel Coordinates stuff ends-->
+                                <table id="metabolites${loopStatusAssay.index}">
 
+                                    <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
 
-						<c:if test="${fn:length(mlAssay.metabolitesGUI) gt 0}">
-							<br/>
-							<br/>
-							<div style="overflow: auto">
-	
-					            <table width="100%">
-	
-				                <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
-	
-									<%-- Write the header, only the first time --%>
-			                  		<c:if test="${loopStatusMet.index == 1}">
-										<thead class='text_header'>
-											<tr>
-												<th><spring:message code="label.metabolites.description"/></th>
-												<th><spring:message code="label.metabolites.formula"/></th>
-                                                <th><spring:message code="label.metabolites.smiles"/></th>
-                                                <th><spring:message code="label.metabolites.inchi"/></th>
-					                   			<%--<c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >--%>
-					                   				<%--<th>${sampleHeader.sampleName}</th>--%>
-					                   			<%--</c:forEach>--%>
-					                   			
-											</tr>
-										</thead>
-										<tbody>			
-			                  		</c:if>
-		
-		   	                   		<%-- Show more stuff...show only ten lines by default --%>
-			                  		<c:if test="${loopStatusMet.index == 10}">
-			                  			</tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
-			                  		</c:if>
-			
-									<%--Line itself --%>
-			                  		<tr class="${loopStatusMet.index % 2 == 0 ? '' : 'coloured'}">
-				                    	<td>
-				                    		${met.metabolite.description}
-			                  				<c:choose>
-			                  					<c:when test="${empty met.metabolite.identifier}"></c:when>
-			                  					<c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
-			                  					<c:otherwise><a class="metLink" identifier="${met.metabolite.identifier}" href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
-			                  				</c:choose>
-				                   		</td>               			
-			                   			<td>
-				                    		${met.metabolite.chemical_formula}
-			                  			</td>
-                                          <td>
-                                                  ${met.metabolite.smiles}
-                                          </td>
-                                          <td>
-                                                  ${met.metabolite.inchi}
-                                          </td>
+                                        <%-- Write the header, only the first time --%>
+                                    <c:if test="${loopStatusMet.index == 1}">
+                                    <thead class='text_header'>
+                                    <tr>
+                                        <th><spring:message code="label.metabolites.description"/></th>
+                                        <th><spring:message code="label.metabolites.formula"/></th>
+                                        <th><spring:message code="label.metabolites.smiles"/></th>
+                                        <th><spring:message code="label.metabolites.inchi"/><a class="right icon icon-functional" data-icon="u" onclick="toggleColumn('metabolites${loopStatusAssay.index}', this)"></a></th>
+                                        <c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
+                                            <th>
+                                                ${sampleHeader.sampleName}
+                                            </th>
+                                        </c:forEach>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </c:if>
 
-										<%-- sampleValues --%>                   			
-			                   			<%--<c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >--%>
-			                  				<%--<td class="tableitem">--%>
-			                  					<%--${sample.value}--%>
-			                  				<%--</td>--%>
-				                    	<%--</c:forEach>--%>
-				                    	<%-- For each sample --%>
-		
-										</tr>
-												                    			
-					                </c:forEach> <%-- For each metabolite (line)--%>
-					                </tbody>
-					            </table>
-							</div>
-			
-				             <c:if test="${fn:length(mlAssay.metabolitesGUI) > 10}"><a href="#" class="showLink" id="met_link_${loopStatusAssay.index}">Show more</a></c:if>
-				             <br/>
-						</c:if>				        
-					</c:forEach> <!-- For each assayGroup -->					
-		        </c:if>		        
-			</div> <!--  ends tabs-4 -->
+                                    <%-- Show more stuff...show only ten lines by default --%>
+                                    <c:if test="${loopStatusMet.index == 10}">
+                                    </tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
+                                    </c:if>
+
+                                        <%--Line itself --%>
+                                    <tr class="${loopStatusMet.index % 2 == 0 ? '' : 'coloured'}">
+                                        <td>
+                                                ${met.metabolite.description}
+                                            <c:choose>
+                                                <c:when test="${empty met.metabolite.identifier}"></c:when>
+                                                <c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
+                                                <c:otherwise><a class="metLink" identifier="${met.metabolite.identifier}" href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                                ${met.metabolite.chemical_formula}
+                                        </td>
+                                        <td>
+                                                ${met.metabolite.smiles}
+                                        </td>
+                                        <td>
+                                                ${met.metabolite.inchi}
+                                        </td>
+
+                                            <%-- sampleValues --%>
+                                        <c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >
+                                            <td class="tableitem">
+                                                    ${sample.value}
+                                            </td>
+                                        </c:forEach>
+                                            <%-- For each sample --%>
+
+                                    </tr>
+
+                                    </c:forEach> <%-- For each metabolite (line)--%>
+                                    </tbody>
+                                </table>
+                                <script>toggleColumn('metabolites${loopStatusAssay.index}') </script>
+                            </div>
+
+                            <c:if test="${fn:length(mlAssay.metabolitesGUI) > 10}"><a href="#" class="showLink" id="met_link_${loopStatusAssay.index}">Show more</a></c:if>
+                            <br/>
+                        </c:if>
+                    </c:forEach> <!-- For each assayGroup -->
+                </c:if>
+            </div> <!--  ends tabs-4 -->
 		</div> <!-- end tabs -->
- </div>
+     </div>
  </div>
 

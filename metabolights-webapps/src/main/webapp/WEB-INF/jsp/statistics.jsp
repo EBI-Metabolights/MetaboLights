@@ -3,13 +3,10 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
-<div class="grid_24">
-    <h3><spring:message code="msg.statistics" /></h3>
-</div>
+<h3><spring:message code="msg.statistics" /></h3>
 </p>
 </p>
 
-<div class="grid_24">
     <c:choose>
         <c:when test="${not empty dataList}">
             <p>
@@ -26,9 +23,9 @@
             </p>
         </c:when>
     </c:choose>
-</div>
 
-<div class="grid_24">
+
+
     <c:choose>
         <c:when test="${not empty identifierList}">
             <p>
@@ -45,10 +42,7 @@
             </p>
         </c:when>
     </c:choose>
-</div>
 
-
-<div class="grid_24">
     <c:choose>
         <c:when test="${not empty submittersList}">
             <p>
@@ -64,7 +58,6 @@
             </p>
         </c:when>
     </c:choose>
-</div>
 
 
 
