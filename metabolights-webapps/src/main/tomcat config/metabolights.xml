@@ -58,5 +58,8 @@
     <Environment name="luceneIndexDirectory" value="/nfs/production/panda/metabolights/lucene/dev/bii/" type="java.lang.String"/>
     <Environment name="luceneIndexDirectoryShort" value="/nfs/production/panda/metabolights/lucene/dev/" type="java.lang.String"/>
 
+    <Environment name="ebiServiceURL" value="http://xxx:xxx/ebisearch/service.ebi?wsdl" type="java.lang.String"/>
+
+
 </Context>
 
