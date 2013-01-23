@@ -4,6 +4,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +15,7 @@ import uk.ac.ebi.metabolights.search.FilterSet;
 
 /**
  * Related with Reference Layer filter
- * @author tejasvi
+ * @author Tejasvi
  *
  */
 public class RefLayerSearchFilter {
@@ -50,15 +51,16 @@ public class RefLayerSearchFilter {
 	private int orgCount;
 	private int techCount;
 	
-	private Hashtable<String, Boolean> techHash;
-	private Hashtable<String, Boolean> orgHash;
-	private Hashtable<String, Boolean> orgCheckedItemsHash;
-	private Hashtable<String, Boolean> techCheckedItemsHash;
+	private LinkedHashMap<String, Boolean> techHash;
+	private LinkedHashMap<String, Boolean> orgHash;
+	private LinkedHashMap<String, Boolean> orgCheckedItemsHash;
+	private LinkedHashMap<String, Boolean> techCheckedItemsHash;
 	
 	private Enumeration techEnum;
 	private Enumeration orgEnum;
-	private Enumeration techCheckedItemsEnum;
-	private Enumeration orgCheckedItemsEnum;
+	private Set<String> techCheckedItemsSet;
+	private Set<String> orgCheckedItemsSet;
+	
 	
 	private ArrayOfArrayOfString MTBLArrayOfEntries;
 	private ArrayOfString MTBLEntries;
@@ -66,6 +68,76 @@ public class RefLayerSearchFilter {
 	private StringBuffer orgSB;
 	private StringBuffer techSB;
 	
+	private boolean techClear;
+	private boolean orgClear;
+	
+	
+	
+	public Set<String> getTechCheckedItemsSet() {
+		return techCheckedItemsSet;
+	}
+
+	public void setTechCheckedItemsSet(Set<String> techCheckedItemsSet) {
+		this.techCheckedItemsSet = techCheckedItemsSet;
+	}
+
+	public Set<String> getOrgCheckedItemsSet() {
+		return orgCheckedItemsSet;
+	}
+
+	public void setOrgCheckedItemsSet(Set<String> orgCheckedItemsSet) {
+		this.orgCheckedItemsSet = orgCheckedItemsSet;
+	}
+
+	public LinkedHashMap<String, Boolean> getTechHash() {
+		return techHash;
+	}
+
+	public void setTechHash(LinkedHashMap<String, Boolean> techHash) {
+		this.techHash = techHash;
+	}
+
+	public LinkedHashMap<String, Boolean> getOrgHash() {
+		return orgHash;
+	}
+
+	public void setOrgHash(LinkedHashMap<String, Boolean> orgHash) {
+		this.orgHash = orgHash;
+	}
+
+	public LinkedHashMap<String, Boolean> getOrgCheckedItemsHash() {
+		return orgCheckedItemsHash;
+	}
+
+	public void setOrgCheckedItemsHash(
+			LinkedHashMap<String, Boolean> orgCheckedItemsHash) {
+		this.orgCheckedItemsHash = orgCheckedItemsHash;
+	}
+
+	public LinkedHashMap<String, Boolean> getTechCheckedItemsHash() {
+		return techCheckedItemsHash;
+	}
+
+	public void setTechCheckedItemsHash(
+			LinkedHashMap<String, Boolean> techCheckedItemsHash) {
+		this.techCheckedItemsHash = techCheckedItemsHash;
+	}
+
+	public boolean isTechClear() {
+		return techClear;
+	}
+
+	public void setTechClear(boolean techClear) {
+		this.techClear = techClear;
+	}
+
+	public boolean isOrgClear() {
+		return orgClear;
+	}
+
+	public void setOrgClear(boolean orgClear) {
+		this.orgClear = orgClear;
+	}
 
 	public String[] getOrgNumOfItems() {
 		return orgNumOfItems;
@@ -113,40 +185,6 @@ public class RefLayerSearchFilter {
 
 	public void setTechSB(StringBuffer techSB) {
 		this.techSB = techSB;
-	}
-
-	public Enumeration getTechCheckedItemsEnum() {
-		return techCheckedItemsEnum;
-	}
-
-	public void setTechCheckedItemsEnum(Enumeration techCheckedItemsEnum) {
-		this.techCheckedItemsEnum = techCheckedItemsEnum;
-	}
-
-	public Enumeration getOrgCheckedItemsEnum() {
-		return orgCheckedItemsEnum;
-	}
-
-	public void setOrgCheckedItemsEnum(Enumeration orgCheckedItemsEnum) {
-		this.orgCheckedItemsEnum = orgCheckedItemsEnum;
-	}
-
-	public Hashtable<String, Boolean> getOrgCheckedItemsHash() {
-		return orgCheckedItemsHash;
-	}
-
-	public void setOrgCheckedItemsHash(
-			Hashtable<String, Boolean> orgCheckedItemsHash) {
-		this.orgCheckedItemsHash = orgCheckedItemsHash;
-	}
-
-	public Hashtable<String, Boolean> getTechCheckedItemsHash() {
-		return techCheckedItemsHash;
-	}
-
-	public void setTechCheckedItemsHash(
-			Hashtable<String, Boolean> techCheckedItemsHash) {
-		this.techCheckedItemsHash = techCheckedItemsHash;
 	}
 
 	public String[] getTechCheckedItems() {
@@ -203,22 +241,6 @@ public class RefLayerSearchFilter {
 
 	public void setMTBLEntries(ArrayOfString mTBLEntries) {
 		MTBLEntries = mTBLEntries;
-	}
-
-	public Hashtable<String, Boolean> getTechHash() {
-		return techHash;
-	}
-
-	public void setTechHash(Hashtable<String, Boolean> techHash) {
-		this.techHash = techHash;
-	}
-
-	public Hashtable<String, Boolean> getOrgHash() {
-		return orgHash;
-	}
-
-	public void setOrgHash(Hashtable<String, Boolean> orgHash) {
-		this.orgHash = orgHash;
 	}
 
 	public String getOrgType() {

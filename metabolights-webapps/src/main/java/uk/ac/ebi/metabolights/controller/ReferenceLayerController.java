@@ -82,11 +82,11 @@ public class ReferenceLayerController extends AbstractController {
 		}
 
 
-		Hashtable<String, Boolean> techHash = new Hashtable<String, Boolean>();
-		Hashtable<String, Boolean> orgHash = new Hashtable<String, Boolean>();
+		LinkedHashMap<String, Boolean> techHash = new LinkedHashMap<String, Boolean>();
+		LinkedHashMap<String, Boolean> orgHash = new LinkedHashMap<String, Boolean>();
 
-		Hashtable<String, Boolean> orgCheckedItemsHash = new Hashtable<String, Boolean>(); //Hash for checked items in organism filter
-		Hashtable<String, Boolean> techCheckedItemsHash = new Hashtable<String, Boolean>(); //Hash for checked items in tech filter
+		LinkedHashMap<String, Boolean> orgCheckedItemsHash = new LinkedHashMap<String, Boolean>(); //Hash for checked items in organism filter
+		LinkedHashMap<String, Boolean> techCheckedItemsHash = new LinkedHashMap<String, Boolean>(); //Hash for checked items in tech filter
 
 		rflf.setOrgHash(orgHash);
 		rflf.setTechHash(techHash);
@@ -161,6 +161,8 @@ public class ReferenceLayerController extends AbstractController {
 			}
 
 			rflf.setOrgQuery(rflf.getModQuery() + " AND ("+orgSB+")"); //modifying query to include organisms
+		} else {
+			rflf.setOrgClear(true);
 		}
 
 		if(technology != null){
@@ -189,7 +191,13 @@ public class ReferenceLayerController extends AbstractController {
 				rflf.setTechQuery(rflf.getModQuery() +" AND ("+techSB+")"); //modifying query to include tech only
 				//System.out.println(rflf.getModQuery() +" AND ("+techSB+")");
 			}
+		} else {
+			rflf.setTechClear(true);
 		}
+		
+		mav.addObject("orgClear", rflf.isOrgClear());
+		mav.addObject("techClear", rflf.isTechClear());
+		
 		return rflf;
 	}
 
@@ -319,7 +327,6 @@ public class ReferenceLayerController extends AbstractController {
 
 			rflfs.add(rflf);
 			mav.addObject("RefLayer", rflfs);
-			mav.addObject("organismList", rflf.getOrgHash());
 			mav.addObject("technologyList", rflf.getTechHash());
 			mav.addObject("query", query);
 			mav.addObject("entries", mcs);
@@ -329,6 +336,7 @@ public class ReferenceLayerController extends AbstractController {
 		return rflf;
 	}
 
+	@SuppressWarnings("unchecked")
 	private RefLayerSearchFilter refLayerFilterSetup(RefLayerSearchFilter rflf, ModelAndView mav) {
 
 		if(rflf.getTechType() != null){
@@ -336,17 +344,20 @@ public class ReferenceLayerController extends AbstractController {
 			rflf.setTechSplitLen(rflf.getTechSplit().length); //set the number of technologies, in this case 2.
 			
 			for(int t=0; t<rflf.getTechSplitLen(); t++){
-				if(!rflf.getTechHash().contains(rflf.getTechSplit()[t])){
+				if(!rflf.getTechHash().containsKey(rflf.getTechSplit()[t])){
 					if(rflf.getTechType() != null){
 						rflf.getTechHash().put(rflf.getTechSplit()[t], rflf.getTechValue()); //resetting the for all value to false
 					}
 				}
 			}
+			
 			if(rflf.getTechCheckedItems() != null){
-				rflf.setTechCheckedItemsEnum(rflf.getTechCheckedItemsHash().keys()); //setting enum with tech checked items
+				rflf.setTechCheckedItemsSet(rflf.getTechCheckedItemsHash().keySet()); //setting LinkedHashMap with tech checked items
 				int techChkdItemsLen = rflf.getTechCheckedItems().length;
-				while(rflf.getTechCheckedItemsEnum().hasMoreElements()){ 
-					String techTmpKey = (String) rflf.getTechCheckedItemsEnum().nextElement(); //contains a single checked item (key)
+				Iterator<String> techIter = rflf.getTechCheckedItemsSet().iterator();
+				while(techIter.hasNext()){
+//					System.out.println(techChkdItemsLen + " - Entered while for techIter.hasnext");
+					String techTmpKey = (String) techIter.next(); //contains a single checked item (key)
 					for(int it=0; it<techChkdItemsLen; it++){
 						Boolean techValueTrue = true;
 						rflf.getTechHash().remove(techTmpKey); 
@@ -359,20 +370,22 @@ public class ReferenceLayerController extends AbstractController {
 		if(rflf.getOrgType() != null){
 			rflf.setOrgSplit(rflf.getOrgType().split("\\n")); //split the organisms with \n
 			rflf.setOrgSplitLen(rflf.getOrgSplit().length); //set the number of organisms. The length can vary according to study. 1-4.
-	
+			
 			for(int o=0; o<rflf.getOrgSplitLen(); o++){
 				//getOrgSplit()[o] will contain single organism
-				if(!rflf.getOrgHash().contains(rflf.getOrgSplit()[o])){
+				if(!rflf.getOrgHash().containsKey(rflf.getOrgSplit()[o])){
 					if(rflf.getOrgType() != null){
 						rflf.getOrgHash().put(rflf.getOrgSplit()[o], rflf.getOrgValue()); //makes value false for all the items in the list, resetting the value to false
 					}
 				}
 			}
 			if(rflf.getOrgCheckedItems() != null){
-				rflf.setOrgCheckedItemsEnum(rflf.getOrgCheckedItemsHash().keys()); //setting enum with organism checked items
+				rflf.setOrgCheckedItemsSet(rflf.getOrgCheckedItemsHash().keySet()); //setting linkedHashSet with organism checked items
 				int orgChkdItemsLen = rflf.getOrgCheckedItems().length;
-				while(rflf.getOrgCheckedItemsEnum().hasMoreElements()){
-					String orgTmpKey = (String) rflf.getOrgCheckedItemsEnum().nextElement(); //contains a single checked item (key)
+				Iterator<String> orgIter = rflf.getOrgCheckedItemsSet().iterator();
+				while(orgIter.hasNext()){
+//					System.out.println(orgChkdItemsLen + " - Entered while for orgIter.hasnext");
+					String orgTmpKey = (String) orgIter.next(); //contains a single checked item (key)
 					for(int o=0; o<orgChkdItemsLen; o++){
 						Boolean orgValueTrue = true;
 						rflf.getOrgHash().remove(orgTmpKey);

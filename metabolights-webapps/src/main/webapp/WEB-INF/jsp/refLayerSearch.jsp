@@ -11,6 +11,7 @@ function navigate(_pageNumber) {
     filterForm.submit();
 }
 </script>
+
 <c:if test="${not empty entries}">
 	<div class="grid_6 alpha">
 		<h6>
@@ -179,19 +180,49 @@ function navigate(_pageNumber) {
 					<ul style="max-height: 400px; overflow: auto" id="technology">
 						<input type="checkbox" name="technology" value="${technology.key}"
 							<c:if test="${technology.value eq true}">CHECKED</c:if>
-							onclick="this.form.submit();"> ${technology.key}
+							onclick="this.form.submit();"> 
+							<c:choose>
+								<c:when test="${techClear eq true}">
+									${technology.key}
+								</c:when>
+								<c:otherwise>
+									<c:choose>	
+										<c:when test="${technology.value eq true}">
+											${technology.key}
+										</c:when>
+										<c:otherwise>
+											<span class="dimmed">${technology.key}</span>
+										</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
 					</ul>
 				</c:forEach>
 			</div>
 			<br />
-			<div class="grid_24 refLayerBox">
+			<div class="grid_24 refLayerBox" id="orgFilter">
 				<b><spring:message code="ref.msg.organism"></spring:message></b>
 				<c:forEach var="RefLayerOrg" items="${RefLayer}">
 					<c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
 						<ul style="max-height: 400px; overflow: auto" id="organisms">
 							<input type="checkbox" name="organisms" value="${orghash.key}"
 								<c:if test="${orghash.value eq true}">CHECKED</c:if>
-								onclick="this.form.submit();"> ${orghash.key}
+								onclick="this.form.submit();"> 
+								<c:choose>
+									<c:when test="${orgClear eq true}">
+										${orghash.key}
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${orghash.value eq true }">
+												${orghash.key}
+											</c:when>
+											<c:otherwise>
+												<span class="dimmed">${orghash.key}</span>
+											</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
 						</ul>
 					</c:forEach>
 				</c:forEach>
