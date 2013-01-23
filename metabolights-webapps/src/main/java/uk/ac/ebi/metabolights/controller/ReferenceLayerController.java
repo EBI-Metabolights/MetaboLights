@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.*;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +27,8 @@ import uk.ac.ebi.metabolights.service.AppContext;
 @Controller
 public class ReferenceLayerController extends AbstractController {
 
-	String url = "http://ash-3:8080/ebisearch/service.ebi?wsdl";
+//	String url = "http://ash-3:8080/ebisearch/service.ebi?wsdl";
+	private @Value ("#{ebiServiceURL}") String url;
 
 
 	private EBISearchService ebiSearchService;
