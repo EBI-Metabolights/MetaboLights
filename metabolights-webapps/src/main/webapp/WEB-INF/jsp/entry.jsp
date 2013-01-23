@@ -141,15 +141,20 @@ $(function() {
 	$( "#tabs" ).tabs();
 });
 
-function toggleColumn(tableId, anchor ) {
-    $('#' + tableId + ' tr *:nth-child(1n+5)').toggle();
+function toggleColumn(tableId, anchor, duration ) {
 
     dataIcon = $(anchor).attr('data-icon');
 
+    // if collapsed
     if (dataIcon == 'u'){
         dataIcon = 'w';
+        $('#' + tableId + ' tr *:nth-child(1n+5)').fadeToggle(duration);
+
+
+    // else expanded
     }else{
         dataIcon = 'u';
+        $('#' + tableId + ' tr *:nth-child(1n+5)').fadeToggle(duration);
     }
 
     $(anchor).attr('data-icon', dataIcon);
@@ -405,8 +410,18 @@ function toggleColumn(tableId, anchor ) {
                                     <tr>
                                         <th><spring:message code="label.metabolites.description"/></th>
                                         <th><spring:message code="label.metabolites.formula"/></th>
+
+                                        <c:if test="${mlAssay.technology eq  'mass spectrometry'}">
+                                            <th><spring:message code="label.metabolites.mz"/></th>
+                                            <th><spring:message code="label.metabolites.retentiontime"/><a class="right icon icon-functional" data-icon="u" onclick="toggleColumn('metabolites${loopStatusAssay.index}', this, 2500)"></a></th>
+                                        </c:if>
+                                        <c:if test="${mlAssay.technology eq 'NMR spectroscopy'}">
+                                            <th><spring:message code="label.metabolites.chemicalshift"/></th>
+                                            <th><spring:message code="label.metabolites.multiplicity"/><a class="right icon icon-functional" data-icon="u" onclick="toggleColumn('metabolites${loopStatusAssay.index}', this, 2500)"></a></th>
+                                        </c:if>
+
                                         <th><spring:message code="label.metabolites.smiles"/></th>
-                                        <th><spring:message code="label.metabolites.inchi"/><a class="right icon icon-functional" data-icon="u" onclick="toggleColumn('metabolites${loopStatusAssay.index}', this)"></a></th>
+                                        <th><spring:message code="label.metabolites.inchi"/></th>
                                         <c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
                                             <th>
                                                 ${sampleHeader.sampleName}
@@ -435,6 +450,15 @@ function toggleColumn(tableId, anchor ) {
                                         <td>
                                                 ${met.metabolite.chemical_formula}
                                         </td>
+                                        <c:if test="${mlAssay.technology eq 'mass spectrometry'}">
+                                            <td>${met.metabolite.mass_to_charge}</td>
+                                            <td>${met.metabolite.retention_time}</td>
+                                        </c:if>
+                                        <c:if test="${mlAssay.technology eq 'NMR spectroscopy'}">
+                                            <td>${met.metabolite.chemical_shift}Ac</td>
+                                            <td>${met.metabolite.multiplicity}</td>
+                                        </c:if>
+
                                         <td>
                                                 ${met.metabolite.smiles}
                                         </td>
@@ -455,7 +479,7 @@ function toggleColumn(tableId, anchor ) {
                                     </c:forEach> <%-- For each metabolite (line)--%>
                                     </tbody>
                                 </table>
-                                <script>toggleColumn('metabolites${loopStatusAssay.index}') </script>
+                                <script>toggleColumn('metabolites${loopStatusAssay.index}',null,0) </script>
                             </div>
 
                             <c:if test="${fn:length(mlAssay.metabolitesGUI) > 10}"><a href="#" class="showLink" id="met_link_${loopStatusAssay.index}">Show more</a></c:if>
