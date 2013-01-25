@@ -37,7 +37,7 @@
             {
                 "selected": false,
                 "title": "Help",
-                "href": "submitHelp",
+                "href": "help",
                 "tooltip": "Help"
             },
             {

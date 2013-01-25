@@ -62,7 +62,7 @@
 			</ul>
 		</sec:authorize>
 
-        <li><a href="submitHelp"><spring:message code="menu.help"/></a></li>
+        <li><a href="help"><spring:message code="menu.help"/></a></li>
 		<li><a href="presubmit"><spring:message code="menu.submit"/></a></li>
 		<li><a href="download"><spring:message code="menu.download"/></a></li>
         <li><a href="browse"><spring:message code="menu.browse"/></a></li>

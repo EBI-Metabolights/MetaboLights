@@ -51,9 +51,9 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
 	</definition>
   
-    <definition name="submitHelp" extends="default">
+    <definition name="help" extends="default">
         <put-attribute name="title" value="How to use" />
-        <put-attribute name="body" value="/WEB-INF/jsp/submitHelp.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/help.jsp" />
     </definition>
 
 	<definition name="download" extends="default">

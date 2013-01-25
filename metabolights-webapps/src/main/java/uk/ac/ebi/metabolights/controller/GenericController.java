@@ -26,10 +26,26 @@ public class GenericController {
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	@RequestMapping(value={ "/about","/submitHelp","/download","/downloadplugin", "/useroptions"})
-	public ModelAndView useMoreDeodorant (HttpServletRequest request) {
+	@RequestMapping(value={ "/about","/help","/download", "/useroptions"})
+	public ModelAndView modelAndView (HttpServletRequest request) {
 		return lastPartOfUrl(request);
 	}
+
+    /**
+     * Redirects to ensure older links still work
+     */
+    @RequestMapping(value={ "/submithelp"})
+    public ModelAndView oldSubmitHelp (HttpServletRequest request) {
+        return new ModelAndView ("redirect:help");
+    }
+
+    @RequestMapping(value={ "/downloadplugin"})
+    public ModelAndView olddownloadPlugin (HttpServletRequest request) {
+        return new ModelAndView ("redirect:download");
+    }
+
+
+
 
 	/** 
 	 * Forwards to the jsp based on the last part of the requested URL.

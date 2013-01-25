@@ -30,16 +30,13 @@ public class ContactUsController extends AbstractController{
 	protected void initBinder(WebDataBinder binder) {
 		binder.setValidator(new ValidateContactUsForm());
 	}
-	
-	
+
     @RequestMapping(value = "/contact")
     public ModelAndView contact() {
-    	
     	//return new ModelAndView("contact","contactValidation", new ContactValidation());  
     	return AppContext.getMAVFactory().getFrontierMav("contact","contactValidation", new ContactValidation());
     	
     }
-	
 	
 	 /**
      * Sends an email to MetaboLights, for general questions.<br> 
