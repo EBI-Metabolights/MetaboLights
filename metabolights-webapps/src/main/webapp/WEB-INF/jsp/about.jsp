@@ -1,6 +1,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-    <h3><spring:message code="msg.metabolights" /></h3>
+    <h2><spring:message code="msg.metabolights" /></h2>
 
     <div class="grid_8 alpha">
         <p>

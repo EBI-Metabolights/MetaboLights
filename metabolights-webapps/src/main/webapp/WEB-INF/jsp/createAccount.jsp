@@ -5,7 +5,7 @@
 <form:form name="accountForm" action="createNewAccount" method="post" commandName="metabolightsUser">
 
     <div class="grid_24">
-       	<h3><spring:message	code="msg.newAccount" /></h3>
+       	<h2><spring:message	code="msg.newAccount" /></h2>
     </div>
 	
 	<div class="grid_24">

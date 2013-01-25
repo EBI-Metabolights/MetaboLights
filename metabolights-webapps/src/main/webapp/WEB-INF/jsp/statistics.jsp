@@ -3,7 +3,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
-<h3><spring:message code="msg.statistics" /></h3>
+<h2><spring:message code="msg.statistics" /></h2>
 </p>
 </p>
 

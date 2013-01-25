@@ -2,7 +2,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-	<h3><spring:message code="msg.pwReset" /></h3>
+	<h2 class="strapline"><spring:message code="msg.pwReset" /></h2>
 
     <form:form name="resetForm" action="resetPassword" method="post" commandName="emailAddress" >
 		<div class="grid_4 alpha">

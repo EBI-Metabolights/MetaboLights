@@ -21,7 +21,7 @@ $(function() {
 </script>
 
 	
-	<h3>Configuration page</h3>
+	<h2>Configuration page</h2>
 	
 
 	<div id="tabs">

@@ -85,7 +85,7 @@
 
 
 <c:if test="${not empty title}">
-    <h3><c:out value="${title}"/></h3>
+    <h2><c:out value="${title}"/></h2>
 </c:if>
 <c:if test="${not empty message}">
 	<p>${message}</p><br/>
@@ -108,10 +108,10 @@
 <c:if test="${not empty searchResult}">
     <br/>
 	<c:set var="nopublish" value="true"/>
-	<div class="grid_23 prefix_1 alpha omega">
+	<div class="grid_22 prefix_1 alpha omega">
 		<%@include file="entrySummary.jsp" %>
 	</div>
-	</p>
+	<p/>
 </c:if>
 
 <c:if test="${empty updated}">

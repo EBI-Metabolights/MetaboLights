@@ -52,7 +52,7 @@
 	
 </script>
 
-<h3><spring:message code="msg.upload" /></h3>
+<h2><spring:message code="msg.upload" /></h2>
 <p><spring:message code="msg.upload.desc"/></p>
 <p><spring:message code="msg.upload.desc2"/></p>
 

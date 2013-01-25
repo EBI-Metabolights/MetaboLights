@@ -2,10 +2,10 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 
-	<h3>
+	<h2 class="strapline">
     	<c:if test="${empty source}"><spring:message code="msg.credentials" /></c:if>
         <c:if test="${not empty source}"><spring:message code="msg.submCredentials" /></c:if>
-    </h3>
+    </h2>
     
     <c:if test="${not empty source}">
     	<p><strong><spring:message code="msg.submHeader"/></strong></p>

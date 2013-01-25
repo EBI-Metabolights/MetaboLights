@@ -23,7 +23,6 @@
     <spring:message code="msg.deleteStudyDialog.body"/>
 </div>
 
-
 <section class="grid_18 alpha">
     <h2>
         <c:if test="${!empty userQueryClean}">
@@ -34,9 +33,6 @@
         </c:if>
     </h2>
 </section>
-
-
-
 
 <c:if test="${!empty searchResults}">
     <c:if test="${!empty userQueryClean}">
@@ -130,17 +126,22 @@
         </h4>
         <br />
     </section>
-    <aside class="grid_8 omega shortcuts" id="search-extras">
-        <div id="ebi_search_results" class="noresults">
-            <h3 class=""><spring:message code="msg.otherebiresults"/></h3>
-        </div>
-    </aside>
+    <c:if test="${!empty userQueryClean}">
 
+        <aside class="grid_8 omega shortcuts" id="search-extras">
+            <div id="ebi_search_results" class="noresults">
+                <h3 class=""><spring:message code="msg.otherebiresults"/></h3>
+            </div>
+        </aside>
+    </c:if>
 
 </c:if>
 
-<script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
-<script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
+<c:if test="${!empty userQueryClean}">
+    <script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
+    <script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
+</c:if>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("#deletedialog").dialog({

@@ -4,7 +4,7 @@
 <br/>
 
 <c:if test="${not empty error}">
-	<h3><spring:message code="msg.uploaded.wrong"/></h3>
+	<h2><spring:message code="msg.uploaded.wrong"/></h2>
 	<br/><br/>
 	<div class="grid_23 alpha omega prefix_1">
 		<div class="ebiicon alert_i"></div>&nbsp;<strong><c:out value="${error.message}"/></strong>

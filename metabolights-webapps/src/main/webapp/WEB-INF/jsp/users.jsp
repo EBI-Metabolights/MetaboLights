@@ -39,7 +39,7 @@
     }
  </script>
 
-	<h3>Users</h3>
+	<h2>Users</h2>
 	<div style="max-height:300px; overflow: auto">
 		<c:if test="${not empty users}">
 			<table cellpadding="5px" cellspacing="0px">

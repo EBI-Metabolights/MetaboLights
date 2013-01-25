@@ -68,7 +68,7 @@
 <br/><br/>
 <div class="grid_8 alpha">
 	<div class="grid_24">
-	   <h3><spring:message code="title.serviceName" /></h3>
+	   <h2><spring:message code="title.serviceName" /></h2>
        <br/>
         <p><spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" /></p>
 	</div>
@@ -76,7 +76,7 @@
 
 <div class="grid_8">
 	<div class="grid_24">
-			<h3><spring:message code="title.download" /></h3>
+			<h2><spring:message code="title.download" /></h2>
 	  		<p>
 	  			<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"><div class="ebiicon clock"></div></a>
 	    	    <spring:message code="msg.metabolightsAbout12" />
@@ -91,7 +91,7 @@
 <div class="grid_8 omega">
 	<div class="grid_24">
 	
-		<h3><spring:message code="title.submit"/> </h3>
+		<h2><spring:message code="title.submit"/> </h2>
 
 	    <div class='grid_20 alpha omega prefix_2'>
             <a href="submittoqueue">

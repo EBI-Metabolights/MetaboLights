@@ -3,7 +3,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
-<h3>Hi <sec:authentication property="principal.firstName" />, <spring:message code="msg.useroptions" /></h3>
+<h2>Hi <sec:authentication property="principal.firstName" />, <spring:message code="msg.useroptions" /></h2>
 <p></p>
 <div class='grid_6 alpha prefix_1'>
     <a href="<spring:url value="mysubmissions"/>">
@@ -35,7 +35,7 @@
 </sec:authorize>
   
 <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
-<h3><spring:message code="msg.useroptionscurator" /></h3>
+<h2><spring:message code="msg.useroptionscurator" /></h2>
 	
 <div class='grid_6 alpha prefix_1'>
     <a href="<spring:url value="config"/>">

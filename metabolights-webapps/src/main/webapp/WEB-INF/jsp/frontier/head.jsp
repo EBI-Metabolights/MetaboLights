@@ -26,8 +26,12 @@
     <%--<link rel="stylesheet" type="text/css" href="cssrl/metabolights_d3d0e8.css" media="screen" />--%>
 
     <%--Purple darker--%>
-    <link rel="stylesheet" href="cssrl/acaac5-scheme.css" type="text/css" media="screen">
-    <link rel="stylesheet" type="text/css" href="cssrl/metabolights_acaac5.css" media="screen" />
+    <%--<link rel="stylesheet" href="cssrl/acaac5-scheme.css" type="text/css" media="screen">--%>
+    <%--<link rel="stylesheet" type="text/css" href="cssrl/metabolights_acaac5.css" media="screen" />--%>
+
+    <%--Purple even more darker--%>
+    <link rel="stylesheet" href="cssrl/645FAA-scheme.css" type="text/css" media="screen">
+    <link rel="stylesheet" type="text/css" href="cssrl/metabolights_645FAA.css" media="screen" />
 
 
     <%--Green regenerate--%>

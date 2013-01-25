@@ -1,7 +1,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<h3><spring:message code="menu.downloadHelp" /></h3>
-<br/>
+<h2><spring:message code="menu.downloadHelp" /></h2>
 
 &nbsp;&nbsp;<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"><div class="ebiicon clock"></div></a>
 <p>

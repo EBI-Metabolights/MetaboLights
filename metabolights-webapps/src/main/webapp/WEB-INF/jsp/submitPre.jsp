@@ -2,10 +2,10 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-	<h3>
+	<h2>
     	<c:if test="${!empty user}">Hi ${user.firstName}. </c:if>
     	<spring:message code="msg.submCredentialsShort" />
-    </h3>
+    </h2>
     <br/><br/>
 
     <div class='grid_9 alpha prefix_2'>

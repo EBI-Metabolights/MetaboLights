@@ -4,9 +4,9 @@
 <%@taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 
 	<form:form name="mySubmForm" action="mysubmissions">
-    	<h3><spring:message code="menu.myAccountCaps" /></h3>
+    	<h2><spring:message code="menu.myAccountCaps" /></h2>
         
-        <div class="grid_24 prefix_6">
+        <div class="grid_6 prefix_6">
 			<input type="submit" name="submit" class="submit bigfont" value=" <spring:message code="label.viewMySubmissions"/> ">
 			<br/>&nbsp;
 		</div>

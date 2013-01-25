@@ -60,8 +60,7 @@
 					<c:if test="${fn:length(filterset.value.filterItems) gt 5}">
 						<div class="ui-widget">
 							<input
-                                    class="inputDiscrete"
-                                    style="width:270px"
+                                    class="inputDiscrete resizable"
                                     id="autocomplete_${filterset.key}"
                                     placeholder= "Find your ${caption}"
                             />

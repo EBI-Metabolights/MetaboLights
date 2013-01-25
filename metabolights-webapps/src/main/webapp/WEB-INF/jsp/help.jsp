@@ -1,6 +1,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-    <h3><spring:message code="msg.metabolightsAbout14"/></h3>
+    <h2><spring:message code="msg.metabolightsAbout14"/></h2>
 
     <p>
         Please note that these links will take you to our online Google Document.  <br/><br/>
