@@ -340,13 +340,18 @@ public class Filter {
 		
 		//Replace special characters...
 		//value = value.replace(":","\\:").replace(" ", "\\ *").replace("(", "\\(").replace(")","\\)");
-        if (exactMatch)
-            value = '"' + value.replaceAll("|","") + '"';         //Query is from the filter facets, so exact match only
-        else
-            value = value.replace(":","\\:").replace(" ", " *").replace("(", "\\(").replace(")","\\)");
 
         if (toLower)
             value = value.toLowerCase();
+
+        if (exactMatch) {
+            value = '"' + value.replaceAll("|","") + '"';         //Query is from the filter facets, so exact match only
+        } else {
+            value = value.replace(" ", " *").replace("(", "\\(").replace(")","\\)");
+            value = value.toLowerCase().replace("chebi:","chebi AND ");
+            value = value.replace(":","\\:");
+            //value = value.replace(":","\\:").replace(" ", " *").replace("(", "\\(").replace(")","\\)");
+        }
 			
 		return value;
 	}
