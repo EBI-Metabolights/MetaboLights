@@ -66,52 +66,46 @@
 </c:if>
 
 <br/><br/>
-<div class="grid_8 alpha">
-	<div class="grid_24">
-	   <h2><spring:message code="title.serviceName" /></h2>
-       <br/>
-        <p><spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" /></p>
-	</div>
+<div class="grid_5 alpha">
+    <h2><spring:message code="title.serviceName" /></h2>
+    <p><spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" /></p>
 </div>
 
-<div class="grid_8">
-	<div class="grid_24">
-			<h2><spring:message code="title.download" /></h2>
-	  		<p>
-	  			<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"><div class="ebiicon clock"></div></a>
-	    	    <spring:message code="msg.metabolightsAbout12" />
-	        </p>
-	   		<p>
-		    	<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"><div class="ebiicon download"></div></a>
-	    		<spring:message code="msg.metabolightsAbout7" />
-	    	</p>
-	</div>
+<div class="grid_11">
+        <h2><spring:message code="title.download" /></h2>
+        <p>
+        <spring:message code="msg.metabolightsAbout12" />
+        </p>
+        &nbsp;&nbsp;<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"><div class="ebiicon laptop"></div></a>
+        <br/>&nbsp;
+        <p>
+            <spring:message code="msg.metabolightsAbout7" />
+        </p>
+        &nbsp;&nbsp;<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"><div class="ebiicon lab"></div></a>
+
 </div>
 
 <div class="grid_8 omega">
-	<div class="grid_24">
-	
-		<h2><spring:message code="title.submit"/> </h2>
+    <%--<h2><spring:message code="title.submit"/> </h2>--%>
+    <br/><br/><br/>
+    <div class='grid_20 alpha omega prefix_2'>
+        <a href="submittoqueue">
+            <div class="bigbutton maincolorI">
+                <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
+                <span><spring:message code="label.submitNewStudySub"/></span>
+            </div>
+        </a>
+    </div>
+    <div class="grid_24"><p>&nbsp;</p></div>
+    <div class='grid_20 alpha omega prefix_2'>
+        <a href="mysubmissions?status=PRIVATE">
+            <div class="bigbutton seccolorI">
 
-	    <div class='grid_20 alpha omega prefix_2'>
-            <a href="submittoqueue">
-                <div class="bigbutton maincolorI">
-                    <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
-                    <span><spring:message code="label.submitNewStudySub"/></span>
-                </div>
-            </a>
-	    </div>
-		<div class="grid_24"><p>&nbsp;</p></div>
-	    <div class='grid_20 alpha omega prefix_2'>
-            <a href="mysubmissions?status=PRIVATE">
-    	    	<div class="bigbutton seccolorI">
-
-			        <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
-			    	<span><spring:message code="label.updateOldStudySub"/></span>
-		      	</div>
-            </a>
-	    </div>
-	</div>
+                <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
+                <span><spring:message code="label.updateOldStudySub"/></span>
+            </div>
+        </a>
+    </div>
 </div>
 
 

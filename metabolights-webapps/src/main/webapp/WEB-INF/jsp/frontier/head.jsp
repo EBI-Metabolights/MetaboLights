@@ -21,26 +21,17 @@
 	<%--<link rel="stylesheet" type="text/css" href="cssrl/icons.css" media="screen" />--%>
 
 
-    <%--Purple--%>
-    <%--<link rel="stylesheet" href="cssrl/d3d0e8-scheme.css" type="text/css" media="screen">--%>
-    <%--<link rel="stylesheet" type="text/css" href="cssrl/metabolights_d3d0e8.css" media="screen" />--%>
-
     <%--Purple darker--%>
     <%--<link rel="stylesheet" href="cssrl/acaac5-scheme.css" type="text/css" media="screen">--%>
     <%--<link rel="stylesheet" type="text/css" href="cssrl/metabolights_acaac5.css" media="screen" />--%>
 
     <%--Purple even more darker--%>
-    <link rel="stylesheet" href="cssrl/645FAA-scheme.css" type="text/css" media="screen">
-    <link rel="stylesheet" type="text/css" href="cssrl/metabolights_645FAA.css" media="screen" />
+    <%--<link rel="stylesheet" href="cssrl/645FAA-scheme.css" type="text/css" media="screen">--%>
+    <%--<link rel="stylesheet" type="text/css" href="cssrl/metabolights_645FAA.css" media="screen" />--%>
 
-
-    <%--Green regenerate--%>
-    <%--<link rel="stylesheet" href="cssrl/c1e5e1-scheme.css" type="text/css" media="screen">--%>
-    <%--<link rel="stylesheet" type="text/css" href="cssrl/metabolights_c1e5e1.css" media="screen" />--%>
-
-    <%--Salmon regenearate--%>
-    <%--<link rel="stylesheet" href="cssrl/efc2b4-scheme.css" type="text/css" media="screen">--%>
-    <%--<link rel="stylesheet" type="text/css" href="cssrl/metabolights_efc2b4.css" media="screen" />--%>
+    <%--Test--%>
+    <link rel="stylesheet" href="cssrl/test-scheme.css" type="text/css" media="screen">
+    <link rel="stylesheet" type="text/css" href="cssrl/metabolights_test.css" media="screen" />
 
 
     <link rel="stylesheet" type="text/css" href="cssrl/jquery-ui-1.9.2.custom.min.css" media="all" />

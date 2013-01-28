@@ -45,7 +45,14 @@
                 "title": "About MetaboLights",
                 "href": "about",
                 "tooltip": "About MetaboLights"
+            },
+            {
+                "selected": false,
+                "title": "Contact",
+                "href": "contact",
+                "tooltip": "Contact us"
             }
+
         ],
         "functionalTabs": [
             {
