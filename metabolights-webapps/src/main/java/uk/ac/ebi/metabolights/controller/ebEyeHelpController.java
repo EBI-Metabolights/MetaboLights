@@ -1,19 +1,19 @@
 package uk.ac.ebi.metabolights.controller;
 
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.ebisearchservice.ArrayOfArrayOfString;
 import uk.ac.ebi.ebisearchservice.ArrayOfString;
 import uk.ac.ebi.ebisearchservice.EBISearchService;
 import uk.ac.ebi.ebisearchservice.EBISearchService_Service;
 import uk.ac.ebi.metabolights.service.AppContext;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 /**
@@ -24,19 +24,23 @@ import uk.ac.ebi.metabolights.service.AppContext;
 @Controller
 public class ebEyeHelpController extends AbstractController{
 	
-	 private EBISearchService ebiSearchService; 
+	 private EBISearchService ebiSearchService;
+
+    private @Value("#{ebiServiceURL}") String jndiUrl;
 	           
 	
 	@RequestMapping({"/ebeyehelp"})
 	public ModelAndView ebeyeHelp(@RequestParam(required=false,value="domain") String domain,
 								  @RequestParam(required=false,value="query") String query,
 								  @RequestParam(required=false,value="url") String url) {
-	    
 		
-		if (url == null){
+		if (url == null)
+            url = jndiUrl;
 
+        if (url.isEmpty()){
 //			url = "http://ash-10.ebi.ac.uk:9190/ebisearch/service.ebi?wsdl";
-			ebiSearchService=  new EBISearchService_Service().getEBISearchServiceHttpPort();
+
+			ebiSearchService =  new EBISearchService_Service().getEBISearchServiceHttpPort();
 		}else{
 		
 			//@RequestParam(required=false,value="wsdlurl") String url
