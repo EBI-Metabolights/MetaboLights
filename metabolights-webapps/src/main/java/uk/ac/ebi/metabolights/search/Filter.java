@@ -347,10 +347,7 @@ public class Filter {
         if (exactMatch) {
             value = '"' + value.replaceAll("|","") + '"';         //Query is from the filter facets, so exact match only
         } else {
-            value = value.replace(" ", " *").replace("(", "\\(").replace(")","\\)");
-            value = value.toLowerCase().replace("chebi:","chebi AND ");
-            value = value.replace(":","\\:");
-            //value = value.replace(":","\\:").replace(" ", " *").replace("(", "\\(").replace(")","\\)");
+            value = value.replace(" ", " *").replace(":"," AND ").replace("(", "\\(").replace(")","\\)");          //Cannot escape : with \: as the KeywordAnalyzer cannot find this term
         }
 			
 		return value;
