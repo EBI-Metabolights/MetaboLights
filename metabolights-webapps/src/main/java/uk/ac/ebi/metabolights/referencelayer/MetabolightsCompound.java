@@ -15,8 +15,15 @@ public class MetabolightsCompound {
 	private String[] MTBLStudies;
 	private String accession;
 	private String[] domains;
+	private String description;
 	
-
+	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String[] getDomains() {
 		return domains;
 	}

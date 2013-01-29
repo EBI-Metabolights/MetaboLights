@@ -12,7 +12,7 @@ function navigate(_pageNumber) {
 }
 </script>
 
-<c:if test="${not empty entries}">
+<c:if test="${allResultsLen ne 0}">
 	<div class="grid_6 alpha">
 		<h6>
 			<b><spring:message code="ref.msg.filterResults"></spring:message></b>
@@ -40,112 +40,114 @@ function navigate(_pageNumber) {
 			</div>
 			<div class="grid_20 omega">
 				<!-- <b><spring:message code="ref.msg.Navigate"/></b>-->
-				<span id="pagination" class="right"> <c:set
-						var="RemainderValue" value="${queryResults % 10}" /> <c:set
-						var="CrudeNumOfPages" value="${queryResults / 10}" /> <c:set
-						var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" /> <c:set
-						var="pageSize" value="10" /> <c:if test="${currentPage eq 1 }">
-						<c:set var="pagerLeft" value="${currentPage}" />
-					</c:if> <c:set var="pagerRight" value="${currentPage +1}" /> <c:forEach
-						var="loop" items="${NumOfPages}" varStatus="loopStatus">
-						<c:if test="${loopStatus.index eq 0}">
-							<c:set var="NumOfPages" value="${loop}" />
-						</c:if>
-						<c:if test="${loopStatus.index eq 1}">
-							<c:set var="RemainderItems" value="${loop}" />
-						</c:if>
-					</c:forEach> 
-					<c:if test="${RemainderItems ne 0 }">
-						<c:set var="NumOfPages" value="${NumOfPages+1}" />
-					</c:if> 
-					<c:if test="${currrentPage lt 1}">
-						<b><a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currrentPage})"></a></b>
-					</c:if> 
-					<c:if test="${currrentPage gt 1}">
-						<a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currrentPage-1})"></a>
-					</c:if> 
-					<c:if test="${NumOfPages gt 1}">
-						<c:choose>
-							<c:when test="${currrentPage eq 1 }">
-								${currrentPage}
-							</c:when>
-							<c:otherwise>
-								<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(1)"><c:out value="1" /></span></a>
-							</c:otherwise>
-						</c:choose>
-						<c:choose>
-							<c:when test="${currrentPage lt 5}">
-								<c:if test="${NumOfPages gt 5 }">
-									<c:forEach  var="j" begin="2" end="5" step="1" varStatus ="status">
-										<c:choose>	
-											<c:when test="${currrentPage eq j}">
-												<b>${currrentPage}</b>
-											</c:when>
-											<c:otherwise>
-												<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${j})"><c:out value="${j}" /></span></a>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</c:if>
-								<c:if test="${NumOfPages lt 5 }">
-									<c:forEach var="h" begin="2" end="${NumOfPages}" step="1" varStatus="status">
-										<c:choose>
-											<c:when test="${currrentPage eq h }">
-												<b>${CurrrentPage}</b>
-											</c:when>
-											<c:otherwise>
-												<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${h})"><c:out value="${h}" /></span></a>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</c:if>
-								<c:if test="${NumOfPages eq 5 }">
-									<c:forEach  var="j" begin="2" end="4" step="1" varStatus ="status">
-										<c:choose>	
-											<c:when test="${currrentPage eq j}">
-												<b>${currrentPage}</b>
-											</c:when>
-											<c:otherwise>
-												<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${j})"><c:out value="${j}" /></span></a>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</c:if>
-							</c:when>
-							<c:otherwise>
-								....<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${currrentPage-1})"><c:out value="${currrentPage-1}" /></span></a>
-								<c:if test="${currrentPage ne NumOfPages }">
-									<b>${currrentPage}</b>
-									<c:if test="${currrentPage ne NumOfPages-1 }">
-										<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${currrentPage+1})"><c:out value="${currrentPage+1}" /></span></a>
-									</c:if>
-								</c:if>			
-							</c:otherwise>
-						</c:choose>
-						<c:choose>
-							<c:when test="${currrentPage eq NumOfPages}">
-								<b>${currrentPage}</b>
-							</c:when>
-							<c:otherwise>
-								<c:if test="${currrentPage ne NumOfPages-1 }">
-									<c:if test="${currrentPage ne NumOfPages-2 }">
-										<c:if test="${NumOfPages gt 5 }">
-											....
-										</c:if>
-									</c:if>
-								</c:if>
-								<c:if test="${NumOfPages eq 5 }">
-									<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${NumOfPages})"><c:out value="${NumOfPages}" /></span></a>
-								</c:if>
-								<c:if test="${NumOfPages gt 5 }">
-									<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${NumOfPages})"><c:out value="${NumOfPages}" /></span></a>
-								</c:if>
-							</c:otherwise>
-						</c:choose>
-					</c:if> 
-					<c:if test="${(((currrentPage-1)*pageSize)+pageSize) lt queryResults}">
-						<a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${currrentPage+1})"></a>
+				<span id="pagination" class="right"> 
+				<c:set var="RemainderValue" value="${queryResults % 10}" /> 
+				<c:set var="CrudeNumOfPages" value="${queryResults / 10}" /> 
+				<c:set var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" /> 
+				<c:set var="pageSize" value="10" /> 
+				<c:if test="${currentPage eq 1 }">
+					<c:set var="pagerLeft" value="${currentPage}" />
+				</c:if> 
+				<c:set var="pagerRight" value="${currentPage +1}" /> 
+				<c:forEach var="loop" items="${NumOfPages}" varStatus="loopStatus">
+					<c:if test="${loopStatus.index eq 0}">
+						<c:set var="NumOfPages" value="${loop}" />
+				</c:if>
+					<c:if test="${loopStatus.index eq 1}">
+						<c:set var="RemainderItems" value="${loop}" />
 					</c:if>
+				</c:forEach> 
+				<c:if test="${RemainderItems ne 0 }">
+					<c:set var="NumOfPages" value="${NumOfPages+1}" />
+				</c:if> 
+				<c:if test="${currrentPage lt 1}">
+					<b><a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currrentPage})"></a></b>
+				</c:if> 
+				<c:if test="${currrentPage gt 1}">
+					<a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currrentPage-1})"></a>
+				</c:if> 
+				<c:if test="${NumOfPages gt 1}">
+					<c:choose>
+						<c:when test="${currrentPage eq 1 }">
+							<b>${currrentPage}</b>
+						</c:when>
+						<c:otherwise>
+							<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(1)"><c:out value="1" /></span></a>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${currrentPage lt 5}">
+							<c:if test="${NumOfPages gt 5 }">
+								<c:forEach  var="j" begin="2" end="5" step="1" varStatus ="status">
+									<c:choose>	
+										<c:when test="${currrentPage eq j}">
+											<b>${currrentPage}</b>
+										</c:when>
+										<c:otherwise>
+											<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${j})"><c:out value="${j}" /></span></a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:if>
+							<c:if test="${NumOfPages lt 5 }">
+								<c:forEach var="h" begin="2" end="${NumOfPages}" step="1" varStatus="status">
+									<c:choose>
+										<c:when test="${currrentPage eq h }">
+											<b>${CurrrentPage}</b>
+										</c:when>
+										<c:otherwise>
+											<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${h})"><c:out value="${h}" /></span></a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:if>
+							<c:if test="${NumOfPages eq 5 }">
+								<c:forEach  var="j" begin="2" end="4" step="1" varStatus ="status">
+									<c:choose>	
+										<c:when test="${currrentPage eq j}">
+											<b>${currrentPage}</b>
+										</c:when>
+										<c:otherwise>
+											<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${j})"><c:out value="${j}" /></span></a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:if>
+						</c:when>
+						<c:otherwise>
+							....<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${currrentPage-1})"><c:out value="${currrentPage-1}" /></span></a>
+							<c:if test="${currrentPage ne NumOfPages }">
+								<b>${currrentPage}</b>
+								<c:if test="${currrentPage ne NumOfPages-1 }">
+									<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${currrentPage+1})"><c:out value="${currrentPage+1}" /></span></a>
+								</c:if>
+							</c:if>			
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${currrentPage eq NumOfPages}">
+							<b>${currrentPage}</b>
+						</c:when>
+						<c:otherwise>
+							<c:if test="${currrentPage ne NumOfPages-1 }">
+								<c:if test="${currrentPage ne NumOfPages-2 }">
+									<c:if test="${NumOfPages gt 5 }">
+										....
+									</c:if>
+								</c:if>
+							</c:if>
+							<c:if test="${NumOfPages eq 5 }">
+								<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${NumOfPages})"><c:out value="${NumOfPages}" /></span></a>
+							</c:if>
+							<c:if test="${NumOfPages gt 5 }">
+								<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${NumOfPages})"><c:out value="${NumOfPages}" /></span></a>
+							</c:if>
+						</c:otherwise>
+					</c:choose>
+				</c:if> 
+				<c:if test="${(((currrentPage-1)*pageSize)+pageSize) lt queryResults}">
+					<a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${currrentPage+1})"></a>
+				</c:if>
 				</span>
 			</div>
 			<!-- Have to work on below Jump To part 
@@ -178,24 +180,24 @@ function navigate(_pageNumber) {
 				<b><spring:message code="ref.msg.technology"></spring:message></b>
 				<c:forEach var="technology" items="${technologyList}">
 					<ul style="max-height: 400px; overflow: auto" id="technology">
-						<input type="checkbox" name="technology" value="${technology.key}"
-							<c:if test="${technology.value eq true}">CHECKED</c:if>
-							onclick="this.form.submit();"> 
-							<c:choose>
-								<c:when test="${techClear eq true}">
+						<c:choose>
+							<c:when test="${techClear eq true }">
+								<input type="checkbox" name="technology" value="${technology.key}" onclick="this.form.submit();"> 
 									${technology.key}
-								</c:when>
-								<c:otherwise>
-									<c:choose>	
-										<c:when test="${technology.value eq true}">
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="times" begin="0" end="1" step="1" varStatus="loopStatus">
+										<c:if test="${(loopStatus.index eq 1) and (technology.value eq true)}"> <!--   -->
+											<input type="checkbox" name="technology" value="${technology.key}" CHECKED onclick="this.form.submit();">
 											${technology.key}
-										</c:when>
-										<c:otherwise>
+										</c:if>
+										<c:if test="${(loopStatus.index eq 0) and (technology.value eq false)}"> <!--   -->
+											<input type="checkbox" name="technology" value="${technology.key}" onclick="this.form.submit();">
 											<span class="dimmed">${technology.key}</span>
-										</c:otherwise>
-									</c:choose>
-								</c:otherwise>
-							</c:choose>
+										</c:if>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</ul>
 				</c:forEach>
 			</div>
@@ -205,24 +207,22 @@ function navigate(_pageNumber) {
 				<c:forEach var="RefLayerOrg" items="${RefLayer}">
 					<c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
 						<ul style="max-height: 400px; overflow: auto" id="organisms">
-							<input type="checkbox" name="organisms" value="${orghash.key}"
-								<c:if test="${orghash.value eq true}">CHECKED</c:if>
-								onclick="this.form.submit();"> 
-								<c:choose>
-									<c:when test="${orgClear eq true}">
-										${orghash.key}
-									</c:when>
-									<c:otherwise>
-										<c:choose>
-											<c:when test="${orghash.value eq true }">
-												${orghash.key}
-											</c:when>
-											<c:otherwise>
-												<span class="dimmed">${orghash.key}</span>
-											</c:otherwise>
-										</c:choose>
-									</c:otherwise>
-								</c:choose>
+						<c:choose>
+							<c:when test="${orgClear eq true }">
+								<input type="checkbox" name="organisms" value="${orghash.key}" onclick="this.form.submit();"> 
+									${orghash.key}
+							</c:when>
+							<c:otherwise>
+										<c:if test="${orghash.value eq true}"> <!--   -->
+											<input type="checkbox" name="organisms" value="${orghash.key}" CHECKED onclick="this.form.submit();">
+											${orghash.key}
+										</c:if>
+										<c:if test="${orghash.value eq false}"> <!--   -->
+											<input type="checkbox" name="organisms" value="${orghash.key}" onclick="this.form.submit();">
+											<span class="dimmed">${orghash.key}</span>
+										</c:if>
+							</c:otherwise>
+						</c:choose>
 						</ul>
 					</c:forEach>
 				</c:forEach>
@@ -234,55 +234,64 @@ function navigate(_pageNumber) {
 	</div>
 
 	<div class="grid_12">
-		<c:forEach var="entry" items="${entries}">
-			<div style='clear: both;'></div>
-			<div class="grid_24 refLayerBox">
-				<div class="grid_8 alpha">
-					<a href="${entry.accession}"><img
-						src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}"
-						onerror="this.src='img/large_noImage.gif';" width="100px"
-						height="100px" /></a>
-				</div>
-				<div class="grid_16 omega">
-					<div class="grid_24">
-						<b>${entry.name}</b> (<a href="${entry.accession}">${entry.accession}</a>)
-						<a
-							href='<spring:message code="ref.msg.chebi.url"></spring:message>${entry.chebiURL}'>${entry.chebiId}</a>
+	
+				<c:forEach var="compEntry" items="${entriesForComps}" varStatus="compLoopStatus">
+				<div style='clear: both;'></div>
+					<div class="grid_24 refLayerBox">
+					<div class="grid_8 alpha">
+						<a href="${compEntry.accession}"><img
+							src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${compEntry.chebiURL}"
+							onerror="this.src='img/large_noImage.gif';" width="100px"
+							height="100px" /></a>
 					</div>
-					<div class="grid_24">
-						<c:forEach var="iupacNameList" items="${entry.iupac}"
-							varStatus="loopStatus">
-							<c:if test="${iupacNameList ne 'null' }">
+					<div class="grid_16 omega">
+						<div class="grid_24">
+							<b>${compEntry.name}</b> (<a href="${compEntry.accession}">${compEntry.accession}</a>)
+							<a
+								href='<spring:message code="ref.msg.chebi.url"></spring:message>${compEntry.chebiURL}'>${compEntry.chebiId}</a>
+						</div>
+						<div class="grid_24">
+							<c:forEach var="iupacNameList" items="${compEntry.iupac}"
+								varStatus="loopStatus">
+								<c:if test="${iupacNameList ne 'null' }">
+									<c:choose>
+										<c:when test="${loopStatus.index eq 0}">
+											<b><spring:message code="ref.msg.iupac" /></b>
+										</c:when>
+										<c:otherwise>
+												,
+										</c:otherwise>
+									</c:choose>
+									${iupacNameList}
+								</c:if>
+							</c:forEach>
+						</div>
+						<br /> <br /> <br />
+						<div class="grid_24">
+							<c:forEach var="MTBLStudiesList" items="${compEntry.MTBLStudies}"
+								varStatus="loopStatus">
 								<c:choose>
 									<c:when test="${loopStatus.index eq 0}">
-										<b><spring:message code="ref.msg.iupac" /></b>
+										<b><spring:message code="ref.msg.mtbl.studies" /></b>
 									</c:when>
 									<c:otherwise>
 											,
-									</c:otherwise>
+										</c:otherwise>
 								</c:choose>
-								${iupacNameList}
-							</c:if>
-						</c:forEach>
-					</div>
-					<br /> <br /> <br />
-					<div class="grid_24">
-						<c:forEach var="MTBLStudiesList" items="${entry.MTBLStudies}"
-							varStatus="loopStatus">
-							<c:choose>
-								<c:when test="${loopStatus.index eq 0}">
-									<b><spring:message code="ref.msg.mtbl.studies" /></b>
-								</c:when>
-								<c:otherwise>
-										,
-									</c:otherwise>
-							</c:choose>
-							<a href="${MTBLStudiesList}">${MTBLStudiesList}</a>
-						</c:forEach>
+								<a href="${MTBLStudiesList}">${MTBLStudiesList}</a>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
-			</div>
-		</c:forEach>
+			</c:forEach>
+			<c:forEach var="studyEntry" items="${entriesForStudies}" varStatus="studyLoopStatus">
+				<div style='clear: both;'></div>
+					<div class="grid_24 refLayerBox">
+						<b>Study Id - </b><a href="${studyEntry.accession}">${studyEntry.accession}</a>
+						<br/>
+						<b>Study Description - </b>${studyEntry.description}
+					</div>
+			</c:forEach>
 	</div>
 
 	<div class="grid_6 omega">
@@ -306,7 +315,7 @@ function navigate(_pageNumber) {
 		</div>
 	</div>
 </c:if>
-<c:if test="${empty entries }">
+<c:if test="${allResultsLen eq 0}">
 	<div class="grid_6 alpha">
 		<br />
 	</div>

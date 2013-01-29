@@ -21,9 +21,13 @@ import uk.ac.ebi.metabolights.search.FilterSet;
 public class RefLayerSearchFilter {
 	
 	private String query;
+	private String ModQuery;
 	private String orgQuery;
 	private String techQuery;
-	private String ModQuery;	
+	private String studiesQuery;
+	private String studiesModQuery; //parameter for studies
+	private String studiesOrgQuery; //parameter for studies
+	private String studiesTechQuery; //parameter for studies
 	private String orgElement;
 	private String techElement;
 	private String orgType;
@@ -47,7 +51,8 @@ public class RefLayerSearchFilter {
 	private int orgSplitLen;
 	private int techFlag = 0;
 	private int orgFlag = 0;
-	private int MTBLArrayOfEntriesLen;
+	private int MTBLCArrayOfEntriesLen;
+	private int MTBLSArrayOfEntriesLen; //parameter for studies
 	private int orgCount;
 	private int techCount;
 	
@@ -62,8 +67,12 @@ public class RefLayerSearchFilter {
 	private Set<String> orgCheckedItemsSet;
 	
 	
-	private ArrayOfArrayOfString MTBLArrayOfEntries;
-	private ArrayOfString MTBLEntries;
+	private ArrayOfArrayOfString MTBLCArrayOfEntries;
+	private ArrayOfString MTBLCEntries;
+	private ArrayOfArrayOfString MTBLSArrayOfEntries; //parameter for studies
+	private ArrayOfString MTBLSEntries; //parameter for studies
+	private ArrayOfString MTBLCResults;
+	private ArrayOfString MTBLSResults;
 	
 	private StringBuffer orgSB;
 	private StringBuffer techSB;
@@ -73,6 +82,104 @@ public class RefLayerSearchFilter {
 	
 	
 	
+	
+
+	public ArrayOfString getMTBLCResults() {
+		return MTBLCResults;
+	}
+
+	public void setMTBLCResults(ArrayOfString mTBLCResults) {
+		MTBLCResults = mTBLCResults;
+	}
+
+	public ArrayOfString getMTBLSResults() {
+		return MTBLSResults;
+	}
+
+	public void setMTBLSResults(ArrayOfString mTBLSResults) {
+		MTBLSResults = mTBLSResults;
+	}
+
+	public int getMTBLSArrayOfEntriesLen() {
+		return MTBLSArrayOfEntriesLen;
+	}
+
+	public void setMTBLSArrayOfEntriesLen(int mTBLSArrayOfEntriesLen) {
+		MTBLSArrayOfEntriesLen = mTBLSArrayOfEntriesLen;
+	}
+
+	public int getMTBLCArrayOfEntriesLen() {
+		return MTBLCArrayOfEntriesLen;
+	}
+
+	public void setMTBLCArrayOfEntriesLen(int mTBLCArrayOfEntriesLen) {
+		MTBLCArrayOfEntriesLen = mTBLCArrayOfEntriesLen;
+	}
+
+	public ArrayOfArrayOfString getMTBLSArrayOfEntries() {
+		return MTBLSArrayOfEntries;
+	}
+
+	public void setMTBLSArrayOfEntries(ArrayOfArrayOfString mTBLSArrayOfEntries) {
+		MTBLSArrayOfEntries = mTBLSArrayOfEntries;
+	}
+
+	public ArrayOfString getMTBLSEntries() {
+		return MTBLSEntries;
+	}
+
+	public void setMTBLSEntries(ArrayOfString mTBLSEntries) {
+		MTBLSEntries = mTBLSEntries;
+	}
+
+	public ArrayOfString getMTBLCEntries() {
+		return MTBLCEntries;
+	}
+
+	public void setMTBLCEntries(ArrayOfString mTBLCEntries) {
+		MTBLCEntries = mTBLCEntries;
+	}
+
+	public ArrayOfArrayOfString getMTBLCArrayOfEntries() {
+		return MTBLCArrayOfEntries;
+	}
+
+	public void setMTBLCArrayOfEntries(ArrayOfArrayOfString mTBLCArrayOfEntries) {
+		MTBLCArrayOfEntries = mTBLCArrayOfEntries;
+	}
+
+	public String getStudiesOrgQuery() {
+		return studiesOrgQuery;
+	}
+
+	public void setStudiesOrgQuery(String studiesOrgQuery) {
+		this.studiesOrgQuery = studiesOrgQuery;
+	}
+
+	public String getStudiesTechQuery() {
+		return studiesTechQuery;
+	}
+
+	public void setStudiesTechQuery(String studiesTechQuery) {
+		this.studiesTechQuery = studiesTechQuery;
+	}
+
+	public String getStudiesQuery() {
+		return studiesQuery;
+	}
+
+	public void setStudiesQuery(String studiesQuery) {
+		this.studiesQuery = studiesQuery;
+	}
+
+	public String getStudiesModQuery() {
+		return studiesModQuery;
+	}
+
+	public void setStudiesModQuery(String studiesModQuery) {
+		this.studiesModQuery = studiesModQuery;
+	}
+
 	public Set<String> getTechCheckedItemsSet() {
 		return techCheckedItemsSet;
 	}
@@ -217,30 +324,6 @@ public class RefLayerSearchFilter {
 
 	public void setOrgFlag(int orgFlag) {
 		this.orgFlag = orgFlag;
-	}
-
-	public int getMTBLArrayOfEntriesLen() {
-		return MTBLArrayOfEntriesLen;
-	}
-
-	public void setMTBLArrayOfEntriesLen(int mTBLArrayOfEntriesLen) {
-		MTBLArrayOfEntriesLen = mTBLArrayOfEntriesLen;
-	}
-
-	public ArrayOfArrayOfString getMTBLArrayOfEntries() {
-		return MTBLArrayOfEntries;
-	}
-
-	public void setMTBLArrayOfEntries(ArrayOfArrayOfString mTBLArrayOfEntries) {
-		MTBLArrayOfEntries = mTBLArrayOfEntries;
-	}
-
-	public ArrayOfString getMTBLEntries() {
-		return MTBLEntries;
-	}
-
-	public void setMTBLEntries(ArrayOfString mTBLEntries) {
-		MTBLEntries = mTBLEntries;
 	}
 
 	public String getOrgType() {
