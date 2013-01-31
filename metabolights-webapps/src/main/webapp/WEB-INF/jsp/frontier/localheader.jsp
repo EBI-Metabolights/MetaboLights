@@ -10,7 +10,7 @@ ${localfrontierheader}
 
 <c:if test="${pageContext.request.serverName=='www.ebi.ac.uk'}" >
 	<script>
-		$('[href="RefLayerSearch"]').hide();
+		$('[href="refLayerSearch"]').hide();
 	</script>
 </c:if>
 

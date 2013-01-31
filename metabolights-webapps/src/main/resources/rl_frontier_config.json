@@ -25,7 +25,7 @@
             {
                 "selected": false,
                 "title": "Reference layer",
-                "href": "RefLayerSearch",
+                "href": "refLayerSearch",
                 "tooltip": "Reference layer"
             },
             {

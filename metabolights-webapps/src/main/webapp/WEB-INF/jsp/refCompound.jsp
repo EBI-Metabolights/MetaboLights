@@ -117,7 +117,7 @@ function color_for_atom(formulaChar)
 					<a class="noLine" href="#tabs-3"><spring:message code="ref.compound.tab.pathways"/></a>
 				</li>
 				<li>
-					<a class="noLine" href="Reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
+					<a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
 				</li>
 				<li>
 					<a class="noLine" href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
@@ -126,7 +126,7 @@ function color_for_atom(formulaChar)
 					<a class="noLine" href="#tabs-6"><spring:message code="ref.compound.tab.msspectra"/></a>
 				</li>
 				<li>
-					<a class="noLine" href="Citations?mtblc=${compound.mc.accession}"><spring:message code="ref.compound.tab.literature"/></a>
+					<a class="noLine" href="citations?mtblc=${compound.mc.accession}"><spring:message code="ref.compound.tab.literature"/></a>
 				</li>
 			</ul>
 		

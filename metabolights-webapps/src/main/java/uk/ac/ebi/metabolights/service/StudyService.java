@@ -14,6 +14,7 @@ public interface StudyService {
     public Study getBiiStudy(String studyAcc, boolean clearSession, boolean fromQueue);
 	public void update(Study study);
     public List<Study> findStudiesToGoPublic();
+    public List<String> findAllStudies();
 
 }
 

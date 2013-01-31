@@ -42,5 +42,10 @@ public class StudyServiceImpl implements StudyService {
         return studyDAO.findStudiesToGoPublic();
     }
 
+    @Transactional
+    public List<String> findAllStudies() {
+        return studyDAO.findAllAcc();
+    }
+
 
 }

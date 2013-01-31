@@ -155,6 +155,32 @@ public class StudyDAOImpl implements StudyDAO{
 		return study;
 	}
 
+    @Override
+    public List<String> findAllAcc() {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query q = session.createQuery("SELECT acc FROM Study");
+
+        List<String> studyList = new ArrayList<String>();
+
+        Iterator iterator = q.iterate();
+        while (iterator.hasNext()){
+            String studyAcc = (String) iterator.next();
+            if (studyAcc != null){
+                Study completeStudy = getStudy(studyAcc,false);
+                if (completeStudy != null)
+                    studyList.add(completeStudy.getAcc());
+            }
+
+        }
+
+        if(studyList == null)
+            System.out.println("No studies found");
+
+        return studyList;
+
+    }
+
     /*
        Method to find studies that are scheduled to be public in the next week.
        Looks for PRIVATE studies with a public date in the next week or now

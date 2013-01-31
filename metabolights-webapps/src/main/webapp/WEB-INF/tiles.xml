@@ -29,7 +29,7 @@
 	</definition>
 
 	
-	<definition name="RefLayerSearch" extends="default">
+	<definition name="refLayerSearch" extends="default">
 		<put-attribute name="title" value="Reference layer search" />
 		<put-attribute name="body" value="/WEB-INF/jsp/refLayerSearch.jsp" />
 	</definition>
@@ -96,7 +96,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
     </definition>
     
-    <definition name="Reaction" template="/WEB-INF/jsp/reaction.jsp"></definition>
+    <definition name="reaction" template="/WEB-INF/jsp/reaction.jsp"></definition>
 
 	<definition name="searchResult.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
         <put-attribute name="leftmenu" value="/WEB-INF/jsp/searchFilter.jsp" />
@@ -117,7 +117,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
     
-	<definition name="Citations" template="/WEB-INF/jsp/citations.jsp" />
+	<definition name="citations" template="/WEB-INF/jsp/citations.jsp" />
 		
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
 	
