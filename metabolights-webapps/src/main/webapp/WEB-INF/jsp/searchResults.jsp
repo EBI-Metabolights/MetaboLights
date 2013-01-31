@@ -28,7 +28,7 @@
         <c:if test="${!empty userQueryClean}">
             <spring:message code="msg.searchedInfo"/> <span class="searchterm">${userQueryClean}</span>
         </c:if>
-        <c:if test="${empty userQueryClean}">
+        <c:if test="${empty userQueryClean and empty welcomemessage}">
             <spring:message code="msg.browsingInfo"/>
         </c:if>
     </h2>

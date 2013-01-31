@@ -138,7 +138,7 @@ public class UpdateStudyController extends AbstractController {
 			
 			
 			// Get the DownloadLink
-			String ftpLocation = entryController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );
+			String ftpLocation = FileDispatcherController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );
 			mav.addObject("ftpLocation", ftpLocation);
 			
 		} else {

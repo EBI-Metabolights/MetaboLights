@@ -165,9 +165,7 @@ function toggleColumn(tableId, anchor, duration ) {
 <div class="push_1 grid_22 title alpha omega">
 	<strong>${study.acc}: ${study.title}</strong>
 	<span class="right">
-		<c:if test="${not empty fileLocation}">
-			<a class="noLine" href="${fileLocation}"><div class="ebiicon download"></div>&nbsp;<spring:message code="label.ftpDownload"/></a>
-		</c:if>
+        <a class="noLine" href="${study.acc}/files/${study.acc}"><div class="ebiicon download"></div>&nbsp;<spring:message code="label.ftpDownload"/></a>
 	</span>
 </div>
 
@@ -487,4 +485,3 @@ function toggleColumn(tableId, anchor, duration ) {
             </div> <!--  ends tabs-4 -->
 		</div> <!-- end tabs -->
      </div>
-
