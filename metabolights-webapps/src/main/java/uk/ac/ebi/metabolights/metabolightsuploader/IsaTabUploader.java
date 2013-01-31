@@ -24,7 +24,7 @@ public class IsaTabUploader {
 	
 	//Logger
 	private static final Logger logger = LoggerFactory.getLogger(IsaTabUploader.class);
-	
+
 	//@Autowired
 	//public IsaTabIdReplacer itir;
 	private IsaTabIdReplacer itir = new IsaTabIdReplacer();
@@ -341,7 +341,7 @@ public class IsaTabUploader {
 		// Replace the fields
 		getItir().setIsaTabFolder(unzipFolder);     //TODO, Null pointer
 		getItir().replaceFields(replacementHash);
-		
+
 		//NO zip is needed: Zip it again to the specified folder
 		//Zip(isaTabArchive);
 
@@ -459,11 +459,23 @@ public class IsaTabUploader {
 		
 		logger.info("Reindexing the whole database");
 		result = sm.reindexDatabase();
-		
+
 		// If not SUCCESS...
 		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("Reindex of the whole database has failed",sm.getLastLog()) ;
-		
+
 	}
+
+    public void reindexStudy(String acc) throws IsaTabException{
+
+        GUIInvokerResult result;
+
+        logger.info("Reindexing study "+acc);
+        result = sm.reindexStudies(acc);
+
+        // If not SUCCESS...
+        if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("Reindex of study " +acc+ "failed",sm.getLastLog()) ;
+
+    }
 
 	/**
 	 * 

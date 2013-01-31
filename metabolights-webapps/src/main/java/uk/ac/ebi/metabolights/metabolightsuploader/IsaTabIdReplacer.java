@@ -2,8 +2,6 @@ package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.service.AccessionService;
@@ -53,10 +51,10 @@ public class IsaTabIdReplacer
     public AccessionService accessionService;
    
     public AccessionService getAccessionService() {
-		
+
     	if (accessionService == null){
     		accessionService = AppContext.getApplicationContext().getBean(AccessionService.class);
-    		
+
     	}
     	return accessionService;
 	}
@@ -322,7 +320,7 @@ public class IsaTabIdReplacer
 		//Set the new accession number, one per file  (Investigation Id and Study Id)
         //String accessionNumber = getAccessionService().getAccessionNumber();
 		String accessionNumber = studyIdToUse==null?getAccessionService().getAccessionNumber():studyIdToUse;
-		
+
 		try {
 			//Use a buffered reader
 			BufferedReader reader = new BufferedReader(new FileReader(fileWithId));

@@ -63,7 +63,7 @@ public class SearchServiceImpl implements SearchService{
 
     public Query buildQuery(String freeText) throws ParseException {
     	 Analyzer analyzer = new KeywordAnalyzer();//StandardAnalyzer(Version.LUCENE_29);
-    	
+
         String[] productFields =
                { "title",
                  "description",              //TODO, is this in the index at all?

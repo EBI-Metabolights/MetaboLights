@@ -166,11 +166,8 @@ public class StudyDAOImpl implements StudyDAO{
         Iterator iterator = q.iterate();
         while (iterator.hasNext()){
             String studyAcc = (String) iterator.next();
-            if (studyAcc != null){
-                Study completeStudy = getStudy(studyAcc,false);
-                if (completeStudy != null)
-                    studyList.add(completeStudy.getAcc());
-            }
+            if (studyAcc != null)
+                  studyList.add(studyAcc);
 
         }
 

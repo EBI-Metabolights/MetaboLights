@@ -34,7 +34,7 @@ public class SubmissionQueueProcessor {
 	private static String publicFtpLocation = PropertiesUtil.getProperty("publicFtpStageLocation");
 	private static String privateFtpLocation = PropertiesUtil.getProperty("privateFtpStageLocation");
 	
-	
+
 	private IsaTabUploader itu = new IsaTabUploader();
 	private SubmissionItem si;
 	private HashMap<String,String> IDs; 
