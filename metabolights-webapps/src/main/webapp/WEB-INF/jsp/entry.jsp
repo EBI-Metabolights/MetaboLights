@@ -160,7 +160,6 @@ function toggleColumn(tableId, anchor, duration ) {
     $(anchor).attr('data-icon', dataIcon);
 }
 
-
 </script>
 <div class="push_1 grid_22 title alpha omega">
 	<strong>${study.acc}: ${study.title}</strong>
@@ -310,12 +309,13 @@ function toggleColumn(tableId, anchor, duration ) {
 				<c:if test="${not empty assays}">
 	                <c:forEach var="assay" items="${assays}" varStatus="loopStatusAssay">
 						<br/>
+                        <a href="${study.acc}/files/${assay.fileName}"><spring:message code="submittedFile"/></a><br/>
+                        <strong><spring:message code="label.data.table.name"/>: </strong>${assay.technology} - ${assay.measurement} -  ${assay.platform}
 						<br/>
 			            <table width="100%">
 							<thead class='text_header'>
 								<tr>
 									<th><spring:message code="label.data.table.groupName"/></th>
-									<th><spring:message code="label.data.table.name"/></th>
 									<!-- Add one column per factor -->
 									<c:forEach var="factor" items="${assay.factors}">
 										<th>${factor.value}</th>
@@ -344,7 +344,6 @@ function toggleColumn(tableId, anchor, duration ) {
 
 			                    		</c:forEach>
 			                    		</td>
-	                    			<td class="tableitem">${assay.technology} - ${assay.measurement} -  ${assay.platform}</td>
 	                    			<c:forEach var="fv" items="${assayResult.data.factorValues}">
 	                    				<td class="tableitem">${fv.value} ${fv.unit.value}</td>
 	                    			</c:forEach>
@@ -392,6 +391,7 @@ function toggleColumn(tableId, anchor, duration ) {
 
                         <c:if test="${fn:length(mlAssay.metabolitesGUI) gt 0}">
                             <br/>
+                            <a href="${study.acc}/files/${assay.fileName}/maf"><spring:message code="submittedFile"/></a><br/>
                             <br/>
                             <div style="overflow: auto">
 

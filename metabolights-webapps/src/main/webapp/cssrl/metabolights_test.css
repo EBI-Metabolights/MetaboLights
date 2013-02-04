@@ -342,3 +342,7 @@ tr.coloured{
 th a.icon-functional::before{
     color: #ffffff;
 }
+
+input.resizable{
+    width: 95%;
+}

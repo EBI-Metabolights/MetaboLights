@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <br/><br/>
 <div class="grid_6 prefix_1 alpha">
-	<img src="img/error2.png"/>
+	<img src='<spring:url value="/img/error2.png"/>'/>
 </div>
 <div class="grid_17 omega">
 <br/><br/>

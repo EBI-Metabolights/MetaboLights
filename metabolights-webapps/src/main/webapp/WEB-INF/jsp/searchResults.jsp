@@ -45,7 +45,7 @@
         <c:if test="${!empty welcomemessage}">
             <div class="topSpacer"></div>
         </c:if>
-        <section class="grid_24 title" >
+        <section class="grid_23 title alpha omega" >
             <div class="grid_12">
                 <strong>
                     <c:if test="${empty welcomemessage}"> <!-- Not show this part if called from "my submissions" -->
@@ -66,7 +66,7 @@
                     </c:if>
                 </strong>
             </div>
-            <div class="grid_12 omega">
+            <div class="grid_11 omega">
                 <span id="pagination" class="right">
                 <c:if test="${pageNumber ne 1}">
                     <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${pageNumber-1})" ></a>
@@ -89,7 +89,7 @@
         </section>
         <br/>
 
-        <div id="highlight-plugin">
+        <div class="grid_23 alpha omega" id="highlight-plugin">
             <c:forEach var="searchResult" items="${searchResults}">
                 <%@include file="entrySummary.jsp" %>
             </c:forEach>

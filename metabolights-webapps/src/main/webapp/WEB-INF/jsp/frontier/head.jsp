@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <head>
   	<meta charset="utf-8">
@@ -30,20 +31,20 @@
     <%--<link rel="stylesheet" type="text/css" href="cssrl/metabolights_645FAA.css" media="screen" />--%>
 
     <%--Test--%>
-    <link rel="stylesheet" href="cssrl/test-scheme.css" type="text/css" media="screen">
-    <link rel="stylesheet" type="text/css" href="cssrl/metabolights_test.css" media="screen" />
+    <link rel="stylesheet" href='<spring:url value="/cssrl/test-scheme.css"/>' type="text/css" media="screen">
+    <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/metabolights_test.css"/>' media="screen" />
 
 
-    <link rel="stylesheet" type="text/css" href="cssrl/jquery-ui-1.9.2.custom.min.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="cssrl/icons.css" media="all" />
+    <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/jquery-ui-1.9.2.custom.min.css"/>' media="all" />
+    <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/icons.css"/>' media="all" />
 
-<%--<link rel="stylesheet" type="text/css" href="cssrl/jquery.shadow.css" media="screen" />--%>
- 	<link rel="stylesheet" type="text/css" href="cssrl/movingboxes.css" media="screen" />
- 	<script type="text/javascript" src="javascript/jquery-1.8.3.js" charset="utf-8"></script>
-	<script type="text/javascript" src="javascript/jquery-ui-1.9.2.custom.min.js" charset="utf-8"></script>
-	<%--<script type="text/javascript" src="javascript/jquery.shadow.js" charset="utf-8"></script>--%>
-	<script type="text/javascript" src="javascript/jquery.movingboxes.js" charset="utf-8"></script>
-	<script type="text/javascript" src="javascript/menu.js"></script>
+<%--<link rel="stylesheet" type="text/css" href='<spring:url value="cssrl/jquery.shadow.css"/>' media="screen" />--%>
+ 	<link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/movingboxes.css"/>' media="screen" />
+ 	<script type="text/javascript" src='<spring:url value="/javascript/jquery-1.8.3.js"/>' charset="utf-8"></script>
+	<script type="text/javascript" src='<spring:url value="/javascript/jquery-ui-1.9.2.custom.min.js"/>' charset="utf-8"></script>
+	<%--<script type="text/javascript" href='<spring:url value="javascript/jquery.shadow.js"/>' charset="utf-8"></script>--%>
+	<script type="text/javascript" src='<spring:url value="/javascript/jquery.movingboxes.js"/>' charset="utf-8"></script>
+	<script type="text/javascript" src='<spring:url value="/javascript/menu.js"/>'></script>
 	
    
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
