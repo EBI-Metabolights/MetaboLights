@@ -15,40 +15,58 @@ Class-Path: tiles-api-2.2.2.jar tiles-core-2.2.2.jar commons-digester-
  .0.jar c3p0-0.9.1.2.jar jstl-1.2.jar servlet-api-2.5.jar xml-apis-1.0
  .b2.jar commons-collections-3.2.1.jar commons-httpclient-3.1.jar comm
  ons-logging-1.0.4.jar slf4j-simple-1.6.2.jar javassist-3.12.1.GA.jar 
- hibernate-annotations-3.4.0.GA
- .jar ejb3-persistence-1.0.2.GA.jar hibernate-commons-annotations-3.1.
- 0.GA.jar hibernate-core-3.3.0.SP1.jar antlr-2.7.6.jar dom4j-1.6.1.jar
-  jta-1.1.jar ojdbc6-11.2.0.2.jar spring-context-3.1.0.M2.jar spring-a
- op-3.1.0.M2.jar aopalliance-1.0.jar spring-asm-3.1.0.M2.jar spring-be
- ans-3.1.0.M2.jar spring-core-3.1.0.M2.jar spring-expression-3.1.0.M2.
- jar spring-orm-3.1.0.M2.jar spring-jdbc-3.1.0.M2.jar spring-tx-3.1.0.
- M2.jar spring-web-3.1.0.M2.jar spring-security-core-3.1.0.RC1.jar asp
- ectjrt-1.6.10.jar spring-security-config-3.1.0.M2.jar aspectjweaver-1
- .6.10.jar spring-security-taglibs-3.1.0.M2.jar spring-security-acl-3.
- 1.0.M2.jar spring-security-web-3.1.0.M2.jar spring-context-support-3.
- 1.0.M2.jar spring-webmvc-3.0.5.RELEASE.jar commons
- -compress-1.3.jar spring-context-3.1.0.RELEASE.jar spring-aop-3.1.0.R
- ELEASE.jar spring-asm-3.1.0.RELEASE.jar spring-beans-3.1.0.RELEASE.ja
- r spring-core-3.1.0.RELEASE.jar spring-expression-3.1.0.RELEASE.jar s
- pring-orm-3.1.0.RELEASE.jar spring-jdbc-3.1.0.RELEASE.jar spring-tx-3
- .1.0.RELEASE.jar spring-web-3.1.0.RELEASE.jar spring-security-core-3.
- 1.0.RELEASE.jar spring-security-crypto-3.1.0.RELEASE.jar spring-secur
- ity-config-3.1.0.RELEASE.jar spring-security-taglibs-3.1.0.RELEASE.ja
- r spring-security-web-3.1.0.RELEASE.jar spring-security-acl-3.1.0.REL
- EASE.jar spring-context-support-3.1.0.RELEASE.jar spring-webmvc-3.1.0
- .RELEASE.jar commons-lang-2.5
- .jar commons-collections-3.2.jar logback-classic-0.9.24.jar logback-c
- ore-1.0.7.jar import_layer_MTBLS-1.3.2.50-SNAPSHOT.jar ebinocle-1.0.4
- .jar ebeye-client-2.0.0.jar chebiWS-client-2.0.jar jaxws-rt-2.1.7.jar
-  jaxws-api-2.1.jar saaj-impl-1.3.2.jar saaj-api-1.3.jar streambuffer-
- 0.9.jar stax-ex-1.2.jar wstx-asl-3.2.3.jar stax-api-1.0.1.jar resolve
- r-20050927.jar mimepull-1.3.jar jaxws-tools-2.1.3.jar jaxb-xjc-2.1.6.
- jar dao-0.1-SNAPSHOT.jar domain-0.1-SNAPSHOT.jar biobabel-db-1.3.7.ja
- r antlr-3.0.1.jar stringtemplate-3.1-b1.jar pride-web-utils-1.0-SNAPS
- HOT.jar spring-social-twitter-1.0.2.RELEASE.jar spring-social-core-1.
- 0.2.RELEASE.jar jackson-mapper-asl-1.9.3.jar jackson-core-asl-1.9.3.j
- ar rhea-ws-domain-1.0.2.jar rhea-ws-client-1.0.jar jersey-client-1.4.
- jar jersey-core-1.4.jar rhea-domain-1.7.0.jar biobabel-core-0.9.0.jar
-  biobabel-citations-2.0.1.jar dao-0.3-SNAPSHOT.jar domain-0.2-SNAPSHO
- T.jar mysql-connector-java-5.1.15.jar
+ hibernate-annotations-3.4.0.GA.jar ejb3-persistence-1.0.2.GA.jar hibe
+ rnate-commons-annotations-3.1.0.GA.jar hibernate-core-3.3.0.SP1.jar a
+ ntlr-2.7.6.jar dom4j-1.6.1.jar jta-1.1.jar ojdbc6-11.2.0.2.jar spring
+ -context-3.1.0.M2.jar spring-aop-3.1.0.M2.jar aopalliance-1.0.jar spr
+ ing-asm-3.1.0.M2.jar spring-beans-3.1.0.M2.jar spring-core-3.1.0.M2.j
+ ar spring-expression-3.1.0.M2.jar spring-orm-3.1.0.M2.jar spring-jdbc
+ -3.1.0.M2.jar spring-tx-3.1.0.M2.jar spring-web-3.1.0.M2.jar spring-s
+ ecurity-core-3.1.0.RC1.jar aspectjrt-1.6.10.jar spring-security-confi
+ g-3.1.0.M2.jar aspectjweaver-1.6.10.jar spring-security-taglibs-3.1.0
+ .M2.jar spring-security-acl-3.1.0.M2.jar spring-security-web-3.1.0.M2
+ .jar spring-context-support-3.1.0.M2.jar spring-webmvc-3.0.5.RELEASE.
+ jar commons-compress-1.3.jar spring-context-3.1.0.RELEASE.jar spring-
+ aop-3.1.0.RELEASE.jar spring-asm-3.1.0.RELEASE.jar spring-beans-3.1.0
+ .RELEASE.jar spring-core-3.1.0.RELEASE.jar spring-expression-3.1.0.RE
+ LEASE.jar spring-orm-3.1.0.RELEASE.jar spring-jdbc-3.1.0.RELEASE.jar 
+ spring-tx-3.1.0.RELEASE.jar spring-web-3.1.0.RELEASE.jar spring-secur
+ ity-core-3.1.0.RELEASE.jar spring-security-crypto-3.1.0.RELEASE.jar s
+ pring-security-config-3.1.0.RELEASE.jar spring-security-taglibs-3.1.0
+ .RELEASE.jar spring-security-web-3.1.0.RELEASE.jar spring-security-ac
+ l-3.1.0.RELEASE.jar spring-context-support-3.1.0.RELEASE.jar spring-w
+ ebmvc-3.1.0.RELEASE.jar commons-lang-2.5.jar commons-collections-3.2.
+ jar logback-classic-0.9.24.jar logback-core-1.0.7.jar import_layer_MT
+ BLS-1.3.2.50-SNAPSHOT.jar ebinocle-1.0.4.jar ebeye-client-2.0.0.jar c
+ hebiWS-client-2.0.jar jaxws-rt-2.1.7.jar jaxws-api-2.1.jar saaj-impl-
+ 1.3.2.jar saaj-api-1.3.jar streambuffer-0.9.jar stax-ex-1.2.jar wstx-
+ asl-3.2.3.jar stax-api-1.0.1.jar resolver-20050927.jar mimepull-1.3.j
+ ar jaxws-tools-2.1.3.jar jaxb-xjc-2.1.6.jar dao-0.1-SNAPSHOT.jar doma
+ in-0.1-SNAPSHOT.jar biobabel-db-1.3.7.jar antlr-3.0.1.jar stringtempl
+ ate-3.1-b1.jar pride-web-utils-1.0-SNAPSHOT.jar spring-social-twitter
+ -1.0.2.RELEASE.jar spring-social-core-1.0.2.RELEASE.jar jackson-mappe
+ r-asl-1.9.3.jar jackson-core-asl-1.9.3.jar rhea-ws-domain-1.0.2.jar r
+ hea-ws-client-1.0.jar jersey-client-1.4.jar jersey-core-1.4.jar rhea-
+ domain-1.7.0.jar biobabel-core-0.9.0.jar biobabel-citations-2.0.1.jar
+  dao-0.3-SNAPSHOT.jar domain-0.2-SNAPSHOT.jar mysql-connector-java-5.
+ 1.15.jar commons-beanutils-1.7.0.jar xalan-2.7.0.jar xml-apis-1.3.02.
+ jar xercesImpl-2.8.1.jar graph2tab-4.0.jar jutils-1.2.jar opencsv-1.8
+ .jar model-1.4.51-SNAPSHOT.jar pride-core-2.7.1.jar xpp3-1.1.3.4.O.ja
+ r db-ojb-1.0.4-pride.jar asm-1.5.3.jar cglib-2.1.jar asm-util-1.3.4.j
+ ar aspectwerkz-core-0.8.1.jar commons-transaction-1.1.jar hsqldb-1.8.
+ 0.7.jar jdo-1.0.1.jar jdori-1.0.1.jar p6spy-1.3.jar xxindex-0.3-SNAPS
+ HOT.jar mail-1.4.jar ols-client-1.14.jar soap-2.3.1.jar axis-1.4.jar 
+ axis-jaxrpc-1.4.jar axis-saaj-1.4.jar axis-wsdl4j-1.5.1.jar commons-d
+ iscovery-20040218.194635.jar proteomics-common-1.5.jar msv-20050913.j
+ ar isorelax-20050913.jar relaxngDatatype-20050913.jar xsdlib-20050913
+ .jar cpdetector-1.04.jar h2-1.3.150.jar xmlbeans-2.3.0.jar xmlbeans-x
+ path-2.3.0.jar saxon-8.7.jar saxon-dom-8.7.jar ols-1.18.jar jakarta-r
+ egexp-1.4.jar obo-2.0.jar bbop-2.0.jar oboedit-1.101.jar org.geneonto
+ logy-1.101.jar jcvsii-5.4.2.jar j2ssh-core-0.2.2.jar j2ssh-common-0.2
+ .2.jar svnkit-1.1.0.jar ganymed-ssh2-build210.jar tar-1.0.jar collect
+ ions-generic-4.01.jar commons-cli-1.2.jar slf4j-log4j12-1.5.6.jar hib
+ ernate-core-3.3.1.GA.jar hibernate-commons-annotations-3.3.0.ga.jar p
+ ersistence-api-1.0.jar hibernate-search-3.1.1.GA.jar hibernate-entity
+ manager-3.4.0.GA.jar ojdbc5-11.1.0.7.0.jar jsr250-api-1.0.jar jsr181-
+ api-1.0-MR1.jar antlr-2.7.7.jar
 

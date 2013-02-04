@@ -81,7 +81,7 @@ public class SubmissionController extends AbstractController {
             try{
                 itu.reindexStudy(acc);
             } catch (Exception e) {
-                logger.error("Reindex of study "+acc+" failed.");
+                logger.error("Re-indexing of study "+acc+" failed.");
             }
 
         }
