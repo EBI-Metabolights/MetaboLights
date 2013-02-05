@@ -93,6 +93,12 @@ div .box {
     -webkit-border-radius:5px 5px 5px 5px;
 }
 
+.title a, .title  a:link, .title a:visited,
+.title a span.icon-functional::before
+{
+    color: #804D19;
+}
+
 .right {
     float:right;
 }

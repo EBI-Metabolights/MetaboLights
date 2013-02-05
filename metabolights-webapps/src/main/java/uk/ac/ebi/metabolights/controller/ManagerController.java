@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,7 @@ import uk.ac.ebi.metabolights.webapp.StudyHealth;
 
 import java.io.File;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -105,8 +103,15 @@ public class ManagerController extends AbstractController{
 		mav.addObject("backUpFolder", (getFilesInFolder(new File(SubmissionQueue.getBackUpFolder()))));
 		mav.addObject("queuerunnig", SubmissionQueueManager.getIsRunning());
 		mav.addObject("studiesHealth", getStudiesHealth());
-		
-		mav.addObject("galleryIds", homePageController.getGalleryItemsIds());
+
+        // Return ftp locations
+        mav.addObject("publicFtpLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("publicFtpLocation")))));
+        mav.addObject("privateFtpLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("privateFtpLocation")))));
+        mav.addObject("publicFtpStageLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("publicFtpStageLocation")))));
+        mav.addObject("privateFtpStageLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("privateFtpStageLocation")))));
+
+        mav.addObject("galleryIds", homePageController.getGalleryItemsIds());
+
 		return mav;
 		
 		
@@ -116,6 +121,8 @@ public class ManagerController extends AbstractController{
 		
 		return folder.listFiles();
 	}
+
+
 	private List<StudyHealth> getStudiesHealth(){
 		
 		List <StudyHealth> studies = new ArrayList<StudyHealth>();

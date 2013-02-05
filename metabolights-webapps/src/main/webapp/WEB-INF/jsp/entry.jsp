@@ -148,13 +148,13 @@ function toggleColumn(tableId, anchor, duration ) {
     // if collapsed
     if (dataIcon == 'u'){
         dataIcon = 'w';
-        $('#' + tableId + ' tr *:nth-child(1n+5)').fadeToggle(duration);
+        $('#' + tableId + ' tr *:nth-child(1n+5)').show();
 
 
     // else expanded
     }else{
         dataIcon = 'u';
-        $('#' + tableId + ' tr *:nth-child(1n+5)').fadeToggle(duration);
+        $('#' + tableId + ' tr *:nth-child(1n+5)').hide();
     }
 
     $(anchor).attr('data-icon', dataIcon);
@@ -163,9 +163,11 @@ function toggleColumn(tableId, anchor, duration ) {
 </script>
 <div class="push_1 grid_22 title alpha omega">
 	<strong>${study.acc}: ${study.title}</strong>
-	<span class="right">
-        <a class="noLine" href="${study.acc}/files/${study.acc}"><div class="ebiicon download"></div>&nbsp;<spring:message code="label.ftpDownload"/></a>
-	</span>
+    <a class="noLine" href="${study.acc}/files/${study.acc}" >
+        <span class="right icon icon-functional" data-icon="=">
+            <spring:message code="label.ftpDownload"/></a>
+        </span>
+    </a>
 </div>
 
 <c:set var="stringToFind" value="${study.acc}:assay:" />
@@ -308,10 +310,10 @@ function toggleColumn(tableId, anchor, duration ) {
 			<div id="tabs-3">
 				<c:if test="${not empty assays}">
 	                <c:forEach var="assay" items="${assays}" varStatus="loopStatusAssay">
-						<br/>
-                        <a href="${study.acc}/files/${assay.fileName}"><spring:message code="submittedFile"/></a><br/>
+                        <br/>
                         <strong><spring:message code="label.data.table.name"/>: </strong>${assay.technology} - ${assay.measurement} -  ${assay.platform}
 						<br/>
+                        <a href="${study.acc}/files/${assay.fileName}" class="icon icon-functional" data-icon="="><spring:message code="submittedFile"/></a><br/>
 			            <table width="100%">
 							<thead class='text_header'>
 								<tr>
@@ -391,8 +393,7 @@ function toggleColumn(tableId, anchor, duration ) {
 
                         <c:if test="${fn:length(mlAssay.metabolitesGUI) gt 0}">
                             <br/>
-                            <a href="${study.acc}/files/${assay.fileName}/maf"><spring:message code="submittedFile"/></a><br/>
-                            <br/>
+                            <a href="${study.acc}/files/${mlAssay.fileName}/maf" class="icon icon-functional" data-icon="="><spring:message code="submittedFile"/></a><br/>
                             <div style="overflow: auto">
 
                                 <table id="metabolites${loopStatusAssay.index}">

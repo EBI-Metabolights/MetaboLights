@@ -11,7 +11,7 @@ import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 public class StudyHealth {
 
-	static IsaTabUploader itu = new IsaTabUploader(null, null, null,PropertiesUtil.getProperty("publicFtpStageLocation"), PropertiesUtil.getProperty("privateFtpStageLocation"));
+	static IsaTabUploader itu = new IsaTabUploader(null, null, null,PropertiesUtil.getProperty("publicFtpLocation"), PropertiesUtil.getProperty("privateFtpStageLocation"));
 
 	String identifier;
 	boolean isPublic;
