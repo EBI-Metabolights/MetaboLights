@@ -73,7 +73,7 @@ public class AppContext {
     	{
     		//studyService = (StudyService) ctx.getBean(StudyService.class);
     		
-    		Advised advised = (Advised)ctx.getBean(StudyService.class);;
+    		Advised advised = (Advised)ctx.getBean(StudyService.class);
     		try {
 				studyService = (StudyService) advised.getTargetSource().getTarget();
 			} catch (Exception e) {

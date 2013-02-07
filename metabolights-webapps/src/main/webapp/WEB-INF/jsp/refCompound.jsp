@@ -135,6 +135,12 @@ function color_for_atom(formulaChar)
 				<h6><spring:message code="ref.compound.tab.characteristics.definition"/></h6>
 				${compound.chebiEntity.definition}
 				</c:if>
+                <c:if test="${not empty compound.chebiEntity.iupacNames}">
+                    <h6>IUPAC Name</h6>
+                    <c:forEach var="iupacName" items="${compound.chebiEntity.iupacNames}">
+                        ${iupacName.data}
+                    </c:forEach>
+                </c:if>
 				<h6><spring:message code="ref.compound.tab.characteristics.chemicalproperties"/></h6>
 				<c:forEach var="formulae" items="${compound.chebiEntity.formulae}">
 				<spring:message code="ref.compound.tab.characteristics.formulae"/> - <span id="formulae">${formulae.data}</span><br/>
