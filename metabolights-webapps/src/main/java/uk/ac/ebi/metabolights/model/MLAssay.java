@@ -36,7 +36,7 @@ public class MLAssay {
 	private String measurement;
 	private String fileName;
 	private List<Factor> factors = new ArrayList();
-	private List<AssayResult> assayResult = new ArrayList();
+	private List<MLAssayResult> MLAssayResult = new ArrayList();
 	private List<Assay> assayLines = new ArrayList();
 	private List<MetaboliteGUI> metabolites = new ArrayList();
 	private AssayGroup ag;
@@ -96,11 +96,12 @@ public class MLAssay {
 	public List<Factor> getFactors(){
 		return factors;
 	}
-	public List<AssayResult> getAssayResult(){
-		return assayResult;
+	public List<MLAssayResult> getMLAssayResult(){
+		return MLAssayResult;
 	}
 	public void addAssayResult(AssayResult newAssayResult){
-		assayResult.add(newAssayResult);
+
+        MLAssayResult.add(new MLAssayResult(newAssayResult));
 		checkFactors(newAssayResult);
 			
 	}

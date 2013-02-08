@@ -13,6 +13,7 @@ import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
 import uk.ac.ebi.metabolights.service.SearchService;
+import uk.ac.ebi.metabolights.utils.StringUtils;
 import uk.ac.ebi.metabolights.webapp.GalleryItem;
 import uk.ac.ebi.metabolights.webapp.GalleryItem.GalleryItemType;
 
@@ -56,7 +57,8 @@ public class HomePageController extends AbstractController{
     
     private List<GalleryItem> getGalleryItems(){
 
-    	if (gallery != null) return gallery;
+
+        if (gallery != null) return gallery;
     	
     	// Instantiate the gallery.
     	gallery = new ArrayList<GalleryItem>();
@@ -75,11 +77,17 @@ public class HomePageController extends AbstractController{
     		// If its a compound (Starts with MTBLC)
     		if (item.indexOf("MTBLC") ==0){
     			
-    			// ... it is a compound..
-    			Compound comp = ModelObjectFactory.getCompound(item);
-    			
-    			// Convert it into a gallery item....
-    			gi = new GalleryItem( comp.getChebiEntity().getChebiAsciiName() + " - " + item,comp.getChebiEntity().getDefinition() , item, "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + comp.getChebiEntity().getChebiId(),GalleryItemType.Compound);
+    			try {
+
+                    // ... it is a compound..
+                    Compound comp = ModelObjectFactory.getCompound(item);
+
+                    // Convert it into a gallery item....
+                    gi = new GalleryItem( comp.getChebiEntity().getChebiAsciiName() + " - " + item,comp.getChebiEntity().getDefinition() , item, "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + comp.getChebiEntity().getChebiId(),GalleryItemType.Compound);
+                } catch (Exception e){
+                  // log the error..and move on
+                    logger.error(e.getMessage());
+                }
     			
     		} else {
 
@@ -88,8 +96,22 @@ public class HomePageController extends AbstractController{
     			if (study != null){
     				
     				String description = study.getTitle();
-    				String title = item + " - " + study.getSubmitter().getName();
-    				
+
+                    String title = item;
+                    if (!study.getAffiliations().isEmpty()){
+
+                        title = title.concat(" from ");
+
+                        for (String affiliation: study.getAffiliations()){
+                            // Will the first affiliation be enough? Let's see..
+                            title = title.concat(affiliation + ", ");
+                        }
+
+                        // Truncate the last 2 characters ", "
+                        title = StringUtils.truncate(title,2);
+
+                    }
+
     				// Convert it into a gallery item....
     				gi = new GalleryItem(title, description, item, null,GalleryItemType.Study);
     			}
@@ -107,8 +129,12 @@ public class HomePageController extends AbstractController{
     }
     
     public String getGalleryItemsIds(){
-        MetaboLightsParameters metaboLightsParameters = metaboLightsParametersService.getMetaboLightsParametersOnName(galleryParam);
-        galleryItemsIds = metaboLightsParameters.getParameterValue();
+
+        // Try to get the ids from the DB if null
+        if (galleryItemsIds == null || galleryItemsIds.isEmpty()) {
+            MetaboLightsParameters metaboLightsParameters = metaboLightsParametersService.getMetaboLightsParametersOnName(galleryParam);
+            galleryItemsIds = metaboLightsParameters.getParameterValue();
+        }
 
         logger.info("Gallery Items: "+ galleryItemsIds);
 
@@ -129,7 +155,7 @@ public class HomePageController extends AbstractController{
 
     	// redirect to index
 	    ModelAndView mav = new ModelAndView("redirect:index?message=New gallery items set: " + newGaleryItems);
-	    
+
 	    return mav;
     }
 }

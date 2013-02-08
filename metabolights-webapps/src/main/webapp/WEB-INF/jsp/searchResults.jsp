@@ -97,7 +97,7 @@
 
         <br/>
 
-        <div id="paginationBottom" class="grid_24 title alpha" ></div>
+        <div id="paginationBottom" class="grid_23 title alpha" ></div>
         <script>$('#pagination').clone().appendTo('#paginationBottom');</script>
 
         <c:if test="${!empty userQueryClean}">

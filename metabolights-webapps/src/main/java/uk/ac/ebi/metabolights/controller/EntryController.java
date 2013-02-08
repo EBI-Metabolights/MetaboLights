@@ -13,12 +13,11 @@ import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
+import uk.ac.ebi.bioinvindex.utils.processing.ProcessingUtils;
 import uk.ac.ebi.metabolights.model.MLAssay;
+import uk.ac.ebi.metabolights.model.MLProcessingUtils;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.service.AppContext;
-import uk.ac.ebi.metabolights.service.SearchService;
-import uk.ac.ebi.metabolights.service.StudyService;
-import uk.ac.ebi.metabolights.service.TextTaggerService;
+import uk.ac.ebi.metabolights.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -36,12 +35,11 @@ public class EntryController extends AbstractController {
 
     private static Logger logger = Logger.getLogger(EntryController.class);
 	private final String DESCRIPTION="descr";
-    public static final String METABOLIGHTS_ID_REG_EXP = "MTBLS\\d+";
 
 	@Autowired
 	private StudyService studyService;
-	@Autowired
-	private SearchService searchService;
+
+    public static final String METABOLIGHTS_ID_REG_EXP = "MTBLS.+";
 
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}")
@@ -60,7 +58,7 @@ public class EntryController extends AbstractController {
 
 		// Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
 		if (study.getAcc() == null || study.getAcc().equals("Error") || study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
-			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
+ 			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
 
 		Collection<String> organismNames = getOrganisms(study);
 
@@ -125,13 +123,13 @@ public class EntryController extends AbstractController {
 					mlAssay = mlAssays.get(assayName);
 				}
 
-
 				mlAssay.addAssayLines(assay);
-
+                //files = MLProcessingUtils.findAllDataInAssay(assay);
 			}
 
 			// Add the assay line to the assay
 			mlAssay.addAssayResult(ar);
+
 
 			if (ar.getAssays().size()!=1) logger.info("*****WARNING:Assays collection's size is different from 1, we expect to have a one-to-one relationship!!!: " + ar.getAssays().size());
 
@@ -142,7 +140,7 @@ public class EntryController extends AbstractController {
 			MLAssay mlAssay = mlAssays.get(ag.getFileName());
 
 			if (mlAssay == null){
-				logger.info("Oh! Not MLAssay forund for AssayGroup: " + ag.getFileName());
+				logger.info("Oh! Not MLAssay found for AssayGroup: " + ag.getFileName());
 			}else{
 				// First set the study
 				mlAssay.setAssayGroup(ag);

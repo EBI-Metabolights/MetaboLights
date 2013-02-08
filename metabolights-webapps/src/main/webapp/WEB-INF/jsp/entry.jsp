@@ -165,7 +165,7 @@ function toggleColumn(tableId, anchor, duration ) {
 	<strong>${study.acc}: ${study.title}</strong>
     <a class="noLine" href="${study.acc}/files/${study.acc}" >
         <span class="right icon icon-functional" data-icon="=">
-            <spring:message code="label.ftpDownload"/></a>
+            <spring:message code="label.ftpDownload"/>
         </span>
     </a>
 </div>
@@ -313,7 +313,7 @@ function toggleColumn(tableId, anchor, duration ) {
                         <br/>
                         <strong><spring:message code="label.data.table.name"/>: </strong>${assay.technology} - ${assay.measurement} -  ${assay.platform}
 						<br/>
-                        <a href="${study.acc}/files/${assay.fileName}" class="icon icon-functional" data-icon="="><spring:message code="submittedFile"/></a><br/>
+                        <%--<a href="${study.acc}/files/${assay.fileName}" class="icon icon-functional" data-icon="="><spring:message code="submittedFile"/></a><br/>--%>
 			            <table width="100%">
 							<thead class='text_header'>
 								<tr>
@@ -325,7 +325,7 @@ function toggleColumn(tableId, anchor, duration ) {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="assayResult" items="${assay.assayResult}" varStatus="loopStatus">	
+								<c:forEach var="MLAssayResult" items="${assay.MLAssayResult}" varStatus="loopStatus">
 	                    		<tr class="${loopStatus.index % 2 == 0 ? '' : 'coloured'}">
 			                   		<c:if test="${loopStatus.index == 10}">
 		                    			<%-- <tr><td colspan=2><a href="#" class="showLink" id="data_link_${loopStatusAssay.index}">Show more</a></td></tr> --%>
@@ -334,7 +334,7 @@ function toggleColumn(tableId, anchor, duration ) {
 			                    	<%-- <td class="tableitem">${assay.fileName} ${fn:length(assayResult.assays)}</td> --%>
 			                    	<td class="tableitem">
 			                    		<%-- we expect only one assay per assayResult, so we can loop the assay collection and get the first --%>
-			                    		<c:forEach var="assayline" items="${assayResult.assays}" varStatus="loopStatus">
+			                    		<c:forEach var="assayline" items="${MLAssayResult.assayResult.assays}" varStatus="loopStatus">
                                             <%-- Replace the string <ACCESION>:assay: before displaying. NB!! only display up to first "." --%>
                                             <c:set var="stringFormated" value="${fn:substringBefore(fn:replace(assayline.acc,stringToFind,''),'.')}" />
                                             <c:set var="materialName" value="${assayline.material.name}" />
@@ -346,14 +346,14 @@ function toggleColumn(tableId, anchor, duration ) {
 
 			                    		</c:forEach>
 			                    		</td>
-	                    			<c:forEach var="fv" items="${assayResult.data.factorValues}">
+	                    			<c:forEach var="fv" items="${MLAssayResult.assayResult.data.factorValues}">
 	                    				<td class="tableitem">${fv.value} ${fv.unit.value}</td>
 	                    			</c:forEach>
 			                    </tr>
 			                    </c:forEach>
 			            	</tbody>
 			            </table>
-			            <c:if test="${fn:length(assay.assayResult) > 10}"><a href="#" class="showLink" id="data_link_${loopStatusAssay.index}">Show more</a></c:if>
+			            <c:if test="${fn:length(assay.MLAssayResult) > 10}"><a href="#" class="showLink" id="data_link_${loopStatusAssay.index}">Show more</a></c:if>
 			            <br/>
 	                </c:forEach>
 		        </c:if>

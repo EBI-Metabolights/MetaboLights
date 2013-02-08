@@ -30,9 +30,11 @@ public class LuceneSearchResult {
 	private Submitter submitter;
 	private boolean isPublic;
 	private Date releaseDate;
-	private Date submissionDate;	
-		
-	public LuceneSearchResult(Document doc, float score) {
+	private Date submissionDate;
+    private List<Contact> contacts;
+    private Set<String> affiliations = new LinkedHashSet<String>();
+
+    public LuceneSearchResult(Document doc, float score) {
 		this.doc=doc;
 		this.score=score;
 		//Call version 13 this.assays=parseAssays();
@@ -64,7 +66,8 @@ public class LuceneSearchResult {
         this.releaseDate =  cal.getTime();
 		
 		this.submissionDate = parseDate("submissionDate");
-		
+
+        this.contacts = parseContacts();
 		
 	}
 	
@@ -116,7 +119,15 @@ public class LuceneSearchResult {
 		return assays;
 	}
 
-	public Submitter getSubmitter() {
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public Set<String> getAffiliations() {
+        return affiliations;
+    }
+
+    public Submitter getSubmitter() {
 		return this.submitter;
 	}
 
@@ -244,8 +255,62 @@ public class LuceneSearchResult {
 			this.doi = doi;
 		}
 	}
-	
-	public class Submitter{
+
+    public class Contact{
+        private String firstName, lastName, email, affiliation;
+        public Contact(){};
+        public Contact(String firstName, String lastName, String affiliation, String email){
+            this.affiliation = affiliation;
+            this.email = email;
+            this.firstName = firstName;
+            this.lastName = lastName;
+        };
+    }
+
+
+
+    /**
+     * Parse Contacts fields based in the 1.3 version of the lucene index implementation in BII:
+     * Sample: firstname:Reza|lastname:Salek|affiliation:University of Cambridge|email:null
+     * Cardinality: many
+     * @return
+     */
+
+    private List<Contact> parseContacts() {
+
+        List<Contact> contactList = new ArrayList<Contact>();
+        String firstName = "", lastName = "", affiliation ="", email="";
+
+        String[] contactStrings = doc.getValues(StudyBrowseField.CONTACT.getName());
+        for (String contactString :contactStrings) {
+
+                //CREATE THE PATTERN
+                Pattern pattern = Pattern.compile("firstname:(.*)\\|lastname:(.*)\\|affiliation:(.*)\\|email:(.*)");
+
+                Matcher matcher =
+                        pattern.matcher(contactString);
+
+                //Find groups...
+                matcher.find();
+
+                //Get group 1,2,3 and 4
+                firstName=matcher.group(1);
+                lastName=matcher.group(2);
+                affiliation=matcher.group(3);
+
+                Contact contact = new Contact(firstName,lastName,affiliation,email);
+                contactList.add(contact);
+                // Add the affiliation to the affiliation Set. (unique items)
+                if (!affiliation.equals("null")) affiliations.add(affiliation);
+            }
+
+            return contactList;
+
+    }
+
+
+
+    public class Submitter{
 		private String userName, forename, surname, email;
 		public Submitter(){};
 		public Submitter(String userName, String forename, String surname, String email){

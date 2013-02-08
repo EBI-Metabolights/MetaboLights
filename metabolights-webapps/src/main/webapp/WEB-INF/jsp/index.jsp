@@ -39,11 +39,11 @@
 			<table>
                 <tr>
                     <c:if test="${not empty item.imgUrl}">
-                        <c:if test="${fn:length(title) gt 45}"><c:set var="title" value="${fn:substring(title, 0, 42)}..."/></c:if>
+                        <c:if test="${fn:length(title) gt 55}"><c:set var="title" value="${fn:substring(title, 0, 52)}..."/></c:if>
                         <c:if test="${fn:length(description) gt 90}"><c:set var="description" value="${fn:substring(description, 0, 87)}..."/></c:if>
                         <td style="width:150px;"><img src="${item.imgUrl}" onerror="this.src='img/large_noImage.gif';"/></td>
                         <td>
-                            <h6>${title}</h6>
+                            <h6 title="${item.title}">${title}</h6>
                             <p>${description}</p>
                         </td>
                     </c:if>
