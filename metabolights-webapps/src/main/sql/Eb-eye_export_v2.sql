@@ -34,7 +34,7 @@ AS
   dates_start VARCHAR2(100) := '            <dates>';
   dates_end VARCHAR2(100)   := '            </dates>';
   creation_date VARCHAR2(100)     := '                <date value="DATE_REPLACE" type="creation" />';
-  modification_date VARCHAR2(100) := '                <date value="DATE_REPLACE" type="last_modification_date" />';
+  modification_date VARCHAR2(100) := '                <date value="DATE_REPLACE" type="last_modification" />';
   
   add_fields_start VARCHAR2(100) := '            <additional_fields>';
   add_fields_entry VARCHAR2(200) := '                <field name="FIELD_NAME">FIELD_VALUE</field>';
@@ -186,13 +186,13 @@ BEGIN
     FOR study_cur IN accession_c LOOP
       dbms_output.put_line(replace(entry_start,'XXXXXX', study_cur.name));
       
-      IF (study_cur.source = 'STUDY') THEN -- Get study data
-        dbms_output.put_line(name_start || study_cur.name || name_end);
-        dbms_output.put_line(description_start || study_cur.title || description_end);
-      ELSE
+      --IF (study_cur.source = 'STUDY') THEN -- Get study data
+      --  dbms_output.put_line(name_start || study_cur.name || name_end);
+      --  dbms_output.put_line(description_start || study_cur.title || description_end);
+      --ELSE
         dbms_output.put_line(name_start || study_cur.title || name_end);
         dbms_output.put_line(description_start || study_cur.description || description_end);
-      END IF;
+      --END IF;
       -- Xrefs loop
       l_ref_db_key := ref_db_key; -- Store the value l_ref_db_keybefore the loop starts
       

@@ -33,7 +33,7 @@ truncate table ml_stats;
 insert into ml_stats(page_section,str_name,str_value) select 'Data', 'Total number of studies', count(*) from study;
 insert into ml_stats(page_section,str_name,str_value) select 'Data', decode(status,1,'Private studies','Public studies'), count(*) from study group by status;
 insert into ml_stats(page_section,str_name,str_value) select 'Data', 'Number of protocols', count(*) from protocol;
-insert into ml_stats(page_section,str_name,str_value) select 'Data', 'Number of assays', count(*) from assay;
+insert into ml_stats(page_section,str_name,str_value) select 'Data', 'Number of samples', count(*) from assay;
 insert into ml_stats(page_section,str_name,str_value) select 'Data', 'Different organisms', count(distinct PV.VALUE)
     FROM PROPERTY_VALUE PV
       LEFT JOIN PROPERTY P ON PV.PROPERTY_ID = P.ID

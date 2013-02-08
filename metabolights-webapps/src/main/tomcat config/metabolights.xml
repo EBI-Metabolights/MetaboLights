@@ -51,8 +51,6 @@
     <Environment name="headerURL" value="http://wwwint.ebi.ac.uk/web/template-service/prod/templates/compliance/masthead/global/services" type="java.lang.String"/>
 	<Environment name="localHeaderURL" value="http://wwwint.ebi.ac.uk/web/template-service/prod/templates/compliance/masthead/local" type="java.lang.String"/>
 	<Environment name="footerURL" value="http://wwwint.ebi.ac.uk/web/template-service/prod/templates/compliance/footer/global" type="java.lang.String"/>
-     
-     
 
     <!-- This is where the web app looks for the lucene index -->
     <Environment name="luceneIndexDirectory" value="/nfs/production/panda/metabolights/lucene/dev/bii/" type="java.lang.String"/>
