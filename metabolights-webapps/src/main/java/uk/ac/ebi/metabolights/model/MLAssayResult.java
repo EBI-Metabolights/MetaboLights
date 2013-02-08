@@ -36,7 +36,7 @@ public class MLAssayResult {
 
         
 
-        files = ar.getData().getAnnotation("NMR Spectral Raw Data");
+        //files = ar.getData().getAnnotation("NMR Spectral Raw Data");
 
     }
 
