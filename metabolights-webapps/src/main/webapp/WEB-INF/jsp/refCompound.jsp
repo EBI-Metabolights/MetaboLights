@@ -12,7 +12,7 @@ $(document).ready(function() {
 <script>
 $(function() {
 	$( "#tabs" ).tabs({
-		cache:true,
+		cache:true
 	});
 });
 </script>
@@ -164,16 +164,16 @@ function color_for_atom(formulaChar)
 				<h5>Pathways projector</h5>
 				<a href="http://www.g-language.org/PathwayProjector/" target="blank"><img src="http://www.g-language.org/PathwayProjector/pict/mainpage.png"/></a>
 			</div>
-			<!-- Reactions 
+			<%-- Reactions
 			<div id="tabs-4" class="tab">
 				<h4>To be implemented...</h4>
 				<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTLBHrDpm9cZkyAdfU7KdQnVLVZ9MG6SByle5QQM0IpSf2hBezB"/>
-			</div>-->
+			</div>--%>
 			<!-- NMR Spectra -->
 			<div id="tabs-5" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKiJmVL9LDgA1YJFz6bSMLV4jNc_unkwF5Mv9M9YxxX8ZL9guZ"/></div>
 			<!-- MS Spectra -->
 			<div id="tabs-6" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE143R-fv5Qf-78aSulo8vvFCTdinc-JULSdvh8i3erXA3kwFnnA"/></div>
-			<!-- Literature 
+			<%-- Literature
 			<div id="tabs-7" class="tab">
 				<!--<h4>To be implemented...</h4>
 				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIS7_rCf2a4_96A56MVeTRTsvyLmohyfOwBLDrUwds5HAat6RZ"/>
@@ -182,7 +182,7 @@ function color_for_atom(formulaChar)
 					<span class="tag">${citation.data}</span><br/>
 				</c:forEach>
 			</div>
-			-->
+			--%>
 		</div>
 	</div>
 </div>

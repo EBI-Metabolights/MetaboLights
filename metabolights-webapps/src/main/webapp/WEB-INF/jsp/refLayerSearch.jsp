@@ -39,11 +39,11 @@ function navigate(_pageNumber) {
             </div>
             <div class="grid_20 omega">
                 <!-- <b><spring:message code="ref.msg.Navigate"/></b>-->
-                    <span id="pagination" class="right"> <c:set
-                            var="RemainderValue" value="${queryResults % 10}" /> <c:set
-                            var="CrudeNumOfPages" value="${queryResults / 10}" /> <c:set
-                            var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" /> <c:set
-                            var="pageSize" value="10" />
+                    <span id="pagination" class="right">
+                        <c:set var="RemainderValue" value="${queryResults % 10}" />
+                        <c:set var="CrudeNumOfPages" value="${queryResults / 10}" />
+                        <c:set var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" />
+                        <c:set var="pageSize" value="10" />
                         <c:if test="${currentPage eq 1 }">
                             <c:set var="pagerLeft" value="${currentPage}" />
                         </c:if>
@@ -130,7 +130,7 @@ function navigate(_pageNumber) {
                                 <c:otherwise>
                                     <c:if test="${currrentPage ne NumOfPages-1 }">
                                         <c:if test="${currrentPage ne NumOfPages-2 }">
-                                            <c:if test="${NumOfPages gt 5 }">
+                                            <c:if test="${NumOfPages gt 5}">
                                                 ....
                                             </c:if>
                                         </c:if>

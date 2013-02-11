@@ -230,10 +230,6 @@ public class ReferenceLayerController extends AbstractController {
                 if(rflf.getMTBLCEntries().getString().get(6) != null) rflf.setTechType(rflf.getMTBLCEntries().getString().get(6).split("\\n")); // gets single or multiple technology_type(s) depending on studies.
             }
 
-            for(int fs=0; fs<rflf.getOrgType().length; fs++){
-                System.out.println(rflf.getOrgType()[fs]);
-            }
-
             Set<String> orgSet = new HashSet<String>(Arrays.asList(rflf.getOrgType()));
             rflf.setOrgSet(orgSet);
 
@@ -295,15 +291,17 @@ public class ReferenceLayerController extends AbstractController {
             for(int i=0; i<rflf.getMTBLFacetArrayOfEntriesLen(); i++){
 
                 rflf.setMTBLFacetEntries(rflf.getMTBLFacetsArrayOfEntries().getArrayOfString().get(i));
-                rflf.setTechnology1(technology);
-                rflf.setOrganisms(organisms);
-                rflf.setFacetOrgType(rflf.getMTBLFacetEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
-                rflf.setFacetTechType(rflf.getMTBLFacetEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
+                if(rflf.getMTBLFacetEntries().getString().get(5) != null) {
+                    rflf.setFacetOrgType(rflf.getMTBLFacetEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
+                }
+                if(rflf.getMTBLFacetEntries().getString().get(6) != null) {
+                    rflf.setFacetTechType(rflf.getMTBLFacetEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
+                }
 
-
-                //Setup filters, pass technology and organism arrays as POJO in rflf.
-                refLayerFilterSetup(rflf, mav);
+                ///Setup filters, pass technology and organism arrays as POJO in rflf.
+                refLayerFilterSetup(rflf);
             }
+
 
             rflfs.add(rflf);
             mav.addObject("RefLayer", rflfs);
@@ -318,8 +316,9 @@ public class ReferenceLayerController extends AbstractController {
 
     @SuppressWarnings("unchecked")
     //Setting up the filter
-    private RefLayerSearchFilter refLayerFilterSetup(RefLayerSearchFilter rflf, ModelAndView mav) {
+    private RefLayerSearchFilter refLayerFilterSetup(RefLayerSearchFilter rflf) {
 
+        //Technology Filter
         if(rflf.getFacetTechType() != null){
             rflf.setTechSplit(rflf.getFacetTechType().split("\\n")); //split the technologies with \n
             rflf.setTechSplitLen(rflf.getTechSplit().length); //set the number of technologies, in this case 2.
@@ -344,60 +343,55 @@ public class ReferenceLayerController extends AbstractController {
 
             if(rflf.getTechCheckedItems() != null){
                 rflf.setTechCheckedItemsSet(rflf.getTechCheckedItemsHash().keySet()); //setting LinkedHashMap with tech checked items
-                int techChkdItemsLen = rflf.getTechCheckedItems().length;
                 Iterator<String> techIter = rflf.getTechCheckedItemsSet().iterator();
                 while(techIter.hasNext()){
                     String techTmpKey = (String) techIter.next(); //contains a single checked item (key)
-                    for(int it=0; it<techChkdItemsLen; it++){
-                        String techValueTrue = "true";
-                        rflf.getTechHash().remove(techTmpKey);
-                        rflf.getTechHash().put(techTmpKey, techValueTrue);
-                    }
+                    String techValueTrue = "true";
+                    rflf.getTechHash().remove(techTmpKey);
+                    rflf.getTechHash().put(techTmpKey, techValueTrue);
                 }
             }
         }
 
+        //Organism filter
         if(rflf.getFacetOrgType() != null){
-            rflf.setOrgSplit(rflf.getFacetOrgType().split("\\n")); //split the organisms with \n
-            rflf.setOrgSplitLen(rflf.getOrgSplit().length); //set the number of organisms. The length can vary according to study. 1-4.
+                rflf.setOrgSplit(rflf.getFacetOrgType().split("\\n")); //split the organisms with \n
+                rflf.setOrgSplitLen(rflf.getOrgSplit().length); //set the number of organisms. The length can vary according to study. 1-4.
 
-            for(int o=0; o<rflf.getOrgSplitLen(); o++){
-                //getOrgSplit()[o] - single organism
-                if(!rflf.getOrgHash().containsKey(rflf.getOrgSplit()[o])){
+                for(int o=0; o<rflf.getOrgSplitLen(); o++){
+                    //getFacetOrgType()[o] - single organism
+                    if(!rflf.getOrgHash().containsKey(rflf.getOrgSplit()[o])){
                     if(rflf.getFacetOrgType() != null){
-                        rflf.getOrgHash().put(rflf.getOrgSplit()[o], rflf.getOrgValue()); //makes value false for all the items in the list, resetting the value to false
+                            rflf.getOrgHash().put(rflf.getOrgSplit()[o], rflf.getOrgValue()); //makes value false for all the items in the list, resetting the value to false
+                        }
                     }
                 }
-            }
 
-            if(rflf.getOrgSet() != null){
-                Iterator<String> orgUnqIter = rflf.getOrgSet().iterator();
-                while(orgUnqIter.hasNext()){
-                    String orgUnqTmp = orgUnqIter.next(); //contains single highlighted item.
-                    String orgSetValue = "highlight";
-                    rflf.getOrgHash().remove(orgUnqTmp);
-                    rflf.getOrgHash().put(orgUnqTmp, orgSetValue);
+                if(rflf.getOrgSet() != null){
+                    Iterator<String> orgUnqIter = rflf.getOrgSet().iterator();
+                    while(orgUnqIter.hasNext()){
+                        String orgUnqTmp = orgUnqIter.next(); //contains single highlighted item.
+                        String orgSetValue = "highlight";
+                        rflf.getOrgHash().remove(orgUnqTmp);
+                        rflf.getOrgHash().put(orgUnqTmp, orgSetValue);
+                    }
                 }
-            }
 
             if(rflf.getOrgCheckedItems() != null){
                 rflf.setOrgCheckedItemsSet(rflf.getOrgCheckedItemsHash().keySet()); //setting linkedHashSet with organism checked items
-                int orgChkdItemsLen = rflf.getOrgCheckedItems().length;
                 Iterator<String> orgIter = rflf.getOrgCheckedItemsSet().iterator();
                 while(orgIter.hasNext()){
                     String orgTmpKey = (String) orgIter.next(); //contains a single checked item (key)
-                    for(int o=0; o<orgChkdItemsLen; o++){
-                        String orgValueTrue = "true";
-                        rflf.getOrgHash().remove(orgTmpKey);
-                        rflf.getOrgHash().put(orgTmpKey, orgValueTrue);
-                    }
+                    String orgValueTrue = "true";
+                    rflf.getOrgHash().remove(orgTmpKey);
+                    rflf.getOrgHash().put(orgTmpKey, orgValueTrue);
                 }
             }
         }
         return rflf;
     }
 
-    //Total number of results in Metabolights domain.
+    //Getting total number of results in Metabolights domain.
     private int getDomainNumOfResults(String MTBLDomain1, String query, RefLayerSearchFilter rfFilter, int MTBLnumOfResults1) {
 
         if ((MTBLDomain1 != null)) {

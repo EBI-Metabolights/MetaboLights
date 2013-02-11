@@ -1,6 +1,5 @@
 package uk.ac.ebi.metabolights.referencelayer;
 
-import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -14,13 +13,9 @@ import uk.ac.ebi.ebisearchservice.ArrayOfString;
  */
 public class RefLayerSearchFilter {
 	
-	private String query;
 	private String ModQuery;
 	private String orgQuery;
 	private String techQuery;
-	private String studiesQuery;
-	private String orgElement;
-	private String techElement;
 	private String[] orgType;
 	private String[] techType;
     private String FacetOrgType;
@@ -29,35 +24,21 @@ public class RefLayerSearchFilter {
 	private String orgValue;
 	private String techValue;
 	
-	private String[] organisms;
-	private String[] technology1;
 	private String[] orgSplit;
 	private String[] techSplit;
 	private String[] orgCheckedItems;
 	private String[] techCheckedItems;
-	private String[] orgNumOfItems;
-	private String[] techNumOfItems;
-    private String[] UnqOrgTypes;
-    private String[] UnqTechTypes;
 
-	private int orgLen;
-	private int techLen;
 	private int techSplitLen;
 	private int orgSplitLen;
-	private int techFlag = 0;
-	private int orgFlag = 0;
 	private int MTBLCArrayOfEntriesLen;
     private int MTBLFacetArrayOfEntriesLen;
-	private int orgCount;
-	private int techCount;
 	
 	private LinkedHashMap<String, String> techHash;
 	private LinkedHashMap<String, String> orgHash;
 	private LinkedHashMap<String, String> orgCheckedItemsHash;
 	private LinkedHashMap<String, String> techCheckedItemsHash;
 	
-	private Enumeration techEnum;
-	private Enumeration orgEnum;
 	private Set<String> techCheckedItemsSet;
 	private Set<String> orgCheckedItemsSet;
     private Set<String> orgSet;
@@ -68,14 +49,13 @@ public class RefLayerSearchFilter {
     private ArrayOfArrayOfString MTBLFacetsArrayOfEntries;
 	private ArrayOfString MTBLCEntries;
     private ArrayOfString MTBLFacetEntries;
-	private ArrayOfString MTBLCResults;
-	private ArrayOfString MTBLSResults;
 	
 	private StringBuffer orgSB;
 	private StringBuffer techSB;
 	
 	private boolean techClear;
 	private boolean orgClear;
+
 
     public Set<String> getOrgSet() {
         return orgSet;
@@ -91,22 +71,6 @@ public class RefLayerSearchFilter {
 
     public void setTechSet(Set<String> techSet) {
         this.techSet = techSet;
-    }
-
-    public String[] getUnqOrgTypes() {
-        return UnqOrgTypes;
-    }
-
-    public void setUnqOrgTypes(String[] unqOrgTypes) {
-        UnqOrgTypes = unqOrgTypes;
-    }
-
-    public String[] getUnqTechTypes() {
-        return UnqTechTypes;
-    }
-
-    public void setUnqTechTypes(String[] unqTechTypes) {
-        UnqTechTypes = unqTechTypes;
     }
 
     public String getFacetOrgType() {
@@ -149,22 +113,6 @@ public class RefLayerSearchFilter {
         this.MTBLFacetEntries = MTBLFacetEntries;
     }
 
-    public ArrayOfString getMTBLCResults() {
-		return MTBLCResults;
-	}
-
-	public void setMTBLCResults(ArrayOfString mTBLCResults) {
-		MTBLCResults = mTBLCResults;
-	}
-
-	public ArrayOfString getMTBLSResults() {
-		return MTBLSResults;
-	}
-
-	public void setMTBLSResults(ArrayOfString mTBLSResults) {
-		MTBLSResults = mTBLSResults;
-	}
-
 	public int getMTBLCArrayOfEntriesLen() {
 		return MTBLCArrayOfEntriesLen;
 	}
@@ -187,14 +135,6 @@ public class RefLayerSearchFilter {
 
 	public void setMTBLCArrayOfEntries(ArrayOfArrayOfString mTBLCArrayOfEntries) {
 		MTBLCArrayOfEntries = mTBLCArrayOfEntries;
-	}
-
-	public String getStudiesQuery() {
-		return studiesQuery;
-	}
-
-	public void setStudiesQuery(String studiesQuery) {
-		this.studiesQuery = studiesQuery;
 	}
 
 	public Set<String> getTechCheckedItemsSet() {
@@ -261,38 +201,6 @@ public class RefLayerSearchFilter {
 		this.orgClear = orgClear;
 	}
 
-	public String[] getOrgNumOfItems() {
-		return orgNumOfItems;
-	}
-
-	public void setOrgNumOfItems(String[] orgNumOfItems) {
-		this.orgNumOfItems = orgNumOfItems;
-	}
-
-	public String[] getTechNumOfItems() {
-		return techNumOfItems;
-	}
-
-	public void setTechNumOfItems(String[] techNumOfItems) {
-		this.techNumOfItems = techNumOfItems;
-	}
-
-	public int getOrgCount() {
-		return orgCount;
-	}
-
-	public void setOrgCount(int orgCount) {
-		this.orgCount = orgCount;
-	}
-
-	public int getTechCount() {
-		return techCount;
-	}
-
-	public void setTechCount(int techCount) {
-		this.techCount = techCount;
-	}
-
 	public StringBuffer getOrgSB() {
 		return orgSB;
 	}
@@ -325,21 +233,6 @@ public class RefLayerSearchFilter {
 		this.orgCheckedItems = orgCheckedItems;
 	}
 
-	public int getTechFlag() {
-		return techFlag;
-	}
-
-	public void setTechFlag(int techFlag) {
-		this.techFlag = techFlag;
-	}
-
-	public int getOrgFlag() {
-		return orgFlag;
-	}
-
-	public void setOrgFlag(int orgFlag) {
-		this.orgFlag = orgFlag;
-	}
 
     public String[] getOrgType() {
         return orgType;
@@ -389,42 +282,6 @@ public class RefLayerSearchFilter {
 		this.orgSplitLen = orgSplitLen;
 	}
 
-	public Enumeration getTechEnum() {
-		return techEnum;
-	}
-
-	public void setTechEnum(Enumeration techEnum) {
-		this.techEnum = techEnum;
-	}
-
-	public Enumeration getOrgEnum() {
-		return orgEnum;
-	}
-
-	public void setOrgEnum(Enumeration orgEnum) {
-		this.orgEnum = orgEnum;
-	}
-
-	public int getOrgLen() {
-		return orgLen;
-	}
-
-	public void setOrgLen(int orgLen) {
-		this.orgLen = orgLen;
-	}
-
-	public int getTechLen() {
-		return techLen;
-	}
-
-	public void setTechLen(int techLen) {
-		this.techLen = techLen;
-	}
-
-	public String getOrgElement() {
-		return orgElement;
-	}
-
     public String getOrgValue() {
         return orgValue;
     }
@@ -441,48 +298,12 @@ public class RefLayerSearchFilter {
         this.techValue = techValue;
     }
 
-    public void setOrgElement(String orgElement) {
-		this.orgElement = orgElement;
-	}
-
-	public String getTechElement() {
-		return techElement;
-	}
-
-	public void setTechElement(String techElement) {
-		this.techElement = techElement;
-	}
-
-	public String[] getOrganisms() {
-		return organisms;
-	}
-
-	public void setOrganisms(String[] organisms) {
-		this.organisms = organisms;
-	}
-
-	public String[] getTechnology1() {
-		return technology1;
-	}
-
-	public void setTechnology1(String[] technology1) {
-		this.technology1 = technology1;
-	}
-
-	public String getQuery() {
-		return query;
-	}
-
 	public String getModQuery() {
 		return ModQuery;
 	}
 
 	public void setModQuery(String modQuery) {
 		ModQuery = modQuery;
-	}
-
-	public void setQuery(String query) {
-		this.query = query;
 	}
 	
 	public String getOrgQuery() {
