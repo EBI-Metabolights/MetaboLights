@@ -82,11 +82,11 @@ public class ReferenceLayerController extends AbstractController {
         }
 
 
-        LinkedHashMap<String, Boolean> techHash = new LinkedHashMap<String, Boolean>();
-        LinkedHashMap<String, Boolean> orgHash = new LinkedHashMap<String, Boolean>();
+        LinkedHashMap<String, String> techHash = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> orgHash = new LinkedHashMap<String, String>();
 
-        LinkedHashMap<String, Boolean> orgCheckedItemsHash = new LinkedHashMap<String, Boolean>(); //Hash for checked items in organism filter
-        LinkedHashMap<String, Boolean> techCheckedItemsHash = new LinkedHashMap<String, Boolean>(); //Hash for checked items in tech filter
+        LinkedHashMap<String, String> orgCheckedItemsHash = new LinkedHashMap<String, String>(); //Hash for checked items in organism filter
+        LinkedHashMap<String, String> techCheckedItemsHash = new LinkedHashMap<String, String>(); //Hash for checked items in tech filter
 
         rflf.setOrgHash(orgHash);
         rflf.setTechHash(techHash);
@@ -129,8 +129,8 @@ public class ReferenceLayerController extends AbstractController {
 
     private RefLayerSearchFilter createQuery(ModelAndView mav, RefLayerSearchFilter rflf, String query, String[] organisms, String[] technology) {
 
-        rflf.setOrgValue(false);
-        rflf.setTechValue(false);
+        rflf.setOrgValue("false");
+        rflf.setTechValue("false");
 
         if(query == null){
             query = "";
@@ -151,7 +151,7 @@ public class ReferenceLayerController extends AbstractController {
 
             int orgChkdLen = rflf.getOrgCheckedItems().length;
             for(int oci=0; oci<orgChkdLen; oci++){
-                Boolean ValTrue = true;
+                String ValTrue = "true";
                 rflf.getOrgCheckedItemsHash().put(rflf.getOrgCheckedItems()[oci], ValTrue);
                 if(oci == 0){
                     rflf.getOrgSB().append("(organism:"+"\""+rflf.getOrgCheckedItems()[oci]+"\""+")"); //appending organisms after they are checked in the ref layer page
@@ -174,7 +174,7 @@ public class ReferenceLayerController extends AbstractController {
             int techChkdLen = rflf.getTechCheckedItems().length;
 
             for(int tcl=0; tcl<techChkdLen; tcl++){
-                Boolean ValTrue = true;
+                String ValTrue = "true";
                 rflf.getTechCheckedItemsHash().put(rflf.getTechCheckedItems()[tcl], ValTrue);
 
                 if(tcl == 0){
@@ -224,12 +224,21 @@ public class ReferenceLayerController extends AbstractController {
 
             for(int i=0; i<rflf.getMTBLCArrayOfEntriesLen(); i++){
 
-                //rflf.setMTBLCEntries(rflf.getMTBLCArrayOfEntries().getArrayOfString().get(i));
                 rflf.setMTBLCEntries(rflf.getMTBLCArrayOfEntries().getArrayOfString().get(i));
 
                 if(rflf.getMTBLCEntries().getString().get(5) != null) rflf.setOrgType(rflf.getMTBLCEntries().getString().get(5).split("\\n")); //gets single or multiple organism(s) depending on studies
                 if(rflf.getMTBLCEntries().getString().get(6) != null) rflf.setTechType(rflf.getMTBLCEntries().getString().get(6).split("\\n")); // gets single or multiple technology_type(s) depending on studies.
             }
+
+            for(int fs=0; fs<rflf.getOrgType().length; fs++){
+                System.out.println(rflf.getOrgType()[fs]);
+            }
+
+            Set<String> orgSet = new HashSet<String>(Arrays.asList(rflf.getOrgType()));
+            rflf.setOrgSet(orgSet);
+
+            Set<String> techSet = new HashSet<String>(Arrays.asList(rflf.getTechType()));
+            rflf.setTechSet(techSet);
 
             // Declare a collection to store all the entries found
             Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
@@ -323,6 +332,16 @@ public class ReferenceLayerController extends AbstractController {
                 }
             }
 
+            if(rflf.getTechSet() != null){
+                Iterator<String> techUnqIter = rflf.getTechSet().iterator();
+                while(techUnqIter.hasNext()){
+                    String techUnqTmp = techUnqIter.next(); //contains single highlighted item.
+                    String techSetValue = "highlight";
+                    rflf.getTechHash().remove(techUnqTmp);
+                    rflf.getTechHash().put(techUnqTmp, techSetValue);
+                }
+            }
+
             if(rflf.getTechCheckedItems() != null){
                 rflf.setTechCheckedItemsSet(rflf.getTechCheckedItemsHash().keySet()); //setting LinkedHashMap with tech checked items
                 int techChkdItemsLen = rflf.getTechCheckedItems().length;
@@ -330,7 +349,7 @@ public class ReferenceLayerController extends AbstractController {
                 while(techIter.hasNext()){
                     String techTmpKey = (String) techIter.next(); //contains a single checked item (key)
                     for(int it=0; it<techChkdItemsLen; it++){
-                        Boolean techValueTrue = true;
+                        String techValueTrue = "true";
                         rflf.getTechHash().remove(techTmpKey);
                         rflf.getTechHash().put(techTmpKey, techValueTrue);
                     }
@@ -350,6 +369,17 @@ public class ReferenceLayerController extends AbstractController {
                     }
                 }
             }
+
+            if(rflf.getOrgSet() != null){
+                Iterator<String> orgUnqIter = rflf.getOrgSet().iterator();
+                while(orgUnqIter.hasNext()){
+                    String orgUnqTmp = orgUnqIter.next(); //contains single highlighted item.
+                    String orgSetValue = "highlight";
+                    rflf.getOrgHash().remove(orgUnqTmp);
+                    rflf.getOrgHash().put(orgUnqTmp, orgSetValue);
+                }
+            }
+
             if(rflf.getOrgCheckedItems() != null){
                 rflf.setOrgCheckedItemsSet(rflf.getOrgCheckedItemsHash().keySet()); //setting linkedHashSet with organism checked items
                 int orgChkdItemsLen = rflf.getOrgCheckedItems().length;
@@ -357,7 +387,7 @@ public class ReferenceLayerController extends AbstractController {
                 while(orgIter.hasNext()){
                     String orgTmpKey = (String) orgIter.next(); //contains a single checked item (key)
                     for(int o=0; o<orgChkdItemsLen; o++){
-                        Boolean orgValueTrue = true;
+                        String orgValueTrue = "true";
                         rflf.getOrgHash().remove(orgTmpKey);
                         rflf.getOrgHash().put(orgTmpKey, orgValueTrue);
                     }

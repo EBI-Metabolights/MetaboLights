@@ -26,8 +26,8 @@ public class RefLayerSearchFilter {
     private String FacetOrgType;
     private String FacetTechType;
 
-	private Boolean orgValue;
-	private Boolean techValue;
+	private String orgValue;
+	private String techValue;
 	
 	private String[] organisms;
 	private String[] technology1;
@@ -37,8 +37,8 @@ public class RefLayerSearchFilter {
 	private String[] techCheckedItems;
 	private String[] orgNumOfItems;
 	private String[] techNumOfItems;
-    private String[] orgTypes;
-    private String[] techTypes;
+    private String[] UnqOrgTypes;
+    private String[] UnqTechTypes;
 
 	private int orgLen;
 	private int techLen;
@@ -51,15 +51,17 @@ public class RefLayerSearchFilter {
 	private int orgCount;
 	private int techCount;
 	
-	private LinkedHashMap<String, Boolean> techHash;
-	private LinkedHashMap<String, Boolean> orgHash;
-	private LinkedHashMap<String, Boolean> orgCheckedItemsHash;
-	private LinkedHashMap<String, Boolean> techCheckedItemsHash;
+	private LinkedHashMap<String, String> techHash;
+	private LinkedHashMap<String, String> orgHash;
+	private LinkedHashMap<String, String> orgCheckedItemsHash;
+	private LinkedHashMap<String, String> techCheckedItemsHash;
 	
 	private Enumeration techEnum;
 	private Enumeration orgEnum;
 	private Set<String> techCheckedItemsSet;
 	private Set<String> orgCheckedItemsSet;
+    private Set<String> orgSet;
+    private Set<String> techSet;
 	
 	
 	private ArrayOfArrayOfString MTBLCArrayOfEntries;
@@ -75,6 +77,37 @@ public class RefLayerSearchFilter {
 	private boolean techClear;
 	private boolean orgClear;
 
+    public Set<String> getOrgSet() {
+        return orgSet;
+    }
+
+    public void setOrgSet(Set<String> orgSet) {
+        this.orgSet = orgSet;
+    }
+
+    public Set<String> getTechSet() {
+        return techSet;
+    }
+
+    public void setTechSet(Set<String> techSet) {
+        this.techSet = techSet;
+    }
+
+    public String[] getUnqOrgTypes() {
+        return UnqOrgTypes;
+    }
+
+    public void setUnqOrgTypes(String[] unqOrgTypes) {
+        UnqOrgTypes = unqOrgTypes;
+    }
+
+    public String[] getUnqTechTypes() {
+        return UnqTechTypes;
+    }
+
+    public void setUnqTechTypes(String[] unqTechTypes) {
+        UnqTechTypes = unqTechTypes;
+    }
 
     public String getFacetOrgType() {
         return FacetOrgType;
@@ -180,41 +213,39 @@ public class RefLayerSearchFilter {
 		this.orgCheckedItemsSet = orgCheckedItemsSet;
 	}
 
-	public LinkedHashMap<String, Boolean> getTechHash() {
-		return techHash;
-	}
+    public LinkedHashMap<String, String> getTechHash() {
+        return techHash;
+    }
 
-	public void setTechHash(LinkedHashMap<String, Boolean> techHash) {
-		this.techHash = techHash;
-	}
+    public void setTechHash(LinkedHashMap<String, String> techHash) {
+        this.techHash = techHash;
+    }
 
-	public LinkedHashMap<String, Boolean> getOrgHash() {
-		return orgHash;
-	}
+    public LinkedHashMap<String, String> getOrgHash() {
+        return orgHash;
+    }
 
-	public void setOrgHash(LinkedHashMap<String, Boolean> orgHash) {
-		this.orgHash = orgHash;
-	}
+    public void setOrgHash(LinkedHashMap<String, String> orgHash) {
+        this.orgHash = orgHash;
+    }
 
-	public LinkedHashMap<String, Boolean> getOrgCheckedItemsHash() {
-		return orgCheckedItemsHash;
-	}
+    public LinkedHashMap<String, String> getOrgCheckedItemsHash() {
+        return orgCheckedItemsHash;
+    }
 
-	public void setOrgCheckedItemsHash(
-			LinkedHashMap<String, Boolean> orgCheckedItemsHash) {
-		this.orgCheckedItemsHash = orgCheckedItemsHash;
-	}
+    public void setOrgCheckedItemsHash(LinkedHashMap<String, String> orgCheckedItemsHash) {
+        this.orgCheckedItemsHash = orgCheckedItemsHash;
+    }
 
-	public LinkedHashMap<String, Boolean> getTechCheckedItemsHash() {
-		return techCheckedItemsHash;
-	}
+    public LinkedHashMap<String, String> getTechCheckedItemsHash() {
+        return techCheckedItemsHash;
+    }
 
-	public void setTechCheckedItemsHash(
-			LinkedHashMap<String, Boolean> techCheckedItemsHash) {
-		this.techCheckedItemsHash = techCheckedItemsHash;
-	}
+    public void setTechCheckedItemsHash(LinkedHashMap<String, String> techCheckedItemsHash) {
+        this.techCheckedItemsHash = techCheckedItemsHash;
+    }
 
-	public boolean isTechClear() {
+    public boolean isTechClear() {
 		return techClear;
 	}
 
@@ -390,27 +421,27 @@ public class RefLayerSearchFilter {
 		this.techLen = techLen;
 	}
 
-	public Boolean getOrgValue() {
-		return orgValue;
-	}
-
-	public void setOrgValue(Boolean orgValue) {
-		this.orgValue = orgValue;
-	}
-
-	public Boolean getTechValue() {
-		return techValue;
-	}
-
-	public void setTechValue(Boolean techValue) {
-		this.techValue = techValue;
-	}
-
 	public String getOrgElement() {
 		return orgElement;
 	}
 
-	public void setOrgElement(String orgElement) {
+    public String getOrgValue() {
+        return orgValue;
+    }
+
+    public void setOrgValue(String orgValue) {
+        this.orgValue = orgValue;
+    }
+
+    public String getTechValue() {
+        return techValue;
+    }
+
+    public void setTechValue(String techValue) {
+        this.techValue = techValue;
+    }
+
+    public void setOrgElement(String orgElement) {
 		this.orgElement = orgElement;
 	}
 
