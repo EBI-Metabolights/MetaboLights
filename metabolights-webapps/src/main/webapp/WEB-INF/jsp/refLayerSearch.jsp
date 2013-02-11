@@ -173,57 +173,83 @@
 
 <div class="grid_6 alpha">
     <form name="Filters" id="filterForm" action="#" method="post">
+        <!--organism filter-->
         <div class="grid_24 refLayerBox">
             <b><spring:message code="ref.msg.technology"></spring:message></b>
-            <c:forEach var="technology" items="${technologyList}">
-                <ul style="max-height: 400px; overflow: auto" id="technology">
-                    <input type="checkbox" name="technology" value="${technology.key}"
-                           <c:if test="${technology.value eq true}">CHECKED</c:if>
-                           onclick="this.form.submit();">
-                    <c:choose>
-                        <c:when test="${techClear eq true}">
-                            ${technology.key}
-                        </c:when>
-                        <c:otherwise>
-                            <c:choose>
-                                <c:when test="${technology.value eq true}">
-                                    ${technology.key}
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="dimmed">${technology.key}</span>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
-            </c:forEach>
+            <c:if test="${techClear eq true}">
+                <c:forEach var="technology" items="${technologyList}">
+                    <ul style="max-height: 400px; overflow: auto" id="technology">
+                        <input type="checkbox" name="technology" value="${technology.key}"
+                               <c:if test="${technology.value eq true}">CHECKED</c:if>
+                               onclick="this.form.submit();">
+                        ${technology.key}
+                        </ul>
+                </c:forEach>
+            </c:if>
+
+            <c:if test="${techClear ne true}">
+                <c:forEach var="technology" items="${technologyList}">
+                    <c:if test="${technology.value eq true}">
+                        <ul style="max-height: 400px; overflow: auto" id="technology">
+                            <input type="checkbox" name="technology" value="${technology.key}"
+                                   <c:if test="${technology.value eq true}">CHECKED</c:if>
+                                   onclick="this.form.submit();">
+                                ${technology.key}
+                        </ul>
+                    </c:if>
+                </c:forEach>
+                <hr>
+                <c:forEach var="technology" items="${technologyList}">
+                    <c:if test="${technology.value eq false}">
+                        <ul style="max-height: 400px; overflow: auto" id="technology">
+                            <input type="checkbox" name="technology" value="${technology.key}"
+                                   <c:if test="${technology.value eq true}">CHECKED</c:if>
+                                   onclick="this.form.submit();">
+                                <span class="dimmed">${technology.key}</span>
+                        </ul>
+                    </c:if>
+                </c:forEach>
+            </c:if>
         </div>
         <br />
+
+        <!--organism filter-->
         <div class="grid_24 refLayerBox" id="orgFilter">
             <b><spring:message code="ref.msg.organism"></spring:message></b>
             <c:forEach var="RefLayerOrg" items="${RefLayer}">
-                <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
-                    <ul style="max-height: 400px; overflow: auto" id="organisms">
-                        <input type="checkbox" name="organisms" value="${orghash.key}"
-                               <c:if test="${orghash.value eq true}">CHECKED</c:if>
-                               onclick="this.form.submit();">
-                        <c:choose>
-                            <c:when test="${orgClear eq true}">
+                <c:if test="${orgClear eq true}">
+                    <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
+                        <ul style="max-height: 400px; overflow: auto" id="organisms">
+                            <input type="checkbox" name="organisms" value="${orghash.key}"
+                                <c:if test="${orghash.value eq true}">CHECKED</c:if>
+                                onclick="this.form.submit();">
                                 ${orghash.key}
-                            </c:when>
-                            <c:otherwise>
-                                <c:choose>
-                                    <c:when test="${orghash.value eq true }">
-                                        ${orghash.key}
-                                    </c:when>
-                                    <c:otherwise>
-                                        <span class="dimmed">${orghash.key}</span>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:otherwise>
-                        </c:choose>
-                    </ul>
-                </c:forEach>
+                        </ul>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${orgClear ne true}">
+                    <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
+                        <c:if test="${orghash.value eq true}">
+                            <ul style="max-height: 400px; overflow: auto" id="organisms">
+                                <input type="checkbox" name="organisms" value="${orghash.key}"
+                                       <c:if test="${orghash.value eq true}">CHECKED</c:if>
+                                       onclick="this.form.submit();">
+                                ${orghash.key}
+                            </ul>
+                        </c:if>
+                    </c:forEach>
+                    <hr>
+                    <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
+                        <c:if test="${orghash.value eq false}">
+                        <ul style="max-height: 400px; overflow: auto" id="organisms">
+                            <input type="checkbox" name="organisms" value="${orghash.key}"
+                                   <c:if test="${orghash.value eq true}">CHECKED</c:if>
+                                   onclick="this.form.submit();">
+                            <span class="dimmed">${orghash.key}</span>
+                        </ul>
+                        </c:if>
+                    </c:forEach>
+                </c:if>
             </c:forEach>
         </div>
 

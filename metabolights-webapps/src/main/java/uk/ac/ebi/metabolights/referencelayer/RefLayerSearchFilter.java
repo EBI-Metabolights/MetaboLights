@@ -1,17 +1,11 @@
 package uk.ac.ebi.metabolights.referencelayer;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import uk.ac.ebi.ebisearchservice.ArrayOfArrayOfString;
 import uk.ac.ebi.ebisearchservice.ArrayOfString;
-import uk.ac.ebi.metabolights.search.FilterItem;
-import uk.ac.ebi.metabolights.search.FilterSet;
 
 /**
  * Related with Reference Layer filter
@@ -25,14 +19,13 @@ public class RefLayerSearchFilter {
 	private String orgQuery;
 	private String techQuery;
 	private String studiesQuery;
-	private String studiesModQuery; //parameter for studies
-	private String studiesOrgQuery; //parameter for studies
-	private String studiesTechQuery; //parameter for studies
 	private String orgElement;
 	private String techElement;
-	private String orgType;
-	private String techType;
-	
+	private String[] orgType;
+	private String[] techType;
+    private String FacetOrgType;
+    private String FacetTechType;
+
 	private Boolean orgValue;
 	private Boolean techValue;
 	
@@ -44,7 +37,9 @@ public class RefLayerSearchFilter {
 	private String[] techCheckedItems;
 	private String[] orgNumOfItems;
 	private String[] techNumOfItems;
-	
+    private String[] orgTypes;
+    private String[] techTypes;
+
 	private int orgLen;
 	private int techLen;
 	private int techSplitLen;
@@ -52,7 +47,7 @@ public class RefLayerSearchFilter {
 	private int techFlag = 0;
 	private int orgFlag = 0;
 	private int MTBLCArrayOfEntriesLen;
-	private int MTBLSArrayOfEntriesLen; //parameter for studies
+    private int MTBLFacetArrayOfEntriesLen;
 	private int orgCount;
 	private int techCount;
 	
@@ -68,9 +63,9 @@ public class RefLayerSearchFilter {
 	
 	
 	private ArrayOfArrayOfString MTBLCArrayOfEntries;
+    private ArrayOfArrayOfString MTBLFacetsArrayOfEntries;
 	private ArrayOfString MTBLCEntries;
-	private ArrayOfArrayOfString MTBLSArrayOfEntries; //parameter for studies
-	private ArrayOfString MTBLSEntries; //parameter for studies
+    private ArrayOfString MTBLFacetEntries;
 	private ArrayOfString MTBLCResults;
 	private ArrayOfString MTBLSResults;
 	
@@ -79,12 +74,49 @@ public class RefLayerSearchFilter {
 	
 	private boolean techClear;
 	private boolean orgClear;
-	
-	
-	
-	
 
-	public ArrayOfString getMTBLCResults() {
+
+    public String getFacetOrgType() {
+        return FacetOrgType;
+    }
+
+    public void setFacetOrgType(String facetOrgType) {
+        FacetOrgType = facetOrgType;
+    }
+
+    public String getFacetTechType() {
+        return FacetTechType;
+    }
+
+    public void setFacetTechType(String facetTechType) {
+        FacetTechType = facetTechType;
+    }
+
+    public int getMTBLFacetArrayOfEntriesLen() {
+        return MTBLFacetArrayOfEntriesLen;
+    }
+
+    public void setMTBLFacetArrayOfEntriesLen(int MTBLFacetArrayOfEntriesLen) {
+        this.MTBLFacetArrayOfEntriesLen = MTBLFacetArrayOfEntriesLen;
+    }
+
+    public ArrayOfArrayOfString getMTBLFacetsArrayOfEntries() {
+        return MTBLFacetsArrayOfEntries;
+    }
+
+    public void setMTBLFacetsArrayOfEntries(ArrayOfArrayOfString MTBLFacetsArrayOfEntries) {
+        this.MTBLFacetsArrayOfEntries = MTBLFacetsArrayOfEntries;
+    }
+
+    public ArrayOfString getMTBLFacetEntries() {
+        return MTBLFacetEntries;
+    }
+
+    public void setMTBLFacetEntries(ArrayOfString MTBLFacetEntries) {
+        this.MTBLFacetEntries = MTBLFacetEntries;
+    }
+
+    public ArrayOfString getMTBLCResults() {
 		return MTBLCResults;
 	}
 
@@ -100,36 +132,12 @@ public class RefLayerSearchFilter {
 		MTBLSResults = mTBLSResults;
 	}
 
-	public int getMTBLSArrayOfEntriesLen() {
-		return MTBLSArrayOfEntriesLen;
-	}
-
-	public void setMTBLSArrayOfEntriesLen(int mTBLSArrayOfEntriesLen) {
-		MTBLSArrayOfEntriesLen = mTBLSArrayOfEntriesLen;
-	}
-
 	public int getMTBLCArrayOfEntriesLen() {
 		return MTBLCArrayOfEntriesLen;
 	}
 
 	public void setMTBLCArrayOfEntriesLen(int mTBLCArrayOfEntriesLen) {
 		MTBLCArrayOfEntriesLen = mTBLCArrayOfEntriesLen;
-	}
-
-	public ArrayOfArrayOfString getMTBLSArrayOfEntries() {
-		return MTBLSArrayOfEntries;
-	}
-
-	public void setMTBLSArrayOfEntries(ArrayOfArrayOfString mTBLSArrayOfEntries) {
-		MTBLSArrayOfEntries = mTBLSArrayOfEntries;
-	}
-
-	public ArrayOfString getMTBLSEntries() {
-		return MTBLSEntries;
-	}
-
-	public void setMTBLSEntries(ArrayOfString mTBLSEntries) {
-		MTBLSEntries = mTBLSEntries;
 	}
 
 	public ArrayOfString getMTBLCEntries() {
@@ -148,36 +156,12 @@ public class RefLayerSearchFilter {
 		MTBLCArrayOfEntries = mTBLCArrayOfEntries;
 	}
 
-	public String getStudiesOrgQuery() {
-		return studiesOrgQuery;
-	}
-
-	public void setStudiesOrgQuery(String studiesOrgQuery) {
-		this.studiesOrgQuery = studiesOrgQuery;
-	}
-
-	public String getStudiesTechQuery() {
-		return studiesTechQuery;
-	}
-
-	public void setStudiesTechQuery(String studiesTechQuery) {
-		this.studiesTechQuery = studiesTechQuery;
-	}
-
 	public String getStudiesQuery() {
 		return studiesQuery;
 	}
 
 	public void setStudiesQuery(String studiesQuery) {
 		this.studiesQuery = studiesQuery;
-	}
-
-	public String getStudiesModQuery() {
-		return studiesModQuery;
-	}
-
-	public void setStudiesModQuery(String studiesModQuery) {
-		this.studiesModQuery = studiesModQuery;
 	}
 
 	public Set<String> getTechCheckedItemsSet() {
@@ -326,23 +310,23 @@ public class RefLayerSearchFilter {
 		this.orgFlag = orgFlag;
 	}
 
-	public String getOrgType() {
-		return orgType;
-	}
+    public String[] getOrgType() {
+        return orgType;
+    }
 
-	public void setOrgType(String orgType) {
-		this.orgType = orgType;
-	}
+    public void setOrgType(String[] orgType) {
+        this.orgType = orgType;
+    }
 
-	public String getTechType() {
-		return techType;
-	}
+    public String[] getTechType() {
+        return techType;
+    }
 
-	public void setTechType(String techType) {
-		this.techType = techType;
-	}
+    public void setTechType(String[] techType) {
+        this.techType = techType;
+    }
 
-	public String[] getOrgSplit() {
+    public String[] getOrgSplit() {
 		return orgSplit;
 	}
 

@@ -16,9 +16,26 @@ public class MetabolightsCompound {
 	private String accession;
 	private String[] domains;
 	private String description;
-	
-	
-	public String getDescription() {
+    private String[] technology_type;
+    private String[] organism;
+
+    public String[] getTechnology_type() {
+        return technology_type;
+    }
+
+    public void setTechnology_type(String[] technology_type) {
+        this.technology_type = technology_type;
+    }
+
+    public String[] getOrganism() {
+        return organism;
+    }
+
+    public void setOrganism(String[] organism) {
+        this.organism = organism;
+    }
+
+    public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {

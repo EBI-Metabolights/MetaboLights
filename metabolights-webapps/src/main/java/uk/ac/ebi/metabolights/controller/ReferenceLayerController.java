@@ -209,10 +209,6 @@ public class ReferenceLayerController extends AbstractController {
         //		System.out.println(MTBLFieldLen);
         MTBLFields.getString().add("CHEBI");
         MTBLFields.getString().add("METABOLIGHTS");
-        //		int MTBLFieldLen = MTBLFields.getString().size();
-        //		for(int d=0; d<MTBLFieldLen; d++){
-        //			System.out.println(MTBLFields.getString().get(d));
-        //		}
 
         if (MTBLnumOfResults != 0) {
 
@@ -226,18 +222,25 @@ public class ReferenceLayerController extends AbstractController {
                 MTBLResults = ebiSearchService.getAllResultsIds(MTBLDomain, rflf.getModQuery());
             }
 
+            //To make it similar to that of Repository
             rflf.setMTBLCArrayOfEntries(ebiSearchService.getEntries(MTBLDomain, MTBLResults, MTBLFields));
             rflf.setMTBLCArrayOfEntriesLen(rflf.getMTBLCArrayOfEntries().getArrayOfString().size());
 
-            //			for(int g=0; g<rflf.getMTBLCArrayOfEntriesLen(); g++){
-            //				ArrayOfString aos = rflf.getMTBLCArrayOfEntries().getArrayOfString().get(g);
-            //				System.out.println(aos);
-            //				int size1 = aos.getString().size();
-            //				for(int h=0; h<size1; h++){
-            //					System.out.println(aos.getString().get(h));
-            //				}
-            //				System.out.println("--------------------------");
-            //			}
+            for(int i=0; i<rflf.getMTBLCArrayOfEntriesLen(); i++){
+
+                //rflf.setMTBLCEntries(rflf.getMTBLCArrayOfEntries().getArrayOfString().get(i));
+                rflf.setMTBLCEntries(rflf.getMTBLCArrayOfEntries().getArrayOfString().get(i));
+
+                if(rflf.getMTBLCEntries().getString().get(5) != null) rflf.setOrgType(rflf.getMTBLCEntries().getString().get(5).split("\\n")); //gets single or multiple organism(s) depending on studies
+                if(rflf.getMTBLCEntries().getString().get(6) != null) rflf.setTechType(rflf.getMTBLCEntries().getString().get(6).split("\\n")); // gets single or multiple technology_type(s) depending on studies.
+            }
+
+//            Set<String> unqOrg = new HashSet<String>(Arrays.asList(rflf.getOrgType()));
+//            String[] unqOrgArr = unqOrg.toArray(new String[unqOrg.size()]);
+//
+//            for(int test=0; test<unqOrgArr.length; test++){
+//                System.out.println(unqOrgArr[test]);
+//            }
 
             // Declare a collection to store all the entries found
             Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
@@ -249,7 +252,7 @@ public class ReferenceLayerController extends AbstractController {
 
             Float modLen = (float) rflf.getMTBLCArrayOfEntriesLen(); // total number of results.
             Float newLen = (modLen/10); //Total number of results divided by 10 to get the from and to after some calculations below.
-            String[] lenSplit = newLen.toString().split("\\."); // spliting the above newLen with '.'
+            String[] lenSplit = newLen.toString().split("\\."); // split the above newLen with '.'
             String bef = lenSplit[0]; //Taking the first value
             String aft = lenSplit[1]; //Taking the second value
 
@@ -272,7 +275,6 @@ public class ReferenceLayerController extends AbstractController {
             // Map the column Names with the indexes
             mapColumns(MTBLFields);
 
-
             for(int z=from; z<to; z++){
 
                 // Get the ebiEye entry
@@ -283,16 +285,24 @@ public class ReferenceLayerController extends AbstractController {
 
                 mcs.add(mc);
             }
-            //}
 
-            for(int i=0; i<rflf.getMTBLCArrayOfEntriesLen(); i++){
+            //code for the facets, below code looks redundant but it is not.
+            ArrayOfString MTBLFacetResults = null;
 
-                rflf.setMTBLCEntries(rflf.getMTBLCArrayOfEntries().getArrayOfString().get(i));
+            MTBLFacetResults = ebiSearchService.getAllResultsIds(MTBLDomain, rflf.getModQuery());
+
+            rflf.setMTBLFacetsArrayOfEntries(ebiSearchService.getEntries(MTBLDomain, MTBLFacetResults, MTBLFields));
+            rflf.setMTBLFacetArrayOfEntriesLen(rflf.getMTBLFacetsArrayOfEntries().getArrayOfString().size());
+
+            for(int i=0; i<rflf.getMTBLFacetArrayOfEntriesLen(); i++){
+
+                //rflf.setMTBLCEntries(rflf.getMTBLCArrayOfEntries().getArrayOfString().get(i));
+                rflf.setMTBLFacetEntries(rflf.getMTBLFacetsArrayOfEntries().getArrayOfString().get(i));
                 //				String queryID = MTBLEntries.getString().get(2); // Id of the compound in Metabolights
                 rflf.setTechnology1(technology);
                 rflf.setOrganisms(organisms);
-                rflf.setOrgType(rflf.getMTBLCEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
-                rflf.setTechType(rflf.getMTBLCEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
+                rflf.setFacetOrgType(rflf.getMTBLFacetEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
+                rflf.setFacetTechType(rflf.getMTBLFacetEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
 
 
                 //Setup filters, pass technology and organism arrays as POJO in rflf.
@@ -313,13 +323,13 @@ public class ReferenceLayerController extends AbstractController {
     @SuppressWarnings("unchecked")
     private RefLayerSearchFilter refLayerFilterSetup(RefLayerSearchFilter rflf, ModelAndView mav) {
 
-        if(rflf.getTechType() != null){
-            rflf.setTechSplit(rflf.getTechType().split("\\n")); //split the technologies with \n
+        if(rflf.getFacetTechType() != null){
+            rflf.setTechSplit(rflf.getFacetTechType().split("\\n")); //split the technologies with \n
             rflf.setTechSplitLen(rflf.getTechSplit().length); //set the number of technologies, in this case 2.
 
             for(int t=0; t<rflf.getTechSplitLen(); t++){
                 if(!rflf.getTechHash().containsKey(rflf.getTechSplit()[t])){
-                    if(rflf.getTechType() != null){
+                    if(rflf.getFacetTechType() != null){
                         rflf.getTechHash().put(rflf.getTechSplit()[t], rflf.getTechValue()); //resetting the for all value to false
                     }
                 }
@@ -340,14 +350,14 @@ public class ReferenceLayerController extends AbstractController {
             }
         }
 
-        if(rflf.getOrgType() != null){
-            rflf.setOrgSplit(rflf.getOrgType().split("\\n")); //split the organisms with \n
+        if(rflf.getFacetOrgType() != null){
+            rflf.setOrgSplit(rflf.getFacetOrgType().split("\\n")); //split the organisms with \n
             rflf.setOrgSplitLen(rflf.getOrgSplit().length); //set the number of organisms. The length can vary according to study. 1-4.
 
             for(int o=0; o<rflf.getOrgSplitLen(); o++){
                 //getOrgSplit()[o] will contain single organism
                 if(!rflf.getOrgHash().containsKey(rflf.getOrgSplit()[o])){
-                    if(rflf.getOrgType() != null){
+                    if(rflf.getFacetOrgType() != null){
                         rflf.getOrgHash().put(rflf.getOrgSplit()[o], rflf.getOrgValue()); //makes value false for all the items in the list, resetting the value to false
                     }
                 }
@@ -444,6 +454,8 @@ public class ReferenceLayerController extends AbstractController {
         // Get the studies
         value = getValueFromEbieyeEntry(ColumnMap.METABOLIGHTS, ebieyeEntry);
         if (!value.equals("")) mc.setMTBLStudies(value.split("\\s"));
+
+
 
         // Get the iupac names
         value = getValueFromEbieyeEntry(ColumnMap.iupac, ebieyeEntry);
