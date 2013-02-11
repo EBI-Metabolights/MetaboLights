@@ -73,8 +73,6 @@ public class ReferenceLayerController extends AbstractController {
         //Create an object for reference layer filter.
         RefLayerSearchFilter rflf = new RefLayerSearchFilter();
 
-        //System.out.println("NumOfPages: "+NumOfPages);
-
         Integer PageNumber1 = null;
 
         if(PageNumber == null){
@@ -188,10 +186,8 @@ public class ReferenceLayerController extends AbstractController {
 
             if(rflf.getOrgSB() != null){
                 rflf.setTechQuery(rflf.getModQuery() + " AND ("+rflf.getOrgSB()+") AND ("+techSB+")"); //modifying query to include organisms and tech
-                //System.out.println(rflf.getModQuery() + " AND ("+rflf.getOrgSB()+") AND ("+techSB+")");
             } else {
                 rflf.setTechQuery(rflf.getModQuery() +" AND ("+techSB+")"); //modifying query to include tech only
-                //System.out.println(rflf.getModQuery() +" AND ("+techSB+")");
             }
         } else {
             rflf.setTechClear(true);
@@ -234,13 +230,6 @@ public class ReferenceLayerController extends AbstractController {
                 if(rflf.getMTBLCEntries().getString().get(5) != null) rflf.setOrgType(rflf.getMTBLCEntries().getString().get(5).split("\\n")); //gets single or multiple organism(s) depending on studies
                 if(rflf.getMTBLCEntries().getString().get(6) != null) rflf.setTechType(rflf.getMTBLCEntries().getString().get(6).split("\\n")); // gets single or multiple technology_type(s) depending on studies.
             }
-
-//            Set<String> unqOrg = new HashSet<String>(Arrays.asList(rflf.getOrgType()));
-//            String[] unqOrgArr = unqOrg.toArray(new String[unqOrg.size()]);
-//
-//            for(int test=0; test<unqOrgArr.length; test++){
-//                System.out.println(unqOrgArr[test]);
-//            }
 
             // Declare a collection to store all the entries found
             Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
@@ -286,7 +275,7 @@ public class ReferenceLayerController extends AbstractController {
                 mcs.add(mc);
             }
 
-            //code for the facets, below code looks redundant but it is not.
+            //Code for the facets, below code is not redundant.
             ArrayOfString MTBLFacetResults = null;
 
             MTBLFacetResults = ebiSearchService.getAllResultsIds(MTBLDomain, rflf.getModQuery());
@@ -296,9 +285,7 @@ public class ReferenceLayerController extends AbstractController {
 
             for(int i=0; i<rflf.getMTBLFacetArrayOfEntriesLen(); i++){
 
-                //rflf.setMTBLCEntries(rflf.getMTBLCArrayOfEntries().getArrayOfString().get(i));
                 rflf.setMTBLFacetEntries(rflf.getMTBLFacetsArrayOfEntries().getArrayOfString().get(i));
-                //				String queryID = MTBLEntries.getString().get(2); // Id of the compound in Metabolights
                 rflf.setTechnology1(technology);
                 rflf.setOrganisms(organisms);
                 rflf.setFacetOrgType(rflf.getMTBLFacetEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
@@ -321,6 +308,7 @@ public class ReferenceLayerController extends AbstractController {
     }
 
     @SuppressWarnings("unchecked")
+    //Setting up the filter
     private RefLayerSearchFilter refLayerFilterSetup(RefLayerSearchFilter rflf, ModelAndView mav) {
 
         if(rflf.getFacetTechType() != null){
@@ -355,7 +343,7 @@ public class ReferenceLayerController extends AbstractController {
             rflf.setOrgSplitLen(rflf.getOrgSplit().length); //set the number of organisms. The length can vary according to study. 1-4.
 
             for(int o=0; o<rflf.getOrgSplitLen(); o++){
-                //getOrgSplit()[o] will contain single organism
+                //getOrgSplit()[o] - single organism
                 if(!rflf.getOrgHash().containsKey(rflf.getOrgSplit()[o])){
                     if(rflf.getFacetOrgType() != null){
                         rflf.getOrgHash().put(rflf.getOrgSplit()[o], rflf.getOrgValue()); //makes value false for all the items in the list, resetting the value to false
@@ -379,6 +367,7 @@ public class ReferenceLayerController extends AbstractController {
         return rflf;
     }
 
+    //Total number of results in Metabolights domain.
     private int getDomainNumOfResults(String MTBLDomain1, String query, RefLayerSearchFilter rfFilter, int MTBLnumOfResults1) {
 
         if ((MTBLDomain1 != null)) {

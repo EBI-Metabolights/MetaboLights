@@ -43,10 +43,12 @@
                         var="RemainderValue" value="${queryResults % 10}" /> <c:set
                         var="CrudeNumOfPages" value="${queryResults / 10}" /> <c:set
                         var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" /> <c:set
-                        var="pageSize" value="10" /> <c:if test="${currentPage eq 1 }">
-                    <c:set var="pagerLeft" value="${currentPage}" />
-                </c:if> <c:set var="pagerRight" value="${currentPage +1}" /> <c:forEach
-                        var="loop" items="${NumOfPages}" varStatus="loopStatus">
+                        var="pageSize" value="10" />
+                    <c:if test="${currentPage eq 1 }">
+                        <c:set var="pagerLeft" value="${currentPage}" />
+                    </c:if>
+                    <c:set var="pagerRight" value="${currentPage +1}" />
+                    <c:forEach var="loop" items="${NumOfPages}" varStatus="loopStatus">
                     <c:if test="${loopStatus.index eq 0}">
                         <c:set var="NumOfPages" value="${loop}" />
                     </c:if>
@@ -147,17 +149,6 @@
                     </c:if>
 				</span>
         </div>
-        <!-- Have to work on below Jump To part
-		<div class="grid_8 omega">
-		<!-- <b><spring:message code="ref.msg.JumpTo"></spring:message></b>
-			<form name="JumpTo" id="JumpToForm" action="#" method="post">
-				<select id = JumpToPage">
-			        <c:forEach var="i" begin="${pagerLeft+1}" end="${NumOfPages}" step="1" varStatus ="status">
-							<option value="${i}">${i}</option>
-					</c:forEach>
-			    </select>
-		    </form>
-		</div>-->
     </div>
 </div>
 <div class="grid_6 omega">
