@@ -93,16 +93,15 @@
 
 <c:if test="${not empty ftpLocation}">
 	<div class="grid_8 prefix_1 alpha omega">
-		<div class="bigbutton seccolorI">
-			<a href="${ftpLocation}">
-				<div class="ebiicon download seccolorI"></div>&nbsp;
-				<span class="bigfont"> <spring:message
+        <a href="${ftpLocation}">
+    		<div class="bigbutton maincolorI">
+  				<span class="bigfont icon icon-functional" data-icon="=""> <spring:message
 						code="label.ftpDownload" />
 				</span>
-			</a>
-		</div>
-	</div>
-	<p/>
+        	</div>
+        </a>
+    </div>
+    <p/>
 </c:if>
 
 <c:if test="${not empty searchResult}">

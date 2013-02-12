@@ -142,6 +142,9 @@ public class SubmissionQueueController extends AbstractController {
 			ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
 			logger.error(e);
 			mav.addObject("error", e);
+            // Add the study id...
+            mav.addObject("studyId", study);
+
 
 			messageBody.append("\n\nERROR!!!!!\n\n" + e.getMessage() );
 			emailService.sendSimpleEmail( "queueExperiment FAILED in " + hostName + " by " + user.getUserName() , messageBody.toString());

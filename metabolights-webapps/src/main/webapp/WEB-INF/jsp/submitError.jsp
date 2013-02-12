@@ -10,6 +10,11 @@
 		<div class="ebiicon alert_i"></div>&nbsp;<strong><c:out value="${error.message}"/></strong>
 		<br/>
 		<br/>
-		<a href="submittoqueue"><spring:message code="msg.backToSubmitPage"/></a>
+		<c:if test="${not empty studyId}">
+            <a href="updatestudyform?study=${studyId}"><spring:message code="msg.backToSubmitPage"/></a>
+		</c:if>
+        <c:if test="${empty studyId}">
+            <a href="submittoqueue"><spring:message code="msg.backToSubmitPage"/></a>
+        </c:if>
 	</div>
 </c:if>
