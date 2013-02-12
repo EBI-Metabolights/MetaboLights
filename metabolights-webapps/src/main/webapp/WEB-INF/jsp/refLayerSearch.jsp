@@ -168,15 +168,6 @@ function navigate(_pageNumber) {
             <!--Technology filter-->
             <div class="grid_24 refLayerBox">
                 <b><spring:message code="ref.msg.technology"></spring:message></b>
-                <c:if test="${techClear eq true}">
-                    <c:forEach var="technology" items="${technologyList}">
-                        <ul style="max-height: 400px; overflow: auto" id="technology">
-                            <input type="checkbox" name="technology" value="${technology.key}" onclick="this.form.submit();">
-                            ${technology.key}
-                            </ul>
-                    </c:forEach>
-                </c:if>
-
                 <c:if test="${techClear ne true}">
                     <c:forEach var="technology" items="${technologyList}">
                         <c:if test="${technology.value eq 'true'}">
@@ -186,12 +177,16 @@ function navigate(_pageNumber) {
                             </ul>
                         </c:if>
                     </c:forEach>
-                    <hr>
+                    <c:forEach var="technology" items="${technologyList}">
+                        <c:if test="${technology.value eq 'true'}">
+                            <hr>
+                        </c:if>
+                    </c:forEach>
                     <c:forEach var="technology" items="${technologyList}">
                         <c:if test="${technology.value eq 'highlight'}">
                             <ul style="max-height: 400px; overflow: auto" id="technology">
                                 <input type="checkbox" name="technology" value="${technology.key}" onclick="this.form.submit();">
-                                <span class="dimmed">${technology.key}</span>
+                                ${technology.key}
                             </ul>
                         </c:if>
                     </c:forEach>
@@ -211,14 +206,6 @@ function navigate(_pageNumber) {
             <div class="grid_24 refLayerBox" id="orgFilter">
                 <b><spring:message code="ref.msg.organism"></spring:message></b>
                 <c:forEach var="RefLayerOrg" items="${RefLayer}">
-                    <c:if test="${orgClear eq true}">
-                        <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
-                            <ul style="max-height: 400px; overflow: auto" id="organisms">
-                                <input type="checkbox" name="organisms" value="${orghash.key}" onclick="this.form.submit();">
-                                    ${orghash.key}
-                            </ul>
-                        </c:forEach>
-                    </c:if>
                     <c:if test="${orgClear ne true}">
                         <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
                             <c:if test="${orghash.value eq 'true'}">
@@ -228,7 +215,11 @@ function navigate(_pageNumber) {
                                 </ul>
                             </c:if>
                         </c:forEach>
-                        <hr>
+                        <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
+                            <c:if test="${orghash.value eq 'true'}">
+                                <hr>
+                            </c:if>
+                        </c:forEach>
                         <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
                             <c:if test="${orghash.value eq 'highlight'}">
                                 <ul style="max-height: 400px; overflow: auto" id="organisms">

@@ -16,8 +16,8 @@ public class RefLayerSearchFilter {
 	private String ModQuery;
 	private String orgQuery;
 	private String techQuery;
-	private String[] orgType;
-	private String[] techType;
+	private String orgType;
+	private String techType;
     private String FacetOrgType;
     private String FacetTechType;
 
@@ -38,11 +38,11 @@ public class RefLayerSearchFilter {
 	private LinkedHashMap<String, String> orgHash;
 	private LinkedHashMap<String, String> orgCheckedItemsHash;
 	private LinkedHashMap<String, String> techCheckedItemsHash;
-	
+    private LinkedHashMap<String, String> orgNoDim;
+    private LinkedHashMap<String, String> techNoDim;
+
 	private Set<String> techCheckedItemsSet;
 	private Set<String> orgCheckedItemsSet;
-    private Set<String> orgSet;
-    private Set<String> techSet;
 	
 	
 	private ArrayOfArrayOfString MTBLCArrayOfEntries;
@@ -56,6 +56,26 @@ public class RefLayerSearchFilter {
 	private boolean techClear;
 	private boolean orgClear;
 
+    private Set<String> orgSet;
+    private Set<String> techSet;
+
+
+
+    public LinkedHashMap<String, String> getOrgNoDim() {
+        return orgNoDim;
+    }
+
+    public void setOrgNoDim(LinkedHashMap<String, String> orgNoDim) {
+        this.orgNoDim = orgNoDim;
+    }
+
+    public LinkedHashMap<String, String> getTechNoDim() {
+        return techNoDim;
+    }
+
+    public void setTechNoDim(LinkedHashMap<String, String> techNoDim) {
+        this.techNoDim = techNoDim;
+    }
 
     public Set<String> getOrgSet() {
         return orgSet;
@@ -234,19 +254,19 @@ public class RefLayerSearchFilter {
 	}
 
 
-    public String[] getOrgType() {
+    public String getOrgType() {
         return orgType;
     }
 
-    public void setOrgType(String[] orgType) {
+    public void setOrgType(String orgType) {
         this.orgType = orgType;
     }
 
-    public String[] getTechType() {
+    public String getTechType() {
         return techType;
     }
 
-    public void setTechType(String[] techType) {
+    public void setTechType(String techType) {
         this.techType = techType;
     }
 
