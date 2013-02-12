@@ -451,7 +451,7 @@ function toggleColumn(tableId, anchor, duration ) {
                                             <td>${met.metabolite.retention_time}</td>
                                         </c:if>
                                         <c:if test="${mlAssay.technology eq 'NMR spectroscopy'}">
-                                            <td>${met.metabolite.chemical_shift}Ac</td>
+                                            <td>${met.metabolite.chemical_shift}</td>
                                             <td>${met.metabolite.multiplicity}</td>
                                         </c:if>
 

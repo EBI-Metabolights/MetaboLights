@@ -3,6 +3,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!doctype html>
 <html class="no-js" lang="en">
+    <title>
+    <tiles:insertAttribute name="title" ignore="true" />
+    </title>
 	<tiles:insertAttribute name="head" ignore="true" />
 	<body class="level2">
 		<div id="skip-to">
