@@ -328,6 +328,8 @@ public class ReferenceLayerController extends AbstractController {
             rflfs.add(rflf);
             mav.addObject("RefLayer", rflfs);
             mav.addObject("technologyList", rflf.getTechHash());
+            mav.addObject("techLen", rflf.getTechHash().size());
+            mav.addObject("orgLen", rflf.getOrgHash().size());
             mav.addObject("query", query);
             mav.addObject("entries", mcs);
             mav.addObject("queryResults", MTBLnumOfResults);

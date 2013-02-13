@@ -77,25 +77,25 @@ function navigate(_pageNumber) {
                             <c:choose>
                                 <c:when test="${currrentPage lt 5}">
                                     <c:if test="${NumOfPages gt 5 }">
-                                        <c:forEach  var="j" begin="2" end="5" step="1" varStatus ="status">
+                                        <c:forEach  var="h" begin="2" end="5" step="1" varStatus ="status">
                                             <c:choose>
-                                                <c:when test="${currrentPage eq j}">
+                                                <c:when test="${currrentPage eq h}">
                                                     <b>${currrentPage}</b>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${j})"><c:out value="${j}" /></span></a>
+                                                    <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${h})"><c:out value="${h}" /></span></a>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
                                     </c:if>
                                     <c:if test="${NumOfPages lt 5 }">
-                                        <c:forEach var="h" begin="2" end="${NumOfPages}" step="1" varStatus="status">
+                                        <c:forEach var="i" begin="2" end="${NumOfPages}" step="1" varStatus="status">
                                             <c:choose>
-                                                <c:when test="${currrentPage eq h }">
+                                                <c:when test="${currrentPage eq i }">
                                                     <b>${CurrrentPage}</b>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${h})"><c:out value="${h}" /></span></a>
+                                                    <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${i})"><c:out value="${i}" /></span></a>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
@@ -130,7 +130,7 @@ function navigate(_pageNumber) {
                                 <c:otherwise>
                                     <c:if test="${currrentPage ne NumOfPages-1 }">
                                         <c:if test="${currrentPage ne NumOfPages-2 }">
-                                            <c:if test="${NumOfPages gt 5}">
+                                            <c:if test="${NumOfPages gt 6}">
                                                 ....
                                             </c:if>
                                         </c:if>
@@ -177,9 +177,11 @@ function navigate(_pageNumber) {
                             </ul>
                         </c:if>
                     </c:forEach>
-                    <c:forEach var="technology" items="${technologyList}">
+                    <c:forEach var="technology" items="${technologyList}" varStatus="loopStatus">
                         <c:if test="${technology.value eq 'true'}">
-                            <hr>
+                            <c:if test="${loopStatus.index eq (techLen-1)}">
+                                <hr>
+                            </c:if>
                         </c:if>
                     </c:forEach>
                     <c:forEach var="technology" items="${technologyList}">
@@ -215,9 +217,11 @@ function navigate(_pageNumber) {
                                 </ul>
                             </c:if>
                         </c:forEach>
-                        <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
+                        <c:forEach var="orghash" items="${RefLayerOrg.orgHash}" varStatus="loopStatus">
                             <c:if test="${orghash.value eq 'true'}">
-                                <hr>
+                                <c:if test="${loopStatus.index eq (orgLen-1)}">
+                                    <hr>
+                                </c:if>
                             </c:if>
                         </c:forEach>
                         <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
