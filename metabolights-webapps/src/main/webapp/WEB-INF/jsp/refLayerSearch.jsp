@@ -268,7 +268,9 @@ function navigate(_pageNumber) {
                     <br />
                     <br />
                     <div class="grid_24">
-                    <b><spring:message code="ref.compound.description"/></b>${entry.description}
+                    <c:if test="${not empty entry.description}">
+                        <b><spring:message code="ref.compound.description"/></b>${entry.description}
+                    </c:if>
                     </div>
                     <br /> <br /> <br />
                     <div class="grid_24">

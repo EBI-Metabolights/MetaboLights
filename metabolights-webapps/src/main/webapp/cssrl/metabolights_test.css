@@ -39,6 +39,12 @@ div .box {
     -webkit-border-radius:3px 3px 3px 3px;
 }
 
+/*div attribute for reactions*/
+.reacTab {
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+}
 
 /* td attribute for + and ? */
 .tdSymbols {
