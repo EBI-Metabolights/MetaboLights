@@ -27,6 +27,8 @@
 
     <p/>
 
+    <p><spring:message code="msg.trainOnline" /></p>
+
     <p>
     <a href="<spring:url value="contact"/>"><strong><spring:message code="label.contact"/></strong></a>
     </p>
