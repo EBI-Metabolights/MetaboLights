@@ -157,6 +157,7 @@
     <jee:jndi-lookup id="localHeaderURL"            jndi-name="java:comp/env/localHeaderURL" />
     <jee:jndi-lookup id="footerURL"                 jndi-name="java:comp/env/footerURL" />
     <jee:jndi-lookup id="ebiServiceURL"				jndi-name="java:comp/env/ebiServiceURL"/>
+    <jee:jndi-lookup id="EUPMCWebServiceURL"		jndi-name="java:comp/env/EUPMCWebServiceURL"/>
     
     <bean id="modelAndViewFactory" class="uk.ac.ebi.metabolights.webapp.StyleMAVFactory">
         <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
