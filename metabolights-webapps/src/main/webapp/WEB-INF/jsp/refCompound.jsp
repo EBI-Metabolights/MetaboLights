@@ -21,32 +21,32 @@ $(function() {
 <script type="text/javascript">
 
 	$(document).ajaxStart(function(){showWait();}).ajaxStop(function(){
-		hideWait();
-	});
+        hideWait();
+    });
 
-	$(document).ready(function() {
-		
-		$("#hourglass").dialog({
-		    create: function(){
-		    	$('.ui-dialog-titlebar-close').removeClass('ui-dialog-titlebar-close');
-		    },
-		    width: 200,
-		    height: 60,
-		    modal: true,
-		    autoOpen: false
-		});
-	});
-	
-	function showWait() {
-	    document.body.style.cursor = "wait";
-	    $('.ui-dialog-titlebar').hide();
-		$( "#hourglass" ).dialog( "open" );
-	}
-	
-	function hideWait(){
-	    document.body.style.cursor = "default";
-		$( "#hourglass" ).dialog("close");
-	}
+    $(document).ready(function() {
+
+        $("#hourglass").dialog({
+            create: function(){
+                $('.ui-dialog-titlebar-close').removeClass('ui-dialog-titlebar-close');
+            },
+            width: 200,
+            height: 60,
+            modal: true,
+            autoOpen: false
+        });
+    });
+
+    function showWait() {
+        document.body.style.cursor = "wait";
+        $('.ui-dialog-titlebar').hide();
+        $( "#hourglass" ).dialog( "open" );
+    }
+
+    function hideWait(){
+        document.body.style.cursor = "default";
+        $( "#hourglass" ).dialog("close");
+    }
 	
 </script>
 

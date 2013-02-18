@@ -491,8 +491,6 @@ public class ReferenceLayerController extends AbstractController {
         value = getValueFromEbieyeEntry(ColumnMap.METABOLIGHTS, ebieyeEntry);
         if (!value.equals("")) mc.setMTBLStudies(value.split("\\s"));
 
-
-
         // Get the iupac names
         value = getValueFromEbieyeEntry(ColumnMap.iupac, ebieyeEntry);
         if (!value.equals("")) mc.setIupac(value.split("\\n"));

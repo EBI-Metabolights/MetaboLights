@@ -48,15 +48,16 @@
     <Environment name="ondemand" value="/net/isilonP/public/rw/homes/tc_cm01/zip_ondemand/" type="java.lang.String"/>
     
     <!-- URLs for the frontier web service -->
-    <Environment name="headerURL" value="http://wwwint.ebi.ac.uk/web/template-service/prod/templates/compliance/masthead/global/services" type="java.lang.String"/>
-	<Environment name="localHeaderURL" value="http://wwwint.ebi.ac.uk/web/template-service/prod/templates/compliance/masthead/local" type="java.lang.String"/>
-	<Environment name="footerURL" value="http://wwwint.ebi.ac.uk/web/template-service/prod/templates/compliance/footer/global" type="java.lang.String"/>
+    <Environment name="headerURL" value="http://xxx:xxx/web/template-service/prod/templates/compliance/masthead/global/services" type="java.lang.String"/>
+	<Environment name="localHeaderURL" value="http://xxx:xxx/web/template-service/prod/templates/compliance/masthead/local" type="java.lang.String"/>
+	<Environment name="footerURL" value="http://xxx:xxx/web/template-service/prod/templates/compliance/footer/global" type="java.lang.String"/>
 
     <!-- This is where the web app looks for the lucene index -->
     <Environment name="luceneIndexDirectory" value="/nfs/production/panda/metabolights/lucene/dev/bii/" type="java.lang.String"/>
     <Environment name="luceneIndexDirectoryShort" value="/nfs/production/panda/metabolights/lucene/dev/" type="java.lang.String"/>
 
     <Environment name="ebiServiceURL" value="http://xxx:xxx/ebisearch/service.ebi?wsdl" type="java.lang.String"/>
+    <Environment name="EUPMCWebServiceURL" value="http://xxx:xxx/webservices/citexplore/v3.0.1/service?wsdl" type="java.lang.String"/>
 
 
 </Context>

@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <script type="text/javascript">
 function toggle(element) {
@@ -14,12 +15,12 @@ function toggle(element) {
 		</h3>
 		<c:forEach var="citation" items="${citationList}">
 			<div class="refLayerBox">
-				<b>Title</b> - <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${citation.id}&dataSource=MED">${citation.title}</a>
+				<b><spring:message code="ref.msg.CitationTitle"/></b>&nbsp;-&nbsp;<a href="http://europepmc.org/abstract/MED/${citation.id}">${citation.title}</a>
 				<br /> 
-				<b>Authors</b> - ${citation.authorString} <br />
-				<a href="http://www.ncbi.nlm.nih.gov/pubmed?term=${citation.pmid}"><b>PubMed:</b>${citation.pmid}</a>
+				<b><spring:message code="ref.msg.CitationAuthors"/></b>&nbsp;-&nbsp;${citation.authorString} <br />
+				<b><spring:message code="ref.msg.CitationPubMed"/></b>&nbsp;-&nbsp;<a href="http://www.ncbi.nlm.nih.gov/pubmed?term=${citation.pmid}">${citation.pmid}</a>
 				<br />
-				<a href="javascript:toggle('showAbstract${citation.id}')"><b>Abstract</b></a>
+				<a href="javascript:toggle('showAbstract${citation.id}')"><b><spring:message code="ref.msg.CitationAbstract"/></b></a>
 				<div id="showAbstract${citation.id}" style="display: none;">${citation.abstractText}
 				</div>	
 			</div>
