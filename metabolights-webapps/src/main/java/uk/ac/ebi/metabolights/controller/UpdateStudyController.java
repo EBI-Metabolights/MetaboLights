@@ -110,14 +110,13 @@ public class UpdateStudyController extends AbstractController {
 		
 		//Get the study data
 		LuceneSearchResult luceneStudy = getStudy(study);
-		
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateStudyForm");
 		
 		// Add objects to the model and view
 		mav.addObject("searchResult", luceneStudy);
 		mav.addObject("isUpdateMode", isUpdateMode);
 		mav.addObject("study", study);
-		
+
 		// If there is a default date...
 		if (defaultDate != null) mav.addObject("defaultDate", new SimpleDateFormat("dd-MMM-yyyy").parse(defaultDate));
 		
@@ -163,7 +162,7 @@ public class UpdateStudyController extends AbstractController {
 
 		// Validate the parameters
 		params.validate();
-				
+
 		// If there is validation message...
 		if (!params.validationmsg.isEmpty()){
 			
@@ -311,7 +310,8 @@ public class UpdateStudyController extends AbstractController {
 
         try{
 
-        	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.user);
+            // Use de submitter user name in the study instead of the User (could be a curator).
+        	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.study.getSubmitter().getUserName());
 		
 		} catch (Exception e) {
 			
@@ -396,7 +396,7 @@ public class UpdateStudyController extends AbstractController {
      * @throws IOException
      * @throws IllegalStateException 
      */
-    private ModelAndView queuePublicReleaseDate(HttpServletRequest request, String accession, Date publicReleaseDate, MetabolightsUser user) throws IllegalStateException, IOException{
+    private ModelAndView queuePublicReleaseDate(HttpServletRequest request, String accession, Date publicReleaseDate, String user) throws IllegalStateException, IOException{
     	 
     	String hostName = java.net.InetAddress.getLocalHost().getHostName();
     	
@@ -427,7 +427,7 @@ public class UpdateStudyController extends AbstractController {
     	 
     	String hostName = java.net.InetAddress.getLocalHost().getHostName();
     	
-    	SubmissionItem si = new SubmissionItem(null,user,null,accession);
+    	SubmissionItem si = new SubmissionItem(null,user.getUserName(),null,accession);
     	si.submitToQueue();
     	
 		// Cannot load the queue
@@ -702,13 +702,15 @@ public class UpdateStudyController extends AbstractController {
 				// file is required
 				validationmsg = validationmsg +  PropertyLookup.getMessage("msg.upload.notValid"); 
 			}
-			
-			// Double check the user owns the study
-			if (!study.getSubmitter().getUserName().equals(user.getUserName())){
-				// ... user do not own the study
-				validationmsg = validationmsg +  PropertyLookup.getMessage("msg.validation.studynotowned");
-			}
-			
+
+            // If the user is not a curator
+            if (!user.isCurator()){
+                // Double check the user owns the study or the user is a curator
+                if (!study.getSubmitter().getUserName().equals(user.getUserName())){
+                    // ... user do not own the study
+                    validationmsg = validationmsg +  PropertyLookup.getMessage("msg.validation.studynotowned");
+                }
+            }
 			// Do not continue if the study is public.
 			if (study.getIsPublic()){
 				// ... a public study cannot be modified

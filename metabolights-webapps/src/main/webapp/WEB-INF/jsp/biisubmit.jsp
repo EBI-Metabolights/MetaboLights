@@ -1,6 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <script>
 	
@@ -101,6 +102,29 @@
 		<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
 		<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
     </div>
+
+
+    <c:set var="currentUserId">
+        <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+            <sec:authentication property="principal.userId"/>
+        </sec:authorize>
+    </c:set>
+
+    <c:if test="${not empty users}">
+        <div class="grid_6 alpha prefix_1"><spring:message code="label.onBehalf"/>:</div>
+        <div class="grid_17 omega">
+            <select name="owner">
+                <c:forEach var="user" items="${users}">
+                    <c:if test="${user.userId == currentUserId}">
+                        <option value="${user.userName}" SELECTED="true">${user.firstName} ${user.lastName}</option>
+                    </c:if>
+                    <c:if test="${not (user.userId == currentUserId)}">
+                        <option value="${user.userName}">${user.firstName} ${user.lastName}</option>
+                    </c:if>
+                </c:forEach>
+            </select>
+        </div>
+    </c:if>
 	<div id="hideableButtons" class="grid_17 prefix_7 alpha omega">
 		&nbsp;<br/>
 		<input name="submit" type="submit" class="submit" value="<spring:message code="label.upload"/>">		

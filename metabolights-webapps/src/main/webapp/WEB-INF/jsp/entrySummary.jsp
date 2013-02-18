@@ -6,7 +6,7 @@
 
 <div class="grid_24 alpha omega box">
 	<c:choose>
-		<c:when test="${!empty welcomemessage && !searchResult.isPublic}">
+		<c:when test="${(!empty welcomemessage || !empty curator) && !searchResult.isPublic}">
 			<div class="grid_20 alpha">
 				<a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
 			</div>

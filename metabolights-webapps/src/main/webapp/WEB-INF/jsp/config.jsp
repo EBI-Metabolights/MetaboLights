@@ -170,7 +170,7 @@ $(function() {
 				<tr><th>Study</th><th>is Public?</th><th>Must be under</th><th>is it there?</th></tr>
 				<c:forEach var="study" items="${studiesHealth}">
 					<tr>
-						<td>${study.identifier}</td>
+						<td><a href="${study.identifier}">${study.identifier}</a></td>
 						<td>${study.isPublic}</td>
 						<td>${study.studyPath}</td>
 						<td <c:if test="${not study.isThere}">class="error"</c:if> >

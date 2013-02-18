@@ -17,6 +17,7 @@ import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
+import uk.ac.ebi.metabolights.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,8 +38,12 @@ public class SubmissionQueueController extends AbstractController {
 
 	@Autowired
 	private EmailService emailService;
-	
-	private static Logger logger = Logger.getLogger(SubmissionQueueController.class);
+
+    @Autowired
+    private UserService userService;
+
+
+    private static Logger logger = Logger.getLogger(SubmissionQueueController.class);
 
 	
 	
@@ -52,13 +57,17 @@ public class SubmissionQueueController extends AbstractController {
 
 		if (user != null){
 			//mav.addObject("user", user);
-			
 			try {
 				mav.addObject("queueditems",SubmissionQueue.getQueuedForUserId(user.getUserName().toString()));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+            // If the user is a curator
+            if (user.isCurator()){
+                mav.addObject("users", userService.getAll());
+            }
 		}
 		
 		
@@ -71,6 +80,7 @@ public class SubmissionQueueController extends AbstractController {
 			@RequestParam("file") MultipartFile file,
 			@RequestParam(required=true,value="pickdate") String publicDate,
 			@RequestParam(required=false,value="study") String study,
+            @RequestParam(required=false,value="owner") String owner,
 			HttpServletRequest request) 
 		throws Exception {
 
@@ -81,9 +91,18 @@ public class SubmissionQueueController extends AbstractController {
 	   String hostName = java.net.InetAddress.getLocalHost().getHostName();
 	   messageBody.append("Study submission started from machine " + hostName);
 	   
-  		// Get the user
-		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-	   
+  	   // Get the user
+	   MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+       String submitter = user.getUserName();
+
+       // If the user is a curator but there is an owner...
+       if (owner != null && user.isCurator()){
+
+           // Overwrite the submitter with the owner...
+           submitter = owner;
+       }
+
 	   try {
 
             if (file.isEmpty())
@@ -109,7 +128,12 @@ public class SubmissionQueueController extends AbstractController {
 
             // Extend the message...
           	messageBody.append("\nFileName: " + file.getOriginalFilename() );
-    		messageBody.append("\nUser: " + user.getUserName() );
+
+           if (submitter.equals(user.getUserName())){
+                messageBody.append("\nUser: " + user.getUserName());
+           } else {
+               messageBody.append("\nUser: " + user.getUserName() + "on behalf of " + submitter);
+           }
     		if (study==null){
     			messageBody.append("\nNEW STUDY");
     		}else{
@@ -119,7 +143,7 @@ public class SubmissionQueueController extends AbstractController {
     		
     		
             logger.info("Queueing study");
-			SubmissionItem si = new SubmissionItem(file, user, publicDateD, study);
+			SubmissionItem si = new SubmissionItem(file, submitter, publicDateD, study);
             
 			// Submit the item to the queue...
             si.submitToQueue();
@@ -151,7 +175,6 @@ public class SubmissionQueueController extends AbstractController {
 			
 			return mav;
 		
-
 		}
 		
 

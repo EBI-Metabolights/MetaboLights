@@ -128,6 +128,7 @@
 
 		<div class="grid_6 alpha prefix_1"><spring:message code="label.publicDate"/>:</div>
 		<div class="grid_17 omega">
+            <input type="hidden" name="owner" value="${searchResult.submitter.userName}">
 			<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
 			<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12" value="<fmt:formatDate pattern="dd-MMM-yyyy" value="${defaultDate}"/>"/>
 			<span id="dateError" class="error"></span>

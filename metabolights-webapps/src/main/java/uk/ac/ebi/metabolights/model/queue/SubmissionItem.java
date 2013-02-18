@@ -41,9 +41,9 @@ public class SubmissionItem {
 	static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	
 	
-	public SubmissionItem(MultipartFile file, MetabolightsUser user, Date publicReleaseDate, String accession){
+	public SubmissionItem(MultipartFile file, String user, Date publicReleaseDate, String accession){
 		this.fileToQueue = file;
-		this.userId =user.getUserName().toString();
+		this.userId =user;
 		this.publicReleaseDate = publicReleaseDate;
 		this.accession = accession ==null?"":accession;
 		

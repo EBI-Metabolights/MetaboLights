@@ -89,6 +89,10 @@
         </section>
         <br/>
 
+        <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+            <c:set var="curator" value="true"/>
+        </sec:authorize>
+
         <div class="grid_23 alpha omega" id="highlight-plugin">
             <c:forEach var="searchResult" items="${searchResults}">
                 <%@include file="entrySummary.jsp" %>
