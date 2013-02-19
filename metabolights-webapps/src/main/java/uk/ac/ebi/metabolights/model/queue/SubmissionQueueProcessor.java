@@ -159,8 +159,6 @@ public class SubmissionQueueProcessor {
 	}
 	/**
 	 * Upload the IsaTabFile (zip) into BII database replacing the id with our own accession numbers.
-	 * @param isaTabFile
-	 * @param status
 	 * @return
 	 * @throws Exception 
 	 */
@@ -257,10 +255,6 @@ public class SubmissionQueueProcessor {
 		OK - Copy the new zipfile to the correct folder (public or private locations)
 		OK - Remove old study zipfile
 		Display a success or error page to the submitter.  Email metabolights-help and submitter with results
-	 * @param file
-	 * @param study
-	 * @param publicReleaseDateS
-	 * @param request
 	 * @return
 	 * @throws Exception
 	 */
@@ -481,10 +475,10 @@ public class SubmissionQueueProcessor {
 	        
 	
 	
-	    } catch (FileNotFoundException e) {
-	        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-	    } catch (IsaTabException e) {
-	        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//	    } catch (FileNotFoundException e) {
+//	        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//	    } catch (IsaTabException e) {
+//	        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	        throw new Exception("updatePublicReleaseDate error: " + e.getMessage());
