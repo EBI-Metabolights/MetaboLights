@@ -6,10 +6,6 @@ hibernate.connection.driver_class=com.mysql.jdbc.Driver
 hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 hibernate.search.default.indexBase=C:\MTBL\xxxx\Lucene\
 
-#Your local mail server
-#mailServer=localhost
-#mailServer=mailsrv
-
 # Only used for local connections, not by EBI server deployment
 jdbc.initialPoolSize=2
 jdbc.minPoolSize=2
