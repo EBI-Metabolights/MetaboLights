@@ -10,8 +10,8 @@ import java.util.List;
  */
 public interface StudyService {
 
-	public Study getBiiStudy(String studyAcc, boolean clearSession);
-    public Study getBiiStudy(String studyAcc, boolean clearSession, boolean fromQueue);
+	public Study getBiiStudy(String studyAcc, boolean clearSession) throws IllegalAccessException;
+    public Study getBiiStudy(String studyAcc, boolean clearSession, boolean fromQueue) throws IllegalAccessException;
 	public void update(Study study);
     public List<Study> findStudiesToGoPublic();
     public List<String> findAllStudies();

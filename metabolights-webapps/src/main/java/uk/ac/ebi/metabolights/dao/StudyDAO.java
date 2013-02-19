@@ -14,8 +14,8 @@ import java.util.List;
  */
 public interface StudyDAO {
 
-	public Study getStudy(String studyAcc, boolean clearSession);
-    public Study getStudy(String studyAcc, boolean clearSession, boolean fromQueue);
+	public Study getStudy(String studyAcc, boolean clearSession) throws IllegalAccessException;
+    public Study getStudy(String studyAcc, boolean clearSession, boolean fromQueue) throws IllegalAccessException;
     public List<String> findAllAcc();
     public List<Study> findStudiesToGoPublic();
 	public void update(Study study);

@@ -19,7 +19,7 @@ public class StudyServiceImpl implements StudyService {
 
     //Called from the study Queue system
     @Transactional
-    public Study getBiiStudy(String studyAcc,boolean clearSession, boolean fromQueue){
+    public Study getBiiStudy(String studyAcc,boolean clearSession, boolean fromQueue) throws IllegalAccessException {
         Study study = studyDAO.getStudy(studyAcc,clearSession, fromQueue);
         if (studyAcc.isEmpty() || study.getAcc().isEmpty())
             return new Study();
@@ -28,7 +28,7 @@ public class StudyServiceImpl implements StudyService {
 
     //Called from user interation in the webapp
 	@Transactional
-	public Study getBiiStudy(String studyAcc, boolean clearSession){
+	public Study getBiiStudy(String studyAcc, boolean clearSession) throws IllegalAccessException {
 		return getBiiStudy(studyAcc, clearSession, false);
 	}
 

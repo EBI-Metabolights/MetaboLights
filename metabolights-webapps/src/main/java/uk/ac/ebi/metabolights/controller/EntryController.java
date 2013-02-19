@@ -2,6 +2,8 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,10 +56,24 @@ public class EntryController extends AbstractController {
 			study = studyService.getBiiStudy(mtblId,true);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();  //TODO, change
+        } catch (IllegalAccessException e){
+
+            /// The current user is not allowed to access the study...
+            // If there isn't a logged in user...
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth.getPrincipal().equals("anonymousUser")){
+                // redirect force login...
+                return new ModelAndView("redirect:securedredirect?url=" + mtblId);
+
+            // The user is not logged in but it's not authorised.
+            } else {
+                return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" +mtblId + ")");
+            }
+
 		}
 
 		// Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
-		if (study.getAcc() == null || study.getAcc().equals("Error") || study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
+		if (study ==null || study.getAcc() == null || study.getAcc().equals("Error"))
  			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
 
 		Collection<String> organismNames = getOrganisms(study);

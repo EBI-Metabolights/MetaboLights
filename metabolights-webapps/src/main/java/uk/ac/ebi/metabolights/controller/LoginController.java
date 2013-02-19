@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider;
@@ -56,13 +57,17 @@ public class LoginController extends AbstractController{
     }
 
 	@RequestMapping(value={"/login"})
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response)
+                               {
+
 		String url = " ";  //Have to reset the string, caching issues
 		url = getRedirectUrl(request,response);
+
     	//ModelAndView mav = new ModelAndView("login");
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("login");
     	if (url.contains("submit")) //If we come from the submit menu, show different text in the login jsp
-    		mav.addObject("source",url);
+    		mav.addObject("fromsubmit",true);
+
     	return mav;
 	}
 	
@@ -140,7 +145,13 @@ public class LoginController extends AbstractController{
 
 	    /* return a sane default in case data isn't there */
 	    return url;
-	}    
-    
+	}
+
+    @RequestMapping(value={"/securedredirect"})
+    public ModelAndView secureRedirect(@RequestParam(required=true,value="url") String url){
+
+        return new ModelAndView ("redirect:" + url);
+
+    }
 }
 

@@ -259,27 +259,20 @@ public class FileDispatcherController extends AbstractController {
         // ... the user is not a curator but is logged in:
         } else {
 
-            // Check if the user is granted to access the study
-            // Get the study
-            Study study = studyService.getBiiStudy(studyId,true);
+            try {
+                // Check if the user is granted to access the study
+                // Get the study
+                Study study = studyService.getBiiStudy(studyId,true);
 
-            // Get the list of users authorised to view the study
-            Collection<User> users = study.getUsers();
-            Iterator<User> iter = users.iterator();
+                return true;
 
-            // Go through the list of users
-            while (iter.hasNext()){
-                User user = iter.next();
+            } catch (IllegalAccessException e){
 
-                if (user.getUserName().equals(metabolightsUser.getUserName())){
-                    return true;
-                }
+                // User can't access the file
+                logger.info(metabolightsUser.getUserName() + " not allowed to access " + studyId + " files");
+                return false;
+
             }
         }
-
-        // User can't access the file
-        logger.info(metabolightsUser.getUserName() + " not allowed to access " + studyId + " files");
-        return false;
-
     } // End of method
 }

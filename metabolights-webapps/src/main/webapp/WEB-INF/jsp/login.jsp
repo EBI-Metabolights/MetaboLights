@@ -3,11 +3,11 @@
 
 
 	<h2 class="strapline">
-    	<c:if test="${empty source}"><spring:message code="msg.credentials" /></c:if>
-        <c:if test="${not empty source}"><spring:message code="msg.submCredentials" /></c:if>
+    	<c:if test="${empty fromsubmit}"><spring:message code="msg.credentials" /></c:if>
+        <c:if test="${not empty fromsubmit}"><spring:message code="msg.submCredentials" /></c:if>
     </h2>
     
-    <c:if test="${not empty source}">
+    <c:if test="${not empty fromsubmit}">
     	<p><strong><spring:message code="msg.submHeader"/></strong></p>
     </c:if>
 

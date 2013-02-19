@@ -37,7 +37,7 @@ public class StudyDAOImpl implements StudyDAO{
      */
     @Override
     @Transactional
-    public Study getStudy(String studyAcc, boolean clearSession) {
+    public Study getStudy(String studyAcc, boolean clearSession) throws IllegalAccessException {
         return getStudy(studyAcc, clearSession, false);
     }
 
@@ -49,7 +49,7 @@ public class StudyDAOImpl implements StudyDAO{
 	 */
 	@Override
     @Transactional
-	public Study getStudy(String studyAcc, boolean clearSession, boolean fromQueue) {
+	public Study getStudy(String studyAcc, boolean clearSession, boolean fromQueue) throws IllegalAccessException {
 
 		Session session = sessionFactory.getCurrentSession();
 
@@ -96,13 +96,16 @@ public class StudyDAOImpl implements StudyDAO{
                 }
 
                 if ( !validUser) {
-                    Study invalidStudy = new Study();
-                    invalidStudy.setAcc(VisibilityStatus.PRIVATE.toString());
-                    invalidStudy.setDescription("This is a PRIVATE study, you are not Authorised to view this study.");
-                    invalidStudy.setTitle("Please log in as the submitter or a MetaboLights curator.");
 
-                    return invalidStudy;
 
+//                    Study invalidStudy = new Study();
+//                    invalidStudy.setAcc(VisibilityStatus.PRIVATE.toString());
+//                    invalidStudy.setDescription("This is a PRIVATE study, you are not Authorised to view this study.");
+//                    invalidStudy.setTitle("Please log in as the submitter or a MetaboLights curator.");
+//
+//                    return invalidStudy;
+
+                    throw new IllegalAccessException("This is a PRIVATE study, you are not Authorised to view this study.") ;
                 }
 
             }  // Study PUBLIC
@@ -207,7 +210,15 @@ public class StudyDAOImpl implements StudyDAO{
         while (iterator.hasNext()){
             String studyAcc = (String) iterator.next();
             if (studyAcc != null){
-                Study completeStudy = getStudy(studyAcc,false);
+
+                Study completeStudy= null;
+
+                try {
+                    completeStudy = getStudy(studyAcc,false);
+                } catch (Exception e){
+                    // Do nothing. Mainly it will be Authorisation exception.
+                }
+
                 if (completeStudy != null)
                     studyList.add(completeStudy);
             }
