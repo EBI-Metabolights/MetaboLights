@@ -33,6 +33,7 @@ public class SubmissionQueueProcessor {
 	private static Logger logger = Logger.getLogger(SubmissionQueueProcessor.class);
 	private static String publicFtpLocation = PropertiesUtil.getProperty("publicFtpStageLocation");
 	private static String privateFtpLocation = PropertiesUtil.getProperty("privateFtpStageLocation");
+    private static String zipOnDemandLocation = PropertiesUtil.getProperty("ondemand");
 	
 
 	private IsaTabUploader itu = new IsaTabUploader();
@@ -332,7 +333,10 @@ public class SubmissionQueueProcessor {
 
 			// Remove the backup
 			needRestore = false;
+
+
 			FileUtils.deleteDirectory(backup);
+            deleteZippedFile(si.getAccession());
 		
 			
 		} catch (Exception e){
@@ -371,7 +375,14 @@ public class SubmissionQueueProcessor {
 		}
 		
 	}
-	
+
+    private void deleteZippedFile(String study){
+
+        File zippedStudy = new File (zipOnDemandLocation + study + ".zip");
+
+        // If it exists...delete it.
+        if (zippedStudy.exists()) zippedStudy.delete();
+    }
 	/*
     Update the studies release date and status
 	 */
@@ -471,8 +482,10 @@ public class SubmissionQueueProcessor {
 	            String studyPath = itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC);
 	            itu.changeFilePermissions(studyPath, VisibilityStatus.PUBLIC);
 	        }
-	
-	        
+
+            // Delete the zipped file
+            deleteZippedFile(si.getAccession());
+
 	
 	
 //	    } catch (FileNotFoundException e) {
