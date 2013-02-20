@@ -39,13 +39,13 @@
     <Environment name="uploadDirectory" value="/nfs/production/panda/metabolights/isatab/upload/" type="java.lang.String"/>
 
     <!-- ftp locations are used by the metabolights-uploader and metabolights-webapp to distibute submitted archives -->
-    <Environment name="publicFtpStageLocation" value="/nfs/production/panda/metabolights/isatab/ftp_stage/public/" type="java.lang.String"/>
-    <Environment name="privateFtpStageLocation" value="/nfs/production/panda/metabolights/isatab/ftp_stage/private/" type="java.lang.String"/>
+    <Environment name="publicFtpStageLocation" value="/nfs/public/rw/homes/tc_cm01/studies/public/" type="java.lang.String"/>
+    <Environment name="privateFtpStageLocation" value="/nfs/public/rw/homes/tc_cm01/studies/private/" type="java.lang.String"/>
     <Environment name="publicFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/public/" type="java.lang.String"/>
     <Environment name="privateFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/private/" type="java.lang.String"/>
     <Environment name="ftpServer" value="ftp.ebi.ac.uk" type="java.lang.String"/>
     <Environment name="filebase" value="/ebi/ftp/" type="java.lang.String"/>
-    <Environment name="ondemand" value="/net/isilonP/public/rw/homes/tc_cm01/zip_ondemand/" type="java.lang.String"/>
+    <Environment name="ondemand" value="/nfs/public/rw/homes/tc_cm01/zip_ondemand/" type="java.lang.String"/>
     
     <!-- URLs for the frontier web service -->
     <Environment name="headerURL" value="http://xxx:xxx/web/template-service/prod/templates/compliance/masthead/global/services" type="java.lang.String"/>
@@ -53,8 +53,8 @@
 	<Environment name="footerURL" value="http://xxx:xxx/web/template-service/prod/templates/compliance/footer/global" type="java.lang.String"/>
 
     <!-- This is where the web app looks for the lucene index -->
-    <Environment name="luceneIndexDirectory" value="/nfs/production/panda/metabolights/lucene/dev/bii/" type="java.lang.String"/>
-    <Environment name="luceneIndexDirectoryShort" value="/nfs/production/panda/metabolights/lucene/dev/" type="java.lang.String"/>
+    <Environment name="luceneIndexDirectory" value="/nfs/public/rw/homes/tc_cm01/lucene/prod/bii/" type="java.lang.String"/>
+    <Environment name="luceneIndexDirectoryShort" value="/nfs/public/rw/homes/tc_cm01/lucene/prod/" type="java.lang.String"/>
 
     <Environment name="ebiServiceURL" value="http://xxx:xxx/ebisearch/service.ebi?wsdl" type="java.lang.String"/>
     <Environment name="EUPMCWebServiceURL" value="http://xxx:xxx/webservices/citexplore/v3.0.1/service?wsdl" type="java.lang.String"/>
