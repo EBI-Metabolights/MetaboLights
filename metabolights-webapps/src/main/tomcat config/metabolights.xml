@@ -59,6 +59,7 @@
     <Environment name="ebiServiceURL" value="http://xxx:xxx/ebisearch/service.ebi?wsdl" type="java.lang.String"/>
     <Environment name="EUPMCWebServiceURL" value="http://xxx:xxx/webservices/citexplore/v3.0.1/service?wsdl" type="java.lang.String"/>
     <Environment name="mailServer" value="xxxx" type="java.lang.String"/>
+    <Environment name="EBIHost" value="http://www.ebi.ac.uk/metabolights/" type="java.lang.String"/>
 
 
 </Context>
