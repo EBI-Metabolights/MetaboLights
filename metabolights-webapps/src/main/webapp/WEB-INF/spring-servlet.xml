@@ -159,6 +159,7 @@
     <jee:jndi-lookup id="ebiServiceURL"				jndi-name="java:comp/env/ebiServiceURL"/>
     <jee:jndi-lookup id="EUPMCWebServiceURL"		jndi-name="java:comp/env/EUPMCWebServiceURL"/>
     <jee:jndi-lookup id="mailServer"		        jndi-name="java:comp/env/mailServer"/>
+    <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
     
     <bean id="modelAndViewFactory" class="uk.ac.ebi.metabolights.webapp.StyleMAVFactory">
         <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>

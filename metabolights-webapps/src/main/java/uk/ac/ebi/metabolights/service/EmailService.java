@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ import java.util.Date;
  */
 @Service
 public class EmailService {
+
+    private @Value("#{EBIHost}") String prodURL;
 
 	@Autowired
 	private MailSender mailSender; // configured in servlet XML
@@ -136,7 +139,7 @@ public class EmailService {
         String body = PropertyLookup.getMessage("msg.studytogopublic", studyAcc, studyDate);
 
         if (madePublic)  //We just made your study public
-            body = PropertyLookup.getMessage("msg.studynowpublic", studyAcc);
+            body = PropertyLookup.getMessage("msg.studynowpublic", studyAcc, prodURL);
 
         msg.setTo(emailAddress);
         msg.setText(body);
@@ -223,7 +226,7 @@ public class EmailService {
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
 		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
 		String subject = PropertyLookup.getMessage("mail.updateStudy.subject", ID);
-		String body = PropertyLookup.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString()});
+		String body = PropertyLookup.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
 		
 		sendSimpleEmail(from, to, subject, body);
 		
@@ -236,7 +239,7 @@ public class EmailService {
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
 		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
 		String subject = PropertyLookup.getMessage("mail.publicReleaseDate.subject", ID);
-		String body = PropertyLookup.getMessage("mail.publicReleaseDate.body", new String[]{  ID, publicReleaseDate.toString()});
+		String body = PropertyLookup.getMessage("mail.publicReleaseDate.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
 		
 		sendSimpleEmail(from, to, subject, body);
 		
