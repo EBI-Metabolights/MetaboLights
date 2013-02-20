@@ -1,7 +1,7 @@
 #!/bin/ksh
 
 echo "Move file script started"
-base_dir=/net/isilonP/public/rw/homes/tc_cm01/studies/public
+base_dir=/nfs/public/rw/homes/tc_cm01/studies/public
 ftp_folder=/ebi/ftp/pub/databases/metabolights/studies/public/
 fuser_binary=/sbin/fuser
 #fuser_binary=fuser
