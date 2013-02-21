@@ -1,24 +1,20 @@
 package uk.ac.ebi.metabolights.controller;
 
-import java.net.MalformedURLException;
-
-
-import java.net.URL;
-import java.util.*;
-
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.ebisearchservice.ArrayOfString;
 import uk.ac.ebi.ebisearchservice.EBISearchService;
 import uk.ac.ebi.ebisearchservice.EBISearchService_Service;
 import uk.ac.ebi.metabolights.referencelayer.MetabolightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.RefLayerSearchFilter;
 import uk.ac.ebi.metabolights.service.AppContext;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Controller for login and related actions.
@@ -221,7 +217,7 @@ public class ReferenceLayerController extends AbstractController {
             }
 
             //To make it similar to that of Repository
-            rflf.setMTBLCArrayOfEntries(ebiSearchService.getEntries(MTBLDomain, MTBLResults, MTBLFields));
+            rflf.setMTBLCArrayOfEntries(ebiSearchService.getEntries(MTBLDomain, MTBLResults, MTBLFields));        //TODO, long running
             rflf.setMTBLCArrayOfEntriesLen(rflf.getMTBLCArrayOfEntries().getArrayOfString().size());
 
             for(int i=0; i<rflf.getMTBLCArrayOfEntriesLen(); i++){

@@ -213,7 +213,7 @@ public class EmailService {
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
 		String[] to = {userEmail, PropertiesUtil.getProperty("mtblDevEmailAddress")};
 		String subject = PropertyLookup.getMessage("mail.submittedStudy.subject", ID);
-		String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString()});
+		String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
 		
 		sendSimpleEmail(from, to, subject, body);
 		
