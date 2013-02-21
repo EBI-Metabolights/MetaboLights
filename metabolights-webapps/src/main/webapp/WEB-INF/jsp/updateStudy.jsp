@@ -95,8 +95,7 @@
 	<div class="grid_8 prefix_1 alpha omega">
         <a href="${ftpLocation}">
     		<div class="bigbutton maincolorI">
-  				<span class="bigfont icon icon-functional" data-icon="=""> <spring:message
-						code="label.ftpDownload" />
+  				<span class="bigfont icon icon-functional" data-icon="=""> <spring:message code="label.ftpDownload" />
 				</span>
         	</div>
         </a>

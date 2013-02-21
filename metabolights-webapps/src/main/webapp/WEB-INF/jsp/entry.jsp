@@ -163,8 +163,14 @@ function toggleColumn(tableId, anchor, duration ) {
 </script>
 <div class="push_1 grid_22 title alpha omega">
 	<strong>${study.acc}: ${study.title}</strong>
-    <a class="noLine" href="${study.acc}/files/${study.acc}" >
-        <span class="right icon icon-functional" data-icon="=">
+    <c:if test="${study.status eq 'PUBLIC'}">
+        <a class="right noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.acc}" title="View all files"><spring:message code="label.ftp"/></a>
+        <span class="right">
+            &nbsp;&#124;&nbsp;
+        </span>
+    </c:if>
+    <a class="right noLine" href="${study.acc}/files/${study.acc}" title="Download whole study">
+        <span class="icon icon-functional" data-icon="=">
             <spring:message code="label.ftpDownload"/>
         </span>
     </a>
