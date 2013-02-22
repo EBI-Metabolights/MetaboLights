@@ -217,7 +217,7 @@ public class ReferenceLayerController extends AbstractController {
             }
 
             //To make it similar to that of Repository
-            rflf.setMTBLCArrayOfEntries(ebiSearchService.getEntries(MTBLDomain, MTBLResults, MTBLFields));        //TODO, long running
+            rflf.setMTBLCArrayOfEntries(ebiSearchService.getEntries(MTBLDomain, MTBLResults, MTBLFields));
             rflf.setMTBLCArrayOfEntriesLen(rflf.getMTBLCArrayOfEntries().getArrayOfString().size());
 
             for(int i=0; i<rflf.getMTBLCArrayOfEntriesLen(); i++){
