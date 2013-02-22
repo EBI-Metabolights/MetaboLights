@@ -74,15 +74,14 @@
 <div class="grid_11">
         <h2><spring:message code="title.download" /></h2>
         <p>
-        <spring:message code="msg.metabolightsAbout12" />
+            <a class="icon icon-generic bigfont" data-icon="T" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
+            <spring:message code="msg.metabolightsAbout12" />
         </p>
-        &nbsp;&nbsp;<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"><div class="ebiicon laptop"></div></a>
         <br/>&nbsp;
         <p>
+            <a class="icon icon-functional bigfont" data-icon="A" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
             <spring:message code="msg.metabolightsAbout7" />
         </p>
-        &nbsp;&nbsp;<a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"><div class="ebiicon lab"></div></a>
-
 </div>
 
 <div class="grid_8 omega">
