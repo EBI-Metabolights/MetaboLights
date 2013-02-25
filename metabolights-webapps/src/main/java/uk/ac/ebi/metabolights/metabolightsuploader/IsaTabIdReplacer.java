@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.checklists.CheckList;
@@ -282,16 +283,18 @@ public class IsaTabIdReplacer
 		// Load properties
 		loadProperties();
 		
-		//Define a filename filter
-		FilenameFilter filter = new FilenameFilter() {
-			
-			public boolean accept(File arg0, String arg1) {
-				
-				//Accept only investigation files
-				return (arg1.equals(fileWithIds));
-			}
-		};
-		
+//		//Define a filename filter
+//		FilenameFilter filter = new FilenameFilter() {
+//
+//			public boolean accept(File arg0, String arg1) {
+//
+//				//Accept only investigation files
+//				return (arg1.equals(fileWithIds));
+//			}
+//		};
+
+        FileFilter filter = new RegexFileFilter(fileWithIds);
+
 		//Get the file list filtered
 		fileList = isaFolder.listFiles(filter);
 		

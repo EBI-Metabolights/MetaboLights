@@ -174,7 +174,8 @@ public class SubmissionQueueProcessor {
             // Upload the file
             return itu.Upload();
         } catch (Exception e){
-            cleanProcessFolder();
+            // This is cleaning the process folder and it should be done in the caller method, this solves "disapearing the submitted file" when there is a validation error.
+            //cleanProcessFolder();
             throw e;
         }
 	}
