@@ -375,7 +375,7 @@ public class IsaTabIdReplacer
 		}
 		
 	}
-	
+
 	private String replaceIdInLine(String line, String accessionNumber){
 		
 	    //For each id...
@@ -395,7 +395,7 @@ public class IsaTabIdReplacer
 	    	  //Get the Id Value (i.e.: BII-1-S)
 	    	  String idInitialValue = StringUtils.replace(line, id + "\t\"", "");
 	    	  idInitialValue = StringUtils.truncate(idInitialValue);
-	    	  
+
 	    	  //Compose the line:         Study Identifier   "MTBL1"
 	    	  line = id + "\t\"" + accessionNumber + "\"";
 	    	  
@@ -413,6 +413,7 @@ public class IsaTabIdReplacer
 				//initialIdValuesList = initialIdValuesList + idInitialValue + " ";
 	    		ids.put(idInitialValue, accessionNumber);
                 //setStudyIdToUse(accession);
+                accessionService.saveSubmittedId(idInitialValue, accessionNumber);
 	    		logger.info("Study identifier " + idInitialValue + " replaced with " +accessionNumber);
 	    		
 	    	  }

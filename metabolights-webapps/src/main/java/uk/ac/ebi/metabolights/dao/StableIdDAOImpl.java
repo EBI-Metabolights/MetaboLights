@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import uk.ac.ebi.metabolights.model.MetaboLightsSubmittedId;
 import uk.ac.ebi.metabolights.model.StableId;
 
 @Repository
@@ -40,5 +42,25 @@ public class StableIdDAOImpl implements StableIdDAO {
 		logger.debug("Updated StableId sequence =" +stableId.getSeq());
 		
 	}
+
+    @Transactional
+    public void storeInitialId(String oldId, String newId) {
+        Session session = sessionFactory.getCurrentSession();
+        MetaboLightsSubmittedId submittedId = new MetaboLightsSubmittedId(oldId, newId);
+        session.save(submittedId);
+    }
+
+    @Transactional
+    public MetaboLightsSubmittedId getInitialId(String studyAcc) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query q = session.createQuery("from MetaboLightsSubmittedId where studyAcc = :acc");
+        q.setParameter("acc", studyAcc);
+
+        logger.debug("retrieving MetaboLightsSubmittedId");
+        MetaboLightsSubmittedId submittedId = (MetaboLightsSubmittedId) q.uniqueResult();
+
+        return submittedId;
+    }
 
 }

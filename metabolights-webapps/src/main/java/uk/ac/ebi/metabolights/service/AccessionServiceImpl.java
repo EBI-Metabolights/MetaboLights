@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.dao.StableIdDAO;
+import uk.ac.ebi.metabolights.model.MetaboLightsSubmittedId;
 import uk.ac.ebi.metabolights.model.StableId;
 
 /**
@@ -37,7 +38,17 @@ public class AccessionServiceImpl implements AccessionService {
 		this.defaultPrefix = defaultPrefix;
 	}
 
-	/**
+    @Override
+    public MetaboLightsSubmittedId getSubmittedId(String studyAcc) {
+        return stableIdDAO.getInitialId(studyAcc);
+    }
+
+    @Override
+    public void saveSubmittedId(String orgId, String studyAcc) {
+        stableIdDAO.storeInitialId(orgId, studyAcc);
+    }
+
+    /**
 	 * It has the logic concatenating the Id and the prefix. It also increase the Id by one,
 	 * and invoke persistance of the new value to the database with the new Id increased
 	 * @return String with the concatenated Accession number

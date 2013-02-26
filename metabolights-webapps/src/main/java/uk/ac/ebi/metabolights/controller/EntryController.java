@@ -11,15 +11,15 @@ import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
-import uk.ac.ebi.bioinvindex.utils.processing.ProcessingUtils;
 import uk.ac.ebi.metabolights.model.MLAssay;
-import uk.ac.ebi.metabolights.model.MLProcessingUtils;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.service.*;
+import uk.ac.ebi.metabolights.service.AccessionService;
+import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.service.StudyService;
+import uk.ac.ebi.metabolights.service.TextTaggerService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -40,6 +40,9 @@ public class EntryController extends AbstractController {
 
 	@Autowired
 	private StudyService studyService;
+
+    @Autowired
+    private AccessionService accessionService;
 
     public static final String METABOLIGHTS_ID_REG_EXP = "MTBLS.+";
 
@@ -86,6 +89,8 @@ public class EntryController extends AbstractController {
 		mav.addObject("organismNames", organismNames);
 		mav.addObject("factors", getFactorsSummary(study));
 		mav.addObject("assays", getMLAssays(study));
+
+        mav.addObject("submittedID", accessionService.getSubmittedId(mtblId));
 
 		//Have to give the user the download stream as the study is not on the public ftp
 		//if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))

@@ -196,6 +196,10 @@ function toggleColumn(tableId, anchor, duration ) {
             <c:if test="${not empty study.submissionDate}"><spring:message code="label.subDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/>&nbsp;&nbsp;</c:if>
             <c:if test="${not empty study.releaseDate}"><spring:message code="label.releaseDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></c:if>
         </c:if>
+
+       <c:if test="${not empty submittedID.submittedId}">
+           &nbsp;&nbsp;<spring:message code="label.submittedId"/>: ${submittedID.submittedId}
+       </c:if>
         
 	    <c:if test="${not empty study.description}">
    		     <br/><br/><span style="text-align:justify"><div id="description">${study.description}</div></span>

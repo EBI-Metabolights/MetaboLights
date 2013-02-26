@@ -10,6 +10,8 @@
 
 package uk.ac.ebi.metabolights.service;
 
+import uk.ac.ebi.metabolights.model.MetaboLightsSubmittedId;
+
 /**
  * Created by IntelliJ IDEA.
  * User: kenneth
@@ -22,5 +24,7 @@ public interface AccessionService {
     public String getAccessionNumber();
     public String getDefaultPrefix ();
     public void setDefaultPrefix(String defaultPrefix);
+    public MetaboLightsSubmittedId getSubmittedId(String studyAcc);
+    public void saveSubmittedId(String orgId, String studyAcc);
 
 }

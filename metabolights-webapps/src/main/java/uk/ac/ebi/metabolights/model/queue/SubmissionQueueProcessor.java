@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.controller.SubmissionController;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.AppContext;
@@ -174,6 +173,7 @@ public class SubmissionQueueProcessor {
             // Upload the file
             return itu.Upload();
         } catch (Exception e){
+
             // This is cleaning the process folder and it should be done in the caller method, this solves "disapearing the submitted file" when there is a validation error.
             //cleanProcessFolder();
             throw e;

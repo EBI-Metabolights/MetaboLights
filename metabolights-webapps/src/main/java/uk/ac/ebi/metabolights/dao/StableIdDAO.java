@@ -9,6 +9,8 @@
  */
 
 package uk.ac.ebi.metabolights.dao;
+
+import uk.ac.ebi.metabolights.model.MetaboLightsSubmittedId;
 import uk.ac.ebi.metabolights.model.StableId;
 
 /**
@@ -21,5 +23,7 @@ public interface StableIdDAO {
 
     public StableId getNextStableId();
     public void update(StableId stableId);
+    public void storeInitialId(String oldId, String newId);
+    public MetaboLightsSubmittedId getInitialId(String newId);
 
 }
