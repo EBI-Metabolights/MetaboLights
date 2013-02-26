@@ -114,11 +114,11 @@ public class SubmissionQueueProcessor {
 			
 			// There was an error in the submission process...
 			si.moveFileTo(SubmissionQueue.getErrorFolder(), true);
+
+            // Clean the process folder anyway
+            cleanProcessFolder();
+
 			AppContext.getEmailService().sendSubmissionError(si.getUserId(), si.getOriginalFileName(), e.getMessage());
-			
-			// Clean the process folder anyway
-			cleanProcessFolder();
-		
 		}
 		
 		

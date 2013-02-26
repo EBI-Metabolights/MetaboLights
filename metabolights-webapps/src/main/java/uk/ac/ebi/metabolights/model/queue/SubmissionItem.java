@@ -178,11 +178,11 @@ public class SubmissionItem {
         File destination =new File(destinationFolder + fileQueued.getName());
 
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH_mm_ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String timeStamp = sdf.format(cal.getTime());
 
         if (isMoveToErrorFolder) {
-            destination =new File(destinationFolder + fileQueued.getName() + timeStamp);
+            destination = new File(destinationFolder + "TS_" +timeStamp + "~" + fileQueued.getName());
         }
 
 		FileUtils.moveFile(fileQueued, destination);
