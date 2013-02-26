@@ -63,7 +63,7 @@ public class SubmissionQueueProcessor {
 			}
 		
 			// Move it to the process folder
-			si.moveFileTo(SubmissionQueue.getProcessFolder());
+			si.moveFileTo(SubmissionQueue.getProcessFolder(), false);
 			
 			// If it's a new study
 			if (si.getAccession().isEmpty())
@@ -113,7 +113,7 @@ public class SubmissionQueueProcessor {
 		}catch(Exception e){
 			
 			// There was an error in the submission process...
-			si.moveFileTo(SubmissionQueue.getErrorFolder());
+			si.moveFileTo(SubmissionQueue.getErrorFolder(), true);
 			AppContext.getEmailService().sendSubmissionError(si.getUserId(), si.getOriginalFileName(), e.getMessage());
 			
 			// Clean the process folder anyway

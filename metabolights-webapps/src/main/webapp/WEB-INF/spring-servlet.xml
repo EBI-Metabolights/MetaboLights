@@ -229,13 +229,13 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="#{mailServer}"/>
     </bean>
-	
-	
-	<!--
+
+
+    <!--
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="587" />
-		<property name="username" value="p.conesa.mingo" />
+		<property name="port" value="465" />
+		<property name="username" value="tejasvi.mahendraker" />
 		<property name="password" value="password" />
 	 
 		<property name="javaMailProperties">
@@ -245,7 +245,8 @@
 	       	   </props>
 		</property>
 	</bean>
-	-->
+     -->
+
 	<bean id="reminderTemplate" class="org.springframework.mail.SimpleMailMessage">
 	  <property name="from" value="${replyTo}"/>
 	  <property name="subject" value="Your new MetaboLights password"/>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
@@ -136,7 +137,7 @@ public class SubmissionItem {
 
 		
         String date = publicReleaseDate==null?"":sdf.format(publicReleaseDate);
-		
+        
 		String fileName = userId + FILE_NAME_SEP + accession + FILE_NAME_SEP + date + FILE_NAME_SEP + this.originalFileName;  
 		
 		return fileName;
@@ -172,11 +173,18 @@ public class SubmissionItem {
 		
 	}
 	
-	public void moveFileTo(String destinationFolder) throws IOException{
-		
-		
-		File destination =new File(destinationFolder + fileQueued.getName());
-		
+	public void moveFileTo(String destinationFolder, Boolean isMoveToErrorFolder) throws IOException{
+
+        File destination =new File(destinationFolder + fileQueued.getName());
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH_mm_ss");
+        String timeStamp = sdf.format(cal.getTime());
+
+        if (isMoveToErrorFolder) {
+            destination =new File(destinationFolder + fileQueued.getName() + timeStamp);
+        }
+
 		FileUtils.moveFile(fileQueued, destination);
 		
 		fileQueued = destination;
