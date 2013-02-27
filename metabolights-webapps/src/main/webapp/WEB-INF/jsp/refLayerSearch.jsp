@@ -35,7 +35,7 @@ function navigate(_pageNumber) {
 
         <div class="grid_24 title alpha">
             <div class="grid_4 aplha">
-                <b>Page:&nbsp;${currrentPage}</b>
+                <b>Page:&nbsp;${currentPage}</b>
             </div>
             <div class="grid_20 omega">
                 <!-- <b><spring:message code="ref.msg.Navigate"/></b>-->
@@ -59,28 +59,28 @@ function navigate(_pageNumber) {
                         <c:if test="${RemainderItems ne 0 }">
                             <c:set var="NumOfPages" value="${NumOfPages+1}" />
                         </c:if>
-                        <c:if test="${currrentPage lt 1}">
-                            <b><a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currrentPage})"></a></b>
+                        <c:if test="${currentPage lt 1}">
+                            <b><a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currentPage})"></a></b>
                         </c:if>
-                        <c:if test="${currrentPage gt 1}">
-                            <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currrentPage-1})"></a>
+                        <c:if test="${currentPage gt 1}">
+                            <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currentPage-1})"></a>
                         </c:if>
                         <c:if test="${NumOfPages gt 1}">
                             <c:choose>
-                                <c:when test="${currrentPage eq 1 }">
-                                    ${currrentPage}
+                                <c:when test="${currentPage eq 1 }">
+                                    ${currentPage}
                                 </c:when>
                                 <c:otherwise>
                                     <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(1)"><c:out value="1" /></span></a>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
-                                <c:when test="${currrentPage lt 5}">
+                                <c:when test="${currentPage lt 5}">
                                     <c:if test="${NumOfPages gt 5 }">
                                         <c:forEach  var="h" begin="2" end="5" step="1" varStatus ="status">
                                             <c:choose>
-                                                <c:when test="${currrentPage eq h}">
-                                                    <b>${currrentPage}</b>
+                                                <c:when test="${currentPage eq h}">
+                                                    <b>${currentPage}</b>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${h})"><c:out value="${h}" /></span></a>
@@ -91,8 +91,8 @@ function navigate(_pageNumber) {
                                     <c:if test="${NumOfPages lt 5 }">
                                         <c:forEach var="i" begin="2" end="${NumOfPages}" step="1" varStatus="status">
                                             <c:choose>
-                                                <c:when test="${currrentPage eq i }">
-                                                    <b>${CurrrentPage}</b>
+                                                <c:when test="${currentPage eq i }">
+                                                    <b>${currentPage}</b>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${i})"><c:out value="${i}" /></span></a>
@@ -103,8 +103,8 @@ function navigate(_pageNumber) {
                                     <c:if test="${NumOfPages eq 5 }">
                                         <c:forEach  var="j" begin="2" end="4" step="1" varStatus ="status">
                                             <c:choose>
-                                                <c:when test="${currrentPage eq j}">
-                                                    <b>${currrentPage}</b>
+                                                <c:when test="${currentPage eq j}">
+                                                    <b>${currentPage}</b>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${j})"><c:out value="${j}" /></span></a>
@@ -114,22 +114,22 @@ function navigate(_pageNumber) {
                                     </c:if>
                                 </c:when>
                                 <c:otherwise>
-                                    ....<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${currrentPage-1})"><c:out value="${currrentPage-1}" /></span></a>
-                                    <c:if test="${currrentPage ne NumOfPages }">
-                                        <b>${currrentPage}</b>
-                                        <c:if test="${currrentPage ne NumOfPages-1 }">
-                                            <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${currrentPage+1})"><c:out value="${currrentPage+1}" /></span></a>
+                                    ....<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${currentPage-1})"><c:out value="${currentPage-1}" /></span></a>
+                                    <c:if test="${currentPage ne NumOfPages }">
+                                        <b>${currentPage}</b>
+                                        <c:if test="${currentPage ne NumOfPages-1 }">
+                                            <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${currentPage+1})"><c:out value="${currentPage+1}" /></span></a>
                                         </c:if>
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
-                                <c:when test="${currrentPage eq NumOfPages}">
-                                    <b>${currrentPage}</b>
+                                <c:when test="${currentPage eq NumOfPages}">
+                                    <b>${currentPage}</b>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:if test="${currrentPage ne NumOfPages-1 }">
-                                        <c:if test="${currrentPage ne NumOfPages-2 }">
+                                    <c:if test="${currentPage ne NumOfPages-1 }">
+                                        <c:if test="${currentPage ne NumOfPages-2 }">
                                             <c:if test="${NumOfPages gt 6}">
                                                 ....
                                             </c:if>
@@ -144,8 +144,8 @@ function navigate(_pageNumber) {
                                 </c:otherwise>
                             </c:choose>
                         </c:if>
-                        <c:if test="${(((currrentPage-1)*pageSize)+pageSize) lt queryResults}">
-                            <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${currrentPage+1})"></a>
+                        <c:if test="${(((currentPage-1)*pageSize)+pageSize) lt queryResults}">
+                            <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${currentPage+1})"></a>
                         </c:if>
                     </span>
             </div>
@@ -303,7 +303,7 @@ function navigate(_pageNumber) {
         </div>
         <div class="grid_12 title alpha">
             <div class="grid_4">
-                <b>Page:&nbsp;${currrentPage}</b>
+                <b>Page:&nbsp;${currentPage}</b>
             </div>
             <div id="paginationBottom" class="grid_20"></div>
             <script>$('#pagination').clone().appendTo('#paginationBottom');</script>

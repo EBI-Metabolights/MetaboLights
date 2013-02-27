@@ -31,8 +31,8 @@ public class RefLayerSearchFilter {
 
 	private int techSplitLen;
 	private int orgSplitLen;
-	private int MTBLCArrayOfEntriesLen;
-    private int MTBLFacetArrayOfEntriesLen;
+	private int listOfMTBLEntriesLen;
+    private int ListOfMTBLEntriesForFacetsLen;
 	
 	private LinkedHashMap<String, String> techHash;
 	private LinkedHashMap<String, String> orgHash;
@@ -45,13 +45,13 @@ public class RefLayerSearchFilter {
 	private Set<String> orgCheckedItemsSet;
 	
 	
-	private ArrayOfArrayOfString MTBLCArrayOfEntries;
-    private ArrayOfArrayOfString MTBLFacetsArrayOfEntries;
-	private ArrayOfString MTBLCEntries;
+	private ArrayOfArrayOfString listOfMTBLEntries;
+    private ArrayOfArrayOfString ListOfMTBLEntriesForFacets;
+	private ArrayOfString MTBLEntries;
     private ArrayOfString MTBLFacetEntries;
 	
-	private StringBuffer orgSB;
-	private StringBuffer techSB;
+	private StringBuffer modifyQueryToInclOrgs;
+	private StringBuffer modifyQueryToInclTech;
 	
 	private boolean techClear;
 	private boolean orgClear;
@@ -59,7 +59,37 @@ public class RefLayerSearchFilter {
     private Set<String> orgSet;
     private Set<String> techSet;
 
+    public int getListOfMTBLEntriesLen() {
+        return listOfMTBLEntriesLen;
+    }
 
+    public void setListOfMTBLEntriesLen(int listOfMTBLEntriesLen) {
+        this.listOfMTBLEntriesLen = listOfMTBLEntriesLen;
+    }
+
+    public ArrayOfArrayOfString getListOfMTBLEntries() {
+        return listOfMTBLEntries;
+    }
+
+    public void setListOfMTBLEntries(ArrayOfArrayOfString listOfMTBLEntries) {
+        this.listOfMTBLEntries = listOfMTBLEntries;
+    }
+
+    public StringBuffer getModifyQueryToInclOrgs() {
+        return modifyQueryToInclOrgs;
+    }
+
+    public void setModifyQueryToInclOrgs(StringBuffer modifyQueryToInclOrgs) {
+        this.modifyQueryToInclOrgs = modifyQueryToInclOrgs;
+    }
+
+    public StringBuffer getModifyQueryToInclTech() {
+        return modifyQueryToInclTech;
+    }
+
+    public void setModifyQueryToInclTech(StringBuffer modifyQueryToInclTech) {
+        this.modifyQueryToInclTech = modifyQueryToInclTech;
+    }
 
     public LinkedHashMap<String, String> getOrgNoDim() {
         return orgNoDim;
@@ -109,20 +139,20 @@ public class RefLayerSearchFilter {
         FacetTechType = facetTechType;
     }
 
-    public int getMTBLFacetArrayOfEntriesLen() {
-        return MTBLFacetArrayOfEntriesLen;
+    public int getListOfMTBLEntriesForFacetsLen() {
+        return ListOfMTBLEntriesForFacetsLen;
     }
 
-    public void setMTBLFacetArrayOfEntriesLen(int MTBLFacetArrayOfEntriesLen) {
-        this.MTBLFacetArrayOfEntriesLen = MTBLFacetArrayOfEntriesLen;
+    public void setListOfMTBLEntriesForFacetsLen(int listOfMTBLEntriesForFacetsLen) {
+        ListOfMTBLEntriesForFacetsLen = listOfMTBLEntriesForFacetsLen;
     }
 
-    public ArrayOfArrayOfString getMTBLFacetsArrayOfEntries() {
-        return MTBLFacetsArrayOfEntries;
+    public ArrayOfArrayOfString getListOfMTBLEntriesForFacets() {
+        return ListOfMTBLEntriesForFacets;
     }
 
-    public void setMTBLFacetsArrayOfEntries(ArrayOfArrayOfString MTBLFacetsArrayOfEntries) {
-        this.MTBLFacetsArrayOfEntries = MTBLFacetsArrayOfEntries;
+    public void setListOfMTBLEntriesForFacets(ArrayOfArrayOfString listOfMTBLEntriesForFacets) {
+        ListOfMTBLEntriesForFacets = listOfMTBLEntriesForFacets;
     }
 
     public ArrayOfString getMTBLFacetEntries() {
@@ -133,31 +163,15 @@ public class RefLayerSearchFilter {
         this.MTBLFacetEntries = MTBLFacetEntries;
     }
 
-	public int getMTBLCArrayOfEntriesLen() {
-		return MTBLCArrayOfEntriesLen;
-	}
+    public ArrayOfString getMTBLEntries() {
+        return MTBLEntries;
+    }
 
-	public void setMTBLCArrayOfEntriesLen(int mTBLCArrayOfEntriesLen) {
-		MTBLCArrayOfEntriesLen = mTBLCArrayOfEntriesLen;
-	}
+    public void setMTBLEntries(ArrayOfString MTBLEntries) {
+        this.MTBLEntries = MTBLEntries;
+    }
 
-	public ArrayOfString getMTBLCEntries() {
-		return MTBLCEntries;
-	}
-
-	public void setMTBLCEntries(ArrayOfString mTBLCEntries) {
-		MTBLCEntries = mTBLCEntries;
-	}
-
-	public ArrayOfArrayOfString getMTBLCArrayOfEntries() {
-		return MTBLCArrayOfEntries;
-	}
-
-	public void setMTBLCArrayOfEntries(ArrayOfArrayOfString mTBLCArrayOfEntries) {
-		MTBLCArrayOfEntries = mTBLCArrayOfEntries;
-	}
-
-	public Set<String> getTechCheckedItemsSet() {
+    public Set<String> getTechCheckedItemsSet() {
 		return techCheckedItemsSet;
 	}
 
@@ -219,22 +233,6 @@ public class RefLayerSearchFilter {
 
 	public void setOrgClear(boolean orgClear) {
 		this.orgClear = orgClear;
-	}
-
-	public StringBuffer getOrgSB() {
-		return orgSB;
-	}
-
-	public void setOrgSB(StringBuffer orgSB) {
-		this.orgSB = orgSB;
-	}
-
-	public StringBuffer getTechSB() {
-		return techSB;
-	}
-
-	public void setTechSB(StringBuffer techSB) {
-		this.techSB = techSB;
 	}
 
 	public String[] getTechCheckedItems() {
