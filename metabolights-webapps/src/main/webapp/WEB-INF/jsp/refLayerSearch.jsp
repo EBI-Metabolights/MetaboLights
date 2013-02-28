@@ -38,27 +38,8 @@ function navigate(_pageNumber) {
                 <b>Page:&nbsp;${currentPage}</b>
             </div>
             <div class="grid_20 omega">
-                <!-- <b><spring:message code="ref.msg.Navigate"/></b>-->
+                <%-- <b><spring:message code="ref.msg.Navigate"/></b>--%>
                     <span id="pagination" class="right">
-                        <c:set var="RemainderValue" value="${queryResults % 10}" />
-                        <c:set var="CrudeNumOfPages" value="${queryResults / 10}" />
-                        <c:set var="NumOfPages" value="${fn:split(CrudeNumOfPages, '.')}" />
-                        <c:set var="pageSize" value="10" />
-                        <c:if test="${currentPage eq 1 }">
-                            <c:set var="pagerLeft" value="${currentPage}" />
-                        </c:if>
-                        <c:set var="pagerRight" value="${currentPage +1}" />
-                        <c:forEach var="loop" items="${NumOfPages}" varStatus="loopStatus">
-                            <c:if test="${loopStatus.index eq 0}">
-                                <c:set var="NumOfPages" value="${loop}" />
-                            </c:if>
-                            <c:if test="${loopStatus.index eq 1}">
-                                <c:set var="RemainderItems" value="${loop}" />
-                            </c:if>
-                        </c:forEach>
-                        <c:if test="${RemainderItems ne 0 }">
-                            <c:set var="NumOfPages" value="${NumOfPages+1}" />
-                        </c:if>
                         <c:if test="${currentPage lt 1}">
                             <b><a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currentPage})"></a></b>
                         </c:if>
@@ -71,7 +52,7 @@ function navigate(_pageNumber) {
                                     ${currentPage}
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(1)"><c:out value="1" /></span></a>
+                                    <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(1)"><c:out value="1"/></span></a>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>

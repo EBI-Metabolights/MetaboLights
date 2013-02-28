@@ -314,6 +314,8 @@ public class ReferenceLayerController extends AbstractController {
             mav.addObject("query", query);
             mav.addObject("entries", mcs);
             mav.addObject("queryResults", MTBLNumOfResults);
+            mav.addObject("NumOfPages", firstElementOfSplit);
+            mav.addObject("RemainderItems", lastElementOfSplit);
         }
         return rflf;
     }
