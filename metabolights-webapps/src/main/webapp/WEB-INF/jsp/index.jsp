@@ -43,16 +43,20 @@
                         <c:if test="${fn:length(description) gt 90}"><c:set var="description" value="${fn:substring(description, 0, 87)}..."/></c:if>
                         <td style="width:150px;"><img src="${item.imgUrl}" onerror="this.src='img/large_noImage.gif';"/></td>
                         <td>
+                            <a href="${item.url}">
                             <h6 title="${item.title}">${title}</h6>
                             <p>${description}</p>
+                            </a>
                         </td>
                     </c:if>
                     <c:if test="${empty item.imgUrl}">
                         <c:if test="${fn:length(title) gt 40}"><c:set var="title" value="${fn:substring(title, 0, 37)}..."/></c:if>
                         <c:if test="${fn:length(description) gt 120}"><c:set var="description" value="${fn:substring(description, 0, 117)}..."/></c:if>
                         <td>
+                            <a href="${item.url}">
                             <h6>${title}</h6>
                             <p>${description}</p>
+                            </a>
                         </td>
                     </c:if>
                 </tr>
