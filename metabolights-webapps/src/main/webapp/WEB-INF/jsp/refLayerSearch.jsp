@@ -1,6 +1,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@page pageEncoding="UTF-8"%>
+<script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
+<script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 
 <script type="text/javascript">
 function navigate(_pageNumber) {
@@ -9,36 +14,59 @@ function navigate(_pageNumber) {
     pageNumberField.value=_pageNumber;
     filterForm.submit();
 }
+
 </script>
 
 <c:if test="${not empty entries}">
-    <div class="grid_6 alpha">
-        <h6>
-            <b><spring:message code="ref.msg.filterResults"></spring:message></b>
-        </h6>
-    </div>
-    <div class="grid_12">
-        <div class="grid_24">
-            <c:choose>
-                <c:when test="${not empty query}">
-                    <h6>
-                        <b>${queryResults} <spring:message code="ref.msg.searchResult">${query}</spring:message></b>
-                    </h6>
-                </c:when>
-                <c:otherwise>
-                    <h6>
-                        <b>${queryResults} <spring:message code="ref.msg.emptyBrowse"></spring:message></b>
-                    </h6>
-                </c:otherwise>
-            </c:choose>
+    <div class="grid_24">
+        <div class="grid_6 alpha">
+            <h6>
+                <b><spring:message code="ref.msg.filterResults"></spring:message></b>
+            </h6>
         </div>
-
-        <div class="grid_24 title alpha">
-            <div class="grid_4 aplha">
-                <b>Page:&nbsp;${currentPage}</b>
+        <div class="grid_12">
+            <div class="grid_24">
+                <c:choose>
+                    <c:when test="${not empty query}">
+                        <h6>
+                            <b>${queryResults} <spring:message code="ref.msg.searchResult">${query}</spring:message></b>
+                        </h6>
+                    </c:when>
+                    <c:otherwise>
+                        <h6>
+                            <b>${queryResults} <spring:message code="ref.msg.emptyBrowse"></spring:message></b>
+                        </h6>
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <div class="grid_20 omega">
-                <%-- <b><spring:message code="ref.msg.Navigate"/></b>--%>
+        </div>
+        <div>
+            <c:if test="${! empty query}">
+                <aside class="grid_6 omega shortcuts expander" id="search-extras">
+                    <div id="ebi_search_results"><h3 class="slideToggle icon icon-functional" data-icon="u"><spring:message code="msg.otherebiresults"/></h3>
+                    </div>
+                </aside>
+            </c:if>
+        </div>
+        <div class="grid_6 omega">
+            <br/>
+        </div>
+    </div>
+    <c:if test="${!empty query}">
+        <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
+        <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
+    </c:if>
+    <div class="grid_24">
+        <div class="grid_6 alpha">
+            <br/>
+        </div>
+        <div class="grid_16">
+            <div class="grid_24 title alpha">
+                <div class="grid_4 aplha">
+                    <b>Page:&nbsp;${currentPage}</b>
+                </div>
+                <div class="grid_20 omega">
+                        <%-- <b><spring:message code="ref.msg.Navigate"/></b>--%>
                     <span id="pagination" class="right">
                         <c:if test="${currentPage lt 1}">
                             <b><a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currentPage})"></a></b>
@@ -129,13 +157,12 @@ function navigate(_pageNumber) {
                             <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${currentPage+1})"></a>
                         </c:if>
                     </span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="grid_6 omega">
-        <h6>
-            <b>Other EBI results</b>
-        </h6>
+        <div class="grid_2">
+            <br />
+        </div>
     </div>
 
     <div class="grid_24 clearfix" />
@@ -145,7 +172,6 @@ function navigate(_pageNumber) {
 
     <div class="grid_6 alpha">
         <form name="Filters" id="filterForm" action="#" method="post">
-
             <!--Technology filter-->
             <div class="grid_24 refLayerBox">
                 <b><spring:message code="ref.msg.technology"></spring:message></b>
@@ -230,7 +256,7 @@ function navigate(_pageNumber) {
         </form>
     </div>
 
-    <div class="grid_12">
+    <div class="grid_16">
         <c:forEach var="entry" items="${entries}">
             <div style='clear: both;'></div>
             <div class="grid_24 refLayerBox">
@@ -273,8 +299,6 @@ function navigate(_pageNumber) {
         </c:forEach>
     </div>
 
-    <div class="grid_6 omega">
-    </div>
     <div class="grid_24">
         <br />
     </div>
@@ -282,26 +306,21 @@ function navigate(_pageNumber) {
         <div class="grid_6 alpha">
             <br />
         </div>
-        <div class="grid_12 title alpha">
+        <div class="grid_16 title">
             <div class="grid_4">
                 <b>Page:&nbsp;${currentPage}</b>
             </div>
             <div id="paginationBottom" class="grid_20"></div>
             <script>$('#pagination').clone().appendTo('#paginationBottom');</script>
         </div>
-        <div class="grid_6 omega">
+        <div class="grid_2 omega">
             <br />
         </div>
     </div>
 </c:if>
 <c:if test="${empty entries }">
-<div class="grid_6 alpha">
-    <br />
-</div>
 <div class="grid_12">
-    <b><spring:message code="ref.msg.noResult" /><a href="MTBLC1358">Acetic
-        acid</a>, <a href="MTBLC1402">Alanine</a>, <a href="MTBLC1547">Benzene</a>
-        and so on...</b>
+    <b><spring:message code="ref.msg.noResult" /><a href="MTBLC1358">Acetic acid</a>, <a href="MTBLC1402">Alanine</a>, <a href="MTBLC1547">Benzene</a> and so on...</b>
 </div>
 <div class="grid_6 alpha">
     <br />
@@ -310,3 +329,4 @@ function navigate(_pageNumber) {
 <div class="grid_24">
 <br /> <br />
 </div>
+

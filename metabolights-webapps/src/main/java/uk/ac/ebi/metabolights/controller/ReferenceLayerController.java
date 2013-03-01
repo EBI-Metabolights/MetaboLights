@@ -69,7 +69,7 @@ public class ReferenceLayerController extends AbstractController {
 
         Integer currentPage = getCurrentPage(PageSelected);
 
-        initiateFacetHash(rflf);
+        instantiateFacetHash(rflf);
 
         try {
             ebiSearchService = new EBISearchService_Service(new URL(url)).getEBISearchServiceHttpPort(); //Get service for data from EB-EYE
@@ -99,7 +99,7 @@ public class ReferenceLayerController extends AbstractController {
         return currentPage;
     }
 
-    private void initiateFacetHash(RefLayerSearchFilter rflf) {
+    private void instantiateFacetHash(RefLayerSearchFilter rflf) {
 
         rflf.setOrgHash(new LinkedHashMap<String, String>());
         rflf.setTechHash(new LinkedHashMap<String, String>());
@@ -207,37 +207,8 @@ public class ReferenceLayerController extends AbstractController {
                 listOfMTBLResults = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getModQuery());
             }
 
-            //Making the filters similar to Repository
-                rflf.setListOfMTBLEntries(ebiSearchService.getEntries(MTBLDomainName, listOfMTBLResults, listOfMTBLFields));
-                rflf.setListOfMTBLEntriesLen(rflf.getListOfMTBLEntries().getArrayOfString().size());
-
-                for(int i=0; i<rflf.getListOfMTBLEntriesLen(); i++){
-
-                    rflf.setMTBLEntries(rflf.getListOfMTBLEntries().getArrayOfString().get(i));
-
-                    if(rflf.getMTBLEntries().getString().get(5) != null) rflf.setOrgType(rflf.getMTBLEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
-                    if(rflf.getMTBLEntries().getString().get(6) != null) rflf.setTechType(rflf.getMTBLEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
-
-                    String[] orgHghSplit = null;
-                    if(rflf.getOrgType() != null){
-                        orgHghSplit = rflf.getOrgType().split("\\n");
-                        for(int os=0; os<orgHghSplit.length; os++){
-                            if(!rflf.getOrgNoDim().containsKey(orgHghSplit[os])){
-                                rflf.getOrgNoDim().put(orgHghSplit[os], "highlight");
-                            }
-                        }
-                    }
-
-                    String[] techHghSplit = null;
-                    if(rflf.getTechType() != null){
-                        techHghSplit = rflf.getTechType().split("\\n");
-                        for(int ts=0; ts<techHghSplit.length; ts++){
-                            if(!rflf.getTechNoDim().containsKey(techHghSplit[ts])){
-                                rflf.getTechNoDim().put(techHghSplit[ts], "highlight");
-                            }
-                        }
-                    }
-                }
+            //Highlighting only specific organisms and / or technology in facet depending on users selection of organism / technology.
+            highlightSpecificOrgTechInFacet(rflf, MTBLDomainName, listOfMTBLResults, listOfMTBLFields);
 
             // Declare a collection to store all the entries found
             Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
@@ -283,28 +254,8 @@ public class ReferenceLayerController extends AbstractController {
                 mcs.add(mc);
             }
 
-            //Code for the facets, below code is not redundant.
-                ArrayOfString AllResultsForFacets = null;  //Get all results for filters
-
-                AllResultsForFacets = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getModQuery());
-
-                rflf.setListOfMTBLEntriesForFacets(ebiSearchService.getEntries(MTBLDomainName, AllResultsForFacets, listOfMTBLFields));
-                rflf.setListOfMTBLEntriesForFacetsLen(rflf.getListOfMTBLEntriesForFacets().getArrayOfString().size());
-
-                for(int i=0; i<rflf.getListOfMTBLEntriesForFacetsLen(); i++){
-
-                    rflf.setMTBLFacetEntries(rflf.getListOfMTBLEntriesForFacets().getArrayOfString().get(i));
-                    if(rflf.getMTBLFacetEntries().getString().get(5) != null) {
-                        rflf.setFacetOrgType(rflf.getMTBLFacetEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
-                    }
-                    if(rflf.getMTBLFacetEntries().getString().get(6) != null) {
-                        rflf.setFacetTechType(rflf.getMTBLFacetEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
-                    }
-
-                    //Setup filters, pass technology and organism arrays as POJO in rflf.
-                    facetsSetup(rflf);
-                }
-
+            //This takes all the entries and fills in the unique organisms and technologies.
+            showAllOrgsTechFacet(rflf, ebiSearchService, MTBLDomainName, listOfMTBLFields);
 
             rflfs.add(rflf);
             mav.addObject("RefLayer", rflfs);
@@ -318,6 +269,62 @@ public class ReferenceLayerController extends AbstractController {
             mav.addObject("RemainderItems", lastElementOfSplit);
         }
         return rflf;
+    }
+
+    private void highlightSpecificOrgTechInFacet(RefLayerSearchFilter rflf, String MTBLDomainName, ArrayOfString listOfMTBLResults, ArrayOfString listOfMTBLFields) {
+        rflf.setListOfMTBLEntries(ebiSearchService.getEntries(MTBLDomainName, listOfMTBLResults, listOfMTBLFields));
+        rflf.setListOfMTBLEntriesLen(rflf.getListOfMTBLEntries().getArrayOfString().size());
+
+        for(int i=0; i<rflf.getListOfMTBLEntriesLen(); i++){
+
+            rflf.setMTBLEntries(rflf.getListOfMTBLEntries().getArrayOfString().get(i));
+
+            if(rflf.getMTBLEntries().getString().get(5) != null) rflf.setOrgType(rflf.getMTBLEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
+            if(rflf.getMTBLEntries().getString().get(6) != null) rflf.setTechType(rflf.getMTBLEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
+
+            String[] orgHghSplit = null;
+            if(rflf.getOrgType() != null){
+                orgHghSplit = rflf.getOrgType().split("\\n");
+                for(int os=0; os<orgHghSplit.length; os++){
+                    if(!rflf.getOrgNoDim().containsKey(orgHghSplit[os])){
+                        rflf.getOrgNoDim().put(orgHghSplit[os], "highlight");
+                    }
+                }
+            }
+
+            String[] techHghSplit = null;
+            if(rflf.getTechType() != null){
+                techHghSplit = rflf.getTechType().split("\\n");
+                for(int ts=0; ts<techHghSplit.length; ts++){
+                    if(!rflf.getTechNoDim().containsKey(techHghSplit[ts])){
+                        rflf.getTechNoDim().put(techHghSplit[ts], "highlight");
+                    }
+                }
+            }
+        }
+    }
+
+    private void showAllOrgsTechFacet(RefLayerSearchFilter rflf, EBISearchService ebiSearchService, String MTBLDomainName, ArrayOfString listOfMTBLFields) {
+        ArrayOfString AllResultsForFacets = null;  //Get all results for filters
+
+        AllResultsForFacets = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getModQuery());
+
+        rflf.setListOfMTBLEntriesForFacets(ebiSearchService.getEntries(MTBLDomainName, AllResultsForFacets, listOfMTBLFields));
+        rflf.setListOfMTBLEntriesForFacetsLen(rflf.getListOfMTBLEntriesForFacets().getArrayOfString().size());
+
+        for(int i=0; i<rflf.getListOfMTBLEntriesForFacetsLen(); i++){
+
+            rflf.setMTBLFacetEntries(rflf.getListOfMTBLEntriesForFacets().getArrayOfString().get(i));
+            if(rflf.getMTBLFacetEntries().getString().get(5) != null) {
+                rflf.setFacetOrgType(rflf.getMTBLFacetEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
+            }
+            if(rflf.getMTBLFacetEntries().getString().get(6) != null) {
+                rflf.setFacetTechType(rflf.getMTBLFacetEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
+            }
+
+            //Setup filters, pass technology and organism arrays as POJO in rflf.
+            facetsSetup(rflf);
+        }
     }
 
     @SuppressWarnings("unchecked")
