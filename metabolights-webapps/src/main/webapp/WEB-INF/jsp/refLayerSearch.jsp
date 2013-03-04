@@ -66,18 +66,14 @@ function navigate(_pageNumber) {
                     <b>Page:&nbsp;${currentPage}</b>
                 </div>
                 <div class="grid_20 omega">
-                        <%-- <b><spring:message code="ref.msg.Navigate"/></b>--%>
                     <span id="pagination" class="right">
-                        <c:if test="${currentPage lt 1}">
-                            <b><a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currentPage})"></a></b>
-                        </c:if>
                         <c:if test="${currentPage gt 1}">
                             <a href="#"><img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${currentPage-1})"></a>
                         </c:if>
                         <c:if test="${NumOfPages gt 1}">
                             <c:choose>
                                 <c:when test="${currentPage eq 1 }">
-                                    ${currentPage}
+                                    <b>${currentPage}</b>
                                 </c:when>
                                 <c:otherwise>
                                     <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(1)"><c:out value="1"/></span></a>
@@ -134,7 +130,9 @@ function navigate(_pageNumber) {
                             </c:choose>
                             <c:choose>
                                 <c:when test="${currentPage eq NumOfPages}">
-                                    <b>${currentPage}</b>
+                                    <c:if test="${currentPage gt 5}">
+                                        <b>${currentPage}</b>
+                                    </c:if>
                                 </c:when>
                                 <c:otherwise>
                                     <c:if test="${currentPage ne NumOfPages-1 }">
@@ -153,9 +151,9 @@ function navigate(_pageNumber) {
                                 </c:otherwise>
                             </c:choose>
                         </c:if>
-                        <c:if test="${(((currentPage-1)*pageSize)+pageSize) lt queryResults}">
-                            <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${currentPage+1})"></a>
-                        </c:if>
+                            <c:if test="${currentPage ne NumOfPages}">
+                                <a href="#"><img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${currentPage+1})"></a>
+                            </c:if>
                     </span>
                 </div>
             </div>
@@ -184,13 +182,13 @@ function navigate(_pageNumber) {
                             </ul>
                         </c:if>
                     </c:forEach>
-                    <c:forEach var="technology" items="${technologyList}" varStatus="loopStatus">
+                    <%--<c:forEach var="technology" items="${technologyList}" varStatus="loopStatus">
                         <c:if test="${technology.value eq 'true'}">
                             <c:if test="${loopStatus.index eq (techLen-1)}">
                                 <hr>
                             </c:if>
                         </c:if>
-                    </c:forEach>
+                    </c:forEach>--%>
                     <c:forEach var="technology" items="${technologyList}">
                         <c:if test="${technology.value eq 'highlight'}">
                             <ul style="max-height: 400px; overflow: auto" id="technology">
@@ -224,13 +222,13 @@ function navigate(_pageNumber) {
                                 </ul>
                             </c:if>
                         </c:forEach>
-                        <c:forEach var="orghash" items="${RefLayerOrg.orgHash}" varStatus="loopStatus">
+                        <%--<c:forEach var="orghash" items="${RefLayerOrg.orgHash}" varStatus="loopStatus">
                             <c:if test="${orghash.value eq 'true'}">
                                 <c:if test="${loopStatus.index eq (orgLen-1)}">
                                     <hr>
                                 </c:if>
                             </c:if>
-                        </c:forEach>
+                        </c:forEach>--%>
                         <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
                             <c:if test="${orghash.value eq 'highlight'}">
                                 <ul style="max-height: 400px; overflow: auto" id="organisms">

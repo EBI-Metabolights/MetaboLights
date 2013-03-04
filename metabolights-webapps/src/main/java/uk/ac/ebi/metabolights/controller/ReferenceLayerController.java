@@ -9,7 +9,7 @@ import uk.ac.ebi.ebisearchservice.ArrayOfString;
 import uk.ac.ebi.ebisearchservice.EBISearchService;
 import uk.ac.ebi.ebisearchservice.EBISearchService_Service;
 import uk.ac.ebi.metabolights.referencelayer.MetabolightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.RefLayerSearchFilter;
+import uk.ac.ebi.metabolights.referencelayer.RefLayerPOJO;
 import uk.ac.ebi.metabolights.service.AppContext;
 
 import java.net.MalformedURLException;
@@ -65,7 +65,7 @@ public class ReferenceLayerController extends AbstractController {
             @RequestParam(required = false, value = "PageNumber") String PageSelected) { //Parameters from the jsp for Page number
 
         //Create an object for reference layer filter.
-        RefLayerSearchFilter rflf = new RefLayerSearchFilter();
+        RefLayerPOJO rflf = new RefLayerPOJO();
 
         Integer currentPage = getCurrentPage(PageSelected);
 
@@ -99,7 +99,7 @@ public class ReferenceLayerController extends AbstractController {
         return currentPage;
     }
 
-    private void instantiateFacetHash(RefLayerSearchFilter rflf) {
+    private void instantiateFacetHash(RefLayerPOJO rflf) {
 
         rflf.setOrgHash(new LinkedHashMap<String, String>());
         rflf.setTechHash(new LinkedHashMap<String, String>());
@@ -111,7 +111,7 @@ public class ReferenceLayerController extends AbstractController {
         rflf.setOrgCheckedItemsHash(new LinkedHashMap<String, String>());
     }
 
-    public void getSearchResults(RefLayerSearchFilter rflf, ModelAndView mav, String MTBLDomainName, String userQuery, String[] organismsSelected, String[] technologiesSelected, Integer currentPage) {
+    public void getSearchResults(RefLayerPOJO rflf, ModelAndView mav, String MTBLDomainName, String userQuery, String[] organismsSelected, String[] technologiesSelected, Integer currentPage) {
 
 
         //Create a method to create and modify query
@@ -124,7 +124,7 @@ public class ReferenceLayerController extends AbstractController {
         getEntriesForMetabolights(userQuery, MTBLDomainName, MTBLNumOfResults, rflf, mav, currentPage);
     }
 
-    private RefLayerSearchFilter modifyQuery(ModelAndView mav, RefLayerSearchFilter rflf, String userQuery, String[] organismsSelected, String[] technologiesSelected) {
+    private RefLayerPOJO modifyQuery(ModelAndView mav, RefLayerPOJO rflf, String userQuery, String[] organismsSelected, String[] technologiesSelected) {
 
         rflf.setOrgValue("false");
         rflf.setTechValue("false");
@@ -189,7 +189,7 @@ public class ReferenceLayerController extends AbstractController {
         return rflf;
     }
 
-    private RefLayerSearchFilter getEntriesForMetabolights(String query, String MTBLDomainName, int MTBLNumOfResults, RefLayerSearchFilter rflf, ModelAndView mav, Integer currentPage) {
+    private RefLayerPOJO getEntriesForMetabolights(String query, String MTBLDomainName, int MTBLNumOfResults, RefLayerPOJO rflf, ModelAndView mav, Integer currentPage) {
 
         ArrayOfString listOfMTBLFields = ebiSearchService.listFields(MTBLDomainName);
         listOfMTBLFields.getString().add("CHEBI");
@@ -212,7 +212,7 @@ public class ReferenceLayerController extends AbstractController {
 
             // Declare a collection to store all the entries found
             Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
-            Collection<RefLayerSearchFilter> rflfs = new ArrayList <RefLayerSearchFilter>();
+            Collection<RefLayerPOJO> rflfs = new ArrayList <RefLayerPOJO>();
 
             int numOfMTBLEntries = rflf.getListOfMTBLEntriesLen();
             int entriesFrom = 0;
@@ -271,7 +271,7 @@ public class ReferenceLayerController extends AbstractController {
         return rflf;
     }
 
-    private void highlightSpecificOrgTechInFacet(RefLayerSearchFilter rflf, String MTBLDomainName, ArrayOfString listOfMTBLResults, ArrayOfString listOfMTBLFields) {
+    private void highlightSpecificOrgTechInFacet(RefLayerPOJO rflf, String MTBLDomainName, ArrayOfString listOfMTBLResults, ArrayOfString listOfMTBLFields) {
         rflf.setListOfMTBLEntries(ebiSearchService.getEntries(MTBLDomainName, listOfMTBLResults, listOfMTBLFields));
         rflf.setListOfMTBLEntriesLen(rflf.getListOfMTBLEntries().getArrayOfString().size());
 
@@ -304,7 +304,7 @@ public class ReferenceLayerController extends AbstractController {
         }
     }
 
-    private void showAllOrgsTechFacet(RefLayerSearchFilter rflf, EBISearchService ebiSearchService, String MTBLDomainName, ArrayOfString listOfMTBLFields) {
+    private void showAllOrgsTechFacet(RefLayerPOJO rflf, EBISearchService ebiSearchService, String MTBLDomainName, ArrayOfString listOfMTBLFields) {
         ArrayOfString AllResultsForFacets = null;  //Get all results for filters
 
         AllResultsForFacets = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getModQuery());
@@ -329,7 +329,7 @@ public class ReferenceLayerController extends AbstractController {
 
     @SuppressWarnings("unchecked")
     //Setting up the filter
-    private RefLayerSearchFilter facetsSetup(RefLayerSearchFilter rflf) {
+    private RefLayerPOJO facetsSetup(RefLayerPOJO rflf) {
 
         //Technology Filter
         if(rflf.getFacetTechType() != null){
@@ -405,7 +405,7 @@ public class ReferenceLayerController extends AbstractController {
     }
 
     //Getting total number of results in Metabolights domain.
-    private int getMTBLNumberOfResults(String MTBLDomainName, RefLayerSearchFilter rfFilter) {
+    private int getMTBLNumberOfResults(String MTBLDomainName, RefLayerPOJO rfFilter) {
 
         int MTBLNumberOfResults = 0;
 
