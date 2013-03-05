@@ -278,7 +278,9 @@ public class SubmissionQueueProcessor {
 			Map<String,String> zipValues = itu.getStudyFields(si.getFileQueued(), new String[]{"Study Identifier"});
 			
 			String newStudyId = zipValues.get("Study Identifier");
-			
+
+
+            //TODO, add a check for both the submitted studyid and the MTBLS id
 			// If Ids do not match...
 			if (!si.getAccession().equals(newStudyId)){
 				

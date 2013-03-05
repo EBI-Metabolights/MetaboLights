@@ -47,12 +47,14 @@ public class EntryController extends AbstractController {
     public static final String METABOLIGHTS_ID_REG_EXP = "MTBLS.+";
 
 	//(value = "/entry/{metabolightsId}")
-	@RequestMapping(value = "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}")
+	@RequestMapping(value = { "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}", "/{metabolightsId:mtbls.+}" })
 
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblId);
 
 		Study study = null;
+
+        mtblId = mtblId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
 
 		try {
 			request.setCharacterEncoding("UTF-8");

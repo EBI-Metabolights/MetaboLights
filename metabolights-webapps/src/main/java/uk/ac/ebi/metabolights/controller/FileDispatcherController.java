@@ -1,7 +1,6 @@
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.StudyService;
@@ -23,8 +21,7 @@ import uk.ac.ebi.metabolights.utils.Zipper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.security.Principal;
-import java.util.*;
+import java.util.Date;
 
 /**
  * Controller for dispatching study files .
@@ -33,8 +30,6 @@ import java.util.*;
 @Controller
 public class FileDispatcherController extends AbstractController {
 
-    private static final String PUBLICFILES = "publicfiles";
-    private static final String PRIVATEFILES = "privatefiles";
     private static Logger logger = Logger.getLogger(FileDispatcherController.class);
 
     private static final String URL_4_FILES = "files";
@@ -106,7 +101,14 @@ public class FileDispatcherController extends AbstractController {
         if (!FileUtil.fileExists(zipFile))  // Just to be sure that the file *don't already* exist
             Zipper.zip(folder.getAbsolutePath(), zipFile);
 
-        return new File(zipFile);
+
+        File file = new File(zipFile);
+
+        //Set the last access timestamp, this will stop the cron job removing the file as being old
+        Date date = new Date();
+        file.setLastModified(date.getTime());
+
+        return file;
 
     }
 

@@ -56,7 +56,7 @@ public class StudyDAOImpl implements StudyDAO{
 		String queryStr = "FROM Study WHERE acc = :acc";
 		
 		Query q = session.createQuery(queryStr);
-		q.setParameter("acc", studyAcc);	
+		q.setParameter("acc", studyAcc);
 
 		logger.debug("retrieving study "+studyAcc);
 		Study study = (Study) q.uniqueResult();
