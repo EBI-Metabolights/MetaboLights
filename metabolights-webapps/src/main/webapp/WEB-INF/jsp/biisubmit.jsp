@@ -42,7 +42,7 @@
 	          buttonText: 'Choose Date',
 	          dateFormat: 'dd-M-yy',
 	          minDate: '0',
-	          maxDate: '+1y'
+	          maxDate: '+5y'
 	      });
 	});
 	
@@ -125,6 +125,7 @@
             </select>
         </div>
     </c:if>
+
 	<div id="hideableButtons" class="grid_17 prefix_7 alpha omega">
 		&nbsp;<br/>
 		<input name="submit" type="submit" class="submit" value="<spring:message code="label.upload"/>">		

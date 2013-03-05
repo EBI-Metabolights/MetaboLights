@@ -45,7 +45,12 @@ public class SubmissionQueueController extends AbstractController {
 
     private static Logger logger = Logger.getLogger(SubmissionQueueController.class);
 
-	
+
+    static class BIIException extends Exception {
+        public BIIException(String message){
+            super(message);
+        }
+    }
 	
 	@RequestMapping(value = { "/submittoqueue" })
 	public ModelAndView preSubmit(HttpServletRequest request) {
@@ -106,14 +111,14 @@ public class SubmissionQueueController extends AbstractController {
 	   try {
 
             if (file.isEmpty())
-				throw new Exception(PropertyLookup.getMessage("BIISubmit.fileEmpty"));
+				throw new BIIException(PropertyLookup.getMessage("BIISubmit.fileEmpty"));
 
 			if (publicDate.isEmpty())
-				throw new Exception(PropertyLookup.getMessage("BIISubmit.dateEmpty"));
+				throw new BIIException(PropertyLookup.getMessage("BIISubmit.dateEmpty"));
 			
-			if (!file.getOriginalFilename().toLowerCase().endsWith("zip")){
-				throw new Exception(PropertyLookup.getMessage("BIISubmit.fileExtension"));
-			}
+			if (!file.getOriginalFilename().toLowerCase().endsWith("zip"))
+				throw new BIIException(PropertyLookup.getMessage("BIISubmit.fileExtension"));
+
 
             //Check if the study is public today
             VisibilityStatus status = VisibilityStatus.PRIVATE;         //Defaults to a private study
@@ -157,18 +162,24 @@ public class SubmissionQueueController extends AbstractController {
 			// Cannot load the queue
 			emailService.sendQueuedStudyEmail(si.getUserId(),si.getOriginalFileName() , FileUtils.byteCountToDisplaySize(si.getFileQueued().length()), si.getPublicReleaseDate(), hostName, study);
 			
-			
-			
+
 	    	return new ModelAndView("redirect:itemQueued");
 	    	
-		} catch (Exception e){
+		} catch (BIIException e){
+
+           ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
+           logger.error(e);
+           mav.addObject("error", e);
+           mav.addObject("studyId", study);
+           return mav;
+
+       }  catch (Exception e){
 			
 			ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
 			logger.error(e);
 			mav.addObject("error", e);
             // Add the study id...
             mav.addObject("studyId", study);
-
 
 			messageBody.append("\n\nERROR!!!!!\n\n" + e.getMessage() );
 			emailService.sendSimpleEmail( "queueExperiment FAILED in " + hostName + " by " + user.getUserName() , messageBody.toString());
