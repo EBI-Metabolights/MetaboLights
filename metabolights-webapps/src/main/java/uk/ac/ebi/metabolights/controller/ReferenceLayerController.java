@@ -196,7 +196,7 @@ public class ReferenceLayerController extends AbstractController {
 
         if (MTBLNumOfResults != 0) {
 
-            ArrayOfString listOfMTBLResults = null;  //Get the results after user checks a filter
+            ArrayOfString listOfMTBLResults = null;
 
             if((rflf.getTechQuery()) != null){
                 listOfMTBLResults = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getTechQuery());
@@ -215,32 +215,17 @@ public class ReferenceLayerController extends AbstractController {
             // Declare a collection to store all the entries found
             Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
 
-            int numOfMTBLEntries = rflf.getListOfMTBLEntriesLen();
-            int entriesFrom = 0;
-            int toEntries = 0;
+            Integer numOfMTBLEntries = rflf.getListOfMTBLEntriesLen();
+            Double numOfMTBLEntriesD =   numOfMTBLEntries.doubleValue();
+            Double numOfPagesD = (Math.ceil(numOfMTBLEntriesD/10));
+            Integer numOfPages = numOfPagesD.intValue();
 
-            Float modNumOfMTBLEntries = (float) numOfMTBLEntries; // total number of results.
-            Float fractionOfEntries = (modNumOfMTBLEntries/10); //Total number of results divided by 10 to get the from and to after some calculations below.
-            String[] splitNumOfMTBLEntries = fractionOfEntries.toString().split("\\."); // split the above newLen with '.'
-            String firstElementAsStr = splitNumOfMTBLEntries[0]; //Taking the first value
-            String lastElementAsStr = splitNumOfMTBLEntries[1]; //Taking the second value
-
-            // Simple way of calculating pages with math
-            //Double numPagesD = (Math.ceil(numOfMTBLEntries/10));
-            //int numPages = numPagesD.intValue();
-
-
-
-            Integer firstElementOfSplit = Integer.parseInt(firstElementAsStr); //Converting from String to Integer.
-            Integer lastElementOfSplit = Integer.parseInt(lastElementAsStr);
-
-            if(lastElementOfSplit != 0){
-                firstElementOfSplit = firstElementOfSplit + 1; // increasing firstElementOfSplit by 1 to compare if the firstElementOfSplit equals page number.
-            }
+            Integer entriesFrom = 0;
+            Integer toEntries = 0;
 
             entriesFrom = ((currentPage*10)-10);
 
-            if(currentPage.equals(firstElementOfSplit)){
+            if(currentPage.equals(numOfPages)){
                 toEntries = numOfMTBLEntries; // assigns total length to 'toEntries' if Page Number variable is equal to firstElementOfSplit, Eg: 226 == 226. This is if result is not multiple of 10.
             } else {
                 toEntries = (currentPage*10); // if results are 10 or multiples of 10.
@@ -265,12 +250,10 @@ public class ReferenceLayerController extends AbstractController {
             showAllOrgsTechFacet(rflf, ebiSearchService, MTBLDomainName, listOfMTBLFields);
 
             mav.addObject("RefLayer", rflf);
-            mav.addObject("technologyList", rflf.getTechHash());
             mav.addObject("freeTextQuery", userQuery);
             mav.addObject("entries", mcs);
             mav.addObject("queryResults", MTBLNumOfResults);
-            mav.addObject("NumOfPages", firstElementOfSplit);
-            mav.addObject("RemainderItems", lastElementOfSplit);
+            mav.addObject("NumOfPages", numOfPages);
         }
         return rflf;
     }
