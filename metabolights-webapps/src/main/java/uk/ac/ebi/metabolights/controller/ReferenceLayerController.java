@@ -59,7 +59,7 @@ public class ReferenceLayerController extends AbstractController {
 
     @RequestMapping({ "/refLayerSearch" })
     public ModelAndView searchAndDisplay(
-            @RequestParam(required = false, value = "query") String userQuery,
+            @RequestParam(required = false, value = "freeTextQuery") String userQuery,
             @RequestParam(required = false, value = "organisms") String[] organismsSelected, // Parameters from the jsp file relating to the organism filter
             @RequestParam(required = false, value = "technology") String[] technologiesSelected, // Parameters from the jsp file relating to the technology filter
             @RequestParam(required = false, value = "PageNumber") String PageSelected) { //Parameters from the jsp for Page number
@@ -81,7 +81,6 @@ public class ReferenceLayerController extends AbstractController {
 
         getSearchResults(rflf, mav, MTBLDomainName, userQuery, organismsSelected, technologiesSelected, currentPage);
 
-        mav.addObject("query", userQuery);
         mav.addObject("MTBLDomain", MTBLDomainName);
         mav.addObject("currentPage", currentPage);
 
@@ -189,7 +188,7 @@ public class ReferenceLayerController extends AbstractController {
         return rflf;
     }
 
-    private RefLayerPOJO getEntriesForMetabolights(String query, String MTBLDomainName, int MTBLNumOfResults, RefLayerPOJO rflf, ModelAndView mav, Integer currentPage) {
+    private RefLayerPOJO getEntriesForMetabolights(String userQuery, String MTBLDomainName, int MTBLNumOfResults, RefLayerPOJO rflf, ModelAndView mav, Integer currentPage) {
 
         ArrayOfString listOfMTBLFields = ebiSearchService.listFields(MTBLDomainName);
         listOfMTBLFields.getString().add("CHEBI");
@@ -207,12 +206,14 @@ public class ReferenceLayerController extends AbstractController {
                 listOfMTBLResults = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getModQuery());
             }
 
+            rflf.setListOfMTBLEntries(ebiSearchService.getEntries(MTBLDomainName, listOfMTBLResults, listOfMTBLFields));
+            rflf.setListOfMTBLEntriesLen(rflf.getListOfMTBLEntries().getArrayOfString().size());
+
             //Highlighting only specific organisms and / or technology in facet depending on users selection of organism / technology.
-            highlightSpecificOrgTechInFacet(rflf, MTBLDomainName, listOfMTBLResults, listOfMTBLFields);
+            highlightSpecificOrgTechInFacet(rflf);
 
             // Declare a collection to store all the entries found
             Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
-            Collection<RefLayerPOJO> rflfs = new ArrayList <RefLayerPOJO>();
 
             int numOfMTBLEntries = rflf.getListOfMTBLEntriesLen();
             int entriesFrom = 0;
@@ -223,6 +224,12 @@ public class ReferenceLayerController extends AbstractController {
             String[] splitNumOfMTBLEntries = fractionOfEntries.toString().split("\\."); // split the above newLen with '.'
             String firstElementAsStr = splitNumOfMTBLEntries[0]; //Taking the first value
             String lastElementAsStr = splitNumOfMTBLEntries[1]; //Taking the second value
+
+            // Simple way of calculating pages with math
+            //Double numPagesD = (Math.ceil(numOfMTBLEntries/10));
+            //int numPages = numPagesD.intValue();
+
+
 
             Integer firstElementOfSplit = Integer.parseInt(firstElementAsStr); //Converting from String to Integer.
             Integer lastElementOfSplit = Integer.parseInt(lastElementAsStr);
@@ -257,12 +264,9 @@ public class ReferenceLayerController extends AbstractController {
             //This takes all the entries and fills in the unique organisms and technologies.
             showAllOrgsTechFacet(rflf, ebiSearchService, MTBLDomainName, listOfMTBLFields);
 
-            rflfs.add(rflf);
-            mav.addObject("RefLayer", rflfs);
+            mav.addObject("RefLayer", rflf);
             mav.addObject("technologyList", rflf.getTechHash());
-            mav.addObject("techLen", rflf.getTechHash().size());
-            mav.addObject("orgLen", rflf.getOrgHash().size());
-            mav.addObject("query", query);
+            mav.addObject("freeTextQuery", userQuery);
             mav.addObject("entries", mcs);
             mav.addObject("queryResults", MTBLNumOfResults);
             mav.addObject("NumOfPages", firstElementOfSplit);
@@ -271,9 +275,7 @@ public class ReferenceLayerController extends AbstractController {
         return rflf;
     }
 
-    private void highlightSpecificOrgTechInFacet(RefLayerPOJO rflf, String MTBLDomainName, ArrayOfString listOfMTBLResults, ArrayOfString listOfMTBLFields) {
-        rflf.setListOfMTBLEntries(ebiSearchService.getEntries(MTBLDomainName, listOfMTBLResults, listOfMTBLFields));
-        rflf.setListOfMTBLEntriesLen(rflf.getListOfMTBLEntries().getArrayOfString().size());
+    private void highlightSpecificOrgTechInFacet(RefLayerPOJO rflf) {
 
         for(int i=0; i<rflf.getListOfMTBLEntriesLen(); i++){
 

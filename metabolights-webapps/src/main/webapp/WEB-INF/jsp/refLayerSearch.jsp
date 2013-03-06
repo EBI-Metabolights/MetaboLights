@@ -4,7 +4,7 @@
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
-<script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
+<%--<script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>--%>
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 
 <script type="text/javascript">
@@ -14,6 +14,14 @@ function navigate(_pageNumber) {
     pageNumberField.value=_pageNumber;
     filterForm.submit();
 }
+
+$("#local-search").attr("action", "refLayerSearch");
+
+$(document).ready(function(){
+    $("a[href^='search?']").each(function(){
+        this.href = this.href.replace('search?', 'refLayerSearch?');
+    });
+});
 
 </script>
 
@@ -27,9 +35,9 @@ function navigate(_pageNumber) {
         <div class="grid_12">
             <div class="grid_24">
                 <c:choose>
-                    <c:when test="${not empty query}">
+                    <c:when test="${not empty freeTextQuery}">
                         <h6>
-                            <b>${queryResults} <spring:message code="ref.msg.searchResult">${query}</spring:message></b>
+                            <b>${queryResults} <spring:message code="ref.msg.searchResult">${freeTextQuery}</spring:message></b>
                         </h6>
                     </c:when>
                     <c:otherwise>
@@ -41,7 +49,7 @@ function navigate(_pageNumber) {
             </div>
         </div>
         <div>
-            <c:if test="${! empty query}">
+            <c:if test="${!empty freeTextQuery}">
                 <aside class="grid_6 omega shortcuts expander" id="search-extras">
                     <div id="ebi_search_results"><h3 class="slideToggle icon icon-functional" data-icon="u"><spring:message code="msg.otherebiresults"/></h3>
                     </div>
@@ -52,10 +60,7 @@ function navigate(_pageNumber) {
             <br/>
         </div>
     </div>
-    <c:if test="${!empty query}">
-        <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
-        <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
-    </c:if>
+
     <div class="grid_24">
         <div class="grid_6 alpha">
             <br/>
@@ -169,87 +174,63 @@ function navigate(_pageNumber) {
     </div>
 
     <div class="grid_6 alpha">
-        <form name="Filters" id="filterForm" action="#" method="post">
-            <!--Technology filter-->
-            <div class="grid_24 refLayerBox">
-                <b><spring:message code="ref.msg.technology"></spring:message></b>
-                <c:if test="${techClear ne true}">
-                    <c:forEach var="technology" items="${technologyList}">
-                        <c:if test="${technology.value eq 'true'}">
-                            <ul style="max-height: 400px; overflow: auto" id="technology">
-                                <input type="checkbox" name="technology" value="${technology.key}" CHECKED onclick="this.form.submit();">
-                                    ${technology.key}
-                            </ul>
-                        </c:if>
-                    </c:forEach>
-                    <%--<c:forEach var="technology" items="${technologyList}" varStatus="loopStatus">
-                        <c:if test="${technology.value eq 'true'}">
-                            <c:if test="${loopStatus.index eq (techLen-1)}">
-                                <hr>
+        <form name="Filters" id="filterForm" action="refLayerSearch" method="post">
+
+            <%--organism filter--%>
+            <div class="grid_24 refLayerBox" id="orgFilter">
+                <b><spring:message code="ref.msg.organism"/></b>
+                <c:if test="${orgClear ne true}">
+                    <c:forEach var="times" begin="0" end="2" step="1">
+                        <c:forEach var="orgHash" items="${RefLayer.orgHash}">
+                            <c:if test="${((orgHash.value eq 'true') and times == 0) or ((orgHash.value eq 'highlight') and times == 1) or ((orgHash.value eq 'false') and times == 2)}">
+                                <ul style="max-height: 400px; overflow: auto" id="organisms">
+                                    <input type="checkbox"
+                                           name="organisms"
+                                           value="${orgHash.key}"
+                                           <c:if test="${orgHash.value eq 'true'}">CHECKED</c:if>
+                                           onclick="this.form.submit();">
+                                    <c:if test="${orgHash.value eq 'false'}">
+                                        <span class="dimmed">${orgHash.key}</span>
+                                    </c:if>
+                                    <c:if test="${orgHash.value ne 'false'}">
+                                        ${orgHash.key}
+                                    </c:if>
+                                </ul>
                             </c:if>
-                        </c:if>
-                    </c:forEach>--%>
-                    <c:forEach var="technology" items="${technologyList}">
-                        <c:if test="${technology.value eq 'highlight'}">
-                            <ul style="max-height: 400px; overflow: auto" id="technology">
-                                <input type="checkbox" name="technology" value="${technology.key}" onclick="this.form.submit();">
-                                ${technology.key}
-                            </ul>
-                        </c:if>
-                    </c:forEach>
-                    <c:forEach var="technology" items="${technologyList}">
-                        <c:if test="${technology.value eq 'false'}">
-                            <ul style="max-height: 400px; overflow: auto" id="technology">
-                                <input type="checkbox" name="technology" value="${technology.key}" onclick="this.form.submit();">
-                                    <span class="dimmed">${technology.key}</span>
-                            </ul>
-                        </c:if>
+                        </c:forEach>
                     </c:forEach>
                 </c:if>
             </div>
+
             <br />
 
-            <!--organism filter-->
-            <div class="grid_24 refLayerBox" id="orgFilter">
-                <b><spring:message code="ref.msg.organism"></spring:message></b>
-                <c:forEach var="RefLayerOrg" items="${RefLayer}">
-                    <c:if test="${orgClear ne true}">
-                        <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
-                            <c:if test="${orghash.value eq 'true'}">
-                                <ul style="max-height: 400px; overflow: auto" id="organisms">
-                                    <input type="checkbox" name="organisms" value="${orghash.key}" CHECKED onclick="this.form.submit();">
-                                    ${orghash.key}
+            <%--technology filter--%>
+            <div class="grid_24 refLayerBox" id="techFilter">
+                <b><spring:message code="ref.msg.technology"/></b>
+                <c:if test="${techClear ne true}">
+                    <c:forEach var="times" begin="0" end="2" step="1">
+                        <c:forEach var="techHash" items="${RefLayer.techHash}">
+                            <c:if test="${((techHash.value eq 'true') and times == 0) or ((techHash.value eq 'highlight') and times == 1) or ((techHash.value eq 'false') and times == 2)}">
+                                <ul style="max-height: 400px; overflow: auto" id="technology">
+                                    <input type="checkbox"
+                                           name="technology"
+                                           value="${techHash.key}"
+                                           <c:if test="${techHash.value eq 'true'}">CHECKED</c:if>
+                                           onclick="this.form.submit();">
+                                    <c:if test="${techHash.value eq 'false'}">
+                                        <span class="dimmed">${techHash.key}</span>
+                                    </c:if>
+                                    <c:if test="${techHash.value ne 'false'}">
+                                        ${techHash.key}
+                                    </c:if>
                                 </ul>
                             </c:if>
                         </c:forEach>
-                        <%--<c:forEach var="orghash" items="${RefLayerOrg.orgHash}" varStatus="loopStatus">
-                            <c:if test="${orghash.value eq 'true'}">
-                                <c:if test="${loopStatus.index eq (orgLen-1)}">
-                                    <hr>
-                                </c:if>
-                            </c:if>
-                        </c:forEach>--%>
-                        <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
-                            <c:if test="${orghash.value eq 'highlight'}">
-                                <ul style="max-height: 400px; overflow: auto" id="organisms">
-                                    <input type="checkbox" name="organisms" value="${orghash.key}" onclick="this.form.submit();">
-                                    ${orghash.key}
-                                </ul>
-                            </c:if>
-                        </c:forEach>
-                        <c:forEach var="orghash" items="${RefLayerOrg.orgHash}">
-                            <c:if test="${orghash.value eq 'false'}">
-                                <ul style="max-height: 400px; overflow: auto" id="organisms">
-                                    <input type="checkbox" name="organisms" value="${orghash.key}" onclick="this.form.submit();">
-                                    <span class="dimmed">${orghash.key}</span>
-                            </ul>
-                            </c:if>
-                        </c:forEach>
-                    </c:if>
-                </c:forEach>
+                    </c:forEach>
+                </c:if>
             </div>
 
-            <input type="hidden" name="query" value="<c:out value="${query}"/>" />
+            <input type="hidden" name="freeTextQuery" value="<c:out value="${freeTextQuery}"/>" />
             <input type="hidden" name="PageNumber" value="1" />
         </form>
     </div>
@@ -318,8 +299,14 @@ function navigate(_pageNumber) {
 </c:if>
 <c:if test="${empty entries }">
 <div class="grid_12">
-    <b><spring:message code="ref.msg.noResult" /><a href="MTBLC1358">Acetic acid</a>, <a href="MTBLC1402">Alanine</a>, <a href="MTBLC1547">Benzene</a> and so on...</b>
+    <h3><spring:message code="ref.msg.noResult">${freeTextQuery}</spring:message></h3>
+    <b><spring:message code="ref.msg.noResultSearch"/>&nbsp;<a href="MTBLC1358">Acetic acid</a>, <a href="MTBLC1402">Alanine</a>, <a href="MTBLC1547">Benzene</a> and so on...</b>
 </div>
+<aside class="grid_8 omega shortcuts" id="search-extras">
+    <div id="ebi_search_noResults" class="noresults">
+        <h3 class=""><spring:message code="msg.otherebiresults"/></h3>
+    </div>
+</aside>
 <div class="grid_6 alpha">
     <br />
 </div>
@@ -328,3 +315,7 @@ function navigate(_pageNumber) {
 <br /> <br />
 </div>
 
+<c:if test="${!empty freeTextQuery}">
+    <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
+    <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
+</c:if>
