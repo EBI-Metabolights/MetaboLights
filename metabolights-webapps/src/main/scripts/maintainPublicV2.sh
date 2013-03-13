@@ -25,6 +25,7 @@ source /homes/oracle/ora11setup.sh
 
 EMAILTO=metabolights-dev@ebi.ac.uk
 PROPS_FILE=/nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/hibernate.properties
+SCRIPT_LOC=/nfs/public/rw/homes/tc_cm01/scripts
 
 #################################
 #  End of Configurable Options  #
@@ -72,7 +73,11 @@ do
 
 done
 
+Info 'Checking if we need to export the EB-eye index'
+[ -z $PUBLIC_STUDIES ] || @$SCRIPT_LOC/ebeye_export.sh
+
+
 Info "Update statistics table"
-sqlplus -s ${DB_CONNECTION} @/net/isilonP/public/rw/homes/tc_cm01/scripts/ml_stats.sql
+sqlplus -s ${DB_CONNECTION} @$SCRIPT_LOC/ml_stats.sql
 
 [ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}
