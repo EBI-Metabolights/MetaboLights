@@ -1,15 +1,14 @@
 package uk.ac.ebi.metabolights.dao;
 
-import java.util.List;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+
+import java.util.List;
 
 /**
  * DAO implementation for MetabolightsUsers.
@@ -38,7 +37,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<MetabolightsUser> getAll() {
 
 		Session session = sessionFactory.getCurrentSession();
-		Query q = session.createQuery("from MetabolightsUser");
+		Query q = session.createQuery("from MetabolightsUser order by lastName");
 		List<MetabolightsUser> list = q.list();
 		session.clear();
 

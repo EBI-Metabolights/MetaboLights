@@ -13,6 +13,7 @@
 # 20120328  : Ken Haug - Removed "clear" as this is dependent on a TERM set, like xterm
 # 20121115  : Ken Haug - Move folder as we no longer store the studies as zip files
 # 20130103  : Ken Haug - Simplified to use the new queue system
+# 20130312  : Ken Haug - Export to EB-eye when studies go public
 #
 ##########################################################################
 
