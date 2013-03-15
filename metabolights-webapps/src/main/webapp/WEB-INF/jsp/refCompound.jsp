@@ -108,10 +108,10 @@ function color_for_atom(formulaChar)
 		<div id="tabs">
 			<ul>
 				<li>
-					<a class="noLine" href="#tabs-1"><spring:message code="ref.compound.tab.characteristics"/></a>
+					<a class="noLine" href="#tabs-1"><spring:message code="ref.compound.tab.chemistry"/></a>
 				</li>
 				<li>
-					<a class="noLine" href="#tabs-2"><spring:message code="ref.compound.tab.foundin"/></a>
+					<a class="noLine" href="#tabs-2"><spring:message code="ref.compound.tab.biology"/></a>
 				</li>
 				<li>
 					<a class="noLine" href="#tabs-3"><spring:message code="ref.compound.tab.pathways"/></a>
