@@ -31,7 +31,6 @@ public class ReferenceLayerController extends AbstractController {
     private final String REFLAYERSESSION = "RefLayer";
     RefLayerFilter rffl;
     RefLayerFilter cacheRffl;
-    RefLayerFilter cloneRffl;
 
     private static EBISearchService ebiSearchService;
     private static final String MTBLDomainName = "metabolights";
@@ -42,7 +41,9 @@ public class ReferenceLayerController extends AbstractController {
     public enum UserAction {
             clickedOnPage,
             freeTextOrExample,
-            checkedFacet;
+            checkedFacet,
+            browseCached,
+            firstTimeBrowse;
     }
 
     private UserAction ua;
@@ -88,7 +89,6 @@ public class ReferenceLayerController extends AbstractController {
         listOfMTBLFields.getString().add("METABOLIGHTS");
         mapColumns();
         rffl.setMTBLNumOfResults(ebiSearchService.getNumberOfResults(MTBLDomainName, rffl.getEBIQuery()));
-        //return ebiSearchService;
     }
 
     private void mapColumns(){
@@ -120,30 +120,30 @@ public class ReferenceLayerController extends AbstractController {
         @RequestParam(required = false, value = "PageNumber") String PageSelected,
         HttpServletRequest request) {
 
+        if(userQuery == null){
+            userQuery = "";
+        }
+
         rffl = (RefLayerFilter)request.getSession().getAttribute(REFLAYERSESSION);
         mav = AppContext.getMAVFactory().getFrontierMav("refLayerSearch");
 
         mapUserAction(userQuery, organismsSelected, technologiesSelected, PageSelected);
 
-        //if(flag == false){
-            queryEBI();
-        //}
+        queryEBI();
 
         if(rffl.getMTBLNumOfResults() != 0){
             getEntries();
         }
 
-
-        //added below
-        if(rffl == null){
-            rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, PageSelected);
-        }
-
         updateFacets(organismsSelected, technologiesSelected);
         request.getSession().setAttribute("RefLayer", rffl);
-        //
 
-        mav.addObject("rffl", rffl); //added this
+
+        if((rffl.getFreeText().equals("")) && (cacheRffl == null)){
+            cacheRffl = rffl.clone();
+        }
+
+        mav.addObject("rffl", rffl);
         return mav;
     }
 
@@ -219,23 +219,26 @@ public class ReferenceLayerController extends AbstractController {
             if((pageSelected != null) && (rffl.getCurrentPage() != Integer.parseInt(pageSelected))){
                 ua = UserAction.clickedOnPage;
                 rffl.setCurrentPage(Integer.parseInt(pageSelected));
+            } else if (userQuery.equals("") && (organismsSelected == null && technologiesSelected == null)){
+                ua = UserAction.browseCached;
+                rffl = cacheRffl.clone();
             } else {
                 ua = UserAction.checkedFacet;
                 rffl.resetFacets();
                 rffl.checkFacets(organismsSelected, technologiesSelected);
                 rffl.getTotalNumOfPages();
             }
-        } else {
-            ua = UserAction.freeTextOrExample;
-            rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, pageSelected); //instantiated above as well
-            if ((rffl.getEBIQuery().contains(rffl.getDefaultFreeText()))){
-                if(cacheRffl != null){
-                    rffl = cacheRffl;
-                    //flag = true;
-                } else {
-                    cacheRffl = rffl;
-                }
+        } else if(userQuery.equals("")){
+            if ((cacheRffl != null)){
+                ua = UserAction.browseCached;
+                rffl = cacheRffl.clone();
+            } else{
+                ua = UserAction.firstTimeBrowse;
+                rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, pageSelected);
             }
+        } else{
+            ua = UserAction.freeTextOrExample;
+            rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, pageSelected);
         }
     }
 
@@ -243,7 +246,7 @@ public class ReferenceLayerController extends AbstractController {
 
         initEBISearchService();
 
-        if (ua == UserAction.clickedOnPage){
+        if ((ua == UserAction.clickedOnPage) || ((ua == UserAction.browseCached) && (rffl.getFacetsQuery().equals("")))){
             ArrayOfString listOfMTBLIds = ebiSearchService.getResultsIds(MTBLDomainName, rffl.getEBIQuery(), ((rffl.getCurrentPage()*10)-10), 10);
             listOfMTBLEntries = ebiSearchService.getEntries(MTBLDomainName, listOfMTBLIds, listOfMTBLFields);
         } else {
@@ -262,11 +265,6 @@ public class ReferenceLayerController extends AbstractController {
                 String[] technologiesList = technologies.split("\\n");
                 rffl.updateOrganismFacet(organismsList);
                 rffl.updateTechnologyFacet(technologiesList);
-            }
-
-            if(ua == UserAction.checkedFacet){ //added this
-                rffl.resetFacets();
-                rffl.checkFacets(organismsSelected, technologiesSelected);
             }
         }
     }

@@ -97,12 +97,8 @@ public class RefLayerFilter {
     public RefLayerFilter(String freeText, String[] organisms, String[] technologies, String currentPage){
         setCurrentPage(currentPage);
         setFreeText(freeText);
-        if(getEBIQuery().contains(defaultFreeText)){
-            resetFacets();
-        } else {
-            convertArrayToHash(organisms, organismFacet);
-            convertArrayToHash(technologies, organismFacet);
-        }
+        convertArrayToHash(organisms, organismFacet);
+        convertArrayToHash(technologies, organismFacet);
 
     }
 
@@ -115,7 +111,7 @@ public class RefLayerFilter {
     }
 
     public String getEBIQuery(){
-        String finalQuery = StringUtils.join(getFacetQuery("organism", organismFacet), getFacetQuery("technology_type", technologyFacet), " AND ", "(", ")");
+        String finalQuery = getFacetsQuery();
         finalQuery = StringUtils.join(finalQuery, getEBIFreeTextQuery(), " AND ", "(", ")");
         return finalQuery;
     }
@@ -126,6 +122,10 @@ public class RefLayerFilter {
         } else {
             return "("+freeText+")";
         }
+    }
+
+    public String getFacetsQuery(){
+        return StringUtils.join(getFacetQuery("organism", organismFacet), getFacetQuery("technology_type", technologyFacet), " AND ", "(", ")");
     }
 
     private String getFacetQuery(String EBIFieldName, LinkedHashMap<String, FacetStatus> facetHash){
@@ -176,5 +176,14 @@ public class RefLayerFilter {
         for(String key: facet.keySet()){
             facet.put(key, FacetStatus.dimmed);
         }
+    }
+    public RefLayerFilter clone(){
+
+        RefLayerFilter clone =  new RefLayerFilter(freeText,null,null,currentPage.toString());
+
+        clone.organismFacet = (LinkedHashMap<String,FacetStatus>)organismFacet.clone();
+        clone.technologyFacet = (LinkedHashMap<String,FacetStatus>)technologyFacet.clone();
+
+        return clone;
     }
 }
