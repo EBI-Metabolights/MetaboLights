@@ -10,7 +10,7 @@ AS
   release_date VARCHAR2(20) default null;
   release_date_end VARCHAR2(15) := '</release_date>';
   entry_count_start VARCHAR2(30) := '     <entry_count>';
-  entry_count NUMBER(10) default 0;      accession_c
+  entry_count NUMBER(10) default 0;
   entry_count_end VARCHAR2(20) := '</entry_count>';
   
   entries_start VARCHAR2(20) := '    <entries>';
