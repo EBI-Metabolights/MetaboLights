@@ -52,7 +52,7 @@ public final class StringUtils {
 	 * Truncates a string from the left or the right based on a char
 	 * @param text text to truncate
 	 * @param find character to find
-	 * @param SearchFromTheLeft start the search from the left if true, otherwise from the right.
+	 * //@param SearchFromTheLeft start the search from the left if true, otherwise from the right.
 	 * @param fromTheLeft if true , truncate from the left.
 	 * @return
 	 */
@@ -119,4 +119,35 @@ public final class StringUtils {
 //	        sb.append(s);
 //	    return sb.toString();
 //	}
+
+    public static String join(String firstItem, String secondItem, String operator){
+        return join(firstItem, secondItem, operator, "", "");
+    }
+
+    public static String join(String firstItem, String secondItem, String operator, String delimiter){
+        return join(firstItem, secondItem, operator, delimiter, delimiter);
+    }
+
+    public static String join(String firstItem, String secondItem, String operator, String firstDelimiter, String secondDelimiter ){
+
+        firstItem = delimit(firstItem, firstDelimiter, secondDelimiter);
+
+        secondItem = delimit(secondItem, firstDelimiter, secondDelimiter);
+
+        if((firstItem != "") && (secondItem != "")){
+            return firstItem + operator + secondItem;
+        } else {
+            return firstItem + secondItem;
+        }
+
+
+    }
+
+    public static String delimit(String text, String firstDelimiter, String secondDelimiter){
+        if((text == null) || (text.isEmpty())){ // replaced '(text == null)' to '(text.equals(""))'
+            return "";
+        } else {
+            return firstDelimiter + text + secondDelimiter;
+        }
+    }
 }

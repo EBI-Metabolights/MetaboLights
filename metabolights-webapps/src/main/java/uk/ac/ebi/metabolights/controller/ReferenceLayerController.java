@@ -5,16 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.ebisearchservice.ArrayOfArrayOfString;
 import uk.ac.ebi.ebisearchservice.ArrayOfString;
 import uk.ac.ebi.ebisearchservice.EBISearchService;
 import uk.ac.ebi.ebisearchservice.EBISearchService_Service;
 import uk.ac.ebi.metabolights.referencelayer.MetabolightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.RefLayerPOJO;
+import uk.ac.ebi.metabolights.referencelayer.RefLayerFilter;
 import uk.ac.ebi.metabolights.service.AppContext;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Controller for login and related actions.
@@ -24,11 +28,25 @@ import java.util.*;
 public class ReferenceLayerController extends AbstractController {
 
     private @Value ("#{ebiServiceURL}") String url;
+    private final String REFLAYERSESSION = "RefLayer";
+    RefLayerFilter rffl;
+    RefLayerFilter cacheRffl;
+    RefLayerFilter cloneRffl;
 
+    private static EBISearchService ebiSearchService;
+    private static final String MTBLDomainName = "metabolights";
+    private static ArrayOfString listOfMTBLFields;
+    private static ModelAndView mav;
+    private static Boolean flag;
 
-    private EBISearchService ebiSearchService;
+    public enum UserAction {
+            clickedOnPage,
+            freeTextOrExample,
+            checkedFacet;
+    }
 
-    String MTBLDomainName = "metabolights";
+    private UserAction ua;
+    ArrayOfArrayOfString listOfMTBLEntries;
 
     public enum ColumnMap{
         description,
@@ -56,367 +74,31 @@ public class ReferenceLayerController extends AbstractController {
 
     }
 
-
-    @RequestMapping({ "/refLayerSearch" })
-    public ModelAndView searchAndDisplay(
-            @RequestParam(required = false, value = "freeTextQuery") String userQuery,
-            @RequestParam(required = false, value = "organisms") String[] organismsSelected, // Parameters from the jsp file relating to the organism filter
-            @RequestParam(required = false, value = "technology") String[] technologiesSelected, // Parameters from the jsp file relating to the technology filter
-            @RequestParam(required = false, value = "PageNumber") String PageSelected) { //Parameters from the jsp for Page number
-
-        //Create an object for reference layer filter.
-        RefLayerPOJO rflf = new RefLayerPOJO();
-
-        Integer currentPage = getCurrentPage(PageSelected);
-
-        instantiateFacetHash(rflf);
-
-        try {
-            ebiSearchService = new EBISearchService_Service(new URL(url)).getEBISearchServiceHttpPort(); //Get service for data from EB-EYE
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("refLayerSearch"); //must match the definition attribute in tiles.xml
-
-        getSearchResults(rflf, mav, MTBLDomainName, userQuery, organismsSelected, technologiesSelected, currentPage);
-
-        mav.addObject("MTBLDomain", MTBLDomainName);
-        mav.addObject("currentPage", currentPage);
-
-        return mav;
-    }
-
-    private Integer getCurrentPage(String pageSelected) {
-        Integer currentPage = 0;
-
-        if(pageSelected == null){
-            currentPage = 1; //Loading the page for the first time, set it to 1.
-        } else {
-            currentPage = Integer.parseInt(pageSelected); //else getting it from the jsp
-        }
-        return currentPage;
-    }
-
-    private void instantiateFacetHash(RefLayerPOJO rflf) {
-
-        rflf.setOrgHash(new LinkedHashMap<String, String>());
-        rflf.setTechHash(new LinkedHashMap<String, String>());
-
-        rflf.setOrgNoDim(new LinkedHashMap<String, String>());
-        rflf.setTechNoDim(new LinkedHashMap<String, String>());
-
-        rflf.setTechCheckedItemsHash(new LinkedHashMap<String, String>());
-        rflf.setOrgCheckedItemsHash(new LinkedHashMap<String, String>());
-    }
-
-    public void getSearchResults(RefLayerPOJO rflf, ModelAndView mav, String MTBLDomainName, String userQuery, String[] organismsSelected, String[] technologiesSelected, Integer currentPage) {
-
-
-        //Create a method to create and modify query
-        modifyQuery(mav, rflf, userQuery, organismsSelected, technologiesSelected);
-
-        //Get number of results for the query
-        int MTBLNumOfResults = getMTBLNumberOfResults(MTBLDomainName, rflf);
-
-        //Get the entries for domain, has method for creating filter
-        getEntriesForMetabolights(userQuery, MTBLDomainName, MTBLNumOfResults, rflf, mav, currentPage);
-    }
-
-    private RefLayerPOJO modifyQuery(ModelAndView mav, RefLayerPOJO rflf, String userQuery, String[] organismsSelected, String[] technologiesSelected) {
-
-        rflf.setOrgValue("false");
-        rflf.setTechValue("false");
-
-        if(userQuery == null){
-            userQuery = "";
-        }
-
-        if(userQuery.equals("")){
-            rflf.setModQuery("id:MTBL*");
-        } else {
-            rflf.setModQuery("("+userQuery+")"); //Modifying the query from the search box from the ref layer page
-        }
-
-        if(organismsSelected != null){
-
-            rflf.setOrgCheckedItems(organismsSelected);
-            rflf.setModifyQueryToInclOrgs(new StringBuffer());
-
-            int orgChkdLen = rflf.getOrgCheckedItems().length;
-            for(int oci=0; oci<orgChkdLen; oci++){
-                String valTrue = "true";
-                rflf.getOrgCheckedItemsHash().put(rflf.getOrgCheckedItems()[oci], valTrue);
-                if(oci == 0){
-                    rflf.getModifyQueryToInclOrgs().append("(organism:"+"\""+rflf.getOrgCheckedItems()[oci]+"\""+")"); //appending organisms after they are checked in the ref layer page
-                } else {
-                    rflf.getModifyQueryToInclOrgs().append(" OR "+"(organism:"+"\""+rflf.getOrgCheckedItems()[oci]+"\""+")"); //appending organisms with 'or' after they are checked in the ref layer page
-                }
-            }
-
-            rflf.setOrgQuery(rflf.getModQuery() + " AND ("+rflf.getModifyQueryToInclOrgs()+")"); //modifying query to include organisms
-        }
-
-        if(technologiesSelected != null){
-
-            rflf.setTechCheckedItems(technologiesSelected);
-            rflf.setModifyQueryToInclTech(new StringBuffer());
-
-            int techChkdLen = rflf.getTechCheckedItems().length;
-
-            for(int tci=0; tci<techChkdLen; tci++){
-                String valTrue = "true";
-                rflf.getTechCheckedItemsHash().put(rflf.getTechCheckedItems()[tci], valTrue);
-
-                if(tci == 0){
-                    rflf.getModifyQueryToInclTech().append("(technology_type:"+"\""+rflf.getTechCheckedItems()[tci]+"\""+")"); //appending tech after they are checked in the ref layer page
-                } else {
-                    rflf.getModifyQueryToInclTech().append(" OR "+"(technology_type:"+"\""+rflf.getTechCheckedItems()[tci]+"\""+")"); //appending tech with 'or' after they are checked in the ref layer page
-                }
-            }
-
-            if(rflf.getModifyQueryToInclOrgs() != null){
-                rflf.setTechQuery(rflf.getModQuery() + " AND ("+rflf.getModifyQueryToInclOrgs()+") AND ("+rflf.getModifyQueryToInclTech()+")"); //modifying query to include organisms and tech
-            } else {
-                rflf.setTechQuery(rflf.getModQuery() +" AND ("+rflf.getModifyQueryToInclTech()+")"); //modifying query to include tech only
+    private void initEBISearchService(){
+        if(ebiSearchService == null) {
+            try {
+                ebiSearchService = new EBISearchService_Service(new URL(url)).getEBISearchServiceHttpPort();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
             }
         }
 
-        mav.addObject("orgClear", rflf.isOrgClear());
-        mav.addObject("techClear", rflf.isTechClear());
-
-        return rflf;
-    }
-
-    private RefLayerPOJO getEntriesForMetabolights(String userQuery, String MTBLDomainName, int MTBLNumOfResults, RefLayerPOJO rflf, ModelAndView mav, Integer currentPage) {
-
-        ArrayOfString listOfMTBLFields = ebiSearchService.listFields(MTBLDomainName);
+        listOfMTBLFields = ebiSearchService.listFields(MTBLDomainName);
         listOfMTBLFields.getString().add("CHEBI");
         listOfMTBLFields.getString().add("METABOLIGHTS");
-
-        if (MTBLNumOfResults != 0) {
-
-            ArrayOfString listOfMTBLResults = null;
-
-            if((rflf.getTechQuery()) != null){
-                listOfMTBLResults = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getTechQuery());
-            } else if((rflf.getOrgQuery()) != null){
-                listOfMTBLResults = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getOrgQuery());
-            } else {
-                listOfMTBLResults = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getModQuery());
-            }
-
-            rflf.setListOfMTBLEntries(ebiSearchService.getEntries(MTBLDomainName, listOfMTBLResults, listOfMTBLFields));
-            rflf.setListOfMTBLEntriesLen(rflf.getListOfMTBLEntries().getArrayOfString().size());
-
-            //Highlighting only specific organisms and / or technology in facet depending on users selection of organism / technology.
-            highlightSpecificOrgTechInFacet(rflf);
-
-            // Declare a collection to store all the entries found
-            Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
-
-            Integer numOfMTBLEntries = rflf.getListOfMTBLEntriesLen();
-            Double numOfMTBLEntriesD =   numOfMTBLEntries.doubleValue();
-            Double numOfPagesD = (Math.ceil(numOfMTBLEntriesD/10));
-            Integer numOfPages = numOfPagesD.intValue();
-
-            Integer entriesFrom = 0;
-            Integer toEntries = 0;
-
-            entriesFrom = ((currentPage*10)-10);
-
-            if(currentPage.equals(numOfPages)){
-                toEntries = numOfMTBLEntries; // assigns total length to 'toEntries' if Page Number variable is equal to firstElementOfSplit, Eg: 226 == 226. This is if result is not multiple of 10.
-            } else {
-                toEntries = (currentPage*10); // if results are 10 or multiples of 10.
-            }
-
-
-            // Map the column Names with the indexes
-            mapColumns(listOfMTBLFields);
-
-            for(int z=entriesFrom; z<toEntries; z++){
-
-                // Get the ebiEye entry
-                List<String> ebiEyeEntry = rflf.getListOfMTBLEntries().getArrayOfString().get(z).getString();
-
-                // Instantiate a new entry...
-                MetabolightsCompound mc = ebieyeEntry2Metabolite(ebiEyeEntry);
-
-                mcs.add(mc);
-            }
-
-            //This takes all the entries and fills in the unique organisms and technologies.
-            showAllOrgsTechFacet(rflf, ebiSearchService, MTBLDomainName, listOfMTBLFields);
-
-            mav.addObject("RefLayer", rflf);
-            mav.addObject("freeTextQuery", userQuery);
-            mav.addObject("entries", mcs);
-            mav.addObject("queryResults", MTBLNumOfResults);
-            mav.addObject("NumOfPages", numOfPages);
-        }
-        return rflf;
+        mapColumns();
+        rffl.setMTBLNumOfResults(ebiSearchService.getNumberOfResults(MTBLDomainName, rffl.getEBIQuery()));
+        //return ebiSearchService;
     }
 
-    private void highlightSpecificOrgTechInFacet(RefLayerPOJO rflf) {
-
-        for(int i=0; i<rflf.getListOfMTBLEntriesLen(); i++){
-
-            rflf.setMTBLEntries(rflf.getListOfMTBLEntries().getArrayOfString().get(i));
-
-            if(rflf.getMTBLEntries().getString().get(5) != null) rflf.setOrgType(rflf.getMTBLEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
-            if(rflf.getMTBLEntries().getString().get(6) != null) rflf.setTechType(rflf.getMTBLEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
-
-            String[] orgHghSplit = null;
-            if(rflf.getOrgType() != null){
-                orgHghSplit = rflf.getOrgType().split("\\n");
-                for(int os=0; os<orgHghSplit.length; os++){
-                    if(!rflf.getOrgNoDim().containsKey(orgHghSplit[os])){
-                        rflf.getOrgNoDim().put(orgHghSplit[os], "highlight");
-                    }
-                }
-            }
-
-            String[] techHghSplit = null;
-            if(rflf.getTechType() != null){
-                techHghSplit = rflf.getTechType().split("\\n");
-                for(int ts=0; ts<techHghSplit.length; ts++){
-                    if(!rflf.getTechNoDim().containsKey(techHghSplit[ts])){
-                        rflf.getTechNoDim().put(techHghSplit[ts], "highlight");
-                    }
-                }
-            }
-        }
-    }
-
-    private void showAllOrgsTechFacet(RefLayerPOJO rflf, EBISearchService ebiSearchService, String MTBLDomainName, ArrayOfString listOfMTBLFields) {
-        ArrayOfString AllResultsForFacets = null;  //Get all results for filters
-
-        AllResultsForFacets = ebiSearchService.getAllResultsIds(MTBLDomainName, rflf.getModQuery());
-
-        rflf.setListOfMTBLEntriesForFacets(ebiSearchService.getEntries(MTBLDomainName, AllResultsForFacets, listOfMTBLFields));
-        rflf.setListOfMTBLEntriesForFacetsLen(rflf.getListOfMTBLEntriesForFacets().getArrayOfString().size());
-
-        for(int i=0; i<rflf.getListOfMTBLEntriesForFacetsLen(); i++){
-
-            rflf.setMTBLFacetEntries(rflf.getListOfMTBLEntriesForFacets().getArrayOfString().get(i));
-            if(rflf.getMTBLFacetEntries().getString().get(5) != null) {
-                rflf.setFacetOrgType(rflf.getMTBLFacetEntries().getString().get(5)); //gets single or multiple organism(s) depending on studies
-            }
-            if(rflf.getMTBLFacetEntries().getString().get(6) != null) {
-                rflf.setFacetTechType(rflf.getMTBLFacetEntries().getString().get(6)); // gets single or multiple technology_type(s) depending on studies.
-            }
-
-            //Setup filters, pass technology and organism arrays as POJO in rflf.
-            facetsSetup(rflf);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    //Setting up the filter
-    private RefLayerPOJO facetsSetup(RefLayerPOJO rflf) {
-
-        //Technology Filter
-        if(rflf.getFacetTechType() != null){
-            rflf.setTechSplit(rflf.getFacetTechType().split("\\n")); //split the technologies with \n
-            rflf.setTechSplitLen(rflf.getTechSplit().length); //set the number of technologies, in this case 2.
-
-            for(int t=0; t<rflf.getTechSplitLen(); t++){
-                if(!rflf.getTechHash().containsKey(rflf.getTechSplit()[t])){
-                    if(rflf.getTechSplit()[t] != null){
-                        rflf.getTechHash().put(rflf.getTechSplit()[t], rflf.getTechValue()); //resetting the for all value to false
-                    }
-                }
-            }
-
-            if(rflf.getTechNoDim() != null){
-                Iterator<String> techUnqIter = rflf.getTechNoDim().keySet().iterator();
-                while(techUnqIter.hasNext()){
-                    String techUnqTmp = techUnqIter.next(); //contains single highlighted item.
-                    String techSetValue = "highlight";
-                    rflf.getTechHash().remove(techUnqTmp);
-                    rflf.getTechHash().put(techUnqTmp, techSetValue);
-                }
-            }
-
-            if(rflf.getTechCheckedItems() != null){
-                rflf.setTechCheckedItemsSet(rflf.getTechCheckedItemsHash().keySet()); //setting LinkedHashMap with tech checked items
-                Iterator<String> techIter = rflf.getTechCheckedItemsSet().iterator();
-                while(techIter.hasNext()){
-                    String techTmpKey = (String) techIter.next(); //contains a single checked item (key)
-                    String techValueTrue = "true";
-                    rflf.getTechHash().remove(techTmpKey);
-                    rflf.getTechHash().put(techTmpKey, techValueTrue);
-                }
-            }
-        }
-
-        //Organism filter
-        if(rflf.getFacetOrgType() != null){
-            rflf.setOrgSplit(rflf.getFacetOrgType().split("\\n")); //split the organisms with \n
-            rflf.setOrgSplitLen(rflf.getOrgSplit().length); //set the number of organisms. The length can vary according to study. 1-4.
-
-            for(int o=0; o<rflf.getOrgSplitLen(); o++){
-                //getFacetOrgType()[o] - single organism
-                if(!rflf.getOrgHash().containsKey(rflf.getOrgSplit()[o])){
-                    if(rflf.getOrgSplit()[o] != null){
-                         rflf.getOrgHash().put(rflf.getOrgSplit()[o], rflf.getOrgValue()); //makes value false for all the items in the list, resetting the value to false
-                    }
-                }
-            }
-
-            if(rflf.getOrgNoDim() != null){
-                Iterator<String> orgUnqIter = rflf.getOrgNoDim().keySet().iterator();
-                while(orgUnqIter.hasNext()){
-                    String orgUnqTmp = orgUnqIter.next(); //contains single highlighted item.
-                    String orgSetValue = "highlight";
-                    rflf.getOrgHash().remove(orgUnqTmp);
-                    rflf.getOrgHash().put(orgUnqTmp, orgSetValue);
-                }
-            }
-
-            if(rflf.getOrgCheckedItems() != null){
-                rflf.setOrgCheckedItemsSet(rflf.getOrgCheckedItemsHash().keySet()); //setting linkedHashSet with organism checked items
-                Iterator<String> orgIter = rflf.getOrgCheckedItemsSet().iterator();
-                while(orgIter.hasNext()){
-                    String orgTmpKey = (String) orgIter.next(); //contains a single checked item (key)
-                    String orgValueTrue = "true";
-                    rflf.getOrgHash().remove(orgTmpKey);
-                    rflf.getOrgHash().put(orgTmpKey, orgValueTrue);
-                }
-            }
-        }
-        return rflf;
-    }
-
-    //Getting total number of results in Metabolights domain.
-    private int getMTBLNumberOfResults(String MTBLDomainName, RefLayerPOJO rfFilter) {
-
-        int MTBLNumberOfResults = 0;
-
-        if ((MTBLDomainName != null)) {
-            if((rfFilter.getTechQuery()) != null){
-                MTBLNumberOfResults = ebiSearchService.getNumberOfResults(MTBLDomainName, rfFilter.getTechQuery());
-            } else if((rfFilter.getOrgQuery()) != null){
-                MTBLNumberOfResults = ebiSearchService.getNumberOfResults(MTBLDomainName, rfFilter.getOrgQuery());
-            } else {
-                MTBLNumberOfResults = ebiSearchService.getNumberOfResults(MTBLDomainName, rfFilter.getModQuery());
-            }
-        }
-        return MTBLNumberOfResults;
-    }
-
-
-    // Map the filed names of the ebieye entry with position index
-    private void mapColumns(ArrayOfString fields){
+    private void mapColumns(){
 
         // If not already mapped (only needs to be done once)...index will have -1
         if (ColumnMap.METABOLIGHTS.getIndex() == -1){
 
+            for (int i=0;i < listOfMTBLFields.getString().size(); i++){
 
-            for (int i=0;i < fields.getString().size(); i++){
-
-                String fieldName = fields.getString().get(i);
+                String fieldName = listOfMTBLFields.getString().get(i);
 
                 // Loop through the enum (not very optimal but the enum is quite short)
                 for (ColumnMap cm : ColumnMap.values()){
@@ -429,26 +111,73 @@ public class ReferenceLayerController extends AbstractController {
             }
         }
     }
-    // Get the value of an ebieye entry by its name
-    private String getValueFromEbieyeEntry(ColumnMap columnName, List<String> ebieyeEntry){
 
-        // If index is -1 the field is not there
-        if (columnName.getIndex() == -1 ) return "";
+    @RequestMapping({ "/refLayerSearch" })
+    public ModelAndView searchAndDisplay(
+        @RequestParam(required = false, value = "freeTextQuery") String userQuery,
+        @RequestParam(required = false, value = "organisms") String[] organismsSelected,
+        @RequestParam(required = false, value = "technology") String[] technologiesSelected,
+        @RequestParam(required = false, value = "PageNumber") String PageSelected,
+        HttpServletRequest request) {
 
-        // If the ebeeye entry do not have that value....
-        if (ebieyeEntry.size() < columnName.getIndex()){
-            return "";
+        rffl = (RefLayerFilter)request.getSession().getAttribute(REFLAYERSESSION);
+        mav = AppContext.getMAVFactory().getFrontierMav("refLayerSearch");
+
+        mapUserAction(userQuery, organismsSelected, technologiesSelected, PageSelected);
+
+        //if(flag == false){
+            queryEBI();
+        //}
+
+        if(rffl.getMTBLNumOfResults() != 0){
+            getEntries();
         }
 
-        // Get the value
-        String value = ebieyeEntry.get(columnName.getIndex());
 
-        // If it's null
-        return (value == null? "": value);
+        //added below
+        if(rffl == null){
+            rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, PageSelected);
+        }
 
+        updateFacets(organismsSelected, technologiesSelected);
+        request.getSession().setAttribute("RefLayer", rffl);
+        //
 
+        mav.addObject("rffl", rffl); //added this
+        return mav;
     }
-    private MetabolightsCompound ebieyeEntry2Metabolite(List<String> ebieyeEntry){
+
+    private void getEntries() {
+
+        Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
+        Integer entriesFrom = 0;
+        Integer toEntries = 0;
+
+        if(rffl.getCurrentPage().equals(rffl.getTotalNumOfPages())){
+            if(rffl.getLastPageEntries() == 0){
+                toEntries = 9;
+            } else {
+                toEntries = rffl.getLastPageEntries();
+            }
+        } else {
+            toEntries = 9;
+        }
+
+        for(int z=entriesFrom; z<toEntries; z++){
+
+            // Get the ebiEye entry
+            List<String> ebiEyeEntry = listOfMTBLEntries.getArrayOfString().get(z).getString();
+
+            // Instantiate a new entry...
+            MetabolightsCompound mc = ebieyeEntry2Metabolite(ebiEyeEntry);
+
+            mcs.add(mc);
+        }
+
+        mav.addObject("entries", mcs);
+    }
+
+    private MetabolightsCompound ebieyeEntry2Metabolite(List<String> ebieyeEntry) {
 
         // Instantiate a new Metabolite compound ...
         MetabolightsCompound mc = new MetabolightsCompound();
@@ -480,5 +209,82 @@ public class ReferenceLayerController extends AbstractController {
         value = getValueFromEbieyeEntry(ColumnMap.name, ebieyeEntry);
         mc.setName(value);
         return mc;
+    }
+
+    private void mapUserAction(String userQuery, String[] organismsSelected, String[] technologiesSelected, String pageSelected) {
+
+        flag = false;
+
+        if ((rffl != null) && (userQuery == rffl.getFreeText())){
+            if((pageSelected != null) && (rffl.getCurrentPage() != Integer.parseInt(pageSelected))){
+                ua = UserAction.clickedOnPage;
+                rffl.setCurrentPage(Integer.parseInt(pageSelected));
+            } else {
+                ua = UserAction.checkedFacet;
+                rffl.resetFacets();
+                rffl.checkFacets(organismsSelected, technologiesSelected);
+                rffl.getTotalNumOfPages();
+            }
+        } else {
+            ua = UserAction.freeTextOrExample;
+            rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, pageSelected); //instantiated above as well
+            if ((rffl.getEBIQuery().contains(rffl.getDefaultFreeText()))){
+                if(cacheRffl != null){
+                    rffl = cacheRffl;
+                    //flag = true;
+                } else {
+                    cacheRffl = rffl;
+                }
+            }
+        }
+    }
+
+    private void queryEBI() {
+
+        initEBISearchService();
+
+        if (ua == UserAction.clickedOnPage){
+            ArrayOfString listOfMTBLIds = ebiSearchService.getResultsIds(MTBLDomainName, rffl.getEBIQuery(), ((rffl.getCurrentPage()*10)-10), 10);
+            listOfMTBLEntries = ebiSearchService.getEntries(MTBLDomainName, listOfMTBLIds, listOfMTBLFields);
+        } else {
+            ArrayOfString listOfMTBLIds = ebiSearchService.getAllResultsIds(MTBLDomainName, rffl.getEBIQuery());
+            listOfMTBLEntries = ebiSearchService.getEntries(MTBLDomainName, listOfMTBLIds, listOfMTBLFields);
+        }
+    }
+
+    private void updateFacets(String[] organismsSelected, String[] technologiesSelected) {
+
+        if(ua != UserAction.clickedOnPage){
+            for(ArrayOfString entry: this.listOfMTBLEntries.getArrayOfString()){
+                String organisms = getValueFromEbieyeEntry(ColumnMap.organism, entry.getString());
+                String technologies = getValueFromEbieyeEntry(ColumnMap.technology_type, entry.getString());
+                String[] organismsList = organisms.split("\\n");
+                String[] technologiesList = technologies.split("\\n");
+                rffl.updateOrganismFacet(organismsList);
+                rffl.updateTechnologyFacet(technologiesList);
+            }
+
+            if(ua == UserAction.checkedFacet){ //added this
+                rffl.resetFacets();
+                rffl.checkFacets(organismsSelected, technologiesSelected);
+            }
+        }
+    }
+
+    private String getValueFromEbieyeEntry(ColumnMap columnName, List<String> ebieyeEntry){
+
+        // If index is -1 the field is not there
+        if (columnName.getIndex() == -1 ) return "";
+
+        // If the ebeeye entry do not have that value....
+        if (ebieyeEntry.size() < columnName.getIndex()){
+            return "";
+        }
+
+        // Get the value
+        String value = ebieyeEntry.get(columnName.getIndex());
+
+        // If it's null
+        return (value == null? "": value);
     }
 }
