@@ -10,7 +10,7 @@ AS
   release_date VARCHAR2(20) default null;
   release_date_end VARCHAR2(15) := '</release_date>';
   entry_count_start VARCHAR2(30) := '     <entry_count>';
-  entry_count NUMBER(10) default 0;
+  entry_count NUMBER(10) default 0;      accession_c
   entry_count_end VARCHAR2(20) := '</entry_count>';
   
   entries_start VARCHAR2(20) := '    <entries>';
@@ -46,11 +46,8 @@ AS
   
   -- MTBLC and MTBLS records
   cursor accession_c is   
-      select distinct * from study_compound 
-      --where name = 'MTBLC1364'
-      --or name like 'MTBLS1'
-      ;    
-      
+      select distinct * from study_compound;
+
   --Xrefs    
   cursor xrefs_c(xref_entry_id VARCHAR2) is
     select distinct comp.chebi_id as id, ref.database --ChEBI entries
@@ -105,7 +102,7 @@ AS
   
   -- Organism from MTBLC loop      
   cursor organism_c_entry(l_entry_id NUMBER) is
-     SELECT DISTINCT PV.VALUE, S.ACC
+      SELECT DISTINCT PV.VALUE     --SELECT DISTINCT PV.VALUE, S.ACC
     FROM PROPERTY_VALUE PV
       LEFT JOIN PROPERTY P ON PV.PROPERTY_ID = P.ID
       LEFT JOIN MATERIAL M ON PV.MATERIAL_ID = M.ID
