@@ -151,7 +151,7 @@ public class RefLayerFilter {
 
     private void updateFacet(String[] facetKeys, LinkedHashMap<String, FacetStatus> facetLinkedHash){
         for(String key: facetKeys){
-            if(!(key.equals("")) || (key.equals(null))){ //added this additional check as some keys, returned from EBI results, were empty.
+            if(!(key.equals("")) || (key == null)){
                 if(!(facetLinkedHash.containsKey(key))){
                     facetLinkedHash.put(key, FacetStatus.unchecked);
                 } else if(facetLinkedHash.get(key) == FacetStatus.dimmed){

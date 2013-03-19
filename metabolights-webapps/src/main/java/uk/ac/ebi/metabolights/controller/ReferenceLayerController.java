@@ -129,7 +129,6 @@ public class ReferenceLayerController extends AbstractController {
         mav = AppContext.getMAVFactory().getFrontierMav("refLayerSearch");
 
         mapUserAction(userQuery, organismsSelected, technologiesSelected, PageSelected, userAction);
-
         queryEBI();
 
         if(rffl.getMTBLNumOfResults() != 0){

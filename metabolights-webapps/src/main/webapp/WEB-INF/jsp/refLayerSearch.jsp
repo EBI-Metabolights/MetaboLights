@@ -168,15 +168,24 @@
                     <div class="grid_24 refLayerBox" id="technologyFilter">
                         <b><spring:message code="ref.msg.technology"/></b>
 
-                        <c:forEach var="technology" items="${rffl.technologyFacet}">
-                            <ul style="max-height: 400px; overflow: auto" id="organisms">
-                                <input type="checkbox"
-                                       name="technology"
-                                       value="${technology.key}"
-                                       <c:if test="${technology.value eq 'checked'}">CHECKED</c:if>
-                                       onclick="this.form.submit();">
-                                    ${technology.key}
-                            </ul>
+                        <c:forEach var="times" begin="0" end="2" step="1">
+                            <c:forEach var="technology" items="${rffl.technologyFacet}">
+                                <c:if test="${((technology.value eq 'checked') and times == 0) or ((technology.value eq 'unchecked') and times == 1) or ((technology.value eq 'dimmed') and times == 2)}">
+                                    <ul style="max-height: 400px; overflow: auto" id="organisms">
+                                        <input type="checkbox"
+                                               name="technology"
+                                               value="${technology.key}"
+                                               <c:if test="${technology.value eq 'checked'}">CHECKED</c:if>
+                                               onclick="this.form.submit();">
+                                        <c:if test="${technology.value eq 'dimmed'}">
+                                            <span class="dimmed">${technology.key}</span>
+                                        </c:if>
+                                        <c:if test="${technology.value ne 'dimmed'}">
+                                            ${technology.key}
+                                        </c:if>
+                                    </ul>
+                                </c:if>
+                            </c:forEach>
                         </c:forEach>
 
                     </div>
@@ -187,15 +196,24 @@
                     <div class="grid_24 refLayerBox" id="organismFilter">
                         <b><spring:message code="ref.msg.organism"/></b>
 
-                        <c:forEach var="organism" items="${rffl.organismFacet}">
-                            <ul style="max-height: 400px; overflow: auto" id="organisms">
-                                <input type="checkbox"
-                                       name="organisms"
-                                       value="${organism.key}"
-                                       <c:if test="${organism.value eq 'checked'}">CHECKED</c:if>
-                                       onclick="this.form.submit();">
-                                    ${organism.key}
-                            </ul>
+                        <c:forEach var="times" begin="0" end="2" step="1">
+                            <c:forEach var="organism" items="${rffl.organismFacet}">
+                                <c:if test="${((organism.value eq 'checked') and times == 0) or ((organism.value eq 'unchecked') and times == 1) or ((organism.value eq 'dimmed') and times == 2)}">
+                                    <ul style="max-height: 400px; overflow: auto" id="organisms">
+                                        <input type="checkbox"
+                                               name="organisms"
+                                               value="${organism.key}"
+                                               <c:if test="${organism.value eq 'checked'}">CHECKED</c:if>
+                                               onclick="this.form.submit();">
+                                            <c:if test="${organism.value eq 'dimmed'}">
+                                                <span class="dimmed">${organism.key}</span>
+                                            </c:if>
+                                            <c:if test="${organism.value ne 'dimmed'}">
+                                                ${organism.key}
+                                            </c:if>
+                                    </ul>
+                                </c:if>
+                            </c:forEach>
                         </c:forEach>
 
                     </div>
