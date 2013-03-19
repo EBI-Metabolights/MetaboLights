@@ -13,6 +13,12 @@ ${localfrontierheader}
 		$('[href="refLayerSearch"]').hide();
 	</script>
 </c:if>
+<c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
+    <script>
+        $("h1 a").css({ 'color': 'yellow'}).html("MetaboLigths DEV");
+    </script>
+</c:if>
+
 
 
 <sec:authorize ifAnyGranted="ROLE_SUBMITTER">

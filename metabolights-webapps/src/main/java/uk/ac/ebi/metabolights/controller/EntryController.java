@@ -44,10 +44,10 @@ public class EntryController extends AbstractController {
     @Autowired
     private AccessionService accessionService;
 
-    public static final String METABOLIGHTS_ID_REG_EXP = "MTBLS.+";
+    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 
 	//(value = "/entry/{metabolightsId}")
-	@RequestMapping(value = { "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}", "/{metabolightsId:mtbls.+}" })
+	@RequestMapping(value = { "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}", "/entry/{metabolightsId}" })
 
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblId);
@@ -72,7 +72,7 @@ public class EntryController extends AbstractController {
 
             // The user is not logged in but it's not authorised.
             } else {
-                return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" +mtblId + ")");
+                return new ModelAndView ("redirect:/index?message="+ PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" +mtblId + ")");
             }
 
 		}

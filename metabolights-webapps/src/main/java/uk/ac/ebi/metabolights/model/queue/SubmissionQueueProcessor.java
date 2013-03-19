@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Thread.sleep;
+
 /*
  * Process a single item in the queue (upload a zip file to the database and move it to the correspondent folder)
  */
@@ -128,7 +130,17 @@ public class SubmissionQueueProcessor {
 	}
 
 	private void cleanProcessFolder(){
-		FileUtil.deleteDir(new File(SubmissionQueue.getProcessFolder()));
+        int times =0;
+        final int  MAX_TIMES = 3;
+
+        while ( !FileUtil.deleteDir(new File(SubmissionQueue.getProcessFolder())) && (times < MAX_TIMES)){
+            times++;
+            try {
+                sleep(times *1000);
+            } catch (InterruptedException e) {
+                logger.debug("For some reason the thread can't go to sleep: " + e.getMessage());
+            }
+        };
 	}
 	
 	public boolean CanProcessStart(){

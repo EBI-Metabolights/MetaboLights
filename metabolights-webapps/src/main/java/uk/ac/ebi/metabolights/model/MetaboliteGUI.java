@@ -16,4 +16,11 @@ public class MetaboliteGUI {
 		String link = met.getChebiId()==null?met.getIdentifier():met.getChebiId();
 		return MetaboLightsUtilities.getLink(link);
 	}
+    public String getIdentifier() {
+        if (met.getChebiId() == null){
+            return met.getIdentifier();
+        } else {
+            return met.getChebiId();
+        }
+    }
 }
