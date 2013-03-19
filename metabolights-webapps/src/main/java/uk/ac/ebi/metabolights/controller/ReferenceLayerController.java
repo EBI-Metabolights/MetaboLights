@@ -118,6 +118,7 @@ public class ReferenceLayerController extends AbstractController {
         @RequestParam(required = false, value = "organisms") String[] organismsSelected,
         @RequestParam(required = false, value = "technology") String[] technologiesSelected,
         @RequestParam(required = false, value = "PageNumber") String PageSelected,
+        @RequestParam(required = false, value = "userAction") String userAction,
         HttpServletRequest request) {
 
         if(userQuery == null){
@@ -127,7 +128,7 @@ public class ReferenceLayerController extends AbstractController {
         rffl = (RefLayerFilter)request.getSession().getAttribute(REFLAYERSESSION);
         mav = AppContext.getMAVFactory().getFrontierMav("refLayerSearch");
 
-        mapUserAction(userQuery, organismsSelected, technologiesSelected, PageSelected);
+        mapUserAction(userQuery, organismsSelected, technologiesSelected, PageSelected, userAction);
 
         queryEBI();
 
@@ -211,22 +212,17 @@ public class ReferenceLayerController extends AbstractController {
         return mc;
     }
 
-    private void mapUserAction(String userQuery, String[] organismsSelected, String[] technologiesSelected, String pageSelected) {
+    private void mapUserAction(String userQuery, String[] organismsSelected, String[] technologiesSelected, String pageSelected, String userAction) {
 
-        flag = false;
-
-        if ((rffl != null) && (userQuery == rffl.getFreeText())){
-            if((pageSelected != null) && (rffl.getCurrentPage() != Integer.parseInt(pageSelected))){
+        if(userAction != null){
+            if(userAction.equals("facetClicked")){
+            ua = UserAction.checkedFacet;
+            rffl.resetFacets();
+            rffl.checkFacets(organismsSelected, technologiesSelected);
+            rffl.getTotalNumOfPages();
+            } else if(userAction.equals("pageClicked")){
                 ua = UserAction.clickedOnPage;
                 rffl.setCurrentPage(Integer.parseInt(pageSelected));
-            } else if (userQuery.equals("") && (organismsSelected == null && technologiesSelected == null)){
-                ua = UserAction.browseCached;
-                rffl = cacheRffl.clone();
-            } else {
-                ua = UserAction.checkedFacet;
-                rffl.resetFacets();
-                rffl.checkFacets(organismsSelected, technologiesSelected);
-                rffl.getTotalNumOfPages();
             }
         } else if(userQuery.equals("")){
             if ((cacheRffl != null)){
@@ -236,7 +232,7 @@ public class ReferenceLayerController extends AbstractController {
                 ua = UserAction.firstTimeBrowse;
                 rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, pageSelected);
             }
-        } else{
+        } else {
             ua = UserAction.freeTextOrExample;
             rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, pageSelected);
         }
