@@ -168,7 +168,7 @@
 	</c:when>
 	<c:otherwise>
 		<p align="center">
-			<b>No Reactions Found!!</b>
+			<b>No Reactions Found for this compound</b>
 		</p>
 	</c:otherwise>
 </c:choose>

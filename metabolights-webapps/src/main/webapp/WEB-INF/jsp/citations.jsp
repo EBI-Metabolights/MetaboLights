@@ -28,6 +28,9 @@ function toggle(element) {
 		</c:forEach>
 	</c:when>
 	<c:otherwise>
-		<b>No Literature found!!!</b>
+		<b>No Literature found for this compound in Europe PubMed Central</b>
+        <c:if test="${not empty errortext}">
+            </p> ${errortext}
+        </c:if>
 	</c:otherwise>
 </c:choose>

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.biobabel.citations.CitexploreWSClient;
 import uk.ac.ebi.cdb.webservice.*;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
@@ -18,7 +17,6 @@ import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
 import uk.ac.ebi.rhea.ws.response.cmlreact.Reaction;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,14 +74,18 @@ public class CompoundController extends AbstractController {
 	private ModelAndView showCitations(
 			@RequestParam(required = false, value = "mtblc") String mtblc){
 
-        try {
-            PMCSearchService = new WSCitationImplService(new URL(PMCurl)).getWSCitationImplPort();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        String localException = null;
 
         //Instantiate Model and view
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("citations");
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("citations");
+
+        try {
+            PMCSearchService = new WSCitationImplService(new URL(PMCurl)).getWSCitationImplPort();
+        } catch (Exception e) {
+            //e.printStackTrace();     //No reason to bother the user with the whole stacktrace
+            mav.addObject("errortext", e.getMessage());
+            return mav;
+        }
 
 		//Initialising ResponseWrapper
 		ResponseWrapper rslt = null;
@@ -96,7 +98,7 @@ public class CompoundController extends AbstractController {
 		
 		//Creating a list object for ResponseWrapper
 		List<Result> rsltItems = new  ArrayList<Result>();
-		
+
 		//Iterating the dataitems to get the citation object
 		for(int x=0; x<pmid.size(); x++){
             String query = pmid.get(x).getData();
@@ -109,8 +111,9 @@ public class CompoundController extends AbstractController {
 
                 rslt =  PMCSearchService.searchPublications(query, dataset, resultType, offSet, false, email );
 			    rsltItems.addAll(x, rslt.getResultList().getResult());
-			} catch (QueryException_Exception e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				//e.printStackTrace();     //No reason to bother the user with the whole stacktrace
+                mav.addObject("errortext", e.getMessage());
 			}
 		}
 
