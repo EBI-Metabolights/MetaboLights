@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,6 +24,7 @@ import java.util.Date;
 public class EmailService {
 
     private @Value("#{EBIHost}") String prodURL;
+    private @Value("#{curationEmailAddress}") String curationEmailAddress;
 
 	@Autowired
 	private MailSender mailSender; // configured in servlet XML
@@ -33,7 +35,7 @@ public class EmailService {
 	@Autowired
 	private SimpleMailMessage verifyNewAccountTemplate; // template for confirmation of an account request
 
-	@Autowired
+    @Autowired
 	private SimpleMailMessage activateAccountTemplate; // template for password reminder, configured in servlet XML
 
 	@Autowired
@@ -163,7 +165,7 @@ public class EmailService {
 	}
 	
 	public void sendSimpleEmail (String subject, String body) {
-		String[] to  = {PropertiesUtil.getProperty("curationEmailAddress")};
+		String[] to  = {curationEmailAddress};
 		sendSimpleEmail( to ,subject, body);
 	}
 
@@ -172,7 +174,7 @@ public class EmailService {
 	 */
 	public void sendQueuedStudyEmail(String userEmail, String fileName, String fileSize, Date publicReleaseDate, String hostName, String studyToUpdate){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, PropertiesUtil.getProperty("curationEmailAddress")};
+		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.queuedStudy.subject", fileName);
 		String body = PropertyLookup.getMessage("mail.queuedStudy.body", new String[]{userEmail, fileName, fileSize, publicReleaseDate.toString(), hostName, (studyToUpdate==null?"NEW STUDY":"UPDATING " + studyToUpdate)});
 		
@@ -185,7 +187,7 @@ public class EmailService {
 	 */
 	public void sendQueuedPRLUpdate( String userEmail, Date publicReleaseDate, String hostName, String studyToUpdate){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, PropertiesUtil.getProperty("curationEmailAddress")};
+		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.queuedPRDUpdate.subject", studyToUpdate );
 		String body = PropertyLookup.getMessage("mail.queuedPRDUpdate.body", new String[]{userEmail, studyToUpdate,publicReleaseDate.toString(), hostName});
 		
@@ -198,7 +200,7 @@ public class EmailService {
 	 */
 	public void sendQueuedDeletion( String userEmail, String hostName, String studyToDelete){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, PropertiesUtil.getProperty("curationEmailAddress")};
+		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.queuedDeletion.subject", studyToDelete );
 		String body = PropertyLookup.getMessage("mail.queuedDeletion.body", new String[]{userEmail, studyToDelete, hostName});
 		
@@ -211,7 +213,7 @@ public class EmailService {
 	 */
 	public void sendQueuedStudySubmitted(String userEmail, String fileName, Date publicReleaseDate, String ID){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, PropertiesUtil.getProperty("curationEmailAddress")};
+		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.submittedStudy.subject", ID);
 		String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
 		
@@ -224,7 +226,7 @@ public class EmailService {
 	 */
 	public void sendQueuedStudyUpdated(String userEmail,String ID, Date publicReleaseDate){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, PropertiesUtil.getProperty("curationEmailAddress")};
+		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.updateStudy.subject", ID);
 		String body = PropertyLookup.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
 		
@@ -237,7 +239,7 @@ public class EmailService {
 	 */
 	public void sendQueuedPublicReleaseDateUpdated(String userEmail,String ID, Date publicReleaseDate){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, PropertiesUtil.getProperty("curationEmailAddress")};
+		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.publicReleaseDate.subject", ID);
 		String body = PropertyLookup.getMessage("mail.publicReleaseDate.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
 		
@@ -247,7 +249,7 @@ public class EmailService {
 	
 	public void sendStudyDeleted(String userEmail,String ID ){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, PropertiesUtil.getProperty("curationEmailAddress")};
+		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.studyDeleted.subject", ID);
 		String body = PropertyLookup.getMessage("mail.studyDeleted.body", ID);
 		
@@ -258,8 +260,8 @@ public class EmailService {
 	 * Email to send when the submission process fails...
 	 */
 	public void sendSubmissionError(String userEmail, String fileName, String error ){
-		String from = PropertiesUtil.getProperty("curationEmailAddress");
-		String[] to = {userEmail, PropertiesUtil.getProperty("curationEmailAddress")};
+		String from = curationEmailAddress;
+		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
 		String body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error});
 		
