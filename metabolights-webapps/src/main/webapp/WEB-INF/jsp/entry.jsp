@@ -452,9 +452,9 @@ function toggleColumn(tableId, anchor, duration ) {
                                         <td>
                                                 ${met.metabolite.description}
                                             <c:choose>
-                                                <c:when test="${empty met.metabolite.identifier}"></c:when>
-                                                <c:when test="${empty met.link }"> (${met.metabolite.identifier})</c:when>
-                                                <c:otherwise><a class="metLink" identifier="${met.metabolite.identifier}" href="${met.link}" target="_blank">(${met.metabolite.identifier})</a></c:otherwise>
+                                                <c:when test="${empty met.identifier}"></c:when>
+                                                <c:when test="${empty met.link }"> (${met.identifier})</c:when>
+                                                <c:otherwise><a class="metLink" identifier="${met.identifier}" href="${met.link}" target="_blank">(${met.identifier})</a></c:otherwise>
                                             </c:choose>
                                         </td>
                                         <td>
