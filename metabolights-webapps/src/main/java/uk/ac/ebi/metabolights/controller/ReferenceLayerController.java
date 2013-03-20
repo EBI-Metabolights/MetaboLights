@@ -208,6 +208,15 @@ public class ReferenceLayerController extends AbstractController {
         // Get the name
         value = getValueFromEbieyeEntry(ColumnMap.name, ebieyeEntry);
         mc.setName(value);
+
+        //Get Technology
+        value = getValueFromEbieyeEntry(ColumnMap.technology_type, ebieyeEntry);
+        if (!value.equals("")) mc.setTechnology_type(value.split("\\n"));
+
+        //Get Organism
+        value = getValueFromEbieyeEntry(ColumnMap.organism, ebieyeEntry);
+        if (!value.equals("")) mc.setOrganism(value.split("\\n"));
+
         return mc;
     }
 

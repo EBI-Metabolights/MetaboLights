@@ -9,6 +9,8 @@
     <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
     <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
     <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+    <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
     <%@page contentType="text/html;charset=UTF-8"%>
     <%@page pageEncoding="UTF-8"%>
     <script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
@@ -233,43 +235,159 @@
                 <c:forEach var="entry" items="${entries}">
 
                     <div class="grid_22 refLayerBox">
+
                         <div class="grid_8 alpha">
-                            <a href="${entry.accession}"><img
-                                    src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}&amp;dimensions=200&amp;scaleMolecule=true"
-                                    onerror="this.src='img/large_noImage.gif';" width="100px"
-                                    height="100px" /></a>
-                        </div>
-                        <div class="grid_14">
-                            <div class="grid_24">
-                                <b><spring:message code="ref.compound.name"/></b> ${entry.name}
-                                (<a href="${entry.accession}">${entry.accession}</a>)
-                                <a href='<spring:message code="ref.msg.chebi.url"></spring:message>${entry.chebiURL}'>${entry.chebiId}</a>
-                            </div>
-                        <br />
-                        <br />
-                        <div class="grid_24">
-                            <c:if test="${not empty entry.description}">
-                                <b><spring:message code="ref.compound.description"/></b>${entry.description}
+
+                            <c:if test="${not fn:contains(entry.accession, 'MTBLS')}">
+
+                                <a href="${entry.accession}">
+                                    <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}&amp;dimensions=200&amp;scaleMolecule=true"
+                                        onerror="this.src='img/large_noImage.gif';" width="100px"
+                                        height="100px" />
+                                </a>
+
                             </c:if>
+
                         </div>
-                        <br /> <br /> <br />
-                        <div class="grid_24">
-                            <c:forEach var="MTBLStudiesList" items="${entry.MTBLStudies}"
-                                       varStatus="loopStatus">
-                                <c:choose>
-                                    <c:when test="${loopStatus.index eq 0}">
-                                        <b><spring:message code="ref.msg.mtbl.studies" /></b>
-                                    </c:when>
-                                    <c:otherwise>
-                                        ,
-                                    </c:otherwise>
-                                </c:choose>
-                                <a href="${MTBLStudiesList}">${MTBLStudiesList}</a>
-                            </c:forEach>
-                        </div>
+
+                        <c:if test="${fn:contains(entry.accession, 'MTBLS')}">
+
+                            <div class="grid_24">
+                                <br/>
+                            </div>
+
+                            <div class="grid_24">
+                                <b><spring:message code="ref.compound.title"/></b>
+
+                                <ul>
+                                    <div class="grid_22">
+                                            ${entry.name}
+                                        (<a href="${entry.accession}">${entry.accession}</a>)
+                                    </div>
+                                </ul>
+
+                                <div class="grid_2 alpha">
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="grid_24">
+                                <br/>
+                            </div>
+
+                            <div class="grid_24">
+
+                                <b><spring:message code="label.technology"/></b>
+
+                                <c:forEach var="technology" items="${entry.technology_type}" varStatus="loopStatus">
+
+                                    <div class="grid_22">
+                                        <ul>
+                                            <li>
+                                                <c:if test="${loopStatus.index ne 0}">
+                                                    ,
+                                                </c:if>
+                                                ${technology}
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="grid_2 omega">
+                                        <br/>
+                                    </div>
+
+                                </c:forEach>
+
+                            </div>
+
+                            <div class="grid_24">
+                                <b><spring:message code="ref.compound.description"/></b>
+
+                                <ul>
+                                    <div class="grid_22">
+                                        <c:if test="${not empty entry.description}">
+                                            ${entry.description}
+                                        </c:if>
+                                    </div>
+                                </ul>
+
+                                <div class="grid_2 alpha">
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="grid_24">
+                                <br/>
+                            </div>
+
+                        </c:if>
+
+
+                        <c:if test="${not fn:contains(entry.accession, 'MTBLS')}">
+
+                            <div class="grid_14">
+
+                                <div class="grid_24">
+                                    <br/>
+                                </div>
+
+                                <div class="grid_24">
+
+                                    <b><spring:message code="ref.compound.name"/></b> ${entry.name}
+                                    (<a href="${entry.accession}">${entry.accession}</a>)
+                                    <c:set var="ChebiSplit" value="${entry.chebiId}"/>
+                                    <c:set var="split" value="${fn:split(ChebiSplit, 'CHEBI:')}"/>
+
+                                    <c:forEach var="chebiId" items="${split}" varStatus="loopStatus">
+                                        <c:if test="${loopStatus.index ne 0}">
+                                            ,
+                                        </c:if>
+                                        <a href='<spring:message code="ref.msg.chebi.url"/>CHEBI:${chebiId}'>CHEBI:${chebiId}</a>
+                                    </c:forEach>
+
+                                </div>
+
+                                <div class="grid_24">
+                                    <br/>
+                                </div>
+
+                                <div class="grid_24">
+                                    <c:if test="${not empty entry.description}">
+                                        <b><spring:message code="ref.compound.description"/></b>${entry.description}
+                                    </c:if>
+                                </div>
+
+                                <div class="grid_24">
+                                    <br/>
+                                </div>
+
+                                <div class="grid_24">
+                                    <c:forEach var="MTBLStudiesList" items="${entry.MTBLStudies}"
+                                               varStatus="loopStatus">
+                                        <c:choose>
+                                            <c:when test="${loopStatus.index eq 0}">
+                                                <b><spring:message code="ref.msg.mtbl.studies" /></b>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ,
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <a href="${MTBLStudiesList}">${MTBLStudiesList}</a>
+                                    </c:forEach>
+                                </div>
+
+                                <div class="grid_24">
+                                    <br/>
+                                </div>
+
+                            </div>
+
+                        </c:if>
+
                     </div>
-                </div>
+
                 </c:forEach>
+
             </div>
 
         </div>
@@ -277,6 +395,7 @@
     </c:if>
 
     <div class="grid_24 ">
+
         <div class="grid_6 alpha">
             <br/>
         </div>
@@ -285,8 +404,10 @@
             <div class="grid_4">
                 <b>Page:&nbsp;${rffl.currentPage}</b>
             </div>
+
             <div id="paginationBottom" class="grid_20"></div>
             <script>$('#pagination').clone().appendTo('#paginationBottom');</script>
+
         </div>
 
         <div class="grid_2 omega">
@@ -295,18 +416,27 @@
 
     </div>
     <c:if test="${rffl.MTBLNumOfResults eq 0}">
+
         <div class="grid_12">
+
             <h3><spring:message code="ref.msg.noResult">${rffl.freeText}</spring:message></h3>
             <b><spring:message code="ref.msg.noResultSearch"/>&nbsp;<a href="MTBLC1358">Acetic acid</a>, <a href="MTBLC1402">Alanine</a>, <a href="MTBLC1547">Benzene</a> and so on...</b>
+
         </div>
+
         <aside class="grid_8 omega shortcuts" id="search-extras">
+
             <div id="ebi_search_noResults" class="noresults">
                 <h3 class=""><spring:message code="msg.otherebiresults"/></h3>
             </div>
+
         </aside>
+
     </c:if>
 
     <c:if test="${!empty rffl.freeText}">
+
         <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
         <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
+
     </c:if>
