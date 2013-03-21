@@ -206,8 +206,8 @@ BEGIN
       
       --Dates for the Study or metabolite
       dbms_output.put_line(dates_start); 
-        dbms_output.put_line(replace(creation_date,'DATE_REPLACE',study_cur.submissiondate));
-        dbms_output.put_line(replace(modification_date,'DATE_REPLACE',study_cur.releasedate));
+        dbms_output.put_line(replace(creation_date,'DATE_REPLACE',to_char(study_cur.submissiondate, 'YYYY-MM-DD')));
+        dbms_output.put_line(replace(modification_date,'DATE_REPLACE',to_char(study_cur.releasedate'YYYY-MM-DD')));
       dbms_output.put_line(dates_end); 
       
       l_add_fields_entry := add_fields_entry;
