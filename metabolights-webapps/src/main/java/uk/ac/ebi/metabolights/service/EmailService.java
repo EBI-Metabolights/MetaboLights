@@ -26,7 +26,7 @@ public class EmailService {
     private @Value("#{EBIHost}") String prodURL;
     private @Value("#{curationEmailAddress}") String curationEmailAddress;
 
-	@Autowired
+    @Autowired
 	private MailSender mailSender; // configured in servlet XML
 
 	@Autowired
@@ -43,9 +43,6 @@ public class EmailService {
 	
 	@Autowired
 	private SimpleMailMessage contactUsTemplate; // template for general website requests
-
-    @Autowired
-    private SimpleMailMessage studyPublicTemplate; // template to notify users when studies go public
     
   
 	public void setMailSender(MailSender mailSender) {
@@ -130,23 +127,6 @@ public class EmailService {
 		this.mailSender.send(msg);
 	}
 
-
-    /**
-     * Sends an email to a user to the submitter that a study is about to go public.
-     * @param emailAddress
-     */
-    public void sendStudyToGoPublicMessage (String emailAddress, String studyAcc, String studyDate, boolean madePublic) {
-
-        SimpleMailMessage msg = new SimpleMailMessage(this.studyPublicTemplate);
-        String body = PropertyLookup.getMessage("msg.studytogopublic", studyAcc, studyDate);
-
-        if (madePublic)  //We just made your study public
-            body = PropertyLookup.getMessage("msg.studynowpublic", studyAcc, prodURL);
-
-        msg.setTo(emailAddress);
-        msg.setText(body);
-        this.mailSender.send(msg);
-    }
    
 	public void sendSimpleEmail (String from, String[] to, String subject, String body) {
 		SimpleMailMessage msg = new SimpleMailMessage();

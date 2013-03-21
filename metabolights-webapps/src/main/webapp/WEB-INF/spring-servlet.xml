@@ -206,7 +206,6 @@
         <sec:intercept-url pattern="/reindexall" access="hasRole('ROLE_SUPER_USER')" />
 		<sec:intercept-url pattern="/config" access="hasRole('ROLE_SUPER_USER')" />
 		<sec:intercept-url pattern="/switchqueue" access="hasRole('ROLE_SUPER_USER')" />
-        <sec:intercept-url pattern="/checkpublic" access="hasRole('ROLE_SUPER_USER')" />
 		<sec:intercept-url pattern="/users" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/parameters" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/securedredirect" access="isAuthenticated()" />
@@ -275,9 +274,5 @@
       <property name="to"><list><value>${mtblAdminEmailAddress}</value></list></property>  
     </bean>
 
-    <bean id="studyPublicTemplate" class="org.springframework.mail.SimpleMailMessage">
-        <property name="from" value="${replyTo}"/>
-        <property name="subject" value="Your MetaboLights study is about to be publicly available"/>
-    </bean>
     <bean id="queueManager" class="uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager"/>
 </beans>

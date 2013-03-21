@@ -14,6 +14,7 @@
 # 20121115  : Ken Haug - Move folder as we no longer store the studies as zip files
 # 20130103  : Ken Haug - Simplified to use the new queue system
 # 20130312  : Ken Haug - Export to EB-eye when studies go public
+# 20130321  : Ken Haug - Email users a week before the study goes live (and each day until it goes live!)
 #
 ##########################################################################
 
@@ -40,6 +41,7 @@ QUEUE_LOCATION=`grep queuelocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cu
 SQL_BASIC_STR="whenever sqlerror exit failure;\n set feedback off head off pagesize 0;\n "
 # Get private studies that are passed the release date
 GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 1 AND trunc(releasedate)<=trunc(sysdate);"
+GET_FUTURE_STUDIES_SQL="${SQL_BASIC_STR} SELECT DISTINCT ud.username FROM user_detail ud, study2user su, study s WHERE ud.id = su.user_id AND su.study_id = s.id AND trunc(releaseDate) <= trunc(sysdate+7) AND s.status = 1;"
 
 Info ------------------------------------------------------------------------------------------ 
 Info Settings:
@@ -74,9 +76,20 @@ do
 
 done
 
+
+FUTURE_STUDIES=`echo -e ${GET_FUTURE_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
+
+for users in $FUTURE_STUDIES
+do
+    echo "Please go to http://www.ebi.ac.uk/metabolights/mysubmissions to see your private studies" | mailx -s 'Great news! You MetaboLights Study will soon go public' ${users}
+    Info ------------------------------------------------------------------------------------------
+    Info "Great news! A MetaboLights Study will soon go public for ${users}.  An email has been sent to ${users}"
+    Info ------------------------------------------------------------------------------------------
+done
+
+
 Info 'Checking if we need to export the EB-eye index'
 [ -z $PUBLIC_STUDIES ] || @$SCRIPT_LOC/ebeye_export.sh
-
 
 Info "Update statistics table"
 sqlplus -s ${DB_CONNECTION} @$SCRIPT_LOC/ml_stats.sql

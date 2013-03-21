@@ -181,57 +181,6 @@ public class StudyDAOImpl implements StudyDAO{
 
     }
 
-    /*
-       Method to find studies that are scheduled to be public in the next week.
-       Looks for PRIVATE studies with a public date in the next week or now
-     */
-    @Override
-    public List<Study> findStudiesToGoPublic() {
-
-        Calendar calendar = Calendar.getInstance();
-        Date currentDate = calendar.getTime();
-
-        // get next week's date
-        calendar.setTime(currentDate);
-        calendar.add(Calendar.DAY_OF_YEAR, 7);
-        Date nextWeek = calendar.getTime();
-
-        System.out.println("retrieving studies with a public date after  "+currentDate+ " or " +nextWeek);
-
-        Session session = sessionFactory.getCurrentSession();
-
-        Query q = session.createQuery("SELECT acc FROM Study WHERE status = :status and ( trunc(releaseDate) <= trunc(:nextWeek) or trunc(releaseDate) <= trunc(:currentDate) )");
-        q.setParameter("status", VisibilityStatus.PRIVATE);
-        q.setParameter("nextWeek", nextWeek);
-        q.setParameter("currentDate", currentDate);
-        List<Study> studyList = new ArrayList<Study>();
-
-        Iterator iterator = q.iterate();
-        while (iterator.hasNext()){
-            String studyAcc = (String) iterator.next();
-            if (studyAcc != null){
-
-                Study completeStudy= null;
-
-                try {
-                    completeStudy = getStudy(studyAcc,false);
-                } catch (Exception e){
-                    // Do nothing. Mainly it will be Authorisation exception.
-                }
-
-                if (completeStudy != null)
-                    studyList.add(completeStudy);
-            }
-
-        }
-
-        if(studyList == null)
-            System.out.println("No studies found");
-
-        return studyList;
-
-    }
-
     @Override
     @Transactional
 	public void update(Study study) {
