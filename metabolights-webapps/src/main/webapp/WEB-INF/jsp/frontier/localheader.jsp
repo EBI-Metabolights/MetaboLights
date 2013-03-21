@@ -15,7 +15,7 @@ ${localfrontierheader}
 </c:if>
 <c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
     <script>
-        $("h1 a").css({ 'color': 'yellow'}).html("MetaboLigths DEV");
+        $("h1 a").css({ 'color': 'yellow'}).html("MetaboLights DEV");
     </script>
 </c:if>
 
