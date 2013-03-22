@@ -15,7 +15,7 @@ public class MetabolightsCompound {
     private String accession;
     private String description;
     private String submitter;
-    private String last_modification;
+    private String last_modification_date;
 
 	private String[] iupac;
 	private String[] MTBLStudies;
@@ -49,12 +49,12 @@ public class MetabolightsCompound {
         this.study_factor = study_factor;
     }
 
-    public String getLast_modification() {
-        return last_modification;
+    public String getLast_modification_date() {
+        return last_modification_date;
     }
 
-    public void setLast_modification(String last_modification) {
-        this.last_modification = last_modification;
+    public void setLast_modification_date(String last_modification_date) {
+        this.last_modification_date = last_modification_date;
     }
 
     public String[] getTechnology_type() {

@@ -17,6 +17,11 @@
     <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 
     <script type="text/javascript">
+
+        function toggle(element) {
+            document.getElementById(element).style.display = (document.getElementById(element).style.display == "none") ? "" : "none";
+        }
+
         function navigate(_pageNumber) {
             filterForm = document.forms['filterForm'];
             pageNumberField = filterForm.elements["PageNumber"];
@@ -210,23 +215,32 @@
                         <b><spring:message code="ref.msg.organism"/></b>
 
                         <c:forEach var="times" begin="0" end="2" step="1">
+
                             <c:forEach var="organism" items="${rffl.organismFacet}">
+
                                 <c:if test="${((organism.value eq 'checked') and times == 0) or ((organism.value eq 'unchecked') and times == 1) or ((organism.value eq 'dimmed') and times == 2)}">
+
                                     <ul style="max-height: 400px; overflow: auto" id="organisms">
+
                                         <input type="checkbox"
                                                name="organisms"
                                                value="${organism.key}"
                                                <c:if test="${organism.value eq 'checked'}">CHECKED</c:if>
                                                onclick="this.form.submit();">
+
                                             <c:if test="${organism.value eq 'dimmed'}">
                                                 <span class="dimmed">${organism.key}</span>
                                             </c:if>
+
                                             <c:if test="${organism.value ne 'dimmed'}">
                                                 ${organism.key}
                                             </c:if>
                                     </ul>
+
                                 </c:if>
+
                             </c:forEach>
+
                         </c:forEach>
 
                     </div>
@@ -269,10 +283,15 @@
 
                             <div class="grid_24">
 
-                                <b><spring:message code="ref.compound.title"/></b>
+                                <b><spring:message code="ref.compound.title"/>:&nbsp;</b>
                                 ${entry.name}
                                 (<a href="${entry.accession}">${entry.accession}</a>)
 
+                            </div>
+
+                            <div class="grid_24">
+                                <b><spring:message code="label.releaseDate"/>:&nbsp;</b>
+                                ${entry.last_modification_date}
                             </div>
 
                             <div class="grid_24">
@@ -281,26 +300,33 @@
 
                             <div class="grid_24">
 
-                                <b><spring:message code="label.technology"/></b>
+                                <div class="grid_14 alpha">
+                                    <b><spring:message code="label.technology"/></b>
 
-                                <c:forEach var="technology" items="${entry.technology_type}" varStatus="loopStatus">
+                                    <c:forEach var="technology" items="${entry.technology_type}" varStatus="loopStatus">
 
-                                    <div class="grid_22">
-                                        <ul>
-                                            <li>
-                                                <c:if test="${loopStatus.index ne 0}">
-                                                    ,
-                                                </c:if>
-                                                ${technology}
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <div class="grid_22 alpha">
+                                            <ul>
+                                                <li>
+                                                    <%--<c:if test="${loopStatus.index ne 0}">--%>
+                                                        <%--,--%>
+                                                    <%--</c:if>--%>
+                                                    ${technology}
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                                    <div class="grid_2 omega">
-                                        <br/>
-                                    </div>
+                                        <div class="grid_2 omega">
+                                            <br/>
+                                        </div>
 
-                                </c:forEach>
+                                    </c:forEach>
+                                </div>
+
+                                <div class="grid_10 right omega">
+                                    <b><spring:message code="label.subm"/></b>
+                                        ${entry.submitter}
+                                </div>
 
                             </div>
 
@@ -313,10 +339,10 @@
                                     <div class="grid_22">
                                         <ul>
                                             <li>
-                                                <c:if test="${loopStatus.index ne 0}">
-                                                    ,
-                                                </c:if>
-                                                    ${organism}
+                                                <%--<c:if test="${loopStatus.index ne 0}">--%>
+                                                    <%--,--%>
+                                                <%--</c:if>--%>
+                                                ${organism}
                                             </li>
                                         </ul>
                                     </div>
@@ -330,14 +356,27 @@
                             </div>
 
                             <div class="grid_24">
-                                <b><spring:message code="ref.compound.description"/></b>
+
+                                <c:if test="${not empty entry.description}">
+                                    <b><spring:message code="ref.compound.description"/></b>
+                                </c:if>
 
                                 <ul>
+
+                                    <c:set var="descLen" value="${fn:length(entry.description)}"/>
+
                                     <div class="grid_22">
-                                        <c:if test="${not empty entry.description}">
+
+                                        <c:if test="${descLen lt 250}">
                                             ${entry.description}
                                         </c:if>
+
+                                        <c:if test="${descLen gt 250}">
+                                            ${fn:substring(entry.description,0 , 200 )}<a href="javascript:toggle('showCompleteDesc${entry.accession}')" onclick="this.style.display='none';">&nbsp;more...</a><span id="showCompleteDesc${entry.accession}" style="display: none;">${fn:substring(entry.description, 200 , descLen )}</span>
+                                        </c:if>
+
                                     </div>
+
                                 </ul>
 
                                 <div class="grid_2 alpha">

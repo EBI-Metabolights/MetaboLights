@@ -235,9 +235,14 @@ public class ReferenceLayerController extends AbstractController {
         value = getValueFromEbieyeEntry(ColumnMap.study_design, ebieyeEntry);
         if (!value.equals("")) mc.setStudy_design(value.split("\\n"));
 
-        System.out.println("study_factor - "+getValueFromEbieyeEntry(ColumnMap.study_factor, ebieyeEntry));
-        System.out.println("submitter - "+getValueFromEbieyeEntry(ColumnMap.submitter, ebieyeEntry));
-        System.out.println("last_modification - "+getValueFromEbieyeEntry(ColumnMap.last_modification_date, ebieyeEntry));
+        value = getValueFromEbieyeEntry(ColumnMap.last_modification_date, ebieyeEntry);
+        if (!value.equals("")) mc.setLast_modification_date(value);
+
+        value = getValueFromEbieyeEntry(ColumnMap.study_factor, ebieyeEntry);
+        if (!value.equals("")) mc.setStudy_factor(value.split("\\n"));
+
+        value = getValueFromEbieyeEntry(ColumnMap.submitter, ebieyeEntry);
+        if (!value.equals("")) mc.setSubmitter(value);
 
         return mc;
     }
