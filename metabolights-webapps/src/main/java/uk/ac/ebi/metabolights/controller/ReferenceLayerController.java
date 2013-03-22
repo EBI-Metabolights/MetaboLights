@@ -9,6 +9,7 @@ import uk.ac.ebi.ebisearchservice.ArrayOfArrayOfString;
 import uk.ac.ebi.ebisearchservice.ArrayOfString;
 import uk.ac.ebi.ebisearchservice.EBISearchService;
 import uk.ac.ebi.ebisearchservice.EBISearchService_Service;
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.referencelayer.MetabolightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.RefLayerFilter;
 import uk.ac.ebi.metabolights.service.AppContext;
@@ -57,7 +58,12 @@ public class ReferenceLayerController extends AbstractController {
         organism,
         technology_type("technology type"),
         CHEBI,
-        METABOLIGHTS;
+        METABOLIGHTS,
+        study_design,
+        submitter,
+        study_factor,
+        last_modification_date;
+
         ColumnMap(String altName){this.altName = altName;}
         ColumnMap(){}
         private int index = -1;
@@ -85,6 +91,11 @@ public class ReferenceLayerController extends AbstractController {
         }
 
         listOfMTBLFields = ebiSearchService.listFields(MTBLDomainName);
+
+        for(int g=0; g<listOfMTBLFields.getString().size(); g++){
+
+        }
+
         listOfMTBLFields.getString().add("CHEBI");
         listOfMTBLFields.getString().add("METABOLIGHTS");
         mapColumns();
@@ -129,7 +140,11 @@ public class ReferenceLayerController extends AbstractController {
         mav = AppContext.getMAVFactory().getFrontierMav("refLayerSearch");
 
         mapUserAction(userQuery, organismsSelected, technologiesSelected, PageSelected, userAction);
-        queryEBI();
+        try{
+            queryEBI();
+        } catch (Exception e){
+            return AppContext.getMAVFactory().getFrontierMav("redirect:index?message="+ PropertyLookup.getMessage("msg.wsdl.error"));
+        }
 
         if(rffl.getMTBLNumOfResults() != 0){
             getEntries();
@@ -217,6 +232,13 @@ public class ReferenceLayerController extends AbstractController {
         value = getValueFromEbieyeEntry(ColumnMap.organism, ebieyeEntry);
         if (!value.equals("")) mc.setOrganism(value.split("\\n"));
 
+        value = getValueFromEbieyeEntry(ColumnMap.study_design, ebieyeEntry);
+        if (!value.equals("")) mc.setStudy_design(value.split("\\n"));
+
+        System.out.println("study_factor - "+getValueFromEbieyeEntry(ColumnMap.study_factor, ebieyeEntry));
+        System.out.println("submitter - "+getValueFromEbieyeEntry(ColumnMap.submitter, ebieyeEntry));
+        System.out.println("last_modification - "+getValueFromEbieyeEntry(ColumnMap.last_modification_date, ebieyeEntry));
+
         return mc;
     }
 
@@ -224,10 +246,13 @@ public class ReferenceLayerController extends AbstractController {
 
         if(userAction != null){
             if(userAction.equals("facetClicked")){
-            ua = UserAction.checkedFacet;
-            rffl.resetFacets();
-            rffl.checkFacets(organismsSelected, technologiesSelected);
-            rffl.getTotalNumOfPages();
+                ua = UserAction.checkedFacet;
+                rffl.setCurrentPage(Integer.parseInt(pageSelected));
+                rffl.resetFacets();
+                rffl.checkFacets(organismsSelected, technologiesSelected);
+                if (rffl.getFacetsQuery().equals("")){
+                    rffl.uncheckFacets();
+                }
             } else if(userAction.equals("pageClicked")){
                 ua = UserAction.clickedOnPage;
                 rffl.setCurrentPage(Integer.parseInt(pageSelected));
@@ -250,7 +275,7 @@ public class ReferenceLayerController extends AbstractController {
 
         initEBISearchService();
 
-        if ((ua == UserAction.clickedOnPage) || ((ua == UserAction.browseCached) && (rffl.getFacetsQuery().equals("")))){
+        if ((ua == UserAction.clickedOnPage) || ((ua == UserAction.browseCached) && (rffl.getFacetsQuery().equals(""))) || (ua == UserAction.checkedFacet && (rffl.getFacetsQuery().equals("")))){
             ArrayOfString listOfMTBLIds = ebiSearchService.getResultsIds(MTBLDomainName, rffl.getEBIQuery(), ((rffl.getCurrentPage()*10)-10), 10);
             listOfMTBLEntries = ebiSearchService.getEntries(MTBLDomainName, listOfMTBLIds, listOfMTBLFields);
         } else {

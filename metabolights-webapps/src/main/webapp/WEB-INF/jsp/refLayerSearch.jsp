@@ -101,25 +101,36 @@
 
                             <%--Below code is to make it look like '1 2 3 4 5 .... 561'.--%>
                                 <c:if test="${rffl.currentPage lt 5}">
+                                    <c:if test="${rffl.totalNumOfPages gt 1}">
+                                        <c:if test="${rffl.totalNumOfPages gt 5}">
+                                            <c:set var="end" value="5"/>
+                                        </c:if>
+                                        <c:if test="${rffl.totalNumOfPages eq 5}">
+                                            <c:set var="end" value="4"/>
+                                        </c:if>
+                                        <c:if test="${rffl.totalNumOfPages lt 5}">
+                                            <c:set var="end" value="${rffl.totalNumOfPages - 1}"/>
+                                        </c:if>
 
-                                    <c:forEach var="page" begin="2" end="5" step="1" varStatus="loopStatus">
-                                        <c:if test="${rffl.currentPage eq page}">
-                                            <b>${page}</b>
+                                        <c:forEach var="page" begin="2" end="${end}" step="1" varStatus="loopStatus">
+                                            <c:if test="${rffl.currentPage eq page}">
+                                                <b>${page}</b>
+                                            </c:if>
+                                            <c:if test="${rffl.currentPage ne page}">
+                                                <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${page})"><c:out value="${page}" /></span></a>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test="${rffl.totalNumOfPages gt 6}">
+                                            ....
                                         </c:if>
-                                        <c:if test="${rffl.currentPage ne page}">
-                                            <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${page})"><c:out value="${page}" /></span></a>
-                                        </c:if>
-                                    </c:forEach>
-                                    <c:if test="${rffl.totalNumOfPages gt 6}">
-                                        ....
                                     </c:if>
                                 </c:if>
 
                                 <c:if test="${rffl.currentPage gt 4 && rffl.currentPage lt rffl.totalNumOfPages}">
-                                    .....<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${rffl.currentPage - 1})"><c:out value="${rffl.currentPage - 1}" /></span></a>
+                                    ....<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${rffl.currentPage - 1})"><c:out value="${rffl.currentPage - 1}" /></span></a>
                                     <b>${rffl.currentPage}</b>
                                     <c:if test="${rffl.currentPage lt rffl.totalNumOfPages-1}">
-                                        <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${rffl.currentPage + 1})"><c:out value="${rffl.currentPage + 1}" /></span></a><c:if test="${rffl.currentPage lt rffl.totalNumOfPages-2}">.....</c:if>
+                                        <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${rffl.currentPage + 1})"><c:out value="${rffl.currentPage + 1}" /></span></a><c:if test="${rffl.currentPage lt rffl.totalNumOfPages-2}">....</c:if>
                                     </c:if>
                                 </c:if>
 
@@ -130,7 +141,7 @@
                             </c:if>
                             <c:if test="${rffl.currentPage gt 1}">
                                 <c:if test="${rffl.currentPage eq rffl.totalNumOfPages}">
-                                    .....<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${rffl.currentPage - 1})"><c:out value="${rffl.currentPage - 1}" /></span></a>
+                                    ....<a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${rffl.currentPage - 1})"><c:out value="${rffl.currentPage - 1}" /></span></a>
                                     <b>${rffl.totalNumOfPages}</b>
                                 </c:if>
                             </c:if>
@@ -257,18 +268,11 @@
                             </div>
 
                             <div class="grid_24">
+
                                 <b><spring:message code="ref.compound.title"/></b>
+                                ${entry.name}
+                                (<a href="${entry.accession}">${entry.accession}</a>)
 
-                                <ul>
-                                    <div class="grid_22">
-                                            ${entry.name}
-                                        (<a href="${entry.accession}">${entry.accession}</a>)
-                                    </div>
-                                </ul>
-
-                                <div class="grid_2 alpha">
-                                    <br/>
-                                </div>
                             </div>
 
                             <div class="grid_24">
@@ -288,6 +292,31 @@
                                                     ,
                                                 </c:if>
                                                 ${technology}
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="grid_2 omega">
+                                        <br/>
+                                    </div>
+
+                                </c:forEach>
+
+                            </div>
+
+                            <div class="grid_24">
+
+                                <b><spring:message code="label.organisms"/></b>
+
+                                <c:forEach var="organism" items="${entry.organism}" varStatus="loopStatus">
+
+                                    <div class="grid_22">
+                                        <ul>
+                                            <li>
+                                                <c:if test="${loopStatus.index ne 0}">
+                                                    ,
+                                                </c:if>
+                                                    ${organism}
                                             </li>
                                         </ul>
                                     </div>

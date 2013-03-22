@@ -48,6 +48,7 @@ public class RefLayerFilter {
         return totalPages;
     }
 
+
     public enum FacetStatus {
         checked,
         unchecked,
@@ -167,14 +168,20 @@ public class RefLayerFilter {
 
     }
 
-    public void resetFacets(){
-        resetFacet(organismFacet);
-        resetFacet(technologyFacet);
+    public void uncheckFacets() {
+        setAllFacetStatus(organismFacet, FacetStatus.unchecked);
+        setAllFacetStatus(technologyFacet, FacetStatus.unchecked);
+
     }
 
-    private void resetFacet(LinkedHashMap<String,FacetStatus> facet){
+    public void resetFacets(){
+        setAllFacetStatus(organismFacet, FacetStatus.dimmed);
+        setAllFacetStatus(technologyFacet, FacetStatus.dimmed);
+    }
+
+    private void setAllFacetStatus(LinkedHashMap<String,FacetStatus> facet, FacetStatus value){
         for(String key: facet.keySet()){
-            facet.put(key, FacetStatus.dimmed);
+            facet.put(key, value);
         }
     }
     public RefLayerFilter clone(){

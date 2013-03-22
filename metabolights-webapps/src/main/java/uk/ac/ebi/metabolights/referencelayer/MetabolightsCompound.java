@@ -8,16 +8,54 @@ package uk.ac.ebi.metabolights.referencelayer;
 
 
 public class MetabolightsCompound {
+
 	private String Name;
+    private String chebiId;
+    private String ChebiURL;
+    private String accession;
+    private String description;
+    private String submitter;
+    private String last_modification;
+
 	private String[] iupac;
-	private String chebiId;
-	private String ChebiURL;
 	private String[] MTBLStudies;
-	private String accession;
 	private String[] domains;
-	private String description;
     private String[] technology_type;
     private String[] organism;
+    private String[] study_design;
+    private String[] study_factor;
+
+    public String getSubmitter() {
+        return submitter;
+    }
+
+    public void setSubmitter(String submitter) {
+        this.submitter = submitter;
+    }
+
+    public String[] getStudy_design() {
+        return study_design;
+    }
+
+    public void setStudy_design(String[] study_design) {
+        this.study_design = study_design;
+    }
+
+    public String[] getStudy_factor() {
+        return study_factor;
+    }
+
+    public void setStudy_factor(String[] study_factor) {
+        this.study_factor = study_factor;
+    }
+
+    public String getLast_modification() {
+        return last_modification;
+    }
+
+    public void setLast_modification(String last_modification) {
+        this.last_modification = last_modification;
+    }
 
     public String[] getTechnology_type() {
         return technology_type;
