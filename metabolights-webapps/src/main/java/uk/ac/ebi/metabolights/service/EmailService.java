@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import uk.ac.ebi.metabolights.form.ContactValidation;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -26,22 +25,29 @@ public class EmailService {
     private @Value("#{EBIHost}") String prodURL;
     private @Value("#{curationEmailAddress}") String curationEmailAddress;
 
+    //Have to qualify these as the test Spring servlet is defining the same beans
+    @Qualifier("mailSender")
     @Autowired
 	private MailSender mailSender; // configured in servlet XML
 
-	@Autowired
+    @Qualifier("reminderTemplate")
+    @Autowired
 	private SimpleMailMessage reminderTemplate; // template for password reminder, configured in servlet XML
 
-	@Autowired
+    @Qualifier("verifyNewAccountTemplate")
+    @Autowired
 	private SimpleMailMessage verifyNewAccountTemplate; // template for confirmation of an account request
 
+    @Qualifier("activateAccountTemplate")
     @Autowired
 	private SimpleMailMessage activateAccountTemplate; // template for password reminder, configured in servlet XML
 
-	@Autowired
+    @Qualifier("accountApprovedTemplate")
+    @Autowired
 	private SimpleMailMessage accountApprovedTemplate; // template for notification that account is active
-	
-	@Autowired
+
+    @Qualifier("contactUsTemplate")
+    @Autowired
 	private SimpleMailMessage contactUsTemplate; // template for general website requests
     
   

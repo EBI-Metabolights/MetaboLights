@@ -46,8 +46,11 @@ public class StableIdDAOImpl implements StableIdDAO {
     @Transactional
     public void storeInitialId(String oldId, String newId) {
         Session session = sessionFactory.getCurrentSession();
-        MetaboLightsSubmittedId submittedId = new MetaboLightsSubmittedId(oldId, newId);
-        session.save(submittedId);
+
+        if (getInitialId(newId) == null)   {         //Ignore if we already have stored this
+            MetaboLightsSubmittedId submittedId = new MetaboLightsSubmittedId(oldId, newId);
+            session.save(submittedId);
+        }
     }
 
     @Transactional
