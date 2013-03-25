@@ -460,29 +460,30 @@
 
         </div>
 
-    </c:if>
+        <div class="grid_24 ">
 
-    <div class="grid_24 ">
-
-        <div class="grid_6 alpha">
-            <br/>
-        </div>
-
-        <div class="grid_16 title alpha">
-            <div class="grid_4">
-                <b>Page:&nbsp;${rffl.currentPage}</b>
+            <div class="grid_6 alpha">
+                <br/>
             </div>
 
-            <div id="paginationBottom" class="grid_20"></div>
-            <script>$('#pagination').clone().appendTo('#paginationBottom');</script>
+            <div class="grid_16 title alpha">
+                <div class="grid_4">
+                    <b>Page:&nbsp;${rffl.currentPage}</b>
+                </div>
+
+                <div id="paginationBottom" class="grid_20"></div>
+                <script>$('#pagination').clone().appendTo('#paginationBottom');</script>
+
+            </div>
+
+            <div class="grid_2 omega">
+                <br/>
+            </div>
 
         </div>
 
-        <div class="grid_2 omega">
-            <br/>
-        </div>
+    </c:if>
 
-    </div>
     <c:if test="${rffl.MTBLNumOfResults eq 0}">
 
         <div class="grid_12">

@@ -22,13 +22,10 @@ public class RefLayerFilter {
     private String defaultFreeText = "id:MTBL*";
     private Integer MTBLNumOfResults = 0;
     private Integer totalPages = 0;
+    private Integer resultsPerPage = 10;
 
     public Integer getLastPageEntries(){
-        Integer entries = 0;
-        Double entriesD = (MTBLNumOfResults.doubleValue()/10);
-        String[] splitArray = entriesD.toString().split("\\.");
-        entries = Integer.parseInt(splitArray[1]);
-        return entries;
+        return (MTBLNumOfResults % resultsPerPage);
     }
 
     public Integer getMTBLNumOfResults() {
@@ -41,8 +38,7 @@ public class RefLayerFilter {
 
     public Integer getTotalNumOfPages() {
         if(MTBLNumOfResults != 0){
-            //Double MTBLNumOfResultsD = MTBLNumOfResults.doubleValue();
-            Double totalPagesD = (Math.ceil(MTBLNumOfResults.doubleValue()/10));
+            Double totalPagesD = (Math.ceil(MTBLNumOfResults.doubleValue()/resultsPerPage));
             totalPages = totalPagesD.intValue();
         }
         return totalPages;
@@ -104,7 +100,7 @@ public class RefLayerFilter {
     }
 
     private void convertArrayToHash(String[] facetArray, LinkedHashMap<String, FacetStatus> facetHash){
-        if(facetArray != null){ //added this change, if organisms facet is selected then tech is empty and vise versa.
+        if(facetArray != null){
             for(String facetName:facetArray){
                 facetHash.put(facetName, FacetStatus.checked);
             }
