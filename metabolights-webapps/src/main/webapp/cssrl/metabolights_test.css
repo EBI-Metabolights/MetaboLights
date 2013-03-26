@@ -136,6 +136,15 @@ th, td {
     margin:0
 }
 
+.icon-static:before,.icon-generic:before
+{
+    font-family:'EBI-Generic';
+    font-size:100%;
+    color:rgb(0, 0, 0);
+    content:attr(data-icon);
+    margin:0
+}
+
 .icon-functional:before
 {
     font-family:'EBI-Functional';
