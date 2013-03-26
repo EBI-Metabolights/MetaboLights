@@ -44,21 +44,34 @@ div .box {
     overflow-x: auto;
     white-space: nowrap;
     width: 100%;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    border-bottom-width: 0px;
+}
+
+th, td {
+    border: none;
+    vertical-align: middle;
 }
 
 /* td attribute for + and ? */
 .tdSymbols {
     text-align: center;
     width: 5%;
-    border: 0px 0px 0px 0px;
-    padding-top: 40px;
-    padding-bottom: 0px;
-    padding-right: 0px;
-    padding-left: 0px;
     border-top-width: 0px;
     border-right-width: 0px;
     border-left-width: 0px;
     border-bottom-width: 0px;
+    /*padding: 95px 10px 5px 10px;*/
+}
+
+#reacTab td {
+    text-align: center;
+}
+
+#reacTab td {
+    vertical-align: baseline;
 }
 
 /*td attribute for Reaction*/
@@ -103,6 +116,37 @@ div .box {
 .title a span.icon-functional::before
 {
     color: #ffffff;
+}
+
+.icon-chemistry:before
+{
+    font-family:'EBI-Chemistry';
+    font-size:150%;
+    color: rgb(0, 0, 0);
+    content:attr(data-icon);
+    margin:0
+}
+
+.forReactions:before
+{
+    font-family:'EBI-Functional';
+    font-size:60%;
+    color: rgb(0, 0, 0);
+    content:attr(data-icon);
+    margin:0
+}
+
+.icon-functional:before
+{
+    font-family:'EBI-Functional';
+    font-size:100%;
+    color: rgb(0, 0, 0);
+    content:attr(data-icon);
+    margin:0
+}
+
+span.icon.icon-chemistry {
+    color: #000000;
 }
 
 .right {

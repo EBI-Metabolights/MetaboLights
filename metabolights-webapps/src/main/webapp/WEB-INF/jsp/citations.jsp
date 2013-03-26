@@ -28,7 +28,7 @@ function toggle(element) {
 		</c:forEach>
 	</c:when>
 	<c:otherwise>
-		<b>No Literature found for this compound in Europe PubMed Central</b>
+		<b><spring:message code="ref.msg.noLiterature"/> </b>
         <c:if test="${not empty errortext}">
             </p> ${errortext}
         </c:if>
