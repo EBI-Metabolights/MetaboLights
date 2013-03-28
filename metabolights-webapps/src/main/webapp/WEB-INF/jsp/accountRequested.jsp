@@ -2,11 +2,27 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="grid_24">
-	<h3>
+	<h2>
 		<c:if test="${not empty updated}"><spring:message code="msg.updatedAccount" /></c:if>  <!--  only display on update account -->
-	    <c:if test="${empty updated}"><spring:message code="msg.feedbackAccountRequestedHeader" /></c:if> <!--  only display on new account creation -->
-		: <c:out value="${user.email}"/>
-	</h3>
+	    <strong><c:if test="${empty updated}"><spring:message code="msg.feedbackAccountRequestedHeader" /></c:if></strong><!--  only display on new account creation -->
+		<%--: <c:out value="${user.email}"/>--%>
+	</h2>
+</div>
+
+<div class="grid_24">
+    <br/>
+</div>
+
+<c:if test="${empty updated}">
+    <div class="grid_24">
+        <p><spring:message code="msg.step1.accountDetails" /></p>
+        <p><spring:message code="msg.step2.accountDetails" /></p>
+        <p><spring:message code="msg.contactUsAndRegards" /></p>
+    </div>
+</c:if> <!--  only display on new account creation -->
+
+<div class="grid_24">
+    <br/>
 </div>
 
 <div class="grid_24">
@@ -67,13 +83,6 @@
  		<c:if test="${not empty country}"> ${country}</c:if>	<!--  Long name United Kingdom -->
 	</div>
 </div>
-
-<c:if test="${empty updated}">
-	<div class="grid_24">
-		<p><div class="ebiicon clock"></div></p>
-		<p><spring:message code="msg.feedbackAccountRequestedBody" /></p>
-	</div>
-</c:if> <!--  only display on new account creation -->
 
 <div class="grid_24">
 	<p><a href="index"><spring:message code="msg.mainPage"/></a></p>
