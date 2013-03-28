@@ -87,6 +87,13 @@
 			<p><strong><spring:message code="msg.starRequired"/></strong></p>
 		</div>
 
+        </p>
+        <div class="grid_24">
+            <p><spring:message code="label.ebiContact"/></p>
+        </div>
+
+        </p>
+
 		<div class="grid_24">
 			<p><spring:message code="label.sourceforge"/></p>
 		</div>
