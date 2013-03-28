@@ -2,12 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.ac.ebi.metabolights</groupId>
   <artifactId>metabolights-main</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <packaging>pom</packaging>
   <name>MetaboLights main project</name>
   <description>MetaboLights Main Project</description>
   <modules>
      <module>metabolights-webapps</module>
+     <module>referencelayer</module>
   </modules>
   
   <build>
@@ -102,9 +103,9 @@
  		<scope>compile</scope>
  	</dependency>
   	<dependency>
-         <groupId>oracle</groupId>
-         <artifactId>ojdbc6</artifactId>
-         <version>11.2.0.2</version>
+         	<groupId>oracle</groupId>
+         	<artifactId>ojdbc6</artifactId>
+         	<version>11.2.0.2</version>
  	</dependency>	
  	<dependency>
  		<groupId>org.springframework</groupId>
@@ -180,7 +181,7 @@
     <repository>
       <id>chebi-repo</id>
       <name>ChEBI Internal Repository</name>
-      <url>scp://prod.ebi.ac.uk/ebi/sp/pro1/chebi/maven2_repo</url>       
+      <url>scp://prod.ebi.ac.uk/ebi/sp/pro1/chebi/maven2_repo</url>
     </repository>
     <snapshotRepository>
 	  <uniqueVersion>false</uniqueVersion>
@@ -207,12 +208,12 @@
   		</repository> 
 		<repository>
 		  <id>chebi-repo</id>
-	          <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+	          <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
 		</repository>
           	<repository>
 	           <id>ebi-snapshot-repo</id>
 		   <name>The EBI internal snapshot repository</name>
-		   <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+		   <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
 		   <releases>
 		       <enabled>false</enabled>
 		   </releases>
@@ -222,7 +223,7 @@
 	         </repository>
 	         <repository>
 		  <id>ebi-repo</id>
-	          <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+	          <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
 		</repository>
    </repositories>  
 </project>
