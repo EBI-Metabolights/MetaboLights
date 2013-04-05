@@ -151,6 +151,7 @@ public class ReferenceLayerController extends AbstractController {
         }
 
         updateFacets(organismsSelected, technologiesSelected);
+        sortFacets();
         request.getSession().setAttribute("RefLayer", rffl);
 
 
@@ -160,6 +161,10 @@ public class ReferenceLayerController extends AbstractController {
 
         mav.addObject("rffl", rffl);
         return mav;
+    }
+
+    private void sortFacets() {
+        rffl.sortFacets();
     }
 
     private void getEntries() {

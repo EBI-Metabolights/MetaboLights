@@ -1,10 +1,8 @@
 package uk.ac.ebi.metabolights.referencelayer;
 
-import org.apache.tiles.context.MapEntry;
 import uk.ac.ebi.metabolights.utils.StringUtils;
 
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,6 +40,24 @@ public class RefLayerFilter {
             totalPages = totalPagesD.intValue();
         }
         return totalPages;
+    }
+
+
+    public void sortFacets() {
+        organismFacet = sortFacet(organismFacet);
+        technologyFacet = sortFacet(technologyFacet);
+    }
+
+    private LinkedHashMap<String, FacetStatus> sortFacet(LinkedHashMap<String, FacetStatus> Facet) {
+        List<String> facetKeys = new LinkedList<String>(Facet.keySet());
+        Collections.sort(facetKeys);
+
+        LinkedHashMap<String, FacetStatus> sortedHash = new LinkedHashMap<String, FacetStatus>();
+        for(String key: facetKeys){
+            sortedHash.put(key, Facet.get(key));
+        }
+
+        return sortedHash;
     }
 
 
@@ -95,7 +111,7 @@ public class RefLayerFilter {
         setCurrentPage(currentPage);
         setFreeText(freeText);
         convertArrayToHash(organisms, organismFacet);
-        convertArrayToHash(technologies, organismFacet);
+        convertArrayToHash(technologies, technologyFacet);
 
     }
 
