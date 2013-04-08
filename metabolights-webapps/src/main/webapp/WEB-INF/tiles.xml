@@ -33,6 +33,11 @@
 		<put-attribute name="title" value="Reference layer search" />
 		<put-attribute name="body" value="/WEB-INF/jsp/refLayerSearch.jsp" />
 	</definition>
+
+    <definition name="clearRefLayerCache" extends="default">
+        <put-attribute name="title" value="Clear Cache" />
+        <put-attribute name="body" value="/WEB-INF/jsp/clearRefLayerCache.jsp" />
+    </definition>
 	
 	<definition name="compound" extends="default">
 		<put-attribute name="title" value="Compound page" />

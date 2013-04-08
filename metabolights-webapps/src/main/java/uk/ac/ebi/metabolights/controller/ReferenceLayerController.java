@@ -37,7 +37,6 @@ public class ReferenceLayerController extends AbstractController {
     private static final String MTBLDomainName = "metabolights";
     private static ArrayOfString listOfMTBLFields;
     private static ModelAndView mav;
-    private static Boolean flag;
 
     public enum UserAction {
             clickedOnPage,
@@ -121,6 +120,13 @@ public class ReferenceLayerController extends AbstractController {
                 }
             }
         }
+    }
+
+    @RequestMapping({ "/clearRefLayerCache" })
+    public ModelAndView clearCache(){
+        mav = AppContext.getMAVFactory().getFrontierMav("clearRefLayerCache");
+        cacheRffl = null;
+        return mav;
     }
 
     @RequestMapping({ "/refLayerSearch" })

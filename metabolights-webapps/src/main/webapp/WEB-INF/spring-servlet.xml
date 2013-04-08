@@ -68,8 +68,7 @@
 	    <property name="basename" value="classpath:messages" />
 	    <property name="defaultEncoding" value="UTF-8"/>
 	</bean>
-	<bean id="localeChangeInterceptor"
-	    class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 	    <property name="paramName" value="lang" />
 	</bean>
 	<bean id="localeResolver"
@@ -78,8 +77,7 @@
 	</bean>
 	<bean id="handlerMapping"
 	    class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-	    <property name="interceptors">
-	        <ref bean="localeChangeInterceptor" />
+	    <property name="interceptors"> <ref bean="localeChangeInterceptor" />
 	    </property>
 	</bean>
 
@@ -109,8 +107,7 @@
  -->
  
     <tx:annotation-driven />
-    <bean id="transactionManager"
-        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
  
@@ -170,8 +167,7 @@
         <property name="footerURL" value="#{footerURL}"/>
    	</bean>
 
-    <bean id="sessionFactory"
-        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation">
             <value>classpath:hibernate.cfg.xml</value>
