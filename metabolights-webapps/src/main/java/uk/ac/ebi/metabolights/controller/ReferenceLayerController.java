@@ -81,13 +81,10 @@ public class ReferenceLayerController extends AbstractController {
 
     }
 
-    private void initEBISearchService(){
+    private void initEBISearchService() throws Exception {
         if(ebiSearchService == null) {
-            try {
-                ebiSearchService = new EBISearchService_Service(new URL(url)).getEBISearchServiceHttpPort();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+
+            ebiSearchService = new EBISearchService_Service(new URL(url)).getEBISearchServiceHttpPort();
         }
 
         listOfMTBLFields = ebiSearchService.listFields(MTBLDomainName);
@@ -281,7 +278,7 @@ public class ReferenceLayerController extends AbstractController {
         }
     }
 
-    private void queryEBI() {
+    private void queryEBI() throws Exception {
 
         initEBISearchService();
 
