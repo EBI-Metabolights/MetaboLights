@@ -82,9 +82,12 @@ public class ReferenceLayerController extends AbstractController {
     }
 
     private void initEBISearchService() throws Exception {
-        if(ebiSearchService == null) {
 
+        if(ebiSearchService == null) try {
             ebiSearchService = new EBISearchService_Service(new URL(url)).getEBISearchServiceHttpPort();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
 
         listOfMTBLFields = ebiSearchService.listFields(MTBLDomainName);
@@ -140,7 +143,7 @@ public class ReferenceLayerController extends AbstractController {
         try{
             queryEBI();
         } catch (Exception e){
-            return AppContext.getMAVFactory().getFrontierMav("redirect:index?message="+ PropertyLookup.getMessage("msg.wsdl.error"));
+            return new ModelAndView("redirect:index?message="+ PropertyLookup.getMessage("msg.wsdl.error"));
         }
 
         if(rffl.getMTBLNumOfResults() != 0){
@@ -280,7 +283,12 @@ public class ReferenceLayerController extends AbstractController {
 
     private void queryEBI() throws Exception {
 
-        initEBISearchService();
+        try {
+            initEBISearchService();
+        } catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
 
         if ((ua == UserAction.clickedOnPage) || ((ua == UserAction.browseCached) && (rffl.getFacetsQuery().equals(""))) || (ua == UserAction.checkedFacet && (rffl.getFacetsQuery().equals("")))){
             ArrayOfString listOfMTBLIds = ebiSearchService.getResultsIds(MTBLDomainName, rffl.getEBIQuery(), ((rffl.getCurrentPage()*10)-10), 10);
