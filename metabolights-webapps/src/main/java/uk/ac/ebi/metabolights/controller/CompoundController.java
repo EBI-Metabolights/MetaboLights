@@ -54,7 +54,7 @@ public class CompoundController extends AbstractController {
             @RequestParam(required = false, value = "chebiId") String compound) {
 
         //Instantiate Model and view
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("reaction");
+        ModelAndView mav = new ModelAndView("reaction");
 
         //Setting up resource client
         RheasResourceClient client = new RheasResourceClient();
@@ -65,7 +65,8 @@ public class CompoundController extends AbstractController {
         try {
             reactions = client.getRheasInCmlreact(compound);
         } catch (RheaFetchDataException e) {
-            e.printStackTrace();
+            mav.addObject("errortext", e.getMessage());
+            return mav;
         }
 
         mav.addObject("Reactions", reactions);
@@ -79,12 +80,11 @@ public class CompoundController extends AbstractController {
         String localException = null;
 
         //Instantiate Model and view
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("citations");
+        ModelAndView mav = new ModelAndView("citations");
 
         try {
             PMCSearchService = new WSCitationImplService(new URL(PMCurl)).getWSCitationImplPort();
         } catch (Exception e) {
-            //e.printStackTrace();     //No reason to bother the user with the whole stacktrace
             mav.addObject("errortext", e.getMessage());
             return mav;
         }
@@ -114,7 +114,6 @@ public class CompoundController extends AbstractController {
                 rslt = PMCSearchService.searchPublications(query, dataset, resultType, offSet, false, email);
                 rsltItems.addAll(x, rslt.getResultList().getResult());
             } catch (Exception e) {
-                //e.printStackTrace();     //No reason to bother the user with the whole stacktrace
                 mav.addObject("errortext", e.getMessage());
             }
         }

@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import uk.ac.ebi.ebisearchservice.ArrayOfArrayOfString;
 import uk.ac.ebi.ebisearchservice.ArrayOfString;
 import uk.ac.ebi.ebisearchservice.EBISearchService;
 import uk.ac.ebi.ebisearchservice.EBISearchService_Service;
+import uk.ac.ebi.metabolights.authenticate.IsaTabAuthentication;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.referencelayer.MetabolightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.RefLayerFilter;
@@ -37,6 +39,7 @@ public class ReferenceLayerController extends AbstractController {
     private static final String MTBLDomainName = "metabolights";
     private static ArrayOfString listOfMTBLFields;
     private static ModelAndView mav;
+    private static Logger logger = Logger.getLogger(IsaTabAuthentication.class);
 
     public enum UserAction {
             clickedOnPage,
@@ -85,7 +88,7 @@ public class ReferenceLayerController extends AbstractController {
         if(ebiSearchService == null) try {
             ebiSearchService = new EBISearchService_Service(new URL(url)).getEBISearchServiceHttpPort();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("initEBISearchService method error - "+ e);
             throw e;
         }
 
@@ -124,9 +127,8 @@ public class ReferenceLayerController extends AbstractController {
 
     @RequestMapping({ "/clearRefLayerCache" })
     public ModelAndView clearCache(){
-        mav = AppContext.getMAVFactory().getFrontierMav("clearRefLayerCache");
         cacheRffl = null;
-        return mav;
+        return printMessage("Cache cleared.", "The cache has been cleared.");
     }
 
     @RequestMapping({ "/refLayerSearch" })
@@ -292,7 +294,7 @@ public class ReferenceLayerController extends AbstractController {
         try {
             initEBISearchService();
         } catch (Exception e){
-            e.printStackTrace();
+            logger.info("queryEBI method error - "+ e);
             throw e;
         }
 

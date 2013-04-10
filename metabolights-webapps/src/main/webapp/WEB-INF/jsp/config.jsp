@@ -243,8 +243,15 @@ $(function() {
 
         </div>
 
-        <div id="clearRefCache">
-            <a href="clearRefLayerCache">Clear cache</a>
+        <div class="refLayerBox" id="clearRefCache">
+            <div class="grid_24 ">
+                <div class="grid_24 title">
+                    Clear cache
+                </div>
+                <div class="grid_24">
+                    <a href="clearRefLayerCache">Click to clear cache</a>
+                </div>
+            </div>
         </div>
 	</div>
 
