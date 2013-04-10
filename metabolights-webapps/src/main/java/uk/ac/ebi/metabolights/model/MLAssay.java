@@ -143,10 +143,15 @@ public class MLAssay {
 	private void addGUIMetabolites(){
 		
 		for (Metabolite met: ag.getMetabolites()){
-			
-			// Only add metabolites known
-			if (!met.getDescription().toLowerCase().startsWith("unk")){
-			
+
+            String desc = met.getDescription();
+
+            desc = desc==null?"":desc;
+
+
+			// Do not add metabolites unknown
+			if (!desc.toLowerCase().startsWith("unk") && !desc.toLowerCase().startsWith("unid")){
+
 				metabolites.add(new MetaboliteGUI(met));
 				
 			}
