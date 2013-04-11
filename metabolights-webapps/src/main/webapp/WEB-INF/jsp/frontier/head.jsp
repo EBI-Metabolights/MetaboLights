@@ -21,20 +21,16 @@
 	<!-- you can replace this with [projectname]-colours.css. See http://frontier.ebi.ac.uk/web/style/colour for details of how to do this -->
 	<%--<link rel="stylesheet" type="text/css" href="cssrl/icons.css" media="screen" />--%>
 
-
     <%--Test--%>
     <link rel="stylesheet" href='<spring:url value="/cssrl/test-scheme.css"/>' type="text/css" media="screen">
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/metabolights_test.css"/>' media="screen" />
-
-
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/jquery-ui-1.9.2.custom.min.css"/>' media="all" />
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/icons.css"/>' media="all" />
-
-<%--<link rel="stylesheet" type="text/css" href='<spring:url value="cssrl/jquery.shadow.css"/>' media="screen" />--%>
  	<link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/movingboxes.css"/>' media="screen" />
- 	<script type="text/javascript" src='<spring:url value="/javascript/jquery-1.8.3.js"/>' charset="utf-8"></script>
-	<script type="text/javascript" src='<spring:url value="/javascript/jquery-ui-1.9.2.custom.min.js"/>' charset="utf-8"></script>
-	<%--<script type="text/javascript" href='<spring:url value="javascript/jquery.shadow.js"/>' charset="utf-8"></script>--%>
+
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" ></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src='<spring:url value="/javascript/jquery.movingboxes.js"/>' charset="utf-8"></script>
 	<script type="text/javascript" src='<spring:url value="/javascript/menu.js"/>'></script>
 	
