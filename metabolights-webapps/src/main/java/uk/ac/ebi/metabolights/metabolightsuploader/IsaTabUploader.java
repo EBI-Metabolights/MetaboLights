@@ -198,7 +198,7 @@ public class IsaTabUploader {
 		result = sm.loadISAtab(this.unzipFolder, owner, status, false);
 		
 		// If not SUCCESS...
-		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("File persistance process has failed.",sm.getLastLog()) ;
+		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("File persistance process has failed.",sm.getLastLog());
 				
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.

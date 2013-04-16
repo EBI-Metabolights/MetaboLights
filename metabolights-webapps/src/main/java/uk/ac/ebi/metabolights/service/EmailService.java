@@ -7,6 +7,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import uk.ac.ebi.metabolights.form.ContactValidation;
+import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 
@@ -245,12 +246,19 @@ public class EmailService {
 	/*
 	 * Email to send when the submission process fails...
 	 */
-	public void sendSubmissionError(String userEmail, String fileName, String error ){
+	public void sendSubmissionError(String userEmail, String fileName, Exception error ){
 		String from = curationEmailAddress;
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
-		String body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error});
-		
+
+
+		String body;
+        if(error instanceof IsaTabException){
+            IsaTabException ie = (IsaTabException)error;
+            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), ie.geTechnicalInfo()});
+        }else{
+            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage()});
+        }
 		sendSimpleEmail(from, to, subject, body);
 		
 	}

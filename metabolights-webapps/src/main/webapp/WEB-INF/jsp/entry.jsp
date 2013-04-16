@@ -7,6 +7,7 @@
 <%--<script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
 <%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>--%>
 <%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.ChEBICompound.js" charset="utf-8"></script>--%>
 
@@ -15,6 +16,8 @@
 
 <script language="javascript" type="text/javascript">
 $(document).ready(function() {
+
+    $("[id='protocoldesc']").linkify();
 
 	$("body").append('<div id="chebiInfo"></div>');
 	var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:'./proxy'});
@@ -165,6 +168,7 @@ function toggleColumn(tableId, anchor, duration ) {
 }
 
 </script>
+
 <div class="push_1 grid_22 title alpha omega">
     <strong>${study.acc}: ${study.title}</strong>
     <c:if test="${study.status eq 'PUBLIC'}">
@@ -309,7 +313,7 @@ function toggleColumn(tableId, anchor, duration ) {
 	                    			<c:when test="${not empty protocol.description}">
 			                    		<tr class="${(loopStatus.index+blanks) % 2 == 0 ? '' : 'coloured'}">
 					                    	<td class="tableitem">${protocol.name}</td>
-					                    	<td class="tableitem">${protocol.description}</td>
+					                    	<td id="protocoldesc" class="tableitem">${protocol.description}</td>
 					                    </tr>
 				                    </c:when>
 				                    <c:otherwise>

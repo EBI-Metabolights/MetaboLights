@@ -119,7 +119,7 @@ public class SubmissionQueueProcessor {
             // Clean the process folder anyway
             cleanProcessFolder();
 
-			AppContext.getEmailService().sendSubmissionError(si.getUserId(), si.getOriginalFileName(), e.getMessage());
+			AppContext.getEmailService().sendSubmissionError(si.getUserId(), si.getOriginalFileName(), e);
 		}
 		
 		
