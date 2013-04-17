@@ -1,5 +1,5 @@
 package uk.ac.ebi.metabolights.controller;
-
+//"tooltip": "Log in to MetaboLights",
 
 import java.util.UUID;
 
@@ -57,8 +57,7 @@ public class LoginController extends AbstractController{
     }
 
 	@RequestMapping(value={"/login"})
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response)
-                               {
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 
 		String url = " ";  //Have to reset the string, caching issues
 		url = getRedirectUrl(request,response);

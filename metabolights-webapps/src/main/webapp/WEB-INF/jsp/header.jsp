@@ -1,5 +1,4 @@
-<%@taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script type="text/javascript" src="javascript/menu.js"></script>
@@ -24,7 +23,7 @@
 	</div>
 
 	<div class="loggedInAsBox">
-			<!-- <sec:authorize ifAnyGranted="ROLE_SUBMITTER">		
+			<%-- <sec:authorize ifAnyGranted="ROLE_SUBMITTER">		
 			<ul id="sddm">	       		
 			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">
 			  			<sec:authentication property="principal.firstName" /><span class="smallArrow"></span></a>
@@ -35,7 +34,7 @@
 				 </div>  
 			   </li>
 			</ul>   
-		</sec:authorize>	      	-->
+		</sec:authorize>	      	--%>
 	</div>	 
 
  
@@ -45,20 +44,20 @@
         </sec:authorize>
         <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
 			<ul id="sddm">
-			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">
-			  			<sec:authentication property="principal.firstName" /><span class="smallArrow"></span></a>
-				 <div id="m2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
-					<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a>
-					<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>
-					<a href="<spring:url value="/j_spring_security_logout"/>"><spring:message code="menu.logout"/></a>
-					<sec:authorize ifAnyGranted="ROLE_SUPER_USER">
-						<a href="<spring:url value="/config"/>"><spring:message code="menu.config"/></a>
-						<a href="<spring:url value="/users"/>"><spring:message code="menu.users"/></a>
-						<a href="<spring:url value="/ebeyehelp"/>"><spring:message code="menu.Ebeye"/></a>
-					</sec:authorize>
-					
-				 </div>
-			   </li>
+			  <%--<li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">--%>
+                    <sec:authentication property="principal.firstName" /><span class="smallArrow"></span></a>
+				 <%--<div id="m2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">--%>
+					<%--<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a>--%>
+					<%--<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>--%>
+					<%--<a href="<spring:url value="/j_spring_security_logout"/>"><spring:message code="menu.logout"/></a>--%>
+					<%--<sec:authorize ifAnyGranted="ROLE_SUPER_USER">--%>
+						<%--<a href="<spring:url value="/config"/>"><spring:message code="menu.config"/></a>--%>
+						<%--<a href="<spring:url value="/users"/>"><spring:message code="menu.users"/></a>--%>
+						<%--<a href="<spring:url value="/ebeyehelp"/>"><spring:message code="menu.Ebeye"/></a>--%>
+					<%--</sec:authorize>--%>
+					<%----%>
+				 <%--</div>--%>
+			   <%--</li>--%>
 			</ul>
 		</sec:authorize>
 
@@ -67,14 +66,14 @@
 		<li><a href="download"><spring:message code="menu.download"/></a></li>
         <li><a href="browse"><spring:message code="menu.browse"/></a></li>
 		<li><a href="index"><spring:message code="menu.home"/></a></li>
-		<!--
+		<%--
 		<li><a href="<spring:url value="index"/>" onmouseover="mopen('m1')"onmouseout="mclosetime()"><spring:message code="menu.home"/><span class="smallArrow"></span></a>
 			<div id="m1" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
 				<a href="<spring:url value="about"/>"><spring:message code="menu.about"/></a>
 				<a href="<spring:url value="contact"/>"><spring:message code="menu.contact"/></a>
 			</div>
 		</li>
-		 -->
+		 --%>
 	</ul>
 	<div style="clear: both"></div>
 

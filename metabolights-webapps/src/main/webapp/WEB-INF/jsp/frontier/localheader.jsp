@@ -1,6 +1,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 ${localfrontierheader}
 <c:if test="${!empty freeTextQuery}">
 	<script>
@@ -25,9 +26,10 @@ ${localfrontierheader}
 	
 	<script>
 	
-		$loginA = $('[href="login"]'); 
+		$loginA = $('[href="login"]');
 		$loginA.html('<sec:authentication property="principal.firstName" />');
-		$loginA.attr("href", '<spring:url value="useroptions"/>');		
-		
+        $loginA.attr("href", '<spring:url value="useroptions"/>');
+        $loginA.attr("title", '<spring:message code= "msg.welcome"/><sec:authentication property="principal.firstName" />');
+
 	</script>
 </sec:authorize>

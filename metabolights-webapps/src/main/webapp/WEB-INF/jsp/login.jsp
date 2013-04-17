@@ -31,7 +31,7 @@
 
         <div class="grid_4 alpha">&nbsp;</div>
 		<div class="grid_20 omega">
-			<input name="submit" type="submit" class="submit" value="<spring:message code="label.login"/>">		
+			<input name="submit" type="submit" class="submit" value="<spring:message code="label.login"/>">
 			<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
         </div>
 
