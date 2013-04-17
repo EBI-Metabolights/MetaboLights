@@ -142,8 +142,8 @@ function color_for_atom(formulaChar)
                     </c:forEach>
                 </c:if>
 				<h6><spring:message code="ref.compound.tab.characteristics.chemicalproperties"/></h6>
-				<c:forEach var="formulae" items="${compound.chebiEntity.formulae}">
-				<spring:message code="ref.compound.tab.characteristics.formulae"/> - <span id="formulae">${formulae.data}</span><br/>
+				<c:forEach var="formula" items="${compound.chebiEntity.formulae}">
+				<spring:message code="ref.compound.tab.characteristics.formula"/> - <span id="formulae">${formulae.data}</span><br/>
 				</c:forEach>
 				Average mass - ${compound.chebiEntity.mass}
 				<br/>

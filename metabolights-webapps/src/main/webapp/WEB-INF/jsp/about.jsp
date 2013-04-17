@@ -38,6 +38,10 @@
     </div>
 
     <hr/>
+    <a href="http://www.cosmos-fp7.eu/"><img src="img/cosmosSmall_0.png" style = "width: 200px;" alt="COSMOS"/></a>
+    <p><spring:message code="msg.about.cosmos"/></p>
+
+    <hr/>
     <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="isatab"/></a>
     <p><spring:message code="msg.metabolightsAbout6" /></p>
     <br/>
