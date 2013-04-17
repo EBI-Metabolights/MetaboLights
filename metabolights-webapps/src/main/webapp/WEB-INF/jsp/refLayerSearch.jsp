@@ -75,6 +75,10 @@
             </div>
 
         </div>
+        
+        <div class="grid_24">
+            <br/>
+        </div>
 
         <div class="grid_24">
 
@@ -423,7 +427,7 @@
 
                                 <div class="grid_24">
                                     <c:if test="${not empty entry.description}">
-                                        <b><spring:message code="ref.compound.description"/></b>${entry.description}
+                                        <b><spring:message code="ref.compound.description"/>:&nbsp</b>${entry.description}
                                     </c:if>
                                 </div>
 

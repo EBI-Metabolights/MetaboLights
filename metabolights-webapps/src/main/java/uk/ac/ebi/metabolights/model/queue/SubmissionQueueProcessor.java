@@ -284,7 +284,7 @@ public class SubmissionQueueProcessor {
 		try {
 	
 			// Get the uploader configured...
-			IsaTabUploader itu =getIsaTabUploader();
+			IsaTabUploader itu = getIsaTabUploader();
 						
 			// Check that the new zip file has the same studyID (this will unzip the file)
 			Map<String,String> zipValues = itu.getStudyFields(si.getFileQueued(), new String[]{"Study Identifier"});
