@@ -37,7 +37,8 @@
 <c:if test="${!empty searchResults}">
     <c:if test="${!empty userQueryClean}">
         <aside class="grid_6 omega shortcuts expander" id="search-extras">
-            <div id="ebi_search_results"><h3 class="slideToggle icon icon-functional" data-icon="u"><spring:message code="msg.otherebiresults"/></h3>
+            <div id="ebi_search_results">
+                <h3 class="slideToggle icon icon-functional" data-icon="u"><spring:message code="msg.otherebiresults"/></h3>
             </div>
         </aside>
     </c:if>

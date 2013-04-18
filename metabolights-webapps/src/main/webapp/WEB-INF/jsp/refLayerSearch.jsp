@@ -39,6 +39,8 @@
             });
         });
 
+        $('[name="freeTextQuery"]').val('${rffl.freeText}');
+
     </script>
 
     <c:if test="${rffl.MTBLNumOfResults ne 0}">
@@ -58,7 +60,7 @@
                     </c:when>
                     <c:otherwise>
                         <h6>
-                            <b>${rffl.MTBLNumOfResults} <spring:message code="ref.msg.searchResult">${rffl.freeText}</spring:message></b>
+                            <b>${rffl.MTBLNumOfResults}&nbsp;<spring:message code="ref.msg.searchResult">&nbsp;${rffl.freeText}</spring:message></b>
                         </h6>
                     </c:otherwise>
                 </c:choose>
@@ -494,17 +496,15 @@
 
         <div class="grid_12">
 
-            <h3><spring:message code="ref.msg.noResult">${rffl.freeText}</spring:message></h3>
+            <h3><spring:message code="msg.nothingFound">${rffl.freeText}</spring:message></h3>
             <b><spring:message code="ref.msg.noResultSearch"/>&nbsp;<a href="MTBLC1358">Acetic acid</a>, <a href="MTBLC1402">Alanine</a>, <a href="MTBLC1547">Benzene</a> and so on...</b>
 
         </div>
 
         <aside class="grid_8 omega shortcuts" id="search-extras">
-
             <div id="ebi_search_noResults" class="noresults">
                 <h3 class=""><spring:message code="msg.otherebiresults"/></h3>
             </div>
-
         </aside>
 
     </c:if>
