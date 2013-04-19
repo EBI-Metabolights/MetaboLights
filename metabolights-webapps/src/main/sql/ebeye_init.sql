@@ -24,14 +24,15 @@ create table study_compound_ref as
   select distinct
     rm.id as entry_id, 
     s.acc as id, 
+    s.id as study_id,
     'study_id' as ref_type,
     decode(substr(m.identifier,1,3), 
               'CHE','chebi',
               'HMD','hmdb', 
               'CID','pubchem',
               'MTB','metabolights',
-              'LMP','Lipid Maps',
-              'LMG','Lipid Maps',
+              'LMP','Lipid Maps','LMG','Lipid Maps',
+              'MPIMP','GOLM','GMD','GOLM',
               'C01','KEGG','C02','KEGG','C03','KEGG','C04','KEGG','C05','KEGG','C06','KEGG','C07','KEGG','C08','KEGG','C09','KEGG','C10','KEGG','C11','KEGG','C12','KEGG','C13','KEGG','C14','KEGG','C15','KEGG',
               'C16','KEGG','C17','KEGG','C18','KEGG','C19','KEGG','C20','KEGG',
               'OTHER') as database

@@ -114,7 +114,7 @@ public class StudyDAOImpl implements StudyDAO{
 		/*
 		 * Initialize lazy collections here that we want to display .. otherwise the JSP will throw an error on rendering
 		 */
-		Hibernate.initialize(study.getContacts());        //TODO, sort by out own sort order
+		Hibernate.initialize(study.getContacts());
 		Hibernate.initialize(study.getAnnotations());
 		Hibernate.initialize(study.getPublications());
 		Hibernate.initialize(study.getAssays());

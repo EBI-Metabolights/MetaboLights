@@ -44,13 +44,15 @@ insert into ml_stats(page_section,str_name,str_value) select 'Data', 'Different 
 
 -- Section "Metabolites identified"
 insert into ml_stats(page_section,str_name,str_value) select 'Identified', DB, Count(*) as Total FROM (select CASE
-WHEN instr(identifier,'CHEBI:')=1 THEN 'ChEBI'
-WHEN instr(identifier,'CID')=1 THEN 'PubChem'
-WHEN instr(identifier,'HMDB')=1 THEN 'HMDB'
-WHEN instr(identifier,'LM')=1 THEN 'LIPID MAPS'
-WHEN instr(identifier,'C')=1 THEN 'KEGG'
-WHEN identifier IS NULL THEN 'not mapped to any database'
-ELSE identifier
+  WHEN instr(identifier,'CHEBI:')=1 THEN 'ChEBI'
+  WHEN instr(identifier,'CID')=1 THEN 'PubChem'
+  WHEN instr(identifier,'HMDB')=1 THEN 'HMDB'
+  WHEN instr(identifier,'LM')=1 THEN 'LIPID MAPS'
+  WHEN instr(identifier,'MPIMP')=1 THEN 'GOLM'
+  WHEN instr(identifier,'GMD')=1 THEN 'GOLM'
+  WHEN instr(identifier,'C')=1 THEN 'KEGG'
+  WHEN identifier IS NULL THEN 'not mapped to any database'
+  ELSE identifier
 END AS DB  from METABOLITE)
 group by DB;
 
