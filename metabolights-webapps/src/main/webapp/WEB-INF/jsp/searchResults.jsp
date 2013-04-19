@@ -134,10 +134,10 @@
     <c:if test="${!empty userQueryClean}">
 
         <aside class="grid_8 omega shortcuts" id="search-extras">
-        <div id="ebi_search_results" class="noresults">
-            <h3 class=""><spring:message code="msg.otherebiresults"/></h3>
-        </div>
-    </aside>
+            <div id="ebi_search_results" class="noresults">
+                <h3 class=""><spring:message code="msg.otherebiresults"/></h3>
+            </div>
+        </aside>
     </c:if>
 
 </c:if>

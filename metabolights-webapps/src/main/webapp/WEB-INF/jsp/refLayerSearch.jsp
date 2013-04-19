@@ -43,6 +43,13 @@
 
     </script>
 
+    <c:if test="${!empty rffl.freeText}">
+
+        <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
+        <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
+
+    </c:if>
+
     <c:if test="${rffl.MTBLNumOfResults ne 0}">
         <div class="grid_24">
 
@@ -67,7 +74,7 @@
             </div>
 
             <div>
-                <c:if test="${not empty rffl.freeText}">
+                <c:if test="${!empty rffl.freeText}">
                     <aside class="grid_6 omega shortcuts expander" id="search-extras">
                         <div id="ebi_search_results">
                             <h3 class="slideToggle icon icon-functional" data-icon="u"><spring:message code="msg.otherebiresults"/></h3>
@@ -494,24 +501,23 @@
 
     <c:if test="${rffl.MTBLNumOfResults eq 0}">
 
+        <script>$("body").addClass("noresults")</script>
+
         <div class="grid_12">
 
-            <h3><spring:message code="msg.nothingFound">${rffl.freeText}</spring:message></h3>
-            <b><spring:message code="ref.msg.noResultSearch"/>&nbsp;<a href="MTBLC1358">Acetic acid</a>, <a href="MTBLC1402">Alanine</a>, <a href="MTBLC1547">Benzene</a> and so on...</b>
+            <h3><spring:message code="msg.nothingFound">&nbsp;<strong>${rffl.freeText}</strong></spring:message></h3>
+            <b><spring:message code="ref.msg.noResultSearch"/>&nbsp;<a href="MTBLC15366">Acetic acid</a>, <a href="MTBLC16449">Alanine</a>, <a href="MTBLC27897">Tryptophan</a> and so on...</b>
 
         </div>
 
-        <aside class="grid_8 omega shortcuts" id="search-extras">
-            <div id="ebi_search_noResults" class="noresults">
-                <h3 class=""><spring:message code="msg.otherebiresults"/></h3>
-            </div>
-        </aside>
+        <c:if test="${!empty rffl.freeText}">
 
-    </c:if>
+            <aside class="grid_8 omega shortcuts" id="search-extras">
+                <div id="ebi_search_noResults" class="noresults">
+                    <h3 class=""><spring:message code="msg.otherebiresults"/></h3>
+                </div>
+            </aside>
 
-    <c:if test="${!empty rffl.freeText}">
-
-        <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
-        <script src="http://www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
+        </c:if>
 
     </c:if>
