@@ -1,6 +1,6 @@
 --database.core:\
 SELECT ID, DB_NAME \
-FROM DB \
+FROM REF_DB \
 WHERE {0}
 
 --where.database.by.id:\
@@ -11,16 +11,16 @@ ID = ?
 
 
 --update.database:\
-UPDATE DB \
+UPDATE REF_DB \
 	SET DB_NAME = ? WHERE ID = ?
 	
 --insert.database:\
-INSERT INTO DB \
+INSERT INTO REF_DB \
 	(DB_NAME) \
 	VALUES (?)
 
 --delete.database:\
-DELETE FROM DB \
+DELETE FROM REF_DB \
 WHERE {0}
 
 

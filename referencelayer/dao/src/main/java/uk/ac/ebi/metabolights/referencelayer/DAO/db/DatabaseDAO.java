@@ -91,10 +91,19 @@ public class DatabaseDAO implements IDatabaseDAO{
 
 
 	public Database findByDatabaseId(Long databaseId) throws DAOException {
-		
-		// It must return an array of one database....get the first one and only.
-		Collection<Database> database = findBy("--where.database.by.id", databaseId); 
-		return database ==null? null:database.iterator().next();
+
+        // Try to get it from the identity map...
+        Database db =  DatabaseIdentityMap.getDatabase(databaseId);
+
+       // If not loaded yet
+       if (db == null){
+           // It must return an array of one database....get the first one and only.
+           Collection<Database> database = findBy("--where.database.by.id", databaseId);
+           db =  (database ==null? null:database.iterator().next());
+
+       }
+
+       return db;
 	}
 	
 	public Set<Database> findAll() throws DAOException {
@@ -157,7 +166,10 @@ public class DatabaseDAO implements IDatabaseDAO{
 		
 		db.setId(id);
 		db.setName(name);
-	
+
+        // Add the database to the identity map
+        DatabaseIdentityMap.addDatabase(db);
+
 		return db;
 	}
 
@@ -212,6 +224,9 @@ public class DatabaseDAO implements IDatabaseDAO{
     		}
     		
        		keys.close();
+
+            // Add database to the identity map
+            DatabaseIdentityMap.addDatabase(db);
        		
 		} catch (SQLException ex) {
             throw new DAOException(ex);
@@ -242,9 +257,11 @@ public class DatabaseDAO implements IDatabaseDAO{
 			stm.executeUpdate();
 	
 	        if (LOGGER.isDebugEnabled())
-    	            LOGGER.debug("database deleted with id:" +db.getId()); 
+    	            LOGGER.debug("database deleted with id:" +db.getId());
     		
-       		
+       		DatabaseIdentityMap.removeDatabase(db);
+
+
 		} catch (SQLException ex) {
             throw new DAOException(ex);
 		}

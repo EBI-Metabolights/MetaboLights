@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import uk.ac.ebi.biobabel.util.db.SQLLoader;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetaboLightsCompoundDAO;
+import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
 
 
@@ -25,6 +26,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 	
 	protected Connection con;
 	protected SQLLoader sqlLoader;
+    private  MetSpeciesDAO msd;
 	
 	/**
 	 * @param connection to the database
@@ -33,6 +35,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 	public MetaboLightsCompoundDAO(Connection connection) throws IOException{
 		this.con = connection;
 		this.sqlLoader = new SQLLoader(this.getClass(), con);
+        this.msd = new MetSpeciesDAO(connection);
 	}
 
 
@@ -175,7 +178,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 		}
 	}
 
-    private Set<MetaboLightsCompound> loadCompounds(ResultSet rs) throws SQLException{
+    private Set<MetaboLightsCompound> loadCompounds(ResultSet rs) throws SQLException, DAOException {
 
         Set<MetaboLightsCompound> result = null;
         while (rs.next()){
@@ -199,17 +202,26 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 		}
 		
 		// Now save the rest...cascade saving...
-		
+		saveMetSpecies(compound);
 	}
 	
-	
+	private void saveMetSpecies(MetaboLightsCompound compound) throws DAOException {
+
+        for (MetSpecies ms: compound.getMetSpecies()){
+            msd.save(ms, compound);
+        }
+
+    }
 	/**
 	 * Deletes a compound from the database and all the children
 	 * <br>
 	 * @throws SQLException
 	 */
 	public void delete(MetaboLightsCompound compound) throws DAOException {
-		
+
+        // Need to delete associated children data
+        // DBMS will take care of this....
+
 		// Delete the compound
 		deleteCompound(compound);
 	}
@@ -236,7 +248,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 	}
 
 
-	private MetaboLightsCompound loadCompound(ResultSet rs) throws SQLException {
+	private MetaboLightsCompound loadCompound(ResultSet rs) throws SQLException, DAOException {
 		MetaboLightsCompound compound = null;
 
         compound = new MetaboLightsCompound();
@@ -258,8 +270,22 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         compound.setFormula(formula);
         compound.setIupacNames(iupacNames);
 
+
+        // Load children entities
+        loadChildren(compound);
+
 		return compound;
 	}
+
+    private void loadChildren (MetaboLightsCompound compound) throws DAOException {
+
+        // Load metSpecies
+        Collection<MetSpecies> metSpeciess = msd.findByMetId(compound.getId());
+
+        compound.getMetSpecies().addAll(metSpeciess);
+
+    }
+
 
 	/**
 	 * Inserts a new compound into the database

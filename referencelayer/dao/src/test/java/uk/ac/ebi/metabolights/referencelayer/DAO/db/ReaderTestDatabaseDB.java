@@ -30,7 +30,7 @@ public class ReaderTestDatabaseDB extends TestCase{
 		// Set up a simple configuration that logs on the console.
 	    BasicConfigurator.configure();
 	    
-		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsMYSQL");
+		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();
 		dbd = new DatabaseDAO(con);
 		
@@ -68,10 +68,28 @@ public class ReaderTestDatabaseDB extends TestCase{
 		
 	}
 
+    public static Database newRandomDatabase() {
+        Database db = new Database();
+        db.setName("Random DB");
+        return db;
+
+    }
+
 	public void testFindADatabaseById() throws Exception {
 		
 		Database db = dbd.findByDatabaseId(Long.parseLong(expected[0]));
 		assertDatabase(db, expected);
+
+        String change = "something different";
+
+        // Test DatabaseIdentityMap usage
+        db.setName(change);
+
+        db = dbd.findByDatabaseId(Long.parseLong(expected[0]));
+
+        assertEquals("Testing identity map usage", change, db.getName());
+
+
 	}	
 	
 	public void testDeleteADatabase() throws Exception {
@@ -82,7 +100,7 @@ public class ReaderTestDatabaseDB extends TestCase{
 		
 		db = dbd.findByDatabaseId(Long.parseLong(expected[0]));
 		
-		assertTrue("Deleted compound must not be found" , db == null);
+		assertTrue("Deleted database must not be found" , db == null);
 	}	
 
 	

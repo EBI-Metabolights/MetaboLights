@@ -24,7 +24,7 @@ public interface IMetaboLightsCompoundDAO {
     
     /**
      * Updates the MetaboLightsCompound.
-     * @param MetaboLightsCompound
+     * @param compound
      * @throws DAOException
      */
     void save(MetaboLightsCompound compound) throws DAOException;
@@ -32,7 +32,7 @@ public interface IMetaboLightsCompoundDAO {
 
     /**
      * Closes any open system resources allocated to this reader.
-     * @throws MapperException
+     * @throws DAOException
      */
     void close() throws DAOException;
 }

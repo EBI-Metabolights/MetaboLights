@@ -5,7 +5,7 @@ import java.util.Collection;
 import uk.ac.ebi.metabolights.referencelayer.domain.Database;
 
 /**
- * Reader for {@link MetaboLightsCompound} objects from MetaboLights reference layer.
+ * Reader for {@link Database} objects from MetaboLights reference layer.
  * @author Pablo Conesa
  */
 
@@ -19,7 +19,7 @@ public interface IDatabaseDAO {
     
     /**
      * Updates the Database.
-     * @param Database
+     * @param database
      * @throws DAOException
      */
     void save(Database database) throws DAOException;
@@ -27,7 +27,7 @@ public interface IDatabaseDAO {
 
     /**
      * Closes any open system resources allocated to this reader.
-     * @throws MapperException
+     * @throws DAOException
      */
     void close() throws DAOException;
 }

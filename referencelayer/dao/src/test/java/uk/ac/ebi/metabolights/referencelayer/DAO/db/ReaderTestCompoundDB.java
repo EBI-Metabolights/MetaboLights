@@ -12,7 +12,10 @@ import org.junit.BeforeClass;
 
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.biobabel.util.db.OracleDatabaseInstance;
+import uk.ac.ebi.metabolights.referencelayer.domain.Database;
+import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 
 public class ReaderTestCompoundDB extends TestCase{
 	
@@ -20,8 +23,8 @@ public class ReaderTestCompoundDB extends TestCase{
 	
 	private Connection con;
 	protected MetaboLightsCompoundDAO mcd;
-	
-	
+
+    static String[] newCompound = new String[]{null,"ACC1","New compound", "New compound description", "New inchi value", "New chebiId", "New iupac name", "New formula"};
 	static String[] expected = new String[]{null,"ACC1U","Updated compound", "Updated compound description", "Inchi value updated", "ChebiId updated", "iupac names updated", "formula updated"};
 	
 	
@@ -36,9 +39,7 @@ public class ReaderTestCompoundDB extends TestCase{
         DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();
 		mcd = new MetaboLightsCompoundDAO(con);
-					
-		
-		//LOGGER.info("Connected to metabolightsDEV");
+
 		
 	}
 	 @Override
@@ -54,17 +55,9 @@ public class ReaderTestCompoundDB extends TestCase{
 	 */
 	public void testSavingACompound() throws Exception {
 		
-		MetaboLightsCompound mc = new MetaboLightsCompound();
-		String[] newCompound = new String[]{null,"ACC1","New compound", "New compound description", "New inchi value", "New chebiId", "New iupac name", "New formula"};
-		mc.setAccession(newCompound[1]);
-		mc.setName(newCompound[2]);
-		mc.setDescription(newCompound[3]);
-		mc.setInchi(newCompound[4]);
-		mc.setChebiId(newCompound[5]);
-        mc.setIupacNames(newCompound[6]);
-        mc.setFormula(newCompound[7]);
-		
-		
+		MetaboLightsCompound mc = getNewCompound();
+
+
 		mcd.save(mc);
 		assertMetabolite(mc ,newCompound);
 		
@@ -83,10 +76,44 @@ public class ReaderTestCompoundDB extends TestCase{
 		
 		
 		mcd.save(mc);
-		assertMetabolite(mc, expected);
-		
-		
+
+        assertMetabolite(mc, expected);
+
 	}
+
+    private MetaboLightsCompound getNewCompound(){
+
+
+        MetaboLightsCompound mc = new MetaboLightsCompound();
+        String[] newCompound = new String[]{null,"ACC1","New compound", "New compound description", "New inchi value", "New chebiId", "New iupac name", "New formula"};
+        mc.setAccession(newCompound[1]);
+        mc.setName(newCompound[2]);
+        mc.setDescription(newCompound[3]);
+        mc.setInchi(newCompound[4]);
+        mc.setChebiId(newCompound[5]);
+        mc.setIupacNames(newCompound[6]);
+        mc.setFormula(newCompound[7]);
+
+        // Add a met species...
+        addMetSpecies(mc);
+
+
+        return mc;
+    }
+
+    private void addMetSpecies(MetaboLightsCompound mc){
+
+        // Create a Database....
+        Database db = ReaderTestDatabaseDB.newRandomDatabase();
+        Species sp = ReaderTestSpeciesDB.newRandomSpecies();
+
+        // Create a new MetSpecies
+        MetSpecies ms = new MetSpecies(sp,db);
+
+        mc.getMetSpecies().add(ms);
+
+
+    }
 
 	public void testFindACompoundByAccession() throws Exception {
 		
@@ -134,10 +161,22 @@ public class ReaderTestCompoundDB extends TestCase{
 		MetaboLightsCompound mc = mcd.findByCompoundId(Long.parseLong(expected[0]));
 		
 		mcd.delete(mc);
-		
-		mc = mcd.findByCompoundId(Long.parseLong(expected[0]));
+
+        // We should delete the Database and species created for the metSpecies
+        MetSpecies ms = mc.getMetSpecies().iterator().next();
+
+		DatabaseDAO dbd = new DatabaseDAO(mcd.con);
+        dbd.delete(ms.getDatabase());
+
+        SpeciesDAO spd = new SpeciesDAO(mcd.con);
+        spd.delete(ms.getSpecies());
+
+
+        mc = mcd.findByCompoundId(Long.parseLong(expected[0]));
 		
 		assertTrue("Deleted compound must not be found" , mc == null);
+
+
 	}
 
 
@@ -153,9 +192,32 @@ public class ReaderTestCompoundDB extends TestCase{
 		assertEquals("Checking " + expectedvalues[1] + " chebiId" , expectedvalues[5] , mc.getChebiId());
         assertEquals("Checking " + expectedvalues[1] + " iupac names" , expectedvalues[6] , mc.getIupacNames());
         assertEquals("Checking " + expectedvalues[1] + " formula" , expectedvalues[7] , mc.getFormula());
+
+        assertMetSpecies(mc);
 		
 		
 	}
-	
+
+    private void assertMetSpecies(MetaboLightsCompound mc){
+
+        // There must be one metSpecies
+        assertEquals("Check number of metSpecies" ,1, mc.getMetSpecies().size() );
+
+        // Get it....
+        MetSpecies ms = mc.getMetSpecies().iterator().next();
+
+        // Check it has a database
+        assertNotNull("Has MetSpecies a database?", ms.getDatabase());
+        assertNotNull("Has MetSpecies a Species?", ms.getSpecies());
+
+
+        // If the id is not null (compound is saved)...
+        if (mc.getId() != 0)
+            assertTrue("Is Database saved?", ms.getDatabase().getId() != 0);
+            assertTrue("Is Species saved?",  ms.getSpecies().getId()!=0);
+            assertTrue("Is MetSpecies saved?",  ms.getId()!=0);
+
+
+    }
 	
 }
