@@ -1,5 +1,8 @@
 package uk.ac.ebi.metabolights.referencelayer.domain;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * This class represents a MetaboLights reference layer compound.
  * 
@@ -25,8 +28,11 @@ private String formula;
 // Iupac Names (separated by |)
 private String iupacNames;
 
+// Species associated with the metabolite
+private Collection<MetSpecies> metSpecies = new ArrayList<MetSpecies>();
 
-    /**
+
+/**
  * @return the id
  */
 public long getId() {
@@ -102,6 +108,9 @@ public String getChebiId() {
 	return chebiId;
 }
 
+public Collection<MetSpecies> getMetSpecies() {
+        return metSpecies;
+}
 /**
  * @param chebiId the chebiId to set
  */
