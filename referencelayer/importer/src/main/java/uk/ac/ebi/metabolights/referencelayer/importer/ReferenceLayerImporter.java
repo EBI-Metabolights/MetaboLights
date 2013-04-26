@@ -1,24 +1,39 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.DatabaseDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
+import uk.ac.ebi.metabolights.referencelayer.domain.Database;
+import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+
+import javax.xml.namespace.QName;
 
 public class ReferenceLayerImporter{
 
     private Logger LOGGER = Logger.getLogger(ReferenceLayerImporter.class);
 
     private MetaboLightsCompoundDAO mcd;
-    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
+    private DatabaseDAO dbd;
+    private SpeciesDAO spd;
 
+    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
+   // private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
 
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
     private String chebiIDRoot = "CHEBI:25212";
@@ -26,7 +41,10 @@ public class ReferenceLayerImporter{
 
     // Instantiate with a connection object
     public ReferenceLayerImporter(Connection connection) throws IOException {
-            this.mcd = new MetaboLightsCompoundDAO(connection);
+        this.mcd = new MetaboLightsCompoundDAO(connection);
+        this.dbd = new DatabaseDAO(connection);
+        this.spd = new SpeciesDAO(connection);
+
     }
 
     public RelationshipType getRelationshipType() {
@@ -68,7 +86,7 @@ public class ReferenceLayerImporter{
             // Now we should have a list of chebi ids...
             for (LiteEntity le: el.getListElement()){
 
-                imported = imported + chebiID2MetaboLights(le);
+                imported = imported + chebiID2MetaboLights(le.getChebiId());
 
             }
 
@@ -80,28 +98,105 @@ public class ReferenceLayerImporter{
         LOGGER.info(imported + " new compounds imported.");
 
     }
+
+
+
+    public void importMetabolitesFromChebiTSV(File chebiTSV){
+
+        LOGGER.info("Importing metabolites from chebi. TSV: " + chebiTSV.getAbsoluteFile());
+
+        // Try to get the list of metabolites from chebi TSV...
+        // SAMPLE:
+        // ChEBI ID	ChEBI ASCII Name	Text Score	Tanimoto Similarity Score	Entry Status
+        // CHEBI:36062	3,4-dihydroxybenzoic acid	7.22
+        // CHEBI:1189	2-methoxyestrone	7.11
+        // CHEBI:1387	3,4-dihydroxyphenylethyleneglycol	7.11
+        // CHEBI:3648	chlorpromazine <i>N</i>-oxide	7.11
+
+        Long linesRead =new Long(0);
+        Long imported = new Long(0);
+
+
+        // Open and go through the file
+        try {
+            //Use a buffered reader
+            BufferedReader reader = new BufferedReader(new FileReader(chebiTSV));
+            String line = "", text = "";
+
+            //Go through the file
+            while((line = reader.readLine()) != null)
+            {
+
+                // If its not the first line...skip it as it is the header definition line....
+                if (linesRead !=0){
+                    // Get the Chebi id ==> First element in a line separated by Tabulators
+                    String[] values = line.split("\t");
+
+                    imported = imported + chebiID2MetaboLights(values[0]);
+
+                }
+
+                linesRead++;
+
+            }
+
+            //Close the reader
+            reader.close();
+
+        } catch (DAOException e) {
+
+            LOGGER.error("Can't save a metabolite to the Database.",e);
+
+        } catch (Exception e) {
+            LOGGER.error("Can't import Metabolites from chebi TSV.",e);
+            return;
+        }
+
+        LOGGER.info(imported + " new compounds imported.");
+
+    }
+
+
     /*
     Returns 1 if successful
      */
-    private int chebiID2MetaboLights(LiteEntity chebiId) throws DAOException {
+    private int chebiID2MetaboLights(String chebiId) throws DAOException {
 
         try {
 
-            MetaboLightsCompound mc = new MetaboLightsCompound();
+
+            String accession = chebiID2MetaboLightsID(chebiId);
+
+            // Check if we have already the Metabolite (since querying the WS is what takes more...)
+            MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
+
+            if (mc != null){
+                // ...we already have it...don't do anything..although at some point we may want to update it..
+                LOGGER.info("The compound " + accession + " is already imported into the database. Updating it");
+
+            } else {
+
+                // ...if execution reach this point....we don't have the compound and needs to be imported from chebi WS.
+                mc = new MetaboLightsCompound();
+
+            }
 
 
             // Populate the metabolite compound with chebi data.
             // Get a complete entity....
-            Entity entity = chebiWS.getCompleteEntity(chebiId.getChebiId());
+            Entity entity = chebiWS.getCompleteEntity(chebiId);
 
-            mc.setAccession(chebiID2MetaboLightsID(chebiId.getChebiId()));
-            mc.setChebiId(chebiId.getChebiId());
-            mc.setName(chebiId.getChebiAsciiName());
+            mc.setAccession(chebiID2MetaboLightsID(entity.getChebiId()));
+            mc.setChebiId(entity.getChebiId());
+            mc.setName(entity.getChebiAsciiName());
 
             mc.setDescription(entity.getDefinition());
             mc.setInchi(entity.getInchi());
             mc.setFormula(extractFormula(entity.getFormulae()));
             mc.setIupacNames(extractIupacNames(entity.getIupacNames()));
+
+            // Update species information
+            importMetSpeciesFromChebi(mc,entity);
 
             mcd.save(mc);
 
@@ -117,7 +212,7 @@ public class ReferenceLayerImporter{
                 // If it's bacause a duplicate key...
                 //http://stackoverflow.com/questions/1988570/how-to-catch-a-specific-exceptions-in-jdbc
                 if (sqle.getSQLState().startsWith("23")){
-                    LOGGER.info("The compound " + chebiId.getChebiId() + " is already imported into the database (Duplicated primary key)");
+                    LOGGER.info("The compound " + chebiId + " is already imported into the database (Duplicated primary key)");
                     return 0;
                 } else {
                     throw e;
@@ -126,9 +221,47 @@ public class ReferenceLayerImporter{
                 throw e;
             }
         } catch (ChebiWebServiceFault_Exception e) {
-            LOGGER.info("Can't get a Complete entity for " + chebiId.getChebiId() );
+            LOGGER.info("Can't get a Complete entity for " + chebiId);
             return 0;
         }
+    }
+
+    private void importMetSpeciesFromChebi(MetaboLightsCompound mc , Entity chebiEntity) throws DAOException {
+
+        // In dev chebi db id is 1
+        Database chebiDB =  dbd.findByDatabaseId(Long.valueOf(1));
+
+        // For each compound origin in chebi...
+        for (CompoundOrigins origin : chebiEntity.getCompoundOrigins()){
+
+            Species sp = getSpecies(origin);
+
+            MetSpecies ms = new MetSpecies(sp,chebiDB);
+
+            if (!mc.getMetSpecies().contains(ms)){
+                mc.getMetSpecies().add(ms);
+            }
+        }
+
+    }
+
+    private Species getSpecies(CompoundOrigins origin) throws DAOException {
+
+        // Try to find the specie
+        String species = origin.getSpeciesText();
+
+        //Try to get it from metabolights
+        Species sp = spd.findBySpeciesName(species);
+
+        // If not found create one...
+        if (sp == null){
+            sp = new Species();
+            sp.setSpecies(origin.getSpeciesText());
+            sp.setTaxon(origin.getSpeciesAccession());
+        }
+
+        return sp;
+
     }
 
     private String extractIupacNames(List<DataItem> iupacNames){

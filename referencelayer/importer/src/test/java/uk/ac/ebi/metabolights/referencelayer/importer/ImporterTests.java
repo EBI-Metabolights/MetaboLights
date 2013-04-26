@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
+import java.io.File;
+import java.net.URL;
 import java.sql.Connection;
 import java.util.Set;
 
@@ -63,5 +65,21 @@ public class ImporterTests extends TestCase{
          */
 
 	}
+    public void testImportFromTSV() throws Exception {
+
+        ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
+
+
+        URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites.tsv");
+        if (url == null) {
+            // error - missing folder
+        } else {
+            File chebiTSV = new File(url.getFile());
+
+            rli.importMetabolitesFromChebiTSV(chebiTSV);
+
+        }
+
+    }
 
 }
