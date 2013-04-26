@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.referencelayer.domain;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+
 /**
  * 
  * @author conesa
@@ -39,5 +41,25 @@ public class MetSpecies {
 
     public Database getDatabase() {
         return database;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof MetSpecies))
+            return false;
+
+        MetSpecies metSpecies = (MetSpecies)obj;
+
+        return new EqualsBuilder().
+                // if deriving: appendSuper(super.equals(obj)).
+                        append(this.database, metSpecies.database).
+                        append(this.species, metSpecies.species).
+                        isEquals();
+
     }
 }

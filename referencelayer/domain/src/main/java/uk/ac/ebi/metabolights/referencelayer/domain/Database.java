@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.referencelayer.domain;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+
 /**
  * 
  * @author conesa
@@ -34,5 +36,24 @@ public class Database {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+    @Override
+    public boolean equals(Object obj){
+
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof Database))
+            return false;
+
+        Database db1 = (Database)obj;
+
+        return new EqualsBuilder().
+                // if deriving: appendSuper(super.equals(obj)).
+                        append(this.name, db1.name).
+                isEquals();
+
+    }
 	
 }

@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.referencelayer.domain;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+
 /**
  * 
  * @author conesa
@@ -48,6 +50,24 @@ public class Species {
 
     public void setTaxon(String taxon) {
         this.taxon = taxon;
+    }
+    @Override
+    public boolean equals(Object obj){
+
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof Species))
+            return false;
+
+        Species sp1 = (Species)obj;
+
+        return new EqualsBuilder().
+                // if deriving: appendSuper(super.equals(obj)).
+                append(species, sp1.species).
+                isEquals();
+
     }
 
 
