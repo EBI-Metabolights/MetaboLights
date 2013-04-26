@@ -79,7 +79,17 @@ public class ReaderTestSpeciesDB extends TestCase{
 
     }
 
-	public void testFindASpeciesById() throws Exception {
+    public void testFindASpeciesByName() throws Exception {
+
+        Species species = speciesD.findBySpeciesName(expected[1]);
+
+        assertSpecies(species, expected);
+
+
+    }
+
+
+    public void testFindASpeciesById() throws Exception {
 		
 		Species species = speciesD.findBySpeciesId(Long.parseLong(expected[0]));
 		assertSpecies(species, expected);

@@ -11,6 +11,10 @@ RS.ID = ?
 --where.species.all:\
 1 = ?
 
+--where.species.by.species:\
+RS.SPECIES = ?
+
+
 
 --update.species:\
 UPDATE REF_SPECIES \
