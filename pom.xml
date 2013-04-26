@@ -207,8 +207,8 @@
         	  <url>http://maven.springframework.org/milestone</url>
   		</repository> 
 		<repository>
-		  <id>chebi-repo</id>
-	          <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
+		  <id>intact-repo</id>
+	      <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
 		</repository>
           	<repository>
 	           <id>ebi-snapshot-repo</id>
@@ -220,10 +220,19 @@
 		   <snapshots>
 		       <enabled>true</enabled>
 		   </snapshots>
-	         </repository>
-	         <repository>
+	    </repository>
+	    <repository>
 		  <id>ebi-repo</id>
-	          <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
+	      <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
 		</repository>
+		<repository>
+			<id>chebi-repo-snapshot</id>
+			<name>ChEBI Repository</name>
+			<url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+			<snapshots>
+		       <enabled>true</enabled>
+		    </snapshots>
+		</repository>
+			
    </repositories>  
 </project>
