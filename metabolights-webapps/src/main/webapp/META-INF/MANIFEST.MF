@@ -68,5 +68,8 @@ Class-Path: tiles-api-2.2.2.jar tiles-core-2.2.2.jar commons-digester-
  ernate-core-3.3.1.GA.jar hibernate-commons-annotations-3.3.0.ga.jar p
  ersistence-api-1.0.jar hibernate-search-3.1.1.GA.jar hibernate-entity
  manager-3.4.0.GA.jar ojdbc5-11.1.0.7.0.jar jsr250-api-1.0.jar jsr181-
- api-1.0-MR1.jar antlr-2.7.7.jar
+ api-1.0-MR1.jar antlr-2.7.7.jar dao-0.4-SNAPSHOT.jar domain-0.4-SNAPS
+ HOT.jar pride-web-utils-1.0-20121210.165001-17.jar import_layer_MTBLS
+ -1.3.2.52-SNAPSHOT.jar import_layer_MTBLS-1.3.2.52-20130423.100717-1.
+ jar
 

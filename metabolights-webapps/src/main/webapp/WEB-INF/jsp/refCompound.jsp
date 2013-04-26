@@ -155,7 +155,11 @@ function color_for_atom(formulaChar)
 				${compound.chebiEntity.inchi}<br/>
 			</div>
 			<!-- Found in -->
-			<div id="tabs-2" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS34jyUBk-CNrKobrPxwD7F8wvH6_w86Lu9VfU5IjBXu1gKiduR"/></div>
+			<div id="tabs-2" class="tab">
+                <c:forEach var="metSpecie" items="${compound.mc.metSpecies}">
+                    ${metSpecie.species.species} - ${metSpecie.database.name}<br/>
+                </c:forEach>
+            </div>
 			<!-- Path ways -->
 			<div id="tabs-3" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQotrC_Rvg3-mRq4huTwhVn1Ku7tdElSJQTRGAt_sple7oiMMto"/>
 				<h4>Options explored so far:</h4>

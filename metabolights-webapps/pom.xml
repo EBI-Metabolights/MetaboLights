@@ -225,7 +225,7 @@
         <dependency>
             <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
             <artifactId>dao</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <version>0.4-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <artifactId>ojdbc6</artifactId>
@@ -233,12 +233,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
-            <artifactId>domain</artifactId>
-            <version>0.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
+       <dependency>
         	<groupId>uk.ac.ebi.pride.web</groupId>
         	<artifactId>pride-web-utils</artifactId>
         	<version>1.0-SNAPSHOT</version>
