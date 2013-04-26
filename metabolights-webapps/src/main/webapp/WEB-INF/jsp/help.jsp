@@ -4,15 +4,15 @@
 
     <p>
         Please note that these links will take you to our online Google Document.  <br/><br/>
-        <spring:message code="help.url.account" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.setup" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.isasetup" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.study" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.describe" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.sample" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.assay" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.archive" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.submit" />&nbsp;&nbsp;&nbsp;
+        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.account" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.setup" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.isasetup" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.study" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.describe" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.sample" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.assay" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.archive" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.submit" />&nbsp;&nbsp;&nbsp;
     </p>
 
     <p/>

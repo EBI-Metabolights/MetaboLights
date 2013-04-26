@@ -29,7 +29,7 @@ import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.validate.ValidatorMetabolightsUser;
 
 /**
- * Controller for login and related actions.  
+ * Controller for login and related actions.
  * @author markr
  *
  */
@@ -46,7 +46,6 @@ public class LoginController extends AbstractController{
 	public ModelAndView loggedIn() {
 	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
 		return new ModelAndView ("redirect:mysubmissions");
-	    
     }
 
 	@RequestMapping({"/loggedout"})
@@ -71,7 +70,7 @@ public class LoginController extends AbstractController{
 	}
 	
 	@RequestMapping(value={"/timeout"})
-	public ModelAndView resolveRequest (HttpServletRequest request) {		
+	public ModelAndView resolveRequest (HttpServletRequest request) {
 		return GenericController.lastPartOfUrl(request);
 	}
 	
