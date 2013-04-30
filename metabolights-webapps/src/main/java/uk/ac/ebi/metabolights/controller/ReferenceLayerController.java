@@ -125,7 +125,7 @@ public class ReferenceLayerController extends AbstractController {
         }
     }
 
-    @RequestMapping({ "/clearRefLayerCache" })
+    @RequestMapping({ "/clearreflayercache" })
     public ModelAndView clearCache(){
         cacheRffl = null;
         return printMessage("Cache cleared.", "The cache has been cleared.");

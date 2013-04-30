@@ -268,11 +268,23 @@ function toggleColumn(tableId, anchor, duration ) {
 						<c:forEach var="pub" items="${study.publications}">
 							<br/>
 							<div class="ebiicon book"></div>
+                            <c:set var="DOIValue" value="${pub.doi}"/>
 		                	<c:choose>
-		                	<c:when test="${not empty pub.pmid}">
-		                		 <a href="http://www.ebi.ac.uk/citexplore/citationDetails.do?externalId=${pub.pmid}&dataSource=MED">${pub.title}</a>
-		                	</c:when>
-		                	<c:otherwise>${pub.title}</c:otherwise>
+                                <c:when test="${not empty pub.pmid}">
+                                     <a href="http://europepmc.org/abstract/MED/${pub.pmid}">${pub.title}</a>
+                                </c:when>
+                                <c:when test="${not empty pub.doi}">
+                                    <c:if test="${fn:contains(DOIValue, 'DOI')}">
+                                        <c:set var="DOIValue" value="${fn:replace(DOIValue, 'DOI:','')}"/>
+                                    </c:if>
+                                    <c:if test="${fn:contains(DOIValue, 'dx.doi')}">
+                                        <a href="http://${DOIValue}">${pub.title}</a>
+                                    </c:if>
+                                    <c:if test="${not fn:contains(DOIValue, 'dx.doi')}">
+                                        <a href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>${pub.title}</c:otherwise>
 		                	</c:choose>
 		            	</c:forEach>
 		            	<br/>

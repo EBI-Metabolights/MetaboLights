@@ -249,7 +249,7 @@ $(function() {
                     Clear cache
                 </div>
                 <div class="grid_24">
-                    <a href="clearRefLayerCache">Click to clear cache</a>
+                    <a href="clearreflayercache">Click to clear cache</a>
                 </div>
             </div>
         </div>
