@@ -159,6 +159,7 @@
     <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
 
+
     
     <bean id="modelAndViewFactory" class="uk.ac.ebi.metabolights.webapp.StyleMAVFactory">
         <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
@@ -204,11 +205,17 @@
 		<sec:intercept-url pattern="/switchqueue" access="hasRole('ROLE_SUPER_USER')" />
 		<sec:intercept-url pattern="/users" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/parameters" access="hasRole('ROLE_SUPER_USER')" />
+        <sec:intercept-url pattern="/updateParameters" access="hasRole('ROLE_SUPER_USER')" />
+        <sec:intercept-url pattern="/insertParameters" access="hasRole('ROLE_SUPER_USER')" />
+        <sec:intercept-url pattern="/addParameters" access="hasRole('ROLE_SUPER_USER')" />
+        <sec:intercept-url pattern="/deleteParam" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/clearreflayercache" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/securedredirect" access="isAuthenticated()" />
         <sec:intercept-url pattern="/login" access="permitAll"/>
         <sec:intercept-url pattern="/**" access="permitAll"/>
         <sec:logout logout-success-url="/loggedout" delete-cookies="JSESSIONID" />
+
+
         <!--remember-me/-->
         <!-- Uncomment to enable X509 client authentication support <x509 /> -->
         <!--sec:session-management invalid-session-url="/timeout"-->

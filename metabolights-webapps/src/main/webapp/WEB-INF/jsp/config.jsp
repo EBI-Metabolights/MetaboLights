@@ -31,6 +31,7 @@ $(function() {
 			<li><a class="noLine" href="#queueTab">Queue</a></li>
 			<li><a class="noLine" href="#studyHealthTab">Study Health Tab</a></li>
             <li><a class="noLine" href="#clearRefCache">Clear Ref Cache</a></li>
+            <li><a class="noLine" href="#MetaboLightsParameters">MetaboLights Parameters</a></li>
 		</ul>
 		
         <div id="appTab">
@@ -253,5 +254,18 @@ $(function() {
                 </div>
             </div>
         </div>
+
+        <div class="refLayerBox" id="MetaboLightsParameters">
+
+            <div class="grid_24 ">
+                <div class="grid_24 title">
+                    MetaboLights parameters
+                </div>
+                <div class="grid_24">
+                    <a href="parameters">Click here for MetaboLights Parameters</a>
+                </div>
+            </div>
+        </div>
+
 	</div>
 

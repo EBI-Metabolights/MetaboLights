@@ -15,6 +15,9 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +43,7 @@ public class MetaboLightsParametersDAOImpl implements MetaboLightsParametersDAO{
     @Override
     @Transactional
     public MetaboLightsParameters getOnName(String parameterName) {
+
         Session session = sessionFactory.getCurrentSession();
         Query q = session.createQuery("from MetaboLightsParameters where parameterName =:param");
         q.setString("param", parameterName);
@@ -53,7 +57,9 @@ public class MetaboLightsParametersDAOImpl implements MetaboLightsParametersDAO{
     }
 
     @Override
+    @Transactional
     public List<MetaboLightsParameters> getAll() {
+
         Session session = sessionFactory.getCurrentSession();
         Query q = session.createQuery("from MetaboLightsParameters");
         List<MetaboLightsParameters> parametersList = q.list();
@@ -63,18 +69,21 @@ public class MetaboLightsParametersDAOImpl implements MetaboLightsParametersDAO{
     }
 
     @Override
+    @Transactional
     public void update(MetaboLightsParameters metaboLightsParameters) {
         Session session = sessionFactory.getCurrentSession();
         session.update(metaboLightsParameters);
     }
 
     @Override
+    @Transactional
     public void insert(MetaboLightsParameters metaboLightsParameters) {
         Session session = sessionFactory.getCurrentSession();
         session.save(metaboLightsParameters);
     }
 
     @Override
+    @Transactional
     public void delete(MetaboLightsParameters metaboLightsParameters) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(metaboLightsParameters);

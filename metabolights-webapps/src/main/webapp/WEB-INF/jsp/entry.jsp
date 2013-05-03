@@ -182,11 +182,28 @@ function toggleColumn(tableId, anchor, duration ) {
     <a class="right noLine" href="${study.acc}/files/${study.acc}" title="Download whole study">
         <span class="icon icon-functional" data-icon="="/>
     </a>
+    <span class="right">
+        &nbsp;
+    </span>
+    <c:if test="${study.status ne 'PUBLIC'}">
+        <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
+        <a class="right noLine" href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="Make it public">
+            <span class="icon icon-generic" data-icon="}"/>
+        </a>
+    </c:if>
 </div>
 
 <c:set var="stringToFind" value="${study.acc}:assay:" />
 
+
 <div class="push_1 grid_22 box alpha omega">
+
+        <%--<div>--%>
+            <%--<c:if test="${study.status ne 'PUBLIC'}">--%>
+                <%--<jsp:useBean id="now" class="java.util.Date" scope="page" />--%>
+                <%--<a href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${now}" />">Make it public</a>--%>
+            <%--</c:if>--%>
+        <%--</div>--%>
 
        <c:if test="${not empty study.contacts}">
             <br/>
@@ -213,6 +230,7 @@ function toggleColumn(tableId, anchor, duration ) {
    		     <br/><br/><span style="text-align:justify"><div id="description">${study.description}</div></span>
 	    </c:if>
  		<br/>
+
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1" class="noLine"><spring:message code="label.studyDesign"/></a></li>
