@@ -113,7 +113,7 @@ th, td {
 }
 
 .title a, .title  a:link, .title a:visited,
-.title a span.icon-functional::before
+.title a span.icon-functional::before, .title a span.icon-generic::before
 {
     color: #ffffff;
 }

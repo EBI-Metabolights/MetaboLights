@@ -188,7 +188,7 @@ function toggleColumn(tableId, anchor, duration ) {
     <c:if test="${study.status ne 'PUBLIC'}">
         <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
         <a class="right noLine" href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="Make it public">
-            <span class="icon icon-generic" data-icon="}"/>
+            <span class="icon icon-generic" data-icon="}" id="ebiicon" />
         </a>
     </c:if>
 </div>
