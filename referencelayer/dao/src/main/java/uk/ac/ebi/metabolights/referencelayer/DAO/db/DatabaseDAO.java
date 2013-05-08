@@ -18,77 +18,13 @@ import uk.ac.ebi.metabolights.referencelayer.IDAO.IDatabaseDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.Database;
 
 
-public class DatabaseDAO implements IDatabaseDAO{
+public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 	
 
-	private Logger LOGGER = Logger.getLogger(DatabaseDAO.class);
-	
-	protected Connection con;
-	protected SQLLoader sqlLoader;
-	
-	/**
-	 * @param connection to the database
-	 * @throws IOException
-	 */
-	public DatabaseDAO(Connection connection) throws IOException{
-		this.con = connection;
-		this.sqlLoader = new SQLLoader(this.getClass(), con);
-	}
-
-
-    /**
-     * Setter for database connection. It also sets the same connection
-     * for the underlying objects.<br>
-     * This method should be used with pooled connections, and only when the
-     * previous one and its prepared statements have been properly closed
-     * (returned).
-     * @param con
-     * @throws SQLException
-     */
-	public void setConnection(Connection con) throws SQLException{
-		this.con = con;
-		sqlLoader.setConnection(con);
-	}
-
-	@Override
-	protected void finalize() throws Throwable {
-        super.finalize();
-		close();
-	}
-
-	/**
-	 * Closes prepared statements, but not the connection.
-	 * If you want to close the connection or return it to a pool,
-	 * please call explicitly the method {@link Connection#close()} or
-	 * {@link #returnPooledConnection()} respectively.
-	 */
-	public void close() throws DAOException {
-        try {
-            sqlLoader.close();
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        }
-	}
-	
-	/**
-	 * Closes (returns to the pool) prepared statements and connection.
-	 * This method should be called explicitly before finalising this object,
-	 * in case its connection belongs to a pool.
-	 * <br>
-	 *      *
-     * @throws DAOException while closing the compound reader.
-     * @throws SQLException while setting the compound reader connection to
-     *      null.
-     */
-	public void returnPooledConnection() throws DAOException, SQLException{
-		
-		close();
-		if (con != null){
-			con.close();
-			con = null;
-		}
-	}
-
+    public DatabaseDAO (Connection connection) throws IOException {
+        super(connection);
+        setUp(this.getClass());
+    }
 
 	public Database findByDatabaseId(Long databaseId) throws DAOException {
 

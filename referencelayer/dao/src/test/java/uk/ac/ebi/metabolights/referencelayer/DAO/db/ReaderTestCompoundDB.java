@@ -12,10 +12,7 @@ import org.junit.BeforeClass;
 
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.biobabel.util.db.OracleDatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.Database;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.domain.*;
 
 public class ReaderTestCompoundDB extends TestCase{
 	
@@ -103,12 +100,13 @@ public class ReaderTestCompoundDB extends TestCase{
 
     private void addMetSpecies(MetaboLightsCompound mc){
 
-        // Create a Database....
-        Database db = ReaderTestDatabaseDB.newRandomDatabase();
+        // Create a CrossReference....
+        CrossReference cr = ReaderTestCrossReferenceDB.newRandomCrossReference();
+
         Species sp = ReaderTestSpeciesDB.newRandomSpecies();
 
         // Create a new MetSpecies
-        MetSpecies ms = new MetSpecies(sp,db);
+        MetSpecies ms = new MetSpecies(sp,cr);
 
         mc.getMetSpecies().add(ms);
 
@@ -134,15 +132,15 @@ public class ReaderTestCompoundDB extends TestCase{
 		assertMetabolite(mc, expected);
 	}
 
-    public void testGetAllCompounds() throws Exception{
-
-        // Get all the compounds
-        Set<MetaboLightsCompound> mcs = mcd.getAllCompounds();
-
-        // There must be at least one
-        assertEquals("testing getAllCompounds, at least there must be one", true, mcs.size()>0);
-
-    }
+//    public void testGetAllCompounds() throws Exception{
+//
+//        // Get all the compounds
+//        Set<MetaboLightsCompound> mcs = mcd.getAllCompounds();
+//
+//        // There must be at least one
+//        assertEquals("testing getAllCompounds, at least there must be one", true, mcs.size()>0);
+//
+//    }
 
     public  void testExistCompound() throws Exception{
 
@@ -162,15 +160,17 @@ public class ReaderTestCompoundDB extends TestCase{
 		
 		mcd.delete(mc);
 
-        // We should delete the Database and species created for the metSpecies
+        // We should delete the Database, species and CrossReference created for the metSpecies
         MetSpecies ms = mc.getMetSpecies().iterator().next();
 
-		DatabaseDAO dbd = new DatabaseDAO(mcd.con);
-        dbd.delete(ms.getDatabase());
+        CrossReferenceDAO crd = new CrossReferenceDAO(mcd.con);
+        crd.delete(ms.getCrossReference());
+
+        DatabaseDAO dbd = new DatabaseDAO(mcd.con);
+        dbd.delete(ms.getCrossReference().getDb());
 
         SpeciesDAO spd = new SpeciesDAO(mcd.con);
         spd.delete(ms.getSpecies());
-
 
         mc = mcd.findByCompoundId(Long.parseLong(expected[0]));
 		
@@ -207,17 +207,17 @@ public class ReaderTestCompoundDB extends TestCase{
         MetSpecies ms = mc.getMetSpecies().iterator().next();
 
         // Check it has a database
-        assertNotNull("Has MetSpecies a database?", ms.getDatabase());
+        assertNotNull("Has MetSpecies a CrossReference?", ms.getCrossReference());
         assertNotNull("Has MetSpecies a Species?", ms.getSpecies());
 
 
         // If the id is not null (compound is saved)...
-        if (mc.getId() != 0)
-            assertTrue("Is Database saved?", ms.getDatabase().getId() != 0);
+        if (mc.getId() != 0){
+            assertTrue("Is Database saved?", ms.getCrossReference().getDb().getId() != 0);
+            assertTrue("Is CrossReference saved?", ms.getCrossReference().getId() != 0);
             assertTrue("Is Species saved?",  ms.getSpecies().getId()!=0);
             assertTrue("Is MetSpecies saved?",  ms.getId()!=0);
 
-
+        }
     }
-	
 }

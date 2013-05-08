@@ -1,7 +1,7 @@
 
 
 --metspecies.core:\
-SELECT ID, SPECIES_ID, DB_ID \
+SELECT ID, SPECIES_ID, REF_XREF_ID \
 FROM REF_MET_TO_SPECIES \
 WHERE {0}
 
@@ -14,11 +14,11 @@ MET_ID = ?
 
 --update.metspecies:\
 UPDATE REF_MET_TO_SPECIES \
-	SET MET_ID = ?, SPECIES_ID = ?, DB_ID = ? WHERE ID = ?
+	SET MET_ID = ?, SPECIES_ID = ?, REF_XREF_ID = ? WHERE ID = ?
 	
 --insert.metspecies:\
 INSERT INTO REF_MET_TO_SPECIES \
-	(MET_ID, SPECIES_ID, DB_ID) \
+	(MET_ID, SPECIES_ID, REF_XREF_ID) \
 	VALUES (?, ?, ?)
 
 --delete.metspecies:\

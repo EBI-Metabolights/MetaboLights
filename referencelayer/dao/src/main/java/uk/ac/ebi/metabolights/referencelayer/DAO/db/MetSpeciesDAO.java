@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import uk.ac.ebi.biobabel.util.db.SQLLoader;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetSpeciesDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.Database;
+import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
@@ -28,7 +28,7 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
 	protected Connection con;
 	protected SQLLoader sqlLoader;
 
-    private DatabaseDAO dbd;
+    private CrossReferenceDAO crd;
     private SpeciesDAO spd;
 
 	
@@ -39,7 +39,7 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
 	public MetSpeciesDAO(Connection connection) throws IOException{
 		this.con = connection;
 		this.sqlLoader = new SQLLoader(this.getClass(), con);
-        this.dbd = new DatabaseDAO(connection);
+        this.crd = new CrossReferenceDAO(connection);
         this.spd = new SpeciesDAO(connection);
 
 	}
@@ -57,7 +57,7 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
 	public void setConnection(Connection con) throws SQLException{
 		this.con = con;
 		sqlLoader.setConnection(con);
-        this.dbd.setConnection(con);
+        this.crd.setConnection(con);
         this.spd.setConnection(con);
 	}
 
@@ -158,13 +158,13 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
 
         long id = rs.getLong("ID");
 		long species_id = rs.getLong("SPECIES_ID");
-		long db_id = rs.getLong("DB_ID");
+		long cr_id = rs.getLong("REF_XREF_ID");
 
         // Get the referenced objects
-        Database db = dbd.findByDatabaseId(db_id);
+        CrossReference cr = crd.findByCrossReferenceId(cr_id);
         Species sp = spd.findBySpeciesId(species_id);
 
-        MetSpecies metSpecies = new MetSpecies(id, sp, db);
+        MetSpecies metSpecies = new MetSpecies(id, sp, cr);
 
 		return metSpecies;
 	}
@@ -172,9 +172,9 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
 	public void save(MetSpecies metSpecies, MetaboLightsCompound compound) throws DAOException {
 
         // Validate:
-        // Database must exist
-        if (metSpecies.getDatabase() == null ){
-            String msg = "MetSpecies can't be saved without a Database object associated";
+        // CrossReference must exist
+        if (metSpecies.getCrossReference() == null ){
+            String msg = "MetSpecies can't be saved without a CrossReference object associated";
             LOGGER.error(msg);
             throw new DAOException(msg);
         }
@@ -197,7 +197,7 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
 
         // Before saving the MetSpecies data we need to save the foreign key entities if apply
         // We are assuming the compound it's been saved and the compound DAO is the ona calling this method
-        if (metSpecies.getDatabase().getId() == 0) dbd.save(metSpecies.getDatabase());
+        if (metSpecies.getCrossReference().getId() == 0) crd.save(metSpecies.getCrossReference());
         if (metSpecies.getSpecies().getId() == 0) spd.save(metSpecies.getSpecies());
 
 		// If its a new MetSpecies
@@ -221,7 +221,7 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
 			stm.clearParameters();
 			stm.setLong(1,compound.getId());
             stm.setLong(2, metSpecies.getSpecies().getId());
-			stm.setLong(3, metSpecies.getDatabase().getId());
+			stm.setLong(3, metSpecies.getCrossReference().getId());
             stm.setLong(4, metSpecies.getId());
 
 			stm.executeUpdate();
@@ -242,7 +242,7 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
 			stm.clearParameters();
             stm.setLong(1,compound.getId());
             stm.setLong(2, metSpecies.getSpecies().getId());
-            stm.setLong(3, metSpecies.getDatabase().getId());
+            stm.setLong(3, metSpecies.getCrossReference().getId());
 			stm.executeUpdate();
 	
 			ResultSet keys = stm.getGeneratedKeys();
