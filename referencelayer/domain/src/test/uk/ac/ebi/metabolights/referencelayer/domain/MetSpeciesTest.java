@@ -14,31 +14,31 @@ public class MetSpeciesTest {
     @Test
     public void testEquals() throws Exception {
 
-        Database db1 = new Database();
-        db1.setName("db1");
+        CrossReference cr1 = new CrossReference();
+        cr1.setAccession("acc1");
 
         Species sp1 = new Species();
         sp1.setSpecies("sp1");
 
 
 
-        MetSpecies msp1 = new MetSpecies(sp1,db1);
+        MetSpecies msp1 = new MetSpecies(sp1,cr1);
         assertTrue("Equals to itself expected to be true", msp1.equals(msp1));
 
 
 
-        Database db2 = new Database();
-        db1.setName("db2");
+        CrossReference cr2 = new CrossReference();
+        cr1.setAccession("acc2");
 
         Species sp2 = new Species();
         sp1.setSpecies("sp2");
 
 
-        MetSpecies msp2 = new MetSpecies(sp2,db2);
+        MetSpecies msp2 = new MetSpecies(sp2,cr2);
 
         assertFalse("Equals expected to be false", msp1.equals(msp2));
 
-        msp2 = new MetSpecies(sp1,db1);
+        msp2 = new MetSpecies(sp1,cr1);
         assertTrue("Equals expected to be true", msp1.equals(msp2));
 
 

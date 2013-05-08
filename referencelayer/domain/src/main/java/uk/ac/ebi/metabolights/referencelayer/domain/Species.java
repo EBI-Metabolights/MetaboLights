@@ -69,6 +69,16 @@ public class Species {
                 isEquals();
 
     }
+    @Override
+    public int hashCode(){
+
+        if (id != 0) {
+            return new Long(id).hashCode();
+        } else {
+            return species.hashCode();
+        }
+
+    }
 
 
 

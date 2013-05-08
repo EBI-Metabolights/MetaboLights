@@ -4,7 +4,7 @@
     
     <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
     <artifactId>domain</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
     <name>Domain model</name>
 
     <parent>

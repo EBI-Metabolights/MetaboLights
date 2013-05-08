@@ -12,19 +12,19 @@ public class MetSpecies {
 
 	private long id;
     private Species species;
-    private Database database;
+    private CrossReference crossReference;
 
-    public MetSpecies(long id, Species species, Database database){
-        construct(id,species,database);
+    public MetSpecies(long id, Species species, CrossReference crossReference){
+        construct(id,species,crossReference);
     }
-    public MetSpecies(Species species, Database database){
-        construct(0,species,database);
+    public MetSpecies(Species species, CrossReference crossReference){
+        construct(0,species,crossReference);
     }
 
-    private void construct(long id, Species species, Database database){
+    private void construct(long id, Species species, CrossReference crossReference){
         this.id = id;
         this.species = species;
-        this.database= database;
+        this.crossReference= crossReference;
 
     }
     public long getId() {
@@ -39,8 +39,8 @@ public class MetSpecies {
         return species;
     }
 
-    public Database getDatabase() {
-        return database;
+    public CrossReference getCrossReference() {
+        return crossReference;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class MetSpecies {
 
         return new EqualsBuilder().
                 // if deriving: appendSuper(super.equals(obj)).
-                        append(this.database, metSpecies.database).
+                        append(this.crossReference, metSpecies.crossReference).
                         append(this.species, metSpecies.species).
                         isEquals();
 
