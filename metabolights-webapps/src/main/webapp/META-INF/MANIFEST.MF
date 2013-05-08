@@ -71,5 +71,7 @@ Class-Path: tiles-api-2.2.2.jar tiles-core-2.2.2.jar commons-digester-
  api-1.0-MR1.jar antlr-2.7.7.jar dao-0.4-SNAPSHOT.jar domain-0.4-SNAPS
  HOT.jar pride-web-utils-1.0-20121210.165001-17.jar import_layer_MTBLS
  -1.3.2.52-SNAPSHOT.jar import_layer_MTBLS-1.3.2.52-20130423.100717-1.
- jar
+ jar dao-0.5-SNAPSHOT.jar domain-0.5-20130429.155115-1.jar dao-0.5-201
+ 30502.144239-1.jar guava-12.0.jar jsr305-1.3.9.jar domain-0.5-2013050
+ 8.093920-2.jar
 

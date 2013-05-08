@@ -156,9 +156,23 @@ function color_for_atom(formulaChar)
 			</div>
 			<!-- Found in -->
 			<div id="tabs-2" class="tab">
-                <c:forEach var="metSpecie" items="${compound.mc.metSpecies}">
-                    ${metSpecie.species.species} - ${metSpecie.database.name}<br/>
+                <%--<c:forEach var="metSpecie" items="${compound.mc.metSpecies}">--%>
+                    <%--${metSpecie.species.species} - ${metSpecie.crossReference.accession}<br/>--%>
+                <%--</c:forEach>--%>
+                <c:forEach var="item" items="${compound.species}">
+                    <br/>${item.key.species} :
+                    <c:forEach var="xref" items="${item.value}">
+                        <c:choose>
+                            <c:when test="${xref.crossReference.db.id eq 2}">
+                                <a class="tag" href='${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="tag" href='http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
                 </c:forEach>
+
             </div>
 			<!-- Path ways -->
 			<div id="tabs-3" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQotrC_Rvg3-mRq4huTwhVn1Ku7tdElSJQTRGAt_sple7oiMMto"/>

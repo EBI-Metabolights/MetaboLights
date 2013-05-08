@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.cdb.webservice.*;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
+import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.service.AppContext;
