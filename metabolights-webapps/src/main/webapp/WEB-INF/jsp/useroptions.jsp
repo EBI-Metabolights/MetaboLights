@@ -8,7 +8,7 @@
 <div class='grid_6 alpha prefix_1'>
     <a href="<spring:url value="mysubmissions"/>">
     <div class="bigbutton maincolorI">
-         <span class="bigfont"><spring:message code="menu.myStudies" /></span><br/>
+         <span class="bigfont"><spring:message code="menu.myStudiesCap" /></span><br/>
     </div>
     </a>
 </div>
@@ -16,7 +16,7 @@
 <div class='grid_6 prefix_2'>
      <a href="<spring:url value="myAccount"/>">
      <div class="bigbutton seccolorI">
-         <span class="bigfont"><spring:message code="menu.myAccount" /></span><br/>
+         <span class="bigfont"><spring:message code="menu.myAccountCaps" /></span><br/>
      </div>
      </a>
 </div>
@@ -25,7 +25,7 @@
     <a href="<spring:url value="/j_spring_security_logout"/>">
     <div class="bigbutton maincolorI">
 
-         <span class="bigfont"><spring:message code="menu.logout" /></span><br/>
+         <span class="bigfont"><spring:message code="menu.logoutCaps" /></span><br/>
      </a>
     </div>
 </div>
@@ -40,7 +40,7 @@
 <div class='grid_6 alpha prefix_1'>
     <a href="<spring:url value="config"/>">
     <div class="bigbutton seccolorI">
-         <span class="bigfont"><spring:message code="menu.config" /></span><br/>
+         <span class="bigfont"><spring:message code="menu.configCaps" /></span><br/>
     </div>
     </a>
 </div>
@@ -48,7 +48,7 @@
 <div class='grid_6 prefix_2'>
     <a href="<spring:url value="users"/>">
     <div class="bigbutton maincolorI">
-         <span class="bigfont"><spring:message code="menu.users" /></span><br/>
+         <span class="bigfont"><spring:message code="menu.usersCaps" /></span><br/>
     </div>
     </a>
 </div>

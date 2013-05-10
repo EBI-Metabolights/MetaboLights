@@ -246,18 +246,19 @@ public class EmailService {
 	/*
 	 * Email to send when the submission process fails...
 	 */
-	public void sendSubmissionError(String userEmail, String fileName, Exception error ){
+	public void sendSubmissionError(String userEmail, String fileName, Exception error ) throws Exception {
 		String from = curationEmailAddress;
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
-
+        String hostName = java.net.InetAddress.getLocalHost().getHostName();
+        String empty = "error not instanceof IsaTabException";
 
 		String body;
         if(error instanceof IsaTabException){
             IsaTabException ie = (IsaTabException)error;
-            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), ie.geTechnicalInfo()});
+            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, ie.geTechnicalInfo()});
         }else{
-            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage()});
+            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, empty});
         }
 		sendSimpleEmail(from, to, subject, body);
 		
