@@ -8,6 +8,7 @@
 	contains attributes such as Header, Title, Body, Menu and Footer. The layout 
 	is then extended and new definitions are added per page. -->
 
+<!--suppress ALL -->
 <tiles-definitions>
 
 	<definition name="twosections.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
@@ -34,7 +35,7 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/refLayerSearch.jsp" />
 	</definition>
 
-    <definition name="clearRefLayerCache" extends="default">
+    <definition name="clearreflayercache" extends="default">
         <put-attribute name="title" value="Clear Cache" />
         <put-attribute name="body" value="/WEB-INF/jsp/clearRefLayerCache.jsp" />
     </definition>
@@ -189,4 +190,15 @@
         <put-attribute name="title" value="User options" />
         <put-attribute name="body" value="/WEB-INF/jsp/useroptions.jsp" />
 	</definition>
+
+    <definition name="parameters" extends="default">
+        <put-attribute name="title" value="MetaboLights Parameters" />
+        <put-attribute name="body" value="/WEB-INF/jsp/metabolightsParameters.jsp" />
+    </definition>
+
+    <definition name="updateParameters" extends="default">
+        <put-attribute name="title" value="Update MetaboLights Parameters" />
+        <put-attribute name="body" value="/WEB-INF/jsp/updateParameters.jsp" />
+    </definition>
+
 </tiles-definitions>
