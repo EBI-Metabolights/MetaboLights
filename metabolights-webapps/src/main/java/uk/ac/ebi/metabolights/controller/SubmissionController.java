@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
@@ -63,30 +64,45 @@ public class SubmissionController extends AbstractController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/reindexall")
-	public ModelAndView reindexall() throws Exception{
+	@RequestMapping(value = "/reindex") //must accept parameters else reindex all studies looping through
+	public ModelAndView reindexall(
+            @RequestParam(required = false, value = "study") String study
+            ) throws Exception{
 		
 		//Get the path for the config folder (where the hibernate properties for the import layer are).
 		String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
 
 		itu.setDBConfigPath(configPath);
 
-        //loop through the studies
-        List<String> studyList = studyService.findAllStudies();
-        Iterator<String> stringIterator = studyList.iterator();
+        if(study != null){
 
-        while (stringIterator.hasNext()){
-            String acc = stringIterator.next();
-            logger.info("Re-indexing study: " +acc);
-            try{
-                itu.reindexStudy(acc);
-            } catch (Exception e) {
-                logger.error("Re-indexing of study "+acc+" failed.");
+            logger.info("Re-indexing study: " + study);
+            try {
+                itu.reindexStudy(study);
+            } catch (Exception e){
+                logger.error("Re-indexing of study "+study+" failed.");
             }
 
+            return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.studyIndexed")+" ("+study+")");
+        } else {
+
+            //loop through the studies
+            List<String> studyList = studyService.findAllStudies();
+            Iterator<String> stringIterator = studyList.iterator();
+
+            while (stringIterator.hasNext()){
+                String acc = stringIterator.next();
+                logger.info("Re-indexing study: " +acc);
+                try{
+                    itu.reindexStudy(acc);
+                } catch (Exception e) {
+                    logger.error("Re-indexing of study "+acc+" failed.");
+                }
+
+            }
+
+            return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.indexed"));
         }
-		
-		return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.indexed"));
 			
 	}
 
@@ -95,7 +111,7 @@ public class SubmissionController extends AbstractController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/reindex")
+    @RequestMapping(value = "/reindexall")
     public ModelAndView reindex() throws Exception{
 
         //Get the path for the config folder (where the hibernate properties for the import layer are).

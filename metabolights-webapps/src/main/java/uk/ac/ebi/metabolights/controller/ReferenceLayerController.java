@@ -158,7 +158,7 @@ public class ReferenceLayerController extends AbstractController {
             getEntries();
         }
 
-        updateFacets(organismsSelected, technologiesSelected);
+        updateFacets();
         sortFacets();
         request.getSession().setAttribute("RefLayer", rffl);
 
@@ -307,7 +307,7 @@ public class ReferenceLayerController extends AbstractController {
         }
     }
 
-    private void updateFacets(String[] organismsSelected, String[] technologiesSelected) {
+    private void updateFacets() {
 
         if(ua != UserAction.clickedOnPage){
             for(ArrayOfString entry: this.listOfMTBLEntries.getArrayOfString()){

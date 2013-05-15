@@ -251,7 +251,7 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
         String hostName = java.net.InetAddress.getLocalHost().getHostName();
-        String empty = "error not instanceof IsaTabException";
+        String empty = "Generic error";
 
 		String body;
         if(error instanceof IsaTabException){

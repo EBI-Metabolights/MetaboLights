@@ -65,9 +65,6 @@ public class MetaboLightsParametersController extends AbstractController {
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateParameters");
 
-        paramname.trim();
-        paramvalue.trim();
-
         MetaboLightsParameters metaboLightsParameters = new MetaboLightsParameters();
         metaboLightsParameters.setParameterName(paramname);
         metaboLightsParameters.setParameterValue(paramvalue);
@@ -84,9 +81,6 @@ public class MetaboLightsParametersController extends AbstractController {
             @RequestParam(required = false, value ="paramvalue") String paramvalue){
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateParameters");
-
-        paramname.trim();
-        paramvalue.trim();
 
         MetaboLightsParameters metaboLightsParameters = new MetaboLightsParameters();
         metaboLightsParameters.setParameterName(paramname);
