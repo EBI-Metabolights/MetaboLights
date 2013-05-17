@@ -32,6 +32,9 @@ public class BML2MetabolightsJson {
     File bmlFile;
     File jsonOutputFile;
 
+    JAXBContext context = null;
+    Unmarshaller unmarshaller = null;
+
 
 
     public BML2MetabolightsJson(File bmlFile, File jsonOutputFile){
@@ -138,6 +141,9 @@ public class BML2MetabolightsJson {
             // Get the list of input files..may be one or al xml in a directory..
             Collection<File> files = getInputFiles();
 
+            if (!initJAXBContextAndUnmarshaller())  return;
+
+
             for(File inputFile:files){
 
                 File outputFile= null;
@@ -182,7 +188,7 @@ public class BML2MetabolightsJson {
 
             // return a list of xml file in the directory.
             File[] xmlFiles= bmlFile.listFiles(new FilenameFilter() {
-                @Override
+
                 public boolean accept(File file, String name) {
                     return name.endsWith(".xml");
                 }
@@ -229,6 +235,35 @@ public class BML2MetabolightsJson {
 
         return true;
     }
+
+    private boolean initJAXBContextAndUnmarshaller(){
+
+
+
+        try {
+            context = JAXBContext.newInstance(
+                    MSICompliantNMRMetabolomicsExperimentReport.class.getPackage().getName());
+        } catch (JAXBException e) {
+            logger.error("Can't create JABX context instance based on {}:\n{}",MSICompliantNMRMetabolomicsExperimentReport.class.getPackage().getName(), e.getMessage());
+            return false;
+        }
+
+
+        try {
+
+            unmarshaller = context.createUnmarshaller();
+
+        } catch (JAXBException e) {
+
+            logger.error("Can't create BML xml loader (JABX unmarshaller):\n {}", e.getMessage());
+            return false;
+
+        }
+
+        return true;
+    }
+
+
     private void bmlToJson (File bml, File json){
 
         // Validate
@@ -237,74 +272,71 @@ public class BML2MetabolightsJson {
         // Log start
         logger.info("Conversion started from {} to {}.", bml.getAbsolutePath(), json.getAbsolutePath());
 
-        // Instantiate the unmarshaller
-        JAXBContext context = null;
-        try {
-            context = JAXBContext.newInstance(
-                    MSICompliantNMRMetabolomicsExperimentReport.class.getPackage().getName());
-        } catch (JAXBException e) {
-            logger.error("Can't create JABX context instance based on {}:\n{}",MSICompliantNMRMetabolomicsExperimentReport.class.getPackage().getName(), e.getMessage());
-            return;
-        }
-
-        // Instantiate the unmarshaller
-        Unmarshaller unmarshaller = null;
-        try {
-
-            unmarshaller = context.createUnmarshaller();
-
-        } catch (JAXBException e) {
-
-            logger.error("Can't create BML xml loader (JABX unmarshaller):\n {}", e.getMessage());
-            return;
-
-        }
-
         // Load the xml into the model objects...
         MSICompliantNMRMetabolomicsExperimentReport bmlData = null;
+        // Instantiate the Java/json object
+        JsonSpectra jsonSpectra = new JsonSpectra();
+
         try {
+
+            // TODO: do not unmarshall all...
             bmlData = (MSICompliantNMRMetabolomicsExperimentReport)  unmarshaller.unmarshal(bml);
+
+            // Populate main properties...this is
+            // TODO: Spectra id?
+            jsonSpectra.setSpectrumId(1);
+
+            MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D exp1d= null;
+
+            // Get the 1D experiment
+            exp1d = bmlData.getAnalysis().getExperiment1D();
+
+
+            // If its null it must be a 2D experiment....we do not do this, ATM.
+            if (exp1d == null){
+                logger.info("Not a 1D experiment, probably a 2D...we will not convert this experiment: " + bmlFile.getName());
+                return;
+            }
+
+            // Get the spectra, we expect only one, so we will take the first one...
+            List<MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D> sp1dList;
+
+            // Get list of spectra (there should be only one)
+            sp1dList = exp1d.getSpectrum1D();
+
+            MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D sp1d;
+
+            sp1d = sp1dList.iterator().next();
+
+
+            // Get end value and start value
+            jsonSpectra.setMzStart(sp1d.getXStartValue());
+            jsonSpectra.setMzStop(sp1d.getXEndValue());
+
+            // Populate peaks
+            MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D.DataMatrix dm;
+
+            // Get the data matrix
+            dm = sp1d.getDataMatrix();
+
+            // For each data point in
+            for (MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D.DataMatrix.DataPoint dp: dm.getDataPoint()){
+
+                JsonSpectraPeak jsp = new JsonSpectraPeak(dp.getRValue().doubleValue(),dp.getXValue().doubleValue());
+                jsonSpectra.getPeaks().add(jsp);
+            }
+
+
+
+
+
+
         } catch (JAXBException e) {
             logger.error("Can't load spectra file: {}:\n {}",bml.getAbsolutePath(), e.getMessage());
             return;
         }
 
 
-        // Instantiate the Java/json object
-        JsonSpectra jsonSpectra = new JsonSpectra();
-
-
-        // Populate main properties...this is
-        //
-        // TODO: Spectra id?
-        jsonSpectra.setSpectrumId(1);
-
-        // Get the spectra, we expect only one, so we will take the first one...
-        List<MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D> sp1dList;
-
-        sp1dList = bmlData.getAnalysis().getExperiment1D().getSpectrum1D();
-
-        MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D sp1d;
-
-        sp1d = sp1dList.iterator().next();
-
-
-        // Get end value and start value
-        jsonSpectra.setMzStart(sp1d.getXStartValue());
-        jsonSpectra.setMzStop(sp1d.getXEndValue());
-
-        // Populate peaks
-        MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D.DataMatrix dm;
-
-        // Get the data matrix
-        dm = sp1d.getDataMatrix();
-
-        // For each data point in
-        for (MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D.DataMatrix.DataPoint dp: dm.getDataPoint()){
-
-            JsonSpectraPeak jsp = new JsonSpectraPeak(dp.getRValue().doubleValue(),dp.getXValue().doubleValue());
-            jsonSpectra.getPeaks().add(jsp);
-        }
 
         // Save json file
         Gson gson = new Gson();
