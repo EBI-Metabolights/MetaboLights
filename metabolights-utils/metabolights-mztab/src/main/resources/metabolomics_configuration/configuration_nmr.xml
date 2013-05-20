@@ -1,0 +1,110 @@
+<isatab-config-file xmlns="http://www.ebi.ac.uk/bii/isatab_configuration#">
+    <isatab-configuration table-name="metaboliteprofiling_nmr_mztab">
+        <measurement term-label="metabolite profiling" term-accession="" source-abbreviation=""/>
+        <technology term-label="" term-accession="" source-abbreviation=""/>
+        <field header="database_identifier" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true" is-hidden="false">
+            <description>
+                The possible identifier for these small molecules. e.g. "KEGG:C000017" or "CHEBI:12345"
+            </description>
+            <default-value></default-value>
+        </field>
+        <field header="unit_id" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="true">
+            <description>
+                NMR/MS: The concatenation of the sample id plus assay id to uniquely identify that sample and run on the machine
+                (or mass concatenated with retention index for unknowns)
+            </description>
+            <default-value></default-value>
+        </field>
+        <field header="chemical_formula" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true" is-hidden="false">
+            <description>NMR/MS: The chemical formula of the identified compound</description>
+            <default-value></default-value>
+        </field>
+        <field header="smiles" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true" is-hidden="false">
+            <description>NMR/MS: The molecules structure in the simplified molecular-input line-entry system (SMILES)</description>
+            <default-value></default-value>
+        </field>
+        <field header="inchi" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true" is-hidden="false">
+            <description>NMR/MS: IUPAC International Chemical Identifier. It is uniquely representing a chemical substance and serving as its unique digital signature</description>
+            <default-value></default-value>
+        </field>
+        <field header="metabolite_identification" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true">
+            <description>NMR/MS: The small molecule's description/name. Multiple values separated with | </description>
+            <default-value></default-value>
+        </field>
+        <field header="chemical_shift" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR: Chemical shift</description>
+            <default-value></default-value>
+        </field>
+        <field header="multiplicity" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR: Type of multiplets observed of the metabolite (e.g s, d, t, q, dd, ...)</description>
+            <default-value></default-value>
+        </field>
+        <field header="mass_to_charge" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="true">
+            <description>MS: The precursor's experimental mass to charge (m/z)</description>
+            <default-value></default-value>
+        </field>
+        <field header="fragmentation" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="true">
+            <description>Fragmentation</description>
+            <default-value></default-value>
+        </field>
+        <field header="modifications" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="true">
+            <description>
+                MS: The small molecules modifications. The position of the modification must be given relative to the small molecules beginning.
+                The exact semantics of this position depends on the type of small molecule identified</description>
+            <default-value></default-value>
+        </field>
+        <field header="charge" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="true">
+            <description>MS: The precursor's charge</description>
+            <default-value></default-value>
+        </field>
+        <field header="retention_time" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="true">
+            <description>MS: Small molecule retention time</description>
+            <default-value></default-value>
+        </field>
+        <field header="taxid" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR/MS: The taxonomy id for the species</description>
+            <default-value></default-value>
+        </field>
+        <field header="species" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR/MS: The species as a human readable string</description>
+            <default-value></default-value>
+        </field>
+        <field header="database" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR/MS: Generally references the used spectral library</description>
+            <default-value></default-value>
+        </field>
+        <field header="database_version" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR/MS: Either the version of the used database if available or otherwise the date of creation</description>
+            <default-value></default-value>
+        </field>
+        <field header="reliability" data-type="List" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR/MS: Rating</description>
+            <default-value></default-value>
+            <list-values>0:non-significant identification,1:poor reliability,2:less poor reliability,3:medium reliability,4:good reliability,5:very good reliability</list-values>
+        </field>
+        <field header="uri" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR/MS: The MetaboLights experiment it was identified in (MTBLS id)</description>
+            <default-value></default-value>
+        </field>
+        <field header="search_engine" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR/MS: A "|" delimited list of search engine(s) used to identify this metabolite</description>
+            <default-value></default-value>
+        </field>
+        <field header="search_engine_score" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>NMR/MS: A "|" delimited list of search engine(s) used to identify this metabolite</description>
+            <default-value></default-value>
+        </field>
+        <field header="smallmolecule_abundance_sub" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>The small molecule’s intensity in the respective subsample, [1-n]</description>
+            <default-value></default-value>
+        </field>
+        <field header="smallmolecule_abundance_stdev_sub" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>The standard deviation of the small molecule’s abundance, [1-n]</description>
+            <default-value></default-value>
+        </field>
+        <field header="smallmolecule_abundance_std_error_sub" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false">
+            <description>The standard error of the small molecule’s abundance, [1-n]</description>
+            <default-value></default-value>
+        </field>
+    </isatab-configuration>
+</isatab-config-file>
