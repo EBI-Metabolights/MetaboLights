@@ -17,6 +17,8 @@ $(function() {
 });
 </script>
 
+<%--<script type="text/javascript" src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
+<script type="text/javascript" src="http://ves-ebi-90:8080/metabolights/specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"></script>
 
 <script type="text/javascript">
 
@@ -188,7 +190,22 @@ function color_for_atom(formulaChar)
 				<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTLBHrDpm9cZkyAdfU7KdQnVLVZ9MG6SByle5QQM0IpSf2hBezB"/>
 			</div>--%>
 			<!-- NMR Spectra -->
-			<div id="tabs-5" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKiJmVL9LDgA1YJFz6bSMLV4jNc_unkwF5Mv9M9YxxX8ZL9guZ"/></div>
+			<div id="tabs-5" class="tab">
+                <h4>To be implemented...prototype: Fix list of NMR spectra from Birmingham. Always Ergothioneine</h4>
+                <div id="spectrumbrowser">
+                    {"list":
+                    [
+                    {"name":"Ergothioneine CF20", "id":1, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF20.json"},
+                    {"name":"Ergothioneine", "id":2, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml.json"},
+                    {"name":"Ergothioneine CF4", "id":3, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF4.json"},
+                    {"name":"Ergothioneine CF8", "id":4, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF8.json"},
+                    {"name":"Ergothioneine CF10", "id":5, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF10.json"},
+                    {"name":"Ergothioneine CF15", "id":6, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF15.json"}
+                    ]
+                    }
+                </div>
+
+            </div>
 			<!-- MS Spectra -->
 			<div id="tabs-6" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE143R-fv5Qf-78aSulo8vvFCTdinc-JULSdvh8i3erXA3kwFnnA"/></div>
 			<%-- Literature
