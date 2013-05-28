@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='SpectrumBrowser'>
+    <!-- Inherit the core Web Toolkit stuff -->
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.google.gwt.json.JSON"/>
+    <inherits name="com.google.web.bindery.autobean.AutoBean"/>
+
+    <!-- GWT Style -->
+    <!--<inherits name='com.google.gwt.user.theme.standard.Standard'/>-->
+
+    <!-- Common module deferred binding definition -->
+    <inherits name="uk.ac.ebi.metabolights.spectrumbrowser.client.main.MainModule"/>
+    <inherits name='com.google.gwt.user.theme.standard.Standard' />
+
+    <!-- Other inherited modules -->
+    <!--<inherits name="uk.ac.ebi.pride.widgets.PrideWidgets"/>-->
+    <inherits name="uk.ac.ebi.biowidgets.spectrum.SpectrumViewer"/>
+
+
+    <!-- Specify the app entry point class -->
+    <entry-point class='uk.ac.ebi.metabolights.spectrumbrowser.client.SpectrumBrowser'/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path='client'/>
+</module>
