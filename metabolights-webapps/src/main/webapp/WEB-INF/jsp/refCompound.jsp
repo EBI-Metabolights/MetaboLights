@@ -17,9 +17,9 @@ $(function() {
 });
 </script>
 
-<%--<script type="text/javascript" src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
-<script type="text/javascript" src="http://ves-ebi-90:8080/metabolights/specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"></script>
-
+<script type="text/javascript" src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>
+<%--<script type="text/javascript" src="http://wwwdev.ebi.ac.uk/metabolights/specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>--%>
+<%--<script type="text/javascript" src="proxy?url=http://wwwdev.ebi.ac.uk/metabolights/specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>--%>
 <script type="text/javascript">
 
 	$(document).ajaxStart(function(){showWait();}).ajaxStop(function(){
@@ -195,12 +195,12 @@ function color_for_atom(formulaChar)
                 <div id="spectrumbrowser">
                     {"list":
                     [
-                    {"name":"Ergothioneine CF20", "id":1, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF20.json"},
-                    {"name":"Ergothioneine", "id":2, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml.json"},
-                    {"name":"Ergothioneine CF4", "id":3, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF4.json"},
-                    {"name":"Ergothioneine CF8", "id":4, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF8.json"},
-                    {"name":"Ergothioneine CF10", "id":5, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF10.json"},
-                    {"name":"Ergothioneine CF15", "id":6, "url":"http://ves-ebi-90:8080/metabolights/specbrowser/BML_Analysis_1.xml_CF15.json"}
+                    {"name":"Ergothioneine CF20", "id":1, "url":"BML_Analysis_1.xml.json"},
+                    {"name":"Ergothioneine", "id":2, "url":"BML_Analysis_1.xml.json"},
+                    {"name":"Ergothioneine CF4", "id":3, "url":"BML_Analysis_1.xml.json"},
+                    {"name":"Ergothioneine CF8", "id":4, "url":"BML_Analysis_1.xml.json"},
+                    {"name":"Ergothioneine CF10", "id":5, "url":"BML_Analysis_1.xml.json"},
+                    {"name":"Ergothioneine CF15", "id":6, "url":"BML_Analysis_1.xml.json"}
                     ]
                     }
                 </div>

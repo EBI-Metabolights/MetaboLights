@@ -22,21 +22,12 @@
 	<filter-mapping>
 		<filter-name>HealthFilter</filter-name>
 		<url-pattern>/jmxproxy/*</url-pattern>
-	</filter-mapping> 
-<!-- 	
- 	<filter>
-        <filter-name>frontierTemplateReferenceLayerFilter</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-  	<filter-mapping>
-        <filter-name>frontierTemplateReferenceLayerFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-  -->
+	</filter-mapping>
+
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter> 
+    </filter>
 
     <filter-mapping>
       	<filter-name>springSecurityFilterChain</filter-name>
@@ -73,7 +64,30 @@
         <location>/errors/403</location>
     </error-page>
 
-	<servlet>
+    <!--<servlet> &lt;!&ndash; proxy for SpecBrowser call outside url &ndash;&gt;-->
+        <!--<servlet-name>ProxySpectraBrowser</servlet-name>-->
+        <!--<servlet-class>uk.ac.ebi.pride.web.util.servlet.proxy.ProxyServlet</servlet-class>-->
+        <!--<init-param>-->
+            <!--<param-name>proxyHost</param-name>-->
+            <!--<param-value>wwwdev.ebi.ac.uk</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>proxyPort</param-name>-->
+            <!--<param-value>80</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>proxyPath</param-name>-->
+            <!--<param-value>/metabolights/specbrowser</param-value>-->
+        <!--</init-param>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>ProxySpectraBrowser</servlet-name>-->
+        <!--<url-pattern>/specbrowser/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+
+    <servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
@@ -83,6 +97,7 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
