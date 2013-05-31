@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.referencelayer.spectra.nmr.bml.converters;
 
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 import uk.ac.ebi.metabolights.referencelayer.spectra.nmr.bml.model.MSICompliantNMRMetabolomicsExperimentReport;
 import uk.ac.ebi.metabolights.referencelayer.spectra.viewer.model.JsonSpectra;
 import uk.ac.ebi.metabolights.referencelayer.spectra.viewer.model.JsonSpectraPeak;
@@ -12,13 +13,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.referencelayer.spectra.viewer.model.SimpleNMRSpectraData;
 
 /**
  * User: conesa
@@ -34,6 +33,7 @@ public class BML2MetabolightsJson {
 
     JAXBContext context = null;
     Unmarshaller unmarshaller = null;
+    int compressionFactor = 1;
 
 
 
@@ -60,28 +60,63 @@ public class BML2MetabolightsJson {
 
     }
 
+    public int getCompressionFactor() {
+        return compressionFactor;
+    }
+
+    public void setCompressionFactor(int compressionFactor) {
+        this.compressionFactor = compressionFactor;
+    }
+
     public static void main (String[] args){
 
 
+        int compressionFactor=1;
+
         if(commandLineValidation(args)){
 
-            BML2MetabolightsJson instance;
+            BML2MetabolightsJson instance = null;
 
             // First parameter to File instance
             File first = new File(args[0]);
 
-            // If second parameter exists
-            if (args.length>1){
-                File second = new File(args[1]);
-
-                logger.info("Using two parameters:\n" + first.getAbsolutePath() + "\n" + second.getAbsolutePath());
-                instance = new BML2MetabolightsJson(first,second);
-            } else {
+            // If there is 1 parameter
+            if (args.length==1){
 
                 logger.info("Using only one parameter: " + first.getAbsolutePath());
                 instance = new BML2MetabolightsJson(first);
+
+            }else if(args.length==2){
+
+                // If its a number...
+                if (StringUtils.isNumeric(args[1])){
+
+                    compressionFactor = Integer.parseInt(args[1]);
+
+                    logger.info("Using two parameters: " + first.getAbsolutePath() + ", compression factor: " + compressionFactor);
+                    instance = new BML2MetabolightsJson(first);
+
+
+                } else {
+                    File second = new File(args[1]);
+
+                    logger.info("Using two parameters:\n" + first.getAbsolutePath() + "\n" + second.getAbsolutePath());
+                    instance = new BML2MetabolightsJson(first,second);
+                }
+
+            } else {
+
+                File second = new File(args[1]);
+
+                compressionFactor = Integer.parseInt(args[2]);
+
+                logger.info("Using 3 parameters:\n" + first.getAbsolutePath() + "\n" + second.getAbsolutePath()+ ", compression factor: " + compressionFactor);
+                instance = new BML2MetabolightsJson(first,second);
+
             }
 
+            // Set the compression factor
+            instance.setCompressionFactor(compressionFactor);
 
             instance.run();
 
@@ -95,6 +130,7 @@ public class BML2MetabolightsJson {
             System.out.println("D:) Two parameters (both being folders): Will loop through all xml files in that folder and will genarate outputfiles appending \".json\" at the end in the folder specified (2nd parameter)");
             System.out.println("E:) Two parameters (1st file, 2nd folder): Convert 1st file into a json file and saves it in the folder specified (2nd parameter)");
             System.out.println("F:) There is no such an option F...!");
+            System.out.println("G:) now there is: if it's a number it will be considered as a compression factor: 1 is default and no compression.");
 
         }
 
@@ -117,10 +153,10 @@ public class BML2MetabolightsJson {
             return false;
         }
 
-        // If there is a third or more parameters
-        if (args.length>2){
+        // If there are four or more parameters
+        if (args.length>3){
             // Inform ignoring them
-            System.out.println("Only working with 2 parameters, ignoring the rest. Invoke without parameters for usage.");
+            System.out.println("Only working with 3 parameters, ignoring the rest. Invoke without parameters for usage.");
             return false;
         }
 
@@ -172,7 +208,7 @@ public class BML2MetabolightsJson {
         // If output file is a directory
         if (jsonOutputFile.isDirectory()){
             // Compose the name
-            return new File (jsonOutputFile.getAbsolutePath()+ "/" + inputFile.getName() + ".json");
+            return new File (jsonOutputFile.getAbsolutePath()+ "/" + inputFile.getName() + "_CF" + compressionFactor +  ".json");
         } else {
 
             return jsonOutputFile;
@@ -266,6 +302,7 @@ public class BML2MetabolightsJson {
 
     private void bmlToJson (File bml, File json){
 
+
         // Validate
         if (!validateSingleFileConversion(bml)) return;
 
@@ -274,8 +311,10 @@ public class BML2MetabolightsJson {
 
         // Load the xml into the model objects...
         MSICompliantNMRMetabolomicsExperimentReport bmlData = null;
+
         // Instantiate the Java/json object
-        JsonSpectra jsonSpectra = new JsonSpectra();
+        //JsonSpectra jsonSpectra = new JsonSpectra();
+        SimpleNMRSpectraData nmrSpectraData;
 
         try {
 
@@ -284,7 +323,7 @@ public class BML2MetabolightsJson {
 
             // Populate main properties...this is
             // TODO: Spectra id?
-            jsonSpectra.setSpectrumId(1);
+            //jsonSpectra.setSpectrumId(1);
 
             MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D exp1d= null;
 
@@ -310,8 +349,8 @@ public class BML2MetabolightsJson {
 
 
             // Get end value and start value
-            jsonSpectra.setMzStart(sp1d.getXStartValue());
-            jsonSpectra.setMzStop(sp1d.getXEndValue());
+            //jsonSpectra.setMzStart(sp1d.getXStartValue());
+            //jsonSpectra.setMzStop(sp1d.getXEndValue());
 
             // Populate peaks
             MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D.DataMatrix dm;
@@ -319,16 +358,43 @@ public class BML2MetabolightsJson {
             // Get the data matrix
             dm = sp1d.getDataMatrix();
 
+            // Counter for skipping points...
+            int pointsToIgnore = 0;
+
+
+            ArrayList<Double> intensityPoints = new ArrayList<Double>();
+
+
             // For each data point in
             for (MSICompliantNMRMetabolomicsExperimentReport.Analysis.Experiment1D.Spectrum1D.DataMatrix.DataPoint dp: dm.getDataPoint()){
 
-                JsonSpectraPeak jsp = new JsonSpectraPeak(dp.getRValue().doubleValue(),dp.getXValue().doubleValue());
-                jsonSpectra.getPeaks().add(jsp);
+
+
+                if (pointsToIgnore == 0) {
+
+                      intensityPoints.add(Double.valueOf(dp.getRValue()));
+
+//                    JsonSpectraPeak jsp = new JsonSpectraPeak(dp.getRValue().doubleValue(),dp.getXValue().doubleValue());
+//                    jsonSpectra.getPeaks().add(jsp);
+
+
+
+                    pointsToIgnore = compressionFactor -1;
+                } else {
+                    pointsToIgnore--;
+                }
             }
 
 
+            // Reverse the points as it is needed for the spec viewer.
+            Collections.reverse(intensityPoints);
+
+            Double[] doublesArray = intensityPoints.toArray(new Double[intensityPoints.size()]);
 
 
+
+            // Instantiate the NMR spectrum object...
+            nmrSpectraData = new SimpleNMRSpectraData(doublesArray, sp1d.getXStartValue(), sp1d.getXEndValue());
 
 
         } catch (JAXBException e) {
@@ -341,7 +407,7 @@ public class BML2MetabolightsJson {
         // Save json file
         Gson gson = new Gson();
 
-        // Instatiate the file writer...
+        // Instantiate the file writer...
         FileWriter fw = null;
         try {
             fw = new FileWriter(json);
@@ -350,6 +416,16 @@ public class BML2MetabolightsJson {
         }
 
         // Write the file
-        gson.toJson(jsonSpectra, fw);
+        //gson.toJson(jsonSpectra, fw);
+        gson.toJson(nmrSpectraData, fw);
+
+
+        try {
+
+            fw.close();
+        } catch (IOException e) {
+            logger.error("filewriter write or close error: " + e.getMessage());
+        }
+
     }
 }
