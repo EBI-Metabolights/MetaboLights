@@ -34,7 +34,7 @@ public class MetaboLightsCompound {
     private Collection<MetSpecies> metSpecies = new ArrayList<MetSpecies>();
 
     // Spectrums associated with the metabolite
-    private Collection<Spectrum> metSpectrums = new ArrayList<Spectrum>();
+    private Collection<Spectra> metSpectras = new ArrayList<Spectra>();
 
 
     /**
@@ -118,8 +118,8 @@ public class MetaboLightsCompound {
         return metSpecies;
     }
 
-    public Collection<Spectrum> getMetSpectrums() {
-        return metSpectrums;
+    public Collection<Spectra> getMetSpectras() {
+        return metSpectras;
     }
 
     /**
