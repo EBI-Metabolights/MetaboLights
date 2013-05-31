@@ -33,6 +33,9 @@ public class MetaboLightsCompound {
     // Species associated with the metabolite
     private Collection<MetSpecies> metSpecies = new ArrayList<MetSpecies>();
 
+    // Spectrums associated with the metabolite
+    private Collection<Spectrum> metSpectrums = new ArrayList<Spectrum>();
+
 
     /**
      * @return the id
@@ -114,6 +117,11 @@ public class MetaboLightsCompound {
 
         return metSpecies;
     }
+
+    public Collection<Spectrum> getMetSpectrums() {
+        return metSpectrums;
+    }
+
     /**
      * @param chebiId the chebiId to set
      */
