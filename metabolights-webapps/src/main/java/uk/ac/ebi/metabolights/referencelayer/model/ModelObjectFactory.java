@@ -1,6 +1,8 @@
 package uk.ac.ebi.metabolights.referencelayer.model;
 
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,9 +11,14 @@ import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetSpectraDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
+import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetSpectraDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
 import uk.ac.ebi.metabolights.service.AppContext;
+
+import javax.naming.NamingException;
 
 public class ModelObjectFactory {
 	
@@ -73,6 +80,23 @@ public class ModelObjectFactory {
 	    
 	    return entity;
 	}
+
+    public static Spectra getSpectra(long spectraId){
+        try {
+
+            MetSpectraDAO specDAO = new MetSpectraDAO(AppContext.getConnection());
+
+            return specDAO.findBySpectraId(spectraId);
+
+
+        } catch (Exception e) {
+
+            logger.error(e.getMessage());
+            return null;
+        }
+
+
+    }
 	
 //	public static ModelObjectFactory getInstance(){
 //		if (mof == null) mof = new ModelObjectFactory();

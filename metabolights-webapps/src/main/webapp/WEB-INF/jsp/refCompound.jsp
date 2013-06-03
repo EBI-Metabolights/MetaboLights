@@ -121,9 +121,12 @@ function color_for_atom(formulaChar)
 				<li>
 					<a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
 				</li>
-				<li>
-					<a class="noLine" href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
-				</li>
+                
+                <c:if test="${fn:length(compound.mc.metSpectras) > 0}">
+                    <li>
+                        <a class="noLine" href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
+                    </li>
+                </c:if>
 				<li>
 					<a class="noLine" href="#tabs-6"><spring:message code="ref.compound.tab.msspectra"/></a>
 				</li>
@@ -189,23 +192,23 @@ function color_for_atom(formulaChar)
 				<h4>To be implemented...</h4>
 				<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTLBHrDpm9cZkyAdfU7KdQnVLVZ9MG6SByle5QQM0IpSf2hBezB"/>
 			</div>--%>
-			<!-- NMR Spectra -->
-			<div id="tabs-5" class="tab">
-                <h4>To be implemented...prototype: Fix list of NMR spectra from Birmingham. Always Ergothioneine</h4>
-                <div id="spectrumbrowser">
-                    {"list":
-                    [
-                    {"name":"Ergothioneine CF20", "id":1, "url":"BML_Analysis_1.xml.json"},
-                    {"name":"Ergothioneine", "id":2, "url":"BML_Analysis_1.xml.json"},
-                    {"name":"Ergothioneine CF4", "id":3, "url":"BML_Analysis_1.xml.json"},
-                    {"name":"Ergothioneine CF8", "id":4, "url":"BML_Analysis_1.xml.json"},
-                    {"name":"Ergothioneine CF10", "id":5, "url":"BML_Analysis_1.xml.json"},
-                    {"name":"Ergothioneine CF15", "id":6, "url":"BML_Analysis_1.xml.json"}
-                    ]
-                    }
-                </div>
+            <c:if test="${fn:length(compound.mc.metSpectras) > 0}">
 
-            </div>
+                <!-- NMR Spectra -->
+                <div id="tabs-5" class="tab">
+                    <div id="spectrumbrowser">
+                        {"list":
+                        [
+                        <c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraloopStatus">
+                            <c:if test="${spectraloopStatus.index gt 0}">,</c:if>
+                            {"name":"${spectra.name}", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}
+                        </c:forEach>
+                        ]
+                        }
+                    </div>
+
+                </div>
+            </c:if>
 			<!-- MS Spectra -->
 			<div id="tabs-6" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE143R-fv5Qf-78aSulo8vvFCTdinc-JULSdvh8i3erXA3kwFnnA"/></div>
 			<%-- Literature

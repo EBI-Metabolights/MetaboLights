@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.cdb.webservice.*;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.service.AppContext;
@@ -18,6 +19,8 @@ import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
 import uk.ac.ebi.rhea.ws.response.cmlreact.Reaction;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,22 +36,41 @@ public class CompoundController extends AbstractController {
     private
     @Value("#{EUPMCWebServiceURL}")
     String PMCurl;
+
+    public static final String METABOLIGHTS_COMPOUND_ID_REG_EXP = "(?:MTBLC|mtblc).+";
+
     //String PMCurl = "http://www.ebi.ac.uk/webservices/citexplore/v3.0.1/service?wsdl";
     private WSCitationImpl PMCSearchService;
 
-    @RequestMapping(value = "/{compoundId:MTBLC\\d+}")
-
+    @RequestMapping(value = "/{compoundId:" + METABOLIGHTS_COMPOUND_ID_REG_EXP + "}")
     public ModelAndView showEntry(@PathVariable("compoundId") String mtblc, HttpServletRequest request) {
         logger.info("requested compound " + mtblc);
 
         //ModelAndView mav = new ModelAndView("compound");
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("compound");
-        mav.addObject("compound", ModelObjectFactory.getCompound(mtblc));
+
+        Compound compound=  ModelObjectFactory.getCompound(mtblc);
+
+        mav.addObject("compound", compound);
+
 
         return mav;
 
     }
 
+    @RequestMapping(value = "/spectra/{spectraId}/json")
+    public void getJsonSpectra(@PathVariable("spectraId") String spectraIdS, HttpServletResponse response) {
+
+
+        // Convert the id to a long...
+        long spectraId = Long.parseLong(spectraIdS);
+
+        Spectra spectra = ModelObjectFactory.getSpectra(spectraId);
+
+        FileDispatcherController.streamFile(spectra.getPathToJsonSpectra(), response);
+
+
+    }
 
     @RequestMapping(value = "/reactions")
     private ModelAndView showReactions(

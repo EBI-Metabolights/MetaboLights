@@ -125,17 +125,27 @@ public class FileDispatcherController extends AbstractController {
 
     // Get the file, stream to browser
     // Stream a file to the browser
-    private void streamFile(File file, HttpServletResponse response){
+    public static void streamFile(File file, HttpServletResponse response){
+
+        // get the extension
+        String extension = StringUtils.getFilenameExtension(file.getName());
+
+        // let the browser know the type of file
+        String contenType = "application/" + extension;
+
+        streamFile(file,response,contenType);
+
+
+    }
+    public static void streamFile(File file, HttpServletResponse response, String contentType ){
+
         try {
 
             // get your file as InputStream
             InputStream is = new FileInputStream(file);
 
-            // get the extension
-            String extension = StringUtils.getFilenameExtension(file.getName());
-
             // let the browser know the type of file
-            response.setContentType("application/" + extension);
+            response.setContentType(contentType);
 
             // Specify the file name
             response.setHeader( "Content-Disposition", "filename=" + file.getName()   );
@@ -150,6 +160,7 @@ public class FileDispatcherController extends AbstractController {
             logger.info("Error writing file to output stream. Filename was '"+ file.getAbsolutePath() + "'");
             throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing"));
         }
+
     }
 
     // Stream the file or folder to the response
