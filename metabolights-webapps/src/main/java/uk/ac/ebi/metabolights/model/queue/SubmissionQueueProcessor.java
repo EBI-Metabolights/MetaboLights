@@ -32,9 +32,12 @@ import static java.lang.Thread.sleep;
 public class SubmissionQueueProcessor {
 
 	private static Logger logger = Logger.getLogger(SubmissionQueueProcessor.class);
-	private static String publicFtpLocation = PropertiesUtil.getProperty("publicFtpStageLocation");
-	private static String privateFtpLocation = PropertiesUtil.getProperty("privateFtpStageLocation");
+	private static String publicFtpStageLocation = PropertiesUtil.getProperty("publicFtpStageLocation");
+	private static String privateFtpStageLocation = PropertiesUtil.getProperty("privateFtpStageLocation");
     private static String zipOnDemandLocation = PropertiesUtil.getProperty("ondemand");
+    private static String publicFtpLocation = PropertiesUtil.getProperty("publicFtpLocation");
+    private static Boolean filesMovedPubToPriv = false;
+    private static Boolean filesMovedPrivToPub = false;
 	
 
 	private IsaTabUploader itu = new IsaTabUploader();
@@ -96,14 +99,15 @@ public class SubmissionQueueProcessor {
 				AppContext.getEmailService().sendStudyDeleted(si.getUserId(), si.getAccession());
 				
 			
-			}// It's then an update
+			}
+			// It's then an update
 			else
 			{
 				
 				// Update study
 				updateStudy();
 				
-				AppContext.getEmailService().sendQueuedStudyUpdated(si.getUserId(), si.getAccession()	,si.getPublicReleaseDate());
+				AppContext.getEmailService().sendQueuedStudyUpdated(si.getUserId(), si.getAccession(), si.getPublicReleaseDate());
 				
 				
 			}
@@ -222,8 +226,8 @@ public class SubmissionQueueProcessor {
 
 		// Set common properties
 		itu.setOwner(si.getUserId());
-		itu.setCopyToPrivateFolder(privateFtpLocation);
-		itu.setCopyToPublicFolder(publicFtpLocation);
+		itu.setCopyToPrivateFolder(privateFtpStageLocation);
+		itu.setCopyToPublicFolder(publicFtpStageLocation);
 		itu.setStatus(si.getStatus());
 
 		// Get the path for the config folder (where the hibernate properties for the import layer are).
@@ -293,7 +297,7 @@ public class SubmissionQueueProcessor {
 
 
             //TODO, add a check for both the submitted studyid and the MTBLS id
-			// If Ids do not match...
+			//If Ids do not match...
 			if (!si.getAccession().equals(newStudyId)){
 				
 				throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,si.getAccession()));
@@ -342,7 +346,7 @@ public class SubmissionQueueProcessor {
 			// To test the restore backup
 			//if (needRestore){throw new Exception("fake exception");}
 			
-			logger.info("Uploading new study"); 
+			logger.info("Uploading new study");
 			
 			itu.UploadWithoutIdReplacement(si.getAccession());
 
@@ -404,40 +408,15 @@ public class SubmissionQueueProcessor {
     @Transactional
 	public void updatePublicReleaseDate() throws Exception {
 
-	    // Add the user id to the unzip folder
-	    //String unzipFolder = uploadDirectory + userId + "/" + study;
 	
 	    // Create the uploader
 	    IsaTabUploader itu = new IsaTabUploader();
-	
-	    // Set properties for file copying...
-	    itu.setCopyToPrivateFolder(privateFtpLocation);
-	    itu.setCopyToPublicFolder(publicFtpLocation);
-	
+
 	    // Change the status
 	    try {
-	        
-	    	//Since now we are storing the studies unzipped....we check if the folder exists
-	        File studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC));
-	
-	        // If not in public folder...
-	        if (!studyFolder.exists()){
-	
-	            // Try it in the private
-	        	studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PRIVATE));
-	
-	            // Check if it exists
-	            if (!studyFolder.exists()){
-	
-	                // Throw an exception
-	                throw new FileNotFoundException (PropertyLookup.getMessage("msg.makestudypublic.nofilefound", si.getAccession()));
-	
-	            }
-	        }
-	
-	
+
 	        // ************************
-	        // Update the database first...
+	        // Get the study from Database first...
 	        // ************************
 	        // Get the study object
 	        Study biiStudy = AppContext.getStudyService().getBiiStudy(si.getAccession(),false, true);
@@ -448,45 +427,55 @@ public class SubmissionQueueProcessor {
 	        cal.setTime(si.getPublicReleaseDate());
 	        //cal.add(Calendar.DATE, 1);
 	        biiStudy.setReleaseDate(cal.getTime());
+
+            VisibilityStatus oldStatus = biiStudy.getStatus(); //Added code.
 	        biiStudy.setStatus(si.getStatus());
-	
+            VisibilityStatus newStatus = biiStudy.getStatus(); //Added code.
+            
 	        logger.info("Updating public release date in study (database)");
-	        // Save it
-	        AppContext.getStudyService().update(biiStudy);
-	
-	
+
+            // Save it
+            AppContext.getStudyService().update(biiStudy); //uncomment this to update the database
+
+            if(oldStatus == VisibilityStatus.PRIVATE && newStatus == VisibilityStatus.PUBLIC ){ //Added code.
+                itu.setCopyToPrivateFolder(privateFtpStageLocation);
+                itu.setCopyToPublicFolder(publicFtpStageLocation);
+                filesMovedPrivToPub = true;
+            } else if(oldStatus == VisibilityStatus.PUBLIC && newStatus == VisibilityStatus.PRIVATE){
+                itu.setCopyToPrivateFolder(publicFtpLocation);
+                itu.setCopyToPublicFolder(privateFtpStageLocation);
+                filesMovedPubToPriv = true;
+            }  //Added code.
+
+            //Since now we are storing the studies unzipped....we check if the folder exists
+            File studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC));
+
+            // If not in public folder...
+            if (!studyFolder.exists()){
+
+                // Try it in the private
+                studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PRIVATE));
+
+                // Check if it exists
+                if (!studyFolder.exists()){
+
+                    // Throw an exception
+                    throw new FileNotFoundException (PropertyLookup.getMessage("msg.makestudypublic.nofilefound", si.getAccession()));
+
+                }
+            }
+
 	        // ************************
 	        // Index it...
 	        // ************************
 	        //Get the path for the config folder (where the hibernate properties for the import layer are).
-	        //String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath() + "biiconfig/";
 	        String configPath = SubmissionQueueProcessor.class.getClassLoader().getResource("").getPath();
 	
 	        // Set the config folder, and the ftp folders
 	        itu.setDBConfigPath(configPath);
-	
-	        // reindex the study...
-	        itu.reindexStudies(si.getAccession());
-	
-	
-	        // ************************
-	        // Change the investigation file
-	        // ************************
-	        // Set the unzip folder
-	        //itu.setUnzipFolder(StringUtils.truncate(si.getFileQueued().getAbsolutePath()));
-	        itu.setUnzipFolder(studyFolder.getAbsolutePath());
-	
-	        // Create the replacement Hash
-	        HashMap<String,String> replacementHash = new HashMap<String,String>();
-	
-	        // Add the Public release date field with the new value
-	        replacementHash.put("Study Public Release Date", new SimpleDateFormat("yyyy-MM-dd").format(si.getPublicReleaseDate()));
-	
-	        logger.info("Replacing Study Public Release Date in zip file. with " + si.getPublicReleaseDate());
-	        
-	        // Call the replacement method...
-	        itu.changeStudyFields(si.getAccession(), replacementHash);
-	
+
+
+
 	        // If the new status is public...
 	        if (si.getStatus() == VisibilityStatus.PUBLIC){
 	
@@ -494,25 +483,40 @@ public class SubmissionQueueProcessor {
 	            itu.moveFile(si.getAccession(), VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
 	
 	            // Change the permissions
-	            String studyPath = itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC);
-	            itu.changeFilePermissions(studyPath, VisibilityStatus.PUBLIC);
-	        }
+
+	        } else if(si.getStatus() == VisibilityStatus.PRIVATE){ // If the new status is private...
+
+                // Move the file from the public
+                //itu.moveFile(si.getAccession(), VisibilityStatus.PRIVATE);
+                itu.copyFilesFromPubToPriv(si.getAccession(), VisibilityStatus.PRIVATE);
+            }
+
+            itu.setUnzipFolder(studyFolder.getAbsolutePath());
+
+            // ************************
+            // Change the investigation file
+            // ************************
+            // Create the replacement Hash
+            
+            HashMap<String,String> replacementHash = new HashMap<String,String>();
+
+            // Add the Public release date field with the new value
+            replacementHash.put("Study Public Release Date", new SimpleDateFormat("yyyy-MM-dd").format(si.getPublicReleaseDate()));
+
+            logger.info("Replacing Study Public Release Date in zip file. with " + si.getPublicReleaseDate());
+
+            // Call the replacement method...
+            itu.changeStudyFields(si.getAccession(), replacementHash);
+
+            // reindex the study...
+            itu.reindexStudies(si.getAccession());
 
             // Delete the zipped file
             deleteZippedFile(si.getAccession());
 
-	
-	
-//	    } catch (FileNotFoundException e) {
-//	        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//	    } catch (IsaTabException e) {
-//	        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	        throw new Exception("updatePublicReleaseDate error: " + e.getMessage());
 	    }
-	
-	
 	}
-
 }

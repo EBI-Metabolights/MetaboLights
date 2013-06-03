@@ -95,7 +95,7 @@
 	<div class="grid_8 prefix_1 alpha omega">
         <a href="${ftpLocation}">
     		<div class="bigbutton maincolorI">
-  				<span class="bigfont icon icon-functional" data-icon="=""> <spring:message code="label.ftpDownload" />
+  				<span class="bigfont icon icon-functional" data-icon="="> <spring:message code="label.ftpDownload" />
 				</span>
         	</div>
         </a>
@@ -134,7 +134,7 @@
 	    </div>
 		<div id="hideableButtons" class="grid_17 prefix_7 alpha omega">
 			&nbsp;<br/>
-			<input name="submit" type="submit" class="submit" value="${submitText}">		
+			<input name="submit" type="submit" class="submit" value="${submitText}">
 			<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
 	    </div>
 	

@@ -21,6 +21,8 @@ import uk.ac.ebi.metabolights.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -78,7 +80,80 @@ public class SubmissionQueueController extends AbstractController {
 		
 		return mav;
 	}
-	
+
+    @RequestMapping(value = "/generatePTPFile", method = RequestMethod.POST)
+    public ModelAndView generatePTPFile(
+            @RequestParam(required=true,value="pickdate") String publicDate,
+            @RequestParam(required=false,value="study") String study,
+            @RequestParam(required=false,value="owner") String owner,
+            HttpServletRequest request){
+
+        StringBuffer messageBody = new StringBuffer();
+        String hostName = null;
+        Date publicDateD = null;
+
+        // Get the user
+        MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        String submitter = user.getUserName();
+
+        try {
+            hostName = java.net.InetAddress.getLocalHost().getHostName();
+            messageBody.append("Study submission started from machine " + hostName);
+
+            if (user.isCurator()){
+
+                // Overwrite the submitter with the owner...
+                submitter = owner;
+            }
+
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+            publicDateD = sdf.parse(publicDate);
+
+            if (publicDate.isEmpty())
+                throw new BIIException(PropertyLookup.getMessage("BIISubmit.dateEmpty"));
+
+
+
+        // Extend the message...
+        messageBody.append("\nUser: " + user.getUserName() + "on behalf of " + submitter);
+        messageBody.append("\nSTUDY: " + study);
+        messageBody.append("\nPublic Release Date: " + publicDate);
+
+        SubmissionItem si = new SubmissionItem(null, submitter, publicDateD, study, true);
+        // Submit the item to the queue...
+        si.submitToQueue();
+
+        messageBody.append("\n\n File Successfully queued.");
+
+        logger.info("Queued study. Adding data to session");
+        HttpSession httpSession = request.getSession();
+        httpSession.setAttribute("itemQueued", "msg.studyQueueSuccesfully");
+
+        // Cannot load the queue
+        emailService.sendQueuedStudyEmail(si.getUserId(),si.getOriginalFileName() , FileUtils.byteCountToDisplaySize(si.getFileQueued().length()), si.getPublicReleaseDate(), hostName, study);
+
+        } catch (BIIException e) {
+            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
+            logger.error(e);
+            mav.addObject("error", e);
+            mav.addObject("studyId", study);
+            return mav;
+        } catch (Exception e) {
+
+            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
+            logger.error(e);
+            mav.addObject("error", e);
+
+            // Add the study id...
+            mav.addObject("studyId", study);
+            messageBody.append("\n\nERROR!!!!!\n\n" + e.getMessage() );
+            emailService.sendSimpleEmail( "msg.UpdatePTPFailed " + hostName + " by " + user.getUserName() , messageBody.toString());
+            return mav;
+        }
+
+        return new ModelAndView("redirect:itemQueued");
+    }
 	
 	@RequestMapping(value = "/queueExperiment", method = RequestMethod.POST)
 	public ModelAndView queueExperiment(
@@ -148,7 +223,7 @@ public class SubmissionQueueController extends AbstractController {
     		
     		
             logger.info("Queueing study");
-			SubmissionItem si = new SubmissionItem(file, submitter, publicDateD, study);
+			SubmissionItem si = new SubmissionItem(file, submitter, publicDateD, study, false);
             
 			// Submit the item to the queue...
             si.submitToQueue();
@@ -201,7 +276,6 @@ public class SubmissionQueueController extends AbstractController {
 			mav = AppContext.getMAVFactory().getFrontierMav("queuedOk");
 			mav.addObject("msg", request.getSession().getAttribute("itemQueued"));
 			request.getSession().removeAttribute("itemQueued");
-			
 
 		}
 		return mav;

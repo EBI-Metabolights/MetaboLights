@@ -31,22 +31,25 @@ public class SubmissionItem {
 	private String originalFileName;
 	private MultipartFile fileToQueue;
 	private File fileQueued;
+    private Boolean isPublic;
 	
 	private static Logger logger = Logger.getLogger(SubmissionItem.class);
 	
 	static final String FILE_NAME_SEP = "~";
 	static final String FILE_NAME_FOR_PRD_UPDATES = "PRDupdatedate.zip";
 	static final String FILE_NAME_FOR_DELETIONS = "DELETE.zip";
+    //static final String FILE_NAME_FOR_PUBLIC_TO_PRIVATE = "PTPStudy.zip";
 	
 	// Format the date to a canonical format (YYYYMMDD)
 	static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	
 	
-	public SubmissionItem(MultipartFile file, String user, Date publicReleaseDate, String accession){
+	public SubmissionItem(MultipartFile file, String user, Date publicReleaseDate, String accession, boolean isPublic){
 		this.fileToQueue = file;
 		this.userId =user;
 		this.publicReleaseDate = publicReleaseDate;
 		this.accession = accession ==null?"":accession;
+        this.isPublic = isPublic;
 		
 		// If there is no file could be a Public release date update or a deletion...
 		if (file == null)
@@ -56,7 +59,6 @@ public class SubmissionItem {
 			{
 				this.originalFileName = FILE_NAME_FOR_DELETIONS;
 			} else {
-				
 				this.originalFileName = FILE_NAME_FOR_PRD_UPDATES;
 			}
 		}else{
@@ -104,9 +106,9 @@ public class SubmissionItem {
         }
         
         fileQueued = newFile;
-		
-		
+
 	}
+
 	private String ComposeFullPathFileName(){
 		
 		String destinationFileName;
@@ -133,16 +135,14 @@ public class SubmissionItem {
 	 * For updating "Public Release Date" (No file is provided).
 	 * conesa@ebi.ac.uk~MTBLS1~20120516~PRDupdatedate.zip
 	 */
-	private String ComposeFileName(){
+    String ComposeFileName(){
 
-		
         String date = publicReleaseDate==null?"":sdf.format(publicReleaseDate);
         
 		String fileName = userId + FILE_NAME_SEP + accession + FILE_NAME_SEP + date + FILE_NAME_SEP + this.originalFileName;  
 		
 		return fileName;
-				
-		
+
 	}
 	/*
 	 * De-Compose File name
@@ -159,7 +159,6 @@ public class SubmissionItem {
 	 */
 	private void DecomposeFileName(String fileName) throws ParseException{
 
-		
 		// Split the name using the file name separator
 		String[] properties = fileName.split(FILE_NAME_SEP);
 		
@@ -168,9 +167,6 @@ public class SubmissionItem {
 		accession = properties[1];
 		publicReleaseDate = properties[2].equalsIgnoreCase("")?null:sdf.parse(properties[2]);
 		originalFileName = properties[3];
-		
-		
-		
 	}
 	
 	public void moveFileTo(String destinationFolder, Boolean isMoveToErrorFolder) throws IOException{
@@ -190,6 +186,7 @@ public class SubmissionItem {
 		fileQueued = destination;
 		
 	}
+
 	public VisibilityStatus getStatus(){
 		
 		// If there is no public release date is because it is a deletion..return private.
@@ -197,12 +194,11 @@ public class SubmissionItem {
 		
 		return (getPublicReleaseDate().before(new Date())?VisibilityStatus.PUBLIC:VisibilityStatus.PRIVATE);
 	}
+
 	@Override
 	public String toString(){
 		
 		return (String.format("UserID: %s\nAccession: %s\nRelease date: %s\nOriginal file name: %s\n", userId, accession==null?"NEW":accession,publicReleaseDate,originalFileName));
 		
 	}
-	
-
 }

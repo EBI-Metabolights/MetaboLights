@@ -11,12 +11,12 @@
 				<a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
 			</div>
 			<div class="grid_4 omega">
-				<!--
+				<%--
 				<form name="update-form" action="updatestudyform" method="post" class="one-button-form">
 					<input type="hidden" name="study" value="${searchResult.accStudy}"/>
                     <input type="submit" id="update" class="multi-line-button main" value=" <spring:message code="label.updatestudy"/> ">
 				</form>
-				 -->
+				 --%>
 				<ul id="sddm">
 				  <li><a onmouseover="mopen('actions${searchResult.accStudy}')"onmouseout="mclosetime()">
 				  	Actions<span class="smallArrow"></span></a>
@@ -33,9 +33,27 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			<div class='grid_24 alpha omega'>
-				<a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
-			</div>
+            <c:if test="${!empty curator && searchResult.isPublic}">
+                <div class="grid_20 alpha">
+                    <a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
+                </div>
+                <div class="grid_4 omega">
+                    <ul id="sddm">
+                        <li><a onmouseover="mopen('actions${searchResult.accStudy}')"onmouseout="mclosetime()">
+                                Actions<span class="smallArrow"></span></a>
+                            <div id="actions${searchResult.accStudy}" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
+                                <a href="makestudyprivateform?study=${searchResult.accStudy}">Make it private</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div style="clear:both"></div>
+                </div>
+            </c:if>
+			<c:if test="${empty curator}">
+                <div class='grid_24 alpha omega'>
+                    <a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
+                </div>
+			</c:if>
 		</c:otherwise>
 	</c:choose>
 	

@@ -22,6 +22,7 @@ import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
+import uk.ac.ebi.metabolights.webapp.StudyHealth;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -76,10 +77,22 @@ public class UpdateStudyController extends AbstractController {
 												HttpServletRequest request) throws Exception{
 		
 		// Get the correspondent ModelAndView
-		return getModelAndView(study, defaultDate, false);
+		return getModelAndView(study, defaultDate, false, false);
 		
 	}
-	
+
+    @RequestMapping(value = { "/makestudyprivateform"})
+    public ModelAndView makeStudyPrivate(
+            @RequestParam(required=true,value="study") String study,
+            @RequestParam(required=false,value="date") String defaultDate,
+            HttpServletRequest request)
+            throws Exception{
+
+        // Get the correspondent ModelAndView
+        return getModelAndView(study, defaultDate, false, true);
+
+    }
+
 	/**
 	 * Receives the study that is going to be updated and shows the updateStudy Page to let the user to set the public release date and upload the new file.
 	 * 
@@ -94,7 +107,7 @@ public class UpdateStudyController extends AbstractController {
 									HttpServletRequest request) throws Exception{
 		
 		// Get the correspondent ModelAndView
-		return getModelAndView(study, defaultDate, true);
+		return getModelAndView(study, defaultDate, true, false);
 	
 	}
 	
@@ -106,7 +119,7 @@ public class UpdateStudyController extends AbstractController {
 	 * @return
 	 * @throws Exception 
 	 */
-	private ModelAndView getModelAndView(String study, String defaultDate, boolean isUpdateMode) throws Exception{
+	private ModelAndView getModelAndView(String study, String defaultDate, boolean isUpdateMode, boolean isPublic) throws Exception{
 		
 		//Get the study data
 		LuceneSearchResult luceneStudy = getStudy(study);
@@ -132,7 +145,7 @@ public class UpdateStudyController extends AbstractController {
 			msg = PropertyLookup.getMessage("msg.updatestudy.msg");
 			submitText = PropertyLookup.getMessage("label.updatestudy");
 			
-			// Redirect to que the queue system: action = "updatestudy";
+			// Redirect to the queue system: action = "updatestudy";
 			action ="queueExperiment";
 			
 			
@@ -140,7 +153,16 @@ public class UpdateStudyController extends AbstractController {
 			String ftpLocation = FileDispatcherController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );
 			mav.addObject("ftpLocation", ftpLocation);
 			
-		} else {
+		} else if(isPublic){
+            title = PropertyLookup.getMessage("msg.makeStudyPrivatestudy.title", study,  studyShortTitle);
+            submitText = PropertyLookup.getMessage("lebel.publictoprivate");
+
+            action = "updatepublicreleasedate";
+
+            // Link to download the study
+            String ftpLocation = FileDispatcherController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );
+            mav.addObject("ftpLocation", ftpLocation);
+        } else {
 			
 			title = PropertyLookup.getMessage("msg.makestudypublic.title", study, studyShortTitle);
 			msg = PropertyLookup.getMessage("msg.makestudypublic.msg");
@@ -153,6 +175,7 @@ public class UpdateStudyController extends AbstractController {
 		mav.addObject("message", msg);
 		mav.addObject("action", action);
 		mav.addObject("submitText", submitText);
+        mav.addObject("studyCheck", getStudy(study));
 		return mav;
 	}
 	
@@ -167,7 +190,7 @@ public class UpdateStudyController extends AbstractController {
 		if (!params.validationmsg.isEmpty()){
 			
 			// Prepare the same view but this time with the validation message.
-			ModelAndView validation = getModelAndView(params.studyId, params.publicReleaseDateS, params.isUpdateStudyMode);
+			ModelAndView validation = getModelAndView(params.studyId, params.publicReleaseDateS, params.isUpdateStudyMode, false);
 			validation.addObject("validationmsg", params.validationmsg);
 			return validation;
 		}
@@ -180,7 +203,7 @@ public class UpdateStudyController extends AbstractController {
 
     /*
         Update the studies release date and status
-     */
+
     public void updatePublicReleaseDate(String study, VisibilityStatus status, Date publicReleaseDate, Long userId) throws Exception {
 
         // Add the user id to the unzip folder
@@ -284,7 +307,7 @@ public class UpdateStudyController extends AbstractController {
 
 
     }
-
+*/
 
      @RequestMapping(value = { "/updatepublicreleasedate" })
 	public ModelAndView changePublicReleaseDate(
@@ -400,7 +423,7 @@ public class UpdateStudyController extends AbstractController {
     	 
     	String hostName = java.net.InetAddress.getLocalHost().getHostName();
     	
-    	SubmissionItem si = new SubmissionItem(null,user,publicReleaseDate,accession);
+    	SubmissionItem si = new SubmissionItem(null,user,publicReleaseDate,accession, false);
     	si.submitToQueue();
     	
 		// Cannot load the queue
@@ -427,7 +450,7 @@ public class UpdateStudyController extends AbstractController {
     	 
     	String hostName = java.net.InetAddress.getLocalHost().getHostName();
     	
-    	SubmissionItem si = new SubmissionItem(null,user.getUserName(),null,accession);
+    	SubmissionItem si = new SubmissionItem(null,user.getUserName(),null,accession, false);
     	si.submitToQueue();
     	
 		// Cannot load the queue
@@ -712,10 +735,10 @@ public class UpdateStudyController extends AbstractController {
                 }
             }
 			// Do not continue if the study is public.
-			if (study.getIsPublic()){
+			//if (study.getIsPublic()){
 				// ... a public study cannot be modified
-				validationmsg = validationmsg +  PropertyLookup.getMessage("msg.validation.publicstudynoteditable");
-			}
+				//validationmsg = validationmsg +  PropertyLookup.getMessage("msg.validation.publicstudynoteditable");
+			//}
 			
 			return validationmsg ;
 
