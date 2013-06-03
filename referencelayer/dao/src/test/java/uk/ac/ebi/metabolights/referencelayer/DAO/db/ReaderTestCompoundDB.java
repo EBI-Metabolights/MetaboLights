@@ -93,6 +93,7 @@ public class ReaderTestCompoundDB extends TestCase{
 
         // Add a met species...
         addMetSpecies(mc);
+        addSpectra(mc);
 
 
         return mc;
@@ -110,6 +111,13 @@ public class ReaderTestCompoundDB extends TestCase{
 
         mc.getMetSpecies().add(ms);
 
+
+    }
+
+    private void addSpectra(MetaboLightsCompound mc){
+
+        Spectra spectra = new Spectra("Spectra path to Json", "Spectra name", Spectra.SpectraType.MS);
+        mc.getMetSpectras().add(spectra);
 
     }
 
@@ -194,6 +202,7 @@ public class ReaderTestCompoundDB extends TestCase{
         assertEquals("Checking " + expectedvalues[1] + " formula" , expectedvalues[7] , mc.getFormula());
 
         assertMetSpecies(mc);
+        assertMetSpectra(mc);
 		
 		
 	}
@@ -217,6 +226,26 @@ public class ReaderTestCompoundDB extends TestCase{
             assertTrue("Is CrossReference saved?", ms.getCrossReference().getId() != 0);
             assertTrue("Is Species saved?",  ms.getSpecies().getId()!=0);
             assertTrue("Is MetSpecies saved?",  ms.getId()!=0);
+
+        }
+    }
+    private void assertMetSpectra(MetaboLightsCompound mc){
+
+        // There must be one metSpecies
+        assertEquals("Check number of metSpectras" ,1, mc.getMetSpectras().size() );
+
+        // Get it....
+        Spectra spectra = mc.getMetSpectras().iterator().next();
+
+        // Check it has a database
+        assertNotNull("Has spectra a name?", spectra.getName());
+        assertNotNull("Has spectra a file?", spectra.getPathToJsonSpectra());
+
+
+        // If the id is not null (compound is saved)...
+        if (mc.getId() != 0){
+
+            assertTrue("Is Spectra saved?",  spectra.getId()!=0);
 
         }
     }

@@ -20,13 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class MetSpeciesDAO implements IMetSpeciesDAO{
-	
-
-	private Logger LOGGER = Logger.getLogger(MetSpeciesDAO.class);
-	
-	protected Connection con;
-	protected SQLLoader sqlLoader;
+public class MetSpeciesDAO extends AbstractDAO implements IMetSpeciesDAO{
 
     private CrossReferenceDAO crd;
     private SpeciesDAO spd;
@@ -37,8 +31,9 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
 	 * @throws java.io.IOException
 	 */
 	public MetSpeciesDAO(Connection connection) throws IOException{
-		this.con = connection;
-		this.sqlLoader = new SQLLoader(this.getClass(), con);
+		super(connection);
+        setUp(this.getClass());
+
         this.crd = new CrossReferenceDAO(connection);
         this.spd = new SpeciesDAO(connection);
 
@@ -55,51 +50,10 @@ public class MetSpeciesDAO implements IMetSpeciesDAO{
      * @throws java.sql.SQLException
      */
 	public void setConnection(Connection con) throws SQLException{
-		this.con = con;
-		sqlLoader.setConnection(con);
-        this.crd.setConnection(con);
+		this.setConnection(con);
+		this.crd.setConnection(con);
         this.spd.setConnection(con);
 	}
-
-	@Override
-	protected void finalize() throws Throwable {
-        super.finalize();
-		close();
-	}
-
-	/**
-	 * Closes prepared statements, but not the connection.
-	 * If you want to close the connection or return it to a pool,
-	 * please call explicitly the method {@link java.sql.Connection#close()} or
-	 * {@link #returnPooledConnection()} respectively.
-	 */
-	public void close() throws DAOException {
-        try {
-            sqlLoader.close();
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        }
-	}
-	
-	/**
-	 * Closes (returns to the pool) prepared statements and connection.
-	 * This method should be called explicitly before finalising this object,
-	 * in case its connection belongs to a pool.
-	 * <br>
-	 *      *
-     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException while closing the compound reader.
-     * @throws java.sql.SQLException while setting the compound reader connection to
-     *      null.
-     */
-	public void returnPooledConnection() throws DAOException, SQLException{
-		
-		close();
-		if (con != null){
-			con.close();
-			con = null;
-		}
-	}
-
 
 	public Collection<MetSpecies> findByMetId(Long MetId) throws DAOException {
 

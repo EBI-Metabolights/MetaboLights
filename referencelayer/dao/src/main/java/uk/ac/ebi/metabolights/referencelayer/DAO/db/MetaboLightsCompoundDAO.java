@@ -17,6 +17,7 @@ import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetaboLightsCompoundDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
 
 
 public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
@@ -27,6 +28,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 	protected Connection con;
 	protected SQLLoader sqlLoader;
     private  MetSpeciesDAO msd;
+    private  MetSpectraDAO mspd;
 	
 	/**
 	 * @param connection to the database
@@ -36,6 +38,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 		this.con = connection;
 		this.sqlLoader = new SQLLoader(this.getClass(), con);
         this.msd = new MetSpeciesDAO(connection);
+        this.mspd = new MetSpectraDAO(connection);
 	}
 
 
@@ -203,6 +206,8 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 		
 		// Now save the rest...cascade saving...
 		saveMetSpecies(compound);
+
+        saveMetSpectra(compound);
 	}
 	
 	private void saveMetSpecies(MetaboLightsCompound compound) throws DAOException {
@@ -212,7 +217,16 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         }
 
     }
-	/**
+
+    private void saveMetSpectra(MetaboLightsCompound compound) throws DAOException {
+
+        for (Spectra spectra: compound.getMetSpectras()){
+            mspd.save(spectra, compound);
+        }
+
+    }
+
+    /**
 	 * Deletes a compound from the database and all the children
 	 * <br>
 	 * @throws SQLException
@@ -283,6 +297,12 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         Collection<MetSpecies> metSpeciess = msd.findByMetId(compound.getId());
 
         compound.getMetSpecies().addAll(metSpeciess);
+
+        // Load spectras
+        Collection<Spectra> metSpectras = mspd.findByMetId(compound.getId());
+
+        compound.getMetSpectras().addAll(metSpectras);
+
 
     }
 
