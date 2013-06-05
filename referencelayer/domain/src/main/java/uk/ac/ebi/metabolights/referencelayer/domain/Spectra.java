@@ -3,6 +3,8 @@ package uk.ac.ebi.metabolights.referencelayer.domain;
 import org.apache.commons.lang.builder.EqualsBuilder;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * 
@@ -16,6 +18,7 @@ public class Spectra {
     private File pathToJsonSpectra;
     private String name;
     private SpectraType spectraType;
+    private Collection<Attribute> attributes = new ArrayList<Attribute>();
 
     public enum SpectraType {
         NMR,
@@ -67,6 +70,14 @@ public class Spectra {
 
     public void setSpectraType(SpectraType spectraType) {
         this.spectraType = spectraType;
+    }
+
+    public Collection<Attribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Collection<Attribute> attributes) {
+        this.attributes = attributes;
     }
 
     @Override
