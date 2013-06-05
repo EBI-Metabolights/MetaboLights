@@ -54,9 +54,20 @@ ALTER TRIGGER ISATAB.ATTRIBUTE_DEF_TRG ENABLE;
 ALTER TRIGGER ISATAB.ATTRIBUTE_TRG ENABLE;
 
 
+--Option 1
+INSERT INTO attribute_def(id, name, description) VALUES (ATTRIBUTE_DEF_SEQ.nextval,'A','KEN A');
+INSERT INTO attribute(attribute_def_id, value) VALUES (ATTRIBUTE_DEF_SEQ.currval,'KEN A value');
+commit;
 
-INSERT INTO attribute_def(id, name, description) VALUES (ATTRIBUTE_SEQ.nextval,'A','KEN A');
-INSERT INTO attribute(attribute_def_id, value) VALUES (ATTRIBUTE_SEQ.currval,'KEN A value');
+select * from attribute;
+select * from attribute_def;
+
+--Option 2
+variable attdefid number
+exec select ATTRIBUTE_DEF_SEQ.nextval into :attdefid from dual;
+
+INSERT INTO attribute_def(id, name, description) VALUES (:attdefid,'B','KEN B');
+INSERT INTO attribute(attribute_def_id, value) VALUES (:attdefid,'KEN B value');
 commit;
 
 select * from attribute;
