@@ -117,8 +117,16 @@ public class ReaderTestCompoundDB extends TestCase{
     private void addSpectra(MetaboLightsCompound mc){
 
         Spectra spectra = new Spectra("Spectra path to Json", "Spectra name", Spectra.SpectraType.MS);
+        spectra.getAttributes().add(getNewAttribute());
         mc.getMetSpectras().add(spectra);
 
+    }
+    private Attribute getNewAttribute(){
+        Attribute attribute = new Attribute();
+        attribute.setValue("Attribute value");
+        attribute.setAttributeDefinition(ReaderTestAttributeDefinitionDB.newRandomAttributeDefinition());
+
+        return attribute;
     }
 
 	public void testFindACompoundByAccession() throws Exception {

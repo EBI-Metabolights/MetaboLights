@@ -17,6 +17,7 @@ import java.util.Set;
 
 public class MetSpectraDAO extends AbstractDAO implements IMetSpectraDAO {
 
+    private AttributeDAO atd;
 
 	/**
 	 * @param connection to the Spectra
@@ -25,6 +26,8 @@ public class MetSpectraDAO extends AbstractDAO implements IMetSpectraDAO {
 	public MetSpectraDAO(Connection connection) throws IOException{
 		super(connection);
         setUp(this.getClass());
+
+        this.atd = new AttributeDAO(connection);
 	}
 
 
@@ -39,6 +42,7 @@ public class MetSpectraDAO extends AbstractDAO implements IMetSpectraDAO {
      */
 	public void setConnection(Connection con) throws SQLException{
 		this.setConnection(con);
+        this.atd.setConnection(con);
 	}
 
     public Spectra findBySpectraId(Long spectraId) throws DAOException {
@@ -113,10 +117,23 @@ public class MetSpectraDAO extends AbstractDAO implements IMetSpectraDAO {
 
         Spectra spectra = new Spectra(id, pathToJson,name,st);
 
+        loadChildren(spectra);
+
 		return spectra;
 	}
 
-	public void save(Spectra spectra, MetaboLightsCompound compound) throws DAOException {
+    private void loadChildren (Spectra spectra) throws DAOException {
+
+        // Load attributes
+        Collection<Attribute> attributes = atd.findBySpectraId(spectra.getId());
+
+        spectra.getAttributes().addAll(attributes);
+
+
+    }
+
+
+    public void save(Spectra spectra, MetaboLightsCompound compound) throws DAOException {
 
         // Validate:
         // Name must exists
@@ -153,8 +170,20 @@ public class MetSpectraDAO extends AbstractDAO implements IMetSpectraDAO {
 		} else {
 			update(spectra,compound);
 		}
-		
-	}
+
+        // Now save the rest...cascade saving...
+        saveAttributes(spectra);
+
+
+    }
+
+    private void saveAttributes(Spectra spectra) throws DAOException {
+
+        for (Attribute attribute: spectra.getAttributes()){
+            atd.saveSpectraAttribute(attribute, spectra);
+        }
+
+    }
 	
 	/**
 	 * Updates core data concerning only to the Spectra 
