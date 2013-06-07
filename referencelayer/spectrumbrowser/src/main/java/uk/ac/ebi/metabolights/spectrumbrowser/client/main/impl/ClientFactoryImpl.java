@@ -1,7 +1,9 @@
 package uk.ac.ebi.metabolights.spectrumbrowser.client.main.impl;
 
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.common.EventBus;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.spectrumlist.presenter.SprectrumListPresenter;
@@ -20,7 +22,7 @@ public class ClientFactoryImpl implements ClientFactory {
     private static SpectrumListView spectrumListView;
     private static ViewerView viewerView;
 
-    private static HorizontalPanel mainView;
+    private static VerticalPanel mainView;
 
     @Override
     public SimpleEventBus getSimpleEventBus() {
@@ -49,7 +51,7 @@ public class ClientFactoryImpl implements ClientFactory {
     @Override
     public Widget getMainView() {
         if(mainView==null){
-            mainView = new HorizontalPanel();
+            mainView = new VerticalPanel();
             mainView.setSpacing(10);
 
             mainView.add(this.getSpectrumListView().asWidget());

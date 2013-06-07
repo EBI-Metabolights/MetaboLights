@@ -21,7 +21,7 @@ public class SpectrumListViewImpl implements SpectrumListView, ClickHandler {
 
     public SpectrumListViewImpl() {
         this.container = new ListBox();
-        this.container.setVisibleItemCount(10);
+        this.container.setVisibleItemCount(1);
         this.container.addClickHandler(this) ;
         //this.container.setStyleName("hola");
     }

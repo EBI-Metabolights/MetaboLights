@@ -2,12 +2,15 @@ package uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.view;
 
 import com.google.gwt.http.client.*;
 import com.google.gwt.json.client.*;
+import com.google.gwt.jsonp.client.JsonpRequestBuilder;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import uk.ac.ebi.biowidgets.spectrum.client.SpectrumViewer;
 import uk.ac.ebi.biowidgets.spectrum.data.PeakList;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.NMRSpectraData;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.NMRSpectraDataImpl;
+import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.NMRSpectraDataImplJsonP;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.proxy.NMRPeakListAdapter;
 
 import java.util.*;
@@ -41,8 +44,87 @@ public class ViewerViewImpl implements ViewerView {
         }else{
 
             gwtGetHttp(url);
+            //gwtGetHttpJasonPString(url);
+            //gwtGetHttpJasonPObject(url);
+
 
         }
+    }
+
+    private void gwtGetHttpJasonPString(final String url){
+
+        // To use this Json files needs to be wrapped as a function call:
+        // __gwt_jsonp__.P0.onSuccess(<json content>);
+
+        JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
+
+        jsonp.requestString(url, new AsyncCallback<String>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                System.out.println(throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(String s) {
+
+                System.out.println("got it!: ");
+                System.out.println(s);
+
+                NMRSpectraData peakList = jsonToSpectra(s);
+
+
+                NMRPeakListAdapter spectrum = new NMRPeakListAdapter(peakList);
+
+                List<PeakList> spectrumList = new ArrayList<PeakList>();
+
+                spectrumList.add(spectrum);
+
+                SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, SpectrumViewer.SpectrumType.NMR);
+                map.put(url, spectrumViewer);
+                show(spectrumViewer);
+
+
+            }
+        });
+
+    }
+
+    private void gwtGetHttpJasonPObject(final String url){
+
+        JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
+
+        jsonp.requestObject(url, new AsyncCallback<NMRSpectraDataImplJsonP>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                System.out.println(throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(NMRSpectraDataImplJsonP s) {
+
+                System.out.println("got it!: ");
+                System.out.println(s.getxLabel());
+
+
+                NMRSpectraData peakList = null;//jsonToSpectra(s);
+
+
+                NMRPeakListAdapter spectrum = new NMRPeakListAdapter(peakList);
+
+                List<PeakList> spectrumList = new ArrayList<PeakList>();
+
+                spectrumList.add(spectrum);
+
+                SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, SpectrumViewer.SpectrumType.NMR);
+                map.put(url, spectrumViewer);
+                show(spectrumViewer);
+
+
+            }
+        });
+
     }
 
     private void gwtGetHttp(final String url ) {

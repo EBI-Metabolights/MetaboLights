@@ -14,7 +14,7 @@ public class NMRSpectraDataImpl implements NMRSpectraData {
     private float yMax;
     private float yMin;
 
-    
+
     public Double[] getData() {
         return peaks;
     }
