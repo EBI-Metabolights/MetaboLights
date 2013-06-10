@@ -188,6 +188,12 @@ public class ReaderTestCompoundDB extends TestCase{
         SpeciesDAO spd = new SpeciesDAO(mcd.con);
         spd.delete(ms.getSpecies());
 
+        // Delete the attribute definition created for the Spectra
+        Spectra spectra  = mc.getMetSpectras().iterator().next();
+
+        AttributeDefinitionDAO add = new AttributeDefinitionDAO(mcd.con);
+        add.delete(spectra.getAttributes().iterator().next().getAttributeDefinition());
+
         mc = mcd.findByCompoundId(Long.parseLong(expected[0]));
 		
 		assertTrue("Deleted compound must not be found" , mc == null);

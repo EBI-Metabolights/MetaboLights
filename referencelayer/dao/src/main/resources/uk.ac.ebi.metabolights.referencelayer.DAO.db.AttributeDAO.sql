@@ -2,7 +2,7 @@
 
 --attribute.core:\
 SELECT ID, ATTRIBUTE_DEF_ID, SPECTRA_ID, VALUE \
-FROM ATTRIBUTE \
+FROM REF_ATTRIBUTE \
 WHERE {0}
 
 --where.attribute.by.id:\
@@ -13,16 +13,16 @@ SPECTRA_ID = ?
 
 
 --update.attribute:\
-UPDATE ATTRIBUTE \
+UPDATE REF_ATTRIBUTE \
 	SET ATTRIBUTE_DEF_ID = ?, SPECTRA_ID = ?, VALUE = ? WHERE ID = ?
 	
 --insert.attribute:\
-INSERT INTO ATTRIBUTE \
+INSERT INTO REF_ATTRIBUTE \
 	(ATTRIBUTE_DEF_ID, SPECTRA_ID, VALUE) \
 	VALUES (?, ?, ?)
 
 --delete.attribute:\
-DELETE FROM ATTRIBUTE \
+DELETE FROM REF_ATTRIBUTE \
 WHERE {0}
 
 
