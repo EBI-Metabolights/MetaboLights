@@ -15,14 +15,14 @@ import java.util.List;
 /**
  * @author Antonio Fabregat <fabregat@ebi.ac.uk>
  */
-public class SpectrumListViewImpl implements SpectrumListView, ClickHandler {
+public class SpectrumListViewImpl implements SpectrumListView, ChangeHandler {
     private Presenter presenter;
     private ListBox container;
 
     public SpectrumListViewImpl() {
         this.container = new ListBox();
         this.container.setVisibleItemCount(1);
-        this.container.addClickHandler(this) ;
+        this.container.addChangeHandler(this) ;
         //this.container.setStyleName("hola");
     }
 
@@ -56,8 +56,9 @@ public class SpectrumListViewImpl implements SpectrumListView, ClickHandler {
     }
 
     @Override
-    public void onClick(ClickEvent event) {
+    public void onChange(ChangeEvent changeEvent) {
         String id = this.container.getValue(this.container.getSelectedIndex());
         this.presenter.setSpectrumSelected(id);
+
     }
 }

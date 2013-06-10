@@ -10,7 +10,7 @@
 
     <!-- Common module deferred binding definition -->
     <inherits name="uk.ac.ebi.metabolights.spectrumbrowser.client.main.MainModule"/>
-    <inherits name='com.google.gwt.user.theme.standard.Standard' />
+    <!--<inherits name='com.google.gwt.user.theme.standard.Standard' />-->
 
     <!-- Other inherited modules -->
     <!--<inherits name="uk.ac.ebi.pride.widgets.PrideWidgets"/>-->
