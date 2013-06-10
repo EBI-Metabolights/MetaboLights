@@ -62,6 +62,87 @@ insert into ref_attribute_def(id, name,description) values(4, 'relaxationDelay',
 
 
 
+
+
+commit;
+
+
+delete from ref_met_spectra where met_id = 1000070;
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1265','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1265.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'10.0 seconds');
+
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1266','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1266.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'3.0 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1267','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1267.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'3.0 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1268','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1268.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'10.0 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1271','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1271.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'0.5 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1272','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1272.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'0.75 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1273','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1273.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'1.0 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1274','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1274.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'1.5 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1275','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1275.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'2.0 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1276','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1276.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'1D');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'5.0 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1277','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1277.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.0');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'2D J-resolved');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'3.0 seconds');
+
+insert into ref_met_spectra(id, name, path_to_json, spectra_type, met_id) values(REF_MET_SPECTRA_SEQ.nextval,'BML_Analysis_1279','/nfs/public/rw/homes/tc_cm01/reference/MTBLC16811/BML_Analysis_1279.xml.json','NMR','1000070');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(1,REF_MET_SPECTRA_SEQ.currval,'7.4');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(2,REF_MET_SPECTRA_SEQ.currval,'2D J-resolved');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(3,REF_MET_SPECTRA_SEQ.currval,'1H');
+insert into ref_attribute(attribute_def_id, spectra_id, value) values(4,REF_MET_SPECTRA_SEQ.currval,'3.0 seconds');
+
+
+
 /*
 
 --Option 1
