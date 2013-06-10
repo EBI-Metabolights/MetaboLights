@@ -100,7 +100,7 @@ public class CompoundController extends AbstractController {
     private ModelAndView showCitations(
             @RequestParam(required = false, value = "mtblc") String mtblc) {
 
-        String localException = null;
+        //String localException = null;
 
         //Instantiate Model and view
         ModelAndView mav = new ModelAndView("citations");

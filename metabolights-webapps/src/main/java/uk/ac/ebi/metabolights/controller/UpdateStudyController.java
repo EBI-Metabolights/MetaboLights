@@ -155,7 +155,7 @@ public class UpdateStudyController extends AbstractController {
 			
 		} else if(isPublic){
             title = PropertyLookup.getMessage("msg.makeStudyPrivatestudy.title", study,  studyShortTitle);
-            submitText = PropertyLookup.getMessage("lebel.publictoprivate");
+            submitText = PropertyLookup.getMessage("label.publictoprivate");
 
             action = "updatepublicreleasedate";
 

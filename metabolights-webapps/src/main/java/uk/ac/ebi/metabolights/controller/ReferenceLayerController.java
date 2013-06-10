@@ -94,9 +94,8 @@ public class ReferenceLayerController extends AbstractController {
 
         listOfMTBLFields = ebiSearchService.listFields(MTBLDomainName);
 
-        for(int g=0; g<listOfMTBLFields.getString().size(); g++){
-
-        }
+        //for(int g=0; g<listOfMTBLFields.getString().size(); g++){
+        //}
 
         listOfMTBLFields.getString().add("CHEBI");
         listOfMTBLFields.getString().add("METABOLIGHTS");
@@ -128,6 +127,7 @@ public class ReferenceLayerController extends AbstractController {
     @RequestMapping({ "/clearreflayercache" })
     public ModelAndView clearCache(){
         cacheRffl = null;
+        ColumnMap.METABOLIGHTS.setIndex(-1);
         return printMessage("Cache cleared.", "The cache has been cleared.");
     }
 
@@ -138,6 +138,12 @@ public class ReferenceLayerController extends AbstractController {
         @RequestParam(required = false, value = "technology") String[] technologiesSelected,
         @RequestParam(required = false, value = "PageNumber") String PageSelected,
         @RequestParam(required = false, value = "userAction") String userAction,
+        @RequestParam(required = false, value = "has_species") Boolean has_species,
+        @RequestParam(required = false, value = "has_pathways") Boolean has_pathways,
+        @RequestParam(required = false, value = "has_reactions") Boolean has_reactions,
+        @RequestParam(required = false, value = "has_nmr") Boolean has_nmr,
+        @RequestParam(required = false, value = "has_ms") Boolean has_ms,
+        @RequestParam(required = false, value = "has_literature") Boolean has_literature,
         HttpServletRequest request) {
 
         if(userQuery == null){

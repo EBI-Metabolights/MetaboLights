@@ -133,7 +133,7 @@ public class RefLayerFilter {
         if(freeText.equals("")){
             return "("+defaultFreeText+")";
         } else {
-            return "("+freeText+")";
+            return "("+freeText+"*)";
         }
     }
 
