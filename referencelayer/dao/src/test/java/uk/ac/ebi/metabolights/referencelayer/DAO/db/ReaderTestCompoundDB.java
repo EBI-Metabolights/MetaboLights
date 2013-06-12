@@ -21,8 +21,8 @@ public class ReaderTestCompoundDB extends TestCase{
 	private Connection con;
 	protected MetaboLightsCompoundDAO mcd;
 
-    static String[] newCompound = new String[]{null,"ACC1","New compound", "New compound description", "New inchi value", "New chebiId", "New iupac name", "New formula"};
-	static String[] expected = new String[]{null,"ACC1U","Updated compound", "Updated compound description", "Inchi value updated", "ChebiId updated", "iupac names updated", "formula updated"};
+    static String[] newCompound = new String[]{null,"ACC1","New compound", "New compound description", "New inchi value", "New chebiId", "New iupac name", "New formula", Boolean.TRUE.toString(), Boolean.TRUE.toString(), Boolean.TRUE.toString(), Boolean.TRUE.toString(), Boolean.TRUE.toString(), Boolean.TRUE.toString()};
+	static String[] expected = new String[]{null,"ACC1U","Updated compound", "Updated compound description", "Inchi value updated", "ChebiId updated", "iupac names updated", "formula updated", Boolean.FALSE.toString(), Boolean.FALSE.toString(), Boolean.FALSE.toString(), Boolean.FALSE.toString(), Boolean.FALSE.toString(), Boolean.FALSE.toString()};
 	
 	
 	@Override
@@ -70,7 +70,12 @@ public class ReaderTestCompoundDB extends TestCase{
 		mc.setChebiId(expected[5]);
         mc.setIupacNames(expected[6]);
         mc.setFormula(expected[7]);
-		
+		mc.setHasLiterature(Boolean.parseBoolean(expected[8]));
+        mc.setHasReaction(Boolean.parseBoolean(expected[9]));
+        mc.setHasSpecies(Boolean.parseBoolean(expected[10]));
+        mc.setHasPathways(Boolean.parseBoolean(expected[11]));
+        mc.setHasNMR(Boolean.parseBoolean(expected[12]));
+        mc.setHasMS(Boolean.parseBoolean(expected[13]));
 		
 		mcd.save(mc);
 
@@ -82,7 +87,7 @@ public class ReaderTestCompoundDB extends TestCase{
 
 
         MetaboLightsCompound mc = new MetaboLightsCompound();
-        String[] newCompound = new String[]{null,"ACC1","New compound", "New compound description", "New inchi value", "New chebiId", "New iupac name", "New formula"};
+//        String[] newCompound = new String[]{null,"ACC1","New compound", "New compound description", "New inchi value", "New chebiId", "New iupac name", "New formula", Boolean.TRUE.toString()};
         mc.setAccession(newCompound[1]);
         mc.setName(newCompound[2]);
         mc.setDescription(newCompound[3]);
@@ -90,6 +95,12 @@ public class ReaderTestCompoundDB extends TestCase{
         mc.setChebiId(newCompound[5]);
         mc.setIupacNames(newCompound[6]);
         mc.setFormula(newCompound[7]);
+        mc.setHasLiterature(Boolean.parseBoolean(newCompound[8]));
+        mc.setHasReaction(Boolean.parseBoolean(newCompound[9]));
+        mc.setHasSpecies(Boolean.parseBoolean(newCompound[10]));
+        mc.setHasPathways(Boolean.parseBoolean(newCompound[11]));
+        mc.setHasNMR(Boolean.parseBoolean(newCompound[12]));
+        mc.setHasMS(Boolean.parseBoolean(newCompound[13]));
 
         // Add a met species...
         addMetSpecies(mc);
@@ -214,6 +225,12 @@ public class ReaderTestCompoundDB extends TestCase{
 		assertEquals("Checking " + expectedvalues[1] + " chebiId" , expectedvalues[5] , mc.getChebiId());
         assertEquals("Checking " + expectedvalues[1] + " iupac names" , expectedvalues[6] , mc.getIupacNames());
         assertEquals("Checking " + expectedvalues[1] + " formula" , expectedvalues[7] , mc.getFormula());
+        assertEquals("Checking " + expectedvalues[1] + " literature" , expectedvalues[8] , mc.getHasLiterature().toString());
+        assertEquals("Checking " + expectedvalues[1] + " reactions" , expectedvalues[9] , mc.getHasReactions().toString());
+        assertEquals("Checking " + expectedvalues[1] + " species" , expectedvalues[10] , mc.getHasSpecies().toString());
+        assertEquals("Checking " + expectedvalues[1] + " pathways" , expectedvalues[11] , mc.getHasPathways().toString());
+        assertEquals("Checking " + expectedvalues[1] + " NMR" , expectedvalues[12] , mc.getHasNMR().toString());
+        assertEquals("Checking " + expectedvalues[1] + " MS" , expectedvalues[13] , mc.getHasMS().toString());
 
         assertMetSpecies(mc);
         assertMetSpectra(mc);

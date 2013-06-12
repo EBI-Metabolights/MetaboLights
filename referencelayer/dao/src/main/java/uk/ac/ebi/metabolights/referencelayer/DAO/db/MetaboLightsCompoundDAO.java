@@ -274,6 +274,12 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         String chebiId = rs.getString("TEMP_ID");
         String iupacNames = rs.getString("IUPAC_NAMES");
         String formula = rs.getString("FORMULA");
+        Boolean literature = rs.getBoolean("HAS_LITERATURE");
+        Boolean reactions = rs.getBoolean("HAS_REACTIONS");
+        Boolean species = rs.getBoolean("HAS_SPECIES");
+        Boolean pathways = rs.getBoolean("HAS_PATHWAYS");
+        Boolean NMR = rs.getBoolean("HAS_NMR");
+        Boolean MS = rs.getBoolean("HAS_MS");
 
         compound.setId(id);
         compound.setAccession(ACC);
@@ -283,7 +289,12 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         compound.setChebiId(chebiId);
         compound.setFormula(formula);
         compound.setIupacNames(iupacNames);
-
+        compound.setHasLiterature(literature);
+        compound.setHasReaction(reactions);
+        compound.setHasSpecies(species);
+        compound.setHasPathways(pathways);
+        compound.setHasNMR(NMR);
+        compound.setHasMS(MS);
 
         // Load children entities
         loadChildren(compound);
@@ -323,6 +334,12 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(5, compound.getChebiId());
             stm.setString(6, compound.getIupacNames());
             stm.setString(7, compound.getFormula());
+            stm.setBoolean(8, compound.getHasLiterature());
+            stm.setBoolean(9, compound.getHasReactions());
+            stm.setBoolean(10, compound.getHasSpecies());
+            stm.setBoolean(11, compound.getHasPathways());
+            stm.setBoolean(12, compound.getHasNMR());
+            stm.setBoolean(13, compound.getHasMS());
 			stm.executeUpdate();
 	
 			ResultSet keys = stm.getGeneratedKeys();
@@ -357,7 +374,13 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(5, compound.getChebiId());
             stm.setString(6, compound.getIupacNames());
             stm.setString(7, compound.getFormula());
-			stm.setLong(8, compound.getId());
+            stm.setBoolean(8, compound.getHasLiterature());
+            stm.setBoolean(9, compound.getHasReactions());
+            stm.setBoolean(10, compound.getHasSpecies());
+            stm.setBoolean(11, compound.getHasPathways());
+            stm.setBoolean(12, compound.getHasNMR());
+            stm.setBoolean(13, compound.getHasMS());
+			stm.setLong(14, compound.getId());
 			stm.executeUpdate();
 	
 		} catch (SQLException ex) {

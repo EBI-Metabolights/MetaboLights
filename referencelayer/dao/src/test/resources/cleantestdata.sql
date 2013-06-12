@@ -10,4 +10,4 @@ delete from ref_db where db_name like 'Random%';
 
 delete from ref_species where SPECIES like 'Random%';
 
-delete from attribute_def where name like 'Random Ad%';
+delete from REF_attribute_def where name like 'Random Ad%';
