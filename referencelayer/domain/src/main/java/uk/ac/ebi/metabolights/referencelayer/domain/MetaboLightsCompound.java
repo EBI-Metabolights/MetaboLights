@@ -30,6 +30,66 @@ public class MetaboLightsCompound {
     // Iupac Names (separated by |)
     private String iupacNames;
 
+    private Boolean hasLiterature;
+
+    private Boolean hasReactions;
+
+    private Boolean hasSpecies;
+
+    private Boolean hasPathways;
+
+    private Boolean hasNMR;
+
+    private Boolean hasMS;
+
+    public Boolean getHasSpecies() {
+        return hasSpecies;
+    }
+
+    public void setHasSpecies(Boolean hasSpecies) {
+        this.hasSpecies = hasSpecies;
+    }
+
+    public Boolean getHasPathways() {
+        return hasPathways;
+    }
+
+    public void setHasPathways(Boolean hasPathways) {
+        this.hasPathways = hasPathways;
+    }
+
+    public Boolean getHasNMR() {
+        return hasNMR;
+    }
+
+    public void setHasNMR(Boolean hasNMR) {
+        this.hasNMR = hasNMR;
+    }
+
+    public Boolean getHasMS() {
+        return hasMS;
+    }
+
+    public void setHasMS(Boolean hasMS) {
+        this.hasMS = hasMS;
+    }
+
+    public Boolean getHasReactions() {
+        return hasReactions;
+    }
+
+    public void setHasReaction(Boolean hasReactions) {
+        this.hasReactions = hasReactions;
+    }
+
+    public Boolean getHasLiterature() {
+        return hasLiterature;
+    }
+
+    public void setHasLiterature(Boolean hasLiterature) {
+        this.hasLiterature = hasLiterature;
+    }
+
     // Species associated with the metabolite
     private Collection<MetSpecies> metSpecies = new ArrayList<MetSpecies>();
 
