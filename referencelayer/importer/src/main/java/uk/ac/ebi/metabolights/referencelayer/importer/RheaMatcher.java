@@ -2,6 +2,11 @@ package uk.ac.ebi.metabolights.referencelayer.importer;
 
 import org.apache.log4j.Logger;
 import sun.security.jgss.GSSUtil;
+import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntity;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntityList;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.RelationshipType;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.rhea.ws.client.RheaResourceClient;
 import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
@@ -11,6 +16,7 @@ import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,6 +30,7 @@ public class RheaMatcher {
     private Logger LOGGER = Logger.getLogger(RheaMatcher.class);
 
     private RheasResourceClient wsRheaClient;
+    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
 
 
     private void initializeRheaClient(){
@@ -66,7 +73,58 @@ public class RheaMatcher {
                     // Get the Chebi id ==> First element in a line separated by Tabulators
                     String[] values = line.split("\t");
 
-                    checkExistanceInRhea(values[0], values[1]);
+                    String chebiId = values[0];
+
+                    // Try first the initial chebiId
+                    Collection<String> chebiIdRelatives = new ArrayList<String>();
+                    chebiIdRelatives.add(chebiId);
+
+                    int reactionsFound;
+
+                    // Try to get the reactions for the initial chebiID
+                    reactionsFound = checkExistanceInRhea(chebiId, values[1], chebiIdRelatives);
+
+                    // if nothing found....
+                    if (reactionsFound == 0) {
+
+                        // ... try tautomers
+                        chebiIdRelatives = getChebiIdsRelatives(chebiId, RelationshipType.IS_TAUTOMER_OF);
+
+                        // Try to get the reactions for the tautomers
+                        reactionsFound = checkExistanceInRhea(chebiId, values[1], chebiIdRelatives);
+
+                        // if nothing found....
+                        if (reactionsFound == 0) {
+
+                            // ... try children
+                            chebiIdRelatives = getChebiIdsRelatives(chebiId, RelationshipType.IS_A);
+
+                            // Try to get the reactions for the children
+                            reactionsFound = checkExistanceInRhea(chebiId, values[1], chebiIdRelatives);
+
+
+                            // if nothing found....
+                            if (reactionsFound == 0) {
+
+                                // ... try tautomers of the children
+                                chebiIdRelatives = getChebiIdsRelatives(chebiIdRelatives, RelationshipType.IS_TAUTOMER_OF);
+
+                                // Try to get the reactions for the tautomers
+                                reactionsFound = checkExistanceInRhea(chebiId, values[1], chebiIdRelatives);
+
+                                LOGGER.info("\t" + chebiId  + "\t" + values[1] + "\t" + reactionsFound + "\t reactions found\t" + chebiIdRelatives.size() + "\tchildren's tautomers: " + chebiIdRelatives.toString() );
+
+                            } else {
+                                LOGGER.info("\t" + chebiId  + "\t" + values[1] + "\t" + reactionsFound + "\t reactions found\t" + chebiIdRelatives.size() + "\tchildren: " + chebiIdRelatives.toString() );
+                            }
+
+                        } else {
+                            LOGGER.info("\t" + chebiId  + "\t" + values[1] + "\t" + reactionsFound + "\t reactions found\t" + chebiIdRelatives.size() + "\ttautomers: " + chebiIdRelatives.toString() );
+                        }
+
+                    } else {
+                        LOGGER.info("\t" + chebiId  + "\t" + values[1] + "\t" + reactionsFound + "\t reactions found\tdirect" );
+                    }
 
                 }
 
@@ -85,19 +143,54 @@ public class RheaMatcher {
 
     }
 
-    private void checkExistanceInRhea(String chebiId, String chebiName){
+    private Collection<String> getChebiIdsRelatives(String chebiId, RelationshipType relType) throws ChebiWebServiceFault_Exception {
 
 
-        List<RheaReaction> reactions = wsRheaClient.search(chebiId);
+        ArrayList<String> relatives = new ArrayList<String>();
 
-        // If no reactions found
-        if ((reactions == null) || reactions.size() == 0) {
-            LOGGER.info("\t" + chebiId  + " - " + chebiName + "\t0\t reactions found");
-        } else {
-            LOGGER.info("\t" + chebiId  + " - " + chebiName + "\t" +reactions.size() + "\t reactions found");
+        // Get all the children of that chebi id
+        LiteEntityList children = chebiWS.getAllOntologyChildrenInPath(chebiId, relType, true);
+
+        for (LiteEntity le: children.getListElement()){
+            relatives.add(le.getChebiId());
         }
 
+        return relatives;
 
+    }
+
+    private Collection<String> getChebiIdsRelatives(Collection<String> chebiIdList, RelationshipType relType) throws ChebiWebServiceFault_Exception {
+
+
+        ArrayList<String> joinedRelatives = new ArrayList<String>();
+
+        // For each chebiID in the lis
+        for (String chebiId: chebiIdList){
+
+            Collection<String> relatives = getChebiIdsRelatives(chebiId,relType);
+
+            joinedRelatives.addAll(relatives);
+        }
+
+        return joinedRelatives;
+
+    }
+
+    private int checkExistanceInRhea(String chebiId, String chebiName, Collection<String> chebiIdRelatives){
+
+        int total = 0;
+
+        for (String relative: chebiIdRelatives){
+            List<RheaReaction> reactions = wsRheaClient.search(relative);
+
+            if (reactions != null) {
+                total = total + reactions.size();
+            }
+        }
+
+//        LOGGER.info("\t" + chebiId  + "\t" + chebiName + "\t" + total + "\t reactions found\t" + chebiIdRelatives.size() + "\trelatives: " + chebiIdRelatives.toString() );
+
+        return total;
 
 
     }

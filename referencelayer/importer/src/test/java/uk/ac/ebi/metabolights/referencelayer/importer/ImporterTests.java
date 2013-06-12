@@ -3,7 +3,6 @@ package uk.ac.ebi.metabolights.referencelayer.importer;
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -14,8 +13,6 @@ import org.junit.BeforeClass;
 
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.RelationshipType;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.importer.ReferenceLayerImporter;
 
 public class ImporterTests extends TestCase{
 	
@@ -70,7 +67,10 @@ public class ImporterTests extends TestCase{
         ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
 
 
-        URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites.tsv");
+        //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites.tsv");
+        //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites_20130607.tsv");
+        URL url = ImporterTests.class.getClassLoader().getResource("BMR-NMR-not_in_chebi.tsv");
+
         if (url == null) {
             // error - missing folder
         } else {
