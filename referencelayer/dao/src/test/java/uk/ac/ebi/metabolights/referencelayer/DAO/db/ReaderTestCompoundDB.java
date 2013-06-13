@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
+import java.io.File;
 import java.sql.Connection;
 import java.util.Set;
 
@@ -47,7 +48,6 @@ public class ReaderTestCompoundDB extends TestCase{
 		
 	}
 
-	 
 	/*
 	 */
 	public void testSavingACompound() throws Exception {
@@ -105,6 +105,7 @@ public class ReaderTestCompoundDB extends TestCase{
         // Add a met species...
         addMetSpecies(mc);
         addSpectra(mc);
+        addPathway(mc);
 
 
         return mc;
@@ -121,6 +122,20 @@ public class ReaderTestCompoundDB extends TestCase{
         MetSpecies ms = new MetSpecies(sp,cr);
 
         mc.getMetSpecies().add(ms);
+
+
+    }
+
+    private void addPathway(MetaboLightsCompound mc){
+
+        // Create a Database...
+        Database db = ReaderTestDatabaseDB.newRandomDatabase();
+
+        // Create a new Pathway
+        Pathway pathway = new Pathway("New pathway",db,new File("."));
+        pathway.getAttributes().add(getNewAttribute());
+
+        mc.getMetPathways().add(pathway);
 
 
     }
@@ -225,15 +240,15 @@ public class ReaderTestCompoundDB extends TestCase{
 		assertEquals("Checking " + expectedvalues[1] + " chebiId" , expectedvalues[5] , mc.getChebiId());
         assertEquals("Checking " + expectedvalues[1] + " iupac names" , expectedvalues[6] , mc.getIupacNames());
         assertEquals("Checking " + expectedvalues[1] + " formula" , expectedvalues[7] , mc.getFormula());
-        assertEquals("Checking " + expectedvalues[1] + " literature" , expectedvalues[8] , mc.getHasLiterature().toString());
-        assertEquals("Checking " + expectedvalues[1] + " reactions" , expectedvalues[9] , mc.getHasReactions().toString());
-        assertEquals("Checking " + expectedvalues[1] + " species" , expectedvalues[10] , mc.getHasSpecies().toString());
-        assertEquals("Checking " + expectedvalues[1] + " pathways" , expectedvalues[11] , mc.getHasPathways().toString());
-        assertEquals("Checking " + expectedvalues[1] + " NMR" , expectedvalues[12] , mc.getHasNMR().toString());
-        assertEquals("Checking " + expectedvalues[1] + " MS" , expectedvalues[13] , mc.getHasMS().toString());
+        assertEquals("Checking " + expectedvalues[1] + " literature" , Boolean.parseBoolean(expectedvalues[8]) , mc.getHasLiterature());
+        assertEquals("Checking " + expectedvalues[1] + " reactions" , Boolean.parseBoolean(expectedvalues[9]) , mc.getHasSpecies());
+        assertEquals("Checking " + expectedvalues[1] + " pathways" , Boolean.parseBoolean(expectedvalues[11]) , mc.getHasPathways());
+        assertEquals("Checking " + expectedvalues[1] + " NMR" , Boolean.parseBoolean(expectedvalues[12]) , mc.getHasNMR());
+        assertEquals("Checking " + expectedvalues[1] + " MS" , Boolean.parseBoolean(expectedvalues[13]) , mc.getHasMS());
 
         assertMetSpecies(mc);
         assertMetSpectra(mc);
+        assertMetPathway(mc);
 		
 		
 	}
@@ -260,6 +275,34 @@ public class ReaderTestCompoundDB extends TestCase{
 
         }
     }
+
+    private void assertMetPathway(MetaboLightsCompound mc){
+
+        // There must be one pathway
+        assertEquals("Check number of pathways" ,1, mc.getMetPathways().size());
+
+        // Get it....
+        Pathway pathway = mc.getMetPathways().iterator().next();
+
+
+
+        // Check it has a database
+        assertNotNull("Has Pathway a database?", pathway.getDatabase());
+        // Check it has a values
+        assertNotNull("Has Pathway a name?", pathway.getName());
+        assertNotNull("Has Pathway a file?", pathway.getPathToPathwayFile());
+
+        // There must be one attribute
+        assertEquals("Check number of attributes" ,1, pathway.getAttributes().size());
+
+        // If the id is not null (compound is saved)...
+        if (mc.getId() != 0){
+            assertTrue("Is Database saved?", pathway.getDatabase().getId() != 0);
+            assertTrue("Is pathway saved?",  pathway.getId()!=0);
+
+        }
+    }
+
     private void assertMetSpectra(MetaboLightsCompound mc){
 
         // There must be one metSpecies
@@ -268,10 +311,13 @@ public class ReaderTestCompoundDB extends TestCase{
         // Get it....
         Spectra spectra = mc.getMetSpectras().iterator().next();
 
-        // Check it has a database
+        // Check it has a values
         assertNotNull("Has spectra a name?", spectra.getName());
         assertNotNull("Has spectra a file?", spectra.getPathToJsonSpectra());
 
+
+        // There must be one attribute
+        assertEquals("Check number of attributes" ,1, spectra.getAttributes().size());
 
         // If the id is not null (compound is saved)...
         if (mc.getId() != 0){

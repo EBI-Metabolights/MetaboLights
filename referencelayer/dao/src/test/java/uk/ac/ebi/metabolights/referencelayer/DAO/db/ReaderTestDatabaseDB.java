@@ -70,7 +70,7 @@ public class ReaderTestDatabaseDB extends TestCase{
 
     public static Database newRandomDatabase() {
         Database db = new Database();
-        db.setName("Random DB");
+        db.setName("Random DB" + System.currentTimeMillis() );
         return db;
 
     }

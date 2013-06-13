@@ -17,6 +17,7 @@ import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetaboLightsCompoundDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
 import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
 
 
@@ -29,6 +30,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 	protected SQLLoader sqlLoader;
     private  MetSpeciesDAO msd;
     private  MetSpectraDAO mspd;
+    private  MetPathwayDAO mpd;
 	
 	/**
 	 * @param connection to the database
@@ -39,6 +41,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 		this.sqlLoader = new SQLLoader(this.getClass(), con);
         this.msd = new MetSpeciesDAO(connection);
         this.mspd = new MetSpectraDAO(connection);
+        this.mpd = new MetPathwayDAO(connection);
 	}
 
 
@@ -208,6 +211,8 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 		saveMetSpecies(compound);
 
         saveMetSpectra(compound);
+
+        saveMetPathways(compound);
 	}
 	
 	private void saveMetSpecies(MetaboLightsCompound compound) throws DAOException {
@@ -222,6 +227,14 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 
         for (Spectra spectra: compound.getMetSpectras()){
             mspd.save(spectra, compound);
+        }
+
+    }
+
+    private void saveMetPathways(MetaboLightsCompound compound) throws DAOException {
+
+        for (Pathway pathway: compound.getMetPathways()){
+            mpd.save(pathway, compound);
         }
 
     }
@@ -314,6 +327,12 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 
         compound.getMetSpectras().addAll(metSpectras);
 
+        // Load pathways
+        Collection<Pathway> metPathways = mpd.findByMetId(compound.getId());
+
+        compound.getMetPathways().addAll(metPathways);
+
+
 
     }
 
@@ -334,12 +353,12 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(5, compound.getChebiId());
             stm.setString(6, compound.getIupacNames());
             stm.setString(7, compound.getFormula());
-            stm.setBoolean(8, compound.getHasLiterature());
-            stm.setBoolean(9, compound.getHasReactions());
-            stm.setBoolean(10, compound.getHasSpecies());
-            stm.setBoolean(11, compound.getHasPathways());
-            stm.setBoolean(12, compound.getHasNMR());
-            stm.setBoolean(13, compound.getHasMS());
+            stm.setBoolean(8, (Boolean)compound.getHasLiterature());
+            stm.setBoolean(9, (Boolean)compound.getHasReactions());
+            stm.setBoolean(10, (Boolean)compound.getHasSpecies());
+            stm.setBoolean(11, (Boolean)compound.getHasPathways());
+            stm.setBoolean(12, (Boolean)compound.getHasNMR());
+            stm.setBoolean(13, (Boolean)compound.getHasMS());
 			stm.executeUpdate();
 	
 			ResultSet keys = stm.getGeneratedKeys();
@@ -374,12 +393,12 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(5, compound.getChebiId());
             stm.setString(6, compound.getIupacNames());
             stm.setString(7, compound.getFormula());
-            stm.setBoolean(8, compound.getHasLiterature());
-            stm.setBoolean(9, compound.getHasReactions());
-            stm.setBoolean(10, compound.getHasSpecies());
-            stm.setBoolean(11, compound.getHasPathways());
-            stm.setBoolean(12, compound.getHasNMR());
-            stm.setBoolean(13, compound.getHasMS());
+            stm.setBoolean(8, (Boolean)compound.getHasLiterature());
+            stm.setBoolean(9, (Boolean)compound.getHasReactions());
+            stm.setBoolean(10, (Boolean)compound.getHasSpecies());
+            stm.setBoolean(11, (Boolean)compound.getHasPathways());
+            stm.setBoolean(12, (Boolean)compound.getHasNMR());
+            stm.setBoolean(13, (Boolean)compound.getHasMS());
 			stm.setLong(14, compound.getId());
 			stm.executeUpdate();
 	

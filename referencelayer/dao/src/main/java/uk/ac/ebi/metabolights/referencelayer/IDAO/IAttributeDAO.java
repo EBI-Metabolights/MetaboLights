@@ -1,9 +1,6 @@
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.Attribute;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
+import uk.ac.ebi.metabolights.referencelayer.domain.*;
 
 import java.util.Collection;
 
@@ -15,7 +12,9 @@ import java.util.Collection;
 public interface IAttributeDAO {
 
 
-    Collection<Attribute> findBySpectraId(Long SpectraId) throws DAOException;
+    Collection<Attribute> findBySpectraId(Long spectraId) throws DAOException;
+
+    Collection<Attribute> findByPathWayId(Long pathwayId) throws DAOException;
 
     /**
      * Updates the attribute.
@@ -24,6 +23,14 @@ public interface IAttributeDAO {
      * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
      */
     void saveSpectraAttribute(Attribute attribute, Spectra spectra) throws DAOException;
+
+    /**
+     * Updates the attribute.
+     * @param attribute
+     * @param pathway, Pathway qualified by the attribute.
+     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
+     */
+    void savePathwayAttribute(Attribute attribute, Pathway pathway) throws DAOException;
 
 
     /**

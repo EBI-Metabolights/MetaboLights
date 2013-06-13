@@ -6,10 +6,7 @@ import uk.ac.ebi.metabolights.referencelayer.IDAO.IAttributeDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.*;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,7 +52,17 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
        return attributes;
 	}
 
-	private Collection <Attribute> findBy(String where, Object value)
+    @Override
+    public Collection<Attribute> findByPathWayId(Long pathwayId) throws DAOException {
+
+        // It must return an array of Attribute....
+        Collection<Attribute> attributes = findBy("--where.attribute.by.pathwayid", pathwayId);
+
+        return attributes;
+    }
+
+
+    private Collection <Attribute> findBy(String where, Object value)
 	throws DAOException {
 		ResultSet rs = null;
 		try {
@@ -122,6 +129,35 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
 	public void saveSpectraAttribute(Attribute attribute, Spectra spectra) throws DAOException {
 
         // Validate:
+        // Spectra must exist
+        if (spectra == null || spectra.getId() == 0){
+            String msg = "Attribute can't be saved without a Spectra object associated and without an id (saved)";
+            LOGGER.error(msg);
+            throw new DAOException(msg);
+        }
+
+        saveGeneric(attribute, spectra.getId(), 0);
+
+
+    }
+
+    @Override
+    public void savePathwayAttribute(Attribute attribute, Pathway pathway) throws DAOException {
+
+        // Validate:
+        // Pathway must exist
+        if (pathway == null || pathway.getId() == 0){
+            String msg = "Attribute can't be saved without a Pathway object associated and without an id (saved)";
+            LOGGER.error(msg);
+            throw new DAOException(msg);
+        }
+
+        saveGeneric(attribute, 0,pathway.getId());
+
+    }
+
+    private void saveGeneric(Attribute attribute, long spectraId, long pathwayId) throws DAOException {
+
         // Attribute definition must exist
         if (attribute.getAttributeDefinition() == null ){
             String msg = "Attribute can't be saved without an attributeDefiniton object associated";
@@ -129,41 +165,46 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
             throw new DAOException(msg);
         }
 
-        // Spectra must exist
-        if (spectra == null ){
-            String msg = "Attribute can't be saved without as Spectra object associated";
-            LOGGER.error(msg);
-            throw new DAOException(msg);
-        }
-
 
         // Before saving the Attribute data we need to save the foreign key entities if apply
-        // We are assuming the Spectra it's been saved and the Spectra DAO is the one calling this method
+        // We are assuming the Spectra, Pathway it's been saved and the correspondent DAO is the one calling this method
         if (attribute.getAttributeDefinition().getId() == 0) add.save(attribute.getAttributeDefinition());
 
-		// If its a new attribute
-		if (attribute.getId() == 0) {
-			insert (attribute,spectra);
-		} else {
-			update(attribute,spectra);
-		}
-		
-	}
-	
-	/**
+        // If it's a new attribute
+        if (attribute.getId() == 0) {
+            insert (attribute,spectraId, pathwayId);
+        } else {
+            update(attribute,spectraId,pathwayId);
+        }
+    }
+
+
+    /**
 	 * Updates core data concerning only to the Attribute
 	 * @param attribute
 	 * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
 	 */
-	private void update(Attribute attribute, Spectra spectra ) throws DAOException {
+	private void update(Attribute attribute, long spectraId, long pathwayId ) throws DAOException {
 		try {
 		
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--update.attribute");
 			stm.clearParameters();
             stm.setLong(1, attribute.getAttributeDefinition().getId());
-            stm.setLong(2, spectra.getId());
-            stm.setString(3, attribute.getValue());
-            stm.setLong(4, attribute.getId());
+
+            if (spectraId == 0){
+                stm.setNull(2, Types.INTEGER);
+            }else{
+                stm.setLong(2, spectraId);
+            }
+
+            if (pathwayId == 0){
+                stm.setNull(3, Types.INTEGER);
+            }else{
+                stm.setLong(3, pathwayId);
+            }
+
+            stm.setString(4, attribute.getValue());
+            stm.setLong(5, attribute.getId());
 
 			stm.executeUpdate();
 	
@@ -177,13 +218,25 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
 	 * <br>
 	 * @throws java.sql.SQLException
 	 */
-	private void insert(Attribute attribute, Spectra spectra) throws DAOException {
+	private void insert(Attribute attribute, long spectraId, long pathwayId) throws DAOException {
 		try {
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.attribute", new String[]{"ID"}, null);
 			stm.clearParameters();
             stm.setLong(1, attribute.getAttributeDefinition().getId());
-            stm.setLong(2, spectra.getId());
-            stm.setString(3, attribute.getValue());
+
+            if (spectraId == 0){
+                stm.setNull(2, Types.INTEGER);
+            }else{
+                stm.setLong(2, spectraId);
+            }
+
+            if (pathwayId == 0){
+                stm.setNull(3, Types.INTEGER);
+            }else{
+                stm.setLong(3, pathwayId);
+            }
+
+            stm.setString(4, attribute.getValue());
 			stm.executeUpdate();
 	
 			ResultSet keys = stm.getGeneratedKeys();
