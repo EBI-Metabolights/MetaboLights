@@ -1,3 +1,4 @@
+set scan off
 truncate table study_compound;
 drop table study_compound;
 
@@ -5,12 +6,14 @@ drop table study_compound;
 create table study_compound as
   select 
       'STUDY' as source, s.id as entry_id, s.acc as name, TO_CHAR(dbms_lob.substr(s.title, 3999, 1 )) as title, 
-      s.submissiondate, s.releasedate, TO_CHAR(dbms_lob.substr(s.description, 3999, 1 )) as description, null as chebi_id, null as inchi, null as formula, null as iupac
+      s.submissiondate, s.releasedate, TO_CHAR(dbms_lob.substr(s.description, 3999, 1 )) as description, null as chebi_id, null as inchi, null as formula, null as iupac,
+      0 as has_species, 0 as has_pathways, 0 as has_reactions, 0 as has_nmr, 0 as has_ms, 0 as has_literature 
     from study s where status = 0 
      UNION
     select distinct 'COMPOUND' as source, rm.id as entry_id, rm.acc as name, 
     replace(replace(replace(replace(trim(rm.name),'/',' '),'|',' '),'?',' '),'  ',' ') as title,  
-      rm.created_date as submissiondate, nvl(rm.updated_date,rm.created_date) as releasedate, rm.description as description, rm.temp_id as chebi_id, rm.inchi as inch, rm.formula as formula, rm.iupac_names as iupac
+      rm.created_date as submissiondate, nvl(rm.updated_date,rm.created_date) as releasedate, rm.description as description, rm.temp_id as chebi_id, rm.inchi as inch, rm.formula as formula, rm.iupac_names as iupac,
+      rm.has_species, rm.has_pathways, rm.has_reactions, rm.has_nmr, rm.has_ms, rm.has_literature 
     from
       ref_metabolite rm;
       
@@ -45,6 +48,13 @@ create table study_compound_ref as
       rm.temp_id = m.identifier and
       m.assaygroup_id = ag.id AND
       ag.study_id = s.id;  
+
+
+--Remove non-printable characters from the helper table
+update study_compound set description = regexp_replace(description,'[[:cntrl:]]','') where regexp_like(description,'[[:cntrl:]]'); 
+update study_compound set title = regexp_replace(title,'[[:cntrl:]]','') where regexp_like(title,'[[:cntrl:]]');
+update study_compound set description = replace(description,'<','&lt;') where description like '%<%'; 
+update study_compound set description = replace(description,'>','&gt;') where description like '%>%'; 
 
 
 commit;

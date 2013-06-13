@@ -207,7 +207,7 @@ BEGIN
       --Dates for the Study or metabolite
       dbms_output.put_line(dates_start); 
         dbms_output.put_line(replace(creation_date,'DATE_REPLACE',to_char(study_cur.submissiondate, 'YYYY-MM-DD')));
-        dbms_output.put_line(replace(modification_date,'DATE_REPLACE',to_char(study_cur.releasedate'YYYY-MM-DD')));
+        dbms_output.put_line(replace(modification_date,'DATE_REPLACE',to_char(study_cur.releasedate, 'YYYY-MM-DD')));
       dbms_output.put_line(dates_end); 
       
       l_add_fields_entry := add_fields_entry;
@@ -269,6 +269,20 @@ BEGIN
           -- formula 
           dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','formula'),'FIELD_VALUE',study_cur.formula) );
           add_fields_entry := l_add_fields_entry;
+          
+          -- controll flags 
+          dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','has_species'),'FIELD_VALUE',study_cur.has_species) );
+          add_fields_entry := l_add_fields_entry;
+          dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','has_pathways'),'FIELD_VALUE',study_cur.has_pathways) );
+          add_fields_entry := l_add_fields_entry;
+          dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','has_reactions'),'FIELD_VALUE',study_cur.has_reactions) );
+          add_fields_entry := l_add_fields_entry;          
+          dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','has_nmr'),'FIELD_VALUE',study_cur.has_nmr) );
+          add_fields_entry := l_add_fields_entry; 
+          dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','has_ms'),'FIELD_VALUE',study_cur.has_ms) );
+          add_fields_entry := l_add_fields_entry;  
+          dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','has_literature'),'FIELD_VALUE',study_cur.has_literature) );
+          add_fields_entry := l_add_fields_entry; 
           
           -- Organisms for Compounds
           FOR organism_cur_e IN organism_c_entry(study_cur.entry_id) LOOP     
