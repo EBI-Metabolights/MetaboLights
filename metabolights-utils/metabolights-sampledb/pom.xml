@@ -4,11 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>metabolights-main</artifactId>
-        <groupId>uk.ac.ebi.metabolights</groupId>
-        <version>1.2</version>
-    </parent>
 
     <groupId>sampleTabExporter</groupId>
     <artifactId>sampleTabExporter</artifactId>
@@ -44,6 +39,11 @@
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator</artifactId>
             <version>1.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.javacsv</groupId>
+            <artifactId>javacsv</artifactId>
+            <version>2.0</version>
         </dependency>
     </dependencies>
 

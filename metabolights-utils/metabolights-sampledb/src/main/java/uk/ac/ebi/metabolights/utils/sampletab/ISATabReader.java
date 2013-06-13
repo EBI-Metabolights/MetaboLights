@@ -1,12 +1,17 @@
 package uk.ac.ebi.metabolights.utils.sampletab;
 
+
+import com.csvreader.CsvReader;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Contact;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Study;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,10 +24,64 @@ public class ISATabReader {
     private ISAtabFilesImporter isatabFilesImporter;
     private Investigation investigation;
 
+    public String SOURCE_NAME = "Source Name";
+    public String SAMPLE_NAME = "Sample Name";
+
+    public String ORGANISM_HEADER = "Organism";
+    public String ORGANISM = "Characteristics[" +ORGANISM_HEADER+ "]";
+    public String ORGANISM_TERM_SOURCE_REF = "Organism Term Source REF";
+    public String ORGANISM_TERM_ACCESSION_NUMBER = "Organism Term Accession Number";
+
+    public String ORGANISM_PART_HEADER = "Organism part";
+    public String ORGANISM_PART = "Characteristics[" +ORGANISM_PART_HEADER+ "]";
+    public String ORGPART_TERM_SOURCE_REF = "Organism Part Term Source REF";
+    public String ORGPART_TERM_ACCESSION_NUMBER = "Organism Part Term Accession Number";
+
+
     public ISAtabFilesImporter getIsatabFilesImporter(String configDir) {
         if (isatabFilesImporter == null)
             isatabFilesImporter = new ISAtabFilesImporter(configDir);
         return isatabFilesImporter;
+    }
+
+    public List<Map<String, String>> getAdditionalData(Study study){
+
+        List<Map<String, String>> sampleListFromFile = new ArrayList<Map<String, String>>();
+
+        String sampleFile = study.getStudySample().getTableReferenceObject().getTableName();
+
+        try {
+
+            CsvReader fileData = new CsvReader(sampleFile, '\t');
+            fileData.readHeaders();
+            while (fileData.readRecord()){
+                Map<String, String> sampleRow = new HashMap<String, String>();
+
+                sampleRow.put(SOURCE_NAME,fileData.get(SOURCE_NAME));
+                sampleRow.put(SAMPLE_NAME,fileData.get(SAMPLE_NAME));
+
+                //Get Organism
+                sampleRow.put(ORGANISM,fileData.get(ORGANISM));
+                int organismColumnNumber = fileData.getIndex(ORGANISM);
+                sampleRow.put(ORGANISM_TERM_SOURCE_REF,fileData.get(organismColumnNumber+1));    //Term source ref is always next
+                sampleRow.put(ORGANISM_TERM_ACCESSION_NUMBER,fileData.get(organismColumnNumber+2));
+
+                //Get Organism Part
+                sampleRow.put(ORGANISM_PART, fileData.get(ORGANISM_PART));
+                int organismPartColumnNumber = fileData.getIndex(ORGANISM_PART);
+                sampleRow.put(ORGPART_TERM_SOURCE_REF,fileData.get(organismPartColumnNumber+1));    //Term source ref is always next
+                sampleRow.put(ORGPART_TERM_ACCESSION_NUMBER,fileData.get(organismPartColumnNumber+2));
+
+                sampleListFromFile.add(sampleRow);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        return sampleListFromFile;
+
     }
 
     /**
@@ -48,7 +107,7 @@ public class ISATabReader {
     }
 
     /**
-     * Get the whole investion from the study
+     * Get the whole investigation from the study
      * @param configDir
      * @param parentDir
      * @return ISAcrator Investigation object
@@ -113,6 +172,10 @@ public class ISATabReader {
 
     }
 
+    /**
+     * Gets the study object from ISAcrator
+     * @return Study
+     */
     public Study getStudyFromInvestigation(){
         Study study = null;
 

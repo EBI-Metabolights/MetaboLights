@@ -15,7 +15,7 @@ public class SampleTabExporterTest {
 
     private static String isatabDirectory = "/Users/kenneth/dev/ISAtab/source/ISAcreator-1.7/isatab files/MTBLS1_V2";
     private static String configDirectory = "/Users/kenneth/dev/metabolights/metabolights-webapps/src/main/resources/isa_configurator"; //Current config
-    private static String sampleTabFile = "/Users/kenneth/dev/ISAtab/source/ISAcreator-1.7/isatab files/MTBLS1_V2/sampleTab.txt";
+    private static String sampleTabFile = "/Users/kenneth/dev/ISAtab/source/ISAcreator-1.7/isatab files/MTBLS1_V2/sampleTab.tsv";
 
     ISATabReader isaTabReader = new ISATabReader();
     SampleTabExporter sampleTabExporter = new SampleTabExporter();

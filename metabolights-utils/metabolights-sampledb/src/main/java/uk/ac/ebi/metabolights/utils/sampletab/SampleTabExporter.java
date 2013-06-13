@@ -1,20 +1,23 @@
 package uk.ac.ebi.metabolights.utils.sampletab;
 
-import org.isatools.isacreator.model.Contact;
-import org.isatools.isacreator.model.Investigation;
-import org.isatools.isacreator.model.Publication;
-import org.isatools.isacreator.model.Study;
+import org.isatools.isacreator.model.*;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.SampleData;
+import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Database;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Organization;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Person;
-import uk.ac.ebi.arrayexpress2.sampletab.parser.SampleTabParser;
+import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.TermSource;
+import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.SampleNode;
+import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.CharacteristicAttribute;
+import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.OrganismAttribute;
+import uk.ac.ebi.arrayexpress2.sampletab.renderer.SampleTabWriter;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,8 +28,8 @@ import java.util.List;
 public class SampleTabExporter {
 
     private ISATabReader isaTabReader = new ISATabReader();
-    private SampleTabParser parser = new SampleTabParser();
-    private File sampletabFile = null;
+    private SampleTabTools tools = new SampleTabTools();
+    private String metaboLightsURL = "http://www.ebi.ac/uk/metabolights/";
 
     public void main (String[] args){
 
@@ -57,9 +60,8 @@ public class SampleTabExporter {
 
         Boolean isaFound = isaTabReader.validateISAtabFiles(configDirectory, isatabDirectory);
 
-        if (isaFound) {
+        if (isaFound)
             investigation = isaTabReader.getInvestigation();
-        }
 
         return investigation;
     }
@@ -72,15 +74,67 @@ public class SampleTabExporter {
      * @return boolean, did it work?
      */
     public boolean exportSampleFile(String filename, String configDirectory, String isatabDirectory) {
-        sampletabFile = new File(filename);
+
+        //Populate the sampleData object from the ISA-tab files
+        SampleData samples = createSampleData(configDirectory, isatabDirectory);
+
+        if (samples.msi.databases != null){
+            //We have some sample data, let's write this to file
+
+            File sampletabFile = new File(filename);
+            Writer writer = null;
+
+            try {
+                writer = new FileWriter(sampletabFile);
+                SampleTabWriter sampleTabWriter = new SampleTabWriter(writer) ;
+                sampleTabWriter.write(samples);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+
+        }
+
+
+        return true;
+    }
+
+    /**
+     * This adds all the data from the ISA-tab files into the Sample-Tab SampleData object
+     * @param configDirectory
+     * @param isatabDirectory
+     * @return SampleData
+     */
+    private SampleData createSampleData(String configDirectory, String isatabDirectory){
         SampleData sampleData = new SampleData();
+        //Need to get the investigation first
         Investigation investigation = getIsaInvestigation(configDirectory, isatabDirectory);
-        Boolean processingSuccess = false;
 
         //First get the study, can only be on per MetaboLights rules
         Study study = isaTabReader.getStudyFromInvestigation();
 
-        //Start adding data to the file
+        if (addSampleData(sampleData, study)){
+           //log.info("Sucessfully loaded data for study "+study.getStudyId());
+        } else {
+           // log.error("Could not load data for study " + study.getStudyId());
+        }
+
+        return sampleData;
+    }
+
+
+    /**
+     *
+     * @param sampleData
+     * @param study
+     * @return
+     */
+
+    private boolean addSampleData(SampleData sampleData, Study study) {
+        //
+        // Start adding MSI data to the file
+        //
 
         //Add Submission data
         if (!setSubmissionData(sampleData, study))
@@ -94,19 +148,24 @@ public class SampleTabExporter {
         if (!setPublicationData(sampleData, study))
             return false;
 
+        //Add Database data
+        if (!setDatabaseData(sampleData, study))
+            return false;
+
+        //Add Term Source, the ontologies used in the study design
+        if (!setTermSourceData(sampleData, study))
+            return false;
+
+        //
+        // Start adding SCD data to the file
+        //
+
+        if (!setSampleObjectData(sampleData, study))
+            return false;
+
         return true;
     }
 
-    private Date parseDate(String date){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); //ISA format for the date
-        try {
-            return formatter.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-       return null;
-    }
 
     /**
      * This adds the SUBMISSION part of the sampletab definition
@@ -131,10 +190,10 @@ public class SampleTabExporter {
         //I have skipped the optional field "Submission Version" as this comes from the "sample tab jar" we use
 
         if (study.getDateOfSubmission() != null)
-            sampleData.msi.submissionUpdateDate = parseDate(study.getDateOfSubmission());
+            sampleData.msi.submissionUpdateDate = tools.parseDate(study.getDateOfSubmission());
 
         if (study.getPublicReleaseDate() != null)
-            sampleData.msi.submissionReleaseDate = parseDate(study.getPublicReleaseDate());
+            sampleData.msi.submissionReleaseDate = tools.parseDate(study.getPublicReleaseDate());
 
         if (sampleData.msi == null)
             return false;
@@ -202,7 +261,146 @@ public class SampleTabExporter {
 
     }
 
+    /**
+     * This adds the DATABASE part of the sampleTab definition
+     * @param sampleData
+     * @param study
+     * @return true if we have managed to populate the database list
+     */
+    private boolean setDatabaseData(SampleData sampleData, Study study){
+        if (sampleData == null || study.getStudyId().isEmpty())
+            return false; //Must have a valid sampleData object and some study data to add to it.
 
+        Database database = new Database("MetaboLights",metaboLightsURL+study.getStudyId(),study.getStudyId());
+        sampleData.msi.databases.add(database);
+
+        if (sampleData.msi.databases == null)
+            return false;
+
+        return true;
+    }
+
+    /**
+     * This adds the Term and Source (ontologies used) part of the sampleTab definition
+     * @param sampleData
+     * @param study
+     * @return true if we have managed to populate the TermSource list
+     */
+    private boolean setTermSourceData(SampleData sampleData, Study study){
+        if (sampleData == null || study.getStudyDesigns().isEmpty())
+            return false; //Must have a valid sampleData object and some study design data to add to it.
+
+        Iterator iterator  = study.getStudyDesigns().iterator();
+        while (iterator.hasNext()){
+            StudyDesign studyDesign = (StudyDesign) iterator.next();
+            if (studyDesign != null){
+                TermSource termSource = new TermSource(studyDesign.getStudyDesignType(), studyDesign.getStudyDesignTypeTermAcc(), null);  //TODO, need to map to URI, last null is "version"
+                sampleData.msi.getOrAddTermSource(termSource);
+            }
+
+        }
+
+        //TODO, some check if the term source was added correctly
+
+        return true;
+
+
+    }
+
+    private boolean setSampleObjectData(SampleData sampleData, Study study){
+        if (sampleData == null || study == null)
+            return false; //Must have a valid sampleData object and assay information from the study to add to it.
+
+
+        //Get additional data from the file, the sample file in ISAcreator is not good enough for the sampleDb
+        List<Map<String, String>> additionalFileData = isaTabReader.getAdditionalData(study);
+        for (Map<String, String> columns : additionalFileData){
+
+            SampleNode samplenode = new SampleNode();          //Per sample row in ISA-tab
+
+            if (columns.containsKey(isaTabReader.SAMPLE_NAME)){
+                String sampleName = columns.get(isaTabReader.SAMPLE_NAME);
+                samplenode.setNodeName(sampleName);  //The proper name of the sample
+            }
+
+            if (columns.containsKey(isaTabReader.ORGANISM)){
+                String organism = columns.get(isaTabReader.ORGANISM);
+                String termSource = columns.get(isaTabReader.ORGANISM_TERM_SOURCE_REF);
+                Integer termId = new Integer(columns.get(isaTabReader.ORGANISM_TERM_ACCESSION_NUMBER));
+                //samplenode.addAttribute(new CharacteristicAttribute(isaTabReader.ORGANISM_HEADER,organism));
+                OrganismAttribute organismAttribute = new OrganismAttribute(organism, termSource, termId);
+                samplenode.addAttribute(organismAttribute);
+            }
+
+            if (columns.containsKey(isaTabReader.ORGANISM_TERM_ACCESSION_NUMBER)){
+                String organismPart = columns.get(isaTabReader.ORGANISM_PART);
+                samplenode.addAttribute(new CharacteristicAttribute(isaTabReader.ORGANISM_PART_HEADER, organismPart));
+            }
+
+            try {
+                sampleData.scd.addNode(samplenode);
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                return false;
+            }
+
+        }
+
+        /*
+        //get all the sample records from ISAcreator
+        Object[][] sampleObjects = study.getStudySampleDataMatrix();
+        int i = 0;
+        for (Object[] sampleObject : sampleObjects) {
+            String sourceName = null, organism = null, organismPart = null, protocolRef = null, sampleName = null, factor = null;
+            i++;
+
+            SampleNode samplenode = new SampleNode();          //Per sample row in ISA-tab
+
+            if (sampleObject[0] != null) { sourceName = (String) sampleObject[0]; }
+            if (sampleObject[1] != null) { organism = (String) sampleObject[1]; }
+            if (sampleObject[2] != null) { organismPart = (String) sampleObject[2]; }
+            if (sampleObject[3] != null) { protocolRef = (String) sampleObject[3]; }
+            if (sampleObject[4] != null) { sampleName = (String) sampleObject[4]; }
+            if (sampleObject[5] != null) { factor = (String) sampleObject[5];  }
+
+            if (sampleName == null && sourceName != null)
+                sampleName = sourceName; //If do not have a proper sample name, use the sourcename
+
+            if (i > 1) {//Skip header row
+                samplenode.setNodeName(sampleName);  //The proper name of the sample
+
+                //organism
+                if (organism != null){
+                    //OrganismAttribute organismAttribute = new OrganismAttribute(organism);
+                    samplenode.addAttribute(new CharacteristicAttribute("Organism",organism));
+                }
+
+                //organism part as an attribute
+                if (organismPart != null){
+                    samplenode.addAttribute(new CharacteristicAttribute("Organism part",organismPart));
+                }
+
+                try {
+                    sampleData.scd.addNode(samplenode);
+                } catch (ParseException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    return false;
+                }
+
+            }
+
+        } */
+
+        return true;
+    }
+
+
+
+    /**
+     * Checks if the correct parameters are given
+     * @param args
+     * @return true if you got it right
+     */
     private static boolean commandLineValidation(String args[]){
 
         // If there isn't any parameter
