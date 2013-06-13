@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Attribute definition for generic Attributes (it doesn't hod any values, just name and description)
  */
-public class AttributeDefinition {
+public class AttributeDefinition implements Comparable<AttributeDefinition>{
 
 	private long id;
 	private String name;
@@ -64,5 +64,9 @@ public class AttributeDefinition {
                 isEquals();
 
     }
-	
+
+    @Override
+    public int compareTo(AttributeDefinition attributeDefinition) {
+        return name.compareTo(attributeDefinition.name);
+    }
 }

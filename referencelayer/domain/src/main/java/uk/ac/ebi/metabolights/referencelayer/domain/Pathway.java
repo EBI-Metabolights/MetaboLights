@@ -1,0 +1,93 @@
+package uk.ac.ebi.metabolights.referencelayer.domain;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+
+/**
+ * 
+ * @author conesa
+ *
+ * Pathway associated with a MetaboLightsCompound
+ */
+public class Pathway {
+
+	private long id;
+    private String name;
+    private Database database;
+    private File pathToPathwayFile;
+    private Collection<Attribute> attributes = new ArrayList<Attribute>();
+
+
+    public Pathway(long id, String name, Database database, File pathToPathwayFile){
+        construct(id,name, database, pathToPathwayFile);
+    }
+    public Pathway(String name, Database database, File pathToPathwayFile){
+        construct(0,name, database, pathToPathwayFile);
+    }
+
+    private void construct(long id, String name, Database database, File pathToPathwayFile){
+        this.id = id;
+        this.name = name;
+        this.database = database;
+        this.pathToPathwayFile = pathToPathwayFile;
+
+    }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Database getDatabase() {
+        return database;
+    }
+
+    public Collection<Attribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Collection<Attribute> attributes) {
+        this.attributes = attributes;
+    }
+
+    public File getPathToPathwayFile() {
+        return pathToPathwayFile;
+    }
+
+    public void setPathToPathwayFile(File pathToPathwayFile) {
+        this.pathToPathwayFile = pathToPathwayFile;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof Pathway))
+            return false;
+
+        Pathway pathway = (Pathway)obj;
+
+        return new EqualsBuilder().
+                // if deriving: appendSuper(super.equals(obj)).
+                        append(this.database, pathway.database).
+                        append(this.name, pathway.name).
+                        isEquals();
+
+    }
+}

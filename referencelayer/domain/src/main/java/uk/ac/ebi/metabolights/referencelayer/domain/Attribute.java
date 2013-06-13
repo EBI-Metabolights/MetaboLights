@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Species reference table
  */
-public class Attribute {
+public class Attribute implements Comparable<Attribute>{
 
 	private long id;
     private String value;
@@ -56,5 +56,12 @@ public class Attribute {
                 append(attributeDefinition, attribute.attributeDefinition).
                 isEquals();
 
+    }
+
+    @Override
+    public int compareTo(Attribute attribute) {
+        int defComp = attributeDefinition.compareTo(attribute.attributeDefinition);
+
+        return defComp == 0? value.compareTo(attribute.value): defComp;
     }
 }
