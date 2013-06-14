@@ -6,15 +6,17 @@ FROM REF_SPECIES RS LEFT JOIN REF_SPECIES RSF ON RS.FINAL_ID = RSF.ID \
 WHERE {0}
 
 --where.species.by.id:\
-RS.ID = ?
+RS.ID = ?]
 
---where.species.all:\
-1 = ?
+
+--where.species.by.taxon:\
+RS.TAXON = ?]
 
 --where.species.by.species:\
 RS.SPECIES = ?
 
-
+--where.species.all:\
+1 = ?
 
 --update.species:\
 UPDATE REF_SPECIES \

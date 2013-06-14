@@ -105,12 +105,19 @@ public class SpeciesDAO implements ISpeciesDAO{
        return sp;
 	}
 
+    @Override
+    public Species findBySpeciesTaxon(String taxon) throws DAOException {
+
+        // It must return an array of one Species....get the first one and only.
+        Collection<Species> Species = findBy("--where.species.by.taxon", taxon);
+
+        Species sp =  (Species ==null? null:Species.iterator().next());
+
+        return sp;
+
+    }
+
     public Species findBySpeciesName(String speciesName) throws DAOException {
-
-        // Try to get it from the identity map...
-        // This can't be done as it is now since the map has a long as the key...change it to String? And add the species twice
-        // Species sp =  SpeciesIdentityMap.getSpecies(SpeciesId);
-
 
         // It must return an array of one Species....get the first one and only.
         Collection<Species> Species = findBy("--where.species.by.species", speciesName);

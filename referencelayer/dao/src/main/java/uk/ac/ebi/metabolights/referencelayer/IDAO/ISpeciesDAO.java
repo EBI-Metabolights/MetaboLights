@@ -13,6 +13,8 @@ public interface ISpeciesDAO {
 
 
     Species findBySpeciesId(Long SpeciesId) throws DAOException;
+    Species findBySpeciesTaxon(String taxon) throws DAOException;
+    Species findBySpeciesName(String name) throws DAOException;
     
     Collection<Species> findAll() throws DAOException;
     
