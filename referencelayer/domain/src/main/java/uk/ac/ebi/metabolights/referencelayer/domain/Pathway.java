@@ -19,20 +19,22 @@ public class Pathway {
     private Database database;
     private File pathToPathwayFile;
     private Collection<Attribute> attributes = new ArrayList<Attribute>();
+    private Species speciesAssociated;
 
 
-    public Pathway(long id, String name, Database database, File pathToPathwayFile){
-        construct(id,name, database, pathToPathwayFile);
+    public Pathway(long id, String name, Database database, File pathToPathwayFile, Species speciesAssociated){
+        construct(id,name, database, pathToPathwayFile, speciesAssociated);
     }
-    public Pathway(String name, Database database, File pathToPathwayFile){
-        construct(0,name, database, pathToPathwayFile);
+    public Pathway(String name, Database database, File pathToPathwayFile, Species speciesAssociated){
+        construct(0,name, database, pathToPathwayFile, speciesAssociated);
     }
 
-    private void construct(long id, String name, Database database, File pathToPathwayFile){
+    private void construct(long id, String name, Database database, File pathToPathwayFile, Species speciesAssociated){
         this.id = id;
         this.name = name;
         this.database = database;
         this.pathToPathwayFile = pathToPathwayFile;
+        this.speciesAssociated = speciesAssociated;
 
     }
     public long getId() {
@@ -55,6 +57,10 @@ public class Pathway {
         return database;
     }
 
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
+
     public Collection<Attribute> getAttributes() {
         return attributes;
     }
@@ -69,6 +75,14 @@ public class Pathway {
 
     public void setPathToPathwayFile(File pathToPathwayFile) {
         this.pathToPathwayFile = pathToPathwayFile;
+    }
+
+    public Species getSpeciesAssociated() {
+        return speciesAssociated;
+    }
+
+    public void setSpeciesAssociated(Species speciesAssociated) {
+        this.speciesAssociated = speciesAssociated;
     }
 
     @Override
