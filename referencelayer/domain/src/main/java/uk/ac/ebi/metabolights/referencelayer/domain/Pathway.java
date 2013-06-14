@@ -101,6 +101,7 @@ public class Pathway {
                 // if deriving: appendSuper(super.equals(obj)).
                         append(this.database, pathway.database).
                         append(this.name, pathway.name).
+                        append(this.speciesAssociated, pathway.speciesAssociated).
                         isEquals();
 
     }
