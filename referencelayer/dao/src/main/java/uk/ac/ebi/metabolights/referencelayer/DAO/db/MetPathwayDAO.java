@@ -20,6 +20,7 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 
     private DatabaseDAO dbd;
     private AttributeDAO atd;
+    private SpeciesDAO spd;
     
 	
 	/**
@@ -32,6 +33,7 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 
         this.dbd = new DatabaseDAO(connection);
         this.atd = new AttributeDAO(connection);
+        this.spd = new SpeciesDAO(connection);
 
 	}
 
@@ -49,6 +51,7 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 		this.setConnection(con);
 		this.dbd.setConnection(con);
         this.atd.setConnection(con);
+        this.spd.setConnection(con);
 	}
 
 	public Collection<Pathway> findByMetId(Long MetId) throws DAOException {
@@ -59,7 +62,15 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
        return pathways;
 	}
 
-	private Collection <Pathway> findBy(String where, Object value)
+    @Override
+    public Pathway findByPathwayId(Long pathwayId) throws DAOException {
+
+        // It must return an array of one database....get the first one and only.
+        Collection<Pathway> pathways = findBy("--where.pathway.by.id", pathwayId);
+        return  (pathways ==null? null:pathways.iterator().next());
+    }
+
+    private Collection <Pathway> findBy(String where, Object value)
 	throws DAOException {
 		ResultSet rs = null;
 		try {
@@ -110,12 +121,14 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
         String path_to_pathway_file = rs.getString("PATH_TO_PATHWAY_FILE");
 		long db_id = rs.getLong("PATHWAY_DB_ID");
         String name = rs.getString("NAME");
-
+        long sp_id = rs.getLong("SPECIES_ID");
 
         // Get the referenced objects
         Database db = dbd.findByDatabaseId(db_id);
 
-        Pathway pathway = new Pathway(id, name, db, new File(path_to_pathway_file));
+        Species sp = spd.findBySpeciesId(sp_id);
+
+        Pathway pathway = new Pathway(id, name, db, new File(path_to_pathway_file), sp);
 
         loadChildren(pathway);
 
@@ -142,6 +155,13 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
             throw new DAOException(msg);
         }
 
+        // Species must exist
+        if (pathway.getSpeciesAssociated() == null ){
+            String msg = "Pathway can't be saved without a Species object associated";
+            LOGGER.error(msg);
+            throw new DAOException(msg);
+        }
+
         // Compound must exist
         if (compound == null ){
             String msg = "Pathway can't be saved without a compound object associated";
@@ -153,6 +173,8 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
         // Before saving the Pathway data we need to save the foreign key entities if apply
         // We are assuming the compound it's been saved and the compound DAO is the one calling this method
         if (pathway.getDatabase().getId() == 0) dbd.save(pathway.getDatabase());
+
+        if (pathway.getSpeciesAssociated().getId()==0) spd.save(pathway.getSpeciesAssociated());
 
 
 		// If its a new Pathway
@@ -190,7 +212,8 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 			stm.setLong(2, pathway.getDatabase().getId());
             stm.setString(3, pathway.getName());
             stm.setString(4, pathway.getPathToPathwayFile().getAbsolutePath());
-            stm.setLong(5, pathway.getId());
+            stm.setLong(5, pathway.getSpeciesAssociated().getId());
+            stm.setLong(6, pathway.getId());
 
 			stm.executeUpdate();
 	
@@ -212,6 +235,7 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
             stm.setLong(2, pathway.getDatabase().getId());
             stm.setString(3, pathway.getName());
             stm.setString(4, pathway.getPathToPathwayFile().getAbsolutePath());
+            stm.setLong(5, pathway.getSpeciesAssociated().getId());
 			stm.executeUpdate();
 	
 			ResultSet keys = stm.getGeneratedKeys();

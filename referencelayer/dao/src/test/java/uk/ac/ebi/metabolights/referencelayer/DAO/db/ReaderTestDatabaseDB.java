@@ -90,9 +90,18 @@ public class ReaderTestDatabaseDB extends TestCase{
         assertEquals("Testing identity map usage", change, db.getName());
 
 
-	}	
-	
-	public void testDeleteADatabase() throws Exception {
+	}
+
+    public void testFindADatabaseByName() throws Exception {
+
+        Database db = dbd.findByDatabaseName(expected[1]);
+
+        assertDatabase(db, expected);
+
+    }
+
+
+    public void testDeleteADatabase() throws Exception {
 		
 		Database db = dbd.findByDatabaseId(Long.parseLong(expected[0]));
 		

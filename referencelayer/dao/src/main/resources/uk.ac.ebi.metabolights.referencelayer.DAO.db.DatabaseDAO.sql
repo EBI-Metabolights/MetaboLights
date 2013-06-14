@@ -3,12 +3,14 @@ SELECT ID, DB_NAME \
 FROM REF_DB \
 WHERE {0}
 
+--where.database.by.name:\
+DB_NAME = ?
+
 --where.database.by.id:\
 ID = ?
 
 --where.database.all:\
 1 = ?
-
 
 --update.database:\
 UPDATE REF_DB \

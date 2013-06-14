@@ -15,6 +15,7 @@ public interface IMetPathwayDAO {
 
 
     Collection<Pathway> findByMetId(Long MetId) throws DAOException;
+    Pathway findByPathwayId(Long pathwayId) throws DAOException;
 
     /**
      * Updates the Pathway.

@@ -72,7 +72,7 @@ public class ReaderTestSpeciesDB extends TestCase{
 
     public static Species newRandomSpecies() {
         Species species = new Species();
-        species.setSpecies("Random SP");
+        species.setSpecies("Random SP" + System.currentTimeMillis());
         species.setTaxon("Random taxon");
         species.setDescription("Random desc");
         return species;

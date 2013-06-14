@@ -13,6 +13,7 @@ public interface IDatabaseDAO {
 
 
     Database findByDatabaseId(Long databaseId) throws DAOException;
+    Database findByDatabaseName(String databaseName) throws DAOException;
     
     Collection<Database> findAll() throws DAOException;
     

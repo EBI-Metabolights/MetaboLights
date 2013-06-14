@@ -131,8 +131,10 @@ public class ReaderTestCompoundDB extends TestCase{
         // Create a Database...
         Database db = ReaderTestDatabaseDB.newRandomDatabase();
 
+        Species sp = ReaderTestSpeciesDB.newRandomSpecies();
+
         // Create a new Pathway
-        Pathway pathway = new Pathway("New pathway",db,new File("."));
+        Pathway pathway = new Pathway("New pathway",db,new File("."), sp);
         pathway.getAttributes().add(getNewAttribute());
 
         mc.getMetPathways().add(pathway);
@@ -214,11 +216,16 @@ public class ReaderTestCompoundDB extends TestCase{
         SpeciesDAO spd = new SpeciesDAO(mcd.con);
         spd.delete(ms.getSpecies());
 
-        // Delete the attribute definition created for the Spectra
+        Pathway pathway = mc.getMetPathways().iterator().next();
+        spd.delete(pathway.getSpeciesAssociated());
+
+        // Delete the attribute definition created for the Spectra and pathways
         Spectra spectra  = mc.getMetSpectras().iterator().next();
 
         AttributeDefinitionDAO add = new AttributeDefinitionDAO(mcd.con);
         add.delete(spectra.getAttributes().iterator().next().getAttributeDefinition());
+
+        add.delete(pathway.getAttributes().iterator().next().getAttributeDefinition());
 
         mc = mcd.findByCompoundId(Long.parseLong(expected[0]));
 		
@@ -298,7 +305,9 @@ public class ReaderTestCompoundDB extends TestCase{
         // If the id is not null (compound is saved)...
         if (mc.getId() != 0){
             assertTrue("Is Database saved?", pathway.getDatabase().getId() != 0);
+            assertTrue("Is species saved?",  pathway.getSpeciesAssociated().getId()!=0);
             assertTrue("Is pathway saved?",  pathway.getId()!=0);
+
 
         }
     }

@@ -41,8 +41,18 @@ public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 
        return db;
 	}
-	
-	public Set<Database> findAll() throws DAOException {
+
+    @Override
+    public Database findByDatabaseName(String databaseName) throws DAOException {
+
+        // It must return an array of one database....get the first one and only.
+        Collection<Database> database = findBy("--where.database.by.name", databaseName);
+        Database db =  (database ==null? null:database.iterator().next());
+
+        return db;
+    }
+
+    public Set<Database> findAll() throws DAOException {
 	
 		return findBy("--where.database.all",1);
 	}
@@ -61,8 +71,7 @@ public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 			} else {
 				stm.setString(1, (String) value);
 			}
-			
-			
+
 			rs = stm.executeQuery();
 			
 			// Load all databases
