@@ -88,6 +88,15 @@ public class ReaderTestSpeciesDB extends TestCase{
 
     }
 
+    public void testFindASpeciesByTaxon() throws Exception {
+
+        Species species = speciesD.findBySpeciesTaxon(expected[3]);
+
+        assertSpecies(species, expected);
+
+
+    }
+
 
     public void testFindASpeciesById() throws Exception {
 		
