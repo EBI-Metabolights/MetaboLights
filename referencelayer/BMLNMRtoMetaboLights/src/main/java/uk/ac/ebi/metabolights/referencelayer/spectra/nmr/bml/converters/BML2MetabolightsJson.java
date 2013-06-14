@@ -35,6 +35,8 @@ public class BML2MetabolightsJson {
     Unmarshaller unmarshaller = null;
     int compressionFactor = 1;
 
+    final String VERSION = "1";
+
 
 
     public BML2MetabolightsJson(File bmlFile, File jsonOutputFile){
@@ -208,7 +210,7 @@ public class BML2MetabolightsJson {
         // If output file is a directory
         if (jsonOutputFile.isDirectory()){
             // Compose the name
-            return new File (jsonOutputFile.getAbsolutePath()+ "/" + inputFile.getName() + "_CF" + compressionFactor +  ".json");
+            return new File (jsonOutputFile.getAbsolutePath()+ "/" + inputFile.getName() + "V" + VERSION + "_CF" + compressionFactor +  ".json");
         } else {
 
             return jsonOutputFile;
