@@ -15,7 +15,7 @@ RS.TAXON = ?
 RS.SPECIES = ?
 
 --where.species.all:\
-1 = ?
+1 = 1
 
 --update.species:\
 UPDATE REF_SPECIES \

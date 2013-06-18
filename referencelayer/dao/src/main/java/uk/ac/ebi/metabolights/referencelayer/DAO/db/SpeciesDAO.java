@@ -130,8 +130,9 @@ public class SpeciesDAO implements ISpeciesDAO{
 
 	public Set<Species> findAll() throws DAOException {
 
-		return findBy("--where.species.all",1);
+		return findBy("--where.species.all",null);
 	}
+
 
 	private Set <Species> findBy(String where, Object value)
 	throws DAOException {
@@ -141,12 +142,16 @@ public class SpeciesDAO implements ISpeciesDAO{
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--species.core", where);
 			stm.clearParameters();
 
-			// If can be casted as long
-			if (value instanceof Long){
-				stm.setLong(1, (Long) value);
-			} else {
-				stm.setString(1, (String) value);
-			}
+            // If value is not null
+            if (value != null){
+                // If can be casted as long
+                if (value instanceof Long){
+                    stm.setLong(1, (Long) value);
+                } else {
+                    stm.setString(1, (String) value);
+                }
+
+            }
 
 
 			rs = stm.executeQuery();
