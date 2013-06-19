@@ -1,36 +1,35 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
+import org.apache.log4j.Logger;
+import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.CrossReferenceDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
+import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
+import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;
+import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
+import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.log4j.Logger;
-import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.DatabaseDAO;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
-import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
-import uk.ac.ebi.metabolights.referencelayer.domain.Database;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
-
-import javax.xml.namespace.QName;
 
 public class ReferenceLayerImporter{
 
     private Logger LOGGER = Logger.getLogger(ReferenceLayerImporter.class);
 
     private MetaboLightsCompoundDAO mcd;
-    private DatabaseDAO dbd;
+    private CrossReferenceDAO crd;
     private SpeciesDAO spd;
+    private RheasResourceClient wsRheaClient;
 
     private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
    // private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
@@ -42,7 +41,7 @@ public class ReferenceLayerImporter{
     // Instantiate with a connection object
     public ReferenceLayerImporter(Connection connection) throws IOException {
         this.mcd = new MetaboLightsCompoundDAO(connection);
-        this.dbd = new DatabaseDAO(connection);
+        this.crd = new CrossReferenceDAO(connection);
         this.spd = new SpeciesDAO(connection);
 
     }
@@ -113,7 +112,7 @@ public class ReferenceLayerImporter{
         // CHEBI:1387	3,4-dihydroxyphenylethyleneglycol	7.11
         // CHEBI:3648	chlorpromazine <i>N</i>-oxide	7.11
 
-        Long linesRead =new Long(0);
+        Long linesRead = new Long(0);
         Long imported = new Long(0);
 
 
@@ -198,6 +197,10 @@ public class ReferenceLayerImporter{
             // Update species information
             importMetSpeciesFromChebi(mc,entity);
 
+            mc.setHasLiterature(getLiterature(entity));
+            mc.setHasReaction(getReactions(mc.getChebiId()));
+            mc.setHasSpecies(mc.getMetSpecies().size() != 0);
+
             mcd.save(mc);
 
             return 1;
@@ -226,23 +229,61 @@ public class ReferenceLayerImporter{
         }
     }
 
+    private boolean getLiterature(Entity entity) {
+
+        boolean hasLiterature = false;
+        int literatureSize = entity.getCitations().size();
+
+        if(literatureSize != 0){
+            hasLiterature = true;
+        }
+
+        LOGGER.info("Getting Literature from chebi WS");
+
+        return hasLiterature;
+    }
+
+
+    private boolean getReactions(String chebiID) {
+        boolean hasReactions = false;
+
+        LOGGER.info("Initializing and getting reactions from Rhea WS");
+        initializeRheaClient();
+        List<RheaReaction> reactions = wsRheaClient.search(chebiID);
+
+        if(reactions.size() != 0){
+            hasReactions = true;
+        }
+
+        return hasReactions;
+    }
+
+    private void initializeRheaClient(){
+        if (wsRheaClient == null){
+            wsRheaClient = new RheasResourceClient();
+        }
+
+    }
+
     private void importMetSpeciesFromChebi(MetaboLightsCompound mc , Entity chebiEntity) throws DAOException {
 
-        // In dev chebi db id is 1
-        Database chebiDB =  dbd.findByDatabaseId(Long.valueOf(1));
 
-        // For each compound origin in chebi...
+        // In dev chebi db id is 1
+        //Database chebiDB =  crd.findByDatabaseId(Long.valueOf(1));
+
+        CrossReference chebiXRef = crd.findByCrossReferenceAccession(chebiEntity.getChebiId());
+
+        //For each compound origin in chebi...
         for (CompoundOrigins origin : chebiEntity.getCompoundOrigins()){
 
             Species sp = getSpecies(origin);
 
-            MetSpecies ms = new MetSpecies(sp,chebiDB);
+            MetSpecies ms = new MetSpecies(sp,chebiXRef);
 
             if (!mc.getMetSpecies().contains(ms)){
                 mc.getMetSpecies().add(ms);
             }
         }
-
     }
 
     private Species getSpecies(CompoundOrigins origin) throws DAOException {

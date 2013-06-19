@@ -1,18 +1,16 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import java.io.File;
-import java.net.URL;
-import java.sql.Connection;
-
 import junit.framework.TestCase;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.RelationshipType;
+
+import java.io.File;
+import java.net.URL;
+import java.sql.Connection;
 
 public class ImporterTests extends TestCase{
 	
@@ -67,9 +65,9 @@ public class ImporterTests extends TestCase{
         ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
 
 
-        //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites.tsv");
+        URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites.tsv");
         //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites_20130607.tsv");
-        URL url = ImporterTests.class.getClassLoader().getResource("BMR-NMR-not_in_chebi.tsv");
+        //URL url = ImporterTests.class.getClassLoader().getResource("BMR-NMR-not_in_chebi.tsv");
 
         if (url == null) {
             // error - missing folder
