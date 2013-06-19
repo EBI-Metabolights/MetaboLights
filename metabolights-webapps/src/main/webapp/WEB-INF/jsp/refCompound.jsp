@@ -112,27 +112,37 @@ function color_for_atom(formulaChar)
 				<li>
 					<a class="noLine" href="#tabs-1"><spring:message code="ref.compound.tab.chemistry"/></a>
 				</li>
-				<li>
-					<a class="noLine" href="#tabs-2"><spring:message code="ref.compound.tab.biology"/></a>
-				</li>
-				<li>
-					<a class="noLine" href="#tabs-3"><spring:message code="ref.compound.tab.pathways"/></a>
-				</li>
-				<li>
-					<a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
-				</li>
+				<c:if test="${compound.mc.hasSpecies}">
+                    <li>
+                        <a class="noLine" href="#tabs-2"><spring:message code="ref.compound.tab.biology"/></a>
+                    </li>
+				</c:if>
+				<c:if test="${compound.mc.hasPathways}">
+                    <li>
+                        <a class="noLine" href="#tabs-3"><spring:message code="ref.compound.tab.pathways"/></a>
+                    </li>
+				</c:if>
+				<c:if test="${compound.mc.hasReactions}">
+                    <li>
+                        <a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
+                    </li>
+				</c:if>
                 
-                <c:if test="${fn:length(compound.mc.metSpectras) > 0}">
+                <c:if test="${compound.mc.hasNMR}">
                     <li>
                         <a class="noLine" href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
                     </li>
                 </c:if>
-				<li>
-					<a class="noLine" href="#tabs-6"><spring:message code="ref.compound.tab.msspectra"/></a>
-				</li>
-				<li>
-					<a class="noLine" href="citations?mtblc=${compound.mc.accession}"><spring:message code="ref.compound.tab.literature"/></a>
-				</li>
+				<c:if test="${compound.mc.hasMS}">
+                    <li>
+                        <a class="noLine" href="#tabs-6"><spring:message code="ref.compound.tab.msspectra"/></a>
+                    </li>
+				</c:if>
+				<c:if test="${compound.mc.hasLiterature}">
+                    <li>
+                        <a class="noLine" href="citations?mtblc=${compound.mc.accession}"><spring:message code="ref.compound.tab.literature"/></a>
+                    </li>
+				</c:if>
 			</ul>
 		
 			<div id="tabs-1" class="tab">
@@ -159,41 +169,48 @@ function color_for_atom(formulaChar)
 				<br/><br/>				
 				${compound.chebiEntity.inchi}<br/>
 			</div>
-			<!-- Found in -->
-			<div id="tabs-2" class="tab">
-                <%--<c:forEach var="metSpecie" items="${compound.mc.metSpecies}">--%>
-                    <%--${metSpecie.species.species} - ${metSpecie.crossReference.accession}<br/>--%>
-                <%--</c:forEach>--%>
-                <c:forEach var="item" items="${compound.species}">
-                    <br/>${item.key.species} :
-                    <c:forEach var="xref" items="${item.value}">
-                        <c:choose>
-                            <c:when test="${xref.crossReference.db.id eq 2}">
-                                <a class="tag" href='${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="tag" href='http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </c:forEach>
 
-            </div>
-			<!-- Path ways -->
-			<div id="tabs-3" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQotrC_Rvg3-mRq4huTwhVn1Ku7tdElSJQTRGAt_sple7oiMMto"/>
-				<h4>Options explored so far:</h4>
-				<h5>iPath from EMBL? POST request with kegg ids</h5>
-				<a href="http://pathways.embl.de/mapping.cgi" target="blank"><img src="http://pathways.embl.de/img/iPath2logo.png"/></a>
-				<h5>Pathways projector</h5>
-				<a href="http://www.g-language.org/PathwayProjector/" target="blank"><img src="http://www.g-language.org/PathwayProjector/pict/mainpage.png"/></a>
-			</div>
+            <c:if test="${compound.mc.hasSpecies}">
+                <!-- Found in -->
+                <div id="tabs-2" class="tab">
+                    <%--<c:forEach var="metSpecie" items="${compound.mc.metSpecies}">--%>
+                        <%--${metSpecie.species.species} - ${metSpecie.crossReference.accession}<br/>--%>
+                    <%--</c:forEach>--%>
+                    <c:forEach var="item" items="${compound.species}">
+                        <br/>${item.key.species} :
+                        <c:forEach var="xref" items="${item.value}">
+                            <c:choose>
+                                <c:when test="${xref.crossReference.db.id eq 2}">
+                                    <a class="tag" href='${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="tag" href='http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </c:forEach>
+                </div>
+            </c:if>
+
+            <c:if test="${compound.mc.hasPathways}">
+                <!-- Path ways -->
+                <div id="tabs-3" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQotrC_Rvg3-mRq4huTwhVn1Ku7tdElSJQTRGAt_sple7oiMMto"/>
+                    <h4>Options explored so far:</h4>
+                    <h5>iPath from EMBL? POST request with kegg ids</h5>
+                    <a href="http://pathways.embl.de/mapping.cgi" target="blank"><img src="http://pathways.embl.de/img/iPath2logo.png"/></a>
+                    <h5>Pathways projector</h5>
+                    <a href="http://www.g-language.org/PathwayProjector/" target="blank"><img src="http://www.g-language.org/PathwayProjector/pict/mainpage.png"/></a>
+                </div>
+            </c:if>
+
 			<%-- Reactions
 			<div id="tabs-4" class="tab">
 				<h4>To be implemented...</h4>
 				<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTLBHrDpm9cZkyAdfU7KdQnVLVZ9MG6SByle5QQM0IpSf2hBezB"/>
 			</div>--%>
-            <c:if test="${fn:length(compound.mc.metSpectras) > 0}">
 
+
+            <c:if test="${compound.mc.hasNMR}">
                 <!-- NMR Spectra -->
                 <div id="tabs-5" class="tab">
                     <div id="spectrumbrowser">
@@ -206,11 +223,14 @@ function color_for_atom(formulaChar)
                         ]
                         }
                     </div>
-
                 </div>
             </c:if>
-			<!-- MS Spectra -->
-			<div id="tabs-6" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE143R-fv5Qf-78aSulo8vvFCTdinc-JULSdvh8i3erXA3kwFnnA"/></div>
+
+            <c:if test="${compound.mc.hasMS}">
+                <!-- MS Spectra -->
+                <div id="tabs-6" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE143R-fv5Qf-78aSulo8vvFCTdinc-JULSdvh8i3erXA3kwFnnA"/></div>
+            </c:if>
+
 			<%-- Literature
 			<div id="tabs-7" class="tab">
 				<!--<h4>To be implemented...</h4>
@@ -221,6 +241,7 @@ function color_for_atom(formulaChar)
 				</c:forEach>
 			</div>
 			--%>
+
 		</div>
 	</div>
 </div>

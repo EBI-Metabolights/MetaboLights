@@ -17,7 +17,6 @@ import uk.ac.ebi.metabolights.referencelayer.RefLayerFilter;
 import uk.ac.ebi.metabolights.service.AppContext;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -131,19 +130,13 @@ public class ReferenceLayerController extends AbstractController {
         return printMessage("Cache cleared.", "The cache has been cleared.");
     }
 
-    @RequestMapping({ "/refLayerSearch" })
+    @RequestMapping({ "/reflayersearch" })
     public ModelAndView searchAndDisplay(
         @RequestParam(required = false, value = "freeTextQuery") String userQuery,
         @RequestParam(required = false, value = "organisms") String[] organismsSelected,
         @RequestParam(required = false, value = "technology") String[] technologiesSelected,
         @RequestParam(required = false, value = "PageNumber") String PageSelected,
         @RequestParam(required = false, value = "userAction") String userAction,
-        @RequestParam(required = false, value = "has_species") Boolean has_species,
-        @RequestParam(required = false, value = "has_pathways") Boolean has_pathways,
-        @RequestParam(required = false, value = "has_reactions") Boolean has_reactions,
-        @RequestParam(required = false, value = "has_nmr") Boolean has_nmr,
-        @RequestParam(required = false, value = "has_ms") Boolean has_ms,
-        @RequestParam(required = false, value = "has_literature") Boolean has_literature,
         HttpServletRequest request) {
 
         if(userQuery == null){

@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabException;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
@@ -22,16 +19,16 @@ import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
-import uk.ac.ebi.metabolights.webapp.StudyHealth;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Make a study public. THis implies to change the status in the database, reindex, and move the zip file to the public ftp.
@@ -158,6 +155,8 @@ public class UpdateStudyController extends AbstractController {
             submitText = PropertyLookup.getMessage("label.publictoprivate");
 
             action = "updatepublicreleasedate";
+
+            logger.info("Method for making studies private, action: "+action);
 
             // Link to download the study
             String ftpLocation = FileDispatcherController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );

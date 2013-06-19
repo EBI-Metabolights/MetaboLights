@@ -12,7 +12,6 @@ import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
 import java.io.*;
-import java.nio.channels.FileChannel;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

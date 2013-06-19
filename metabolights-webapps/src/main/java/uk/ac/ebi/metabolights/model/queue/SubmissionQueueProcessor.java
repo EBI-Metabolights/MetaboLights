@@ -445,6 +445,7 @@ public class SubmissionQueueProcessor {
                 itu.setCopyToPrivateFolder(publicFtpLocation);
                 itu.setCopyToPublicFolder(privateFtpStageLocation);
                 filesMovedPubToPriv = true;
+                logger.info("Setting the copy folders for copying from public FTP to private staging.");
             }  //Added code.
 
             //Since now we are storing the studies unzipped....we check if the folder exists
