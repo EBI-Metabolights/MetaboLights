@@ -48,8 +48,15 @@ public class CrossReferenceDAO extends AbstractDAO implements ICrossReferenceDAO
 
     }
 
+    @Override
+    public CrossReference findByCrossReferenceAccession(String accession) throws DAOException {
 
-	private Collection <CrossReference> findBy(String where, Object value)
+        Collection<CrossReference> crs = findBy("--where.crossreference.by.acc", accession);
+        return   (crs.size()==0? null:crs.iterator().next());
+    }
+
+
+    private Collection <CrossReference> findBy(String where, Object value)
 	throws DAOException {
 		ResultSet rs = null;
 		try {

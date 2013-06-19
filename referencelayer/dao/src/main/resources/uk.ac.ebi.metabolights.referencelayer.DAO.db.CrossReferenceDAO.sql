@@ -8,6 +8,9 @@ WHERE {0}
 --where.crossreference.by.id:\
 ID = ?
 
+--where.crossreference.by.acc:\
+ACC = ?
+
 
 --update.crossreference:\
 UPDATE REF_XREF \

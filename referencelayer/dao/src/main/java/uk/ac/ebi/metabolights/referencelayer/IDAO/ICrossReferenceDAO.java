@@ -13,6 +13,8 @@ public interface ICrossReferenceDAO {
 
     CrossReference findByCrossReferenceId(Long crossReferenceId) throws DAOException;
 
+    CrossReference findByCrossReferenceAccession(String accession) throws DAOException;
+
 
 
     /**
