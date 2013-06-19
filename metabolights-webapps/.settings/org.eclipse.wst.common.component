@@ -3,7 +3,8 @@
     <wb-module deploy-name="metabolights-webapp">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/metabolights-uploader/metabolights-uploader">
             <dependency-type>uses</dependency-type> 
         </dependent-module>
@@ -11,6 +12,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/metabolights-webapp/target/classes"/>
-        <property name="context-root" value="metabolights"/>
+        <property name="context-root" value="metabolights-webapp"/>
     </wb-module>
 </project-modules>

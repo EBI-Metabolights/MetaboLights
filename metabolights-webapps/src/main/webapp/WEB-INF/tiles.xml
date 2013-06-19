@@ -30,7 +30,7 @@
 	</definition>
 
 	
-	<definition name="refLayerSearch" extends="default">
+	<definition name="reflayersearch" extends="default">
 		<put-attribute name="title" value="Reference layer search" />
 		<put-attribute name="body" value="/WEB-INF/jsp/refLayerSearch.jsp" />
 	</definition>

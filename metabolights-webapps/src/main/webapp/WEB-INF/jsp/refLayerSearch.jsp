@@ -31,11 +31,11 @@
             filterForm.submit();
         }
 
-        $("#local-search").attr("action", "refLayerSearch");
+        $("#local-search").attr("action", "reflayersearch");
 
         $(document).ready(function(){
             $("a[href^='search?']").each(function(){
-                this.href = this.href.replace('search?', 'refLayerSearch?');
+                this.href = this.href.replace('search?', 'reflayersearch?');
             });
         });
 
@@ -188,7 +188,7 @@
 
             <div class="grid_6">
 
-                <form name="Filters" id="filterForm" action="refLayerSearch" method="post">
+                <form name="Filters" id="filterForm" action="reflayersearch" method="post">
 
                     <%--technology filter--%>
                     <div class="grid_24 refLayerBox" id="technologyFilter">

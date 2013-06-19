@@ -144,7 +144,7 @@ public class ReferenceLayerController extends AbstractController {
         }
 
         rffl = (RefLayerFilter)request.getSession().getAttribute(REFLAYERSESSION);
-        mav = AppContext.getMAVFactory().getFrontierMav("refLayerSearch");
+        mav = AppContext.getMAVFactory().getFrontierMav("reflayersearch");
 
         mapUserAction(userQuery, organismsSelected, technologiesSelected, PageSelected, userAction);
         try{

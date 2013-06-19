@@ -343,4 +343,8 @@ public class RefLayerPOJO {
 	public RefLayerPOJO(){
 		
 	}
+
+    public RefLayerPOJO(String userQuery, String[] organisms, String[] technologies, String currentPage){
+
+    }
 }
