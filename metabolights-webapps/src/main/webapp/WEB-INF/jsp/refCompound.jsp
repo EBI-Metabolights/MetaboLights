@@ -18,6 +18,7 @@ $(function() {
 </script>
 
 <script type="text/javascript" src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>
+<script type="text/javascript" src="<spring:url value="javascript/jquery.imageLens.js"/>"></script>
 <%--<script type="text/javascript" src="http://wwwdev.ebi.ac.uk/metabolights/specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>--%>
 <%--<script type="text/javascript" src="proxy?url=http://wwwdev.ebi.ac.uk/metabolights/specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>--%>
 <script type="text/javascript">
@@ -37,6 +38,19 @@ $(function() {
             modal: true,
             autoOpen: false
         });
+
+        $("#pathwayList").change(function(e){
+            e.preventDefault();
+            var pathwayId = $(this).val();
+            var container = $('#pathwayContainer');
+            container.html('');
+            container.append("<img id='pathway' src='pathway/" + pathwayId + "/png'/>");
+
+            $('[id=pathway]').imageLens({ lensSize: 250 , borderColor: "#804D19"});
+        });
+
+        // And now fire change event when the DOM is ready
+        $('#pathwayList').trigger('change');
     });
 
     function showWait() {
@@ -191,18 +205,19 @@ function color_for_atom(formulaChar)
                     </c:forEach>
                 </div>
             </c:if>
-
             <c:if test="${compound.mc.hasPathways}">
-                <!-- Path ways -->
-                <div id="tabs-3" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQotrC_Rvg3-mRq4huTwhVn1Ku7tdElSJQTRGAt_sple7oiMMto"/>
-                    <h4>Options explored so far:</h4>
-                    <h5>iPath from EMBL? POST request with kegg ids</h5>
-                    <a href="http://pathways.embl.de/mapping.cgi" target="blank"><img src="http://pathways.embl.de/img/iPath2logo.png"/></a>
-                    <h5>Pathways projector</h5>
-                    <a href="http://www.g-language.org/PathwayProjector/" target="blank"><img src="http://www.g-language.org/PathwayProjector/pict/mainpage.png"/></a>
+                <!-- Pathways -->
+                <div id="tabs-3" class="tab">
+                    <select id="pathwayList">
+                        <c:forEach var="pathway" items="${compound.mc.metPathways}">
+                            <option value="${pathway.id}">Source: ${pathway.database.name}, species:${pathway.speciesAssociated.species} </option>
+                        </c:forEach>
+                    </select>
+                    <br/><br/><br/>
+                    <div id="pathwayContainer" style="position: relative">
+                    </div>
                 </div>
             </c:if>
-
 			<%-- Reactions
 			<div id="tabs-4" class="tab">
 				<h4>To be implemented...</h4>
@@ -215,10 +230,8 @@ function color_for_atom(formulaChar)
                 <div id="tabs-5" class="tab">
                     <div id="spectrumbrowser">
                         {"list":
-                        [
-                        <c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraloopStatus">
-                            <c:if test="${spectraloopStatus.index gt 0}">,</c:if>
-                            {"name":"${spectra.name}", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}
+                        [<c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraloopStatus">
+                            <c:if test="${spectraloopStatus.index gt 0}">,</c:if>{"name":"${spectra.name}<c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeloopStatus"><c:if test="${attributeloopStatus.index eq 0}"> (</c:if><c:if test="${attributeloopStatus.index gt 0}">, </c:if>${attribute.attributeDefinition.name}:${attribute.value}<c:if test="${attributeloopStatus.index eq (fn:length(spectra.attributes)-1)}">)</c:if></c:forEach>", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}
                         </c:forEach>
                         ]
                         }
@@ -241,7 +254,6 @@ function color_for_atom(formulaChar)
 				</c:forEach>
 			</div>
 			--%>
-
 		</div>
 	</div>
 </div>

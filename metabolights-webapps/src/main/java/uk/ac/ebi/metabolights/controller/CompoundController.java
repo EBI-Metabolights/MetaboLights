@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.cdb.webservice.*;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
 import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
@@ -20,7 +20,6 @@ import uk.ac.ebi.rhea.ws.response.cmlreact.Reaction;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +71,19 @@ public class CompoundController extends AbstractController {
 
     }
 
+    @RequestMapping(value = "/pathway/{pathwayId}/png")
+    public void getPathwayFile(@PathVariable("pathwayId") String pathwayIdS, HttpServletResponse response) {
+
+
+        // Convert the id to a long...
+        long pathwayId = Long.parseLong(pathwayIdS);
+
+        Pathway pathway = ModelObjectFactory.getPathway(pathwayId);
+
+        FileDispatcherController.streamFile(pathway.getPathToPathwayFile(), response, "image/png");
+
+
+    }
     @RequestMapping(value = "/reactions")
     private ModelAndView showReactions(
             @RequestParam(required = false, value = "chebiId") String compound) {

@@ -402,3 +402,9 @@ th a.icon-functional::before{
 input.resizable{
     width: 95%;
 }
+#spectrumbrowser{
+    overflow: auto;
+}
+#spectrumbrowser table{
+    border: 0px;
+}
