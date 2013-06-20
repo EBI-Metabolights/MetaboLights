@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
@@ -25,10 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Make a study public. THis implies to change the status in the database, reindex, and move the zip file to the public ftp.
@@ -107,7 +105,29 @@ public class UpdateStudyController extends AbstractController {
 		return getModelAndView(study, defaultDate, true, false);
 	
 	}
-	
+
+    /**
+     * Send an email (each day) for 7 days before the study goes live.  Let's hope this is not too much for the submitter!
+     */
+    @RequestMapping(value = { "/findstudiesgoinglive"})
+    public void findStudiesGoingLive(){
+
+        List <String> studiesList = studyService.findStudiesGoingLive();
+        Iterator iter = studiesList.iterator();
+        while (iter.hasNext()){
+            String acc = (String) iter.next();
+            try {
+                LuceneSearchResult study = getStudy(acc);
+                emailService.sendStudyGoingPublicNotification(study.getSubmitter().getUserName(), study.getReleaseDate(), acc);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
 	
 	/**
 	 * Return the model and view ready to be rendered in the jsp that share 2 modes. Update and MakeStudyPublic
@@ -380,8 +400,10 @@ public class UpdateStudyController extends AbstractController {
  			validationMsg = validationMsg + PropertyLookup.getMessage("msg.deleteStudy.statusValidation",studyId);
  		}
  		
- 		// If there is validation view...return it
- 		if (validationMsg != ""){return printMessage(PropertyLookup.getMessage("msg.deleteStudy.titleValidation"), validationMsg);}
+ 		// If there is validation view...return it. Curators still delete a study regardless
+ 		if (!user.isCurator() && validationMsg != ""){
+            return printMessage(PropertyLookup.getMessage("msg.deleteStudy.titleValidation"), validationMsg);
+        }
 
  		
  		ModelAndView mav;

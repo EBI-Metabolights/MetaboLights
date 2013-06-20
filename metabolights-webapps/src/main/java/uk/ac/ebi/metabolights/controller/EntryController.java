@@ -181,7 +181,7 @@ public class EntryController extends AbstractController {
 	/**
 	 * Intended for an asynchronous call, to tag the description in a study.
 	 * @param request
-	 * @return ugly pixie 
+	 * @return ModelAndView
 	 */
 	@RequestMapping(value="/tagText")
 	public ModelAndView whatIzItStuff (HttpServletRequest request) {

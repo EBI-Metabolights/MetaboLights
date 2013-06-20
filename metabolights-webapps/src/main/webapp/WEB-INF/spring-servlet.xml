@@ -272,6 +272,11 @@
       <property name="from" value="${replyTo}"/>
       <property name="subject" value="Your account for MetaboLights is now active"/>
     </bean>
+
+    <bean id="studySoonLiveTemplate" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="${replyTo}"/>
+        <property name="subject" value="Your MetaboLights study will go public soon"/>
+    </bean>
     
     <bean id="contactUsTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="subject" value="MetaboLights Website General Request"/>

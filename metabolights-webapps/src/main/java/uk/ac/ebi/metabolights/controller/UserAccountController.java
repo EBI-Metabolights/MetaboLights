@@ -78,7 +78,7 @@ public class UserAccountController extends AbstractController{
      * Verify form input, check for clashes in database, store the
      * new account (status 'NEW') and let the user verify the request.
      *  
-     * @param MetabolightsUser user details
+     * @param metabolightsUser user details
      * @param result Binding result
      * @param model 
      * @return where to navigate next 
@@ -145,7 +145,7 @@ public class UserAccountController extends AbstractController{
 
     /**
      * Look email up in database. 
-     * @param newUserName
+     * @param newEmail
      * @return true if userName exists
      */
     private boolean emailExists (String newEmail) {
@@ -173,9 +173,8 @@ public class UserAccountController extends AbstractController{
 	
 	/**
 	 * For redirection after a user has filled in a new account form.
-	 * @param userName
-	 * @param map
-	 * @return
+	 * @param request user
+	 * @return ModelAndView
 	 */
 	@RequestMapping(value={"/accountRequested"})
 	public ModelAndView accountRequested(HttpServletRequest request) {

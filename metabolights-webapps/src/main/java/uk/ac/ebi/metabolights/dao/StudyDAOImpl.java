@@ -182,6 +182,30 @@ public class StudyDAOImpl implements StudyDAO{
     }
 
     @Override
+    public List<String> findStudiesGoingLive() {
+        Session session = sessionFactory.getCurrentSession();
+
+        //Finds all studies about to live in the next 7 days
+        Query q = session.createQuery("SELECT acc FROM Study WHERE status = 1 AND TRUNC(releaseDate-7)<=trunc(sysdate)");
+
+        List<String> studyList = new ArrayList<String>();
+
+        Iterator iterator = q.iterate();
+        while (iterator.hasNext()){
+            String studyAcc = (String) iterator.next();
+            if (studyAcc != null)
+                studyList.add(studyAcc);
+
+        }
+
+        if(studyList == null)
+            System.out.println("No studies found");
+
+        return studyList;
+    }
+
+
+    @Override
     @Transactional
 	public void update(Study study) {
 		Session session = sessionFactory.getCurrentSession();

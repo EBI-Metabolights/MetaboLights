@@ -17,6 +17,7 @@ public interface StudyDAO {
 	public Study getStudy(String studyAcc, boolean clearSession) throws IllegalAccessException;
     public Study getStudy(String studyAcc, boolean clearSession, boolean fromQueue) throws IllegalAccessException;
     public List<String> findAllAcc();
+    public List<String> findStudiesGoingLive();
 	public void update(Study study);
 	
 }

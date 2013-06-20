@@ -14,6 +14,7 @@ public interface StudyService {
     public Study getBiiStudy(String studyAcc, boolean clearSession, boolean fromQueue) throws IllegalAccessException;
 	public void update(Study study);
     public List<String> findAllStudies();
+    public List<String> findStudiesGoingLive();
 
 }
 

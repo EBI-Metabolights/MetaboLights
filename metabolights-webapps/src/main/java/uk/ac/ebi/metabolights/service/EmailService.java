@@ -13,6 +13,7 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -50,7 +51,10 @@ public class EmailService {
     @Qualifier("contactUsTemplate")
     @Autowired
 	private SimpleMailMessage contactUsTemplate; // template for general website requests
-    
+
+    @Qualifier("studySoonLiveTemplate")
+    @Autowired
+    private SimpleMailMessage studySoonLiveTemplate; // template to notify the submitter of studies going live
   
 	public void setMailSender(MailSender mailSender) {
 		this.mailSender = mailSender;
@@ -133,6 +137,16 @@ public class EmailService {
 		msg.setText(body);
 		this.mailSender.send(msg);
 	}
+
+    public void sendStudyGoingPublicNotification(String submitterEmail, Date publicDate, String acc){
+        SimpleMailMessage msg = new SimpleMailMessage(this.studySoonLiveTemplate);
+        String body = PropertyLookup.getMessage("msg.studySoonLive", acc, new SimpleDateFormat("dd-MM-yyyy").format(publicDate));
+        String[] emailTo = new String[] {submitterEmail,curationEmailAddress};
+        msg.setTo(emailTo);
+        msg.setText(body);
+        mailSender.send(msg);
+
+    }
 
    
 	public void sendSimpleEmail (String from, String[] to, String subject, String body) {
