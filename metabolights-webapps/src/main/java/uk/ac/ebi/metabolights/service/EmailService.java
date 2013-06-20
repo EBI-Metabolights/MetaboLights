@@ -138,6 +138,12 @@ public class EmailService {
 		this.mailSender.send(msg);
 	}
 
+    /**
+     * Sends an email to the submitter and the curators that a study will go public
+     * @param submitterEmail
+     * @param publicDate
+     * @param acc
+     */
     public void sendStudyGoingPublicNotification(String submitterEmail, Date publicDate, String acc){
         SimpleMailMessage msg = new SimpleMailMessage(this.studySoonLiveTemplate);
         String body = PropertyLookup.getMessage("msg.studySoonLive", acc, new SimpleDateFormat("dd-MM-yyyy").format(publicDate));

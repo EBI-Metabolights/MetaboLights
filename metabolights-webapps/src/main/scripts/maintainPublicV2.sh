@@ -94,4 +94,7 @@ Info 'Checking if we need to export the EB-eye index'
 Info "Update statistics table"
 sqlplus -s ${DB_CONNECTION} @$SCRIPT_LOC/ml_stats.sql
 
+Info "Checking if there are ny studies to go public"
+wget -b -o studies_to_go_public.log http://www.ebi.ac.uk/metabolights/findstudiesgoinglive
+
 [ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}
