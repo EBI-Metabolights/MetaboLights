@@ -170,8 +170,22 @@ public class SubmissionQueueProcessor {
 	}
 	public static boolean isProcessFolderEmpty(){
 		File processFolder = new File (SubmissionQueue.getProcessFolder());
-		
-		return (processFolder.list().length ==0);
+
+        // Trying to fix file system problem, when, for some reason, the folder is locked and can't be deleted.
+        // When this happens only the folder remains but it's empty...
+
+        for (File file : processFolder.listFiles()){
+            if (file.isDirectory() && file.listFiles().length == 0){
+                logger.info("Process folder with an empty folder, deleting it :" + file.getName() );
+                file.delete();
+            } else {
+                return false;
+            }
+
+
+        }
+
+		return true;
 	}
 	/**
 	 * Upload the IsaTabFile (zip) into BII database replacing the id with our own accession numbers.
