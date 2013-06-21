@@ -110,7 +110,7 @@ public class UpdateStudyController extends AbstractController {
      * Send an email (each day) for 7 days before the study goes live.  Let's hope this is not too much for the submitter!
      */
     @RequestMapping(value = { "/findstudiesgoinglive"})
-    public void findStudiesGoingLive(){
+    public ModelAndView findStudiesGoingLive(){
 
         List <String> studiesList = studyService.findStudiesGoingLive();
         Iterator iter = studiesList.iterator();
@@ -124,6 +124,8 @@ public class UpdateStudyController extends AbstractController {
                 e.printStackTrace();
             }
         }
+
+        return new ModelAndView ("index");
 
     }
 

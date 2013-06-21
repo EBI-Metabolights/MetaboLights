@@ -18,15 +18,15 @@
             },
             {
                 "selected": false,
-                "title": "Browse",
+                "title": "Browse Studies",
                 "href": "browse",
-                "tooltip": "Browse"
+                "tooltip": "Browse Studies"
             },
             {
                 "selected": false,
-                "title": "Reference layer",
+                "title": "Reference layer (BETA)",
                 "href": "reflayersearch",
-                "tooltip": "Reference layer"
+                "tooltip": "Reference layer (BETA)"
             },
             {
                 "selected": false,
