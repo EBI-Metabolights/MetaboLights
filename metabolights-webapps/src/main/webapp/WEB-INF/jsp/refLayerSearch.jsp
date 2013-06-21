@@ -269,20 +269,6 @@
 
                     <div class="grid_22 refLayerBox">
 
-                        <div class="grid_8 alpha">
-
-                            <c:if test="${not fn:contains(entry.accession, 'MTBLS')}">
-
-                                <a href="${entry.accession}">
-                                    <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}&amp;dimensions=200&amp;scaleMolecule=true"
-                                        onerror="this.src='img/large_noImage.gif';" width="100px"
-                                        height="100px" />
-                                </a>
-
-                            </c:if>
-
-                        </div>
-
                         <c:if test="${fn:contains(entry.accession, 'MTBLS')}">
 
                             <div class="grid_24">
@@ -401,7 +387,64 @@
 
                         <c:if test="${not fn:contains(entry.accession, 'MTBLS')}">
 
+                            <div class="grid_8 alpha">
+
+                                <a href="${entry.accession}">
+                                    <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}&amp;dimensions=200&amp;scaleMolecule=true"
+                                         onerror="this.src='img/large_noImage.gif';" width="100px"
+                                         height="100px" />
+                                </a>
+
+                            </div>
+
                             <div class="grid_14">
+
+                                <span id="icons" class="right">
+
+                                    <c:if test="${entry.hasSpecies eq 1}">
+                                        <span class="icon icon-species forSpecies" data-icon="R" title="Species"></span>
+                                    </c:if>
+                                    <c:if test="${entry.hasSpecies eq 0}">
+                                        <span class="icon icon-species" data-icon="R"></span>
+                                    </c:if>
+
+                                    <c:if test="${entry.hasPathways eq 1}">
+                                        <span class="icon icon-conceptual forConceptual" data-icon="y" title="Pathways"></span>
+                                    </c:if>
+                                    <c:if test="${entry.hasPathways eq 0}">
+                                        <span class="icon icon-conceptual" data-icon="y"></span>
+                                    </c:if>
+
+                                    <c:if test="${entry.hasReactions eq 1}">
+                                        <span class="icon icon-chemistry foChemistry" data-icon="U" title="Reactions"></span>
+                                    </c:if>
+                                    <c:if test="${entry.hasReactions eq 0}">
+                                        <span class="icon icon-chemistry" data-icon="U"></span>
+                                    </c:if>
+
+                                    <c:if test="${entry.hasNMR eq 1}">
+                                        <span title="NMR"><b>NMR</b></span>
+                                    </c:if>
+                                    <c:if test="${entry.hasNMR eq 0}">
+                                        <span class="dimmed">NMR</span>
+                                    </c:if>
+
+                                    <c:if test="${entry.hasMS eq 1}">
+                                        <span class="icon icon-functional forReactions" data-icon="z" title="MS"></span>
+                                    </c:if>
+                                    <c:if test="${entry.hasMS eq 0}">
+                                        <span class="icon icon-functional" data-icon="z"></span>
+                                    </c:if>
+
+                                    <c:if test="${entry.hasLiterature eq 1}">
+                                        <span class="icon icon-conceptual forConceptual" data-icon="l" title="Literature"></span>
+                                    </c:if>
+                                    <c:if test="${entry.hasLiterature eq 0}">
+                                        <span class="icon icon-conceptual" data-icon="l"></span>
+                                    </c:if>
+
+                                </span>
+
 
                                 <div class="grid_24">
                                     <br/>

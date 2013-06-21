@@ -63,7 +63,13 @@ public class ReferenceLayerController extends AbstractController {
         study_design,
         submitter,
         study_factor,
-        last_modification_date;
+        last_modification_date,
+        has_literature,
+        has_ms,
+        has_nmr,
+        has_pathways,
+        has_reactions,
+        has_species;
 
         ColumnMap(String altName){this.altName = altName;}
         ColumnMap(){}
@@ -201,6 +207,7 @@ public class ReferenceLayerController extends AbstractController {
             mcs.add(mc);
         }
 
+
         mav.addObject("entries", mcs);
     }
 
@@ -210,6 +217,31 @@ public class ReferenceLayerController extends AbstractController {
         MetabolightsCompound mc = new MetabolightsCompound();
 
         String value;
+
+
+        //Get the has_literature
+        value = getValueFromEbieyeEntry(ColumnMap.has_literature, ebieyeEntry);
+        mc.setHasLiterature(value);
+
+        //get has_ms
+        value = getValueFromEbieyeEntry(ColumnMap.has_ms, ebieyeEntry);
+        mc.setHasMS(value);
+
+        //get has_nmr
+        value = getValueFromEbieyeEntry(ColumnMap.has_nmr, ebieyeEntry);
+        mc.setHasNMR(value);
+
+        //get has_pathways
+        value = getValueFromEbieyeEntry(ColumnMap.has_pathways, ebieyeEntry);
+        mc.setHasPathways(value);
+
+        // get has_reactions
+        value = getValueFromEbieyeEntry(ColumnMap.has_reactions, ebieyeEntry);
+        mc.setHasReactions(value);
+
+        // get has_species
+        value = getValueFromEbieyeEntry(ColumnMap.has_species, ebieyeEntry);
+        mc.setHasSpecies(value);
 
         // Get the chebiId
         value = getValueFromEbieyeEntry(ColumnMap.CHEBI, ebieyeEntry);

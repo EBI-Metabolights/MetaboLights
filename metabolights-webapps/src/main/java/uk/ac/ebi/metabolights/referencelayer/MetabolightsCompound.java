@@ -6,7 +6,7 @@ package uk.ac.ebi.metabolights.referencelayer;
  * @author The Metabolights Team
  */
 
-
+//TODO, should not have the same name as the Domain class
 public class MetabolightsCompound {
 
 	private String Name;
@@ -17,6 +17,13 @@ public class MetabolightsCompound {
     private String submitter;
     private String last_modification_date;
 
+    private String hasLiterature;
+    private String hasReactions;
+    private String hasSpecies;
+    private String hasPathways;
+    private String hasNMR;
+    private String hasMS;
+
 	private String[] iupac;
 	private String[] MTBLStudies;
 	private String[] domains;
@@ -24,6 +31,54 @@ public class MetabolightsCompound {
     private String[] organism;
     private String[] study_design;
     private String[] study_factor;
+
+    public String getHasLiterature() {
+        return hasLiterature;
+    }
+
+    public void setHasLiterature(String hasLiterature) {
+        this.hasLiterature = hasLiterature;
+    }
+
+    public String getHasReactions() {
+        return hasReactions;
+    }
+
+    public void setHasReactions(String hasReactions) {
+        this.hasReactions = hasReactions;
+    }
+
+    public String getHasSpecies() {
+        return hasSpecies;
+    }
+
+    public void setHasSpecies(String hasSpecies) {
+        this.hasSpecies = hasSpecies;
+    }
+
+    public String getHasPathways() {
+        return hasPathways;
+    }
+
+    public void setHasPathways(String hasPathways) {
+        this.hasPathways = hasPathways;
+    }
+
+    public String getHasNMR() {
+        return hasNMR;
+    }
+
+    public void setHasNMR(String hasNMR) {
+        this.hasNMR = hasNMR;
+    }
+
+    public String getHasMS() {
+        return hasMS;
+    }
+
+    public void setHasMS(String hasMS) {
+        this.hasMS = hasMS;
+    }
 
     public String getSubmitter() {
         return submitter;

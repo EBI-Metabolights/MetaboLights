@@ -118,7 +118,16 @@ th, td {
     color: #ffffff;
 }
 
-.icon-chemistry:before
+.colorBlack {
+    color:#000000;
+}
+
+.colourGrey {
+    font-size:150%;
+    color:#B0B0B0;
+}
+
+.foChemistry:before
 {
     font-family:'EBI-Chemistry';
     font-size:150%;
@@ -130,24 +139,41 @@ th, td {
 .forReactions:before
 {
     font-family:'EBI-Functional';
-    font-size:60%;
+    font-size:150%;
     color: rgb(0, 0, 0);
     content:attr(data-icon);
     margin:0
 }
 
+.forConceptual:before
+{
+    font-family:'EBI-Conceptual';
+    font-size:150%;
+    color: rgb(0, 0, 0);
+    content:attr(data-icon);
+    margin:0
+}
+
+.forSpecies:before
+{
+    font-family:'EBI-Species';
+    font-size:150%;
+    color: rgb(0, 0, 0);
+    content:attr(data-icon);
+    margin:0
+}
+
+
 .helpGeneric:before
 {
     font-family:'EBI-Generic';
-    font-size:100%;
+    font-size:150%;
     color:rgb(0, 0, 0);
     content:attr(data-icon);
     margin:0
 }
 
-span.icon.icon-chemistry {
-    color: #000000;
-}
+
 
 .right {
     float:right;
