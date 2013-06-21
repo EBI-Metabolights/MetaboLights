@@ -416,7 +416,7 @@
                                     </c:if>
 
                                     <c:if test="${entry.hasReactions eq 1}">
-                                        <span class="icon icon-chemistry foChemistry" data-icon="U" title="Reactions"></span>
+                                        <span class="icon icon-chemistry forChemistry" data-icon="U" title="Reactions"></span>
                                     </c:if>
                                     <c:if test="${entry.hasReactions eq 0}">
                                         <span class="icon icon-chemistry" data-icon="U"></span>
@@ -430,7 +430,7 @@
                                     </c:if>
 
                                     <c:if test="${entry.hasMS eq 1}">
-                                        <span class="icon icon-functional forReactions" data-icon="z" title="MS"></span>
+                                        <span class="icon icon-functional foMS" data-icon="z" title="MS"></span>
                                     </c:if>
                                     <c:if test="${entry.hasMS eq 0}">
                                         <span class="icon icon-functional" data-icon="z"></span>

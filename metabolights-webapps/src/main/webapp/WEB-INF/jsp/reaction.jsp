@@ -137,19 +137,19 @@
                                     <td class="tdSymbols">
                                         <c:choose>
                                             <c:when test="${Reaction.convention eq 'rhea:direction.UN'}">
-                                                <b><span class="icon icon-chemistry" data-icon="U"/></b>
+                                                <b><span class="icon icon-chemistry forReactChemistry" data-icon="U"/></b>
                                             </c:when>
                                             <c:when test="${Reaction.convention eq 'rhea:direction.LR'}">
-                                                <b><span class="icon icon-chemistry" data-icon="l"/></b>
+                                                <b><span class="icon icon-chemistry forReactChemistry" data-icon="l"/></b>
                                             </c:when>
                                             <c:when test="${Reaction.convention eq 'rhea:direction.BI'}">
-                                                <b><span class="icon icon-chemistry" data-icon="R"/></b>
+                                                <b><span class="icon icon-chemistry forReactChemistry" data-icon="R"/></b>
                                             </c:when>
                                             <c:when test="${Reaction.convention eq 'rhea:direction.RL'}">
-                                                <b><span class="icon icon-chemistry" data-icon="r"/></b>
+                                                <b><span class="icon icon-chemistry forReactChemistry" data-icon="r"/></b>
                                             </c:when>
                                             <c:otherwise>
-                                                <b><span class="icon icon-chemistry" data-icon="U"/></b>
+                                                <b><span class="icon icon-chemistry forReactChemistry" data-icon="U"/></b>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>

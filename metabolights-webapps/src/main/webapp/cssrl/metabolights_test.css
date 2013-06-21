@@ -127,7 +127,25 @@ th, td {
     color:#B0B0B0;
 }
 
-.foChemistry:before
+.forChemistry:before
+{
+    font-family:'EBI-Chemistry';
+    font-size:150%;
+    color: rgb(0, 0, 0);
+    content:attr(data-icon);
+    margin:0
+}
+
+.forReactChemistry:before
+{
+    font-family:'EBI-Chemistry';
+    font-size:150%;
+    color: rgb(0, 0, 0);
+    content:attr(data-icon);
+    margin:0
+}
+
+.foMS:before
 {
     font-family:'EBI-Chemistry';
     font-size:150%;
@@ -139,7 +157,7 @@ th, td {
 .forReactions:before
 {
     font-family:'EBI-Functional';
-    font-size:150%;
+    font-size:80%;
     color: rgb(0, 0, 0);
     content:attr(data-icon);
     margin:0
