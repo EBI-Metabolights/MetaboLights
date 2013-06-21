@@ -210,7 +210,7 @@ function color_for_atom(formulaChar)
                 <div id="tabs-3" class="tab">
                     <select id="pathwayList">
                         <c:forEach var="pathway" items="${compound.mc.metPathways}">
-                            <option value="${pathway.id}">Source: ${pathway.database.name}, species:${pathway.speciesAssociated.species} </option>
+                            <option value="${pathway.id}">${pathway.name} (source: ${pathway.database.name}, species:${pathway.speciesAssociated.species})</option>
                         </c:forEach>
                     </select>
                     <br/><br/><br/>
@@ -241,7 +241,16 @@ function color_for_atom(formulaChar)
 
             <c:if test="${compound.mc.hasMS}">
                 <!-- MS Spectra -->
-                <div id="tabs-6" class="tab"><h4>To be implemented...</h4><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE143R-fv5Qf-78aSulo8vvFCTdinc-JULSdvh8i3erXA3kwFnnA"/></div>
+                <div id="tabs-6" class="tab">
+                    <div id="spectrumbrowser">
+                        {"list":
+                        [<c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraloopStatus">
+                        <c:if test="${spectraloopStatus.index gt 0}">,</c:if>{"name":"${spectra.name}<c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeloopStatus"><c:if test="${attributeloopStatus.index eq 0}"> (</c:if><c:if test="${attributeloopStatus.index gt 0}">, </c:if>${attribute.attributeDefinition.name}:${attribute.value}<c:if test="${attributeloopStatus.index eq (fn:length(spectra.attributes)-1)}">)</c:if></c:forEach>", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}
+                    </c:forEach>
+                        ]
+                        }
+                    </div>
+                </div>
             </c:if>
 
 			<%-- Literature
