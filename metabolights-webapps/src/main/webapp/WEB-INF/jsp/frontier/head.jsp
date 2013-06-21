@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Language" content="en-GB" />
     <meta http-equiv="Window-target" content="_top" />
     <meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/" />
-    <meta name="keywords" content="metabolite, metabolism, metabolic, metabonomics, metabolomics study, metabolomics experiment, metabolic pathway, metabolite database" />
+    <meta name="keywords" content="metabolite, metabolites, metabolism, metabolic, metabonomics, metabolomics, metabolomics study, metabolomics experiment, metabolic pathway, metabolite database" />
     <link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/userstyles.css" type="text/css">
 	<link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/contents.css" type="text/css">
 
