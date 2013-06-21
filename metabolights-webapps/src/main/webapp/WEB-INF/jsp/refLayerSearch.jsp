@@ -399,45 +399,45 @@
 
                             <div class="grid_14">
 
-                                <span id="icons" class="right">
+                                <span id="icons" class="right noLine">
 
                                     <c:if test="${entry.hasSpecies eq 1}">
-                                        <span class="icon icon-species forSpecies" data-icon="R" title="Species"></span>
+                                        <a href="${entry.accession}"><span class="icon icon-species forSpecies" data-icon="R" title="Species"></span></a>
                                     </c:if>
                                     <c:if test="${entry.hasSpecies eq 0}">
                                         <span class="icon icon-species" data-icon="R"></span>
                                     </c:if>
 
                                     <c:if test="${entry.hasPathways eq 1}">
-                                        <span class="icon icon-conceptual forConceptual" data-icon="y" title="Pathways"></span>
+                                        <a href="${entry.accession}"><span class="icon icon-conceptual forConceptual" data-icon="y" title="Pathways"></span></a>
                                     </c:if>
                                     <c:if test="${entry.hasPathways eq 0}">
                                         <span class="icon icon-conceptual" data-icon="y"></span>
                                     </c:if>
 
                                     <c:if test="${entry.hasReactions eq 1}">
-                                        <span class="icon icon-chemistry forChemistry" data-icon="U" title="Reactions"></span>
+                                        <a href="${entry.accession}"><span class="icon icon-chemistry forChemistry" data-icon="U" title="Reactions"></span></a>
                                     </c:if>
                                     <c:if test="${entry.hasReactions eq 0}">
                                         <span class="icon icon-chemistry" data-icon="U"></span>
                                     </c:if>
 
                                     <c:if test="${entry.hasNMR eq 1}">
-                                        <span title="NMR"><b>NMR</b></span>
+                                        <a href="${entry.accession}"><span title="NMR"><b>NMR</b></span></a>
                                     </c:if>
                                     <c:if test="${entry.hasNMR eq 0}">
                                         <span class="dimmed">NMR</span>
                                     </c:if>
 
                                     <c:if test="${entry.hasMS eq 1}">
-                                        <span class="icon icon-functional foMS" data-icon="z" title="MS"></span>
+                                        <a href="${entry.accession}"><span class="icon icon-functional foMS" data-icon="z" title="MS"></span></a>
                                     </c:if>
                                     <c:if test="${entry.hasMS eq 0}">
                                         <span class="icon icon-functional" data-icon="z"></span>
                                     </c:if>
 
                                     <c:if test="${entry.hasLiterature eq 1}">
-                                        <span class="icon icon-conceptual forConceptual" data-icon="l" title="Literature"></span>
+                                        <a href="${entry.accession}"><span class="icon icon-conceptual forConceptual" data-icon="l" title="Literature"></span></a>
                                     </c:if>
                                     <c:if test="${entry.hasLiterature eq 0}">
                                         <span class="icon icon-conceptual" data-icon="l"></span>
