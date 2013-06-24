@@ -136,7 +136,7 @@ public class ReferenceLayerController extends AbstractController {
         return printMessage("Cache cleared.", "The cache has been cleared.");
     }
 
-    @RequestMapping({ "/reflayersearch" })
+    @RequestMapping({ "/reflayersearch", "/reference" })
     public ModelAndView searchAndDisplay(
         @RequestParam(required = false, value = "freeTextQuery") String userQuery,
         @RequestParam(required = false, value = "organisms") String[] organismsSelected,

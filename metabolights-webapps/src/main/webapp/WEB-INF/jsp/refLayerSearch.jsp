@@ -8,13 +8,16 @@
     <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
     <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
     <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+    <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
     <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
     <%@page contentType="text/html;charset=UTF-8"%>
     <%@page pageEncoding="UTF-8"%>
+
     <script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
     <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
+
+    <link rel="stylesheet" href="cssrl/iconfont/font_style.css" type="text/css" />
 
     <script type="text/javascript">
 
@@ -423,17 +426,17 @@
                                     </c:if>
 
                                     <c:if test="${entry.hasNMR eq 1}">
-                                        <a href="${entry.accession}"><span title="NMR"><b>NMR</b></span></a>
+                                        <a href="${entry.accession}"><span class="icon2-NMRLogo icon2-biggerFonts" data-icon="*" title="NMR"></span></a>
                                     </c:if>
                                     <c:if test="${entry.hasNMR eq 0}">
-                                        <span class="dimmed">NMR</span>
+                                        <span class="icon2-NMRLogo dimmed" data-icon="*"></span>
                                     </c:if>
 
                                     <c:if test="${entry.hasMS eq 1}">
-                                        <a href="${entry.accession}"><span class="icon icon-functional foMS" data-icon="z" title="MS"></span></a>
+                                        <a href="${entry.accession}"><span class="icon2-MSLogo icon2-biggerFonts" data-icon=")" title="MS"></span></a>
                                     </c:if>
                                     <c:if test="${entry.hasMS eq 0}">
-                                        <span class="icon icon-functional" data-icon="z"></span>
+                                        <span class="icon2-MSLogo dimmed" data-icon=")"></span>
                                     </c:if>
 
                                     <c:if test="${entry.hasLiterature eq 1}">

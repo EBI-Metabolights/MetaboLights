@@ -10,17 +10,17 @@
 }
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
-[data-icon]:before {
+[data-icon2]:before {
 	font-family: 'icomoon';
-	content: attr(data-icon);
+	content: attr(data-icon2);
 	speak: none;
 	font-weight: normal;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 }
 
-/* Use the following CSS code if you want to have a class per icon */
-[class^="icon-"]:before, [class*=" icon-"]:before {
+/* Use the following CSS code if you want to have a class per icon2 */
+[class^="icon2-"]:before, [class*=" icon2-"]:before {
 	font-family: 'icomoon';
 	font-style: normal;
 	speak: none;
@@ -28,48 +28,53 @@
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 }
-.icon-lab:before {
+.icon2-lab:before {
 	content: "\21";
 }
-.icon-support:before {
+.icon2-support:before {
 	content: "\22";
 }
-.icon-clock:before {
+.icon2-clock:before {
 	content: "\23";
 }
-.icon-busy:before {
+.icon2-busy:before {
 	content: "\24";
 }
-.icon-locked:before {
+.icon2-locked:before {
 	content: "\25";
 }
-.icon-key:before {
+.icon2-key:before {
 	content: "\26";
 }
-.icon-stats-up:before {
+.icon2-stats-up:before {
 	content: "\27";
 }
-.icon-MetaboLightsLogo:before {
+.icon2-MetaboLightsLogo:before {
 	content: "\28";
 }
-.icon-MSLogo:before {
+.icon2-MSLogo:before {
 	content: "\29";
 }
-.icon-NMRLogo:before {
+.icon2-NMRLogo:before {
 	content: "\2a";
 }
-.icon-mail:before {
+.icon2-mail:before {
 	content: "\2b";
 }
-.icon-book:before {
+.icon2-book:before {
 	content: "\2c";
 }
-.icon-facebook:before {
+.icon2-facebook:before {
 	content: "\2e";
 }
-.icon-twitter:before {
+.icon2-twitter:before {
 	content: "\2f";
 }
-.icon-blogger:before {
+.icon2-blogger:before {
 	content: "\2d";
+}
+
+.icon2-biggerFonts {
+    font-size:150%;
+
 }
