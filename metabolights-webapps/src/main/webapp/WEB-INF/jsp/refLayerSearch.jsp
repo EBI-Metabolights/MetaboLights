@@ -91,15 +91,17 @@
                 <br/>
             </div>
 
-            <div class="grid_16">
+            <div class="grid_18">
 
-                <div class="grid_24 title alpha">
+                <div class="grid_22">
 
-                    <div class="grid_4 aplha">
-                        <b>Page&nbsp;:&nbsp;${rffl.currentPage}</b>
-                    </div>
+                    <div class="grid_24 title alpha">
 
-                    <div class="grid_20 omega">
+                        <div class="grid_4 aplha">
+                            <b>Page&nbsp;:&nbsp;${rffl.currentPage}</b>
+                        </div>
+
+                        <div class="grid_20 omega">
 
                         <span id="pagination" class="right">
 
@@ -172,6 +174,8 @@
                                 <b>Showing results ${((rffl.currentPage * 10) - 10) +1} to ${(rffl.currentPage * 10)}</b>
                             </c:if>
                         </span>
+
+                        </div>
 
                     </div>
 
@@ -520,19 +524,26 @@
                 <br/>
             </div>
 
-            <div class="grid_16 title alpha">
-                <div class="grid_4">
-                    <b>Page:&nbsp;${rffl.currentPage}</b>
+            <div class="grid_18">
+
+                <div class="grid_22">
+
+                    <div class="grid_24 title alpha">
+                        <div class="grid_4">
+                            <b>Page:&nbsp;${rffl.currentPage}</b>
+                        </div>
+
+                        <div id="paginationBottom" class="grid_20"></div>
+                        <script>$('#pagination').clone().appendTo('#paginationBottom');</script>
+                    </div>
+
                 </div>
 
-                <div id="paginationBottom" class="grid_20"></div>
-                <script>$('#pagination').clone().appendTo('#paginationBottom');</script>
-
             </div>
 
-            <div class="grid_2 omega">
-                <br/>
-            </div>
+            <%--<div class="grid_2 omega">--%>
+                <%--<br/>--%>
+            <%--</div>--%>
 
         </div>
 
