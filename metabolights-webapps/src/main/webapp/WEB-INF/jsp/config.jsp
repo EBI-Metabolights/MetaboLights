@@ -32,6 +32,7 @@ $(function() {
 			<li><a class="noLine" href="#studyHealthTab">Study Health Tab</a></li>
             <li><a class="noLine" href="#clearRefCache">Clear Ref Cache</a></li>
             <li><a class="noLine" href="#MetaboLightsParameters">MetaboLights Parameters</a></li>
+            <li><a class="noLine" href="#reindexStudies">Reindex Studies</a></li>
 		</ul>
 		
         <div id="appTab">
@@ -174,7 +175,7 @@ $(function() {
                     <tr><th>Study</th><th>is Public?</th><th>Must be under</th><th>is it there?</th></tr>
                     <c:forEach var="study" items="${studiesHealth}">
                         <tr>
-                            <td><a href="${study.identifier}">${study.identifier}</a></td>
+                            <td><a href="reindex?study=${study.identifier}" title="Reindex this study">${study.identifier}</a></td>
                             <td>${study.isPublic}</td>
                             <td>${study.studyPath}</td>
                             <td <c:if test="${not study.isThere}">class="error"</c:if> >
@@ -263,6 +264,23 @@ $(function() {
                 </div>
                 <div class="grid_24">
                     <a href="parameters">Click here for MetaboLights Parameters</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="refLayerBox" id="reindexStudies">
+            <div class="grid_24">
+                <div class="grid_24 title">
+                    Reindex studies
+                </div>
+                <div class="grid_24">
+                    <spring:message code="msg.studies.reindex"/>
+                    <br/>
+                    <br/>
+                    <ul id="reindexStudiesatOnce">
+                        <li><a href="reindex" title="Reindex one-by-one">Reindex studies one-by-one</a></li>
+                        <li><a href="reindexall" title="Reindex all">Reindex all studies</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
