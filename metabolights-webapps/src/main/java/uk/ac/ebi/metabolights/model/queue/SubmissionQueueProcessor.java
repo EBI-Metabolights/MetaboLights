@@ -37,7 +37,7 @@ public class SubmissionQueueProcessor {
     private static String zipOnDemandLocation = PropertiesUtil.getProperty("ondemand");
     private static String publicFtpLocation = PropertiesUtil.getProperty("publicFtpLocation");
     private static Boolean filesMovedPubToPriv = false;
-    private static Boolean filesMovedPrivToPub = false;
+    private static Boolean PrivToPriv = false;
 	
 
 	private IsaTabUploader itu = new IsaTabUploader();
@@ -454,13 +454,19 @@ public class SubmissionQueueProcessor {
             if(oldStatus == VisibilityStatus.PRIVATE && newStatus == VisibilityStatus.PUBLIC ){ //Added code.
                 itu.setCopyToPrivateFolder(privateFtpStageLocation);
                 itu.setCopyToPublicFolder(publicFtpStageLocation);
-                filesMovedPrivToPub = true;
+                //filesMovedPrivToPub = true;
             } else if(oldStatus == VisibilityStatus.PUBLIC && newStatus == VisibilityStatus.PRIVATE){
                 itu.setCopyToPrivateFolder(publicFtpLocation);
                 itu.setCopyToPublicFolder(privateFtpStageLocation);
-                filesMovedPubToPriv = true;
+                //filesMovedPubToPriv = true;
                 logger.info("Setting the copy folders for copying from public FTP to private staging.");
-            }  //Added code.
+            }  else if(oldStatus == VisibilityStatus.PRIVATE && newStatus == VisibilityStatus.PRIVATE) {
+                itu.setCopyToPrivateFolder(privateFtpStageLocation);
+                itu.setCopyToPublicFolder(publicFtpStageLocation);
+                PrivToPriv = true;
+                logger.info("Changing only public release date in a Private study");
+            }
+            //Added code.
 
             //Since now we are storing the studies unzipped....we check if the folder exists
             File studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC));
@@ -499,7 +505,7 @@ public class SubmissionQueueProcessor {
 	
 	            // Change the permissions
 
-	        } else if(si.getStatus() == VisibilityStatus.PRIVATE){ // If the new status is private...
+	        } else if(si.getStatus() == VisibilityStatus.PRIVATE && PrivToPriv == false){ // If the new status is private...
 
                 // Move the file from the public
                 //itu.moveFile(si.getAccession(), VisibilityStatus.PRIVATE);
