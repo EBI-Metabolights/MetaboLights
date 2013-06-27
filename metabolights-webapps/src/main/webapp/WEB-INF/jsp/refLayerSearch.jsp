@@ -423,7 +423,7 @@
                                     <%--</c:if>--%>
 
                                     <c:if test="${entry.hasReactions eq 1}">
-                                        <a href="${entry.accession}"><span class="icon icon-chemistry forChemistry" data-icon="U" title="Reactions"></span></a>
+                                        <a href="${entry.accession}"><span class="icon icon-chemistry forChemistry" data-icon="R" title="Reactions"></span></a>
                                     </c:if>
                                     <%--<c:if test="${entry.hasReactions eq 0}">--%>
                                         <%--<span class="icon icon-chemistry" data-icon="U"></span>--%>

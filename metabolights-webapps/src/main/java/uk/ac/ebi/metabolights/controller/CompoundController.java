@@ -32,9 +32,7 @@ import java.util.List;
 public class CompoundController extends AbstractController {
 
     private static Logger logger = Logger.getLogger(CompoundController.class);
-    private
-    @Value("#{EUPMCWebServiceURL}")
-    String PMCurl;
+    private @Value("#{EUPMCWebServiceURL}") String PMCurl;
 
     public static final String METABOLIGHTS_COMPOUND_ID_REG_EXP = "(?:MTBLC|mtblc).+";
 
