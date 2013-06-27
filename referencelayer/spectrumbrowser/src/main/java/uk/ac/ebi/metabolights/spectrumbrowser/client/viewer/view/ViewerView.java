@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.view;
 
 import com.google.gwt.json.client.JSONObject;
+import uk.ac.ebi.biowidgets.spectrum.client.SpectrumViewer;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.common.AppView;
 
 /**
@@ -13,4 +14,6 @@ public interface ViewerView extends AppView<ViewerView.Presenter> {
     }
 
     public void setSpectrumUrl(String id);
+    public void setSpectrumType(SpectrumViewer.SpectrumType spectrumType);
+
 }

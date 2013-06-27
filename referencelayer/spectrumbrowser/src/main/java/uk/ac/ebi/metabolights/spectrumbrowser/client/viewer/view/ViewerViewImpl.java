@@ -22,6 +22,7 @@ public class ViewerViewImpl implements ViewerView {
     private Presenter presenter;
     private HTMLPanel container;
     private Map<String, SpectrumViewer> map = new HashMap<String, SpectrumViewer>();
+    private SpectrumViewer.SpectrumType spectrumType = SpectrumViewer.SpectrumType.NMR;
 
     public ViewerViewImpl() {
         this.container = new HTMLPanel("");
@@ -49,6 +50,14 @@ public class ViewerViewImpl implements ViewerView {
 
 
         }
+    }
+
+    public SpectrumViewer.SpectrumType getSpectrumType() {
+        return spectrumType;
+    }
+
+    public void setSpectrumType(SpectrumViewer.SpectrumType spectrumType) {
+        this.spectrumType = spectrumType;
     }
 
     private void gwtGetHttpJasonPString(final String url){
@@ -80,7 +89,7 @@ public class ViewerViewImpl implements ViewerView {
 
                 spectrumList.add(spectrum);
 
-                SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, SpectrumViewer.SpectrumType.NMR);
+                SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, spectrumType);
                 map.put(url, spectrumViewer);
                 show(spectrumViewer);
 
@@ -117,7 +126,7 @@ public class ViewerViewImpl implements ViewerView {
 
                 spectrumList.add(spectrum);
 
-                SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, SpectrumViewer.SpectrumType.NMR);
+                SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, spectrumType);
                 map.put(url, spectrumViewer);
                 show(spectrumViewer);
 
@@ -153,7 +162,7 @@ public class ViewerViewImpl implements ViewerView {
 
                             spectrumList.add(spectrum);
 
-                            SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, SpectrumViewer.SpectrumType.NMR);
+                            SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, spectrumType);
                             map.put(url, spectrumViewer);
                             show(spectrumViewer);
 
