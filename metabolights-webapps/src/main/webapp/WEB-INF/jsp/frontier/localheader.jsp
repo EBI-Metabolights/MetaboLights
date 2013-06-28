@@ -12,7 +12,7 @@ ${localfrontierheader}
 <%--
 <c:if test="${pageContext.request.serverName=='www.ebi.ac.uk'}" >
 	<script>
-		$('[href="reflayersearch"]').hide();
+		$('[href="reference"]').hide();
 	</script>
 </c:if>
 --%>

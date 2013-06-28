@@ -29,7 +29,7 @@
     <c:choose>
         <c:when test="${not empty identifierList}">
             <p>
-            <H4>Metabolites identified in other databases</H4>
+            <H4>MetaboLights compounds referenced in other databases</H4>
             <c:forEach var="idEntries" items="${identifierList}">
                 <div class="grid_8">
                     ${idEntries.displayName}

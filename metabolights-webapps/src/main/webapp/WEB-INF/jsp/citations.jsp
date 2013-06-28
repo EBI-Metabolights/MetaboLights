@@ -11,7 +11,7 @@ function toggle(element) {
 <c:choose>
 	<c:when test="${not empty citationList}">
 		<h3>
-			<b><a href="http://europepmc.org/">Europe PMC</a></b>
+			<b><a href="http://europepmc.org/">Europe PubMed Central results</a></b>
 		</h3>
 		<c:forEach var="citation" items="${citationList}">
 			<div class="refLayerBox">

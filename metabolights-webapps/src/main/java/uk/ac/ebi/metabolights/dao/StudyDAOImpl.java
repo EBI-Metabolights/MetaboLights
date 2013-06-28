@@ -186,7 +186,8 @@ public class StudyDAOImpl implements StudyDAO{
         Session session = sessionFactory.getCurrentSession();
 
         //Finds all studies about to live in the next 7 days
-        Query q = session.createQuery("SELECT acc FROM Study WHERE status = 1 AND TRUNC(releaseDate-7)<=trunc(sysdate)");
+        //SELECT acc FROM Study WHERE status = 1 AND TRUNC(releaseDate-7)<=trunc(sysdate)
+        Query q = session.createQuery("SELECT acc FROM Study WHERE status = 1 AND ( TRUNC(releaseDate-7)=trunc(sysdate) or TRUNC(releaseDate-2)=trunc(sysdate))");
 
         List<String> studyList = new ArrayList<String>();
 
