@@ -1,0 +1,13 @@
+CHEBI:1148	9606	0	Propanoate metabolism	rn00640	12203201
+CHEBI:15343	9606	0	androgen biosynthesis	PWY66-378	10928140
+CHEBI:15343	9606	1	oxidative ethanol degradation III (microsomal)	PWY66-161	10928393
+CHEBI:15343	9606	2	ethanol degradation IV (peroxisomal)	PWY66-162	10928396
+CHEBI:15343	9606	3	ethanol degradation II (cytosol)	PWY66-21	10928399
+CHEBI:15343	9606	4	Pentose phosphate pathway	rn00030	12203213
+CHEBI:15354	9606	0	choline biosynthesis III	PWY-3561	10928165
+CHEBI:15354	9606	1	phosphatidylcholine biosynthesis I	PWY3O-450	10928204
+CHEBI:15354	9606	2	choline degradation I	CHOLINE-BETAINE-ANA-PWY	10928326
+CHEBI:15354	9606	3	phospholipases	LIPASYN-PWY	10928590
+CHEBI:15354	9606	4	Glycerophospholipid metabolism	rn00564	12203234
+CHEBI:15354	9606	5	Glycine, serine and threonine metabolism	rn00260	12203196
+CHEBI:15355	9606	0	Glycerophospholipid metabolism	rn00564	12203234

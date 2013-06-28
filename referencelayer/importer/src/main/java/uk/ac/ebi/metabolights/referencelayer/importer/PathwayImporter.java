@@ -1,8 +1,11 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
+import com.google.common.io.Files;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.AttributeDefinitionDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.DatabaseDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
@@ -10,7 +13,9 @@ import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.domain.*;
 import uk.ac.ebi.ws.ols.QueryService;
 
+import javax.xml.rpc.ServiceException;
 import java.io.*;
+import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -19,33 +24,94 @@ public class PathwayImporter {
 
     private Logger LOGGER = Logger.getLogger(PathwayImporter.class);
 
+    private static final String DEFAULT_PATHWAYS_TXT_NAME = "pathway.txt";
+    private File pathwaysTxt = new File(DEFAULT_PATHWAYS_TXT_NAME);
+    private File importFolder = new File(".");
+    private File compoundsFolder;
+
+
+    // DAO objects
     private MetaboLightsCompoundDAO mcd;
     private DatabaseDAO dbd;
     private Database pamela;
     private SpeciesDAO spd;
+    private AttributeDefinitionDAO add;
 
     private OntologyLookUpService ols = new OntologyLookUpService();
+    private AttributeDefinition pamelaPathwayIdAttributeDefinition;
+    private AttributeDefinition keggPathwayURLAttributeDefinition;
+    private AttributeDefinition bioCYCURLAttributeDefinition;
 
     // Instantiate with a connection object
     public PathwayImporter(Connection connection) throws IOException {
+
+        initConnections(connection);
+
+    }
+
+    // Instantiate with a connection object
+    public PathwayImporter(Connection connection, File importFolder) throws IOException {
+
+        initConnections(connection);
+
+        setupFilesAndFolders(importFolder);
+
+    }
+
+    public PathwayImporter(Connection connection, File importFolder, File compoundsFolder) throws IOException {
+
+        initConnections(connection);
+
+        setupFilesAndFolders(importFolder,compoundsFolder);
+
+    }
+    private void initConnections(Connection connection) throws IOException {
+
         this.mcd = new MetaboLightsCompoundDAO(connection);
         this.dbd = new DatabaseDAO(connection);
         this.spd = new SpeciesDAO(connection);
+        this.add = new AttributeDefinitionDAO(connection);
+
+    }
+
+
+    private void setupFilesAndFolders(File importFolder, File compoundsFolder, File pathwaysTxt){
+
+        this.importFolder = importFolder;
+        this.compoundsFolder = importFolder;
+        this.pathwaysTxt = pathwaysTxt;
+
+    }
+
+    private void setupFilesAndFolders(File importFolder){
+
+       setupFilesAndFolders(importFolder,importFolder);
+
+    }
+
+    private void setupFilesAndFolders(File importFolder, File compoundsFolder){
+
+        setupFilesAndFolders(importFolder,compoundsFolder, new File (importFolder.getAbsolutePath() + "/" + DEFAULT_PATHWAYS_TXT_NAME));
 
     }
 
 
     public void importPathwaysFromFolder(File folder){
 
-        LOGGER.info("Importing pathways (*.png) from folder: " + folder.getAbsolutePath());
 
-        FilenameFilter filter = new FilenameFilter(){
+        setupFilesAndFolders(folder);
 
-            @Override
-            public boolean accept(File file, String s) {
-                return s.toLowerCase().endsWith(".png");
-            }
-        };
+        importPathways();
+
+    }
+
+    private void importPathways() {
+
+
+        LOGGER.info("Importing pathways (*.png) from folder: " + importFolder.getAbsolutePath());
+        LOGGER.info("Reading pathways info from " + pathwaysTxt.getAbsolutePath());
+        LOGGER.info("Moving pathway files to " + compoundsFolder.getAbsolutePath());
+
 
         // Instantiate pamela database
         try {
@@ -58,48 +124,83 @@ public class PathwayImporter {
         }
 
 
-        // Get the files in the folder
-        for (File pathwayFile: folder.listFiles(filter)){
+        // Read the pathways info file...
 
-            // Log file
-            LOGGER.info("Importing " + pathwayFile.getName());
-            importPathway(pathwayFile);
+        // Open and go through the file
+        try {
+            //Use a buffered reader
+            BufferedReader reader = new BufferedReader(new FileReader(pathwaysTxt));
+            String line = "", text = "";
 
+            //Go through the file
+            while((line = reader.readLine()) != null)
+            {
+
+                // Get the Chebi id ==> First element in a line separated by Tabulators
+                String[] values = line.split("\t");
+
+                String chebiId = values[0];
+                String taxon = values[1];
+                String index = values[2];
+                String pathwayName = values[3];
+                String pathwayACC = values[4];
+                String pamelaPathwayACC = values[5];
+
+                importPathway(chebiId,taxon,index,pathwayName,pathwayACC,pamelaPathwayACC);
+
+
+            }
+
+            //Close the reader
+            reader.close();
+
+        } catch (Exception e) {
+            LOGGER.error("Can't import pathways.",e);
+            return;
         }
 
     }
 
-    private void importPathway(File pathwayFile){
-
-        String fileName = pathwayFile.getName();
-
-        // Clean first part of the name: Only will work for pamela
-        fileName = fileName.replace("TestPamelaLayout", "");
+    private void importPathway(String chebiId, String taxon, String index, String pathwayName, String pathwayACC, String pamelaPathwayACC){
 
 
-        String[] values = fileName.split("_");
+        // Compose the pathway file name:
+        String fileName = chebiId.replace(":", "_") + "_" + taxon + "_" + index + ".png";
 
-        String acc = chebiID2MetaboLightsID(values[0]);
-        String taxon = SpeciesUpdater.ONTOLOGY + ":" + values[1];
+        File pathwayFile = new File (importFolder.getAbsolutePath() + "/" + fileName);
 
-        Species sp = null;
+        if (!pathwayFile.exists()) {
+            LOGGER.error("Can't find pathway file " + pathwayFile.getAbsolutePath());
+            return;
+        }
+
+        // Compose the metabolite accession:
+        String acc = chebiId.replace("CHEBI:", "MTBLC");
 
 
+        // We need to copy the file to the compound folder + ACC: compoundFolder/MTBLC1234
+        File copyTo = new File(compoundsFolder.getAbsolutePath() + "/" + acc);
+        if (!copyTo.exists()) {
+            copyTo.mkdirs();
+        }
+
+        File finalPathwayFile = new File(copyTo.getAbsolutePath() + "/" + fileName);
+
+        // copy the file to the compound folder
         try {
-            sp = spd.findBySpeciesTaxon(taxon);
-        } catch (DAOException e) {
-            LOGGER.error("Can't get species by taxon:" + e.getMessage());
+
+            FileUtils.copyFile(pathwayFile,finalPathwayFile );
+
+            LOGGER.info("Pathway file moved to " + finalPathwayFile.getAbsolutePath());
+
+        } catch (IOException e) {
+            LOGGER.error("Can't copy pathway file " + pathwayFile.getAbsolutePath() + " to " + finalPathwayFile.getAbsolutePath(), e);
+            return;
         }
 
-        // If species is null...
-        if (sp==null){
-            LOGGER.warn("No species for taxon:" + taxon + ", creating an improper one.");
 
-            sp = new Species();
-            sp.setSpecies(taxon);
-            sp.setTaxon(taxon);
-            sp.setDescription("Created by Importer, needs to be curated");
-        }
+        // Get the species
+        Species sp = getSpecies(taxon);
 
 
         try {
@@ -113,7 +214,32 @@ public class PathwayImporter {
             } else{
 
                 // Create the pathway
-                Pathway pathway = new Pathway(fileName,pamela,pathwayFile, sp);
+                Pathway pathway = new Pathway(pathwayName,pamela,finalPathwayFile, sp);
+
+                // Add attributes...
+
+                // PAMELA ID
+                Attribute att = new Attribute();
+                att.setValue(pamelaPathwayACC);
+                att.setAttributeDefinition(getPamelaPathwayIdAttributeDefinition());
+                pathway.getAttributes().add(att);
+
+
+                // pathway ID
+                att = new Attribute();
+
+                if (pathwayACC.startsWith("rn")){
+
+                    att.setValue("http://www.genome.jp/kegg-bin/show_pathway?" + pathwayACC);
+                    att.setAttributeDefinition(getKeggPathwayURLAttributeDefinition());
+                } else {
+
+                    att.setValue("http://biocyc.org/META/NEW-IMAGE?type=PATHWAY&object=" + pathwayACC);
+                    att.setAttributeDefinition(getBioCYCURLAttributeDefinition());
+
+                }
+                pathway.getAttributes().add(att);
+
 
                 // If the pathway is not there...
                 if (!mc.getMetPathways().contains(pathway)){
@@ -136,9 +262,169 @@ public class PathwayImporter {
 
     }
 
+    private AttributeDefinition getPamelaPathwayIdAttributeDefinition(){
+        
+        if (pamelaPathwayIdAttributeDefinition == null) {
+            pamelaPathwayIdAttributeDefinition = getAttributeDefinition("PAMELA Pathway ID", "PAMELA pathway identifier");
 
-    private String chebiID2MetaboLightsID(String chebiID){
-        return (chebiID.replaceFirst("CHEBI:", "MTBLC"));
+        }
+
+        return pamelaPathwayIdAttributeDefinition;
     }
+
+    private AttributeDefinition getKeggPathwayURLAttributeDefinition(){
+
+        if (keggPathwayURLAttributeDefinition == null) {
+            keggPathwayURLAttributeDefinition = getAttributeDefinition("KEGG Pathway URL", "URL that takes you to a KEGG pathway page");
+
+        }
+
+        return keggPathwayURLAttributeDefinition;
+
+    }
+
+    private AttributeDefinition getBioCYCURLAttributeDefinition(){
+
+        if (bioCYCURLAttributeDefinition == null) {
+            bioCYCURLAttributeDefinition = getAttributeDefinition("BIOCYC Pathway URL", "URL that takes you to a BIOCYC pathway page");
+
+        }
+
+        return bioCYCURLAttributeDefinition;
+    }
+    
+    private AttributeDefinition getAttributeDefinition(String attributeDefinitionName, String attributeDefinitionDescription){
+
+        AttributeDefinition ad;
+
+        // Search for the attribute Definition by name
+        try {
+            ad = add.findByAttributeDefinitionName(attributeDefinitionName);
+        } catch (DAOException e) {
+            LOGGER.error("Can't find attribute definition" , e);
+            return null;
+        }
+
+        // If attribute definition is not found
+        if (ad == null){
+            ad = new AttributeDefinition();
+            ad.setName(attributeDefinitionName);
+            ad.setDescription(attributeDefinitionDescription);
+        }
+
+        return ad;
+
+    }
+
+    private Species getSpecies(String taxon) {
+
+        // Get the species
+        taxon = SpeciesUpdater.ONTOLOGY + ":" + taxon;
+
+        Species sp = null;
+
+        try {
+            sp = spd.findBySpeciesTaxon(taxon);
+        } catch (DAOException e) {
+            LOGGER.error("Can't get species by taxon:" + e.getMessage());
+        }
+
+        // If species is null...
+        if (sp==null){
+            LOGGER.warn("No species for taxon:" + taxon + ", creating one.");
+
+            String speciesName;
+            try {
+                speciesName = ols.getTermName(taxon, SpeciesUpdater.ONTOLOGY);
+            } catch (Exception e) {
+                LOGGER.error ("Can't get Term name from ontology service for " + taxon);
+
+                speciesName = taxon;
+
+
+            }
+
+            sp = new Species();
+            sp.setSpecies(speciesName);
+            sp.setTaxon(taxon);
+            sp.setDescription("Created by Importer, needs to be curated");
+        }
+        return sp;
+
+    }
+//    private void importPathway(File pathwayFile){
+//
+//        String fileName = pathwayFile.getName();
+//
+//        String[] values = fileName.split("_");
+//
+//        String acc = "MTBLC" + values[1];
+//        String taxon = SpeciesUpdater.ONTOLOGY + ":" + values[2];
+//
+//        Species sp = null;
+//
+//
+//        try {
+//            sp = spd.findBySpeciesTaxon(taxon);
+//        } catch (DAOException e) {
+//            LOGGER.error("Can't get species by taxon:" + e.getMessage());
+//        }
+//
+//        // If species is null...
+//        if (sp==null){
+//            LOGGER.warn("No species for taxon:" + taxon + ", creating one.");
+//
+//            String speciesName;
+//            try {
+//                speciesName = ols.getTermName(taxon, SpeciesUpdater.ONTOLOGY);
+//            } catch (Exception e) {
+//                LOGGER.error ("Can't get Term name from ontology service for " + taxon);
+//
+//                speciesName = taxon;
+//
+//
+//            }
+//
+//            sp = new Species();
+//            sp.setSpecies(speciesName);
+//            sp.setTaxon(taxon);
+//            sp.setDescription("Created by Importer, needs to be curated");
+//        }
+//
+//
+//        try {
+//
+//            // Get the compound...
+//            MetaboLightsCompound mc = mcd.findByCompoundAccession(acc);
+//
+//
+//            if (mc == null){
+//                LOGGER.warn("MetaboLights doesn't have a compound for " + acc);
+//            } else{
+//
+//                // Create the pathway
+//                Pathway pathway = new Pathway(fileName,pamela,pathwayFile, sp);
+//
+//                // If the pathway is not there...
+//                if (!mc.getMetPathways().contains(pathway)){
+//                    mc.getMetPathways().add(pathway);
+//
+//                }
+//
+//                mc.setHasPathways(true);
+//
+//                // Save the compound...
+//                mcd.save(mc);
+//
+//            }
+//
+//
+//        } catch (DAOException e) {
+//            LOGGER.error(e.getMessage());
+//        }
+//
+//
+//    }
+
 }
 

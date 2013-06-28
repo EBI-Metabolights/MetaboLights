@@ -18,7 +18,7 @@ import java.sql.Connection;
  */
 public class PathwayImporterTest {
 
-    protected static final Logger LOGGER = Logger.getLogger(ImporterTests.class);
+    protected static final Logger LOGGER = Logger.getLogger(PathwayImporterTest.class);
 
     private static Connection con;
 
@@ -48,7 +48,9 @@ public class PathwayImporterTest {
         PathwayImporter rli = new PathwayImporter(con);
 
 
-        URL url = ImporterTests.class.getClassLoader().getResource(".");
+        //URL url = ImporterTests.class.getClassLoader().getResource("pathways");
+
+        URL url = new URL("file:/nfs/public/rw/homes/tc_cm01/reference/");
 
         if (url == null) {
             // error - missing folder
