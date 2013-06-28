@@ -6,6 +6,9 @@ WHERE {0}
 --where.attributedefinition.by.id:\
 ID = ?
 
+--where.attributedefinition.by.name:\
+NAME = ?
+
 --where.attributedefinition.all:\
 1 = ?
 

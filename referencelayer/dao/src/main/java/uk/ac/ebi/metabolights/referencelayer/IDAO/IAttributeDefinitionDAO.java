@@ -14,6 +14,7 @@ public interface IAttributeDefinitionDAO {
 
 
     AttributeDefinition findByAttributeDefinitionId(Long attributeDefinitionId) throws DAOException;
+    AttributeDefinition findByAttributeDefinitionName(String attributeDefinitionName) throws DAOException;
 
     Collection<AttributeDefinition> findAll() throws DAOException;
 

@@ -4,7 +4,7 @@
     
     <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
     <artifactId>dao</artifactId>
-    <version>0.6-SNAPSHOT</version>
+    <version>0.7-SNAPSHOT</version>
     <name>Reference layer data access object</name>
 
     <parent>

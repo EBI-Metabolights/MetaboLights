@@ -24,15 +24,15 @@ public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDef
         setUp(this.getClass());
     }
 
-	public AttributeDefinition findByAttributeDefinitionId(Long attributeDeffinitionId) throws DAOException {
+	public AttributeDefinition findByAttributeDefinitionId(Long attributeDefinitionId) throws DAOException {
 
         // Try to get it from the identity map...
-        AttributeDefinition ad =  AttributeDefinitionIdentityMap.getAttributeDefinition(attributeDeffinitionId);
+        AttributeDefinition ad =  AttributeDefinitionIdentityMap.getAttributeDefinition(attributeDefinitionId);
 
        // If not loaded yet
        if (ad == null){
            // It must return an array of one attributeDefinition....get the first one and only.
-           Collection<AttributeDefinition> attributeDefinition = findBy("--where.attributedefinition.by.id", attributeDeffinitionId);
+           Collection<AttributeDefinition> attributeDefinition = findBy("--where.attributedefinition.by.id", attributeDefinitionId);
            ad =  (attributeDefinition ==null? null:attributeDefinition.iterator().next());
 
        }
@@ -40,7 +40,16 @@ public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDef
        return ad;
 	}
 
-	public Set<AttributeDefinition> findAll() throws DAOException {
+    @Override
+    public AttributeDefinition findByAttributeDefinitionName(String attributeDefinitionName) throws DAOException {
+
+        // It must return an array of one attributeDefinition....get the first one and only.
+        Collection<AttributeDefinition> attributeDefinition = findBy("--where.attributedefinition.by.name", attributeDefinitionName);
+
+        return   (attributeDefinition ==null? null:attributeDefinition.iterator().next());
+    }
+
+    public Set<AttributeDefinition> findAll() throws DAOException {
 
 		return findBy("--where.attributedefinition.all",1);
 	}

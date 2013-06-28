@@ -92,9 +92,16 @@ public class ReaderTestAttributeDefinitionDB extends TestCase{
         assertEquals("Testing identity map usage", change, ad.getName());
 
 
-	}	
-	
-	public void testDeleteAnAttributeDefinition() throws Exception {
+	}
+
+    public void testFindAnAttributeDefinitionByName() throws Exception {
+
+        AttributeDefinition ad = add.findByAttributeDefinitionName(expected[1]);
+        assertAttributeDefinition(ad, expected);
+
+    }
+
+    public void testDeleteAnAttributeDefinition() throws Exception {
 		
 		AttributeDefinition ad = add.findByAttributeDefinitionId(Long.parseLong(expected[0]));
 		
