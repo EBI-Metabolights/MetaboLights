@@ -46,7 +46,7 @@ $(function() {
             container.html('');
             container.append("<img id='pathway' src='pathway/" + pathwayId + "/png'/>");
 
-            $('[id=pathway]').imageLens({ lensSize: 250 , borderColor: "#804D19"});
+            $('[id=pathway]').imageLens({ lensSize: 350 , borderColor: "#666666", borderSize: 2});
         });
 
         // And now fire change event when the DOM is ready

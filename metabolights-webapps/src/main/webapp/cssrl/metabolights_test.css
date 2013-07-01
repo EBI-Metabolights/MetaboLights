@@ -20,12 +20,17 @@ div#local-title.logo-title span {margin-top:2em}
 .refLayerBox {
     background-color: #ffffff;
     margin: 0px 2px 2px 4px;
-    padding: 5px 5px 5px 5px; /* top right bottom left */
+    padding: 15px 10px 15px 10px; /* top right bottom left */
     overflow: auto;
     border: 1px solid #aaaaaa;/**/
-    border-radius:5px 5px 5px 5px;
-    -moz-border-radius: 5px 5px 5px 5px;
-    -webkit-border-radius:5px 5px 5px 5px;
+    border-radius:5px 0px 5px 0px;
+    -moz-border-radius: 5px 0px 5px 0px;
+    -webkit-border-radius:5px 0px 5px 0px;
+}
+
+.summary {
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 div .box {
@@ -195,6 +200,7 @@ th, td {
 
 .right {
     float:right;
+    text-align: right;
 }
 
 /* Tab style */

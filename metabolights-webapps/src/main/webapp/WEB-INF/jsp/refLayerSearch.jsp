@@ -93,7 +93,7 @@
 
             <div class="grid_18">
 
-                <div class="grid_22">
+                <div class="grid_23">
 
                     <div class="grid_24 title alpha">
 
@@ -274,118 +274,51 @@
 
                 <c:forEach var="entry" items="${entries}">
 
-                    <div class="grid_22 refLayerBox">
+                    <div class="grid_23 refLayerBox">
 
                         <c:if test="${fn:contains(entry.accession, 'MTBLS')}">
 
                             <div class="grid_24">
-                                <br/>
-                            </div>
-
-                            <div class="grid_24">
-
-                                <b><spring:message code="ref.compound.title"/>:&nbsp;</b>
-                                ${entry.name}
-                                (<a href="${entry.accession}">${entry.accession}</a>)
-
-                            </div>
-
-                            <div class="grid_24">
+                                <%--<b><spring:message code="ref.compound.title"/>:&nbsp;</b>--%>
+                                <h5 class="summary">${entry.name} (<a href="${entry.accession}">${entry.accession}</a>)</h5>
                                 <b><spring:message code="label.releaseDate"/>:&nbsp;</b>
-                                ${entry.last_modification_date}
-                            </div>
-
-                            <div class="grid_24">
-                                <br/>
-                            </div>
-
-                            <div class="grid_24">
+                                ${entry.last_modification_date}<br/><br/>
 
                                 <div class="grid_14 alpha">
                                     <b><spring:message code="label.technology"/></b>
+                                    <ul>
+                                        <c:forEach var="technology" items="${entry.technology_type}" varStatus="loopStatus">
+                                            <li>${technology}</li>
+                                        </c:forEach>
+                                    </ul>
 
-                                    <c:forEach var="technology" items="${entry.technology_type}" varStatus="loopStatus">
-
-                                        <div class="grid_22 alpha">
-                                            <ul>
-                                                <li>
-                                                    <%--<c:if test="${loopStatus.index ne 0}">--%>
-                                                        <%--,--%>
-                                                    <%--</c:if>--%>
-                                                    ${technology}
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="grid_2 omega">
-                                            <br/>
-                                        </div>
-
-                                    </c:forEach>
                                 </div>
 
                                 <div class="grid_10 right omega">
                                     <b><spring:message code="label.subm"/></b>
-                                        ${entry.submitter}
+                                        ${entry.submitter}&nbsp;
                                 </div>
 
-                            </div>
-
-                            <div class="grid_24">
-
+                                <div style='clear: both;'></div>
                                 <b><spring:message code="label.organisms"/></b>
 
                                 <c:forEach var="organism" items="${entry.organism}" varStatus="loopStatus">
-
-                                    <div class="grid_22">
-                                        <ul>
-                                            <li>
-                                                <%--<c:if test="${loopStatus.index ne 0}">--%>
-                                                    <%--,--%>
-                                                <%--</c:if>--%>
-                                                ${organism}
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="grid_2 omega">
-                                        <br/>
-                                    </div>
-
+                                    <ul>
+                                        <li>${organism}</li>
+                                    </ul>
                                 </c:forEach>
 
-                            </div>
-
-                            <div class="grid_24">
 
                                 <c:if test="${not empty entry.description}">
                                     <b><spring:message code="ref.compound.description"/></b>
                                 </c:if>
-
-                                <ul>
-
-                                    <c:set var="descLen" value="${fn:length(entry.description)}"/>
-
-                                    <div class="grid_22">
-
-                                        <c:if test="${descLen lt 250}">
-                                            ${entry.description}
-                                        </c:if>
-
-                                        <c:if test="${descLen gt 250}">
-                                            ${fn:substring(entry.description,0 , 200 )}<a href="javascript:toggle('showCompleteDesc${entry.accession}')" onclick="this.style.display='none';">&nbsp;more...</a><span id="showCompleteDesc${entry.accession}" style="display: none;">${fn:substring(entry.description, 200 , descLen )}</span>
-                                        </c:if>
-
-                                    </div>
-
-                                </ul>
-
-                                <div class="grid_2 alpha">
-                                    <br/>
-                                </div>
-                            </div>
-
-                            <div class="grid_24">
+                                <c:set var="descLen" value="${fn:length(entry.description)}"/>
+                                <c:if test="${descLen lt 250}">
+                                    ${entry.description}
+                                </c:if>
+                                <c:if test="${descLen gt 250}">
+                                    ${fn:substring(entry.description,0 , 200 )}<a href="javascript:toggle('showCompleteDesc${entry.accession}')" onclick="this.style.display='none';">&nbsp;more...</a><span id="showCompleteDesc${entry.accession}" style="display: none;">${fn:substring(entry.description, 200 , descLen )}</span>
+                                </c:if>
                                 <br/>
                             </div>
 
@@ -394,7 +327,7 @@
 
                         <c:if test="${not fn:contains(entry.accession, 'MTBLS')}">
 
-                            <div class="grid_8 alpha">
+                            <div class="grid_6 alpha">
 
                                 <a href="${entry.accession}">
                                     <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}&amp;dimensions=200&amp;scaleMolecule=true"
@@ -404,7 +337,7 @@
 
                             </div>
 
-                            <div class="grid_14">
+                            <div class="grid_18">
 
                                 <span id="icons" class="right noLine">
 
@@ -452,42 +385,28 @@
 
                                 </span>
 
-
-                                <div class="grid_24">
-                                    <br/>
-                                </div>
-
                                 <div class="grid_24">
 
-                                    <b><spring:message code="ref.compound.name"/></b> ${entry.name}
-                                    (<a href="${entry.accession}">${entry.accession}</a>)
-                                    <c:set var="ChebiSplit" value="${entry.chebiId}"/>
-                                    <c:set var="split" value="${fn:split(ChebiSplit, 'CHEBI:')}"/>
+                                    <h5>
+                                    <%--<b><spring:message code="ref.compound.name"/></b>--%>
+                                    ${entry.name} (<a href="${entry.accession}">${entry.accession}</a>)
+                                    <%--<c:set var="ChebiSplit" value="${entry.chebiId}"/>--%>
+                                    <%--<c:set var="split" value="${fn:split(ChebiSplit, 'CHEBI:')}"/>--%>
 
-                                    <c:forEach var="chebiId" items="${split}" varStatus="loopStatus">
-                                        <c:if test="${loopStatus.index ne 0}">
-                                            ,
-                                        </c:if>
-                                        <a href='<spring:message code="ref.msg.chebi.url"/>CHEBI:${chebiId}'>CHEBI:${chebiId}</a>
-                                    </c:forEach>
-
-                                </div>
-
-                                <div class="grid_24">
-                                    <br/>
-                                </div>
-
-                                <div class="grid_24">
+                                    <%--<c:forEach var="chebiId" items="${split}" varStatus="loopStatus">--%>
+                                        <%--<c:if test="${loopStatus.index ne 0}">--%>
+                                            <%--,--%>
+                                        <%--</c:if>--%>
+                                        <%--<a href='<spring:message code="ref.msg.chebi.url"/>CHEBI:${chebiId}'>CHEBI:${chebiId}</a>--%>
+                                    <%--</c:forEach>--%>
+                                    </h5>
                                     <c:if test="${not empty entry.description}">
-                                        <b><spring:message code="ref.compound.description"/>:&nbsp</b>${entry.description}
+                                        <p>
+                                        <%--<b><spring:message code="ref.compound.description"/>:&nbsp</b>--%>
+                                        ${entry.description}
+                                        </p>
                                     </c:if>
-                                </div>
-
-                                <div class="grid_24">
-                                    <br/>
-                                </div>
-
-                                <div class="grid_24">
+                                    <p>
                                     <c:forEach var="MTBLStudiesList" items="${entry.MTBLStudies}"
                                                varStatus="loopStatus">
                                         <c:choose>
@@ -500,10 +419,7 @@
                                         </c:choose>
                                         <a href="${MTBLStudiesList}">${MTBLStudiesList}</a>
                                     </c:forEach>
-                                </div>
-
-                                <div class="grid_24">
-                                    <br/>
+                                    </p>
                                 </div>
 
                             </div>
