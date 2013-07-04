@@ -458,3 +458,10 @@ input.resizable{
 #spectrumbrowser table{
     border: 0px;
 }
+
+.specs {
+    background-color: #f4f4f4;
+    border: 1px;
+    font-size: small;
+    padding: 5px;
+}

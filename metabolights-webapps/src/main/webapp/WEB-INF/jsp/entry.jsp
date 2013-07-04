@@ -411,34 +411,6 @@ function toggleColumn(tableId, anchor, duration ) {
 
                     <c:forEach var="mlAssay" items="${assays}" varStatus="loopStatusAssay">
 
-                        <%--<!-- Parallel Coordinates stuff -->--%>
-                        <%--<c:set var="paralleldataset" value="${mlAssay.parallelCoordinatesDataset}"/>--%>
-                        <%--<c:if test="${not empty paralleldataset}">--%>
-                        <%--<style type="text/css">--%>
-                        <%--#fig {--%>
-                        <%--width: 880px;--%>
-                        <%--height: 460px;--%>
-                        <%--}--%>
-                        <%--</style>--%>
-                        <%--<br/>--%>
-                        <%--<br/>--%>
-                        <%--<div id="fig">--%>
-
-                        <%--<script type="text/javascript">--%>
-                        <%--var metabolites = [--%>
-                        <%--<c:out escapeXml='false' value="${paralleldataset.seriesToString}"/>--%>
-                        <%--];--%>
-
-                        <%--var units = {--%>
-                        <%--<c:out escapeXml='false' value="${paralleldataset.unitsToString}"/>--%>
-                        <%--};--%>
-                        <%--</script>--%>
-                        <%--<%@include file="../../javascript/protovis_graph.js" %>--%>
-
-                        <%--</div>--%>
-                        <%--</c:if>--%>
-                        <%--<!-- Parallel Coordinates stuff ends-->--%>
-
                         <c:if test="${fn:length(mlAssay.metabolitesGUI) gt 0}">
                             <br/>
                             <a href="${study.acc}/files/${mlAssay.fileName}/maf" class="icon icon-functional" data-icon="="><spring:message code="submittedFile"/></a><br/>

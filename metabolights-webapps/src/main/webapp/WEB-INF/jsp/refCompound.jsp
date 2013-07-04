@@ -12,8 +12,54 @@ $(document).ready(function() {
 <script>
 $(function() {
 	$( "#tabs" ).tabs({
-		cache:true
-	});
+		cache:true,
+        activate: function( event, ui ) {
+
+
+            // If the new tab is NMR...
+            if ($(ui.newTab.children('a')[0]).attr('href')=="#tabs-5"){
+
+                $("#spectrumbrowser").find("select").change(function(e){
+                    e.preventDefault();
+
+                    /* Display the image */
+                    var spectrumId = $(this).val();
+
+                    /* Show info in the info div*/
+                    var nmrInfoDiv = $('#nmrInfo');
+                    /* Get the selected option */
+                    var option = $(this).find(":selected");
+
+
+                    /* Get the pathway object (json element)*/
+                    var spectra = nmrInfo[$(this)[0].selectedIndex];
+
+                    var html = spectra.name + "<br/>a " + spectra.type + " spectrum." ;
+
+                    $.each(spectra.properties, function() {
+
+                        html = html + "<br/>" + this.name + ":"
+
+                        if (this.value.indexOf("http:")==0){
+                            html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
+                        } else {
+                            html = html + this.value;
+                        }
+
+                    });
+                    nmrInfoDiv.html(html);
+
+
+                });
+
+                // And now fire change event when the DOM is ready
+                $("#spectrumbrowser").find("select").trigger('change');
+
+            }
+
+        }
+
+    });
 });
 </script>
 
@@ -41,16 +87,46 @@ $(function() {
 
         $("#pathwayList").change(function(e){
             e.preventDefault();
+
+            /* Display the image */
             var pathwayId = $(this).val();
             var container = $('#pathwayContainer');
             container.html('');
             container.append("<img id='pathway' src='pathway/" + pathwayId + "/png'/>");
 
             $('[id=pathway]').imageLens({ lensSize: 350 , borderColor: "#666666", borderSize: 2});
+
+            /* Show info in the info div*/
+            var pathwayInfoDiv = $('#pathwayInfo');
+            /* Get the selected option */
+            var option = $(this).find(":selected");
+
+
+            /* Get the pathway object (json element)*/
+            var pathway = pathwaysInfo[$(this)[0].selectedIndex];
+
+            var html = "from " +  pathway.source + "<br/>for  " + pathway.species;
+
+            $.each(pathway.properties, function() {
+
+                html = html + "<br/>" + this.name + ":"
+
+                if (this.value.indexOf("http:")==0){
+                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
+                } else {
+                    html = html + this.value;
+                }
+
+            });
+            pathwayInfoDiv.html(html);
+
+
         });
+
 
         // And now fire change event when the DOM is ready
         $('#pathwayList').trigger('change');
+
     });
 
     function showWait() {
@@ -210,12 +286,29 @@ function color_for_atom(formulaChar)
                 <div id="tabs-3" class="tab">
                     <select id="pathwayList">
                         <c:forEach var="pathway" items="${compound.mc.metPathways}">
-                            <option value="${pathway.id}">${pathway.name} (source: ${pathway.database.name}, species:${pathway.speciesAssociated.species})</option>
+                            <option value="${pathway.id}" source="${pathway.database.name}" species="${pathway.speciesAssociated.species}">${pathway.name}</option>
                         </c:forEach>
                     </select>
                     <br/><br/><br/>
-                    <div id="pathwayContainer" style="position: relative">
-                    </div>
+                    <div id="pathwayContainer" style="position: relative"></div>
+                    <script>
+                        var pathwaysInfo = [
+                                <c:forEach var="pathway" items="${compound.mc.metPathways}" varStatus="pathwayLoopStatus">
+                                    <c:if test="${pathwayLoopStatus.index gt 0}">,</c:if>
+                                    {"id":${pathway.id}
+                                    , "source":"${pathway.database.name}"
+                                    , "species":"${pathway.speciesAssociated.species}"
+                                    , "properties": [
+                                        <c:forEach var="attribute" items="${pathway.attributes}" varStatus="attributeLoopStatus">
+                                        <c:if test="${attributeLoopStatus.index gt 0}">,</c:if>
+                                        {"name": "${attribute.attributeDefinition.name}", "value":"${attribute.value}"}
+                                        </c:forEach>
+                                    ]
+                                    }
+                                </c:forEach>
+                            ];
+                    </script>
+                    <div id="pathwayInfo" class="specs"></div>
                 </div>
             </c:if>
 			<%-- Reactions
@@ -231,18 +324,37 @@ function color_for_atom(formulaChar)
                     <div id="spectrumbrowser">
                         {"list":
                         [<c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraloopStatus">
-                            <c:if test="${spectraloopStatus.index gt 0}">,</c:if>{"name":"${spectra.name}<c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeloopStatus"><c:if test="${attributeloopStatus.index eq 0}"> (</c:if><c:if test="${attributeloopStatus.index gt 0}">, </c:if>${attribute.attributeDefinition.name}:${attribute.value}<c:if test="${attributeloopStatus.index eq (fn:length(spectra.attributes)-1)}">)</c:if></c:forEach>", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}
+                            <c:if test="${spectraloopStatus.index gt 0}">,</c:if>{"name":"${spectra.name}", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}
                         </c:forEach>
                         ]
                         }
                     </div>
+                    <script>
+                        var nmrInfo = [
+                            <c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStatus">
+                            <c:if test="${spectraLoopStatus.index gt 0}">,</c:if>
+                            {"id":${spectra.id}
+                                , "name":"${spectra.name}"
+                                , "url":"spectra/${spectra.id}/json"
+                                , "type":"${spectra.spectraType}"
+                                , "properties": [
+                                <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
+                                <c:if test="${attributeLoopStatus.index gt 0}">,</c:if>
+                                {"name": "${attribute.attributeDefinition.name}", "value":"${attribute.value}"}
+                                </c:forEach>
+                            ]
+                            }
+                            </c:forEach>
+                        ];
+                    </script>
+                    <div id="nmrInfo" class="specs"/>
                 </div>
             </c:if>
 
             <c:if test="${compound.mc.hasMS}">
                 <!-- MS Spectra -->
                 <div id="tabs-6" class="tab">
-                    <div id="spectrumbrowser">
+                    <div id="spectrumbrowserms">
                         {"list":
                         [<c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraloopStatus">
                         <c:if test="${spectraloopStatus.index gt 0}">,</c:if>{"name":"${spectra.name}<c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeloopStatus"><c:if test="${attributeloopStatus.index eq 0}"> (</c:if><c:if test="${attributeloopStatus.index gt 0}">, </c:if>${attribute.attributeDefinition.name}:${attribute.value}<c:if test="${attributeloopStatus.index eq (fn:length(spectra.attributes)-1)}">)</c:if></c:forEach>", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}
@@ -267,6 +379,3 @@ function color_for_atom(formulaChar)
 	</div>
 </div>
 <br/>
-
-
-
