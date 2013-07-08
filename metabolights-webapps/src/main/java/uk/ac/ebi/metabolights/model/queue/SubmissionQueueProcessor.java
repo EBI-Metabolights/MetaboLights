@@ -175,9 +175,22 @@ public class SubmissionQueueProcessor {
         // When this happens only the folder remains but it's empty...
 
         for (File file : processFolder.listFiles()){
-            if (file.isDirectory() && file.listFiles().length == 0){
-                logger.info("Process folder with an empty folder, deleting it :" + file.getName() );
+            if (file.isDirectory()){
+
+                // loop through the files
+                for (File insidefile: file.listFiles()){
+
+                    // If file starts with ".nfs"
+                    if (insidefile.getName().startsWith(".nfs")){
+
+                        logger.info(".nfs file inside folder, trying to delete it: " + file.getAbsolutePath() );
+                        insidefile.delete();
+                    }
+                }
+
+                // Try to delete the folder now
                 file.delete();
+
             } else {
                 return false;
             }
@@ -185,7 +198,13 @@ public class SubmissionQueueProcessor {
 
         }
 
-		return true;
+        // Check now if processfolder is empty
+        if (processFolder.listFiles().length==0){
+            return true;
+        } else {
+            return false;
+        }
+
 	}
 	/**
 	 * Upload the IsaTabFile (zip) into BII database replacing the id with our own accession numbers.

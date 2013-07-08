@@ -105,7 +105,7 @@ $(function() {
             /* Get the pathway object (json element)*/
             var pathway = pathwaysInfo[$(this)[0].selectedIndex];
 
-            var html = "from " +  pathway.source + "<br/>for  " + pathway.species;
+            var html = "generated from " +  pathway.source + "<br/>for  " + pathway.species;
 
             $.each(pathway.properties, function() {
 
