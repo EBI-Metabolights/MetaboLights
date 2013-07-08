@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Uses a central Spring interface for sending emails (the MailSender interface). 
+ * Uses a central Spring interface for sending emails (the MailSender interface).
  * A simple value object encapsulating the properties of a simple mail such as from and to (plus many others) is the SimpleMailMessage class.
  * @author markr
  */
@@ -55,7 +55,7 @@ public class EmailService {
     @Qualifier("studySoonLiveTemplate")
     @Autowired
     private SimpleMailMessage studySoonLiveTemplate; // template to notify the submitter of studies going live
-  
+
 	public void setMailSender(MailSender mailSender) {
 		this.mailSender = mailSender;
 	}
@@ -93,8 +93,8 @@ public class EmailService {
 
 	/**
 	 * Sends an email to MetaboLights admin for notification of a new account request.
-	 * Admin then needs to authorize this by clicking a private URL in the email. 
-	 * 
+	 * Admin then needs to authorize this by clicking a private URL in the email.
+	 *
 	 * @param usr detail of the new account requested
 	 */
 	public void sendNewAccountAlert (MetabolightsUser usr, String url) {
@@ -108,7 +108,7 @@ public class EmailService {
 	}
 
 	/**
-	 * Sends an email to the user to mention that the requested account has become active. 
+	 * Sends an email to the user to mention that the requested account has become active.
 	 * @param user detail of the new account requested
 	 */
 	public void sendAccountHasbeenActivated (MetabolightsUser user) {
@@ -119,10 +119,10 @@ public class EmailService {
 		this.mailSender.send(msg);
 	}
 
-	
+
 	/**
 	 * Sends an email to MetaboLights, general request.
-	 * 
+	 *
 	 * @param usr details for the email message
 	 */
 	public void sendContactUsAlert (ContactValidation usr) {
@@ -154,7 +154,7 @@ public class EmailService {
 
     }
 
-   
+
 	public void sendSimpleEmail (String from, String[] to, String subject, String body) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 
@@ -162,7 +162,7 @@ public class EmailService {
 		msg.setTo(to);
 		msg.setSubject(subject);
 		msg.setText(body);
-		
+
 		this.mailSender.send(msg);
 	}
 
@@ -170,7 +170,7 @@ public class EmailService {
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
 		sendSimpleEmail(from , to ,subject, body);
 	}
-	
+
 	public void sendSimpleEmail (String subject, String body) {
 		String[] to  = {curationEmailAddress};
 		sendSimpleEmail( to ,subject, body);
@@ -184,11 +184,11 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.queuedStudy.subject", fileName);
 		String body = PropertyLookup.getMessage("mail.queuedStudy.body", new String[]{userEmail, fileName, fileSize, publicReleaseDate.toString(), hostName, (studyToUpdate==null?"NEW STUDY":"UPDATING " + studyToUpdate)});
-		
+
 		sendSimpleEmail(from, to, subject, body);
-		
+
 	}
-	
+
 	/*
 	 * Email to send when an Public Release Date update is being requested...
 	 */
@@ -197,11 +197,11 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.queuedPRDUpdate.subject", studyToUpdate );
 		String body = PropertyLookup.getMessage("mail.queuedPRDUpdate.body", new String[]{userEmail, studyToUpdate,publicReleaseDate.toString(), hostName});
-		
+
 		sendSimpleEmail(from, to, subject, body);
-		
+
 	}
-	
+
 	/*
 	 * Email to send when an Public Release Date update is being requested...
 	 */
@@ -210,11 +210,11 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.queuedDeletion.subject", studyToDelete );
 		String body = PropertyLookup.getMessage("mail.queuedDeletion.body", new String[]{userEmail, studyToDelete, hostName});
-		
+
 		sendSimpleEmail(from, to, subject, body);
-		
+
 	}
-	
+
 	/*
 	 * Email to send when a study is being successfully submitted...
 	 */
@@ -223,11 +223,11 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.submittedStudy.subject", ID);
 		String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
-		
+
 		sendSimpleEmail(from, to, subject, body);
-		
+
 	}
-	
+
 	/*
 	 * Email to send when a study is been successfully updated ...
 	 */
@@ -236,11 +236,11 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.updateStudy.subject", ID);
 		String body = PropertyLookup.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
-		
+
 		sendSimpleEmail(from, to, subject, body);
-		
+
 	}
-	
+
 	/*
 	 * Email to send when a study's public release date is been successfully updated ...
 	 */
@@ -249,19 +249,19 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.publicReleaseDate.subject", ID);
 		String body = PropertyLookup.getMessage("mail.publicReleaseDate.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
-		
+
 		sendSimpleEmail(from, to, subject, body);
-		
+
 	}
-	
+
 	public void sendStudyDeleted(String userEmail,String ID ){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.studyDeleted.subject", ID);
 		String body = PropertyLookup.getMessage("mail.studyDeleted.body", ID);
-		
+
 		sendSimpleEmail(from, to, subject, body);
-		
+
 	}
 	/*
 	 * Email to send when the submission process fails...
@@ -271,17 +271,17 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
         String hostName = java.net.InetAddress.getLocalHost().getHostName();
-        String empty = "Generic error";
+        String empty = "Generic error", body;
 
-		String body;
         if(error instanceof IsaTabException){
-            IsaTabException ie = (IsaTabException)error;
-            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, ie.geTechnicalInfo()});
-        }else{
+            IsaTabException ie = (IsaTabException) error;
+            String[] errorChunks = ie.geTechnicalInfo().split("\tat ");
+            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, errorChunks[0]});
+        } else {
             body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, empty});
         }
 		sendSimpleEmail(from, to, subject, body);
-		
+
 	}
 	/**
 	 * For use by a Sping Validator, to check if an email looks likely.
@@ -293,11 +293,11 @@ public class EmailService {
 		try {
 			InternetAddress emailAddr = new InternetAddress(aEmailAddress);
 			emailAddr.validate(); //Validate the email address, standard Java
-			
+
 			if ( ! hasNameAndDomain(aEmailAddress) ) {
 				result = false;
 			}
-			
+
 		}
 		catch (AddressException ex){
 			result = false;
@@ -311,14 +311,14 @@ public class EmailService {
 	 */
 	private static boolean hasNameAndDomain(String aEmailAddress){
 		String[] tokens = aEmailAddress.split("@");
-		return 
+		return
 			tokens.length == 2 &&
-			TextUtils.textHasContent( tokens[0] ) && 
+			TextUtils.textHasContent( tokens[0] ) &&
 			TextUtils.textHasContent( tokens[1] ) &&
 			tokens[1].contains("."); //Must have a somewhere.domain
 	}
 
-	
+
 
 
 }
