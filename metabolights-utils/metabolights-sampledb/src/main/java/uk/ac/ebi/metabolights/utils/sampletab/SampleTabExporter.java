@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.utils.sampletab;
 
+import org.apache.log4j.Logger;
 import org.isatools.isacreator.model.*;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.SampleData;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Database;
@@ -27,6 +28,7 @@ import java.util.Map;
  */
 public class SampleTabExporter {
 
+    private static Logger logger = Logger.getLogger(SampleTabExporter.class);
     private ISATabReader isaTabReader = new ISATabReader();
     private SampleTabTools tools = new SampleTabTools();
     private String metaboLightsURL = "http://www.ebi.ac/uk/metabolights/";
@@ -36,7 +38,8 @@ public class SampleTabExporter {
         NCBI("http://www.ncbi.nlm.nih.gov/taxonomy/"),
         NCIt("http://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI%20Thesaurus&code="),
         DOID("http://purl.obolibrary.org/obo/DOID_"),
-        MDR("http://bioportal.bioontology.org/ontologies/42280?p=terms&conceptid=");
+        MDR("http://bioportal.bioontology.org/ontologies/42280?p=terms&conceptid="),
+        EFO("http://www.ebi.ac.uk/efo/");
 
         private final String url;
 
@@ -54,21 +57,28 @@ public class SampleTabExporter {
      * Main, run from commandline
      * @param args
      */
-    public void main(String[] args){
+    public static void main(String[] args){
 
-        if(commandLineValidation(args)){
-
-            //export the SampleTab file
-            exportSampleFile(args[0], args[1], args[2]);
-
-        } else {
+        if (!commandLineValidation(args)){
 
             System.out.println("Usage:");
             System.out.println("Parameter 1: The folder name of the configuration files for the study");
             System.out.println("Parameter 2: The folder name of the MTBLS study files");
             System.out.println("Parameter 3: The file name of the SampleTab file you want to export, this is recreated at runtime");
 
+
+        } else {
+            new SampleTabExporter(args);
         }
+
+    }
+
+    public SampleTabExporter(){
+    }
+
+    public SampleTabExporter(String[] args){
+        //export the SampleTab file
+        exportSampleFile(args[0], args[1], args[2]);
 
     }
 
@@ -90,6 +100,9 @@ public class SampleTabExporter {
             uri = URLS.NCBI.url;
         else if (name.equals(URLS.MDR.name()))
             uri = URLS.MDR.url;
+        else if (name.equals(URLS.EFO.name()))
+            uri = URLS.EFO.url;
+        //TODO, add BAO,
 
         return uri;
     }
@@ -118,7 +131,7 @@ public class SampleTabExporter {
      * @param isatabDirectory
      * @return boolean, did it work?
      */
-    public boolean exportSampleFile(String filename, String configDirectory, String isatabDirectory) {
+    public boolean exportSampleFile(String configDirectory, String isatabDirectory, String filename) {
 
         //Populate the sampleData object from the ISA-tab files
         SampleData samples = createSampleData(configDirectory, isatabDirectory);
@@ -177,11 +190,10 @@ public class SampleTabExporter {
      */
 
     private boolean addSampleData(SampleData sampleData, Study study) {
-        //
-        // Start adding MSI data to the file
-        //
 
-        //Add Submission data
+        logger.info("Start adding MSI data to the file");
+
+        logger.info("Add Submission data");
         if (!setSubmissionData(sampleData, study))
             return false;
 
@@ -189,9 +201,9 @@ public class SampleTabExporter {
         if (!setPersonAndOrganisationData(sampleData, isaTabReader.getContcatsForStudy(study.getStudyId())))
             return false;
 
-        //Add Publication data
+        logger.info("Add Publication data");
         if (!setPublicationData(sampleData, study))
-            return false;
+            logger.info("WARNING: Could not find any Publication info");
 
         //Add Database data
         if (!setDatabaseData(sampleData, study))
@@ -326,6 +338,28 @@ public class SampleTabExporter {
     }
 
     /**
+     * The full ontology term in, a cleaner version out....
+     * @param ontoTerm
+     * @return
+     */
+    private String cleanOntologyTerm(String ontoTerm){
+
+        String[] cleanDesigns = null;
+        String cleanDesign = ontoTerm;
+
+
+        if (ontoTerm.contains(":")){
+            cleanDesigns = ontoTerm.split(":");
+
+            if (cleanDesigns != null)
+                cleanDesign = cleanDesigns[1];    //Skip the reference before the colon, "efo:EFO_0004529" becomes "EFO_0004529"
+        }
+
+        return cleanDesign;
+
+    }
+
+    /**
      * This adds the Term and Source (ontologies used) part of the sampleTab definition
      * @param sampleData
      * @param study
@@ -338,12 +372,14 @@ public class SampleTabExporter {
         Iterator iterator  = study.getStudyDesigns().iterator();
         while (iterator.hasNext()){
             StudyDesign studyDesign = (StudyDesign) iterator.next();
+
             if (studyDesign != null){
+
                 String uri = getURLByName(studyDesign.getStudyDesignTypeTermSourceRef());
 
                 if (uri != null){
 
-                    uri = uri+studyDesign.getStudyDesignTypeTermAcc(); //Add the accession number to the URL
+                    uri = uri+ cleanOntologyTerm(studyDesign.getStudyDesignTypeTermAcc()); //Add the (cleaned) accession number to the URL
 
                     if (studyDesign.getStudyDesignTypeTermAcc().equals("Metabolomics"))
                         uri = "http://bioportal.bioontology.org/ontologies/50373?p=terms&conceptid=C49019"; //For "Metabolomics" we enforce this ontology
@@ -387,7 +423,18 @@ public class SampleTabExporter {
             if (columns.containsKey(isaTabReader.ORGANISM)){
                 String organism = columns.get(isaTabReader.ORGANISM);
                 String termSource = columns.get(isaTabReader.ORGANISM_TERM_SOURCE_REF);
-                Integer termId = new Integer(columns.get(isaTabReader.ORGANISM_TERM_ACCESSION_NUMBER));
+                //Check if the term is a number
+                String termNumber = columns.get(isaTabReader.ORGANISM_TERM_ACCESSION_NUMBER);
+                if (termNumber.contains("_")){
+                    String[] termNumbers = termNumber.split("_");
+                    termNumber = termNumbers[1]; //get rid if the term before the underscore, "obo:NCBITaxon_10090" becomes "10090"
+
+                    if (!SampleTabTools.isInteger(termNumber))
+                        return false;
+
+                }
+
+                Integer termId = new Integer(termNumber);
                 //samplenode.addAttribute(new CharacteristicAttribute(isaTabReader.ORGANISM_HEADER,organism));
                 OrganismAttribute organismAttribute = new OrganismAttribute(organism, termSource, termId);
                 samplenode.addAttribute(organismAttribute);
@@ -401,11 +448,12 @@ public class SampleTabExporter {
             try {
                 sampleData.scd.addNode(samplenode);
             } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logger.error(e.getMessage());
                 return false;
             }
 
         }
+
 
         /*
         //get all the sample records from ISAcreator
@@ -472,19 +520,22 @@ public class SampleTabExporter {
         // Check first parameter is the config folder
         File first = new File(args[0]);
         if (!first.exists()){
-            System.out.println("1st parameter must be the configuration folder" + args[0]);
+            System.out.println("ERROR:  1st parameter must be the configuration folder: " + args[0]);
+            System.out.println("----");
             return false;
         }
 
         // Check first parameter is the config file file
         File secound = new File(args[1]);
         if (!secound.exists()){
-            System.out.println("2nd parameter must be the ISAtab (MTBLS Study) folder" + args[1]);
+            System.out.println("ERROR: 2nd parameter must be the ISAtab (MTBLS Study) folder" + args[1]);
+            System.out.println("----");
             return false;
         }
 
         if (args[2] == null){
-            System.out.println("You must also give us the filename of the SampleTab file you want to export");
+            System.out.println("ERROR: You must also give us the filename of the SampleTab file you want to export");
+            System.out.println("----");
             return false;
         }
 
