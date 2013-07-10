@@ -6,6 +6,7 @@ import org.junit.Test;
 import uk.ac.ebi.arrayexpress2.sampletab.parser.SampleTabParser;
 import uk.ac.ebi.metabolights.utils.sampletab.ISATabReader;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +24,8 @@ public class ISATabReaderTest {
     private SampleTabParser parser = new SampleTabParser();
     private ISATabReader isaTabReader = new ISATabReader();
     Investigation investigation;
-    private static String isatabDirectory = "/Users/kenneth/dev/ISAtab/source/ISAcreator-1.7/isatab files/MTBLS1_V2";
-    private static String configDirectory = "/Users/kenneth/dev/metabolights/metabolights-webapps/src/main/resources/isa_configurator"; //Current config
+    private static String isatabDirectory = ISATabReaderTest.class.getClassLoader().getResource("./MTBLS1").getPath();
+    private static String configDirectory = ISATabReaderTest.class.getClassLoader().getResource("./MetaboLightsConfig20121211").getPath();
 
     private Investigation getInvestigation(){
         investigation = isaTabReader.getInvestigation(configDirectory, isatabDirectory);

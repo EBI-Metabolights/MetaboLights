@@ -31,7 +31,30 @@ public class SampleTabExporter {
     private SampleTabTools tools = new SampleTabTools();
     private String metaboLightsURL = "http://www.ebi.ac/uk/metabolights/";
 
-    public void main (String[] args){
+    private enum URLS {
+        //TODO, must change all these url's to use BioPortal, OLS or Miriam
+        NCBI("http://www.ncbi.nlm.nih.gov/taxonomy/"),
+        NCIt("http://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI%20Thesaurus&code="),
+        DOID("http://purl.obolibrary.org/obo/DOID_"),
+        MDR("http://bioportal.bioontology.org/ontologies/42280?p=terms&conceptid=");
+
+        private final String url;
+
+        private URLS(String toString) {
+            this.url = toString;
+        }
+
+        public String toString(){
+            return url;
+        }
+
+    }
+
+    /**
+     * Main, run from commandline
+     * @param args
+     */
+    public void main(String[] args){
 
         if(commandLineValidation(args)){
 
@@ -47,6 +70,28 @@ public class SampleTabExporter {
 
         }
 
+    }
+
+
+    /**
+     * Returns the URL for the given ontology name
+     * @param name
+     * @return
+     */
+    public String getURLByName(String name){
+
+        //TODO, try OLS or BioPortal first, then resolve below
+        String uri = null;
+        if (name.equals(URLS.NCIt.name()))
+            uri = URLS.NCIt.url;
+        else if (name.equals(URLS.DOID.name()))
+            uri = URLS.DOID.url;
+        else if (name.equals(URLS.NCBI.name()))
+            uri = URLS.NCBI.url;
+        else if (name.equals(URLS.MDR.name()))
+            uri = URLS.MDR.url;
+
+        return uri;
     }
 
     /**
@@ -294,17 +339,33 @@ public class SampleTabExporter {
         while (iterator.hasNext()){
             StudyDesign studyDesign = (StudyDesign) iterator.next();
             if (studyDesign != null){
-                TermSource termSource = new TermSource(studyDesign.getStudyDesignType(), studyDesign.getStudyDesignTypeTermAcc(), null);  //TODO, need to map to URI, last null is "version"
-                sampleData.msi.getOrAddTermSource(termSource);
-            }
+                String uri = getURLByName(studyDesign.getStudyDesignTypeTermSourceRef());
 
+                if (uri != null){
+
+                    uri = uri+studyDesign.getStudyDesignTypeTermAcc(); //Add the accession number to the URL
+
+                    if (studyDesign.getStudyDesignTypeTermAcc().equals("Metabolomics"))
+                        uri = "http://bioportal.bioontology.org/ontologies/50373?p=terms&conceptid=C49019"; //For "Metabolomics" we enforce this ontology
+
+                    //TODO, last null is "version"
+                    TermSource termSource = new TermSource(studyDesign.getStudyDesignType(), uri, null);
+                    sampleData.msi.getOrAddTermSource(termSource);
+                }
+
+            }
         }
+
 
         //TODO, some check if the term source was added correctly
 
         return true;
 
 
+    }
+
+    private URLS getURI(String term){
+        return URLS.valueOf(term);
     }
 
     private boolean setSampleObjectData(SampleData sampleData, Study study){

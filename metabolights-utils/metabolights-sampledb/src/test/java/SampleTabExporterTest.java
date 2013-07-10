@@ -13,12 +13,13 @@ import static de.regnis.q.sequence.core.QSequenceAssert.assertNotNull;
  */
 public class SampleTabExporterTest {
 
-    private static String isatabDirectory = "/Users/kenneth/dev/ISAtab/source/ISAcreator-1.7/isatab files/MTBLS1_V2";
-    private static String configDirectory = "/Users/kenneth/dev/metabolights/metabolights-webapps/src/main/resources/isa_configurator"; //Current config
-    private static String sampleTabFile = "/Users/kenneth/dev/ISAtab/source/ISAcreator-1.7/isatab files/MTBLS1_V2/sampleTab.tsv";
+    private static String isatabDirectory = ISATabReaderTest.class.getClassLoader().getResource("./MTBLS1").getPath();
+    private static String configDirectory = ISATabReaderTest.class.getClassLoader().getResource("./MetaboLightsConfig20121211").getPath();
+    private static String sampleTabFile = isatabDirectory + "/sampleTab.tsv";
 
     ISATabReader isaTabReader = new ISATabReader();
     SampleTabExporter sampleTabExporter = new SampleTabExporter();
+    OLSQuery ols = new OLSQuery();
     Investigation investigation;
 
 
@@ -39,6 +40,7 @@ public class SampleTabExporterTest {
     public void testWriteSampleTab(){
         sampleTabExporter.exportSampleFile(sampleTabFile, configDirectory, isatabDirectory);
     }
+
 
 
 
