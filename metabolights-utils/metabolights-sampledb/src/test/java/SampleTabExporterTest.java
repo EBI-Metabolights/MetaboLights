@@ -13,7 +13,7 @@ import static de.regnis.q.sequence.core.QSequenceAssert.assertNotNull;
  */
 public class SampleTabExporterTest {
 
-    private static String isatabDirectory = SampleTabExporterTest.class.getClassLoader().getResource("./MTBLS31").getPath();
+    private static String isatabDirectory = SampleTabExporterTest.class.getClassLoader().getResource("./MTBLS1").getPath();
     private static String configDirectory = SampleTabExporterTest.class.getClassLoader().getResource("./MetaboLightsConfig20121211").getPath();
     private static String sampleTabFile = isatabDirectory + "/sampleTab.tsv";
 

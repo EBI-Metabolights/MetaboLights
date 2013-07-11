@@ -1,6 +1,8 @@
 package uk.ac.ebi.metabolights.utils.sampletab;
 
 
+import org.apache.log4j.Logger;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +15,7 @@ import java.util.Date;
  */
 public class SampleTabTools {
 
+    private static Logger logger = Logger.getLogger(SampleTabTools.class);
     /**
      * Converts ISA-tab date format (string) to a SampleTab date (Date)
      * @param isaTabDate string from ISA-tab files
@@ -36,10 +39,10 @@ public class SampleTabTools {
 
             return sampleDate;
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.error("Cannot parse date for " + isaTabDate + " : " + e.getMessage());
+            return null;
         }
 
-        return null;
     }
 
 

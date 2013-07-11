@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class SampleTabExporter {
 
-    private static Logger logger = Logger.getLogger(SampleTabExporter.class);
+    private final static Logger logger = Logger.getLogger(SampleTabExporter.class.getName());
     private ISATabReader isaTabReader = new ISATabReader();
     private SampleTabTools tools = new SampleTabTools();
     private String metaboLightsURL = "http://www.ebi.ac/uk/metabolights/";
@@ -66,7 +66,6 @@ public class SampleTabExporter {
             System.out.println("Parameter 2: The folder name of the MTBLS study files");
             System.out.println("Parameter 3: The file name of the SampleTab file you want to export, this is recreated at runtime");
 
-
         } else {
             new SampleTabExporter(args);
         }
@@ -77,7 +76,8 @@ public class SampleTabExporter {
     }
 
     public SampleTabExporter(String[] args){
-        //export the SampleTab file
+
+        logger.info("Starting SampleTab exporter, with the following arguments: "+ args[0] +" : "+ args[1] +" : "+ args[2]);
         exportSampleFile(args[0], args[1], args[2]);
 
     }
@@ -133,11 +133,11 @@ public class SampleTabExporter {
      */
     public boolean exportSampleFile(String configDirectory, String isatabDirectory, String filename) {
 
-        //Populate the sampleData object from the ISA-tab files
+        logger.info("Populate the sampleData object from the ISA-tab files");
         SampleData samples = createSampleData(configDirectory, isatabDirectory);
 
         if (samples.msi.databases != null){
-            //We have some sample data, let's write this to file
+            logger.info("We have some sample data, let's write this to file");
 
             File sampletabFile = new File(filename);
             Writer writer = null;
@@ -173,9 +173,9 @@ public class SampleTabExporter {
         Study study = isaTabReader.getStudyFromInvestigation();
 
         if (addSampleData(sampleData, study)){
-           //log.info("Sucessfully loaded data for study "+study.getStudyId());
+           logger.info("Sucessfully loaded data for study "+study.getStudyId());
         } else {
-           // log.error("Could not load data for study " + study.getStudyId());
+           logger.error("ERROR: Could not load data for study " + study.getStudyId());
         }
 
         return sampleData;
@@ -197,25 +197,23 @@ public class SampleTabExporter {
         if (!setSubmissionData(sampleData, study))
             return false;
 
-        //Add Person and Organisation data
+        logger.info("Add Person and Organisation data");
         if (!setPersonAndOrganisationData(sampleData, isaTabReader.getContcatsForStudy(study.getStudyId())))
-            return false;
+            logger.warn("WARNING: Could not find any Person and Organisation data");
 
         logger.info("Add Publication data");
         if (!setPublicationData(sampleData, study))
-            logger.info("WARNING: Could not find any Publication info");
+            logger.warn("WARNING: Could not find any Publication info");
 
-        //Add Database data
+        logger.info("Add Database data");
         if (!setDatabaseData(sampleData, study))
             return false;
 
-        //Add Term Source, the ontologies used in the study design
+        logger.info("Add Term Source, the ontologies used in the study design");
         if (!setTermSourceData(sampleData, study))
             return false;
 
-        //
-        // Start adding SCD data to the file
-        //
+        logger.info("Start adding SCD data to the file");
 
         if (!setSampleObjectData(sampleData, study))
             return false;
@@ -246,10 +244,10 @@ public class SampleTabExporter {
 
         //I have skipped the optional field "Submission Version" as this comes from the "sample tab jar" we use
 
-        if (study.getDateOfSubmission() != null)
+        if (study.getDateOfSubmission() != null && study.getDateOfSubmission().length() > 3)
             sampleData.msi.submissionUpdateDate = tools.parseDate(study.getDateOfSubmission());
 
-        if (study.getPublicReleaseDate() != null)
+        if (study.getPublicReleaseDate() != null && study.getPublicReleaseDate().length() > 3)
             sampleData.msi.submissionReleaseDate = tools.parseDate(study.getPublicReleaseDate());
 
         if (sampleData.msi == null)
@@ -381,6 +379,7 @@ public class SampleTabExporter {
 
                     uri = uri+ cleanOntologyTerm(studyDesign.getStudyDesignTypeTermAcc()); //Add the (cleaned) accession number to the URL
 
+                    logger.info("Enforcing bioportal ontology for term 'Metabolomics'");
                     if (studyDesign.getStudyDesignTypeTermAcc().equals("Metabolomics"))
                         uri = "http://bioportal.bioontology.org/ontologies/50373?p=terms&conceptid=C49019"; //For "Metabolomics" we enforce this ontology
 
@@ -400,10 +399,12 @@ public class SampleTabExporter {
 
     }
 
-    private URLS getURI(String term){
-        return URLS.valueOf(term);
-    }
-
+    /**
+     * Get additional data from the file, the sample file in ISAcreator is not enough for the sampleDb output
+     * @param sampleData
+     * @param study
+     * @return TRUE if we managed to get and set the sample data from the s_*.txt file(s)
+     */
     private boolean setSampleObjectData(SampleData sampleData, Study study){
         if (sampleData == null || study == null)
             return false; //Must have a valid sampleData object and assay information from the study to add to it.
@@ -427,11 +428,13 @@ public class SampleTabExporter {
                 String termNumber = columns.get(isaTabReader.ORGANISM_TERM_ACCESSION_NUMBER);
                 if (termNumber.contains("_")){
                     String[] termNumbers = termNumber.split("_");
+                    logger.info("Removing underscore from ontology term, "+ termNumber + " became "+ termNumbers[1]);
                     termNumber = termNumbers[1]; //get rid if the term before the underscore, "obo:NCBITaxon_10090" becomes "10090"
+                }
 
-                    if (!SampleTabTools.isInteger(termNumber))
-                        return false;
-
+                if (!SampleTabTools.isInteger(termNumber)){
+                    logger.error("Term number from the sample file is not a number or is empty!");
+                    return false;
                 }
 
                 Integer termId = new Integer(termNumber);
