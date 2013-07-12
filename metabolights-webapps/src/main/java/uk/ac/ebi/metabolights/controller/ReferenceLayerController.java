@@ -309,7 +309,8 @@ public class ReferenceLayerController extends AbstractController {
         } else if(userQuery.equals("")){
             if ((cacheRffl != null)){
                 ua = UserAction.browseCached;
-                rffl = cacheRffl.clone();
+
+                rffl = cacheRffl.clone(); //add here for changing the page e.g: .../reference?PageNumber=3
             } else{
                 ua = UserAction.firstTimeBrowse;
                 rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, pageSelected);

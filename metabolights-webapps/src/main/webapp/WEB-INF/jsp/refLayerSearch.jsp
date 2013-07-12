@@ -442,7 +442,7 @@
 
             <div class="grid_18">
 
-                <div class="grid_22">
+                <div class="grid_23">
 
                     <div class="grid_24 title alpha">
                         <div class="grid_4">
