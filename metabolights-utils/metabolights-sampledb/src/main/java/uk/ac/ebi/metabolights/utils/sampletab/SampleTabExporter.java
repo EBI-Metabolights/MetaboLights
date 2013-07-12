@@ -379,9 +379,9 @@ public class SampleTabExporter {
 
                     uri = uri+ cleanOntologyTerm(studyDesign.getStudyDesignTypeTermAcc()); //Add the (cleaned) accession number to the URL
 
-                    logger.info("Enforcing bioportal ontology for term 'Metabolomics'");
-                    if (studyDesign.getStudyDesignTypeTermAcc().equals("Metabolomics"))
-                        uri = "http://bioportal.bioontology.org/ontologies/50373?p=terms&conceptid=C49019"; //For "Metabolomics" we enforce this ontology
+                    //logger.info("Enforcing bioportal ontology for term 'Metabolomics'");
+                    //if (studyDesign.getStudyDesignTypeTermAcc().equals("Metabolomics"))
+                    //    uri = "http://bioportal.bioontology.org/ontologies/50373?p=terms&conceptid=C49019"; //For "Metabolomics" we enforce this ontology
 
                     //TODO, last null is "version"
                     TermSource termSource = new TermSource(studyDesign.getStudyDesignType(), uri, null);
