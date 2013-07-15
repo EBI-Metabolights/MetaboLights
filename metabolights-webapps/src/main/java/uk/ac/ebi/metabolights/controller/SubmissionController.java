@@ -8,27 +8,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.StudyService;
-import uk.ac.ebi.metabolights.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  * Controls multi part file upload as described in Reference Documentation 3.0,
  * chapter "15.8 Spring's multipart (fileupload) support".
- * 
+ *
  * @author conesa
  */
 @Controller
@@ -39,26 +34,26 @@ public class SubmissionController extends AbstractController {
 
     @Autowired
     private StudyService studyService;
-	
+
 	private static Logger logger = Logger.getLogger(SubmissionController.class);
 
     //@Autowired
     private IsaTabUploader itu = new IsaTabUploader();
-	
+
 	@RequestMapping(value = { "/presubmit" })
 	public ModelAndView preSubmit(HttpServletRequest request) {
 		MetabolightsUser user = null;
-		
+
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitPre"); // Call the Pre-Submit page
 		if (request.getUserPrincipal() != null)
 			user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
 		if (user != null)
 			mav.addObject("user", user);
-		
+
 		return mav;
 	}
-	
+
 	/**
 	 * Will reindex the whole index, to use carefully.
 	 * @return
@@ -68,7 +63,7 @@ public class SubmissionController extends AbstractController {
 	public ModelAndView reindexall(
             @RequestParam(required = false, value = "study") String study
             ) throws Exception{
-		
+
 		//Get the path for the config folder (where the hibernate properties for the import layer are).
 		String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
 
@@ -103,7 +98,7 @@ public class SubmissionController extends AbstractController {
 
             return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.indexed"));
         }
-			
+
 	}
 
     /**
@@ -128,15 +123,15 @@ public class SubmissionController extends AbstractController {
 	private @Value("#{publicFtpStageLocation}") String publicFtpLocation;      //TODO, short term fix until filesystem is mounted RW
 	private @Value("#{privateFtpStageLocation}") String privateFtpLocation;
 
-	
+
 	/**
 	 * Returns a default configured uploader. After it you may probably need to set:
 	 * UnzipFolder
 	 * publicDate : Format expected --> dd-MMM-yyyy
 	 * @return
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
-	public IsaTabUploader getIsaTabUploader(String isaTabFile, VisibilityStatus status, String publicDate) throws ParseException{
+/*	public IsaTabUploader getIsaTabUploader(String isaTabFile, VisibilityStatus status, String publicDate) throws ParseException{
 
 		//ISA TAB FORMAT spec: Dates should be supplied in the ISO 8601 format "YYYY-MM-DD"
 		if (publicDate == null) publicDate = "";
@@ -151,7 +146,7 @@ public class SubmissionController extends AbstractController {
 		Calendar currentDate = Calendar.getInstance();
 		SimpleDateFormat isaTabFormatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
 		String submissionDate = isaTabFormatter.format(currentDate.getTime());
-		
+
 		// If there is public date
 		if (!publicDate.equals("")){
 			SimpleDateFormat webDateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
@@ -159,9 +154,9 @@ public class SubmissionController extends AbstractController {
 			// Format public date to IsaTab format date
 			publicDate = isaTabFormatter.format(publicDateD);
 		}
-		
+
 		//IsaTabUploader itu = new IsaTabUploader();
-		
+
 		// Set common properties
 		itu.setOwner(user.getUserName());
 		itu.setCopyToPrivateFolder(privateFtpLocation);
@@ -176,10 +171,10 @@ public class SubmissionController extends AbstractController {
 		itu.setIsaTabFile(isaTabFile);
 		itu.setPublicDate(publicDate);
 		itu.setStatus(status);
-		
+
 		return itu;
 
-	}
+	}*/
 
 
 }

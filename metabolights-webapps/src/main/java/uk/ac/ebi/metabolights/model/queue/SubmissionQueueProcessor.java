@@ -38,26 +38,26 @@ public class SubmissionQueueProcessor {
     private static String publicFtpLocation = PropertiesUtil.getProperty("publicFtpLocation");
     private static Boolean filesMovedPubToPriv = false;
     private static Boolean PrivToPriv = false;
-	
+
 
 	private IsaTabUploader itu = new IsaTabUploader();
 	private SubmissionItem si;
-	private HashMap<String,String> IDs; 
-	
+	private HashMap<String,String> IDs;
+
 	public SubmissionQueueProcessor(SubmissionItem ItemToSubmit) {
-		
+
 		this.si = ItemToSubmit;
 
 	}
-	
+
 	public void start() throws Exception{
-		
+
 		try{
-		
+
 			// Check if the process can start
 			if (!CanProcessStart()) throw new Exception("Proccessing (Submission) can't start. See logs for more detailed information.");
-			
-			
+
+
 			//Check if we process folder is empty
 			if (!isProcessFolderEmpty())
 			{
@@ -65,58 +65,58 @@ public class SubmissionQueueProcessor {
 				logger.info("Submission process can't start: Process Folder (" + SubmissionQueue.getProcessFolder() + ") is not empty");
 				return;
 			}
-		
+
 			// Move it to the process folder
 			si.moveFileTo(SubmissionQueue.getProcessFolder(), false);
-			
+
 			// If it's a new study
 			if (si.getAccession().isEmpty())
 			{
 				// Start the upload
 				IDs = uploadToBii();
-				
+
 				// Inform the user and team.
 				AppContext.getEmailService().sendQueuedStudySubmitted(si.getUserId(),si.getOriginalFileName() , si.getPublicReleaseDate(), IDs.values().iterator().next());
-			
-				
+
+
 			}
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
 			else if (si.getOriginalFileName().equals(SubmissionItem.FILE_NAME_FOR_PRD_UPDATES))
 			{
-				
+
 				updatePublicReleaseDate();
 				AppContext.getEmailService().sendQueuedPublicReleaseDateUpdated(si.getUserId(), si.getAccession(), si.getPublicReleaseDate());
-			
+
 			}
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
 			else if (si.getOriginalFileName().equals(SubmissionItem.FILE_NAME_FOR_DELETIONS))
 			{
-				
-				
+
+
 				//Call deletion...
 				deleteStudy();
-				
+
 				AppContext.getEmailService().sendStudyDeleted(si.getUserId(), si.getAccession());
-				
-			
+
+
 			}
 			// It's then an update
 			else
 			{
-				
+
 				// Update study
 				updateStudy();
-				
+
 				AppContext.getEmailService().sendQueuedStudyUpdated(si.getUserId(), si.getAccession(), si.getPublicReleaseDate());
-				
-				
+
+
 			}
-			
+
 			// Clean the process folder anyway
 			cleanProcessFolder();
-	
+
 		}catch(Exception e){
-			
+
 			// There was an error in the submission process...
 			si.moveFileTo(SubmissionQueue.getErrorFolder(), true);
 
@@ -125,10 +125,10 @@ public class SubmissionQueueProcessor {
 
 			AppContext.getEmailService().sendSubmissionError(si.getUserId(), si.getOriginalFileName(), e);
 		}
-		
-		
+
+
 	}
-	
+
 	public HashMap<String,String> getIDs(){
 		return IDs;
 	}
@@ -146,11 +146,11 @@ public class SubmissionQueueProcessor {
             }
         };
 	}
-	
+
 	public boolean CanProcessStart(){
-		
+
 		int errors=0;
-		
+
 		//Check if we have a submission Item.
 		if (si == null) {
 			errors++;
@@ -164,9 +164,9 @@ public class SubmissionQueueProcessor {
 			}
 
 		}
-		
+
 		return (errors==0);
-		
+
 	}
 	public static boolean isProcessFolderEmpty(){
 		File processFolder = new File (SubmissionQueue.getProcessFolder());
@@ -209,10 +209,10 @@ public class SubmissionQueueProcessor {
 	/**
 	 * Upload the IsaTabFile (zip) into BII database replacing the id with our own accession numbers.
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private HashMap<String,String> uploadToBii () throws Exception{
-	    
+
 		// Upload the file to bii
 
         try{
@@ -228,32 +228,32 @@ public class SubmissionQueueProcessor {
             throw e;
         }
 	}
-	
+
 	/**
 	 * Delete a study from the system (both: Database and file system).
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private void deleteStudy() throws Exception {
-		
+
 	    // Get the IsaTabUploader (and unloader) configured
 		itu = getIsaTabUploader();
-		
+
 		// Unload it from the database, data locations and index.
 	    itu.unloadISATabFile(si.getAccession());
-	    
+
 	    // Remove files from our staging folder
 	    File studyFolder = new File(itu.getCurrentStudyFilePath(si.getAccession()));
-	    
+
 	    FileUtils.deleteDirectory(studyFolder);
-	    
-	    
+
+
 	}
 	/**
 	 * Returns a default configured uploader. After it you may probably need to set:
 	 * UnzipFolder
 	 * publicDate : Format expected --> dd-MMM-yyyy
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private IsaTabUploader getIsaTabUploader() throws Exception{
 
@@ -266,7 +266,7 @@ public class SubmissionQueueProcessor {
 		// Get the path for the config folder (where the hibernate properties for the import layer are).
         String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
         itu.setDBConfigPath(configPath);
-        
+
 		// Get today's date.
 		Calendar currentDate = Calendar.getInstance();
 		SimpleDateFormat isaTabFormatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
@@ -282,13 +282,13 @@ public class SubmissionQueueProcessor {
 		// Set properties related with the file itself...
 		// Calculate the unzip folder (remove the extension + .)
 		String unzipFolder = StringUtils.truncate(si.getFileQueued().getAbsolutePath(), 4);
-		
+
 		itu.setUnzipFolder(unzipFolder);
 
 		itu.setIsaTabFile(si.getFileQueued().getAbsolutePath());
-		
+
 		return itu;
-		
+
 	}
 	/**
 	 * Re-submit process:
@@ -309,78 +309,78 @@ public class SubmissionQueueProcessor {
 	 * @return
 	 * @throws Exception
 	 */
-	
-	
+
+
 	public void updateStudy() throws Exception{
 
-		
-		// Define the back up path of the existing file 
+
+		// Define the back up path of the existing file
 		File backup = new File(SubmissionQueue.getBackUpFolder() + si.getAccession());
 		boolean needRestore = false;
-		
+
 		try {
-	
+
 			// Get the uploader configured...
 			IsaTabUploader itu = getIsaTabUploader();
-						
+
 			// Check that the new zip file has the same studyID (this will unzip the file)
 			Map<String,String> zipValues = itu.getStudyFields(si.getFileQueued(), new String[]{"Study Identifier"});
-			
+
 			String newStudyId = zipValues.get("Study Identifier");
 
 
             //TODO, add a check for both the submitted studyid and the MTBLS id
 			//If Ids do not match...
 			if (!si.getAccession().equals(newStudyId)){
-				
+
 				throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,si.getAccession()));
-				
+
 			}
-			
+
 			// Check there is a previous back up
 			if (backup.exists()){
 				throw new Exception(PropertyLookup.getMessage("msg.validation.backupFileExists", si.getAccession()));
 			}
-			
+
 			//Validate the new file
 			try{
 				// It has to be a directory...the call to getStudyFile has unzipped the file to unzip folder. We will use it.
 				itu.validate(itu.getUnzipFolder());
-				
-			}catch (Exception e){
-				
+
+			} catch (Exception e){
+
 				List<TabLoggingEventWrapper> isaTabLog = itu.getSimpleManager().getLastLog();
 				throw new Exception(PropertyLookup.getMessage("msg.validation.invalid") + "\n\nERROR:" + e.getMessage() + "\n\n" + isaTabLog.toString() );
-				
+
 			}
-			
+
 			// Make the backup...
 			File currentFile = new File(itu.getCurrentStudyFilePath(si.getAccession()));
 			// NOTE: This is reseting the status based on the place the study it's been found.(Which makes it fail when the study is private and need to be public.
 			itu.setStatus(si.getStatus());
-			
+
 			// Now it's unzipped...not a file anymore
 			//FileUtils.copyFile(currentFile, backup);
 			FileUtils.moveDirectory(currentFile, backup);
-			
+
 			// Unload the study, this will remove the file too.
 			logger.info("Deleting previous study " + si.getAccession());
 			itu.unloadISATabFile(si.getAccession());
-			
+
 			// From this point restoring the backup must be done in case of an exception
 			needRestore = true;
-			
+
 			// upload the new study with the new date
 			// NOTE: this will unzip again the file (done previously in the getStudyFields
 			// To avoid unziping it twice (specially for large files) we can set the isaTabFile property
 			// to the unzipped folder and it should work...
 			itu.setIsaTabFile(itu.getUnzipFolder());
-			
+
 			// To test the restore backup
 			//if (needRestore){throw new Exception("fake exception");}
-			
+
 			logger.info("Uploading new study");
-			
+
 			itu.UploadWithoutIdReplacement(si.getAccession());
 
 			// Remove the backup
@@ -389,43 +389,43 @@ public class SubmissionQueueProcessor {
 
 			FileUtils.deleteDirectory(backup);
             deleteZippedFile(si.getAccession());
-		
-			
+
+
 		} catch (Exception e){
-			
+
 			// If there is a need of restoring the backup
 			if (needRestore){
-			 
-				
+
+
 				// TODO  Restore process...
 //				// Calculate the previous status
 //				VisibilityStatus oldStatus = params.study.getIsPublic()?VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE;
 //
-//				
+//
 ////				// Error:
 ////				Caused by: java.lang.InterruptedException: sleep interrupted
 ////				at java.lang.Thread.sleep(Native Method)
 ////				at org.isatools.isatab.commandline.AbstractImportLayerShellCommand.createDataLocationManager(AbstractImportLayerShellCommand.java:402)
-//				
+//
 //				// Get the uploader configured
 //				si.getFileQueued()
-//				
+//
 //				IsaTabUploader itu = getIsaTabUploader(backup.getAbsolutePath(), oldStatus, null);
-//				
+//
 //				// Upload the old study
 //				itu.UploadWithoutIdReplacement(si.getAccession());
-//				
+//
 //				// Delete the backup
 //				backup.delete();
-				
+
 				// TODO: Send email. Return a different response...
 				throw new Exception("There was an error while updating the study. We have restored the previous experiment. " + e.getMessage());
-				
+
 			}else{
 				throw e;
 			}
 		}
-		
+
 	}
 
     private void deleteZippedFile(String study){
@@ -441,7 +441,7 @@ public class SubmissionQueueProcessor {
     @Transactional
 	public void updatePublicReleaseDate() throws Exception {
 
-	
+
 	    // Create the uploader
 	    IsaTabUploader itu = new IsaTabUploader();
 
@@ -453,7 +453,7 @@ public class SubmissionQueueProcessor {
 	        // ************************
 	        // Get the study object
 	        Study biiStudy = AppContext.getStudyService().getBiiStudy(si.getAccession(),false, true);
-	
+
 	        // Set the new Public Release Date
 	        //biiStudy.setReleaseDate(si.getPublicReleaseDate());
 	        Calendar cal = Calendar.getInstance();
@@ -464,7 +464,7 @@ public class SubmissionQueueProcessor {
             VisibilityStatus oldStatus = biiStudy.getStatus(); //Added code.
 	        biiStudy.setStatus(si.getStatus());
             VisibilityStatus newStatus = biiStudy.getStatus(); //Added code.
-            
+
 	        logger.info("Updating public release date in study (database)");
 
             // Save it
@@ -510,7 +510,7 @@ public class SubmissionQueueProcessor {
 	        // ************************
 	        //Get the path for the config folder (where the hibernate properties for the import layer are).
 	        String configPath = SubmissionQueueProcessor.class.getClassLoader().getResource("").getPath();
-	
+
 	        // Set the config folder, and the ftp folders
 	        itu.setDBConfigPath(configPath);
 
@@ -518,10 +518,10 @@ public class SubmissionQueueProcessor {
 
 	        // If the new status is public...
 	        if (si.getStatus() == VisibilityStatus.PUBLIC){
-	
+
 	            // Move the file from the private
 	            itu.moveFile(si.getAccession(), VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
-	
+
 	            // Change the permissions
 
 	        } else if(si.getStatus() == VisibilityStatus.PRIVATE && PrivToPriv == false){ // If the new status is private...
@@ -537,7 +537,7 @@ public class SubmissionQueueProcessor {
             // Change the investigation file
             // ************************
             // Create the replacement Hash
-            
+
             HashMap<String,String> replacementHash = new HashMap<String,String>();
 
             // Add the Public release date field with the new value
