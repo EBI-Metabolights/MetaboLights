@@ -107,7 +107,7 @@
 
                             <%--This code is for the first page and the 'previous' image--%>
                             <c:if test="${rffl.currentPage gt 1}">
-                                <a href="#" class="icon icon-functional" data-icon="&lt;" onClick="navigate(${rffl.currentPage - 1})"></a><%--<img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${rffl.currentPage - 1})"></a>--%>
+                                <a href="#" class="icon icon-functional forReactions" data-icon="&lt;" onClick="navigate(${rffl.currentPage - 1})"></a><%--<img ALIGN="texttop" src="img/prev.png" border=0 onClick="navigate(${rffl.currentPage - 1})"></a>--%>
                                 <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${1})"><c:out value="${1}" /></span></a>
                             </c:if>
 
@@ -153,7 +153,7 @@
                             <%--This code is for the last page and the 'next' image--%>
                             <c:if test="${rffl.currentPage lt rffl.totalNumOfPages}">
                                 <a href="#" style="text-decoration: none"> <span style="font-weight: normal" onClick="navigate(${rffl.totalNumOfPages})"><c:out value="${rffl.totalNumOfPages}" /></span></a>
-                                <a href="#" class="icon icon-functional" data-icon="&gt;" onClick="navigate(${rffl.currentPage + 1})"></a> <%--<img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${rffl.currentPage + 1})">--%>
+                                <a href="#" class="icon icon-functional forReactions" data-icon="&gt;" onClick="navigate(${rffl.currentPage + 1})"></a> <%--<img ALIGN="texttop" src="img/next.png" border=0 onClick="navigate(${rffl.currentPage + 1})">--%>
                             </c:if>
                             <c:if test="${rffl.currentPage gt 1}">
                                 <c:if test="${rffl.currentPage eq rffl.totalNumOfPages}">
