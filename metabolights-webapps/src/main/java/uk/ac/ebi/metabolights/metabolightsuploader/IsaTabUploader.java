@@ -252,7 +252,7 @@ public class IsaTabUploader {
 
 		//Validate the file
 		//GUIInvokerResult result = sm.validateISAtab(this.unzipFolder);
-        logger.info("Will try to valudate this study using "+lastUsedConfigFile);
+        logger.info("Will try to validate this study using "+lastUsedConfigFile);
         GUIInvokerResult result = sm.validateISAtabWithConfig(this.unzipFolder, lastUsedConfigFile);
 
 		// If not SUCCESS...
