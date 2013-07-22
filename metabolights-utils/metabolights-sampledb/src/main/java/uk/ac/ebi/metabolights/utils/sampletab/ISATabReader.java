@@ -29,6 +29,7 @@ public class ISATabReader {
 
     public String ORGANISM_HEADER = "Organism";
     public String ORGANISM = "Characteristics[" +ORGANISM_HEADER+ "]";
+    public String ORGANISM_TYPO = "Characteristics[organism]";
     public String ORGANISM_TERM_SOURCE_REF = "Organism Term Source REF";
     public String ORGANISM_TERM_ACCESSION_NUMBER = "Organism Term Accession Number";
 
@@ -61,8 +62,16 @@ public class ISATabReader {
                 sampleRow.put(SAMPLE_NAME,fileData.get(SAMPLE_NAME));
 
                 //Get Organism
-                sampleRow.put(ORGANISM,fileData.get(ORGANISM));
                 int organismColumnNumber = fileData.getIndex(ORGANISM);
+
+                if (organismColumnNumber == -1){  //Argh, stop with all the typos in the submission
+                    sampleRow.put(ORGANISM,fileData.get(ORGANISM_TYPO));
+                    organismColumnNumber = fileData.getIndex(ORGANISM_TYPO);
+                } else {
+                    sampleRow.put(ORGANISM,fileData.get(ORGANISM));
+                    organismColumnNumber = fileData.getIndex(ORGANISM);
+                }
+
                 sampleRow.put(ORGANISM_TERM_SOURCE_REF,fileData.get(organismColumnNumber+1));    //Term source ref is always next
                 sampleRow.put(ORGANISM_TERM_ACCESSION_NUMBER,fileData.get(organismColumnNumber+2));
 

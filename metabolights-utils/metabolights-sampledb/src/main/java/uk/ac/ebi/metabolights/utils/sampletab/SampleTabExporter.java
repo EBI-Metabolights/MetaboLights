@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.utils.sampletab;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.isatools.isacreator.model.*;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.SampleData;
@@ -32,14 +33,18 @@ public class SampleTabExporter {
     private ISATabReader isaTabReader = new ISATabReader();
     private SampleTabTools tools = new SampleTabTools();
     private String metaboLightsURL = "http://www.ebi.ac/uk/metabolights/";
+    private String[] subClassification = {"strain", "part", "family"};
 
     private enum URLS {
         //TODO, must change all these url's to use BioPortal, OLS or Miriam
-        NCBI("http://www.ncbi.nlm.nih.gov/taxonomy/"),
-        NCIt("http://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI%20Thesaurus&code="),
-        DOID("http://purl.obolibrary.org/obo/DOID_"),
-        MDR("http://bioportal.bioontology.org/ontologies/42280?p=terms&conceptid="),
-        EFO("http://www.ebi.ac.uk/efo/");
+        NCBI("http://www.ncbi.nlm.nih.gov/taxonomy"), NCBI_direct_url("http://www.ncbi.nlm.nih.gov/taxonomy/"),
+        NCIt("http://ncit.nci.nih.gov/ncitbrowser/pages/home.jsf?version=13.06d"), NCIt_direct_url("http://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI%20Thesaurus&code="),
+        DOID("http://www.berkeleybop.org/ontologies/doid/doid.obo"), DOID_direct_url("http://purl.obolibrary.org/obo/DOID_"),
+        MDR("http://purl.bioontology.org/ontology/MEDDRA"), MDR_direct_url("http://bioportal.bioontology.org/ontologies/42280?p=terms&conceptid="),
+        NEWT("http://www.ebi.ac.uk/newt"),
+        EFO("http://www.ebi.ac.uk/efo"), EFO_direct_url("http://www.ebi.ac.uk/efo/"),
+        BAO("http://bioassayontology.org/bao"),
+        SBO("http://www.ebi.ac.uk/sbo/main");
 
         private final String url;
 
@@ -92,17 +97,21 @@ public class SampleTabExporter {
 
         //TODO, try OLS or BioPortal first, then resolve below
         String uri = null;
+
         if (name.equals(URLS.NCIt.name()))
             uri = URLS.NCIt.url;
         else if (name.equals(URLS.DOID.name()))
             uri = URLS.DOID.url;
-        else if (name.equals(URLS.NCBI.name()))
+        else if (name.equals(URLS.NCBI.name()) || name.equals("NCBITaxon"))   //Annoying that two different names are being used
             uri = URLS.NCBI.url;
         else if (name.equals(URLS.MDR.name()))
             uri = URLS.MDR.url;
         else if (name.equals(URLS.EFO.name()))
             uri = URLS.EFO.url;
-        //TODO, add BAO,
+        else if (name.equals(URLS.BAO.name()))
+            uri = URLS.BAO.url;
+        else if (name.equals(URLS.SBO.name()))
+            uri = URLS.SBO.url;
 
         return uri;
     }
@@ -345,7 +354,6 @@ public class SampleTabExporter {
         String[] cleanDesigns = null;
         String cleanDesign = ontoTerm;
 
-
         if (ontoTerm.contains(":")){
             cleanDesigns = ontoTerm.split(":");
 
@@ -377,14 +385,15 @@ public class SampleTabExporter {
 
                 if (uri != null){
 
-                    uri = uri+ cleanOntologyTerm(studyDesign.getStudyDesignTypeTermAcc()); //Add the (cleaned) accession number to the URL
+                    //Took this out as we are not referencing directly
+                    //uri = uri+ cleanOntologyTerm(studyDesign.getStudyDesignTypeTermAcc()); //Add the (cleaned) accession number to the URL
 
                     //logger.info("Enforcing bioportal ontology for term 'Metabolomics'");
                     //if (studyDesign.getStudyDesignTypeTermAcc().equals("Metabolomics"))
                     //    uri = "http://bioportal.bioontology.org/ontologies/50373?p=terms&conceptid=C49019"; //For "Metabolomics" we enforce this ontology
 
                     //TODO, last null is "version"
-                    TermSource termSource = new TermSource(studyDesign.getStudyDesignType(), uri, null);
+                    TermSource termSource = new TermSource(studyDesign.getStudyDesignTypeTermSourceRef(), uri, null);
                     sampleData.msi.getOrAddTermSource(termSource);
                 }
 
@@ -396,6 +405,25 @@ public class SampleTabExporter {
 
         return true;
 
+
+    }
+
+    /**
+     * Returns a "cleaner" organism part name if we are dealing with strains or lines
+     * @param organismPart
+     * @param subs
+     * @return A "cleaner" organism part name
+     */
+    private String cleanStrainName(String organismPart, String subs){
+
+        if (organismPart.startsWith(subs))
+            organismPart = organismPart.replace(subs+" ",""); //Clean "Strain " or "Line "
+        else if (organismPart.endsWith(subs))
+            organismPart = organismPart.replace(" "+subs,""); //Clean " strain" or " line"
+        else
+            organismPart = organismPart.replace(" "+subs+" "," ");   //Well, must be in the middle somewhere, so " strain " becomes " "
+
+        return organismPart;
 
     }
 
@@ -421,8 +449,14 @@ public class SampleTabExporter {
                 samplenode.setNodeName(sampleName);  //The proper name of the sample
             }
 
+            String organism = null;
+
             if (columns.containsKey(isaTabReader.ORGANISM)){
-                String organism = columns.get(isaTabReader.ORGANISM);
+                organism = columns.get(isaTabReader.ORGANISM);
+
+                if (organism == null || organism == "")
+                    continue;           //Skip this row
+
                 String termSource = columns.get(isaTabReader.ORGANISM_TERM_SOURCE_REF);
                 //Check if the term is a number
                 String termNumber = columns.get(isaTabReader.ORGANISM_TERM_ACCESSION_NUMBER);
@@ -443,10 +477,36 @@ public class SampleTabExporter {
                 samplenode.addAttribute(organismAttribute);
             }
 
-            if (columns.containsKey(isaTabReader.ORGANISM_TERM_ACCESSION_NUMBER)){
+            if (columns.containsKey(isaTabReader.ORGANISM_PART)){ //ORGANISM_TERM_ACCESSION_NUMBER
                 String organismPart = columns.get(isaTabReader.ORGANISM_PART);
-                samplenode.addAttribute(new CharacteristicAttribute(isaTabReader.ORGANISM_PART_HEADER, organismPart));
+
+                if (organismPart != "" ){     //The Organism part column is normally present but with an empty string value if no data recorded, ignore this
+
+                    boolean addStrain = false;
+
+                    for (String subs : subClassification){
+                        if (StringUtils.containsIgnoreCase(organismPart, subs)){
+                            organismPart = cleanStrainName(organismPart, subs); //Remove the 'offending' words
+                            addStrain = true;
+                            break; //Don't loop through the rest
+                        }
+                    }
+
+                    if (!organismPart.equals(organism)){            //QuickFix. Make sure that the Organism Part is different from Organism
+
+                        String orgPartHeader = isaTabReader.ORGANISM_PART_HEADER;
+
+                        if (addStrain)
+                            orgPartHeader = "strain or line";
+
+                        samplenode.addAttribute(new CharacteristicAttribute(orgPartHeader, organismPart));
+                    }
+                }
             }
+
+            //TODO, add the study design factors as well
+
+
 
             try {
                 sampleData.scd.addNode(samplenode);
