@@ -201,4 +201,9 @@
         <put-attribute name="body" value="/WEB-INF/jsp/updateParameters.jsp" />
     </definition>
 
+    <definition name="acknowledgements" extends="default">
+        <put-attribute name="title" value="Acknowledgements Page"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/acknowledgements.jsp"/>
+    </definition>
+
 </tiles-definitions>

@@ -37,6 +37,11 @@ public class ContactUsController extends AbstractController{
     	return AppContext.getMAVFactory().getFrontierMav("contact","contactValidation", new ContactValidation());
     	
     }
+
+    @RequestMapping(value = "/acknowledgements")
+    public ModelAndView acknowledgements() {
+        return AppContext.getMAVFactory().getFrontierMav("acknowledgements");
+    }
 	
 	 /**
      * Sends an email to MetaboLights, for general questions.<br> 

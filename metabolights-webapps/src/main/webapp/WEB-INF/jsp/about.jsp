@@ -22,6 +22,9 @@
     </p>
 
    	<p><a href="<spring:url value="statistics"/>"><strong><spring:message code="label.stats"/></strong></a></p>
+
+    <p><a href="<spring:url value="acknowledgements"/>"><strong>Acknowledgements</strong></a></p>
+
     <p><strong>Follow us on </strong>
         <span class="bigfont">
             <a href="http://metabolights.blogspot.co.uk" class="icon icon-socialmedia" data-icon="B"></a>,
@@ -32,7 +35,7 @@
 
     <div class="grid_22 alpha omega publication">
         <h3>Citing MetaboLights</h3>
-        <span class="pubauthor">Kenneth Haug, Reza M. Salek, Pablo Conesa, Janna Hastings, Paula de Matos, Mark Rijnbeek, Tejasvi Mahendraker, Mark Williams, Steffen Neumann, Philippe Rocca-Serra, Eamonn Maguire, Alejandra Gonz&aacute;lez-Beltr&aacute;n, Susanna-Assunta Sansone, Julian L. Griffin and Christoph Steinbeck.</span><br/>
+        <span class="pubauthor">Kenneth Haug, Reza M. Salek, Pablo Conesa, Janna Hastings, Paula de Matos, Mark Rijnbeek, Tejasvi Mahendrakar, Mark Williams, Steffen Neumann, Philippe Rocca-Serra, Eamonn Maguire, Alejandra Gonz&aacute;lez-Beltr&aacute;n, Susanna-Assunta Sansone, Julian L. Griffin and Christoph Steinbeck.</span><br/>
         <a href="http://nar.oxfordjournals.org/content/41/D1/D781" class="pubtitle">MetaboLights-- an open-access general-purpose repository for metabolomics studies and associated meta-data.</a><br/>
         <span class="pubjournal">Nucl. Acids Res. (2012) doi: 10.1093/nar/gks1004</span>
     </div>
