@@ -2,11 +2,11 @@
 DROP TABLE ML_STATS;
 
 CREATE TABLE ML_STATS (
-  ID NUMBER(10, 0) NOT NULL 
-, PAGE_SECTION VARCHAR2(20) NOT NULL 
-, STR_NAME VARCHAR2(200) NOT NULL 
-, STR_VALUE VARCHAR2(200) NOT NULL 
-, CONSTRAINT ML_STATS_PK PRIMARY KEY (ID) ENABLE 
+  ID NUMBER(10, 0) NOT NULL
+, PAGE_SECTION VARCHAR2(20) NOT NULL
+, STR_NAME VARCHAR2(200) NOT NULL
+, STR_VALUE VARCHAR2(200) NOT NULL
+, CONSTRAINT ML_STATS_PK PRIMARY KEY (ID) ENABLE
 );
 
 DROP SEQUENCE ML_STATS_SEQ;
@@ -14,9 +14,9 @@ CREATE SEQUENCE ML_STATS_SEQ INCREMENT BY 1 START WITH 1 NOCACHE;
 
 set scan off;
 CREATE OR REPLACE TRIGGER ML_STATS_TRG before
-  INSERT ON ML_STATS FOR EACH row 
-  BEGIN 
-    IF inserting THEN 
+  INSERT ON ML_STATS FOR EACH row
+  BEGIN
+    IF inserting THEN
       IF :NEW.ID IS NULL THEN
         SELECT ML_STATS_SEQ.nextval INTO :NEW.ID FROM dual;
       END IF;
@@ -51,12 +51,13 @@ insert into ml_stats(page_section,str_name,str_value) select 'Identified', DB, C
   WHEN instr(identifier,'MPIMP')=1 THEN 'GOLM'
   WHEN instr(identifier,'GMD')=1 THEN 'GOLM'
   WHEN instr(identifier,'C')=1 THEN 'KEGG'
+  WHEN instr(identifier,'unknown')=1 THEN 'Unknown'
   WHEN identifier IS NULL THEN 'not mapped to any database'
-  ELSE identifier
-END AS DB  from METABOLITE)
+  ELSE initCap(identifier)
+END AS DB from METABOLITE)
 group by DB;
 
-insert into ml_stats(page_section,str_name,str_value) select 'Identified','Total', Count(*) as Tota from METABOLITE;
+insert into ml_stats(page_section,str_name,str_value) select 'Identified','Total', Count(*) as Total from METABOLITE;
 
 -- Section "Submitters"
 insert into ml_stats(page_section,str_name,str_value) select 'Submitters', 'Number of registered users', count(*) from user_detail;
