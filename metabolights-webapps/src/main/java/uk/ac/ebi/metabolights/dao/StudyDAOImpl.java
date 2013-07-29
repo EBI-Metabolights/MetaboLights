@@ -54,20 +54,20 @@ public class StudyDAOImpl implements StudyDAO{
 		Session session = sessionFactory.getCurrentSession();
 
 		String queryStr = "FROM Study WHERE acc = :acc";
-		
+
 		Query q = session.createQuery(queryStr);
 		q.setParameter("acc", studyAcc);
 
 		logger.debug("retrieving study "+studyAcc);
 		Study study = (Study) q.uniqueResult();
-	
+
 		if (study == null){
 			Study emptyStudy = new Study();
 			emptyStudy.setAcc("Error");
 			emptyStudy.setDescription("Error.  Study " +studyAcc+ " could not be found.");
 			return emptyStudy;
 		}
-			
+
 		if (!fromQueue){   //Only check the user if called from the webapplication
 
             if (!study.getStatus().equals(VisibilityStatus.PUBLIC)){ //If not PUBLIC then must be owned by the user
@@ -110,10 +110,11 @@ public class StudyDAOImpl implements StudyDAO{
 
             }  // Study PUBLIC
         } //Called from the queue?
-		
+
 		/*
 		 * Initialize lazy collections here that we want to display .. otherwise the JSP will throw an error on rendering
 		 */
+        Hibernate.initialize(study.getInvestigations());
 		Hibernate.initialize(study.getContacts());
 		Hibernate.initialize(study.getAnnotations());
 		Hibernate.initialize(study.getPublications());
@@ -131,27 +132,27 @@ public class StudyDAOImpl implements StudyDAO{
 			}
 			Hibernate.initialize(assayResult.getCascadedPropertyValues());
 			Hibernate.initialize(assayResult.getAssays());
-			
+
 			for (Assay assay: assayResult.getAssays()){
 				Hibernate.initialize(assay.getAnnotations());
 			}
-			
+
 		}
 		Hibernate.initialize(study.getProtocols());
-		
-		
+
+
 		// For each assay group..initialize metabolite collection
 		for (AssayGroup ag: study.getAssayGroups()){
 			Hibernate.initialize(ag.getMetabolites());
-			
+
 			for (Metabolite met: ag.getMetabolites()){
 				Hibernate.initialize(met.getMetaboliteSamples());
 			}
 		}
-		
-		
-		
-		
+
+
+
+
 		if (clearSession)
 			session.clear();
 
