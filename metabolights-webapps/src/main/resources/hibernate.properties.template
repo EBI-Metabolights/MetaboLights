@@ -18,6 +18,11 @@ jdbc.format_sql=false
 # Change this to get some debug info
 hibernate.show_sql=false
 
+# Change this to get debug info for Hibernate
+hibernate.show_sql=false
+hibernate.format_sql=false
+hibernate.use_sql_comments=false
+
 # Set to 0 if you have problems with the Oracle Driver
 # (See http://forum.hibernate.org/viewtopic.php?t=82)
 hibernate.max_fetch_depth=0

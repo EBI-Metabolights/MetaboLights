@@ -15,7 +15,6 @@
 
 <h3>MetaboLights would especially like to thank the following people:</h3>
 <ul id="ackn">
-    <li><a href="http://isatab.sourceforge.net/support.html">The core ISA team at Oxford e-Research Centre</a></li>
+    <li><a href="http://isatab.sourceforge.net/support.html">The ISA team at Oxford e-Research Centre</a></li>
     <li><a href="http://www.ipb-halle.de/en/research/stress-and-developmental-biology/research-groups/bioinformatics-mass-spectrometry/">Dr. Steffen Neumann at IPB-Halle</a></li>
-
 </ul>
