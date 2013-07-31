@@ -13,6 +13,8 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -113,8 +115,14 @@ public class EmailService {
 	 */
 	public void sendAccountHasbeenActivated (MetabolightsUser user) {
 		SimpleMailMessage msg = new SimpleMailMessage(this.accountApprovedTemplate);
-		String body = PropertyLookup.getMessage("msg.accountActive",user.getUserName());
-		msg.setTo(user.getEmail());
+		String body = null;
+        try {
+            String fileLocation = EmailService.class.getClassLoader().getResource("").getPath()+ File.separator+"email_template"+File.separator;
+            body = PropertyLookup.getEmailMessage(fileLocation+"accountApprovedTemplate.txt",user.getUserName(), user.getFirstName());
+        } catch (IOException e) {
+            body = PropertyLookup.getMessage("msg.accountActive.old",user.getUserName());
+        }
+        msg.setTo(user.getEmail());
 		msg.setText(body);
 		this.mailSender.send(msg);
 	}

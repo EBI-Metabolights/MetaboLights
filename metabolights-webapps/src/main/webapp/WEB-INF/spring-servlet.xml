@@ -270,6 +270,7 @@
 
     <bean id="accountApprovedTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="from" value="${replyTo}"/>
+      <property name="cc" ><list><value>#{curationEmailAddress}</value></list></property>
       <property name="subject" value="Your account for MetaboLights is now active"/>
     </bean>
 
