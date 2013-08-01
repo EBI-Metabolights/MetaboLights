@@ -5,12 +5,12 @@
 <%@page pageEncoding="UTF-8"%>
 
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(function(){
 
         $("a[href='${searchResult.accStudy}']").click(function(){
-            $(this).after("<img src='img/wait.gif' alt='Please wait'/>&nbsp;<b><spring:message code="msg.fetchingData"/></b>").fadeIn();
+            $(this).after("&nbsp;<b><spring:message code='msg.fetchingData'/>").fadeIn();
+            //"&nbsp;&nbsp;"+"<img src='img/wait.gif' alt='Please wait'/>"+
         });
-
 
     });
 </script>
