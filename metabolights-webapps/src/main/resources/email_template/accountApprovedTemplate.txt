@@ -13,7 +13,7 @@ Quick start guide:
 
 For more documentation have a look at:
 - quick demo: http://www.ebi.ac.uk/training/online/course/metabolights-quick-tour/what-metabolights
-- Detailed document and steps: https://docs.google.com/document/d/1uL97eA5rozKHyXUbngQJNy-iwQXic7GMVK8bAQSWaCU/view?pli=1
+- Detailed document and steps: https://docs.google.com/document/d/1kvBdnleInVr1UMyV-sm91w2uK_IfkU11Rx-uxvILOFU/view
 
 Below is a video from the ISATools team. This is a general application usage and we have a tailored settings for MetaboLights but should help as a general guideline.
 - https://www.youtube.com/watch?v=abIEtSUrJNY
