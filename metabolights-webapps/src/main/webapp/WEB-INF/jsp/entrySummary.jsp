@@ -4,6 +4,17 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("a[href='${searchResult.accStudy}']").click(function(){
+            $(this).after("<img src='img/wait.gif' alt='Please wait'/>&nbsp;<b><spring:message code="msg.fetchingData"/></b>").fadeIn();
+        });
+
+
+    });
+</script>
+
 <div class="grid_24 alpha omega box">
 	<c:choose>
 		<c:when test="${(!empty welcomemessage || !empty curator) && !searchResult.isPublic}">
