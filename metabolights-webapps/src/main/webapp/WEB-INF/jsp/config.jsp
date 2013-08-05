@@ -9,14 +9,41 @@ $(function() {
 </script>
 
 <script type="text/javascript">
-    function doAjax(command) {
+
+
+    function toggleQueue(instance) {
       $.ajax({
-        url: 'switchqueue',
-        data:{'command': command},
+        url: "proxy?url=http://" + instance + '/metabolights/togglequeue',
         success: function(data) {
-          $('#startresponse').html(data);
+
+            $("[instance='" + instance + "']").html(data);
+
         }
       });
+    }
+
+    function checkInstanceStatus(statusTD) {
+
+        var instance = statusTD.getAttribute("instance");
+
+        $.ajax({
+            url: "proxy?url=http://" + instance + '/metabolights/queuestatus',
+            success: function(data) {
+                $(statusTD).html(data);
+            }
+        });
+    }
+
+    function populateQueueStatusTable() {
+
+        $('.instanceStatus').each(function(){
+
+            var statusTD = this;
+
+            checkInstanceStatus(statusTD);
+
+
+        })
     }
 </script>
 
@@ -145,19 +172,25 @@ $(function() {
             </c:if>
             <br/><br/>
             <c:if test="${not empty queuerunnig}">
-                <table>
-                    <tr>
-                        <td>Queue status</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${queuerunnig}">RUNNING<button onclick="doAjax('off')" title="Stop it!">Stop it!</button></c:when>
-                                <c:otherwise>STOPPED<button onclick="doAjax('on')" title="Start it!">Start it!</button></c:otherwise>
-                            </c:choose>
-                        </td>
-                    </tr>
-                </table>
-                <div id="startresponse"></div>
 
+                <c:if test="${not empty instances}">
+                    <table id="instances">
+                        <thead class='text_header'>
+                            <tr><th>Instance</th><th></th><th>status</th></tr>
+                        </thead>
+                        <c:forEach var="instance" items="${instances}">
+                            <tr>
+                                <td>${instance}</td>
+                                <td><button onclick="toggleQueue('${instance}')" title="Toggle queue status!">Toogle status</button></td>
+                                <td class="instanceStatus" instance="${instance}">
+                                </td>
+                            </tr>
+                        </c:forEach>
+
+                    </table>
+                    <div id="startresponse"></div>
+                    <script>populateQueueStatusTable()</script>
+                </c:if>
             </c:if>
 
         </div>

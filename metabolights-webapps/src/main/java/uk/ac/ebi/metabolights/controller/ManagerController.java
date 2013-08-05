@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
@@ -43,6 +45,9 @@ public class ManagerController extends AbstractController{
 
 	@Autowired
 	private SearchService searchService;
+
+    @Autowired
+    private MetaboLightsParametersService parametersService;
 
     @Autowired
 	private HomePageController homePageController;
@@ -112,6 +117,14 @@ public class ManagerController extends AbstractController{
 
         mav.addObject("galleryIds", homePageController.getGalleryItemsIds());
 
+
+        MetaboLightsParameters instances = parametersService.getMetaboLightsParametersOnName("instances");
+
+        if (instances.getParameterValue() != null) {
+            mav.addObject("instances", instances.getParameterValue().split(","));
+        }
+
+
 		return mav;
 		
 		
@@ -148,30 +161,39 @@ public class ManagerController extends AbstractController{
 		return studies;
 	}
 	
-	@RequestMapping(value = "/switchqueue", method = RequestMethod.GET)
-	public @ResponseBody String switchqueue(@RequestParam String command) {
+	@RequestMapping(value = "/togglequeue", method = RequestMethod.GET)
+	public @ResponseBody String switchqueue() {
 		
 		String result = "";
 		
 		try{
 			
-			if (command.equals("on")){
+			if (SubmissionQueueManager.getIsRunning()){
 			
-				SubmissionQueueManager.start();
-			
-				result = "Queue started";
-			}else{
 				SubmissionQueueManager.stop();
-				result = "Queue stopped";
+			
+
+			}else{
+				SubmissionQueueManager.start();
+
 			}
 			
 		}catch (Exception e){
 			result = e.getMessage();
 		}
 		
-	    return result;
+	    return getQueueStatus();
 	}
-	
+
+    @RequestMapping(value = "/queuestatus", method = RequestMethod.GET)
+    public @ResponseBody String getQueueStatus() {
+
+        String result = "";
+
+        return SubmissionQueueManager.getIsRunning()?"ON":"OFF";
+
+    }
+
 	@RequestMapping({"/users"})
 	public ModelAndView users(){
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("users");
