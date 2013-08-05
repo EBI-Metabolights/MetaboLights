@@ -5,15 +5,25 @@
 <%@page pageEncoding="UTF-8"%>
 
 <script type="text/javascript">
+
+//    $(document).ready(function(){
+//        $('#hourglass').fadeOut();
+//    });
+
     $(function(){
 
         $("a[href='${searchResult.accStudy}']").click(function(){
-            $(this).after("&nbsp;<b><spring:message code='msg.fetchingData'/>").fadeIn();
+            $(this).after("&nbsp;<b><spring:message code='msg.fetchingData'/></b>").fadeIn();
             //"&nbsp;&nbsp;"+"<img src='img/wait.gif' alt='Please wait'/>"+
         });
 
     });
+
 </script>
+
+<%--<div id="hourglass">
+    <img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.fetchingData"/></b>
+</div>--%>
 
 <div class="grid_24 alpha omega box">
 	<c:choose>
