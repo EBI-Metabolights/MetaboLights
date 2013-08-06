@@ -13,7 +13,7 @@
     $(function(){
 
         $("a[href='${searchResult.accStudy}']").click(function(){
-            $(this).after("&nbsp;<b><spring:message code='msg.fetchingData'/></b>").fadeIn();
+            $(this).after("&nbsp;&nbsp;<b><spring:message code='msg.fetchingData'/></b>").fadeIn();
             //"&nbsp;&nbsp;"+"<img src='img/wait.gif' alt='Please wait'/>"+
         });
 
