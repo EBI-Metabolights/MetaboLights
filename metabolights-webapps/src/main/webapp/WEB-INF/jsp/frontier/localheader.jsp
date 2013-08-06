@@ -9,13 +9,12 @@ ${localfrontierheader}
 	</script>
 </c:if>
 
-<%--
 <c:if test="${pageContext.request.serverName=='www.ebi.ac.uk'}" >
 	<script>
 		$('[href="reference"]').hide();
 	</script>
 </c:if>
---%>
+
 
 <c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
     <script>
@@ -26,9 +25,9 @@ ${localfrontierheader}
 
 
 <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
-	
+
 	<script>
-	
+
 		$loginA = $('[href="login"]');
 		$loginA.html('<sec:authentication property="principal.firstName" />');
         $loginA.attr("href", '<spring:url value="useroptions"/>');
