@@ -35,8 +35,9 @@ import java.util.*;
  */
 @Controller
 public class ManagerController extends AbstractController{
-	
-	/**
+
+    public static final String INSTANCES_SEP = ",";
+    /**
 	 * Show config properties and check if some of them are consistent
 	 * @return
 	 */
@@ -121,7 +122,7 @@ public class ManagerController extends AbstractController{
         MetaboLightsParameters instances = parametersService.getMetaboLightsParametersOnName("instances");
 
         if (instances.getParameterValue() != null) {
-            mav.addObject("instances", instances.getParameterValue().split(","));
+            mav.addObject("instances", instances.getParameterValue().split(INSTANCES_SEP));
         }
 
 

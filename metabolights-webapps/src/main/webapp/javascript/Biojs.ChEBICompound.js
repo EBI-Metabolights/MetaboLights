@@ -251,6 +251,9 @@ Biojs.ChEBICompound = Biojs.extend(
                 httpRequest.dataType = "text";
             }
 
+            // Data type
+            httpRequest.dataType = "text";
+
             jQuery.ajax(httpRequest);
 
         },

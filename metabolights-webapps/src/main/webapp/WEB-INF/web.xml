@@ -64,27 +64,26 @@
         <location>/errors/403</location>
     </error-page>
 
-    <!--<servlet> &lt;!&ndash; proxy for SpecBrowser call outside url &ndash;&gt;-->
-        <!--<servlet-name>ProxySpectraBrowser</servlet-name>-->
-        <!--<servlet-class>uk.ac.ebi.pride.web.util.servlet.proxy.ProxyServlet</servlet-class>-->
-        <!--<init-param>-->
-            <!--<param-name>proxyHost</param-name>-->
-            <!--<param-value>wwwdev.ebi.ac.uk</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>proxyPort</param-name>-->
-            <!--<param-value>80</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>proxyPath</param-name>-->
-            <!--<param-value>/metabolights/specbrowser</param-value>-->
-        <!--</init-param>-->
-        <!--<load-on-startup>1</load-on-startup>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>ProxySpectraBrowser</servlet-name>-->
-        <!--<url-pattern>/specbrowser/*</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>ChEBIProxy</servlet-name>
+        <servlet-class>uk.ac.ebi.pride.web.util.servlet.proxy.ProxyServlet</servlet-class>
+        <init-param>
+            <param-name>proxyHost</param-name>
+            <param-value>www.ebi.ac.uk</param-value>
+        </init-param>
+        <init-param>
+            <param-name>proxyPort</param-name>
+            <param-value>80</param-value>
+        </init-param>
+        <init-param>
+            <param-name>proxyPath</param-name>
+            <param-value>/webservices/chebi/2.0/test/</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChEBIProxy</servlet-name>
+        <url-pattern>/ebi/webservices/chebi/2.0/test/*</url-pattern>
+    </servlet-mapping>
 
 
     <servlet>
