@@ -37,7 +37,7 @@
         <h3>Citing MetaboLights</h3>
         <span class="pubauthor">Kenneth Haug, Reza M. Salek, Pablo Conesa, Janna Hastings, Paula de Matos, Mark Rijnbeek, Tejasvi Mahendrakar, Mark Williams, Steffen Neumann, Philippe Rocca-Serra, Eamonn Maguire, Alejandra Gonz&aacute;lez-Beltr&aacute;n, Susanna-Assunta Sansone, Julian L. Griffin and Christoph Steinbeck.</span><br/>
         <a href="http://nar.oxfordjournals.org/content/41/D1/D781" class="pubtitle">MetaboLights-- an open-access general-purpose repository for metabolomics studies and associated meta-data.</a><br/>
-        <span class="pubjournal">Nucl. Acids Res. (2012) doi: 10.1093/nar/gks1004</span>
+        <span class="pubjournal">Nucl. Acids Res. (2013) doi: 10.1093/nar/gks1004</span>
     </div>
 
     <hr/>
@@ -50,7 +50,7 @@
     <br/>
     <p><spring:message code="msg.metabolightsAbout10" /></p>
 
-    
+
     <a class="noLine" href="http://github.com/ISA-tools/OntoMaton" target="_blank"><img src="http://isatools.files.wordpress.com/2012/07/ontomaton.png?w=250"/></a>
     <a class="noLine" href="<spring:message code="url.isatools"/>" target="_blank"><img src="http://isatab.sourceforge.net/assets/img/tools/tools-table-images/isacreator.png"/></a>
     <p><spring:message code="msg.metabolightsAbout15" /></p>
