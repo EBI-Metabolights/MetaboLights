@@ -10,6 +10,7 @@ import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Person;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.TermSource;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.SampleNode;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.CharacteristicAttribute;
+import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.CommentAttribute;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.OrganismAttribute;
 import uk.ac.ebi.arrayexpress2.sampletab.renderer.SampleTabWriter;
 
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -428,6 +430,47 @@ public class SampleTabExporter {
     }
 
     /**
+     * Get a list of attribute nodes populated from the sample sheet
+     * @param study
+     * @return
+     */
+    private List<String> getStudyFactors(Study study){
+
+        List<String> attributeList = new ArrayList<String>();
+
+        //TODO, complete
+        List<Factor> studyFactors = study.getFactors();
+        for (Factor factor : studyFactors) {
+            String factorName = factor.getFactorName();
+/*            String factorType = factor.getFactorType();
+
+            if (factorType.contains(":")){
+                String[] factorTypes = factorType.split(":");
+                factorType = factorTypes[1];
+            }
+
+            String factorAcc = factor.getFactorTypeTermAccession();
+            String factorSource = factor.getFactorTypeTermSource();
+
+
+            CommentAttribute commentAttribute = new CommentAttribute(factorName,factorType);
+            commentAttribute.setTermSourceREF(factorSource);
+            commentAttribute.setTermSourceID(factorSource);
+
+            if (SampleTabTools.isInteger(factorAcc))
+                commentAttribute.setTermSourceIDInteger(new Integer(factorAcc));*/
+
+            attributeList.add("Factor Value["+factorName+"]");
+
+        }
+
+
+
+        return attributeList;
+
+    }
+
+    /**
      * Get additional data from the file, the sample file in ISAcreator is not enough for the sampleDb output
      * @param sampleData
      * @param study
@@ -439,7 +482,7 @@ public class SampleTabExporter {
 
 
         //Get additional data from the file, the sample file in ISAcreator is not good enough for the sampleDb
-        List<Map<String, String>> additionalFileData = isaTabReader.getAdditionalData(study);
+        List<Map<String, String>> additionalFileData = isaTabReader.getAdditionalData(study, getStudyFactors(study));
         for (Map<String, String> columns : additionalFileData){
 
             SampleNode samplenode = new SampleNode();          //Per sample row in ISA-tab
@@ -505,7 +548,41 @@ public class SampleTabExporter {
             }
 
             //TODO, add the study design factors as well
+            //Check what has been used for study desing in the investigation, then add dynamically as "Comment[other]" on the sample
 
+            List<String> allAttributes = getStudyFactors(study);
+            for (String attribute : allAttributes){
+
+                if (columns.containsKey(attribute)){
+                    CommentAttribute commentAttribute = new CommentAttribute("other",columns.get(attribute));
+                    //commentAttribute.setAttributeValue(columns.get(attribute));
+
+                    String termSourceHeader = "TSI "+attribute;
+                    if (columns.containsKey(termSourceHeader)){
+                        String termSourceId = columns.get(termSourceHeader);
+                        commentAttribute.setTermSourceID(termSourceId);
+
+                        if (SampleTabTools.isInteger(termSourceId))
+                            commentAttribute.setTermSourceIDInteger(new Integer(termSourceId));
+                    }
+
+                    String termSourceRefHeader = "TSR "+attribute;
+                    if (columns.containsKey(termSourceRefHeader))
+                        commentAttribute.setTermSourceREF(columns.get(termSourceRefHeader));
+
+                    if (commentAttribute.getAttributeValue() != "")
+                        samplenode.addAttribute(commentAttribute);
+                }
+
+            }
+/*
+            List<CommentAttribute> attributes = addStudyFactors(study);
+            if (attributes != null){
+                for (CommentAttribute attribute : attributes) {
+                    samplenode.addAttribute(attribute);
+                }
+            }
+*/
 
 
             try {

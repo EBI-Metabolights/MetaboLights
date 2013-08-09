@@ -25,7 +25,7 @@ public class SampleTabTools {
 
         String isaDateFormat = "yyyy-MM-dd"; //ISA format for the date
         //String sampleDateFormat = "yyyy-MM-dd HH:mm:ss.ss"; //SampleTab date format according to the documentation
-        String sampleDateFormat = "yyyy/MM/dd"; //SampleTab date format according to Adam
+        String sampleDateFormat = "yyyy/MM/dd"; //SampleTab date format according to Adam (new)
         SimpleDateFormat isaFormatter, sampleFormatter;
 
         try {

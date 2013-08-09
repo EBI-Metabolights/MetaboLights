@@ -27,16 +27,22 @@ public class ISATabReader {
     public String SOURCE_NAME = "Source Name";
     public String SAMPLE_NAME = "Sample Name";
 
+    public String TERM_SOURCE_REF = "Term Source REF";
+    public String TERM_SOURCE_ID = "Term Source ID";
+    public String TERM_ACC_NUMBER = "Term Accession Number";
+
     public String ORGANISM_HEADER = "Organism";
     public String ORGANISM = "Characteristics[" +ORGANISM_HEADER+ "]";
     public String ORGANISM_TYPO = "Characteristics[organism]";
-    public String ORGANISM_TERM_SOURCE_REF = "Organism Term Source REF";
-    public String ORGANISM_TERM_ACCESSION_NUMBER = "Organism Term Accession Number";
+    public String ORGANISM_TERM_SOURCE_REF = ORGANISM_HEADER+" "+TERM_SOURCE_REF;
+    public String ORGANISM_TERM_ACCESSION_NUMBER = ORGANISM_HEADER+" "+TERM_ACC_NUMBER;
 
-    public String ORGANISM_PART_HEADER = "Organism part";
+    public String ORGANISM_PART_HEADER = ORGANISM_HEADER+" part";
     public String ORGANISM_PART = "Characteristics[" +ORGANISM_PART_HEADER+ "]";
-    public String ORGPART_TERM_SOURCE_REF = "Organism Part Term Source REF";
-    public String ORGPART_TERM_ACCESSION_NUMBER = "Organism Part Term Accession Number";
+    public String ORGPART_TERM_SOURCE_REF = ORGANISM_HEADER+ " Part " + TERM_SOURCE_REF;
+    public String ORGPART_TERM_ACCESSION_NUMBER = ORGANISM_HEADER+ " Part "+TERM_ACC_NUMBER;
+
+
 
 
     public ISAtabFilesImporter getIsatabFilesImporter(String configDir) {
@@ -45,7 +51,12 @@ public class ISATabReader {
         return isatabFilesImporter;
     }
 
-    public List<Map<String, String>> getAdditionalData(Study study){
+    /**
+     * Reads data from the study file
+     * @param study
+     * @return rows from the sample file
+     */
+    public List<Map<String, String>> getAdditionalData(Study study, List<String> headerNames){
 
         List<Map<String, String>> sampleListFromFile = new ArrayList<Map<String, String>>();
 
@@ -81,12 +92,23 @@ public class ISATabReader {
                 sampleRow.put(ORGPART_TERM_SOURCE_REF,fileData.get(organismPartColumnNumber+1));    //Term source ref is always next
                 sampleRow.put(ORGPART_TERM_ACCESSION_NUMBER,fileData.get(organismPartColumnNumber+2));
 
+                //Get additional columns
+                for (String headerName : headerNames){
+                    sampleRow.put(headerName, fileData.get(headerName));
+                    int attributePartColumnNumber = fileData.getIndex(headerName);
+
+                    if (attributePartColumnNumber >0 ){  //If the column is not found, the value is -1
+                        sampleRow.put("TSR "+headerName, fileData.get(attributePartColumnNumber+1));    //Term source ref is always next
+                        sampleRow.put("TSI "+headerName, fileData.get(attributePartColumnNumber+2));
+                    }
+                }
+
                 sampleListFromFile.add(sampleRow);
 
             }
 
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
         return sampleListFromFile;
