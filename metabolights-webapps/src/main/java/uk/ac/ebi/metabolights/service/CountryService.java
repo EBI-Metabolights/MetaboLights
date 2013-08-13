@@ -228,7 +228,8 @@ public class CountryService {
         countries.put ("SE","Sweden");
         countries.put ("CH","Switzerland");
         countries.put ("SY","Syrian Arab Republic");
-        countries.put ("TW","Taiwan, Province of China");
+//        countries.put ("TW","Taiwan, Province of China");
+        countries.put ("TW","Taiwan");
         countries.put ("TJ","Tajikistan");
         countries.put ("TZ","Tanzania, United Republic of");
         countries.put ("TH","Thailand");
