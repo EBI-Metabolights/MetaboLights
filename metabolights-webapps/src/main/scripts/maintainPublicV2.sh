@@ -15,6 +15,7 @@
 # 20130103  : Ken Haug - Simplified to use the new queue system
 # 20130312  : Ken Haug - Export to EB-eye when studies go public
 # 20130321  : Ken Haug - Email users a week before the study goes live (and each day until it goes live!)
+# 20130815  : Ken Haug - Make sure we only loop through MTBLS records, not error messages in the queue folder
 #
 ##########################################################################
 
@@ -58,7 +59,7 @@ Info "Testing required parameters"
 Info ------------------------------------------------------------------------------------------
 Info "Start"
 
-PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
+PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}  | grep MTLBS`
  
 for studies in $PUBLIC_STUDIES
 do
