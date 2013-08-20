@@ -35,6 +35,8 @@ public class ModelObjectFactory {
 			
 			mcd.close();
 
+            mcd.returnPooledConnection();
+
 			
 			// Get the chebi Entry
 			Entity chebiEntity = getCompleteEntityExample(mc.getChebiId());
