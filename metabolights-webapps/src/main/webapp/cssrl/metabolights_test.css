@@ -465,3 +465,25 @@ input.resizable{
     font-size: small;
     padding: 5px;
 }
+
+
+/*SVG Pathways classes*/
+.compartment {
+}
+
+.svgTextLink{
+    text-decoration : underline;
+}
+
+
+.svgSpeciesCurrent{
+    fill: #E2AF7B;
+}
+
+.svgSpeciesLink{
+    /*fill: red;*/
+}
+
+.svgTextLink:hover{
+    fill-opacity: 0.6;
+}
