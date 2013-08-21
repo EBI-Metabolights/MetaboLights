@@ -18,18 +18,26 @@
 
     <Resource name="jdbc/metabolights"
               auth="Container"
-              type="oracle.jdbc.pool.OracleDataSource"
-              factory="oracle.jdbc.pool.OracleDataSourceFactory"
+              type="javax.sql.DataSource"
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+              connectionCacheName="MetaboLightsCache"
+              connectionCacheProperties="{ValidateConnection=true}"
               connectionCachingEnabled="true"
-              user="xxxxx"
+              username="xxxxx"
               password="xxxxx"
               driverClassName="oracle.jdbc.OracleDriver"
               url="jdbc:oracle:thin:@host:PORT:SID"
+              testWhileIdle="true"
+              testOnBorrow="true"
+              testOnReturn="true"
+              validationQuery="select 1 from dual"
+              validationInterval="30000"
+              timeBetweenEvictionRunsMillis="5000"
               removeAbandoned="true"
-              removeAbandonedTimeout="30"
+              removeAbandonedTimeout="60"
               maxActive="50"
               maxIdle="10"
-              maxwait="-1"/>
+              maxWait="-1"/>
 
     <!-- URL for new account creations, this is included in the emails sent -->
     <Environment name="urlConfirmNewAccount" value="http://wwwdev.ebi.ac.uk/metabolights/confirmAccountRequest" type="java.lang.String"/>
