@@ -24,7 +24,8 @@
 
         <div class="grid_23 refLayerBox">
             <div class="grid_4">
-                ${paramname}
+                <input type="hidden" name="paramname" value="${paramname}" id="name"/>
+                    ${paramname}
             </div>
             <div class="grid_4">
                 <input type="textbox" name="paramvalue" value="${paramvalue}" id="value"/>
