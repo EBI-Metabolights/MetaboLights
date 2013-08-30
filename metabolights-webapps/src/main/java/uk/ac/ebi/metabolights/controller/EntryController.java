@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
@@ -20,6 +21,7 @@ import uk.ac.ebi.metabolights.service.AccessionService;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.service.TextTaggerService;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -106,6 +108,35 @@ public class EntryController extends AbstractController {
 
 		return mav;
 	}
+
+
+    @RequestMapping(value = { "/alt/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
+
+    public ModelAndView showAltEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
+
+        logger.info("requested entry " + mtblId);
+
+
+        //compose the ws url..
+        String wsUrl = request.getRequestURL().toString();
+
+        //Replace the servlet path (alt/MTBLS1")
+        wsUrl = wsUrl.replace(request.getServletPath(), "");
+
+        // Add the webservice part...
+        wsUrl = wsUrl + "/webservice/";
+
+        MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
+
+        uk.ac.ebi.metabolights.repository.model.Study study = wsClient.getStudy(mtblId);
+
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry2");
+
+        mav.addObject("accession", mtblId);
+        mav.addObject("study", study);
+
+        return  mav;
+    }
 
 	/**
 	 * @param study

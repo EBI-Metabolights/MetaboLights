@@ -206,4 +206,9 @@
         <put-attribute name="body" value="/WEB-INF/jsp/acknowledgements.jsp"/>
     </definition>
 
+    <definition name="entry2" extends="default">
+        <put-attribute name="title" value="Study" />
+        <put-attribute name="body" value="/WEB-INF/jsp/entry2.jsp" />
+    </definition>
+
 </tiles-definitions>

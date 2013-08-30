@@ -97,25 +97,26 @@ public class SubmissionQueue {
 		File queueFolderF = new File(getQueueFolder());
 		
 		File[] files = queueFolderF.listFiles();
-		
-		// Sort it: older first
-		Arrays.sort(files, new Comparator<File>(){
-		    public int compare(File f1, File f2)
-		    {
-		        return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
-		    } });
-		
-		
-		for (int i=0;i< files.length;i++){
-			
-			File fileQueued = files[i];
-			
-			SubmissionItem si = new SubmissionItem(fileQueued);
-			
-			queue.add(si);
-			
-		}
-		
+
+        if (files != null){
+            // Sort it: older first
+            Arrays.sort(files, new Comparator<File>(){
+                public int compare(File f1, File f2)
+                {
+                    return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+                } });
+
+
+            for (int i=0;i< files.length;i++){
+
+                File fileQueued = files[i];
+
+                SubmissionItem si = new SubmissionItem(fileQueued);
+
+                queue.add(si);
+
+            }
+        }
 	} 
 	
 	
