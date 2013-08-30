@@ -1,9 +1,10 @@
 package uk.ac.ebi.metabolights.repository.utils;
 
-import org.isatools.isacreator.model.StudyDesign;
+import org.isatools.isacreator.model.*;
 import uk.ac.ebi.metabolights.repository.model.Contact;
+import uk.ac.ebi.metabolights.repository.model.Protocol;
+import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.StudyDesignDescriptors;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,6 +66,15 @@ public class IsaTab2MetaboLightsConverter {
         // Study design descriptors
         metStudy.setDescriptors(isaTabStudyDesign2MetaboLightsStudiesDesignDescriptors(isaStudy));
 
+        // Study factors
+        metStudy.setFactors(isaTabFactors2MetaboLightsFactors(isaStudy));
+
+        // Publications
+        metStudy.setPublications(isaTabPublications2MetaboLightsPublications(isaStudy));
+
+        // Publications
+        metStudy.setProtocols(isaTabProtocols2MetaboLightsProtocols(isaStudy));
+
 
         return metStudy;
     }
@@ -119,9 +129,66 @@ public class IsaTab2MetaboLightsConverter {
     }
 
 
+    private static Collection<StudyFactor> isaTabFactors2MetaboLightsFactors(org.isatools.isacreator.model.Study isaStudy){
+
+        List<Factor> isaFactors = isaStudy.getFactors();
+
+        List<StudyFactor> studyFactors = new LinkedList<StudyFactor>();
+
+        for (Factor isaFactor : isaFactors){
+            StudyFactor studyFactor = new StudyFactor();
+
+            studyFactor.setName(isaFactor.getFactorName());
+
+            studyFactors.add(studyFactor);
+        }
 
 
+        return studyFactors;
 
+    }
+
+    private static Collection<Publication> isaTabPublications2MetaboLightsPublications(org.isatools.isacreator.model.Study isaStudy){
+
+        List<org.isatools.isacreator.model.Publication> isaPublications = isaStudy.getPublications();
+
+        List<Publication> studyPublications = new LinkedList<Publication>();
+
+        for (org.isatools.isacreator.model.Publication isaPublication : isaPublications){
+            Publication publication = new Publication();
+
+            publication.setAbstractText(isaPublication.getAbstractText());
+            publication.setDoi(isaPublication.getPublicationDOI());
+            publication.setPubmedId(isaPublication.getPubmedId());
+            publication.setTitle(isaPublication.getPublicationTitle());
+
+            studyPublications.add(publication);
+        }
+
+
+        return studyPublications;
+
+    }
+
+    private static Collection<Protocol> isaTabProtocols2MetaboLightsProtocols(org.isatools.isacreator.model.Study isaStudy){
+
+        List<org.isatools.isacreator.model.Protocol> isaStudyProtocols = isaStudy.getProtocols();
+
+        List<Protocol> studyProtocols = new LinkedList<Protocol>();
+
+        for (org.isatools.isacreator.model.Protocol isaProtocol : isaStudyProtocols){
+            Protocol protocol = new Protocol();
+
+            protocol.setName(isaProtocol.getProtocolName());
+            protocol.setDescription(isaProtocol.getProtocolDescription());
+
+            studyProtocols.add(protocol);
+        }
+
+
+        return studyProtocols;
+
+    }
     public static Date isaTabDate2Date (String isaTabDate){
 
         try {
