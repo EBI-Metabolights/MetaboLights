@@ -171,6 +171,7 @@ public class IsaTabUploader {
      */
     private String getConfigFromInvestigationFile() throws IOException {
 
+        //TODO, should only look for i_*.txt ($isatab.filewithids), pass the correct file name to the FileReader
         BufferedReader br = new BufferedReader(new FileReader(this.unzipFolder + File.separator + "i_Investigation.txt"));
         String configFileFolder = "default";    //Just in case we Could not find the config files used in the investigation file
 
@@ -247,6 +248,7 @@ public class IsaTabUploader {
 		Unzip();
 
         //Get the config files from the study and check if we have this configuration defined
+        //TODO, jndi parameter
         String lastUsedConfigFile = validateConfigFiles(
                 IsaTabUploader.class.getClassLoader().getResource("").getPath()+ "isa_configurator", getConfigFromInvestigationFile());
 

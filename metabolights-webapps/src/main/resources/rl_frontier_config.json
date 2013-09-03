@@ -24,9 +24,9 @@
             },
             {
                 "selected": false,
-                "title": "Reference layer (BETA)",
+                "title": "Browse Compounds",
                 "href": "reference",
-                "tooltip": "Reference layer (BETA)"
+                "tooltip": "Reference layer Compounds (BETA)"
             },
             {
                 "selected": false,
