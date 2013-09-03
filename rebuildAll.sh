@@ -7,6 +7,7 @@ mvn compile
 mvn install -DskipTests=true
 cd metabolights-webapps
 mvn war:inplace war:war
-cp /Users/kenneth/Development/metabolights/metabolights-webapps/target/metabolights-webapp-0.*-SNAPSHOT.war /nfs/production/panda/metabolights/deploy/metabolights-webapp.war
+echo "to deploy:"
+echo "    scp metabolights-webapps/target/metabolights-webapp-*.war ebi-003:/nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-dev.war "
+echo "    scp metabolights-webapps/target/metabolights-webapp-*.war ebi-003:/nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-prod.war "
 cd ..
-ls -Fla /nfs/production/panda/metabolights/deploy/
