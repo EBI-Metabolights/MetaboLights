@@ -48,8 +48,10 @@
 
     <!-- ftp locations are used by the metabolights-uploader and metabolights-webapp to distibute submitted archives -->
     <Environment name="publicFtpStageLocation" value="/nfs/public/rw/homes/tc_cm01/studies/public/" type="java.lang.String"/>
-    <Environment name="privateFtpStageLocation" value="/nfs/public/rw/homes/tc_cm01/studies/private/" type="java.lang.String"/>
-    <Environment name="publicFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/public/" type="java.lang.String"/>
+    <!--<Environment name="privateFtpStageLocation" value="/nfs/public/rw/homes/tc_cm01/studies/private/" type="java.lang.String"/>-->
+    <!--<Environment name="publicFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/public/" type="java.lang.String"/>-->
+    <ResourceLink  name="publicFtpLocation" global="publicStudiesLocation" type="java.lang.String"/>
+    <ResourceLink  name="privateFtpStageLocation" global="privateStudiesLocation" type="java.lang.String"/>
     <Environment name="privateFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/private/" type="java.lang.String"/>
     <Environment name="ftpServer" value="ftp.ebi.ac.uk" type="java.lang.String"/>
     <Environment name="filebase" value="/ebi/ftp/" type="java.lang.String"/>
