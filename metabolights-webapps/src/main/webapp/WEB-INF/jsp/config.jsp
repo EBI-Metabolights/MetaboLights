@@ -234,20 +234,6 @@ $(function() {
                 </table>
             </c:if>
 
-            <c:if test="${not empty privateFtpLocation}">
-                <br/><b>privateFtpLocation</b>
-                <table cellpadding="5px" cellspacing="0px">
-                    <thead class='text_header'>
-                    <tr>
-                        <th>File name</th>
-                    </tr>
-                    </thead>
-                    <c:forEach var="file" items="${privateFtpLocation}">
-                        <tr><td>${file.name}</td></tr>
-                    </c:forEach>
-                </table>
-            </c:if>
-
             <c:if test="${not empty publicFtpStageLocation}">
                 <br/><b>publicFtpStageLocation</b>
                 <table cellpadding="5px" cellspacing="0px">

@@ -52,7 +52,7 @@
     <!--<Environment name="publicFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/public/" type="java.lang.String"/>-->
     <ResourceLink  name="publicFtpLocation" global="publicStudiesLocation" type="java.lang.String"/>
     <ResourceLink  name="privateFtpStageLocation" global="privateStudiesLocation" type="java.lang.String"/>
-    <Environment name="privateFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/private/" type="java.lang.String"/>
+    <!--<Environment name="privateFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/private/" type="java.lang.String"/>-->
     <Environment name="ftpServer" value="ftp.ebi.ac.uk" type="java.lang.String"/>
     <Environment name="filebase" value="/ebi/ftp/" type="java.lang.String"/>
     <Environment name="ondemand" value="/nfs/public/rw/homes/tc_cm01/zip_ondemand/" type="java.lang.String"/>
@@ -72,8 +72,6 @@
     <Environment name="EBIHost" value="http://www.ebi.ac.uk/metabolights/" type="java.lang.String"/>
 
     <Environment name="curationEmailAddress" value="xxx@xxx.xx" type="java.lang.String"/>
-
-
 
 </Context>
 

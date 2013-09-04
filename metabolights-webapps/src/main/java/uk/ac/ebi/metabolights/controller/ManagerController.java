@@ -73,7 +73,6 @@ public class ManagerController extends AbstractController{
 		// Validate end character of path properties
 		validationResult.put("uploadDirectory ends with /", (PropertiesUtil.getProperty("uploadDirectory").endsWith("/")));
 		validationResult.put("publicFtpLocation ends with /", (PropertiesUtil.getProperty("publicFtpLocation").endsWith("/")));
-		validationResult.put("privateFtpLocation ends with /", (PropertiesUtil.getProperty("privateFtpLocation").endsWith("/")));
 		validationResult.put("publicFtpStageLocation ends with /", (PropertiesUtil.getProperty("publicFtpStageLocation").endsWith("/")));
 		validationResult.put("privateFtpStageLocation ends with /", (PropertiesUtil.getProperty("privateFtpStageLocation").endsWith("/")));
 		validationResult.put("luceneIndexDirectory ends with /", (PropertiesUtil.getProperty("luceneIndexDirectory").endsWith("/")));
@@ -82,7 +81,6 @@ public class ManagerController extends AbstractController{
 		// Validate paths variable exists
 		validationResult.put("uploadDirectory existance", (new File(PropertiesUtil.getProperty("uploadDirectory")).exists()));
 		validationResult.put("publicFtpLocation existance", (new File(PropertiesUtil.getProperty("publicFtpLocation")).exists()));
-		validationResult.put("privateFtpLocation existance", (new File(PropertiesUtil.getProperty("privateFtpLocation")).exists()));
 		validationResult.put("publicFtpStageLocation existance", (new File(PropertiesUtil.getProperty("publicFtpStageLocation")).exists()));
 		validationResult.put("privateFtpStageLocation existance", (new File(PropertiesUtil.getProperty("privateFtpStageLocation")).exists()));
 		validationResult.put("luceneIndexDirectory existance", (new File(PropertiesUtil.getProperty("luceneIndexDirectory")).exists()));
@@ -112,7 +110,6 @@ public class ManagerController extends AbstractController{
 
         // Return ftp locations
         mav.addObject("publicFtpLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("publicFtpLocation")))));
-        mav.addObject("privateFtpLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("privateFtpLocation")))));
         mav.addObject("publicFtpStageLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("publicFtpStageLocation")))));
         mav.addObject("privateFtpStageLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("privateFtpStageLocation")))));
 

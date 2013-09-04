@@ -37,7 +37,7 @@ public class FileDispatcherController extends AbstractController {
 	private StudyService studyService;
 
 	private @Value("#{publicFtpLocation}") String publicFtpDirectory;
-	private @Value("#{privateFtpStageLocation}") String privateFtpDirectory;
+	private @Value("#{privateFtpStageLocation}") String privateStageDirectory;
 	private @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
 
 
@@ -235,7 +235,7 @@ public class FileDispatcherController extends AbstractController {
 
 
         // Try the private folder
-        file = new File(privateFtpDirectory + studyId + "/" + fileName);
+        file = new File(privateStageDirectory + studyId + "/" + fileName);
 
         if (file.exists()) return file.getAbsolutePath();
 

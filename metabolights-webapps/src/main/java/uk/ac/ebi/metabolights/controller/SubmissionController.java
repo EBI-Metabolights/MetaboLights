@@ -119,9 +119,9 @@ public class SubmissionController extends AbstractController {
 
     }
 
-	private @Value("#{uploadDirectory}") String uploadDirectory;
-	private @Value("#{publicFtpStageLocation}") String publicFtpLocation;      //TODO, short term fix until filesystem is mounted RW
-	private @Value("#{privateFtpStageLocation}") String privateFtpLocation;
+//	private @Value("#{uploadDirectory}") String uploadDirectory;
+//	private @Value("#{publicFtpStageLocation}") String publicFtpLocation;      //TODO, short term fix until filesystem is mounted RW
+//	private @Value("#{privateFtpStageLocation}") String privateFtpLocation;
 
 
 	/**
