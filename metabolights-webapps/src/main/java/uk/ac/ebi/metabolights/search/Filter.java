@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 06/09/13 20:27
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.search;
 
 import org.springframework.security.core.Authentication;
@@ -15,7 +25,7 @@ import java.util.Map.Entry;
  *
  */
 public class Filter {
-	
+
 	public static final String STATUS_PRIVATE = "PRIVATE";
 	public static final String STATUS_PUBLIC = "PUBLIC";
     public static final String ORGANISM_FILTER = "organism";
@@ -28,7 +38,7 @@ public class Filter {
 
 	// Hash of FilterSets
 	Map<String,FilterSet> fss = new LinkedHashMap<String,FilterSet>();
-	
+
 	// List with filter items, each one will be a group of checkboxes
     private FilterSet organism = new FilterSet(ORGANISM_FILTER, "organism","","");
     private FilterSet technology = new FilterSet(TECHNOLOGY_FILTER,"assay_info","*|","|*");
@@ -36,8 +46,8 @@ public class Filter {
     private FilterSet status = new FilterSet("status","status","","");
     private FilterSet mystudies = new FilterSet("mystudies", "user","username:", "|*");
     private String freeTextQuery = "";
-    
-    // the currently displayed page number, paging through results 
+
+    // the currently displayed page number, paging through results
     private int pageNumber=1;
     // the number of entries on a displayed page
     private final int pageSize=10;
@@ -45,25 +55,25 @@ public class Filter {
     private int initialHits=0;
     // the current hits (with filters applied)
     private int currentHits=0;
-    
+
     // Store if it is necessary to load the filter based on the results...
     private boolean isFilterLoadNeeded;
-    
+
 	public Filter (HttpServletRequest request){
-		
+
 		//Mount the structure
 		mountFilterStructure();
-	
+
 	    //Fill the filter hash with the parameters
 	    parseRequest(request);
 	}
-	
+
 	public String getFreeTextQuery(){
 		return freeTextQuery;
 	}
 
 	public void setFreeTextQuery(String freeTextQuery){
-		this.freeTextQuery = freeTextQuery; 
+		this.freeTextQuery = freeTextQuery;
 	}
 
 	public int getPageNumber(){
@@ -73,27 +83,27 @@ public class Filter {
 	public int getPageSize(){
 		return pageSize;
 	}
-	
+
 	public int getInitialHits(){
 		return initialHits;
 	}
-	
+
 	public int getCurrentHits(){
 		return currentHits;
 	}
-	
+
 	private void mountFilterStructure(){
-		
+
 		//Add all the list of filters to the hash...
 		fss.put(status.getName(),status);
 		fss.put(organism.getName(), organism);
 		fss.put(technology.getName(), technology);
 		fss.put(mystudies.getName(), mystudies);
         fss.put(metabolite.getName(), metabolite);
-        
+
         //TODO,  Disable metabolites filter by now until it is improved
         metabolite.setIsEnabled(false);
-		
+
 	}
 
 	private void addStatusFilterSet(){
@@ -102,24 +112,24 @@ public class Filter {
 		FilterItem fiPublic = new FilterItem("Public studies" ,status.getName());
 		fiPublic.setValue(STATUS_PUBLIC);
 		status.put(fiPublic.getValue(), fiPublic);
-				
+
 		FilterItem fiPrivate = new FilterItem("Private studies", status.getName());
 		fiPrivate.setValue(STATUS_PRIVATE);
 		status.put(fiPrivate.getValue(), fiPrivate);
-	
+
 		// Disable/enable this filter Set: If there is any user legged in, this filter should be enabled.
 		status.setIsEnabled(!getUserName().isEmpty());
-		
+
 	}
-	
+
 	private void checkMyStudiesFilterSet(){
-		
+
 		//If the user id logged on
 		String user = getUserName();
-		
+
 		if (user.isEmpty()){
 			mystudies.setIsEnabled(false);
-			
+
 		} else {
 			//Lets disable also here
 			mystudies.setIsEnabled(false);
@@ -127,10 +137,10 @@ public class Filter {
 			fiMyStudies.setValue(user);
 			mystudies.put(user, fiMyStudies);
 		}
-		
+
 	}
-	
-	
+
+
 	/**request can come with 2 parameters:
 	 * query: freetext query
 	 * form with all the possible filters
@@ -138,29 +148,29 @@ public class Filter {
 	 * @return
 	 */
 	public void parseRequest(HttpServletRequest request){
-			
+
 		//Check if the filter sets must be reloaded
 		checkIfFilterLoadIsNeeeded(request);
-	
+
 		//Uncheck all items
 		uncheckAllFilterItems();
-		
+
 		//Reset page number
 		pageNumber = 1;
-		
+
 		//Load status filters
 		addStatusFilterSet();
-		
+
 		//Load myStudies filter
 		checkMyStudiesFilterSet();
-		
+
 		// Get an enumeration of all parameters
-		Enumeration paramenum = request.getParameterNames(); 
+		Enumeration paramenum = request.getParameterNames();
 		//Loop through the enumeration
-		while (paramenum.hasMoreElements()) { 
-			// Get the name of the request parameter 
-			String name = (String)paramenum.nextElement(); 
-	
+		while (paramenum.hasMoreElements()) {
+			// Get the name of the request parameter
+			String name = (String)paramenum.nextElement();
+
 			//Which page are we on
 			if (name.equals("pageNumber")) {
 				pageNumber = Integer.valueOf(request.getParameter(name));
@@ -169,15 +179,15 @@ public class Filter {
 
 			//Get the Corresponding filterSet
 			FilterSet fs = fss.get(name);
-		
+
 			//If exists...
 			if (fs != null){
 
-				// If the request parameter can appear more than once in the query string, get all values 
-				String[] values = request.getParameterValues(name); 
+				// If the request parameter can appear more than once in the query string, get all values
+				String[] values = request.getParameterValues(name);
 
-				for (int i=0; i<values.length; i++) { 
-					
+				for (int i=0; i<values.length; i++) {
+
 					//No longer needed: we are using session object to store the this class
 //					//Add a filter item to the corresponding filterset
 //					FilterItem fi = new FilterItem(values[i],fs.getName());
@@ -201,15 +211,15 @@ public class Filter {
 
 				}
 			}
-		}	
+		}
 	}
 
 	private void checkIfFilterLoadIsNeeeded(HttpServletRequest request){
-		
-				
+
+
 		//Get the free text (if any...)
 		String freeTextQueryFromRequest = request.getParameter(FREE_TEXT_QUERY);
-		
+
 		//If text from the request equals the previous one...
 		if (freeTextQueryFromRequest == null){
 			isFilterLoadNeeded = true;
@@ -219,18 +229,18 @@ public class Filter {
 
 			//Update free text query with the new one
 			freeTextQuery = freeTextQueryFromRequest;
-			
+
 			isFilterLoadNeeded = true;
 		}
-		
+
 		//if needed...
 		if (isFilterLoadNeeded) {
 			//...clear the filter items....later they must be populated based on the resultset
 			clearAllFilterItems();
 		}
-		
+
 	}
-	
+
 	private void uncheckAllFilterItems(){
 		for (FilterSet fs:fss.values()){
 			for (FilterItem fi: fs.getFilterItems().values()){
@@ -242,7 +252,7 @@ public class Filter {
 	private void clearAllFilterItems(){
 		for (FilterSet fs:fss.values()){
 			fs.getFilterItems().clear();
-		}	
+		}
 	}
 
 	/**
@@ -250,27 +260,27 @@ public class Filter {
 	 * @return
 	 */
 	public String getLuceneQuery(){
-		
+
 		//Start with the freeTextQuery
 		String luceneQuery = freeTextQuery.isEmpty()? "" :  value2Lucene("*" + freeTextQuery + "*", true, false) ;
-				
+
 		//Go through the Filters set
 		for (Entry<String,FilterSet> entry: fss.entrySet()){
-			
-			//Get the filter set organisms, technologies,... 
+
+			//Get the filter set organisms, technologies,...
 			FilterSet fs = entry.getValue();
-			
+
 			//Get the lucene index field name
 			String field = fs.getField();
-			
+
 			String luceneQueryBlock="";
-			
+
 			//For each filter item we shall make an OR filter
 			for (Entry<String,FilterItem> entry1: fs.getFilterItems().entrySet()){
-				
+
 				//Get the filter item.
 				FilterItem fi = entry1.getValue();
-				
+
 				//If filter item is checked
 				if (fi.getIsChecked()){
 					//Join terms with an OR
@@ -287,16 +297,16 @@ public class Filter {
                     else
                         luceneQueryBlock = joinFilterTerms(luceneQueryBlock, field + ":" + fs.getPrefix() + fi.getValue().replace(" ", "\\ *") + fs.getSuffix(), "OR") ;
 
-                    
+
 				}
-				
+
 			}
-			
+
 			//Join Blocks with an and
 			luceneQuery = joinFilterTerms(luceneQuery, luceneQueryBlock, "AND");
-			
+
 		}
-						
+
 		//Add the filter for private studies...
         if (!getStatusFilter().isEmpty())
 		    luceneQuery = joinFilterTerms(getStatusFilter(), luceneQuery, "AND");
@@ -304,11 +314,11 @@ public class Filter {
         //Quick fix, hack.
         if (luceneQuery.contains("username:"))
             luceneQuery = luceneQuery.replace("username:","username?");         // TODO, implement a better value2lucene to handle all the different scenario
-		
+
 		return luceneQuery;
-		
+
 	}
-	
+
 	private String getStatusFilter(){
 
         if (getUser().isCurator()) //If you are a curator, display everything, so no filtering on status or username
@@ -328,16 +338,16 @@ public class Filter {
 	}
 
 	private String joinFilterTerms (String term1, String term2, String op){
-				
+
 		if(term1.isEmpty()) {return term2;}
 		if(term2.isEmpty()) {return term1;}
-		
+
 		return "(" + term1 + " " + op + " " + term2 + ")";
-		
+
 	}
-	
+
 	private String value2Lucene(String value, Boolean toLower, Boolean exactMatch){
-		
+
 		//Replace special characters...
 		//value = value.replace(":","\\:").replace(" ", "\\ *").replace("(", "\\(").replace(")","\\)");
 
@@ -349,7 +359,7 @@ public class Filter {
         } else {
             value = value.replace(" ", " *").replace(":"," AND ").replace("(", "\\(").replace(")","\\)");          //Cannot escape : with \: as the KeywordAnalyzer cannot find this term
         }
-			
+
 		return value;
 	}
 
@@ -364,37 +374,37 @@ public class Filter {
 	public boolean getIsFilterLoadNeeded(){
 		return isFilterLoadNeeded;
 	}
-	
-	
+
+
 	/**
 	 * Load all the possible unique filter items to be offer them in the page.
 	 * @param resultSet
 	 */
 	public void loadFilter(List<LuceneSearchResult> resultSet){
-		
+
 		//Get the iterator
 		Iterator iter = resultSet.iterator();
-		
+
 		//While there are results...
 		while (iter.hasNext()){ //Is there a better Lucene way of doing this?  Getting unique values from the index?
-			
+
 			//Get the result (one lucene index document)
 			LuceneSearchResult result = (LuceneSearchResult) iter.next();
-			
+
 			//Add unique entries to the list
-			
+
 			//If there is any organism
 			if (result.getOrganism()!=null){
-				
+
 				//If we haven't stored the item yet...
 				if(!organism.getFilterItems().containsKey(result.getOrganism())){
 					organism.getFilterItems().put( result.getOrganism(), new FilterItem(result.getOrganism(), organism.getName()));
 				}
-		
+
 				//Increase the count of organisms
 				organism.getFilterItems().get(result.getOrganism()).addToNumber(1);
 			}
-			
+
 			//Get the list of technologies..
 			Iterator <Assay> assIter = result.getAssays().iterator();
 			while (assIter.hasNext()){
@@ -406,7 +416,7 @@ public class Filter {
 
 				//Increase the count of technologies
 				technology.getFilterItems().get(assay.getTechnology()).addToNumber(assay.getCount());
-				
+
 			}
 
 
@@ -438,17 +448,17 @@ public class Filter {
 			} else {
 				status.getFilterItems().get(STATUS_PRIVATE).addToNumber(1);
 			}
-			
+
 		}
-		
+
 		//If it's the first load (no filter item checked and no free text search)
 		if (isFilterLoadNeeded && freeTextQuery.isEmpty()){
 			initialHits = resultSet.size();
 		}
-		
+
 		//Get the current hits (always)
 		currentHits = resultSet.size();
-		
+
 	}
 
     private String cleanMetaboliteName(String metabo){
@@ -475,11 +485,11 @@ public class Filter {
 
 	private String getUserName(){
 		String userName = "";
-		
+
 		//If there is any user...
 		if ( getUser().getUserName() != null)
 			userName = getUser().getUserName();
-		
+
 		return userName;
 	}
 
