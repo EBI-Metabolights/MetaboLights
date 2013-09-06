@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 9/6/13 2:18 PM
+ * Modified by:   conesa
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.utils.sampletab;
 
 
@@ -13,12 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 
-/**
- * Created by IntelliJ IDEA.
- * User: kenneth
- * Date: 24/04/2013
- * Time: 10:08
- */
 public class ISATabReader {
 
     private ISAtabFilesImporter isatabFilesImporter;
