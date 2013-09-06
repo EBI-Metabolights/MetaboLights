@@ -1,13 +1,18 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 06/09/13 11:01
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 //checkout in SVN
 
 package uk.ac.ebi.metabolights.referencelayer;
 
-/**
- * @author The Metabolights Team
- */
-
-//TODO, should not have the same name as the Domain class
-public class MetabolightsCompound {
+public class EBeyeSearchCompound {
 
 	private String Name;
     private String chebiId;
@@ -23,6 +28,7 @@ public class MetabolightsCompound {
     private String hasPathways;
     private String hasNMR;
     private String hasMS;
+    private String studyStatus;
 
 	private String[] iupac;
 	private String[] MTBLStudies;
@@ -78,6 +84,14 @@ public class MetabolightsCompound {
 
     public void setHasMS(String hasMS) {
         this.hasMS = hasMS;
+    }
+
+    public String getStudyStatus() {
+        return studyStatus;
+    }
+
+    public void setStudyStatus(String studyStatus) {
+        this.studyStatus = studyStatus;
     }
 
     public String getSubmitter() {
