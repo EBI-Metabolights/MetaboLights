@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 9/5/13 5:09 PM
+ * Modified by:   conesa
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -17,8 +27,8 @@ public class StudyDAO {
     private File publicFolder;
     private File privateFolder;
 
-    public StudyDAO(String isaTabConfigurationFolder, String publicFolder, String privateFolder){
-        this.isaTabInvestigationDAO = new IsaTabInvestigationDAO(isaTabConfigurationFolder);
+    public StudyDAO(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder){
+        this.isaTabInvestigationDAO = new IsaTabInvestigationDAO(isaTabRootConfigurationFolder);
         this.publicFolder = new File(publicFolder);
         this.privateFolder = new File(privateFolder);
 

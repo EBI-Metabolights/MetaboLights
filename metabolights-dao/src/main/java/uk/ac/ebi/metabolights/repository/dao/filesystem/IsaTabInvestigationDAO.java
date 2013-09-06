@@ -1,7 +1,24 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 9/6/13 11:39 AM
+ * Modified by:   conesa
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Investigation;
+import uk.ac.ebi.metabolights.utils.isatab.IsaTabUtils;
+
+import javax.naming.ConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: conesa
@@ -10,25 +27,26 @@ import org.isatools.isacreator.model.Investigation;
  */
 public class IsaTabInvestigationDAO {
 
-    private String isaTabConfigurationLocation;
+    private String isaTabRootConfigurationLocation;
     private ISAtabFilesImporter isatabFilesImporter;
-    private Investigation investigation;
+    private String lastConfigurationLoaded;
 
+    private static Map<String, String> studyConfigFolderMap = new HashMap<String, String>();
 
-    public IsaTabInvestigationDAO(String isaTabConfigurationLocation){
-        this.isaTabConfigurationLocation = isaTabConfigurationLocation;
+    public IsaTabInvestigationDAO(String isaTabRootConfigurationLocation){
+        this.isaTabRootConfigurationLocation = isaTabRootConfigurationLocation;
     }
 
     /**
      * Import an ISATAB file set into corresponding ISA model objects
      *
-     * @param parentDir - Directory containing the ISATAB files, eg. a study
+     * @param isaTabStudyFolder - Directory containing the ISATAB files, eg. a study
      * @return boolean if successful or not!
      */
-    private boolean validateISAtabFiles(String parentDir) {
+    private boolean validateISAtabFiles(String isaTabStudyFolder) {
 
         try {
-            return getIsatabFilesImporter().importFile(parentDir);
+            return getIsatabFilesImporter(isaTabStudyFolder).importFile(isaTabStudyFolder);
         } catch (Exception e){
             System.out.print("Error: " + e.getMessage());
 
@@ -39,31 +57,55 @@ public class IsaTabInvestigationDAO {
 
     /**
      * Get the whole investigation from the study
-     * @param parentDir
+     * @param isaTabStudyFolder
      * @return ISAcrator Study object
      */
-    public Investigation getInvestigation(String parentDir) {
-        if (investigation == null){
-            if (validateISAtabFiles( parentDir))
-                investigation = getInvestigation();
+        public Investigation getInvestigation(String isaTabStudyFolder) {
+
+        Investigation investigation = null;
+
+        if (validateISAtabFiles(isaTabStudyFolder)) investigation = isatabFilesImporter.getInvestigation();
+
+        return investigation;
+    }
+
+    private ISAtabFilesImporter getIsatabFilesImporter(String isaTabStudyFolder) throws IOException, ConfigurationException {
+
+        // We need to get the configuration folder for the study
+        String configFolder = getConfigurationFolderForStudy(isaTabStudyFolder);
+
+        // If the config required
+        if (!configFolder.equals(lastConfigurationLoaded)){
+            isatabFilesImporter = null;
         }
-        return investigation;
-    }
 
-    /**
-     * Retrieves the investigation object from ISAcreator, this also contains studies etc etc
-     *
-     * @return investigation
-     */
-    private Investigation getInvestigation() {
-        if (investigation == null)
-            investigation = isatabFilesImporter.getInvestigation();
-        return investigation;
-    }
+        if (isatabFilesImporter == null){
+            lastConfigurationLoaded = configFolder;
+            isatabFilesImporter = new ISAtabFilesImporter(lastConfigurationLoaded);
+        }
 
-    private ISAtabFilesImporter getIsatabFilesImporter() {
-        if (isatabFilesImporter == null)
-            isatabFilesImporter = new ISAtabFilesImporter(isaTabConfigurationLocation);
+
         return isatabFilesImporter;
+    }
+
+    private String getConfigurationFolderForStudy(String isaTabStudyFolder) throws IOException, ConfigurationException {
+
+        // Try the map...
+        String configFolderName = studyConfigFolderMap.get(isaTabStudyFolder);
+
+        // If not found...
+        if (configFolderName == null){
+
+            File configFolder = IsaTabUtils.getConfigurationFolderFromStudy(isaTabStudyFolder, isaTabRootConfigurationLocation);
+
+            configFolderName = configFolder.getAbsolutePath();
+
+            // Add the pair study config to the map
+            studyConfigFolderMap.put (isaTabStudyFolder, configFolderName);
+
+        }
+
+        return configFolderName;
+
     }
 }
