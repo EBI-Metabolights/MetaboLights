@@ -1,4 +1,12 @@
     <%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 06/09/13 20:52
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  --%>    <%--
       Created by IntelliJ IDEA.
       Authour: tejasvi
       Date: 13/03/13
@@ -286,34 +294,43 @@
                             <div class="grid_24">
                                 <%--<b><spring:message code="ref.compound.title"/>:&nbsp;</b>--%>
                                 <h5 class="summary">${entry.name} (<a href="${entry.accession}">${entry.accession}</a>)</h5>
-                                <b><spring:message code="label.releaseDate"/>:&nbsp;</b>
-                                ${entry.last_modification_date}<br/><br/>
+
+                                <c:if test="${not empty entry.last_modification_date}">
+                                    <b><spring:message code="label.releaseDate"/>:&nbsp;</b>
+                                    ${entry.last_modification_date}<br/><br/>
+                                </c:if>
 
                                 <div class="grid_14 alpha">
+
+                                <c:if test="${not empty entry.technology_type}">
                                     <b><spring:message code="label.technology"/></b>
                                     <ul>
                                         <c:forEach var="technology" items="${entry.technology_type}" varStatus="loopStatus">
                                             <li>${technology}</li>
                                         </c:forEach>
                                     </ul>
+                                </c:if>
 
                                 </div>
 
                                 <div class="grid_10 right omega">
-                                    <b><spring:message code="label.subm"/></b>
-                                        ${entry.submitter}&nbsp;
+                                    <c:if test="${not empty entry.submitter}">
+                                        <b><spring:message code="label.subm"/></b>
+                                            ${entry.submitter}&nbsp;
+                                    </c:if>
                                 </div>
 
                                 <div style='clear: both;'></div>
-                                <b><spring:message code="label.organisms"/></b>
-
-                                <c:forEach var="organism" items="${entry.organism}" varStatus="loopStatus">
+                                <c:if test="${not empty entry.technology_type}">
+                                    <b><spring:message code="label.organisms"/></b>
                                     <ul>
-                                        <li>${organism}</li>
+                                        <c:forEach var="organism" items="${entry.organism}" varStatus="loopStatus">
+                                            <li>${organism}</li>
+                                        </c:forEach>
                                     </ul>
-                                </c:forEach>
+                                </c:if>
 
-
+                                <%--
                                 <c:if test="${not empty entry.description}">
                                     <b><spring:message code="ref.compound.description"/></b>
                                 </c:if>
@@ -324,6 +341,7 @@
                                 <c:if test="${descLen gt 250}">
                                     ${fn:substring(entry.description,0 , 200 )}<a href="javascript:toggle('showCompleteDesc${entry.accession}')" onclick="this.style.display='none';">&nbsp;more...</a><span id="showCompleteDesc${entry.accession}" style="display: none;">${fn:substring(entry.description, 200 , descLen )}</span>
                                 </c:if>
+                                --%>
                                 <br/>
                             </div>
 
