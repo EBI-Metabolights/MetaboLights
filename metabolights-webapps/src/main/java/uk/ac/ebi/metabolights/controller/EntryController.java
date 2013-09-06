@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 06/09/13 13:57
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.log4j.Logger;
@@ -8,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.Study;
@@ -32,7 +41,7 @@ import java.util.TreeSet;
 
 /**
  * Controller for entry (=study) details.
- * 
+ *
  */
 @Controller
 public class EntryController extends AbstractController {
@@ -72,7 +81,7 @@ public class EntryController extends AbstractController {
                 // redirect force login...
                 return new ModelAndView("redirect:securedredirect?url=" + mtblId);
 
-            // The user is not logged in but it's not authorised.
+            // The user is logged in but it's not authorised.
             } else {
                 return new ModelAndView ("redirect:/index?message="+ PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" +mtblId + ")");
             }
@@ -224,7 +233,7 @@ public class EntryController extends AbstractController {
 			mav.addObject("taggedContent", taggedContent);
 			logger.debug(taggedContent);
 		}
-		else 
+		else
 			mav.addObject("taggedContent", null);
 		return mav;
 	}

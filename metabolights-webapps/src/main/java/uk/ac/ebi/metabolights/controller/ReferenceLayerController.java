@@ -1,7 +1,20 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 06/09/13 20:33
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,15 +24,20 @@ import uk.ac.ebi.ebisearchservice.ArrayOfString;
 import uk.ac.ebi.ebisearchservice.EBISearchService;
 import uk.ac.ebi.ebisearchservice.EBISearchService_Service;
 import uk.ac.ebi.metabolights.authenticate.IsaTabAuthentication;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.referencelayer.MetabolightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.EBeyeSearchCompound;
 import uk.ac.ebi.metabolights.referencelayer.RefLayerFilter;
+import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.service.SearchService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +46,9 @@ import java.util.List;
  */
 @Controller
 public class ReferenceLayerController extends AbstractController {
+
+    @Autowired
+    private SearchService searchService;
 
     private @Value ("#{ebiServiceURL}") String url;
     private final String REFLAYERSESSION = "RefLayer";
@@ -69,7 +90,8 @@ public class ReferenceLayerController extends AbstractController {
         has_nmr,
         has_pathways,
         has_reactions,
-        has_species;
+        has_species,
+        study_status;
 
         ColumnMap(String altName){this.altName = altName;}
         ColumnMap(){}
@@ -180,9 +202,17 @@ public class ReferenceLayerController extends AbstractController {
         rffl.sortFacets();
     }
 
+
     private void getEntries() {
 
-        Collection<MetabolightsCompound> mcs = new ArrayList <MetabolightsCompound>();
+        //Current user context, the value is "anonymousUser" the user is not logged in
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        MetabolightsUser user = null;
+
+        if (!auth.getPrincipal().equals("anonymousUser"))
+            user = (MetabolightsUser) auth.getPrincipal();
+
+        Collection<EBeyeSearchCompound> mcs = new ArrayList <EBeyeSearchCompound>();
         Integer entriesFrom = 0;
         Integer toEntries = 0;
 
@@ -202,22 +232,134 @@ public class ReferenceLayerController extends AbstractController {
             List<String> ebiEyeEntry = listOfMTBLEntries.getArrayOfString().get(z).getString();
 
             // Instantiate a new entry...
-            MetabolightsCompound mc = ebieyeEntry2Metabolite(ebiEyeEntry);
+            EBeyeSearchCompound mc = ebieyeEntry2Metabolite(ebiEyeEntry, user);
 
             mcs.add(mc);
         }
 
-
         mav.addObject("entries", mcs);
     }
 
-    private MetabolightsCompound ebieyeEntry2Metabolite(List<String> ebieyeEntry) {
+
+    private String parseDateToString(Date date){
+
+        String dateStr = new SimpleDateFormat("dd-MM-yyyy").format(date);
+        return dateStr;
+    }
+
+
+    /**
+     * Maps the search results into a compound
+     * @param ebieyeEntry
+     * @param user
+     * @return EBeyeSearchCompound with data
+     */
+    private EBeyeSearchCompound ebieyeEntry2Metabolite(List<String> ebieyeEntry, MetabolightsUser user) {
+
+        Boolean loggedIn = false;
+
+        if (user != null) //Logged in
+            loggedIn = true;
+        //TODO, If user is not logged in we should ignore all private studies, BUT this can cause pagination gaps
 
         // Instantiate a new Metabolite compound ...
-        MetabolightsCompound mc = new MetabolightsCompound();
-
+        EBeyeSearchCompound mc = new EBeyeSearchCompound();
         String value;
 
+
+        //
+        // COMPOUNDS and STUDIES common values
+        //
+
+        //Get the description
+        value = getValueFromEbieyeEntry(ColumnMap.description, ebieyeEntry);
+        if(!value.equals("")) mc.setDescription(value);
+
+        // Get the ACCESION
+        value = getValueFromEbieyeEntry(ColumnMap.id, ebieyeEntry);
+        mc.setAccession(value);
+        String accessionNumber = value;
+
+        // Get the name
+        value = getValueFromEbieyeEntry(ColumnMap.name, ebieyeEntry);
+        mc.setName(value);
+
+        //Get Technology
+        value = getValueFromEbieyeEntry(ColumnMap.technology_type, ebieyeEntry);
+        if (!value.equals("")) mc.setTechnology_type(value.split("\\n"));
+
+        //Get Organism
+        value = getValueFromEbieyeEntry(ColumnMap.organism, ebieyeEntry);
+        if (!value.equals("")) mc.setOrganism(value.split("\\n"));
+
+        value = getValueFromEbieyeEntry(ColumnMap.study_design, ebieyeEntry);
+        if (!value.equals("")) mc.setStudy_design(value.split("\\n"));
+
+        value = getValueFromEbieyeEntry(ColumnMap.last_modification_date, ebieyeEntry);
+        if (!value.equals("")) mc.setLast_modification_date(value);
+
+        value = getValueFromEbieyeEntry(ColumnMap.study_factor, ebieyeEntry);
+        if (!value.equals("")) mc.setStudy_factor(value.split("\\n"));
+
+        value = getValueFromEbieyeEntry(ColumnMap.submitter, ebieyeEntry);
+        if (!value.equals("")) mc.setSubmitter(value);
+
+
+
+        //Check if this is a private study
+        value = getValueFromEbieyeEntry(ColumnMap.study_status, ebieyeEntry);
+        if (!value.equals("")) mc.setStudyStatus(value);
+
+        if (value.equals("1") && loggedIn){  // Private study and the user is logged in
+
+            //Get the private study from the BII lucene index
+            LuceneSearchResult study = searchService.getStudy(accessionNumber);
+
+            //Add in the read private study data as this is not exported to the EB-eye index
+            if (study != null){
+
+                //Document doc = study.getDoc();
+
+                //Get the first and last name + username of the submitter
+                LuceneSearchResult.Submitter submitter = study.getSubmitter();
+
+                //The index is like this:  username:beisken@ebi.ac.uk|forename:Stephan|surname:Beisken|email:beisken@ebi.ac.uk
+/*                String[] submittedParts = doc.get("user").split("\\|");    //Split on pipe
+                String submittedBy = null, userId = null;
+                for (String part : submittedParts){
+                    if (part.startsWith("forename")) submittedBy = part.replace("forename:","");
+                    if (part.startsWith("surname"))  submittedBy = submittedBy + " " + part.replace("surname:","");
+                    if (part.startsWith("username")) userId = part.replace("username:","");
+                }*/
+
+                if (user.isCurator() || user.getUserName().equals(submitter.getUserName())){   //Yup, you are a curator and/or the submitter
+                    //mc.setDescription(study.getDescription);  //Description is not in the lucene index
+                    //mc.setName(doc.get("title"));
+                    mc.setName(study.getTitle());
+
+                    //List<String> uniqueOrganisms = new ArrayList<String>(new HashSet<String>(Arrays.asList(doc.getValues("organism"))));
+                    //mc.setOrganism(uniqueOrganisms.toArray(new String[0]));
+                    mc.setOrganism(study.getOrganisms());
+
+                    //List<String> uniqueTech = new ArrayList<String>(new HashSet<String>(Arrays.asList(doc.getValues("assay_technology_name"))));
+                    //mc.setTechnology_type(uniqueTech.toArray(new String[0]));
+                    mc.setTechnology_type(study.getTechnologies());
+                    //mc.setStudy_design(doc.getValues("design_value"));
+                    mc.setStudy_design(study.getStudyDesign());
+                    mc.setLast_modification_date(parseDateToString(study.getReleaseDate()));
+                    mc.setSubmitter(submitter.getFullName());
+                    mc.setDescription(null); //Not in the index, and want to avoid the empty text in the jsp
+                }
+
+            }
+
+
+        }
+
+
+        //
+        //COMPOUNDS ONLY
+        //
 
         //Get the has_literature
         value = getValueFromEbieyeEntry(ColumnMap.has_literature, ebieyeEntry);
@@ -248,10 +390,6 @@ public class ReferenceLayerController extends AbstractController {
         mc.setChebiId(value);
         if (!value.equals("")) mc.setChebiURL(value.split(":")[1]);
 
-        //Get the description
-        value = getValueFromEbieyeEntry(ColumnMap.description, ebieyeEntry);
-        if(!value.equals("")) mc.setDescription(value);
-
         // Get the studies
         value = getValueFromEbieyeEntry(ColumnMap.METABOLIGHTS, ebieyeEntry);
         if (!value.equals("")) mc.setMTBLStudies(value.split("\\s"));
@@ -259,34 +397,6 @@ public class ReferenceLayerController extends AbstractController {
         // Get the iupac names
         value = getValueFromEbieyeEntry(ColumnMap.iupac, ebieyeEntry);
         if (!value.equals("")) mc.setIupac(value.split("\\n"));
-
-        // Get the ACCESION
-        value = getValueFromEbieyeEntry(ColumnMap.id, ebieyeEntry);
-        mc.setAccession(value);
-
-        // Get the name
-        value = getValueFromEbieyeEntry(ColumnMap.name, ebieyeEntry);
-        mc.setName(value);
-
-        //Get Technology
-        value = getValueFromEbieyeEntry(ColumnMap.technology_type, ebieyeEntry);
-        if (!value.equals("")) mc.setTechnology_type(value.split("\\n"));
-
-        //Get Organism
-        value = getValueFromEbieyeEntry(ColumnMap.organism, ebieyeEntry);
-        if (!value.equals("")) mc.setOrganism(value.split("\\n"));
-
-        value = getValueFromEbieyeEntry(ColumnMap.study_design, ebieyeEntry);
-        if (!value.equals("")) mc.setStudy_design(value.split("\\n"));
-
-        value = getValueFromEbieyeEntry(ColumnMap.last_modification_date, ebieyeEntry);
-        if (!value.equals("")) mc.setLast_modification_date(value);
-
-        value = getValueFromEbieyeEntry(ColumnMap.study_factor, ebieyeEntry);
-        if (!value.equals("")) mc.setStudy_factor(value.split("\\n"));
-
-        value = getValueFromEbieyeEntry(ColumnMap.submitter, ebieyeEntry);
-        if (!value.equals("")) mc.setSubmitter(value);
 
         return mc;
     }
