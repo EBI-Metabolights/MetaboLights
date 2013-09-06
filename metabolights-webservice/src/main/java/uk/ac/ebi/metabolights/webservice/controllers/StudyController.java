@@ -18,13 +18,13 @@ public class StudyController {
     // Properties from context
     private @Value("#{publicStudiesLocation}") String publicStudiesLocationProp;
     private @Value("#{privateStudiesLocation}") String privateStudiesLocationProp;
-    private @Value("#{isatabConfigurationLocation}") String isatabConfigurationLocation;
+    private @Value("#{isatabConfigurationLocation}") String isatabRootConfigurationLocation;
 
     @RequestMapping("{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}")
     @ResponseBody
     public Study getById(@PathVariable("metabolightsId") String metabolightsId) {
 
-            StudyDAO invDAO = new StudyDAO(isatabConfigurationLocation, publicStudiesLocationProp,privateStudiesLocationProp);
+            StudyDAO invDAO = new StudyDAO(isatabRootConfigurationLocation, publicStudiesLocationProp,privateStudiesLocationProp);
 
             return  invDAO.getStudy(metabolightsId);
 
