@@ -26,7 +26,24 @@ public class StudyController {
 
             StudyDAO invDAO = new StudyDAO(isatabRootConfigurationLocation, publicStudiesLocationProp,privateStudiesLocationProp);
 
-            return  invDAO.getStudy(metabolightsId);
+
+            // Get the study
+            Study study = invDAO.getStudy(metabolightsId);
+
+            // If the study is private.
+            if (!study.isPublic()){
+
+                // Let's return an empty one, until we implement security..
+                study = new Study();
+                study.setStudyIdentifier(metabolightsId);
+                study.setPublic(false);
+                study.setTitle("PRIVATE STUDY");
+                study.setDescription("This study is private and its data can't be accessed. Soon we will implement the security layer in the webservice, and the you will be able to get it, once authenticated and checked you are allowed to access the study.");
+
+            }
+
+
+            return  study;
 
     }
 
