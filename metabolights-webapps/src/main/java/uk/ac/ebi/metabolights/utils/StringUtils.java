@@ -1,6 +1,15 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 09/09/13 09:38
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.utils;
 
-import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +23,7 @@ public final class StringUtils {
 	 * Truncates a string from left or right any numbers of characters
 	 * @param text Text to truncate
 	 * @param numCharacters number of characters to truncate
-	 * @param fromTheLeft 
+	 * @param fromTheLeft
 	 * @return
 	 */
 	public static String truncate(String text, int numCharacters, boolean fromTheLeft){
@@ -23,8 +32,8 @@ public final class StringUtils {
 		if (text.length()<numCharacters){
 			return "";
 		}
-		
-		//if we have to 
+
+		//if we have to
 		if (fromTheLeft){
 			return text.substring(numCharacters);
 		}else{
@@ -37,10 +46,10 @@ public final class StringUtils {
 	 * @return
 	 */
 	public static String truncate (String text){
-		return truncate (text,1,false); 
+		return truncate (text,1,false);
 	}
 	/**
-	 * Truncate a string from the end (right) 
+	 * Truncate a string from the end (right)
 	 * @param text Text to truncate
 	 * @param numCharacters number of characters to truncate
 	 * @return
@@ -57,37 +66,37 @@ public final class StringUtils {
 	 * @return
 	 */
 	public static String truncate (String text, String find, boolean searchFromTheLeft, boolean fromTheLeft){
-				
+
 		int pos;
-		
+
 		//If we need the left part...
 		if (searchFromTheLeft){
-			
+
 			//Get the position of the char to find
 			pos = text.indexOf(find);
-			
-		}else{
-			
+
+		} else {
+
 			//Get the position from the end plus the length of the string we are finding
 			pos = text.lastIndexOf(find);
-			
+
 		}
 
 		//If not found
-		if (pos==-1){return "";}
-		
+		if (pos==-1) return "";
+
 		//If we want to remove the right part...
 		if (!fromTheLeft) {
 			//...truncate "pos" has to be from the end
 			pos = text.length() - pos;
-		}else{
+		} else {
 			//We want to remove the left part, included the "find" string. So we need to increase the position
 			pos = pos + find.length();
 		}
-		
+
 		//Call truncate by position
 		return truncate (text,pos,fromTheLeft);
-		
+
 	}
 	/**
 	 * Replace any text within a text using regular expressions
@@ -97,28 +106,17 @@ public final class StringUtils {
 	 * @return
 	 */
 	public static String replace (String text, String findPattern, String replacePattern){
-	
+
 		//Create the pattern for the search
 		Pattern pattern = Pattern.compile(findPattern);
 
 		// Replace all
 		Matcher matcher = pattern.matcher(text);
-		
+
 		//Return
 		return matcher.replaceAll(replacePattern);
-		
+
 	}
-//	/**
-//	 * Joins all the Strings in a collection and returns it.
-//	 * @param c
-//	 * @return
-//	 */
-//	public String join (Collection<String> c) {
-//	    StringBuilder sb=new StringBuilder();
-//	    for(String s: c)
-//	        sb.append(s);
-//	    return sb.toString();
-//	}
 
     public static String join(String firstItem, String secondItem, String operator){
         return join(firstItem, secondItem, operator, "", "");

@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 06/09/13 20:27
+ * Last modified: 09/09/13 08:47
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -187,12 +187,6 @@ public class Filter {
 				String[] values = request.getParameterValues(name);
 
 				for (int i=0; i<values.length; i++) {
-
-					//No longer needed: we are using session object to store the this class
-//					//Add a filter item to the corresponding filterset
-//					FilterItem fi = new FilterItem(values[i],fs.getName());
-//					fi.setIsChecked(true);
-//					fs.put(fi.getValue(), fi);
 
                     String val = values[i];
                     if (val == null)

@@ -2,11 +2,12 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 06/09/13 20:52
+  ~ Last modified: 09/09/13 12:03
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
-  --%>    <%--
+  --%>
+  <%--
       Created by IntelliJ IDEA.
       Authour: tejasvi
       Date: 13/03/13
@@ -205,7 +206,42 @@
 
                 <form name="Filters" id="filterForm" action="reflayersearch" method="post">
 
-                    <%--technology filter--%>
+                    <%--Study status filter--%>
+                    <div class="grid_24 refLayerBox" id="statusFilter">
+                        <b><spring:message code="ref.msg.status"/></b>
+
+                        <ul class="filterset" id="studyStatusFilter">
+
+                            <c:forEach var="status" items="${rffl.statusFacet}">
+
+                                <%-- 0 is public studies.  This test should really be in the controller --%>
+                                <c:set var="displayValue" value="Public" />
+                                <c:if test="${status.key eq '1'}">
+                                    <c:set var="displayValue" value="Private" />
+                                </c:if>
+                                <c:if test="${((status.value eq 'checked')) or ((status.value eq 'unchecked')) or ((status.value eq 'dimmed'))}">
+                                    <input type="checkbox"
+                                           name="status"
+                                           value="${status.key}"
+                                           <c:if test="${status.value eq 'checked'}">CHECKED</c:if>
+                                           onclick="this.form.submit();">
+                                    <c:if test="${status.value eq 'dimmed'}">
+                                        <span class="dimmed">${displayValue}</span>
+                                    </c:if>
+                                    <c:if test="${status.value ne 'dimmed'}">
+                                        ${displayValue}
+                                    </c:if>
+                                    <br/>
+                                </c:if>
+                            </c:forEach>
+
+                        </ul>
+
+                    </div>
+
+                    <br />
+
+                <%--technology filter--%>
                     <div class="grid_24 refLayerBox" id="technologyFilter">
                         <b><spring:message code="ref.msg.technology"/></b>
 
@@ -232,8 +268,6 @@
                         </ul>
 
                     </div>
-
-                    <br />
 
                     <%--organism filter--%>
                     <div class="grid_24 refLayerBox" id="organismFilter">

@@ -1,10 +1,20 @@
-package uk.ac.ebi.metabolights.referencelayer;
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 06/09/13 21:26
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
 
-import java.util.LinkedHashMap;
-import java.util.Set;
+package uk.ac.ebi.metabolights.referencelayer;
 
 import uk.ac.ebi.ebisearchservice.ArrayOfArrayOfString;
 import uk.ac.ebi.ebisearchservice.ArrayOfString;
+
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 /**
  * Related with Reference Layer filter
@@ -12,7 +22,7 @@ import uk.ac.ebi.ebisearchservice.ArrayOfString;
  *
  */
 public class RefLayerPOJO {
-	
+
 	private String ModQuery;
 	private String orgQuery;
 	private String techQuery;
@@ -20,44 +30,55 @@ public class RefLayerPOJO {
 	private String techType;
     private String FacetOrgType;
     private String FacetTechType;
+    private String FacetStudyStatus;
 
 	private String orgValue;
 	private String techValue;
-	
+    private String statusValue;
+
 	private String[] orgSplit;
 	private String[] techSplit;
+    private String[] statusSplit;
 	private String[] orgCheckedItems;
 	private String[] techCheckedItems;
+    private String[] statusCheckedItems;
 
 	private int techSplitLen;
 	private int orgSplitLen;
+    private int statusSplitLen;
 	private int listOfMTBLEntriesLen;
     private int ListOfMTBLEntriesForFacetsLen;
-	
+
 	private LinkedHashMap<String, String> techHash;
 	private LinkedHashMap<String, String> orgHash;
+    private LinkedHashMap<String, String> statusHash;
 	private LinkedHashMap<String, String> orgCheckedItemsHash;
 	private LinkedHashMap<String, String> techCheckedItemsHash;
+    private LinkedHashMap<String, String> statusCheckedItemsHash;
     private LinkedHashMap<String, String> orgNoDim;
     private LinkedHashMap<String, String> techNoDim;
+    private LinkedHashMap<String, String> statusNoDim;
 
 	private Set<String> techCheckedItemsSet;
 	private Set<String> orgCheckedItemsSet;
-	
-	
+    private Set<String> statusCheckedItemsSet;
+
 	private ArrayOfArrayOfString listOfMTBLEntries;
     private ArrayOfArrayOfString ListOfMTBLEntriesForFacets;
 	private ArrayOfString MTBLEntries;
     private ArrayOfString MTBLFacetEntries;
-	
+
 	private StringBuffer modifyQueryToInclOrgs;
 	private StringBuffer modifyQueryToInclTech;
-	
+    private StringBuffer modifyQueryToInclStatus;
+
 	private boolean techClear;
 	private boolean orgClear;
+    private boolean statusClear;
 
     private Set<String> orgSet;
     private Set<String> techSet;
+    private Set<String> statusSet;
 
     public int getListOfMTBLEntriesLen() {
         return listOfMTBLEntriesLen;
@@ -91,6 +112,14 @@ public class RefLayerPOJO {
         this.modifyQueryToInclTech = modifyQueryToInclTech;
     }
 
+    public StringBuffer getModifyQueryToInclStatus() {
+        return modifyQueryToInclStatus;
+    }
+
+    public void setModifyQueryToInclStatus(StringBuffer modifyQueryToInclStatus) {
+        this.modifyQueryToInclStatus = modifyQueryToInclStatus;
+    }
+
     public LinkedHashMap<String, String> getOrgNoDim() {
         return orgNoDim;
     }
@@ -105,6 +134,14 @@ public class RefLayerPOJO {
 
     public void setTechNoDim(LinkedHashMap<String, String> techNoDim) {
         this.techNoDim = techNoDim;
+    }
+
+    public LinkedHashMap<String, String> getStatusNoDim() {
+        return statusNoDim;
+    }
+
+    public void setStatusNoDim(LinkedHashMap<String, String> statusNoDim) {
+        this.statusNoDim = statusNoDim;
     }
 
     public Set<String> getOrgSet() {
@@ -123,6 +160,14 @@ public class RefLayerPOJO {
         this.techSet = techSet;
     }
 
+    public Set<String> getStatusSet() {
+        return statusSet;
+    }
+
+    public void setStatusSet(Set<String> statusSet) {
+        this.statusSet = statusSet;
+    }
+
     public String getFacetOrgType() {
         return FacetOrgType;
     }
@@ -137,6 +182,14 @@ public class RefLayerPOJO {
 
     public void setFacetTechType(String facetTechType) {
         FacetTechType = facetTechType;
+    }
+
+    public String getFacetStudyStatus() {
+        return FacetStudyStatus;
+    }
+
+    public void setFacetStudyStatus(String facetStudyStatus) {
+        FacetStudyStatus = facetStudyStatus;
     }
 
     public int getListOfMTBLEntriesForFacetsLen() {
@@ -187,6 +240,14 @@ public class RefLayerPOJO {
 		this.orgCheckedItemsSet = orgCheckedItemsSet;
 	}
 
+    public Set<String> getStatusCheckedItemsSet() {
+        return statusCheckedItemsSet;
+    }
+
+    public void setStatusCheckedItemsSet(Set<String> statusCheckedItemsSet) {
+        this.statusCheckedItemsSet = statusCheckedItemsSet;
+    }
+
     public LinkedHashMap<String, String> getTechHash() {
         return techHash;
     }
@@ -201,6 +262,14 @@ public class RefLayerPOJO {
 
     public void setOrgHash(LinkedHashMap<String, String> orgHash) {
         this.orgHash = orgHash;
+    }
+
+    public LinkedHashMap<String, String> getStatusHash() {
+        return statusHash;
+    }
+
+    public void setStatusHash(LinkedHashMap<String, String> statusHash) {
+        this.statusHash = statusHash;
     }
 
     public LinkedHashMap<String, String> getOrgCheckedItemsHash() {
@@ -219,6 +288,14 @@ public class RefLayerPOJO {
         this.techCheckedItemsHash = techCheckedItemsHash;
     }
 
+    public LinkedHashMap<String, String> getStatusCheckedItemsHash() {
+        return statusCheckedItemsHash;
+    }
+
+    public void setStatusCheckedItemsHash(LinkedHashMap<String, String> statusCheckedItemsHash) {
+        this.statusCheckedItemsHash = statusCheckedItemsHash;
+    }
+
     public boolean isTechClear() {
 		return techClear;
 	}
@@ -235,7 +312,15 @@ public class RefLayerPOJO {
 		this.orgClear = orgClear;
 	}
 
-	public String[] getTechCheckedItems() {
+    public boolean isStatusClear() {
+        return statusClear;
+    }
+
+    public void setStatusClear(boolean statusClear) {
+        this.statusClear = statusClear;
+    }
+
+    public String[] getTechCheckedItems() {
 		return techCheckedItems;
 	}
 
@@ -243,7 +328,15 @@ public class RefLayerPOJO {
 		this.techCheckedItems = techCheckedItems;
 	}
 
-	public String[] getOrgCheckedItems() {
+    public String[] getStatusCheckedItems() {
+        return statusCheckedItems;
+    }
+
+    public void setStatusCheckedItems(String[] statusCheckedItems) {
+        this.statusCheckedItems = statusCheckedItems;
+    }
+
+    public String[] getOrgCheckedItems() {
 		return orgCheckedItems;
 	}
 
@@ -284,7 +377,15 @@ public class RefLayerPOJO {
 		this.techSplit = techSplit;
 	}
 
-	public int getTechSplitLen() {
+    public String[] getStatusSplit() {
+        return statusSplit;
+    }
+
+    public void setStatusSplit(String[] statusSplit) {
+        this.statusSplit = statusSplit;
+    }
+
+    public int getTechSplitLen() {
 		return techSplitLen;
 	}
 
@@ -299,6 +400,14 @@ public class RefLayerPOJO {
 	public void setOrgSplitLen(int orgSplitLen) {
 		this.orgSplitLen = orgSplitLen;
 	}
+
+    public int getStatusSplitLen() {
+        return statusSplitLen;
+    }
+
+    public void setStatusSplitLen(int statusSplitLen) {
+        this.statusSplitLen = statusSplitLen;
+    }
 
     public String getOrgValue() {
         return orgValue;
@@ -316,14 +425,22 @@ public class RefLayerPOJO {
         this.techValue = techValue;
     }
 
-	public String getModQuery() {
+    public String getStatusValue() {
+        return statusValue;
+    }
+
+    public void setStatusValue(String statusValue) {
+        this.statusValue = statusValue;
+    }
+
+    public String getModQuery() {
 		return ModQuery;
 	}
 
 	public void setModQuery(String modQuery) {
 		ModQuery = modQuery;
 	}
-	
+
 	public String getOrgQuery() {
 		return orgQuery;
 	}
@@ -341,10 +458,10 @@ public class RefLayerPOJO {
 	}
 
 	public RefLayerPOJO(){
-		
+
 	}
 
-    public RefLayerPOJO(String userQuery, String[] organisms, String[] technologies, String currentPage){
+    public RefLayerPOJO(String userQuery, String[] organisms, String[] technologies, String[] studyStatus, String currentPage){
 
     }
 }

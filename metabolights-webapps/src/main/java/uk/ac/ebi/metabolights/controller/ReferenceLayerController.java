@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 06/09/13 20:33
+ * Last modified: 09/09/13 12:00
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -163,6 +163,7 @@ public class ReferenceLayerController extends AbstractController {
         @RequestParam(required = false, value = "freeTextQuery") String userQuery,
         @RequestParam(required = false, value = "organisms") String[] organismsSelected,
         @RequestParam(required = false, value = "technology") String[] technologiesSelected,
+        @RequestParam(required = false, value = "status") String[] studyStatusSelected,
         @RequestParam(required = false, value = "PageNumber") String PageSelected,
         @RequestParam(required = false, value = "userAction") String userAction,
         HttpServletRequest request) {
@@ -174,7 +175,7 @@ public class ReferenceLayerController extends AbstractController {
         rffl = (RefLayerFilter)request.getSession().getAttribute(REFLAYERSESSION);
         mav = AppContext.getMAVFactory().getFrontierMav("reflayersearch");
 
-        mapUserAction(userQuery, organismsSelected, technologiesSelected, PageSelected, userAction);
+        mapUserAction(userQuery, organismsSelected, technologiesSelected, studyStatusSelected, PageSelected, userAction);
         try{
             queryEBI();
         } catch (Exception e){
@@ -401,14 +402,14 @@ public class ReferenceLayerController extends AbstractController {
         return mc;
     }
 
-    private void mapUserAction(String userQuery, String[] organismsSelected, String[] technologiesSelected, String pageSelected, String userAction) {
+    private void mapUserAction(String userQuery, String[] organismsSelected, String[] technologiesSelected, String[] studyStatusSelected, String pageSelected, String userAction) {
 
         if(userAction != null){
             if(userAction.equals("facetClicked")){
                 ua = UserAction.checkedFacet;
                 rffl.setCurrentPage(Integer.parseInt(pageSelected));
                 rffl.resetFacets();
-                rffl.checkFacets(organismsSelected, technologiesSelected);
+                rffl.checkFacets(organismsSelected, technologiesSelected, studyStatusSelected);
                 if (rffl.getFacetsQuery().equals("")){
                     rffl.uncheckFacets();
                 }
@@ -423,11 +424,11 @@ public class ReferenceLayerController extends AbstractController {
                 rffl = cacheRffl.clone(); //add here for changing the page e.g: .../reference?PageNumber=3
             } else{
                 ua = UserAction.firstTimeBrowse;
-                rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, pageSelected);
+                rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, studyStatusSelected, pageSelected);
             }
         } else {
             ua = UserAction.freeTextOrExample;
-            rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, pageSelected);
+            rffl = new RefLayerFilter(userQuery, organismsSelected, technologiesSelected, studyStatusSelected, pageSelected);
         }
     }
 
@@ -455,10 +456,13 @@ public class ReferenceLayerController extends AbstractController {
             for(ArrayOfString entry: this.listOfMTBLEntries.getArrayOfString()){
                 String organisms = getValueFromEbieyeEntry(ColumnMap.organism, entry.getString());
                 String technologies = getValueFromEbieyeEntry(ColumnMap.technology_type, entry.getString());
+                String studyStatus = getValueFromEbieyeEntry(ColumnMap.study_status, entry.getString());
                 String[] organismsList = organisms.split("\\n");
                 String[] technologiesList = technologies.split("\\n");
+                String[] studyStatusList = studyStatus.split("\\n");
                 rffl.updateOrganismFacet(organismsList);
                 rffl.updateTechnologyFacet(technologiesList);
+                rffl.updateStatusFacet(studyStatusList);
             }
         }
     }

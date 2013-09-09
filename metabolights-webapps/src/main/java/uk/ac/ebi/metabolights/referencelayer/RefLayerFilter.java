@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 09/09/13 11:55
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.referencelayer;
 
 import uk.ac.ebi.metabolights.utils.StringUtils;
@@ -9,13 +19,13 @@ import java.util.*;
  * User: tejasvi
  * Date: 07/03/13
  * Time: 11:45
- * To change this template use File | Settings | File Templates.
  */
 public class RefLayerFilter {
 
     private String freeText = new String("");
     private LinkedHashMap<String, FacetStatus> technologyFacet = new LinkedHashMap<String, FacetStatus>();
     private LinkedHashMap<String, FacetStatus> organismFacet = new LinkedHashMap<String, FacetStatus>();
+    private LinkedHashMap<String, FacetStatus> statusFacet = new LinkedHashMap<String, FacetStatus>();    //Private (1) or Public (0) studies
     private Integer currentPage = 1;
     private String defaultFreeText = "id:MTBL*";
     private Integer MTBLNumOfResults = 0;
@@ -46,6 +56,7 @@ public class RefLayerFilter {
     public void sortFacets() {
         organismFacet = sortFacet(organismFacet);
         technologyFacet = sortFacet(technologyFacet);
+        statusFacet = sortFacet(statusFacet);
     }
 
     private LinkedHashMap<String, FacetStatus> sortFacet(LinkedHashMap<String, FacetStatus> Facet) {
@@ -90,6 +101,10 @@ public class RefLayerFilter {
         return organismFacet;
     }
 
+    public LinkedHashMap<String, FacetStatus> getStatusFacet() {
+        return statusFacet;
+    }
+
     public Integer getCurrentPage() {
         return currentPage;
     }
@@ -107,11 +122,12 @@ public class RefLayerFilter {
         }
     }
 
-    public RefLayerFilter(String freeText, String[] organisms, String[] technologies, String currentPage){
+    public RefLayerFilter(String freeText, String[] organisms, String[] technologies, String[] studyStatus, String currentPage){
         setCurrentPage(currentPage);
         setFreeText(freeText);
         convertArrayToHash(organisms, organismFacet);
         convertArrayToHash(technologies, technologyFacet);
+        convertArrayToHash(studyStatus, statusFacet);
 
     }
 
@@ -138,7 +154,17 @@ public class RefLayerFilter {
     }
 
     public String getFacetsQuery(){
-        return StringUtils.join(getFacetQuery("organism", organismFacet), getFacetQuery("technology_type", technologyFacet), " AND ", "(", ")");
+        String queryStr = null;
+        queryStr = StringUtils.join(getFacetQuery("organism", organismFacet), getFacetQuery("technology_type", technologyFacet), " AND ", "(", ")");
+
+        if (!queryStr.isEmpty())
+            queryStr = queryStr + " AND ";
+
+        queryStr = queryStr + getFacetQuery("study_status", statusFacet);
+
+
+        //return StringUtils.join(getFacetQuery("organism", organismFacet), getFacetQuery("technology_type", technologyFacet), " AND ", "(", ")");
+        return queryStr;
     }
 
     private String getFacetQuery(String EBIFieldName, LinkedHashMap<String, FacetStatus> facetHash){
@@ -162,6 +188,10 @@ public class RefLayerFilter {
         updateFacet(technologyList, technologyFacet);
     }
 
+    public void updateStatusFacet(String[] statusList){
+        updateFacet(statusList, statusFacet);
+    }
+
     private void updateFacet(String[] facetKeys, LinkedHashMap<String, FacetStatus> facetLinkedHash){
         for(String key: facetKeys){
             if(!(key.equals("")) || (key == null)){
@@ -174,21 +204,24 @@ public class RefLayerFilter {
         }
     }
 
-    public void checkFacets(String[] organism, String[] technology){
+    public void checkFacets(String[] organism, String[] technology, String[] studyStatus){
         convertArrayToHash(organism, organismFacet);
         convertArrayToHash(technology, technologyFacet);
+        convertArrayToHash(studyStatus, statusFacet);
 
     }
 
     public void uncheckFacets() {
         setAllFacetStatus(organismFacet, FacetStatus.unchecked);
         setAllFacetStatus(technologyFacet, FacetStatus.unchecked);
+        setAllFacetStatus(statusFacet, FacetStatus.unchecked);
 
     }
 
     public void resetFacets(){
         setAllFacetStatus(organismFacet, FacetStatus.dimmed);
         setAllFacetStatus(technologyFacet, FacetStatus.dimmed);
+        setAllFacetStatus(statusFacet, FacetStatus.dimmed);
     }
 
     private void setAllFacetStatus(LinkedHashMap<String,FacetStatus> facet, FacetStatus value){
@@ -198,10 +231,11 @@ public class RefLayerFilter {
     }
     public RefLayerFilter clone(){
 
-        RefLayerFilter clone =  new RefLayerFilter(freeText,null,null,currentPage.toString());
+        RefLayerFilter clone =  new RefLayerFilter(freeText,null,null,null,currentPage.toString());
 
         clone.organismFacet = (LinkedHashMap<String,FacetStatus>)organismFacet.clone();
         clone.technologyFacet = (LinkedHashMap<String,FacetStatus>)technologyFacet.clone();
+        clone.statusFacet = (LinkedHashMap<String,FacetStatus>)statusFacet.clone();
 
         return clone;
     }
