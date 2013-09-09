@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 09/09/13 12:00
+ * Last modified: 09/09/13 12:18
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -175,6 +175,12 @@ public class ReferenceLayerController extends AbstractController {
         rffl = (RefLayerFilter)request.getSession().getAttribute(REFLAYERSESSION);
         mav = AppContext.getMAVFactory().getFrontierMav("reflayersearch");
 
+        //if the user is logged in show status status filter
+        String showStudyStatus = null;
+
+        if (getUser() != null)
+            showStudyStatus = "1";
+
         mapUserAction(userQuery, organismsSelected, technologiesSelected, studyStatusSelected, PageSelected, userAction);
         try{
             queryEBI();
@@ -196,6 +202,7 @@ public class ReferenceLayerController extends AbstractController {
         }
 
         mav.addObject("rffl", rffl);
+        mav.addObject("showStudyStatus",showStudyStatus);
         return mav;
     }
 
@@ -203,15 +210,21 @@ public class ReferenceLayerController extends AbstractController {
         rffl.sortFacets();
     }
 
-
-    private void getEntries() {
-
+    private MetabolightsUser getUser(){
         //Current user context, the value is "anonymousUser" the user is not logged in
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MetabolightsUser user = null;
 
         if (!auth.getPrincipal().equals("anonymousUser"))
             user = (MetabolightsUser) auth.getPrincipal();
+
+        return  user;
+    }
+
+
+    private void getEntries() {
+
+        MetabolightsUser user = getUser();
 
         Collection<EBeyeSearchCompound> mcs = new ArrayList <EBeyeSearchCompound>();
         Integer entriesFrom = 0;
@@ -324,26 +337,9 @@ public class ReferenceLayerController extends AbstractController {
                 //Get the first and last name + username of the submitter
                 LuceneSearchResult.Submitter submitter = study.getSubmitter();
 
-                //The index is like this:  username:beisken@ebi.ac.uk|forename:Stephan|surname:Beisken|email:beisken@ebi.ac.uk
-/*                String[] submittedParts = doc.get("user").split("\\|");    //Split on pipe
-                String submittedBy = null, userId = null;
-                for (String part : submittedParts){
-                    if (part.startsWith("forename")) submittedBy = part.replace("forename:","");
-                    if (part.startsWith("surname"))  submittedBy = submittedBy + " " + part.replace("surname:","");
-                    if (part.startsWith("username")) userId = part.replace("username:","");
-                }*/
-
                 if (user.isCurator() || user.getUserName().equals(submitter.getUserName())){   //Yup, you are a curator and/or the submitter
-                    //mc.setDescription(study.getDescription);  //Description is not in the lucene index
-                    //mc.setName(doc.get("title"));
                     mc.setName(study.getTitle());
-
-                    //List<String> uniqueOrganisms = new ArrayList<String>(new HashSet<String>(Arrays.asList(doc.getValues("organism"))));
-                    //mc.setOrganism(uniqueOrganisms.toArray(new String[0]));
                     mc.setOrganism(study.getOrganisms());
-
-                    //List<String> uniqueTech = new ArrayList<String>(new HashSet<String>(Arrays.asList(doc.getValues("assay_technology_name"))));
-                    //mc.setTechnology_type(uniqueTech.toArray(new String[0]));
                     mc.setTechnology_type(study.getTechnologies());
                     //mc.setStudy_design(doc.getValues("design_value"));
                     mc.setStudy_design(study.getStudyDesign());
