@@ -1,15 +1,17 @@
 package uk.ac.ebi.metabolights.repository.utils;
 
-import org.isatools.isacreator.model.Factor;
-import org.isatools.isacreator.model.StudyDesign;
+import org.isatools.isacreator.configuration.FieldObject;
+import org.isatools.isacreator.model.*;
 import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.Assay;
+import uk.ac.ebi.metabolights.repository.model.Contact;
+import uk.ac.ebi.metabolights.repository.model.Protocol;
+import uk.ac.ebi.metabolights.repository.model.Publication;
+import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: conesa
@@ -25,6 +27,8 @@ public class IsaTab2MetaboLightsConverter {
     */
     private static final String ISA_TAB_DATE_FORMAT = "yyyy-MM-dd";
     private static SimpleDateFormat isaTabDateFormat = new SimpleDateFormat(ISA_TAB_DATE_FORMAT);
+
+    private static final String ASSAY_COLUMN_SAMPLE_NAME = "Sample Name";
 
     public static Study convert( org.isatools.isacreator.model.Investigation source){
 
@@ -70,8 +74,11 @@ public class IsaTab2MetaboLightsConverter {
         // Publications
         metStudy.setPublications(isaTabPublications2MetaboLightsPublications(isaStudy));
 
-        // Publications
+        // Protocols
         metStudy.setProtocols(isaTabProtocols2MetaboLightsProtocols(isaStudy));
+
+        //Assays
+        metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy));
 
 
         return metStudy;
@@ -143,6 +150,72 @@ public class IsaTab2MetaboLightsConverter {
 
 
         return studyFactors;
+
+    }
+
+    private static Collection<AssayLine> isaTabAssayLines2MetabolightsAssayLines(org.isatools.isacreator.model.Assay isaAssay){
+
+        List<List<String>> isaAssaysLines = isaAssay.getTableReferenceObject().getReferenceData().getData();
+        List<AssayLine> metAssayLines = new LinkedList<AssayLine>();
+
+        for (List<String> isaAssayLine: isaAssaysLines){
+
+            AssayLine metAssayLine = new AssayLine();
+
+            metAssayLine.setSampleName(isaAssayLine.get(mapIsaFieldName(isaAssay, ASSAY_COLUMN_SAMPLE_NAME)));
+
+
+
+            metAssayLines.add(metAssayLine);
+        }
+
+        return metAssayLines;
+
+    }
+
+    private static int mapIsaFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
+
+        Collection<FieldObject> isaAssyaValues = isaAssay.getTableReferenceObject().getFieldLookup().values();
+
+        int colNo = 0;
+
+        for(FieldObject sampleName : isaAssyaValues){
+            if(sampleName.getFieldName().equals(fieldName)){
+                colNo = sampleName.getColNo();
+            }
+        }
+
+        return colNo;
+    }
+
+
+    private static Collection<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy){
+
+        Map<String, org.isatools.isacreator.model.Assay> isaAssays = isaStudy.getAssays();
+
+        List<Assay> assays = new LinkedList<Assay>();
+
+        for(Map.Entry<String, org.isatools.isacreator.model.Assay> isaAssayEntry: isaAssays.entrySet() ){
+
+            org.isatools.isacreator.model.Assay isaAssay = isaAssayEntry.getValue();
+
+            Assay metAssay = new Assay();
+
+            metAssay.setFileName(isaAssay.getAssayReference());
+
+            metAssay.setMeasurement(isaAssay.getMeasurementEndpoint());
+
+            metAssay.setPlatform(isaAssay.getAssayPlatform());
+
+            metAssay.setTechnology(isaAssay.getTechnologyType());
+
+            // Add assay lines
+            metAssay.setAsssayLines(isaTabAssayLines2MetabolightsAssayLines(isaAssay));
+
+            assays.add(metAssay);
+        }
+
+        return assays;
 
     }
 

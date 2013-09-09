@@ -32,7 +32,15 @@ public class Study {
     private Collection<StudyFactor> factors;
     private Collection<Publication> publications;
     private Collection<Protocol> protocols;
+    private Collection<Assay> assays;
 
+    public Collection<Assay> getAssays() {
+        return assays;
+    }
+
+    public void setAssays(Collection<Assay> assays) {
+        this.assays = assays;
+    }
 
     public String getStudyIdentifier() {
         return studyIdentifier;
