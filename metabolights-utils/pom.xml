@@ -20,6 +20,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>isatab-utils</module>
+        <module>metabolights-mztab</module>
+        <module>metabolights-sampledb</module>
     </modules>
 
 

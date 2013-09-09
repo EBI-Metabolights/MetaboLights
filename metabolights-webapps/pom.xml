@@ -56,6 +56,116 @@
     </build>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.4.0.GA</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate</artifactId>
+            <version>3.5.4-Final</version>
+            <type>pom</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search</artifactId>
+            <version>3.4.0.Final</version>
+            <type>pom</type>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-io</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${org.spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${org.spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${org.spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${org.spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${org.spring.version}</version>
+            <type>pom</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${org.spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>2.9.2</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.tiles</groupId>
             <artifactId>tiles-api</artifactId>
@@ -91,13 +201,6 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>commons-pool</groupId>-->
-            <!--<artifactId>commons-pool</artifactId>-->
-            <!--<version>1.5.6</version>-->
-            <!--<type>jar</type>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
@@ -139,13 +242,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>c3p0</groupId>-->
-            <!--<artifactId>c3p0</artifactId>-->
-            <!--<version>0.9.1.2</version>-->
-            <!--<type>jar</type>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -288,6 +385,13 @@
             <groupId>uk.ac.ebi.metabolights</groupId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>javassist</groupId>-->
+            <!--<artifactId>javassist</artifactId>-->
+            <!--<version>3.12.1.GA</version>-->
+            <!--<type>jar</type>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
 
     </dependencies>
 </project>

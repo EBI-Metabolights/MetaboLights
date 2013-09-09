@@ -38,7 +38,8 @@ public class StudyController {
                 study.setStudyIdentifier(metabolightsId);
                 study.setPublic(false);
                 study.setTitle("PRIVATE STUDY");
-                study.setDescription("This study is private and its data can't be accessed. Soon we will implement the security layer in the webservice, and the you will be able to get it, once authenticated and checked you are allowed to access the study.");
+                study.setDescription("This study is private and its data can't be accessed. Soon we will implement the security layer in the webservice, and the you will " +
+                        "be able to get it, once authenticated and checked you are allowed to access the study.");
 
             }
 
