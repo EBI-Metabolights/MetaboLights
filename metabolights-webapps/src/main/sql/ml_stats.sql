@@ -57,7 +57,7 @@ insert into ml_stats(page_section,str_name,str_value) select 'Identified', DB, C
 END AS DB from METABOLITE)
 group by DB;
 
-insert into ml_stats(page_section,str_name,str_value) select 'Identified','Total', Count(*) as Total from METABOLITE;
+insert into ml_stats(page_section,str_name,str_value) select 'Identified',' - Total', Count(*) as Total from METABOLITE;
 
 -- Section "Submitters"
 insert into ml_stats(page_section,str_name,str_value) select 'Submitters', 'Number of registered users', count(*) from user_detail;
