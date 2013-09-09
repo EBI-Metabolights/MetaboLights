@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="metabolights-webapp:war exploded">
+    <output-path>$PROJECT_DIR$/target/nmr-rest-1.0-SNAPSHOT</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="metabolights-webapp/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="metabolights-webapp" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Maven: org.restlet.jee:org.restlet:2.1-RC1" />
+          <element id="library" level="project" name="Maven: org.restlet.jee:org.restlet.ext.jackson:2.1-RC1" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.8.5" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.8.5" />
+          <element id="library" level="project" name="Maven: org.restlet.jee:org.restlet.ext.json:2.1-RC1" />
+          <element id="library" level="project" name="Maven: org.restlet.jee:org.restlet.lib.org.json:2.0" />
+          <element id="library" level="project" name="Maven: org.restlet.jee:org.restlet.ext.servlet:2.1-RC1" />
+          <element id="library" level="project" name="Maven: nmr-tools:nmr-fid:1.0" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
