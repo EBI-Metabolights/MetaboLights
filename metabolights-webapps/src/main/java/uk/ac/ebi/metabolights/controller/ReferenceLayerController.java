@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 09/09/13 12:18
+ * Last modified: 09/09/13 13:28
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -437,7 +437,9 @@ public class ReferenceLayerController extends AbstractController {
             throw e;
         }
 
-        if ((ua == UserAction.clickedOnPage) || ((ua == UserAction.browseCached) && (rffl.getFacetsQuery().equals(""))) || (ua == UserAction.checkedFacet && (rffl.getFacetsQuery().equals("")))){
+        String facetQuery = rffl.getFacetsQuery(); // Moved here as it was called twice
+
+        if ((ua == UserAction.clickedOnPage) || ((ua == UserAction.browseCached) && (facetQuery.equals(""))) || (ua == UserAction.checkedFacet && (facetQuery.equals("")))){
             ArrayOfString listOfMTBLIds = ebiSearchService.getResultsIds(MTBLDomainName, rffl.getEBIQuery(), ((rffl.getCurrentPage()*10)-10), 10);
             listOfMTBLEntries = ebiSearchService.getEntries(MTBLDomainName, listOfMTBLIds, listOfMTBLFields);
         } else {
