@@ -20,6 +20,7 @@ public class StudyDAOTest {
     final String ISA_CONF_LOCATION = "configRoot";
 
     final String PUBLIC_STUDIES_LOCATION = "studies/public/";
+    final String PRIVATE_STUDIES_LOCATION = "studies/private/";
 
 
     @Test
@@ -30,13 +31,17 @@ public class StudyDAOTest {
 
         URL publicStudiesLocationUrl = StudyDAOTest.class.getClassLoader().getResource(PUBLIC_STUDIES_LOCATION) ;
 
+        URL privateStudiesLocationUrl = StudyDAOTest.class.getClassLoader().getResource(PRIVATE_STUDIES_LOCATION) ;
+
 
         String configRoot = configRootUrl.getFile();
 
         String publicStudiesLocation = publicStudiesLocationUrl.getFile();
 
+        String privateStudiesLocation = privateStudiesLocationUrl.getFile();
 
-        StudyDAO studyDAO = new StudyDAO(configRoot,publicStudiesLocation,"");
+
+        StudyDAO studyDAO = new StudyDAO(configRoot,publicStudiesLocation,privateStudiesLocation);
 
         Study study = studyDAO.getStudy("MTBLS1");
 
@@ -46,6 +51,16 @@ public class StudyDAOTest {
         study = studyDAO.getStudy("MTBLS2");
 
         assertEquals("MTBLS2 loaded?", study.getStudyIdentifier(),"MTBLS2");
+
+        study = studyDAO.getStudy("MTBLS3");
+
+        assertEquals("MTBLS3 loaded?", study.getStudyIdentifier(),"MTBLS3");
+
+
+        study = studyDAO.getStudy("MTBLS4");
+
+        assertEquals("MTBLS4 loaded?", study.getStudyIdentifier(),"MTBLS4");
+
 
 
     }

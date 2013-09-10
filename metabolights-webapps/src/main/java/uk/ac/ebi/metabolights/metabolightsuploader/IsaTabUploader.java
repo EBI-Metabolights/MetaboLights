@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
+import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.utils.FileUtil;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
 import java.io.*;
@@ -250,7 +252,7 @@ public class IsaTabUploader {
         //Get the config files from the study and check if we have this configuration defined
         //TODO, jndi parameter
         String lastUsedConfigFile = validateConfigFiles(
-                IsaTabUploader.class.getClassLoader().getResource("").getPath()+ "isa_configurator", getConfigFromInvestigationFile());
+                PropertiesUtil.getProperty("isatabConfigurationLocation"), getConfigFromInvestigationFile());
 
 		//Validate the file
 		//GUIInvokerResult result = sm.validateISAtab(this.unzipFolder);

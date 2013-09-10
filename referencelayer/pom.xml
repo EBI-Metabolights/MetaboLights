@@ -4,7 +4,7 @@
     <parent>
         <artifactId>metabolights-main</artifactId>
         <groupId>uk.ac.ebi.metabolights</groupId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
 
     <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
@@ -52,35 +52,7 @@
 	                        </goals>
 	                    </execution>
 	                </executions>
-	            </plugin> 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-site-plugin</artifactId>
-					<version>3.0</version>
-					<configuration>
-						<reportPlugins>
-							<plugin>
-								<groupId>org.apache.maven.plugins</groupId>
-								<artifactId>maven-project-info-reports-plugin</artifactId>
-								<version>2.4</version>
-								<configuration>
-									<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-									<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-								</configuration>
-								<reports>
-									<report>summary</report>
-									<report>dependencies</report>
-									<report>dependency-convergence</report>
-									<report>project-team</report>
-									<report>issue-tracking</report>
-									<report>license</report>
-									<report>scm</report>
-									<report>modules</report>
-								</reports>
-							</plugin>
-						</reportPlugins>
-					</configuration>
-				</plugin>
+	            </plugin>
 	        </plugins>
     	</pluginManagement>
     </build>

@@ -4,7 +4,7 @@
     <parent>
         <artifactId>metabolights-main</artifactId>
         <groupId>uk.ac.ebi.metabolights</groupId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
     <artifactId>metabolights-webapp</artifactId>
     <version>2.1</version>

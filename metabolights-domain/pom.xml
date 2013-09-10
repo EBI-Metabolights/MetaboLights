@@ -17,11 +17,11 @@
     <parent>
         <artifactId>metabolights-main</artifactId>
         <groupId>uk.ac.ebi.metabolights</groupId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
 
     <groupId>uk.ac.ebi.metabolights</groupId>
-    <artifactId>metabolights-model</artifactId>
+    <artifactId>metabolights-domain</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
