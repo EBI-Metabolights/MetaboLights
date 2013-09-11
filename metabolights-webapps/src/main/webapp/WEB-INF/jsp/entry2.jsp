@@ -332,11 +332,18 @@
             </thead>
             <tbody>
                 <c:set var="blanks" value="0"/>
-                <c:forEach var="assay" items="${study.assays}" varStatus="loopStatus">
-                    <c:forEach var="assayLine" items="${assay.asssayLines}">
-                        <tr>
-                            <td class="tableitem">${assayLine.sampleName}</td>
-                        </tr>
+                <c:forEach var="assay" items="${study.assays}">
+                    <c:forEach var="assayLine" items="${assay.asssayLines}" varStatus="loopStatus">
+                        <c:choose>
+                            <c:when test="${not empty assayLine.sampleName}">
+                                <tr class="${(loopStatus.index+blanks) % 2 == 0 ? '' : 'coloured'}">
+                                    <td class="tableitem">${assayLine.sampleName}</td>
+                                </tr>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="blanks" value="${blanks+1}"/>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </c:forEach>
             </tbody>
