@@ -290,6 +290,7 @@
         </fieldset>
     </c:if>
 </div>
+
 <div id="tabs-2">
     <c:if test="${not empty study.protocols}">
         <table width="100%">
@@ -299,6 +300,7 @@
                 <th>Description</th>
             </tr>
             </thead>
+
             <tbody>
             <c:set var="blanks" value="0"/>
             <c:forEach var="protocol" items="${study.protocols}" varStatus="loopStatus">
@@ -317,7 +319,31 @@
             </tbody>
         </table>
     </c:if>
-</div> <!-- ends tabs-2 -->
+</div>
+<!-- ends tabs-2 -->
+
+<div id="tabs-3">
+    <c:if test="${not empty study.assays}">
+        <table width="100%">
+            <thead class='text_header'>
+                <tr>
+                    <th>Source</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:set var="blanks" value="0"/>
+                <c:forEach var="assay" items="${study.assays}" varStatus="loopStatus">
+                    <c:forEach var="assayLine" items="${assay.asssayLines}">
+                        <tr>
+                            <td class="tableitem">${assayLine.sampleName}</td>
+                        </tr>
+                    </c:forEach>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+</div>
+
 <%--<div id="tabs-3">--%>
     <%--<c:if test="${not empty assays}">--%>
         <%--<c:forEach var="assay" items="${assays}" varStatus="loopStatusAssay">--%>
