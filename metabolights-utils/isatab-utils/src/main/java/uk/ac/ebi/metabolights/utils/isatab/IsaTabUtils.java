@@ -17,8 +17,9 @@ import java.io.*;
 
 public class IsaTabUtils {
 
-    private final static String DEFAULT_INVESTIGATION_PATTERN = "i_.*\\.txt";
+    private static final String DEFAULT_INVESTIGATION_PATTERN = "i_.*\\.txt";
     private static final String FIELD_NAME_WITH_CONFIGURATION = "Comment [Created With Configuration]";
+    private static final String DEFAULT_CONFIGURATION_FOLDER = "default";
 
     public static String getInvestigationFileName (String folder) throws FileNotFoundException {
         return getInvestigationFileName(folder, DEFAULT_INVESTIGATION_PATTERN);
@@ -76,15 +77,21 @@ public class IsaTabUtils {
 
     public static File getConfigurationFolderFromStudy (String isaTabFolder, String rootConfigFolder) throws IOException, ConfigurationException {
 
-        return getConfigurationFolderFromStudy(new File(isaTabFolder), new File(rootConfigFolder));
+        return getConfigurationFolderFromStudy(isaTabFolder, rootConfigFolder, DEFAULT_CONFIGURATION_FOLDER);
     }
+
+    public static File getConfigurationFolderFromStudy (String isaTabFolder, String rootConfigFolder, String defaultConfigurationFolder) throws IOException, ConfigurationException {
+
+        return getConfigurationFolderFromStudy(new File(isaTabFolder), new File(rootConfigFolder), defaultConfigurationFolder);
+    }
+
 
     /**
      * Gets the config files from the current study archive folder
      * @return Name from the line "[Last Opened With Configuration]" in the i_Investigation.txt file, but only if we have the same config, otherwise return the string "default"
      * @throws IOException
      */
-    public static File getConfigurationFolderFromStudy(File isaTabFolder, File  rootConfigFolder) throws IOException, ConfigurationException {
+    public static File getConfigurationFolderFromStudy(File isaTabFolder, File  rootConfigFolder, String defaultConfig) throws IOException, ConfigurationException {
 
         File investigationFile = getInvestigationFile(isaTabFolder);
 
@@ -136,9 +143,16 @@ public class IsaTabUtils {
         if (configFolder.exists()) {
             return  configFolder;
         } else {
-            throw new ConfigurationException("Isatab configuration folder not found for the study (" + isaTabFolder.getName() + "). Configuration found: " + configFileFolder);
+
+            // Build the final config folder with default config
+            configFolder = new File (rootConfigFolder.getAbsoluteFile() +  File.separator + defaultConfig);
+
+            if (configFolder.exists()) {
+                return  configFolder;
+            } else {
+
+                throw new ConfigurationException("Isatab configuration folder does not exists for the study (" + isaTabFolder.getName() + ").\nConfiguration: " + configFileFolder);
+            }
         }
-
     }
-
 }
