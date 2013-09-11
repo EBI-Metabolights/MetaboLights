@@ -12,7 +12,9 @@ import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
+import uk.ac.ebi.metabolights.utils.isatab.IsaTabUtils;
 
+import javax.naming.ConfigurationException;
 import java.io.*;
 import java.util.Collection;
 import java.util.HashMap;
@@ -167,75 +169,22 @@ public class IsaTabUploader {
 	}
 
     /**
-     * Gets the config files from the current study archive folder
-     * @return Name from the line "[Last Opened With Configuration]" in the i_Investigation.txt file, but only if we have the same config, otherwise return the string "default"
-     * @throws IOException
-     */
-    private String getConfigFromInvestigationFile() throws IOException {
-
-        //TODO, should only look for i_*.txt ($isatab.filewithids), pass the correct file name to the FileReader
-        BufferedReader br = new BufferedReader(new FileReader(this.unzipFolder + File.separator + "i_Investigation.txt"));
-        String configFileFolder = "default";    //Just in case we Could not find the config files used in the investigation file
-
-        try {
-            String line = br.readLine();
-            String lastPart = null;
-
-            while (line != null) {
-                if (line.contains("Comment [Created With Configuration]")){
-                    String[] lineParts = line.split("\""); //The config file name is always separated with "
-                    configFileFolder = lineParts[1];   //Should be the name of the *submitters* config file directory
-
-                    logger.info("The study was created using "+configFileFolder);
-
-                    //Only use the last part of the path, split on both / and \
-                    if (configFileFolder.contains("/")){
-                        lastPart = configFileFolder.substring(configFileFolder.lastIndexOf("/"));
-                        lastPart = lastPart.replace("/","");
-                    }
-
-                    if (configFileFolder.contains("\\")){
-                        lastPart = configFileFolder.substring(configFileFolder.lastIndexOf("\\"));
-                        lastPart = lastPart.replace("\\","");
-                    }
-
-                    if (lastPart != null)
-                        configFileFolder = lastPart;
-
-                    break; //Nothing more to do in this loop
-
-                }
-                line = br.readLine();
-            }
-        } finally {
-            br.close();
-        }
-
-        //Have to try to fix Windows path problems, example: C:softwareISAcreatorMetaboLightsConfigurationsMetaboLightsConfig20120129
-        if (configFileFolder.contains(":")){           //Cannot just check for C:, what about D: ??
-            //So some Windows paths have been used
-            String[] winPath = configFileFolder.split("Configurations");    //Not elegant, but normally configs would be under the ISAcreator folder "/Configurations/"
-            configFileFolder = winPath[1];
-        }
-
-        return configFileFolder ;
-
-    }
-
-    /**
      * Checks that the provided configuration files actually exists in MetaboLights
-     * @param filePath
-     * @param lastUsedConfig
      * @return The path to a valid config directory
      */
-    private String validateConfigFiles(String filePath, String lastUsedConfig){
-        logger.info("Checking to see if we can find the requested configuration folder "+filePath + File.separator +lastUsedConfig);
-        File investigationFile = new File(filePath + File.separator +lastUsedConfig + File.separator + "investigation.xml"); //Find the investigation file under the config folder
-        if(investigationFile.exists())
-            return filePath + File.separator + lastUsedConfig;      //OK, we have this configuration, send back the full path
+    private String validateConfigFiles() throws IOException, ConfigurationException {
 
-        logger.warn("Could not find "+filePath + File.separator +lastUsedConfig);
-        return filePath + File.separator + "default";              //Sorry, we cannot find this configuration folder, so use the default config
+        String isaTabConfigirationLocation = PropertiesUtil.getProperty("isatabConfigurationLocation");
+
+        File lastUsedConfig = IsaTabUtils.getConfigurationFolderFromStudy(this.unzipFolder, isaTabConfigirationLocation);
+
+        logger.info("Checking to see if we can find the requested configuration folder " +lastUsedConfig);
+        File investigationFile = new File(lastUsedConfig + File.separator + "investigation.xml"); //Find the investigation file under the config folder
+        if(investigationFile.exists())
+            return lastUsedConfig.getAbsolutePath();      //OK, we have this configuration, send back the full path
+
+        logger.warn("Could not find " + lastUsedConfig);
+        return null;              //Sorry, we cannot find this configuration folder, so use the default config
     }
 
 	/**
@@ -250,9 +199,7 @@ public class IsaTabUploader {
 		Unzip();
 
         //Get the config files from the study and check if we have this configuration defined
-        //TODO, jndi parameter
-        String lastUsedConfigFile = validateConfigFiles(
-                PropertiesUtil.getProperty("isatabConfigurationLocation"), getConfigFromInvestigationFile());
+        String lastUsedConfigFile = validateConfigFiles();
 
 		//Validate the file
 		//GUIInvokerResult result = sm.validateISAtab(this.unzipFolder);
