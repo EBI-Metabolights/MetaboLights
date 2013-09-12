@@ -1,3 +1,13 @@
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 12/09/13 10:52
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.ac.ebi.metabolights</groupId>
@@ -15,9 +25,9 @@
      <module>referencelayer</module>
      <module>metabolights-webapps</module>
   </modules>
-  
+
   <build>
-    <extensions>	
+    <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
@@ -32,13 +42,13 @@
   	  </plugin>
        </plugins>
   </build>
-  
+
   <!-- Shared version number properties -->
   <properties>
   	<org.spring.version>3.1.0.RELEASE</org.spring.version>
     <org.apache.commons.lang.version>2.5</org.apache.commons.lang.version>
   </properties>
-  
+
   <dependencies>
     <!-- dependency>
       <groupId>mysql</groupId>
@@ -65,11 +75,11 @@
  		<groupId>log4j</groupId>
  		<artifactId>log4j</artifactId>
  		<version>1.2.16</version>
- 	 	<type>jar</type>	
+ 	 	<type>jar</type>
  		<scope>compile</scope>
  	</dependency>
-  </dependencies>  
-  
+  </dependencies>
+
    <distributionManagement>
     <repository>
       <id>chebi-repo</id>
@@ -87,8 +97,8 @@
        <id>prod.ebi.ac.uk</id>
        <url>scp://prod.ebi.ac.uk:/ebi/extserv/seqdb/internal/seqdb/projects/chebi/chebi-prg/${project.artifactId}</url>
     </site>
-  </distributionManagement>  
-  
+  </distributionManagement>
+
     <repositories>
   		<repository>
 		    <id>springsource-repo</id>
@@ -98,7 +108,7 @@
         	<repository>
 		  <id>Springframework milestone</id>
         	  <url>http://maven.springframework.org/milestone</url>
-  		</repository> 
+  		</repository>
 		<repository>
 		  <id>intact-repo</id>
 	      <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
@@ -114,10 +124,10 @@
 		       <enabled>true</enabled>
 		   </snapshots>
 	    </repository>
-	    <repository>
-		  <id>ebi-repo</id>
-	      <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
-		</repository>
+        <repository>
+            <id>oerc</id>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases/</url>
+        </repository>
 		<repository>
 			<id>chebi-repo-snapshot</id>
 			<name>ChEBI Repository</name>
@@ -126,6 +136,6 @@
 		       <enabled>true</enabled>
 		    </snapshots>
 		</repository>
-			
-   </repositories>  
+
+   </repositories>
 </project>
