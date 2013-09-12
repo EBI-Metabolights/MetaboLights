@@ -137,10 +137,7 @@ public class SampleTabExporter {
     private Investigation getIsaInvestigation(String configDirectory, String isatabDirectory){
         Investigation investigation = new Investigation();
 
-        Boolean isaFound = isaTabReader.validateISAtabFiles(configDirectory, isatabDirectory);
-
-        if (isaFound)
-            investigation = isaTabReader.getInvestigation();
+        investigation = isaTabReader.getInvestigation(configDirectory,isatabDirectory);
 
         return investigation;
     }

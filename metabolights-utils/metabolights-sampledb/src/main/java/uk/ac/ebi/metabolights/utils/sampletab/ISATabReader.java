@@ -16,6 +16,9 @@ import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Contact;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Study;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.IsaTabInvestigationDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO;
+import uk.ac.ebi.metabolights.utils.isatab.IsaTabUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +28,6 @@ import java.util.Map;
 
 public class ISATabReader {
 
-    private ISAtabFilesImporter isatabFilesImporter;
     private Investigation investigation;
 
     public String SOURCE_NAME = "Source Name";
@@ -47,13 +49,6 @@ public class ISATabReader {
     public String ORGPART_TERM_ACCESSION_NUMBER = ORGANISM_HEADER+ " Part "+TERM_ACC_NUMBER;
 
 
-
-
-    public ISAtabFilesImporter getIsatabFilesImporter(String configDir) {
-        if (isatabFilesImporter == null)
-            isatabFilesImporter = new ISAtabFilesImporter(configDir);
-        return isatabFilesImporter;
-    }
 
     /**
      * Reads data from the study file
@@ -119,16 +114,16 @@ public class ISATabReader {
 
     }
 
-    /**
-     * Import an ISATAB file set into corresponding ISA model objects
-     *
-     * @param configDir - Directory containing the current MetaboLights configuration files
-     * @param parentDir - Directory containing the ISATAB files, eg. a study
-     * @return boolean if successful or not!
-     */
-    public boolean validateISAtabFiles(String configDir, String parentDir) {
-        return getIsatabFilesImporter(configDir).importFile(parentDir);
-    }
+//    /**
+//     * Import an ISATAB file set into corresponding ISA model objects
+//     *
+//     * @param configDir - Directory containing the current MetaboLights configuration files
+//     * @param parentDir - Directory containing the ISATAB files, eg. a study
+//     * @return boolean if successful or not!
+//     */
+//    public boolean validateISAtabFiles(String configDir, String parentDir) {
+//        return getIsatabFilesImporter(configDir).importFile(parentDir);
+//    }
 
     /**
      * Retrieves the investigation object from ISAcreator, this also contains studies etc etc
@@ -136,8 +131,7 @@ public class ISATabReader {
      * @return investigation
      */
     public Investigation getInvestigation() {
-        if (investigation == null)
-            investigation = isatabFilesImporter.getInvestigation();
+
         return investigation;
     }
 
@@ -148,10 +142,11 @@ public class ISATabReader {
      * @return ISAcrator Investigation object
      */
     public Investigation getInvestigation(String configDir, String parentDir) {
-        if (investigation == null){
-            if (validateISAtabFiles(configDir, parentDir))
-                investigation = getInvestigation();
-        }
+
+        IsaTabInvestigationDAO isaTabDAO = new IsaTabInvestigationDAO(configDir);
+
+        investigation = isaTabDAO.getInvestigation(parentDir);
+
         return investigation;
     }
 

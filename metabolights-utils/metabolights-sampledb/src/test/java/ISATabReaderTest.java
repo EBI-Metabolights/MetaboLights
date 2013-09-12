@@ -25,35 +25,14 @@ public class ISATabReaderTest {
     private ISATabReader isaTabReader = new ISATabReader();
     Investigation investigation;
     private static String isatabDirectory = ISATabReaderTest.class.getClassLoader().getResource("./MTBLS1").getPath();
-    private static String configDirectory = ISATabReaderTest.class.getClassLoader().getResource("./MetaboLightsConfig20121211").getPath();
+    private static String configDirectory = ISATabReaderTest.class.getClassLoader().getResource(".").getPath();
+
 
     private Investigation getInvestigation(){
         investigation = isaTabReader.getInvestigation(configDirectory, isatabDirectory);
         return investigation;
     }
 
-    @Test
-    public void testCheckISAtabFiles(){
-        Boolean isaFound = isaTabReader.validateISAtabFiles(configDirectory, isatabDirectory);
-        assertTrue(isaFound);
-    }
-
-    @Test
-    public void testISAtabFilesImporter(){
-        ISAtabFilesImporter isatabFilesImporter;
-        isatabFilesImporter = isaTabReader.getIsatabFilesImporter(configDirectory);
-        assertNotNull(isatabFilesImporter);
-    }
-
-    @Test
-    public void testGetInvestigation(){
-        Boolean isaFound = isaTabReader.validateISAtabFiles(configDirectory, isatabDirectory);
-
-        if (isaFound) {
-            Investigation investigation = isaTabReader.getInvestigation();
-            assertNotNull(investigation);
-        }
-    }
 
     @Test
     public void testGetContactsFromInvestigation(){

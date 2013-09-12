@@ -11,7 +11,7 @@ Investigation Submission Date	""
 Investigation Public Release Date	""
 Comment [Created with configuration]	""
 Comment [Last Opened With Configuration]	"MetaboLightsConfig20121211"
-Comment [Created With Configuration]	"/Users/rms72/Configurations/isaconfig-201229_live"
+Comment [Created With Configuration]	"/Users/rms72/Configurations/MetaboLightsConfig20121211"
 INVESTIGATION PUBLICATIONS
 Investigation PubMed ID	""
 Investigation Publication DOI	""

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
-    <artifactId>dao</artifactId>
+    <artifactId>referencelayer-dao</artifactId>
     <version>0.7-SNAPSHOT</version>
     <name>Reference layer Data Access Object</name>
 
