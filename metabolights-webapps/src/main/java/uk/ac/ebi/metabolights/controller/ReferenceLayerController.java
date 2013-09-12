@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 09/09/13 13:28
+ * Last modified: 12/09/13 11:39
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -34,6 +34,7 @@ import uk.ac.ebi.metabolights.service.SearchService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -121,9 +122,6 @@ public class ReferenceLayerController extends AbstractController {
 
         listOfMTBLFields = ebiSearchService.listFields(MTBLDomainName);
 
-        //for(int g=0; g<listOfMTBLFields.getString().size(); g++){
-        //}
-
         listOfMTBLFields.getString().add("CHEBI");
         listOfMTBLFields.getString().add("METABOLIGHTS");
         mapColumns();
@@ -172,7 +170,7 @@ public class ReferenceLayerController extends AbstractController {
             userQuery = "";
         }
 
-        rffl = (RefLayerFilter)request.getSession().getAttribute(REFLAYERSESSION);
+        rffl = (RefLayerFilter) request.getSession().getAttribute(REFLAYERSESSION);
         mav = AppContext.getMAVFactory().getFrontierMav("reflayersearch");
 
         //if the user is logged in show status status filter
@@ -257,9 +255,34 @@ public class ReferenceLayerController extends AbstractController {
 
     private String parseDateToString(Date date){
 
-        String dateStr = new SimpleDateFormat("dd-MM-yyyy").format(date);
+        String dateStr = new SimpleDateFormat("dd-MMM-yyyy").format(date);
         return dateStr;
     }
+
+    private String formatEBeyeDateString(String date){
+        String ebEyeDateFormat = "yyyy MMM dd";
+        String mlDateFormat = "dd-MMM-yyyy";
+        SimpleDateFormat ebEyeFormatter, mlFormatter;
+
+        try {
+
+            ebEyeFormatter = new SimpleDateFormat(ebEyeDateFormat);
+            mlFormatter = new SimpleDateFormat(mlDateFormat);
+
+            Date ebEyeDate = ebEyeFormatter.parse(date);
+            String sampleDateStr = mlFormatter.format(ebEyeDate);
+
+            return sampleDateStr;
+
+        } catch (ParseException e) {
+            logger.error("Cannot parse date for " + date + " : " + e.getMessage());
+            return null;
+        }
+
+
+
+    }
+
 
 
     /**
@@ -310,7 +333,7 @@ public class ReferenceLayerController extends AbstractController {
         if (!value.equals("")) mc.setStudy_design(value.split("\\n"));
 
         value = getValueFromEbieyeEntry(ColumnMap.last_modification_date, ebieyeEntry);
-        if (!value.equals("")) mc.setLast_modification_date(value);
+        if (!value.equals("")) mc.setLast_modification_date(formatEBeyeDateString(value));
 
         value = getValueFromEbieyeEntry(ColumnMap.study_factor, ebieyeEntry);
         if (!value.equals("")) mc.setStudy_factor(value.split("\\n"));
@@ -319,10 +342,11 @@ public class ReferenceLayerController extends AbstractController {
         if (!value.equals("")) mc.setSubmitter(value);
 
 
-
         //Check if this is a private study
         value = getValueFromEbieyeEntry(ColumnMap.study_status, ebieyeEntry);
         if (!value.equals("")) mc.setStudyStatus(value);
+
+        //TODO, we can add the organism and technology here to supplement the facets (for PRIVATE studies), but should only show *after* the user has logged in
 
         if (value.equals("1") && loggedIn){  // Private study and the user is logged in
 
@@ -341,7 +365,6 @@ public class ReferenceLayerController extends AbstractController {
                     mc.setName(study.getTitle());
                     mc.setOrganism(study.getOrganisms());
                     mc.setTechnology_type(study.getTechnologies());
-                    //mc.setStudy_design(doc.getValues("design_value"));
                     mc.setStudy_design(study.getStudyDesign());
                     mc.setLast_modification_date(parseDateToString(study.getReleaseDate()));
                     mc.setSubmitter(submitter.getFullName());

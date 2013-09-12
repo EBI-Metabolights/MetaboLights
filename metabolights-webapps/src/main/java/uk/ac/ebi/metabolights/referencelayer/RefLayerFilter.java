@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 09/09/13 13:23
+ * Last modified: 09/09/13 16:34
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -147,7 +147,7 @@ public class RefLayerFilter {
 
     private String getEBIFreeTextQuery(){
         if(freeText.equals("")){
-            return "("+defaultFreeText+")";
+            return "("+getDefaultFreeText()+")";
         } else {
             return "("+freeText+"*)";
         }
@@ -156,7 +156,7 @@ public class RefLayerFilter {
     public String getFacetsQuery(){
         String queryStr = null;
         queryStr = StringUtils.join(getFacetQuery("organism", organismFacet), getFacetQuery("technology_type", technologyFacet), " AND ", "(", ")");
-        queryStr = StringUtils.join(queryStr, getFacetQuery("study_status", statusFacet), " AND ", "(", ")");    //Add in study status to the existing facets
+        queryStr = StringUtils.join(queryStr, getFacetQuery("study_status", statusFacet), " AND ", "(", ")");    //Add in study_status to the existing facets
         //TODO, this should really be rewritten to use the other Filter classes
 
         return queryStr;

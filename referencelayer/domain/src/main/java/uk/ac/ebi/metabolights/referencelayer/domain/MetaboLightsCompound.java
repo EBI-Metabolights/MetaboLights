@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 06/09/13 10:55
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.referencelayer.domain;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -7,7 +17,7 @@ import java.util.Collection;
 
 /**
  * This class represents a MetaboLights reference layer compound.
- * 
+ *
  *
  * @author Pablo Conesa
  */
@@ -15,20 +25,30 @@ public class MetaboLightsCompound {
 
     // The internal identifier (for persistance)
     private long id;
+
     // The public accession number of this compound.
     private String accession;
+
     // The name of this compound
     private String name;
+
     // The description of this compound
     private String description;
+
     // Standard inchi of the compound
     private String inchi;
+
     // ChEBI id
     private String chebiId;
+
     // Formula
     private String formula;
+
     // Iupac Names (separated by |)
     private String iupacNames;
+
+    //Status:  0 = Public, 1=Private
+    private String studyStatus;
 
     private boolean hasLiterature;
 
@@ -157,6 +177,14 @@ public class MetaboLightsCompound {
 
     public void setIupacNames(String iupacNames) {
         this.iupacNames = iupacNames;
+    }
+
+    public String getStudyStatus() {
+        return studyStatus;
+    }
+
+    public void setStudyStatus(String studyStatus) {
+        this.studyStatus = studyStatus;
     }
 
     public boolean getHasSpecies() {
