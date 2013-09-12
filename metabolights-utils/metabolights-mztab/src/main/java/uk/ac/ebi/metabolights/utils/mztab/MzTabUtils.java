@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 11/09/13 15:20
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.utils.mztab;
 
 import java.io.File;
@@ -5,13 +15,6 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Copyright (C) 2013 EMBL - European Bioinformatics Institute
- * Created by IntelliJ IDEA.
- * User: kenneth
- * Date: 11/04/2013
- * Time: 08:58
- */
 public class MzTabUtils {
 
 
