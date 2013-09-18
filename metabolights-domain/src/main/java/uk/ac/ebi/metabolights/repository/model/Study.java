@@ -33,6 +33,15 @@ public class Study {
     private Collection<Publication> publications;
     private Collection<Protocol> protocols;
     private Collection<Assay> assays;
+    private Collection<Sample> samples;
+
+    public Collection<Sample> getSamples() {
+        return samples;
+    }
+
+    public void setSamples(Collection<Sample> samples) {
+        this.samples = samples;
+    }
 
     public Collection<Assay> getAssays() {
         return assays;

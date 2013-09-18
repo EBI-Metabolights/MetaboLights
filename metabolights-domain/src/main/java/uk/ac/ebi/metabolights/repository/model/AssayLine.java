@@ -9,6 +9,7 @@ package uk.ac.ebi.metabolights.repository.model;
  */
 public class AssayLine {
     private String sampleName;
+    //private String
 
     public String getSampleName() {
         return sampleName;

@@ -30,6 +30,13 @@ public class IsaTab2MetaboLightsConverter {
 
     private static final String ASSAY_COLUMN_SAMPLE_NAME = "Sample Name";
 
+    //Below are for sample tab
+    private static final String SOURCE_NAME = "Source Name";
+    private static final String CHARACTERISTICS_ORGANISM = "Characteristics[Organism]";
+    private static final String CHARACTERISTICS_ORGANISM_PART = "Characteristics[Organism part]";
+    private static final String PROTOCOL_REF = "Protocol REF";
+    private static final String SAMPLE_NAME = "Sample Name";
+
     public static Study convert( org.isatools.isacreator.model.Investigation source){
 
 
@@ -37,8 +44,6 @@ public class IsaTab2MetaboLightsConverter {
         Study metStudy = isaTabInvestigation2MetaboLightsStudy(source);
 
         // Convert the authors...
-
-
         return metStudy;
 
 
@@ -79,6 +84,9 @@ public class IsaTab2MetaboLightsConverter {
 
         //Assays
         metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy));
+
+        //Samples
+        metStudy.setSamples(isaTabSamples2MetabolightsSamples((isaStudy)));
 
 
         return metStudy;
@@ -128,7 +136,6 @@ public class IsaTab2MetaboLightsConverter {
             descriptors.add(descriptor);
         }
 
-
         return descriptors;
 
     }
@@ -148,9 +155,50 @@ public class IsaTab2MetaboLightsConverter {
             studyFactors.add(studyFactor);
         }
 
-
         return studyFactors;
 
+    }
+
+    private static Collection<Sample> isaTabSamples2MetabolightsSamples(org.isatools.isacreator.model.Study isaStudy){
+
+        List<List<String>> isaSamplesData = isaStudy.getStudySample().getTableReferenceObject().getReferenceData().getData();
+        List<Sample> metSamples = new LinkedList<Sample>();
+
+        for (List<String> isaSamples: isaSamplesData){
+
+            Sample metSample = new Sample();
+
+            metSample.setSourceName(isaSamples.get(mapIsaStudyFieldName(isaStudy, SOURCE_NAME)));
+
+            metSample.setCharactersticsOrg(isaSamples.get(mapIsaStudyFieldName(isaStudy, CHARACTERISTICS_ORGANISM)));
+
+            metSample.setCharactersticsOrgPart(isaSamples.get(mapIsaStudyFieldName(isaStudy, CHARACTERISTICS_ORGANISM_PART )));
+
+            metSample.setProtocolRef(isaSamples.get(mapIsaStudyFieldName(isaStudy, PROTOCOL_REF)));
+
+            metSample.setSampleName(isaSamples.get(mapIsaStudyFieldName(isaStudy, SAMPLE_NAME)));
+
+            metSamples.add(metSample);
+
+        }
+
+        return metSamples;
+    }
+
+    private static int mapIsaStudyFieldName(org.isatools.isacreator.model.Study isaStudy, String sourceName){
+
+        Collection<FieldObject> isaStudyFieldValue = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup().values();
+        int colNo = 0;
+
+        if(!isaStudyFieldValue.isEmpty()){
+            for(FieldObject fieldValue: isaStudyFieldValue){
+                if(fieldValue.getFieldName().equalsIgnoreCase(sourceName)){
+                    colNo = fieldValue.getColNo();
+                }
+            }
+        }
+
+        return colNo;
     }
 
     private static Collection<AssayLine> isaTabAssayLines2MetabolightsAssayLines(org.isatools.isacreator.model.Assay isaAssay){
@@ -164,10 +212,10 @@ public class IsaTab2MetaboLightsConverter {
 
             metAssayLine.setSampleName(isaAssayLine.get(mapIsaFieldName(isaAssay, ASSAY_COLUMN_SAMPLE_NAME)));
 
-
-
             metAssayLines.add(metAssayLine);
         }
+
+
 
         return metAssayLines;
 

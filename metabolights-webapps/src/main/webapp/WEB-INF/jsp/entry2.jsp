@@ -198,10 +198,13 @@
         <a href="#tabs-2" class="noLine"><spring:message code="label.protocols"/></a>
     </li>
     <li>
-        <a href="#tabs-3" class="noLine"><spring:message code="label.data"/></a>
+        <a href="#tabs-3" class="noLine"><spring:message code="label.sample"/></a>
     </li>
     <li>
-        <a href="#tabs-4" class="noLine"><spring:message code="label.metabolites"/>
+        <a href="#tabs-4" class="noLine"><spring:message code="label.assays"/></a>
+    </li>
+    <li>
+        <a href="#tabs-5" class="noLine"><spring:message code="label.metabolites"/>
             <c:if test="${not empty metabolites}">
                 (${fn:length(metabolites)})
             </c:if>
@@ -323,6 +326,39 @@
 <!-- ends tabs-2 -->
 
 <div id="tabs-3">
+    <c:if test="${not empty study.samples}">
+        <table width="100%">
+            <thead class='text_header'>
+            <tr>
+                <th><spring:message code="label.sampleName"/></th>
+                <th><spring:message code="label.organism"/></th>
+                <th><spring:message code="label.organismPart"/></th>
+                <%--<th><spring:message code="label.protocolRef"/></th>--%>
+                <%--<th><spring:message code="label.sourceName"/></th>--%>
+            </tr>
+            </thead>
+            <tbody>
+                <c:set var="blanks" value="0"/>
+                <c:forEach var="sample" items="${study.samples}" varStatus="loopStatus">
+                    <c:choose>
+                        <c:when test="${not empty sample}">
+                            <tr class="${(loopStatus.index+blanks) % 2 == 0 ? '' : 'coloured'}">
+                                <td>${sample.sampleName}</td>
+                                <td>${sample.charactersticsOrg}</td>
+                                <td>${sample.charactersticsOrgPart}</td>
+                                <%--<td>${sample.protocolRef}</td>--%>
+                                <%--<td class="tableitem">${sample.sourceName}</td>--%>
+                            </tr>
+                        </c:when>
+                    </c:choose>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+</div>
+
+
+<div id="tabs-4">
     <c:if test="${not empty study.assays}">
         <table width="100%">
             <thead class='text_header'>
