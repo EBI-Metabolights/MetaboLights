@@ -180,11 +180,13 @@ public class IsaTab2MetaboLightsConverter {
 
             Sample metSample = new Sample();
 
+            Ontology ontology = new Ontology();
+
             metSample.setSourceName(isaSamples.get(mapIsaStudyFieldName(isaStudy, SOURCE_NAME)));
 
-            metSample.setCharactersticsOrg(isaSamples.get(mapIsaStudyFieldName(isaStudy, CHARACTERISTICS_ORGANISM)));
+            metSample.setCharactersticsOrg(ontology.getName(isaSamples.get(mapIsaStudyFieldName(isaStudy, CHARACTERISTICS_ORGANISM))));
 
-            metSample.setCharactersticsOrgPart(isaSamples.get(mapIsaStudyFieldName(isaStudy, CHARACTERISTICS_ORGANISM_PART )));
+            metSample.setCharactersticsOrgPart(ontology.getName(isaSamples.get(mapIsaStudyFieldName(isaStudy, CHARACTERISTICS_ORGANISM_PART ))));
 
             metSample.setProtocolRef(isaSamples.get(mapIsaStudyFieldName(isaStudy, PROTOCOL_REF)));
 
