@@ -3,8 +3,8 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 8/30/13 11:58 AM
-  ~ Modified by:   conesa
+  ~ Last modified: 13/09/13 11:54
+  ~ Modified by:   kenneth
   ~
   ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   -->
@@ -22,10 +22,6 @@
 
     <groupId>uk.ac.ebi.metabolights</groupId>
     <artifactId>metabolights-domain</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 
-    <dependencies>
-    </dependencies>
-
-    
 </project>

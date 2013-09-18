@@ -2,8 +2,8 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 8/30/13 10:05 AM
- * Modified by:   conesa
+ * Last modified: 13/09/13 13:33
+ * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
@@ -17,23 +17,15 @@ package uk.ac.ebi.metabolights.repository.model;
  */
 public class Contact {
 
-    private String lastName ;
-
-    private String firstName ;
-
-    private String email ;
-
-    private String role ;
-
-    private String midInitial ;
-
-    private String phone ;
-
-    private String fax ;
-
-    private String affiliation ;
-
-    private String address ;
+    private String lastName;
+    private String firstName;
+    private String email;
+    private String role;
+    private String midInitial;
+    private String phone;
+    private String fax;
+    private String affiliation;
+    private String address;
 
     public String getLastName() {
         return lastName;

@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 18/09/13 10:33
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
@@ -24,27 +34,24 @@ public class StudyController {
     @ResponseBody
     public Study getById(@PathVariable("metabolightsId") String metabolightsId) {
 
-            StudyDAO invDAO = new StudyDAO(isatabRootConfigurationLocation, publicStudiesLocationProp,privateStudiesLocationProp);
+        StudyDAO invDAO = new StudyDAO(isatabRootConfigurationLocation, publicStudiesLocationProp,privateStudiesLocationProp);
 
+        // Get the study
+        Study study = invDAO.getStudy(metabolightsId);
 
-            // Get the study
-            Study study = invDAO.getStudy(metabolightsId);
+        // If the study is private.
+        if (!study.isPublic()){
 
-            // If the study is private.
-            if (!study.isPublic()){
-
-                // Let's return an empty one, until we implement security..
-                study = new Study();
-                study.setStudyIdentifier(metabolightsId);
-                study.setPublic(false);
-                study.setTitle("PRIVATE STUDY");
-                study.setDescription("This study is private and its data can't be accessed. Soon we will implement the security layer in the webservice, and the you will " +
+            // Let's return an empty one, until we implement security..
+            study = new Study();
+            study.setStudyIdentifier(metabolightsId);
+            study.setPublic(false);
+            study.setTitle("PRIVATE STUDY");
+            study.setDescription("This study is private and its data can't be accessed. Soon we will implement the security layer in the webservice, and the you will " +
                         "be able to get it, once authenticated and checked you are allowed to access the study.");
+        }
 
-            }
-
-
-            return  study;
+        return  study;
 
     }
 

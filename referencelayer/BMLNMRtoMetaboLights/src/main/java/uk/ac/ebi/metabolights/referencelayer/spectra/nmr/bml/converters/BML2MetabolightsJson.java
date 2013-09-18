@@ -1,10 +1,21 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 12/09/13 11:43
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.referencelayer.spectra.nmr.bml.converters;
 
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.spectra.nmr.bml.model.MSICompliantNMRMetabolomicsExperimentReport;
-import uk.ac.ebi.metabolights.referencelayer.spectra.viewer.model.JsonSpectra;
-import uk.ac.ebi.metabolights.referencelayer.spectra.viewer.model.JsonSpectraPeak;
+import uk.ac.ebi.metabolights.referencelayer.spectra.viewer.model.SimpleNMRSpectraData;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -14,10 +25,6 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import uk.ac.ebi.metabolights.referencelayer.spectra.viewer.model.SimpleNMRSpectraData;
 
 /**
  * User: conesa
@@ -430,4 +437,5 @@ public class BML2MetabolightsJson {
         }
 
     }
+
 }

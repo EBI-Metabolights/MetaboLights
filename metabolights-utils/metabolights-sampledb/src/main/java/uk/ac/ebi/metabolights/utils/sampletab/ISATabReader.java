@@ -2,8 +2,8 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 9/6/13 2:18 PM
- * Modified by:   conesa
+ * Last modified: 16/09/13 15:42
+ * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
@@ -12,13 +12,10 @@ package uk.ac.ebi.metabolights.utils.sampletab;
 
 
 import com.csvreader.CsvReader;
-import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Contact;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Study;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.IsaTabInvestigationDAO;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO;
-import uk.ac.ebi.metabolights.utils.isatab.IsaTabUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +52,8 @@ public class ISATabReader {
      * @param study
      * @return rows from the sample file
      */
+    //TODO, replace this with the new Study module in the webapp
+    // Can get this from Investigation -> Studies -> <array> -> value -> studySampleRecord -> referenceData
     public List<Map<String, String>> getAdditionalData(Study study, List<String> headerNames){
 
         List<Map<String, String>> sampleListFromFile = new ArrayList<Map<String, String>>();

@@ -4,6 +4,16 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
+<%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 18/09/13 10:09
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  --%>
+
 <%--<script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>--%>
 <%--<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
@@ -369,7 +379,7 @@
             <tbody>
                 <c:set var="blanks" value="0"/>
                 <c:forEach var="assay" items="${study.assays}">
-                    <c:forEach var="assayLine" items="${assay.asssayLines}" varStatus="loopStatus">
+                    <c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopStatus">
                         <c:choose>
                             <c:when test="${not empty assayLine.sampleName}">
                                 <tr class="${(loopStatus.index+blanks) % 2 == 0 ? '' : 'coloured'}">

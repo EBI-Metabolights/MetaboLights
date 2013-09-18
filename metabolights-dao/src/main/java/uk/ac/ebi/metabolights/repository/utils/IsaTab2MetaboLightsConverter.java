@@ -1,13 +1,20 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 18/09/13 10:25
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.repository.utils;
 
 import org.isatools.isacreator.configuration.FieldObject;
-import org.isatools.isacreator.model.*;
+import org.isatools.isacreator.model.Factor;
+import org.isatools.isacreator.model.StudyDesign;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.model.*;
-import uk.ac.ebi.metabolights.repository.model.Assay;
-import uk.ac.ebi.metabolights.repository.model.Contact;
-import uk.ac.ebi.metabolights.repository.model.Protocol;
-import uk.ac.ebi.metabolights.repository.model.Publication;
-import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +36,9 @@ public class IsaTab2MetaboLightsConverter {
     private static SimpleDateFormat isaTabDateFormat = new SimpleDateFormat(ISA_TAB_DATE_FORMAT);
 
     private static final String ASSAY_COLUMN_SAMPLE_NAME = "Sample Name";
+    private static final String METABOLITE_ASSIGNMENT_FILE = "Metabolite Assignment File";
 
+    private static MzTabDAO mzTabDAO = new MzTabDAO();
     //Below are for sample tab
     private static final String SOURCE_NAME = "Source Name";
     private static final String CHARACTERISTICS_ORGANISM = "Characteristics[Organism]";
@@ -37,16 +46,19 @@ public class IsaTab2MetaboLightsConverter {
     private static final String PROTOCOL_REF = "Protocol REF";
     private static final String SAMPLE_NAME = "Sample Name";
 
-    public static Study convert( org.isatools.isacreator.model.Investigation source){
 
+    public static Study convert( org.isatools.isacreator.model.Investigation investigation){
 
-        // Convert the study...
-        Study metStudy = isaTabInvestigation2MetaboLightsStudy(source);
+        // Convert the study from the ISAcreator model...
+        Study metStudy = isaTabInvestigation2MetaboLightsStudy(investigation);
 
         // Convert the authors...
         return metStudy;
 
+    }
 
+    private static MetaboliteAssignment getMAF(String fileName){
+        return mzTabDAO.mapMetaboliteAssignmentFile(fileName);
     }
 
     private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source){
@@ -201,7 +213,7 @@ public class IsaTab2MetaboLightsConverter {
         return colNo;
     }
 
-    private static Collection<AssayLine> isaTabAssayLines2MetabolightsAssayLines(org.isatools.isacreator.model.Assay isaAssay){
+    private static Collection<AssayLine> isaTabAssayLines2MetabolightsAssayLines(org.isatools.isacreator.model.Assay isaAssay, Assay metAssay){
 
         List<List<String>> isaAssaysLines = isaAssay.getTableReferenceObject().getReferenceData().getData();
         List<AssayLine> metAssayLines = new LinkedList<AssayLine>();
@@ -212,10 +224,11 @@ public class IsaTab2MetaboLightsConverter {
 
             metAssayLine.setSampleName(isaAssayLine.get(mapIsaFieldName(isaAssay, ASSAY_COLUMN_SAMPLE_NAME)));
 
+            if (metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName() == null)  // Set the metabolite assignment file name if not known (aka MAF)
+                metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(isaAssayLine.get(mapIsaFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE)));  //TODO, don't update with empty values
+
             metAssayLines.add(metAssayLine);
         }
-
-
 
         return metAssayLines;
 
@@ -235,7 +248,6 @@ public class IsaTab2MetaboLightsConverter {
 
         return colNo;
     }
-
 
     private static Collection<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy){
 
@@ -258,7 +270,15 @@ public class IsaTab2MetaboLightsConverter {
             metAssay.setTechnology(isaAssay.getTechnologyType());
 
             // Add assay lines
-            metAssay.setAsssayLines(isaTabAssayLines2MetabolightsAssayLines(isaAssay));
+            metAssay.setAssayLines(isaTabAssayLines2MetabolightsAssayLines(isaAssay, metAssay));
+
+            //TODO, add MAF entries, use MetaboliteAssignment class
+            //  Get filename
+            // build collection of MAFs
+            // add to assay
+
+            metAssay.setMetaboliteAssignment(
+                    getMAF(metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName()));
 
             assays.add(metAssay);
         }

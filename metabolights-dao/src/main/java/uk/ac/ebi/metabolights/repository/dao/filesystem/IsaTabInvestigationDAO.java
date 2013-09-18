@@ -2,8 +2,8 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 9/6/13 11:39 AM
- * Modified by:   conesa
+ * Last modified: 13/09/13 12:15
+ * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
@@ -60,7 +60,7 @@ public class IsaTabInvestigationDAO {
      * @param isaTabStudyFolder
      * @return ISAcrator Study object
      */
-        public Investigation getInvestigation(String isaTabStudyFolder) {
+    public Investigation getInvestigation(String isaTabStudyFolder) {
 
         Investigation investigation = null;
 
