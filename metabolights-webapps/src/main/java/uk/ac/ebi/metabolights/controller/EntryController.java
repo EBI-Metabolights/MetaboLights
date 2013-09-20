@@ -26,6 +26,7 @@ import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.repository.model.Sample;
 import uk.ac.ebi.metabolights.service.AccessionService;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.StudyService;
@@ -143,6 +144,11 @@ public class EntryController extends AbstractController {
 
         mav.addObject("accession", mtblId);
         mav.addObject("study", study);
+        for (Sample sample : study.getSamples()){
+            mav.addObject("factors", sample.getFactors()); //just to get the correct order of the column headers
+            break;
+        }
+//        mav.addObject("samples", study.getSamples());
 
         return  mav;
     }

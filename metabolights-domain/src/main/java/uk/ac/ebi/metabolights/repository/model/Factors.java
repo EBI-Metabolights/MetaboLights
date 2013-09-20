@@ -8,13 +8,22 @@ package uk.ac.ebi.metabolights.repository.model;
  * To change this template use File | Settings | File Templates.
  */
 public class Factors {
-    private String factorName;
+    private String factorKey;
+    private String factorValue;
 
-    public String getFactorName() {
-        return factorName;
+    public String getFactorValue() {
+        return factorValue;
     }
 
-    public void setFactorName(String factorName) {
-        this.factorName = factorName;
+    public void setFactorValue(String factorValue) {
+        this.factorValue = factorValue;
+    }
+
+    public String getFactorKey() {
+        return factorKey;
+    }
+
+    public void setFactorKey(String factorKey) {
+        this.factorKey = factorKey;
     }
 }

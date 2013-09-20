@@ -16,16 +16,26 @@ public class Ontology {
 
 
     public String getName(String name) {
-        splitName = name.split(":");
-        this.name = splitName[1];
 
-        return this.name;
+        if(name.contains(":")){
+            splitName = name.split(":");
+            this.name = splitName[1];
+            return this.name;
+        } else {
+            return name;
+        }
+
+
     }
 
-    public String getOntology() {
-        splitName = name.split(":");
-        this.ontology = splitName[0];
+    public String getOntology(String ontology) {
+        if(ontology.contains(":")){
+            splitName = ontology.split(":");
+            this.ontology = splitName[0];
+            return this.ontology;
+        } else {
+            return ontology;
+        }
 
-        return this.ontology;
     }
 }

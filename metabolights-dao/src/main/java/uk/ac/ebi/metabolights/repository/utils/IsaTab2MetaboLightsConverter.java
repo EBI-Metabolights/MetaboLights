@@ -10,11 +10,16 @@
 
 package uk.ac.ebi.metabolights.repository.utils;
 
+import org.apache.commons.collections15.OrderedMap;
 import org.isatools.isacreator.configuration.FieldObject;
-import org.isatools.isacreator.model.Factor;
-import org.isatools.isacreator.model.StudyDesign;
+import org.isatools.isacreator.model.*;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.Assay;
+import uk.ac.ebi.metabolights.repository.model.Contact;
+import uk.ac.ebi.metabolights.repository.model.Protocol;
+import uk.ac.ebi.metabolights.repository.model.Publication;
+import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,6 +50,7 @@ public class IsaTab2MetaboLightsConverter {
     private static final String CHARACTERISTICS_ORGANISM_PART = "Characteristics[Organism part]";
     private static final String PROTOCOL_REF = "Protocol REF";
     private static final String SAMPLE_NAME = "Sample Name";
+    private static final String FACTOR = "Factor";
 
 
     public static Study convert( org.isatools.isacreator.model.Investigation investigation){
@@ -86,7 +92,7 @@ public class IsaTab2MetaboLightsConverter {
         metStudy.setDescriptors(isaTabStudyDesign2MetaboLightsStudiesDesignDescriptors(isaStudy));
 
         // Study factors
-        metStudy.setFactors(isaTabFactors2MetaboLightsFactors(isaStudy));
+        metStudy.setFactors(isaTabStudyFactors2MetaboLightsStudyFactors(isaStudy));
 
         // Publications
         metStudy.setPublications(isaTabPublications2MetaboLightsPublications(isaStudy));
@@ -153,7 +159,7 @@ public class IsaTab2MetaboLightsConverter {
     }
 
 
-    private static Collection<StudyFactor> isaTabFactors2MetaboLightsFactors(org.isatools.isacreator.model.Study isaStudy){
+    private static Collection<StudyFactor> isaTabStudyFactors2MetaboLightsStudyFactors(org.isatools.isacreator.model.Study isaStudy){
 
         List<Factor> isaFactors = isaStudy.getFactors();
 
@@ -192,12 +198,46 @@ public class IsaTab2MetaboLightsConverter {
 
             metSample.setSampleName(isaSamples.get(mapIsaStudyFieldName(isaStudy, SAMPLE_NAME)));
 
+            metSample.setFactors(isaTabFactors2MetaboLightsFactors(isaStudy, isaSamples));
+
             metSamples.add(metSample);
 
         }
 
         return metSamples;
     }
+
+    private static Collection<Factors> isaTabFactors2MetaboLightsFactors(org.isatools.isacreator.model.Study isaStudy, List<String> isaSamples) {
+
+        OrderedMap<String, FieldObject> isa2MetFactors = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup();
+        List<Factors> metFactors = new LinkedList<Factors>();
+
+        for(Map.Entry<String, FieldObject> isaFactorEntrySet : isa2MetFactors.entrySet()){
+            String isaFactorKeys = isaFactorEntrySet.getKey();
+            FieldObject isaFactorValue = isaFactorEntrySet.getValue();
+
+            if(isaFactorValue.getFieldName().startsWith(FACTOR)){
+                Factors factor = new Factors();
+                Ontology ontology = new Ontology();
+                factor.setFactorKey(trimIsaFactorKeys(isaFactorKeys)); //
+                factor.setFactorValue(ontology.getName(isaSamples.get(isaFactorValue.getColNo())));
+                metFactors.add(factor);
+            }
+        }
+
+        return metFactors;
+    }
+
+    private static String trimIsaFactorKeys(String isaFactorKeys) {
+
+        String replaceFirst = "Factor Value\\[";
+        String replaceLast = "]";
+        String factorName = isaFactorKeys.replaceFirst(replaceFirst,"");
+        factorName = factorName.replace(replaceLast,"");
+
+        return factorName;
+    }
+
 
     private static int mapIsaStudyFieldName(org.isatools.isacreator.model.Study isaStudy, String sourceName){
 
@@ -339,3 +379,58 @@ public class IsaTab2MetaboLightsConverter {
         }
     }
 }
+
+/*
+        List<List<String>> isaFactorsData = isaStudy.getStudySample().getTableReferenceObject().getReferenceData().getData();
+//        OrderedMap<String, FieldObject> isaFactorsFieldLookup = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup();
+        List<Factors> metFactors = new LinkedList<Factors>();
+
+        for(List<String> isaFactors : isaFactorsData){
+
+            List<Integer> colNoList = mapIsaStudyFieldNameForFactors(isaStudy, FACTOR);
+
+            for(int i = 0; i<colNoList.size(); i++){
+
+                Factors metFactor = new Factors();
+                metFactor.setFactorName(isaFactors.get(colNoList.get(i)));
+                metFactors.add(metFactor);
+            }
+        }
+
+//        for(List<String> isaFactor : isaFactors ){
+//            Factors factors = new Factors();
+//
+//        }
+
+        //            for(Map.Entry<String, FieldObject> isaFactorLookup : isaFactorsFieldLookup.entrySet()){
+//                FieldObject isaFactorValues = isaFactorLookup.getValue();
+//                if(isaFactorValues.getFieldName().contains(FACTOR)){
+
+//            FieldObject isaFactorValues = isaFactor.getValue();
+//
+//            if(isaFactorValues.getFieldName().startsWith(FACTOR)){
+//                Factors metFactor = new Factors();
+//                metFactor.setFactorName(isaFactor.getValue().getFieldName());
+//                metFactors.add(metFactor);
+//            }
+//        }
+    private static List<Integer> mapIsaStudyFieldNameForFactors(org.isatools.isacreator.model.Study isaStudy, String factor) {
+
+        Collection<FieldObject> isaStudyFieldValue = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup().values();
+        int colNo = 0;
+        List<Integer> colNoList = new ArrayList<Integer>();
+
+        if(!isaStudyFieldValue.isEmpty()){
+            for(FieldObject fieldValue: isaStudyFieldValue){
+                if(fieldValue.getFieldName().startsWith(factor)){
+                    colNo = fieldValue.getColNo();
+                    colNoList.add(colNo);
+                }
+            }
+        }
+
+        return colNoList;
+    }
+
+*/
+

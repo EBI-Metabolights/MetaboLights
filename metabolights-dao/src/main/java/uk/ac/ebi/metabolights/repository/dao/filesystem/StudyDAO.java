@@ -34,7 +34,7 @@ public class StudyDAO {
 
     }
 
-    public Study getStudy(String metabolightsId){
+    public Study getStudy(String metabolightsId){//, Boolean includeMetabolites
 
         // Try public studies location
         File studyFolder = getInvestigationFolder(metabolightsId, publicFolder);

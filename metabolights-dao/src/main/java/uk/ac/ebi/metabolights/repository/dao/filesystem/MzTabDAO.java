@@ -19,11 +19,14 @@ import java.util.Collection;
 
 public class MzTabDAO {
 
-    public MetaboliteAssignment mapMetaboliteAssignmentFile(String fileName) {
+    public MetaboliteAssignment mapMetaboliteAssignmentFile(String assignmentFileName) {
         MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
 
-        metaboliteAssignment.setMetaboliteAssignmentFileName(fileName);
-        metaboliteAssignment.setMetaboliteAssignmentLines(getMetaboliteAssignmentLines(fileName));
+        //TODO, Assay has the reference to the MAF (file name) so we know the directory and the filename
+        if (assignmentFileName != null || !assignmentFileName.isEmpty()){
+            metaboliteAssignment.setMetaboliteAssignmentFileName(assignmentFileName);
+            metaboliteAssignment.setMetaboliteAssignmentLines(getMetaboliteAssignmentLines(assignmentFileName));
+        }
 
         return metaboliteAssignment;
 

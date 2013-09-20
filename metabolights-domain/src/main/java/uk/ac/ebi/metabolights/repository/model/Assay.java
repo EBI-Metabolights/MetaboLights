@@ -19,7 +19,7 @@ public class Assay {
     private String platform;
     private String fileName;
     private Collection<AssayLine> assayLines;
-    private MetaboliteAssignment metaboliteAssignment;
+    private MetaboliteAssignment metaboliteAssignment; //this also contains a file name MAF
 
     public String getMeasurement() {
         return measurement;

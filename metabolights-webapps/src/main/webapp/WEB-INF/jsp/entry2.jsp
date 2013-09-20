@@ -2,6 +2,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
 <%--
@@ -343,10 +344,12 @@
                 <th><spring:message code="label.sampleName"/></th>
                 <th><spring:message code="label.organism"/></th>
                 <th><spring:message code="label.organismPart"/></th>
-                <%--<th><spring:message code="label.protocolRef"/></th>--%>
-                <%--<th><spring:message code="label.sourceName"/></th>--%>
+                <c:forEach var="factor" items="${factors}">
+                    <th>${factor.factorKey}</th>
+                </c:forEach>
             </tr>
             </thead>
+
             <tbody>
                 <c:set var="blanks" value="0"/>
                 <c:forEach var="sample" items="${study.samples}" varStatus="loopStatus">
@@ -356,6 +359,9 @@
                                 <td>${sample.sampleName}</td>
                                 <td>${sample.charactersticsOrg}</td>
                                 <td>${sample.charactersticsOrgPart}</td>
+                                <c:forEach var="factor" items="${sample.factors}">
+                                    <td>${factor.factorValue}</td>
+                                </c:forEach>
                                 <%--<td>${sample.protocolRef}</td>--%>
                                 <%--<td class="tableitem">${sample.sourceName}</td>--%>
                             </tr>
