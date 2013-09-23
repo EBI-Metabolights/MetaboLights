@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 23/09/13 12:25
+ * Last modified: 23/09/13 15:16
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -270,7 +270,7 @@ public class IsaTab2MetaboLightsConverter {
             metAssayLine.setSampleName(isaAssayLine.get(mapIsaFieldName(isaAssay, ASSAY_COLUMN_SAMPLE_NAME)));
 
             if (metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName() == null)  // Set the metabolite assignment file name if not known (aka MAF)
-                metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(studyFolder + File.separator+ isaAssayLine.get(mapIsaFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE)));  //TODO, don't update with empty values
+                metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(studyFolder + File.separator+ isaAssayLine.get(mapIsaFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE)));
 
             metAssayLines.add(metAssayLine);
         }
