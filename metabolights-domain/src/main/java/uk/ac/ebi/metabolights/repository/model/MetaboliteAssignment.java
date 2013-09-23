@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 18/09/13 09:22
+ * Last modified: 23/09/13 13:25
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -35,7 +35,12 @@ public class MetaboliteAssignment {
 
 
     //Public class for each MAF line
-    public class MetaboliteAssignmentLine {
+    public static class MetaboliteAssignmentLine {
+
+        public MetaboliteAssignmentLine() {
+            super();
+        }
+
         // The following entries are columns defined in the MAF plugin, some values are available only in NMR or MS
         // V1 and V2 points to different versions of the plugin xml definition files
 
@@ -303,6 +308,11 @@ public class MetaboliteAssignment {
 
 
         public class SampleMeasurement {
+
+            public SampleMeasurement(){
+                super();
+            }
+
             private String sampleName; //The sample name from the Assay
             private String value;      //The concentration where the metabolite was identified in the sample
 
@@ -328,14 +338,14 @@ public class MetaboliteAssignment {
     public enum fieldNames {
 
         //setters vs maf column names
-        identifier("identifier"),
-        databaseIdentifier("database_identifier"),
+        identifier("identifier"),             //V1
+        databaseIdentifier("database_identifier"),  //V2
         unitId("unit_id"),
         chemicalFormula("chemical_formula"),
         smiles("smiles"),
         inchi("inchi"),
-        description("description"),
-        metaboliteIdentification("metabolite_identification"),
+        description("description"),       //V1
+        metaboliteIdentification("metabolite_identification"),     //V2
         chemicalShift("chemical_shift"),
         multiplicity("multiplicity"),
         massToCharge("mass_to_charge"),
