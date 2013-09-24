@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 23/09/13 13:33
+ * Last modified: 24/09/13 10:33
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -12,8 +12,8 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import com.csvreader.CsvReader;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
-import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment.MetaboliteAssignmentLine;
-import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment.MetaboliteAssignmentLine.SampleMeasurement;
+import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
+import uk.ac.ebi.metabolights.repository.model.SampleMeasurement;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -47,7 +47,7 @@ public class MzTabDAO {
             fileData = new CsvReader(fileName, '\t');     // Read the tab-separated MAF
             fileData.readHeaders();                       // Read the header records
             while (fileData.readRecord()){
-                MetaboliteAssignment.MetaboliteAssignmentLine assignmentLine = new MetaboliteAssignment.MetaboliteAssignmentLine();
+                MetaboliteAssignmentLine assignmentLine = new MetaboliteAssignmentLine();
 
                 // Get the identifier V1 and V2
                 String identifier = fileData.get(MetaboliteAssignment.fieldNames.databaseIdentifier.toString());
@@ -91,10 +91,10 @@ public class MzTabDAO {
                 if (maxColumnNumber == -1)
                     maxColumnNumber = getMaxColumnNumber(fileData, MetaboliteAssignment.fieldNames.smallmoleculeAbundanceStdErrorSub.toString(), maxColumnNumber);    //TODO, this assumes the submitter has not reorganised the column ordering
 
-                Collection<MetaboliteAssignmentLine.SampleMeasurement> sampleMeasurements = new ArrayList<SampleMeasurement>();
+                Collection<SampleMeasurement> sampleMeasurements = new ArrayList<SampleMeasurement>();
 
                 for (Integer colNumber = maxColumnNumber+1; colNumber <= fileData.getColumnCount(); colNumber++){
-                    SampleMeasurement sampleMeasurement = assignmentLine.new SampleMeasurement();
+                    SampleMeasurement sampleMeasurement = new SampleMeasurement();
 
                     sampleMeasurement.setSampleName(fileData.getHeader(colNumber));
                     sampleMeasurement.setValue(fileData.get(colNumber));
