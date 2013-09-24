@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 23/09/13 12:19
+ * Last modified: 24/09/13 12:16
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -34,7 +34,7 @@ public class StudyDAO {
 
     }
 
-    public Study getStudy(String metabolightsId){//, Boolean includeMetabolites
+    public Study getStudy(String metabolightsId, boolean includeMetabolites){//, Boolean includeMetabolites
 
         // Try public studies location
         File studyFolder = getInvestigationFolder(metabolightsId, publicFolder);
@@ -57,7 +57,7 @@ public class StudyDAO {
             org.isatools.isacreator.model.Investigation isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
 
             // Convert it into a MetaboLights study
-            Study study = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath());
+            Study study = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites);
 
             // Set status...
             study.setPublic(isPublic);

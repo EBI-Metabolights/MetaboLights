@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 23/09/13 15:16
+ * Last modified: 24/09/13 12:15
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -50,10 +50,10 @@ public class IsaTab2MetaboLightsConverter {
     private static final String FACTOR = "Factor";
 
 
-    public static Study convert( org.isatools.isacreator.model.Investigation investigation, String studyFolder){
+    public static Study convert( org.isatools.isacreator.model.Investigation investigation, String studyFolder, boolean includeMetabolites){
 
         // Convert the study from the ISAcreator model...
-        Study metStudy = isaTabInvestigation2MetaboLightsStudy(investigation, studyFolder);
+        Study metStudy = isaTabInvestigation2MetaboLightsStudy(investigation, studyFolder, includeMetabolites);
 
         // Convert the authors...
         return metStudy;
@@ -70,7 +70,7 @@ public class IsaTab2MetaboLightsConverter {
         return mzTabDAO.mapMetaboliteAssignmentFile(fileName);
     }
 
-    private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder){
+    private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder, boolean includeMetabolites){
 
         // Instantiate new MetaboLights investigation object
         Study metStudy = new Study();
@@ -104,7 +104,7 @@ public class IsaTab2MetaboLightsConverter {
         metStudy.setProtocols(isaTabProtocols2MetaboLightsProtocols(isaStudy));
 
         //Assays
-        metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, studyFolder));
+        metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, studyFolder, includeMetabolites));
 
         //Samples
         metStudy.setSamples(isaTabSamples2MetabolightsSamples((isaStudy)));
@@ -295,7 +295,7 @@ public class IsaTab2MetaboLightsConverter {
         return colNo;
     }
 
-    private static Collection<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy, String studyFolder){
+    private static Collection<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy, String studyFolder, boolean includeMetabolites){
 
         Map<String, org.isatools.isacreator.model.Assay> isaAssays = isaStudy.getAssays();
 
@@ -319,7 +319,8 @@ public class IsaTab2MetaboLightsConverter {
             metAssay.setAssayLines(isaTabAssayLines2MetabolightsAssayLines(isaAssay, metAssay, studyFolder));
 
             // Add the metabolite assignment file (MAF)
-            metAssay.setMetaboliteAssignment(
+            if (includeMetabolites)
+                metAssay.setMetaboliteAssignment(
                     getMAF(metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName()));
 
             assays.add(metAssay);
