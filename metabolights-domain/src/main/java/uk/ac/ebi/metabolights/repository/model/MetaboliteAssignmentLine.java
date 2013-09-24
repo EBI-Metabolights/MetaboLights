@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 24/09/13 10:31
+ * Last modified: 24/09/13 10:55
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -21,7 +21,8 @@ public class MetaboliteAssignmentLine {
     // V1 and V2 points to different versions of the plugin xml definition files
 
     //Column name changed from V1 to V2. Identifier, like CHEBI:15377
-    private String identifier;  //V1 field
+    @Deprecated
+    private String identifier;  //V1 field, should not show in the website
     private String databaseIdentifier; //V2 field
 
     //Common for all MS/NMR
@@ -31,7 +32,8 @@ public class MetaboliteAssignmentLine {
     private String inchi;   //V2 field only
 
     //Column name changed from V1 to V2. Description, like "Alanine"
-    private String description;  //V1 field
+    @Deprecated
+    private String description;  //V1 field, should not show in the website
     private String metaboliteIdentification; //V2 field
 
     private String chemicalShift;

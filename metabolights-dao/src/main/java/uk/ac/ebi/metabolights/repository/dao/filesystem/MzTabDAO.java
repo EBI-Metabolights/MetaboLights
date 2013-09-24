@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 24/09/13 10:33
+ * Last modified: 24/09/13 10:55
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -50,17 +50,17 @@ public class MzTabDAO {
                 MetaboliteAssignmentLine assignmentLine = new MetaboliteAssignmentLine();
 
                 // Get the identifier V1 and V2
-                String identifier = fileData.get(MetaboliteAssignment.fieldNames.databaseIdentifier.toString());
-                if (identifier == null || identifier.isEmpty())      //Could be V1 of the MAF, then the column name is different
-                    identifier = fileData.get(MetaboliteAssignment.fieldNames.identifier.toString());
-                assignmentLine.setIdentifier(identifier);
+                String databaseIdentifier = fileData.get(MetaboliteAssignment.fieldNames.databaseIdentifier.toString());
+                if (databaseIdentifier == null || databaseIdentifier.isEmpty())      //Could be V1 of the MAF, then the column name is different
+                    databaseIdentifier = fileData.get(MetaboliteAssignment.fieldNames.identifier.toString());     //Version 1 name for the column
+                assignmentLine.setDatabaseIdentifier(databaseIdentifier);
 
 
                 // Get the description V1 and V2
-                String description = fileData.get(MetaboliteAssignment.fieldNames.metaboliteIdentification.toString());
-                if (description == null || description.isEmpty())      //Could be V1 of the MAF, then the column name is different
-                    description = fileData.get(MetaboliteAssignment.fieldNames.description.toString());
-                assignmentLine.setDescription(description);
+                String metaboliteIdentification = fileData.get(MetaboliteAssignment.fieldNames.metaboliteIdentification.toString());
+                if (metaboliteIdentification == null || metaboliteIdentification.isEmpty())      //Could be V1 of the MAF, then the column name is different
+                    metaboliteIdentification = fileData.get(MetaboliteAssignment.fieldNames.description.toString());  //Version 1 name for the column
+                assignmentLine.setDescription(metaboliteIdentification);
 
                 // All other lines should have the same name in V1 and V2
                 assignmentLine.setUnitId(fileData.get(MetaboliteAssignment.fieldNames.unitId.toString()));
