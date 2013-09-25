@@ -118,6 +118,8 @@ public class MzTabDAO {
     }
 
 
+
+
     //This can be used to find (MAF) files on the filesystem
     private File[] findMAFiles(String folderName){
         File dir = new File(folderName);      //Folder that holds the MAF files

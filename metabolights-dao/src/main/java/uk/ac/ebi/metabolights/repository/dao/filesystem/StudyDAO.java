@@ -62,6 +62,9 @@ public class StudyDAO {
             // Set status...
             study.setPublic(isPublic);
 
+            //TODO, add a String for the studyFolder into the Study object
+            study.setStudyLocation(studyFolder.getAbsolutePath());
+
             return study;
 
         } else {
