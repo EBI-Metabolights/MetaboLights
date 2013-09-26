@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 06/09/13 13:57
+ * Last modified: 26/09/13 15:38
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -42,7 +42,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-//import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 
 /**
  * Controller for entry (=study) details.
@@ -149,7 +148,6 @@ public class EntryController extends AbstractController {
 
 
     @RequestMapping(value = { "/alt/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
-
     public ModelAndView showAltEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
 
         logger.info("requested entry " + mtblId);

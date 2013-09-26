@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 24/09/13 12:15
+ * Last modified: 26/09/13 11:44
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -85,6 +85,7 @@ public class IsaTab2MetaboLightsConverter {
         metStudy.setDescription(isaStudy.getStudyDesc());
         metStudy.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
         metStudy.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));
+        metStudy.setStudyLocation(studyFolder);
 
 
         // Now collections
@@ -104,7 +105,7 @@ public class IsaTab2MetaboLightsConverter {
         metStudy.setProtocols(isaTabProtocols2MetaboLightsProtocols(isaStudy));
 
         //Assays
-        metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, studyFolder, includeMetabolites));
+        metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, metStudy, includeMetabolites));
 
         //Samples
         metStudy.setSamples(isaTabSamples2MetabolightsSamples((isaStudy)));
@@ -270,7 +271,7 @@ public class IsaTab2MetaboLightsConverter {
             metAssayLine.setSampleName(isaAssayLine.get(mapIsaFieldName(isaAssay, ASSAY_COLUMN_SAMPLE_NAME)));
 
             if (metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName() == null)  // Set the metabolite assignment file name if not known (aka MAF)
-                metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(studyFolder + File.separator+ isaAssayLine.get(mapIsaFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE)));
+                metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(studyFolder + File.separator + isaAssayLine.get(mapIsaFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE)));
 
             metAssayLines.add(metAssayLine);
         }
@@ -281,6 +282,7 @@ public class IsaTab2MetaboLightsConverter {
 
 
     private static int mapIsaFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
+        //TODO, this method only works if the columns are in the correct order as per the configurations, this is not the case with all studies (like MTBLS2)
 
         Collection<FieldObject> isaAssyaValues = isaAssay.getTableReferenceObject().getFieldLookup().values();
 
@@ -295,7 +297,7 @@ public class IsaTab2MetaboLightsConverter {
         return colNo;
     }
 
-    private static Collection<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy, String studyFolder, boolean includeMetabolites){
+    private static Collection<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy, Study metStudy, boolean includeMetabolites){
 
         Map<String, org.isatools.isacreator.model.Assay> isaAssays = isaStudy.getAssays();
 
@@ -316,7 +318,7 @@ public class IsaTab2MetaboLightsConverter {
             metAssay.setTechnology(isaAssay.getTechnologyType());
 
             // Add assay lines
-            metAssay.setAssayLines(isaTabAssayLines2MetabolightsAssayLines(isaAssay, metAssay, studyFolder));
+            metAssay.setAssayLines(isaTabAssayLines2MetabolightsAssayLines(isaAssay, metAssay, metStudy.getStudyLocation()));
 
             // Add the metabolite assignment file (MAF)
             if (includeMetabolites)

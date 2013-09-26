@@ -1,4 +1,14 @@
 <?xml  version="1.0" encoding="UTF-8"?>
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 26/09/13 14:38
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -34,7 +44,7 @@
         </property>
         <property name="defaultViews">
             <list>
-                <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"            />
+                <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
             </list>
         </property>
         <property name="ignoreAcceptHeader" value="true" />

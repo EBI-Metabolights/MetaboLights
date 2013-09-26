@@ -2,8 +2,8 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 8/30/13 10:27 AM
- * Modified by:   conesa
+ * Last modified: 26/09/13 10:31
+ * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
@@ -13,11 +13,6 @@ package uk.ac.ebi.metabolights.repository.model;
 import java.util.Collection;
 import java.util.Date;
 
-/**
- * User: conesa
- * Date: 28/08/2013
- * Time: 11:27
- */
 public class Study {
     private String studyIdentifier;
     private Date studyPublicReleaseDate;
@@ -35,14 +30,6 @@ public class Study {
     private Collection<Protocol> protocols;
     private Collection<Assay> assays;
     private Collection<Sample> samples;
-
-    public String getStudyLocation() {
-        return studyLocation;
-    }
-
-    public void setStudyLocation(String studyLocation) {
-        this.studyLocation = studyLocation;
-    }
 
     public Collection<Sample> getSamples() {
         return samples;
@@ -106,6 +93,14 @@ public class Study {
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public String getStudyLocation() {
+        return studyLocation;
+    }
+
+    public void setStudyLocation(String studyLocation) {
+        this.studyLocation = studyLocation;
     }
 
     public Collection<Contact> getContacts() {

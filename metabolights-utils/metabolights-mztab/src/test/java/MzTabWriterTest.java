@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 12/09/13 14:12
+ * Last modified: 25/09/13 15:59
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -47,19 +47,14 @@ public class MzTabWriterTest {
         File mzTabFile = new File(fullMzTabFileLocation);
         assert mzTabFile != null;
 
-        mzTabWriter.convertMAFToMZTab(mafFile, MAFfileLocation+mzTabFile.getName());
-
+        mzTabWriter.convertMAFToMzTab(mafFile.toString(), MAFfileLocation+mzTabFile.getName(), "MTBLS1");
 
     }
 
     @Test
     public void testMainWithAllParams(){
-        mzTabWriter.main(new String[]{fullMAFfileLocation, fullMzTabFileLocation});
+        mzTabWriter.main(new String[]{fullMAFfileLocation, fullMzTabFileLocation, "MTBLS1"});
     }
 
-    @Test
-    public void testMetaboLightsDAO(){
-
-    }
 
 }

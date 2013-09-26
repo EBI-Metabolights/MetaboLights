@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 24/09/13 11:26
+ * Last modified: 26/09/13 11:12
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -87,7 +87,6 @@ public class MzTabDAO {
                 assignmentLine.setSmallmoleculeAbundanceStdErrorSub(fileData.get(MetaboliteAssignment.fieldNames.smallmoleculeAbundanceStdErrorSub.toString()));
 
 
-                //TODO, add sample lines now.
                 if (maxColumnNumber == -1)
                     maxColumnNumber = getMaxColumnNumber(fileData, MetaboliteAssignment.fieldNames.smallmoleculeAbundanceStdErrorSub.toString(), maxColumnNumber);    //TODO, this assumes the submitter has not reorganised the column ordering
 
@@ -104,8 +103,18 @@ public class MzTabDAO {
 
                 assignmentLine.setSampleMeasurements(sampleMeasurements);
 
+                if (assignmentLine.getDatabaseIdentifier().contains("|")){   //The submitter has submitted more than one metabolite per row, this is a supported feature of mzTab
 
-                metaboliteAssignmentLines.add(assignmentLine);
+                    //We need to split the metabolite into separate lines.
+                    for (String eachMetabolite : assignmentLine.getDatabaseIdentifier().split("\\|")){
+                        assignmentLine.setDatabaseIdentifier(eachMetabolite); //Update the identified metabolite
+                        metaboliteAssignmentLines.add(assignmentLine); //Add the row with only one metabolite reported
+                    }
+
+                } else {
+                    //Only one metabolite reported so add a single rows
+                    metaboliteAssignmentLines.add(assignmentLine);
+                }
             }
 
             return metaboliteAssignmentLines;

@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 23/09/13 09:38
+ * Last modified: 26/09/13 15:17
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -10,11 +10,13 @@
 
 package uk.ac.ebi.metabolights.webservice.client;
 
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -33,6 +35,7 @@ public class MetabolightsWsClient {
     public MetabolightsWsClient(String metabolightsWsUrl){
         this.metabolightsWsUrl = metabolightsWsUrl;
     }
+
     public MetabolightsWsClient(){};
 
     private String makeGetRequest(String path) {
@@ -63,7 +66,6 @@ public class MetabolightsWsClient {
             e.printStackTrace();
 
 
-
         } catch (IOException e) {
 
             e.printStackTrace();
@@ -86,14 +88,12 @@ public class MetabolightsWsClient {
 
     public MetaboliteAssignment getMetabolites(String mafPath){
 
-        String path = "maf/" + mafPath;
+        String path = "maf/" + mafPath.replaceAll(File.separator,"__");
 
         // Make the request
         String response = makeGetRequest(path);
 
         return parseJason(response, MetaboliteAssignment.class);
-
-//        return null;
 
     }
 
@@ -102,6 +102,7 @@ public class MetabolightsWsClient {
 
         // Parse response (json) into Study Model...
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false); //TODO, why the hell does it fail on the new Study.studyLocation!  I give up, Ken
 
         try {
             return mapper.readValue(response, valueType);

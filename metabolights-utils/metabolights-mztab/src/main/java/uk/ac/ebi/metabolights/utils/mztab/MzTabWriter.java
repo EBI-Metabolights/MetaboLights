@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 11/09/13 15:20
+ * Last modified: 25/09/13 16:03
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -10,24 +10,50 @@
 
 package uk.ac.ebi.metabolights.utils.mztab;
 
-import au.com.bytecode.opencsv.CSVReader;
+import org.apache.log4j.Logger;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
+import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
+import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
 import uk.ac.ebi.pride.jmztab.MzTabFile;
 import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
 
 import java.io.*;
-import java.util.Iterator;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 public class MzTabWriter {
 
     MzTabSmallMolecule mzTabSmallMolecule = new MzTabSmallMolecule();
     MzTabUtils utils = new MzTabUtils();
-    private String argsMessage = "Please use ' maf_file_name mztab_file_name' if you want to process known files.";
+    MzTabDAO mzTabDAO = new MzTabDAO();
+    private final static Logger logger = Logger.getLogger(MzTabWriter.class.getName());
+
+    private String argsMessage = "Please use either'maf_file_name mztab_file_name' to process files.";
 
     public void main(String args[]){
 
+        if (!commandLineValidation(args)){
+
+            System.out.println("Usage:");
+            System.out.println("Parameter 1: The existing MetaboLights MAF (Metabolite Assignment File)");
+            System.out.println("Parameter 2: The name for the new mzTab file we should create");
+            System.out.println("Parameter 3: The MetaboLights Accession number (MTBLS id) for this MetaboLights study");
+
+        } else {
+
+            try {
+                String maf = args[0], mzTab = args[1], accessionNumber = args[2];
+                logger.info("Starting to convert file "+maf+ " into "+mzTab+ " for study " +accessionNumber);
+                convertMAFToMzTab(maf, mzTab, accessionNumber);
+            } catch (MzTabParsingException e) {
+                System.out.println("ERROR: Could not process the file: s" + e.toString());
+                logger.error("ERROR: Could not process the files. " + e.toString());
+            }
+        }
+
+        /*
         if (args[0] == null) {
             System.out.println("No arguments passed, I will try to look for the MAF file (m_<some_name>.tsv) in this directory");
 
@@ -52,9 +78,11 @@ public class MzTabWriter {
             }
 
         }
+        */
 
     }
 
+    /*
     private void convertAllMAFs(File[] mafFiles){
 
         for (File files : mafFiles){
@@ -67,6 +95,7 @@ public class MzTabWriter {
                 }
         }
     }
+    */
 
     public File readMAF(String fileName){
         File file = new File(fileName);
@@ -80,58 +109,70 @@ public class MzTabWriter {
         fileWriter.close();
     }
 
-    private String getStudyIdentifier(String fileName){
-
-        String[] identFileSections = fileName.split("_");
-        return  identFileSections[1];
-
-    }
-
-    public void convertMAFToMZTab(File mafFile, String mzTabFile) throws MzTabParsingException {
+    public void convertMAFToMzTab(String mafFileName, String mzTabFile, String accessionNumber) throws MzTabParsingException {
         try {
+
             MzTabFile mzTab = new MzTabFile();
-            Reader reader = new FileReader(mafFile);
+            File mafFile = new File(mafFileName);
 
-            CSVReader csvReader =  new CSVReader(reader, '\t');
-            List<String[]> mafList = csvReader.readAll();
+            Collection<MetaboliteAssignmentLine> metaboliteAssignmentLines = new ArrayList<MetaboliteAssignmentLine>();
 
-            Iterator iterator = mafList.iterator();
+            MetaboliteAssignment metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(mafFile.toString());
+            if (metaboliteAssignment != null)
+                metaboliteAssignmentLines = metaboliteAssignment.getMetaboliteAssignmentLines();
 
-            String technology = null;
-
-            while (iterator.hasNext()){
-
-                String[] mafLine = (String[]) iterator.next();  //The line from the MetaboLight MAF (Metabolite Assignment File)
-
-                if(technology == null){ //Use the header file to determine if this is MS or NMR
-                    if (mafLine[5].equals("mass_to_charge"))
-                        technology = mzTabSmallMolecule.technologyMS;
-                    else
-                        technology = mzTabSmallMolecule.technologyNMR;
-
-                    continue; //We have the technology, so skip the header row
-                }
+            for (MetaboliteAssignmentLine metLine : metaboliteAssignmentLines){
 
                 //Test if we have the database identifier and description, only process rows that have id
-                if (mafLine[0] == null || mafLine[0].isEmpty() || mafLine[4] == null || mafLine[4].isEmpty())
+                if (!utils.processLine(metLine))
                     continue;
 
-                SmallMolecule molecule = mzTabSmallMolecule.mafToMzTab(mafLine, technology);
-                molecule.setUnitId(getStudyIdentifier(mafFile.getName()));     //Use the MTBLSid as the UNIT id
-
+                SmallMolecule molecule = mzTabSmallMolecule.convertToMzTab(metLine);
+                molecule.setUnitId(accessionNumber);
                 mzTab.addSmallMolecule(molecule);
 
             }
 
             writeMzTab(mzTabFile, mzTab.toMzTab());
 
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Checks if the correct parameters are given
+     * @param args
+     * @return true if you got it right
+     */
+    public static boolean commandLineValidation(String args[]){
+
+        // If there isn't any parameter
+        if (args == null || args.length == 0){
+            return false;
+        }
+
+        File first = new File(args[0]);
+        if (!first.exists()){
+            System.out.println("ERROR:  1st parameter must be the existing MetaboLights MAF (Metabolite Assignment File): " + args[0]);
+            System.out.println("----");
+            return false;
+        }
+
+        if (args[1] == null){
+            System.out.println("ERROR: 2nd parameter must be the name for the new mzTab file.");
+            System.out.println("----");
+            return false;
+        }
+
+        if (args[2] == null){
+            System.out.println("ERROR: You must also give us the MetaboLights Accession number (MTBLS id) for this MetaboLights study");
+            System.out.println("----");
+            return false;
+        }
+
+        return true;
 
     }
 
