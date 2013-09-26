@@ -28,6 +28,45 @@
 
 <link rel="stylesheet"  href="../css/ChEBICompound.css" type="text/css" />
 
+<script type="text/javascript">
+
+    $(document).ajaxStart(function(){showWait();}).ajaxStop(function(){
+        hideWait();
+    });
+
+    $(document).ready(function() {
+        $("#hourglass").dialog({
+            create: function(){
+                $('.ui-dialog-titlebar-close').removeClass('ui-dialog-titlebar-close');
+            },
+            width: 200,
+            height: 60,
+            modal: true,
+            autoOpen: false
+        });
+    });
+
+    function showWait() {
+        document.body.style.cursor = "wait";
+        $('.ui-dialog-titlebar').hide();
+        $( "#hourglass" ).dialog( "open" );
+    }
+
+    function hideWait(){
+        document.body.style.cursor = "default";
+        $( "#hourglass" ).dialog("close");
+    }
+
+</script>
+
+<script>
+    $(function() {
+        $( "#tabs" ).tabs({
+            cache:true
+        });
+    });
+</script>
+
 <script language="javascript" type="text/javascript">
 
     $(document).ready(function() {
@@ -140,6 +179,10 @@
 
 </script>
 
+<%--<div id="hourglass">--%>
+    <%--<img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.fetchingData"/></b>--%>
+<%--</div>--%>
+
 <div class="push_1 grid_22 title alpha omega">
     <strong>${study.studyIdentifier}: ${study.title}</strong>
     <c:if test="${study.public}">
@@ -215,10 +258,16 @@
         <a href="#tabs-4" class="noLine"><spring:message code="label.assays"/></a>
     </li>
     <li>
-        <a href="#tabs-5" class="noLine"><spring:message code="label.metabolites"/>
-            <c:if test="${not empty metabolites}">
-                (${fn:length(metabolites)})
+        <%--<a href="#tabs-5" class="noLine"><spring:message code="label.metabolites"/>--%>
+            <c:if test="${not empty study.assays}">
+                <c:forEach var="assay" items="${study.assays}">
+                    <a class="noLine" href="metabolitesIdentified?maf=${assay.metaboliteAssignment.metaboliteAssignmentFileName}"><spring:message code="label.metabolites"/></a>
+                    <%--MAF - ${assay.metaboliteAssignment.metaboliteAssignmentFileName}--%>
+                </c:forEach>
             </c:if>
+            <%--<c:if test="${not empty metabolites}">--%>
+                <%--(${fn:length(metabolites)})--%>>
+            <%--</c:if>--%>
         </a>
     </li>
 </ul>

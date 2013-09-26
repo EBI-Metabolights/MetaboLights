@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.webservice.client;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.io.BufferedReader;
@@ -83,6 +84,20 @@ public class MetabolightsWsClient {
 
     }
 
+    public MetaboliteAssignment getMetabolites(String mafPath){
+
+        String path = "maf/" + mafPath;
+
+        // Make the request
+        String response = makeGetRequest(path);
+
+        return parseJason(response, MetaboliteAssignment.class);
+
+//        return null;
+
+    }
+
+
     private <T> T parseJason(String response, Class<T> valueType ){
 
         // Parse response (json) into Study Model...
@@ -91,7 +106,7 @@ public class MetabolightsWsClient {
         try {
             return mapper.readValue(response, valueType);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
         return null;

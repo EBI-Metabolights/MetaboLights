@@ -102,7 +102,9 @@
         <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
     </definition>
     
-    <definition name="reaction" template="/WEB-INF/jsp/reaction.jsp"></definition>
+    <definition name="reaction" template="/WEB-INF/jsp/reaction.jsp"/>
+
+    <definition name="metabolitesIdentified" template="/WEB-INF/jsp/metabolitesIdentified.jsp"/>
 
 	<definition name="searchResult.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
         <put-attribute name="leftmenu" value="/WEB-INF/jsp/searchFilter.jsp" />

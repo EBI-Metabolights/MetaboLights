@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
@@ -26,6 +27,7 @@ import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Sample;
 import uk.ac.ebi.metabolights.service.AccessionService;
 import uk.ac.ebi.metabolights.service.AppContext;
@@ -39,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.TreeSet;
+
+//import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 
 /**
  * Controller for entry (=study) details.
@@ -118,6 +122,30 @@ public class EntryController extends AbstractController {
 
 		return mav;
 	}
+
+    @RequestMapping(value = "/alt/metabolitesIdentified")
+    public ModelAndView getMetabolitesIdentified(
+            @RequestParam(required = false, value = "maf") String mafPath, HttpServletRequest request){
+
+        //compose the ws url..
+        String wsUrl = request.getRequestURL().toString();
+
+        //Replace the servlet path (alt/MTBLS1")
+        wsUrl = wsUrl.replace(request.getServletPath(), "");
+
+        // Add the webservice part...
+        wsUrl = wsUrl + "/webservice/";
+
+        MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
+
+        MetaboliteAssignment metaboliteAssignment = wsClient.getMetabolites(mafPath);
+
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("metabolitesIdentified");
+
+        mav.addObject("metabolitesIdentified", metaboliteAssignment);
+
+        return mav;
+    }
 
 
     @RequestMapping(value = { "/alt/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})

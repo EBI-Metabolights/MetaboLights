@@ -16,7 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO;
+import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
 @Controller
@@ -29,6 +31,13 @@ public class StudyController {
     private @Value("#{publicStudiesLocation}") String publicStudiesLocationProp;
     private @Value("#{privateStudiesLocation}") String privateStudiesLocationProp;
     private @Value("#{isatabConfigurationLocation}") String isatabRootConfigurationLocation;
+
+    @RequestMapping("/maf/")
+    @ResponseBody
+    public MetaboliteAssignment getMAFonFileName(String fileName){
+        MzTabDAO mzTabDAO = new MzTabDAO();
+        return mzTabDAO.mapMetaboliteAssignmentFile(fileName);
+    }
 
     @RequestMapping("{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}")
     @ResponseBody
@@ -56,6 +65,18 @@ public class StudyController {
     }
 
 
-
+//    @RequestMapping(value = "/metabolitesIdentified")
+//    @ResponseBody
+//    public Collection<MetaboliteAssignmentLine> showMetabolitesIdentified (String mafPath){
+//
+////        ModelAndView mav = new ModelAndView("metabolitesIdentified");
+//        MzTabDAO mzTabDAO = new MzTabDAO();
+//        MetaboliteAssignment metaboliteAssignment1 = mzTabDAO.mapMetaboliteAssignmentFile(mafPath);
+//        Collection<MetaboliteAssignmentLine> MetAssignmentLineCollection = metaboliteAssignment1.getMetaboliteAssignmentLines();
+//
+////        mav.addObject("metAssgnmtLines", MetAssignmentLineCollection);
+//
+//        return MetAssignmentLineCollection;
+//    }
 
 }

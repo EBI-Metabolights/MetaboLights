@@ -24,6 +24,7 @@ public class Study {
     private Date studySubmissionDate;
     private String title;
     private String description;
+    private String studyLocation;
     private boolean isPublic;
 
     // Collections
@@ -34,6 +35,14 @@ public class Study {
     private Collection<Protocol> protocols;
     private Collection<Assay> assays;
     private Collection<Sample> samples;
+
+    public String getStudyLocation() {
+        return studyLocation;
+    }
+
+    public void setStudyLocation(String studyLocation) {
+        this.studyLocation = studyLocation;
+    }
 
     public Collection<Sample> getSamples() {
         return samples;
