@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 26/09/13 15:17
+ * Last modified: 27/09/13 09:01
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -89,6 +89,7 @@ public class MetabolightsWsClient {
     public MetaboliteAssignment getMetabolites(String mafPath){
 
         String path = "maf/" + mafPath.replaceAll(File.separator,"__");
+        //TODO, send in PRIVATE_LOCATION / PUBLIC_LOCATION + maf.  We cannot expose the whole filesystem
 
         // Make the request
         String response = makeGetRequest(path);
