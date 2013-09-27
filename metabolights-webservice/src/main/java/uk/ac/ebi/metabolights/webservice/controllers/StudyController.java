@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 26/09/13 15:14
+ * Last modified: 27/09/13 11:52
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -37,7 +37,7 @@ public class StudyController {
         StudyDAO invDAO = new StudyDAO(isatabRootConfigurationLocation, publicStudiesLocationProp,privateStudiesLocationProp);
 
         // Get the study
-        Study study = invDAO.getStudy(metabolightsId, false);           //Do not include metabolites (MAF) when loading this from the webapp.  This is added on later as an AJAX call
+        Study study = invDAO.getStudy(metabolightsId.toUpperCase(), false);           //Do not include metabolites (MAF) when loading this from the webapp.  This is added on later as an AJAX call
 
         // If the study is private.
         if (!study.isPublic()){

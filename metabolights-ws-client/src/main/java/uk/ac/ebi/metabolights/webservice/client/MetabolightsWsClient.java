@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 27/09/13 09:01
+ * Last modified: 27/09/13 14:46
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -16,7 +16,6 @@ import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -88,8 +87,9 @@ public class MetabolightsWsClient {
 
     public MetaboliteAssignment getMetabolites(String mafPath){
 
-        String path = "maf/" + mafPath.replaceAll(File.separator,"__");
+        String path = "/maf/" + mafPath.replaceAll(" ","+");
         //TODO, send in PRIVATE_LOCATION / PUBLIC_LOCATION + maf.  We cannot expose the whole filesystem
+        //Test, http:localhost:8080/metabolights/webservice/maf/__nfs__public__rw__homes__tc_cm01__metabolights__dev__studies__stage__public__MTBLS1__m_live_mtbl1_rms_metabolite+profiling_NMR+spectroscopy_v2_maf.tsv
 
         // Make the request
         String response = makeGetRequest(path);
