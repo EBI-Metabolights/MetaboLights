@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 25/09/13 16:03
+ * Last modified: 01/10/13 17:16
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -17,10 +17,15 @@ import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
 import uk.ac.ebi.pride.jmztab.MzTabFile;
 import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
+import uk.ac.ebi.pride.jmztab.model.Unit;
+import uk.ac.ebi.pride.jmztab.model.Contact;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 public class MzTabWriter {
@@ -109,6 +114,29 @@ public class MzTabWriter {
         fileWriter.close();
     }
 
+    private Unit addUnit(String accessionNumber) throws MzTabParsingException {
+        Unit unit = new Unit();
+        unit.setUnitId(accessionNumber);
+        unit.setDescription("mzTab generated for MetaboLights accession "+accessionNumber);
+        unit.setContact(addContacts());
+        return unit;
+    }
+
+    private List<Contact> addContacts() throws MzTabParsingException {
+        //TODO, read contacts from ISAcreator or MetaboLights study
+        List<Contact> contactList = new ArrayList<Contact>();
+        Contact contact = new Contact();
+        contact.setName("Kenneth Haug");
+        contact.setAffiliation("European Bioinformatics Institute");
+        contactList.add(contact);
+
+        contact.setName("Reza Salek");
+        contact.setAffiliation("European Bioinformatics Institute");
+        contactList.add(contact);
+
+        return contactList;
+    }
+
     public void convertMAFToMzTab(String mafFileName, String mzTabFile, String accessionNumber) throws MzTabParsingException {
         try {
 
@@ -118,8 +146,10 @@ public class MzTabWriter {
             Collection<MetaboliteAssignmentLine> metaboliteAssignmentLines = new ArrayList<MetaboliteAssignmentLine>();
 
             MetaboliteAssignment metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(mafFile.toString());
-            if (metaboliteAssignment != null)
+            if (metaboliteAssignment != null){
                 metaboliteAssignmentLines = metaboliteAssignment.getMetaboliteAssignmentLines();
+                mzTab.setUnit(addUnit(accessionNumber));
+            }
 
             for (MetaboliteAssignmentLine metLine : metaboliteAssignmentLines){
 

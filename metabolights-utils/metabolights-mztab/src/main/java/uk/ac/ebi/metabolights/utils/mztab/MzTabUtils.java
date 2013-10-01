@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 25/09/13 16:06
+ * Last modified: 01/10/13 16:31
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -11,9 +11,12 @@
 package uk.ac.ebi.metabolights.utils.mztab;
 
 
+import net.sf.jniinchi.JniInchiException;
+import net.sf.jniinchi.JniInchiOutputKey;
+import net.sf.jniinchi.JniInchiWrapper;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
-import uk.ac.ebi.pride.jmztab.model.ParamList;
 import uk.ac.ebi.pride.jmztab.model.Param;
+import uk.ac.ebi.pride.jmztab.model.ParamList;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -24,13 +27,28 @@ import java.util.List;
 
 public class MzTabUtils {
 
+    public String inchiToinchiKey(String inchi)  {
+        JniInchiOutputKey output = null;
+        try {
+            output = JniInchiWrapper.getInchiKey("InChI=1S/C2H6/c1-2/h1-2H3");
+        } catch (JniInchiException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return output.getKey();
+    }
 
     public boolean processLine(MetaboliteAssignmentLine metLine){
-        if (metLine.getDatabaseIdentifier() == null || metLine.getDatabaseIdentifier().isEmpty() ||
-                metLine.getMetaboliteIdentification() == null || metLine.getMetaboliteIdentification().isEmpty())
+        if (nullOrEmpty(metLine.getDatabaseIdentifier()) || nullOrEmpty(metLine.getMetaboliteIdentification()))
             return false;
         else
             return true;
+    }
+
+    private boolean nullOrEmpty(String metStr){
+        if (metStr == null || metStr.isEmpty())
+            return true;
+        else
+            return false;
     }
 
     public List<String> stringToList(String strValue){
@@ -42,7 +60,7 @@ public class MzTabUtils {
     public List<Double> stringToDouble(String strValue){
         List<Double> doubleList = new ArrayList<Double>();
 
-        if (strValue == null)
+        if (strValue == null || strValue.isEmpty())
             strValue = "0";
 
         double value = Double.parseDouble(strValue);
@@ -76,6 +94,11 @@ public class MzTabUtils {
     public int stringToInt(String stringValue){
         if (stringValue == null || stringValue.isEmpty())
             stringValue = "0";
+
+        if (stringValue.contains(":")){ //Ontology, like "NEWT:9606"
+            String[] strings = stringValue.split(":");
+            stringValue = strings[1];  //You are left with "9606"
+        }
 
         return Integer.parseInt(stringValue);
     }
@@ -115,6 +138,10 @@ public class MzTabUtils {
 
     public ParamList stringToParamList(String strValue){
         ParamList paramList = new ParamList();
+
+        if (strValue == null || strValue.isEmpty())
+            return null;
+
         Param param = new Param(strValue);
         paramList.add(param);
 

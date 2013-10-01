@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 25/09/13 15:44
+ * Last modified: 01/10/13 17:40
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -12,7 +12,11 @@ package uk.ac.ebi.metabolights.utils.mztab;
 
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
 import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.model.Modification;
 import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MzTabSmallMolecule {
 
@@ -23,8 +27,7 @@ public class MzTabSmallMolecule {
 
         try {
 
-            String inchi = null, smiles = null, charge = null, reliability = null,
-                    abundance_sub = null, abundance_stdev_sub = null, abundance_std_error_sub = null;
+            String inchi = null, smiles = null, modificaiton = null;
 
             molecule.setIdentifier(utils.stringToList(metLine.getDatabaseIdentifier()));
             molecule.setDescription(metLine.getDescription());
@@ -47,23 +50,32 @@ public class MzTabSmallMolecule {
 
             if (inchi != null || inchi.isEmpty()){
                 molecule.setSmiles(utils.stringToList(""));
-                molecule.setInchiKey(utils.stringToList(inchi));
+                molecule.setInchiKey(utils.stringToList(utils.inchiToinchiKey(inchi)));
             } else {
                 //SMILES
                 molecule.setSmiles(utils.stringToList(smiles));
                 molecule.setInchiKey(utils.stringToList(""));
             }
 
-            //Abundance
+            //Abundance, the ML plugin only supports 1 set of abundance data so we use the value 1
             molecule.setAbundance(1,
                     utils.StrintToDouble(metLine.getSmallmoleculeAbundanceSub()),
                     utils.StrintToDouble(metLine.getSmallmoleculeAbundanceStdevSub()),
                     utils.StrintToDouble(metLine.getSmallmoleculeAbundanceStdErrorSub()));
 
-
             //TODO,
             // private List<SpecRef> specRef;
-            // private List<Modification> modifications;
+
+
+            //Modification list
+            //TODO, this will probably not work
+            modificaiton = metLine.getModifications();
+            if (modificaiton != null){
+                Modification modification = new Modification(modificaiton);
+                List<Modification> modifications = new ArrayList<Modification>();
+                modifications.add(modification);
+                molecule.setModifications(modifications);
+            }
 
         } catch (MzTabParsingException e) {
             e.printStackTrace();
