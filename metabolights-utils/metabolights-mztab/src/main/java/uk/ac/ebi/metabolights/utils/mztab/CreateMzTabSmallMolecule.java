@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 01/10/13 17:40
+ * Last modified: 02/10/13 14:17
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -18,7 +18,7 @@ import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MzTabSmallMolecule {
+public class CreateMzTabSmallMolecule {
 
     private MzTabUtils utils = new MzTabUtils();
 
@@ -27,12 +27,12 @@ public class MzTabSmallMolecule {
 
         try {
 
-            String inchi = null, smiles = null, modificaiton = null;
+            String inchi = null, smiles = null, modificaiton = null, smallAbuSub = null, smallAbuDevSub = null, smallAbuDevSubErr = null;
 
             molecule.setIdentifier(utils.stringToList(metLine.getDatabaseIdentifier()));
             molecule.setDescription(metLine.getDescription());
             molecule.setChemicalFormula(metLine.getChemicalFormula());
-            molecule.setCharge(utils.stringToInt(metLine.getCharge()));
+            molecule.setCharge(utils.convertPosNegToInt(metLine.getCharge()));
             molecule.setTaxid(utils.stringToInt(metLine.getTaxid()));
             molecule.setSpecies(metLine.getSpecies()); //TODO, convert from ontology term
             molecule.setDatabase(metLine.getDatabase());
@@ -48,7 +48,7 @@ public class MzTabSmallMolecule {
             inchi = metLine.getInchi();
             smiles = metLine.getSmiles();
 
-            if (inchi != null || inchi.isEmpty()){
+            if (inchi != null && !inchi.isEmpty()){
                 molecule.setSmiles(utils.stringToList(""));
                 molecule.setInchiKey(utils.stringToList(utils.inchiToinchiKey(inchi)));
             } else {
@@ -57,24 +57,35 @@ public class MzTabSmallMolecule {
                 molecule.setInchiKey(utils.stringToList(""));
             }
 
+            smallAbuSub = metLine.getSmallmoleculeAbundanceSub();
+            smallAbuDevSub = metLine.getSmallmoleculeAbundanceStdevSub();
+            smallAbuDevSubErr = metLine.getSmallmoleculeAbundanceStdErrorSub();
+
             //Abundance, the ML plugin only supports 1 set of abundance data so we use the value 1
-            molecule.setAbundance(1,
-                    utils.StrintToDouble(metLine.getSmallmoleculeAbundanceSub()),
-                    utils.StrintToDouble(metLine.getSmallmoleculeAbundanceStdevSub()),
-                    utils.StrintToDouble(metLine.getSmallmoleculeAbundanceStdErrorSub()));
+            //if (utils.notNullOrEmpty(smallAbuSub) && utils.notNullOrEmpty(smallAbuDevSub) && utils.notNullOrEmpty(smallAbuDevSubErr)) {
+            //TODO, check why this is not working as the spec allows this being empty
+                molecule.setAbundance(1,
+                        utils.StrintToDouble(smallAbuSub),
+                        utils.StrintToDouble(smallAbuDevSub),
+                        utils.StrintToDouble(smallAbuDevSubErr));
+            //}
+
 
             //TODO,
             // private List<SpecRef> specRef;
 
-
             //Modification list
-            //TODO, this will probably not work
             modificaiton = metLine.getModifications();
-            if (modificaiton != null){
-                Modification modification = new Modification(modificaiton);
-                List<Modification> modifications = new ArrayList<Modification>();
-                modifications.add(modification);
-                molecule.setModifications(modifications);
+            if (utils.notNullOrEmpty(modificaiton)){
+                try {
+                    Modification modification = new Modification("CHEMMOD:"+modificaiton);
+                    List<Modification> modifications = new ArrayList<Modification>();
+                    modifications.add(modification);
+                    molecule.setModifications(modifications);
+                } catch (Exception e) {
+                    //TODO, should we notify the user or simply ignore?
+                }
+
             }
 
         } catch (MzTabParsingException e) {

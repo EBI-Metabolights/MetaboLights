@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 01/10/13 16:31
+ * Last modified: 02/10/13 14:17
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -29,26 +29,32 @@ public class MzTabUtils {
 
     public String inchiToinchiKey(String inchi)  {
         JniInchiOutputKey output = null;
+        if (inchi == null || inchi.isEmpty())
+            return null;
+
+        if (!inchi.startsWith("InChI="))
+            return null;
+
         try {
-            output = JniInchiWrapper.getInchiKey("InChI=1S/C2H6/c1-2/h1-2H3");
+            output = JniInchiWrapper.getInchiKey(inchi);
         } catch (JniInchiException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         return output.getKey();
     }
 
     public boolean processLine(MetaboliteAssignmentLine metLine){
-        if (nullOrEmpty(metLine.getDatabaseIdentifier()) || nullOrEmpty(metLine.getMetaboliteIdentification()))
-            return false;
-        else
+        if (notNullOrEmpty(metLine.getDatabaseIdentifier()) || notNullOrEmpty(metLine.getMetaboliteIdentification()))
             return true;
+        else
+            return false;
     }
 
-    private boolean nullOrEmpty(String metStr){
+    public boolean notNullOrEmpty(String metStr){
         if (metStr == null || metStr.isEmpty())
-            return true;
-        else
             return false;
+        else
+            return true;
     }
 
     public List<String> stringToList(String strValue){
@@ -60,7 +66,7 @@ public class MzTabUtils {
     public List<Double> stringToDouble(String strValue){
         List<Double> doubleList = new ArrayList<Double>();
 
-        if (strValue == null || strValue.isEmpty())
+        if (strValue == null || strValue.trim().isEmpty())
             strValue = "0";
 
         double value = Double.parseDouble(strValue);
@@ -95,12 +101,28 @@ public class MzTabUtils {
         if (stringValue == null || stringValue.isEmpty())
             stringValue = "0";
 
+        stringValue = stringValue.trim();
+
         if (stringValue.contains(":")){ //Ontology, like "NEWT:9606"
             String[] strings = stringValue.split(":");
             stringValue = strings[1];  //You are left with "9606"
         }
 
         return Integer.parseInt(stringValue);
+    }
+
+    public int convertPosNegToInt(String stringValue){
+        if (stringValue == null || stringValue.isEmpty())
+            stringValue = "0";
+
+        if (stringValue.toLowerCase().contains("positive"))
+            stringValue = "1";
+
+        if (stringValue.toLowerCase().contains("negative"))
+            stringValue = "0";
+
+        return stringToInt(stringValue);
+
     }
 
 
@@ -121,7 +143,7 @@ public class MzTabUtils {
         if (reliability == null || reliability.isEmpty()){
             reliability = "3";        // Reliability must only be 1 (good), 2 (medium), and 3 (bad).
         } else {
-            if (reliability.contains("1:") || reliability.contains("2:")) // "1:poor reliability" or "2:less poor reliability"
+            if (reliability.contains("0:") || reliability.contains("1:") || reliability.contains("2:")) // "0:non-significant identification" or "1:poor reliability" or "2:less poor reliability"
                 reliability = "3";
 
             if (reliability.contains("3:")) // "3:medium reliability"
@@ -135,7 +157,6 @@ public class MzTabUtils {
         return Integer.parseInt(reliability);
     }
 
-
     public ParamList stringToParamList(String strValue){
         ParamList paramList = new ParamList();
 
@@ -147,5 +168,6 @@ public class MzTabUtils {
 
         return paramList;
     }
+
 
 }

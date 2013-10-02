@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 12/09/13 14:54
+ * Last modified: 02/10/13 14:17
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -134,7 +134,7 @@ public class SampleTabExporter {
      * @param isatabDirectory
      * @return ISAcreator Investigation
      */
-    private Investigation getIsaInvestigation(String configDirectory, String isatabDirectory){
+    public Investigation getIsaInvestigation(String configDirectory, String isatabDirectory){
         Investigation investigation = new Investigation();
 
         investigation = isaTabReader.getInvestigation(configDirectory,isatabDirectory);

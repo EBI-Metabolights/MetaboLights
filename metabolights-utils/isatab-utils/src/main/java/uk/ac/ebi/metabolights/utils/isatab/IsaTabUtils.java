@@ -2,8 +2,8 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 9/6/13 2:24 PM
- * Modified by:   conesa
+ * Last modified: 02/10/13 14:17
+ * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
@@ -91,7 +91,7 @@ public class IsaTabUtils {
      * @return Name from the line "[Last Opened With Configuration]" in the i_Investigation.txt file, but only if we have the same config, otherwise return the string "default"
      * @throws IOException
      */
-    public static File getConfigurationFolderFromStudy(File isaTabFolder, File  rootConfigFolder, String defaultConfig) throws IOException, ConfigurationException {
+    public static File getConfigurationFolderFromStudy(File isaTabFolder, File rootConfigFolder, String defaultConfig) throws IOException, ConfigurationException {
 
         File investigationFile = getInvestigationFile(isaTabFolder);
 

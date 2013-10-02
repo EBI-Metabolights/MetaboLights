@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 01/10/13 17:16
+ * Last modified: 02/10/13 14:17
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -16,24 +16,26 @@ import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
 import uk.ac.ebi.pride.jmztab.MzTabFile;
 import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.model.Contact;
 import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
 import uk.ac.ebi.pride.jmztab.model.Unit;
-import uk.ac.ebi.pride.jmztab.model.Contact;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 
-public class MzTabWriter {
+public class MzTabConverter {
 
-    MzTabSmallMolecule mzTabSmallMolecule = new MzTabSmallMolecule();
+    CreateMzTabSmallMolecule mzTabSmallMolecule = new CreateMzTabSmallMolecule();
     MzTabUtils utils = new MzTabUtils();
     MzTabDAO mzTabDAO = new MzTabDAO();
-    private final static Logger logger = Logger.getLogger(MzTabWriter.class.getName());
+    MzTabFileWriter mzTabFileWriter = new MzTabFileWriter();
+    MzTabReader mzTabReader = new MzTabReader();
+
+    private final static Logger logger = Logger.getLogger(MzTabConverter.class.getName());
 
     private String argsMessage = "Please use either'maf_file_name mztab_file_name' to process files.";
 
@@ -57,68 +59,16 @@ public class MzTabWriter {
                 logger.error("ERROR: Could not process the files. " + e.toString());
             }
         }
-
-        /*
-        if (args[0] == null) {
-            System.out.println("No arguments passed, I will try to look for the MAF file (m_<some_name>.tsv) in this directory");
-
-            File[] mafFiles = utils.findMafFile(".");  //Set directory to the current folder
-
-            if (mafFiles != null)
-                convertAllMAFs(mafFiles);
-            else
-                System.out.println("Sorry, I could not find a maf file. " +argsMessage);
-
-        } else {
-
-            if (args.length != 2){
-                System.out.println(argsMessage);
-            } else {
-              File inMAFfile = readMAF(args[0]);
-                try {
-                    convertMAFToMZTab(inMAFfile, args[1]);
-                } catch (MzTabParsingException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        */
-
     }
 
-    /*
-    private void convertAllMAFs(File[] mafFiles){
-
-        for (File files : mafFiles){
-            File mafFile = readMAF(files.getName());
-            if (mafFile != null)
-                try {
-                    convertMAFToMZTab(mafFile, mafFile.getName().replace(".tsv",".mztab"));
-                } catch (MzTabParsingException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
-    */
-
-    public File readMAF(String fileName){
-        File file = new File(fileName);
-        return file;
-    }
-
-    public void writeMzTab(String fileName, String fileContext) throws IOException {
-        File file = new File(fileName);
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(fileContext);
-        fileWriter.close();
-    }
 
     private Unit addUnit(String accessionNumber) throws MzTabParsingException {
         Unit unit = new Unit();
         unit.setUnitId(accessionNumber);
         unit.setDescription("mzTab generated for MetaboLights accession "+accessionNumber);
-        unit.setContact(addContacts());
+        //unit.setContact(addContacts());
+        unit.setUri(URI.create("http://www.ebi.ac.uk/metabolights/"+accessionNumber.toUpperCase()));
+        unit.setTitle("MetaboLights study "+accessionNumber);
         return unit;
     }
 
@@ -137,6 +87,8 @@ public class MzTabWriter {
         return contactList;
     }
 
+    private void getIsaStudy(String accession){}
+
     public void convertMAFToMzTab(String mafFileName, String mzTabFile, String accessionNumber) throws MzTabParsingException {
         try {
 
@@ -153,7 +105,7 @@ public class MzTabWriter {
 
             for (MetaboliteAssignmentLine metLine : metaboliteAssignmentLines){
 
-                //Test if we have the database identifier and description, only process rows that have id
+                //Test if we have the database identifier and description, only process rows that have ids
                 if (!utils.processLine(metLine))
                     continue;
 
@@ -163,9 +115,21 @@ public class MzTabWriter {
 
             }
 
-            writeMzTab(mzTabFile, mzTab.toMzTab());
+            mzTabFileWriter.writeMzTab(mzTabFile, mzTab.toMzTab());
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void convertMzTabToMAF(String mzTabFileName, String mafFileName, String accessionNumber) throws MzTabParsingException {
+        try {
+            MzTabFile mzTab = mzTabReader.readMzTab(mzTabFileName);
+            Collection<SmallMolecule> molecules = mzTab.getSmallMolecules();
+
+        }  catch (Exception e){
             e.printStackTrace();
         }
 
