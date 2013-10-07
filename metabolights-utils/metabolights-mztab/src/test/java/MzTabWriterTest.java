@@ -2,14 +2,14 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 02/10/13 14:17
+ * Last modified: 03/10/13 15:23
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 import org.junit.Test;
-import uk.ac.ebi.metabolights.utils.mztab.MzTabConverter;
+import uk.ac.ebi.metabolights.utils.mztab.ConvertToMzTab;
 import uk.ac.ebi.metabolights.utils.mztab.MzTabReader;
 import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
@@ -17,7 +17,7 @@ import java.io.File;
 
 public class MzTabWriterTest {
 
-    MzTabConverter mzTabConverter = new MzTabConverter();
+    ConvertToMzTab converteToMzTab = new ConvertToMzTab();
     MzTabReader mzTabReader = new MzTabReader();
 
     //MTBLS1
@@ -48,13 +48,15 @@ public class MzTabWriterTest {
         File mzTabFile = new File(fullMzTabFileLocation);
         assert mzTabFile != null;
 
-        mzTabConverter.convertMAFToMzTab(mafFile.toString(), MAFfileLocation+mzTabFile.getName(), studyAccession);
+        converteToMzTab.convertMAFToMzTab(mafFile.toString(), MAFfileLocation+mzTabFile.getName(), studyAccession);
 
     }
 
     @Test
     public void testMainWithAllParams(){
-        mzTabConverter.main(new String[]{fullMAFfileLocation, fullMzTabFileLocation, studyAccession});
+        converteToMzTab.main(new String[]{fullMAFfileLocation, fullMzTabFileLocation, studyAccession});
+        File file = new File(fullMzTabFileLocation);
+        assert file.exists();    //Did we create the file
     }
 
 }

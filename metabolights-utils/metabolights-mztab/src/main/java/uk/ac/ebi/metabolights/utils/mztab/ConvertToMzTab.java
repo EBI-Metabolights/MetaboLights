@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 02/10/13 14:17
+ * Last modified: 03/10/13 15:36
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class MzTabConverter {
+public class ConvertToMzTab {
 
     CreateMzTabSmallMolecule mzTabSmallMolecule = new CreateMzTabSmallMolecule();
     MzTabUtils utils = new MzTabUtils();
@@ -35,7 +35,7 @@ public class MzTabConverter {
     MzTabFileWriter mzTabFileWriter = new MzTabFileWriter();
     MzTabReader mzTabReader = new MzTabReader();
 
-    private final static Logger logger = Logger.getLogger(MzTabConverter.class.getName());
+    private final static Logger logger = Logger.getLogger(ConvertToMzTab.class.getName());
 
     private String argsMessage = "Please use either'maf_file_name mztab_file_name' to process files.";
 
@@ -87,8 +87,6 @@ public class MzTabConverter {
         return contactList;
     }
 
-    private void getIsaStudy(String accession){}
-
     public void convertMAFToMzTab(String mafFileName, String mzTabFile, String accessionNumber) throws MzTabParsingException {
         try {
 
@@ -118,18 +116,6 @@ public class MzTabConverter {
             mzTabFileWriter.writeMzTab(mzTabFile, mzTab.toMzTab());
 
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-    public void convertMzTabToMAF(String mzTabFileName, String mafFileName, String accessionNumber) throws MzTabParsingException {
-        try {
-            MzTabFile mzTab = mzTabReader.readMzTab(mzTabFileName);
-            Collection<SmallMolecule> molecules = mzTab.getSmallMolecules();
-
-        }  catch (Exception e){
             e.printStackTrace();
         }
 

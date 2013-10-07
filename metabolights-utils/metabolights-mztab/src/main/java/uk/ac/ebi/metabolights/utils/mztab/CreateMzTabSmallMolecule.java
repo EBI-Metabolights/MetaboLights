@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 02/10/13 14:17
+ * Last modified: 03/10/13 14:11
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -49,12 +49,12 @@ public class CreateMzTabSmallMolecule {
             smiles = metLine.getSmiles();
 
             if (inchi != null && !inchi.isEmpty()){
-                molecule.setSmiles(utils.stringToList(""));
+                //molecule.setSmiles(utils.stringToList(""));
                 molecule.setInchiKey(utils.stringToList(utils.inchiToinchiKey(inchi)));
             } else {
                 //SMILES
                 molecule.setSmiles(utils.stringToList(smiles));
-                molecule.setInchiKey(utils.stringToList(""));
+                //molecule.setInchiKey(utils.stringToList(""));
             }
 
             smallAbuSub = metLine.getSmallmoleculeAbundanceSub();
@@ -65,9 +65,9 @@ public class CreateMzTabSmallMolecule {
             //if (utils.notNullOrEmpty(smallAbuSub) && utils.notNullOrEmpty(smallAbuDevSub) && utils.notNullOrEmpty(smallAbuDevSubErr)) {
             //TODO, check why this is not working as the spec allows this being empty
                 molecule.setAbundance(1,
-                        utils.StrintToDouble(smallAbuSub),
-                        utils.StrintToDouble(smallAbuDevSub),
-                        utils.StrintToDouble(smallAbuDevSubErr));
+                        utils.StringToDouble(smallAbuSub),
+                        utils.StringToDouble(smallAbuDevSub),
+                        utils.StringToDouble(smallAbuDevSubErr));
             //}
 
 

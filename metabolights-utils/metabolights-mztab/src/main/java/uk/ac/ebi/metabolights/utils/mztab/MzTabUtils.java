@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 02/10/13 14:17
+ * Last modified: 03/10/13 14:44
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -15,6 +15,7 @@ import net.sf.jniinchi.JniInchiException;
 import net.sf.jniinchi.JniInchiOutputKey;
 import net.sf.jniinchi.JniInchiWrapper;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
+import uk.ac.ebi.pride.jmztab.model.Modification;
 import uk.ac.ebi.pride.jmztab.model.Param;
 import uk.ac.ebi.pride.jmztab.model.ParamList;
 
@@ -27,6 +28,11 @@ import java.util.List;
 
 public class MzTabUtils {
 
+    /**
+     * Converts InChI to InChiKey
+     * @param inchi
+     * @return InChiKey
+     */
     public String inchiToinchiKey(String inchi)  {
         JniInchiOutputKey output = null;
         if (inchi == null || inchi.isEmpty())
@@ -41,6 +47,28 @@ public class MzTabUtils {
             e.printStackTrace();
         }
         return output.getKey();
+    }
+
+    /**
+     * Returns a comma separated list of modifications (Modification)
+     * @param modifications
+     * @return String
+     */
+    public String modificationsToString(List<Modification> modifications){
+        String modStr = "";
+
+        if (modifications == null)
+             return modStr;
+
+        for (Modification modification : modifications){
+
+            if (!modStr.isEmpty())
+                modStr = modStr + ",";
+
+            modStr = modStr + modification.toString();
+        }
+
+        return modStr;
     }
 
     public boolean processLine(MetaboliteAssignmentLine metLine){
@@ -59,10 +87,38 @@ public class MzTabUtils {
 
     public List<String> stringToList(String strValue){
         List<String> list = new ArrayList<String>();
-        list.add(strValue);
+        if (!strValue.isEmpty())
+            list.add(strValue);
+
         return list;
     }
 
+    /**
+     * Returns a pipeline (|) separated list of strings
+     * @param strings
+     * @return
+     */
+    public String listEntriesToString(List<String> strings){
+        String values = "";
+
+        if (strings == null)
+            return values;
+
+        for (String entry : strings){
+            if (!values.isEmpty())
+                values = values + "|";
+
+            values = values + entry;
+        }
+
+        return values;
+    }
+
+    /**
+     * Converts a String to Double
+     * @param strValue
+     * @return Double
+     */
     public List<Double> stringToDouble(String strValue){
         List<Double> doubleList = new ArrayList<Double>();
 
@@ -75,11 +131,40 @@ public class MzTabUtils {
         return doubleList;
     }
 
-    public Double StrintToDouble(String strValue){
+    public Double StringToDouble(String strValue){
         if (strValue == null || strValue.isEmpty())
             strValue = "0.0";
 
         return Double.parseDouble(strValue);
+    }
+
+    /**
+     * Converts a list of Double to a pipeline separated string
+     * @param doubles
+     * @return String
+     */
+    public String doubleListToString(List<Double> doubles){
+        String str = "";
+
+        for (Double doub : doubles){
+
+            if (!str.isEmpty())
+                str = str + "|";
+
+            str = str + doub.toString();
+        }
+
+        return str;
+    }
+
+    public String doubleToString(Double doubleVal){
+        String str = "";
+
+        if (doubleVal == null)
+            return str;
+
+        return doubleVal.toString();
+
     }
 
     public File[] findMafFile(String folderName){
@@ -137,6 +222,15 @@ public class MzTabUtils {
         return uri;
     }
 
+    public String uriToString(URI uri){
+
+        String uriStr = "";
+        if (uri == null)
+            return uriStr;
+
+        return uri.toString();
+    }
+
     public Integer convertMSItoPSIreliability(String reliability){
 
         //Well this is fun, we adopted PSI reliability scores but this is not adopted in mzTAB
@@ -167,6 +261,24 @@ public class MzTabUtils {
         paramList.add(param);
 
         return paramList;
+    }
+
+    public String paramListToString(ParamList params){
+        String paramStr = "";
+
+        if (params == null)
+            return paramStr;
+
+        for (Param param : params){
+
+            if (!paramStr.isEmpty())
+                paramStr = paramStr + ",";
+
+            paramStr = paramStr + param.toString();
+
+        }
+
+        return paramStr;
     }
 
 
