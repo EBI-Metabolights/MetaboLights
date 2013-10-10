@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 10/10/13 15:24
+ * Last modified: 10/10/13 15:42
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -20,12 +20,6 @@ import java.util.Map;
 
 import static de.regnis.q.sequence.core.QSequenceAssert.assertNotNull;
 
-/**
- * Created by IntelliJ IDEA.
- * User: kenneth
- * Date: 24/04/2013
- * Time: 10:09
- */
 public class ISATabReaderTest {
 
     private SampleTabParser parser = new SampleTabParser();
