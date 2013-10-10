@@ -1,4 +1,13 @@
-import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 10/10/13 15:24
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 import org.isatools.isacreator.model.Contact;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Study;
@@ -6,12 +15,10 @@ import org.junit.Test;
 import uk.ac.ebi.arrayexpress2.sampletab.parser.SampleTabParser;
 import uk.ac.ebi.metabolights.utils.sampletab.ISATabReader;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
 import static de.regnis.q.sequence.core.QSequenceAssert.assertNotNull;
-import static de.regnis.q.sequence.core.QSequenceAssert.assertTrue;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,8 +31,9 @@ public class ISATabReaderTest {
     private SampleTabParser parser = new SampleTabParser();
     private ISATabReader isaTabReader = new ISATabReader();
     Investigation investigation;
-    private static String isatabDirectory = ISATabReaderTest.class.getClassLoader().getResource("./MTBLS1").getPath();
-    private static String configDirectory = ISATabReaderTest.class.getClassLoader().getResource(".").getPath();
+    private static String isatabDirectory = ISATabReaderTest.class.getClassLoader().getResource("./MTBLS31").getPath();
+    //private static String configDirectory = ISATabReaderTest.class.getClassLoader().getResource(".").getPath();
+    private static String configDirectory = "/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations";
 
 
     private Investigation getInvestigation(){

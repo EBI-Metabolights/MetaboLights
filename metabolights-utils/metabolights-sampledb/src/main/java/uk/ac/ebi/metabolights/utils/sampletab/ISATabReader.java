@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 16/09/13 15:42
+ * Last modified: 10/10/13 11:25
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -13,6 +13,7 @@ package uk.ac.ebi.metabolights.utils.sampletab;
 
 import com.csvreader.CsvReader;
 import org.isatools.isacreator.model.Contact;
+import org.isatools.isacreator.model.Factor;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Study;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.IsaTabInvestigationDAO;
@@ -46,6 +47,58 @@ public class ISATabReader {
     public String ORGPART_TERM_ACCESSION_NUMBER = ORGANISM_HEADER+ " Part "+TERM_ACC_NUMBER;
 
 
+    /**
+     * Returns the investigation from the study
+     * @param configDirectory
+     * @param isatabDirectory
+     * @return ISAcreator Investigation
+     */
+    public Investigation getIsaInvestigation(String configDirectory, String isatabDirectory){
+        Investigation investigation = new Investigation();
+
+        investigation = getInvestigation(configDirectory,isatabDirectory);
+
+        return investigation;
+    }
+
+
+    public List<String> getOntologyNameFromSample(Study study){
+        String sampleFile = getSampleFileName(study);
+        List<String> termSources = new ArrayList<String>();
+
+        try {
+
+            CsvReader fileData = new CsvReader(sampleFile, '\t');
+            fileData.readHeaders();
+
+            while (fileData.readRecord()){
+                String[] headers = fileData.getHeaders();
+                String termSourceRef = "";
+
+                for (int i = 0; i <= headers.length-1; i++){      //Have to substract 1 from header length as the array starts with 0
+                    if (headers[i].endsWith(TERM_SOURCE_REF)){
+                        termSourceRef = fileData.get(i);
+
+                        if (!termSources.contains(termSourceRef) && !termSourceRef.isEmpty())
+                            termSources.add(termSourceRef);
+                    }
+                }
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return termSources;
+
+    }
+
+
+    private String getSampleFileName(Study study){
+        return study.getStudySample().getTableReferenceObject().getTableName();
+    }
 
     /**
      * Reads data from the study file
@@ -58,7 +111,7 @@ public class ISATabReader {
 
         List<Map<String, String>> sampleListFromFile = new ArrayList<Map<String, String>>();
 
-        String sampleFile = study.getStudySample().getTableReferenceObject().getTableName();
+        String sampleFile = getSampleFileName(study);
 
         try {
 
@@ -216,6 +269,47 @@ public class ISATabReader {
         }
 
         return study;
+    }
+
+    /**
+     * Get a list of attribute nodes populated from the sample sheet
+     * @param study
+     * @return
+     */
+    public List<String> getStudyFactors(Study study){
+
+        List<String> attributeList = new ArrayList<String>();
+
+        //TODO, complete
+        List<Factor> studyFactors = study.getFactors();
+        for (Factor factor : studyFactors) {
+            String factorName = factor.getFactorName();
+/*            String factorType = factor.getFactorType();
+
+            if (factorType.contains(":")){
+                String[] factorTypes = factorType.split(":");
+                factorType = factorTypes[1];
+            }
+
+            String factorAcc = factor.getFactorTypeTermAccession();
+            String factorSource = factor.getFactorTypeTermSource();
+
+
+            CommentAttribute commentAttribute = new CommentAttribute(factorName,factorType);
+            commentAttribute.setTermSourceREF(factorSource);
+            commentAttribute.setTermSourceID(factorSource);
+
+            if (SampleTabTools.isInteger(factorAcc))
+                commentAttribute.setTermSourceIDInteger(new Integer(factorAcc));*/
+
+            attributeList.add("Factor Value["+factorName+"]");
+
+        }
+
+
+
+        return attributeList;
+
     }
 
 }

@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 02/10/13 14:17
+ * Last modified: 10/10/13 11:24
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -12,7 +12,10 @@ package uk.ac.ebi.metabolights.utils.sampletab;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.isatools.isacreator.model.*;
+import org.isatools.isacreator.model.Contact;
+import org.isatools.isacreator.model.Investigation;
+import org.isatools.isacreator.model.Publication;
+import org.isatools.isacreator.model.Study;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.SampleData;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Database;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Organization;
@@ -21,6 +24,7 @@ import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.TermSource;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.SampleNode;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.CharacteristicAttribute;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.CommentAttribute;
+import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.NamedAttribute;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.OrganismAttribute;
 import uk.ac.ebi.arrayexpress2.sampletab.renderer.SampleTabWriter;
 
@@ -28,7 +32,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -44,31 +47,12 @@ public class SampleTabExporter {
     private final static Logger logger = Logger.getLogger(SampleTabExporter.class.getName());
     private ISATabReader isaTabReader = new ISATabReader();
     private SampleTabTools tools = new SampleTabTools();
+    private SampleTabUriResolver uriResolver = new SampleTabUriResolver();
+
     private String metaboLightsURL = "http://www.ebi.ac/uk/metabolights/";
     private String[] subClassification = {"strain", "part", "family"};
 
-    private enum URLS {
-        //TODO, must change all these url's to use BioPortal, OLS or Miriam
-        NCBI("http://www.ncbi.nlm.nih.gov/taxonomy"), NCBI_direct_url("http://www.ncbi.nlm.nih.gov/taxonomy/"),
-        NCIt("http://ncit.nci.nih.gov/ncitbrowser/pages/home.jsf?version=13.06d"), NCIt_direct_url("http://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI%20Thesaurus&code="),
-        DOID("http://www.berkeleybop.org/ontologies/doid/doid.obo"), DOID_direct_url("http://purl.obolibrary.org/obo/DOID_"),
-        MDR("http://purl.bioontology.org/ontology/MEDDRA"), MDR_direct_url("http://bioportal.bioontology.org/ontologies/42280?p=terms&conceptid="),
-        NEWT("http://www.ebi.ac.uk/newt"),
-        EFO("http://www.ebi.ac.uk/efo"), EFO_direct_url("http://www.ebi.ac.uk/efo/"),
-        BAO("http://bioassayontology.org/bao"),
-        SBO("http://www.ebi.ac.uk/sbo/main");
 
-        private final String url;
-
-        private URLS(String toString) {
-            this.url = toString;
-        }
-
-        public String toString(){
-            return url;
-        }
-
-    }
 
     /**
      * Main, run from commandline
@@ -76,7 +60,7 @@ public class SampleTabExporter {
      */
     public static void main(String[] args){
 
-        if (!commandLineValidation(args)){
+        if (!SampleTabTools.commandLineValidation(args)){
 
             System.out.println("Usage:");
             System.out.println("Parameter 1: The folder name of the configuration files for the study");
@@ -100,47 +84,7 @@ public class SampleTabExporter {
     }
 
 
-    /**
-     * Returns the URL for the given ontology name
-     * @param name
-     * @return
-     */
-    public String getURLByName(String name){
 
-        //TODO, try OLS or BioPortal first, then resolve below
-        String uri = null;
-
-        if (name.equals(URLS.NCIt.name()))
-            uri = URLS.NCIt.url;
-        else if (name.equals(URLS.DOID.name()))
-            uri = URLS.DOID.url;
-        else if (name.equals(URLS.NCBI.name()) || name.equals("NCBITaxon"))   //Annoying that two different names are being used
-            uri = URLS.NCBI.url;
-        else if (name.equals(URLS.MDR.name()))
-            uri = URLS.MDR.url;
-        else if (name.equals(URLS.EFO.name()))
-            uri = URLS.EFO.url;
-        else if (name.equals(URLS.BAO.name()))
-            uri = URLS.BAO.url;
-        else if (name.equals(URLS.SBO.name()))
-            uri = URLS.SBO.url;
-
-        return uri;
-    }
-
-    /**
-     * Returns the investigation from the study
-     * @param configDirectory
-     * @param isatabDirectory
-     * @return ISAcreator Investigation
-     */
-    public Investigation getIsaInvestigation(String configDirectory, String isatabDirectory){
-        Investigation investigation = new Investigation();
-
-        investigation = isaTabReader.getInvestigation(configDirectory,isatabDirectory);
-
-        return investigation;
-    }
 
     /**
      * Export a sampletab file based on your isatab config files and Investigation/Study data
@@ -185,7 +129,7 @@ public class SampleTabExporter {
     private SampleData createSampleData(String configDirectory, String isatabDirectory){
         SampleData sampleData = new SampleData();
         //Need to get the investigation first
-        Investigation investigation = getIsaInvestigation(configDirectory, isatabDirectory);
+        Investigation investigation = isaTabReader.getIsaInvestigation(configDirectory, isatabDirectory);
 
         //First get the study, can only be on per MetaboLights rules
         Study study = isaTabReader.getStudyFromInvestigation();
@@ -353,26 +297,7 @@ public class SampleTabExporter {
         return true;
     }
 
-    /**
-     * The full ontology term in, a cleaner version out....
-     * @param ontoTerm
-     * @return
-     */
-    private String cleanOntologyTerm(String ontoTerm){
 
-        String[] cleanDesigns = null;
-        String cleanDesign = ontoTerm;
-
-        if (ontoTerm.contains(":")){
-            cleanDesigns = ontoTerm.split(":");
-
-            if (cleanDesigns != null)
-                cleanDesign = cleanDesigns[1];    //Skip the reference before the colon, "efo:EFO_0004529" becomes "EFO_0004529"
-        }
-
-        return cleanDesign;
-
-    }
 
     /**
      * This adds the Term and Source (ontologies used) part of the sampleTab definition
@@ -384,36 +309,19 @@ public class SampleTabExporter {
         if (sampleData == null || study.getStudyDesigns().isEmpty())
             return false; //Must have a valid sampleData object and some study design data to add to it.
 
-        Iterator iterator  = study.getStudyDesigns().iterator();
-        while (iterator.hasNext()){
-            StudyDesign studyDesign = (StudyDesign) iterator.next();
+        List<String> ontologies = isaTabReader.getOntologyNameFromSample(study);
 
-            if (studyDesign != null){
+        for (String ontoName : ontologies){
+            String uri = uriResolver.getURLByName(ontoName);
 
-                String uri = getURLByName(studyDesign.getStudyDesignTypeTermSourceRef());
-
-                if (uri != null){
-
-                    //Took this out as we are not referencing directly
-                    //uri = uri+ cleanOntologyTerm(studyDesign.getStudyDesignTypeTermAcc()); //Add the (cleaned) accession number to the URL
-
-                    //logger.info("Enforcing bioportal ontology for term 'Metabolomics'");
-                    //if (studyDesign.getStudyDesignTypeTermAcc().equals("Metabolomics"))
-                    //    uri = "http://bioportal.bioontology.org/ontologies/50373?p=terms&conceptid=C49019"; //For "Metabolomics" we enforce this ontology
-
-                    //TODO, last null is "version"
-                    TermSource termSource = new TermSource(studyDesign.getStudyDesignTypeTermSourceRef(), uri, null);
-                    sampleData.msi.getOrAddTermSource(termSource);
-                }
-
+            if (uri != null){
+                TermSource termSource = new TermSource(ontoName, uri, null);
+                sampleData.msi.getOrAddTermSource(termSource);
             }
         }
 
-
         //TODO, some check if the term source was added correctly
-
         return true;
-
 
     }
 
@@ -436,46 +344,7 @@ public class SampleTabExporter {
 
     }
 
-    /**
-     * Get a list of attribute nodes populated from the sample sheet
-     * @param study
-     * @return
-     */
-    private List<String> getStudyFactors(Study study){
 
-        List<String> attributeList = new ArrayList<String>();
-
-        //TODO, complete
-        List<Factor> studyFactors = study.getFactors();
-        for (Factor factor : studyFactors) {
-            String factorName = factor.getFactorName();
-/*            String factorType = factor.getFactorType();
-
-            if (factorType.contains(":")){
-                String[] factorTypes = factorType.split(":");
-                factorType = factorTypes[1];
-            }
-
-            String factorAcc = factor.getFactorTypeTermAccession();
-            String factorSource = factor.getFactorTypeTermSource();
-
-
-            CommentAttribute commentAttribute = new CommentAttribute(factorName,factorType);
-            commentAttribute.setTermSourceREF(factorSource);
-            commentAttribute.setTermSourceID(factorSource);
-
-            if (SampleTabTools.isInteger(factorAcc))
-                commentAttribute.setTermSourceIDInteger(new Integer(factorAcc));*/
-
-            attributeList.add("Factor Value["+factorName+"]");
-
-        }
-
-
-
-        return attributeList;
-
-    }
 
     /**
      * Get additional data from the file, the sample file in ISAcreator is not enough for the sampleDb output
@@ -489,7 +358,7 @@ public class SampleTabExporter {
 
 
         //Get additional data from the file, the sample file in ISAcreator is not good enough for the sampleDb
-        List<Map<String, String>> additionalFileData = isaTabReader.getAdditionalData(study, getStudyFactors(study));
+        List<Map<String, String>> additionalFileData = isaTabReader.getAdditionalData(study, isaTabReader.getStudyFactors(study));
         for (Map<String, String> columns : additionalFileData){
 
             SampleNode samplenode = new SampleNode();          //Per sample row in ISA-tab
@@ -508,15 +377,9 @@ public class SampleTabExporter {
                     continue;           //Skip this row
 
                 String termSource = columns.get(isaTabReader.ORGANISM_TERM_SOURCE_REF);
-                //Check if the term is a number
-                String termNumber = columns.get(isaTabReader.ORGANISM_TERM_ACCESSION_NUMBER);
-                if (termNumber.contains("_")){
-                    String[] termNumbers = termNumber.split("_");
-                    logger.info("Removing underscore from ontology term, "+ termNumber + " became "+ termNumbers[1]);
-                    termNumber = termNumbers[1]; //get rid if the term before the underscore, "obo:NCBITaxon_10090" becomes "10090"
-                }
+                String termNumber = tools.cleanTermAttributes(columns.get(isaTabReader.ORGANISM_TERM_ACCESSION_NUMBER));
 
-                if (!SampleTabTools.isInteger(termNumber)){
+                if (!tools.isInteger(termNumber)){      //Check if the term is a number
                     logger.error("Term number from the sample file is not a number or is empty!");
                     return false;
                 }
@@ -527,7 +390,7 @@ public class SampleTabExporter {
                 samplenode.addAttribute(organismAttribute);
             }
 
-            if (columns.containsKey(isaTabReader.ORGANISM_PART)){ //ORGANISM_TERM_ACCESSION_NUMBER
+            if (columns.containsKey(isaTabReader.ORGANISM_PART)){ //TODO, should also reflect the ontology
                 String organismPart = columns.get(isaTabReader.ORGANISM_PART);
 
                 if (organismPart != "" ){     //The Organism part column is normally present but with an empty string value if no data recorded, ignore this
@@ -551,13 +414,24 @@ public class SampleTabExporter {
 
                         samplenode.addAttribute(new CharacteristicAttribute(orgPartHeader, organismPart));
                     }
+
+
+                    //Add two new named attributes to capture the ontologies for organism part
+                    String termSource = columns.get(isaTabReader.ORGPART_TERM_SOURCE_REF);
+                    NamedAttribute orgPartTermSource = new NamedAttribute(isaTabReader.TERM_SOURCE_REF,termSource);
+                    samplenode.addAttribute(orgPartTermSource);
+
+                    String termNumber = tools.cleanTermAttributes(columns.get(isaTabReader.ORGPART_TERM_ACCESSION_NUMBER));
+                    NamedAttribute orgPartTermNumber = new NamedAttribute(isaTabReader.TERM_SOURCE_ID,termNumber);
+                    samplenode.addAttribute(orgPartTermNumber);
+
                 }
             }
 
             //TODO, add the study design factors as well
             //Check what has been used for study desing in the investigation, then add dynamically as "Comment[other]" on the sample
 
-            List<String> allAttributes = getStudyFactors(study);
+            List<String> allAttributes = isaTabReader.getStudyFactors(study);
             for (String attribute : allAttributes){
 
                 if (columns.containsKey(attribute)){
@@ -569,7 +443,7 @@ public class SampleTabExporter {
                         String termSourceId = columns.get(termSourceHeader);
                         commentAttribute.setTermSourceID(termSourceId);
 
-                        if (SampleTabTools.isInteger(termSourceId))
+                        if (tools.isInteger(termSourceId))
                             commentAttribute.setTermSourceIDInteger(new Integer(termSourceId));
                     }
 
@@ -582,14 +456,6 @@ public class SampleTabExporter {
                 }
 
             }
-/*
-            List<CommentAttribute> attributes = addStudyFactors(study);
-            if (attributes != null){
-                for (CommentAttribute attribute : attributes) {
-                    samplenode.addAttribute(attribute);
-                }
-            }
-*/
 
 
             try {
@@ -601,94 +467,9 @@ public class SampleTabExporter {
 
         }
 
-
-        /*
-        //get all the sample records from ISAcreator
-        Object[][] sampleObjects = study.getStudySampleDataMatrix();
-        int i = 0;
-        for (Object[] sampleObject : sampleObjects) {
-            String sourceName = null, organism = null, organismPart = null, protocolRef = null, sampleName = null, factor = null;
-            i++;
-
-            SampleNode samplenode = new SampleNode();          //Per sample row in ISA-tab
-
-            if (sampleObject[0] != null) { sourceName = (String) sampleObject[0]; }
-            if (sampleObject[1] != null) { organism = (String) sampleObject[1]; }
-            if (sampleObject[2] != null) { organismPart = (String) sampleObject[2]; }
-            if (sampleObject[3] != null) { protocolRef = (String) sampleObject[3]; }
-            if (sampleObject[4] != null) { sampleName = (String) sampleObject[4]; }
-            if (sampleObject[5] != null) { factor = (String) sampleObject[5];  }
-
-            if (sampleName == null && sourceName != null)
-                sampleName = sourceName; //If do not have a proper sample name, use the sourcename
-
-            if (i > 1) {//Skip header row
-                samplenode.setNodeName(sampleName);  //The proper name of the sample
-
-                //organism
-                if (organism != null){
-                    //OrganismAttribute organismAttribute = new OrganismAttribute(organism);
-                    samplenode.addAttribute(new CharacteristicAttribute("Organism",organism));
-                }
-
-                //organism part as an attribute
-                if (organismPart != null){
-                    samplenode.addAttribute(new CharacteristicAttribute("Organism part",organismPart));
-                }
-
-                try {
-                    sampleData.scd.addNode(samplenode);
-                } catch (ParseException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    return false;
-                }
-
-            }
-
-        } */
-
         return true;
     }
 
-
-
-    /**
-     * Checks if the correct parameters are given
-     * @param args
-     * @return true if you got it right
-     */
-    private static boolean commandLineValidation(String args[]){
-
-        // If there isn't any parameter
-        if (args == null || args.length== 0){
-            return false;
-        }
-
-        // Check first parameter is the config folder
-        File first = new File(args[0]);
-        if (!first.exists()){
-            System.out.println("ERROR:  1st parameter must be the configuration folder: " + args[0]);
-            System.out.println("----");
-            return false;
-        }
-
-        // Check first parameter is the config file file
-        File secound = new File(args[1]);
-        if (!secound.exists()){
-            System.out.println("ERROR: 2nd parameter must be the ISAtab (MTBLS Study) folder" + args[1]);
-            System.out.println("----");
-            return false;
-        }
-
-        if (args[2] == null){
-            System.out.println("ERROR: You must also give us the filename of the SampleTab file you want to export");
-            System.out.println("----");
-            return false;
-        }
-
-        return true;
-
-    }
 
 
 }

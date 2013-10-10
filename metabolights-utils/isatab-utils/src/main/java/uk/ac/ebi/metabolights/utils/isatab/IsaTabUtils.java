@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 02/10/13 14:17
+ * Last modified: 10/10/13 14:31
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -105,7 +105,8 @@ public class IsaTabUtils {
             while (line != null) {
                 if (line.contains(FIELD_NAME_WITH_CONFIGURATION)){
                     String[] lineParts = line.split("\""); //The config file name is always separated with "
-                    configFileFolder = lineParts[1];   //Should be the name of the *submitters* config file directory
+                    if (lineParts.length > 1)
+                        configFileFolder = lineParts[1];   //Should be the name of the *submitters* config file directory
 
                     //Only use the last part of the path, split on both / and \
                     if (configFileFolder.contains("/")){

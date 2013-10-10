@@ -3,7 +3,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 13/09/13 11:52
+  ~ Last modified: 10/10/13 15:29
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -12,14 +12,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>isatab-utils</artifactId>
+    <groupId>uk.ac.ebi.metabolights</groupId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
     <parent>
         <artifactId>metabolights-utils</artifactId>
         <groupId>uk.ac.ebi.metabolights</groupId>
         <version>1.1-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>isatab-utils</artifactId>
     <dependencies>
         <dependency>
             <groupId>commons-io</groupId>
