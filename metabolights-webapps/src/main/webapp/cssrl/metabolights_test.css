@@ -426,9 +426,13 @@ a.hide_closer{
     display: none;
 }
 
-tr.coloured{
-    background: #e8e8e8;
-}
+
+/*tr:nth-child(odd)		{ background-color:#eee; }*/
+tr:nth-child(even)		{ background-color: #ebebeb; }
+
+/*tr.coloured{*/
+    /*background: #e8e8e8;*/
+/*}*/
 
 .publication{
     border: 1px;

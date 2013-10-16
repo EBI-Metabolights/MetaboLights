@@ -87,7 +87,7 @@ public class MetabolightsWsClient {
 
     public MetaboliteAssignment getMetabolites(String mafPath){
 
-        String path = "/maf/" + mafPath.replaceAll(" ","+");
+        String path = "maf/" + mafPath.replaceAll(" ","+");
         //TODO, send in PRIVATE_LOCATION / PUBLIC_LOCATION + maf.  We cannot expose the whole filesystem
         //Test, http:localhost:8080/metabolights/webservice/maf/__nfs__public__rw__homes__tc_cm01__metabolights__dev__studies__stage__public__MTBLS1__m_live_mtbl1_rms_metabolite+profiling_NMR+spectroscopy_v2_maf.tsv
 

@@ -31,11 +31,6 @@
     </modules>
 
     <dependencies>
-        <dependency>
-            <groupId>uk.ac.ebi.metabolights</groupId>
-            <artifactId>metabolights-dao</artifactId>
-            <version>1.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 </project>
