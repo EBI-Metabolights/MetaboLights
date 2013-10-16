@@ -70,7 +70,7 @@ public class CompoundController extends AbstractController {
     }
 
     @RequestMapping(value = "/pathway/{pathwayId}/png")
-    public void getPathwayFile(@PathVariable("pathwayId") String pathwayIdS, HttpServletResponse response) {
+    public void getPathwayFilePng(@PathVariable("pathwayId") String pathwayIdS, HttpServletResponse response) {
 
 
         // Convert the id to a long...
@@ -78,10 +78,24 @@ public class CompoundController extends AbstractController {
 
         Pathway pathway = ModelObjectFactory.getPathway(pathwayId);
 
-        FileDispatcherController.streamFile(pathway.getPathToPathwayFile(), response, "image/png");
+        FileDispatcherController.streamFile(pathway.getPathToPathwayFile(), response, "image/svg+xml");
 
 
     }
+
+	@RequestMapping(value = "/pathway/{pathwayId}/svg")
+	public void getPathwayFileSvg(@PathVariable("pathwayId") String pathwayIdS, HttpServletResponse response) {
+
+
+		// Convert the id to a long...
+		long pathwayId = Long.parseLong(pathwayIdS);
+
+		Pathway pathway = ModelObjectFactory.getPathway(pathwayId);
+
+		FileDispatcherController.streamFile(pathway.getPathToPathwayFile(), response, "image/png");
+
+
+	}
     @RequestMapping(value = "/reactions")
     private ModelAndView showReactions(
             @RequestParam(required = false, value = "chebiId") String compound) {

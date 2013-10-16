@@ -2,6 +2,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<script src="http://keith-wood.name/js/jquery.svg.js"></script>
+<script src="http://keith-wood.name/js/jquery.svganim.js"></script>
+<script type="text/javascript" src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>
 
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
@@ -72,16 +75,55 @@ $(function() {
     });
 });
 </script>
-
-<script type="text/javascript" src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>
-<script type="text/javascript" src="<spring:url value="javascript/jquery.imageLens.js"/>"></script>
-<%--<script type="text/javascript" src="http://wwwdev.ebi.ac.uk/metabolights/specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>--%>
-<%--<script type="text/javascript" src="proxy?url=http://wwwdev.ebi.ac.uk/metabolights/specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>--%>
 <script type="text/javascript">
 
 	$(document).ajaxStart(function(){showWait();}).ajaxStop(function(){
         hideWait();
     });
+
+    /* Callback after loading external document */
+    function loadDone(svg, error) {
+
+        if (error){
+            svg.text(10, 20, error)
+        } else {
+
+
+            $('ellipse[id^=MTBLC]', svg.root()).each(function(){
+
+                 var id = this.getAttribute('id');
+
+                if (id == "${compound.mc.accession}"){
+                    this.setAttribute("class","svgSpeciesCurrent");
+                }
+            });
+
+
+            $('text[id^=MTBC]', svg.root()).each(function(){
+
+                var id = this.getAttribute('id');
+
+                if (id != "${compound.mc.accession}"){
+
+                    this.setAttribute("class","svgTextLink");
+
+                    $(this).mouseup(function(){
+
+                        window.location.href =id;
+
+                    });
+
+
+                }
+
+
+            });
+
+        }
+
+
+    };
+
 
     $(document).ready(function() {
 
@@ -95,16 +137,26 @@ $(function() {
             autoOpen: false
         });
 
+
+        $('#pathwayContainer').svg({onLoad: drawIntro});
+
+        function drawIntro(svg) {
+        };
+
         $("#pathwayList").change(function(e){
             e.preventDefault();
 
             /* Display the image */
             var pathwayId = $(this).val();
-            var container = $('#pathwayContainer');
-            container.html('');
-            container.append("<img id='pathway' src='pathway/" + pathwayId + "/png'/>");
 
-            $('[id=pathway]').imageLens({ lensSize: 350 , borderColor: "#666666", borderSize: 2});
+//            var container = $('#pathwayContainer');
+//            container.html('');
+//            container.append("<img id='pathway' src='pathway/" + pathwayId + "/png'/>");
+//
+//          $('[id=pathway]').imageLens({ lensSize: 350 , borderColor: "#666666", borderSize: 2});
+
+            svg = $('#pathwayContainer').svg('get');
+            svg.load('pathway/' + pathwayId + '/svg', {addTo: false, changeSize: true, onLoad: loadDone});
 
             /* Show info in the info div*/
             var pathwayInfoDiv = $('#pathwayInfo');
@@ -115,21 +167,24 @@ $(function() {
             /* Get the pathway object (json element)*/
             var pathway = pathwaysInfo[$(this)[0].selectedIndex];
 
-            var html = "generated from " +  pathway.source + "<br/>for  " + pathway.species;
+            if (pathway){
 
-            $.each(pathway.properties, function() {
+                var html = "generated from " +  pathway.source + "<br/>for  " + pathway.species;
 
-                html = html + "<br/>" + this.name + ":"
+                $.each(pathway.properties, function() {
 
-                if (this.value.indexOf("http:")==0){
-                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
-                } else {
-                    html = html + this.value;
-                }
+                    html = html + "<br/>" + this.name + ":"
 
-            });
-            pathwayInfoDiv.html(html);
+                    if (this.value.indexOf("http:")==0){
+                        html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
+                    } else {
+                        html = html + this.value;
+                    }
 
+                });
+                pathwayInfoDiv.html(html);
+
+            }
 
         });
 
@@ -149,7 +204,7 @@ $(function() {
         document.body.style.cursor = "default";
         $( "#hourglass" ).dialog("close");
     }
-
+	
 </script>
 
 <script>
@@ -160,26 +215,26 @@ function color_for_atom(formulaChar)
   else if (formulaChar == 'N') color = "3050F8";
   else if (formulaChar == 'O') color = "FF0D0D";
   else color = "000000";
-
+ 
   return color;
 }
 
 (function( $ ) {
-
+	 
 	  $.fn.formularize = function() {
 	    return this.each(function() {
 	      var formulaetext = '';
-
+	     
 	      // get the current text inside element
 	      var text = $(this).text();
-
+	 
 	      // iterate the whole 360 degrees
 	      for (var i = 0; i < text.length; i++)
 	      {
 	    	formulaetext = formulaetext + '<span style="color:#' + color_for_atom(text.charAt(i)) + '">' + text.charAt(i) + '</span>';
-
+	        
 	      }
-
+	 
 	      $(this).html(formulaetext);
 	    });
 	  };
@@ -203,7 +258,7 @@ function color_for_atom(formulaChar)
 		<div class="grid_24">
 			<p><a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName} - (${compound.mc.chebiId})</a></p>
 		</div>
-
+	
 	</div>
 
 	<div class="grid_18 omega">
@@ -227,7 +282,7 @@ function color_for_atom(formulaChar)
                         <a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
                     </li>
 				</c:if>
-
+                
                 <c:if test="${compound.mc.hasNMR}">
                     <li>
                         <a class="noLine" href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
@@ -244,11 +299,11 @@ function color_for_atom(formulaChar)
                     </li>
 				</c:if>
 			</ul>
-
+		
 			<div id="tabs-1" class="tab">
 				<c:if test="${not empty compound.chebiEntity.definition}">
-				    <h6><spring:message code="ref.compound.tab.characteristics.definition"/></h6>
-				    ${compound.chebiEntity.definition}
+				<h6><spring:message code="ref.compound.tab.characteristics.definition"/></h6>
+				${compound.chebiEntity.definition}
 				</c:if>
                 <c:if test="${not empty compound.chebiEntity.iupacNames}">
                     <h6>IUPAC Name</h6>
@@ -258,7 +313,7 @@ function color_for_atom(formulaChar)
                 </c:if>
 				<h6><spring:message code="ref.compound.tab.characteristics.chemicalproperties"/></h6>
 				<c:forEach var="formula" items="${compound.chebiEntity.formulae}">
-				    <spring:message code="ref.compound.tab.characteristics.formula"/> - <span id="formulae">${formulae.data}</span><br/>
+				<spring:message code="ref.compound.tab.characteristics.formula"/> - <span id="formulae">${formulae.data}</span><br/>
 				</c:forEach>
 				Average mass - ${compound.chebiEntity.mass}
 				<br/>
@@ -266,7 +321,7 @@ function color_for_atom(formulaChar)
 				<c:forEach var="synonym" items="${compound.chebiEntity.synonyms}">
 					<span class="tag">${synonym.data}</span>
 				</c:forEach>
-				<br/><br/>
+				<br/><br/>				
 				${compound.chebiEntity.inchi}<br/>
 			</div>
 
@@ -299,8 +354,8 @@ function color_for_atom(formulaChar)
                             <option value="${pathway.id}" source="${pathway.database.name}" species="${pathway.speciesAssociated.species}">${pathway.name}</option>
                         </c:forEach>
                     </select>
-                    <br/><br/><br/>
-                    <div id="pathwayContainer" style="position: relative"></div>
+                    <div id="pathwayInfo" class="specs"></div>
+                    <div id="pathwayContainer"></div>
                     <script>
                         var pathwaysInfo = [
                                 <c:forEach var="pathway" items="${compound.mc.metPathways}" varStatus="pathwayLoopStatus">
@@ -318,7 +373,6 @@ function color_for_atom(formulaChar)
                                 </c:forEach>
                             ];
                     </script>
-                    <div id="pathwayInfo" class="specs"></div>
                 </div>
             </c:if>
 			<%-- Reactions
