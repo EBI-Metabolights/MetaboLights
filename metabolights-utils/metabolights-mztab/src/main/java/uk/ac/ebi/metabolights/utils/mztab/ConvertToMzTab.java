@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 03/10/13 15:36
+ * Last modified: 11/10/13 11:59
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -37,9 +37,9 @@ public class ConvertToMzTab {
 
     private final static Logger logger = Logger.getLogger(ConvertToMzTab.class.getName());
 
-    private String argsMessage = "Please use either'maf_file_name mztab_file_name' to process files.";
+    //private String argsMessage = "Please use either'maf_file_name mztab_file_name' to process files.";
 
-    public void main(String args[]){
+    public static void main(String[] args){
 
         if (!commandLineValidation(args)){
 
@@ -50,16 +50,27 @@ public class ConvertToMzTab {
 
         } else {
 
-            try {
-                String maf = args[0], mzTab = args[1], accessionNumber = args[2];
-                logger.info("Starting to convert file "+maf+ " into "+mzTab+ " for study " +accessionNumber);
-                convertMAFToMzTab(maf, mzTab, accessionNumber);
-            } catch (MzTabParsingException e) {
-                System.out.println("ERROR: Could not process the file: s" + e.toString());
-                logger.error("ERROR: Could not process the files. " + e.toString());
-            }
+            String maf = args[0], mzTab = args[1], accessionNumber = args[2];
+            logger.info("Starting to convert file "+maf+ " into "+mzTab+ " for study " +accessionNumber);
+            new ConvertToMzTab(maf, mzTab, accessionNumber);
+
         }
     }
+
+    public ConvertToMzTab(){}
+
+    public ConvertToMzTab(String maf, String mzTab, String accessionNumber) {
+
+        logger.info("Starting to convert file "+maf+ " into "+mzTab+ " for study " +accessionNumber);
+        try {
+            convertMAFToMzTab(maf, mzTab, accessionNumber);
+        } catch (MzTabParsingException e) {
+            System.out.println("ERROR: Could not process the file: s" + e.toString());
+            logger.error("ERROR: Could not process the files. " + e.toString());
+        }
+
+    }
+
 
 
     private Unit addUnit(String accessionNumber) throws MzTabParsingException {

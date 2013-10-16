@@ -3,7 +3,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 03/10/13 10:40
+  ~ Last modified: 11/10/13 13:21
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -39,16 +39,34 @@
             <groupId>uk.ac.ebi.pride</groupId>
             <artifactId>jmztab</artifactId>
             <version>1.0.10-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>net.sf.jni-inchi</groupId>
             <artifactId>jni-inchi</artifactId>
             <version>0.7</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.isatools.plugins.metabolights</groupId>
             <artifactId>metabolomics</artifactId>
             <version>1.7.2-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>axis2-transport-http</artifactId>
+                    <groupId>org.apache.axis2</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -57,27 +75,50 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.1</version>
                 <configuration>
+                    <encoding>UTF-8</encoding>
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
             </plugin>
             <plugin>
-                <!-- Build an executable JAR -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <configuration>
+                            <classifier>deps</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                     <archive>
                         <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>uk.ac.ebi.metabolights.mztab.MzTabWriter</mainClass>
+                            <mainClass>uk.ac.ebi.metabolights.utils.mztab.ConvertToMzTab</mainClass>
                         </manifest>
                     </archive>
-                    <finalName>MAFtoMzTab-${project.version}</finalName>
-                    <outputDirectory>target</outputDirectory>
+                    <finalName>${project.artifactId}-${project.version}-deps</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <classifier>deps</classifier>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!--  bind to the packaging phase -->
+                        <goals>
+                            <goal>assembly</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 02/10/13 14:17
+ * Last modified: 11/10/13 12:01
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -20,8 +20,8 @@ public class MzTabReaderTest {
 
     MzTabReader mzTabReader = new MzTabReader();
 
-    //private static String studyAccession = "MTBLS1";
-    private static String studyAccession = "MTBLS2";
+    private static String studyAccession = "MTBLS1";
+    //private static String studyAccession = "MTBLS2";
     //private static String studyAccession = "MTBLS3";
 
     String MAFfileName = "m_test_"+studyAccession+"_maf.tsv";
