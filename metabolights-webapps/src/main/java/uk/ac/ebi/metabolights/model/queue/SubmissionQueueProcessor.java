@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 17/10/13 14:19
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.model.queue;
 
 import org.apache.commons.io.FileUtils;
@@ -57,7 +67,6 @@ public class SubmissionQueueProcessor {
 			// Check if the process can start
 			if (!CanProcessStart()) throw new Exception("Proccessing (Submission) can't start. See logs for more detailed information.");
 
-
 			//Check if we process folder is empty
 			if (!isProcessFolderEmpty())
 			{
@@ -70,34 +79,28 @@ public class SubmissionQueueProcessor {
 			si.moveFileTo(SubmissionQueue.getProcessFolder(), false);
 
 			// If it's a new study
-			if (si.getAccession().isEmpty())
-			{
+			if (si.getAccession().isEmpty()){
 				// Start the upload
 				IDs = uploadToBii();
 
 				// Inform the user and team.
 				AppContext.getEmailService().sendQueuedStudySubmitted(si.getUserId(),si.getOriginalFileName() , si.getPublicReleaseDate(), IDs.values().iterator().next());
-
-
 			}
+
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
-			else if (si.getOriginalFileName().equals(SubmissionItem.FILE_NAME_FOR_PRD_UPDATES))
-			{
+			else if (si.getOriginalFileName().equals(SubmissionItem.FILE_NAME_FOR_PRD_UPDATES)){
 
 				updatePublicReleaseDate();
 				AppContext.getEmailService().sendQueuedPublicReleaseDateUpdated(si.getUserId(), si.getAccession(), si.getPublicReleaseDate());
 
 			}
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
-			else if (si.getOriginalFileName().equals(SubmissionItem.FILE_NAME_FOR_DELETIONS))
-			{
-
+			else if (si.getOriginalFileName().equals(SubmissionItem.FILE_NAME_FOR_DELETIONS)){
 
 				//Call deletion...
 				deleteStudy();
 
 				AppContext.getEmailService().sendStudyDeleted(si.getUserId(), si.getAccession());
-
 
 			}
 			// It's then an update

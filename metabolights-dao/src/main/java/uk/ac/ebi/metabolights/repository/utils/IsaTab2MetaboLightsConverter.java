@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 03/10/13 16:07
+ * Last modified: 17/10/13 14:31
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -297,6 +297,8 @@ public class IsaTab2MetaboLightsConverter {
 
         List<Assay> assays = new LinkedList<Assay>();
 
+        int i = 1;
+
         for(Map.Entry<String, org.isatools.isacreator.model.Assay> isaAssayEntry: isaAssays.entrySet() ){
 
             org.isatools.isacreator.model.Assay isaAssay = isaAssayEntry.getValue();
@@ -311,6 +313,8 @@ public class IsaTab2MetaboLightsConverter {
 
             metAssay.setTechnology(isaAssay.getTechnologyType());
 
+            metAssay.setAssayNumber(i); //To enable a simpler URL structure like "MTBLS1/assay/1 or MTBLS2/assay/2
+
             // Add assay lines
             metAssay.setAssayLines(isaTabAssayLines2MetabolightsAssayLines(isaAssay, metAssay, metStudy.getStudyLocation()));
 
@@ -320,6 +324,7 @@ public class IsaTab2MetaboLightsConverter {
                     getMAF(metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName()));
 
             assays.add(metAssay);
+            i++;
         }
 
         return assays;

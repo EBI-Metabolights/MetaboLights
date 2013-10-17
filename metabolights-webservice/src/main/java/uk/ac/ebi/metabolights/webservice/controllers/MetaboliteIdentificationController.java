@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 02/10/13 14:17
+ * Last modified: 17/10/13 09:28
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -10,6 +10,7 @@
 
 package uk.ac.ebi.metabolights.webservice.controllers;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,8 @@ import java.io.File;
 @RequestMapping("maf")
 public class MetaboliteIdentificationController {
 
+    private final static Logger logger = Logger.getLogger(MetaboliteIdentificationController.class.getName());
+
     public static final String MAF_REG_EXP = "(?:__|_).+";         //File path (File.separator) is replaced with "__"
 
     @RequestMapping("{maf:" + MAF_REG_EXP +"}")
@@ -30,28 +33,32 @@ public class MetaboliteIdentificationController {
     public MetaboliteAssignment getMetabolites(@PathVariable("maf") String mafPath){
         MzTabDAO mzTabDAO = new MzTabDAO();
         MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
+        logger.info("MAF file given as: "+mafPath);
 
         String filePath = cleanFilePath(mafPath);      //http:localhost:8080/metabolights/webservice/maf/__nfs__public__rw__homes__tc_cm01__metabolights__dev__studies__stage__public__MTBLS1__m_live_mtbl1_rms_metabolite+profiling_NMR+spectroscopy_v2_maf.tsv
         if (checkFileExists(filePath)){
+            logger.info("MAF file found, starting to read data from "+filePath);
             metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
-        }  else
+        }  else {
+            logger.error("MAF file " + filePath + " does not exist!");
             metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
-
+        }
 
         return metaboliteAssignment;
     }
 
     private String cleanFilePath(String filePath){
 
-        if (filePath.contains("__")) //This is the "converted" path
-            filePath = filePath.replaceAll("__", File.separator);
+        if (filePath.contains("%2F")) //This is the "converted" path
+            filePath = filePath.replaceAll("%2F", File.separator);
 
-        if (filePath.contains("+")) //This is to allow spaces in the filename
-            filePath = filePath.replaceAll("\\+"," ");
+        if (filePath.contains("+")) //Plus in the filename
+            filePath = filePath.replaceAll("%2B"," ");
 
         if (filePath.contains("%20")) //The other way to represent spaces
             filePath = filePath.replaceAll("%20"," ");
 
+        logger.info("Converted MAF file is: "+filePath);
         return filePath;
     }
 

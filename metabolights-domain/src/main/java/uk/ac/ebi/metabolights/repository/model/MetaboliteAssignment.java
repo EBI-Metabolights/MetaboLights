@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 27/09/13 14:56
+ * Last modified: 17/10/13 09:27
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -36,10 +36,10 @@ public class MetaboliteAssignment {
         metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileName;
 
         if (metaboliteAssignmentFileNameUriSafe.contains(File.separator))
-            metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileNameUriSafe.replaceAll(File.separator,"__");
+            metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileNameUriSafe.replaceAll(File.separator,"%2F");
 
         if (metaboliteAssignmentFileNameUriSafe.contains(" "))
-            metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileNameUriSafe.replaceAll(" ","+");
+            metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileNameUriSafe.replaceAll(" ","%20");
 
         this.metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileNameUriSafe;
     }

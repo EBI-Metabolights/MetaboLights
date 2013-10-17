@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 26/09/13 10:58
+ * Last modified: 17/10/13 08:52
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -10,6 +10,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
+import org.apache.log4j.Logger;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
@@ -26,6 +27,7 @@ public class StudyDAO {
     private IsaTabInvestigationDAO isaTabInvestigationDAO;
     private File publicFolder;
     private File privateFolder;
+    private final static Logger logger = Logger.getLogger(StudyDAO.class.getName());
 
     public StudyDAO(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder){
         this.isaTabInvestigationDAO = new IsaTabInvestigationDAO(isaTabRootConfigurationFolder);
@@ -38,6 +40,8 @@ public class StudyDAO {
 
         // Try public studies location
         File studyFolder = getInvestigationFolder(metabolightsId, publicFolder);
+
+        logger.info("Trying to parse study "+metabolightsId);
 
         boolean isPublic = true;
 
@@ -64,6 +68,8 @@ public class StudyDAO {
 
             study.setStudyLocation(studyFolder.getAbsolutePath());
 
+            logger.info("Loaded study "+study.getStudyIdentifier());
+
             return study;
 
         } else {
@@ -74,6 +80,8 @@ public class StudyDAO {
     }
 
     private File getInvestigationFolder(final String metabolightsId, File location){
+
+        logger.info("Study location is "+location+" for study "+metabolightsId);
 
         File[] files = location.listFiles(new FilenameFilter() {
             @Override
@@ -90,4 +98,5 @@ public class StudyDAO {
 
 
     }
+
 }

@@ -1,8 +1,19 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 17/10/13 14:15
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import org.apache.commons.io.FileUtils;
 import org.isatools.isatab.gui_invokers.GUIInvokerResult;
 import org.isatools.isatab.manager.SimpleManager;
+import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
@@ -15,10 +26,7 @@ import uk.ac.ebi.metabolights.utils.isatab.IsaTabUtils;
 
 import javax.naming.ConfigurationException;
 import java.io.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 //@Service
 public class IsaTabUploader {
@@ -173,9 +181,9 @@ public class IsaTabUploader {
      */
     private String validateConfigFiles() throws IOException, ConfigurationException {
 
-        String isaTabConfigirationLocation = PropertiesUtil.getProperty("isatabConfigurationLocation");
+        String isatabConfigurationLocation = PropertiesUtil.getProperty("isatabConfigurationLocation");
 
-        File lastUsedConfig = IsaTabUtils.getConfigurationFolderFromStudy(this.unzipFolder, isaTabConfigirationLocation);
+        File lastUsedConfig = IsaTabUtils.getConfigurationFolderFromStudy(this.unzipFolder, isatabConfigurationLocation);
 
         logger.info("Checking to see if we can find the requested configuration folder " +lastUsedConfig);
         File investigationFile = new File(lastUsedConfig + File.separator + "investigation.xml"); //Find the investigation file under the config folder
@@ -206,7 +214,16 @@ public class IsaTabUploader {
         GUIInvokerResult result = sm.validateISAtabWithConfig(this.unzipFolder, lastUsedConfigFile);
 
 		// If not SUCCESS...
-		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("We could not successfully validate the study archive using the configuration '"+ lastUsedConfigFile + "'.  ",sm.getLastLog()) ;
+        String userErrorMessage = "ERROR: ";
+        if (sm.getLastLog() != null){
+            for (TabLoggingEventWrapper logEvents : sm.getLastLog()){
+                userErrorMessage = userErrorMessage + logEvents.getFormattedMessage();
+            }
+        }
+
+        userErrorMessage = userErrorMessage +  "\n\n We could not successfully validate the study archive using configuration '"+ lastUsedConfigFile + "'.  Please validate the study in ISAcreator before submitting to MetaboLights. ";
+
+		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException(userErrorMessage,sm.getLastLog()) ;
 
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
@@ -222,7 +239,7 @@ public class IsaTabUploader {
 		result = sm.loadISAtab(this.unzipFolder, owner, status, false);
 
 		// If not SUCCESS...
-		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("File persistance process has failed.",sm.getLastLog());
+		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("ERROR: The file has *not* been stored in our database.",sm.getLastLog());
 
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.

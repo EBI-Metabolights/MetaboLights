@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 26/09/13 11:12
+ * Last modified: 17/10/13 08:55
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import com.csvreader.CsvReader;
+import org.apache.log4j.Logger;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
 import uk.ac.ebi.metabolights.repository.model.SampleMeasurement;
@@ -23,13 +24,17 @@ import java.util.Collection;
 
 public class MzTabDAO {
 
+    private final static Logger logger = Logger.getLogger(MzTabDAO.class.getName());
+
     public MetaboliteAssignment mapMetaboliteAssignmentFile(String assignmentFileName) {
         MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
+        logger.info("Metabolite Assignment File Name is given as: "+assignmentFileName);
 
         //Assay has the reference to the MAF (file name) so we know the full filename (directory and the filename with extension)
         if (checkFileExists(assignmentFileName)){
             metaboliteAssignment.setMetaboliteAssignmentFileName(assignmentFileName);         // Set the fully qualified filename
             metaboliteAssignment.setMetaboliteAssignmentLines(convertToMetaboliteAssignmentLines(assignmentFileName));    //Add records from MAF
+            logger.info("Metabolite Assignment File Name - Found: "+assignmentFileName);
         }
 
         return metaboliteAssignment;
@@ -119,6 +124,7 @@ public class MzTabDAO {
 
             return metaboliteAssignmentLines;
         } catch (Exception e) {
+            logger.error("Could not add MetaboliteAssignmentLines for: "+fileName);
             e.printStackTrace(); //TODO
         }
 

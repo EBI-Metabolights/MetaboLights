@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 17/10/13 14:18
+ * Modified by:   kenneth
+ *
+ * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -274,7 +284,7 @@ public class EmailService {
 	/*
 	 * Email to send when the submission process fails...
 	 */
-	public void sendSubmissionError(String userEmail, String fileName, Exception error ) throws Exception {
+	public void sendSubmissionError(String userEmail, String fileName, Exception error) throws Exception {
 		String from = curationEmailAddress;
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
@@ -283,8 +293,15 @@ public class EmailService {
 
         if(error instanceof IsaTabException){
             IsaTabException ie = (IsaTabException) error;
-            String[] errorChunks = ie.geTechnicalInfo().split("\tat ");
-            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, errorChunks[0]});
+            String[] errorChunks = null;
+            String errorMessage = null;
+            if (ie.geTechnicalInfo().contains("\tat "))
+                errorChunks = ie.geTechnicalInfo().split("\tat ");
+
+            if (errorChunks != null)
+                errorMessage = errorChunks[0];
+
+            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, errorMessage});
         } else {
             body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, empty});
         }
