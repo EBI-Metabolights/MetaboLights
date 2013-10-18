@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 17/10/13 14:15
+ * Last modified: 18/10/13 09:13
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -194,6 +194,35 @@ public class IsaTabUploader {
         return null;              //Sorry, we cannot find this configuration folder, so use the default config
     }
 
+    /**
+     * This method tries to get only the relevant error messages from the validation process
+     * @return A better error message
+     */
+    private String removeGobbledygook(){
+
+        String localErrorMessage = "";
+        if (sm.getLastLog() != null){
+            for (TabLoggingEventWrapper logEvents : sm.getLastLog()){
+                String errorMessage = logEvents.getFormattedMessage();
+                if (!errorMessage.contains("Validation unsuccessful...")) //There is a record that only states that the validation failed, we don't need that
+                    localErrorMessage = errorMessage;    //Just keep the last one, that's all we need
+            }
+        }
+
+        //Now let's get rid of all the Gobbledygook for the user emails
+        String[] errorChunks = localErrorMessage.split("\tat ");
+        if (errorChunks != null)
+            localErrorMessage = errorChunks[0];
+
+        // Also remove stuff between the square brackets
+        String start = "\\[", end = "\\]";
+        localErrorMessage = localErrorMessage.replaceAll(start + ".*" + end , "");
+        localErrorMessage = "ERROR:  " + localErrorMessage.replaceAll("org.isatools." , "\norg.isatools.");
+
+        return localErrorMessage;
+    }
+
+
 	/**
 	 * Upload an experiment (Isa Tab zip file) into BII.
 	 * @throws Exception
@@ -214,14 +243,9 @@ public class IsaTabUploader {
         GUIInvokerResult result = sm.validateISAtabWithConfig(this.unzipFolder, lastUsedConfigFile);
 
 		// If not SUCCESS...
-        String userErrorMessage = "ERROR: ";
-        if (sm.getLastLog() != null){
-            for (TabLoggingEventWrapper logEvents : sm.getLastLog()){
-                userErrorMessage = userErrorMessage + logEvents.getFormattedMessage();
-            }
-        }
+        String userErrorMessage = removeGobbledygook();
 
-        userErrorMessage = userErrorMessage +  "\n\n We could not successfully validate the study archive using configuration '"+ lastUsedConfigFile + "'.  Please validate the study in ISAcreator before submitting to MetaboLights. ";
+        userErrorMessage = userErrorMessage +  "\nWe could not successfully validate the study archive using configuration '"+ lastUsedConfigFile + "'.  Please validate the study in ISAcreator before submitting to MetaboLights.\n";
 
 		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException(userErrorMessage,sm.getLastLog()) ;
 

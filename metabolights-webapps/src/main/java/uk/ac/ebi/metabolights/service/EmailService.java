@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 17/10/13 14:18
+ * Last modified: 18/10/13 09:25
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -281,6 +281,7 @@ public class EmailService {
 		sendSimpleEmail(from, to, subject, body);
 
 	}
+
 	/*
 	 * Email to send when the submission process fails...
 	 */
@@ -308,6 +309,7 @@ public class EmailService {
 		sendSimpleEmail(from, to, subject, body);
 
 	}
+
 	/**
 	 * For use by a Sping Validator, to check if an email looks likely.
 	 * @param aEmailAddress
