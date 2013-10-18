@@ -3,8 +3,18 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 18/10/13 11:49
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  --%>
+
 <script>
-	
+
 	function showWait(){
 
 	}
@@ -14,7 +24,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-		
+
 		$("#hourglass").dialog({
 		    create: function(){
 		    	$('.ui-dialog-titlebar-close').removeClass('ui-dialog-titlebar-close');
@@ -25,9 +35,9 @@
 		    autoOpen: false
 		});
 
-		
+
 	});
-	
+
 	function disableSubmission() {
 	    document.body.style.cursor = "wait";
 	    $('.ui-dialog-titlebar').hide();
@@ -45,17 +55,17 @@
 	          maxDate: '+5y'
 	      });
 	});
-	
+
 	function toggleDate() {
         document.forms['uf'].elements['pickdate'].focus();
-		return false; 
+		return false;
 	}
-	
+
 </script>
 
 <h2><spring:message code="msg.upload" /></h2>
 <p><spring:message code="msg.upload.desc"/></p>
-<p><spring:message code="msg.upload.desc2"/></p>
+<p><spring:message code="msg.upload.desc3"/></p>
 
 <c:if test="${not empty queueditems}">
 	<spring:message code="msg.upload.queueditems" />
@@ -85,10 +95,9 @@
 	<br />
 	<br />
 </c:if>
-<br/>
 
 <form method="post" action="queueExperiment" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
-	<hr/>&nbsp;<br/>	
+	<hr/>&nbsp;<br/>
 	<div class="grid_6 alpha prefix_1"><spring:message code="label.isatabZipFile" />:</div>
 	<div class="grid_17 omega">
 		<input type="file" name="file" />
@@ -128,7 +137,7 @@
 
 	<div id="hideableButtons" class="grid_17 prefix_7 alpha omega">
 		&nbsp;<br/>
-		<input name="submit" type="submit" class="submit" value="<spring:message code="label.upload"/>">		
+		<input name="submit" type="submit" class="submit" value="<spring:message code="label.upload"/>">
 		<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
     </div>
 
@@ -136,8 +145,8 @@
    		<img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
    	</div>
 	<hr/>
-	    
-</form> 
+
+</form>
 
  <c:if test="${not empty message}">
     <div class="error">
