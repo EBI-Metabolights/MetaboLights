@@ -239,7 +239,11 @@
     </c:if>
     <br/>
 
+
+    <!-- Configuring tabs -->
     <div id="tabs">
+
+        <!-- Setting up tab list-->
         <ul>
             <li><a href="#tabs-1" class="noLine"><spring:message code="label.studyDesign"/></a></li>
             <li>
@@ -248,18 +252,18 @@
             <li>
                 <a href="#tabs-3" class="noLine"><spring:message code="label.sample"/></a>
             </li>
-            <li>
-                <a href="#tabs-4" class="noLine"><spring:message code="label.assays"/></a>
-            </li>
-            <li>
-                <c:if test="${not empty study.assays}">
-                    <c:forEach var="assay" items="${study.assays}">
-                        <a class="noLine" href="metabolitesIdentified?maf=${assay.metaboliteAssignment.metaboliteAssignmentFileNameUriSafe}"><spring:message code="label.metabolites"/></a>
-                    </c:forEach>
-                </c:if>
-                </a>
-            </li>
+
+            <c:if test="${not empty study.assays}">
+                <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                    <li>
+                        <a href="#tabs-${loopAssays.index + 4}" class="noLine" title="${assay.fileName}"><spring:message code="label.assays"/> ${assay.assayNumber}</a>
+                    </li>
+                </c:forEach>
+            </c:if>
         </ul>
+
+
+        <!-- TAB1: INFO-->
         <div id="tabs-1">
             <c:if test="${not empty organismNames}">
                 <br/>
@@ -336,6 +340,8 @@
             </c:if>
         </div>
 
+
+        <!-- TAB2: Protocols-->
         <div id="tabs-2">
             <c:if test="${not empty study.protocols}">
                 <table width="100%">
@@ -363,6 +369,7 @@
         </div>
         <!-- ends tabs-2 -->
 
+        <!-- TAB3: Sample-->
         <div id="tabs-3">
             <c:if test="${not empty study.samples}">
                 <table width="100%">
@@ -396,16 +403,27 @@
                 </table>
             </c:if>
         </div>
-        <div id="tabs-4">
-            <c:if test="${not empty study.assays}">
-                <table width="100%">
-                    <thead class='text_header'>
+
+
+        <!-- TAB4+: Assays-->
+        <c:if test="${not empty study.assays}">
+            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                <div id="tabs-${loopAssays.index + 4}">
+                    <div class="specs">
+                        <spring:message code="label.assayName"/>: ${assay.fileName}<br>
+                        <spring:message code="label.measurement"/>: ${assay.measurement}<br>
+                        <spring:message code="label.technology"/>: ${assay.technology}<br>
+                        <spring:message code="label.platform"/>: ${assay.platform}<br>
+
+                    </div>
+
+                    <table width="100%">
+                        <thead class='text_header'>
                         <tr>
                             <th>Source</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="assay" items="${study.assays}">
+                        </thead>
+                        <tbody>
                             <c:forEach var="assayLine" items="${assay.assayLines}">
                                 <c:if test="${not empty assayLine.sampleName}">
                                     <tr>
@@ -413,10 +431,10 @@
                                     </tr>
                                 </c:if>
                             </c:forEach>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
-        </div>
-    </div> <!-- end tabs -->
+                        </tbody>
+                    </table>
+                </div>
+            </c:forEach>
+        </c:if> <!-- end if assays-->
+    </div> <!-- end configuring tabs -->
 </div>

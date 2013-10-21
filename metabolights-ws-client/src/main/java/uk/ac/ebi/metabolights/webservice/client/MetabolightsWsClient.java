@@ -76,7 +76,7 @@ public class MetabolightsWsClient {
 
     public Study getStudy(String studyIdentifier){
 
-        String path = "study/" + studyIdentifier;
+        String path = getStudyPath(studyIdentifier);
 
         // Make the request
         String response = makeGetRequest(path);
@@ -85,11 +85,13 @@ public class MetabolightsWsClient {
 
     }
 
-    public MetaboliteAssignment getMetabolites(String mafPath){
+	private String getStudyPath(String studyIdentifier) {
+		return "study/" + studyIdentifier;
+	}
 
-        String path = "maf/" + mafPath.replaceAll(" ","+");
-        //TODO, send in PRIVATE_LOCATION / PUBLIC_LOCATION + maf.  We cannot expose the whole filesystem
-        //Test, http:localhost:8080/metabolights/webservice/maf/__nfs__public__rw__homes__tc_cm01__metabolights__dev__studies__stage__public__MTBLS1__m_live_mtbl1_rms_metabolite+profiling_NMR+spectroscopy_v2_maf.tsv
+	public MetaboliteAssignment getMetabolites(String studyIdentifier, int assayNumber){
+
+        String path = getStudyPath(studyIdentifier) + "/assay/" + assayNumber;
 
         // Make the request
         String response = makeGetRequest(path);

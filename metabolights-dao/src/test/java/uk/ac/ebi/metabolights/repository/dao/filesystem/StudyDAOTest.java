@@ -40,8 +40,8 @@ public class StudyDAOTest {
         Study study = studyDAO.getStudy("MTBLS1", true);
         assertEquals("MTBLS1 loaded?", study.getStudyIdentifier(),"MTBLS1");
 
- //       study = studyDAO.getStudy("MTBLS2", false);                               //TODO, not standard column order per the config, so have to fix the code
- //       assertEquals("MTBLS2 loaded?", study.getStudyIdentifier(),"MTBLS2");
+        study = studyDAO.getStudy("MTBLS2", false);                               //TODO, not standard column order per the config, so have to fix the code
+        assertEquals("MTBLS2 loaded?", study.getStudyIdentifier(),"MTBLS2");
 
         study = studyDAO.getStudy("MTBLS3", true);
         assertEquals("MTBLS3 loaded?", study.getStudyIdentifier(),"MTBLS3");

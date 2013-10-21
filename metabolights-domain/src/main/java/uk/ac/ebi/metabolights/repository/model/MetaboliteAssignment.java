@@ -16,7 +16,6 @@ import java.util.Collection;
 public class MetaboliteAssignment {
 
     public String metaboliteAssignmentFileName;
-    public String metaboliteAssignmentFileNameUriSafe;
     Collection<MetaboliteAssignmentLine> metaboliteAssignmentLines;
 
     public String getMetaboliteAssignmentFileName() {
@@ -27,22 +26,6 @@ public class MetaboliteAssignment {
         this.metaboliteAssignmentFileName = metaboliteAssignmentFileName;
     }
 
-    public String getMetaboliteAssignmentFileNameUriSafe() {
-        return metaboliteAssignmentFileNameUriSafe;
-    }
-
-    public void setMetaboliteAssignmentFileNameUriSafe(String metaboliteAssignmentFileNameUriSafe) {
-
-        metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileName;
-
-        if (metaboliteAssignmentFileNameUriSafe.contains(File.separator))
-            metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileNameUriSafe.replaceAll(File.separator,"%2F");
-
-        if (metaboliteAssignmentFileNameUriSafe.contains(" "))
-            metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileNameUriSafe.replaceAll(" ","%20");
-
-        this.metaboliteAssignmentFileNameUriSafe = metaboliteAssignmentFileNameUriSafe;
-    }
 
     public Collection<MetaboliteAssignmentLine> getMetaboliteAssignmentLines() {
         return metaboliteAssignmentLines;

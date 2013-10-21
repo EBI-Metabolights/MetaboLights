@@ -11,9 +11,12 @@
 package uk.ac.ebi.metabolights.repository.utils;
 
 import org.apache.commons.collections15.OrderedMap;
+import org.isatools.conversion.ArrayToListConversion;
+import org.isatools.conversion.Converter;
 import org.isatools.isacreator.configuration.FieldObject;
 import org.isatools.isacreator.model.Factor;
 import org.isatools.isacreator.model.StudyDesign;
+import org.isatools.manipulator.SpreadsheetManipulation;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.model.*;
 
@@ -49,8 +52,12 @@ public class IsaTab2MetaboLightsConverter {
     private static final String SAMPLE_NAME = "Sample Name";
     private static final String FACTOR = "Factor";
 
+	// To improve assay conversion performance...
+	private static List<String[]> currentAssaySpreadsheet;
+	private static String currentAssayName = "";
 
-    public static Study convert( org.isatools.isacreator.model.Investigation investigation, String studyFolder, boolean includeMetabolites){
+
+	public static Study convert( org.isatools.isacreator.model.Investigation investigation, String studyFolder, boolean includeMetabolites){
 
         // Convert the study from the ISAcreator model...
         Study metStudy = isaTabInvestigation2MetaboLightsStudy(investigation, studyFolder, includeMetabolites);
@@ -78,6 +85,7 @@ public class IsaTab2MetaboLightsConverter {
 
         // Get the first and unique study
         org.isatools.isacreator.model.Study isaStudy = source.getStudies().values().iterator().next();
+
 
         // Populate direct study members
         metStudy.setStudyIdentifier(isaStudy.getStudyId());
@@ -258,15 +266,40 @@ public class IsaTab2MetaboLightsConverter {
         List<List<String>> isaAssaysLines = isaAssay.getTableReferenceObject().getReferenceData().getData();
         List<AssayLine> metAssayLines = new LinkedList<AssayLine>();
 
+
+		boolean mafResolved = false;
+
         for (List<String> isaAssayLine: isaAssaysLines){
 
             AssayLine metAssayLine = new AssayLine();
 
             metAssayLine.setSampleName(isaAssayLine.get(mapIsaFieldName(isaAssay, ASSAY_COLUMN_SAMPLE_NAME)));
 
-            if (metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName() == null)  // Set the metabolite assignment file name if not known (aka MAF)
-                metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(studyFolder + File.separator + isaAssayLine.get(mapIsaFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE)));
+			// If maf has been resolved....
+			if (!mafResolved){
+				// Set the metabolite assignment file name if not known (aka MAF)
+            	if (metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName() == null) {
 
+					String mafValue = isaAssayLine.get(mapIsaFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE));
+
+					// If not empty or null
+					if (mafValue!= null && !mafValue.equals("")){
+
+						mafResolved = true;
+
+						String mafFileName = studyFolder + File.separator + mafValue;
+
+						File mafFile = new File(mafFileName);
+
+						if(mafFile.exists()){
+							metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(mafFileName);
+						}
+					}
+
+
+				}
+
+			}
             metAssayLines.add(metAssayLine);
         }
 
@@ -276,22 +309,33 @@ public class IsaTab2MetaboLightsConverter {
 
 
     private static int mapIsaFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
-        //TODO, this method only works if the columns are in the correct order as per the configurations, this is not the case with all studies (like MTBLS2)
 
-        Collection<FieldObject> isaAssyaValues = isaAssay.getTableReferenceObject().getFieldLookup().values();
+		List<String[]> assaySpreadsheet = getCurrentAssaySpreadsheet(isaAssay);
 
-        int colNo = 0;
+		Collection<Integer> indexes = SpreadsheetManipulation.getIndexesWithThisColumnName(assaySpreadsheet, fieldName, true);
 
-        for(FieldObject sampleName : isaAssyaValues){
-            if(sampleName.getFieldName().equals(fieldName)){
-                colNo = sampleName.getColNo();
-            }
-        }
+		// Return the first one (there's should be only one...)
+		return indexes.iterator().next();
+	}
 
-        return colNo;
-    }
+	private static List<String[]> getCurrentAssaySpreadsheet(org.isatools.isacreator.model.Assay isaAssay){
 
-    private static Collection<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy, Study metStudy, boolean includeMetabolites){
+		// If not the same current assay
+		if (!isaAssay.getAssayReference().equals(currentAssayName)){
+			currentAssayName = isaAssay.getAssayReference();
+
+			Object[][] values = isaAssay.getAssayDataMatrix();
+			Converter<Object[][], List<String[]>> arrayToListConversion = new ArrayToListConversion();
+
+			currentAssaySpreadsheet = arrayToListConversion.convert(values);
+
+		}
+
+		return currentAssaySpreadsheet;
+	}
+
+
+    private static List<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy, Study metStudy, boolean includeMetabolites){
 
         Map<String, org.isatools.isacreator.model.Assay> isaAssays = isaStudy.getAssays();
 
@@ -381,58 +425,3 @@ public class IsaTab2MetaboLightsConverter {
         }
     }
 }
-
-/*
-        List<List<String>> isaFactorsData = isaStudy.getStudySample().getTableReferenceObject().getReferenceData().getData();
-//        OrderedMap<String, FieldObject> isaFactorsFieldLookup = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup();
-        List<Factors> metFactors = new LinkedList<Factors>();
-
-        for(List<String> isaFactors : isaFactorsData){
-
-            List<Integer> colNoList = mapIsaStudyFieldNameForFactors(isaStudy, FACTOR);
-
-            for(int i = 0; i<colNoList.size(); i++){
-
-                Factors metFactor = new Factors();
-                metFactor.setFactorName(isaFactors.get(colNoList.get(i)));
-                metFactors.add(metFactor);
-            }
-        }
-
-//        for(List<String> isaFactor : isaFactors ){
-//            Factors factors = new Factors();
-//
-//        }
-
-        //            for(Map.Entry<String, FieldObject> isaFactorLookup : isaFactorsFieldLookup.entrySet()){
-//                FieldObject isaFactorValues = isaFactorLookup.getValue();
-//                if(isaFactorValues.getFieldName().contains(FACTOR)){
-
-//            FieldObject isaFactorValues = isaFactor.getValue();
-//
-//            if(isaFactorValues.getFieldName().startsWith(FACTOR)){
-//                Factors metFactor = new Factors();
-//                metFactor.setFactorName(isaFactor.getValue().getFieldName());
-//                metFactors.add(metFactor);
-//            }
-//        }
-    private static List<Integer> mapIsaStudyFieldNameForFactors(org.isatools.isacreator.model.Study isaStudy, String factor) {
-
-        Collection<FieldObject> isaStudyFieldValue = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup().values();
-        int colNo = 0;
-        List<Integer> colNoList = new ArrayList<Integer>();
-
-        if(!isaStudyFieldValue.isEmpty()){
-            for(FieldObject fieldValue: isaStudyFieldValue){
-                if(fieldValue.getFieldName().startsWith(factor)){
-                    colNo = fieldValue.getColNo();
-                    colNoList.add(colNo);
-                }
-            }
-        }
-
-        return colNoList;
-    }
-
-*/
-

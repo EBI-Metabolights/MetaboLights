@@ -12,6 +12,7 @@ package uk.ac.ebi.metabolights.repository.model;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 public class Study {
     private String studyIdentifier;
@@ -28,7 +29,7 @@ public class Study {
     private Collection<StudyFactor> factors;
     private Collection<Publication> publications;
     private Collection<Protocol> protocols;
-    private Collection<Assay> assays;
+    private List<Assay> assays;
     private Collection<Sample> samples;
 
     public Collection<Sample> getSamples() {
@@ -39,11 +40,11 @@ public class Study {
         this.samples = samples;
     }
 
-    public Collection<Assay> getAssays() {
+    public List<Assay> getAssays() {
         return assays;
     }
 
-    public void setAssays(Collection<Assay> assays) {
+    public void setAssays(List<Assay> assays) {
         this.assays = assays;
     }
 

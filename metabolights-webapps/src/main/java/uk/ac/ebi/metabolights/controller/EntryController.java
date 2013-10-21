@@ -64,16 +64,16 @@ public class EntryController extends AbstractController {
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = { "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}", "/entry/{metabolightsId}" })
 
-	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
-		logger.info("requested entry " + mtblId);
+	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
+		logger.info("requested entry " + mtblsId);
 
 		Study study = null;
 
-        mtblId = mtblId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
+        mtblsId = mtblsId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
 
 		try {
 			request.setCharacterEncoding("UTF-8");
-			study = studyService.getBiiStudy(mtblId,true);
+			study = studyService.getBiiStudy(mtblsId,true);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();  //TODO, change
         } catch (IllegalAccessException e){
@@ -83,18 +83,18 @@ public class EntryController extends AbstractController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth.getPrincipal().equals("anonymousUser")){
                 // redirect force login...
-                return new ModelAndView("redirect:securedredirect?url=" + mtblId);
+                return new ModelAndView("redirect:securedredirect?url=" + mtblsId);
 
             // The user is logged in but it's not authorised.
             } else {
-                return new ModelAndView ("redirect:/index?message="+ PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" +mtblId + ")");
+                return new ModelAndView ("redirect:/index?message="+ PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" + mtblsId + ")");
             }
 
 		}
 
 		// Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
 		if (study ==null || study.getAcc() == null || study.getAcc().equals("Error"))
- 			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + " (" +mtblId + ")");
+ 			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + " (" + mtblsId + ")");
 
 		Collection<String> organismNames = getOrganisms(study);
 
@@ -107,7 +107,7 @@ public class EntryController extends AbstractController {
 		mav.addObject("factors", getFactorsSummary(study));
 		mav.addObject("assays", getMLAssays(study));
 
-        mav.addObject("submittedID", accessionService.getSubmittedId(mtblId));
+        mav.addObject("submittedID", accessionService.getSubmittedId(mtblsId));
 
 		//Have to give the user the download stream as the study is not on the public ftp
 		//if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
@@ -122,22 +122,18 @@ public class EntryController extends AbstractController {
 		return mav;
 	}
 
-    @RequestMapping(value = "/alt/metabolitesIdentified")
+    @RequestMapping(value = "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayNumber}")
     public ModelAndView getMetabolitesIdentified(
-            @RequestParam(required = false, value = "maf") String mafPath, HttpServletRequest request){
+            @RequestParam(required = true, value = "metabiolightsId") String mtblsId,
+			@RequestParam(required = true, value = "assayNumber") int assayNumber,
+			HttpServletRequest request){
 
-        //compose the ws url..
-        String wsUrl = request.getRequestURL().toString();
 
-        //Replace the servlet path (alt/MTBLS1")
-        wsUrl = wsUrl.replace(request.getServletPath(), "");
+		String wsUrl = getWsPath(request);
 
-        // Add the webservice part...
-        wsUrl = wsUrl + "/webservice/";
+		MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
 
-        MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
-
-        MetaboliteAssignment metaboliteAssignment = wsClient.getMetabolites(mafPath);
+        MetaboliteAssignment metaboliteAssignment = wsClient.getMetabolites( mtblsId,assayNumber);
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("metabolitesIdentified");
 
@@ -146,29 +142,37 @@ public class EntryController extends AbstractController {
         return mav;
     }
 
+	private String getWsPath(HttpServletRequest request) {
 
-    @RequestMapping(value = { "/alt/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
-    public ModelAndView showAltEntry(@PathVariable("metabolightsId") String mtblId, HttpServletRequest request) {
+		//compose the ws url..
+		String wsUrl = request.getRequestURL().toString();
 
-        logger.info("requested entry " + mtblId);
+		//Replace the servlet path (alt/MTBLS1")
+		wsUrl = wsUrl.replace(request.getServletPath(), "");
+
+		// Add the webservice part...
+		wsUrl = wsUrl + "/webservice/";
+
+		return wsUrl;
+	}
+
+
+	@RequestMapping(value = { "/alt/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
+    public ModelAndView showAltEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
+
+        logger.info("requested entry " + mtblsId);
 
 
         //compose the ws url..
-        String wsUrl = request.getRequestURL().toString();
-
-        //Replace the servlet path (alt/MTBLS1")
-        wsUrl = wsUrl.replace(request.getServletPath(), "");
-
-        // Add the webservice part...
-        wsUrl = wsUrl + "/webservice/";
+		String wsUrl = getWsPath(request);
 
         MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
 
-        uk.ac.ebi.metabolights.repository.model.Study study = wsClient.getStudy(mtblId);
+        uk.ac.ebi.metabolights.repository.model.Study study = wsClient.getStudy(mtblsId);
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry2");
 
-        mav.addObject("accession", mtblId);
+        mav.addObject("accession", mtblsId);
         mav.addObject("study", study);
         for (Sample sample : study.getSamples()){
             mav.addObject("factors", sample.getFactors()); //just to get the correct order of the column headers
