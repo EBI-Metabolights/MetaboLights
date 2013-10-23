@@ -3,7 +3,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 10/10/13 15:45
+  ~ Last modified: 22/10/13 16:05
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -16,6 +16,8 @@
 
     <groupId>uk.ac.ebi.metabolights</groupId>
     <artifactId>metabolights-sampledb</artifactId>
+    <name>MetaboLights BioSample DB export</name>
+    <description>MetaboLights BioSample DB export module</description>
     <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -49,11 +51,6 @@
                     <groupId>log4j</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.javacsv</groupId>
-            <artifactId>javacsv</artifactId>
-            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.javacsv</groupId>
