@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 10/06/13 14:39
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
+<module rename-to='SpectrumBrowser'>
+    <!-- Inherit the core Web Toolkit stuff -->
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.google.gwt.json.JSON"/>
+    <inherits name="com.google.web.bindery.autobean.AutoBean"/>
+
+    <!-- GWT Style -->
+    <!--<inherits name='com.google.gwt.user.theme.standard.Standard'/>-->
+
+    <!-- Common module deferred binding definition -->
+    <inherits name="uk.ac.ebi.metabolights.spectrumbrowser.client.main.MainModule"/>
+    <!--<inherits name='com.google.gwt.user.theme.standard.Standard' />-->
+
+    <!-- Other inherited modules -->
+    <!--<inherits name="uk.ac.ebi.pride.widgets.PrideWidgets"/>-->
+    <inherits name="uk.ac.ebi.biowidgets.spectrum.SpectrumViewer"/>
+
+
+    <!-- Specify the app entry point class -->
+    <entry-point class='uk.ac.ebi.metabolights.spectrumbrowser.client.SpectrumBrowser'/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path='client'/>
+</module>

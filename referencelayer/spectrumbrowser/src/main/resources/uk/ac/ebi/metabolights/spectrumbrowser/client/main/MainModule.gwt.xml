@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<module>
-    <replace-with class="uk.ac.ebi.metabolights.spectrumbrowser.client.main.impl.ClientFactoryImpl">
-            <when-type-is class="uk.ac.ebi.metabolights.spectrumbrowser.client.main.interfaces.ClientFactory"/>
-    </replace-with>
-</module>
