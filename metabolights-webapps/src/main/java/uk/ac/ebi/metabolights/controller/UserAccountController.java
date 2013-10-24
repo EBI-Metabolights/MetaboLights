@@ -28,6 +28,8 @@ import uk.ac.ebi.metabolights.service.TextUtils;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.validate.ValidatorMetabolightsUser;
 
+import java.net.URLEncoder;
+
 /**
  * Controller for user account handling (new account, update account).<br>
  * New accounts need to go through an approval process:
@@ -119,7 +121,7 @@ public class UserAccountController extends AbstractController{
 
 			//Send user a verification email
 			String uniqueURLParameter=numericSequence(metabolightsUser.getDbPassword());
-			String confirmationURL=confirmNewAccountUrl+"?usr="+metabolightsUser.getUserName()+"&key="+uniqueURLParameter;
+			String confirmationURL=confirmNewAccountUrl+"?usr="+ URLEncoder.encode(metabolightsUser.getUserName(),"UTF-8")+"&key="+uniqueURLParameter;
 			emailService.sendConfirmNewAccountRequest(metabolightsUser.getEmail(),confirmationURL);
 
     	} catch (Exception ex ) {

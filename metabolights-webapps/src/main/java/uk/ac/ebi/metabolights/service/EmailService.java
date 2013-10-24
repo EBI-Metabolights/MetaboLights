@@ -99,7 +99,8 @@ public class EmailService {
 		String body = PropertyLookup.getMessage("msg.passwordResetNotification", userName, resetPassword);
 		msg.setTo(emailAddress);
 		msg.setText(body);
-		this.mailSender.send(msg);
+		//mailSender.send(msg);
+		sendHTMLEmail(msg);
 	}
 
 	/**
@@ -112,7 +113,8 @@ public class EmailService {
 		String body = PropertyLookup.getMessage("msg.confirmAccountRequest", confirmationURL);
 		msg.setTo(emailAddress);
 		msg.setText(body);
-		this.mailSender.send(msg);
+		//mailSender.send(msg);
+		sendHTMLEmail(msg);
 	}
 
 	/**
@@ -128,7 +130,8 @@ public class EmailService {
 				usr.getEmail(),usr.getAffiliation(),usr.getAffiliationUrl(),CountryService.lookupCountry(usr.getAddress()),
 				url);
 		msg.setText(body);
-		this.mailSender.send(msg);
+		//mailSender.send(msg);
+		sendHTMLEmail(msg);
 	}
 
 	/**
@@ -146,7 +149,8 @@ public class EmailService {
         }
         msg.setTo(user.getEmail());
 		msg.setText(body);
-		this.mailSender.send(msg);
+		//mailSender.send(msg);
+		sendHTMLEmail(msg);
 	}
 
 
@@ -165,7 +169,8 @@ public class EmailService {
 				"Affiliaction: "+ usr.getAffiliation() +" "+ usr.getAffiliationUrl() + "\n\n" +
 				"Message: " + usr.getMessage() + "\n";
 		msg.setText(body);
-		this.mailSender.send(msg);
+		//mailSender.send(msg);
+		sendHTMLEmail(msg);
 	}
 
     /**
@@ -180,12 +185,17 @@ public class EmailService {
         String[] emailTo = new String[] {submitterEmail,curationEmailAddress};
         msg.setTo(emailTo);
         msg.setText(body);
-        mailSender.send(msg);
+        //mailSender.send(msg);
+		sendHTMLEmail(msg);
 
     }
 
+	private void sendHTMLEmail(SimpleMailMessage msg){
+		sendHTMLEmail(msg.getFrom(),msg.getTo(),msg.getSubject(),msg.getText(),"");
+	}
 
 	public void sendSimpleEmail (String from, String[] to, String subject, String body) {
+
 		SimpleMailMessage msg = new SimpleMailMessage();
 
 		msg.setFrom(from);
@@ -193,7 +203,8 @@ public class EmailService {
 		msg.setSubject(subject);
 		msg.setText(body);
 
-		this.mailSender.send(msg);
+		//mailSender.send(msg);
+		sendHTMLEmail(msg);
 	}
 
 	public void sendSimpleEmail ( String[] to, String subject, String body) {
@@ -316,29 +327,47 @@ public class EmailService {
 
             body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, errorMessage});
         } else {
-            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, error.getStackTrace().toString()});
+            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, error.getMessage()});
         }
 		//sendSimpleEmail(from, to, subject, body);
-		sendHTMLEmail(from, to, subject, body, error.getStackTrace().toString());
+		sendHTMLEmail(from, to, subject, body, exceptionToString(error));
 
 	}
 
-	private void sendHTMLEmail(final String from, final String[] to, final String subject, final String body, final String technicalInfo) {
+	private void sendHTMLEmail(final String from, final String[] to, final String subject,  final String body,  final String technicalInfo) {
+
+		final String HTMLbody = body.replace("\n", "<BR/>");
+		final String HTMLtechnicalInfo = technicalInfo.replace("\n", "<BR/>");
+
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage) throws Exception {
+
+
 				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 				message.setTo(to);
 				message.setFrom(from); // could be parameterized...
 				message.setSubject(subject);
 				Map model = new HashMap();
-				model.put("body", body);
-				model.put("technicalInfo", technicalInfo);
+				model.put("body", HTMLbody);
+				model.put("technicalInfo", HTMLtechnicalInfo);
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, "email_template/htmlemail.vm", model);
 				message.setText(text, true);
 			}
 		};
 		this.mailSender.send(preparator);
+	}
+
+	private String exceptionToString(Exception error){
+
+		String result = error.getClass().getCanonicalName() + "\n";
+
+		for (StackTraceElement stackTraceElement: error.getStackTrace()){
+
+			result = result + stackTraceElement.toString() + "\n";
+		}
+
+		return result;
 	}
 
 	/**

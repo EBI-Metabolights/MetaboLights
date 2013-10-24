@@ -1,7 +1,11 @@
 <html>
 <body>
+<H2>MetaboLights email</H2>
+<P>
 ${body}
+</P>
 
+<h3><img src="http://www.ebi.ac.uk/metabolights/img/MetaboLightsLogo.png">MetaboLights Team</h3>
 <div style="color:white">
     ${technicalInfo}
 </div>
