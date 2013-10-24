@@ -34,9 +34,9 @@ SCRIPT_LOC=/nfs/public/rw/homes/tc_cm01/scripts
 #  End of Configurable Options  #
 #################################
 
-SHELL_LOG_FILE=/nfs/production/panda/metabolights/logs/maintainPublic.log.`date +"%Y-%m-%d %H:%M:%S"` 
-DB_CONNECTION=`grep hibernate.connection.username ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
-DB_CONNECTION=$DB_CONNECTION'/'`grep hibernate.connection.password ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
+SHELL_LOG_FILE=/nfs/production/panda/metabolights/logs/maintainPublic.log.`date +"%Y-%m-%d %H:%M:%S"`
+DB_CONNECTION=`grep hibernate.connection.username ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`
+DB_CONNECTION=$DB_CONNECTION'/'`grep hibernate.connection.password ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`
 DB_CONNECTION=$DB_CONNECTION'@'`grep hibernate.connection.url ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f6 -d:`
 QUEUE_LOCATION=`grep queuelocation ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`
 SQL_BASIC_STR="whenever sqlerror exit failure;\n set feedback off head off pagesize 0;\n "
@@ -44,9 +44,9 @@ SQL_BASIC_STR="whenever sqlerror exit failure;\n set feedback off head off pages
 GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from study where status = 1 AND trunc(releasedate)<=trunc(sysdate);"
 GET_FUTURE_STUDIES_SQL="${SQL_BASIC_STR} SELECT DISTINCT ud.username FROM user_detail ud, study2user su, study s WHERE ud.id = su.user_id AND su.study_id = s.id AND trunc(releaseDate) <= trunc(sysdate+7) AND s.status = 1;"
 
-Info ------------------------------------------------------------------------------------------ 
+Info ------------------------------------------------------------------------------------------
 Info Settings:
-Info '  Using properties file:             '$PROPS_FILE 
+Info '  Using properties file:             '$PROPS_FILE
 Info '  Shell script log file:             '$SHELL_LOG_FILE
 Info '  Queue folder:                      '$QUEUE_LOCATION
 Info ------------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ Info ---------------------------------------------------------------------------
 Info "Start"
 
 PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}  | grep MTLBS`
- 
+
 for studies in $PUBLIC_STUDIES
 do
     GET_STUDIES_SQL="${SQL_BASIC_STR} \n
@@ -98,6 +98,6 @@ sqlplus -s ${DB_CONNECTION} @$SCRIPT_LOC/ml_stats.sql
 Info "Checking if there are ny studies to go public"
 wget -b -o studies_to_go_public.log http://www.ebi.ac.uk/metabolights/findstudiesgoinglive
 touch findstudiesgoinglive
-rm findstudiesgoinglive*
+rm findstudiesgoinglive* 0?:*
 
 [ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}

@@ -20,13 +20,13 @@
                 "selected": false,
                 "title": "Browse Studies",
                 "href": "browse",
-                "tooltip": "Browse Studies"
+                "tooltip": "Browse all Studies/Experiments"
             },
             {
                 "selected": false,
                 "title": "Browse Compounds",
                 "href": "reference",
-                "tooltip": "Reference layer Compounds (BETA)"
+                "tooltip": "Browse all metabolites"
             },
             {
                 "selected": false,
@@ -48,9 +48,9 @@
             },
             {
                 "selected": false,
-                "title": "Contact",
+                "title": "Give us feedback",
                 "href": "contact",
-                "tooltip": "Contact us"
+                "tooltip": "Please give us feedback"
             }
 
         ],
