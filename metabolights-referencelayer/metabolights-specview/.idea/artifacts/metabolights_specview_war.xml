@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="metabolights-specview:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="metabolights-specview-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="metabolights-specview:war exploded" />
-    </root>
-  </artifact>
-</component>
