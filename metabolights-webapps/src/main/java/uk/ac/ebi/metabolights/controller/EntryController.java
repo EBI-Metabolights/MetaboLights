@@ -157,7 +157,7 @@ public class EntryController extends AbstractController {
 	}
 
 
-	@RequestMapping(value = { "/alt/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
+	@RequestMapping(value = { "/alt{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
     public ModelAndView showAltEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
 
         logger.info("requested entry " + mtblsId);

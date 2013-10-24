@@ -13,20 +13,27 @@ package uk.ac.ebi.metabolights.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 import uk.ac.ebi.metabolights.form.ContactValidation;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import org.apache.velocity.app.VelocityEngine;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Uses a central Spring interface for sending emails (the MailSender interface).
@@ -42,9 +49,14 @@ public class EmailService {
     //Have to qualify these as the test Spring servlet is defining the same beans
     @Qualifier("mailSender")
     @Autowired
-	private MailSender mailSender; // configured in servlet XML
+	private JavaMailSender mailSender; // configured in servlet XML
 
-    @Qualifier("reminderTemplate")
+	@Qualifier("velocityEngine")
+	@Autowired
+	private VelocityEngine velocityEngine; // configured in servlet XML
+
+
+	@Qualifier("reminderTemplate")
     @Autowired
 	private SimpleMailMessage reminderTemplate; // template for password reminder, configured in servlet XML
 
@@ -68,7 +80,7 @@ public class EmailService {
     @Autowired
     private SimpleMailMessage studySoonLiveTemplate; // template to notify the submitter of studies going live
 
-	public void setMailSender(MailSender mailSender) {
+	public void setMailSender(JavaMailSender mailSender) {
 		this.mailSender = mailSender;
 	}
 
@@ -304,10 +316,29 @@ public class EmailService {
 
             body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, errorMessage});
         } else {
-            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, empty});
+            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, error.getStackTrace().toString()});
         }
-		sendSimpleEmail(from, to, subject, body);
+		//sendSimpleEmail(from, to, subject, body);
+		sendHTMLEmail(from, to, subject, body, error.getStackTrace().toString());
 
+	}
+
+	private void sendHTMLEmail(final String from, final String[] to, final String subject, final String body, final String technicalInfo) {
+		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+				message.setTo(to);
+				message.setFrom(from); // could be parameterized...
+				message.setSubject(subject);
+				Map model = new HashMap();
+				model.put("body", body);
+				model.put("technicalInfo", technicalInfo);
+				String text = VelocityEngineUtils.mergeTemplateIntoString(
+						velocityEngine, "email_template/htmlemail.vm", model);
+				message.setText(text, true);
+			}
+		};
+		this.mailSender.send(preparator);
 	}
 
 	/**

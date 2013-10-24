@@ -468,6 +468,8 @@ input.resizable{
     border: 1px;
     font-size: small;
     padding: 5px;
+    width: 98%;
+    margin: auto;
 }
 
 

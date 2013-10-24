@@ -2,7 +2,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
 <%--
@@ -18,15 +17,12 @@
 <%--<script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>--%>
 <%--<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
-<script type="text/javascript" src="../javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
-
+<script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
 <%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.ChEBICompound.js" charset="utf-8"></script>--%>
-<script type="text/javascript" src="../javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
-<%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>--%>
-<%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.ChEBICompound.js" charset="utf-8"></script>--%>
+<script type="text/javascript" src="javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
 
-
-<link rel="stylesheet"  href="../css/ChEBICompound.css" type="text/css" />
+<link rel="stylesheet" href="cssrl/iconfont/font_style.css" type="text/css" />
+<link rel="stylesheet"  href="css/ChEBICompound.css" type="text/css" />
 
 <script type="text/javascript">
 
@@ -44,6 +40,7 @@
             modal: true,
             autoOpen: false
         });
+
     });
 
     function showWait() {
@@ -74,7 +71,7 @@
         $("[id='protocoldesc']").linkify();
 
         $("body").append('<div id="chebiInfo"></div>');
-//	var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:'./proxy'});
+        //	var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:'./proxy'});
         var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:undefined, chebiDetailsUrl: './ebi/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
         $('#chebiInfo').hide();
 
@@ -256,7 +253,9 @@
             <c:if test="${not empty study.assays}">
                 <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                     <li>
-                        <a href="#tabs-${loopAssays.index + 4}" class="noLine" title="${assay.fileName}"><spring:message code="label.assays"/> ${assay.assayNumber}</a>
+                        <a href="#tabs-${loopAssays.index + 4}" class="noLine" title="${assay.fileName}"><spring:message code="label.assays"/>
+                         <c:if test="${fn:length(study.assays) gt 1}"> ${assay.assayNumber}</c:if>
+                        </a>
                     </li>
                 </c:forEach>
             </c:if>
@@ -344,7 +343,7 @@
         <!-- TAB2: Protocols-->
         <div id="tabs-2">
             <c:if test="${not empty study.protocols}">
-                <table width="100%">
+                <table>
                     <thead class='text_header'>
                     <tr>
                         <th>Protocol</th>
@@ -372,7 +371,7 @@
         <!-- TAB3: Sample-->
         <div id="tabs-3">
             <c:if test="${not empty study.samples}">
-                <table width="100%">
+                <table>
                     <thead class='text_header'>
                     <tr>
                         <th><spring:message code="label.sampleName"/></th>
@@ -410,22 +409,34 @@
             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                 <div id="tabs-${loopAssays.index + 4}">
                     <div class="specs">
-                        <spring:message code="label.assayName"/>: ${assay.fileName}<br>
-                        <spring:message code="label.measurement"/>: ${assay.measurement}<br>
-                        <spring:message code="label.technology"/>: ${assay.technology}<br>
+                        <spring:message code="label.assayName"/>: <a href="${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a><br/>
+                        <spring:message code="label.measurement"/>: ${assay.measurement}<br/>
+                        <spring:message code="label.technology"/>:  ${assay.technology}
+                            <c:if test="${fn:contains(assay.technology,'NMR')}">
+                                <span aria-hidden="true" class="icon2-NMRLogo"></span>
+                            </c:if>
+                            <c:if test="${fn:contains(assay.technology,'mass')}">
+                                <span aria-hidden="true" class="icon2-MSLogo"></span>
+                            </c:if>
+                            <br>
                         <spring:message code="label.platform"/>: ${assay.platform}<br>
 
                     </div>
-
-                    <table width="100%">
+                    <c:if test="${assay.metaboliteAssignment.metaboliteAssignmentFileName}">
+                        <div><span class="icon icon-conceptual" data-icon="b"><spring:message code="label.mafFileFound"/></span></div>
+                    </c:if>
+                    <table>
                         <thead class='text_header'>
                         <tr>
                             <th>Source</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="assayLine" items="${assay.assayLines}">
+                            <c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopAssayLines">
                                 <c:if test="${not empty assayLine.sampleName}">
+                                    <c:if test="${loopAssayLines.index == 10}">
+                                        </tbody><tbody id="assay_${loopAssays.index}" style='display:none'>
+                                    </c:if>
                                     <tr>
                                         <td class="tableitem">${assayLine.sampleName}</td>
                                     </tr>
@@ -433,6 +444,7 @@
                             </c:forEach>
                         </tbody>
                     </table>
+                    <c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>
                 </div>
             </c:forEach>
         </c:if> <!-- end if assays-->

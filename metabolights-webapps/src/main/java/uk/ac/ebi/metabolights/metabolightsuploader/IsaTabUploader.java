@@ -183,6 +183,10 @@ public class IsaTabUploader {
 
         String isatabConfigurationLocation = PropertiesUtil.getProperty("isatabConfigurationLocation");
 
+		if (isatabConfigurationLocation == null){
+			throw new ConfigurationException("System settings error: isatabConfigurationLocation is null or undefined");
+		}
+
         File lastUsedConfig = IsaTabUtils.getConfigurationFolderFromStudy(this.unzipFolder, isatabConfigurationLocation);
 
         logger.info("Checking to see if we can find the requested configuration folder " +lastUsedConfig);

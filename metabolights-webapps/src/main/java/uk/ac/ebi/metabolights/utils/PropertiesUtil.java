@@ -9,6 +9,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	private static Map<String,String> propertiesMap;
 	private static Context envCtx;
+
+	private static Logger logger = Logger.getLogger(PropertiesUtil.class);
 
    @Override
    protected void processProperties(ConfigurableListableBeanFactory beanFactory,
@@ -50,7 +53,11 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
     		}
     		return property;
     	}
-    	
+
+		String value = propertiesMap.get(name);
+
+		if (value == null) logger.warn("Property \"" + name + "\" requested not found or is null");
+		
     	// If not in context, return property from property map.    	
     	return propertiesMap.get(name);
     }
