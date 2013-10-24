@@ -493,3 +493,7 @@ input.resizable{
 .svgTextLink:hover{
     fill-opacity: 0.6;
 }
+
+a[href^="#tabs"] span.icon{
+    font-size: 72%;
+}
