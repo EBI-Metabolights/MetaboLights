@@ -175,7 +175,7 @@ Biojs.ChEBICompound = Biojs.extend(
                 defaultImage:	true,
                 imageIndex: 	this.opt.imageIndex,
                 chebiId: 		chebiId,
-                dimensions: 	this.opt.imageDimension,
+                //dimensions: 	this.opt.imageDimension,
                 scaleMolecule: 	this.opt.scale
             };
 

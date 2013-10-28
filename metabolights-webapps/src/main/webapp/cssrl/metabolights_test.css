@@ -497,3 +497,7 @@ input.resizable{
 a[href^="#tabs"] span.icon{
     font-size: 72%;
 }
+H4 span.icon{
+    font-size: 72%;
+    color: #336B7B;
+}

@@ -58,7 +58,32 @@
 
 <script>
     $(function() {
-        $( ".accordion" ).accordion();
+        $( ".accordion" ).accordion({
+            heightStyle: "content",
+            collapsible: true,
+            beforeActivate: function( event, ui ) {
+                // if it's a metabolite assignment panel
+                if (ui.newHeader.hasClass("maf")){
+                    // If need to load maf data
+                    if (ui.newHeader.attr("mafurl") != undefined){
+
+                        // Get the target div that will contain the maf information
+                        var mafPanel = ui.newPanel;
+
+                        var url = $(ui.newHeader).attr("mafurl");
+
+
+                        $(mafPanel).load(url);
+
+
+                        //$(mafPanel).html(url);
+
+                        // Remove mafUrl (it will indicate there no need to load it anymore)
+                        ui.newHeader.removeAttr("mafurl");
+                    }
+                }
+            }
+        });
         $( "#tabs" ).tabs({
             cache:true
         });
@@ -104,20 +129,26 @@
 
         var metLinkTimer = 0; // 0 is a safe "no timer" value
 
-        $('.metLink').live('mouseenter', function(e) {
-            // I'm assuming you don't want to stomp on an existing timer
-            if (!metLinkTimer) {
-                metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
-            }
-        }).live('mouseleave', function() {
-                    // Cancel the timer if it hasn't already fired
-                    if (metLinkTimer) {
-                        clearTimeout(metLinkTimer);
-                        metLinkTimer = 0;
+        scanForChebiIdLinks();
 
-                    }
-                    $('#chebiInfo').fadeOut('slow');
-                });
+        function scanForChebiIdLinks(){
+
+            $('.metLink').live('mouseenter', function(e) {
+                // I'm assuming you don't want to stomp on an existing timer
+                if (!metLinkTimer) {
+                    metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
+                }
+            }).live('mouseleave', function() {
+                        // Cancel the timer if it hasn't already fired
+                        if (metLinkTimer) {
+                            clearTimeout(metLinkTimer);
+                            metLinkTimer = 0;
+
+                        }
+                        $('#chebiInfo').fadeOut('slow');
+                    });
+
+        };
 
         function loadMetabolite(e) {
             // Clear this as flag there's no timer outstanding
@@ -423,8 +454,12 @@
                         <spring:message code="label.platform"/>: ${assay.platform}<br>
 
                     </div>
-                    <div class="accordion">
-                        <h3>Assay data</h3>
+                    <br/>
+                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                        <div class="accordion">
+                    </c:if>
+
+                        <h5><spring:message code="label.data"/></h5>
                         <div>
                             <table>
                                 <thead class='text_header'>
@@ -447,11 +482,12 @@
                             </table>
                             <c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>
                         </div>
-                        <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                            <h3><span class="icon icon-conceptual" data-icon="b"><spring:message code="label.mafFileFound"/></span></h3>
-                            <div></div>
-                        </c:if>
+                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                        <h5 class="maf" mafurl="${study.studyIdentifier}/assay/${assay.assayNumber}/maf"}"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
+                        <div></div>
                     </div>
+                    </c:if>
+
                 </div>
             </c:forEach>
         </c:if> <!-- end if assays-->

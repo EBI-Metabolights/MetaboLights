@@ -91,7 +91,7 @@ public class MetabolightsWsClient {
 
 	public MetaboliteAssignment getMetabolites(String studyIdentifier, int assayNumber){
 
-        String path = getStudyPath(studyIdentifier) + "/assay/" + assayNumber;
+        String path = getStudyPath(studyIdentifier) + "/assay/" + assayNumber + "/maf";
 
         // Make the request
         String response = makeGetRequest(path);

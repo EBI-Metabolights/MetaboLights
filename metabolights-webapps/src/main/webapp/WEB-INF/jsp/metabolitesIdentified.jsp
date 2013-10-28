@@ -46,34 +46,47 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="metaboliteLine" items="${metaboliteAssignment.metaboliteAssignmentLines}" varStatus="loopStatus">
-                <c:choose>
-                    <c:when test="${not empty metaboliteLine.metaboliteIdentification}">
-                        <%--Done using css now<tr class="${(loopStatus.index+blanks) % 2 == 0 ? '' : 'coloured'}">--%>
-                        <tr>
-                            <td>${metaboliteLine.metaboliteIdentification}(${metaboliteLine.databaseIdentifier})</td>
-                            <td>${metaboliteLine.chemicalFormula}</td>
-                            <td>${metaboliteLine.species}</td>
-                            <td>${metaboliteLine.smiles}</td>
-                            <td>${metaboliteLine.inchi}</td>
-                            <td>${metaboliteLine.chemicalShift}</td>
-                            <td>${metaboliteLine.multiplicity}</td>
-                            <td>${metaboliteLine.massToCharge}</td>
-                            <td>${metaboliteLine.fragmentation}</td>
-                            <td>${metaboliteLine.modifications}</td>
-                            <td>${metaboliteLine.charge}</td>
-                            <td>${metaboliteLine.retentionTime}</td>
-                            <td>${metaboliteLine.taxid}</td>
-                            <td>${metaboliteLine.database}(${metaboliteLine.databaseVersion})</td>
-                            <td>${metaboliteLine.reliability}</td>
-                            <td>${metaboliteLine.uri}</td>
-                            <td>${metaboliteLine.searchEngine}(${metaboliteLine.searchEngineScore})</td>
-                            <td>${metaboliteLine.smallmoleculeAbundanceSub} ${metaboliteLine.smallmoleculeAbundanceStdevSub} ${metaboliteLine.smallmoleculeAbundanceStdErrorSub}</td>
-                        </tr>
-                    </c:when>
-                </c:choose>
-            </c:forEach>
+            <c:forEach var="metaboliteLine" items="${metaboliteAssignment.metaboliteAssignmentLines}" varStatus="loopMetabolites">
+                <c:if test="${not empty metaboliteLine.metaboliteIdentification}">
+                    <%-- Show more stuff...show only ten lines by default --%>
+                    <c:if test="${loopMetabolites.index == 10}">
+                        </tbody><tbody id="met_${assayNumber}" style='display:none'>
+                    </c:if>
 
+                    <tr>
+                        <td>${metaboliteLine.metaboliteIdentification}
+                            <c:choose>
+                                <c:when test="${empty metaboliteLine.databaseIdentifier}"></c:when>
+                                <c:when test="${fn:contains(metaboliteLine.databaseIdentifier,'CHEBI:')}">
+                                    <a class="metLink" identifier="${metaboliteLine.databaseIdentifier}" href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${metaboliteLine.databaseIdentifier}" target="_blank">(${metaboliteLine.databaseIdentifier})</a>
+                                </c:when>
+                                <c:otherwise>(${metaboliteLine.databaseIdentifier})</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>${metaboliteLine.chemicalFormula}</td>
+                        <td>${metaboliteLine.species}</td>
+                        <td>${metaboliteLine.smiles}</td>
+                        <td>${metaboliteLine.inchi}</td>
+                        <td>${metaboliteLine.chemicalShift}</td>
+                        <td>${metaboliteLine.multiplicity}</td>
+                        <td>${metaboliteLine.massToCharge}</td>
+                        <td>${metaboliteLine.fragmentation}</td>
+                        <td>${metaboliteLine.modifications}</td>
+                        <td>${metaboliteLine.charge}</td>
+                        <td>${metaboliteLine.retentionTime}</td>
+                        <td>${metaboliteLine.taxid}</td>
+                        <td>${metaboliteLine.database}(${metaboliteLine.databaseVersion})</td>
+                        <td>${metaboliteLine.reliability}</td>
+                        <td>${metaboliteLine.uri}</td>
+                        <td>${metaboliteLine.searchEngine}(${metaboliteLine.searchEngineScore})</td>
+                        <td>${metaboliteLine.smallmoleculeAbundanceSub} ${metaboliteLine.smallmoleculeAbundanceStdevSub} ${metaboliteLine.smallmoleculeAbundanceStdErrorSub}</td>
+                    </tr>
+                </c:if>
+            </c:forEach>
         </tbody>
      </table>
 </div>
+
+<%--<script language="javascript" type="text/javascript">--%>
+<%--//    scanForChebiIdLinks();--%>
+<%--</script>--%>

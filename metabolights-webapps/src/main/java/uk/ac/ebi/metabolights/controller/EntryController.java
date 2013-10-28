@@ -61,6 +61,28 @@ public class EntryController extends AbstractController {
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 
+
+	@RequestMapping(value = "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayNumber}/maf")
+	public ModelAndView getMetabolitesIdentified(
+			@PathVariable("metabolightsId") String mtblsId,
+			@PathVariable("assayNumber") int assayNumber,
+			HttpServletRequest request){
+
+
+		String wsUrl = getWsPath(request);
+
+		MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
+
+		MetaboliteAssignment metaboliteAssignment = wsClient.getMetabolites( mtblsId,assayNumber);
+
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("metabolitesIdentified");
+
+		mav.addObject("metaboliteAssignment", metaboliteAssignment);
+		mav.addObject("assayNumber", assayNumber);
+
+		return mav;
+	}
+
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = { "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}", "/entry/{metabolightsId}" })
 
@@ -121,26 +143,6 @@ public class EntryController extends AbstractController {
 
 		return mav;
 	}
-
-    @RequestMapping(value = "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayNumber}")
-    public ModelAndView getMetabolitesIdentified(
-            @RequestParam(required = true, value = "metabiolightsId") String mtblsId,
-			@RequestParam(required = true, value = "assayNumber") int assayNumber,
-			HttpServletRequest request){
-
-
-		String wsUrl = getWsPath(request);
-
-		MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
-
-        MetaboliteAssignment metaboliteAssignment = wsClient.getMetabolites( mtblsId,assayNumber);
-
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("metabolitesIdentified");
-
-        mav.addObject("metaboliteAssignment", metaboliteAssignment);
-
-        return mav;
-    }
 
 	private String getWsPath(HttpServletRequest request) {
 
