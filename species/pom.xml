@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>uk.ac.ebi.metabolights</groupId>
+    <artifactId>species</artifactId>
+    <name>species</name>
+    <description>Species service root</description>
+    <packaging>pom</packaging>
+    <version>0.1-SNAPSHOT</version>
+
+    <parent>
+        <artifactId>metabolights-main</artifactId>
+        <groupId>uk.ac.ebi.metabolights</groupId>
+        <version>1.4</version>
+    </parent>
+
+    <modules>
+        <module>species-service</module>
+        <module>species-model</module>
+        <module>species-dao</module>
+    </modules>
+
+
+</project>

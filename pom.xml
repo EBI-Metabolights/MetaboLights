@@ -24,6 +24,7 @@
      <module>metabolights-ws-client</module>
      <module>metabolights-referencelayer</module>
      <module>metabolights-webapps</module>
+     <module>species</module>
   </modules>
 
   <build>
