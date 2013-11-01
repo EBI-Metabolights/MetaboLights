@@ -41,6 +41,7 @@ public abstract class TaxonomyReader extends Observable {
 			throw new ConfigurationException("taxonomy variable is not instantiated. Wrong development configuration. Please implement \"instantiateTaxonomy\" method");
 		}
 		currentTaxon = taxon;
+		this.setChanged();
 		this.notifyObservers(this);
 
 	}

@@ -16,32 +16,22 @@ import java.io.IOException;
  */
 public class GenericTaxonomyReader extends TaxonomyReader {
 
+	// Have default config...
+	GenericTaxonomyReaderConfigDataStructure configData;
 
-	String fieldSeparator = "\t";
-
-	private enum TaxonomyColumns{
-		ID ,
-		NAME,
-		COMMON_NAME,
-		PARENT_ID
-	}
-	// Column positions in the file to get taxon data.
-	// By default 0,1,2,3
-	// 0 --> Id
-	// 1 --> name
-	// 2 --> common name
-	// 3 --> parent id
-	int[] columnPositions = new int[]{0,1,2,3};
 	File taxonomyFile;
 
-	public void GenericTaxonomyReader(String taxonomyPath, String id, String version, String description) throws ConfigurationException {
-		taxonomy = new Taxonomy(description,id,version);
+	public GenericTaxonomyReader(GenericTaxonomyReaderConfig config) throws ConfigurationException {
 
-		taxonomyFile = new File(taxonomyPath);
+		this.configData = config.getConfigDataStructure();
+
+		taxonomy = new Taxonomy(configData.getDescription(), configData.getTaxonomyId() ,configData.getVersion());
+
+		taxonomyFile = new File(config.getTaxonomyPath());
 
 		// Check file exist
 		if (!taxonomyFile.exists()){
-			throw new ConfigurationException("Taxonomy file does not exists. " + taxonomyPath);
+			throw new ConfigurationException("Taxonomy file does not exists. " + config.getTaxonomyPath());
 		}
 
 	}
@@ -66,11 +56,18 @@ public class GenericTaxonomyReader extends TaxonomyReader {
 
 			br = new BufferedReader(new FileReader(taxonomyFile));
 
+
+			int lineCount = 1;
+
 			while ((sCurrentLine = br.readLine()) != null) {
 
-				Taxon currentTaxon = lineToTaxon(sCurrentLine);
+				if (lineCount > configData.getNumberRowsToSkip()){
+					Taxon currentTaxon = lineToTaxon(sCurrentLine);
 
-				taxonRead(currentTaxon);
+					taxonRead(currentTaxon);
+				}
+
+				lineCount++;
 
 			}
 
@@ -91,52 +88,25 @@ public class GenericTaxonomyReader extends TaxonomyReader {
 
 	private Taxon lineToTaxon (String line){
 
-		String[] values = line.split(fieldSeparator);
+		String[] values = line.split(configData.getFieldSeparator());
 
 		String id, name, commonName, parentId;
 
-		id = values[TaxonomyColumns.ID.ordinal()];
-		name = values[TaxonomyColumns.NAME.ordinal()];
-		commonName = values[TaxonomyColumns.COMMON_NAME.ordinal()];
-		parentId = values[TaxonomyColumns.PARENT_ID.ordinal()];
+		id = values[getIndexByColumnName(GenericTaxonomyReaderConfigDataStructure.TaxonomyColumns.TAXON_ID)];
+		name = values[getIndexByColumnName(GenericTaxonomyReaderConfigDataStructure.TaxonomyColumns.NAME)];
+		commonName = values[getIndexByColumnName(GenericTaxonomyReaderConfigDataStructure.TaxonomyColumns.COMMON_NAME)];
+		parentId = values[getIndexByColumnName(GenericTaxonomyReaderConfigDataStructure.TaxonomyColumns.PARENT_ID)];
 
 		Taxon taxon = new Taxon(id,  name,  commonName,  parentId);
 
+		return taxon;
 
 	}
 
-	public String getFieldSeparator() {
-		return fieldSeparator;
-	}
+	private int getIndexByColumnName(GenericTaxonomyReaderConfigDataStructure.TaxonomyColumns column){
 
-	public void setFieldSeparator(String fieldSeparator) {
-		this.fieldSeparator = fieldSeparator;
-	}
-
-	public int[] getColumnPositions() {
-		return columnPositions;
-	}
-
-	public void setColumnPositions(int[] columnPositions) {
-		this.columnPositions = columnPositions;
-	}
-
-	public void setColumnPositions(String columnPositionsS, String positionsSeparator) {
-
-		String[] positionsS = columnPositionsS.split(positionsSeparator);
-
-		columnPositions = new int[positionsS.length];
-
-		for (int i=0; i < positionsS.length; i++) {
-			columnPositions[i] = Integer.parseInt(positionsS[i]);
-		}
-
-	}
-
-	public void setColumnPositions(String columnPositionsS) {
-
-		setColumnPositions(columnPositionsS,",");
-	}
+		return configData.getColumnPositions()[column.ordinal()];
+	};
 
 	public File getTaxonomyFile() {
 		return taxonomyFile;

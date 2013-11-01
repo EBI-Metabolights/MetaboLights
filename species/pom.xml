@@ -21,6 +21,7 @@
         <module>species-service</module>
         <module>species-model</module>
         <module>species-dao</module>
+        <module>species-search</module>
     </modules>
 
 
