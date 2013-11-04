@@ -6,6 +6,7 @@ CREATE TABLE ML_STATS (
 , PAGE_SECTION VARCHAR2(20) NOT NULL
 , STR_NAME VARCHAR2(200) NOT NULL
 , STR_VALUE VARCHAR2(200) NOT NULL
+, SORT_ORDER NUMBER(1)
 , CONSTRAINT ML_STATS_PK PRIMARY KEY (ID) ENABLE
 );
 
@@ -25,6 +26,7 @@ END;
 /
 
 ALTER TRIGGER ML_STATS_TRG ENABLE;
+
 **/
 
 truncate table ml_stats;
@@ -53,11 +55,11 @@ insert into ml_stats(page_section,str_name,str_value) select 'Identified', DB, C
   WHEN instr(identifier,'C')=1 THEN 'KEGG'
   WHEN instr(identifier,'unknown')=1 THEN 'Unknown'
   WHEN identifier IS NULL THEN 'not mapped to any database'
-  ELSE initCap(identifier)
+  ELSE 'Others' --ELSE initCap(identifier)
 END AS DB from METABOLITE)
 group by DB;
 
-insert into ml_stats(page_section,str_name,str_value) select 'Identified',' - Total', Count(*) as Total from METABOLITE;
+insert into ml_stats(page_section,str_name,str_value) select 'Identified',' --- Total', Count(*) as Total from METABOLITE;
 
 -- Section "Submitters"
 insert into ml_stats(page_section,str_name,str_value) select 'Submitters', 'Number of registered users', count(*) from user_detail;
