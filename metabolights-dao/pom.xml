@@ -31,6 +31,12 @@
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator</artifactId>
             <version>1.7.3-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>

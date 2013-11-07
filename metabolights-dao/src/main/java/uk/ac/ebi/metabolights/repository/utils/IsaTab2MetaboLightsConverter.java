@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.repository.utils;
 
 import org.apache.commons.collections15.OrderedMap;
+import org.apache.log4j.Logger;
 import org.isatools.conversion.ArrayToListConversion;
 import org.isatools.conversion.Converter;
 import org.isatools.isacreator.configuration.FieldObject;
@@ -32,6 +33,8 @@ import java.util.*;
  */
 public class IsaTab2MetaboLightsConverter {
 
+
+	static Logger logger = Logger.getLogger(IsaTab2MetaboLightsConverter.class);
     /*
     From isaTab specifications:
     "Dates
@@ -215,21 +218,27 @@ public class IsaTab2MetaboLightsConverter {
 
     private static Collection<Factors> isaTabFactors2MetaboLightsFactors(org.isatools.isacreator.model.Study isaStudy, List<String> isaSamples) {
 
-        OrderedMap<String, FieldObject> isa2MetFactors = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup();
+
+		OrderedMap<String, FieldObject> isa2MetFactors = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup();
         List<Factors> metFactors = new LinkedList<Factors>();
 
-        for(Map.Entry<String, FieldObject> isaFactorEntrySet : isa2MetFactors.entrySet()){
-            String isaFactorKeys = isaFactorEntrySet.getKey();
-            FieldObject isaFactorValue = isaFactorEntrySet.getValue();
+		try{
+			for(Map.Entry<String, FieldObject> isaFactorEntrySet : isa2MetFactors.entrySet()){
+				String isaFactorKeys = isaFactorEntrySet.getKey();
+				FieldObject isaFactorValue = isaFactorEntrySet.getValue();
 
-            if(isaFactorValue.getFieldName().startsWith(FACTOR)){
-                Factors factor = new Factors();
-                Ontology ontology = new Ontology();
-                factor.setFactorKey(trimIsaFactorKeys(isaFactorKeys)); //
-                factor.setFactorValue(ontology.getName(isaSamples.get(isaFactorValue.getColNo())));
-                metFactors.add(factor);
-            }
-        }
+				if(isaFactorValue.getFieldName().startsWith(FACTOR)){
+					Factors factor = new Factors();
+					Ontology ontology = new Ontology();
+					factor.setFactorKey(trimIsaFactorKeys(isaFactorKeys)); //
+					factor.setFactorValue(ontology.getName(isaSamples.get(isaFactorValue.getColNo())));
+					metFactors.add(factor);
+				}
+			}
+		}catch(Exception e){
+
+			logger.warn("Can not convert isaTab sample factors into MetaboLights factors." + e.getMessage());
+		}
 
         return metFactors;
     }

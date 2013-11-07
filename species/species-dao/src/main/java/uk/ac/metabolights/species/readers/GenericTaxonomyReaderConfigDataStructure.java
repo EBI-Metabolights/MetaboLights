@@ -1,11 +1,16 @@
 package uk.ac.metabolights.species.readers;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 /**
  * User: conesa
  * Date: 31/10/2013
  * Time: 11:39
  */
 public class GenericTaxonomyReaderConfigDataStructure {
+
+	static Logger logger = LogManager.getLogger(GenericTaxonomyReaderConfigDataStructure.class);
 
 	private String taxonomyId;
 	private String version;
@@ -41,6 +46,8 @@ public class GenericTaxonomyReaderConfigDataStructure {
 
 	 */
 	public GenericTaxonomyReaderConfigDataStructure(String[] values){
+
+		logger.info("Configuring GenericTaxonomyReaderConfigDataStructure");
 
 		// Taxonomy related values
 		taxonomyId = values[0];

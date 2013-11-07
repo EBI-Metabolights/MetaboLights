@@ -1,11 +1,17 @@
 package uk.ac.metabolights.species.readers;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+
 /**
  * User: conesa
  * Date: 31/10/2013
  * Time: 10:04
  */
 public class GenericTaxonomyReaderConfig {
+
+	static Logger logger = LogManager.getLogger(GenericTaxonomyReaderConfig.class);
 
 	public enum KnownConfigs{
 		NEWT(new GenericTaxonomyReaderConfigDataStructure(new String[]{"NEWT","2013-10", "Uniprot taxonomy:Organisms are classified in a hierarchical tree structure. Our taxonomy database contains every node (taxon) of the tree. UniProtKB taxonomy data is manually curated.", "0,2,3,9" }));

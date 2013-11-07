@@ -10,66 +10,66 @@
 
 package uk.ac.ebi.metabolights.webservice.controllers;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
-import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
+//import org.apache.log4j.Logger;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.ResponseBody;
+//import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
+//import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
+//
+//import java.io.File;
 
-import java.io.File;
-
-@Controller
-@RequestMapping("maf")
+//@Controller
+//@RequestMapping("maf")
 public class MetaboliteIdentificationController {
 
-    private final static Logger logger = Logger.getLogger(MetaboliteIdentificationController.class.getName());
-
-    public static final String MAF_REG_EXP = "(?:__|_).+";         //File path (File.separator) is replaced with "__"
-
-    @RequestMapping("{maf:" + MAF_REG_EXP +"}")
-    @ResponseBody
-    public MetaboliteAssignment getMetabolites(@PathVariable("maf") String mafPath){
-        MzTabDAO mzTabDAO = new MzTabDAO();
-        MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
-        logger.info("MAF file given as: "+mafPath);
-
-        String filePath = cleanFilePath(mafPath);      //http:localhost:8080/metabolights/webservice/maf/__nfs__public__rw__homes__tc_cm01__metabolights__dev__studies__stage__public__MTBLS1__m_live_mtbl1_rms_metabolite+profiling_NMR+spectroscopy_v2_maf.tsv
-        if (checkFileExists(filePath)){
-            logger.info("MAF file found, starting to read data from "+filePath);
-            metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
-        }  else {
-            logger.error("MAF file " + filePath + " does not exist!");
-            metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
-        }
-
-        return metaboliteAssignment;
-    }
-
-    private String cleanFilePath(String filePath){
-
-        if (filePath.contains("%2F")) //This is the "converted" path
-            filePath = filePath.replaceAll("%2F", File.separator);
-
-        if (filePath.contains("+")) //Plus in the filename
-            filePath = filePath.replaceAll("%2B"," ");
-
-        if (filePath.contains("%20")) //The other way to represent spaces
-            filePath = filePath.replaceAll("%20"," ");
-
-        logger.info("Converted MAF file is: "+filePath);
-        return filePath;
-    }
-
-    private boolean checkFileExists(String filePath){
-        File mafFile = new File(filePath);
-
-        if (mafFile.exists())
-            return true;
-
-        return false;
-
-    }
+//    private final static Logger logger = Logger.getLogger(MetaboliteIdentificationController.class.getName());
+//
+//    public static final String MAF_REG_EXP = "(?:__|_).+";         //File path (File.separator) is replaced with "__"
+//
+//    @RequestMapping("{maf:" + MAF_REG_EXP +"}")
+//    @ResponseBody
+//    public MetaboliteAssignment getMetabolites(@PathVariable("maf") String mafPath){
+//        MzTabDAO mzTabDAO = new MzTabDAO();
+//        MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
+//        logger.info("MAF file given as: "+mafPath);
+//
+//        String filePath = cleanFilePath(mafPath);      //http:localhost:8080/metabolights/webservice/maf/__nfs__public__rw__homes__tc_cm01__metabolights__dev__studies__stage__public__MTBLS1__m_live_mtbl1_rms_metabolite+profiling_NMR+spectroscopy_v2_maf.tsv
+//        if (checkFileExists(filePath)){
+//            logger.info("MAF file found, starting to read data from "+filePath);
+//            metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
+//        }  else {
+//            logger.error("MAF file " + filePath + " does not exist!");
+//            metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
+//        }
+//
+//        return metaboliteAssignment;
+//    }
+//
+//    private String cleanFilePath(String filePath){
+//
+//        if (filePath.contains("%2F")) //This is the "converted" path
+//            filePath = filePath.replaceAll("%2F", File.separator);
+//
+//        if (filePath.contains("+")) //Plus in the filename
+//            filePath = filePath.replaceAll("%2B"," ");
+//
+//        if (filePath.contains("%20")) //The other way to represent spaces
+//            filePath = filePath.replaceAll("%20"," ");
+//
+//        logger.info("Converted MAF file is: "+filePath);
+//        return filePath;
+//    }
+//
+//    private boolean checkFileExists(String filePath){
+//        File mafFile = new File(filePath);
+//
+//        if (mafFile.exists())
+//            return true;
+//
+//        return false;
+//
+//    }
 
 }

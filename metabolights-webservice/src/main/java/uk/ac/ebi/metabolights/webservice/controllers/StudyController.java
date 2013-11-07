@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ import java.io.File;
 public class StudyController {
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
-	private final static Logger logger = Logger.getLogger(StudyController.class.getName());
+	private final static Logger logger = LogManager.getLogger(StudyController.class.getName());
 	private StudyDAO studyDAO;
 
     // Properties from context
@@ -68,6 +69,8 @@ public class StudyController {
 		// If the study is private.
 		if (!study.isPublic()){
 
+
+			logger.warn("Study " +  metabolightsId + " requested is private. We return an empty one, until security checks are implemented.");
 			// Let's return an empty one, until we implement security..
 			study = new Study();
 			study.setStudyIdentifier(metabolightsId);
