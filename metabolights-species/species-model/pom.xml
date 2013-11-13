@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 13/11/13 09:49
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>uk.ac.ebi.metabolights</groupId>
+    <artifactId>species-model</artifactId>
+    <name>MetaboLights Species Model</name>
+    <description>Model for the species service</description>
+    <packaging>pom</packaging>
+    <version>0.2-SNAPSHOT</version>
+
+    <parent>
+        <artifactId>metabolights-species</artifactId>
+        <groupId>uk.ac.ebi.metabolights</groupId>
+        <version>0.2-SNAPSHOT</version>
+    </parent>
+
+</project>

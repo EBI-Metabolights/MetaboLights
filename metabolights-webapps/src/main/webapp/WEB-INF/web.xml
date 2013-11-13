@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 07/11/13 10:15
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
@@ -13,7 +23,7 @@
             /WEB-INF/spring-servlet.xml
         </param-value>
     </context-param>
-    
+
     <filter>
 		<filter-name>HealthFilter</filter-name>
 		<filter-class>uk.ac.ebi.metabolights.es.HealthFilter</filter-class>
@@ -84,7 +94,6 @@
         <servlet-name>ChEBIProxy</servlet-name>
         <url-pattern>/ebi/webservices/chebi/2.0/test/*</url-pattern>
     </servlet-mapping>
-
 
     <servlet>
 		<servlet-name>spring</servlet-name>

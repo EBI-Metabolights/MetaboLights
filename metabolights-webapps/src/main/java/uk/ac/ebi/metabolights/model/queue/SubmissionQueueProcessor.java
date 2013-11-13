@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 17/10/13 14:19
+ * Last modified: 07/11/13 12:32
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -438,6 +438,7 @@ public class SubmissionQueueProcessor {
         // If it exists...delete it.
         if (zippedStudy.exists()) zippedStudy.delete();
     }
+
 	/*
     Update the studies release date and status
 	 */
@@ -464,16 +465,16 @@ public class SubmissionQueueProcessor {
 	        //cal.add(Calendar.DATE, 1);
 	        biiStudy.setReleaseDate(cal.getTime());
 
-            VisibilityStatus oldStatus = biiStudy.getStatus(); //Added code.
+            VisibilityStatus oldStatus = biiStudy.getStatus();
 	        biiStudy.setStatus(si.getStatus());
-            VisibilityStatus newStatus = biiStudy.getStatus(); //Added code.
+            VisibilityStatus newStatus = biiStudy.getStatus();
 
 	        logger.info("Updating public release date in study (database)");
 
             // Save it
-            AppContext.getStudyService().update(biiStudy); //uncomment this to update the database
+            AppContext.getStudyService().update(biiStudy); // update the database
 
-            if(oldStatus == VisibilityStatus.PRIVATE && newStatus == VisibilityStatus.PUBLIC ){ //Added code.
+            if (oldStatus == VisibilityStatus.PRIVATE && newStatus == VisibilityStatus.PUBLIC ){
                 itu.setCopyToPrivateFolder(privateFtpStageLocation);
                 itu.setCopyToPublicFolder(publicFtpStageLocation);
                 //filesMovedPrivToPub = true;
@@ -488,7 +489,6 @@ public class SubmissionQueueProcessor {
                 PrivToPriv = true;
                 logger.info("Changing only public release date in a Private study");
             }
-            //Added code.
 
             //Since now we are storing the studies unzipped....we check if the folder exists
             File studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC));
@@ -512,7 +512,7 @@ public class SubmissionQueueProcessor {
 	        // Index it...
 	        // ************************
 	        //Get the path for the config folder (where the hibernate properties for the import layer are).
-	        String configPath = SubmissionQueueProcessor.class.getClassLoader().getResource("").getPath();
+	        String configPath = SubmissionQueueProcessor.class.getClassLoader().getResource("").getPath();      //TODO, change to use JNDI parameters
 
 	        // Set the config folder, and the ftp folders
 	        itu.setDBConfigPath(configPath);
