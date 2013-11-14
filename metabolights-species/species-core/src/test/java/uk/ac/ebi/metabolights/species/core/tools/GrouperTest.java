@@ -23,10 +23,46 @@ public class GrouperTest {
 
 
 		// Set a group for animals...
-		grouper.setTaxonGroups(TaxonConverter.stringToTaxonList("NEWT:33208"));
-		result = grouper.getGroupFromTaxon(TaxonConverter.stringToTaxon("NEWT:9606"));
+		Taxon animals = TaxonConverter.stringToTaxon("NEWT:33208");
 
-		assertEquals("Group for NEWT:9606 should be Animals NEWT:33208", "NEWT:33208" , result.getId());
+		grouper.getTaxonGroups().add(animals);
+
+		Taxon human = TaxonConverter.stringToTaxon("NEWT:9606");
+
+		result = grouper.getGroupFromTaxon(human);
+
+		assertEquals("Group for NEWT:9606 should be Animals NEWT:33208", animals.getId() , result.getId());
+
+
+		// Lets try now with a green plants...it should return the root node
+		Taxon greenPlants = TaxonConverter.stringToTaxon("NEWT:33090");
+
+		result =  grouper.getGroupFromTaxon(greenPlants);
+
+		assertEquals("Group for green plants should be root NEWT:1", "NEWT:1" , result.getId());
+
+
+		// Add now the green plants as a group...
+		grouper.getTaxonGroups().add(greenPlants);
+
+		// Lets try now with a green plants...it should return itself
+		result = grouper.getGroupFromTaxon(greenPlants);
+
+		assertEquals("Group for green plants should be itself NEWT:33090", greenPlants.getId() , result.getId());
+
+
+		// Try a plant...Arabidopsis thaliana (thale cress)
+		result = grouper.getGroupFromTaxon(TaxonConverter.stringToTaxon("NEWT:3702"));
+
+		assertEquals("Group for arabisopsis should be Green plants", greenPlants.getId() , result.getId());
+
+		// Human should still return animals
+		result = grouper.getGroupFromTaxon(human);
+
+		assertEquals("Group for NEWT:9606 should be Animals NEWT:33208", animals.getId() , result.getId());
+
+
+
 
 
 
