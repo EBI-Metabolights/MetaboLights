@@ -1,13 +1,3 @@
-/*
- * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
- * Cheminformatics and Metabolism group
- *
- * Last modified: 04/11/13 10:03
- * Modified by:   kenneth
- *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
- */
-
 package uk.ac.ebi.metabolights.species.model;
 
 /**
@@ -17,13 +7,15 @@ package uk.ac.ebi.metabolights.species.model;
  */
 public class Taxon {
 
-	String id;
 	String name;
 	String commonName;
 	String parentId;
+	String prefix;
+	String recordIdentifier;
+	String idSeparator = ":";
 
 	public Taxon(String id, String name, String commonName, String parentId) {
-		this.id = id;
+		splitId(id);
 		this.name = name;
 		this.commonName = commonName;
 		this.parentId = parentId;
@@ -31,11 +23,11 @@ public class Taxon {
 
 	public String getId() {
 
-		return id;
+		return composeId();
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		splitId(id);
 	}
 
 	public String getName() {
@@ -60,5 +52,67 @@ public class Taxon {
 
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
+	}
+
+	private void splitId(String id) {
+
+		String[] fragments = id.split(idSeparator);
+
+		if (fragments.length>1){
+			prefix = fragments[0];
+			recordIdentifier = fragments[1];
+		} else {
+			prefix = "";
+			recordIdentifier = fragments[0];
+		}
+
+	}
+	private String composeId(){
+
+		if (prefix.equals("")){
+			return recordIdentifier;
+		} else {
+			return prefix + idSeparator + recordIdentifier;
+		}
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+	public String getRecordIdentifier() {
+		return recordIdentifier;
+	}
+
+	public void setRecordIdentifier(String recordIdentifier) {
+		this.recordIdentifier = recordIdentifier;
+	}
+
+	public String getIdSeparator() {
+		return idSeparator;
+	}
+
+	public void setIdSeparator(String idSeparator) {
+		this.idSeparator = idSeparator;
+	}
+
+	@Override
+	public boolean equals(Object obj){
+
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		if (!(obj instanceof Taxon))
+			return false;
+
+		Taxon attribute = (Taxon)obj;
+
+		return attribute.getId().equals(this.getId());
+
 	}
 }
