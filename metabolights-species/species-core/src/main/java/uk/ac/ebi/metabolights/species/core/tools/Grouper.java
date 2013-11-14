@@ -33,13 +33,11 @@ package uk.ac.ebi.metabolights.species.core.tools;
 
 */
 
-import org.apache.axis.AxisFault;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import uk.ac.ebi.metabolights.species.model.Taxon;
 import uk.ac.ebi.ook.web.services.*;
 
-import java.rmi.RemoteException;
 import java.util.*;
 
 /*
