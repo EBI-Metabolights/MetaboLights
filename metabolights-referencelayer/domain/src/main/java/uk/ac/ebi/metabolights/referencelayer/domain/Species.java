@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 17/05/13 09:38
+ * Last modified: 13/11/13 13:19
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -24,6 +24,7 @@ public class Species {
     private String species;
     private String description;
     private String taxon;
+    private long speciesMemberId;
 
     public long getId() {
         return id;
@@ -61,6 +62,15 @@ public class Species {
     public void setTaxon(String taxon) {
         this.taxon = taxon;
     }
+
+    public long getSpeciesMemberId() {
+        return speciesMemberId;
+    }
+
+    public void setSpeciesMemberId(long speciesMemberId) {
+        this.speciesMemberId = speciesMemberId;
+    }
+
     @Override
     public boolean equals(Object obj){
 
@@ -79,6 +89,7 @@ public class Species {
                 isEquals();
 
     }
+
     @Override
     public int hashCode(){
 
@@ -89,7 +100,6 @@ public class Species {
         }
 
     }
-
 
 
 }
