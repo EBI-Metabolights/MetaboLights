@@ -10,7 +10,7 @@
 
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.domain.Identifier;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
 

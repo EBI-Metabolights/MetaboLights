@@ -269,7 +269,7 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 	 * <br>
 	 * @throws java.sql.SQLException
 	 */
-	public void delete(Pathway pathway) throws DAOException {
+	public void delete(Identifier pathway) throws DAOException {
 
 		// Delete the Pathway
 		deletePathway(pathway);
@@ -280,7 +280,7 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 	 * <br>
 	 * @throws java.sql.SQLException
 	 */
-	private void deletePathway(Pathway pathway)	throws DAOException {
+	private void deletePathway(Identifier pathway)	throws DAOException {
 		try {
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--delete.pathway", "--where.pathway.by.id");
 			stm.clearParameters();

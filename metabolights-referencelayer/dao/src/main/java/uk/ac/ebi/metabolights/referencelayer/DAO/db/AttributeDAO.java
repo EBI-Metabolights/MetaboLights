@@ -152,7 +152,7 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
     }
 
     @Override
-    public void savePathwayAttribute(Attribute attribute, Pathway pathway) throws DAOException {
+    public void savePathwayAttribute(Attribute attribute, Identifier pathway) throws DAOException {
 
         // Validate:
         // Pathway must exist

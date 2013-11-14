@@ -40,7 +40,7 @@ public interface IAttributeDAO {
      * @param pathway, Pathway qualified by the attribute.
      * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
      */
-    void savePathwayAttribute(Attribute attribute, Pathway pathway) throws DAOException;
+    void savePathwayAttribute(Attribute attribute, Identifier pathway) throws DAOException;
 
 
     /**
