@@ -21,6 +21,5 @@ public interface ISpeciesGroupDAO {
     public SpeciesGroup getByName(String speciesName) throws DAOException;
     public Collection<SpeciesGroup> getAll() throws DAOException;
     public void save(SpeciesGroup speciesGroup) throws DAOException;
-    public void update(SpeciesGroup speciesGroup) throws DAOException;
     public void delete(SpeciesGroup speciesGroup) throws DAOException;
 }

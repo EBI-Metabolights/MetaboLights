@@ -18,23 +18,11 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Attribute definition for generic Attributes (it doesn't hod any values, just name and description)
  */
-public class AttributeDefinition implements Comparable<AttributeDefinition>{
+public class AttributeDefinition extends Identifier implements Comparable<AttributeDefinition>{
 
-	private long id;
 	private String name;
     private String description;
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
+
 	/**
 	 * @return the name
 	 */

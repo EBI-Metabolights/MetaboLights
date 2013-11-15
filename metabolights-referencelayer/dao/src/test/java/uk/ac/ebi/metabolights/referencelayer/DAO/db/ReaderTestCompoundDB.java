@@ -43,7 +43,6 @@ public class ReaderTestCompoundDB extends TestCase{
 		// Set up a simple configuration that logs on the console.
 	    BasicConfigurator.configure();
 
-		//DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsMYSQL");
         DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();
 		mcd = new MetaboLightsCompoundDAO(con);
@@ -189,7 +188,7 @@ public class ReaderTestCompoundDB extends TestCase{
 //    public void testGetAllCompounds() throws Exception{
 //
 //        // Get all the compounds
-//        Set<MetaboLightsCompound> mcs = mcd.getAllCompounds();
+//        Set<MetaboLightsCompound> mcs = spmd.getAllCompounds();
 //
 //        // There must be at least one
 //        assertEquals("testing getAllCompounds, at least there must be one", true, mcs.size()>0);

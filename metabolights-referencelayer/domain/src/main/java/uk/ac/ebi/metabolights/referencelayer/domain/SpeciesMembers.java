@@ -12,32 +12,23 @@ package uk.ac.ebi.metabolights.referencelayer.domain;
 
 import java.util.List;
 
-public class SpeciesMembers {
+public class SpeciesMembers extends Identifier {
 
-    private long id;
-    private long groupId;
+    private SpeciesGroup speciesGroup;
     private long parentMemberId;
     private String taxon;
     private String taxonDesc;
     private List<Species> speciesList;
 
-    public long getId() {
-        return id;
-    }
+	public SpeciesGroup getSpeciesGroup() {
+		return speciesGroup;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setSpeciesGroup(SpeciesGroup speciesGroup) {
+		this.speciesGroup = speciesGroup;
+	}
 
-    public long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(long groupId) {
-        this.groupId = groupId;
-    }
-
-    public long getParentMemberId() {
+	public long getParentMemberId() {
         return parentMemberId;
     }
 

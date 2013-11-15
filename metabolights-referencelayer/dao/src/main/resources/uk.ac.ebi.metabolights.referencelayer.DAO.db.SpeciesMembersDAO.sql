@@ -1,5 +1,3 @@
-
-
 --speciesmembers.core:\
 SELECT id, group_id, parent_member_id, taxon, taxon_desc \
 FROM ref_species_members \
@@ -22,12 +20,12 @@ RS.SPECIES = ?
 
 --update.speciesmembers:\
 UPDATE ref_species_members \
-SET group_id = ?, parent_member_id = ?, taxon = ?, taxon_desc = ? \
+SET group_id = ?, taxon = ?, taxon_desc = ? \
 WHERE ID = ?
 
 --insert.speciesmembers:\
 INSERT INTO ref_species_members \
-	(SPECIES, DESCRIPTION, TAXON) \
+	(group_id, taxon, taxon_desc) \
 	VALUES (?, ?, ?)
 
 --delete.speciesmembers:\

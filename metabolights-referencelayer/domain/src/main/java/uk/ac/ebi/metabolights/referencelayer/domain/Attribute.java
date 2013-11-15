@@ -18,19 +18,11 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Species reference table
  */
-public class Attribute implements Comparable<Attribute>{
+public class Attribute extends Identifier implements Comparable<Attribute>{
 
-	private long id;
     private String value;
     private AttributeDefinition attributeDefinition;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getValue() {
         return value;

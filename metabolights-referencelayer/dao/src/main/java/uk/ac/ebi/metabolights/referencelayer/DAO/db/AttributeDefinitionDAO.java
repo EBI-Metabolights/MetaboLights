@@ -28,6 +28,7 @@ import java.util.Set;
 
 public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDefinitionDAO {
 
+	private static GenericIdentityMap<AttributeDefinition> identityMap = new GenericIdentityMap<AttributeDefinition>();
 
     public AttributeDefinitionDAO(Connection connection) throws IOException {
         super(connection);
@@ -37,7 +38,7 @@ public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDef
 	public AttributeDefinition findByAttributeDefinitionId(Long attributeDefinitionId) throws DAOException {
 
         // Try to get it from the identity map...
-        AttributeDefinition ad =  AttributeDefinitionIdentityMap.getAttributeDefinition(attributeDefinitionId);
+        AttributeDefinition ad =  identityMap.getEntity(attributeDefinitionId);
 
        // If not loaded yet
        if (ad == null){
@@ -124,7 +125,7 @@ public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDef
         attributeDefinition.setDescription(description);
 
         // Add the attributeDefinition to the identity map
-        AttributeDefinitionIdentityMap.addAttributeDefinition(attributeDefinition);
+		identityMap.addEntity(attributeDefinition);
 
 		return attributeDefinition;
 	}
@@ -184,7 +185,7 @@ public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDef
        		keys.close();
 
             // Add attributedefinition to the identity map
-            AttributeDefinitionIdentityMap.addAttributeDefinition(attributeDefinition);
+			identityMap.addEntity(attributeDefinition);
 
 		} catch (SQLException ex) {
             throw new DAOException(ex);
@@ -217,7 +218,7 @@ public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDef
 	        if (LOGGER.isDebugEnabled())
     	            LOGGER.debug("attributedefinition deleted with id:" + attributeDefinition.getId());
 
-       		AttributeDefinitionIdentityMap.removeAttributeDefinition(attributeDefinition);
+			identityMap.removeEntity(attributeDefinition);
 
 
 		} catch (SQLException ex) {

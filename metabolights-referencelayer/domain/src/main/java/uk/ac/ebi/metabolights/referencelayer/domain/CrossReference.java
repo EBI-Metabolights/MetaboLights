@@ -18,19 +18,11 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Species reference table
  */
-public class CrossReference {
+public class CrossReference extends Identifier {
 
-	private long id;
+
     private String accession;
     private Database db;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getAccession() {
         return accession;

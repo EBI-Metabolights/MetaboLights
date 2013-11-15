@@ -28,6 +28,7 @@ import java.util.Set;
 public class CrossReferenceDAO extends AbstractDAO implements ICrossReferenceDAO{
 
     private DatabaseDAO dbd;
+	private static GenericIdentityMap<CrossReference> identityMap = new GenericIdentityMap<CrossReference>();
 
 	/**
 	 * @param connection to the Database
@@ -44,7 +45,7 @@ public class CrossReferenceDAO extends AbstractDAO implements ICrossReferenceDAO
     public CrossReference findByCrossReferenceId(Long crossReferenceId) throws DAOException {
 
         // Try to get it from the identity map...
-        CrossReference cr =  CrossReferenceIdentityMap.getCrossReference(crossReferenceId);
+        CrossReference cr =  identityMap.getEntity(crossReferenceId);
 
         // If not loaded yet
         if (cr == null){
@@ -126,7 +127,7 @@ public class CrossReferenceDAO extends AbstractDAO implements ICrossReferenceDAO
         cr.setDb(db);
 
         // Add the crossreference to the identity map
-        CrossReferenceIdentityMap.addCrossReference(cr);
+        identityMap.addEntity(cr);
 
         return cr;
 	}
@@ -197,7 +198,7 @@ public class CrossReferenceDAO extends AbstractDAO implements ICrossReferenceDAO
        		keys.close();
 
             // Add the crossreference to the identity map
-            CrossReferenceIdentityMap.addCrossReference(crossReference);
+            identityMap.addEntity(crossReference);
 
 
 		} catch (SQLException ex) {
@@ -216,7 +217,7 @@ public class CrossReferenceDAO extends AbstractDAO implements ICrossReferenceDAO
 		deleteCrossReference(crossReference);
 
         // Delete the crossreference from the identity map
-        CrossReferenceIdentityMap.removeCrossReference(crossReference);
+        identityMap.removeEntity(crossReference);
 
     }
 

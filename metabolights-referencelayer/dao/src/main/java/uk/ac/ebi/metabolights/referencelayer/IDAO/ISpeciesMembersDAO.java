@@ -12,15 +12,22 @@ package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ISpeciesMembersDAO {
 
     public SpeciesMembers getById(Long id) throws DAOException;
     public SpeciesMembers getByTaxon(String taxon) throws DAOException;
-    public List<SpeciesMembers> getAllBySpeciesGroup(Long speciesGroupId) throws DAOException;
-    public void save(SpeciesMembers speciesMembers) throws DAOException;
-    public void insert(SpeciesMembers speciesMembers) throws DAOException;
+    public Collection<SpeciesMembers> getAllBySpeciesGroup(Long speciesGroupId) throws DAOException;
+
+
+	public void save(SpeciesMembers speciesMembers) throws DAOException;
     public void delete(SpeciesMembers speciesMembers) throws DAOException;
+	/**
+	 * Closes any open system resources allocated to this reader.
+	 * @throws DAOException
+	 */
+	void close() throws DAOException;
 
 }

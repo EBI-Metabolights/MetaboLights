@@ -16,7 +16,9 @@ import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
+import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
+import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
 
 import java.sql.Connection;
 
@@ -130,6 +132,4 @@ public class ReaderTestSpeciesGroupDB extends TestCase{
 
 
 	}
-
-
 }

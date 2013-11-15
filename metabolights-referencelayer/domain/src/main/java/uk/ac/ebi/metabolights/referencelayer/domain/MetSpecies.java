@@ -18,9 +18,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * MetaboLights compound to Species linking object
  */
-public class MetSpecies {
+public class MetSpecies extends Identifier{
 
-	private long id;
     private Species species;
     private CrossReference crossReference;
 
@@ -32,17 +31,10 @@ public class MetSpecies {
     }
 
     private void construct(long id, Species species, CrossReference crossReference){
-        this.id = id;
+        this.setId(id);
         this.species = species;
         this.crossReference= crossReference;
 
-    }
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public Species getSpecies() {

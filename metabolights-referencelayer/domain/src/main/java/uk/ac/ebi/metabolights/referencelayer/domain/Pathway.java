@@ -22,9 +22,8 @@ import java.util.Collection;
  *
  * Pathway associated with a MetaboLightsCompound
  */
-public class Pathway {
+public class Pathway extends Identifier{
 
-	private long id;
     private String name;
     private Database database;
     private File pathToPathwayFile;
@@ -40,19 +39,12 @@ public class Pathway {
     }
 
     private void construct(long id, String name, Database database, File pathToPathwayFile, Species speciesAssociated){
-        this.id = id;
+        this.setId(id);
         this.name = name;
         this.database = database;
         this.pathToPathwayFile = pathToPathwayFile;
         this.speciesAssociated = speciesAssociated;
 
-    }
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -20,9 +20,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
-import uk.ac.ebi.biobabel.util.db.SQLLoader;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IDatabaseDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.Database;
@@ -30,6 +27,7 @@ import uk.ac.ebi.metabolights.referencelayer.domain.Database;
 
 public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 
+	private static GenericIdentityMap<Database> identityMap = new GenericIdentityMap<Database>();
 
     public DatabaseDAO (Connection connection) throws IOException {
         super(connection);
@@ -39,7 +37,7 @@ public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 	public Database findByDatabaseId(Long databaseId) throws DAOException {
 
         // Try to get it from the identity map...
-        Database db =  DatabaseIdentityMap.getDatabase(databaseId);
+        Database db =  identityMap.getEntity(databaseId);
 
        // If not loaded yet
        if (db == null){
@@ -112,7 +110,7 @@ public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 	}
 
 	private Database loadDatabase(ResultSet rs) throws SQLException {
-		Database db = null;
+		Database db;
 
 		// It should have a valid record
 		db = new Database();
@@ -123,7 +121,7 @@ public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 		db.setName(name);
 
         // Add the database to the identity map
-        DatabaseIdentityMap.addDatabase(db);
+        identityMap.addEntity(db);
 
 		return db;
 	}
@@ -181,7 +179,7 @@ public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
        		keys.close();
 
             // Add database to the identity map
-            DatabaseIdentityMap.addDatabase(db);
+            identityMap.addEntity(db);
 
 		} catch (SQLException ex) {
             throw new DAOException(ex);
@@ -214,7 +212,7 @@ public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 	        if (LOGGER.isDebugEnabled())
     	            LOGGER.debug("database deleted with id:" +db.getId());
 
-       		DatabaseIdentityMap.removeDatabase(db);
+       		identityMap.removeEntity(db);
 
 
 		} catch (SQLException ex) {

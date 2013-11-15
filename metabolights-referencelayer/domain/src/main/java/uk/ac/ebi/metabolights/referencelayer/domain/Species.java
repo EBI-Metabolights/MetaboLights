@@ -18,21 +18,13 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Species reference table
  */
-public class Species {
+public class Species extends Identifier {
 
-	private long id;
     private String species;
     private String description;
     private String taxon;
     private long speciesMemberId;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getSpecies() {
         return species;
@@ -93,8 +85,8 @@ public class Species {
     @Override
     public int hashCode(){
 
-        if (id != 0) {
-            return new Long(id).hashCode();
+        if (getId() != 0) {
+            return new Long(getId()).hashCode();
         } else {
             return species.hashCode();
         }

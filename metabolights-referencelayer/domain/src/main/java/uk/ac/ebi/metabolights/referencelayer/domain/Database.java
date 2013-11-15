@@ -18,22 +18,10 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Source of any entry (CHEBI, METABOLIGHTS,....)
  */
-public class Database {
+public class Database extends Identifier {
 
-	private long id;
 	private String name;
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
+
 	/**
 	 * @return the name
 	 */

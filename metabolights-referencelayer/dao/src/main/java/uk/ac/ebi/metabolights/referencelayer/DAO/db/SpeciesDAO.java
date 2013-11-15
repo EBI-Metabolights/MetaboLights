@@ -27,82 +27,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class SpeciesDAO implements ISpeciesDAO{
+public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 
 
-	private Logger LOGGER = Logger.getLogger(SpeciesDAO.class);
-
-	protected Connection con;
-	protected SQLLoader sqlLoader;
+	private static Logger LOGGER = Logger.getLogger(SpeciesDAO.class);
+	private static GenericIdentityMap<Species> identityMap = new GenericIdentityMap<Species>();
 
 	/**
 	 * @param connection to the Species
 	 * @throws java.io.IOException
 	 */
 	public SpeciesDAO(Connection connection) throws IOException{
-		this.con = connection;
-		this.sqlLoader = new SQLLoader(this.getClass(), con);
-	}
-
-
-    /**
-     * Setter for Species connection. It also sets the same connection
-     * for the underlying objects.<br>
-     * This method should be used with pooled connections, and only when the
-     * previous one and its prepared statements have been properly closed
-     * (returned).
-     * @param con
-     * @throws java.sql.SQLException
-     */
-	public void setConnection(Connection con) throws SQLException{
-		this.con = con;
-		sqlLoader.setConnection(con);
-	}
-
-	@Override
-	protected void finalize() throws Throwable {
-        super.finalize();
-		close();
-	}
-
-	/**
-	 * Closes prepared statements, but not the connection.
-	 * If you want to close the connection or return it to a pool,
-	 * please call explicitly the method {@link java.sql.Connection#close()} or
-	 * {@link #returnPooledConnection()} respectively.
-	 */
-	public void close() throws DAOException {
-        try {
-            sqlLoader.close();
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        }
-	}
-
-	/**
-	 * Closes (returns to the pool) prepared statements and connection.
-	 * This method should be called explicitly before finalising this object,
-	 * in case its connection belongs to a pool.
-	 * <br>
-	 *      *
-     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException while closing the compound reader.
-     * @throws java.sql.SQLException while setting the compound reader connection to
-     *      null.
-     */
-	public void returnPooledConnection() throws DAOException, SQLException{
-
-		close();
-		if (con != null){
-			con.close();
-			con = null;
-		}
+		super(connection);
+		setUp(this.getClass());
 	}
 
 
 	public Species findBySpeciesId(Long SpeciesId) throws DAOException {
 
         // Try to get it from the identity map...
-        Species sp =  SpeciesIdentityMap.getSpecies(SpeciesId);
+        Species sp =  identityMap.getEntity(SpeciesId);
 
        // If not loaded yet
        if (sp == null){
@@ -194,7 +138,7 @@ public class SpeciesDAO implements ISpeciesDAO{
 	}
 
 	private Species loadSpecies(ResultSet rs) throws SQLException {
-		Species sp = null;
+		Species sp;
 
 		// It should have a valid record
 		sp = new Species();
@@ -209,7 +153,7 @@ public class SpeciesDAO implements ISpeciesDAO{
         sp.setTaxon(taxon);
 
         // Add the Species to the identity map
-        SpeciesIdentityMap.addSpecies(sp);
+        identityMap.addEntity(sp);
 
 		return sp;
 	}
@@ -272,7 +216,7 @@ public class SpeciesDAO implements ISpeciesDAO{
        		keys.close();
 
             // Add Species to the identity map
-            SpeciesIdentityMap.addSpecies(sp);
+            identityMap.addEntity(sp);
 
 		} catch (SQLException ex) {
             throw new DAOException(ex);
@@ -305,7 +249,7 @@ public class SpeciesDAO implements ISpeciesDAO{
 	        if (LOGGER.isDebugEnabled())
     	            LOGGER.debug("Species deleted with id:" +sp.getId());
 
-       		SpeciesIdentityMap.removeSpecies(sp);
+       		identityMap.removeEntity(sp);
 
 
 		} catch (SQLException ex) {

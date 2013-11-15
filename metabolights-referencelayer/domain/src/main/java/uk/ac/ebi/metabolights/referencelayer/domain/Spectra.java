@@ -22,9 +22,8 @@ import java.util.Collection;
  *
  * MetaboLights compound to Spectra linking object
  */
-public class Spectra {
+public class Spectra extends Identifier{
 
-	private long id;
     private File pathToJsonSpectra;
     private String name;
     private SpectraType spectraType;
@@ -43,19 +42,11 @@ public class Spectra {
     }
 
     private void construct(long id, String pathToSpectra, String name, SpectraType spectraType){
-        this.id = id;
+        this.setId(id);
         this.pathToJsonSpectra = new File(pathToSpectra);
         this.name = name;
         this.spectraType = spectraType;
 
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

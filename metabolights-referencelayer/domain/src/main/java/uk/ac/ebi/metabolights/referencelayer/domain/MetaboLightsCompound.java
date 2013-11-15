@@ -21,10 +21,8 @@ import java.util.Collection;
  *
  * @author Pablo Conesa
  */
-public class MetaboLightsCompound {
+public class MetaboLightsCompound extends Identifier {
 
-    // The internal identifier (for persistance)
-    private long id;
 
     // The public accession number of this compound.
     private String accession;
@@ -70,20 +68,6 @@ public class MetaboLightsCompound {
 
     // Pathways associated with the metabolite
     private Collection<Pathway> metPathways = new ArrayList<Pathway>();
-
-    /**
-     * @return the id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
 
     /**
      * @return the accession

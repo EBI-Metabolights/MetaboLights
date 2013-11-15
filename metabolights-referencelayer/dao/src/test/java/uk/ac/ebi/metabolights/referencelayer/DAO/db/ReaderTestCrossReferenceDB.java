@@ -66,7 +66,7 @@ public class ReaderTestCrossReferenceDB extends TestCase{
 		crossReference.setAccession(xref[1]);
 
 		crd.save(crossReference);
-		assertDatabase(crossReference, xref);
+		assertCrossReference(crossReference, xref);
 
 		// at least check id is not 0
 		assertTrue("Checking database id is not 0", crossReference.getId() != 0 );
@@ -76,7 +76,7 @@ public class ReaderTestCrossReferenceDB extends TestCase{
 		crossReference.setAccession(expected[1]);
 
 		crd.save(crossReference);
-		assertDatabase(crossReference, expected);
+		assertCrossReference(crossReference, expected);
 
 
 	}
@@ -94,7 +94,7 @@ public class ReaderTestCrossReferenceDB extends TestCase{
 	public void testFindACrossReferenceById() throws Exception {
 
 		CrossReference cr = crd.findByCrossReferenceId(Long.parseLong(expected[0]));
-		assertDatabase(cr, expected);
+		assertCrossReference(cr, expected);
 
         String change = "something different";
 
@@ -108,7 +108,7 @@ public class ReaderTestCrossReferenceDB extends TestCase{
 
 	}
 
-	public void testDeleteADatabase() throws Exception {
+	public void testDeleteACrossReference() throws Exception {
 
 		CrossReference cr = crd.findByCrossReferenceId(Long.parseLong(expected[0]));
 
@@ -127,7 +127,7 @@ public class ReaderTestCrossReferenceDB extends TestCase{
     }
 
 
-	private void assertDatabase(CrossReference cr, String[] expectedvalues){
+	private void assertCrossReference(CrossReference cr, String[] expectedvalues){
 
 		assertNotNull(cr);
 		// If the id is not null
