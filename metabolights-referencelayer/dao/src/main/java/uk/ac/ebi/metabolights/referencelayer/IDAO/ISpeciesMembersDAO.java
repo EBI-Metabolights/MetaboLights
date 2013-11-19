@@ -20,6 +20,7 @@ public interface ISpeciesMembersDAO {
     public SpeciesMembers getById(Long id) throws DAOException;
     public SpeciesMembers getByTaxon(String taxon) throws DAOException;
     public Collection<SpeciesMembers> getAllBySpeciesGroup(Long speciesGroupId) throws DAOException;
+	public Collection<SpeciesMembers> getAll() throws DAOException;
 
 
 	public void save(SpeciesMembers speciesMembers) throws DAOException;

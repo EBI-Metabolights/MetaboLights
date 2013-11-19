@@ -15,7 +15,6 @@ import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.ISpeciesMembersDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
-import uk.ac.ebi.metabolights.referencelayer.domain.Database;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,7 +23,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -78,6 +76,15 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 		return spms;
 	}
 
+	@Override
+	public Collection<SpeciesMembers> getAll() throws DAOException {
+
+		Collection<SpeciesMembers> spms = getBy("--where.speciesmembers.all", null);
+		return spms;
+
+
+	}
+
 
 	private Collection <SpeciesMembers> getBy(String where, Object value)
 	throws DAOException {
@@ -87,11 +94,14 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--speciesmembers.core", where);
 			stm.clearParameters();
 
-			// If can be casted as long
-			if (value instanceof Long){
-				stm.setLong(1, (Long) value);
-			} else {
-				stm.setString(1, (String) value);
+			// Will be null when requesting all
+			if (value != null){
+				// If can be casted as long
+				if (value instanceof Long){
+					stm.setLong(1, (Long) value);
+				} else {
+					stm.setString(1, (String) value);
+				}
 			}
 
 			rs = stm.executeQuery();

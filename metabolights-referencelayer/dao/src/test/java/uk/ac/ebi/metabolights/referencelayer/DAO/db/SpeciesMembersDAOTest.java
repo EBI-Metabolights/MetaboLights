@@ -7,9 +7,14 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
+import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
+import java.util.Collection;
 
 /**
  * User: conesa
@@ -22,6 +27,7 @@ public class SpeciesMembersDAOTest extends TestCase{
 
 	private Connection con;
 	protected SpeciesMembersDAO spmd;
+	private static SpeciesGroup group;
 
 	static String[] newSpeciesMember = new String[]{null,"new taxon","new taxon desc"};
 	static String[] updatedSpeciesMemeber = new String[]{null,"taxon updated","taxon desc updated"};
@@ -95,9 +101,8 @@ public class SpeciesMembersDAOTest extends TestCase{
 		spm.setTaxon(newSpeciesMember[1]);
 		spm.setTaxonDesc(newSpeciesMember[2]);
 
-		spm.setSpeciesGroup(ReaderTestSpeciesGroupDB.newRandomSpeciesGroup());
-
-
+		group = ReaderTestSpeciesGroupDB.newRandomSpeciesGroup();
+		spm.setSpeciesGroup(group);
 
 		return spm;
 	}
@@ -131,8 +136,27 @@ public class SpeciesMembersDAOTest extends TestCase{
 	public void testGetAllBySpeciesGroup() throws Exception {
 
 
+		Collection<SpeciesMembers> spm = spmd.getAllBySpeciesGroup(group.getId());
+
+		assertEquals("GetByGroupId must return 1 item", 1, spm.size());
+
+		assertSpeciesMember(spm.iterator().next(),updatedSpeciesMemeber);
+
+
 
 	}
+
+	@Test
+	public void testGetAll() throws Exception {
+
+
+		Collection<SpeciesMembers> spm = spmd.getAll();
+
+		assertTrue("GetAll must return at least 1 item", spm.size()>0);
+
+
+	}
+
 
 	@Test
 	public void testDelete() throws Exception {

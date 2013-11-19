@@ -15,10 +15,11 @@ import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
+import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 
-import java.io.File;
-import java.net.URL;
 import java.sql.Connection;
 
 /**
@@ -37,7 +38,7 @@ public class SpeciesUpdaterTest {
         // Set up a simple configuration that logs on the console.
         BasicConfigurator.configure();
 
-        DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV"); //OracleDatabaseInstance.getInstance("metabolightsDEV");
+        DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV"); //Orac§leDatabaseInstance.getInstance("metabolightsDEV");
         //DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsMYSQL");
         con = dbi.getConnection();
 
@@ -56,8 +57,40 @@ public class SpeciesUpdaterTest {
 
         SpeciesUpdater speciesUpdater = new SpeciesUpdater(con);
 
+		speciesUpdater.setUpdateOptions(SpeciesUpdater.UpdateOptions.GROUPS);
+
 
         speciesUpdater.UpdateSpeciesInformation();
 
     }
+
+
+	@Test
+	public void UpdateSpecie() throws Exception {
+
+
+		SpeciesUpdater speciesUpdater = new SpeciesUpdater(con);
+
+		SpeciesDAO spd = new SpeciesDAO(con);
+
+		Species sp = spd.findBySpeciesTaxon("NEWT:9606");
+
+		// If HUman is not there (just in case)...
+		if (sp != null) {
+
+			sp.setTaxon(null);
+			sp.setSpeciesMemberId(0);
+		} else {
+			sp = new Species();
+			sp.setSpecies("Homo sapiens (Human)");
+		}
+
+		speciesUpdater.UpdateSpeciesInformation(sp);
+
+		// We should have the taxon information and and species member id....
+		assertEquals("Taxon should be populated" , "NEWT:9606", sp.getTaxon());
+
+		assertTrue("Species Member id should be populated." , sp.getSpeciesMemberId()!=0);
+
+	}
 }

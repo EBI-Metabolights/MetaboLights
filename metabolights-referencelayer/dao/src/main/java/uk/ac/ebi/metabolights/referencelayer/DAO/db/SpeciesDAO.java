@@ -18,10 +18,7 @@ import uk.ac.ebi.metabolights.referencelayer.IDAO.ISpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -146,11 +143,14 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
         String species = rs.getString("SPECIES");
 		String description = rs.getString("DESCRIPTION");
         String taxon = rs.getString("TAXON");
+		long speciesMemberId = rs.getLong("SPECIES_MEMBER");
+
 
 		sp.setId(id);
         sp.setSpecies(species);
 		sp.setDescription(description);
         sp.setTaxon(taxon);
+		sp.setSpeciesMemberId(speciesMemberId);
 
         // Add the Species to the identity map
         identityMap.addEntity(sp);
@@ -182,7 +182,12 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 			stm.setString(1, sp.getSpecies());
             stm.setString(2, sp.getDescription());
             stm.setString(3, sp.getTaxon());
-			stm.setLong(4, sp.getId());
+			if (sp.getSpeciesMemberId() !=0 ){
+				stm.setLong(4, sp.getSpeciesMemberId());
+			} else {
+				stm.setNull(4, Types.INTEGER);
+			}
+			stm.setLong(5, sp.getId());
 			stm.executeUpdate();
 
 		} catch (SQLException ex) {
@@ -202,6 +207,11 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 			stm.setString(1, sp.getSpecies());
             stm.setString(2, sp.getDescription());
             stm.setString(3, sp.getTaxon());
+			if (sp.getSpeciesMemberId() !=0 ){
+				stm.setLong(4, sp.getSpeciesMemberId());
+			} else {
+				stm.setNull(4, Types.INTEGER);
+			}
 
 			stm.executeUpdate();
 
@@ -246,8 +256,7 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 			stm.setLong(1, sp.getId());
 			stm.executeUpdate();
 
-	        if (LOGGER.isDebugEnabled())
-    	            LOGGER.debug("Species deleted with id:" +sp.getId());
+            LOGGER.debug("Species deleted with id:" +sp.getId());
 
        		identityMap.removeEntity(sp);
 

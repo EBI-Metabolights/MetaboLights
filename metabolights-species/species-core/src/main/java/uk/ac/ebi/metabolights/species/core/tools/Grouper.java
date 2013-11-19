@@ -72,10 +72,10 @@ public class Grouper {
 		String id = taxon.getId();
 
 		// Replace NCBI for NEWT...
-		id = id.replace("NCBI","NEWT");
+		String newId = id.replace("NCBI","NEWT");
 
 		// If it doesn't start with NEWT we can't do anything for now.
-		if (!id.startsWith("NEWT:")){
+		if (!newId.startsWith("NEWT:")){
 
 			logger.warn("Can't look up a group for " + taxon.getId() + ". For now we only can accept NCBI and NEWT taxons.");
 
@@ -83,8 +83,12 @@ public class Grouper {
 
 		}
 
+		taxon.setId(newId);
 
 		Taxon group = scanTaxonomyForGroup(taxon);
+
+		// Restore initial id.
+		taxon.setId(id);
 
 		return group;
 	}
