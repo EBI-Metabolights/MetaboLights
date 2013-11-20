@@ -84,6 +84,15 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 		return findBy("--where.species.all",null);
 	}
 
+	public Set<Species> findWithoutSpeciesMember() throws DAOException {
+
+		return findBy("--where.species.withoutspeciesmember",null);
+	}
+
+	public Set<Species> findWithSpeciesMember() throws DAOException {
+
+		return findBy("--where.species.withspeciesmember",null);
+	}
 
 	private Set <Species> findBy(String where, Object value)
 	throws DAOException {

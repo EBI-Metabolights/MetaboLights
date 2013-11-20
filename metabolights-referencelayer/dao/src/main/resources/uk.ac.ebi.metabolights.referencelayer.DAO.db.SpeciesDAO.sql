@@ -17,6 +17,13 @@ RS.SPECIES = ?
 --where.species.all:\
 1 = 1
 
+--where.species.withoutspeciesmember:\
+COALESCE(RSF.SPECIES_MEMBER,RS.SPECIES_MEMBER) IS NULL
+
+--where.species.withspeciesmember:\
+COALESCE(RSF.SPECIES_MEMBER,RS.SPECIES_MEMBER) IS NOT NULL
+
+
 --update.species:\
 UPDATE REF_SPECIES \
 	SET SPECIES = ?, DESCRIPTION = ?, TAXON = ? , SPECIES_MEMBER = ? WHERE ID = ?

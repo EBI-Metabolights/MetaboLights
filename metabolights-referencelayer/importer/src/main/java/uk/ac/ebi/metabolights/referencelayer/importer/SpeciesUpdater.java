@@ -83,7 +83,7 @@ public class SpeciesUpdater {
 
         // Get all the species from MetaboLights...
         try {
-            Set<Species> speciesList = speciesDAO.findAll();
+            Set<Species> speciesList = speciesDAO.findWithoutSpeciesMember();
 
 			UpdateSpeciesInformation(speciesList);
 
