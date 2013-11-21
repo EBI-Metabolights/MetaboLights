@@ -27,11 +27,24 @@ public class GrouperTest {
 
 		grouper.getTaxonGroups().add(animals);
 
+
+
+		// Try human
 		Taxon human = TaxonConverter.stringToTaxon("NEWT:9606");
 
 		result = grouper.getGroupFromTaxon(human);
 
 		assertEquals("Group for NEWT:9606 should be Animals NEWT:33208", animals.getId() , result.getId());
+
+
+		// Try human (NCBI version)
+		human = TaxonConverter.stringToTaxon("NCBI:9606");
+
+		result = grouper.getGroupFromTaxon(human);
+
+		assertEquals("Group for NCBI:9606 should be Animals NEWT:33208", animals.getId() , result.getId());
+
+
 
 
 		// Lets try now with a green plants...it should return the root node
@@ -69,24 +82,5 @@ public class GrouperTest {
 
 	}
 
-	@Test
-	public void testGetOLSParent() throws Exception {
-
-		Grouper grouper = new Grouper();
-
-		Taxon result = grouper.getOLSParent(TaxonConverter.stringToTaxon("NEWT:1"));
-
-		assertNull("Parent of NEWT root element should be null", result);
-
-
-		result = grouper.getOLSParent(TaxonConverter.stringToTaxon("NEWT:9606"));
-
-		// Parent of Homo sapiens should be homo
-
-		assertEquals("Parent of Homo sapiens should be homo:", "NEWT:9605",result.getId());
-
-
-
-	}
 
 }
