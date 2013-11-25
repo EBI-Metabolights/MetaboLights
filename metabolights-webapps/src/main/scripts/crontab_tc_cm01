@@ -1,6 +1,7 @@
 MAILTO=metabolights-dev
 # Crontab for tc_cm01 on ebi-003
 # Tidy up old files under the BII upload directory, also old log files from the public release script
-0 2 * * * /net/isilonP/public/rw/homes/tc_cm01/scripts/initJobs.csh 2>&1 >/dev/null
+0 3 * * * /nfs/public/rw/homes/tc_cm01/metabolights/scripts/initJobs.csh 2>&1 >/dev/null
 # Move archives to public ftp
-0,15,30,45 * * * * /net/isilonP/public/rw/homes/tc_cm01/studies/move_studies_to_ftp.sh 2>&1 >/dev/null
+0,15,30,45 * * * * /nfs/public/rw/homes/tc_cm01/metabolights/scripts/move_studies_to_ftp.sh 2>&1 >/dev/null
+0 12 * * * /nfs/public/rw/homes/tc_cm01/metabolights/scripts/check_connections.sh

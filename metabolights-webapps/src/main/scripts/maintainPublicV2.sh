@@ -28,7 +28,7 @@ source /homes/oracle/ora11setup.sh
 
 EMAILTO=metabolights-dev@ebi.ac.uk
 PROPS_FILE=/nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/hibernate.properties
-SCRIPT_LOC=/nfs/public/rw/homes/tc_cm01/scripts
+SCRIPT_LOC=/nfs/public/rw/homes/tc_cm01/metabolights/scripts
 
 #################################
 #  End of Configurable Options  #
@@ -59,7 +59,7 @@ Info "Testing required parameters"
 Info ------------------------------------------------------------------------------------------
 Info "Start"
 
-PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}  | grep MTLBS`
+PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION} | grep MTLBS`
 
 for studies in $PUBLIC_STUDIES
 do
@@ -95,9 +95,11 @@ Info 'Checking if we need to export the EB-eye index'
 Info "Update statistics table"
 sqlplus -s ${DB_CONNECTION} @$SCRIPT_LOC/ml_stats.sql
 
+sqlplus -s ${DB_CONNECTION} @$SCRIPT_LOC/check_db.sql
+
 Info "Checking if there are ny studies to go public"
 wget -b -o studies_to_go_public.log http://www.ebi.ac.uk/metabolights/findstudiesgoinglive
 touch findstudiesgoinglive
-rm findstudiesgoinglive* 0?:*
+rm $HOME/findstudiesgoinglive* 0?:*
 
 [ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}

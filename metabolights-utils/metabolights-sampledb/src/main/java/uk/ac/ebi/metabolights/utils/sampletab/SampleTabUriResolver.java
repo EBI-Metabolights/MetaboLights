@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 10/10/13 15:19
+ * Last modified: 22/11/13 13:51
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -23,7 +23,10 @@ public class SampleTabUriResolver {
          BAO("http://bioassayontology.org/bao"),
          SBO("http://www.ebi.ac.uk/sbo/main"),
          BFO("http://www.ifomis.org/bfo"),
-          UO("http://code.google.com/p/unit-ontology/");
+          UO("http://code.google.com/p/unit-ontology"),
+          EO("http://www.obofoundry.org/cgi-bin/detail.cgi?id=envo"),
+    SNOMEDCT("http://www.ihtsdo.org/snomed-ct"),
+        FBcv("http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=FBcv");
 
         private final String url;
 
@@ -67,6 +70,12 @@ public class SampleTabUriResolver {
             uri = URLS.BFO.url;
         else if (name.equals(URLS.UO.name()))
             uri = URLS.UO.url;
+        else if (name.equals(URLS.EO.name()))
+            uri = URLS.EO.url;
+        else if (name.equals(URLS.FBcv.name()))
+            uri = URLS.FBcv.url;
+        else if (name.equals(URLS.SNOMEDCT.name()))
+            uri = URLS.SNOMEDCT.url;
 
         return uri;
     }

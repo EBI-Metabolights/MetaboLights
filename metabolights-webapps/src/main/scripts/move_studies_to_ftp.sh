@@ -1,8 +1,8 @@
 #!/bin/ksh
 
 echo "Move file script started"
-private_stage=/nfs/public/rw/homes/tc_cm01/studies/public
-public_stage=/nfs/public/rw/homes/tc_cm01/studies/public
+#private_stage=/nfs/public/rw/homes/tc_cm01/metabolights/prod/studies/stage/public
+public_stage=/nfs/public/rw/homes/tc_cm01/metabolights/prod/studies/stage/public
 ftp_folder=/ebi/ftp/pub/databases/metabolights/studies/public
 fuser_binary=/sbin/fuser
 #fuser_binary=fuser
@@ -14,7 +14,7 @@ echo "Current folder is `pwd`"
 
 if [ -d MTBLS* ]
 then
-  echo "MetaboLights study folder(s) found `ls`" 
+  echo "MetaboLights study folder(s) found `ls`"
 
   for archive_folder in `ls`
   do
