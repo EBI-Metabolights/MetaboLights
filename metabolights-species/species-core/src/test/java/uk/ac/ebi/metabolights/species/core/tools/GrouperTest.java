@@ -82,7 +82,7 @@ public class GrouperTest {
 
 		Grouper grouper = new Grouper();
 
-		IParentSearcher woRMSSearcher = new WoRMSParentSearcher();
+		IParentSearcher woRMSSearcher = new WoRMSPArentSearcher();
 		grouper.getParentSearchers().add(woRMSSearcher);
 
 		Taxon result = grouper.getGroupFromTaxon(TaxonConverter.stringToTaxon("NEWT:1"));
@@ -98,51 +98,16 @@ public class GrouperTest {
 
 		// Try human
 		Taxon humanNEWT = TaxonConverter.stringToTaxon("NEWT:9606");
-		Taxon pontinus = new Taxon(woRMSSearcher.WoRMS_PREFIX + ":" + 127240, "Pontinus kuhlii (Bowdich, 1825)", "","");
+		Taxon pontinus = new Taxon(WoRMSPArentSearcher.WoRMS_PREFIX + ":" + 127240, "Pontinus kuhlii (Bowdich, 1825)", "","");
 
 		result = grouper.getGroupFromTaxon(humanNEWT);
 
 		assertEquals("Group for NEWT:9606 should be Animals NEWT:33208", animalsNEWT.getId() , result.getId());
 
 
-		// Try human (NCBI version)
-		humanNEWT = TaxonConverter.stringToTaxon("NCBI:9606");
+		result = grouper.getGroupFromTaxon(pontinus);
 
-		result = grouper.getGroupFromTaxon(humanNEWT);
-
-		assertEquals("Group for NCBI:9606 should be Animals NEWT:33208", animalsNEWT.getId() , result.getId());
-
-
-
-
-		// Lets try now with a green plants...it should return the root node
-		Taxon greenPlants = TaxonConverter.stringToTaxon("NEWT:33090");
-
-		result =  grouper.getGroupFromTaxon(greenPlants);
-
-		assertEquals("Group for green plants should be root NEWT:1", "NEWT:1" , result.getId());
-
-
-		// Add now the green plants as a group...
-		grouper.getTaxonGroups().add(greenPlants);
-
-		// Lets try now with a green plants...it should return itself
-		result = grouper.getGroupFromTaxon(greenPlants);
-
-		assertEquals("Group for green plants should be itself NEWT:33090", greenPlants.getId() , result.getId());
-
-
-		// Try a plant...Arabidopsis thaliana (thale cress)
-		result = grouper.getGroupFromTaxon(TaxonConverter.stringToTaxon("NEWT:3702"));
-
-		assertEquals("Group for arabisopsis should be Green plants", greenPlants.getId() , result.getId());
-
-		// Human should still return animals
-		result = grouper.getGroupFromTaxon(humanNEWT);
-
-		assertEquals("Group for NEWT:9606 should be Animals NEWT:33208", animalsNEWT.getId() , result.getId());
-
-
+		assertEquals("Group for WORMS:127240 should be Animals WORMS:2", animalsWoRMS.getId() , result.getId());
 
 
 	}

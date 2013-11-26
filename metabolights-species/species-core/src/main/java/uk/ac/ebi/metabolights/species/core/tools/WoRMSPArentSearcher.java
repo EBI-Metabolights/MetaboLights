@@ -15,7 +15,7 @@ import uk.ac.ebi.metabolights.species.model.Taxon;
 public class WoRMSPArentSearcher implements IParentSearcher {
 
 	static Logger logger = LogManager.getLogger(WoRMSPArentSearcher.class);
-	public final String WoRMS_PREFIX = "WORMS";
+	public static final String WoRMS_PREFIX = "WORMS";
 
 	private WoRMSClient woRMSClient;
 
