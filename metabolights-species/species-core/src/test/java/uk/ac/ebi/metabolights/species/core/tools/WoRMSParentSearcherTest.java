@@ -13,7 +13,7 @@ public class WoRMSParentSearcherTest {
 	@Test
 	public void testGetParentFromTaxon() throws Exception {
 
-		WoRMSParentSearcher woRMSParentSearcher = new WoRMSParentSearcher();
+		WoRMSPArentSearcher woRMSParentSearcher = new WoRMSPArentSearcher();
 
 		Taxon pontinus = new Taxon(woRMSParentSearcher.WoRMS_PREFIX + ":" + 127240, "Pontinus kuhlii (Bowdich, 1825)", "","");
 
@@ -26,7 +26,7 @@ public class WoRMSParentSearcherTest {
 	@Test
 	public void testIsThisTaxonYours() throws Exception {
 
-		WoRMSParentSearcher woRMSParentSearcher = new WoRMSParentSearcher();
+		WoRMSPArentSearcher woRMSParentSearcher = new WoRMSPArentSearcher();
 
 		Taxon orphan = new Taxon(woRMSParentSearcher.WoRMS_PREFIX + ":" + 127240, "Pontinus kuhlii (Bowdich, 1825)", "","");
 
