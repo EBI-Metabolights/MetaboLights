@@ -66,6 +66,10 @@ public class AphiaNameServiceStubTest {
 		// Classification starts from the root, so, you only have, getChild methods to navigate.
 		Classification record = woRMSClient.getAphiaClasificationByID(127160);
 
+		// For animalia it returns from the root (Superdomain) to Animalia: one Child...
+		// The next child is not null but has getRank == null!
+		//Classification record = woRMSClient.getAphiaClasificationByID(2);
+
 		assertEquals("Test rank", record.getRank(), "Superdomain");
 		assertEquals("Test Kingdom", record.getChild().getScientificname(), "Animalia");
 
