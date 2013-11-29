@@ -32,6 +32,9 @@ public class WoRMSPArentSearcher implements IParentSearcher {
 
 			// Classification starts from the root, so, you only have, getChild methods to navigate.
 			Classification record = null;
+
+			logger.info("Requesting classification for " + child.getId() + " to WORMS webservice.");
+
 			record = woRMSClient.getAphiaClasificationByID(Integer.parseInt(child.getRecordIdentifier()));
 			Taxon parent = getParentFromClassification(record);
 			return parent;
@@ -50,8 +53,8 @@ public class WoRMSPArentSearcher implements IParentSearcher {
 		// Start with the root;
 		Classification child = classification.getChild();
 
-		Classification parent = classification;
-		Classification granparent= parent;
+		Classification parent = null;
+		Classification granparent= null;
 
 		while (child.getRank() != null) {
 

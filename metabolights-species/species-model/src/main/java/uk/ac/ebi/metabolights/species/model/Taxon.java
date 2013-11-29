@@ -7,12 +7,14 @@ package uk.ac.ebi.metabolights.species.model;
  */
 public class Taxon {
 
+	public static final String DEFAULT_SEPATATOR = ":";
+
 	String name;
 	String commonName;
 	String parentId;
 	String prefix;
 	String recordIdentifier;
-	String idSeparator = ":";
+	String idSeparator = DEFAULT_SEPATATOR;
 
 	public Taxon(String id, String name, String commonName, String parentId) {
 		splitId(id);

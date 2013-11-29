@@ -29,8 +29,9 @@ import java.sql.Connection;
  */
 public class SpeciesUpdaterTest {
     protected static final Logger LOGGER = Logger.getLogger(SpeciesUpdaterTest.class);
+	private static final String WORMS_TEST_ID = "WORMS:145379";
 
-    private static Connection con;
+	private static Connection con;
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -89,6 +90,33 @@ public class SpeciesUpdaterTest {
 
 		// We should have the taxon information and and species member id....
 		assertEquals("Taxon should be populated" , "NEWT:9606", sp.getTaxon());
+
+		assertTrue("Species Member id should be populated." , sp.getSpeciesMemberId()!=0);
+
+	}
+
+	@Test
+	public void UpdateWORMSSpecie() throws Exception {
+
+
+		SpeciesUpdater speciesUpdater = new SpeciesUpdater(con);
+		speciesUpdater.setUpdateOptions(SpeciesUpdater.UpdateOptions.GROUPS);
+
+		SpeciesDAO spd = new SpeciesDAO(con);
+
+		Species sp = spd.findBySpeciesTaxon(WORMS_TEST_ID);
+
+		// If Human is not there (just in case)...
+		if (sp != null) {
+
+			sp.setSpeciesMemberId(0);
+		} else {
+			sp = new Species();
+			sp.setSpecies("Aaptos ciliata");
+			sp.setTaxon(WORMS_TEST_ID);
+		}
+
+		speciesUpdater.UpdateSpeciesInformation(sp);
 
 		assertTrue("Species Member id should be populated." , sp.getSpeciesMemberId()!=0);
 

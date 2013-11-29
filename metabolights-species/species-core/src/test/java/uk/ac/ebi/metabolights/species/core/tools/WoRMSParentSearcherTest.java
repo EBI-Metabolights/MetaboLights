@@ -40,8 +40,19 @@ public class WoRMSParentSearcherTest {
 
 		assertFalse("NCBI taxon must NOT be accepted", woRMSParentSearcher.isThisTaxonYours(orphan));
 
+	}
 
+	@Test
+	public void testGetParentFromTaxonRoot() throws Exception {
 
+		WoRMSPArentSearcher woRMSParentSearcher = new WoRMSPArentSearcher();
+
+		Taxon biota = new Taxon(woRMSParentSearcher.WoRMS_PREFIX + ":" + 1, "Biota", "","");
+
+		Taxon parent = woRMSParentSearcher.getParentFromTaxon(biota);
+
+		assertNull("Testing parent id for Biota is null", parent);
 
 	}
+
 }

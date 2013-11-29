@@ -33,6 +33,7 @@
         <module>species-dao</module>
         <module>species-search</module>
         <module>species-core</module>
+        <module>globalnames-client</module>
     </modules>
 
 </project>

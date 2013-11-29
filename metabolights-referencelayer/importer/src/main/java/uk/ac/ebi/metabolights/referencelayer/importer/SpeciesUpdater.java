@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
 
+import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesMembersDAO;
@@ -18,6 +19,9 @@ import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
 import uk.ac.ebi.metabolights.species.core.tools.Grouper;
+import uk.ac.ebi.metabolights.species.core.tools.IPNIParentSearcher;
+import uk.ac.ebi.metabolights.species.core.tools.IParentSearcher;
+import uk.ac.ebi.metabolights.species.core.tools.WoRMSPArentSearcher;
 import uk.ac.ebi.metabolights.species.model.Taxon;
 
 import javax.xml.rpc.ServiceException;
@@ -40,6 +44,7 @@ public class SpeciesUpdater {
 
 	SpeciesDAO speciesDAO;
 	SpeciesMembersDAO speciesMemberDAO;
+
 	Grouper grouper;
 	Collection<SpeciesMembers> speciesMemberses;
 
@@ -190,8 +195,6 @@ public class SpeciesUpdater {
 			return;
 		}
 
-
-
 		setUpGroupUpdate();
 
 
@@ -240,6 +243,13 @@ public class SpeciesUpdater {
 			// Get taxons for group...
 			try {
 
+				// Add the WoRMS parent Searcher.
+				grouper.getParentSearchers().add(new WoRMSPArentSearcher());
+
+				// Add the IPNI parent Searcher.
+				grouper.getParentSearchers().add(new IPNIParentSearcher());
+
+
 				speciesMemberses = speciesMemberDAO.getAll();
 
 				List<Taxon> taxons = convertSpeciesMemebersToTaxonList();
@@ -249,6 +259,9 @@ public class SpeciesUpdater {
 
 			} catch (DAOException e) {
 				LOGGER.error("Can't get species member list", e);
+
+			} catch (AxisFault axisFault){
+				LOGGER.error("Can't get instantiate WoRM Client" , axisFault );
 			}
 
 
@@ -316,5 +329,14 @@ public class SpeciesUpdater {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
+
+	public Grouper getGrouper() {
+		return grouper;
+	}
+
+	public void setGrouper(Grouper grouper) {
+		this.grouper = grouper;
+	}
+
 
 }
