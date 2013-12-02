@@ -12,8 +12,7 @@ package uk.ac.ebi.metabolights.utils.mztab;
 
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
-import uk.ac.ebi.pride.jmztab.MzTabFile;
-import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
 
 import java.util.ArrayList;
@@ -25,33 +24,33 @@ public class CreateMetaboliteAssignment {
     MzTabReader mzTabReader = new MzTabReader();
     MzTabUtils utils = new MzTabUtils();
 
-    public MetaboliteAssignment createMetaboliteAssignment(String mzTabFileName, String mafFileName, String accessionNumber) throws MzTabParsingException {
+    public MetaboliteAssignment createMetaboliteAssignment(String mzTabFileName, String mafFileName, String accessionNumber) {
 
         MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
         metaboliteAssignment.setMetaboliteAssignmentFileName(mafFileName);
         try {
-            MzTabFile mzTab = mzTabReader.readMzTab(mzTabFileName);
+            MZTabFile mzTab = mzTabReader.readMzTab(mzTabFileName);
             Collection<SmallMolecule> molecules = mzTab.getSmallMolecules();
             List<MetaboliteAssignmentLine> metaboliteAssignmentLines = new ArrayList<MetaboliteAssignmentLine>();
 
             for (SmallMolecule molecule : molecules){
                 MetaboliteAssignmentLine assignmentLine = new MetaboliteAssignmentLine();
-                assignmentLine.setUnitId(molecule.getUnitId());
+                //assignmentLine.setUnitId(molecule.getUnitId());
                 assignmentLine.setChemicalFormula(molecule.getChemicalFormula());
 
                 //If InChiKey is set, smiles will be empty (per spec) this will cause NPE if you call the getter
-                String inchi = "", smiles = "";
-                try { inchi = utils.listEntriesToString(molecule.getInchiKey()); } catch (Exception e){}
-                try { smiles = utils.listEntriesToString(molecule.getSmiles());  } catch (Exception e){}
+                //String inchi = "", smiles = "";
+                //try { inchi = utils.listEntriesToString(molecule.getInchiKey()); } catch (Exception e){}
+                //try { smiles = utils.listEntriesToString(molecule.getSmiles());  } catch (Exception e){}
 
-                assignmentLine.setSmiles(smiles);
-                assignmentLine.setInchi(inchi);
+                assignmentLine.setSmiles(molecule.getSmiles());
+                assignmentLine.setInchi(molecule.getInchiKey());
 
                 assignmentLine.setDescription(molecule.getDescription());
                 assignmentLine.setMetaboliteIdentification(molecule.getDescription());
                 //assignmentLine.setChemicalShift();      //TODO, NMR field
                 //assignmentLine.setMultiplicity();       //TODO, NRM field
-                assignmentLine.setMassToCharge(molecule.getMassToCharge().toString());
+                assignmentLine.setMassToCharge(molecule.getExpMassToCharge().toString());
                 //assignmentLine.setFragmentation();      //TODO, not in current version of mzTab
                 assignmentLine.setModifications(utils.modificationsToString(molecule.getModifications()));
                 assignmentLine.setCharge(molecule.getCharge().toString());
@@ -61,12 +60,12 @@ public class CreateMetaboliteAssignment {
                 assignmentLine.setDatabaseIdentifier(utils.listEntriesToString(molecule.getIdentifier()));
                 assignmentLine.setDatabase(molecule.getDatabase());
                 assignmentLine.setReliability(molecule.getReliability().toString());
-                assignmentLine.setUri(utils.uriToString(molecule.getUri()));
-                assignmentLine.setSearchEngine(utils.paramListToString(molecule.getSearchEngine()));
-                assignmentLine.setSearchEngineScore(utils.paramListToString(molecule.getSearchEngineScore()));
-                assignmentLine.setSmallmoleculeAbundanceSub(utils.doubleToString(molecule.getAbundance(1)));               //TODO, Gets the first entry only
-                assignmentLine.setSmallmoleculeAbundanceStdevSub(utils.doubleToString(molecule.getAbundanceStdDev(1)));    //TODO, Gets the first entry only
-                assignmentLine.setSmallmoleculeAbundanceStdErrorSub(utils.doubleToString(molecule.getAbundanceStdErr(1))); //TODO, Gets the first entry only
+                //assignmentLine.setUri(utils.uriToString(molecule.getURI()));
+                //assignmentLine.setSearchEngine(utils.paramListToString(molecule.getSearchEngine()));
+                //assignmentLine.setSearchEngineScore(utils.paramListToString(molecule.getSearchEngineScore()));
+                //assignmentLine.setSmallmoleculeAbundanceSub(utils.doubleToString(molecule.getAbundance(1)));               //TODO, Gets the first entry only
+                //assignmentLine.setSmallmoleculeAbundanceStdevSub(utils.doubleToString(molecule.getAbundanceStdDev(1)));    //TODO, Gets the first entry only
+                //assignmentLine.setSmallmoleculeAbundanceStdErrorSub(utils.doubleToString(molecule.getAbundanceStdErr(1))); //TODO, Gets the first entry only
 
                 //TODO, set the sample columns
                 //assignmentLine.setSampleMeasurements();

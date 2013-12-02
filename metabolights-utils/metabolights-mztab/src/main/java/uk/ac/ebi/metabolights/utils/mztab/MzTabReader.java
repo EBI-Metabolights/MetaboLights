@@ -10,8 +10,8 @@
 
 package uk.ac.ebi.metabolights.utils.mztab;
 
-import uk.ac.ebi.pride.jmztab.MzTabFile;
-import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.model.MZTabFile;
+import uk.ac.ebi.pride.jmztab.model.Metadata;
 import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
 
 import java.io.File;
@@ -20,13 +20,15 @@ import java.util.Collection;
 
 public class MzTabReader {
 
-    public MzTabFile readMzTab(String mzTabfileName){
+    public MZTabFile readMzTab(String mzTabfileName){
         File inputFile = new File(mzTabfileName);
-        MzTabFile mzTabFile = new MzTabFile();
+        Metadata metadata = new Metadata();
+        MZTabFile mzTabFile = new MZTabFile(metadata);
 
         try {
-            mzTabFile = new MzTabFile(inputFile);
-        } catch (MzTabParsingException e) {
+            //mzTabFile.
+
+        } catch (Exception e) {
             e.printStackTrace();  //TODO
         }
 
@@ -37,7 +39,7 @@ public class MzTabReader {
     public Collection<SmallMolecule> getSmallMolecules(String mzTabfileName){
 
         Collection<SmallMolecule> smallMolecules = new ArrayList<SmallMolecule>();
-        MzTabFile mzTabFile = readMzTab(mzTabfileName);
+        MZTabFile mzTabFile = readMzTab(mzTabfileName);
         smallMolecules = mzTabFile.getSmallMolecules();
         return smallMolecules;
 

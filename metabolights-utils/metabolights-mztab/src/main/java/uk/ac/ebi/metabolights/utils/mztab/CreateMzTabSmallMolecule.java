@@ -11,84 +11,51 @@
 package uk.ac.ebi.metabolights.utils.mztab;
 
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
-import uk.ac.ebi.pride.jmztab.MzTabParsingException;
-import uk.ac.ebi.pride.jmztab.model.Modification;
+import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
+import uk.ac.ebi.pride.jmztab.model.Metadata;
 import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreateMzTabSmallMolecule {
 
     private MzTabUtils utils = new MzTabUtils();
 
-    public SmallMolecule convertToMzTab(MetaboliteAssignmentLine metLine) throws MzTabParsingException {
-        SmallMolecule molecule = new SmallMolecule();  //To store the new mzTab rows
+    public SmallMolecule convertToMzTab(MetaboliteAssignmentLine metLine, Metadata metadata, MZTabColumnFactory factory ) {
+
+        SmallMolecule molecule = new SmallMolecule(factory, metadata);   //To store the new mzTab rows
 
         try {
 
-            String inchi = null, smiles = null, modificaiton = null, smallAbuSub = null, smallAbuDevSub = null, smallAbuDevSubErr = null;
+            //Due to version changes there will only be one of these values present
+            String dbIdent = metLine.getIdentifier();
+            if (dbIdent == null || dbIdent.isEmpty() || dbIdent.equals(""))
+                dbIdent = metLine.getDatabaseIdentifier();
+            molecule.setIdentifier(dbIdent);
 
-            molecule.setIdentifier(utils.stringToList(metLine.getDatabaseIdentifier()));
-            molecule.setDescription(metLine.getDescription());
-            molecule.setChemicalFormula(metLine.getChemicalFormula());
+            molecule.setChemicalFormula(utils.makeSureNotEmpty(metLine.getChemicalFormula()));
+            molecule.setSmiles(utils.makeSureNotEmpty(metLine.getSmiles()));
+            molecule.setInchiKey(utils.inchiToinchiKey(metLine.getInchi()));
+
+            String description = metLine.getMetaboliteIdentification();
+            if (description == null | description.isEmpty() || description.equals(""))
+                description = metLine.getDescription();
+            molecule.setDescription(description);
+
+            molecule.setExpMassToCharge(utils.stringToDouble(metLine.getMassToCharge()));
+            molecule.setCalcMassToCharge(utils.stringToDouble(metLine.getMassToCharge()));
             molecule.setCharge(utils.convertPosNegToInt(metLine.getCharge()));
-            molecule.setTaxid(utils.stringToInt(metLine.getTaxid()));
-            molecule.setSpecies(metLine.getSpecies()); //TODO, convert from ontology term
-            molecule.setDatabase(metLine.getDatabase());
-            molecule.setDatabaseVersion(metLine.getDatabaseVersion());
-            molecule.setMassToCharge(utils.stringToDouble(metLine.getMassToCharge()).get(0));   //only one entry anyway
-            molecule.setRetentionTime(utils.stringToDouble(metLine.getRetentionTime()));
-            molecule.setReliability(utils.convertMSItoPSIreliability(metLine.getReliability()));
-            molecule.setUri(utils.stringToUri(metLine.getUri()));
-            molecule.setSearchEngine(utils.stringToParamList(metLine.getSearchEngine()));
-            molecule.setSearchEngineScore(utils.stringToParamList(metLine.getSearchEngineScore()));
+            molecule.setRetentionTime(utils.makeSureNotEmpty(metLine.getRetentionTime()));
+            molecule.setTaxid(utils.makeSureNotEmpty(metLine.getTaxid()));
+            molecule.setSpecies(utils.makeSureNotEmpty(metLine.getSpecies())); //TODO, convert from ontology term
+            molecule.setDatabase(utils.makeSureNotEmpty(metLine.getDatabase()));
+            molecule.setDatabaseVersion(utils.makeSureNotEmpty(metLine.getDatabaseVersion()));
+            molecule.setSpectraRef(utils.makeSureNotEmpty(""));      //TODO, believe this will have to exist to pass validation
+            molecule.setSearchEngine(utils.makeSureNotEmpty(metLine.getSearchEngine()));
+            molecule.setBestSearchEngineScore(utils.makeSureNotEmpty(metLine.getSearchEngineScore()));
+            molecule.setModifications(utils.makeSureNotEmpty(metLine.getModifications()));
+            //molecule.setReliability(metLine.getReliability());                 //TODO, not a standard header
+            //molecule.setURI(metLine.getUri());  //TODO, not a standard header
 
-            //The molecule expects one of InChI or SMILES, not both!
-            inchi = metLine.getInchi();
-            smiles = metLine.getSmiles();
-
-            if (inchi != null && !inchi.isEmpty()){
-                //molecule.setSmiles(utils.stringToList(""));
-                molecule.setInchiKey(utils.stringToList(utils.inchiToinchiKey(inchi)));
-            } else {
-                //SMILES
-                molecule.setSmiles(utils.stringToList(smiles));
-                //molecule.setInchiKey(utils.stringToList(""));
-            }
-
-            smallAbuSub = metLine.getSmallmoleculeAbundanceSub();
-            smallAbuDevSub = metLine.getSmallmoleculeAbundanceStdevSub();
-            smallAbuDevSubErr = metLine.getSmallmoleculeAbundanceStdErrorSub();
-
-            //Abundance, the ML plugin only supports 1 set of abundance data so we use the value 1
-            //if (utils.notNullOrEmpty(smallAbuSub) && utils.notNullOrEmpty(smallAbuDevSub) && utils.notNullOrEmpty(smallAbuDevSubErr)) {
-            //TODO, check why this is not working as the spec allows this being empty
-                molecule.setAbundance(1,
-                        utils.StringToDouble(smallAbuSub),
-                        utils.StringToDouble(smallAbuDevSub),
-                        utils.StringToDouble(smallAbuDevSubErr));
-            //}
-
-
-            //TODO,
-            // private List<SpecRef> specRef;
-
-            //Modification list
-            modificaiton = metLine.getModifications();
-            if (utils.notNullOrEmpty(modificaiton)){
-                try {
-                    Modification modification = new Modification("CHEMMOD:"+modificaiton);
-                    List<Modification> modifications = new ArrayList<Modification>();
-                    modifications.add(modification);
-                    molecule.setModifications(modifications);
-                } catch (Exception e) {
-                    //TODO, should we notify the user or simply ignore?
-                }
-
-            }
-
-        } catch (MzTabParsingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

@@ -16,8 +16,6 @@ import net.sf.jniinchi.JniInchiOutputKey;
 import net.sf.jniinchi.JniInchiWrapper;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
 import uk.ac.ebi.pride.jmztab.model.Modification;
-import uk.ac.ebi.pride.jmztab.model.Param;
-import uk.ac.ebi.pride.jmztab.model.ParamList;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -25,6 +23,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
+//import uk.ac.ebi.pride.jmztab.model.ParamList;
 
 public class MzTabUtils {
 
@@ -72,17 +72,30 @@ public class MzTabUtils {
     }
 
     public boolean processLine(MetaboliteAssignmentLine metLine){
-        if (notNullOrEmpty(metLine.getDatabaseIdentifier()) || notNullOrEmpty(metLine.getMetaboliteIdentification()))
+
+        if ( (notNullOrEmpty(metLine.getDatabaseIdentifier()) || notNullOrEmpty(metLine.getDatabaseIdentifier()) )
+                && notNullOrEmpty(metLine.getMetaboliteIdentification()))
             return true;
-        else
-            return false;
+
+        //if (notNullOrEmpty(metLine.getMetaboliteIdentification()))
+        //    return true;
+
+        return false;
+
     }
 
     public boolean notNullOrEmpty(String metStr){
-        if (metStr == null || metStr.isEmpty())
+        if (metStr == null || metStr.isEmpty() || metStr.equals(""))
             return false;
         else
             return true;
+    }
+
+    public String makeSureNotEmpty(String metStr){
+        if (metStr == null || metStr.isEmpty() || metStr.equals(""))
+            return null;
+        else
+            return metStr;
     }
 
     public List<String> stringToList(String strValue){
@@ -119,7 +132,7 @@ public class MzTabUtils {
      * @param strValue
      * @return Double
      */
-    public List<Double> stringToDouble(String strValue){
+    public List<Double> stringToDoubleList(String strValue){
         List<Double> doubleList = new ArrayList<Double>();
 
         if (strValue == null || strValue.trim().isEmpty())
@@ -131,7 +144,7 @@ public class MzTabUtils {
         return doubleList;
     }
 
-    public Double StringToDouble(String strValue){
+    public Double stringToDouble(String strValue){
         if (strValue == null || strValue.isEmpty())
             strValue = "0.0";
 
@@ -251,35 +264,35 @@ public class MzTabUtils {
         return Integer.parseInt(reliability);
     }
 
-    public ParamList stringToParamList(String strValue){
-        ParamList paramList = new ParamList();
-
-        if (strValue == null || strValue.isEmpty())
-            return null;
-
-        Param param = new Param(strValue);
-        paramList.add(param);
-
-        return paramList;
-    }
-
-    public String paramListToString(ParamList params){
-        String paramStr = "";
-
-        if (params == null)
-            return paramStr;
-
-        for (Param param : params){
-
-            if (!paramStr.isEmpty())
-                paramStr = paramStr + ",";
-
-            paramStr = paramStr + param.toString();
-
-        }
-
-        return paramStr;
-    }
+//    public ParamList stringToParamList(String strValue){
+//        ParamList paramList = new ParamList();
+//
+//        if (strValue == null || strValue.isEmpty())
+//            return null;
+//
+//        Param param = new Param(strValue);
+//        paramList.add(param);
+//
+//        return paramList;
+//    }
+//
+//    public String paramListToString(ParamList params){
+//        String paramStr = "";
+//
+//        if (params == null)
+//            return paramStr;
+//
+//        for (Param param : params){
+//
+//            if (!paramStr.isEmpty())
+//                paramStr = paramStr + ",";
+//
+//            paramStr = paramStr + param.toString();
+//
+//        }
+//
+//        return paramStr;
+//    }
 
 
 }

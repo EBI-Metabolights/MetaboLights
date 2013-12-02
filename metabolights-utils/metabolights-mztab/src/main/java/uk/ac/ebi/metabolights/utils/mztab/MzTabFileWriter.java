@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.utils.mztab;
 
 import org.isatools.isacreator.spreadsheet.model.TableReferenceObject;
+import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -23,10 +24,19 @@ public class MzTabFileWriter {
 
     ConfigurationReader configurationReader = new ConfigurationReader();
 
-    public void writeMzTab(String fileName, String fileContext) throws IOException {
+    public void writeMzTab(String fileName, MZTabFile mzTabFile) throws IOException {
         File file = new File(fileName);
         FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(fileContext);
+
+        fileWriter.write(mzTabFile.toString());                 //Add the metadata
+
+        //MZTabColumnFactory factory = mzTabFile.getSmallMoleculeColumnFactory();
+        //fileWriter.append(factory.toString());  //Add column headers
+
+        //for (SmallMolecule smallMolecule : mzTabFile.getSmallMolecules())  {
+        //    fileWriter.append(smallMolecule.toString());        // Add column data
+        //}
+
         fileWriter.close();
     }
 

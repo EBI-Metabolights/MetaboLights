@@ -9,33 +9,34 @@
  */
 
 import org.isatools.isacreator.spreadsheet.model.TableReferenceObject;
+import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.utils.mztab.*;
-import uk.ac.ebi.pride.jmztab.MzTabParsingException;
-import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
 
 public class MzTabReaderTest {
 
     MzTabReader mzTabReader = new MzTabReader();
     CreateMetaboliteAssignment createMetaboliteAssignment = new CreateMetaboliteAssignment();
+
     ConvertToMzTab convertToMzTab = new ConvertToMzTab();
     MzTabFileWriter mzTabFileWriter = new MzTabFileWriter();
     ConfigurationReader configurationReader = new ConfigurationReader();
 
     //private static String studyAccession = "MTBLS1";
-    //private static String studyAccession = "MTBLS2";
-    private static String studyAccession = "MTBLS3";
+    String studyAccession = "MTBLS2";
+    //private static String studyAccession = "MTBLS3";
 
-    String MAFfileName = "m_test_"+studyAccession+"_maf.tsv";
-    String MzTabFileName = studyAccession + ".mztab";
-    private static String MAFfileLocation = MzTabReaderTest.class.getClassLoader().getResource("." + File.separator + studyAccession).getPath();
+    String[] studyAccessionList = new String[]{"MTBLS1", "MTBLS2", "MTBLS3"};
 
-    String fullMAFfileLocation = MAFfileLocation + File.separator + MAFfileName;
-    String fullMzTabFileLocation = MAFfileLocation + File.separator + MzTabFileName;
+    String studyDirectory = "", configDirectory = "";
+
+    @Before
+    public void runBeforeEveryTest() {
+        studyDirectory = MzTabReaderTest.class.getClassLoader().getResource(".").getPath();
+        configDirectory = "/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations";
+    }
 
     @Test
     public void getMSTableReference(){
@@ -55,54 +56,27 @@ public class MzTabReaderTest {
         assert headers != null;
     }
 
-    @Test
-    public void testReadMAF(){
-        File file = mzTabReader.readMAF(fullMAFfileLocation);
-        assert file.exists();
-    }
 
     @Test
-    public void testWriteMzTab() throws MzTabParsingException {
+    public void testWriteMzTab() {
 
-        File mafFile = mzTabReader.readMAF(fullMAFfileLocation);
-        assert mafFile != null;
+        File studyDir = new File(studyDirectory);
+        assert studyDir.isDirectory();
 
-        File mzTabFile = new File(fullMzTabFileLocation);
-        assert mzTabFile != null;
+        File configDir = new File(configDirectory);
+        assert configDir.isDirectory();
 
-        convertToMzTab.convertMAFToMzTab(mafFile.toString(), MAFfileLocation+mzTabFile.getName(), studyAccession);
+        for (String acc: studyAccessionList){
+            convertToMzTab.convertMAFToMzTab(studyDirectory, acc, configDirectory);
+        }
+
+        //convertToMzTab.convertMAFToMzTab(studyDirectory, studyAccession, configDirectory);
 
     }
 
     @Test
     public void testMainWithAllParams(){
-        ConvertToMzTab.main(new String[]{fullMAFfileLocation, fullMzTabFileLocation, studyAccession});
-        File file = new File(fullMzTabFileLocation);
-        assert file.exists();    //Did we create the file
-    }
-
-    @Test
-    public void testGetSmallMoleculesInMzTabFile(){
-        Collection<SmallMolecule> smallMolecules = mzTabReader.getSmallMolecules(fullMzTabFileLocation);
-        for (SmallMolecule molecule : smallMolecules){
-            assert molecule.getUnitId().equals(studyAccession);
-        }
-
-    }
-
-
-    @Test
-    public void testWriteMafHeaders(){
-
-        try {
-            mzTabFileWriter.writeMAF(fullMAFfileLocation,mzTabFileWriter.getColumnHeaderNames(configurationReader.MS));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        File file = new File(fullMAFfileLocation);
-        assert file.exists();    //Did we create the file?
-
+        ConvertToMzTab.main(new String[]{studyDirectory, configDirectory, studyAccession});
     }
 
 
