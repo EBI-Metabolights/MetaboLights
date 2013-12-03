@@ -13,7 +13,7 @@
     <artifactId>species-core</artifactId>
     <name>MetaboLights Species Core</name>
     <description>Core library for all the species logic and operations</description>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>0.2-SNAPSHOT</version>
 
     <dependencies>

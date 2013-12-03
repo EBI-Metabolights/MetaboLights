@@ -33,7 +33,6 @@
         <module>domain</module>
         <module>dao</module>
         <module>WorMS-client</module>
-        <module>globalnames</module>
     </modules>
 
     <build>

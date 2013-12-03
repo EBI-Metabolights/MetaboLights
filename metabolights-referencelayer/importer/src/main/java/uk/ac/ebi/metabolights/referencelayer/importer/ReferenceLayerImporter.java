@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.CrossReferenceDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetSpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
@@ -39,20 +40,25 @@ public class ReferenceLayerImporter{
     private MetaboLightsCompoundDAO mcd;
     private CrossReferenceDAO crd;
     private SpeciesDAO spd;
+	private MetSpeciesDAO mspd;
+
     private RheasResourceClient wsRheaClient;
 
     private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
    // private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
 
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
+	private static final int CHEBI_DB_ID = 1;
     private String chebiIDRoot = "CHEBI:25212";
     private RelationshipType relationshipType = RelationshipType.HAS_ROLE;
+	private boolean deleteExistingCHEBISpecies = false;
 
     // Instantiate with a connection object
     public ReferenceLayerImporter(Connection connection) throws IOException {
         this.mcd = new MetaboLightsCompoundDAO(connection);
         this.crd = new CrossReferenceDAO(connection);
         this.spd = new SpeciesDAO(connection);
+		this.mspd = new MetSpeciesDAO(connection);
 
     }
 
@@ -72,7 +78,15 @@ public class ReferenceLayerImporter{
         this.chebiIDRoot = chebiIDRoot;
     }
 
-    public void importMetabolitesFromChebi(){
+	public boolean isDeleteExistingCHEBISpecies() {
+		return deleteExistingCHEBISpecies;
+	}
+
+	public void setDeleteExistingCHEBISpecies(boolean deleteExistingCHEBISpecies) {
+		this.deleteExistingCHEBISpecies = deleteExistingCHEBISpecies;
+	}
+
+	public void importMetabolitesFromChebi(){
 
         LOGGER.info("Importing metabolites from chebi. Root: " + chebiIDRoot + ", relationship type: " + relationshipType);
         LiteEntityList el = null;
@@ -166,6 +180,11 @@ public class ReferenceLayerImporter{
     }
 
 
+	public void importMetaboliteFromChebiID(String chebiId) throws DAOException {
+
+		chebiID2MetaboLights(chebiId);
+	}
+
     /*
     Returns 1 if successful
      */
@@ -182,6 +201,10 @@ public class ReferenceLayerImporter{
             if (mc != null){
                 // ...we already have it...don't do anything..although at some point we may want to update it..
                 LOGGER.info("The compound " + accession + " is already imported into the database. Updating it");
+
+				if (deleteExistingCHEBISpecies){
+					deleteExistingCHEBISpecies(mc);
+				}
 
             } else {
 
@@ -225,7 +248,7 @@ public class ReferenceLayerImporter{
                 // If it's bacause a duplicate key...
                 //http://stackoverflow.com/questions/1988570/how-to-catch-a-specific-exceptions-in-jdbc
                 if (sqle.getSQLState().startsWith("23")){
-                    LOGGER.info("The compound " + chebiId + " is already imported into the database (Duplicated primary key)");
+                    LOGGER.info("The compound " + chebiId + " is already imported into the database (Duplicated primary key)", e);
                     return 0;
                 } else {
                     throw e;
@@ -239,7 +262,28 @@ public class ReferenceLayerImporter{
         }
     }
 
-    private boolean getLiterature(Entity entity) {
+	private void deleteExistingCHEBISpecies(MetaboLightsCompound mc) throws DAOException {
+
+		// Go through the species collection
+		for (MetSpecies metSpecies:mc.getMetSpecies()){
+
+			// if the species is reported by CHEBI....
+			if (metSpecies.getCrossReference().getDb().getId() == CHEBI_DB_ID){
+
+				//...delete it in the DB.
+				mspd.delete(metSpecies);
+
+			}
+
+		}
+
+		// remove it from the collection
+		mc.getMetSpecies().clear();
+
+
+	}
+
+	private boolean getLiterature(Entity entity) {
 
         boolean hasLiterature = false;
         int literatureSize = entity.getCitations().size();
@@ -300,9 +344,19 @@ public class ReferenceLayerImporter{
 
         // Try to find the specie
         String species = origin.getSpeciesText();
+		String taxon = origin.getSpeciesAccession();
 
-        //Try to get it from metabolights
-        Species sp = spd.findBySpeciesName(species);
+		Species sp;
+
+		//Try to get it from metabolights using the taxon first
+		if (taxon != null) {
+
+			sp = spd.findBySpeciesTaxon(taxon);
+
+		} else {
+
+        	sp = spd.findBySpeciesName(species);
+		}
 
         // If not found create one...
         if (sp == null){

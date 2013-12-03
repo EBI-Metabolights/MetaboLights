@@ -10,25 +10,17 @@
 
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.AttributeDefinitionDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.DatabaseDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.domain.*;
-import uk.ac.ebi.ws.ols.QueryService;
 
-import javax.xml.rpc.ServiceException;
 import java.io.*;
-import java.rmi.RemoteException;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 
 public class PathwayImporter {
 
@@ -329,7 +321,7 @@ public class PathwayImporter {
     private Species getSpecies(String taxon) {
 
         // Get the species
-        taxon = SpeciesUpdater.ONTOLOGY + ":" + taxon;
+        taxon = SpeciesUpdater.NEWT_ONTOLOGY + ":" + taxon;
 
         Species sp = null;
 
@@ -345,7 +337,7 @@ public class PathwayImporter {
 
             String speciesName;
             try {
-                speciesName = ols.getTermName(taxon, SpeciesUpdater.ONTOLOGY);
+                speciesName = ols.getTermName(taxon, SpeciesUpdater.NEWT_ONTOLOGY);
             } catch (Exception e) {
                 LOGGER.error ("Can't get Term name from ontology service for " + taxon);
 
@@ -369,7 +361,7 @@ public class PathwayImporter {
 //        String[] values = fileName.split("_");
 //
 //        String acc = "MTBLC" + values[1];
-//        String taxon = SpeciesUpdater.ONTOLOGY + ":" + values[2];
+//        String taxon = SpeciesUpdater.NEWT_ONTOLOGY + ":" + values[2];
 //
 //        Species sp = null;
 //
@@ -386,7 +378,7 @@ public class PathwayImporter {
 //
 //            String speciesName;
 //            try {
-//                speciesName = ols.getTermName(taxon, SpeciesUpdater.ONTOLOGY);
+//                speciesName = ols.getTermName(taxon, SpeciesUpdater.NEWT_ONTOLOGY);
 //            } catch (Exception e) {
 //                LOGGER.error ("Can't get Term name from ontology service for " + taxon);
 //

@@ -20,7 +20,6 @@ import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
 import uk.ac.ebi.metabolights.species.core.tools.Grouper;
 import uk.ac.ebi.metabolights.species.core.tools.IPNIParentSearcher;
-import uk.ac.ebi.metabolights.species.core.tools.IParentSearcher;
 import uk.ac.ebi.metabolights.species.core.tools.WoRMSPArentSearcher;
 import uk.ac.ebi.metabolights.species.model.Taxon;
 
@@ -38,7 +37,7 @@ import java.util.*;
  */
 public class SpeciesUpdater {
 
-    public static final String ONTOLOGY = "NEWT";
+    public static final String NEWT_ONTOLOGY = "NEWT";
     Logger LOGGER = Logger.getLogger(SpeciesUpdater.class);
     OntologyLookUpService ols = new OntologyLookUpService();
 
@@ -296,32 +295,46 @@ public class SpeciesUpdater {
 	private void UpdateSpecieWithNewt(Species sp)  {
 
 
-        //IF WE ALREADY HAVE THE TAXON WE DO NOT UPDATE ANYTHING...
-        if (sp.getTaxon() != null && !sp.getTaxon().isEmpty()){
+		// Look up for the species information in OLS.
+		try {
 
-				LOGGER.info ("Specie " + sp.getSpecies() + "(ID:" +sp.getId() + ") has taxon, we will not update it.");
-				return;
-		}
+			//If we got the taxon we will update the description
+			if (sp.getTaxon() != null && !sp.getTaxon().isEmpty()){
 
-        // Look up for the species information in OLS.
-        try {
+					LOGGER.info ("Specie " + sp.getSpecies() + "(ID:" +sp.getId() + ") has taxon, we will update the description using the taxon.");
+					String name = ols.getTermName (sp.getTaxon(), NEWT_ONTOLOGY);
 
-            Map<String,String> terms = ols.getTermsByName(sp.getSpecies(), ONTOLOGY);
+					// If returned value is the same as taxon....it hasn't worked!. Nothing found.
+					if(name.equals(sp.getTaxon())){
 
-            // If there's anything
-            if (terms.size() !=0){
+						LOGGER.info ("Nothing found in OLS for " + sp.getTaxon() + "(ID:" +sp.getId() + ").");
 
-                Map.Entry entry = terms.entrySet().iterator().next();
+					} else {
+						LOGGER.debug ("Updating species name of " + sp.getTaxon() + "(ID:" +sp.getId() + ") with " + name + " (was " + sp.getSpecies() + ").");
+						sp.setSpecies(name);
+					}
 
-                String taxon = ONTOLOGY + ":" + entry.getKey();
-                sp.setTaxon(taxon);
 
-                LOGGER.debug ("Specie " + sp.getSpecies() + "(ID:" +sp.getId() + ") taxon updated with " + taxon);
+			} else if (sp.getSpecies() != null && !sp.getSpecies().isEmpty()){
 
-            } else {
-                LOGGER.info ("Nothing found for " + sp.getSpecies() + " in " + ONTOLOGY + ".");
-            }
+				Map<String,String> terms = ols.getTermsByName(sp.getSpecies(), NEWT_ONTOLOGY);
 
+				// If there's anything
+				if (terms.size() !=0){
+
+					Map.Entry entry = terms.entrySet().iterator().next();
+
+					String taxon = NEWT_ONTOLOGY + ":" + entry.getKey();
+					sp.setTaxon(taxon);
+
+					LOGGER.debug ("Specie " + sp.getSpecies() + "(ID:" +sp.getId() + ") taxon updated with " + taxon);
+
+				} else {
+					LOGGER.info ("Nothing found for " + sp.getSpecies() + " in " + NEWT_ONTOLOGY + ".");
+				}
+			} else {
+				LOGGER.warn("Nothing to update. No species name, no taxon...weird! Species id:" + sp.getId());
+			}
 
         } catch (ServiceException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

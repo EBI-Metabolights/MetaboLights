@@ -19,8 +19,8 @@
 
     <parent>
         <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
-        <artifactId>referencelayer</artifactId>
-        <version>0.3</version>
+        <artifactId>metabolights-referencelayer</artifactId>
+        <version>0.5</version>
     </parent>
 
 	<build>
@@ -46,6 +46,7 @@
             <artifactId>chebiWS-client</artifactId>
             <version>2.2.1</version>
         </dependency>
+
         <dependency>
             <groupId>uk.ac.ebi.rhea</groupId>
             <artifactId>rhea-ws-client</artifactId>

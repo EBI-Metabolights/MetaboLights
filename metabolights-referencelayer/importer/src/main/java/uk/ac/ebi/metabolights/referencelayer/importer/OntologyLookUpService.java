@@ -9,11 +9,12 @@
  */
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import java.rmi.RemoteException;
-import java.util.Map;
-import javax.xml.rpc.ServiceException;
 import uk.ac.ebi.ws.ols.Query;
 import uk.ac.ebi.ws.ols.QueryServiceLocator;
+
+import javax.xml.rpc.ServiceException;
+import java.rmi.RemoteException;
+import java.util.Map;
 
 /**
  * Webservice wrapper for the Ontology LookUp Service http://www.ebi.ac.uk/ontology-lookup/
@@ -21,7 +22,8 @@ import uk.ac.ebi.ws.ols.QueryServiceLocator;
  * @author pmoreno
  */
 public class OntologyLookUpService {
-    private QueryServiceLocator locator;
+	private static final String NEWT = "NEWT";
+	private QueryServiceLocator locator;
 
     /**
      * Only constructor
@@ -64,7 +66,7 @@ public class OntologyLookUpService {
 
     /**
      * Retrieves the name for a particular entry of an ontology, based on its identifier. The identifier should include
-     * the prefix, such as BTO:0000309 instead of 0000309. The ontology prefix
+     * the prefix, such as BTO:0000309 instead of 0000309. The ontology prefix, except for NEWT!!!
      *
      * @param identifer
      * @param ontologyPrefix
@@ -73,31 +75,15 @@ public class OntologyLookUpService {
      * @throws RemoteException
      */
     public String getTermName(String identifer, String ontologyPrefix) throws ServiceException, RemoteException {
+
+       // Prepare the query if NEWT:::grrrr
+		if (ontologyPrefix.equals(NEWT)){
+			identifer = identifer.replace(NEWT + ":", "");
+		}
+
         Query olsQuery = locator.getOntologyQuery();
-        return olsQuery.getTermById(identifer, ontologyPrefix);
+
+		return olsQuery.getTermById(identifer, ontologyPrefix);
     }
 
-    /**
-     * TODO Move to tests.
-     * @param args
-     * @throws ServiceException
-     * @throws RemoteException
-     */
-    public static void main(String[] args) throws ServiceException, RemoteException {
-        OntologyLookUpService lus = new OntologyLookUpService();
-
-        Map<String,String> res = lus.getTermsByName("brain", "EFO");
-        for (String tissue : res.keySet()) {
-            System.out.println(tissue+"\t"+res.get(tissue));
-        }
-
-        System.out.println("BTO trial :"+lus.getTermName("BTO:0000309", "BTO"));
-
-        System.out.println("Prefixed:");
-
-        Map<String,String> res2 = lus.getTermsPrefixed("brain");
-        for (String tissue : res2.keySet()) {
-            System.out.println(tissue+"\t"+res2.get(tissue));
-        }
-    }
 }

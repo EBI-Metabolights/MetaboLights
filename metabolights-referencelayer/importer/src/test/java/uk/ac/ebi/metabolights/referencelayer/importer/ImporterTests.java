@@ -64,9 +64,6 @@ public class ImporterTests extends TestCase{
         /*
         Expected compounds are:
         CHEBI:177403-oxoalanine3CHEBI:48459N-(2,6-dichlorobenzoyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]alanine3CHEBI:48463N-(2,6-dichlorobenzoyl)-3-[6-(2,6-dimethoxyphenyl)-2-naphthyl]alanine3CHEBI:48473methyl 3-[2-(2,6-dichlorophenyl)quinolin-6-yl]alaninate3CHEBI:48475methyl N-(2,6-dichlorobenzyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]alaninate3CHEBI:48477methyl N-(2,6-dichlorobenzyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]-N-methylalaninate3CHEBI:48478N-(2,6-dichlorobenzyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]-N-methylalanine3CHEBI:48479N-(2,6-dichlorobenzoyl)-3-(2-phenoxy-6-quinolyl)alanine3CHEBI:48482methyl 3-(2-phenoxy-6-quinolyl)alaninate3CHEBI:48491methyl N-(tert-butoxycarbonyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]alaninate3CHEBI:48492methyl N-(tert-butoxycarbonyl)-3-[2-(2,6-dichlorophenyl)-4-(phenylsulfanyl)-1,2,3,4,4a,8a-hexahydro-6-quinolyl]alaninate3
-
-
-
          */
 
 	}
@@ -89,5 +86,17 @@ public class ImporterTests extends TestCase{
         }
 
     }
+
+	public void testImportSingleMolecule() throws Exception {
+
+		ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
+
+		rli.setDeleteExistingCHEBISpecies(true);
+
+		rli.importMetaboliteFromChebiID("CHEBI:65640");
+
+
+	}
+
 
 }

@@ -15,12 +15,15 @@ import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 
 import java.sql.Connection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: conesa
@@ -30,6 +33,7 @@ import java.sql.Connection;
 public class SpeciesUpdaterTest {
     protected static final Logger LOGGER = Logger.getLogger(SpeciesUpdaterTest.class);
 	private static final String WORMS_TEST_ID = "WORMS:145379";
+	private static final String NEWT_HUMAN = "NEWT:9606";
 
 	private static Connection con;
 
@@ -67,14 +71,14 @@ public class SpeciesUpdaterTest {
 
 
 	@Test
-	public void UpdateSpecie() throws Exception {
+	public void UpdateSpecieFromName() throws Exception {
 
 
 		SpeciesUpdater speciesUpdater = new SpeciesUpdater(con);
 
 		SpeciesDAO spd = new SpeciesDAO(con);
 
-		Species sp = spd.findBySpeciesTaxon("NEWT:9606");
+		Species sp = spd.findBySpeciesTaxon(NEWT_HUMAN);
 
 		// If HUman is not there (just in case)...
 		if (sp != null) {
@@ -89,7 +93,36 @@ public class SpeciesUpdaterTest {
 		speciesUpdater.UpdateSpeciesInformation(sp);
 
 		// We should have the taxon information and and species member id....
-		assertEquals("Taxon should be populated" , "NEWT:9606", sp.getTaxon());
+		assertEquals("Taxon should be populated" , NEWT_HUMAN, sp.getTaxon());
+
+		assertTrue("Species Member id should be populated." , sp.getSpeciesMemberId()!=0);
+
+	}
+
+	@Test
+	public void UpdateSpeciFromTaxon() throws Exception {
+
+
+		SpeciesUpdater speciesUpdater = new SpeciesUpdater(con);
+
+		SpeciesDAO spd = new SpeciesDAO(con);
+
+		Species sp = spd.findBySpeciesTaxon(NEWT_HUMAN);
+
+		// If HUman is not there (just in case)...
+		if (sp != null) {
+
+			sp.setSpecies(null);
+			sp.setSpeciesMemberId(0);
+		} else {
+			sp = new Species();
+			sp.setTaxon(NEWT_HUMAN);
+		}
+
+		speciesUpdater.UpdateSpeciesInformation(sp);
+
+		// We should have the taxon information and and species member id....
+		assertNotNull("Name should be populated", sp.getSpecies());
 
 		assertTrue("Species Member id should be populated." , sp.getSpeciesMemberId()!=0);
 

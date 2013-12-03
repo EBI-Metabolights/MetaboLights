@@ -36,34 +36,31 @@
   </properties>
 
   <repositories>
-  		<repository>
-		    <id>springsource-repo</id>
-		    <name>SpringSource Repository</name>
-		    <url>http://repo.springsource.org/release</url>
-		</repository>
-        	<repository>
-		  <id>Springframework milestone</id>
-        	  <url>http://maven.springframework.org/milestone</url>
-  		</repository>
-		<repository>
-		  <id>chebi-repo</id>
-	          <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
-		</repository>
-          	<repository>
-	           <id>ebi-snapshot-repo</id>
-		   <name>The EBI internal snapshot repository</name>
-		   <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
-		   <releases>
-		       <enabled>false</enabled>
-		   </releases>
-		   <snapshots>
-		       <enabled>true</enabled>
-		   </snapshots>
-	         </repository>
-	         <repository>
-		  <id>ebi-repo</id>
-	          <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-		</repository>
+  		<!--<repository>-->
+		    <!--<id>springsource-repo</id>-->
+		    <!--<name>SpringSource Repository</name>-->
+		    <!--<url>http://repo.springsource.org/release</url>-->
+		<!--</repository>-->
+       	<!--<repository>-->
+		  <!--<id>Springframework milestone</id>-->
+        	  <!--<url>http://maven.springframework.org/milestone</url>-->
+  		<!--</repository>-->
+
+          	<!--<repository>-->
+	           <!--<id>ebi-snapshot-repo</id>-->
+		   <!--<name>The EBI internal snapshot repository</name>-->
+		   <!--<url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>-->
+		   <!--<releases>-->
+		       <!--<enabled>false</enabled>-->
+		   <!--</releases>-->
+		   <!--<snapshots>-->
+		       <!--<enabled>true</enabled>-->
+		   <!--</snapshots>-->
+	         <!--</repository>-->
+        <!--<repository>-->
+		    <!--<id>ebi-repo</id>-->
+	          <!--<url>http://www.ebi.ac.uk/~maven/m2repo</url>-->
+		<!--</repository>-->
    </repositories>
 
   <dependencies>

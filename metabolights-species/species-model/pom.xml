@@ -18,7 +18,7 @@
     <artifactId>species-model</artifactId>
     <name>MetaboLights Species Model</name>
     <description>Model for the species service</description>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>0.2-SNAPSHOT</version>
 
     <parent>
