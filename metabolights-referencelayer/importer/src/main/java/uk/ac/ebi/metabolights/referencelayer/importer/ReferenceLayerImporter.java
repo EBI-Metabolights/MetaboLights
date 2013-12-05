@@ -13,10 +13,7 @@ package uk.ac.ebi.metabolights.referencelayer.importer;
 import org.apache.log4j.Logger;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.CrossReferenceDAO;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetSpeciesDAO;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
@@ -41,6 +38,7 @@ public class ReferenceLayerImporter{
     private CrossReferenceDAO crd;
     private SpeciesDAO spd;
 	private MetSpeciesDAO mspd;
+	private DatabaseDAO dbd;
 
     private RheasResourceClient wsRheaClient;
 
@@ -48,21 +46,45 @@ public class ReferenceLayerImporter{
    // private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
 
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
-	private static final int CHEBI_DB_ID = 1;
+	private static final Long CHEBI_DB_ID = new Long(1);
     private String chebiIDRoot = "CHEBI:25212";
     private RelationshipType relationshipType = RelationshipType.HAS_ROLE;
-	private boolean deleteExistingCHEBISpecies = false;
 
-    // Instantiate with a connection object
+	public class ImportOptions
+	{
+		public static final int REFRESH_MET_SPECIES = 0x1;
+		public static final int UPDATE_EXISTING_MET= 0x1<<1;
+//		public static final int THREE = 0x1<<2;
+//		public static final int FOUR = 0x1<<3;
+//		public static final int FIVE = 0x1<<4;
+
+		// COMBOS...
+		public static final int SPECIES_AND_UPDATE_MET = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
+		public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
+	}
+
+
+	private int importOptions = ImportOptions.UPDATE_EXISTING_MET;
+
+	// Instantiate with a connection object
     public ReferenceLayerImporter(Connection connection) throws IOException {
         this.mcd = new MetaboLightsCompoundDAO(connection);
         this.crd = new CrossReferenceDAO(connection);
         this.spd = new SpeciesDAO(connection);
 		this.mspd = new MetSpeciesDAO(connection);
+		this.dbd = new DatabaseDAO(connection);
 
     }
 
-    public RelationshipType getRelationshipType() {
+	public int getImportOptions() {
+		return importOptions;
+	}
+
+	public void setImportOptions(int importOptions) {
+		this.importOptions = importOptions;
+	}
+
+	public RelationshipType getRelationshipType() {
         return relationshipType;
     }
 
@@ -77,14 +99,6 @@ public class ReferenceLayerImporter{
     public void setChebiIDRoot(String chebiIDRoot) {
         this.chebiIDRoot = chebiIDRoot;
     }
-
-	public boolean isDeleteExistingCHEBISpecies() {
-		return deleteExistingCHEBISpecies;
-	}
-
-	public void setDeleteExistingCHEBISpecies(boolean deleteExistingCHEBISpecies) {
-		this.deleteExistingCHEBISpecies = deleteExistingCHEBISpecies;
-	}
 
 	public void importMetabolitesFromChebi(){
 
@@ -192,17 +206,35 @@ public class ReferenceLayerImporter{
 
         try {
 
+			// Get a complete entity....
+			Entity entity = chebiWS.getCompleteEntity(chebiId);
 
-            String accession = chebiID2MetaboLightsID(chebiId);
+			if (entity == null) {
 
-            // Check if we have already the Metabolite (since querying the WS is what takes more...)
+				// chebiID not found
+				LOGGER.info("The compound " + chebiId + " wasn't found by the chebi webservice");
+				return 0;
+			}
+
+            // If returned entity has a different CHEBI id (.. a secondary id was provided...)
+			if (!entity.getChebiId().equals(chebiId)){
+
+				// Switch to the primary chebiID
+				chebiId = entity.getChebiId();
+			}
+
+
+			String accession = chebiID2MetaboLightsID(chebiId);
+
+
+			// Check if we have already the Metabolite (since querying the WS is what takes more...)
             MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
 
             if (mc != null){
                 // ...we already have it...don't do anything..although at some point we may want to update it..
                 LOGGER.info("The compound " + accession + " is already imported into the database. Updating it");
 
-				if (deleteExistingCHEBISpecies){
+				if ((importOptions & ImportOptions.REFRESH_MET_SPECIES) == ImportOptions.REFRESH_MET_SPECIES){
 					deleteExistingCHEBISpecies(mc);
 				}
 
@@ -212,11 +244,6 @@ public class ReferenceLayerImporter{
                 mc = new MetaboLightsCompound();
 
             }
-
-
-            // Populate the metabolite compound with chebi data.
-            // Get a complete entity....
-            Entity entity = chebiWS.getCompleteEntity(chebiId);
 
             mc.setAccession(chebiID2MetaboLightsID(entity.getChebiId()));
             mc.setChebiId(entity.getChebiId());
@@ -321,13 +348,9 @@ public class ReferenceLayerImporter{
 
     private void importMetSpeciesFromChebi(MetaboLightsCompound mc , Entity chebiEntity) throws DAOException {
 
+		CrossReference chebiXRef = getCrossReference(chebiEntity);
 
-        // In dev chebi db id is 1
-        //Database chebiDB =  crd.findByDatabaseId(Long.valueOf(1));
-
-        CrossReference chebiXRef = crd.findByCrossReferenceAccession(chebiEntity.getChebiId());
-
-        //For each compound origin in chebi...
+		//For each compound origin in chebi...
         for (CompoundOrigins origin : chebiEntity.getCompoundOrigins()){
 
             Species sp = getSpecies(origin);
@@ -340,7 +363,24 @@ public class ReferenceLayerImporter{
         }
     }
 
-    private Species getSpecies(CompoundOrigins origin) throws DAOException {
+	private CrossReference getCrossReference(Entity chebiEntity) throws DAOException {
+
+		CrossReference cr = crd.findByCrossReferenceAccession(chebiEntity.getChebiId());
+
+		// If not CrossReference was found
+		if (cr == null){
+
+
+			cr = new CrossReference();
+			cr.setAccession(chebiEntity.getChebiId());
+			cr.setDb(dbd.findByDatabaseId(CHEBI_DB_ID));
+		}
+
+		return cr;
+	}
+
+
+	private Species getSpecies(CompoundOrigins origin) throws DAOException {
 
         // Try to find the specie
         String species = origin.getSpeciesText();

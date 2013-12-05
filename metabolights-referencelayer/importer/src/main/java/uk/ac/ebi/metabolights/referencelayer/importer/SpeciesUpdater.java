@@ -18,6 +18,7 @@ import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesMembersDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
+import uk.ac.ebi.metabolights.species.core.tools.FungaeParentSearcher;
 import uk.ac.ebi.metabolights.species.core.tools.Grouper;
 import uk.ac.ebi.metabolights.species.core.tools.IPNIParentSearcher;
 import uk.ac.ebi.metabolights.species.core.tools.WoRMSPArentSearcher;
@@ -247,6 +248,8 @@ public class SpeciesUpdater {
 
 				// Add the IPNI parent Searcher.
 				grouper.getParentSearchers().add(new IPNIParentSearcher());
+
+				grouper.getParentSearchers().add(new FungaeParentSearcher());
 
 
 				speciesMemberses = speciesMemberDAO.getAll();
