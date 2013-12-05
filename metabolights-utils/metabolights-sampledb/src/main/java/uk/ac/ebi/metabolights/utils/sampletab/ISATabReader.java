@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 10/10/13 11:25
+ * Last modified: 29/11/13 14:09
  * Modified by:   kenneth
  *
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -255,7 +255,7 @@ public class ISATabReader {
     }
 
     /**
-     * Gets the study object from ISAcrator
+     * Gets the study object from ISAcreator
      * @return Study
      */
     public Study getStudyFromInvestigation(){

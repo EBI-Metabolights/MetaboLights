@@ -1,5 +1,4 @@
-create or replace 
-PROCEDURE EBEYE_EXPORT (RELEASE_NUMBER NUMBER DEFAULT 0)
+create or replace PROCEDURE EBEYE_EXPORT (RELEASE_NUMBER NUMBER DEFAULT 0)
 AS
   start_str VARCHAR2(2000) := '<database>
     <name>MetaboLights</name>
@@ -42,11 +41,15 @@ AS
   add_fields_end VARCHAR2(100)   := '            </additional_fields>';
 
   file_end VARCHAR2(100) := '</database>';
+  
+  c_technology_cursor_value varchar2(100) default null;
 
 
   -- MTBLC and MTBLS records
   cursor accession_c is
-      select distinct * from study_compound;
+      select distinct * from study_compound
+      --where name in('MTBLC16449','MTBLC28044')
+      ;
 
   --Xrefs
   cursor xrefs_c(xref_entry_id VARCHAR2) is
@@ -73,7 +76,9 @@ AS
     from design d
     where d.study_id = l_study_id;
 
+  ------------------------------------------------------------------
   -- Metabolite names for a study
+  ------------------------------------------------------------------
   cursor metabo_c(name_study_id VARCHAR2) is
      select distinct comp.title as metabolite
      from study_compound comp, study_compound_ref ref
@@ -81,14 +86,17 @@ AS
         ref.id = name_study_id and
         ref.entry_id = comp.entry_id;
 
-
+  ------------------------------------------------------------------
   -- Assay information
+   ------------------------------------------------------------------
   cursor assay_c(l_study_id NUMBER) is
     select distinct a.platform
     from assay a
     where a.study_id = l_study_id;
 
+  ------------------------------------------------------------------
   -- Organism from MTBLS loop
+  ------------------------------------------------------------------
   cursor organism_c(p_study_id NUMBER) is
     SELECT DISTINCT PV.VALUE, S.ACC
     FROM PROPERTY_VALUE PV
@@ -100,8 +108,10 @@ AS
       AND LOWER(P.VALUE) = 'organism'
       AND PV.VALUE <> 'none';
 
+  ------------------------------------------------------------------
   -- Organism from MTBLC loop
-  cursor organism_c_entry(l_entry_id NUMBER) is
+  ------------------------------------------------------------------
+  /**cursor organism_c_entry(l_entry_id NUMBER) is
       SELECT DISTINCT PV.VALUE     --SELECT DISTINCT PV.VALUE, S.ACC
     FROM PROPERTY_VALUE PV
       LEFT JOIN PROPERTY P ON PV.PROPERTY_ID = P.ID
@@ -112,7 +122,43 @@ AS
     WHERE sc.entry_id = l_entry_id
       AND LOWER(P.VALUE) = 'organism'
       AND PV.VALUE <> 'none';
+  **/    
+  cursor organism_c_entry(l_entry_id NUMBER) is
+    select distinct m.id, m.acc, m.name, s.species, s.taxon
+    from 
+      ref_metabolite m,
+      ref_met_to_species mts,
+      ref_species s
+    where 
+      m.id = l_entry_id and
+      m.id = mts.met_id and
+      mts.species_id = s.ID
+    START WITH s.final_id is null
+      CONNECT BY s.id = PRIOR s.final_id;    
 
+  ------------------------------------------------------------------
+  -- Organism group from MTBLC loop
+  ------------------------------------------------------------------
+  cursor organism_group_c_entry(l_entry_id NUMBER) is      
+    select distinct g.name
+    from 
+      ref_metabolite m,
+      ref_met_to_species mts,
+      ref_species s,
+      ref_species_group g,
+      ref_species_members sm
+    where 
+      m.id = l_entry_id and
+      m.id = mts.MET_ID and
+      mts.SPECIES_ID = s.ID and
+      s.species_member = sm.id and
+      sm.group_id = g.ID
+    START WITH s.final_id is null
+         CONNECT BY s.id = PRIOR s.final_id;      
+
+  ------------------------------------------------------------------
+  -- Study factors
+  ------------------------------------------------------------------
   cursor factor_c(f_study_id NUMBER) IS
     SELECT distinct S.ACC, PV.VALUE AS FactorValue, P.VALUE AS Factor
     FROM ASSAYRESULT2PROPERTYVALUE AR2PV
@@ -124,7 +170,9 @@ AS
       PV.OBJ_TYPE = 'FactorValue'
       and s.id=f_study_id;
 
+  ------------------------------------------------------------------
   -- Submitter(s)
+  ------------------------------------------------------------------
   cursor submitter_c(sub_study_id NUMBER) IS
    select ud.firstname, ud.lastname, ud.username
    from
@@ -132,7 +180,9 @@ AS
    where s.user_id = ud.id
     and s.study_id = sub_study_id;
 
+  ------------------------------------------------------------------
   -- Technology
+  ------------------------------------------------------------------
   cursor technology_c(o_study_id NUMBER)  IS
     select distinct oe.name
     from
@@ -142,9 +192,11 @@ AS
       and oe.obj_type = 'AssayTechnology'
       and a.study_id = o_study_id;
 
- -- Technology using ChEBI ids
- cursor technology_chebi(o_chebi_id VARCHAR2)  IS
-  select distinct oe.name
+  ------------------------------------------------------------------
+  -- Technology using ChEBI ids
+  ------------------------------------------------------------------
+  cursor technology_chebi(o_chebi_id VARCHAR2)  IS
+    select distinct oe.name
     from
       ontology_entry oe,
       assay a,
@@ -243,16 +295,16 @@ BEGIN
           END LOOP;
 
             -- Metabolite name loop
-            FOR metabo_cur IN metabo_c(study_cur.name) LOOP
-              dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','metabolite_name'),'FIELD_VALUE',metabo_cur.metabolite) );
-              add_fields_entry := l_add_fields_entry;
-            END LOOP;
+          FOR metabo_cur IN metabo_c(study_cur.name) LOOP
+            dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','metabolite_name'),'FIELD_VALUE',metabo_cur.metabolite) );
+            add_fields_entry := l_add_fields_entry;
+          END LOOP;
 
-            -- Submitter
-            FOR submitter_cur IN submitter_c(study_cur.entry_id) LOOP
-              dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','submitter'),'FIELD_VALUE',submitter_cur.firstname ||' '||submitter_cur.lastname ) );
-              add_fields_entry := l_add_fields_entry;
-            END LOOP;
+          -- Submitter
+          FOR submitter_cur IN submitter_c(study_cur.entry_id) LOOP
+            dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','submitter'),'FIELD_VALUE',submitter_cur.firstname ||' '||submitter_cur.lastname ) );
+            add_fields_entry := l_add_fields_entry;
+          END LOOP;
 
         ELSE  -- MTBLC (compound) information
 
@@ -260,10 +312,22 @@ BEGIN
           add_fields_entry := l_add_fields_entry;
 
           -- Study technology
-          FOR tech_cur IN technology_chebi(study_cur.chebi_id) LOOP
-            dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','technology_type'),'FIELD_VALUE',tech_cur.name) );
+          Open technology_chebi(study_cur.chebi_id);
+          fetch technology_chebi into c_technology_cursor_value;
+          if technology_chebi%FOUND THEN
+            dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','technology_type'),'FIELD_VALUE',c_technology_cursor_value) );
             add_fields_entry := l_add_fields_entry;
-          END LOOP;
+          ELSE
+            dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','technology_type'),'FIELD_VALUE','not reported') );
+            add_fields_entry := l_add_fields_entry;
+          END IF;
+          c_technology_cursor_value := null;
+          close technology_chebi;
+          
+          --FOR tech_cur IN technology_chebi(study_cur.chebi_id) LOOP
+          --  dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','technology_type'),'FIELD_VALUE',tech_cur.name) );
+          --  add_fields_entry := l_add_fields_entry;
+          --END LOOP;
 
           -- iupac name
           dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','iupac'),'FIELD_VALUE',study_cur.iupac) );
@@ -289,7 +353,13 @@ BEGIN
 
           -- Organisms for Compounds
           FOR organism_cur_e IN organism_c_entry(study_cur.entry_id) LOOP
-            dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','organism'),'FIELD_VALUE',organism_cur_e.value) );
+            dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','organism'),'FIELD_VALUE',organism_cur_e.species) );
+            add_fields_entry := l_add_fields_entry;
+          END LOOP;
+          
+          -- Organism group for Compounds
+          FOR organism_cur2_e IN organism_group_c_entry(study_cur.entry_id) LOOP
+            dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','organism_group'),'FIELD_VALUE',organism_cur2_e.name) );
             add_fields_entry := l_add_fields_entry;
           END LOOP;
 
