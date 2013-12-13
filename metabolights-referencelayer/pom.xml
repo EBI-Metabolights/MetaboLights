@@ -32,7 +32,7 @@
     <modules>
         <module>domain</module>
         <module>dao</module>
-        <module>WorMS-client</module>
+        <module>WoRMS-client</module>
     </modules>
 
     <build>
