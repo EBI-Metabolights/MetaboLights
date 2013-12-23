@@ -28,6 +28,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ReferenceLayerImporter{
@@ -54,13 +56,13 @@ public class ReferenceLayerImporter{
 	{
 		public static final int REFRESH_MET_SPECIES = 0x1;
 		public static final int UPDATE_EXISTING_MET= 0x1<<1;
-//		public static final int THREE = 0x1<<2;
+		public static final int DO_FUZZY_SEARCH = 0x1<<2;
 //		public static final int FOUR = 0x1<<3;
 //		public static final int FIVE = 0x1<<4;
 
 		// COMBOS...
 		public static final int SPECIES_AND_UPDATE_MET = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
-		public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
+		public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET + DO_FUZZY_SEARCH;
 	}
 
 
@@ -136,8 +138,6 @@ public class ReferenceLayerImporter{
 
     }
 
-
-
     public void importMetabolitesFromChebiTSV(File chebiTSV){
 
         LOGGER.info("Importing metabolites from chebi. TSV: " + chebiTSV.getAbsoluteFile());
@@ -199,10 +199,94 @@ public class ReferenceLayerImporter{
 		chebiID2MetaboLights(chebiId);
 	}
 
-    /*
-    Returns 1 if successful
-     */
-    private int chebiID2MetaboLights(String chebiId) throws DAOException {
+
+	private int chebiID2MetaboLights(String chebiId) throws DAOException {
+
+		Collection<String> chebiFamily = getFamilyForChebiID(chebiId);
+
+		int imported = 0;
+
+		for(String chebiIDRelative: chebiFamily){
+
+			imported = imported + chebiID2MetaboLightsNoFuzzy(chebiIDRelative);
+		}
+
+		return imported;
+
+	}
+
+	private ArrayList<String> getFamilyForChebiID(String chebiId) {
+
+
+		// Try first the initial chebiId
+		ArrayList<String> chebiIdRelatives = new ArrayList<String>();
+		chebiIdRelatives.add(chebiId);
+
+		if ((importOptions & ImportOptions.DO_FUZZY_SEARCH) == ImportOptions.DO_FUZZY_SEARCH){
+
+
+			try {
+
+				// ... try tautomers
+				Collection<String> tautomers = null;
+				tautomers = getChebiIdsRelatives(chebiId, RelationshipType.IS_TAUTOMER_OF);
+
+				chebiIdRelatives.addAll(tautomers);
+
+				// ... try children
+				Collection<String>	children = getChebiIdsRelatives(chebiId, RelationshipType.IS_A);
+				chebiIdRelatives.addAll(children);
+
+				// ... try tautomers of the children
+				Collection<String> childrenTautomers = getChebiIdsRelatives(children, RelationshipType.IS_TAUTOMER_OF);
+				chebiIdRelatives.addAll(childrenTautomers);
+
+			} catch (ChebiWebServiceFault_Exception e) {
+				LOGGER.error("Can't perform fuzy search of chebiID " + chebiId + " using chebi WS", e);
+			}
+
+		}
+
+		return chebiIdRelatives;
+
+	}
+
+	private ArrayList<String> getChebiIdsRelatives(String chebiId, RelationshipType relType) throws ChebiWebServiceFault_Exception {
+
+
+		ArrayList<String> relatives = new ArrayList<String>();
+
+		// Get all the children of that chebi id
+		LiteEntityList children = chebiWS.getAllOntologyChildrenInPath(chebiId, relType, true);
+
+		for (LiteEntity le: children.getListElement()){
+			relatives.add(le.getChebiId());
+		}
+
+		return relatives;
+
+	}
+
+	private ArrayList<String> getChebiIdsRelatives(Collection<String> chebiIdList, RelationshipType relType) throws ChebiWebServiceFault_Exception {
+
+
+		ArrayList<String> joinedRelatives = new ArrayList<String>();
+
+		// For each chebiID in the lis
+		for (String chebiId: chebiIdList){
+
+			Collection<String> relatives = getChebiIdsRelatives(chebiId,relType);
+
+			joinedRelatives.addAll(relatives);
+		}
+
+		return joinedRelatives;
+
+	}
+	/*
+	Returns 1 if successful
+	 */
+    private int chebiID2MetaboLightsNoFuzzy(String chebiId) throws DAOException {
 
         try {
 
@@ -231,11 +315,20 @@ public class ReferenceLayerImporter{
             MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
 
             if (mc != null){
-                // ...we already have it...don't do anything..although at some point we may want to update it..
-                LOGGER.info("The compound " + accession + " is already imported into the database. Updating it");
+
+				// If we don't need to update existing metabolites..
+				if ((importOptions & ImportOptions.UPDATE_EXISTING_MET) == 0){
+					LOGGER.info("The compound " + accession + " already exists and update option not selected.");
+					return 0;
+				}
+
+
+				// ...we already have it...don't do anything..although at some point we may want to update it..
+				LOGGER.info("The compound " + accession + " is already imported into the database. Updating it");
 
 				if ((importOptions & ImportOptions.REFRESH_MET_SPECIES) == ImportOptions.REFRESH_MET_SPECIES){
 					deleteExistingCHEBISpecies(mc);
+
 				}
 
             } else {
@@ -243,7 +336,10 @@ public class ReferenceLayerImporter{
                 // ...if execution reach this point....we don't have the compound and needs to be imported from chebi WS.
                 mc = new MetaboLightsCompound();
 
-            }
+				// ...log new compound found
+				LOGGER.info("The compound " + chebiId + " will be imported. Importing it");
+
+			}
 
             mc.setAccession(chebiID2MetaboLightsID(entity.getChebiId()));
             mc.setChebiId(entity.getChebiId());

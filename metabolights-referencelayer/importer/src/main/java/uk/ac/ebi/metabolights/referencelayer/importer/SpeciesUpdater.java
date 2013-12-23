@@ -206,6 +206,7 @@ public class SpeciesUpdater {
 		SpeciesMembers spm = getSpeciesMemberFromTaxon(group);
 
 		if (spm != null){
+			LOGGER.warn("SpeciesMember found for " + sp.getTaxon() + " - " + sp.getId() + ":" + group.getId());
 			sp.setSpeciesMemberId(spm.getId());
 		} else {
 
