@@ -3,7 +3,8 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html;charset=UTF-8"%>
-<%@page pageEncoding="UTF-8"%>
+<%@page pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+
 <%--<script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>--%>
 <%--<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
@@ -396,9 +397,8 @@ function toggleColumn(tableId, anchor, duration ) {
                                                 <c:when test="${not empty materialName}">${materialName}</c:when>
                                                 <c:otherwise> </c:otherwise>
                                             </c:choose>
-
 			                    		</c:forEach>
-			                    		</td>
+			                    	</td>
 	                    			<c:forEach var="fv" items="${MLAssayResult.assayResult.data.factorValues}">
 	                    				<td class="tableitem">${fv.value} ${fv.unit.value}</td>
 	                    			</c:forEach>
@@ -444,9 +444,7 @@ function toggleColumn(tableId, anchor, duration ) {
                                         <th><spring:message code="label.metabolites.smiles"/></th>
                                         <th><spring:message code="label.metabolites.inchi"/></th>
                                         <c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
-                                            <th>
-                                                ${sampleHeader.sampleName}
-                                            </th>
+                                            <th>${sampleHeader.sampleName}</th>
                                         </c:forEach>
                                     </tr>
                                     </thead>
@@ -460,17 +458,14 @@ function toggleColumn(tableId, anchor, duration ) {
 
                                         <%--Line itself --%>
                                     <tr class="${loopStatusMet.index % 2 == 0 ? '' : 'coloured'}">
-                                        <td>
-                                                ${met.metabolite.description}
+                                        <td>${met.metabolite.description}
                                             <c:choose>
                                                 <c:when test="${empty met.identifier}"></c:when>
                                                 <c:when test="${empty met.link }"> (${met.identifier})</c:when>
                                                 <c:otherwise><a class="metLink" identifier="${met.identifier}" href="${met.link}" target="_blank">(${met.identifier})</a></c:otherwise>
                                             </c:choose>
                                         </td>
-                                        <td>
-                                                ${met.metabolite.chemical_formula}
-                                        </td>
+                                        <td>${met.metabolite.chemical_formula}</td>
                                         <c:if test="${mlAssay.technology eq 'mass spectrometry'}">
                                             <td>${met.metabolite.mass_to_charge}</td>
                                             <td>${met.metabolite.retention_time}</td>
@@ -479,19 +474,11 @@ function toggleColumn(tableId, anchor, duration ) {
                                             <td>${met.metabolite.chemical_shift}</td>
                                             <td>${met.metabolite.multiplicity}</td>
                                         </c:if>
-
-                                        <td>
-                                                ${met.metabolite.smiles}
-                                        </td>
-                                        <td>
-                                                ${met.metabolite.inchi}
-                                        </td>
-
-                                            <%-- sampleValues --%>
+                                        <td>${met.metabolite.smiles}</td>
+                                        <td>${met.metabolite.inchi}</td>
+                                        <%-- sampleValues --%>
                                         <c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >
-                                            <td class="tableitem">
-                                                    ${sample.value}
-                                            </td>
+                                            <td class="tableitem">${sample.value}</td>
                                         </c:forEach>
                                             <%-- For each sample --%>
 

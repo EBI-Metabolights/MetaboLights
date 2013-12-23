@@ -167,6 +167,50 @@ body.expander div#global { border-bottom: 1px solid #111; }
 body.expander div#local { border-top: 1px solid #70D3D3; }
 
 
+.species .icon{
+    font-size: 120%;
+    list-style-type: none;
+    font-style: italic;
+}
+.species .icon-species:before {
+    color: #C58A4D;
+    font-style: normal;
+}
+
+
+
+/* d3 speciescope styles */
+.node {
+    cursor: pointer;
+}
+
+.node:hover {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+
+.node--root {
+    stroke: #777;
+    stroke-width: 2px;
+}
+
+.node--leaf {
+    fill: #dddddd;
+}
+
+.label {
+    font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: middle;
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+.label,
+.node--root,
+.node--leaf {
+    pointer-events: none;
+}
+
+
 /* Palette color codes */
 
 .primary-1 { background-color: #C58A4D}

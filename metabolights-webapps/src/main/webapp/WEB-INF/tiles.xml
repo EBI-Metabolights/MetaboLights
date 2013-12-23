@@ -212,5 +212,9 @@
         <put-attribute name="title" value="Study" />
         <put-attribute name="body" value="/WEB-INF/jsp/entry2.jsp" />
     </definition>
+    <definition name="species" extends="default">
+        <put-attribute name="title" value="Species search" />
+        <put-attribute name="body" value="/WEB-INF/jsp/species.jsp" />
+    </definition>
 
 </tiles-definitions>

@@ -24,10 +24,9 @@
 <div class='grid_6 prefix_2 omega'>
     <a href="<spring:url value="/j_spring_security_logout"/>">
     <div class="bigbutton maincolorI">
-
          <span class="bigfont"><spring:message code="menu.logoutCaps" /></span><br/>
-     </a>
     </div>
+    </a>
 </div>
 <p></p>
 <p></p>

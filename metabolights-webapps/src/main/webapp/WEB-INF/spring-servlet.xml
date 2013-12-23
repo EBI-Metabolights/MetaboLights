@@ -22,7 +22,8 @@
  
     <context:component-scan base-package="uk.ac.ebi.metabolights" />
     <context:annotation-config/>
-    
+
+    <mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
     <!--  this makes references to picture and style sheets work -->
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
