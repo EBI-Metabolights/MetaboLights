@@ -436,8 +436,8 @@ public class ReferenceLayerController extends AbstractController {
                 ua = UserAction.clickedOnPage;
                 rffl.setCurrentPage(Integer.parseInt(pageSelected));
             }
-        } else if(userQuery.equals("")){
-            if ((cacheRffl != null)){
+        } else if("".equals(userQuery) && (organismsSelected == null)){
+            if (cacheRffl != null){
                 ua = UserAction.browseCached;
 
                 rffl = cacheRffl.clone(); //add here for changing the page e.g: .../reference?PageNumber=3
