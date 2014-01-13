@@ -14,7 +14,7 @@
 
     <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
     <artifactId>metabolights-referencelayer-domain</artifactId>
-    <version>0.8-SNAPSHOT</version>
+    <version>0.9-SNAPSHOT</version>
     <name>MetaboLights Reference Layer Domain</name>
     <description>MetaboLights Reference Layer Domain module</description>
 

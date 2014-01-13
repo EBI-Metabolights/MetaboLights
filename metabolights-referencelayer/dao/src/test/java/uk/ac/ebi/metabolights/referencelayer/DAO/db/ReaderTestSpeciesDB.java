@@ -19,6 +19,7 @@ import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 
 import java.sql.Connection;
+import java.util.Collection;
 import java.util.Set;
 
 public class ReaderTestSpeciesDB extends TestCase{
@@ -113,7 +114,7 @@ public class ReaderTestSpeciesDB extends TestCase{
 		Set<Species> species = speciesD.findWithSpeciesMember();
 
 		for (Species sp: species){
-			assertTrue("Specie should have a species member id", sp.getSpeciesMemberId()!=0);
+			assertNotNull("Specie should have a species member id", sp.getSpeciesMember());
 		}
 
 	}
@@ -124,12 +125,20 @@ public class ReaderTestSpeciesDB extends TestCase{
 		// Don't know the content, so we do not assert anything. But at least we are calling the method.
 		//TODO: Have a controlled data set
 		for (Species sp: species){
-			assertTrue("Specie shouldn't have a species member id", sp.getSpeciesMemberId()==0);
+			assertNotNull("Specie shouldn't have a species member id", sp.getSpeciesMember());
 		}
 
 
 	}
 
+	public void testFindASpeciesByGroup() throws Exception {
+
+
+		Collection<Species> species = speciesD.findByGroupId(new Long(3));
+
+		assertTrue("Testing findByGroupId", species.size()>0);
+
+	}
 
 
     public void testFindASpeciesById() throws Exception {

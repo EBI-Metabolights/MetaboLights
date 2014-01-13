@@ -28,7 +28,6 @@ import java.util.Set;
 
 public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO{
 
-    private SpeciesGroupDAO spgd;
 	private static GenericIdentityMap<SpeciesMembers> identityMap = new GenericIdentityMap<SpeciesMembers>();
 
 	/**
@@ -39,7 +38,6 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 
         super(connection);
         setUp(this.getClass());
-        this.spgd = new SpeciesGroupDAO(connection);
 
 	}
 
@@ -86,8 +84,8 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 	}
 
 
-	private Collection <SpeciesMembers> getBy(String where, Object value)
-	throws DAOException {
+	private Collection <SpeciesMembers> getBy(String where, Object value) throws DAOException
+	{
 		ResultSet rs = null;
 		try {
 
@@ -111,6 +109,7 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 
         } catch (SQLException e){
            throw new DAOException(e);
+
 		} finally {
 			if (rs != null) try {
                 rs.close();
@@ -120,7 +119,8 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 		}
 	}
 
-	private Set<SpeciesMembers> loadSpeciesMembers(ResultSet rs) throws SQLException, DAOException {
+	private Set<SpeciesMembers> loadSpeciesMembers(ResultSet rs) throws SQLException, DAOException
+	{
 
 		Set<SpeciesMembers> result = new HashSet<SpeciesMembers>();
 
@@ -133,7 +133,8 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 
 	}
 
-	private SpeciesMembers loadSpeciesMember(ResultSet rs) throws SQLException, DAOException {
+	private SpeciesMembers loadSpeciesMember(ResultSet rs) throws SQLException, DAOException
+	{
 
 
         long id = rs.getLong("ID");
@@ -142,7 +143,7 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 		String taxon_desc = rs.getString("TAXON_DESC");
 
         // Get the referenced objects
-        SpeciesGroup spg = spgd.getById(spgId);
+        SpeciesGroup spg = DAOFactory.getSpeciesGroupDAO().getById(spgId);
 
         SpeciesMembers spm = new SpeciesMembers();
 		spm.setId(id);
@@ -168,7 +169,7 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
         }
 
         // Before saving the SpeciesMembers data we need to save the foreign key entities if apply
-        if (speciesMember.getSpeciesGroup().getId() == 0) spgd.save(speciesMember.getSpeciesGroup());
+        if (speciesMember.getSpeciesGroup().getId() == 0) DAOFactory.getSpeciesGroupDAO().save(speciesMember.getSpeciesGroup());
 
 		// If its a new SpeciesMembers
 		if (speciesMember.getId() == 0) {

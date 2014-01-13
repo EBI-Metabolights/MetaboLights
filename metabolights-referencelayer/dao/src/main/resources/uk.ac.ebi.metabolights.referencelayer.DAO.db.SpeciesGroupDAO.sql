@@ -1,5 +1,5 @@
 --speciesgroup.core:\
-SELECT ID, NAME \
+SELECT ID, NAME, PARENT_ID \
 FROM REF_SPECIES_GROUP \
 WHERE {0}
 
@@ -10,16 +10,16 @@ NAME = ?
 ID = ?
 
 --where.speciesgroup.all:\
-1 = ?
+1 = 1
 
 --update.speciesgroup:\
 UPDATE REF_SPECIES_GROUP \
-	SET NAME = ? WHERE ID = ?
+	SET NAME = ?, PARENT_ID = ? WHERE ID = ?
 	
 --insert.speciesgroup:\
 INSERT INTO REF_SPECIES_GROUP \
-	(NAME) \
-	VALUES (?)
+	(NAME, PARENT_ID) \
+	VALUES (?, ?)
 
 --delete.speciesgroup:\
 DELETE FROM REF_SPECIES_GROUP \

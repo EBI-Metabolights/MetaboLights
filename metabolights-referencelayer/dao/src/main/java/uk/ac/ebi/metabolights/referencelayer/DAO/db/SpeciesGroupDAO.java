@@ -11,8 +11,10 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 
+import org.hamcrest.Matchers;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.ISpeciesGroupDAO;
+import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
 
 import java.io.IOException;
@@ -22,7 +24,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import static ch.lambdaj.Lambda.*;
 
 
 public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
@@ -35,6 +40,10 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
     }
 	@Override
 	public SpeciesGroup getById(Long speciesGroupId) throws DAOException {
+
+		// This mathod does not make sense to me anymore after adding childrens.
+		// But I'll leave it here just in case, not populating the children (since it will lead to a recursive load)
+        LOGGER.warn("SpeciesGroup children are not populated, neither species collection");
 
         // Try to get it from the identity map...
         SpeciesGroup spg =  identityMap.getEntity(speciesGroupId);
@@ -53,7 +62,11 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
     @Override
     public SpeciesGroup getByName(String speciesGroupName) throws DAOException {
 
-        // It must return an array of one speciesGroup....get the first one and only.
+		// This mathod does not make sense to me anymore after adding childrens.
+		// But I'll leave it here just in case, not populating the children (since it will lead to a recursive load)
+		LOGGER.warn("SpeciesGroup children are not populated, neither species collection");
+
+		// It must return an array of one speciesGroup....get the first one and only.
         Collection<SpeciesGroup> speciesGroup = findBy("--where.speciesgroup.by.name", speciesGroupName);
         SpeciesGroup spg =  (speciesGroup ==null? null:speciesGroup.iterator().next());
 
@@ -63,7 +76,51 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 	@Override
     public Set<SpeciesGroup> getAll() throws DAOException {
 
-		return findBy("--where.speciesgroup.all",1);
+
+		Set<SpeciesGroup> result = findBy("--where.speciesgroup.all",null);
+
+		// Assign children ...
+		AssignChildren(result);
+
+		// Assign species
+		AssignSpecies(result);
+
+		return result;
+
+	}
+
+	private void AssignChildren(Set<SpeciesGroup> speciesGroups) throws DAOException {
+
+		// go through the species group set...
+		for (SpeciesGroup sg : speciesGroups)
+		{
+			// Get all the childrens...
+			Collection<Species> specieses = DAOFactory.getSpeciesDAO().findByGroupId(sg.getId());
+
+			// If children is not null
+			if (specieses != null)
+			{
+				sg.setSpecieses(specieses);
+			}
+		}
+
+
+	}
+
+	private void AssignSpecies(Set<SpeciesGroup> speciesGroups){
+
+		// go through the species group set...
+		for (SpeciesGroup sg : speciesGroups)
+		{
+			// Get all the childrens...
+			List<SpeciesGroup> children = filter(having(on(SpeciesGroup.class).getParentId(), Matchers.equalTo(sg.getId())),speciesGroups);
+
+			// If children is not null
+			if (children != null)
+			{
+				sg.setChildren(children);
+			}
+		}
 	}
 
 	private Set <SpeciesGroup> findBy(String where, Object value)
@@ -74,11 +131,13 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--speciesgroup.core", where);
 			stm.clearParameters();
 
-			// If can be casted as long
-			if (value instanceof Long){
-				stm.setLong(1, (Long) value);
-			} else {
-				stm.setString(1, (String) value);
+			if (value != null){
+				// If can be casted as long
+				if (value instanceof Long){
+					stm.setLong(1, (Long) value);
+				} else {
+					stm.setString(1, (String) value);
+				}
 			}
 
 			rs = stm.executeQuery();
@@ -117,9 +176,11 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 		spg = new SpeciesGroup();
 		long id = rs.getLong("ID");
 		String name = rs.getString("NAME");
+		long parentId = rs.getLong("PARENT_ID");
 
 		spg.setId(id);
 		spg.setName(name);
+		spg.setParentId(parentId);
 
         // Add the speciesGroup to the identity map
         identityMap.addEntity(spg);
@@ -150,6 +211,7 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 			stm.clearParameters();
 			stm.setString(1, spg.getName());
 			stm.setLong(2, spg.getId());
+			stm.setLong(3,spg.getParentId());
 			stm.executeUpdate();
 
 		} catch (SQLException ex) {
@@ -167,6 +229,7 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.speciesgroup", new String[]{"ID"}, null);
 			stm.clearParameters();
 			stm.setString(1, spg.getName());
+			stm.setLong(2,spg.getParentId());
 			stm.executeUpdate();
 
 			ResultSet keys = stm.getGeneratedKeys();

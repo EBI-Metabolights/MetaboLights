@@ -12,14 +12,14 @@ package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
 
+import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 
 public interface ISpeciesGroupDAO {
 
     public SpeciesGroup getById(Long id) throws DAOException;
     public SpeciesGroup getByName(String speciesName) throws DAOException;
-    public Collection<SpeciesGroup> getAll() throws DAOException;
+    public Collection<SpeciesGroup> getAll() throws DAOException, IOException;
     public void save(SpeciesGroup speciesGroup) throws DAOException;
     public void delete(SpeciesGroup speciesGroup) throws DAOException;
 }

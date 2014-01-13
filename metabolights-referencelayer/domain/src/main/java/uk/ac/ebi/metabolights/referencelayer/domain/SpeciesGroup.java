@@ -10,12 +10,15 @@
 
 package uk.ac.ebi.metabolights.referencelayer.domain;
 
-import java.util.List;
+import java.util.Collection;
 
 public class SpeciesGroup extends Identifier{
 
     private String name;
-    private List<SpeciesMembers> speciesMembersList;
+    private Collection<SpeciesMembers> speciesMembersList;
+	private Collection<SpeciesGroup> children;
+	private Collection<Species> specieses;
+	private long parentId;
 
 
     public String getName() {
@@ -26,11 +29,35 @@ public class SpeciesGroup extends Identifier{
         this.name = name;
     }
 
-    public List<SpeciesMembers> getSpeciesMembersList() {
+    public Collection<SpeciesMembers> getSpeciesMembersList() {
         return speciesMembersList;
     }
 
-    public void setSpeciesMembersList(List<SpeciesMembers> speciesMembersList) {
+    public void setSpeciesMembersList(Collection<SpeciesMembers> speciesMembersList) {
         this.speciesMembersList = speciesMembersList;
     }
+
+	public Collection<SpeciesGroup> getChildren() {
+		return children;
+	}
+
+	public void setChildren(Collection<SpeciesGroup> children) {
+		this.children = children;
+	}
+
+	public long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(long parentId) {
+		this.parentId = parentId;
+	}
+
+	public Collection<Species> getSpecieses() {
+		return specieses;
+	}
+
+	public void setSpecieses(Collection<Species> specieses) {
+		this.specieses = specieses;
+	}
 }

@@ -30,7 +30,7 @@ public interface IMetSpectraDAO {
     /**
      * Updates Spectra
      * @param spectra
-     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
+     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.Exception
      */
     void save(Spectra spectra, MetaboLightsCompound compound) throws DAOException;
 

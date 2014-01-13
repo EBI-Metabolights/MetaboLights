@@ -26,13 +26,15 @@ public interface ISpeciesDAO {
     Species findBySpeciesTaxon(String taxon) throws DAOException;
     Species findBySpeciesName(String name) throws DAOException;
 
+
     Collection<Species> findAll() throws DAOException;
+	Collection<Species> findByGroupId(long groupId) throws DAOException;
 
 
     /**
      * Updates the Species.
      * @param Species
-     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
+     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.Exception
      */
     void save(Species Species) throws DAOException;
 

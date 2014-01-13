@@ -34,6 +34,7 @@ public abstract class  AbstractDAO {
 	 */
 	public AbstractDAO(Connection connection) throws IOException{
         this.con = connection;
+		DAOFactory.setConnection(connection);
     }
 
     protected void setUp(Class DAOClass) throws IOException {

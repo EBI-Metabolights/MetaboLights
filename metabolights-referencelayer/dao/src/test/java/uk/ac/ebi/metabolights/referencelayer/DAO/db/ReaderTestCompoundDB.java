@@ -188,7 +188,7 @@ public class ReaderTestCompoundDB extends TestCase{
 //    public void testGetAllCompounds() throws Exception{
 //
 //        // Get all the compounds
-//        Set<MetaboLightsCompound> mcs = spmd.getAllCompounds();
+//        Set<MetaboLightsCompound> mcs = spgd.getAllCompounds();
 //
 //        // There must be at least one
 //        assertEquals("testing getAllCompounds, at least there must be one", true, mcs.size()>0);

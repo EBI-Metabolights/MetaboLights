@@ -10,9 +10,9 @@
 
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import java.util.Collection;
-
 import uk.ac.ebi.metabolights.referencelayer.domain.Database;
+
+import java.util.Collection;
 
 /**
  * Reader for {@link Database} objects from MetaboLights reference layer.

@@ -30,7 +30,7 @@ public interface IMetPathwayDAO {
     /**
      * Updates the Pathway.
      * @param pathway
-     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
+     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.Exception
      */
     void save(Pathway pathway, MetaboLightsCompound compound) throws DAOException;
 

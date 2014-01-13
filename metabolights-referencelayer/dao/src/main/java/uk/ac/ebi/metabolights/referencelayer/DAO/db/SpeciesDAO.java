@@ -12,10 +12,10 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 
 import org.apache.log4j.Logger;
-import uk.ac.ebi.biobabel.util.db.SQLLoader;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.ISpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
 
 import java.io.IOException;
 import java.sql.*;
@@ -56,7 +56,6 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
        return sp;
 	}
 
-    @Override
     public Species findBySpeciesTaxon(String taxon) throws DAOException {
 
         // It must return an array of one Species....get the first one and only.
@@ -82,6 +81,12 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 	public Set<Species> findAll() throws DAOException {
 
 		return findBy("--where.species.all",null);
+	}
+
+	public Collection<Species> findByGroupId(long groupId) throws DAOException {
+
+
+		return findBy("--where.species.by.group", groupId);
 	}
 
 	public Set<Species> findWithoutSpeciesMember() throws DAOException {
@@ -130,7 +135,7 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 		}
 	}
 
-	private Set<Species> loadSpeciess(ResultSet rs) throws SQLException{
+	private Set<Species> loadSpeciess(ResultSet rs) throws SQLException, DAOException {
 
 		Set<Species> result = null;
 		while (rs.next()){
@@ -143,7 +148,7 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 
 	}
 
-	private Species loadSpecies(ResultSet rs) throws SQLException {
+	private Species loadSpecies(ResultSet rs) throws SQLException, DAOException {
 		Species sp;
 
 		// It should have a valid record
@@ -155,11 +160,15 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 		long speciesMemberId = rs.getLong("SPECIES_MEMBER");
 
 
+		// Get the referenced objects
+		SpeciesMembers spm = DAOFactory.getSpeciesMembersDAO().getById(speciesMemberId);
+
+
 		sp.setId(id);
         sp.setSpecies(species);
 		sp.setDescription(description);
         sp.setTaxon(taxon);
-		sp.setSpeciesMemberId(speciesMemberId);
+		sp.setSpeciesMember(spm);
 
         // Add the Species to the identity map
         identityMap.addEntity(sp);
@@ -168,6 +177,10 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 	}
 
 	public void save(Species sp) throws DAOException {
+
+
+		// Before saving the species, we might need to save the species member.
+		if (sp.getSpeciesMember().getId() == 0) DAOFactory.getSpeciesMembersDAO().save(sp.getSpeciesMember());
 
 		// If its a new Species
 		if (sp.getId() == 0) {
@@ -191,8 +204,8 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 			stm.setString(1, sp.getSpecies());
             stm.setString(2, sp.getDescription());
             stm.setString(3, sp.getTaxon());
-			if (sp.getSpeciesMemberId() !=0 ){
-				stm.setLong(4, sp.getSpeciesMemberId());
+			if (sp.getSpeciesMember() !=null ){
+				stm.setLong(4, sp.getSpeciesMember().getId());
 			} else {
 				stm.setNull(4, Types.INTEGER);
 			}
@@ -216,8 +229,8 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 			stm.setString(1, sp.getSpecies());
             stm.setString(2, sp.getDescription());
             stm.setString(3, sp.getTaxon());
-			if (sp.getSpeciesMemberId() !=0 ){
-				stm.setLong(4, sp.getSpeciesMemberId());
+			if (sp.getSpeciesMember() !=null ){
+				stm.setLong(4, sp.getSpeciesMember().getId());
 			} else {
 				stm.setNull(4, Types.INTEGER);
 			}

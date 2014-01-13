@@ -23,7 +23,7 @@ public class Species extends Identifier {
     private String species;
     private String description;
     private String taxon;
-    private long speciesMemberId;
+    private SpeciesMembers speciesMember;
 
 
     public String getSpecies() {
@@ -55,12 +55,12 @@ public class Species extends Identifier {
         this.taxon = taxon;
     }
 
-    public long getSpeciesMemberId() {
-        return speciesMemberId;
+    public SpeciesMembers getSpeciesMember() {
+        return speciesMember;
     }
 
-    public void setSpeciesMemberId(long speciesMemberId) {
-        this.speciesMemberId = speciesMemberId;
+    public void setSpeciesMember(SpeciesMembers speciesMember) {
+        this.speciesMember = speciesMember;
     }
 
     @Override

@@ -30,7 +30,7 @@ public interface IAttributeDAO {
      * Updates the attribute.
      * @param attribute
      * @param spectra, spectra qualified by the attribute.
-     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
+     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.Exception
      */
     void saveSpectraAttribute(Attribute attribute, Spectra spectra) throws DAOException;
 
@@ -38,7 +38,7 @@ public interface IAttributeDAO {
      * Updates the attribute.
      * @param attribute
      * @param pathway, Pathway qualified by the attribute.
-     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
+     * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.Exception
      */
     void savePathwayAttribute(Attribute attribute, Identifier pathway) throws DAOException;
 

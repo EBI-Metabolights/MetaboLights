@@ -13,7 +13,6 @@ package uk.ac.ebi.metabolights.referencelayer.IDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface ISpeciesMembersDAO {
 
