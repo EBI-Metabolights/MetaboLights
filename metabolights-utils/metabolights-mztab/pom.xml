@@ -3,10 +3,10 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 03/12/13 09:57
+  ~ Last modified: 14/01/14 15:41
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -130,11 +130,16 @@
         </plugins>
     </build>
 
-    <!--repositories>
+    <repositories>
         <repository>
             <id>ebi-repo</id>
             <name>The EBI internal repository</name>
             <url>http://www.ebi.ac.uk/~maven/m2repo</url>
         </repository>
-    </repositories-->
+        <repository>
+            <id>jni-inchi</id>
+            <name>JNI-InChI Maven Repository</name>
+            <url>http://jni-inchi.sourceforge.net/m2repo</url>
+        </repository>
+    </repositories>
 </project>
