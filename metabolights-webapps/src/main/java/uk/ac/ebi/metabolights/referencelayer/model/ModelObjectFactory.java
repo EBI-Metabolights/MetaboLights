@@ -12,17 +12,20 @@ package uk.ac.ebi.metabolights.referencelayer.model;
 
 
 import org.apache.log4j.Logger;
-
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetPathwayDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetSpectraDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesGroupDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
+import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
 import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
 import uk.ac.ebi.metabolights.service.AppContext;
+
+import java.util.Collection;
 
 public class ModelObjectFactory {
 
@@ -34,7 +37,6 @@ public class ModelObjectFactory {
 		try {
 
 			logger.info("Getting compound " + accession);
-
 
 			// Get the MetaboLights compound DAO
 			MetaboLightsCompoundDAO mcd;
@@ -120,6 +122,20 @@ public class ModelObjectFactory {
 
 
     }
+
+	public static Collection<SpeciesGroup> getAllSpeciesTree()
+	{
+		try {
+			SpeciesGroupDAO speciesGroupDAO = new SpeciesGroupDAO(AppContext.getConnection());
+
+			return  speciesGroupDAO.getAll();
+		} catch (Exception e) {
+
+			logger.error("Can't retrieve species tree.", e);
+			return null;
+		}
+
+	}
 
 
     //	public static ModelObjectFactory getInstance(){

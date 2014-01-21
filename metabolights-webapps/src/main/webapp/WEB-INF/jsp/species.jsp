@@ -53,7 +53,7 @@
             .append("g")
             .attr("transform", "translate(" + margin + "," + margin + ")");
 
-    d3.json("static/species2.json", function(error, root) {
+    d3.json("species/json", function(error, root) {
         var focus = root,
                 nodes = pack.nodes(root);
 

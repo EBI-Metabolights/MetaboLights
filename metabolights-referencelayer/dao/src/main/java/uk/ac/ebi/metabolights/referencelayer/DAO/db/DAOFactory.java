@@ -20,7 +20,7 @@ public class DAOFactory {
 
 	public static SpeciesGroupDAO getSpeciesGroupDAO() throws DAOException
 	{
-		if (spgd == null)
+		if (spgd == null || !spgd.con.equals(connection))
 		{
 			try {
 				spgd = new SpeciesGroupDAO(connection);
@@ -34,7 +34,7 @@ public class DAOFactory {
 
 	public static SpeciesMembersDAO getSpeciesMembersDAO() throws DAOException
 	{
-		if (spmd == null)
+		if (spmd == null  || !spmd.con.equals(connection))
 		{
 			try {
 				spmd = new SpeciesMembersDAO(connection);
@@ -48,7 +48,8 @@ public class DAOFactory {
 
 	public static SpeciesDAO getSpeciesDAO() throws DAOException
 	{
-		if (spd == null)
+
+		if (spd == null || !spd.con.equals(connection))
 		{
 			try {
 				spd = new SpeciesDAO(connection);

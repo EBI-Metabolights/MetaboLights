@@ -375,7 +375,7 @@
         <dependency>
             <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
             <artifactId>metabolights-referencelayer-dao</artifactId>
-            <version>0.7-SNAPSHOT</version>
+            <version>0.9-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <artifactId>ojdbc6</artifactId>
