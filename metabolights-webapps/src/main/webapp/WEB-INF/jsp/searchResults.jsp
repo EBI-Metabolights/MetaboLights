@@ -4,6 +4,16 @@
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
+<%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 28/01/14 10:59
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  --%>
+
 <script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 <%--
@@ -50,11 +60,10 @@
             <div class="grid_12">
                 <strong>
                     <c:if test="${empty welcomemessage}"> <!-- Not show this part if called from "my submissions" -->
-                        ${totalHits} <spring:message code="msg.searchResults" />
+                        ${totalHits}&nbsp;<spring:message code="msg.searchResults"/>&nbsp;
                     </c:if>
-
                     <c:if test="${totalHits gt 1}">
-                        <spring:message code="msg.showing" /> ${1+((pageNumber-1)*pageSize)} <spring:message code="msg.to" />
+                        <spring:message code="msg.showing"/>&nbsp;${1+((pageNumber-1)*pageSize)}&nbsp;<spring:message code="msg.to"/>&nbsp;
                         <c:if test="${((pageNumber-1)*pageSize)+pageSize lt totalHits }">
                             ${((pageNumber-1)*pageSize)+pageSize}
                         </c:if>

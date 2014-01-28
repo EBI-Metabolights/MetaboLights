@@ -30,6 +30,12 @@
             },
             {
                 "selected": false,
+                "title": "Browse Species",
+                "href": "species",
+                "tooltip": "Browse all species"
+            },
+            {
+                "selected": false,
                 "title": "Download",
                 "href": "download",
                 "tooltip": "Download"
@@ -42,15 +48,15 @@
             },
             {
                 "selected": false,
-                "title": "About MetaboLights",
-                "href": "about",
-                "tooltip": "About MetaboLights"
-            },
-            {
-                "selected": false,
                 "title": "Give us feedback",
                 "href": "contact",
                 "tooltip": "Please give us feedback"
+            },
+            {
+                "selected": false,
+                "title": "About",
+                "href": "about",
+                "tooltip": "About MetaboLights"
             }
 
         ],
@@ -63,7 +69,7 @@
                 "dataIcon": "l"
             },
             {
-                "title": "Submit",
+                "title": "Submit Study",
                 "href": "presubmit",
                 "tooltip": "Submit data to MetaboLights",
                 "iconFontSet": "icon-functional",

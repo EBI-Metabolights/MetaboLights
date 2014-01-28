@@ -5,6 +5,16 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 
+<%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 28/01/14 10:11
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  --%>
+
 <%--<script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>--%>
 <%--<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
@@ -28,7 +38,7 @@ $(document).ready(function() {
 //	var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:'./proxy'});
     var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:undefined, chebiDetailsUrl: './ebi/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
 	$('#chebiInfo').hide();
-	
+
 	$("a.showLink").click(function(event) {
         var clickedId = event.target.id;
         var idClickedSplit = clickedId.split("_");
@@ -52,11 +62,11 @@ $(document).ready(function() {
         	$(jqClickedId).text("Show more");
         }
         $(idOfHiddenText).slideToggle();
-        
+
     });
-    
+
     var metLinkTimer = 0; // 0 is a safe "no timer" value
- 
+
      $('.metLink').live('mouseenter', function(e) {
          // I'm assuming you don't want to stomp on an existing timer
          if (!metLinkTimer) {
@@ -67,7 +77,7 @@ $(document).ready(function() {
          if (metLinkTimer) {
              clearTimeout(metLinkTimer);
              metLinkTimer = 0;
-             
+
          }
          $('#chebiInfo').fadeOut('slow');
      });
@@ -75,13 +85,13 @@ $(document).ready(function() {
      function loadMetabolite(e) {
          // Clear this as flag there's no timer outstanding
          metLinkTimer = 0;
-         
+
          var metlink;
          metlink = $(e.target);
  		 var metaboliteId = metlink.attr('identifier');
- 		
 
- 		
+
+
          // If its a chebi id
  	 	if (metaboliteId.indexOf("CHEBI:")==0){
 
@@ -90,14 +100,14 @@ $(document).ready(function() {
  	 		var offset = metlink.offset();
  	 		var mouseX = offset.left + metlink.outerWidth() + 20;
      		var mouseY = offset.top;
-     		
+
  	 		chebiId = metaboliteId;
- 	 		
+
  	 		$('#chebiInfo img:last-child').remove;
- 	 		
+
      		$('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
  	 		$('#chebiInfo').fadeIn('slow');
-     		
+
  	 		chebiInfoDiv.setId(chebiId);
  	 	}
 	}
@@ -215,7 +225,7 @@ function toggleColumn(tableId, anchor, duration ) {
             <br/>
             <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
 				<c:if test="${loopStatus.index ne 0}">,</c:if>
-	            <span id="aff" 
+	            <span id="aff"
                 	<c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>
                 >${contact.firstName} ${contact.lastName}</span>
             </c:forEach>
@@ -231,7 +241,7 @@ function toggleColumn(tableId, anchor, duration ) {
        <c:if test="${not empty submittedID.submittedId}">
            &nbsp;&nbsp;<spring:message code="label.submittedId"/>: ${submittedID.submittedId}
        </c:if>
-        
+
 	    <c:if test="${not empty study.description}">
    		     <br/><br/><span style="text-align:justify"><div id="description">${study.description}</div></span>
 	    </c:if>
@@ -323,7 +333,7 @@ function toggleColumn(tableId, anchor, duration ) {
 				                	<li>${fv.key}: [
 				                		<c:forEach var="value" items="${fv.value}" varStatus="loopStatus">
 				                			<c:if test="${loopStatus.index ne 0}">
-				                				, 
+				                				,
 				                			</c:if>
 				                			${value}
 				                		</c:forEach>
@@ -342,7 +352,7 @@ function toggleColumn(tableId, anchor, duration ) {
 								<th>Description</th>
 							</tr>
 						</thead>
-						<tbody>	
+						<tbody>
 							<c:set var="blanks" value="0"/>
 			                <c:forEach var="protocol" items="${study.protocols}" varStatus="loopStatus">
 	                    		<c:choose>

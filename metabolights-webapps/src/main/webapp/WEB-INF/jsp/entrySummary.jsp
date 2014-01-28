@@ -4,6 +4,16 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
 
+<%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 28/01/14 10:16
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  --%>
+
 <script type="text/javascript">
 
 //    $(document).ready(function(){
@@ -77,14 +87,14 @@
 			</c:if>
 		</c:otherwise>
 	</c:choose>
-	
+
 	<div class='grid_20 alpha omega'>
 		<strong><spring:message code="label.releaseDate"/>:</strong> <fmt:formatDate pattern="dd-MMM-yyyy" value="${searchResult.releaseDate}"/>
 		<c:if test="${!searchResult.isPublic}">
 			&nbsp;<div class="ebiicon key"></div><strong>&nbsp;<spring:message code="label.expPrivate"/></strong>
 		</c:if>
 	</div>
-	
+
 	<div class='grid_20 alpha omega'>
 		<br/>
 		<strong><spring:message code="label.organism" /></strong>
@@ -94,21 +104,21 @@
 			</c:forEach>
 		</ul>
 	</div>
-	
+
 	<div class='grid_18 alpha'>
 		<strong><spring:message code="label.expFact" /></strong>
 		<ul id="resultList">
 			<c:forEach var="factor" items="${searchResult.factors}">
-				<li>${factor.key}: ${factor.value}</li>
+				<li>${factor.key}:&nbsp;${factor.value}</li>
 			</c:forEach>
 		</ul>
 	</div>
-	
+
 	<div class='grid_6 omega'>
 		<spring:message code="label.expId" />: <strong>${searchResult.accStudy}</strong><br/>
-		<spring:message code="label.subm" /> ${searchResult.submitter.name} ${searchResult.submitter.surname}<br/>
+		<spring:message code="label.subm" />&nbsp;${searchResult.submitter.name}&nbsp;${searchResult.submitter.surname}<br/>
 	</div>
-	
+
 
 	<div class='grid_24 alpha omega'>
 		<strong><spring:message code="label.assays" /></strong>

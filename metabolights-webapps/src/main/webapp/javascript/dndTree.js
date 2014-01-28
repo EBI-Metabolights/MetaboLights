@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 22/01/14 13:16
+ * Last modified: 28/01/14 09:39
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -42,7 +42,6 @@ treeJSON = d3.json("species/json", function(error, treeData) {
         });
 
     // A recursive helper function for performing some setup by walking through all nodes
-
     function visit(parent, visitFn, childrenFn) {
         if (!parent) return;
 
@@ -68,12 +67,12 @@ treeJSON = d3.json("species/json", function(error, treeData) {
 
 
     // sort the tree according to the node names
-
     function sortTree() {
         tree.sort(function(a, b) {
             return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
         });
     }
+
     // Sort the tree initially incase the JSON isn't in a sorted order.
     sortTree();
 
@@ -104,11 +103,9 @@ treeJSON = d3.json("species/json", function(error, treeData) {
     }
 
     // Define the zoom function for the zoomable tree
-
     function zoom() {
         svgGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
-
 
     // define the zoomListener which calls the zoom function on the "zoom" event constrained within the scaleExtents
     var zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", zoom);
@@ -162,7 +159,6 @@ treeJSON = d3.json("species/json", function(error, treeData) {
         .attr("class", "overlay")
         .call(zoomListener);
 
-
     // Define the drag listeners for drag/drop behaviour of nodes.
     dragListener = d3.behavior.drag()
         .on("dragstart", function(d) {
@@ -202,7 +198,6 @@ treeJSON = d3.json("species/json", function(error, treeData) {
                 try {
                     clearTimeout(panTimer);
                 } catch (e) {
-
                 }
             }
 
@@ -256,7 +251,6 @@ treeJSON = d3.json("species/json", function(error, treeData) {
     }
 
     // Helper functions for collapsing and expanding nodes.
-
     function collapse(d) {
         if (d.children) {
             d._children = d.children;
@@ -277,6 +271,7 @@ treeJSON = d3.json("species/json", function(error, treeData) {
         selectedNode = d;
         updateTempConnector();
     };
+
     var outCircle = function(d) {
         selectedNode = null;
         updateTempConnector();
@@ -315,8 +310,8 @@ treeJSON = d3.json("species/json", function(error, treeData) {
         scale = zoomListener.scale();
         x = -source.y0;
         y = -source.x0;
-        x = x * scale + viewerWidth / 6;
         // Ken Haug - Want to move the node closer to the left
+        x = x * scale + viewerWidth / 6;       //Changed from 2
         y = y * scale + viewerHeight / 2;
         d3.select('g').transition()
             .duration(duration)
@@ -326,7 +321,6 @@ treeJSON = d3.json("species/json", function(error, treeData) {
     }
 
     // Toggle children function
-
     function toggleChildren(d) {
         if (d.children) {
             d._children = d.children;
@@ -373,10 +367,10 @@ treeJSON = d3.json("species/json", function(error, treeData) {
 
         // Set widths between levels based on maxLabelLength.
         nodes.forEach(function(d) {
-            d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px
+            // d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line
-            // d.y = (d.depth * 500); //500px per level.
+            d.y = (d.depth * 300); //500px per level.
         });
 
         // Update the nodes…
