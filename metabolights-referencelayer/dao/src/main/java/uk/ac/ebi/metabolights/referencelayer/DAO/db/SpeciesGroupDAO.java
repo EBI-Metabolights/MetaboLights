@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 20/06/13 14:18
+ * Last modified: 29/01/14 12:14
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
@@ -94,7 +94,7 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 		// go through the species group set...
 		for (SpeciesGroup sg : speciesGroups)
 		{
-			// Get all the childrens...
+			// Get all the children...
 			Collection<Species> specieses = DAOFactory.getSpeciesDAO().findByGroupId(sg.getId());
 
 			// If children is not null
@@ -112,7 +112,7 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 		// go through the species group set...
 		for (SpeciesGroup sg : speciesGroups)
 		{
-			// Get all the childrens...
+			// Get all the children...
 			List<SpeciesGroup> children = filter(having(on(SpeciesGroup.class).getParentId(), Matchers.equalTo(sg.getId())),speciesGroups);
 
 			// If children is not null

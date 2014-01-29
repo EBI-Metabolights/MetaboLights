@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 29/01/14 12:14
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.log4j.Logger;
@@ -61,7 +71,7 @@ public class SpeciesSearchController extends AbstractController {
 
 		// Get the root element...
 		json.append("{");
-		json.append("\"name\":\"speciescope\"");
+		json.append("\"name\":\"Species\"");
 		json.append(", \"level\":0");
 		json.append(", \"children\":[");
 
