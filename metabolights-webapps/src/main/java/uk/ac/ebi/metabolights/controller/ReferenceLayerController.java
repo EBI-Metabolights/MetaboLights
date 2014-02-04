@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 05/12/13 11:46
+ * Last modified: 04/02/14 14:03
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.controller;
@@ -79,7 +79,7 @@ public class ReferenceLayerController extends AbstractController {
         iupac,
         name,
         organism,
-        technology_type("technology type"),
+        technology_type,
         CHEBI,
         METABOLIGHTS,
         study_design,
