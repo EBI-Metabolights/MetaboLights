@@ -5,54 +5,37 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 22/01/14 13:12
+  ~ Last modified: 03/02/14 15:22
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   --%>
 
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="javascript/dndTree.js"></script>
+
+<script type="text/javascript">
+    $(function(species){
+        $("#searchspecies").autocomplete({
+            source: "/metabolights/getSpeciesAutoComplete2",
+            minLength: 2,
+            delimiter: ",",
+            paramName: "species"
+        }).attr('autocomplete','on').attr("z-index", 1000);
+
+    });
+</script>
 <style type="text/css">
-    .node {
-        cursor: pointer;
-    }
-
-    .overlay{
-        background-color:#EEE;
-    }
-
-    .node circle {
-        fill: #fff;
-        stroke: steelblue;
-        stroke-width: 1.5px;
-    }
-
-    .node text {
-        font-size:10px;
-        font-family:sans-serif;
-    }
-
-    .link {
-        fill: none;
-        stroke: #ccc;
-        stroke-width: 1.5px;
-    }
-
-    .templink {
-        fill: none;
-        stroke: red;
-        stroke-width: 3px;
-    }
-
-    .ghostCircle.show{
-        display:block;
-    }
-
-    .ghostCircle, .activeDrag .ghostCircle{
-        display: none;
-    }
-
+    .node { cursor: pointer; }
+    .overlay{ background-color:#EEE; }
+    .node circle { fill: #fff; stroke: steelblue; stroke-width: 2px; }
+    .node text { font-size:10px; font-family:sans-serif; }
+    .link { fill: none; stroke: #ccc; stroke-width: 2px; }
+    .templink { fill: none; stroke: red; stroke-width: 3px; }
+    .ghostCircle.show{ display:block; }
+    .ghostCircle, .activeDrag .ghostCircle{ display: none; }
 </style>
 
 	<h2>
@@ -73,10 +56,17 @@
             <%--<li class="icon icon-species" data-icon="F"><a href="reference?organisms=Drosophila">Drosophila</li>--%>
         </ul>
     </div>
+
+    <div class="ui-widget">
+        <label for="searchspecies">Search Species:</label>
+        <input id="searchspecies">
+    </div>
+
     <div class="grid_16">
         <h3><spring:message code="menu.speciesbrowsetitle"/></h3>
         <div id="speciescope"></div>
         <div id="tree-container"></div>
     </div>
+
 
 

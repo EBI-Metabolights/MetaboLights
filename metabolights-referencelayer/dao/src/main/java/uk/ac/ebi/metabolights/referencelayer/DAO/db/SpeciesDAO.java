@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 20/06/13 14:18
+ * Last modified: 03/02/14 14:37
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
@@ -19,16 +19,14 @@ import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 
-
 	private static Logger LOGGER = Logger.getLogger(SpeciesDAO.class);
 	private static GenericIdentityMap<Species> identityMap = new GenericIdentityMap<Species>();
+    private List<String> autoCompleteList;
 
 	/**
 	 * @param connection to the Species
@@ -78,7 +76,29 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
     }
 
 
-	public Set<Species> findAll() throws DAOException {
+    @Override
+    public List<String> getAllNamesForAutoComplete() throws DAOException, SQLException {
+
+        if (autoCompleteList == null){
+            autoCompleteList  = new ArrayList<String>();
+            ResultSet rs = null;
+            PreparedStatement statement = sqlLoader.getPreparedStatement("--all.autocomplete");
+            rs = statement.executeQuery();
+
+            while (rs.next()){
+                String speciesName = null;
+                speciesName = rs.getString("species");
+                if (speciesName != null)
+                    autoCompleteList.add(speciesName + ",");
+            }
+
+        }
+
+        return autoCompleteList;
+    }
+
+
+    public Set<Species> findAll() throws DAOException {
 
 		return findBy("--where.species.all",null);
 	}

@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 06/09/13 21:26
+ * Last modified: 31/01/14 09:33
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.referencelayer.model;
@@ -15,10 +15,7 @@ import org.apache.log4j.Logger;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetPathwayDAO;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetSpectraDAO;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesGroupDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
@@ -26,6 +23,7 @@ import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
 import uk.ac.ebi.metabolights.service.AppContext;
 
 import java.util.Collection;
+import java.util.List;
 
 public class ModelObjectFactory {
 
@@ -136,6 +134,23 @@ public class ModelObjectFactory {
 		}
 
 	}
+
+    /**
+     * Get a list of all species name from autocomplete form
+     * @return String list of all species names
+     */
+    public static List<String> getAutoCompleteSpecies(){
+
+        try {
+            SpeciesDAO speciesDAO = new SpeciesDAO(AppContext.getConnection());
+            return speciesDAO.getAllNamesForAutoComplete();
+        } catch (Exception e) {
+
+            logger.error("Can not get the species list for autocomplete function. ", e);
+            return null;
+        }
+
+    }
 
 
     //	public static ModelObjectFactory getInstance(){

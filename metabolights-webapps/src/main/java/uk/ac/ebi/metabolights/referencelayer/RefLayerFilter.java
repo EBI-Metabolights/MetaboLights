@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 09/09/13 16:34
+ * Last modified: 03/02/14 11:44
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.referencelayer;
@@ -224,6 +224,8 @@ public class RefLayerFilter {
             facet.put(key, value);
         }
     }
+
+    @Override
     public RefLayerFilter clone(){
 
         RefLayerFilter clone =  new RefLayerFilter(freeText,null,null,null,currentPage.toString());

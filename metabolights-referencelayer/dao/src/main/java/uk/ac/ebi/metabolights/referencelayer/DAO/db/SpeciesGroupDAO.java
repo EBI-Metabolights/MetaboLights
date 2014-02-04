@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 29/01/14 12:14
+ * Last modified: 31/01/14 09:31
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -22,10 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static ch.lambdaj.Lambda.*;
 
@@ -68,7 +65,7 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 
 		// It must return an array of one speciesGroup....get the first one and only.
         Collection<SpeciesGroup> speciesGroup = findBy("--where.speciesgroup.by.name", speciesGroupName);
-        SpeciesGroup spg =  (speciesGroup ==null? null:speciesGroup.iterator().next());
+        SpeciesGroup spg = (speciesGroup == null? null:speciesGroup.iterator().next());
 
         return spg;
     }
@@ -89,7 +86,8 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 
 	}
 
-	private void AssignChildren(Set<SpeciesGroup> speciesGroups) throws DAOException {
+
+    private void AssignChildren(Set<SpeciesGroup> speciesGroups) throws DAOException {
 
 		// go through the species group set...
 		for (SpeciesGroup sg : speciesGroups)

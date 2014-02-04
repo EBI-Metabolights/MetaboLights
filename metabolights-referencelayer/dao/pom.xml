@@ -3,10 +3,10 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 22/10/13 16:39
+  ~ Last modified: 31/01/14 10:52
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -16,7 +16,7 @@
 
     <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
     <artifactId>metabolights-referencelayer-dao</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <version>0.91-SNAPSHOT</version>
     <name>MetaboLights Reference layer Data Access Object</name>
 
     <parent>

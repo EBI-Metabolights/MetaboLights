@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 29/01/14 12:14
+ * Last modified: 03/02/14 14:42
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
@@ -21,12 +22,14 @@ import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.service.AppContext;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
-import static ch.lambdaj.Lambda.filter;
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.*;
 
 /**
  * Controller for reference layer compounds (=MTBLC*) details.
@@ -36,12 +39,11 @@ import static ch.lambdaj.Lambda.on;
 public class SpeciesSearchController extends AbstractController {
 
     private static Logger logger = Logger.getLogger(SpeciesSearchController.class);
-
+    List<String> speciesList;
 
 
     @RequestMapping(value = "/species")
     public ModelAndView showSpecies() {
-
 
         //ModelAndView mav = new ModelAndView("compound");
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("species");
@@ -54,7 +56,6 @@ public class SpeciesSearchController extends AbstractController {
 	@ResponseBody
 	public String getJsonSpectra() {
 
-
 		Collection<SpeciesGroup> groups = ModelObjectFactory.getAllSpeciesTree();
 
 		// Need to build the json structure.
@@ -62,9 +63,8 @@ public class SpeciesSearchController extends AbstractController {
 
 		return json;
 
-
-
 	}
+
 	private String getSpeciesTreeToJson(Collection<SpeciesGroup> tree){
 
 		StringBuilder json = new StringBuilder();
@@ -110,6 +110,7 @@ public class SpeciesSearchController extends AbstractController {
 
 
 	}
+
 	private void speciesGroupToJson(SpeciesGroup sg, StringBuilder json, int level)
 	{
 
@@ -171,4 +172,45 @@ public class SpeciesSearchController extends AbstractController {
 		json.append(",\"size\":" + 1);
 		json.append("}");
 	}
+
+    @RequestMapping(value ="/getSpeciesAutoComplete",method = RequestMethod.GET)
+    @ResponseBody
+    private void speciesAutoComplete(HttpServletResponse response){
+        String autoCompleteList = "";
+
+        if (speciesList == null) //Take some time, so only populate when empty
+            speciesList =  ModelObjectFactory.getAutoCompleteSpecies();
+
+        Iterator itr = speciesList.iterator();
+        while(itr.hasNext()) {
+            autoCompleteList += itr.next().toString();
+        }
+
+        response.setContentType("text/html");
+        PrintWriter writer;
+        try {
+            writer = response.getWriter();
+            writer.write(autoCompleteList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value ="/getSpeciesAutoComplete2",method = RequestMethod.GET)
+    @ResponseBody
+    private String speciesAutoComplete(){
+        String autoCompleteList = "";
+
+        if (speciesList == null) //Take some time, so only populate when empty
+            speciesList =  ModelObjectFactory.getAutoCompleteSpecies();
+
+        Iterator itr = speciesList.iterator();
+        while(itr.hasNext()) {
+            autoCompleteList += itr.next().toString();
+        }
+
+        return autoCompleteList;
+
+    }
 }

@@ -29,15 +29,16 @@ COALESCE(RSF.SPECIES_MEMBER,RS.SPECIES_MEMBER) IN (SELECT ID FROM REF_SPECIES_ME
 --update.species:\
 UPDATE REF_SPECIES \
 	SET SPECIES = ?, DESCRIPTION = ?, TAXON = ? , SPECIES_MEMBER = ? WHERE ID = ?
-	
+
 --insert.species:\
 INSERT INTO REF_SPECIES \
 	(SPECIES, DESCRIPTION, TAXON, SPECIES_MEMBER) \
 	VALUES (?, ?, ?, ?)
 
 --delete.species:\
-DELETE FROM REF_SPECIES \
-WHERE ID = ?
+DELETE FROM REF_SPECIES WHERE ID = ?
 
+--all.autocomplete:\
+SELECT species FROM ref_species rs WHERE rs.final_id is null
 
 
