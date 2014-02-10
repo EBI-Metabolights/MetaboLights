@@ -227,7 +227,7 @@ function toggleColumn(tableId, anchor, duration ) {
 				<c:if test="${loopStatus.index ne 0}">,</c:if>
 	            <span id="aff"
                 	<c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>
-                >${contact.firstName} ${contact.lastName}</span>
+                >${contact.firstName}&nbsp;${contact.lastName}</span>
             </c:forEach>
 			<br/>
         </c:if>

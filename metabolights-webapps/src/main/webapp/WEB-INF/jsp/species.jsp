@@ -17,34 +17,47 @@
 <script type="text/javascript" src="javascript/dndTree.js"></script>
 
 <script type="text/javascript">
-    $(function(species){
-        $("#searchspecies").autocomplete({
-            source: "/metabolights/getSpeciesAutoComplete2",
-            minLength: 2,
-            delimiter: ",",
-            paramName: "species"
-        }).attr('autocomplete','on').attr("z-index", 1000);
 
-    });
+    var speciesAutocomplete = [];
+
+    function configAutocomplete(){
+        if(typeof speciesData !== "undefined"){
+
+            //variable exists, do what you want
+            extractSpecies(speciesData);
+
+            $("#searchspecies").autocomplete({
+                    source:speciesAutocomplete,
+                    minLength: 3
+                }).attr('autocomplete','on').attr("z-index", 1000);
+
+        }
+    }
+
+    function extractSpecies(node){
+
+        // For some weird reason children array's name change into _children???
+        var children = node.children == undefined? node._children: node.children;
+
+        if (children){
+
+            for (var index in children){
+                extractSpecies(children[index]);
+            }
+        } else {
+
+            speciesAutocomplete.push (node.name);
+        }
+    }
+
 </script>
-<style type="text/css">
-    .node { cursor: pointer; }
-    .overlay{ background-color:#EEE; }
-    .node circle { fill: #fff; stroke: steelblue; stroke-width: 2px; }
-    .node text { font-size:10px; font-family:sans-serif; }
-    .link { fill: none; stroke: #ccc; stroke-width: 2px; }
-    .templink { fill: none; stroke: red; stroke-width: 3px; }
-    .ghostCircle.show{ display:block; }
-    .ghostCircle, .activeDrag .ghostCircle{ display: none; }
-</style>
-
 	<h2>
     	<spring:message code="menu.speciespageheader" />
     </h2>
     <p>
         <spring:message code="menu.speciespagedescription" />
     </p>
-    <div class="grid_8">
+    <div class="grid_10 alpha">
         <h3><spring:message code="menu.speciesmodeltitle"/></h3>
         <ul class="species">
             <li class="icon icon-species" data-icon="H"><A href="reference?organisms=Homo sapiens (Human)">Homo sapiens (Human)</a></li>
@@ -55,16 +68,17 @@
             <li class="icon icon-species" data-icon="W"><a href="reference?organisms=Caenorhabditis elegans">Caenorhabditis elegans</a></li>
             <%--<li class="icon icon-species" data-icon="F"><a href="reference?organisms=Drosophila">Drosophila</li>--%>
         </ul>
+
+
     </div>
 
-    <div class="ui-widget">
-        <label for="searchspecies">Search Species:</label>
-        <input id="searchspecies">
+    <div class="grid_14 omega">
+        <h3><spring:message code="menu.speciesTypeSearch"/></h3>
+        <input class="width95" id="searchspecies" placeholder="type the species name to search">
     </div>
 
-    <div class="grid_16">
+    <div class="grid_24 alpha omega">
         <h3><spring:message code="menu.speciesbrowsetitle"/></h3>
-        <div id="speciescope"></div>
         <div id="tree-container"></div>
     </div>
 

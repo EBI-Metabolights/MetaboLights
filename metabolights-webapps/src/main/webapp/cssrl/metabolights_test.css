@@ -501,3 +501,38 @@ H4 span.icon{
     font-size: 72%;
     color: #336B7B;
 }
+
+/* classes for responsive with of items */
+.width95{
+    width:95%
+}
+.width75{
+    width:75%
+}
+.width50{
+    width:50%
+}
+.width25{
+    width:25%
+}
+
+#tree-container{
+    min-height: 600px;
+}
+
+
+
+/* Species tree styles*/
+.node { cursor: pointer; }
+.overlay{ background-color: #f8f8f8; }
+/*.node circle { fill: #fff; stroke: #804D19; stroke-width: 2px; }*/
+.node text { font-size:10px; font-family:sans-serif; }
+.link { fill: none; stroke: #ccc; stroke-width: 2px; }
+/*.templink { fill: none; stroke: red; stroke-width: 3px; }*/
+/*.ghostCircle.show{ display:block; }*/
+/*.ghostCircle, .activeDrag .ghostCircle{ display: none; }*/
+
+/*.node circle { fill: #804D19; stroke: #804D19; stroke-width: 2px; }*/
+.leaf { fill: #ffffff; stroke: #804D19; stroke-width: 2px; }
+.branch { fill: #804D19; stroke: #804D19; stroke-width: 2px; }
+/*circle .leaf { fill: #E2AF7B; stroke: #E2AF7B; stroke-width: 2px; }*/

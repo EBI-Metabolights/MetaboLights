@@ -33,6 +33,7 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src='<spring:url value="/javascript/jquery.movingboxes.js"/>' charset="utf-8"></script>
 	<script type="text/javascript" src='<spring:url value="/javascript/menu.js"/>'></script>
+    <script type="text/javascript" src="//www.ebi.ac.uk/web_guidelines/js/libs/modernizr.custom.49274.js"></script>
 	
    
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
