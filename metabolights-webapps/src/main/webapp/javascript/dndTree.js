@@ -312,7 +312,7 @@ treeJSON = d3.json("species/json", function(error, treeData) {
     function click(d) {
         if (d3.event.defaultPrevented) return; // click suppressed
 
-        if (!d._children){
+        if (!d.children && !d._children){
             $(location).attr('href', "reference?organisms=" + d.name);
             return;
         }
