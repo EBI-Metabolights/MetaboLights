@@ -9,10 +9,10 @@
 		function fillAutocomplete(id, availableTags) {
 			$( "#"+id ).autocomplete({
 				source: availableTags,
-				change: function(event, ui)
-						{
-							console.log("change triggered");
-						},
+//				change: function(event, ui)
+//						{
+//							console.log("change triggered");
+//						},
 				select: function(event, ui)
 						{
 							console.log("select triggered");

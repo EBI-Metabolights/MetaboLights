@@ -132,7 +132,7 @@ th, td {
     color:#B0B0B0;
 }
 
-.forChemistry:before
+html.fontface .forChemistry:before
 {
     font-family:'EBI-Chemistry';
     font-size:150%;
@@ -141,7 +141,7 @@ th, td {
     margin:0
 }
 
-.forReactChemistry:before
+html.fontface .forReactChemistry:before
 {
     font-family:'EBI-Chemistry';
     font-size:150%;
@@ -150,7 +150,7 @@ th, td {
     margin:0
 }
 
-.foMS:before
+html.fontface .foMS:before
 {
     font-family:'EBI-Chemistry';
     font-size:150%;
@@ -159,7 +159,7 @@ th, td {
     margin:0
 }
 
-.forReactions:before
+html.fontface .forReactions:before
 {
     font-family:'EBI-Functional';
     font-size:80%;
@@ -168,7 +168,7 @@ th, td {
     margin:0
 }
 
-.forConceptual:before
+html.fontface .forConceptual:before
 {
     font-family:'EBI-Conceptual';
     font-size:150%;
@@ -177,7 +177,7 @@ th, td {
     margin:0
 }
 
-.forSpecies:before
+html.fontface .forSpecies:before
 {
     font-family:'EBI-Species';
     font-size:150%;
@@ -187,7 +187,7 @@ th, td {
 }
 
 
-.helpGeneric:before
+html.fontface .helpGeneric:before
 {
     font-family:'EBI-Generic';
     font-size:150%;
@@ -519,7 +519,6 @@ H4 span.icon{
 #tree-container{
     min-height: 600px;
 }
-
 
 
 /* Species tree styles*/

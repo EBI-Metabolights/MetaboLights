@@ -28,8 +28,13 @@
 
             $("#searchspecies").autocomplete({
                     source:speciesAutocomplete,
-                    minLength: 3
-                }).attr('autocomplete','on').attr("z-index", 1000);
+                    minLength: 3,
+                    select: function(event, ui)
+                        {
+                            $(location).attr('href', "reference?organisms=" + ui.item.value);
+
+                        }
+            }).attr('autocomplete','on').attr("z-index", 1000);
 
         }
     }
