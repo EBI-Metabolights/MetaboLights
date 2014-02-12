@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 28/01/14 09:39
+ * Last modified: 12/02/14 16:03
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -287,7 +287,7 @@ treeJSON = d3.json("species/json", function(error, treeData) {
         x = -source.y0;
         y = -source.x0;
         // Ken Haug - Want to move the node closer to the left
-        x = x * scale + viewerWidth / 6;       //Changed from 2
+        x = x * scale + viewerWidth / 3;       //Changed from 2
         y = y * scale + viewerHeight / 2;
         d3.select('g').transition()
             .duration(duration)
@@ -519,7 +519,7 @@ treeJSON = d3.json("species/json", function(error, treeData) {
     // Layout the tree initially and center on the root node.
 
     // Ken Haug - First collaps all children
-    root.children.forEach(collapse)
+    root.children.forEach(collapse);
 
     update(root);
     centerNode(root);
