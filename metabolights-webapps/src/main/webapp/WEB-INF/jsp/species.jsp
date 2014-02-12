@@ -5,7 +5,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 03/02/14 15:22
+  ~ Last modified: 12/02/14 12:13
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -79,7 +79,7 @@
 
     <div class="grid_14 omega">
         <h3><spring:message code="menu.speciesTypeSearch"/></h3>
-        <input class="width95" id="searchspecies" placeholder="type the species name to search">
+        <input class="width95" id="searchspecies" placeholder="Start typing the first 3 letters of the species name">
     </div>
 
     <div class="grid_24 alpha omega">

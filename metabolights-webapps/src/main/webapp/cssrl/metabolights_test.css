@@ -1,4 +1,14 @@
-/* Style cancellations from other css with less priority	
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 12/02/14 12:35
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
+/* Style cancellations from other css with less priority
 /* --- Links --- */
 a.noLine,
 .bigbutton a {
@@ -307,13 +317,13 @@ input{
     display: none;
 }
 
-/*	
-div#loginmenu ul{	
+/*
+div#loginmenu ul{
 	margin-top:1px;
-}	
+}
 */
-/* sddm: simple drop down menu	
-   CSS from in http://javascript-array.com/scripts/simple_drop_down_menu/	
+/* sddm: simple drop down menu
+   CSS from in http://javascript-array.com/scripts/simple_drop_down_menu/
  */
 
 #sddm {
@@ -522,16 +532,18 @@ H4 span.icon{
 
 
 /* Species tree styles*/
-.node { cursor: pointer; }
+.node { cursor: pointer }
+.node:hover { stroke: rgb(0, 0, 0); stroke-width: 1px; }
+
 .overlay{ background-color: #f8f8f8; }
 /*.node circle { fill: #fff; stroke: #804D19; stroke-width: 2px; }*/
-.node text { font-size:10px; font-family:sans-serif; }
-.link { fill: none; stroke: #ccc; stroke-width: 2px; }
+.node text { font-size:18px; font-family:sans-serif; }
+.link { fill: none; stroke: #ccc; stroke-width: 1px; }
 /*.templink { fill: none; stroke: red; stroke-width: 3px; }*/
 /*.ghostCircle.show{ display:block; }*/
 /*.ghostCircle, .activeDrag .ghostCircle{ display: none; }*/
 
 /*.node circle { fill: #804D19; stroke: #804D19; stroke-width: 2px; }*/
-.leaf { fill: #ffffff; stroke: #804D19; stroke-width: 2px; }
-.branch { fill: #804D19; stroke: #804D19; stroke-width: 2px; }
+.leaf { fill: #ffffff; stroke: #804D19; stroke-width: 1px; }
+.branch { fill: #804D19; stroke: #804D19; stroke-width: 1px; }
 /*circle .leaf { fill: #E2AF7B; stroke: #E2AF7B; stroke-width: 2px; }*/
