@@ -39,7 +39,7 @@
 	<c:choose>
 		<c:when test="${(!empty welcomemessage || !empty curator) && !searchResult.isPublic}">
 			<div class="grid_20 alpha">
-				<a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
+				<a href="pleasewait?goto=${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
 			</div>
 			<div class="grid_4 omega">
 				<%--
@@ -66,7 +66,7 @@
 		<c:otherwise>
             <c:if test="${!empty curator && searchResult.isPublic}">
                 <div class="grid_20 alpha">
-                    <a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
+                    <a href="pleasewait?goto=${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
                 </div>
                 <div class="grid_4 omega">
                     <ul id="sddm">

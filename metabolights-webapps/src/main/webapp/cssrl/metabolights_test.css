@@ -557,3 +557,10 @@ H4 span.icon{
 .leaf { fill: #ffffff; stroke: #804D19; stroke-width: 1px; }
 .branch { fill: #804D19; stroke: #804D19; stroke-width: 1px; }
 /*circle .leaf { fill: #E2AF7B; stroke: #E2AF7B; stroke-width: 2px; }*/
+
+#wait{
+    margin-top: 100px;
+}
+#wait img{
+    width:100px;
+}

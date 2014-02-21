@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
@@ -105,7 +104,7 @@ public class EntryController extends AbstractController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth.getPrincipal().equals("anonymousUser")){
                 // redirect force login...
-                return new ModelAndView("redirect:securedredirect?url=" + mtblsId);
+                return new ModelAndView("redirect:securedredirect?url=pleasewait?goto=" + mtblsId);
 
             // The user is logged in but it's not authorised.
             } else {
