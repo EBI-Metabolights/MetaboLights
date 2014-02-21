@@ -559,8 +559,9 @@ H4 span.icon{
 /*circle .leaf { fill: #E2AF7B; stroke: #E2AF7B; stroke-width: 2px; }*/
 
 #wait{
-    margin-top: 100px;
+    margin-top: 50px;
 }
 #wait img{
     width:100px;
+    margin-top: 100px;
 }

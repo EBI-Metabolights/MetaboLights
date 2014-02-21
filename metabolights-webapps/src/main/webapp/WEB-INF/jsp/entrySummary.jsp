@@ -14,22 +14,6 @@
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   --%>
 
-<script type="text/javascript">
-
-//    $(document).ready(function(){
-//        $('#hourglass').fadeOut();
-//    });
-
-    $(function(){
-
-        $("a[href='${searchResult.accStudy}']").click(function(){
-            $(this).after("&nbsp;&nbsp;<b><spring:message code='msg.fetchingData'/></b>").fadeIn();
-            //"&nbsp;&nbsp;"+"<img src='img/wait.gif' alt='Please wait'/>"+
-        });
-
-    });
-
-</script>
 
 <%--<div id="hourglass">
     <img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.fetchingData"/></b>
@@ -39,7 +23,7 @@
 	<c:choose>
 		<c:when test="${(!empty welcomemessage || !empty curator) && !searchResult.isPublic}">
 			<div class="grid_20 alpha">
-				<a href="pleasewait?goto=${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
+				<a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
 			</div>
 			<div class="grid_4 omega">
 				<%--
@@ -66,7 +50,7 @@
 		<c:otherwise>
             <c:if test="${!empty curator && searchResult.isPublic}">
                 <div class="grid_20 alpha">
-                    <a href="pleasewait?goto=${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
+                    <a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
                 </div>
                 <div class="grid_4 omega">
                     <ul id="sddm">

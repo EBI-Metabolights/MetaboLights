@@ -2,8 +2,9 @@
 
 
 <div id="wait" class="center">
-    <h3 id="info" class="center"></h3>
+
     <img src="img/MetaboLightsLogo.png">
+    <h3 id="info" class="center"></h3>
 </div>
 
 <script type="text/javascript">

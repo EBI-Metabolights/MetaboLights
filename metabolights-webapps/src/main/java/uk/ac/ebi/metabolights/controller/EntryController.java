@@ -92,6 +92,12 @@ public class EntryController extends AbstractController {
 
         mtblsId = mtblsId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
 
+		String referrer = request.getHeader("referer");
+		// If not comming from the wait page...
+		if (referrer == null || !referrer.contains("pleasewait")){
+			return new ModelAndView("redirect:pleasewait?goto=" + mtblsId);
+		}
+
 		try {
 			request.setCharacterEncoding("UTF-8");
 			study = studyService.getBiiStudy(mtblsId,true);
@@ -104,7 +110,7 @@ public class EntryController extends AbstractController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth.getPrincipal().equals("anonymousUser")){
                 // redirect force login...
-                return new ModelAndView("redirect:securedredirect?url=pleasewait?goto=" + mtblsId);
+                return new ModelAndView("redirect:securedredirect?url=" + mtblsId);
 
             // The user is logged in but it's not authorised.
             } else {
