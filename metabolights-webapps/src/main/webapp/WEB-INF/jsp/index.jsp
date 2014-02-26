@@ -4,6 +4,16 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"%>
 
 
+<%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 26/02/14 10:02
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  --%>
+
 <script>
 
     // increase the default animation speed to exaggerate the effect
@@ -66,13 +76,13 @@
 			</div>
 	 	</c:forEach>
 	</div>
-	
+
 </c:if>
 
 <br/><br/>
 <div class="grid_5 alpha">
     <h2><spring:message code="title.serviceName" /></h2>
-    <p><spring:message code="msg.metabolightsAbout1" /> <spring:message code="msg.metabolightsAbout" /></p>
+    <p><spring:message code="msg.metabolightsAbout1" />&nbsp;<spring:message code="msg.metabolightsAbout" /></p>
 </div>
 
 <div class="grid_11">
@@ -115,7 +125,7 @@
 
 <script>
 	/* $('.coolframe').shadow('lifted'); */
-	
+
 	$(function(){
 	 $('#boxes').movingBoxes({
 		 startPanel: 1,
@@ -128,8 +138,8 @@
 		 wrap: true,
 		 fixedHeight: true
 	 }); // add any non-default options inside here
-	}); 
-	
+	});
+
 </script>
 
- 
+

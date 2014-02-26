@@ -7,10 +7,10 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 18/10/13 11:49
+  ~ Last modified: 26/02/14 10:05
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   --%>
 
 <script>
@@ -125,10 +125,10 @@
             <select name="owner">
                 <c:forEach var="user" items="${users}">
                     <c:if test="${user.userId == currentUserId}">
-                        <option value="${user.userName}" SELECTED="true">${user.firstName} ${user.lastName}</option>
+                        <option value="${user.userName}" SELECTED="true">${user.firstName}&nbsp;${user.lastName}</option>
                     </c:if>
                     <c:if test="${not (user.userId == currentUserId)}">
-                        <option value="${user.userName}">${user.firstName} ${user.lastName}</option>
+                        <option value="${user.userName}">${user.firstName}&nbsp;${user.lastName}</option>
                     </c:if>
                 </c:forEach>
             </select>

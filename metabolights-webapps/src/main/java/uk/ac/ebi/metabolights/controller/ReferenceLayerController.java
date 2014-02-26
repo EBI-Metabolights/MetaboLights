@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 04/02/14 14:03
+ * Last modified: 25/02/14 15:54
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -116,7 +116,7 @@ public class ReferenceLayerController extends AbstractController {
         if(ebiSearchService == null) try {
             ebiSearchService = new EBISearchService_Service(new URL(url)).getEBISearchServiceHttpPort();
         } catch (Exception e) {
-            logger.info("initEBISearchService method error - "+ e);
+            logger.error("initEBISearchService method error - " + e);
             throw e;
         }
 
@@ -156,7 +156,7 @@ public class ReferenceLayerController extends AbstractController {
         return printMessage("Cache cleared.", "The cache has been cleared.");
     }
 
-    @RequestMapping({ "/reflayersearch", "/reference" })
+    @RequestMapping({ "/reflayersearch", "/reference", "/compounds" })
     public ModelAndView searchAndDisplay(
         @RequestParam(required = false, value = "freeTextQuery") String userQuery,
         @RequestParam(required = false, value = "organisms") String[] organismsSelected,
@@ -183,7 +183,7 @@ public class ReferenceLayerController extends AbstractController {
         try{
             queryEBI();
         } catch (Exception e){
-            return new ModelAndView("redirect:index?message="+ PropertyLookup.getMessage("msg.wsdl.error"));
+            return new ModelAndView("redirect:index?message="+ PropertyLookup.getMessage("msg.wsdl.error") + e.getMessage());
         }
 
         if(rffl.getMTBLNumOfResults() != 0){
@@ -456,7 +456,7 @@ public class ReferenceLayerController extends AbstractController {
         try {
             initEBISearchService();
         } catch (Exception e){
-            logger.info("queryEBI method error - "+ e);
+            logger.error("queryEBI method error - " + e);
             throw e;
         }
 
@@ -467,8 +467,28 @@ public class ReferenceLayerController extends AbstractController {
             listOfMTBLEntries = ebiSearchService.getEntries(MTBLDomainName, listOfMTBLIds, listOfMTBLFields);
         } else {
             ArrayOfString listOfMTBLIds = ebiSearchService.getAllResultsIds(MTBLDomainName, rffl.getEBIQuery());
-            listOfMTBLEntries = ebiSearchService.getEntries(MTBLDomainName, listOfMTBLIds, listOfMTBLFields);
+
+            if (rffl.getMTBLNumOfResults() > 5000){  // Ken, Started getting problems when we reached 9000+ entries
+                listOfMTBLEntries = collateSearchEntries();    //Have to read in chunks of 100 unfortunately
+            } else {
+                listOfMTBLEntries = ebiSearchService.getEntries(MTBLDomainName, listOfMTBLIds, listOfMTBLFields);
+            }
         }
+    }
+
+    private ArrayOfArrayOfString collateSearchEntries(){
+        int size = 100;
+        ArrayOfArrayOfString tempEntries = new ArrayOfArrayOfString();
+
+        //Get 100 resultsIds (MTBLC entries) and entries (search results in chuncks of 100, max at the moment)
+        for (int i = 1; i < rffl.getMTBLNumOfResults(); i += size){
+            ArrayOfString resultsIds = ebiSearchService.getResultsIds(MTBLDomainName, rffl.getEBIQuery(), i, size);
+            ArrayOfArrayOfString entries = ebiSearchService.getEntries(MTBLDomainName, resultsIds, listOfMTBLFields);
+            tempEntries.getArrayOfString().addAll(entries.getArrayOfString());
+        }
+
+        return tempEntries;
+
     }
 
     private void updateFacets() {

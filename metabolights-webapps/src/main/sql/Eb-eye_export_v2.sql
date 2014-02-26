@@ -41,7 +41,7 @@ AS
   add_fields_end VARCHAR2(100)   := '            </additional_fields>';
 
   file_end VARCHAR2(100) := '</database>';
-  
+
   c_technology_cursor_value varchar2(100) default null;
 
 
@@ -122,39 +122,40 @@ AS
     WHERE sc.entry_id = l_entry_id
       AND LOWER(P.VALUE) = 'organism'
       AND PV.VALUE <> 'none';
-  **/    
+  **/
   cursor organism_c_entry(l_entry_id NUMBER) is
     select distinct m.id, m.acc, m.name, s.species, s.taxon
-    from 
+    from
       ref_metabolite m,
       ref_met_to_species mts,
       ref_species s
-    where 
+    where
       m.id = l_entry_id and
       m.id = mts.met_id and
       mts.species_id = s.ID
-    START WITH s.final_id is null
-      CONNECT BY s.id = PRIOR s.final_id;    
+    --START WITH s.final_id is null
+    --  CONNECT BY s.id = PRIOR s.final_id
+    ;
 
   ------------------------------------------------------------------
   -- Organism group from MTBLC loop
   ------------------------------------------------------------------
-  cursor organism_group_c_entry(l_entry_id NUMBER) is      
+  cursor organism_group_c_entry(l_entry_id NUMBER) is
     select distinct g.name
-    from 
+    from
       ref_metabolite m,
       ref_met_to_species mts,
       ref_species s,
       ref_species_group g,
       ref_species_members sm
-    where 
+    where
       m.id = l_entry_id and
       m.id = mts.MET_ID and
       mts.SPECIES_ID = s.ID and
       s.species_member = sm.id and
       sm.group_id = g.ID
     START WITH s.final_id is null
-         CONNECT BY s.id = PRIOR s.final_id;      
+         CONNECT BY s.id = PRIOR s.final_id;
 
   ------------------------------------------------------------------
   -- Study factors
@@ -244,28 +245,28 @@ BEGIN
       l_ref_db_key := ref_db_key; -- Store the value l_ref_db_keybefore the loop starts
 
       IF (study_cur.status = 0) THEN  -- Only display for public studies
-      
+
         dbms_output.put_line(cross_ref_start);
-  
+
         FOR xrefs_cur IN xrefs_c(study_cur.name) LOOP
             dbms_output.put_line(replace(replace(ref_db_key,'DBKEY_REPLACE',xrefs_cur.id),'DBNAME_REPLACE',xrefs_cur.database) );
             ref_db_key := l_ref_db_key;
         END LOOP;
-  
+
         dbms_output.put_line(cross_ref_end);
-  
+
         --Dates for the Study or metabolite
         dbms_output.put_line(dates_start);
           dbms_output.put_line(replace(creation_date,'DATE_REPLACE',to_char(study_cur.submissiondate, 'YYYY-MM-DD')));
           dbms_output.put_line(replace(modification_date,'DATE_REPLACE',to_char(study_cur.releasedate, 'YYYY-MM-DD')));
         dbms_output.put_line(dates_end);
-        
+
       END IF;
 
       l_add_fields_entry := add_fields_entry;
       --Additional fields start
       dbms_output.put_line(add_fields_start);
-      
+
       IF (study_cur.status = 0) THEN  -- Only display for public studies
 
       -- First "single" entries from the study
@@ -323,7 +324,7 @@ BEGIN
           END IF;
           c_technology_cursor_value := null;
           close technology_chebi;
-          
+
           --FOR tech_cur IN technology_chebi(study_cur.chebi_id) LOOP
           --  dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','technology_type'),'FIELD_VALUE',tech_cur.name) );
           --  add_fields_entry := l_add_fields_entry;
@@ -356,7 +357,7 @@ BEGIN
             dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','organism'),'FIELD_VALUE',organism_cur_e.species) );
             add_fields_entry := l_add_fields_entry;
           END LOOP;
-          
+
           -- Organism group for Compounds
           FOR organism_cur2_e IN organism_group_c_entry(study_cur.entry_id) LOOP
             dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','organism_group'),'FIELD_VALUE',organism_cur2_e.name) );
@@ -364,7 +365,7 @@ BEGIN
           END LOOP;
 
         END IF; --Study and Compound loop
-          
+
 
         -- COMMON between studies and compounds
 
@@ -381,7 +382,7 @@ BEGIN
         END LOOP;
 
       ELSE  -- Search only field for the EB-eye Lucene index
-      
+
         -- Study technology
         FOR tech_cur IN technology_c(study_cur.entry_id) LOOP
           dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','private_technology_type'),'FIELD_VALUE',tech_cur.name) );
@@ -393,13 +394,13 @@ BEGIN
           dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','private_organism'),'FIELD_VALUE',organism_cur.value) );
           add_fields_entry := l_add_fields_entry;
         END LOOP;
-        
+
         --User identification
         FOR submitter_cur IN submitter_c(study_cur.entry_id) LOOP
           dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','private_user'),'FIELD_VALUE',submitter_cur.username) );
           add_fields_entry := l_add_fields_entry;
         END LOOP;
-        
+
       END IF; -- public study loop
 
       dbms_output.put_line(replace(replace(add_fields_entry,'FIELD_NAME','study_status'),'FIELD_VALUE',study_cur.status) );
