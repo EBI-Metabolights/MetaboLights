@@ -35,8 +35,6 @@
 	<script type="text/javascript" src='<spring:url value="/javascript/menu.js"/>'></script>
     <script type="text/javascript" src="//www.ebi.ac.uk/web_guidelines/js/libs/modernizr.custom.49274.js"></script>
 	
-   
-    <title><tiles:insertAttribute name="title" ignore="true" /></title>
 
     <c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
         <script type="text/javascript">var redline = {};redline.project_id = 196734042;</script>

@@ -187,30 +187,28 @@ function toggleColumn(tableId, anchor, duration ) {
 
 <div class="push_1 grid_22 title alpha omega">
     <strong>${study.acc}: ${study.title}</strong>
+    <br/>
+    <span class="right">
     <c:if test="${study.status eq 'PUBLIC'}">
         <a class="right noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.acc}" title="View all files">
             <span class="icon icon-functional" data-icon="b"/>
         </a>
     </c:if>
-    <span class="right">
-        &nbsp;
-    </span>
-    <a class="right noLine" href="${study.acc}/files/${study.acc}" title="Download whole study">
+    &nbsp;
+    <a class="noLine" href="${study.acc}/files/${study.acc}" title="Download whole study">
         <span class="icon icon-functional" data-icon="="/>
     </a>
-    <span class="right">
-        &nbsp;
-    </span>
     <c:if test="${study.status ne 'PUBLIC'}">
+        &nbsp;PRIVATE
         <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
-        <a class="right noLine" href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="Make it public">
+        <a class="noLine" href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="Make it public">
             <span class="icon icon-generic" data-icon="}" id="ebiicon" />
         </a>
     </c:if>
+    </span>
 </div>
 
 <c:set var="stringToFind" value="${study.acc}:assay:" />
-
 
 <div class="push_1 grid_22 box alpha omega">
 

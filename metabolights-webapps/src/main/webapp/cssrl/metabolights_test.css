@@ -137,8 +137,12 @@ th, td {
     -webkit-border-radius:5px 5px 5px 5px;
 }
 
-.title a, .title  a:link, .title a:visited,
-.title a span.icon-functional::before, .title a span.icon-generic::before
+.title a,
+.title a:link,
+.title a:visited,
+.title a span.icon-functional::before,
+.title a span.icon-generic::before,
+.title span.icon-functional::before
 {
     color: #ffffff;
 }

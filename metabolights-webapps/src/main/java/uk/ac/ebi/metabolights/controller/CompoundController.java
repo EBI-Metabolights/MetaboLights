@@ -49,6 +49,7 @@ public class CompoundController extends AbstractController {
         Compound compound=  ModelObjectFactory.getCompound(mtblc);
 
         mav.addObject("compound", compound);
+		mav.addObject("pageTitle", mtblc + " - " + compound.getMc().getName());
 
 
         return mav;

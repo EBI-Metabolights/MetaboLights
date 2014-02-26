@@ -4,7 +4,12 @@
 <!doctype html>
 <html class="no-js" lang="en">
     <title>
-    <tiles:insertAttribute name="title" ignore="true" />
+        <c:if test="${not empty pageTitle}">
+            <c:out value="${pageTitle}"/>
+        </c:if>
+        <c:if test="${empty pageTitle}">
+            <tiles:insertAttribute name="title" ignore="true" />
+        </c:if>
     </title>
 	<tiles:insertAttribute name="head" ignore="true" />
 	<body class="level2">

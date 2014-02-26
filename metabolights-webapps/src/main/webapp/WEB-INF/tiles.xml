@@ -121,7 +121,7 @@
 	</definition>
 	
 	<definition name="entry" extends="default">
-        <put-attribute name="title" value="Study" />
+        <!--<put-attribute name="title" value="Study" />-->
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
     

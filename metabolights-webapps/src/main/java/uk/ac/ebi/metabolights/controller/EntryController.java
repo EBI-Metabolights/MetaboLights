@@ -135,6 +135,7 @@ public class EntryController extends AbstractController {
 		mav.addObject("assays", getMLAssays(study));
 
         mav.addObject("submittedID", accessionService.getSubmittedId(mtblsId));
+		mav.addObject("pageTitle", study.getAcc() + ":" +study.getTitle() );
 
 		//Have to give the user the download stream as the study is not on the public ftp
 		//if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
