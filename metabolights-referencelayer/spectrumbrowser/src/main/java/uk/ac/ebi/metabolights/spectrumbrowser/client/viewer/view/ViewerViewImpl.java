@@ -18,10 +18,14 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import uk.ac.ebi.biowidgets.spectrum.client.SpectrumViewer;
 import uk.ac.ebi.biowidgets.spectrum.data.PeakList;
+import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.factory.ModelFactory;
+import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.factory.ModelFactoryException;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.NMRSpectraData;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.NMRSpectraDataImpl;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.NMRSpectraDataImplJsonP;
+import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.PeakListRaw;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.proxy.NMRPeakListAdapter;
+import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.proxy.PeakListAdapter;
 
 import java.util.*;
 
@@ -50,9 +54,9 @@ public class ViewerViewImpl implements ViewerView {
 
     @Override
     public void setSpectrumUrl(String url) {
-        if(map.containsKey(url)){
+        if (map.containsKey(url)) {
             this.show(map.get(url));
-        }else{
+        } else {
 
             gwtGetHttp(url);
             //gwtGetHttpJasonPString(url);
@@ -70,7 +74,7 @@ public class ViewerViewImpl implements ViewerView {
         this.spectrumType = spectrumType;
     }
 
-    private void gwtGetHttpJasonPString(final String url){
+    private void gwtGetHttpJasonPString(final String url) {
 
         // To use this Json files needs to be wrapped as a function call:
         // __gwt_jsonp__.P0.onSuccess(<json content>);
@@ -109,7 +113,7 @@ public class ViewerViewImpl implements ViewerView {
 
     }
 
-    private void gwtGetHttpJasonPObject(final String url){
+    private void gwtGetHttpJasonPObject(final String url) {
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
 
@@ -146,7 +150,7 @@ public class ViewerViewImpl implements ViewerView {
 
     }
 
-    private void gwtGetHttp(final String url ) {
+    private void gwtGetHttp(final String url) {
 
         RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
 
@@ -161,25 +165,25 @@ public class ViewerViewImpl implements ViewerView {
                 public void onResponseReceived(Request request, Response response) {
                     if (200 == response.getStatusCode()) {
 
-//                        try {
+                        try {
 
-                            NMRSpectraData peakList = jsonToSpectra(response.getText());
+                            if (spectrumType == SpectrumViewer.SpectrumType.MS) {
+                                SpectrumViewer spectrumViewer = new SpectrumViewer(getMSPeakList(response.getText()), spectrumType);
+                                map.put(url, spectrumViewer);
+                                show(spectrumViewer);
+                            } else {
+                                NMRSpectraData peakList = jsonToSpectra(response.getText());
+                                NMRPeakListAdapter spectrum = new NMRPeakListAdapter(peakList);
+                                List<PeakList> spectrumList = new ArrayList<PeakList>();
+                                spectrumList.add(spectrum);
 
-
-                            NMRPeakListAdapter spectrum = new NMRPeakListAdapter(peakList);
-
-                            List<PeakList> spectrumList = new ArrayList<PeakList>();
-
-                            spectrumList.add(spectrum);
-
-                            SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, spectrumType);
-                            map.put(url, spectrumViewer);
-                            show(spectrumViewer);
-
-
-//                        } catch (ModelFactoryException e) {
-//                            System.err.println(e.getMessage());
-//                        }
+                                SpectrumViewer spectrumViewer = new SpectrumViewer(spectrumList, spectrumType);
+                                map.put(url, spectrumViewer);
+                                show(spectrumViewer);
+                            }
+                        } catch (ModelFactoryException e) {
+                            System.err.println(e.getMessage());
+                        }
                     } else {
                         String res = response.getStatusText();
                         System.err.println(res);
@@ -192,10 +196,18 @@ public class ViewerViewImpl implements ViewerView {
         }
     }
 
+    private List<PeakList> getMSPeakList(String text) throws ModelFactoryException {
+
+        final PeakListRaw peakList = ModelFactory.getModelObject(PeakListRaw.class, text);
+        PeakListAdapter spectrum = new PeakListAdapter(peakList);
+        List<PeakList> spectrumList = new LinkedList<PeakList>();
+        spectrumList.add(spectrum);
+        return spectrumList;
+    }
+
     private NMRSpectraData jsonToSpectra(String text) {
         // It doesnt' work.
         //final NMRSpectraData peakList = ModelFactory.getModelObject(NMRSpectraData.class, response.getText());
-
         return jsonToSpectraJSONObject(text);
 
 
@@ -204,11 +216,11 @@ public class ViewerViewImpl implements ViewerView {
     private NMRSpectraData jsonToSpectraJSONObject(String text) {
 
         JSONValue jsonValue = JSONParser.parseStrict(text);
-        JSONObject aux  = jsonValue.isObject();
+        JSONObject aux = jsonValue.isObject();
         JSONArray jsonArray = new JSONArray();
-        jsonArray.set(0, aux) ;
+        jsonArray.set(0, aux);
 
-        return  createPeakList(jsonArray);
+        return createPeakList(jsonArray);
     }
 
 
@@ -263,7 +275,7 @@ public class ViewerViewImpl implements ViewerView {
                 JSONValue value = jsData.get(j);
                 if (value != null) {
                     JSONNumber dataPoint = value.isNumber();
-                    if(dataPoint!=null){
+                    if (dataPoint != null) {
                         intensities.add(dataPoint.doubleValue());
                     }
                 }
@@ -276,7 +288,8 @@ public class ViewerViewImpl implements ViewerView {
 
         return nmrSpectraData;
     }
-    private void show(SpectrumViewer spectrumViewer){
+
+    private void show(SpectrumViewer spectrumViewer) {
         this.container.clear();
         this.container.add(spectrumViewer);
     }

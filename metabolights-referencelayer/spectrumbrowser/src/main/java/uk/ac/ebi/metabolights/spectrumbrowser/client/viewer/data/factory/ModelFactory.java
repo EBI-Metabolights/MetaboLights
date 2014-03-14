@@ -15,13 +15,17 @@ import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.NMRSpectraData;
+import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.PeakListRaw;
 
 @SuppressWarnings("UnusedDeclaration")
 public abstract class ModelFactory {
 
     interface BeanFactory extends AutoBeanFactory {
-        AutoBean<NMRSpectraData> peakList();
+        AutoBean<NMRSpectraData> peakListNMR();
+
+        AutoBean<PeakListRaw> peakListMS();
     }
+
 
     public static <T> T getModelObject(Class<T> cls, String json) throws ModelFactoryException {
         try{
@@ -32,5 +36,4 @@ public abstract class ModelFactory {
             throw new ModelFactoryException("Error mapping json string for [" + cls + "]: " + json, e);
         }
     }
-
 }

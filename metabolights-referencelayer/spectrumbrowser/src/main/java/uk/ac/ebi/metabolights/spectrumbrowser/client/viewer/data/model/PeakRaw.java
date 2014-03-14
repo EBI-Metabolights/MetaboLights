@@ -13,13 +13,15 @@ package uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model;
 @SuppressWarnings("UnusedDeclaration")
 public interface PeakRaw {
 
-    Double getX();
-    void setX(Double x);
+    Double getMz();
 
-    Double getY();
-    void setY(Double y);
+    void setMz(Double mz);
+
+    Double getIntensity();
+
+    void setIntensity(Double intensity);
 
     Double getAnnotation();
-    void setAnnotation(String annotation);
 
+    void setAnnotation(String annotation);
 }

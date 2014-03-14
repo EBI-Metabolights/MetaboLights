@@ -17,7 +17,7 @@
     <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
     <artifactId>spectrumbrowser</artifactId>
     <packaging>war</packaging>
-    <version>SNAPSHOT-1.0.1</version>
+    <version>SNAPSHOT-1.0.2</version>
     <name>Metabolights Spectrum Browser</name>
 
     <properties>
@@ -66,12 +66,12 @@
         <dependency>
             <groupId>uk.ac.ebi.biowidgets</groupId>
             <artifactId>spectrum</artifactId>
-            <version>0.2</version>
+            <version>0.2.1</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>uk.ac.ebi.pride.widgets</groupId>-->
-            <!--<artifactId>pride-gwt-widgets</artifactId>-->
-            <!--<version>0.1</version>-->
+        <!--<groupId>uk.ac.ebi.pride.widgets</groupId>-->
+        <!--<artifactId>pride-gwt-widgets</artifactId>-->
+        <!--<version>0.1</version>-->
         <!--</dependency>-->
     </dependencies>
 

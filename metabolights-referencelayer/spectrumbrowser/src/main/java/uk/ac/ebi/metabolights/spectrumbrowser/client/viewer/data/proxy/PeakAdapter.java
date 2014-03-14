@@ -29,11 +29,11 @@ public class PeakAdapter implements Peak {
 
     @Override
     public Double getIntensity() {
-        return this.peak.getY();
+        return this.peak.getIntensity();
     }
 
     @Override
     public Double getMz() {
-        return this.peak.getX();
+        return this.peak.getMz();
     }
 }

@@ -14,9 +14,9 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import uk.ac.ebi.biowidgets.spectrum.client.SpectrumViewer;
-import uk.ac.ebi.metabolights.spectrumbrowser.client.common.EventBus;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.main.interfaces.ClientFactory;
 
 /**
@@ -40,24 +40,26 @@ public class SpectrumBrowser implements EntryPoint {
                 AbsolutePanel placeHolder = RootPanel.get(PLACE_HOLDER_NMR);
 
                 if (placeHolder != null){
-
+                    System.out.println("Loading NMR");
                     SimpleEventBus eventBus = clientFactory.getSimpleEventBus();
                     AppController appController = new AppController(eventBus);
                     String innerHTML = placeHolder.getElement().getInnerHTML();
                     placeHolder.getElement().setInnerHTML("");
                     appController.go(placeHolder, innerHTML, clientFactory.getMainView(eventBus, SpectrumViewer.SpectrumType.NMR));
+                    System.out.println("loaded NMR");
                 }
 
                 // Search for MS content
                 AbsolutePanel placeHolderMS = RootPanel.get(PLACE_HOLDER_MS);
 
                 if (placeHolderMS != null){
-
+                    System.out.println("Loading MS");
                     SimpleEventBus eventBusMS = clientFactory.getSimpleEventBus();
                     AppController appControllerMS = new AppController(eventBusMS);
                     String innerHTMLMS = placeHolderMS.getElement().getInnerHTML();
                     placeHolderMS.getElement().setInnerHTML("");
                     appControllerMS.go(placeHolderMS, innerHTMLMS, clientFactory.getMainView(eventBusMS, SpectrumViewer.SpectrumType.MS));
+                    System.out.println("loaded MS");
                 }
 
             }

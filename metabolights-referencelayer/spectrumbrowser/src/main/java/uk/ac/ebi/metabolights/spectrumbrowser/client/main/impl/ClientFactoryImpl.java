@@ -11,16 +11,14 @@
 package uk.ac.ebi.metabolights.spectrumbrowser.client.main.impl;
 
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import uk.ac.ebi.biowidgets.spectrum.client.SpectrumViewer;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.common.EventBus;
+import uk.ac.ebi.metabolights.spectrumbrowser.client.main.interfaces.ClientFactory;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.spectrumlist.presenter.SprectrumListPresenter;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.spectrumlist.view.SpectrumListView;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.spectrumlist.view.SpectrumListViewImpl;
-import uk.ac.ebi.metabolights.spectrumbrowser.client.main.interfaces.ClientFactory;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.presenter.ViewerPresenter;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.view.ViewerView;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.view.ViewerViewImpl;
@@ -88,7 +86,6 @@ public class ClientFactoryImpl implements ClientFactory {
 
         SpectrumListView spectrumListView = new SpectrumListViewImpl();
         new SprectrumListPresenter(eventBus, spectrumListView);
-
         return spectrumListView;
     }
 
