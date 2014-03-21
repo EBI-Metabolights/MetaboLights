@@ -184,7 +184,7 @@ public class SpeciesUpdater {
 	private void UpdateSpecieGroup(Species sp) {
 
 		// If it has a speciesMember id we will not touch it.
-		if (sp.getSpeciesMember() !=null) {
+		if (sp.getSpeciesMemberId() !=0) {
 			LOGGER.info ("Specie " + sp.getSpecies() + "(ID:" +sp.getId() + ") has an SpeciesMember asociated, we will not update it.");
 			return;
 		}
@@ -207,10 +207,10 @@ public class SpeciesUpdater {
 
 		if (spm != null){
 			LOGGER.warn("SpeciesMember found for " + sp.getTaxon() + " - " + sp.getId() + ":" + group.getId());
-			sp.setSpeciesMember(spm);
+			sp.setSpeciesMemberId(spm.getId());
 		} else {
 
-			sp.setSpeciesMember(null);
+			sp.setSpeciesMemberId(0);
 
 			LOGGER.warn("SpeciesMember not found for " + sp.getTaxon() + " - " + sp.getId());
 		}

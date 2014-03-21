@@ -22,13 +22,16 @@ import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
 import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 
+import javax.xml.namespace.QName;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -44,9 +47,9 @@ public class ReferenceLayerImporter{
 
     private RheasResourceClient wsRheaClient;
 
-    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
-   // private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
-
+    //private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
+    // private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
 	private static final Long CHEBI_DB_ID = new Long(1);
     private String chebiIDRoot = "CHEBI:25212";
@@ -63,6 +66,42 @@ public class ReferenceLayerImporter{
 		// COMBOS...
 		public static final int SPECIES_AND_UPDATE_MET = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 		public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET + DO_FUZZY_SEARCH;
+	}
+
+
+	// Enum that maps any chebi ontology parent to an species
+	public enum OntologyParentsToSpeciesMap{
+
+		HUMAN(new String[]{"CHEBI:75770", "CHEBI:77123", "CHEBI:76967"},"Homo sapiens (Human)", "NEWT:9606"),
+		ECOLI(new String[]{"CHEBI:76971", "CHEBI:76972","CHEBI:75761"},"Escherichia coli", "NEWT:562"),
+		BAKERSYEAST(new String[]{"CHEBI:75772","CHEBI:76949","CHEBI:76951"}, "Saccharomyces cerevisiae (Baker's yeast)", "NEWT:4932"),
+		MOUSE(new String[]{"CHEBI:75771"}, "Mus musculus (Mouse)", "NEWT:10090"),
+		STREPTOCOCCUS(new String[]{"CHEBI:76973", "CHEBI:76974", "CHEBI:75789"}, "Streptococcus pneumoniae", "NEWT:1313");
+
+		private String[] ontologyParentIds;
+		private String speciesName;
+		private String taxonId;
+
+		private OntologyParentsToSpeciesMap(String[] ontologyParentIds, String speciesName, String taxonId)
+		{
+			this.ontologyParentIds = ontologyParentIds;
+			this.speciesName = speciesName;
+			this.taxonId = taxonId;
+
+		}
+
+		public String[] getOntologyParentIds() {
+			return ontologyParentIds;
+		}
+
+		public String getSpeciesName() {
+			return speciesName;
+		}
+
+		public String getTaxonId() {
+			return taxonId;
+		}
+
 	}
 
 
@@ -351,7 +390,10 @@ public class ReferenceLayerImporter{
             mc.setIupacNames(extractIupacNames(entity.getIupacNames()));
 
             // Update species information
-            importMetSpeciesFromChebi(mc,entity);
+
+			CrossReference chebiXRef = getCrossReference(entity);
+            importMetSpeciesFromCompundOrigins(mc, entity, chebiXRef);
+			importMetSpeciesFromOntologyParents(mc, entity, chebiXRef);
 
             mc.setHasLiterature(getLiterature(entity));
             mc.setHasReaction(getReactions(mc.getChebiId()));
@@ -393,6 +435,7 @@ public class ReferenceLayerImporter{
 			// if the species is reported by CHEBI....
 			if (metSpecies.getCrossReference().getDb().getId() == CHEBI_DB_ID){
 
+				System.out.print(true);
 				//...delete it in the DB.
 				mspd.delete(metSpecies);
 
@@ -442,22 +485,64 @@ public class ReferenceLayerImporter{
 
     }
 
-    private void importMetSpeciesFromChebi(MetaboLightsCompound mc , Entity chebiEntity) throws DAOException {
-
-		CrossReference chebiXRef = getCrossReference(chebiEntity);
+    private void importMetSpeciesFromCompundOrigins(MetaboLightsCompound mc, Entity chebiEntity, CrossReference chebiXRef) throws DAOException {
 
 		//For each compound origin in chebi...
         for (CompoundOrigins origin : chebiEntity.getCompoundOrigins()){
 
-            Species sp = getSpecies(origin);
+            Species sp = getSpeciesFromCompoundOrigins(origin);
 
-            MetSpecies ms = new MetSpecies(sp,chebiXRef);
-
-            if (!mc.getMetSpecies().contains(ms)){
-                mc.getMetSpecies().add(ms);
-            }
+			addMetSpecies(mc, chebiXRef, sp);
         }
-    }
+	}
+
+	private void addMetSpecies(MetaboLightsCompound mc, CrossReference chebiXRef, Species sp) {
+		MetSpecies ms = new MetSpecies(sp,chebiXRef);
+
+		if (!mc.getMetSpecies().contains(ms)){
+			mc.getMetSpecies().add(ms);
+		}
+	}
+
+	/**
+	 * Will scan the ontolgy parent to look for classes that imply an species
+	 * Task url: https://www.pivotaltracker.com/story/show/67909198
+	 * A chebi compound can has role: human metabolite, mouse metabolite, Escherichia coli metabolite....
+	 * We nned to look for these classes and if found add them
+	 * Unfortunately this also could be tha case: human secondary metabolite (CHEBI:77123)
+	 * therefore:
+	 *
+	 * 1.- we scan the parents recursively until we find "human metabolite"
+	 * 2.- or we have a list with not only "human metabolite" but "human secondary metabolite" as well.
+	 * Doing #2.
+	 *
+	 * @param mc
+	 * @param chebiEntity
+	 */
+	private void importMetSpeciesFromOntologyParents(MetaboLightsCompound mc, Entity chebiEntity, CrossReference chebiXRef) throws DAOException {
+
+		// Get also species information from ontology classes
+		for (OntologyDataItem parent: chebiEntity.getOntologyParents()){
+
+
+			// Go through the ontology parents map
+			for (OntologyParentsToSpeciesMap map: OntologyParentsToSpeciesMap.values())
+			{
+
+				// If the map has the id...
+				if (Arrays.asList(map.getOntologyParentIds()).contains(parent.getChebiId()))
+				{
+
+					//... we've found a parent that represent an species
+					// Let's create the species
+					Species sp = getSpecies(map.getSpeciesName(), map.getTaxonId());
+
+					addMetSpecies(mc, chebiXRef, sp);
+					break;
+				}
+			}
+		}
+	}
 
 	private CrossReference getCrossReference(Entity chebiEntity) throws DAOException {
 
@@ -476,15 +561,16 @@ public class ReferenceLayerImporter{
 	}
 
 
-	private Species getSpecies(CompoundOrigins origin) throws DAOException {
+	private Species getSpeciesFromCompoundOrigins(CompoundOrigins origin) throws DAOException {
 
         // Try to find the specie
-        String species = origin.getSpeciesText();
-		String taxon = origin.getSpeciesAccession();
+		return getSpecies(origin.getSpeciesText(), origin.getSpeciesAccession());
 
-		Species sp;
+    }
 
-		//Try to get it from metabolights using the taxon first
+	private Species getSpecies(String species, String taxon) throws DAOException {
+
+		Species sp;//Try to get it from metabolights using the taxon first
 		if (taxon != null) {
 
 			sp = spd.findBySpeciesTaxon(taxon);
@@ -494,18 +580,16 @@ public class ReferenceLayerImporter{
         	sp = spd.findBySpeciesName(species);
 		}
 
-        // If not found create one...
-        if (sp == null){
-            sp = new Species();
-            sp.setSpecies(origin.getSpeciesText());
-            sp.setTaxon(origin.getSpeciesAccession());
-        }
+		// If not found create one...
+		if (sp == null){
+			sp = new Species();
+			sp.setSpecies(species);
+			sp.setTaxon(taxon);
+		}
+		return sp;
+	}
 
-        return sp;
-
-    }
-
-    private String extractIupacNames(List<DataItem> iupacNames){
+	private String extractIupacNames(List<DataItem> iupacNames){
 
         if (iupacNames.size()>0) {
             return iupacNames.iterator().next().getData();

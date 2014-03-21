@@ -53,6 +53,11 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.metabolights</groupId>
+            <artifactId>species-model</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 

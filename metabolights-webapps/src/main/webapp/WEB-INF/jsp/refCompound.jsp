@@ -313,7 +313,7 @@ function color_for_atom(formulaChar)
                 </c:if>
 				<h6><spring:message code="ref.compound.tab.characteristics.chemicalproperties"/></h6>
 				<c:forEach var="formula" items="${compound.chebiEntity.formulae}">
-				<spring:message code="ref.compound.tab.characteristics.formula"/> - <span id="formulae">${formulae.data}</span><br/>
+				<spring:message code="ref.compound.tab.characteristics.formula"/> - <span id="formulae">${formula.data}</span><br/>
 				</c:forEach>
 				Average mass - ${compound.chebiEntity.mass}
 				<br/>

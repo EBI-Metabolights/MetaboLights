@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.RelationshipType;
 
 import java.io.File;
 import java.net.URL;
@@ -57,8 +56,10 @@ public class ImporterTests extends TestCase{
         ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
 
         // Set the root to anminoacid
-        rli.setChebiIDRoot("CHEBI:16449");
-        rli.setRelationshipType(RelationshipType.HAS_FUNCTIONAL_PARENT);
+        //rli.setChebiIDRoot("CHEBI:16449");
+		//rli.setRelationshipType(RelationshipType.HAS_FUNCTIONAL_PARENT);
+
+		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL);
         rli.importMetabolitesFromChebi();
 
         /*
@@ -75,10 +76,13 @@ public class ImporterTests extends TestCase{
 		//rli.setDeleteExistingCHEBISpecies(true);
 		//URL url = ImporterTests.class.getClassLoader().getResource("refresh_species_chebi_ids.tsv");
 
-		//URL url = ImporterTests.class.getClassLoader().getResource("more_compounds_chebi_ids.tsv");
+		// Duplicated human (NCBI + NEWT)
+		URL url = ImporterTests.class.getClassLoader().getResource("more_compounds_chebi_ids.tsv");
+
+
 		// List from Ken's SQL query in CHEBI to get D- and L alanine....zwiterions not included:
-		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.DO_FUZZY_SEARCH);
-		URL url = ImporterTests.class.getClassLoader().getResource("chebi_metabolites.tsv");
+//		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.DO_FUZZY_SEARCH);
+//		URL url = ImporterTests.class.getClassLoader().getResource("chebi_metabolites.tsv");
         //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites.tsv");
         //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites_20130607.tsv");
         //URL url = ImporterTests.class.getClassLoader().getResource("BMR-NMR-not_in_chebi.tsv");
@@ -98,10 +102,12 @@ public class ImporterTests extends TestCase{
 
 		ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
 
-		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.DO_FUZZY_SEARCH);
+		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL);
 
 		//rli.importMetaboliteFromChebiID("CHEBI:65640");
-		rli.importMetaboliteFromChebiID("CHEBI:16449");
+		//rli.importMetaboliteFromChebiID("CHEBI:16449");
+		// To test import of "human metabolite"
+		rli.importMetaboliteFromChebiID("CHEBI:4167");
 
 
 	}
