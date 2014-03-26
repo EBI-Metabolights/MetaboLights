@@ -59,6 +59,8 @@ create table study_compound_ref as
 --Remove non-printable characters from the helper table
 update study_compound set description = regexp_replace(description,'[[:cntrl:]]','') where regexp_like(description,'[[:cntrl:]]'); 
 update study_compound set title = regexp_replace(title,'[[:cntrl:]]','') where regexp_like(title,'[[:cntrl:]]');
+update study_compound set title = replace(title,'<','&lt;') where title like '%<%'; 
+update study_compound set title = replace(title,'>','&gt;') where title like '%>%';
 update study_compound set description = replace(description,'<','&lt;') where description like '%<%'; 
 update study_compound set description = replace(description,'>','&gt;') where description like '%>%'; 
 
