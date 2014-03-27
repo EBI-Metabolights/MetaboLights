@@ -3,10 +3,10 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 23/10/13 13:53
+  ~ Last modified: 3/27/14 4:04 PM
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>
-            <artifactId>isatab-utils</artifactId>
+            <artifactId>metabolights-isatab-utils</artifactId>
             <version>1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -57,6 +57,11 @@
             <groupId>org.isatools</groupId>
             <artifactId>SpreadsheetManipulator</artifactId>
             <version>0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jtstand</groupId>
+            <artifactId>jtstand-sequence</artifactId>
+            <version>1.2.1</version>
         </dependency>
 
     </dependencies>

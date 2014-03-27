@@ -1,5 +1,160 @@
-<isatab-config-file xmlns="http://www.ebi.ac.uk/bii/isatab_configuration#"><isatab-configuration table-name="metaboliteprofiling_nmr" isatab-assay-type="nmr_spec_assay" isatab-conversion-target="meda"><measurement term-label="metabolite profiling" term-accession="0000366" source-abbreviation="OBI"/><technology term-label="NMR spectroscopy" term-accession="" source-abbreviation="OBI"/><field header="Sample Name" data-type="Ontology term" is-file-field="false" is-multiple-value="true" is-required="true" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Samples represent major outputs resulting from a protocol application other than the special case outputs of Extract or a Labeled Extract.]]></description><default-value><![CDATA[]]></default-value></field><protocol-field protocol-type ="Extraction"/><field header="Parameter Value[Extraction Method]" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[extraction method used. e.g methanol/chloroform extration (1:1 v/v)]]></description><default-value><![CDATA[]]></default-value></field><field header="Extract Name" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[User-defined names for each portion of extracted material.]]></description><default-value><![CDATA[]]></default-value><generated-value-template>[INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO].[SAMPLE_EXTRACT].Extract-[EXTRACT_COUNT]</generated-value-template></field><protocol-field protocol-type ="NMR sample"/><field header="Parameter Value[NMR tube type]" data-type="Ontology term" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[e.g. 5 mm conventional, Shigemi, mircocell etc.]]></description><default-value><![CDATA[]]></default-value><recommended-ontologies><ontology id="1033" abbreviation="NMR" name="NMR-instrument specific component of metabolomics investigations" version="44836"/></recommended-ontologies></field><field header="Parameter Value[Solvent]" data-type="Ontology term" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[D2O, CD3OD, CDCl3, etc]]></description><default-value><![CDATA[]]></default-value></field><field header="Parameter Value[Sample pH]" data-type="Double" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Sample pH e.g 7.4]]></description><default-value><![CDATA[]]></default-value></field><field header="Parameter Value[Temperature]" data-type="Double" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Sampel temperature run in the magnet, in Kelvin]]></description><default-value><![CDATA[]]></default-value></field><unit-field data-type="Ontology term" is-multiple-value="false" is-required="true">" is-forced-ontology="false<description>Temperature unit in Kelvin"</description></unit-field><field header="Labeled Extract Name" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Identifier for the labeled extract.]]></description><default-value><![CDATA[]]></default-value><generated-value-template>
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 3/27/14 4:04 PM
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
+<isatab-config-file xmlns="http://www.ebi.ac.uk/bii/isatab_configuration#">
+    <isatab-configuration table-name="metaboliteprofiling_nmr" isatab-assay-type="nmr_spec_assay"
+                          isatab-conversion-target="meda">
+        <measurement term-label="metabolite profiling" term-accession="0000366" source-abbreviation="OBI"/>
+        <technology term-label="NMR spectroscopy" term-accession="" source-abbreviation="OBI"/>
+        <field header="Sample Name" data-type="Ontology term" is-file-field="false" is-multiple-value="true"
+               is-required="true" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Samples represent major outputs resulting from a protocol application other than the special case outputs of Extract or a Labeled Extract.]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <protocol-field protocol-type="Extraction"/>
+        <field header="Parameter Value[Extraction Method]" data-type="String" is-file-field="false"
+               is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[extraction method used. e.g methanol/chloroform extration (1:1 v/v)]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <field header="Extract Name" data-type="String" is-file-field="false" is-multiple-value="false"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[User-defined names for each portion of extracted material.]]></description>
+            <default-value><![CDATA[]]></default-value>
+            <generated-value-template>
+                [INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO].[SAMPLE_EXTRACT].Extract-[EXTRACT_COUNT]
+            </generated-value-template>
+        </field>
+        <protocol-field protocol-type="NMR sample"/>
+        <field header="Parameter Value[NMR tube type]" data-type="Ontology term" is-file-field="false"
+               is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[e.g. 5 mm conventional, Shigemi, mircocell etc.]]></description>
+            <default-value><![CDATA[]]></default-value>
+            <recommended-ontologies>
+                <ontology id="1033" abbreviation="NMR"
+                          name="NMR-instrument specific component of metabolomics investigations" version="44836"/>
+            </recommended-ontologies>
+        </field>
+        <field header="Parameter Value[Solvent]" data-type="Ontology term" is-file-field="false"
+               is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[D2O, CD3OD, CDCl3, etc]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <field header="Parameter Value[Sample pH]" data-type="Double" is-file-field="false" is-multiple-value="false"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[Sample pH e.g 7.4]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <field header="Parameter Value[Temperature]" data-type="Double" is-file-field="false" is-multiple-value="false"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[Sampel temperature run in the magnet, in Kelvin]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <unit-field data-type="Ontology term" is-multiple-value="false" is-required="true">" is-forced-ontology="false
+            <description>Temperature unit in Kelvin"</description>
+        </unit-field>
+        <field header="Labeled Extract Name" data-type="String" is-file-field="false" is-multiple-value="false"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[Identifier for the labeled extract.]]></description>
+            <default-value><![CDATA[]]></default-value>
+            <generated-value-template>
                 [INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO].[SAMPLE_EXTRACT].Extract-[EXTRACT_COUNT].LE-[LABEL_COUNT]
-            </generated-value-template></field><field header="Label" data-type="Ontology term" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Indicates a chemical or biological marker or observed nucleus]]></description><default-value><![CDATA[]]></default-value><recommended-ontologies><ontology id="1007" abbreviation="CHEBI" name="Chemical entities of biological interest" version="40664"/></recommended-ontologies></field><protocol-field protocol-type ="NMR spectroscopy"/><field header="Parameter Value[Instrument]" data-type="Ontology term" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Name and model of the NMR instrument, e.g. Bruker Avance III, ...]]></description><default-value><![CDATA[]]></default-value></field><field header="Parameter Value[NMR Probe]" data-type="Ontology term" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Type of probe fitted to the spectroscope e.g. 10mm 31P, 5mm HCN coldprobe, 3mm flow-probe, etc.]]></description><default-value><![CDATA[]]></default-value></field><field header="Parameter Value[Number of transients]" data-type="Integer" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Number of transients (scan) acquired for your experiment. e.g 128 or 256]]></description><default-value><![CDATA[]]></default-value></field><field header="Parameter Value[Pulse sequence name]" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Pulse sequence used to acquire the data, noesypr1d]]></description><default-value><![CDATA[]]></default-value></field><field header="Parameter Value[Magnetic field strength]" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[a parameter expressed in tesla to report the strength of the field e.g 14.1 T Varian Inova ; 18.8 T Bruker Avance]]></description><default-value><![CDATA[]]></default-value></field><unit-field data-type="Ontology term" is-multiple-value="false" is-required="true">" is-forced-ontology="false<description>unit in Tesla"</description></unit-field><field header="Acquisition Parameter Data File" data-type="String" is-file-field="true" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Name (or URI) of the acquisition parameter data file gathered for this assay.]]></description><default-value><![CDATA[]]></default-value></field><protocol-field protocol-type ="NMR assay"/><field header="NMR Assay Name" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false"><description><![CDATA[User-defined name for a NMR assay.]]></description><default-value><![CDATA[]]></default-value><generated-value-template>
+            </generated-value-template>
+        </field>
+        <field header="Label" data-type="Ontology term" is-file-field="false" is-multiple-value="false"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[Indicates a chemical or biological marker or observed nucleus]]></description>
+            <default-value><![CDATA[]]></default-value>
+            <recommended-ontologies>
+                <ontology id="1007" abbreviation="CHEBI" name="Chemical entities of biological interest"
+                          version="40664"/>
+            </recommended-ontologies>
+        </field>
+        <protocol-field protocol-type="NMR spectroscopy"/>
+        <field header="Parameter Value[Instrument]" data-type="Ontology term" is-file-field="false"
+               is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[Name and model of the NMR instrument, e.g. Bruker Avance III, ...]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <field header="Parameter Value[NMR Probe]" data-type="Ontology term" is-file-field="false"
+               is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Type of probe fitted to the spectroscope e.g. 10mm 31P, 5mm HCN coldprobe, 3mm flow-probe, etc.]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <field header="Parameter Value[Number of transients]" data-type="Integer" is-file-field="false"
+               is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Number of transients (scan) acquired for your experiment. e.g 128 or 256]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <field header="Parameter Value[Pulse sequence name]" data-type="String" is-file-field="false"
+               is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[Pulse sequence used to acquire the data, noesypr1d]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <field header="Parameter Value[Magnetic field strength]" data-type="String" is-file-field="false"
+               is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[a parameter expressed in tesla to report the strength of the field e.g 14.1 T Varian Inova ; 18.8 T Bruker Avance]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <unit-field data-type="Ontology term" is-multiple-value="false" is-required="true">" is-forced-ontology="false
+            <description>unit in Tesla"</description>
+        </unit-field>
+        <field header="Acquisition Parameter Data File" data-type="String" is-file-field="true"
+               is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Name (or URI) of the acquisition parameter data file gathered for this assay.]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <protocol-field protocol-type="NMR assay"/>
+        <field header="NMR Assay Name" data-type="String" is-file-field="false" is-multiple-value="false"
+               is-required="true" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[User-defined name for a NMR assay.]]></description>
+            <default-value><![CDATA[]]></default-value>
+            <generated-value-template>
                 [INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO].[SAMPLE_EXTRACT].Extract-[EXTRACT_COUNT].LE-[LABEL_COUNT].NMRASSAY-[HYB_COUNT]
-            </generated-value-template></field><field header="Free Induction Decay Data File" data-type="String" is-file-field="true" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Name (or URI) of the free induction decay data file gathered for this assay.]]></description><default-value><![CDATA[]]></default-value></field><protocol-field protocol-type ="Data transformation"/><field header="Normalization Name" data-type="String" is-file-field="false" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[User-defined name for each normalization applied]]></description><default-value><![CDATA[]]></default-value></field><field header="Derived Spectral Data File" data-type="String" is-file-field="true" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Name (or URI) of the derived data file generated from spectral data by an assay.]]></description><default-value><![CDATA[]]></default-value></field><protocol-field protocol-type ="Metabolite identification"/><field header="Data Transformation Name" data-type="String" is-file-field="false" is-multiple-value="true" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[User-defined name for each data transformation applied]]></description><default-value><![CDATA[]]></default-value></field><field header="Metabolite Assignment File" data-type="String" is-file-field="true" is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"><description><![CDATA[Name (or URI) of the metabolite assignment file gathered for this assay.]]></description><default-value><![CDATA[]]></default-value></field><structured-field name="factors"/></isatab-configuration></isatab-config-file>
+            </generated-value-template>
+        </field>
+        <field header="Free Induction Decay Data File" data-type="String" is-file-field="true" is-multiple-value="false"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Name (or URI) of the free induction decay data file gathered for this assay.]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <protocol-field protocol-type="Data transformation"/>
+        <field header="Normalization Name" data-type="String" is-file-field="false" is-multiple-value="false"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[User-defined name for each normalization applied]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <field header="Derived Spectral Data File" data-type="String" is-file-field="true" is-multiple-value="true"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Name (or URI) of the derived data file generated from spectral data by an assay.]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <protocol-field protocol-type="Metabolite identification"/>
+        <field header="Data Transformation Name" data-type="String" is-file-field="false" is-multiple-value="true"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description><![CDATA[User-defined name for each data transformation applied]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <field header="Metabolite Assignment File" data-type="String" is-file-field="true" is-multiple-value="false"
+               is-required="false" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Name (or URI) of the metabolite assignment file gathered for this assay.]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <structured-field name="factors"/>
+    </isatab-configuration>
+</isatab-config-file>

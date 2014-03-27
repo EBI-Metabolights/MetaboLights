@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 07/10/13 15:52
+ * Last modified: 3/27/14 4:04 PM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.controller;
@@ -36,6 +36,8 @@ import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -136,6 +138,7 @@ public class EntryController extends AbstractController {
 
         mav.addObject("submittedID", accessionService.getSubmittedId(mtblsId));
 		mav.addObject("pageTitle", study.getAcc() + ":" +study.getTitle() );
+        mav.addObject("random", generateRandomReviewerURL());
 
 		//Have to give the user the download stream as the study is not on the public ftp
 		//if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
@@ -315,4 +318,9 @@ public class EntryController extends AbstractController {
 		}
 		return fvSummary;
 	}
+
+    private String generateRandomReviewerURL(){
+         SecureRandom random = new SecureRandom();
+         return new BigInteger(256, random).toString(46);
+    }
 }

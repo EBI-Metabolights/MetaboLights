@@ -8,7 +8,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 28/01/14 10:16
+  ~ Last modified: 3/27/14 4:04 PM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -100,7 +100,7 @@
 
 	<div class='grid_6 omega'>
 		<spring:message code="label.expId" />: <strong>${searchResult.accStudy}</strong><br/>
-		<spring:message code="label.subm" />&nbsp;${searchResult.submitter.name}&nbsp;${searchResult.submitter.surname}<br/>
+        <spring:message code="label.subm" />&nbsp;<a href="mailto:${searchResult.submitter.email}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${searchResult.accStudy}">${searchResult.submitter.name}&nbsp;${searchResult.submitter.surname}</a>
 	</div>
 
 

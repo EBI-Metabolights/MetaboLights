@@ -1,4 +1,14 @@
 <?xml  version="1.0" encoding="UTF-8"?>
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 3/13/14 2:43 PM
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:aop="http://www.springframework.org/schema/aop"
@@ -19,7 +29,7 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
- 
+
     <context:component-scan base-package="uk.ac.ebi.metabolights" />
     <context:annotation-config/>
 
@@ -37,18 +47,18 @@
 	    </property>
 	</bean>
 
-    <!-- 
+    <!--
     File uploading
      -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     	<!--property name="maxUploadSize" value="100000"/-->
 	</bean>
-   
-    
-    <!-- 
+
+
+    <!--
     To configure Apache Tiles, an entry for bean TilesConfigure has to be made in spring-servlet.xml.
-    An input configuration file /WEB-INF/tiles.xml is passed as argument in above bean definition. 
-    This file contains the Tiles definition for our web application. 
+    An input configuration file /WEB-INF/tiles.xml is passed as argument in above bean definition.
+    This file contains the Tiles definition for our web application.
     -->
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 	    <property name="definitions">
@@ -57,11 +67,11 @@
 	        </list>
 	    </property>
     </bean>
-    
-	<!-- 
-	We will provide a feature where user will be able to select language for the application. This is implemented by using 
-	org.springframework.web.servlet.i18n.LocaleChangeInterceptor class. The LocaleChangeInterceptor class will intercept any changes in the locale. 
-	These changes are then saved in cookies for future request. org.springframework.web.servlet.i18n.CookieLocaleResolver class will be used to 
+
+	<!--
+	We will provide a feature where user will be able to select language for the application. This is implemented by using
+	org.springframework.web.servlet.i18n.LocaleChangeInterceptor class. The LocaleChangeInterceptor class will intercept any changes in the locale.
+	These changes are then saved in cookies for future request. org.springframework.web.servlet.i18n.CookieLocaleResolver class will be used to
 	store the locale changes in cookies.
 	 -->
 	<bean id="messageSource"
@@ -100,18 +110,18 @@
 	</bean>
 
 
-   <!-- Callback filter for Frontier template addition -->    
- <!--  
+   <!-- Callback filter for Frontier template addition -->
+ <!--
    <bean id="frontierTemplateReferenceLayerFilter" class="uk.ac.ebi.pride.web.util.frontier.FrontierTemplateFilter">
         <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
    </bean>
  -->
- 
+
     <tx:annotation-driven />
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
- 
+
     <!-- read settings from application.properties file
          NB! only for local testing
 	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
@@ -132,7 +142,7 @@
 		<property name="password" value="${hibernate.connection.password}"/>
 		<property name="url" value="${hibernate.connection.url}"/>
 	</bean-->
-	
+
 	<!--For EBI tomcat server deployment  -->
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
       	<property name="jndiName" value="java:comp/env/jdbc/metabolights"/>
@@ -161,7 +171,7 @@
     <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
 
 
-    
+
     <bean id="modelAndViewFactory" class="uk.ac.ebi.metabolights.webapp.StyleMAVFactory">
         <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
         <property name="localHeaderURL" value="#{localHeaderURL}"/>
@@ -176,7 +186,7 @@
         </property>
         <property name="configurationClass">
             <value>org.hibernate.cfg.AnnotationConfiguration</value>
-        </property>       
+        </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -187,7 +197,7 @@
         </property>
     </bean>
 
-    <!-- 
+    <!--
     The security department
      -->
     <sec:http use-expressions="true" auto-config='true'>
@@ -275,7 +285,7 @@
     <bean id="activateAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="from" value="${replyTo}"/>
       <property name="subject" value="New MetaboLights account request"/>
-      <property name="to"><list><value>${mtblAdminEmailAddress}</value></list> </property>  
+      <property name="to"><list><value>${mtblAdminEmailAddress}</value></list> </property>
     </bean>
 
     <bean id="accountApprovedTemplate" class="org.springframework.mail.SimpleMailMessage">
@@ -288,10 +298,10 @@
         <property name="from" value="${replyTo}"/>
         <property name="subject" value="Your MetaboLights study will go public soon"/>
     </bean>
-    
+
     <bean id="contactUsTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="subject" value="MetaboLights Website General Request"/>
-      <property name="to"><list><value>${mtblAdminEmailAddress}</value></list></property>  
+      <property name="to"><list><value>${mtblAdminEmailAddress}</value></list></property>
     </bean>
 
     <bean id="queueManager" class="uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager"/>

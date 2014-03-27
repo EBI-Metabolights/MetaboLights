@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 3/27/14 4:04 PM
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
 <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 
 
-<!-- Here in tiles.xml we have define a template base.definition. This layout 
-	contains attributes such as Header, Title, Body, Menu and Footer. The layout 
+<!-- Here in tiles.xml we have define a template base.definition. This layout
+	contains attributes such as Header, Title, Body, Menu and Footer. The layout
 	is then extended and new definitions are added per page. -->
 
 <!--suppress ALL -->
@@ -15,7 +25,7 @@
 		<put-attribute name="leftmenu" value="" />
 		<put-attribute name="content" value="" />
 	</definition>
-	
+
 
 	<definition name="default" template="/WEB-INF/jsp/frontier/layout.jsp">
 		<put-attribute name="head" value="/WEB-INF/jsp/frontier/head.jsp" />
@@ -29,9 +39,9 @@
 		<put-attribute name="body" value="twosections.def"/>
 	</definition>
 
-	
+
 	<definition name="reflayersearch" extends="default">
-		<put-attribute name="title" value="Reference layer search" />
+		<put-attribute name="title" value="Compound search" />
 		<put-attribute name="body" value="/WEB-INF/jsp/refLayerSearch.jsp" />
 	</definition>
 
@@ -39,13 +49,13 @@
         <put-attribute name="title" value="Clear Cache" />
         <put-attribute name="body" value="/WEB-INF/jsp/clearRefLayerCache.jsp" />
     </definition>
-	
+
 	<definition name="compound" extends="default">
 		<put-attribute name="title" value="Compound page" />
 		<put-attribute name="body" value="/WEB-INF/jsp/refCompound.jsp" />
 	</definition>
-	
-	
+
+
 	<definition name="index" extends="default">
 		<put-attribute name="title" value="MetaboLights - Metabolomics experiments and derived information" />
 		<put-attribute name="noBreadCrumb" value="true" />
@@ -56,7 +66,7 @@
 		<put-attribute name="title" value="About MetaboLights" />
 		<put-attribute name="body" value="/WEB-INF/jsp/about.jsp" />
 	</definition>
-  
+
     <definition name="help" extends="default">
         <put-attribute name="title" value="How to use" />
         <put-attribute name="body" value="/WEB-INF/jsp/help.jsp" />
@@ -71,12 +81,12 @@
         <put-attribute name="title" value="Log in" />
         <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
     </definition>
-	
+
 	<definition name="timeout" extends="default">
         <put-attribute name="title" value="Timed out" />
         <put-attribute name="body" value="/WEB-INF/jsp/timeout.jsp" />
     </definition>
-    
+
     <definition name="forgotPassword" extends="default">
         <put-attribute name="title" value="Forgot your password" />
         <put-attribute name="body" value="/WEB-INF/jsp/forgotPassword.jsp" />
@@ -86,22 +96,22 @@
 		<put-attribute name="title" value="Contact us" />
 		<put-attribute name="body" value="/WEB-INF/jsp/contact.jsp" />
 	</definition>
-    
+
 	<definition name="createAccount" extends="default">
         <put-attribute name="title" value="Create a new account" />
         <put-attribute name="body" value="/WEB-INF/jsp/createAccount.jsp" />
     </definition>
-    
+
     <definition name="accountRequested" extends="default">
         <put-attribute name="title" value="Account information" />
         <put-attribute name="body" value="/WEB-INF/jsp/accountRequested.jsp" />
     </definition>
-    
+
     <definition name="updateAccount" extends="default">
         <put-attribute name="title" value="My Account" />
         <put-attribute name="body" value="/WEB-INF/jsp/updateAccount.jsp" />
     </definition>
-    
+
     <definition name="reaction" template="/WEB-INF/jsp/reaction.jsp"/>
 
     <definition name="metabolitesIdentified" template="/WEB-INF/jsp/metabolitesIdentified.jsp"/>
@@ -110,25 +120,25 @@
         <put-attribute name="leftmenu" value="/WEB-INF/jsp/searchFilter.jsp" />
 		<put-attribute name="content" value="/WEB-INF/jsp/searchResults.jsp" />
 	</definition>
-	
+
 	<definition name="searchResult" extends="default">
 		<put-attribute name="title" value="Search" />
 		<put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp"/>
 	</definition>
-	
+
 	<definition name="browse" extends="searchResult">
 		<put-attribute name="title" value="Browse" />
 	</definition>
-	
+
 	<definition name="entry" extends="default">
         <!--<put-attribute name="title" value="Study" />-->
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
-    
+
 	<definition name="citations" template="/WEB-INF/jsp/citations.jsp" />
-		
+
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
-	
+
     <definition name="error" extends="default">
         <put-attribute name="title" value="Error" />
         <put-attribute name="body" value="/WEB-INF/jsp/error.jsp" />
@@ -148,22 +158,22 @@
         <put-attribute name="title" value="Study submission" />
         <put-attribute name="body" value="/WEB-INF/jsp/biisubmit.jsp" />
     </definition>
-	
+
 	<definition name="queuedOk" extends="default">
         <put-attribute name="title" value="Study queued" />
         <put-attribute name="body" value="/WEB-INF/jsp/queuedOk.jsp" />
     </definition>
-    
+
     <definition name="updateStudyForm" extends="default">
         <put-attribute name="title" value="Update study" />
         <put-attribute name="body" value="/WEB-INF/jsp/updateStudy.jsp" />
     </definition>
-    
+
    	<definition name="config" extends="default">
         <put-attribute name="title" value="Configuration" />
         <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
     </definition>
-    
+
     <definition name="users" extends="default">
         <put-attribute name="title" value="User admin" />
         <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />
@@ -173,21 +183,21 @@
 		<put-attribute name="title" value="Statistics page" />
 		<put-attribute name="body" value="/WEB-INF/jsp/statistics.jsp" />
 	</definition>
-	
+
 	<definition name="proxy" template="/WEB-INF/jsp/proxy.jsp"/>
 
 	<definition name="html" template="/WEB-INF/jsp/html.jsp"/>
-	
+
     <definition name="ebeyehelp" extends="default">
 		<put-attribute name="title" value="Ebi-eye test" />
 		<put-attribute name="body" value="/WEB-INF/jsp/ebeyehelp.jsp" />
 	</definition>
-	
+
 	<definition name="message" extends="default">
         <put-attribute name="title" value="Message" />
         <put-attribute name="body" value="/WEB-INF/jsp/message.jsp" />
 	</definition>
-	
+
 	<definition name="useroptions" extends="default">
         <put-attribute name="title" value="User options" />
         <put-attribute name="body" value="/WEB-INF/jsp/useroptions.jsp" />
