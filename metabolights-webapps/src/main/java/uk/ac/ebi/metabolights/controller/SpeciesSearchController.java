@@ -54,7 +54,7 @@ public class SpeciesSearchController extends AbstractController {
 
 	@RequestMapping(value = "/species/json")
 	@ResponseBody
-	public String getJsonSpectra() {
+	public String getJsonSpecies() {
 
 		Collection<SpeciesGroup> groups = ModelObjectFactory.getAllSpeciesTree();
 
@@ -67,19 +67,26 @@ public class SpeciesSearchController extends AbstractController {
 
 	private String getSpeciesTreeToJson(Collection<SpeciesGroup> tree){
 
-		StringBuilder json = new StringBuilder();
+		try {
+			StringBuilder json = new StringBuilder();
 
-		// Get the root element...
-		json.append("{");
-		json.append("\"name\":\"Species\"");
-		json.append(", \"level\":0");
-		json.append(", \"children\":[");
+			// Get the root element...
+			json.append("{");
+			json.append("\"name\":\"Species\"");
+			json.append(", \"level\":0");
+			json.append(", \"children\":[");
 
-		treeToJson(tree, json);
+			treeToJson(tree, json);
 
-		// Close root
-		json.append("]}");
-		return json.toString();
+			// Close root
+			json.append("]}");
+
+			return json.toString();
+
+		} catch (Exception e){
+			logger.error("Can't turn species tree into json", e);
+			return "Can't load tree!";
+		}
 	}
 
 	private void treeToJson(Collection<SpeciesGroup> tree,StringBuilder json)
@@ -124,37 +131,32 @@ public class SpeciesSearchController extends AbstractController {
 		boolean isFirst = true;
 
 		// If it has any children (Other species groups below)
-		if (sg.getChildren().size() > 0)
-		{
+		if (sg.getChildren() != null) {
 
-			for (SpeciesGroup child: sg.getChildren()){
+			for (SpeciesGroup child : sg.getChildren()) {
 
-				if (isFirst)
-				{
+				if (isFirst) {
 					isFirst = false;
-				}else{
+				} else {
 					json.append(",");
 				}
 				speciesGroupToJson(child, json, level);
 			}
+		}
 
 
-		} else
-		{
+		if (sg.getSpecieses() != null) {
+			for (Species sp : sg.getSpecieses()) {
 
-
-			for (Species sp : sg.getSpecieses())
-			{
-
-				if (isFirst)
-				{
+				if (isFirst) {
 					isFirst = false;
-				}else{
+				} else {
 					json.append(",");
 				}
 
-				speciesToJson(sp,json,level);
+				speciesToJson(sp, json, level);
 			}
+
 		}
 
 		json.append("]");

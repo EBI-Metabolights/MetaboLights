@@ -77,17 +77,17 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 		Set<SpeciesGroup> result = findBy("--where.speciesgroup.all",null);
 
 		// Assign children ...
-		AssignChildren(result);
+		AssignSpecies(result);
 
 		// Assign species
-		AssignSpecies(result);
+		AssignChildren(result);
 
 		return result;
 
 	}
 
 
-    private void AssignChildren(Set<SpeciesGroup> speciesGroups) throws DAOException {
+    private void AssignSpecies(Set<SpeciesGroup> speciesGroups) throws DAOException {
 
 		// go through the species group set...
 		for (SpeciesGroup sg : speciesGroups)
@@ -105,7 +105,7 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 
 	}
 
-	private void AssignSpecies(Set<SpeciesGroup> speciesGroups){
+	private void AssignChildren(Set<SpeciesGroup> speciesGroups){
 
 		// go through the species group set...
 		for (SpeciesGroup sg : speciesGroups)
