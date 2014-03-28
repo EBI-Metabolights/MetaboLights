@@ -5,7 +5,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 12/02/14 12:13
+  ~ Last modified: 3/28/14 2:13 PM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -67,9 +67,9 @@
         <ul class="species">
             <li class="icon icon-species" data-icon="H"><A href="reference?organisms=Homo sapiens (Human)">Homo sapiens (Human)</a></li>
             <li class="icon icon-species" data-icon="M"><a href="reference?organisms=Mus musculus (Mouse)">Mus musculus (Mouse)</a></li>
-            <%--<li class="icon icon-species" data-icon="B"><a href="reference?Arabidopsis thaliana (thale cress)">Arabidopsis thaliana (thale cress)</a></li>--%>
-            <%--<li class="icon icon-species" data-icon="L"><a href="reference?organisms=">E. coli</li>--%>
-            <li class="icon icon-species" data-icon="Y"><a href="reference?organisms=Saccharomyces cerevisiae">Saccharomyces cerevisiae (Baker's yeast)</a></li>
+            <li class="icon icon-species" data-icon="B"><a href="reference?organisms=Arabidopsis thaliana (thale cress)">Arabidopsis thaliana (thale cress)</a></li>
+            <li class="icon icon-species" data-icon="L"><a href="reference?organisms=Escherichia coli">E. coli</a></li>
+            <li class="icon icon-species" data-icon="Y"><a href="reference?organisms=Saccharomyces cerevisiae (Baker's yeast)">Saccharomyces cerevisiae (Baker's yeast)</a></li>
             <li class="icon icon-species" data-icon="W"><a href="reference?organisms=Caenorhabditis elegans">Caenorhabditis elegans</a></li>
             <%--<li class="icon icon-species" data-icon="F"><a href="reference?organisms=Drosophila">Drosophila</li>--%>
         </ul>

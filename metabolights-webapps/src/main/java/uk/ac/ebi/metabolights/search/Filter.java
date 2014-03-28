@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 09/09/13 08:47
+ * Last modified: 3/28/14 3:46 PM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.search;
@@ -391,12 +391,19 @@ public class Filter {
 			if (result.getOrganism()!=null){
 
 				//If we haven't stored the item yet...
-				if(!organism.getFilterItems().containsKey(result.getOrganism())){
-					organism.getFilterItems().put( result.getOrganism(), new FilterItem(result.getOrganism(), organism.getName()));
-				}
+				//if(!organism.getFilterItems().containsKey(result.getOrganism())){
+                    for (String singeOrganism: result.getOrganisms()){
+
+                        if(!organism.getFilterItems().containsKey(singeOrganism))
+                            organism.getFilterItems().put(singeOrganism, new FilterItem(singeOrganism, organism.getName()));
+
+                        organism.getFilterItems().get(singeOrganism).addToNumber(1);
+                    }
+					//organism.getFilterItems().put( result.getOrganism(), new FilterItem(result.getOrganism(), organism.getName()));   //TODO, this only gets the first organism
+				//}
 
 				//Increase the count of organisms
-				organism.getFilterItems().get(result.getOrganism()).addToNumber(1);
+				//organism.getFilterItems().get(result.getOrganism()).addToNumber(1);
 			}
 
 			//Get the list of technologies..
