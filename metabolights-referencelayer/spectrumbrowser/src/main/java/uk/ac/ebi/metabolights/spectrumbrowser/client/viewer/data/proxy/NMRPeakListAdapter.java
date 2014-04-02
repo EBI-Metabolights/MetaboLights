@@ -16,7 +16,6 @@ import uk.ac.ebi.biowidgets.spectrum.data.PeakList;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.Discretizer;
 import uk.ac.ebi.metabolights.spectrumbrowser.client.viewer.data.model.NMRSpectraData;
 
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,10 +31,10 @@ public class NMRPeakListAdapter implements PeakList {
         // Instantiate the discretizer
         Discretizer disc = new Discretizer(nmrSpectraData.getxMin(), nmrSpectraData.getxMax(), nmrSpectraData.getData().length);
 
-        for (int i = 0; i < peakList.getData().length;i++) {
+        for (int i = 0; i < peakList.getData().length; i++) {
 
             // Create a new peak adapter
-            peaks.add(new NMRPeakAdapter(disc.valueAtPoint(i),peakList.getData()[i]));
+            peaks.add(new NMRPeakAdapter(disc.valueAtPoint(i), peakList.getData()[i]));
 
         }
 
@@ -57,8 +56,8 @@ public class NMRPeakListAdapter implements PeakList {
     }
 
     @Override
-    public long getSpectrumId() {
-        return 1;
+    public String getSpectrumId() {
+        return "1";
     }
 }
 

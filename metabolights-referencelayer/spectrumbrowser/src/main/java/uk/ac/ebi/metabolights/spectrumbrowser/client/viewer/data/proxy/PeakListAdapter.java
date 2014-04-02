@@ -47,7 +47,7 @@ public class PeakListAdapter implements PeakList {
     }
 
     @Override
-    public long getSpectrumId() {
+    public String getSpectrumId() {
         return this.peakList.getSpectrumId();
     }
 }

@@ -90,15 +90,15 @@ public class BmrbToJsonConverter {
                 String[] values = line.split(",");
                 ppms.add(Float.valueOf(values[1]));
                 intensities.add(Double.valueOf(values[2]));
-                System.out.println("Logged: " + Float.valueOf(values[2]) + " " + "Formatted intensity: " + decimalFormat.format(Float.valueOf(values[2])));
+                // System.out.println("Logged: " + Float.valueOf(values[2]) + " " + "Formatted intensity: " + decimalFormat.format(Float.valueOf(values[2])));
             }
             Collections.reverse(intensities);
             Collections.sort(ppms);
             Double[] intensitiesArray = intensities.toArray(new Double[intensities.size()]);
             nmrSpectraData = new SimpleNMRSpectraData(intensitiesArray, ppms.get(ppms.size() - 1), ppms.get(0));
-            System.out.println("Max value: " + ppms.get(ppms.size() - 1));
-            System.out.println("Min value: " + ppms.get(0));
-            System.out.println("Intensities logged: " + intensities.size());
+//            System.out.println("Max value: " + ppms.get(ppms.size() - 1));
+//            System.out.println("Min value: " + ppms.get(0));
+//            System.out.println("Intensities logged: " + intensities.size());
 
 
         } catch (FileNotFoundException e) {

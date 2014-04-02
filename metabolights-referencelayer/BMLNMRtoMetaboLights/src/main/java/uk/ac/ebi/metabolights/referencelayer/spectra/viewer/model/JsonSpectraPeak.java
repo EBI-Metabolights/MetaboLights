@@ -19,11 +19,12 @@ import com.google.gson.annotations.SerializedName;
  */
 public class JsonSpectraPeak {
 
-    @SerializedName("x")
+    @SerializedName("mz")
     private double mz;
-    @SerializedName("y")
+    @SerializedName("intensity")
     private double intensity;
-    public JsonSpectraPeak(double mz, double intensity){
+
+    public JsonSpectraPeak(double mz, double intensity) {
         this.mz = mz;
         this.intensity = intensity;
     }

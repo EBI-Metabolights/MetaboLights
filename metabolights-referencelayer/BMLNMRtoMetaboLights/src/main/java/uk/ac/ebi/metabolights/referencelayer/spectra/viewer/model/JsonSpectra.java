@@ -19,16 +19,16 @@ import java.util.ArrayList;
  */
 public class JsonSpectra {
 
-    private long spectrumId;
+    private String spectrumId;
     private double mzStart;
     private double mzStop;
     private ArrayList<JsonSpectraPeak> peaks = new ArrayList<JsonSpectraPeak>();
 
-    public long getSpectrumId() {
+    public String getSpectrumId() {
         return spectrumId;
     }
 
-    public void setSpectrumId(long spectrumId) {
+    public void setSpectrumId(String spectrumId) {
         this.spectrumId = spectrumId;
     }
 
