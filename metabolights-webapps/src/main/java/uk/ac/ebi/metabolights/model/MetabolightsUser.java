@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 4/3/14 3:29 PM
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.model;
 
 import org.hibernate.validator.constraints.Email;
@@ -23,9 +33,9 @@ import java.util.Set;
 @SequenceGenerator(name="userSeq", sequenceName="USER_DETAIL_SEQ", allocationSize=1)
 
 public class MetabolightsUser implements Serializable{
-	
+
 	public static enum UserStatus {
-		
+
 		NEW("NEW"), VERIFIED("VERIFIED"), ACTIVE("ACTIVE"), FROZEN("FROZEN");
 
 		private String val;
@@ -36,7 +46,7 @@ public class MetabolightsUser implements Serializable{
 			return val;
 		}
 	};
-	
+
 	private static final long serialVersionUID = -775643268878161432L;
 
 	public MetabolightsUser() {
@@ -44,7 +54,7 @@ public class MetabolightsUser implements Serializable{
 		this.authorities = EnumSet.of(AppRole.ROLE_SUBMITTER);
 		this.objectType="Person";
 		this.status=UserStatus.NEW.getValue();
-		this.joinDate=new java.util.Date(); 
+		this.joinDate=new java.util.Date();
 	}
 
 	@Id
@@ -102,14 +112,14 @@ public class MetabolightsUser implements Serializable{
     private String affiliationUrl;
 
 	// Extra Metabolights column to be able to create a user account
-	// that still needs approval. 
+	// that still needs approval.
 	@Column(name="STATUS")
     @NotEmpty
 	private String status;
 
     @Column(name="ROLE")
     private Integer role;
-	
+
 	//_______________________________________________
 	// Getters and setters
 	//_______________________________________________
@@ -175,13 +185,20 @@ public class MetabolightsUser implements Serializable{
 	}
 
 	public Set<AppRole> getAuthorities() {
-		
+
 		if (isCurator()){
 			if (!authorities.contains(AppRole.ROLE_SUPER_USER)){
 				authorities.add(AppRole.ROLE_SUPER_USER);
 			}
 		}
-		
+
+        if (isReviewer()){
+            if (!authorities.contains(AppRole.ROLE_REVIEWER)){
+                authorities.add(AppRole.ROLE_REVIEWER);
+            }
+        }
+
+
 		return authorities;
 	}
 
@@ -254,6 +271,13 @@ public class MetabolightsUser implements Serializable{
 
     public Boolean isCurator(){
         if (getRole().equals(1)) //Integer 1 is stored in the database if you are a curator
+            return true;
+
+        return false;
+    }
+
+    public Boolean isReviewer(){
+        if (getRole().equals(2)) //Integer 2 is stored in the database if you are a reviewer
             return true;
 
         return false;

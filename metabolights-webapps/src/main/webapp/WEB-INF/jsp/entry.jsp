@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html;charset=UTF-8"%>
@@ -9,7 +10,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 28/01/14 10:11
+  ~ Last modified: 4/3/14 3:52 PM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -185,6 +186,11 @@ function toggleColumn(tableId, anchor, duration ) {
 
 </script>
 
+<!-- reviewers can not change a study -->
+<sec:authorize ifAnyGranted="ROLE_REVIEWER">
+    <c:set var="reviewer" value="true"/>
+</sec:authorize>
+
 <div class="push_1 grid_22 title alpha omega">
     <strong>${study.acc}: ${study.title}</strong>
     <br/>
@@ -198,7 +204,7 @@ function toggleColumn(tableId, anchor, duration ) {
     <a class="noLine" href="${study.acc}/files/${study.acc}" title="Download whole study">
         <span class="icon icon-functional" data-icon="="/>
     </a>
-    <c:if test="${study.status ne 'PUBLIC'}">
+    <c:if test="${(study.status ne 'PUBLIC') && empty reviewer}">
         &nbsp;PRIVATE
         <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
         <a class="noLine" href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="Make it public">
@@ -222,7 +228,7 @@ function toggleColumn(tableId, anchor, duration ) {
        <c:if test="${not empty study.contacts}">
             <br/>
             <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
-				<c:if test="${loopStatus.index ne 0}">,</c:if>
+				<c:if test="${loopStatus.index ne 0}">, </c:if>
 	            <span id="aff"
                 	<c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>
                 >${contact.firstName}&nbsp;${contact.lastName}</span>

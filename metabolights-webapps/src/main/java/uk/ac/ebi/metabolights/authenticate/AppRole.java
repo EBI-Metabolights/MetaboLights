@@ -1,17 +1,25 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 4/3/14 3:16 PM
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.authenticate;
 
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * Represents an authority granted to a Spring Authentication object. 
+ * Represents an authority granted to a Spring Authentication object.
  */
 public enum AppRole implements GrantedAuthority {
-    
-	ROLE_SUBMITTER (0),
 
-    // not used:
+	ROLE_SUBMITTER (0),
     ROLE_SUPER_USER (1),
-    ROLE_NA(2);
+    ROLE_REVIEWER(2);
 
     private final int bit;
 

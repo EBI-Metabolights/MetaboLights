@@ -14,6 +14,12 @@ update property_value set value = 'Saccharomyces cerevisiae (Baker''s yeast)' wh
 update property_value set value = 'Schizosaccharomyces pombe 972h- (Fission yeast)' where value = 'Schizosaccharomyces pombe 972h-';
 update property_value set value = 'Sorghum bicolor (Sorghum)' where value = 'Sorghum bicolor';
 update property_value set value = 'Triticum aestivum (Wheat)' where value = 'Triticum aestivum';
+update property_value set value = 'Ovis aries (Sheep)' where value = 'Ovis aries';
+
+update property_value set value = 'reference compound' where value = 'Blank';
+update property_value set value = 'reference compound' where value = 'Quality control';
+update property_value set value = 'reference compound' where value = 'Reference';
+--update property_value set value = 'reference compound' where value = 'Reference Standards or Materials';    // https://www.pivotaltracker.com/story/show/68542000
 
 declare
   cursor c1 is select * from ref_species where final_id is not null;
