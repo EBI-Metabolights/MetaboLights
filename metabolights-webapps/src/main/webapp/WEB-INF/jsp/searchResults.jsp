@@ -99,7 +99,7 @@
         </section>
         <br/>
 
-        <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+        <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
             <c:set var="curator" value="true"/>
         </sec:authorize>
 
