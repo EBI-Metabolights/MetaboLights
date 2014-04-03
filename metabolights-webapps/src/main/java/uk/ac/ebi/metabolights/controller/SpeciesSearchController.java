@@ -94,7 +94,6 @@ public class SpeciesSearchController extends AbstractController {
 
 		List<SpeciesGroup> firstLevel =filter(having(on(SpeciesGroup.class).getParentId(), Matchers.equalTo(0L)), tree);
 
-		boolean isFirst = true;
 		for (SpeciesGroup sg: firstLevel)
 		{
 
@@ -105,14 +104,9 @@ public class SpeciesSearchController extends AbstractController {
 				continue;
 			}
 
-			if (isFirst)
-			{
-				isFirst = false;
-			}else{
-				json.append(",");
-			}
-
 			speciesGroupToJson(sg, json, 1);
+
+
 		}
 
 
@@ -121,6 +115,14 @@ public class SpeciesSearchController extends AbstractController {
 	private void speciesGroupToJson(SpeciesGroup sg, StringBuilder json, int level)
 	{
 
+		if (!isThereAnyLeafInTheBranch(sg)) return;
+
+		// Check if we need a comma
+		if(json.length()!= 0 && json.charAt(json.length()-1) == '}')
+		{
+			json.append(",");
+		}
+
 		json.append("{");
 		json.append("\"name\":\"" + sg.getName() + "\"");
 		json.append(", \"level\":" + level);
@@ -128,19 +130,14 @@ public class SpeciesSearchController extends AbstractController {
 
 		// Increase the level for the children
 		level++;
-		boolean isFirst = true;
 
 		// If it has any children (Other species groups below)
 		if (sg.getChildren() != null) {
 
 			for (SpeciesGroup child : sg.getChildren()) {
 
-				if (isFirst) {
-					isFirst = false;
-				} else {
-					json.append(",");
-				}
 				speciesGroupToJson(child, json, level);
+
 			}
 		}
 
@@ -148,13 +145,8 @@ public class SpeciesSearchController extends AbstractController {
 		if (sg.getSpecieses() != null) {
 			for (Species sp : sg.getSpecieses()) {
 
-				if (isFirst) {
-					isFirst = false;
-				} else {
-					json.append(",");
-				}
-
 				speciesToJson(sp, json, level);
+
 			}
 
 		}
@@ -166,8 +158,56 @@ public class SpeciesSearchController extends AbstractController {
 
 	}
 
-	private void speciesToJson(Species sp, StringBuilder json, int level)
+	private boolean isThereAnyLeafInTheBranch(SpeciesGroup sg){
+
+		if (doesSpeciesGroupHasAnySpecies(sg))
+		{
+			return true;
+
+		} else if (!doesSpeciesGroupHasAnyChildren(sg)){
+
+			return false;
+
+		}else{
+
+			for (SpeciesGroup children: sg.getChildren())
+			{
+
+				if (isThereAnyLeafInTheBranch(children)){
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+
+	private boolean doesSpeciesGroupHasAnySpecies(SpeciesGroup sg){
+
+		return doesCollectionHasAnyItem(sg.getSpecieses());
+
+	}
+
+	private boolean doesSpeciesGroupHasAnyChildren(SpeciesGroup sg){
+
+		return doesCollectionHasAnyItem(sg.getChildren());
+	}
+
+	private boolean doesCollectionHasAnyItem(Collection collection){
+
+		return (collection != null && collection.size() > 0);
+
+	}
+
+
+	private void speciesToJson(Species sp, StringBuilder json, int level )
 	{
+
+		// Check if we need a comma
+		if(json.length()!= 0 && json.charAt(json.length()-1) == '}')
+		{
+			json.append(",");
+		}
 		json.append("{");
 		json.append("\"name\":\"" + sp.getSpecies() + "\"");
 		json.append(", \"level\":" + level);
