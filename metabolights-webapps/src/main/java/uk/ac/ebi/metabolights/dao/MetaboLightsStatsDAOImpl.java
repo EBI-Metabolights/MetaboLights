@@ -1,4 +1,14 @@
 /*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 4/8/14 9:18 AM
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
+/*
  * EBI MetaboLights Project - 2013.
  *
  * File: MetaboLightsStatsDAOImpl.java
@@ -40,7 +50,7 @@ public class MetaboLightsStatsDAOImpl implements MetaboLightsStatsDAO {
     public List<MLStats> getByCategory(String categoryName) {
 
         Session session = sessionFactory.getCurrentSession();
-        Query q = session.createQuery("from MLStats where pageSection = :param order by displayName asc ");
+        Query q = session.createQuery("from MLStats where pageSection = :param order by sortOrder,displayName asc ");
         q.setString("param", categoryName);
         List<MLStats> statsList = q.list();
         session.clear();
@@ -54,7 +64,7 @@ public class MetaboLightsStatsDAOImpl implements MetaboLightsStatsDAO {
     @Override
     public List<MLStats> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        Query q = session.createQuery("from MLStats");
+        Query q = session.createQuery("from MLStats order by pageSection, sortOrder asc");
         List<MLStats> statsList = q.list();
         session.clear();
 

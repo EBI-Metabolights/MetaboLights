@@ -1,6 +1,16 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-    <h2><spring:message code="msg.metabolights" /></h2>
+    <%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 4/8/14 9:54 AM
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  --%>
+
+<h2><spring:message code="msg.metabolights" /></h2>
 
     <div class="grid_8 alpha">
         <p>
@@ -23,7 +33,7 @@
 
    	<p><a href="<spring:url value="statistics"/>"><strong><spring:message code="label.stats"/></strong></a></p>
 
-    <p><a href="<spring:url value="acknowledgements"/>"><strong>Acknowledgements</strong></a></p>
+<%--    <p><a href="<spring:url value="acknowledgements"/>"><strong>Acknowledgements</strong></a></p>   --%>
 
     <p><strong>Follow us on </strong>
         <span class="bigfont">
