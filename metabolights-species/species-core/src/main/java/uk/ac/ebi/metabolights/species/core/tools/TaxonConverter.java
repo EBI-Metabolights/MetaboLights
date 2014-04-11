@@ -35,4 +35,8 @@ public class TaxonConverter {
 	public static Taxon stringToTaxon(String taxonId) {
 		return new Taxon(taxonId, "", "", "");
 	}
+	public static Taxon stringToTaxon(String taxonId, String name) {
+		return new Taxon(taxonId, name, "", "");
+	}
+
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
@@ -187,7 +186,7 @@ public class UpdateStudyController extends AbstractController {
 			
 			title = PropertyLookup.getMessage("msg.makestudypublic.title", study, studyShortTitle);
 			msg = PropertyLookup.getMessage("msg.makestudypublic.msg");
-			submitText = PropertyLookup.getMessage("label.makestudypublic");
+			submitText = PropertyLookup.getMessage("label.updateReleaseDate");
 			action = "updatepublicreleasedate";
 			
 		}

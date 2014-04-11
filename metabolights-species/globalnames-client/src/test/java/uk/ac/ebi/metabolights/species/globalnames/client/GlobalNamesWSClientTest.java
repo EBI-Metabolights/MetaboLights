@@ -1,13 +1,12 @@
 package uk.ac.ebi.metabolights.species.globalnames.client;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import uk.ac.ebi.metabolights.species.globalnames.model.Data;
 import uk.ac.ebi.metabolights.species.globalnames.model.GlobalNamesResponse;
 import uk.ac.ebi.metabolights.species.globalnames.model.Result;
 
 import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * User: conesa
@@ -17,6 +16,7 @@ import java.util.Collection;
 public class GlobalNamesWSClientTest {
 
 	private static final String ISARIA_SINCLAIRII = "Isaria sinclairii";
+	private static final String HYPERICUM_AUCHERI = "Hypericum aucheri";
 
 	@Test
 	public void testResolveName() throws Exception {
@@ -49,8 +49,25 @@ public class GlobalNamesWSClientTest {
 
 		assertEquals("Test classification path" , "Fungi|Ascomycota|Sordariomycetes|Hypocreales|Cordycipitaceae|Isaria|Isaria sinclairii", result.getClassification_path());
 
+	}
+
+	@Test
+	public void testResolveNameWhitoutSource() throws Exception {
+
+		GlobalNamesWSClient client = new GlobalNamesWSClient();
+
+		// Expected result....
+		// http://resolver.globalnames.org/name_resolvers.json?names=Hypericum%20aucheri
+		GlobalNamesResponse response =  client.resolveName (HYPERICUM_AUCHERI);
+
+		// Test data
+		assertEquals("Data must be 1" , 1, response.getData().size());
 
 
+		Collection<Result> results = response.getData().iterator().next().getResults();
+
+		// Test data: this might chenge with time
+		assertEquals("Results must be 6" , 6, results.size());
 
 	}
 }

@@ -43,8 +43,9 @@ public class SpeciesUpdaterTest {
         // Set up a simple configuration that logs on the console.
         BasicConfigurator.configure();
 
-        DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV"); //Orac§leDatabaseInstance.getInstance("metabolightsDEV");
-        //DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsMYSQL");
+        DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
+		//DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
+
         con = dbi.getConnection();
 
 
@@ -62,7 +63,7 @@ public class SpeciesUpdaterTest {
 
         SpeciesUpdater speciesUpdater = new SpeciesUpdater(con);
 
-		speciesUpdater.setUpdateOptions(SpeciesUpdater.UpdateOptions.GROUPS);
+		speciesUpdater.setUpdateOptions(SpeciesUpdater.UpdateOptions.GROUP_USE_GLOBAL_NAMES);
 
 
         speciesUpdater.UpdateSpeciesInformation();

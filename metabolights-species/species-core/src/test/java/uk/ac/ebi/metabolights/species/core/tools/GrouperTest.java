@@ -112,5 +112,27 @@ public class GrouperTest {
 
 	}
 
+	@Test
+	public void testGetGroupFromGlobalNames() throws Exception {
+
+		Grouper grouper = new Grouper();
+		grouper.setGlobalNamesEnabled(true);
+
+		// Set a group for fishes...
+		Taxon fish = TaxonConverter.stringToTaxon("NCBI:117570", "Teleostomi");
+
+		grouper.getTaxonGroups().add(fish);
+
+		// Try pontinus kuhlii
+		Taxon pontinus = TaxonConverter.stringToTaxon("NONE:123", "Pontinus kuhlii");
+
+
+		Taxon result = grouper.getGroupFromTaxon(pontinus);
+
+		assertEquals("Group for NONE:123 should be fish NCBI:117570", fish.getId() , result.getId());
+
+
+	}
+
 
 }

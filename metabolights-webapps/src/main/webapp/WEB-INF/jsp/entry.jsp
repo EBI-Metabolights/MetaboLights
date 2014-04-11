@@ -3,6 +3,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 
@@ -191,32 +192,42 @@ function toggleColumn(tableId, anchor, duration ) {
     <c:set var="reviewer" value="true"/>
 </sec:authorize>
 
-<div class="push_1 grid_22 title alpha omega">
-    <strong>${study.acc}: ${study.title}</strong>
-    <br/>
-    <span class="right">
-    <c:if test="${study.status eq 'PUBLIC'}">
-        <a class="right noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.acc}" title="View all files">
-            <span class="icon icon-functional" data-icon="b"/>
+<div class="push_1 grid_22 alpha omega">
+    <h3>${study.acc}:&nbsp;${study.title}</h3>
+</div>
+
+<div class="push_1 grid_22 subtitle alpha omega">
+    <span>
+        <a class="noLine" href="${study.acc}/files/${study.acc}" title="<spring:message code="label.downloadstudy"/>">
+            <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
         </a>
-    </c:if>
-    &nbsp;
-    <a class="noLine" href="${study.acc}/files/${study.acc}" title="Download whole study">
-        <span class="icon icon-functional" data-icon="="/>
-    </a>
-    <c:if test="${(study.status ne 'PUBLIC') && empty reviewer}">
-        &nbsp;PRIVATE
-        <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
-        <a class="noLine" href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="Make it public">
-            <span class="icon icon-generic" data-icon="}" id="ebiicon" />
+        &nbsp;
+        <a class="noLine" href="${study.acc}/files/${study.acc}/metadata" title="<spring:message code="label.downloadstudyMetadata"/>">
+            <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudyMetadata"/>
         </a>
-    </c:if>
+        &nbsp;
+        <c:if test="${study.status eq 'PUBLIC'}">
+            <a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.acc}" title="<spring:message code="label.viewAllFiles"/>">
+                <span class="icon icon-functional" data-icon="b"/><spring:message code="label.viewAllFiles"/>
+            </a>
+        </c:if>
+        <c:if test="${(study.status ne 'PUBLIC')}">
+            <span class="right">
+            &nbsp;<spring:message code="label.expPrivate"/>
+            <c:if test="${empty reviewer}">
+                <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
+                <a class="noLine" href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="<spring:message code="label.makeStudyPublic"/>">
+                    &nbsp;<span class="icon icon-generic" data-icon="}" id="ebiicon" /><spring:message code="label.makeStudyPublic"/>
+                </a>
+            </c:if>
+            </span>
+        </c:if>
     </span>
 </div>
 
 <c:set var="stringToFind" value="${study.acc}:assay:" />
 
-<div class="push_1 grid_22 box alpha omega">
+<div class="push_1 grid_22 alpha omega">
 
         <%--<div>--%>
             <%--<c:if test="${study.status ne 'PUBLIC'}">--%>
@@ -260,13 +271,17 @@ function toggleColumn(tableId, anchor, duration ) {
 				<li>
 					<a href="#tabs-3" class="noLine"><spring:message code="label.data"/></a>
 				</li>
-				<li>
-					<a href="#tabs-4" class="noLine"><spring:message code="label.metabolites"/>
-					<c:if test="${not empty metabolites}">
-						(${fn:length(metabolites)})
-					</c:if>
-					</a>
-				</li>
+                <c:if test="${hasMetabolites}">
+                    <li>
+                        <a href="#tabs-4" class="noLine"><spring:message code="label.metabolites"/></a>
+                    </li>
+                </c:if>
+                <%--<c:if test="${not empty files}">--%>
+                    <%--<li>--%>
+                        <%--<a href="#tabs-5" class="noLine"><spring:message code="label.Files"/></a>--%>
+                    <%--</li>--%>
+                <%--</c:if>--%>
+
 			</ul>
 			<div id="tabs-1">
 		        <c:if test="${not empty organismNames}">
@@ -425,7 +440,8 @@ function toggleColumn(tableId, anchor, duration ) {
 	                </c:forEach>
 		        </c:if>
 			</div> <!--  ends tabs-3 -->
-			<div id="tabs-4"> <!-- Metabolites Identified -->
+            <c:if test="${hasMetabolites}">
+            <div id="tabs-4"> <!-- Metabolites Identified -->
                 <c:if test="${not empty assays}">
 
                     <c:forEach var="mlAssay" items="${assays}" varStatus="loopStatusAssay">
@@ -440,64 +456,61 @@ function toggleColumn(tableId, anchor, duration ) {
                                     <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
 
                                         <%-- Write the header, only the first time --%>
-                                    <c:if test="${loopStatusMet.index == 1}">
-                                    <thead class='text_header'>
-                                    <tr>
-                                        <th><spring:message code="label.metabolites.description"/></th>
-                                        <th><spring:message code="label.metabolites.formula"/></th>
+                                        <c:if test="${loopStatusMet.index == 1}">
+                                        <thead class='text_header'>
+                                        <tr>
+                                            <th><spring:message code="label.metabolites.description"/></th>
+                                            <th><spring:message code="label.metabolites.formula"/></th>
 
-                                        <c:if test="${mlAssay.technology eq  'mass spectrometry'}">
-                                            <th><spring:message code="label.metabolites.mz"/></th>
-                                            <th><spring:message code="label.metabolites.retentiontime"/><a class="right icon icon-functional" data-icon="u" onclick="toggleColumn('metabolites${loopStatusAssay.index}', this, 2500)"></a></th>
+                                            <c:if test="${mlAssay.technology eq  'mass spectrometry'}">
+                                                <th><spring:message code="label.metabolites.mz"/></th>
+                                                <th><spring:message code="label.metabolites.retentiontime"/><a class="right icon icon-functional" data-icon="u" onclick="toggleColumn('metabolites${loopStatusAssay.index}', this, 2500)"></a></th>
+                                            </c:if>
+                                            <c:if test="${mlAssay.technology eq 'NMR spectroscopy'}">
+                                                <th><spring:message code="label.metabolites.chemicalshift"/></th>
+                                                <th><spring:message code="label.metabolites.multiplicity"/><a class="right icon icon-functional" data-icon="u" onclick="toggleColumn('metabolites${loopStatusAssay.index}', this, 2500)"></a></th>
+                                            </c:if>
+
+                                            <th><spring:message code="label.metabolites.smiles"/></th>
+                                            <th><spring:message code="label.metabolites.inchi"/></th>
+                                            <c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
+                                                <th>${sampleHeader.sampleName}</th>
+                                            </c:forEach>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
                                         </c:if>
-                                        <c:if test="${mlAssay.technology eq 'NMR spectroscopy'}">
-                                            <th><spring:message code="label.metabolites.chemicalshift"/></th>
-                                            <th><spring:message code="label.metabolites.multiplicity"/><a class="right icon icon-functional" data-icon="u" onclick="toggleColumn('metabolites${loopStatusAssay.index}', this, 2500)"></a></th>
+
+                                        <%-- Show more stuff...show only ten lines by default --%>
+                                        <c:if test="${loopStatusMet.index == 10}">
+                                        </tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
                                         </c:if>
-
-                                        <th><spring:message code="label.metabolites.smiles"/></th>
-                                        <th><spring:message code="label.metabolites.inchi"/></th>
-                                        <c:forEach var="sampleHeader" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamplesName" >
-                                            <th>${sampleHeader.sampleName}</th>
-                                        </c:forEach>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    </c:if>
-
-                                    <%-- Show more stuff...show only ten lines by default --%>
-                                    <c:if test="${loopStatusMet.index == 10}">
-                                    </tbody><tbody id="met_${loopStatusAssay.index}" style='display:none'>
-                                    </c:if>
 
                                         <%--Line itself --%>
-                                    <tr class="${loopStatusMet.index % 2 == 0 ? '' : 'coloured'}">
-                                        <td>${met.metabolite.description}
-                                            <c:choose>
-                                                <c:when test="${empty met.identifier}"></c:when>
-                                                <c:when test="${empty met.link }"> (${met.identifier})</c:when>
-                                                <c:otherwise><a class="metLink" identifier="${met.identifier}" href="${met.link}" target="_blank">(${met.identifier})</a></c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>${met.metabolite.chemical_formula}</td>
-                                        <c:if test="${mlAssay.technology eq 'mass spectrometry'}">
-                                            <td>${met.metabolite.mass_to_charge}</td>
-                                            <td>${met.metabolite.retention_time}</td>
-                                        </c:if>
-                                        <c:if test="${mlAssay.technology eq 'NMR spectroscopy'}">
-                                            <td>${met.metabolite.chemical_shift}</td>
-                                            <td>${met.metabolite.multiplicity}</td>
-                                        </c:if>
-                                        <td>${met.metabolite.smiles}</td>
-                                        <td>${met.metabolite.inchi}</td>
-                                        <%-- sampleValues --%>
-                                        <c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >
-                                            <td class="tableitem">${sample.value}</td>
-                                        </c:forEach>
-                                            <%-- For each sample --%>
-
-                                    </tr>
-
+                                        <tr class="${loopStatusMet.index % 2 == 0 ? '' : 'coloured'}">
+                                            <td>${met.metabolite.description}
+                                                <c:choose>
+                                                    <c:when test="${empty met.identifier}"></c:when>
+                                                    <c:when test="${empty met.link }"> (${met.identifier})</c:when>
+                                                    <c:otherwise><a class="metLink" identifier="${met.identifier}" href="${met.link}" target="_blank">(${met.identifier})</a></c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td>${met.metabolite.chemical_formula}</td>
+                                            <c:if test="${mlAssay.technology eq 'mass spectrometry'}">
+                                                <td>${met.metabolite.mass_to_charge}</td>
+                                                <td>${met.metabolite.retention_time}</td>
+                                            </c:if>
+                                            <c:if test="${mlAssay.technology eq 'NMR spectroscopy'}">
+                                                <td>${met.metabolite.chemical_shift}</td>
+                                                <td>${met.metabolite.multiplicity}</td>
+                                            </c:if>
+                                            <td>${met.metabolite.smiles}</td>
+                                            <td>${met.metabolite.inchi}</td>
+                                            <%-- sampleValues --%>
+                                            <c:forEach var="sample" items="${met.metabolite.metaboliteSamples}" varStatus="loopStatusSamples" >
+                                                <td class="tableitem">${sample.value}</td>
+                                            </c:forEach> <%-- For each sample --%>
+                                        </tr>
                                     </c:forEach> <%-- For each metabolite (line)--%>
                                     </tbody>
                                 </table>
@@ -509,6 +522,43 @@ function toggleColumn(tableId, anchor, duration ) {
                         </c:if>
                     </c:forEach> <!-- For each assayGroup -->
                 </c:if>
-            </div> <!--  ends tabs-4 -->
+            </div> <!--  ends tabs-4 metabolites-->
+            </c:if>
+            <%--<c:if test="${not empty files}">--%>
+            <%--<div id="tabs-5"> <!-- Study files -->--%>
+                <%--<ul id="fileGroupSelector">--%>
+                    <%--<li><input type="checkbox" extensions="txt_tsv_maf">ISA-tab files</li>--%>
+                    <%--<li><input type="checkbox" extensions="zip">Zipped files</li>--%>
+                    <%--<li><input type="checkbox" extensions="R">R scripts</li>--%>
+                    <%--<li><input type="checkbox" extensions="xls">Excel files</li>--%>
+                    <%--<li><input type="checkbox" extensions="maf">MAF files</li>--%>
+
+                <%--</ul>--%>
+
+                <%--<table id="files--%>
+                <%--">--%>
+                    <%--<tr>--%>
+                        <%--<th>Download</th>--%>
+                        <%--<th>Select</th>--%>
+                        <%--<th>File</th>--%>
+                    <%--</tr>--%>
+                    <%--<tbody>--%>
+                    <%--<c:forEach var="file" items="${files}">--%>
+                        <%--<tr>--%>
+                            <%--<td>--%>
+                            <%--<c:if test="${!file.directory}">--%>
+                                <%--<a href="${study.acc}/files/${file.name}" class="icon icon-functional" data-icon="="></a>--%>
+                            <%--</c:if>--%>
+                            <%--</td>--%>
+                            <%--<td><input type="checkbox"/></td>--%>
+                            <%--<td>${file.name}</td>--%>
+                    <%--</c:forEach>--%>
+                    <%--</tbody>--%>
+                <%--</table>--%>
+            <%--</div> <!--  ends tabs-5 files -->--%>
+            </c:if>
 		</div> <!-- end tabs -->
-     </div>
+        <c:if test="${not hasMetabolites}">
+            <br/><spring:message code="msg.noMetabolitesFound"/>
+        </c:if>
+</div>

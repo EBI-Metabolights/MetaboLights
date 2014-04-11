@@ -35,9 +35,16 @@ package uk.ac.ebi.metabolights.species.core.tools;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import uk.ac.ebi.metabolights.species.globalnames.client.GlobalNamesWSClient;
+import uk.ac.ebi.metabolights.species.globalnames.model.Data;
+import uk.ac.ebi.metabolights.species.globalnames.model.GlobalNamesResponse;
+import uk.ac.ebi.metabolights.species.globalnames.model.Result;
 import uk.ac.ebi.metabolights.species.model.Taxon;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /*
 Having a taxonomy identifier, it will lookup in the proper taxonomy until it find the first taxon specified in the taxon groups.
@@ -47,6 +54,10 @@ public class Grouper {
 	static Logger logger = LogManager.getLogger(Grouper.class);
 	private final uk.ac.ebi.metabolights.species.core.tools.OLSParentSearcher OLSParentSearcher = new uk.ac.ebi.metabolights.species.core.tools.OLSParentSearcher();
 	private Collection<IParentSearcher> parentSearchers = new ArrayList<IParentSearcher>();
+
+	// Global names web service alternative.
+	private boolean isGlobalNamesEnabled = false;
+	GlobalNamesWSClient globalNamesWSClient = new GlobalNamesWSClient();
 
 	List<Taxon> taxonGroups;
 
@@ -71,6 +82,10 @@ public class Grouper {
 		this.taxonGroups = taxonGroups;
 	}
 
+	public boolean isGlobalNamesEnabled() {	return isGlobalNamesEnabled;}
+
+	public void setGlobalNamesEnabled(boolean isGlobalNamesEnabled) {this.isGlobalNamesEnabled = isGlobalNamesEnabled;}
+
 	public Collection<IParentSearcher> getParentSearchers() {
 		return parentSearchers;
 	}
@@ -84,16 +99,72 @@ public class Grouper {
 
 		IParentSearcher searcher = getParentSearcher(taxon);
 
-		if (searcher == null) {
-			logger.warn("Can't look up a group for " + taxon.getId() + ". None of the ParentSearchers can take care of this kind of taxon.");
+		Taxon group = null;
+
+		if (searcher != null) {
+
+			group = scanTaxonomyForGroup(taxon, searcher);
+
+		} else if(!isGlobalNamesEnabled){
+			logger.warn("Can't look up a group for " + taxon.getId() + ". None of the ParentSearchers can take care of this kind of taxon and GlobalNames search is disabled");
 			return null;
 		}
 
-		Taxon group = scanTaxonomyForGroup(taxon , searcher);
+
+		// If group is null and can use GlobalNames webservice
+		if ((group == null || group.equals(taxon)) && isGlobalNamesEnabled){
+
+			group = scanGlobalNamesForGroup(taxon);
+
+		}
 
 		return group;
 	}
 
+
+	// Scan global names webservice.
+	private Taxon scanGlobalNamesForGroup(Taxon organism)
+	{
+
+		try {
+
+			GlobalNamesResponse response = globalNamesWSClient.resolveName(organism.getName());
+
+			// There should be only one
+			Data data = response.getData().iterator().next();
+
+			Taxon group;
+
+			for (Result result : data.getResults()) {
+
+				// Get the clasiffication path (String)
+				String classificationS = result.getClassification_path();
+
+				// If there's is NOT a classification...
+				if (classificationS == null) continue;
+
+				logger.info("Classification found for " + organism + ": " + classificationS);
+				// Split it by pipe (|)
+				String[] classification = classificationS.split("\\|");
+
+				// Loop through the classification array from last one to first one (bottom -up)
+				for (int pos = classification.length-1; pos >= 0; pos--){
+					String groupCandidate = classification[pos];
+
+					group = getGroupByTaxonName(groupCandidate);
+
+					if (group != null) return group;
+
+				}
+			}
+
+		} catch (Exception e) {
+			logger.warn("Can't scan globalnames for " + organism);
+		}
+
+
+		return null;
+	}
 
 	private IParentSearcher getParentSearcher(Taxon orphan){
 
@@ -140,5 +211,20 @@ public class Grouper {
 		return taxonGroups.contains(taxon);
 
 	}
+
+	public Taxon getGroupByTaxonName(String taxonName){
+
+		// Loop through the taxon group collection...
+		for (Taxon group: taxonGroups)
+		{
+			if (group.getName().equals(taxonName)){
+				return group;
+			}
+		}
+
+		return null;
+
+	}
+
 
 }

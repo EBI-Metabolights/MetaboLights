@@ -37,10 +37,10 @@
 				  	Actions<span class="smallArrow"></span></a>
 					<div id="actions${searchResult.accStudy}" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
 						<a href="updatestudyform?study=${searchResult.accStudy}"><spring:message code="label.updatestudy"/></a>
-						<a href="updatepublicreleasedateform?study=${searchResult.accStudy}"><spring:message code="label.makestudypublic"/></a>
+						<a href="updatepublicreleasedateform?study=${searchResult.accStudy}"><spring:message code="label.updateReleaseDate"/></a>
 						<a class="confirmLink" href="deleteStudy?study=${searchResult.accStudy}"><spring:message code="label.deleteStudy"/></a>
 						<jsp:useBean id="now" class="java.util.Date" scope="page" />
-						<a href="updatepublicreleasedateform?study=${searchResult.accStudy}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${now}" />">Make it public</a>
+						<a href="updatepublicreleasedateform?study=${searchResult.accStudy}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${now}" />"><spring:message code="label.makeStudyPublic"/></a>
 					 </div>
 				   </li>
 				</ul>

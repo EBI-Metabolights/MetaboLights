@@ -11,17 +11,13 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
 
-import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesMembersDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
-import uk.ac.ebi.metabolights.species.core.tools.FungaeParentSearcher;
 import uk.ac.ebi.metabolights.species.core.tools.Grouper;
-import uk.ac.ebi.metabolights.species.core.tools.IPNIParentSearcher;
-import uk.ac.ebi.metabolights.species.core.tools.WoRMSPArentSearcher;
 import uk.ac.ebi.metabolights.species.model.Taxon;
 
 import javax.xml.rpc.ServiceException;
@@ -41,7 +37,7 @@ public class SpeciesUpdater {
     public static final String NEWT_ONTOLOGY = "NEWT";
     Logger LOGGER = Logger.getLogger(SpeciesUpdater.class);
     OntologyLookUpService ols = new OntologyLookUpService();
-
+;
 	SpeciesDAO speciesDAO;
 	SpeciesMembersDAO speciesMemberDAO;
 
@@ -52,13 +48,14 @@ public class SpeciesUpdater {
 	{
 		public static final int NEWT = 0x1;
 		public static final int GROUPS= 0x1<<1;
-//		public static final int THREE = 0x1<<2;
+		public static final int USE_GLOBAL_NAMES = 0x1<<2;
 //		public static final int FOUR = 0x1<<3;
 //		public static final int FIVE = 0x1<<4;
 
 		// COMBOS...
 		public static final int NEWT_AND_GROUP = NEWT + GROUPS;
-		public static final int ALL = NEWT + GROUPS;
+		public static final int ALL = NEWT + GROUPS + USE_GLOBAL_NAMES;
+		public static final int GROUP_USE_GLOBAL_NAMES =  GROUPS + USE_GLOBAL_NAMES;
 	}
 
 	private int updateOptions = UpdateOptions.ALL;
@@ -96,8 +93,6 @@ public class SpeciesUpdater {
 		} catch (DAOException e) {
             LOGGER.error("Can't update species information");
         }
-
-
 
     }
 
@@ -191,7 +186,7 @@ public class SpeciesUpdater {
 
 		// If there is no taxon we can't do anything...
 		if (sp.getTaxon() == null || sp.getTaxon().isEmpty()) {
-			LOGGER.info ("Specie " + sp.getSpecies() + "(ID:" +sp.getId() + ") has no taxon, we can't fint a group without it.");
+			LOGGER.info ("Specie " + sp.getSpecies() + "(ID:" +sp.getId() + ") has no taxon, we can't find a group without it.");
 			return;
 		}
 
@@ -241,17 +236,21 @@ public class SpeciesUpdater {
 			// Instantiate a new Grouper
 			grouper = new Grouper();
 
+			grouper.setGlobalNamesEnabled((updateOptions & UpdateOptions.USE_GLOBAL_NAMES) == UpdateOptions.USE_GLOBAL_NAMES);
+
 			// Get taxons for group...
 			try {
 
 				// Add the WoRMS parent Searcher.
-				grouper.getParentSearchers().add(new WoRMSPArentSearcher());
+				//grouper.getParentSearchers().add(new WoRMSPArentSearcher());
 
 				// Add the IPNI parent Searcher.
-				grouper.getParentSearchers().add(new IPNIParentSearcher());
+				//grouper.getParentSearchers().add(new IPNIParentSearcher());
 
-				grouper.getParentSearchers().add(new FungaeParentSearcher());
+				//grouper.getParentSearchers().add(new FungaeParentSearcher());
 
+				// Don't want any parent searcher...ONLY global names
+				grouper.getParentSearchers().clear();
 
 				speciesMemberses = speciesMemberDAO.getAll();
 
@@ -263,8 +262,8 @@ public class SpeciesUpdater {
 			} catch (DAOException e) {
 				LOGGER.error("Can't get species member list", e);
 
-			} catch (AxisFault axisFault){
-				LOGGER.error("Can't get instantiate WoRM Client" , axisFault );
+//			} catch (AxisFault axisFault){
+//				LOGGER.error("Can't get instantiate WoRM Client" , axisFault );
 			}
 
 
@@ -292,7 +291,7 @@ public class SpeciesUpdater {
 	}
 
 	private Taxon convertSpeciesMember2Taxon(SpeciesMembers spm) {
-		return new Taxon(spm.getTaxon(), spm.getTaxon(), "", "");
+		return new Taxon(spm.getTaxon(), spm.getTaxonDesc(), "", "");
 	}
 
 

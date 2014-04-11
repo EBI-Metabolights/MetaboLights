@@ -62,6 +62,5 @@
             <artifactId>species-core</artifactId>
             <version>0.2-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
 </project>

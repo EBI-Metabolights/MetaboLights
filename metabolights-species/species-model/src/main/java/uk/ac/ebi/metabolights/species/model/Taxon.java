@@ -117,4 +117,9 @@ public class Taxon {
 		return attribute.getId().equals(this.getId());
 
 	}
+
+	@Override
+	public String toString (){
+		return name + "' " + composeId();
+	}
 }
