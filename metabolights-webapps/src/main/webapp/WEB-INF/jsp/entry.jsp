@@ -556,7 +556,7 @@ function toggleColumn(tableId, anchor, duration ) {
                     <%--</tbody>--%>
                 <%--</table>--%>
             <%--</div> <!--  ends tabs-5 files -->--%>
-            </c:if>
+            <%--</c:if>--%>
 		</div> <!-- end tabs -->
         <c:if test="${not hasMetabolites}">
             <br/><spring:message code="msg.noMetabolitesFound"/>
