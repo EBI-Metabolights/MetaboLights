@@ -1,13 +1,8 @@
 package uk.ac.ebi.metabolights.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
+
+import java.io.*;
 
 
 public class FileUtil {
@@ -103,16 +98,38 @@ public class FileUtil {
 	}
 
 	public static boolean fileExists(String path, boolean throwException) throws FileNotFoundException{
-		
-		boolean result = fileExists(path);
-		
-		if (throwException && !result){
-			
-			throw new FileNotFoundException ("Path (" + path + ") not found.");
-		}
-		
-		return result;
+
+		return fileExists(new File(path), throwException);
 		
 	}
-	
+
+	public static boolean filesExists(File[] files, boolean throwException) throws FileNotFoundException{
+
+		//Check existence of the files or folders
+		for (File file:files)
+		{
+			if (fileExists(file, true))
+			{
+				return false;
+			};
+		}
+
+		return true;
+
+	}
+
+	public static boolean fileExists(File file, boolean throwException) throws FileNotFoundException{
+
+		boolean result = file.exists();
+
+		if (throwException && !result){
+
+			throw new FileNotFoundException ("Path (" + file.getAbsolutePath() + ") not found.");
+		}
+
+		return result;
+
+	}
+
+
 }

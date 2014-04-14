@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,10 +18,13 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -36,23 +40,32 @@ public class FileDispatcherController extends AbstractController {
 	@Autowired
 	private StudyService studyService;
 
-	private @Value("#{publicFtpLocation}") String publicFtpDirectory;
-	private @Value("#{privateFtpStageLocation}") String privateStageDirectory;
-	private @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
+//	private  @Value("#{publicFtpLocation}") String publicFtpDirectory;
+//	private  @Value("#{privateFtpStageLocation}") String privateStageDirectory;
+	private  @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
 
 
     // Get a single file from a study
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/{fileName:.+}")
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/{fileNamePattern:.+}")
     public ModelAndView getSingleFile(@PathVariable("studyId") String studyId,
-                              @PathVariable("fileName") String fileName,
+                              @PathVariable("fileNamePattern") String fileNamePattern,
                               HttpServletResponse response) {
 
-        // For the whole zip file fileName must match the studyId
-        if (studyId.equals(fileName))
-            fileName = "";
+
+		// We can receive any regularexpresion pattern...but some of them may not be allowed in the URL:
+		//Replace them here
+		//Example (asterisks works): fileNamePattern = fileNamePattern.replace("~", "*");
+
+        // For the whole zip file fileNamePattern must match the studyId
+        if (studyId.equals(fileNamePattern))
+		{
+			fileNamePattern = "";
+		} else if ("metadata".equals(fileNamePattern)){
+			fileNamePattern = ".*\\.txt|.*.\\.tsv|.*\\.maf";
+		}
 
         // Stream the file
-        return streamFile(studyId,fileName,response);
+        return streamFile(studyId, fileNamePattern,response);
 
     }
 
@@ -93,13 +106,28 @@ public class FileDispatcherController extends AbstractController {
 
 
     //Create the requested zip file based on the study folder
-    private File createZipFile( File folder) throws IOException {
+    private File createZipFile( File[] files, String studyId) throws IOException {
 
-        // Compose the path and name of the zip folder
-        String zipFile = zipOnDemandLocation + folder.getName() + ".zip";
+		String zipFile="";
 
-        if (!FileUtil.fileExists(zipFile))  // Just to be sure that the file *don't already* exist
-            Zipper.zip(folder.getAbsolutePath(), zipFile);
+		// If there is only one file
+		if (files.length == 1 && files[0].getName().equals(studyId) )
+		{
+			zipFile = zipOnDemandLocation + files[0].getName() + ".zip";
+		} else {
+
+			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+
+			zipFile = studyId + "_" +  timeStamp;
+
+			zipFile = System.getProperty("java.io.tmpdir") + "/"+ zipFile + ".zip";
+
+		}
+
+
+
+        if (!FileUtil.fileExists(zipFile))  // Just to be sure that the file *doesn't already* exist
+            Zipper.zip(files, zipFile);
 
 
         File file = new File(zipFile);
@@ -164,29 +192,40 @@ public class FileDispatcherController extends AbstractController {
     }
 
     // Stream the file or folder to the response
-    private ModelAndView streamFile(String studyId, String fileName, HttpServletResponse response) {
+    private ModelAndView streamFile(String studyId, String fileNamePattern, HttpServletResponse response) {
 
         try{
-            // Get the complete path of the file requested
-            File file = getPathForFileAndCheckAccess(studyId, fileName);
+			File[] files = null;
+			File fileToStream;
+
+            // Get the complete path for the study folder
+			File studyFolder = getPathForFileAndCheckAccess(studyId, "");
 
             // if file is null...
-            if (file == null){
+            if (studyFolder == null) {
 
-                logger.info("File requested not found: Filename was '"+ fileName + "' for the study " + studyId);
-                throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing"));
+				logger.info("File requested not found: Filename was '" + fileNamePattern + "' for the study " + studyId);
+				throw new RuntimeException(PropertyLookup.getMessage("Entry.fileMissing"));
+			}
 
-            // If the file is a directory ...
-            } else if (file.isDirectory()){
+			// If file name is NOT empty...then we have to look for the pattern.
+			if (!fileNamePattern.equals("")) {
 
-                // Request the zip file for the folder...if it doesn't exist it will be created
-                file = createZipFile(file);
+				FileFilter filter = new RegexFileFilter(fileNamePattern);
+				files = studyFolder.listFiles(filter);
+			} else {
 
-            }
+				files = new File[1];
+				files[0] = studyFolder;
+			}
+
+			// Create a zip file if aply:
+			fileToStream = createZipFile(files, studyId);
 
             // Now we have a file (normal file, or zipped folder)
             // We need to stream it...
-            streamFile(file, response);
+
+            streamFile(fileToStream, response);
 
             return null;
 
@@ -229,13 +268,13 @@ public class FileDispatcherController extends AbstractController {
     private String getPathForFile(String studyId, String fileName){
 
         // Try the public folder
-        File file = new File (publicFtpDirectory + studyId +"/" + fileName);
+        File file = new File (PropertiesUtil.getProperty("publicFtpLocation") + studyId +"/" + fileName);
 
         if (file.exists()) return file.getAbsolutePath();
 
 
         // Try the private folder
-        file = new File(privateStageDirectory + studyId + "/" + fileName);
+        file = new File(PropertiesUtil.getProperty("privateFtpStageLocation") + studyId + "/" + fileName);
 
         if (file.exists()) return file.getAbsolutePath();
 
@@ -243,13 +282,17 @@ public class FileDispatcherController extends AbstractController {
         return "";
 
     }
+	private String getPathForStudy(String studyId)
+	{
+		return getPathForFile(studyId, "");
+	}
 
     // Returns true if the user is allowed to get the file
     private boolean canUserAccessFile (String studyId, File file){
 
 
         // First check if the file is in the public folder...
-        if (file.getAbsolutePath().indexOf(publicFtpDirectory)>-1) return true;
+        if (file.getAbsolutePath().indexOf(PropertiesUtil.getProperty("publicFtpLocation"))>-1) return true;
 
         //TODO, not very elegant, this is just to determine if the logged in user us a curator
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -288,4 +331,19 @@ public class FileDispatcherController extends AbstractController {
             }
         }
     } // End of method
+
+	public File[] getStudyFileList(String studyId) {
+
+		String studyFolderS = getPathForStudy(studyId);
+
+		// If found
+		if (!studyFolderS.equals(""))
+		{
+			File studyFolder = new File(studyFolderS);
+
+			return studyFolder.listFiles();
+		}
+
+		return null;
+	}
 }

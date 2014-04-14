@@ -202,7 +202,7 @@ function toggleColumn(tableId, anchor, duration ) {
             <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
         </a>
         &nbsp;
-        <a class="noLine" href="${study.acc}/files/${study.acc}/metadata" title="<spring:message code="label.downloadstudyMetadata"/>">
+        <a class="noLine" href="${study.acc}/files/metadata" title="<spring:message code="label.downloadstudyMetadata"/>">
             <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudyMetadata"/>
         </a>
         &nbsp;

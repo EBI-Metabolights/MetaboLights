@@ -12,25 +12,34 @@ public class ZipperTest {
 
 	
 	@Test
-	public void testZip() {
-		final String outFolder = "./src/test/resources/zipper/unziptest/in/";
-		final String inFolder = "./src/test/resources/zipper/ziptest/in/";
-		final String zipFile = "./src/test/resources/zipper/unziptest/in.zip";
-		
-		String outMap;
-		String inMap;
-		
-		//Get the map of the folder
-		inMap = getFolderMap(inFolder);
-		System.out.println(inMap);
-		
+	public void testZip() throws IOException {
+
+		final String EXPECTED_ZIP_MAP = "TMP/test\n" +
+										"TMP/test/a.txt\n" +
+										"TMP/test/folder\n" +
+										"TMP/test/folder/b.txt";
+
+
+
+		String[] expectedMap = map2FileSystem(EXPECTED_ZIP_MAP);
+
+		String folderToZip = expectedMap[0];
+
+
+		String tmpDir = System.getProperty("java.io.tmpdir");
+		File zipFile = new File(tmpDir + "zipTest.zip");
+		File unzipFolder =new File(zipFile.getAbsolutePath().replace(".zip", ""));
+
+		FileUtil.deleteDir(zipFile);
+		FileUtil.deleteDir(unzipFolder);
+
 		try{
 		
 			//Test the zip command
-			Zipper.zip( inFolder, zipFile);
+			Zipper.zip( folderToZip, zipFile.getAbsolutePath());
 			
 			//Test the unzip command
-			Zipper.unzip(zipFile);
+			Zipper.unzip(zipFile.getAbsolutePath());
 		
 		}catch (IOException ioe){
 			fail(ioe.getMessage());
@@ -39,12 +48,43 @@ public class ZipperTest {
         }
 
         //Check the output files and folders are correct
-		outMap = getFolderMap(outFolder);
-		
-		assertEquals(inMap, outMap);
+
+		String[] outMap = getFolderMap(unzipFolder.getAbsolutePath());
+
+		// Check lengths: root folder in expected is not expected in the outMap: therefore -1
+		assertEquals("Check that lenght is the same" , expectedMap.length-1, outMap.length);
 		
 	}
-	private String getFolderMap(String folderS){
+
+	private String[] map2FileSystem(String zip_map) throws IOException {
+
+		String tempFolder = System.getProperty("java.io.tmpdir");
+
+		zip_map = zip_map.replaceAll("TMP/", tempFolder);
+
+		String files[] = zip_map.split("\n");
+
+		for (String path: files) {
+
+			File file = new File(path);
+
+			if (file.exists()) file.delete();
+
+			if (path.contains("."))
+			{
+				file.createNewFile();
+
+			} else {
+				file.mkdir();
+			}
+
+		}
+
+		return files;
+
+	}
+
+	private String[] getFolderMap(String folderS){
 		
 		String map = "";
 		
@@ -52,7 +92,9 @@ public class ZipperTest {
 		File folder = new File(folderS);
 		
 		//Return the folder map
-		return getFolderMap (folder, map);
+		String mapS = getFolderMap (folder, map);
+
+		return mapS.split("\n");
 		
 	}
 	private String getFolderMap(File folderF, String map){
@@ -67,7 +109,7 @@ public class ZipperTest {
 			if (!fileList[i].isHidden()){
 
 				//Write in the map
-				map = map + fileList[i].getName() + "\n";
+				map = map + fileList[i].getAbsolutePath() + "\n";
 							
 				//If it is a not hidden directory
 				if (fileList[i].isDirectory()){

@@ -85,7 +85,7 @@ public class EntryController extends AbstractController {
 	}
 
 	//(value = "/entry/{metabolightsId}")
-	@RequestMapping(value = { "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}", "/entry/{metabolightsId}" })
+	@RequestMapping(value = { "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
 
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblsId);
@@ -134,10 +134,14 @@ public class EntryController extends AbstractController {
 		mav.addObject("study", study);
 		mav.addObject("organismNames", organismNames);
 		mav.addObject("factors", getFactorsSummary(study));
-		mav.addObject("assays", getMLAssays(study));
 
-        mav.addObject("submittedID", accessionService.getSubmittedId(mtblsId));
+		Collection<MLAssay> mlAssays = getMLAssays(study);
+		mav.addObject("assays", mlAssays);
+		mav.addObject("hasMetabolites", getHasMetabolites(mlAssays));
+
+		mav.addObject("submittedID", accessionService.getSubmittedId(mtblsId));
 		mav.addObject("pageTitle", study.getAcc() + ":" +study.getTitle() );
+		mav.addObject("files", new FileDispatcherController().getStudyFileList(mtblsId));
 
 		//Have to give the user the download stream as the study is not on the public ftp
 		//if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
@@ -150,6 +154,19 @@ public class EntryController extends AbstractController {
 		//}
 
 		return mav;
+	}
+
+	private boolean getHasMetabolites(Collection<MLAssay> mlAssays) {
+
+		for (MLAssay assay: mlAssays)
+		{
+			if (assay.getMetabolitesGUI() != null && assay.getMetabolitesGUI().size()>0)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private String getWsPath(HttpServletRequest request) {
@@ -189,7 +206,6 @@ public class EntryController extends AbstractController {
             break;
         }
 //        mav.addObject("samples", study.getSamples());
-
         return  mav;
     }
 

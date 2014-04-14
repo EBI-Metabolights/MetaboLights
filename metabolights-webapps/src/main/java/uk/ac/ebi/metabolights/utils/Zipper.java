@@ -24,22 +24,38 @@ public class Zipper {
 
 public static void zip(String thisFileOrDir, String toThisFile) throws IOException {
 	
+
+	File fileOrDirToZip = new File (thisFileOrDir);
+
+	if (fileOrDirToZip.isDirectory())
+	{
+		zip(fileOrDirToZip.listFiles(),toThisFile);
+	} else {
+
+		File[] files = new File[1];
+		files[0] = fileOrDirToZip;
+		zip(files,toThisFile);
+	}
+
+
+
+}
+
+public static void zip(File[] filesToZip, String toThisFile) throws IOException {
+
 	try
 	{
-		
-		//Check existence of the file or folder
-		FileUtil.fileExists(thisFileOrDir, true);
-		
+
+		// Check the existance of all the files/folders
+		FileUtil.filesExists(filesToZip, true);
+
 		//create object of FileOutputStream
 		FileOutputStream fout = new FileOutputStream(toThisFile);
 
 		//create object of ZipOutputStream from FileOutputStream
 		ZipOutputStream zout = new ZipOutputStream(fout);
 
-		//create File object from source directory
-		File fileSource = new File(thisFileOrDir);
-
-		addDirectory(zout, fileSource, "");
+		addFilesToZip(zout, filesToZip, "");
 
 		//close the ZipOutputStream
 		zout.close();
@@ -54,45 +70,48 @@ public static void zip(String thisFileOrDir, String toThisFile) throws IOExcepti
 	}
 }
 
-private static void addDirectory(ZipOutputStream zout, File fileSource, String innerFolder) throws IOException {
 
-	//If the directory is hidden...it is zipping the svn folders..
-	if (fileSource.isHidden()){ 
-		System.out.println("Skiping hidden folder " + fileSource.getName());
-		return;
-	}
-	
-	
-	//get sub-folder/files list
-	File[] files = fileSource.listFiles();
+private static void addFilesToZip(ZipOutputStream zout, File[] files, String innerFolder) throws IOException {
 
-	System.out.println("Adding directory " + fileSource.getName());
-
+	// Loop through the list of files to zip
 	for(int i=0; i < files.length; i++)
 	{
+
+		File file = files[i];
+
+		//If the directory is hidden...it is zipping the svn folders..
+		if (file.isHidden()){
+			System.out.println("Skiping hidden file " + file.getName());
+			continue;
+		}
+
 		//if the file is directory, call the function recursively
-		if(files[i].isDirectory())
+		if(file.isDirectory())
 		{
-			addDirectory(zout, files[i], innerFolder + files[i].getName() + "/");
+
+			//get sub-folder/files list
+			File[] files2 = file.listFiles();
+
+			addFilesToZip(zout, files2, innerFolder + file.getName() + "/");
 			continue;
 		}
 
 		/*
-		 * we are here means, its file and not directory, so
+		 * if we are here, it means, it's a file and not directory, so
 		 * add it to the zip file
 		 */
 
 		try
 		{
-			System.out.println("Adding file " + files[i].getName());
+			System.out.println("Adding file " + file.getName());
 
 			//create byte buffer
 			byte[] buffer = new byte[1024];
 
 			//create object of FileInputStream
-			FileInputStream fin = new FileInputStream(files[i]);
+			FileInputStream fin = new FileInputStream(file);
 
-			zout.putNextEntry(new ZipEntry( innerFolder + files[i].getName()));
+			zout.putNextEntry(new ZipEntry( innerFolder + file.getName()));
 
 			/*
 			 * After creating entry in the zip file, actually 
