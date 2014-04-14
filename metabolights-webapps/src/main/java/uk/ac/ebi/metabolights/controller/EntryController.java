@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 3/27/14 4:04 PM
+ * Last modified: 4/14/14 11:32 AM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -138,7 +138,6 @@ public class EntryController extends AbstractController {
 
         mav.addObject("submittedID", accessionService.getSubmittedId(mtblsId));
 		mav.addObject("pageTitle", study.getAcc() + ":" +study.getTitle() );
-        mav.addObject("random", generateRandomReviewerURL());
 
 		//Have to give the user the download stream as the study is not on the public ftp
 		//if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
