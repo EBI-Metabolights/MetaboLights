@@ -276,11 +276,11 @@ function toggleColumn(tableId, anchor, duration ) {
                         <a href="#tabs-4" class="noLine"><spring:message code="label.metabolites"/></a>
                     </li>
                 </c:if>
-                <%--<c:if test="${not empty files}">--%>
-                    <%--<li>--%>
-                        <%--<a href="#tabs-5" class="noLine"><spring:message code="label.Files"/></a>--%>
-                    <%--</li>--%>
-                <%--</c:if>--%>
+                <c:if test="${not empty files}">
+                    <li>
+                        <a href="#tabs-5" class="noLine"><spring:message code="label.Files"/></a>
+                    </li>
+                </c:if>
 
 			</ul>
 			<div id="tabs-1">
@@ -524,39 +524,50 @@ function toggleColumn(tableId, anchor, duration ) {
                 </c:if>
             </div> <!--  ends tabs-4 metabolites-->
             </c:if>
-            <%--<c:if test="${not empty files}">--%>
-            <%--<div id="tabs-5"> <!-- Study files -->--%>
-                <%--<ul id="fileGroupSelector">--%>
-                    <%--<li><input type="checkbox" extensions="txt_tsv_maf">ISA-tab files</li>--%>
+            <c:if test="${not empty files}">
+            <div id="tabs-5"> <!-- Study files -->
+                <ul id="fileGroupSelector">
+                    <li>
+                        <%--<input type="checkbox" extensions="txt_tsv_maf">--%>
+                        <a class="noLine" href="${study.acc}/files/metadata" title="<spring:message code="label.downloadstudyMetadata"/>">
+                        <spring:message code="label.downloadstudyMetadata"/></a>
+                    </li>
                     <%--<li><input type="checkbox" extensions="zip">Zipped files</li>--%>
                     <%--<li><input type="checkbox" extensions="R">R scripts</li>--%>
                     <%--<li><input type="checkbox" extensions="xls">Excel files</li>--%>
                     <%--<li><input type="checkbox" extensions="maf">MAF files</li>--%>
+                </ul>
 
-                <%--</ul>--%>
+                <h5><spring:message code="label.fileListTableExplanation"/></h5>
+                <form action="${study.acc}/files/selection" method="get">
+                    <table id="files">
+                        <tr>
+                            <th>Select</th>
+                            <th>File</th>
+                        </tr>
+                        <tbody>
+                        <c:forEach var="file" items="${files}">
+                            <c:if test="${!file.directory}">
+                            <tr>
+                                <td><input type="checkbox" name="file" value="${file.name}"/></td>
+                                <td>
+                                    <a href="${study.acc}/files/${file.name}">${file.name}</a>
+                                </td>
+                            </tr>
+                            </c:if>
+                        </c:forEach>
+                        </tbody>
+                    </table>
 
-                <%--<table id="files--%>
-                <%--">--%>
-                    <%--<tr>--%>
-                        <%--<th>Download</th>--%>
-                        <%--<th>Select</th>--%>
-                        <%--<th>File</th>--%>
-                    <%--</tr>--%>
-                    <%--<tbody>--%>
-                    <%--<c:forEach var="file" items="${files}">--%>
-                        <%--<tr>--%>
-                            <%--<td>--%>
-                            <%--<c:if test="${!file.directory}">--%>
-                                <%--<a href="${study.acc}/files/${file.name}" class="icon icon-functional" data-icon="="></a>--%>
-                            <%--</c:if>--%>
-                            <%--</td>--%>
-                            <%--<td><input type="checkbox"/></td>--%>
-                            <%--<td>${file.name}</td>--%>
-                    <%--</c:forEach>--%>
-                    <%--</tbody>--%>
-                <%--</table>--%>
-            <%--</div> <!--  ends tabs-5 files -->--%>
-            <%--</c:if>--%>
+                    <p><input name="submit" type="submit" class="submit" value="<spring:message code="label.downloadSelectedFiles"/>"/></p>
+
+                    <%--Show instructions--%>
+                    <div class="ui-state-highlight ui-corner-all">
+                        <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/></p>
+                    </div>            </div> <!--  ends tabs-5 files -->
+
+                </form>
+            </c:if>
 		</div> <!-- end tabs -->
         <c:if test="${not hasMetabolites}">
             <br/><spring:message code="msg.noMetabolitesFound"/>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
@@ -26,6 +27,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Controller for dispatching study files .
@@ -68,6 +70,18 @@ public class FileDispatcherController extends AbstractController {
         return streamFile(studyId, fileNamePattern,response);
 
     }
+
+	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/selection")
+	public ModelAndView getSomeFiles(@PathVariable("studyId") String studyId,
+									  @RequestParam("file") List<String> selectedFiles,
+									  HttpServletResponse response) {
+
+
+		// Join the files to make a regular expression
+		String fileNamePattern = org.apache.commons.lang.StringUtils.join(selectedFiles, "|");
+
+		return getSingleFile(studyId, fileNamePattern, response);
+	}
 
     // Get the metabolite identification file of an assay
     /*
