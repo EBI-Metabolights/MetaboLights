@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 4/15/14 10:18 AM
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.service;
 
 import org.apache.log4j.Logger;
@@ -11,7 +21,7 @@ import java.util.List;
 
 @Service
 public class StudyServiceImpl implements StudyService {
-	
+
 	private static Logger logger = Logger.getLogger(StudyServiceImpl.class);
 
 	@Autowired
@@ -21,10 +31,24 @@ public class StudyServiceImpl implements StudyService {
     @Transactional
     public Study getBiiStudy(String studyAcc,boolean clearSession, boolean fromQueue) throws IllegalAccessException {
         Study study = studyDAO.getStudy(studyAcc,clearSession, fromQueue);
+
         if (studyAcc.isEmpty() || study.getAcc().isEmpty())
             return new Study();
+
         return study;
     }
+
+    //Called from reviewer access code
+    @Transactional
+    public Study getBiiStudyOnObfuscation(String obfuscationCode, boolean clearSession) throws IllegalAccessException {
+        Study study = studyDAO.getBiiStudyOnObfuscation(obfuscationCode, clearSession, true);
+
+        if (obfuscationCode.isEmpty() || study.getAcc().isEmpty())
+            return new Study();
+
+        return study;
+    }
+
 
     //Called from user interation in the webapp
 	@Transactional

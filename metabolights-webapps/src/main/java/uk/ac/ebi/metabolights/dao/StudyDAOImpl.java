@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 06/09/13 20:54
+ * Last modified: 4/15/14 10:09 AM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.dao;
@@ -37,6 +37,9 @@ public class StudyDAOImpl implements StudyDAO{
 
 	private static Logger logger = Logger.getLogger(StudyDAOImpl.class);
 
+    private static String queryStrAcc = "FROM Study WHERE acc = :acc";
+    private static String queryStrObfuscation = "FROM Study WHERE obfuscationCode = :obfuscationCode";
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -55,17 +58,15 @@ public class StudyDAOImpl implements StudyDAO{
 	 * Retrieve a study based on the accession identifier.
 	 * @param studyAcc accession number of desired Study
 	 * @param clearSession hibernate hack, set to true when only selecting (faster)
-     * @param fromQueue, is this initiated from the queue system
+     * @param fromQueueOrReviwer, is this initiated from the queue system?
 	 */
 	@Override
     @Transactional
-	public Study getStudy(String studyAcc, boolean clearSession, boolean fromQueue) throws IllegalAccessException {
+	public Study getStudy(String studyAcc, boolean clearSession, boolean fromQueueOrReviwer) throws IllegalAccessException {
 
 		Session session = sessionFactory.getCurrentSession();
 
-		String queryStr = "FROM Study WHERE acc = :acc";
-
-		Query q = session.createQuery(queryStr);
+		Query q = session.createQuery(queryStrAcc);
 		q.setParameter("acc", studyAcc);
 
 		logger.debug("retrieving study "+studyAcc);
@@ -78,7 +79,41 @@ public class StudyDAOImpl implements StudyDAO{
 			return emptyStudy;
 		}
 
-		if (!fromQueue){   //Only check the user if called from the webapplication
+		return validateStudyAccess(session, study, clearSession, fromQueueOrReviwer);
+	}
+
+    /**
+     * Retrieve a study based on the accession identifier.
+     * @param obfuscationCode obfuscation code of the desired Study
+     * @param clearSession hibernate hack, set to true when only selecting (faster)
+     * @param fromQueueOrReviwer, is this initiated from a reviwer?
+     */
+    @Override
+    @Transactional
+    public Study getBiiStudyOnObfuscation(String obfuscationCode, boolean clearSession, boolean fromQueueOrReviwer) throws IllegalAccessException {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        Query q = session.createQuery(queryStrObfuscation);
+        q.setParameter("obfuscationCode", obfuscationCode);
+
+        logger.debug("retrieving study in reviewer/obfuscation code: "+obfuscationCode);
+        Study study = (Study) q.uniqueResult();
+
+        if (study == null){
+            Study emptyStudy = new Study();
+            emptyStudy.setAcc("Error");
+            emptyStudy.setDescription("Error.  Study with obfuscation code " +obfuscationCode+ " could not be found.");
+            return emptyStudy;
+        }
+
+        return validateStudyAccess(session, study, clearSession, fromQueueOrReviwer);
+    }
+
+
+    private Study validateStudyAccess(Session session, Study study, boolean clearSession, boolean fromQueueOrReviwer) throws IllegalAccessException {
+
+        if (!fromQueueOrReviwer){   //Only check the user if called from normal study access, so not if a rewiever or from the queue system
 
             if (!study.getStatus().equals(VisibilityStatus.PUBLIC)){ //If not PUBLIC then must be owned by the user
 
@@ -106,15 +141,6 @@ public class StudyDAOImpl implements StudyDAO{
                 }
 
                 if ( !validUser) {
-
-
-//                    Study invalidStudy = new Study();
-//                    invalidStudy.setAcc(VisibilityStatus.PRIVATE.toString());
-//                    invalidStudy.setDescription("This is a PRIVATE study, you are not Authorised to view this study.");
-//                    invalidStudy.setTitle("Please log in as the submitter or a MetaboLights curator.");
-//
-//                    return invalidStudy;
-
                     throw new IllegalAccessException("This is a PRIVATE study, you are not Authorised to view this study.") ;
                 }
 
@@ -125,49 +151,45 @@ public class StudyDAOImpl implements StudyDAO{
 		 * Initialize lazy collections here that we want to display .. otherwise the JSP will throw an error on rendering
 		 */
         Hibernate.initialize(study.getInvestigations());
-		Hibernate.initialize(study.getContacts());
-		Hibernate.initialize(study.getAnnotations());
-		Hibernate.initialize(study.getPublications());
-		Hibernate.initialize(study.getAssays());
-		Hibernate.initialize(study.getDesign());
-		Hibernate.initialize(study.getAssayGroups());
-		//Hibernate.initialize(study.getUsers());
+        Hibernate.initialize(study.getContacts());
+        Hibernate.initialize(study.getAnnotations());
+        Hibernate.initialize(study.getPublications());
+        Hibernate.initialize(study.getAssays());
+        Hibernate.initialize(study.getDesign());
+        Hibernate.initialize(study.getAssayGroups());
 
-		Collection<AssayResult> assayResults = study.getAssayResults();
-		Hibernate.initialize(assayResults);
-		for (AssayResult assayResult : assayResults) {
-			Hibernate.initialize(assayResult.getData().getFactorValues());
-			for (FactorValue fv : assayResult.getData().getFactorValues()) {
-				Hibernate.initialize(fv.getOntologyTerms());
-			}
-			Hibernate.initialize(assayResult.getCascadedPropertyValues());
-			Hibernate.initialize(assayResult.getAssays());
+        Collection<AssayResult> assayResults = study.getAssayResults();
+        Hibernate.initialize(assayResults);
+        for (AssayResult assayResult : assayResults) {
+            Hibernate.initialize(assayResult.getData().getFactorValues());
+            for (FactorValue fv : assayResult.getData().getFactorValues()) {
+                Hibernate.initialize(fv.getOntologyTerms());
+            }
+            Hibernate.initialize(assayResult.getCascadedPropertyValues());
+            Hibernate.initialize(assayResult.getAssays());
 
-			for (Assay assay: assayResult.getAssays()){
-				Hibernate.initialize(assay.getAnnotations());
-			}
+            for (Assay assay: assayResult.getAssays()){
+                Hibernate.initialize(assay.getAnnotations());
+            }
 
-		}
-		Hibernate.initialize(study.getProtocols());
+        }
+        Hibernate.initialize(study.getProtocols());
 
+        // For each assay group..initialize metabolite collection
+        for (AssayGroup ag: study.getAssayGroups()){
+            Hibernate.initialize(ag.getMetabolites());
 
-		// For each assay group..initialize metabolite collection
-		for (AssayGroup ag: study.getAssayGroups()){
-			Hibernate.initialize(ag.getMetabolites());
+            for (Metabolite met: ag.getMetabolites()){
+                Hibernate.initialize(met.getMetaboliteSamples());
+            }
+        }
 
-			for (Metabolite met: ag.getMetabolites()){
-				Hibernate.initialize(met.getMetaboliteSamples());
-			}
-		}
+        if (clearSession)
+            session.clear();
 
+        return study;
+    }
 
-
-
-		if (clearSession)
-			session.clear();
-
-		return study;
-	}
 
     @Override
     public List<String> findAllAcc() {

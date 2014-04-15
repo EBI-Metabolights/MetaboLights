@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 4/14/14 11:32 AM
+ * Last modified: 4/15/14 11:59 AM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -36,8 +36,6 @@ import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -84,9 +82,87 @@ public class EntryController extends AbstractController {
 		return mav;
 	}
 
+    @RequestMapping(value = { "/reviewer{obfusationCode}"})
+    public ModelAndView showReviewerEntry(@PathVariable("obfusationCode") String obfusationCode, HttpServletRequest request) {
+        Study study = null;
+
+        study = getStudy(null, obfusationCode, request);
+
+        if (study ==null || study.getAcc() == null || study.getAcc().equals("Error"))
+            return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + ". Please contact the submitter directly for correct reviewer access code.");
+
+        return getStudyMAV(study);
+
+    }
+
+    /**
+     * Get the study based on either the study if or obfusation code
+     * @param mtblsId
+     * @param obfusationCode
+     * @param request
+     * @return
+     */
+    private Study getStudy(String mtblsId, String obfusationCode, HttpServletRequest request){
+        Study study = null;
+
+        if (mtblsId != null && obfusationCode != null)
+            return study;
+
+        try {
+            request.setCharacterEncoding("UTF-8");
+
+            if (mtblsId != null) { //Get study on the MTBLS id
+                mtblsId = mtblsId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
+                study = studyService.getBiiStudy(mtblsId,true);
+            } else if (obfusationCode != null){
+                study = studyService.getBiiStudyOnObfuscation(obfusationCode, true);
+
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //TODO, change
+        } catch (IllegalAccessException e){
+            notLoggedIn(mtblsId);
+        }
+
+        return study;
+
+    }
+
+    private ModelAndView getStudyMAV(Study study){
+
+        Collection<String> organismNames = getOrganisms(study);
+        Collection<MLAssay> mlAssays = getMLAssays(study);
+
+        // Get the DownloadLink
+        //String fileLocation = FileDispatcherController.getDownloadLink(study.getAcc(), study.getStatus());
+
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry");
+        mav.addObject("study", study);
+        mav.addObject("organismNames", organismNames);
+        mav.addObject("factors", getFactorsSummary(study));
+        mav.addObject("assays", mlAssays);
+        mav.addObject("hasMetabolites", getHasMetabolites(mlAssays));
+        mav.addObject("submittedID", accessionService.getSubmittedId(study.getAcc()));
+        mav.addObject("pageTitle", study.getAcc() + ":" +study.getTitle() );
+        mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getAcc()));
+
+        //Have to give the user the download stream as the study is not on the public ftp
+        //if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
+        //mav.addObject("fileLocation",fileLocation); //All zip files are now generated on the fly, so ftpLocation is really fileLocation
+
+        //Stick text for tagging (Whatizit) in the session..                       //TODO, Whatizit is not responding
+        //if (study.getDescription()!=null) {
+        //	logger.debug("placing study description in session for Ajax highlighting");
+        //	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
+        //}
+
+        return mav;
+
+    }
+
 	//(value = "/entry/{metabolightsId}")
 	@RequestMapping(value = { "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
-
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblsId);
 
@@ -100,12 +176,22 @@ public class EntryController extends AbstractController {
 			return new ModelAndView("redirect:pleasewait?goto=" + mtblsId);
 		}
 
-		try {
-			request.setCharacterEncoding("UTF-8");
-			study = studyService.getBiiStudy(mtblsId,true);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();  //TODO, change
-        } catch (IllegalAccessException e){
+        study = getStudy(mtblsId, null, request);       //Get on MTBLS ID
+
+		// Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
+		if (study ==null || study.getAcc() == null || study.getAcc().equals("Error"))
+ 			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + " (" + mtblsId + ")");
+
+		return getStudyMAV(study);
+	}
+
+
+    /**
+     * Display a different screen if the user is not logged in and trying to access a private study
+     * @param mtblsId
+     * @return
+     */
+    private ModelAndView notLoggedIn(String mtblsId){
 
             /// The current user is not allowed to access the study...
             // If there isn't a logged in user...
@@ -114,47 +200,12 @@ public class EntryController extends AbstractController {
                 // redirect force login...
                 return new ModelAndView("redirect:securedredirect?url=" + mtblsId);
 
-            // The user is logged in but it's not authorised.
+                // The user is logged in but it's not authorised.
             } else {
                 return new ModelAndView ("redirect:/index?message="+ PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" + mtblsId + ")");
             }
 
-		}
-
-		// Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
-		if (study ==null || study.getAcc() == null || study.getAcc().equals("Error"))
- 			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + " (" + mtblsId + ")");
-
-		Collection<String> organismNames = getOrganisms(study);
-
-		// Get the DownloadLink
-		//String fileLocation = FileDispatcherController.getDownloadLink(study.getAcc(), study.getStatus());
-
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry");
-		mav.addObject("study", study);
-		mav.addObject("organismNames", organismNames);
-		mav.addObject("factors", getFactorsSummary(study));
-
-		Collection<MLAssay> mlAssays = getMLAssays(study);
-		mav.addObject("assays", mlAssays);
-		mav.addObject("hasMetabolites", getHasMetabolites(mlAssays));
-
-		mav.addObject("submittedID", accessionService.getSubmittedId(mtblsId));
-		mav.addObject("pageTitle", study.getAcc() + ":" +study.getTitle() );
-		mav.addObject("files", new FileDispatcherController().getStudyFileList(mtblsId));
-
-		//Have to give the user the download stream as the study is not on the public ftp
-		//if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
-		//mav.addObject("fileLocation",fileLocation); //All zip files are now generated on the fly, so ftpLocation is really fileLocation
-
-		//Stick text for tagging (Whatizit) in the session..                       //TODO, Whatizit is not responding
-		//if (study.getDescription()!=null) {
-		//	logger.debug("placing study description in session for Ajax highlighting");
-		//	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
-		//}
-
-		return mav;
-	}
+    }
 
 	private boolean getHasMetabolites(Collection<MLAssay> mlAssays) {
 
@@ -334,8 +385,4 @@ public class EntryController extends AbstractController {
 		return fvSummary;
 	}
 
-    private String generateRandomReviewerURL(){
-         SecureRandom random = new SecureRandom();
-         return new BigInteger(256, random).toString(46);
-    }
 }
