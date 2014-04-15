@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 4/15/14 11:59 AM
+ * Last modified: 4/15/14 12:32 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -86,7 +86,11 @@ public class EntryController extends AbstractController {
     public ModelAndView showReviewerEntry(@PathVariable("obfusationCode") String obfusationCode, HttpServletRequest request) {
         Study study = null;
 
-        study = getStudy(null, obfusationCode, request);
+        try {
+            study = getStudy(null, obfusationCode, request);
+        }  catch (IllegalAccessException e){
+            notLoggedIn(obfusationCode);
+        }
 
         if (study ==null || study.getAcc() == null || study.getAcc().equals("Error"))
             return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + ". Please contact the submitter directly for correct reviewer access code.");
@@ -102,7 +106,7 @@ public class EntryController extends AbstractController {
      * @param request
      * @return
      */
-    private Study getStudy(String mtblsId, String obfusationCode, HttpServletRequest request){
+    private Study getStudy(String mtblsId, String obfusationCode, HttpServletRequest request) throws IllegalAccessException {
         Study study = null;
 
         if (mtblsId != null && obfusationCode != null)
@@ -122,7 +126,7 @@ public class EntryController extends AbstractController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();  //TODO, change
         } catch (IllegalAccessException e){
-            notLoggedIn(mtblsId);
+           throw e;
         }
 
         return study;
@@ -151,12 +155,6 @@ public class EntryController extends AbstractController {
         //if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
         //mav.addObject("fileLocation",fileLocation); //All zip files are now generated on the fly, so ftpLocation is really fileLocation
 
-        //Stick text for tagging (Whatizit) in the session..                       //TODO, Whatizit is not responding
-        //if (study.getDescription()!=null) {
-        //	logger.debug("placing study description in session for Ajax highlighting");
-        //	request.getSession().setAttribute(DESCRIPTION,study.getDescription());
-        //}
-
         return mav;
 
     }
@@ -176,7 +174,11 @@ public class EntryController extends AbstractController {
 			return new ModelAndView("redirect:pleasewait?goto=" + mtblsId);
 		}
 
-        study = getStudy(mtblsId, null, request);       //Get on MTBLS ID
+        try {
+            study = getStudy(mtblsId, null, request);       //Get on MTBLS ID
+        }  catch (IllegalAccessException e){
+            return notLoggedIn(mtblsId);
+        }
 
 		// Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
 		if (study ==null || study.getAcc() == null || study.getAcc().equals("Error"))
