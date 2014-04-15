@@ -163,7 +163,7 @@ function toggleColumn(tableId, anchor, duration ) {
             <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
         </a>
         &nbsp;
-        <a class="noLine" href="${study.acc}/files/metadata" title="<spring:message code="label.downloadstudyMetadata"/>">
+        <a class="noLine" href="${study.acc}/files/metadata?token=${study.id}" title="<spring:message code="label.downloadstudyMetadata"/>">
             <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
         </a>
         &nbsp;
@@ -494,20 +494,13 @@ function toggleColumn(tableId, anchor, duration ) {
             </c:if>
             <c:if test="${not empty files}">
             <div id="tabs-5"> <!-- Study files -->
-                <ul id="fileGroupSelector">
-                    <li>
-                        <%--<input type="checkbox" extensions="txt_tsv_maf">--%>
-                        <a class="noLine" href="${study.acc}/files/metadata" title="<spring:message code="label.downloadstudyMetadata"/>">
-                        <spring:message code="label.downloadstudyMetadata"/></a>
-                    </li>
-                    <%--<li><input type="checkbox" extensions="zip">Zipped files</li>--%>
-                    <%--<li><input type="checkbox" extensions="R">R scripts</li>--%>
-                    <%--<li><input type="checkbox" extensions="xls">Excel files</li>--%>
-                    <%--<li><input type="checkbox" extensions="maf">MAF files</li>--%>
-                </ul>
-
+                <%--<input type="checkbox" extensions="txt_tsv_maf">--%>
+                <p><a class="noLine" href="${study.acc}/files/metadata?token=${study.id}" title="<spring:message code="label.downloadstudyMetadata"/>">
+                    <spring:message code="label.downloadstudyMetadata"/></a>
+                </p>
                 <h5><spring:message code="label.fileListTableExplanation"/></h5>
                 <form action="${study.acc}/files/selection" method="get">
+                    <input type="hidden" name="token" value="${study.id}">
                     <table id="files">
                         <tr>
                             <th>Select</th>

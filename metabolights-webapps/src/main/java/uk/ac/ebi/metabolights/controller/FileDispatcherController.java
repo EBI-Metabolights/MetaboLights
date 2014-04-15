@@ -5,18 +5,16 @@ import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
@@ -42,16 +40,17 @@ public class FileDispatcherController extends AbstractController {
 	@Autowired
 	private StudyService studyService;
 
-//	private  @Value("#{publicFtpLocation}") String publicFtpDirectory;
-//	private  @Value("#{privateFtpStageLocation}") String privateStageDirectory;
+	@Autowired
+	private SearchService searchService;
+
 	private  @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
 
 
     // Get a single file from a study
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/{fileNamePattern:.+}")
     public ModelAndView getSingleFile(@PathVariable("studyId") String studyId,
-                              @PathVariable("fileNamePattern") String fileNamePattern,
-                              HttpServletResponse response) {
+									  @RequestParam(value="token", defaultValue = "0") Long dbId, @PathVariable("fileNamePattern") String fileNamePattern,
+									  HttpServletResponse response) {
 
 
 		// We can receive any regularexpresion pattern...but some of them may not be allowed in the URL:
@@ -67,12 +66,13 @@ public class FileDispatcherController extends AbstractController {
 		}
 
         // Stream the file
-        return streamFile(studyId, fileNamePattern,response);
+        return streamFile(studyId, dbId,fileNamePattern,response);
 
     }
 
 	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/selection")
 	public ModelAndView getSomeFiles(@PathVariable("studyId") String studyId,
+									 @RequestParam(value="token", defaultValue = "0") Long dbId,
 									  @RequestParam("file") List<String> selectedFiles,
 									  HttpServletResponse response) {
 
@@ -80,7 +80,7 @@ public class FileDispatcherController extends AbstractController {
 		// Join the files to make a regular expression
 		String fileNamePattern = org.apache.commons.lang.StringUtils.join(selectedFiles, "|");
 
-		return getSingleFile(studyId, fileNamePattern, response);
+		return getSingleFile(studyId, dbId, fileNamePattern, response);
 	}
 
     // Get the metabolite identification file of an assay
@@ -100,6 +100,7 @@ public class FileDispatcherController extends AbstractController {
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/{assayFileName:.+}/maf")
     public void getMafFile(@PathVariable("studyId") String studyId,
                               @PathVariable("assayFileName") String assayFileName,
+							  @RequestParam(value="token", defaultValue = "0") Long dbId,
                               HttpServletResponse response) {
 
         String mafFileName =  assayFileName.replaceFirst("a_","m_");
@@ -114,7 +115,7 @@ public class FileDispatcherController extends AbstractController {
         }
 
         // Stream the file
-        streamFile(studyId,mafFileName,response);
+        streamFile(studyId, dbId, mafFileName,response);
 
     }
 
@@ -206,14 +207,14 @@ public class FileDispatcherController extends AbstractController {
     }
 
     // Stream the file or folder to the response
-    private ModelAndView streamFile(String studyId, String fileNamePattern, HttpServletResponse response) {
+    private ModelAndView streamFile(String studyId, Long dbId, String fileNamePattern, HttpServletResponse response) {
 
         try{
 			File[] files = null;
 			File fileToStream;
 
             // Get the complete path for the study folder
-			File studyFolder = getPathForFileAndCheckAccess(studyId, "");
+			File studyFolder = getPathForFileAndCheckAccess(studyId,dbId, "");
 
             // if file is null...
             if (studyFolder == null) {
@@ -253,7 +254,7 @@ public class FileDispatcherController extends AbstractController {
 
     // Compose and return the path where the file is meant to be
     // If user has no permission throws an exception...
-    private File getPathForFileAndCheckAccess (String studyId, String fileName){
+    private File getPathForFileAndCheckAccess (String studyId, Long dbId, String fileName){
 
         // Get where the file is (either PUBLIC or PRIVATE)
         String pathS = getPathForFile(studyId,fileName);
@@ -267,7 +268,7 @@ public class FileDispatcherController extends AbstractController {
         if (file.exists()){
 
             // Check the user has privileges to access the file
-            if (canUserAccessFile(studyId, file)){
+            if (canUserAccessFile(studyId, dbId, file)){
 
                     return file;
             } else {
@@ -302,48 +303,63 @@ public class FileDispatcherController extends AbstractController {
 	}
 
     // Returns true if the user is allowed to get the file
-    private boolean canUserAccessFile (String studyId, File file){
+    private boolean canUserAccessFile(String studyId, Long dbId, File file){
 
 
         // First check if the file is in the public folder...
         if (file.getAbsolutePath().indexOf(PropertiesUtil.getProperty("publicFtpLocation"))>-1) return true;
 
-        //TODO, not very elegant, this is just to determine if the logged in user us a curator
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth.getPrincipal().equals(new String("anonymousUser"))){
-
-            // User is not logged in...can't access the study
-            logger.info("anonymousUser not allowed to access " + studyId + " files");
-            return false;
-        }
-
-        // We have a proper MetaboLights user
-        MetabolightsUser metabolightsUser = (MetabolightsUser) auth.getPrincipal();
+		// Get the study form the index
+		LuceneSearchResult indexedStudy = searchService.getStudy(studyId);
 
 
-        // ... if user is a curator:
-        if (metabolightsUser.isCurator()) {
-            return true;
+		if (indexedStudy.getDbId().compareTo(dbId) == 0){
+			return true;
+		} else {
 
-        // ... the user is not a curator but is logged in:
-        } else {
+			// If the dbId does not match
+			logger.info("dbID passed (" + dbId + ") does not match lucene study.dbId: " + studyId + "." + indexedStudy.getDbId());
+			return false;
+		}
 
-            try {
-                // Check if the user is granted to access the study
-                // Get the study
-                Study study = studyService.getBiiStudy(studyId,true);
 
-                return true;
-
-            } catch (IllegalAccessException e){
-
-                // User can't access the file
-                logger.info(metabolightsUser.getUserName() + " not allowed to access " + studyId + " files");
-                return false;
-
-            }
-        }
+//        //TODO, not very elegant, this is just to determine if the logged in user us a curator
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (auth.getPrincipal().equals(new String("anonymousUser"))){
+//
+//            // User is not logged in...can't access the study
+//            logger.info("anonymousUser not allowed to access " + studyId + " files");
+//            return false;
+//        }
+//
+//        // We have a proper MetaboLights user
+//        MetabolightsUser metabolightsUser = (MetabolightsUser) auth.getPrincipal();
+//
+//
+//        // ... if user is a curator:
+//        if (metabolightsUser.isCurator()) {
+//            return true;
+//
+//        // ... the user is not a curator but is logged in:
+//        } else {
+//
+//            try {
+//                // Check if the user is granted to access the study
+//                // Get the study
+//                Study study = studyService.getBiiStudy(studyId,true);
+//
+//                return true;
+//
+//            } catch (IllegalAccessException e){
+//
+//                // User can't access the file
+//                logger.info(metabolightsUser.getUserName() + " not allowed to access " + studyId + " files");
+//                return false;
+//
+//            }
+//        }
     } // End of method
 
 	public File[] getStudyFileList(String studyId) {

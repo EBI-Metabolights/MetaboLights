@@ -49,7 +49,8 @@ import java.util.TreeSet;
 @Controller
 public class EntryController extends AbstractController {
 
-    private static Logger logger = Logger.getLogger(EntryController.class);
+
+	private static Logger logger = Logger.getLogger(EntryController.class);
 	private final String DESCRIPTION="descr";
 
 	@Autowired
@@ -59,7 +60,7 @@ public class EntryController extends AbstractController {
     private AccessionService accessionService;
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
-
+	public static final String REVIEWER_OBFUSATION_CODE_URL = "/reviewer{obfusationCode}";
 
 	@RequestMapping(value = "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayNumber}/maf")
 	public ModelAndView getMetabolitesIdentified(
@@ -82,7 +83,7 @@ public class EntryController extends AbstractController {
 		return mav;
 	}
 
-    @RequestMapping(value = { "/reviewer{obfusationCode}"})
+    @RequestMapping(value = {REVIEWER_OBFUSATION_CODE_URL})
     public ModelAndView showReviewerEntry(@PathVariable("obfusationCode") String obfusationCode, HttpServletRequest request) {
         Study study = null;
 

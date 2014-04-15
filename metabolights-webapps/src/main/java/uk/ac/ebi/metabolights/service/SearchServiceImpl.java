@@ -171,7 +171,7 @@ public class SearchServiceImpl implements SearchService{
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("Cannot get the study requested:\n" + e.getMessage());
-		} 
+		}
 		
 		// Get the result (Study)
 		// There must be only one

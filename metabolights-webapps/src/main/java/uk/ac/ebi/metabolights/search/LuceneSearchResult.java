@@ -46,6 +46,7 @@ public class LuceneSearchResult {
 	private Date submissionDate;
     private List<Contact> contacts;
     private Set<String> affiliations = new LinkedHashSet<String>();
+	private Long dbId;
 
     public LuceneSearchResult(Document doc, float score) {
 		this.doc = doc;
@@ -82,6 +83,7 @@ public class LuceneSearchResult {
 
 		this.submissionDate = parseDate("submissionDate");
         this.contacts = parseContacts();
+		this.dbId = Long.valueOf(doc.get("id"));
 
 	}
 
@@ -188,6 +190,8 @@ public class LuceneSearchResult {
 	public List<Publication> getPublications() {
 		return publications;
 	}
+
+	public Long getDbId() {	return dbId; }
 
 	/**
 	 * Holds assay information related to a study.
