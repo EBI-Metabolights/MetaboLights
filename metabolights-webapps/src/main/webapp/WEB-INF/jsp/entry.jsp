@@ -113,55 +113,19 @@ $(document).ready(function() {
  	 		chebiInfoDiv.setId(chebiId);
  	 	}
 	}
+
+    $("#shareInfo").hide();
+
+    $("a#share").click(function(e) {
+        e.preventDefault();
+        $("#shareInfo").dialog({
+            height:400,
+            width: "60%",
+            modal: true
+            });
+    });
 });
-</script>
-<script language="Javascript" type="text/javascript">
 
-function createRequestObject() {
-    var tmpXmlHttpObject;
-    //depending on what the browser supports, use the right way to create the XMLHttpRequest object
-    if (window.XMLHttpRequest) {
-        // Mozilla, Safari would use this method ...
-        tmpXmlHttpObject = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        // IE would use this method ...
-        tmpXmlHttpObject = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    return tmpXmlHttpObject;
-}
-
-//call the above function to create the XMLHttpRequest object
-var http = createRequestObject();
-
-function tagTextWithWhatizit() {
-    //make a connection to the server ... specifying that you intend to make a GET request
-    //to the server. Specifiy the page name and the URL parameters to send
-    //
-    //Did not work in IE, needed an extra dummy refresh enforcer. See: http://weblogs.asp.net/pleloup/archive/2006/06/08/451583.aspx
-    http.open('get', 'tagText?dummy='+ new Date().getTime());
-    //assign a handler for the response
-    http.onreadystatechange = processResponse;
-    //actually send the request to the server
-    http.send(null);
-}
-
-function processResponse() {
-    //check if the response has been received from the server
-    if(http.readyState == 4){
-        //read and assign the response from the server
-        var response = http.responseText;
-        //do additional parsing of the response, if needed
-        //in this case simply assign the response to the contents of the <div> on the page.
-        document.getElementById('description').innerHTML = response;
-        //If the server returned an error message like a 404 error, that message would be shown within the div tag!!.
-        //So it may be worth doing some basic error before setting the contents of the <div>
-    }
-}
-function onloadAction() {
-	//tagTextWithWhatizit();                   //TODO, fix when whatizit works again
-}
-</script>
-<script>
 $(function() {
 	$( "#tabs" ).tabs();
 });
@@ -203,9 +167,16 @@ function toggleColumn(tableId, anchor, duration ) {
         </a>
         &nbsp;
         <a class="noLine" href="${study.acc}/files/metadata" title="<spring:message code="label.downloadstudyMetadata"/>">
-            <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudyMetadata"/>
+            <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
         </a>
         &nbsp;
+        <a id="share" class="noLine" href="#" title="<spring:message code="label.study.share"/>">
+            <span class="icon icon-generic" data-icon="L"><spring:message code="label.study.share"/>
+        </a>
+        &nbsp;
+
+
+
         <c:if test="${study.status eq 'PUBLIC'}">
             <a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.acc}" title="<spring:message code="label.viewAllFiles"/>">
                 <span class="icon icon-functional" data-icon="b"/><spring:message code="label.viewAllFiles"/>
@@ -564,12 +535,22 @@ function toggleColumn(tableId, anchor, duration ) {
                     <%--Show instructions--%>
                     <div class="ui-state-highlight ui-corner-all">
                         <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/></p>
-                    </div>            </div> <!--  ends tabs-5 files -->
-
+                    </div>
                 </form>
+            </div> <!--  ends tabs-5 files -->
             </c:if>
 		</div> <!-- end tabs -->
         <c:if test="${not hasMetabolites}">
             <br/><spring:message code="msg.noMetabolitesFound"/>
         </c:if>
+</div>
+<div id="shareInfo">
+    <h5><spring:message code="title.study.paper.link"/></h5>
+    <p><spring:message code="label.study.paper.link"/></p>
+    <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/${study.acc}" readonly/></p>
+    <c:if test="${(study.status ne 'PUBLIC')}">
+    <h5><spring:message code="title.study.private.link"/></h5>
+    <p><spring:message code="label.study.private.link"/></p>
+    <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly/></p>
+    </c:if>
 </div>
