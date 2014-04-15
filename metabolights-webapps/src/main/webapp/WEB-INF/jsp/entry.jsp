@@ -151,10 +151,7 @@ function toggleColumn(tableId, anchor, duration ) {
 
 </script>
 
-<!-- reviewers can not change a study -->
-<sec:authorize ifAnyGranted="ROLE_REVIEWER">
-    <c:set var="reviewer" value="true"/>
-</sec:authorize>
+<c:set var="readOnly" value="${!fn:contains(servletPath,study.acc)}"/>
 
 <div class="push_1 grid_22 alpha omega">
     <h3>${study.acc}:&nbsp;${study.title}</h3>
@@ -185,7 +182,7 @@ function toggleColumn(tableId, anchor, duration ) {
         <c:if test="${(study.status ne 'PUBLIC')}">
             <span class="right">
             &nbsp;<spring:message code="label.expPrivate"/>
-            <c:if test="${empty reviewer}">
+            <c:if test="${empty readOnly}">
                 <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
                 <a class="noLine" href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="<spring:message code="label.makeStudyPublic"/>">
                     &nbsp;<span class="icon icon-generic" data-icon="}" id="ebiicon" /><spring:message code="label.makeStudyPublic"/>
@@ -240,7 +237,7 @@ function toggleColumn(tableId, anchor, duration ) {
 					<a href="#tabs-2" class="noLine"><spring:message code="label.protocols"/></a>
 				</li>
 				<li>
-					<a href="#tabs-3" class="noLine"><spring:message code="label.data"/></a>
+					<a href="#tabs-3" class="noLine"><spring:message code="label.assay"/></a>
 				</li>
                 <c:if test="${hasMetabolites}">
                     <li>

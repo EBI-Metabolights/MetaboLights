@@ -35,7 +35,11 @@
 	<script type="text/javascript" src='<spring:url value="/javascript/menu.js"/>'></script>
     <script type="text/javascript" src="//www.ebi.ac.uk/web_guidelines/js/libs/modernizr.custom.49274.js"></script>
 
-    <c:set scope="request" var="fullContextPath" value="http://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}"/>
+    <%
+        String servletPath = request.getAttribute("javax.servlet.forward.request_uri").toString();
+        request.setAttribute("servletPath", servletPath);
+    %>
+    <c:set scope="request" var="fullContextPath" value="http://${pageContext.request.serverName}${pageContext.request.contextPath}"/>
     <c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
         <script type="text/javascript">var redline = {};redline.project_id = 196734042;</script>
         <script id="redline_js" src="http://www.redline.cc/assets/button.js" type="text/javascript"> </script>
