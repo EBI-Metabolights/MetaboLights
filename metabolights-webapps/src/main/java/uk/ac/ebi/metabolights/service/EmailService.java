@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 18/10/13 09:25
+ * Last modified: 4/16/14 3:39 PM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.service;
@@ -313,7 +313,7 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
         String hostName = java.net.InetAddress.getLocalHost().getHostName();
-        String empty = "Generic error", body;
+        String body;
 
         if(error instanceof IsaTabException){
             IsaTabException ie = (IsaTabException) error;
@@ -324,6 +324,9 @@ public class EmailService {
 
             if (errorChunks != null)
                 errorMessage = errorChunks[0];
+
+            if (errorMessage != null)
+                errorMessage = errorMessage.replace("/nfs/public/rw/homes/tc_cm01/metabolights","MetaboLightsHomeFolder");
 
             body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, errorMessage});
         } else {

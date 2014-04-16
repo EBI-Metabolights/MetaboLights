@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 18/10/13 09:13
+ * Last modified: 4/16/14 3:39 PM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.metabolightsuploader;
@@ -222,6 +222,7 @@ public class IsaTabUploader {
         String start = "\\[", end = "\\]";
         localErrorMessage = localErrorMessage.replaceAll(start + ".*" + end , "");
         localErrorMessage = "ERROR:  " + localErrorMessage.replaceAll("org.isatools." , "\norg.isatools.");
+        localErrorMessage = localErrorMessage.replace("/nfs/public/rw/homes/tc_cm01/metabolights","MetaboLightsHomeFolder");
 
         return localErrorMessage;
     }
@@ -249,7 +250,7 @@ public class IsaTabUploader {
 		// If not SUCCESS...
         String userErrorMessage = removeGobbledygook();
 
-        userErrorMessage = userErrorMessage +  "\nWe could not successfully validate the study archive using configuration '"+ lastUsedConfigFile + "'.  Please validate the study in ISAcreator before submitting to MetaboLights.\n";
+        userErrorMessage = userErrorMessage +  "\nWe could not successfully validate the study archive using configuration '"+ lastUsedConfigFile.replace(PropertiesUtil.getProperty("isatabConfigurationLocation"),"") + "'.  Please validate the study in ISAcreator before submitting to MetaboLights.\n";
 
 		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException(userErrorMessage,sm.getLastLog()) ;
 
