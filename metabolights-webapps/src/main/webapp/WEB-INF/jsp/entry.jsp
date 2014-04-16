@@ -11,7 +11,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 4/3/14 3:52 PM
+  ~ Last modified: 4/16/14 9:30 AM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -162,19 +162,18 @@ function toggleColumn(tableId, anchor, duration ) {
         <a class="noLine" href="${study.acc}/files/${study.acc}" title="<spring:message code="label.downloadstudy"/>">
             <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
         </a>
-        &nbsp;
+        &nbsp;|&nbsp;
         <a class="noLine" href="${study.acc}/files/metadata?token=${study.id}" title="<spring:message code="label.downloadstudyMetadata"/>">
             <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
         </a>
-        &nbsp;
+        &nbsp;|&nbsp;
         <a id="share" class="noLine" href="#" title="<spring:message code="label.study.share"/>">
             <span class="icon icon-generic" data-icon="L"><spring:message code="label.study.share"/>
         </a>
         &nbsp;
 
-
-
         <c:if test="${study.status eq 'PUBLIC'}">
+            |&nbsp;
             <a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.acc}" title="<spring:message code="label.viewAllFiles"/>">
                 <span class="icon icon-functional" data-icon="b"/><spring:message code="label.viewAllFiles"/>
             </a>
@@ -415,8 +414,6 @@ function toggleColumn(tableId, anchor, duration ) {
                     <c:forEach var="mlAssay" items="${assays}" varStatus="loopStatusAssay">
 
                         <c:if test="${fn:length(mlAssay.metabolitesGUI) gt 0}">
-                            <br/>
-                            <a href="${study.acc}/files/${mlAssay.fileName}/maf" class="icon icon-functional" data-icon="="><spring:message code="submittedFile"/></a><br/>
                             <div style="overflow: auto">
 
                                 <table id="metabolites${loopStatusAssay.index}">

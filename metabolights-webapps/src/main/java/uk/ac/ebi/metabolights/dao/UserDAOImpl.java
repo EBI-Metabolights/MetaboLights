@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 4/15/14 3:33 PM
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.dao;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -19,6 +29,7 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+    @Override
 	public MetabolightsUser findByName(String userName) {
 
 		Session session = sessionFactory.getCurrentSession();
@@ -34,6 +45,7 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+    @Override
 	public List<MetabolightsUser> getAll() {
 
 		Session session = sessionFactory.getCurrentSession();
@@ -89,7 +101,7 @@ public class UserDAOImpl implements UserDAO {
 	public MetabolightsUser findById(Long id) {
 		Session session = sessionFactory.getCurrentSession();
 		Query q = session.createQuery("from MetabolightsUser where id =:id");
-		q.setLong("id", id); 
+		q.setLong("id", id);
 		List<MetabolightsUser> list = q.list();
 		session.clear();
 		if (list !=null && list.size()>0)
