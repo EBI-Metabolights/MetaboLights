@@ -1,6 +1,16 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 4/16/14 10:49 AM
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  --%>
+
 <head>
   	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
@@ -9,7 +19,7 @@
     <meta http-equiv="Content-Language" content="en-GB" />
     <meta http-equiv="Window-target" content="_top" />
     <meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/" />
-    <meta name="keywords" content="metabolite, metabolites, metabolism, metabolic, metabonomics, metabolomics, metabolomics study, metabolomics experiment, metabolic pathway, metabolite database" />
+    <meta name="keywords" content="metabolite, metabolites, metabolism, metabolic, metabonomics, metabolomics, metabolomics study, metabolomics experiment, metabolic pathway, metabolite database, cosmos" />
     <link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/userstyles.css" type="text/css">
 	<link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/contents.css" type="text/css">
 
