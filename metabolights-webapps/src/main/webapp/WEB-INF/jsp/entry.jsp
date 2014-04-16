@@ -133,6 +133,35 @@ $(document).ready(function() {
         $("#tabs-5").effect("highlight", {color: '#E2BD97'}, 1700);
     });
 
+    $("input#fileSelector").bind("keypress keyup", function(e) {
+
+        var code = e.keyCode || e.which;
+
+        if (code == 13){
+
+            var value = e.target.value;
+
+            var checked = true;
+
+            if(value[0] == "!"){
+                checked = false;
+                value = value.substr(1);
+            }
+
+            if (value != ""){
+                $("input[name='file'][value*='" + value + "']").attr("checked", checked)
+            }
+
+            e.target.select();
+
+            e.preventDefault();
+
+
+        }
+
+    });
+
+
 });
 
 $(function() {
@@ -202,13 +231,13 @@ function toggleColumn(tableId, anchor, duration ) {
 
         <span class="right">
             <c:if test="${not empty study.submissionDate}">
-                <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/></strong>
+                <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/></strong><br/>
             </c:if>
             <c:if test="${not empty study.releaseDate}">
-                <br/><spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></strong>
+                <spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></strong><br/>
             </c:if>
             <c:if test="${not empty submittedID.submittedId}">
-                <br/><spring:message code="label.submittedId"/>: ${submittedID.submittedId}
+                <spring:message code="label.submittedId"/>: ${submittedID.submittedId}
             </c:if>
         </span>
 
@@ -515,6 +544,7 @@ function toggleColumn(tableId, anchor, duration ) {
                     </h5>
                     <br/>
                     <h5><spring:message code="label.fileListTableExplanation"/></h5>
+                    <p><input class="inputDiscrete resizable" id="fileSelector" class="" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>"></p>
                     <input type="hidden" name="token" value="${study.id}">
                     <table id="files">
                         <tr>
