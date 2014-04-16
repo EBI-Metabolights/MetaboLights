@@ -124,6 +124,15 @@ $(document).ready(function() {
             modal: true
             });
     });
+
+    $("a#viewFiles").click(function(e) {
+        e.preventDefault();
+
+        // setter
+        $("#tabs").tabs( "option", "active", -1 );
+        $("#tabs-5").effect("highlight", {color: '#E2BD97'}, 1700);
+    });
+
 });
 
 $(function() {
@@ -159,25 +168,13 @@ function toggleColumn(tableId, anchor, duration ) {
 
 <div class="push_1 grid_22 subtitle alpha omega">
     <span>
-        <a class="noLine" href="${study.acc}/files/${study.acc}" title="<spring:message code="label.downloadstudy"/>">
-            <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
-        </a>
-        &nbsp;|&nbsp;
-        <a class="noLine" href="${study.acc}/files/metadata?token=${study.id}" title="<spring:message code="label.downloadstudyMetadata"/>">
-            <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
-        </a>
-        &nbsp;|&nbsp;
         <a id="share" class="noLine" href="#" title="<spring:message code="label.study.share"/>">
             <span class="icon icon-generic" data-icon="L"><spring:message code="label.study.share"/>
         </a>
-        &nbsp;
-
-        <c:if test="${study.status eq 'PUBLIC'}">
-            |&nbsp;
-            <a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.acc}" title="<spring:message code="label.viewAllFiles"/>">
-                <span class="icon icon-functional" data-icon="b"/><spring:message code="label.viewAllFiles"/>
-            </a>
-        </c:if>
+        &nbsp;|&nbsp;
+        <a id="viewFiles" class="noLine" href="#" title="<spring:message code="label.viewAllFiles"/>">
+            <span class="icon icon-functional" data-icon="b"/><spring:message code="label.viewAllFiles"/>
+        </a>
         <c:if test="${(study.status ne 'PUBLIC')}">
             <span class="right">
             &nbsp;<spring:message code="label.expPrivate"/>
@@ -203,7 +200,19 @@ function toggleColumn(tableId, anchor, duration ) {
             <%--</c:if>--%>
         <%--</div>--%>
 
-       <c:if test="${not empty study.contacts}">
+        <span class="right">
+            <c:if test="${not empty study.submissionDate}">
+                <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/></strong>
+            </c:if>
+            <c:if test="${not empty study.releaseDate}">
+                <br/><spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></strong>
+            </c:if>
+            <c:if test="${not empty submittedID.submittedId}">
+                <br/><spring:message code="label.submittedId"/>: ${submittedID.submittedId}
+            </c:if>
+        </span>
+
+        <c:if test="${not empty study.contacts}">
             <br/>
             <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
 				<c:if test="${loopStatus.index ne 0}">, </c:if>
@@ -211,23 +220,13 @@ function toggleColumn(tableId, anchor, duration ) {
                 	<c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>
                 >${contact.firstName}&nbsp;${contact.lastName}</span>
             </c:forEach>
-			<br/>
         </c:if>
 
-        <c:if test="${not empty study.submissionDate || not empty study.releaseDate}">
-            <br/>
-            <c:if test="${not empty study.submissionDate}"><spring:message code="label.subDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/>&nbsp;&nbsp;</c:if>
-            <c:if test="${not empty study.releaseDate}"><spring:message code="label.releaseDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></c:if>
-        </c:if>
+        <c:if test="${not empty study.description}">
 
-       <c:if test="${not empty submittedID.submittedId}">
-           &nbsp;&nbsp;<spring:message code="label.submittedId"/>: ${submittedID.submittedId}
-       </c:if>
-
-	    <c:if test="${not empty study.description}">
-   		     <br/><br/><span style="text-align:justify"><div id="description">${study.description}</div></span>
+            <br/><br/><br/>${study.description}
 	    </c:if>
- 		<br/>
+        <br/><br/>
 
 		<div id="tabs">
 			<ul>
@@ -490,13 +489,32 @@ function toggleColumn(tableId, anchor, duration ) {
             </div> <!--  ends tabs-4 metabolites-->
             </c:if>
             <c:if test="${not empty files}">
+
+                <%--Only show token if study es private--%>
+                <c:if test="${study.status ne 'PUBLIC'}">
+                    <c:set var="token" value="?token=${study.id}"/>
+                </c:if>
+
             <div id="tabs-5"> <!-- Study files -->
-                <%--<input type="checkbox" extensions="txt_tsv_maf">--%>
-                <p><a class="noLine" href="${study.acc}/files/metadata?token=${study.id}" title="<spring:message code="label.downloadstudyMetadata"/>">
-                    <spring:message code="label.downloadstudyMetadata"/></a>
-                </p>
-                <h5><spring:message code="label.fileListTableExplanation"/></h5>
-                <form action="${study.acc}/files/selection" method="get">
+                 <form action="${study.acc}/files/selection" method="post">
+                    <h5>
+                    <a class="noLine" href="${study.acc}/files/${study.acc}${token}" title="<spring:message code="label.downloadstudy"/>">
+                        <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
+                    </a>
+                    &nbsp;|&nbsp;
+                    <a class="noLine" href="${study.acc}/files/metadata${token}" title="<spring:message code="label.downloadstudyMetadata"/>">
+                        <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
+                    </a>
+                    &nbsp;
+                    <c:if test="${study.status eq 'PUBLIC'}">
+                        |&nbsp;
+                        <a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.acc}" title="<spring:message code="label.viewAllFiles"/>">
+                            <span class="icon icon-generic" data-icon="x"/><spring:message code="label.viewAllFiles"/>
+                        </a>
+                    </c:if>
+                    </h5>
+                    <br/>
+                    <h5><spring:message code="label.fileListTableExplanation"/></h5>
                     <input type="hidden" name="token" value="${study.id}">
                     <table id="files">
                         <tr>
@@ -505,14 +523,14 @@ function toggleColumn(tableId, anchor, duration ) {
                         </tr>
                         <tbody>
                         <c:forEach var="file" items="${files}">
-                            <c:if test="${!file.directory}">
+                            <%--<c:if test="${!file.directory}">--%>
                             <tr>
                                 <td><input type="checkbox" name="file" value="${file.name}"/></td>
                                 <td>
-                                    <a href="${study.acc}/files/${file.name}">${file.name}</a>
+                                    <a href="${study.acc}/files/${file.name}${token}">${file.name}</a>
                                 </td>
                             </tr>
-                            </c:if>
+                            <%--</c:if>--%>
                         </c:forEach>
                         </tbody>
                     </table>
