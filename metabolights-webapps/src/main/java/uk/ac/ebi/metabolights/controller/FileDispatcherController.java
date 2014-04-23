@@ -125,10 +125,15 @@ public class FileDispatcherController extends AbstractController {
 
 		String zipFile="";
 
-		// If there is only one file
+		// If there is only one file, and it matches the studyId...
 		if (files.length == 1 && files[0].getName().equals(studyId) )
 		{
+			// User wanrts all the data...keep it in the zipondemand location for future requests
 			zipFile = zipOnDemandLocation + files[0].getName() + ".zip";
+
+			// Change File[] with the list of files.
+			files = files[0].listFiles();
+
 		} else {
 
 			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
