@@ -18,7 +18,7 @@ import java.io.*;
 public class IsaTabUtils {
 
     private static final String DEFAULT_INVESTIGATION_PATTERN = "i_.*\\.txt";
-    private static final String FIELD_NAME_WITH_CONFIGURATION = "Comment [Created With Configuration]";
+    private static final String FIELD_NAME_WITH_CONFIGURATION = "[created with configuration]";
     private static final String DEFAULT_CONFIGURATION_FOLDER = "default";
 
     public static String getInvestigationFileName (String folder) throws FileNotFoundException {
@@ -96,14 +96,14 @@ public class IsaTabUtils {
         File investigationFile = getInvestigationFile(isaTabFolder);
 
         BufferedReader br = new BufferedReader(new FileReader(investigationFile));
-        String configFileFolder = "default";    //Just in case we Could not find the config files used in the investigation file
+        String configFileFolder = DEFAULT_CONFIGURATION_FOLDER;    //Just in case we Could not find the config files used in the investigation file
 
         try {
             String line = br.readLine();
             String lastPart = null;
 
             while (line != null) {
-                if (line.contains(FIELD_NAME_WITH_CONFIGURATION)){
+                if (line.toLowerCase().contains(FIELD_NAME_WITH_CONFIGURATION)){
                     String[] lineParts = line.split("\""); //The config file name is always separated with "
                     if (lineParts.length > 1)
                         configFileFolder = lineParts[1];   //Should be the name of the *submitters* config file directory
@@ -121,6 +121,8 @@ public class IsaTabUtils {
 
                     if (lastPart != null)
                         configFileFolder = lastPart;
+
+					if (configFileFolder.equals("")) configFileFolder = DEFAULT_CONFIGURATION_FOLDER;
 
                     break; //Nothing more to do in this loop
 
