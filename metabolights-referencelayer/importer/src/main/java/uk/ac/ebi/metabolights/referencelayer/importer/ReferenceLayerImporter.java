@@ -30,10 +30,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class ReferenceLayerImporter{
 
@@ -48,8 +45,10 @@ public class ReferenceLayerImporter{
     private RheasResourceClient wsRheaClient;
 
     //private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
-    // private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
-    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+     private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+
+    // Temporary chebiWS for producction database.
+    //private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
 	private static final Long CHEBI_DB_ID = new Long(1);
     private String chebiIDRoot = "CHEBI:25212";
@@ -177,7 +176,27 @@ public class ReferenceLayerImporter{
 
     }
 
-    public void importMetabolitesFromChebiTSV(File chebiTSV){
+	/**
+	 * Refreshes status of already existing mtblc entries in the reference layer.
+	 * @throws DAOException
+	 */
+	public void refreshMTBLC() throws DAOException {
+
+		// Get all the MTBLC items
+		Set<MetaboLightsCompound> mtblcToRefresh = mcd.getAllCompounds();
+
+		// For each compound
+		for (MetaboLightsCompound mc: mtblcToRefresh)
+		{
+
+			chebiID2MetaboLightsNoFuzzy(mc.getChebiId());
+
+		}
+
+
+	}
+
+    public void importMetabolitesFromChebiTSV(File chebiTSV, long startFrom){
 
         LOGGER.info("Importing metabolites from chebi. TSV: " + chebiTSV.getAbsoluteFile());
 
@@ -204,7 +223,7 @@ public class ReferenceLayerImporter{
             {
 
                 // If its not the first line...skip it as it is the header definition line....
-                if (linesRead !=0){
+                if (linesRead >= startFrom){
                     // Get the Chebi id ==> First element in a line separated by Tabulators
                     String[] values = line.split("\t");
 
@@ -231,6 +250,9 @@ public class ReferenceLayerImporter{
         LOGGER.info(imported + " new compounds imported.");
 
     }
+	public void importMetabolitesFromChebiTSV(File chebiTSV) {
+		importMetabolitesFromChebiTSV(chebiTSV,1);
+	}
 
 
 	public void importMetaboliteFromChebiID(String chebiId) throws DAOException {
@@ -389,11 +411,14 @@ public class ReferenceLayerImporter{
             mc.setFormula(extractFormula(entity.getFormulae()));
             mc.setIupacNames(extractIupacNames(entity.getIupacNames()));
 
-            // Update species information
 
-			CrossReference chebiXRef = getCrossReference(entity);
-            importMetSpeciesFromCompundOrigins(mc, entity, chebiXRef);
-			importMetSpeciesFromOntologyParents(mc, entity, chebiXRef);
+			if ((importOptions & ImportOptions.REFRESH_MET_SPECIES) == ImportOptions.REFRESH_MET_SPECIES){
+				// Update species information
+				CrossReference chebiXRef = getCrossReference(entity);
+				importMetSpeciesFromCompundOrigins(mc, entity, chebiXRef);
+				importMetSpeciesFromOntologyParents(mc, entity, chebiXRef);
+			}
+
 
             mc.setHasLiterature(getLiterature(entity));
             mc.setHasReaction(getReactions(mc.getChebiId()));

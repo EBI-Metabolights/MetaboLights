@@ -35,8 +35,8 @@ public class ImporterTests extends TestCase{
 		// Set up a simple configuration that logs on the console.
 	    BasicConfigurator.configure();
 
-        DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV"); //OracleDatabaseInstance.getInstance("metabolightsDEV");
-		//DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsMYSQL");
+        //DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV"); //OracleDatabaseInstance.getInstance("metabolightsDEV");
+		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
 		con = dbi.getConnection();
 
 
@@ -74,14 +74,16 @@ public class ImporterTests extends TestCase{
 
 		// List of compounds that will need species to be refreshed
 		//rli.setDeleteExistingCHEBISpecies(true);
-		//URL url = ImporterTests.class.getClassLoader().getResource("refresh_species_chebi_ids.tsv");
+		URL url = ImporterTests.class.getClassLoader().getResource("refresh_species_chebi_ids.tsv");
 
 		// Duplicated human (NCBI + NEWT)
-		URL url = ImporterTests.class.getClassLoader().getResource("more_compounds_chebi_ids.tsv");
+		//URL url = ImporterTests.class.getClassLoader().getResource("more_compounds_chebi_ids.tsv");
+
+
 
 
 		// List from Ken's SQL query in CHEBI to get D- and L alanine....zwiterions not included:
-//		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.DO_FUZZY_SEARCH);
+		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL- (ReferenceLayerImporter.ImportOptions.DO_FUZZY_SEARCH + ReferenceLayerImporter.ImportOptions.REFRESH_MET_SPECIES));
 //		URL url = ImporterTests.class.getClassLoader().getResource("chebi_metabolites.tsv");
         //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites.tsv");
         //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites_20130607.tsv");
@@ -92,7 +94,7 @@ public class ImporterTests extends TestCase{
         } else {
             File chebiTSV = new File(url.getFile());
 
-            rli.importMetabolitesFromChebiTSV(chebiTSV);
+            rli.importMetabolitesFromChebiTSV(chebiTSV, 10890);
 
         }
 
@@ -111,6 +113,17 @@ public class ImporterTests extends TestCase{
 
 
 	}
+
+	public void testRefresh() throws Exception {
+
+		ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
+
+
+		//rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL);
+		rli.refreshMTBLC();
+
+	}
+
 
 
 }
