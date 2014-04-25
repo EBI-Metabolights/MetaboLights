@@ -19,100 +19,123 @@
 <script>
     $(document).ready(function () {
         $("#formulae").formularize();
-    });
-</script>
 
-<script>
-    $(function () {
-        $("#tabs").tabs({
-            cache: true,
-            activate: function (event, ui) {
+        $.fn.getIndex = function(){
+            var $p=$(this).parent().children();
+            return $p.index(this);
+        }
 
+        $(function () {
 
-                // If the new tab is NMR...
-                if ($(ui.newTab.children('a')[0]).attr('href') == "#tabs-5") {
+            var hash = document.location.hash;
+            // Remove the #
+            hash = hash.substring(1);
+            var tabToActivate = 0;
 
-                    $("#spectrumbrowser").find("select").change(function (e) {
-                        e.preventDefault();
+            if (hash != undefined) {
+                // If it's not a number'
+                if (isNaN(hash)){
 
-                        /* Display the image */
-                        var spectrumId = $(this).val();
+                    tabToActivate = $("[hash='" + hash + "']").getIndex();
 
-                        /* Show info in the info div*/
-                        var nmrInfoDiv = $('#nmrInfo');
-                        /* Get the selected option */
-                        var option = $(this).find(":selected");
-
-
-                        /* Get the pathway object (json element)*/
-                        var spectra = nmrInfo[$(this)[0].selectedIndex];
-
-                        var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
-
-                        $.each(spectra.properties, function () {
-
-                            html = html + "<br/>" + this.name + ": "
-
-                            if (this.value.indexOf("http:") == 0) {
-                                html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
-                            } else {
-                                html = html + this.value;
-                            }
-
-                        });
-                        nmrInfoDiv.html(html);
-
-
-                    });
-
-                    // And now fire change event when the DOM is ready
-                    $("#spectrumbrowser").find("select").trigger('change');
-
+                    if (tabToActivate == -1) tabToActivate = 0;
+                } else {
+                    tabToActivate= hash;
                 }
-                // if the new tab is MS
-                if ($(ui.newTab.children('a')[0]).attr('href') == "#tabs-6") {
-
-                    $("#spectrumbrowserms").find("select").change(function (e) {
-                        e.preventDefault();
-
-                        /* Display the image */
-                        var spectrumId = $(this).val();
-
-                        /* Show info in the info div*/
-                        var msInfoDiv = $('#msInfo');
-                        /* Get the selected option */
-                        var option = $(this).find(":selected");
-
-
-                        /* Get the spectra   object (json element)*/
-                        var spectra = msInfo[$(this)[0].selectedIndex];
-
-                        var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
-
-                        $.each(spectra.properties, function () {
-
-                            html = html + "<br/>" + this.name + ": "
-
-                            if (this.value.indexOf("http:") == 0) {
-                                html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
-                            } else {
-                                html = html + this.value;
-                            }
-
-                        });
-                        msInfoDiv.html(html);
-
-
-                    });
-
-                    // And now fire change event when the DOM is ready
-                    $("#spectrumbrowserms").find("select").trigger('change');
-
-                }
-
 
             }
 
+            $("#tabs").tabs({
+                cache: true,
+                active: tabToActivate,
+                activate: function (event, ui) {
+
+                    // If the new tab is NMR...
+                    if ($(ui.newTab.children('a')[0]).attr('href') == "#nmrSpectra-tab") {
+
+                        $("#spectrumbrowser").find("select").change(function (e) {
+                            e.preventDefault();
+
+                            /* Display the image */
+                            var spectrumId = $(this).val();
+
+                            /* Show info in the info div*/
+                            var nmrInfoDiv = $('#nmrInfo');
+                            /* Get the selected option */
+                            var option = $(this).find(":selected");
+
+
+                            /* Get the pathway object (json element)*/
+                            var spectra = nmrInfo[$(this)[0].selectedIndex];
+
+                            var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
+
+                            $.each(spectra.properties, function () {
+
+                                html = html + "<br/>" + this.name + ": "
+
+                                if (this.value.indexOf("http:") == 0) {
+                                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
+                                } else {
+                                    html = html + this.value;
+                                }
+
+                            });
+                            nmrInfoDiv.html(html);
+
+
+                        });
+
+                        // And now fire change event when the DOM is ready
+                        $("#spectrumbrowser").find("select").trigger('change');
+
+                    }
+                    // if the new tab is MS
+                    if ($(ui.newTab.children('a')[0]).attr('href') == "#msSpectra-tab") {
+
+                        $("#spectrumbrowserms").find("select").change(function (e) {
+                            e.preventDefault();
+
+                            /* Display the image */
+                            var spectrumId = $(this).val();
+
+                            /* Show info in the info div*/
+                            var msInfoDiv = $('#msInfo');
+                            /* Get the selected option */
+                            var option = $(this).find(":selected");
+
+
+                            /* Get the spectra   object (json element)*/
+                            var spectra = msInfo[$(this)[0].selectedIndex];
+
+                            var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
+
+                            $.each(spectra.properties, function () {
+
+                                html = html + "<br/>" + this.name + ": "
+
+                                if (this.value.indexOf("http:") == 0) {
+                                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
+                                } else {
+                                    html = html + this.value;
+                                }
+
+                            });
+                            msInfoDiv.html(html);
+
+
+                        });
+
+                        // And now fire change event when the DOM is ready
+                        $("#spectrumbrowserms").find("select").trigger('change');
+
+                    }
+
+                    // to make bookmarkable
+                    document.location.hash =  "#"+ui.newTab.attr("hash");
+                }
+
+            });
         });
     });
 </script>
@@ -308,45 +331,45 @@
 <div class="grid_18 omega">
 <div id="tabs">
 <ul>
-    <li>
-        <a class="noLine" href="#tabs-1"><spring:message code="ref.compound.tab.chemistry"/></a>
+    <li hash="chemistry">
+        <a class="noLine" href="#chemistry-tab"><spring:message code="ref.compound.tab.chemistry"/></a>
     </li>
     <c:if test="${compound.mc.hasSpecies}">
-        <li>
-            <a class="noLine" href="#tabs-2"><spring:message code="ref.compound.tab.biology"/></a>
+        <li hash="biology">
+            <a class="noLine" href="#biology-tab"><spring:message code="ref.compound.tab.biology"/></a>
         </li>
     </c:if>
     <c:if test="${compound.mc.hasPathways}">
-        <li>
-            <a class="noLine" href="#tabs-3"><spring:message code="ref.compound.tab.pathways"/></a>
+        <li hash="pathways">
+            <a class="noLine" href="#pathways-tab"><spring:message code="ref.compound.tab.pathways"/></a>
         </li>
     </c:if>
     <c:if test="${compound.mc.hasReactions}">
-        <li>
+        <li hash="reactions">
             <a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message
                     code="ref.compound.tab.reactions"/></a>
         </li>
     </c:if>
 
     <c:if test="${compound.mc.hasNMR}">
-        <li>
-            <a class="noLine" href="#tabs-5"><spring:message code="ref.compound.tab.nmrspectra"/></a>
+        <li hash="nmrspectra">
+            <a class="noLine" href="#nmrSpectra-tab"><spring:message code="ref.compound.tab.nmrspectra"/></a>
         </li>
     </c:if>
     <c:if test="${compound.mc.hasMS}">
-        <li>
-            <a class="noLine" href="#tabs-6"><spring:message code="ref.compound.tab.msspectra"/></a>
+        <li hash="msspectra">
+            <a class="noLine" href="#msSpectra-tab"><spring:message code="ref.compound.tab.msspectra"/></a>
         </li>
     </c:if>
     <c:if test="${compound.mc.hasLiterature}">
-        <li>
+        <li hash="literature">
             <a class="noLine" href="citations?mtblc=${compound.mc.accession}"><spring:message
                     code="ref.compound.tab.literature"/></a>
         </li>
     </c:if>
 </ul>
 
-<div id="tabs-1" class="tab">
+<div id="chemistry-tab" class="tab">
     <c:if test="${not empty compound.chebiEntity.definition}">
         <h6><spring:message code="ref.compound.tab.characteristics.definition"/></h6>
         ${compound.chebiEntity.definition}
@@ -374,7 +397,7 @@
 
 <c:if test="${compound.mc.hasSpecies}">
     <!-- Found in -->
-    <div id="tabs-2" class="tab">
+    <div id="biology-tab" class="tab">
             <%--<c:forEach var="metSpecie" items="${compound.mc.metSpecies}">--%>
             <%--${metSpecie.species.species} - ${metSpecie.crossReference.accession}<br/>--%>
             <%--</c:forEach>--%>
@@ -396,7 +419,7 @@
 </c:if>
 <c:if test="${compound.mc.hasPathways}">
     <!-- Pathways -->
-    <div id="tabs-3" class="tab">
+    <div id="pathways-tab" class="tab">
         <select id="pathwayList">
             <c:forEach var="pathway" items="${compound.mc.metPathways}">
                 <option value="${pathway.id}" source="${pathway.database.name}"
@@ -432,7 +455,7 @@
 
 <c:if test="${compound.mc.hasNMR}">
     <!-- NMR Spectra -->
-    <div id="tabs-5" class="tab">
+    <div id="nmrSpectra-tab" class="tab">
 
         <div id="spectrumbrowser">
             <c:set var="count" value="0" scope="page"/>
@@ -474,7 +497,7 @@
 <c:if test="${compound.mc.hasMS}">
     <!-- MS Spectra -->
 
-    <div id="tabs-6" class="tab">
+    <div id="msSpectra-tab" class="tab">
 
         <div id="spectrumbrowserms">
             <c:set var="count" value="0" scope="page"/>

@@ -130,7 +130,7 @@ $(document).ready(function() {
 
         // setter
         $("#tabs").tabs( "option", "active", -1 );
-        $("#tabs-5").effect("highlight", {color: '#E2BD97'}, 1700);
+        $("#nmrSpectra-tab").effect("highlight", {color: '#E2BD97'}, 1700);
     });
 
     $("input#fileSelector").bind("keypress keyup", function(e) {

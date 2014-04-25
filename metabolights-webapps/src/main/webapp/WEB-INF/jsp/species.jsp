@@ -36,6 +36,9 @@
                         }
             }).attr('autocomplete','on').attr("z-index", 1000);
 
+            // Add number of species to the tree title
+            $("#treeTitle").append(" (" + speciesAutocomplete.length + " species)");
+
         }
     }
 
@@ -83,7 +86,7 @@
     </div>
 
     <div class="grid_24 alpha omega">
-        <h3><spring:message code="menu.speciesbrowsetitle"/></h3>
+        <h3 id="treeTitle"><spring:message code="menu.speciesbrowsetitle"/></h3>
         <div id="tree-container"></div>
     </div>
 
