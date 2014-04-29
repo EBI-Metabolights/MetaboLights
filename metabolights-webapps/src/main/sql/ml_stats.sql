@@ -42,7 +42,7 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 
       LEFT JOIN NODE N ON M.NODE_ID = N.ID
     WHERE LOWER(P.VALUE) = 'organism'
       AND PV.VALUE <> 'none';
-insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms from compounds', count(*), 6 from ref_species where final_id is null;      
+insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms from compounds', count(*), 6 from ref_species where final_id is null and species_member is not null;      
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', count(*), 7 from ref_metabolite;      
 
 
@@ -64,10 +64,10 @@ group by DB;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Identified','Total', Count(*) as Total, 1 from METABOLITE;
 
 -- Section "Submitters"
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of registered users', count(*), 1 from user_detail;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of reviewers', count(*), 2 from user_detail where role = 2;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of registered submitters', count(*), 1 from user_detail;
+--insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of reviewers', count(*), 2 from user_detail where role = 2;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of curators', count(*), 3 from user_detail where role = 1;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select  distinct 'Submitters', 'Number of countries', count(address), 4 from user_detail where role = 1;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of countries', count(distinct address), 4 from user_detail;
 
 
 update ml_stats set sort_order = 999 where sort_order is null;

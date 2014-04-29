@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 4/16/14 3:39 PM
+ * Last modified: 4/23/14 1:19 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -641,7 +641,7 @@ public class IsaTabUploader {
 
 		if (result != GUIInvokerResult.SUCCESS){
 
-			throw new IsaTabException("Unload of " + studyList + " hasn't succeded.", sm.getLastLog());
+			throw new IsaTabException("Unload of " + studyList + " did not succeed.", sm.getLastLog());
 
 		}
 
