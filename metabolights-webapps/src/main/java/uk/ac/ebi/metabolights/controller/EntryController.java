@@ -149,6 +149,7 @@ public class EntryController extends AbstractController {
         mav.addObject("assays", mlAssays);
         mav.addObject("hasMetabolites", getHasMetabolites(mlAssays));
         mav.addObject("submittedID", accessionService.getSubmittedId(study.getAcc()));
+		mav.addObject("studyXRefs", accessionService.getStudyXRefs(study.getAcc()));
         mav.addObject("pageTitle", study.getAcc() + ":" +study.getTitle() );
         mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getAcc()));
 

@@ -10,8 +10,10 @@
 
 package uk.ac.ebi.metabolights.dao;
 
-import uk.ac.ebi.metabolights.model.MetaboLightsSubmittedId;
+import uk.ac.ebi.metabolights.model.MetaboLightsStudyXRef;
 import uk.ac.ebi.metabolights.model.StableId;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +26,7 @@ public interface StableIdDAO {
     public StableId getNextStableId();
     public void update(StableId stableId);
     public void storeInitialId(String oldId, String newId);
-    public MetaboLightsSubmittedId getInitialId(String newId);
+    public MetaboLightsStudyXRef getInitialId(String newId);
+	public List<MetaboLightsStudyXRef> getStudyXRefs(String studyAcc);
 
 }

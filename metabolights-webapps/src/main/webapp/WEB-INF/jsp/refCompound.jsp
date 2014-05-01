@@ -165,7 +165,7 @@
             });
 
 
-            $('text[id^=MTBC]', svg.root()).each(function () {
+            $('text[id^=MTBLC]', svg.root()).each(function () {
 
                 var id = this.getAttribute('id');
 
@@ -186,10 +186,7 @@
             });
 
         }
-
-
-    }
-    ;
+    };
 
 
     $(document).ready(function () {
@@ -257,6 +254,7 @@
 
 
         // And now fire change event when the DOM is ready
+
         $('#pathwayList').trigger('change');
 
     });

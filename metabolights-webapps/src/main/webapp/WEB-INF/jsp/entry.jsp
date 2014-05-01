@@ -130,7 +130,7 @@ $(document).ready(function() {
 
         // setter
         $("#tabs").tabs( "option", "active", -1 );
-        $("#nmrSpectra-tab").effect("highlight", {color: '#E2BD97'}, 1700);
+        $("#tabs-5").effect("highlight", {color: '#E2BD97'}, 1700);
     });
 
     $("input#fileSelector").bind("keypress keyup", function(e) {
@@ -231,13 +231,22 @@ function toggleColumn(tableId, anchor, duration ) {
 
         <span class="right">
             <c:if test="${not empty study.submissionDate}">
-                <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/></strong><br/>
+                <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/></strong>
             </c:if>
             <c:if test="${not empty study.releaseDate}">
-                <spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></strong><br/>
+                ,<spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.releaseDate}"/></strong>
             </c:if>
-            <c:if test="${not empty submittedID.submittedId}">
-                <spring:message code="label.submittedId"/>: ${submittedID.submittedId}
+            <c:if test="${not empty studyXRefs}">
+                <br/><spring:message code="label.StudyXrefs"/>:
+                <c:forEach var="studyXref" items="${studyXRefs}" varStatus="loopIndex">
+                    <c:if test="${loopIndex.index > 0}">, </c:if>
+                    <c:if test="${ not empty studyXref.XRefType.pattern_url}">
+                        <a href="${studyXref.XRefType.pattern_url}${studyXref.submittedId}">${studyXref.submittedId}</a>
+                    </c:if>
+                    <c:if test="${empty studyXref.XRefType.pattern_url}">
+                        ${studyXref.submittedId}
+                    </c:if>
+                </c:forEach>
             </c:if>
         </span>
 

@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.dao.StableIdDAO;
-import uk.ac.ebi.metabolights.model.MetaboLightsSubmittedId;
+import uk.ac.ebi.metabolights.model.MetaboLightsStudyXRef;
 import uk.ac.ebi.metabolights.model.StableId;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,11 +41,16 @@ public class AccessionServiceImpl implements AccessionService {
 	}
 
     @Override
-    public MetaboLightsSubmittedId getSubmittedId(String studyAcc) {
+    public MetaboLightsStudyXRef getSubmittedId(String studyAcc) {
         return stableIdDAO.getInitialId(studyAcc);
     }
 
-    @Override
+	@Override
+	public List<MetaboLightsStudyXRef> getStudyXRefs(String studyAcc) {
+		return stableIdDAO.getStudyXRefs(studyAcc);
+	}
+
+	@Override
     public void saveSubmittedId(String orgId, String studyAcc) {
         stableIdDAO.storeInitialId(orgId, studyAcc);
     }

@@ -257,7 +257,7 @@
     </c:if>
 
     <c:if test="${not empty submittedID.submittedId}">
-        &nbsp;&nbsp;<spring:message code="label.submittedId"/>: ${submittedID.submittedId}
+        &nbsp;&nbsp;<spring:message code="label.StudyXrefs"/>: ${submittedID.submittedId}
     </c:if>
 
     <c:if test="${not empty study.description}">

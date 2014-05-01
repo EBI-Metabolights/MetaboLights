@@ -70,7 +70,7 @@ public class CompoundController extends AbstractController {
 
     }
 
-    @RequestMapping(value = "/pathway/{pathwayId}/png")
+    @RequestMapping(value = "/pathway/{pathwayId}/svg")
     public void getPathwayFilePng(@PathVariable("pathwayId") String pathwayIdS, HttpServletResponse response) {
 
 
@@ -84,7 +84,7 @@ public class CompoundController extends AbstractController {
 
     }
 
-	@RequestMapping(value = "/pathway/{pathwayId}/svg")
+	@RequestMapping(value = "/pathway/{pathwayId}/png")
 	public void getPathwayFileSvg(@PathVariable("pathwayId") String pathwayIdS, HttpServletResponse response) {
 
 

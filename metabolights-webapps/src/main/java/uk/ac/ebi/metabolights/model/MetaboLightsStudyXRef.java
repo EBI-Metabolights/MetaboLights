@@ -20,14 +20,12 @@ package uk.ac.ebi.metabolights.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "ML_SUBMITTED_STUDY_ID")
-public class MetaboLightsSubmittedId {
+@org.hibernate.annotations.Entity(dynamicUpdate=true, dynamicInsert=true)
+@Table(name = "ML_STUDY_XREF")
+public class MetaboLightsStudyXRef {
     @Id
     @Column(name="SUBMITTED_ID")
     @NotEmpty
@@ -37,9 +35,19 @@ public class MetaboLightsSubmittedId {
     @NotEmpty
     private String studyAcc;
 
-    public MetaboLightsSubmittedId(){};
+	@Column(name="IS_ORIGINAL_ID")
+	private boolean isOriginalId = true;
 
-    public MetaboLightsSubmittedId(String oldId, String newId){
+
+	@ManyToOne
+	@JoinColumn(name="XREF_TYPE_ID")
+	private MetaboLigthsStudyIdXRefType xRefType;
+
+
+
+    public MetaboLightsStudyXRef(){};
+
+    public MetaboLightsStudyXRef(String oldId, String newId){
         setSubmittedId(oldId);
         setStudyAcc(newId);
     }
@@ -59,4 +67,20 @@ public class MetaboLightsSubmittedId {
     public void setStudyAcc(String studyAcc) {
         this.studyAcc = studyAcc;
     }
+
+	public MetaboLigthsStudyIdXRefType getXRefType() {
+		return xRefType;
+	}
+
+	public void setXRefType(MetaboLigthsStudyIdXRefType studyIdXRefType) {
+		this.xRefType = studyIdXRefType;
+	}
+
+	public boolean isOriginalId() {
+		return isOriginalId;
+	}
+
+	public void setOriginalId(boolean isOriginalId) {
+		this.isOriginalId = isOriginalId;
+	}
 }

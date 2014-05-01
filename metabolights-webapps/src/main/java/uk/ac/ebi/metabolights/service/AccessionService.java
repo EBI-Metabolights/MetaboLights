@@ -10,7 +10,9 @@
 
 package uk.ac.ebi.metabolights.service;
 
-import uk.ac.ebi.metabolights.model.MetaboLightsSubmittedId;
+import uk.ac.ebi.metabolights.model.MetaboLightsStudyXRef;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,7 +26,8 @@ public interface AccessionService {
     public String getAccessionNumber();
     public String getDefaultPrefix ();
     public void setDefaultPrefix(String defaultPrefix);
-    public MetaboLightsSubmittedId getSubmittedId(String studyAcc);
+    public MetaboLightsStudyXRef getSubmittedId(String studyAcc);
+	public List<MetaboLightsStudyXRef> getStudyXRefs(String studyAcc);
     public void saveSubmittedId(String orgId, String studyAcc);
 
 }
