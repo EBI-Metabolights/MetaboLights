@@ -17,6 +17,9 @@
   --%>
 
 <script>
+
+    var tabToActivate = 0;
+
     $(document).ready(function () {
         $("#formulae").formularize();
 
@@ -30,7 +33,6 @@
             var hash = document.location.hash;
             // Remove the #
             hash = hash.substring(1);
-            var tabToActivate = 0;
 
             if (hash != undefined) {
                 // If it's not a number'
@@ -47,7 +49,6 @@
 
             $("#tabs").tabs({
                 cache: true,
-                active: tabToActivate,
                 activate: function (event, ui) {
 
                     // If the new tab is NMR...
@@ -134,9 +135,12 @@
                     // to make bookmarkable
                     document.location.hash =  "#"+ui.newTab.attr("hash");
                 }
-
             });
         });
+    });
+
+    $(window).load(function () {
+        $( "#tabs" ).tabs( "option", "active", tabToActivate );
     });
 </script>
 <script type="text/javascript">

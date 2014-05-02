@@ -103,7 +103,7 @@
 		<input type="file" name="file" />
     </div>
 	<div class="grid_23 alpha omega prefix_1">
-		<strong><br/><spring:message code="label.experimentMsgPublic" /></strong>
+		<br/><spring:message code="label.experimentMsgPublic" />
 	</div>
 	<br/>
 	<div class="grid_6 alpha prefix_1"><spring:message code="label.publicDate"/>:</div>

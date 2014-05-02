@@ -207,7 +207,7 @@ function toggleColumn(tableId, anchor, duration ) {
         <c:if test="${(study.status ne 'PUBLIC')}">
             <span class="right">
             &nbsp;<spring:message code="label.expPrivate"/>
-            <c:if test="${empty readOnly}">
+            <c:if test="${!readOnly}">
                 <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
                 <a class="noLine" href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="<spring:message code="label.makeStudyPublic"/>">
                     &nbsp;<span class="icon icon-generic" data-icon="}" id="ebiicon" /><spring:message code="label.makeStudyPublic"/>

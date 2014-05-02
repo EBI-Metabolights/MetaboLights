@@ -361,11 +361,10 @@ public class IsaTabIdReplacer
 					throw new Exception(errTxt);
 				}
 
-				//Replace Id in line (if necessary), also check for multiple studies reported
-				if (studyIdToUse == null){
-                    //Pass in the accession number to use for both study and investigation accession (same id per submission)
-					line = replaceIdInLine(line, accessionNumber);
-				}
+				//Replace Id in line (it could come with their own identifier, since we now accept those with the same initial identifier), also check for multiple studies reported
+				//Pass in the accession number to use for both study and investigation accession (same id per submission)
+				line = replaceIdInLine(line, accessionNumber);
+
 
 				//Replace public release date for this study
 				line = replacePubRelDateInLine(line);
@@ -399,10 +398,7 @@ public class IsaTabIdReplacer
 	      //If the value is present in line, in the first position.
 	      if (line.indexOf(id)==0){
 
-	    	  logger.info("Id found in line " + line);
-
-	    	  //Get the accession number
-	    	  //String accession = getAccessionService().getAccessionNumber();        //Moved outside this method to ensure the same id used for both study and investigation
+	    	  logger.info("Line with identifiers found: " + line);
 
 	    	  //Get the Id Value (i.e.: BII-1-S)
 	    	  String idInitialValue = StringUtils.replace(line, id + "\t\"", "");
@@ -425,7 +421,7 @@ public class IsaTabIdReplacer
 				//initialIdValuesList = initialIdValuesList + idInitialValue + " ";
 	    		ids.put(idInitialValue, accessionNumber);
                 //setStudyIdToUse(accession);
-                accessionService.saveSubmittedId(idInitialValue, accessionNumber);
+                getAccessionService().saveSubmittedId(idInitialValue, accessionNumber);
 	    		logger.info("Study identifier " + idInitialValue + " replaced with " +accessionNumber);
 
 	    	  }

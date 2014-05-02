@@ -4,7 +4,40 @@
 
 <script>
 $(function() {
-	$( "#tabs" ).tabs();
+
+    $.fn.getIndex = function(){
+        var $p=$(this).parent().children();
+        return $p.index(this);
+    }
+
+    var hash = document.location.hash;
+    // Remove the #
+    hash = hash.substring(1);
+    var tabToActivate = 0;
+
+    if (hash != undefined) {
+        // If it's not a number'
+        if (isNaN(hash)){
+
+            tabToActivate = $("[hash='" + hash + "']").getIndex();
+
+            if (tabToActivate == -1) tabToActivate = 0;
+        } else {
+            tabToActivate= hash;
+        }
+
+    }
+
+	$( "#tabs" ).tabs({
+        activate: function (event, ui)
+        {
+            // to make bookmarkable
+            document.location.hash =  "#"+ui.newTab.attr("hash");
+        }
+        ,active: tabToActivate
+    });
+
+
 });
 </script>
 
@@ -53,13 +86,13 @@ $(function() {
 
 	<div id="tabs">
 		<ul>
-			<li><a class="noLine" href="#appTab">Application Properties</a></li>
-			<li><a class="noLine" href="#valTab">Validations</a></li>
-			<li><a class="noLine" href="#queueTab">Queue</a></li>
-			<li><a class="noLine" href="#studyHealthTab">Study Health Tab</a></li>
-            <li><a class="noLine" href="#clearRefCache">Clear Ref Cache</a></li>
-            <li><a class="noLine" href="#MetaboLightsParameters">MetaboLights Parameters</a></li>
-            <li><a class="noLine" href="#reindexStudies">Reindex Studies</a></li>
+			<li hash="properties"><a class="noLine" href="#appTab">Application Properties</a></li>
+			<li hash="validations"><a class="noLine" href="#valTab">Validations</a></li>
+			<li hash="queue"><a class="noLine" href="#queueTab">Queue</a></li>
+			<li hash="health"><a class="noLine" href="#studyHealthTab">Study Health Tab</a></li>
+            <li hash="cache"><a class="noLine" href="#clearRefCache">Clear Ref Cache</a></li>
+            <li hash="parameters"><a class="noLine" href="#MetaboLightsParameters">MetaboLights Parameters</a></li>
+            <li hash="reindex"><a class="noLine" href="#reindexStudies">Reindex Studies</a></li>
 		</ul>
 		
         <div id="appTab">

@@ -1,18 +1,13 @@
 package uk.ac.ebi.metabolights.service;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 import org.springframework.aop.framework.Advised;
 import org.springframework.context.ApplicationContext;
-import org.springframework.jndi.JndiObjectFactoryBean;
-
 import uk.ac.ebi.metabolights.webapp.StyleMAVFactory;
+
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * This class provides application-wide access to the Spring ApplicationContext.
@@ -29,8 +24,9 @@ public class AppContext {
 	private static String jndiName; 
 	private static DataSource ds;
 	private static StyleMAVFactory mavFactory;
+	private static AccessionService accessionService;
 
-    /**
+	/**
      * Injected from the class "ApplicationContextProvider" which is automatically
      * loaded during Spring-Initialisation.
      */
@@ -105,5 +101,11 @@ public class AppContext {
      
       return conn;
     }
-    
-} 
+
+	public static AccessionService getAccessionService() {
+		if (accessionService == null){
+			accessionService = (AccessionService) ctx.getBean(AccessionService.class);
+		}
+		return accessionService;
+	}
+}

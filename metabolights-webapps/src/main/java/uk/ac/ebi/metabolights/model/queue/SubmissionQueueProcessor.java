@@ -18,6 +18,7 @@ import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.controller.SubmissionController;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
+import uk.ac.ebi.metabolights.model.MetaboLightsStudyXRef;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.utils.FileUtil;
@@ -331,12 +332,24 @@ public class SubmissionQueueProcessor {
 
 			String newStudyId = zipValues.get("Study Identifier");
 
-
             //TODO, add a check for both the submitted studyid and the MTBLS id
 			//If Ids do not match...
 			if (!si.getAccession().equals(newStudyId)){
 
-				throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,si.getAccession()));
+				// Get study XRefs...
+				List<MetaboLightsStudyXRef> studyXrefs = AppContext.getAccessionService().getStudyXRefs(si.getAccession());
+
+				boolean found = false;
+
+				for (MetaboLightsStudyXRef studyXRef:studyXrefs){
+					if (studyXRef.getSubmittedId().equals(newStudyId)){
+						found = true;
+					}
+				}
+
+				if (!found) {
+					throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch", newStudyId, si.getAccession()));
+				}
 
 			}
 
