@@ -1,3 +1,13 @@
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 4/8/14 9:59 AM
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
 <isatab-config-file xmlns="http://www.ebi.ac.uk/bii/isatab_configuration#">
     <isatab-configuration table-name="metaboliteprofiling_ms" isatab-assay-type="ms_spec_assay"
                           isatab-conversion-target="meda">
@@ -36,7 +46,7 @@
         <field header="Parameter Value[Chromatography Instrument]" data-type="Ontology term" is-file-field="false"
                is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
             <description><![CDATA[Chromatography Instrument, manufacturer and model]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
         </field>
         <field header="Parameter Value[Column model]" data-type="String" is-file-field="false" is-multiple-value="false"
                is-required="false" is-hidden="false" is-forced-ontology="false">
@@ -60,7 +70,7 @@
                is-required="false" is-hidden="false" is-forced-ontology="false">
             <description>
                 <![CDATA[Indicates a chemical or biological marker, such as a radioactive isotope or a fluorescent dye which is bound to a material in order to make it detectable by some assay technology (e.g. P33, biotin, GFP).]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
             <recommended-ontologies>
                 <ontology id="" abbreviation="CHEBI" name="Chemical Entities of Biological Interest"
                           version="Jun 2010"/>
@@ -84,7 +94,7 @@
                is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
             <description>
                 <![CDATA[the name of the mass spectrometry instrument, manufacturer, model # operational software name operational software version]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
             <recommended-ontologies>
                 <ontology id="" abbreviation="MS" name="PSI Mass Spectrometry Ontology" version="Jun 2010"/>
                 <ontology id="" abbreviation="SBO" name="Systems Biology Ontology" version="Jun 2010"/>
@@ -95,7 +105,7 @@
                is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
             <description>
                 <![CDATA[the ion source use PSI-MS cv Ionization mode (EI, APCI, ESI#), vacuum pressure skimmer/focusing lens voltages (e.g. capillary voltage etc.) gas flows (e.g. nebulization gas, cone gas etc.) source temperature]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
             <recommended-ontologies>
                 <ontology id="" abbreviation="MS" name="PSI Mass Spectrometry Ontology" version="Jun 2010"/>
                 <ontology id="" abbreviation="SBO" name="Systems Biology Ontology" version="Jun 2010"/>
@@ -105,7 +115,7 @@
         <field header="Parameter Value[Mass analyzer]" data-type="Ontology term" is-file-field="false"
                is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false">
             <description><![CDATA[the analyzer(s) used by the mass spectrometer, use PSI-MS cv]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
             <recommended-ontologies>
                 <ontology id="" abbreviation="MS" name="PSI Mass Spectrometry Ontology" version="Jun 2010"/>
                 <ontology id="" abbreviation="SBO" name="Systems Biology Ontology" version="Jun 2010"/>
@@ -113,14 +123,14 @@
             </recommended-ontologies>
         </field>
         <field header="MS Assay Name" data-type="String" is-file-field="false" is-multiple-value="false"
-               is-required="false" is-hidden="false" is-forced-ontology="false">
+               is-required="true" is-hidden="false" is-forced-ontology="false">
             <description><![CDATA[User-defined name for a MS assay.]]></description>
             <default-value><![CDATA[]]></default-value>
             <generated-value-template>
                 [INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO].[SAMPLE_EXTRACT].Extract-[EXTRACT_COUNT].LE-[LABEL_COUNT].MSASSAY-[HYB_COUNT]
             </generated-value-template>
         </field>
-        <field header="Raw Spectral Data File" data-type="String" is-file-field="true" is-multiple-value="false"
+        <field header="Raw Spectral Data File" data-type="String" is-file-field="true" is-multiple-value="true"
                is-required="false" is-hidden="false" is-forced-ontology="false">
             <description><![CDATA[Name (or URI) of the raw spectral data file generated by an assay.]]></description>
             <default-value><![CDATA[]]></default-value>
@@ -131,7 +141,7 @@
             <description><![CDATA[User-defined name for each normalization applied]]></description>
             <default-value><![CDATA[]]></default-value>
         </field>
-        <field header="Derived Spectral Data File" data-type="String" is-file-field="true" is-multiple-value="false"
+        <field header="Derived Spectral Data File" data-type="String" is-file-field="true" is-multiple-value="true"
                is-required="false" is-hidden="false" is-forced-ontology="false">
             <description>
                 <![CDATA[Name (or URI) of the derived data file generated from spectral data by an assay.]]></description>

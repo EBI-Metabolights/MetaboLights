@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 17/01/14 14:42
+ * Last modified: 5/12/14 12:17 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -41,6 +41,8 @@ public class IsaTabIdReplacer
 	static private String metaboliteProfTypeStr;	//String to search for in i_Investigation.txt, only allow metabolite profiling
 	static private String metaboliteProfValueStr;	//String to search for in i_Investigation.txt, only allow metabolite profiling
 	static private String fileWithIds;
+    static private String newOntologyType;
+    static private String newOntologyValue; //This is the new type ontology reference used in ISAcreator 1.7.5+
 
 	static final String PROP_IDS = "isatab.ids";
 	static String[] idList;
@@ -187,6 +189,8 @@ public class IsaTabIdReplacer
 		subDateStr = props.getProperty("isatab.studySubDate");
 		metaboliteProfTypeStr  = props.getProperty("isatab.profilingType");
 		metaboliteProfValueStr = props.getProperty("isatab.profilingValue");
+        newOntologyType = props.getProperty("isatab.newOntologyType");
+        newOntologyValue = props.getProperty("isatab.newOntologyValue");
 
 		logger.info(PROP_IDS + " property retrieved :" + ids + "," + pubDateStr + "," + subDateStr);
 
@@ -361,6 +365,17 @@ public class IsaTabIdReplacer
 					throw new Exception(errTxt);
 				}
 
+                if (!newOntologyUsed(line)){
+                    String errTxt = "\n\nThis study does not conform to the current ontology setup requirements.\n\n\n";
+                        errTxt = errTxt + "Please download the latest version of our ISAcreator bundle and update your study.";
+                        errTxt = errTxt + "Download here: ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip\n\n";
+                        errTxt = errTxt + "***** You must make sure your study successfully passes the ISAcreator validation (file -> validate ISAtab) before resubmitting your study! *****\n";
+                    reader.close();
+                    logger.error(errTxt);
+                    System.err.println(errTxt);
+                    throw new Exception(errTxt);
+                }
+
 				//Replace Id in line (it could come with their own identifier, since we now accept those with the same initial identifier), also check for multiple studies reported
 				//Pass in the accession number to use for both study and investigation accession (same id per submission)
 				line = replaceIdInLine(line, accessionNumber);
@@ -491,6 +506,19 @@ public class IsaTabIdReplacer
         return true;  //Not the correct line or correct type/value combo
 
     }
+
+    private Boolean newOntologyUsed(String line){
+
+        //Has this study been created using the new ontology references?  ISAcreator 1.7.5+
+        if ( line.indexOf(newOntologyType + "\t")==0 && !line.contains(newOntologyValue) ){
+            logger.error("'"+ newOntologyType + "\t" + "' found, no new ontology referenced '" +newOntologyValue+ "' in line: " + line);
+            return false;
+        }
+
+        return true;  //Not the correct line or correct type/value combo
+
+    }
+
     /**
      * Replaces values in an ISATab file using the replacementHash,
      *  <LI> it goes through the file</LI>

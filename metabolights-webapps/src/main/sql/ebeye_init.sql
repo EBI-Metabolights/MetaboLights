@@ -15,6 +15,8 @@ update property_value set value = 'Schizosaccharomyces pombe 972h- (Fission yeas
 update property_value set value = 'Sorghum bicolor (Sorghum)' where value = 'Sorghum bicolor';
 update property_value set value = 'Triticum aestivum (Wheat)' where value = 'Triticum aestivum';
 update property_value set value = 'Ovis aries (Sheep)' where value = 'Ovis aries';
+update property_value set value = 'Vitis vinifera (Grape)' where value = 'Vitis vinifera';
+update property_value set value = 'Mus musculus (Mouse)' where value = 'Mus musculus';
 
 update property_value set value = 'reference compound' where value = 'Blank';
 update property_value set value = 'reference compound' where value = 'Quality control';

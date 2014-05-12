@@ -1,3 +1,13 @@
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 4/8/14 9:59 AM
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
 <isatab-config-file xmlns="http://www.ebi.ac.uk/bii/isatab_configuration#">
     <isatab-configuration table-name="investigation">
         <measurement term-label="[investigation]" term-accession="" source-abbreviation=""/>
@@ -69,7 +79,7 @@
                is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false"
                section="INVESTIGATION PUBLICATIONS">
             <description><![CDATA[The status of this publication, e.g. Published, Submitted, etc.]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
         </field>
         <field header="Investigation Person Last Name" data-type="String" is-file-field="false"
                is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false"
@@ -121,7 +131,7 @@
                is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"
                section="INVESTIGATION CONTACTS">
             <description><![CDATA[The role of the person in this investigation.]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
         </field>
         <field header="Study Identifier" data-type="String" is-file-field="false" is-multiple-value="false"
                is-required="true" is-hidden="false" is-forced-ontology="false" section="STUDY">
@@ -179,7 +189,7 @@
                is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false"
                section="STUDY PUBLICATIONS">
             <description><![CDATA[The status of this publication, e.g. Published, Submitted, etc.]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
         </field>
         <field header="Study Person Last Name" data-type="String" is-file-field="false" is-multiple-value="false"
                is-required="true" is-hidden="false" is-forced-ontology="false" section="STUDY CONTACTS">
@@ -224,7 +234,7 @@
         <field header="Study Person Roles" data-type="Ontology term" is-file-field="false" is-multiple-value="false"
                is-required="false" is-hidden="false" is-forced-ontology="false" section="STUDY CONTACTS">
             <description><![CDATA[The role of the person in this Study.]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
         </field>
         <field header="Study Factor Name" data-type="String" is-file-field="false" is-multiple-value="false"
                is-required="false" is-hidden="false" is-forced-ontology="false" section="STUDY FACTORS">
@@ -236,13 +246,13 @@
                is-required="false" is-hidden="false" is-forced-ontology="false" section="STUDY FACTORS">
             <description>
                 <![CDATA[The type of the Factor driving this study, e.g. EFO:Dose (from Ontology), or Dose if the Factor name is something related to Dose as well, etc.]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
         </field>
         <field header="Study Design Type" data-type="Ontology term" is-file-field="false" is-multiple-value="false"
                is-required="false" is-hidden="false" is-forced-ontology="false" section="STUDY DESIGN DESCRIPTORS">
             <description>
                 <![CDATA[The type of study design being employed, Metabolomics/Metabonomics, Lipidomics, Metabolic Footprinting, Metabolic Fingerprinting, Targeted Profiling, Global Profiling.]]></description>
-            <default-value><![CDATA[Metabolomics/Metabonomics]]></default-value>
+            <default-value></default-value>
         </field>
         <field header="Study Assay Measurement Type" data-type="List" is-file-field="false" is-multiple-value="false"
                is-required="false" is-hidden="false" is-forced-ontology="false" section="STUDY ASSAYS">
@@ -281,7 +291,7 @@
                is-required="false" is-hidden="false" is-forced-ontology="false" section="STUDY PROTOCOLS">
             <description>
                 <![CDATA[The type of the protocol, preferably coming from an Ontology, e.g. Extraction Protocol]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
         </field>
         <field header="Study Protocol Description" data-type="Long String" is-file-field="false"
                is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"
@@ -304,7 +314,7 @@
                is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"
                section="STUDY PROTOCOLS">
             <description><![CDATA[The parameters used when executing this protocol.]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
         </field>
         <field header="Study Protocol Components Name" data-type="String" is-file-field="false" is-multiple-value="true"
                is-required="false" is-hidden="false" is-forced-ontology="false" section="STUDY PROTOCOLS">
@@ -315,7 +325,7 @@
                is-multiple-value="false" is-required="false" is-hidden="false" is-forced-ontology="false"
                section="STUDY PROTOCOLS">
             <description><![CDATA[The type of Components used in this Protocol.]]></description>
-            <default-value><![CDATA[]]></default-value>
+            <default-value></default-value>
         </field>
         <structured-field name="factors"/>
     </isatab-configuration>

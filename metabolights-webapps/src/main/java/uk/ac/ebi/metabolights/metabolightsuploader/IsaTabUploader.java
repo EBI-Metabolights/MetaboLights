@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 4/23/14 1:19 PM
+ * Last modified: 5/9/14 9:43 AM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -562,6 +562,7 @@ public class IsaTabUploader {
 		String folder = (status == VisibilityStatus.PRIVATE)? copyToPrivateFolder: copyToPublicFolder;
 		return folder + study ;
 	}
+
 	public void validate(String isatabFile) throws IsaTabException{
 		GUIInvokerResult result;
 
@@ -629,6 +630,24 @@ public class IsaTabUploader {
 
 	}
 
+    private List<TabLoggingEventWrapper> getLastISAlog(List<TabLoggingEventWrapper> isaLogs){
+/*
+        Iterator itr = isaLogs.iterator();
+        TabLoggingEventWrapper lastElement = (TabLoggingEventWrapper) itr.next();
+        while(itr.hasNext()) {
+            lastElement = (TabLoggingEventWrapper) itr.next();
+        }
+*/
+
+        List<TabLoggingEventWrapper> errorList = new ArrayList<TabLoggingEventWrapper>();
+        errorList.add(isaLogs.get(isaLogs.size()-1));
+
+        return errorList;
+
+
+
+    }
+
 	/**
 	 *
 	 * @param studyList: String with accessions separated by "|" (pipes).
@@ -639,9 +658,9 @@ public class IsaTabUploader {
 
 		GUIInvokerResult result = sm.unLoadISAtab(studyList);
 
-		if (result != GUIInvokerResult.SUCCESS){
+        if (result != GUIInvokerResult.SUCCESS){
 
-			throw new IsaTabException("Unload of " + studyList + " did not succeed.", sm.getLastLog());
+			throw new IsaTabException("Unload of " + studyList + " did not succeed.", getLastISAlog(sm.getLastLog()));
 
 		}
 

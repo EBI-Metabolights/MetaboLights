@@ -1,35 +1,56 @@
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ Last modified: 4/8/14 9:59 AM
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  -->
+
 <isatab-config-file xmlns="http://www.ebi.ac.uk/bii/isatab_configuration#">
     <isatab-configuration table-name="studySample">
         <measurement term-label="[Sample]" term-accession="e.g. 12345" source-abbreviation="e.g. OBI"/>
         <technology term-label="" term-accession="e.g. 12345" source-abbreviation="e.g. OBI"/>
-        <field header="Source Name" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false">
-            <description><![CDATA[Sources are considered as the starting biological material used in a study.]]></description>
+        <field header="Source Name" data-type="String" is-file-field="false" is-multiple-value="false"
+               is-required="true" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Sources are considered as the starting biological material used in a study.]]></description>
             <default-value><![CDATA[]]></default-value>
             <generated-value-template>[INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO]</generated-value-template>
         </field>
-        <field header="Characteristics[Organism]" data-type="Ontology term" is-file-field="true" is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false">
-            <description> <![CDATA[Provide a taxonomic information associated to the Source Biological material (for example, Species, genus, strain,....). Ideally, provide NCBI TaxID or NEWT identifier]]></description>
-            <default-value><![CDATA[]]></default-value>
+        <field header="Characteristics[Organism]" data-type="Ontology term" is-file-field="false"
+               is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Provide a taxonomic information associated to the Source Biological material (for example, Species, genus, strain,....). Ideally, provide NCBI TaxID or NEWT identifier]]></description>
+            <default-value></default-value>
             <recommended-ontologies>
-                <ontology id="" abbreviation="NEWT" name="NEWT UniProt Taxonomy Database" version="Jun 2010"/>
-                <ontology id="1132" abbreviation="NCBITaxon" name="NCBI organismal classification" version="38802"/>
+                <ontology id="http://data.bioontology.org/ontologies/NCBITAXON" abbreviation="NCBITAXON"
+                          name="National Center for Biotechnology Information (NCBI) Organismal Classification"
+                          version="NCBITAXON"/>
             </recommended-ontologies>
         </field>
-        <field header="Characteristics[Organism part]" data-type="Ontology term" is-file-field="false" is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false">
-            <description><![CDATA[The part of organism's anatomy or substance arising from an organism from which the biomaterial was derived, excludes cells. E.g. tissue, organ, system, sperm, blood or body location (arm)]]></description>
-            <default-value><![CDATA[]]></default-value>
+        <field header="Characteristics[Organism part]" data-type="Ontology term" is-file-field="false"
+               is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[The part of organism's anatomy or substance arising from an organism from which the biomaterial was derived, excludes cells. E.g. tissue, organ, system, sperm, blood or body location (arm)]]></description>
+            <default-value></default-value>
             <recommended-ontologies>
-                <ontology id="1136" abbreviation="EFO" name="Experimental Factor Ontology" version="46765"/>
                 <ontology id="1005" abbreviation="BTO" name="BRENDA tissue / enzyme source" version="46601"/>
-                <ontology id="" abbreviation="PO" name="Plant Ontology (Structure, Growth and Developmental Stage)" version="Jun 2010"/>
+                <ontology id="1136" abbreviation="EFO" name="Experimental Factor Ontology" version="46765"/>
+                <ontology id="" abbreviation="PO" name="Plant Ontology (Structure, Growth and Developmental Stage)"
+                          version="Jun 2010"/>
                 <ontology id="" abbreviation="FMA" name="Foundational Model of Anatomy Ontology" version="Jun 2010"/>
             </recommended-ontologies>
         </field>
         <protocol-field protocol-type="Sample collection"/>
-        <field header="Sample Name" data-type="String" is-file-field="false" is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false">
-            <description> <![CDATA[Samples represent major outputs resulting from a protocol application other than the special case outputs of Instrument or a Sample extract.]]></description>
+        <field header="Sample Name" data-type="String" is-file-field="false" is-multiple-value="false"
+               is-required="true" is-hidden="false" is-forced-ontology="false">
+            <description>
+                <![CDATA[Samples represent major outputs resulting from a protocol application other than the special case outputs of Instrument or a Sample extract.]]></description>
             <default-value><![CDATA[]]></default-value>
-            <generated-value-template>[INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO].[SAMPLE_EXTRACT]</generated-value-template>
+            <generated-value-template>[INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO].[SAMPLE_EXTRACT]
+            </generated-value-template>
         </field>
         <structured-field name="characteristics"/>
         <structured-field name="factors"/>
