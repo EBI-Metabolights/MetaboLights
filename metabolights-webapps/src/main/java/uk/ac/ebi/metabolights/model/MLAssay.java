@@ -10,17 +10,11 @@
 
 package uk.ac.ebi.metabolights.model;
 
-import uk.ac.ebi.bioinvindex.model.Annotation;
-import uk.ac.ebi.bioinvindex.model.AssayGroup;
-import uk.ac.ebi.bioinvindex.model.AssayResult;
-import uk.ac.ebi.bioinvindex.model.Metabolite;
-import uk.ac.ebi.bioinvindex.model.Study;
+import uk.ac.ebi.bioinvindex.model.*;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.Factor;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesDataSet;
-import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesStrategyGroupingByFactorsValue;
-import uk.ac.ebi.metabolights.parallelcoordinates.ParallelCoordinatesStrategyFixed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +36,7 @@ public class MLAssay {
 	private AssayGroup ag;
 	private Study study;
 	private ParallelCoordinatesDataSet pcds;
+	private List<String> sampleColumns = new ArrayList();
 	
 	
 	public static String getAssayNameFromAssay(Assay assay){
@@ -133,8 +128,7 @@ public class MLAssay {
 	public void setAssayGroup (AssayGroup ag){
 		this.ag = ag;
 		addGUIMetabolites();
-		//addParallelCoordinatesDataSet();
-		
+
 	}
 	public List<MetaboliteGUI> getMetabolitesGUI(){
 		return metabolites;
@@ -148,27 +142,140 @@ public class MLAssay {
 
             desc = desc==null?"":desc;
 
-
 			// Do not add metabolites unknown
 			if (!desc.toLowerCase().startsWith("unk") && !desc.toLowerCase().startsWith("unid")){
 
 				metabolites.add(new MetaboliteGUI(met));
+				addSampleColumns(met);
 				
 			}
 		}
-		
-	}
-	private void addParallelCoordinatesDataSet(){
-		
-		
-		new ParallelCoordinatesStrategyGroupingByFactorsValue().Proccess(ag, study);
-		// Get data for the parallel coordinates
-		pcds = (new ParallelCoordinatesStrategyFixed()).Proccess(this.ag, null);
 
+		fillGapsAndRearrangeGUIMetabolites();
 		
 	}
-	public ParallelCoordinatesDataSet getParallelCoordinatesDataset(){
-		return pcds;
+
+	private void addSampleColumns(Metabolite met){
+
+		for (MetaboliteSample ms : met.getMetaboliteSamples()){
+
+			if (!sampleColumns.contains(ms.getSampleName())){
+				sampleColumns.add (ms.getSampleName());
+			}
+		}
 	}
-	
+
+	private void sortMetaboLitesSample (List<MetaboliteSample> samples) {
+
+		// loop through the sample columns
+		for (int columnIndex = 0; columnIndex < sampleColumns.size(); columnIndex++) {
+
+			// Get the sample at the index
+			String sampleColumn = sampleColumns.get(columnIndex);
+
+			// Initialize an empty Sample
+			MetaboliteSample sample = null;
+			// look for the match
+			int sampleIndex= 0;
+
+			// Not at the end of the samples list (this will happen when samples is shorter than sampleColumns.
+			if (samples.size()> columnIndex) {
+				// Get the sample from the MetabolitesSample list
+				sample = samples.get(columnIndex);
+
+				// If it's the same...
+				if (sampleColumn.equals(sample.getSampleName())) continue;
+
+				//...it's different
+				sample = null;
+
+				for (sampleIndex = columnIndex + 1; sampleIndex < samples.size(); sampleIndex++) {
+
+					MetaboliteSample loopSample = samples.get(sampleIndex);
+
+					if (sampleColumn.equals(loopSample.getSampleName())) {
+						sample = loopSample;
+						break;
+					}
+				}
+
+
+
+			}
+
+			// If not found...create an empty one
+			if (sample == null) {
+				sample = new MetaboliteSample(null, sampleColumn, "");
+
+			} else {
+
+				// remove it from the list to add it in the proper place (move it) later
+				samples.remove(sampleIndex);
+			}
+
+			// At this point we should have a sample, either real or an empty made up one.
+			// Add it to the propper place
+			samples.add(columnIndex, sample);
+		}
+
+	}
+	private void fillGapsAndRearrangeGUIMetabolites(){
+
+
+		// Loop through the collection of metabolites.
+		for (MetaboliteGUI metGui: metabolites){
+
+
+				// Get the samples as ArrayList
+				List<MetaboliteSample> samples = (List<MetaboliteSample>) metGui.getMetabolite().getMetaboliteSamples();
+
+				// Sort it according to the sampleColumns list
+				sortMetaboLitesSample(samples);
+
+			}
+		}
+
+
+		// This case does not cover some cases, where the final sampleColumn list may not keep the same order as the original Maf file
+		// e.g.:
+		//MAF FILE
+		//Identifier	S1	S2	S3
+		//CHEBI:123			2	3
+		//CHEBI:456		1	2	3
+
+		// Under this circumstances, sampleColumns will be 2,3,1 therefore second line needs to be rearranged.
+		//WEB APP will show:
+		//Identifier	S2	S3	S1
+		//CHEBI:123		2	3
+		//CHEBI:456		2	3	1
+
+//		// Keeping the original order implies a more complez algorithm, and in some cases it can be imposible.
+//
+//			for (String sampleColumn: sampleColumns){
+//
+//				// Get the index...
+//				int index = sampleColumn.indexOf(sampleColumn);
+//
+//				// for each MetaboliteSample row...
+//				for (MetaboliteGUI metGui: metabolites){
+//
+//					// If the sample count matches the sampleColumns count
+//					if (metGui.getMetabolite().getMetaboliteSamples().size() == sampleColumns.size()){
+//						continue;
+//					}
+//
+//					// Get the samples as ArrayList
+//					List<MetaboliteSample> samples = (List<MetaboliteSample>) metGui.getMetabolite().getMetaboliteSamples();
+//
+//					// Get the sample ant the index position
+//					MetaboliteSample sample = samples.get(index);
+//
+//					if (!sample.getSampleName().equals(sampleColumn)){
+//
+//						// Miising sample....add an empty one
+//						samples.add(index, new MetaboliteSample(metGui.getMetabolite(),sampleColumn,""));
+//					}
+//				}
+//			}
+
 }
