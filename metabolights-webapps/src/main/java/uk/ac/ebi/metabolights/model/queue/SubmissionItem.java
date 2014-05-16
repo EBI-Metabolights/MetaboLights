@@ -1,21 +1,16 @@
 package uk.ac.ebi.metabolights.model.queue;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
+import org.springframework.web.multipart.MultipartFile;
+import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.multipart.MultipartFile;
-
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.model.MetabolightsUser;
-import uk.ac.ebi.metabolights.service.AppContext;
-import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 /*
  * Submission Item
  * 
@@ -181,7 +176,12 @@ public class SubmissionItem {
             destination = new File(destinationFolder + "TS_" +timeStamp + "~" + fileQueued.getName());
         }
 
-		FileUtils.moveFile(fileQueued, destination);
+		if (fileQueued.isDirectory()){
+			FileUtils.moveDirectory(fileQueued,destination);
+		} else {
+			FileUtils.moveFile(fileQueued, destination);
+		}
+
 		
 		fileQueued = destination;
 		

@@ -13,7 +13,6 @@ package uk.ac.ebi.metabolights.model.queue;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.service.AppContext;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -22,9 +21,6 @@ public class SubmissionQueueScan extends TimerTask{
 
 	@Override
 	public void run() {
-        String errorSubject = "Unfortunately there was an error in the MetaboLights submission process";
-        String errorMessage = "There was an error in the MetaboLights submission process.\n\nThe MetaboLights team has been notified, but to speed up the process, please try to validate your study in ISAcreator (File -> Validate ISAtab).\n";
-        String fromMessage  = "\nThe MetaboLights Team";
 		// Check if there is any item in the queue...
 		try {
 
@@ -48,18 +44,19 @@ public class SubmissionQueueScan extends TimerTask{
 
 						// Cannot submit
                         if (e.getMessage() != null)
-                            errorMessage = errorMessage + "The error was in " + this.getClass() + "\nMethod: run()\n\nERROR:\n" + e.getMessage();
 
-						AppContext.getEmailService().sendSimpleEmail(errorSubject, errorMessage + fromMessage);
+
+						//AppContext.getEmailService().sendSimpleEmail(new String[] {si.getUserId()},errorSubject, errorMessage + fromMessage);
+						AppContext.getEmailService().sendSubmissionError(si.getUserId(),si.getOriginalFileName(), e);
 
 					}
 				}
 			}
 
-		} catch (ParseException e) {
+		} catch (Exception e) {
 
 			// Cannot load the queue
-			AppContext.getEmailService().sendSimpleEmail("ERROR while retrieving queued items", "There was an error in " + this.getClass() + "\nMethod: run()\n\nERROR:\n" + e.getMessage() +fromMessage);
+			AppContext.getEmailService().sendSimpleEmail("ERROR while retrieving queued items", "There was an error in " + this.getClass() + "\nMethod: run()\n\nERROR:\n" + e.getMessage());
 
 		}
 
