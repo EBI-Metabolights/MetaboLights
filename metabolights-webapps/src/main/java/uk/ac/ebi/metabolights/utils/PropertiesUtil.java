@@ -1,22 +1,22 @@
 package uk.ac.ebi.metabolights.utils;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+
 public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	private static Map<String,String> propertiesMap;
-	private static Context envCtx;
+
+	public static Context envCtx;
 
 	private static Logger logger = Logger.getLogger(PropertiesUtil.class);
 
@@ -33,6 +33,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
         
         // Init context (JNDI) properties
         initContext();
+
     }
 
    	public static Map<String,String> getProperties(){
@@ -48,9 +49,9 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
     	if (property != null) {
     		
     		// If not yet in property map.
-    		if (propertiesMap.get(name) == null){
-    			propertiesMap.put(name, property);
-    		}
+//    		if (propertiesMap.get(name) == null){
+//    			propertiesMap.put(name, property);
+//    		}
     		return property;
     	}
 
@@ -75,9 +76,14 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 
 			return null;
 		}
-    	
+
     }
-    private static void initContext(){
+
+	public static Context getEnvCtx() {
+		return envCtx;
+	}
+
+	private static void initContext(){
 
     	Context initCtx;
 		try {

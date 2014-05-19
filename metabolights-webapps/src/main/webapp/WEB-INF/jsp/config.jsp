@@ -99,7 +99,7 @@ $(function() {
             <br/>
             <c:if test="${not empty props}">
                 <table cellpadding="5px" cellspacing="0px">
-                    <tr><th>Property</th><th>Value</th></tr>
+                    <tr><th>application.properties</th><th>Value</th></tr>
                     <c:forEach var="property" items="${props}">
                         <tr>
                             <td>
@@ -112,6 +112,24 @@ $(function() {
                     </c:forEach>
                 </table>
             </c:if>
+
+            <c:if test="${not empty contextProps}">
+                <br/>
+                <table cellpadding="5px" cellspacing="0px">
+                    <tr><th>Context variables</th><th>Value</th></tr>
+                    <c:forEach var="binding" items="${contextProps}">
+                        <tr>
+                            <td>
+                                    ${binding.name}
+                            </td>
+                            <td>
+                                    ${binding.object}
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
+            contextProps
         </div>
 
         <div id="valTab">

@@ -1,13 +1,11 @@
 package uk.ac.ebi.metabolights.controller;
 
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
@@ -23,6 +21,9 @@ import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
 
+import javax.naming.Binding;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
 import java.io.File;
 import java.text.ParseException;
 import java.util.*;
@@ -62,20 +63,29 @@ public class ManagerController extends AbstractController{
 		Map<String,String> properties=null;
 		
 		properties = PropertiesUtil.getProperties();
-			
-		
+
+
+		NamingEnumeration<Binding> contextProps= null;
+
+		// Context bindings
+		try {
+			contextProps = PropertiesUtil.getEnvCtx().listBindings("");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
 		// Validation result
 		Map<String,Boolean> validationResult = new HashMap<String,Boolean>();
 		
 		// Validate lucene index
-		validationResult.put("Lucene index consistency", (PropertiesUtil.getProperty("hibernate.search.default.indexBase").equals(PropertiesUtil.getProperty("luceneIndexDirectoryShort"))));
+		//validationResult.put("Lucene index consistency", (PropertiesUtil.getProperty("hibernate.search.default.indexBase").equals(PropertiesUtil.getProperty("luceneIndexDirectoryShort"))));
 		
 		// Validate end character of path properties
 		validationResult.put("uploadDirectory ends with /", (PropertiesUtil.getProperty("uploadDirectory").endsWith("/")));
 		validationResult.put("publicFtpLocation ends with /", (PropertiesUtil.getProperty("publicFtpLocation").endsWith("/")));
 		validationResult.put("publicFtpStageLocation ends with /", (PropertiesUtil.getProperty("publicFtpStageLocation").endsWith("/")));
 		validationResult.put("privateFtpStageLocation ends with /", (PropertiesUtil.getProperty("privateFtpStageLocation").endsWith("/")));
-		validationResult.put("luceneIndexDirectory ends with /", (PropertiesUtil.getProperty("luceneIndexDirectory").endsWith("/")));
+//		validationResult.put("luceneIndexDirectory ends with /", (PropertiesUtil.getProperty("luceneIndexDirectory").endsWith("/")));
 		validationResult.put("luceneIndexDirectoryShort ends with /", (PropertiesUtil.getProperty("luceneIndexDirectoryShort").endsWith("/")));
 		
 		// Validate paths variable exists
@@ -83,7 +93,7 @@ public class ManagerController extends AbstractController{
 		validationResult.put("publicFtpLocation existance", (new File(PropertiesUtil.getProperty("publicFtpLocation")).exists()));
 		validationResult.put("publicFtpStageLocation existance", (new File(PropertiesUtil.getProperty("publicFtpStageLocation")).exists()));
 		validationResult.put("privateFtpStageLocation existance", (new File(PropertiesUtil.getProperty("privateFtpStageLocation")).exists()));
-		validationResult.put("luceneIndexDirectory existance", (new File(PropertiesUtil.getProperty("luceneIndexDirectory")).exists()));
+//		validationResult.put("luceneIndexDirectory existance", (new File(PropertiesUtil.getProperty("luceneIndexDirectory")).exists()));
 		validationResult.put("luceneIndexDirectoryShort existance", (new File(PropertiesUtil.getProperty("luceneIndexDirectoryShort")).exists()));
 		
 		
@@ -100,6 +110,7 @@ public class ManagerController extends AbstractController{
 		
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("config");
 		mav.addObject("props", properties);
+		mav.addObject("contextProps", contextProps);
 		mav.addObject("validation", validationResult);
 		mav.addObject("queue", queue);
 		mav.addObject("processFolder", (getFilesInFolder(new File(SubmissionQueue.getProcessFolder()))));

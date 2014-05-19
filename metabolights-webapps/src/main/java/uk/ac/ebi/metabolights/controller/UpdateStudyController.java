@@ -281,7 +281,7 @@ public class UpdateStudyController extends AbstractController {
             String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath();
 
             // Set the config folder, and the ftp folders
-            itu.setDBConfigPath(configPath);
+            itusetDBConfigPath(configPath);
 
             // reindex the study...
             itu.reindexStudies(study);

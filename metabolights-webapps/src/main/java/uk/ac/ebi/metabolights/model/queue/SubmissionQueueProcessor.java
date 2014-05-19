@@ -16,7 +16,6 @@ import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.controller.SubmissionController;
 import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.model.MetaboLightsStudyXRef;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
@@ -268,7 +267,7 @@ public class SubmissionQueueProcessor {
 		itu.setStatus(si.getStatus());
 
 		// Get the path for the config folder (where the hibernate properties for the import layer are).
-        String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
+        String configPath = PropertiesUtil.getProperty("isatabuploaderconfig"); //SubmissionController.class.getClassLoader().getResource("").getPath();
         itu.setDBConfigPath(configPath);
 
 		// Get today's date.
@@ -525,7 +524,7 @@ public class SubmissionQueueProcessor {
 	        // Index it...
 	        // ************************
 	        //Get the path for the config folder (where the hibernate properties for the import layer are).
-	        String configPath = SubmissionQueueProcessor.class.getClassLoader().getResource("").getPath();      //TODO, change to use JNDI parameters
+	        String configPath = PropertiesUtil.getProperty("isatabuploaderconfig") ; //SubmissionQueueProcessor.class.getClassLoader().getResource("").getPath();      //TODO, change to use JNDI parameters
 
 	        // Set the config folder, and the ftp folders
 	        itu.setDBConfigPath(configPath);

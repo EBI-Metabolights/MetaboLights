@@ -18,7 +18,8 @@ public class IndexProviderServiceImpl implements IndexProviderService {
 	private static Logger logger = Logger.getLogger(IndexProviderServiceImpl.class);
 	private IndexSearcher indexSearcher;
 	private IndexReader indexReader;
-	
+	private @Value("#{luceneIndexDirectoryShort}bii/") String luceneIndexDirectory;
+
 	public IndexSearcher getSearcher() {
 		logger.debug("Singleton hash code is "+this.hashCode());
 	
@@ -39,11 +40,12 @@ public class IndexProviderServiceImpl implements IndexProviderService {
 		return indexReader;
 	}
 	
-	public String getIndexDirectory () {
+	public String getIndexDirectory ()
+	{
 		return luceneIndexDirectory; 
 	}
 
-	private @Value("#{luceneIndexDirectory}") String luceneIndexDirectory;
+
 	/**
 	 * Sets up the Lucene index reader and searcher.
 	 * Could do this in the constructor, but that Value for the directory 

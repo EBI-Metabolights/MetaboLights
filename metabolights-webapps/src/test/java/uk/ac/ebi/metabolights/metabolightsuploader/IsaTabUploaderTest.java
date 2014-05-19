@@ -1,22 +1,6 @@
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import junit.framework.Assert;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
@@ -34,12 +18,16 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
+
+import java.io.*;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class IsaTabUploaderTest {
 
@@ -537,7 +525,7 @@ public class IsaTabUploaderTest {
 	private Document getLuceneStudyDocument(String study) throws ParseException, IOException{
 	
 		Properties isaTabProps = new Properties();
-		isaTabProps.load(new FileInputStream(ISA_TAB_CONFIG_FOLDER + "hibernate.properties"));
+		isaTabProps.load(new FileInputStream(ISA_TAB_CONFIG_FOLDER + "uncompilables/isatabuploaderconfig/hibernate.properties"));
 		
 		//Get the path for the index + bii
 		String luceneDirectory = isaTabProps.getProperty("hibernate.search.default.indexBase");

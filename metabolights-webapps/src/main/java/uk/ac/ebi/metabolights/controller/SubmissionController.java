@@ -40,6 +40,8 @@ public class SubmissionController extends AbstractController {
     //@Autowired
     private IsaTabUploader itu = new IsaTabUploader();
 
+	private @Value("#{isatabuploaderconfig}")String configFolder;
+
 	@RequestMapping(value = { "/presubmit" })
 	public ModelAndView preSubmit(HttpServletRequest request) {
 		MetabolightsUser user = null;
@@ -64,10 +66,8 @@ public class SubmissionController extends AbstractController {
             @RequestParam(required = false, value = "study") String study
             ) throws Exception{
 
-		//Get the path for the config folder (where the hibernate properties for the import layer are).
-		String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
 
-		itu.setDBConfigPath(configPath);
+		itu.setDBConfigPath(configFolder);
 
         if(study != null){
 
@@ -109,10 +109,8 @@ public class SubmissionController extends AbstractController {
     @RequestMapping(value = "/reindexall")
     public ModelAndView reindex() throws Exception{
 
-        //Get the path for the config folder (where the hibernate properties for the import layer are).
-        String configPath = SubmissionController.class.getClassLoader().getResource("").getPath();
 
-        itu.setDBConfigPath(configPath);
+        itu.setDBConfigPath(configFolder);
         itu.reindex();
 
         return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.indexed"));

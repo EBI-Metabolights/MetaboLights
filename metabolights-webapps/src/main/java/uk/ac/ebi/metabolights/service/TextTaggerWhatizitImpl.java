@@ -18,7 +18,7 @@ public class TextTaggerWhatizitImpl implements TextTaggerService {
 
 
 	private static Logger logger = Logger.getLogger(TextTaggerService.class);
-	private final String xsltFileName = "chemicals.xslt";
+	private final String xsltFileName = "uncompilables/isatabuploaderconfig/chemicals.xslt";
 	//private final String xsltFileName = "ebimed.xslt";
 
 	//See various pipelines listed at http://www.ebi.ac.uk/webservices/whatizit/info.jsf
