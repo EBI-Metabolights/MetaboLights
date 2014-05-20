@@ -4,8 +4,9 @@
 <P>
 ${body}
 </P>
-
-<h3><img src="http://www.ebi.ac.uk/metabolights/img/MetaboLightsLogo.png">MetaboLights Team</h3>
+</P>
+Kind Regards, <br>
+<h3><img src="http://www.ebi.ac.uk/metabolights/img/MetaboLightsLogo.png"> The MetaboLights Team</h3>
 <div style="color:white">
     ${technicalInfo}
 </div>

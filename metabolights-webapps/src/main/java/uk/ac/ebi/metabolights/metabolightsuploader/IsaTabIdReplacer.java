@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 5/12/14 12:17 PM
+ * Last modified: 5/15/14 9:03 AM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -367,7 +367,7 @@ public class IsaTabIdReplacer
 
                 if (!newOntologyUsed(line)){
                     String errTxt = "\n\nThis study does not conform to the current ontology setup requirements.\n\n\n";
-                        errTxt = errTxt + "Please download the latest version of our ISAcreator bundle and update your study.";
+                        errTxt = errTxt + "Please download the latest version of our ISAcreator bundle and update your study. ";
                         errTxt = errTxt + "Download here: ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip\n\n";
                         errTxt = errTxt + "***** You must make sure your study successfully passes the ISAcreator validation (file -> validate ISAtab) before resubmitting your study! *****\n";
                     reader.close();
