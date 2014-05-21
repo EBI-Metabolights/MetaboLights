@@ -2,7 +2,9 @@ package uk.ac.ebi.metabolights.controller;
 
 
 import org.apache.log4j.Logger;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +26,7 @@ import uk.ac.ebi.metabolights.webapp.StudyHealth;
 import javax.naming.Binding;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-import java.io.File;
+import java.io.*;
 import java.text.ParseException;
 import java.util.*;
 
@@ -55,6 +57,8 @@ public class ManagerController extends AbstractController{
 	private HomePageController homePageController;
 
 	private static Logger logger = Logger.getLogger(ManagerController.class);
+
+	private @Value("#{isatabuploaderconfig}") String isatabUploaderConfig;
 	
 	@RequestMapping({"/config"})
 	public ModelAndView config() {
@@ -65,6 +69,23 @@ public class ManagerController extends AbstractController{
 		properties = PropertiesUtil.getProperties();
 
 
+		// Get the hibernate properties...
+		String hibernatePropertiesPath = isatabUploaderConfig + "hibernate.properties";
+		InputStream inputStream = null;
+		Properties hibernateProperties = new Properties();
+		try {
+			inputStream = new FileInputStream(hibernatePropertiesPath);
+
+			hibernateProperties.load(inputStream);
+
+			inputStream.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		NamingEnumeration<Binding> contextProps= null;
 
 		// Context bindings
@@ -74,18 +95,45 @@ public class ManagerController extends AbstractController{
 			e.printStackTrace();
 		}
 
+
+		DataSource metabolightsDs = null;
+
+		// Context bindings
+		try {
+
+			NamingEnumeration<Binding> jdbcBindings= null;
+
+			jdbcBindings = PropertiesUtil.getEnvCtx().listBindings("jdbc");
+
+			while (jdbcBindings.hasMore()){
+				Binding item =jdbcBindings.next();
+
+				if (item.getName().equals("metabolights")){
+
+					metabolightsDs = (DataSource) item.getObject();
+
+					break;
+				}
+			}
+
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+
 		// Validation result
 		Map<String,Boolean> validationResult = new HashMap<String,Boolean>();
-		
+
+		// database connection consistency
+		validationResult.put("Database connection consistency", (hibernateProperties.getProperty("hibernate.connection.url").equals(metabolightsDs.getPoolProperties().getUrl())));
 		// Validate lucene index
-		//validationResult.put("Lucene index consistency", (PropertiesUtil.getProperty("hibernate.search.default.indexBase").equals(PropertiesUtil.getProperty("luceneIndexDirectoryShort"))));
+		validationResult.put("Lucene index consistency", (hibernateProperties.getProperty("hibernate.search.default.indexBase").equals(PropertiesUtil.getProperty("luceneIndexDirectoryShort"))));
 		
 		// Validate end character of path properties
 		validationResult.put("uploadDirectory ends with /", (PropertiesUtil.getProperty("uploadDirectory").endsWith("/")));
 		validationResult.put("publicFtpLocation ends with /", (PropertiesUtil.getProperty("publicFtpLocation").endsWith("/")));
 		validationResult.put("publicFtpStageLocation ends with /", (PropertiesUtil.getProperty("publicFtpStageLocation").endsWith("/")));
 		validationResult.put("privateFtpStageLocation ends with /", (PropertiesUtil.getProperty("privateFtpStageLocation").endsWith("/")));
-//		validationResult.put("luceneIndexDirectory ends with /", (PropertiesUtil.getProperty("luceneIndexDirectory").endsWith("/")));
 		validationResult.put("luceneIndexDirectoryShort ends with /", (PropertiesUtil.getProperty("luceneIndexDirectoryShort").endsWith("/")));
 		
 		// Validate paths variable exists
@@ -93,7 +141,6 @@ public class ManagerController extends AbstractController{
 		validationResult.put("publicFtpLocation existance", (new File(PropertiesUtil.getProperty("publicFtpLocation")).exists()));
 		validationResult.put("publicFtpStageLocation existance", (new File(PropertiesUtil.getProperty("publicFtpStageLocation")).exists()));
 		validationResult.put("privateFtpStageLocation existance", (new File(PropertiesUtil.getProperty("privateFtpStageLocation")).exists()));
-//		validationResult.put("luceneIndexDirectory existance", (new File(PropertiesUtil.getProperty("luceneIndexDirectory")).exists()));
 		validationResult.put("luceneIndexDirectoryShort existance", (new File(PropertiesUtil.getProperty("luceneIndexDirectoryShort")).exists()));
 		
 		
@@ -111,6 +158,8 @@ public class ManagerController extends AbstractController{
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("config");
 		mav.addObject("props", properties);
 		mav.addObject("contextProps", contextProps);
+		mav.addObject("hibernateProperties", hibernateProperties);
+		mav.addObject("connection", metabolightsDs);
 		mav.addObject("validation", validationResult);
 		mav.addObject("queue", queue);
 		mav.addObject("processFolder", (getFilesInFolder(new File(SubmissionQueue.getProcessFolder()))));

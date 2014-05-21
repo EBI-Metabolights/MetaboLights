@@ -86,18 +86,46 @@ $(function() {
 
 	<div id="tabs">
 		<ul>
-			<li hash="properties"><a class="noLine" href="#appTab">Application Properties</a></li>
-			<li hash="validations"><a class="noLine" href="#valTab">Validations</a></li>
+            <li hash="validations"><a class="noLine" href="#valTab">Validations</a></li>
+            <li hash="properties"><a class="noLine" href="#appTab">Application Properties</a></li>
 			<li hash="queue"><a class="noLine" href="#queueTab">Queue</a></li>
 			<li hash="health"><a class="noLine" href="#studyHealthTab">Study Health Tab</a></li>
             <li hash="cache"><a class="noLine" href="#clearRefCache">Clear Ref Cache</a></li>
             <li hash="parameters"><a class="noLine" href="#MetaboLightsParameters">MetaboLights Parameters</a></li>
             <li hash="reindex"><a class="noLine" href="#reindexStudies">Reindex Studies</a></li>
 		</ul>
-		
-        <div id="appTab">
+        <div id="valTab">
             <br/>
+            <c:if test="${not empty validation}">
+                <table cellpadding="5px" cellspacing="0px">
+                    <tr><th>Validation</th><th>Result</th></tr>
+                    <c:forEach var="test" items="${validation}">
+                        <tr>
+                            <td>
+                                    ${test.key}
+                            </td>
+                            <td <c:if test="${not test.value}">class="error"</c:if>	>
+                                    ${test.value}
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
+        </div>
+        <div id="appTab">
+            <c:if test="${not empty connection}">
+                <br/>
+                <table cellpadding="5px" cellspacing="0px">
+                    <tr><th>DataSource - metabolights</th><th>Value</th></tr>
+                    <tr>
+                        <td>url</td><td>${connection.poolProperties.url}</td>
+                    </tr>
+
+                </table>
+            </c:if>
+
             <c:if test="${not empty props}">
+                <br/>
                 <table cellpadding="5px" cellspacing="0px">
                     <tr><th>application.properties</th><th>Value</th></tr>
                     <c:forEach var="property" items="${props}">
@@ -129,28 +157,24 @@ $(function() {
                     </c:forEach>
                 </table>
             </c:if>
-            contextProps
-        </div>
 
-        <div id="valTab">
-            <br/>
-            <c:if test="${not empty validation}">
+            <c:if test="${not empty hibernateProperties}">
+                <br/>
                 <table cellpadding="5px" cellspacing="0px">
-                    <tr><th>Validation</th><th>Result</th></tr>
-                    <c:forEach var="test" items="${validation}">
+                    <tr><th>Hibernate Properties</th><th>Value</th></tr>
+                    <c:forEach var="property" items="${hibernateProperties}">
                         <tr>
                             <td>
-                                ${test.key}
+                                    ${property.key}
                             </td>
-                            <td <c:if test="${not test.value}">class="error"</c:if>	>
-                                ${test.value}
+                            <td>
+                                    ${property.value}
                             </td>
                         </tr>
                     </c:forEach>
                 </table>
             </c:if>
         </div>
-
         <div id="queueTab">
             <br/>
             <c:if test="${not empty queue}">
