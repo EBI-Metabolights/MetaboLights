@@ -21,8 +21,6 @@ import uk.ac.ebi.metabolights.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -161,6 +159,7 @@ public class SubmissionQueueController extends AbstractController {
 			@RequestParam(required=true,value="pickdate") String publicDate,
 			@RequestParam(required=false,value="study") String study,
             @RequestParam(required=false,value="owner") String owner,
+			@RequestParam(required=false,value="validated", defaultValue ="false") boolean validated,
 			HttpServletRequest request) 
 		throws Exception {
 
@@ -194,8 +193,11 @@ public class SubmissionQueueController extends AbstractController {
 			if (!file.getOriginalFilename().toLowerCase().endsWith("zip"))
 				throw new BIIException(PropertyLookup.getMessage("BIISubmit.fileExtension"));
 
+		   if (!validated)
+			   throw new BIIException(PropertyLookup.getMessage("BIISubmit.notValidated"));
 
-            //Check if the study is public today
+
+		   //Check if the study is public today
             VisibilityStatus status = VisibilityStatus.PRIVATE;         //Defaults to a private study
 
             Date publicDateD;

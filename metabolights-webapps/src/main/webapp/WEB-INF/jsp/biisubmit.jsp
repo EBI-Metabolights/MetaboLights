@@ -102,15 +102,17 @@
 	<div class="grid_17 omega">
 		<input type="file" name="file" />
     </div>
-	<div class="grid_23 alpha omega prefix_1">
-		<br/><spring:message code="label.experimentMsgPublic" />
-	</div>
-	<br/>
 	<div class="grid_6 alpha prefix_1"><spring:message code="label.publicDate"/>:</div>
 	<div class="grid_17 omega">
-		<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
 		<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
+        <input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
+        &nbsp;<span class="ui-state-highlight ui-corner-all"><spring:message code="label.experimentMsgPublic" /></span>
     </div>
+    <div class="grid_6 alpha prefix_1"><spring:message code="msg.confirmValidation" /></div>
+    <div class="grid_17 omega">
+        <input type="checkbox" name="validated"/>
+    </div>
+
 
 
     <c:set var="currentUserId">
@@ -120,6 +122,7 @@
     </c:set>
 
     <c:if test="${not empty users}">
+        <br/>&nbsp;<br/>
         <div class="grid_6 alpha prefix_1"><spring:message code="label.onBehalf"/>:</div>
         <div class="grid_17 omega">
             <select name="owner">
