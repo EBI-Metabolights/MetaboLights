@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 4/3/14 3:29 PM
+ * Last modified: 6/4/14 12:04 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -119,6 +119,10 @@ public class MetabolightsUser implements Serializable{
 
     @Column(name="ROLE")
     private Integer role;
+
+    @Column(name="API_TOKEN")
+    @NotEmpty
+    private String apiToken;
 
 	//_______________________________________________
 	// Getters and setters
@@ -294,4 +298,11 @@ public class MetabolightsUser implements Serializable{
         this.role = role;
     }
 
+    public String getApiToken() {
+        return apiToken;
+    }
+
+    public void setApiToken(String apiToken) {
+        this.apiToken = apiToken;
+    }
 }

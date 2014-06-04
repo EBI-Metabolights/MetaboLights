@@ -42,12 +42,12 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 
       LEFT JOIN NODE N ON M.NODE_ID = N.ID
     WHERE LOWER(P.VALUE) = 'organism'
       AND PV.VALUE <> 'none';
-insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms from compounds', count(*), 6 from ref_species where final_id is null and species_member is not null;      
-insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', count(*), 7 from ref_metabolite;      
+insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms from compounds', count(*), 6 from ref_species where final_id is null and species_member is not null;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', count(*), 7 from ref_metabolite;
 
 
 -- Section "Metabolites identified"
-insert into ml_stats(page_section,str_name,str_value, sort_order) select 'Identified', DB, Count(*) as Total,'999' FROM (select CASE
+/**insert into ml_stats(page_section,str_name,str_value, sort_order) select 'Identified', DB, Count(*) as Total, '999' FROM (select CASE
   WHEN instr(identifier,'CHEBI:')=1 THEN 'ChEBI'
   WHEN instr(identifier,'CID')=1 THEN 'PubChem'
   WHEN instr(identifier,'HMDB')=1 THEN 'HMDB'
@@ -60,7 +60,7 @@ insert into ml_stats(page_section,str_name,str_value, sort_order) select 'Identi
   ELSE 'Others' --ELSE initCap(identifier)
 END AS DB from METABOLITE)
 group by DB;
-
+**/
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Identified','Total', Count(*) as Total, 1 from METABOLITE;
 
 -- Section "Submitters"

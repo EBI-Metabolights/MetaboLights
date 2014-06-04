@@ -1,8 +1,14 @@
-package uk.ac.ebi.metabolights.controller;
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 6/4/14 12:28 PM
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
@@ -18,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
@@ -28,7 +33,11 @@ import uk.ac.ebi.metabolights.service.TextUtils;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.validate.ValidatorMetabolightsUser;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.net.URLEncoder;
+import java.util.UUID;
 
 /**
  * Controller for user account handling (new account, update account).<br>
@@ -62,7 +71,7 @@ public class UserAccountController extends AbstractController{
 	}
 
 	/**
-	 * Forward to the account creation page, with a blank MetabolightsUser. 
+	 * Forward to the account creation page, with a blank MetabolightsUser.
 	 */
 	@RequestMapping(value = "/newAccount")
    	public ModelAndView newAccount() {
@@ -71,19 +80,19 @@ public class UserAccountController extends AbstractController{
     	mav.addObject(new MetabolightsUser());
     	return mav;
     }
-	
+
 	private @Value("#{urlConfirmNewAccount}") String confirmNewAccountUrl;
 
-	
+
     /**
      * Handles creation of a new user account.<br>
      * Verify form input, check for clashes in database, store the
      * new account (status 'NEW') and let the user verify the request.
-     *  
+     *
      * @param metabolightsUser user details
      * @param result Binding result
-     * @param model 
-     * @return where to navigate next 
+     * @param model
+     * @return where to navigate next
      */
 	@RequestMapping(value = "/createNewAccount", method = RequestMethod.POST)
     public ModelAndView createNewAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model, HttpServletRequest request) {
@@ -98,9 +107,9 @@ public class UserAccountController extends AbstractController{
     			emailExists (metabolightsUser.getEmail())) {
     		duplicateEmailAddress=true;
     	}
-    	
+
     	if (result.hasErrors()|| duplicateEmailAddress) {
-        	
+
     		//ModelAndView mav = new ModelAndView("createAccount");
     		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("createAccount");
         	mav.addObject(metabolightsUser);
@@ -117,6 +126,7 @@ public class UserAccountController extends AbstractController{
 			//Store the user information in the database, status NEW means still inactive (to be authorized).
 			metabolightsUser.setStatus(MetabolightsUser.UserStatus.NEW.getValue()); // make account non usable yet
 			metabolightsUser.setDbPassword(IsaTabAuthenticationProvider.encode(metabolightsUser.getDbPassword()));
+            metabolightsUser.setApiToken(UUID.randomUUID().toString());
 			newUserId = userService.insert(metabolightsUser);
 
 			//Send user a verification email
@@ -131,22 +141,22 @@ public class UserAccountController extends AbstractController{
 				userService.delete(metabolightsUser);
 			throw new RuntimeException(ex);
 		}
-    	
+
     	//Let the user know what will happen next
     	//String emailShort=metabolightsUser.getEmail().substring(0,metabolightsUser.getEmail().indexOf('@'));
-    	
+
 		HttpSession httpSession = request.getSession();
 		httpSession.setAttribute("user", metabolightsUser);
 		httpSession.setAttribute("country",metabolightsUser.getListOfAllCountries().get(metabolightsUser.getAddress()));
-		
+
     	return new ModelAndView("redirect:accountRequested");
-    		
+
     	//return new ModelAndView("redirect:accountRequested="+emailShort);
 
 	}
 
     /**
-     * Look email up in database. 
+     * Look email up in database.
      * @param newEmail
      * @return true if userName exists
      */
@@ -172,7 +182,7 @@ public class UserAccountController extends AbstractController{
 		return numericHash.toString();
 	}
 
-	
+
 	/**
 	 * For redirection after a user has filled in a new account form.
 	 * @param request user
@@ -183,7 +193,7 @@ public class UserAccountController extends AbstractController{
 		//ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it.
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index"); // default action for this request, unless the session has candy in it.
     	MetabolightsUser newUser = (MetabolightsUser) request.getSession().getAttribute("user");
-    	
+
 		if (newUser!=null){
 			//mav = new ModelAndView("accountRequested");
 			mav = AppContext.getMAVFactory().getFrontierMav("accountRequested");
@@ -194,13 +204,13 @@ public class UserAccountController extends AbstractController{
     	return mav;
 	}
 
-	
+
 	private @Value("#{urlActivateNewAccount}") String activateNewAccountUrl;
 
 	/**
 	 * User has verified new account request by clicking a link sent by email. Update the status
 	 * of the database row accordingly. Notify admin to activate thie user and provide them a link to do so.
-	 * 
+	 *
 	 * @param userName
 	 * @param key
 	 */
@@ -208,7 +218,7 @@ public class UserAccountController extends AbstractController{
 	public ModelAndView confirmAccountRequested(@RequestParam("usr") String userName, @RequestParam("key") String key) {
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
 		MetabolightsUser user = userService.lookupByUserName(userName);
-		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.NEW.getValue()) 
+		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.NEW.getValue())
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
 			//Set user status to Verified
 			user.setStatus(MetabolightsUser.UserStatus.VERIFIED.getValue());
@@ -231,11 +241,11 @@ public class UserAccountController extends AbstractController{
 	 */
 	@RequestMapping(value={"/activateAccount__NotifyUser"}, method = RequestMethod.GET)
 	public ModelAndView activateAccount(@RequestParam("usrId") long usrId, @RequestParam("key") String key) {
-		
+
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
-		
+
 		MetabolightsUser user = userService.lookupById(usrId);
-		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.VERIFIED.getValue()) 
+		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.VERIFIED.getValue())
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
 			user.setStatus(MetabolightsUser.UserStatus.ACTIVE.getValue());
 			userService.update(user);
@@ -246,12 +256,12 @@ public class UserAccountController extends AbstractController{
 	}
 
     /**
-     * Look up current user details by using the Id stored in the principal. 
+     * Look up current user details by using the Id stored in the principal.
      * @return Spring model and view
      */
 	@RequestMapping(value = "/myAccount")
    	public ModelAndView myAccount() {
-		
+
 		ModelAndView mav = null;
 
 		MetabolightsUser principal = ((MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
@@ -261,33 +271,33 @@ public class UserAccountController extends AbstractController{
      		mav = getModelAndViewForUser(principal.getUserId());
      	}
 
-		
+
     	return mav;
     }
-	
+
     /**
-     * Look up user details for the id requested as parameter. 
+     * Look up user details for the id requested as parameter.
      * @return Spring model and view
      */
 	@RequestMapping(value = "/userAccount")
    	public ModelAndView userAccount(@RequestParam("usrId") long usrId) {
-		
+
     	return getModelAndViewForUser(usrId);
-    	
+
     }
 	/* Returns a modelANDView for the userID passed as parameter.*/
 	private ModelAndView getModelAndViewForUser(long userId){
-		
+
 		ModelAndView mav = null;
-		
+
 		MetabolightsUser metabolightsUser = userService.lookupById(userId);
- 		
+
 		if (metabolightsUser==null) {
         	mav = AppContext.getMAVFactory().getFrontierMav("index"); // Not found
         	mav.addObject("messsage", "User ID " + userId + " not found.");
         	return mav;
      	}
-		
+
 		mav = AppContext.getMAVFactory().getFrontierMav("updateAccount");
  		metabolightsUser.setUserVerifyDbPassword(metabolightsUser.getDbPassword());
     	mav.addObject(metabolightsUser);
@@ -295,13 +305,13 @@ public class UserAccountController extends AbstractController{
     	return mav;
 
 	}
-	
-	
-	
-	
+
+
+
+
 
 	/**
-	 * Updates the user details in the database. 
+	 * Updates the user details in the database.
 	 * @param metabolightsUser
 	 * @param result
 	 * @param model
@@ -321,34 +331,35 @@ public class UserAccountController extends AbstractController{
     	if (!userCheck.getDbPassword().equals(metabolightsUser.getDbPassword())) {
     		logger.info("pasword was changed ... was "+userCheck.getDbPassword()+" is now "+metabolightsUser.getDbPassword());
         	metabolightsUser.setDbPassword(IsaTabAuthenticationProvider.encode(metabolightsUser.getDbPassword()));
+            metabolightsUser.setApiToken(UUID.randomUUID().toString());
     	}
-    	
+
     	//Update the user information in the database
     	userService.update(metabolightsUser);
-    	
-    	
+
+
     	// Get the current user...
-    	MetabolightsUser currentUser = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal()); 
-    	
+    	MetabolightsUser currentUser = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
     	// If the user matches the account just been edited (now curators can edit accounts).
     	if (currentUser.getUserId().equals(userCheck.getUserId())){
 	    	//Update the current security context with new attributes
 	    	try {
 				BeanUtils.copyProperties(currentUser, metabolightsUser);
 			} catch (Exception e) {
-				e.printStackTrace(); 
+				e.printStackTrace();
 			}
-			
+
 			//Redirect to account confirmation page
 	    	HttpSession httpSession = request.getSession();
 			httpSession.setAttribute("user", metabolightsUser);
 	    	return new ModelAndView("redirect:update-success");
-    	
+
     	// Is a curator....go back to user list
     	} else {
     		return new ModelAndView("redirect:users");
     	}
-    	
+
 
 	}
 
@@ -358,11 +369,11 @@ public class UserAccountController extends AbstractController{
 	@RequestMapping({"/update-success"})
 	public ModelAndView updateDone(HttpServletRequest request) {
 	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.updatedAccount"));
-		
-		// default action for this request, unless the session has candy in it. 
-		ModelAndView mav = new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.updatedAccount")); 
+
+		// default action for this request, unless the session has candy in it.
+		ModelAndView mav = new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.updatedAccount"));
     	MetabolightsUser newUser = (MetabolightsUser) request.getSession().getAttribute("user");
-    	
+
 		if (newUser!=null){
 			mav = AppContext.getMAVFactory().getFrontierMav("accountRequested");
 			mav.addObject("user", newUser);
