@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 4/15/14 12:32 PM
+ * Last modified: 6/6/14 3:59 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -256,6 +256,10 @@ public class EntryController extends AbstractController {
 
         mav.addObject("accession", mtblsId);
         mav.addObject("study", study);
+       // mav.addObject("organismNames", organismNames);
+        mav.addObject("submittedID", accessionService.getSubmittedId(study.getStudyIdentifier()));
+        mav.addObject("studyXRefs", accessionService.getStudyXRefs(study.getStudyIdentifier()));
+        mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
         for (Sample sample : study.getSamples()){
             mav.addObject("factors", sample.getFactors()); //just to get the correct order of the column headers
             break;

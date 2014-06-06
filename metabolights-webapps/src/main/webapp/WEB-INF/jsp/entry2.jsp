@@ -1,94 +1,28 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html;charset=UTF-8"%>
-<%@page pageEncoding="UTF-8"%>
+<%@page pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 6/6/14 2:50 PM
+  ~ Last modified: 6/6/14 3:48 PM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   --%>
 
-<%--<script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>--%>
-<%--<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
-<%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.ChEBICompound.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
 
 <link rel="stylesheet" href="cssrl/iconfont/font_style.css" type="text/css" />
 <link rel="stylesheet"  href="css/ChEBICompound.css" type="text/css" />
-
-<script type="text/javascript">
-
-    $(document).ajaxStart(function(){showWait();}).ajaxStop(function(){
-        hideWait();
-    });
-
-    $(document).ready(function() {
-        $("#hourglass").dialog({
-            create: function(){
-                $('.ui-dialog-titlebar-close').removeClass('ui-dialog-titlebar-close');
-            },
-            width: 200,
-            height: 60,
-            modal: true,
-            autoOpen: false
-        });
-
-    });
-
-    function showWait() {
-        document.body.style.cursor = "wait";
-        $('.ui-dialog-titlebar').hide();
-        $( "#hourglass" ).dialog( "open" );
-    }
-
-    function hideWait(){
-        document.body.style.cursor = "default";
-        $( "#hourglass" ).dialog("close");
-    }
-
-</script>
-
-<script>
-    $(function() {
-        $( ".accordion" ).accordion({
-            heightStyle: "content",
-            collapsible: true,
-            beforeActivate: function( event, ui ) {
-                // if it's a metabolite assignment panel
-                if (ui.newHeader.hasClass("maf")){
-                    // If need to load maf data
-                    if (ui.newHeader.attr("mafurl") != undefined){
-
-                        // Get the target div that will contain the maf information
-                        var mafPanel = ui.newPanel;
-
-                        var url = $(ui.newHeader).attr("mafurl");
-
-
-                        $(mafPanel).load(url);
-
-
-                        //$(mafPanel).html(url);
-
-                        // Remove mafUrl (it will indicate there no need to load it anymore)
-                        ui.newHeader.removeAttr("mafurl");
-                    }
-                }
-            }
-        });
-        $( "#tabs" ).tabs({
-            cache:true
-        });
-    });
-</script>
 
 <script language="javascript" type="text/javascript">
 
@@ -97,7 +31,7 @@
         $("[id='protocoldesc']").linkify();
 
         $("body").append('<div id="chebiInfo"></div>');
-        //	var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:'./proxy'});
+//	var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:'./proxy'});
         var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:undefined, chebiDetailsUrl: './ebi/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
         $('#chebiInfo').hide();
 
@@ -129,26 +63,20 @@
 
         var metLinkTimer = 0; // 0 is a safe "no timer" value
 
-        scanForChebiIdLinks();
+        $('.metLink').live('mouseenter', function(e) {
+            // I'm assuming you don't want to stomp on an existing timer
+            if (!metLinkTimer) {
+                metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
+            }
+        }).live('mouseleave', function() {
+            // Cancel the timer if it hasn't already fired
+            if (metLinkTimer) {
+                clearTimeout(metLinkTimer);
+                metLinkTimer = 0;
 
-        function scanForChebiIdLinks(){
-
-            $('.metLink').live('mouseenter', function(e) {
-                // I'm assuming you don't want to stomp on an existing timer
-                if (!metLinkTimer) {
-                    metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
-                }
-            }).live('mouseleave', function() {
-                        // Cancel the timer if it hasn't already fired
-                        if (metLinkTimer) {
-                            clearTimeout(metLinkTimer);
-                            metLinkTimer = 0;
-
-                        }
-                        $('#chebiInfo').fadeOut('slow');
-                    });
-
-        };
+            }
+            $('#chebiInfo').fadeOut('slow');
+        });
 
         function loadMetabolite(e) {
             // Clear this as flag there's no timer outstanding
@@ -179,10 +107,60 @@
                 chebiInfoDiv.setId(chebiId);
             }
         }
-    });
-</script>
 
-<script>
+        $("#shareInfo").hide();
+
+        $("a#share").click(function(e) {
+            e.preventDefault();
+            $("#shareInfo").dialog({
+                height:400,
+                width: "60%",
+                modal: true
+            });
+        });
+
+        $("a#viewFiles").click(function(e) {
+            e.preventDefault();
+
+            // setter
+            $("#tabs").tabs( "option", "active", -1 );
+            $("#tabs-5").effect("highlight", {color: '#E2BD97'}, 1700);
+        });
+
+        $("input#fileSelector").bind("keypress keyup", function(e) {
+
+            var code = e.keyCode || e.which;
+
+            if (code == 13){
+
+                var value = e.target.value;
+
+                var checked = true;
+
+                if(value[0] == "!"){
+                    checked = false;
+                    value = value.substr(1);
+                }
+
+                if (value != ""){
+                    $("input[name='file'][value*='" + value + "']").attr("checked", checked)
+                }
+
+                e.target.select();
+
+                e.preventDefault();
+
+
+            }
+
+        });
+
+
+    });
+
+    $(function() {
+        $( "#tabs" ).tabs();
+    });
 
     function toggleColumn(tableId, anchor, duration ) {
 
@@ -205,32 +183,33 @@
 
 </script>
 
-<%--<div id="hourglass">--%>
-    <%--<img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.fetchingData"/></b>--%>
-<%--</div>--%>
+<c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>
 
-<div class="push_1 grid_22 title alpha omega">
-    <strong>${study.studyIdentifier}: ${study.title}</strong>
-    <c:if test="${study.publicStudy}">
-        <a class="right noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.studyIdentifier}" title="View all files">
-            <span class="icon icon-functional" data-icon="b"/>
+<div class="push_1 grid_22 alpha omega">
+    <h3>${study.studyIdentifier}:&nbsp;${study.title}</h3>
+</div>
+
+<div class="push_1 grid_22 subtitle alpha omega">
+    <span>
+        <a id="share" class="noLine" href="#" title="<spring:message code="label.study.share"/>">
+            <span class="icon icon-generic" data-icon="L"><spring:message code="label.study.share"/>
         </a>
-    </c:if>
-    <span class="right">
-        &nbsp;
-    </span>
-    <a class="right noLine" href="${study.studyIdentifier}/files/${study.studyIdentifier}" title="Download whole study">
-        <span class="icon icon-functional" data-icon="="/>
-    </a>
-    <span class="right">
-        &nbsp;
-    </span>
-    <c:if test="${study.publicStudy}">
-        <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
-        <a class="right noLine" href="updatepublicreleasedateform?study=${study.studyIdentifier}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="Make it public">
-            <span class="icon icon-generic" data-icon="}" id="ebiicon" />
+        &nbsp;|&nbsp;
+        <a id="viewFiles" class="noLine" href="#" title="<spring:message code="label.viewAllFiles"/>">
+            <span class="icon icon-functional" data-icon="b"/><spring:message code="label.viewAllFiles"/>
         </a>
-    </c:if>
+        <c:if test="${!(study.publicStudy)}">
+            <span class="right">
+            &nbsp;<spring:message code="label.expPrivate"/>
+            <c:if test="${!readOnly}">
+                <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
+                <a class="noLine" href="updatepublicreleasedateform?study=${study.studyIdentifier}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="<spring:message code="label.makeStudyPublic"/>">
+                    &nbsp;<span class="icon icon-generic" data-icon="}" id="ebiicon" /><spring:message code="label.makeStudyPublic"/>
+                </a>
+            </c:if>
+            </span>
+        </c:if>
+    </span>
 </div>
 
 <c:set var="stringToFind" value="${study.studyIdentifier}:assay:" />
@@ -238,6 +217,26 @@
 
 <div class="push_1 grid_22 box alpha omega">
 
+    <span class="right">
+            <c:if test="${not empty study.studySubmissionDate}">
+                <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studySubmissionDate}"/></strong>
+            </c:if>
+            <c:if test="${not empty study.studyPublicReleaseDate}">
+                ,<spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studyPublicReleaseDate}"/></strong>
+            </c:if>
+            <c:if test="${not empty studyXRefs}">
+                <br/><spring:message code="label.StudyXrefs"/>:
+                <c:forEach var="studyXref" items="${studyXRefs}" varStatus="loopIndex">
+                    <c:if test="${loopIndex.index > 0}"> , </c:if>
+                    <c:if test="${ not empty studyXref.XRefType.pattern_url}">
+                        <a href="${studyXref.XRefType.pattern_url}${studyXref.submittedId}">${studyXref.submittedId}</a>
+                    </c:if>
+                    <c:if test="${empty studyXref.XRefType.pattern_url}">
+                        ${studyXref.submittedId}
+                    </c:if>
+                </c:forEach>
+            </c:if>
+        </span>
 
     <c:if test="${not empty study.contacts}">
         <br/>
@@ -248,16 +247,6 @@
                             >${contact.firstName}&nbsp;${contact.lastName}</span>
         </c:forEach>
         <br/>
-    </c:if>
-
-    <c:if test="${not empty study.studySubmissionDate || not empty study.studyPublicReleaseDate}">
-        <br/>
-        <c:if test="${not empty study.studySubmissionDate}"><spring:message code="label.subDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studySubmissionDate}"/>&nbsp;&nbsp;</c:if>
-        <c:if test="${not empty study.studyPublicReleaseDate}"><spring:message code="label.releaseDate"/>: <fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studyPublicReleaseDate}"/></c:if>
-    </c:if>
-
-    <c:if test="${not empty submittedID.submittedId}">
-        &nbsp;&nbsp;<spring:message code="label.StudyXrefs"/>: ${submittedID.submittedId}
     </c:if>
 
     <c:if test="${not empty study.description}">
@@ -290,6 +279,11 @@
                         </a>
                     </li>
                 </c:forEach>
+            </c:if>
+            <c:if test="${not empty files}">
+                <li>
+                    <a href="#tabs-5" class="noLine"><spring:message code="label.Files"/></a>
+                </li>
             </c:if>
         </ul>
 
@@ -491,5 +485,63 @@
                 </div>
             </c:forEach>
         </c:if> <!-- end if assays-->
+        <c:if test="${not empty files}">
+
+            <%--Only show token if study es private--%>
+            <c:if test="${!study.publicStudy}">
+                <c:set var="token" value="?token=${study.studyIdentifier}"/>
+            </c:if>
+
+            <div id="tabs-5"> <!-- Study files -->
+                <form action="${study.studyIdentifier}/files/selection" method="post">
+                    <h5>
+                        <a class="noLine" href="${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
+                            <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
+                        </a>
+                        &nbsp;|&nbsp;
+                        <a class="noLine" href="${study.studyIdentifier}/files/metadata${token}" title="<spring:message code="label.downloadstudyMetadata"/>">
+                        <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
+                        </a>
+                        &nbsp;
+                        <c:if test="${study.publicStudy}">
+                            |&nbsp;
+                            <a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.studyIdentifier}" title="<spring:message code="label.viewAllFiles"/>">
+                                <span class="icon icon-generic" data-icon="x"/><spring:message code="label.viewAllFiles"/>
+                            </a>
+                        </c:if>
+                    </h5>
+                    <br/>
+                    <h5><spring:message code="label.fileListTableExplanation"/></h5>
+                    <p><input class="inputDiscrete resizable" id="fileSelector" class="" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>"></p>
+                    <input type="hidden" name="token" value="${study.studyIdentifier}">
+                    <table id="files">
+                        <tr>
+                            <th>Select</th>
+                            <th>File</th>
+                        </tr>
+                        <tbody>
+                        <c:forEach var="file" items="${files}">
+                            <%--<c:if test="${!file.directory}">--%>
+                            <tr>
+                                <td><input type="checkbox" name="file" value="${file.name}"/></td>
+                                <td>
+                                    <a href="${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
+                                </td>
+                            </tr>
+                            <%--</c:if>--%>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+
+                    <p><input name="submit" type="submit" class="submit" value="<spring:message code="label.downloadSelectedFiles"/>"/></p>
+
+                        <%--Show instructions--%>
+                    <div class="ui-state-highlight ui-corner-all">
+                        <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/></p>
+                    </div>
+                </form>
+            </div> <!--  ends tabs-5 files -->
+        </c:if>
+
     </div> <!-- end configuring tabs -->
 </div>

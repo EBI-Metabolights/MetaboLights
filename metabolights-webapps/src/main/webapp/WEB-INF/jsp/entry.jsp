@@ -11,7 +11,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 4/16/14 9:30 AM
+  ~ Last modified: 6/6/14 3:42 PM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -222,13 +222,6 @@ function toggleColumn(tableId, anchor, duration ) {
 
 <div class="push_1 grid_22 alpha omega">
 
-        <%--<div>--%>
-            <%--<c:if test="${study.status ne 'PUBLIC'}">--%>
-                <%--<jsp:useBean id="now" class="java.util.Date" scope="page" />--%>
-                <%--<a href="updatepublicreleasedateform?study=${study.acc}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${now}" />">Make it public</a>--%>
-            <%--</c:if>--%>
-        <%--</div>--%>
-
         <span class="right">
             <c:if test="${not empty study.submissionDate}">
                 <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.submissionDate}"/></strong>
@@ -239,7 +232,7 @@ function toggleColumn(tableId, anchor, duration ) {
             <c:if test="${not empty studyXRefs}">
                 <br/><spring:message code="label.StudyXrefs"/>:
                 <c:forEach var="studyXref" items="${studyXRefs}" varStatus="loopIndex">
-                    <c:if test="${loopIndex.index > 0}">, </c:if>
+                    <c:if test="${loopIndex.index > 0}"> , </c:if>
                     <c:if test="${ not empty studyXref.XRefType.pattern_url}">
                         <a href="${studyXref.XRefType.pattern_url}${studyXref.submittedId}">${studyXref.submittedId}</a>
                     </c:if>
