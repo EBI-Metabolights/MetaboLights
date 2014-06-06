@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 10/10/13 15:24
+ * Last modified: 3/20/14 10:12 AM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 import org.isatools.isacreator.model.Investigation;
@@ -23,7 +23,7 @@ import static de.regnis.q.sequence.core.QSequenceAssert.assertNotNull;
  */
 public class SampleTabExporterTest {
 
-    private static String isatabDirectory = SampleTabExporterTest.class.getClassLoader().getResource("./MTBLS31").getPath();
+    private static String isatabDirectory = SampleTabExporterTest.class.getClassLoader().getResource("./"+ISATabReaderTest.studyAcc).getPath();
     //private static String configDirectory = SampleTabExporterTest.class.getClassLoader().getResource(".").getPath();
     private static String configDirectory = "/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations";
     private static String sampleTabFile = isatabDirectory + "/sampleTab.tsv";

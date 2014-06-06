@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 03/10/13 14:44
+ * Last modified: 3/13/14 2:43 PM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.utils.mztab;
@@ -211,7 +211,7 @@ public class MzTabUtils {
 
     public int convertPosNegToInt(String stringValue){
         if (stringValue == null || stringValue.isEmpty())
-            stringValue = "0";
+            stringValue = "0";  //Should be null so do not set, I guess?
 
         if (stringValue.toLowerCase().contains("positive"))
             stringValue = "1";

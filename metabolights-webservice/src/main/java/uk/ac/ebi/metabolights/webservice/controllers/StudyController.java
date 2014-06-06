@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 11/10/13 14:34
+ * Last modified: 6/6/14 2:20 PM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.webservice.controllers;
@@ -67,14 +67,13 @@ public class StudyController {
 		Study study = invDAO.getStudy(metabolightsId.toUpperCase(), includeMAFFiles);           //Do not include metabolites (MAF) when loading this from the webapp.  This is added on later as an AJAX call
 
 		// If the study is private.
-		if (!study.isPublic()){
-
+		if (!study.isPublicStudy()){
 
 			logger.warn("Study " +  metabolightsId + " requested is private. We return an empty one, until security checks are implemented.");
 			// Let's return an empty one, until we implement security..
 			study = new Study();
 			study.setStudyIdentifier(metabolightsId);
-			study.setPublic(false);
+			study.setPublicStudy(false);
 			study.setTitle("PRIVATE STUDY");
 			study.setDescription("This study is private and can not be accessed at the moment. Soon we will implement the required security layer in the webservice.");
 		}

@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 17/10/13 08:52
+ * Last modified: 6/6/14 2:25 PM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
@@ -64,7 +64,7 @@ public class StudyDAO {
             Study study = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites);
 
             // Set status...
-            study.setPublic(isPublic);
+            study.setPublicStudy(isPublic);
 
             study.setStudyLocation(studyFolder.getAbsolutePath());
 
@@ -84,7 +84,6 @@ public class StudyDAO {
         logger.info("Study location is "+location+" for study "+metabolightsId);
 
         File[] files = location.listFiles(new FilenameFilter() {
-            @Override
             public boolean accept(File file, String s) {
                 return s.equals(metabolightsId);
             }

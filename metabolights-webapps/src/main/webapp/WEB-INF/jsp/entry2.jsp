@@ -8,10 +8,10 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 08/10/13 12:13
+  ~ Last modified: 6/6/14 2:50 PM
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   --%>
 
 <%--<script type="text/javascript" src="javascript/protovis-r3.2.js" charset="utf-8"></script>--%>
@@ -211,7 +211,7 @@
 
 <div class="push_1 grid_22 title alpha omega">
     <strong>${study.studyIdentifier}: ${study.title}</strong>
-    <c:if test="${study.public}">
+    <c:if test="${study.publicStudy}">
         <a class="right noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.studyIdentifier}" title="View all files">
             <span class="icon icon-functional" data-icon="b"/>
         </a>
@@ -225,7 +225,7 @@
     <span class="right">
         &nbsp;
     </span>
-    <c:if test="${study.public}">
+    <c:if test="${study.publicStudy}">
         <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
         <a class="right noLine" href="updatepublicreleasedateform?study=${study.studyIdentifier}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="Make it public">
             <span class="icon icon-generic" data-icon="}" id="ebiicon" />
@@ -242,10 +242,10 @@
     <c:if test="${not empty study.contacts}">
         <br/>
         <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
-            <c:if test="${loopStatus.index ne 0}">,</c:if>
+            <c:if test="${loopStatus.index ne 0}">, </c:if>
                     <span id="aff"
                           <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>
-                            >${contact.firstName} ${contact.lastName}</span>
+                            >${contact.firstName}&nbsp;${contact.lastName}</span>
         </c:forEach>
         <br/>
     </c:if>

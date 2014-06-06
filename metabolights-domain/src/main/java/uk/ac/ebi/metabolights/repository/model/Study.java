@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 26/09/13 10:31
+ * Last modified: 6/6/14 2:20 PM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.repository.model;
@@ -21,7 +21,7 @@ public class Study {
     private String title;
     private String description;
     private String studyLocation;
-    private boolean isPublic;
+    private boolean publicStudy;
 
     // Collections
     private Collection<Contact> contacts;
@@ -88,12 +88,12 @@ public class Study {
         this.description = description;
     }
 
-    public boolean isPublic() {
-        return isPublic;
+    public boolean isPublicStudy() {
+        return publicStudy;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setPublicStudy(boolean publicStudy) {
+        this.publicStudy = publicStudy;
     }
 
     public String getStudyLocation() {

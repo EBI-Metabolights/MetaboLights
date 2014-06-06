@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 29/11/13 14:09
+ * Last modified: 3/20/14 11:58 AM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.utils.sampletab;
@@ -27,6 +27,7 @@ import java.util.Map;
 public class ISATabReader {
 
     private Investigation investigation;
+    private String studyDirectory = null;
 
     public String SOURCE_NAME = "Source Name";
     public String SAMPLE_NAME = "Sample Name";
@@ -97,7 +98,10 @@ public class ISATabReader {
 
 
     private String getSampleFileName(Study study){
-        return study.getStudySample().getTableReferenceObject().getTableName();
+        //String path = System.getProperty("user.dir");
+        String fileName = study.getStudySampleFileIdentifier();
+
+        return studyDirectory + "/" + fileName;
     }
 
     /**
@@ -191,9 +195,11 @@ public class ISATabReader {
      * Get the whole investigation from the study
      * @param configDir
      * @param parentDir
-     * @return ISAcrator Investigation object
+     * @return ISAcreator Investigation object
      */
     public Investigation getInvestigation(String configDir, String parentDir) {
+
+        this.studyDirectory = parentDir;
 
         IsaTabInvestigationDAO isaTabDAO = new IsaTabInvestigationDAO(configDir);
 
