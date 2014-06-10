@@ -97,5 +97,8 @@ public class StudyDAO {
 
 
     }
+	public boolean isStudyPublic(String metaboLightsId){
+		return (getInvestigationFolder(metaboLightsId,publicFolder) != null);
+	}
 
 }
