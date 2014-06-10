@@ -29,7 +29,12 @@ import java.net.URL;
  */
 public class MetabolightsWsClient {
 
-    private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
+	private static final String ANONYMOUS = "Anonymous";
+	private static final String DEAFULT_TOKEN_HEADER = "USER_TOKEN";
+	private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
+
+	private String tokenHeaderName = DEAFULT_TOKEN_HEADER;
+	private String userToken = ANONYMOUS;
 
     public MetabolightsWsClient(String metabolightsWsUrl){
         this.metabolightsWsUrl = metabolightsWsUrl;
@@ -37,7 +42,23 @@ public class MetabolightsWsClient {
 
     public MetabolightsWsClient(){};
 
-    private String makeGetRequest(String path) {
+	public String getTokenHeaderName() {
+		return tokenHeaderName;
+	}
+
+	public void setTokenHeaderName(String tokenHeaderName) {
+		this.tokenHeaderName = tokenHeaderName;
+	}
+
+	public String getUserToken() {
+		return userToken;
+	}
+
+	public void setUserToken(String userToken) {
+		this.userToken = userToken;
+	}
+
+	private String makeGetRequest(String path) {
 
         try {
 
@@ -45,6 +66,7 @@ public class MetabolightsWsClient {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty(tokenHeaderName, userToken);
 
             if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "

@@ -14,6 +14,8 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,8 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.webservice.model.User;
+import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
 import java.io.File;
 
@@ -33,6 +37,7 @@ public class StudyController {
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 	private final static Logger logger = LogManager.getLogger(StudyController.class.getName());
 	private StudyDAO studyDAO;
+
 
     // Properties from context
     private @Value("#{publicStudiesLocation}") String publicStudiesLocationProp;
@@ -46,8 +51,7 @@ public class StudyController {
 		logger.info("Requesting " + metabolightsId + " to the webservice");
 
 		return getStudy(metabolightsId, false);
-
-    }
+	}
 
 	@RequestMapping("{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/full")
 	@ResponseBody
@@ -61,15 +65,24 @@ public class StudyController {
 
 	private Study getStudy (String metabolightsId, boolean includeMAFFiles){
 
+		Study study;
+
+
 		StudyDAO invDAO = getStudyDAO();
 
-		// Get the study
-		Study study = invDAO.getStudy(metabolightsId.toUpperCase(), includeMAFFiles);           //Do not include metabolites (MAF) when loading this from the webapp.  This is added on later as an AJAX call
+		// Get the study status
+		boolean isStudyPublic = invDAO.isStudyPublic(metabolightsId);
+
 
 		// If the study is private.
-		if (!study.isPublicStudy()){
+		if (isStudyPublic || canUserAccessStudy(metabolightsId)){
 
-			logger.warn("Study " +  metabolightsId + " requested is private. We return an empty one, until security checks are implemented.");
+			// Get the study
+			study = invDAO.getStudy(metabolightsId.toUpperCase(), includeMAFFiles);           //Do not include metabolites (MAF) when loading this from the webapp.  This is added on later as an AJAX call
+
+		} else {
+
+			logger.warn("Study " +  metabolightsId + " is private. User can't access the study");
 			// Let's return an empty one, until we implement security..
 			study = new Study();
 			study.setStudyIdentifier(metabolightsId);
@@ -80,6 +93,31 @@ public class StudyController {
 
 		return  study;
 
+	}
+
+	private boolean canUserAccessStudy(String metaboLightsId){
+
+		// Get the user
+		User user = getUser();
+
+		return user.isCurator();
+
+	}
+	private User getUser(){
+
+		User user ;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!auth.getPrincipal().equals(new String("anonymousUser"))){
+
+			 user = ((SpringUser) auth.getPrincipal()).getMetaboLightsUser();
+
+		} else {
+
+			user = new User();
+			user.setUserName(auth.getPrincipal().toString());
+		}
+
+		return user;
 	}
 
 	private StudyDAO getStudyDAO() {

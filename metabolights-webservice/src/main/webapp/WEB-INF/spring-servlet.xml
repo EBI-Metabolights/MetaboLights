@@ -13,15 +13,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:component-scan base-package="uk.ac.ebi.metabolights" />
+    <context:component-scan base-package="uk.ac.ebi.metabolights.webservice" />
     <!--<context:annotation-config/>-->
 
     <!--  this makes references to picture and style sheets work -->
@@ -31,9 +31,28 @@
     <jee:jndi-lookup id="isatabConfigurationLocation" jndi-name="java:comp/env/isatabConfigurationLocation" />
     <jee:jndi-lookup id="publicStudiesLocation" jndi-name="java:comp/env/publicStudiesLocation" />
     <jee:jndi-lookup id="privateStudiesLocation" jndi-name="java:comp/env/privateStudiesLocation" />
+    <jee:jndi-lookup id="dataSource" jndi-name="dataSource" resource-ref="true" />
 
 
+    <!-- Hibernate congiguration-->
+    <tx:annotation-driven />
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
 
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan"
+                  value="uk.ac.ebi.metabolights.webservice.model" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Json rendering configuration-->
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="order" value="1" />
         <property name="mediaTypes">
@@ -49,4 +68,7 @@
         </property>
         <property name="ignoreAcceptHeader" value="true" />
     </bean>
+
+    <import resource="spring-security.xml"/>
+
 </beans>

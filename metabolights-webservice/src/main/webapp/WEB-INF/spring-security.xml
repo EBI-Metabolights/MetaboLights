@@ -1,0 +1,32 @@
+<b:beans xmlns:b="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <http entry-point-ref="restAuthenticationEntryPoint" create-session="stateless">
+        <!-- Additional http configuration omitted -->
+        <custom-filter position="PRE_AUTH_FILTER" ref="siteminderFilter" />
+    </http>
+
+    <b:bean id="siteminderFilter" class="org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter">
+        <b:property name="principalRequestHeader" value="USER_TOKEN"/>
+        <b:property name="authenticationManager" ref="authenticationManager" />
+    </b:bean>
+
+    <b:bean id="preauthAuthProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+        <b:property name="preAuthenticatedUserDetailsService">
+            <b:bean id="userDetailsServiceWrapper"
+                  class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+                <b:property name="userDetailsService" ref="userDetailsService"/>
+            </b:bean>
+        </b:property>
+    </b:bean>
+
+    <b:bean id="userDetailsService" class="uk.ac.ebi.metabolights.webservice.services.UserServiceImpl"/>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="preauthAuthProvider" />
+    </authentication-manager>
+
+</b:beans>
