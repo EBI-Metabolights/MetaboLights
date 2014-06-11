@@ -1,0 +1,27 @@
+  <GlobalNamingResources>
+    <Resource name="jdbc/metabolightsT" 
+              auth="Container" 
+	      type="javax.sql.DataSource" 
+	      factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" 
+	      connectionCacheName="MetaboLightsCache" 
+	      connectionCacheProperties="{ValidateConnection=true}" 
+	      connectionCachingEnabled="true" 
+	      username="XXXXXX"
+	      password="XXXXXX"
+	      driverClassName="oracle.jdbc.OracleDriver" 
+	      url="jdbc:oracle:thin:@host:PORT:SID"
+	      testWhileIdle="true" 
+	      testOnBorrow="true" 
+	      testOnReturn="true" 
+	      validationQuery="select 1 from dual" 
+	      validationInterval="30000" 
+	      timeBetweenEvictionRunsMillis="5000" 
+	      removeAbandoned="true" 
+	      removeAbandonedTimeout="60" 
+	      maxActive="50" 
+	      maxIdle="10" 
+	      maxWait="-1"/>
+   <Environment name="isatabConfigurationLocation" value="/Users/conesa/Development/metabolomes-code/uncompilables/isatabconfigurations/" type="java.lang.String"/>
+   <Environment name="publicStudiesLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/studies/ftp/public/" type="java.lang.String"/>
+   <Environment name="privateStudiesLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/studies/stage/private/" type="java.lang.String"/>
+</GlobalNamingResources>
