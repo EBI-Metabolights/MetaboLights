@@ -1,14 +1,9 @@
 package uk.ac.ebi.metabolights.controller;
 //"tooltip": "Log in to MetaboLights",
 
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
@@ -18,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider;
 import uk.ac.ebi.metabolights.form.EmailAddress;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
@@ -27,6 +21,12 @@ import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.validate.ValidatorMetabolightsUser;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.UUID;
 
 /**
  * Controller for login and related actions.
@@ -151,5 +151,27 @@ public class LoginController extends AbstractController{
         return new ModelAndView ("redirect:" + url);
 
     }
+
+	// returns a MetaboLightsUser or an "anoymous one" but not null for convenience.
+	public static MetabolightsUser getLoggedUser(){
+
+		// Get the spring authentication instance
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getPrincipal().equals("anonymousUser")){
+
+			MetabolightsUser user = new MetabolightsUser();
+			user.setUserName(auth.getPrincipal().toString());
+			user.setRole(-1);
+			user.setFirstName(user.getUserName());
+			user.setApiToken("MetaboLights-anonymous");
+			return user;
+
+		} else {
+			return (MetabolightsUser) auth.getPrincipal();
+		}
+
+	}
+
 }
 

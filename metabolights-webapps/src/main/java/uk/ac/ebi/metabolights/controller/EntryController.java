@@ -31,7 +31,6 @@ import uk.ac.ebi.metabolights.repository.model.Sample;
 import uk.ac.ebi.metabolights.service.AccessionService;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.StudyService;
-import uk.ac.ebi.metabolights.service.TextTaggerService;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -250,7 +249,9 @@ public class EntryController extends AbstractController {
 
         MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
 
-        uk.ac.ebi.metabolights.repository.model.Study study = wsClient.getStudy(mtblsId);
+		// Use user token ...
+		wsClient.setUserToken(LoginController.getLoggedUser().getApiToken());
+		uk.ac.ebi.metabolights.repository.model.Study study = wsClient.getStudy(mtblsId);
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry2");
 
@@ -332,31 +333,6 @@ public class EntryController extends AbstractController {
 		}
 
 		return mlAssays.values();
-	}
-
-
-
-	@Autowired
-	private TextTaggerService textTagger;
-
-	/**
-	 * Intended for an asynchronous call, to tag the description in a study.
-	 * @param request
-	 * @return ModelAndView
-	 */
-	@RequestMapping(value="/tagText")
-	public ModelAndView whatIzItStuff (HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("taggedText");
-		String description = (String) request.getSession().getAttribute(DESCRIPTION);
-		if(description!=null) {
-			logger.debug("Calling WhatWhatIzIt");
-			String taggedContent = textTagger.tagText(description);
-			mav.addObject("taggedContent", taggedContent);
-			logger.debug(taggedContent);
-		}
-		else
-			mav.addObject("taggedContent", null);
-		return mav;
 	}
 
 	private HashMap<String,ArrayList<String>> getFactorsSummary(Study study){
