@@ -29,7 +29,7 @@ import java.net.URL;
  */
 public class MetabolightsWsClient {
 
-	private static final String ANONYMOUS = "Anonymous";
+	private static final String ANONYMOUS = "JAVA_WS_client_Anonymous";
 	private static final String DEAFULT_TOKEN_HEADER = "USER_TOKEN";
 	private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
 

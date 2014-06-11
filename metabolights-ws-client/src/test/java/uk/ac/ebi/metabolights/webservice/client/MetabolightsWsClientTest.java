@@ -14,19 +14,21 @@ import static org.junit.Assert.assertNotSame;
  */
 public class MetabolightsWsClientTest {
 
-	String SUBMMITER_TOKEN = "1b297b50-3dc3-4afc-820a-c45a511081d5";
-	String CURATOR_TOKEN = "cf7c2bbe-2cca-47d7-8e91-a1fd3cb45c79";
+	String SUBMMITER_TOKEN;
+	String CURATOR_TOKEN;
 
 	@Before
 	public void setUp(){
 
 		// Get token from environment...Do not commit them..
-		SUBMMITER_TOKEN = System.getenv("SUBIMMTER_TOKEN");
+		SUBMMITER_TOKEN = System.getenv("SUBMMITER_TOKEN");
 		CURATOR_TOKEN = System.getenv("CURATOR_TOKEN");
 	}
 	@Test
 	public void testGetStudy() throws Exception {
 
+		// If not setup skip (Avoid failing tests).
+		if (SUBMMITER_TOKEN == null) return;
 
 		MetabolightsWsClient wsClient = new MetabolightsWsClient("http://localhost.ebi.ac.uk:8080/metabolights/webservice/");
 
