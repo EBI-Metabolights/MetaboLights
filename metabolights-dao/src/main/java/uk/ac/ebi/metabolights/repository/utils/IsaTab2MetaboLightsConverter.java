@@ -2,10 +2,10 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 17/10/13 14:31
+ * Last modified: 6/13/14 2:05 PM
  * Modified by:   kenneth
  *
- * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
 package uk.ac.ebi.metabolights.repository.utils;
@@ -54,6 +54,7 @@ public class IsaTab2MetaboLightsConverter {
     private static final String PROTOCOL_REF = "Protocol REF";
     private static final String SAMPLE_NAME = "Sample Name";
     private static final String FACTOR = "Factor";
+    private static final String FACTOR_VALUE = "Factor Value[";
 
 	// To improve assay conversion performance...
 	private static List<String[]> currentAssaySpreadsheet;
@@ -94,8 +95,13 @@ public class IsaTab2MetaboLightsConverter {
         metStudy.setStudyIdentifier(isaStudy.getStudyId());
         metStudy.setTitle(isaStudy.getStudyTitle());
         metStudy.setDescription(isaStudy.getStudyDesc());
-        metStudy.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
-        metStudy.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));
+
+        if (isaStudy.getPublicReleaseDate() != null)
+            metStudy.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
+
+        if (isaStudy.getDateOfSubmission() != null)
+            metStudy.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));
+
         metStudy.setStudyLocation(studyFolder);
 
 
@@ -119,7 +125,7 @@ public class IsaTab2MetaboLightsConverter {
         metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, metStudy, includeMetabolites));
 
         //Samples
-        metStudy.setSamples(isaTabSamples2MetabolightsSamples((isaStudy)));
+        metStudy.setSamples(isaTabSamples2MetabolightsSamples(isaStudy));
 
 
         return metStudy;
@@ -218,24 +224,31 @@ public class IsaTab2MetaboLightsConverter {
 
     private static Collection<Factors> isaTabFactors2MetaboLightsFactors(org.isatools.isacreator.model.Study isaStudy, List<String> isaSamples) {
 
-
 		OrderedMap<String, FieldObject> isa2MetFactors = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup();
         List<Factors> metFactors = new LinkedList<Factors>();
 
-		try{
+        try{
+            int i = 0;
 			for(Map.Entry<String, FieldObject> isaFactorEntrySet : isa2MetFactors.entrySet()){
 				String isaFactorKeys = isaFactorEntrySet.getKey();
+
 				FieldObject isaFactorValue = isaFactorEntrySet.getValue();
 
 				if(isaFactorValue.getFieldName().startsWith(FACTOR)){
 					Factors factor = new Factors();
 					Ontology ontology = new Ontology();
-					factor.setFactorKey(trimIsaFactorKeys(isaFactorKeys)); //
-					factor.setFactorValue(ontology.getName(isaSamples.get(isaFactorValue.getColNo())));
+					factor.setFactorKey(trimIsaFactorKeys(isaFactorKeys));
+                    //int colNo = isaFactorValue.getColNo();           //This is the column number in the config file, not the real column number.
+                    String ontologyName = ontology.getName(isaSamples.get(i));
+                    factor.setFactorValue(ontologyName);
 					metFactors.add(factor);
+
 				}
+
+                i++;
+
 			}
-		}catch(Exception e){
+		} catch(Exception e){
 
 			logger.warn("Can not convert isaTab sample factors into MetaboLights factors." + e.getMessage());
 		}
@@ -270,11 +283,16 @@ public class IsaTab2MetaboLightsConverter {
         return colNo;
     }
 
-    private static Collection<AssayLine> isaTabAssayLines2MetabolightsAssayLines(org.isatools.isacreator.model.Assay isaAssay, Assay metAssay, String studyFolder){
+    private List<AssayFiles> getFileNamesFromAssay(org.isatools.isacreator.model.Assay isaAssay){
+        List<AssayFiles> fileList = new ArrayList<AssayFiles>();
+
+        return fileList;
+    }
+
+    private static Collection<AssayLine> isaTabAssayLines2MetabolightsAssayLines(org.isatools.isacreator.model.Assay isaAssay, Assay metAssay, Study metStudy){
 
         List<List<String>> isaAssaysLines = isaAssay.getTableReferenceObject().getReferenceData().getData();
         List<AssayLine> metAssayLines = new LinkedList<AssayLine>();
-
 
 		boolean mafResolved = false;
 
@@ -283,6 +301,24 @@ public class IsaTab2MetaboLightsConverter {
             AssayLine metAssayLine = new AssayLine();
 
             metAssayLine.setSampleName(isaAssayLine.get(mapIsaFieldName(isaAssay, ASSAY_COLUMN_SAMPLE_NAME)));
+            //TODO, all file references end in  " File", have to loop through the assay spreadsheet to find them
+
+            List<Factors> allFactors = new LinkedList<Factors>();
+            for (StudyFactor factor : metStudy.getFactors()){
+                String factorName = FACTOR_VALUE + factor.getName() +"]";
+                 String assayFactorValue = isaAssayLine.get(mapIsaFieldName(isaAssay, factorName));
+                if (assayFactorValue != null){
+                    Factors factors = new Factors();
+                    factors.setFactorKey(factor.getName());
+                    factors.setFactorValue(assayFactorValue);
+                    allFactors.add(factors);
+
+                }
+
+            }
+
+            if (allFactors != null)
+                metAssayLine.setFactors(allFactors);
 
 			// If maf has been resolved....
 			if (!mafResolved){
@@ -296,7 +332,7 @@ public class IsaTab2MetaboLightsConverter {
 
 						mafResolved = true;
 
-						String mafFileName = studyFolder + File.separator + mafValue;
+						String mafFileName = metStudy.getStudyLocation() + File.separator + mafValue;
 
 						File mafFile = new File(mafFileName);
 
@@ -369,7 +405,7 @@ public class IsaTab2MetaboLightsConverter {
             metAssay.setAssayNumber(i); //To enable a simpler URL structure like "MTBLS1/assay/1 or MTBLS2/assay/2
 
             // Add assay lines
-            metAssay.setAssayLines(isaTabAssayLines2MetabolightsAssayLines(isaAssay, metAssay, metStudy.getStudyLocation()));
+            metAssay.setAssayLines(isaTabAssayLines2MetabolightsAssayLines(isaAssay, metAssay, metStudy));
 
             // Add the metabolite assignment file (MAF)
             if (includeMetabolites)

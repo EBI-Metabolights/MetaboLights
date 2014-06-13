@@ -11,7 +11,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 6/6/14 3:48 PM
+  ~ Last modified: 6/13/14 2:05 PM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -351,14 +351,6 @@
                             <li>
                                 ${fv.name}
                             </li>
-                            <%--DIFFERENT!!!${fv.key}: --%>
-                                <%--<c:forEach var="value" items="${fv.value}" varStatus="loopStatus">--%>
-                                    <%--<c:if test="${loopStatus.index ne 0}">--%>
-                                        <%--,--%>
-                                    <%--</c:if>--%>
-                                    <%--${value}--%>
-                                <%--</c:forEach>--%>
-
                         </c:forEach>
                     </ul>
                 </fieldset>
@@ -437,7 +429,7 @@
                     <div class="specs">
                         <spring:message code="label.assayName"/>: <a href="${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a><br/>
                         <spring:message code="label.measurement"/>: ${assay.measurement}<br/>
-                        <spring:message code="label.technology"/>:  ${assay.technology}
+                        <spring:message code="label.technology"/>:  ${assay.technology}&nbsp;
                             <c:if test="${fn:contains(assay.technology,'NMR')}">
                                 <span aria-hidden="true" class="icon2-NMRLogo"></span>
                             </c:if>
@@ -459,7 +451,11 @@
                                 <thead class='text_header'>
                                 <tr>
                                     <th>Source</th>
+                                    <c:forEach var="factor" items="${factors}">
+                                        <th>${factor.factorKey}</th>
+                                    </c:forEach>
                                 </tr>
+
                                 </thead>
                                 <tbody>
                                 <c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopAssayLines">
@@ -469,6 +465,9 @@
                             </c:if>
                             <tr>
                                 <td class="tableitem">${assayLine.sampleName}</td>
+                                <c:forEach var="factor" items="${assayLine.factors}">
+                                    <td>${factor.factorValue}</td>
+                                </c:forEach>
                             </tr>
                             </c:if>
                             </c:forEach>
