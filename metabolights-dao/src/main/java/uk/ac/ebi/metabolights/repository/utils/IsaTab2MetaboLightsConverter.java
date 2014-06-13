@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 6/13/14 2:05 PM
+ * Last modified: 6/13/14 3:46 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -125,7 +125,7 @@ public class IsaTab2MetaboLightsConverter {
         metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, metStudy, includeMetabolites));
 
         //Samples
-        metStudy.setSamples(isaTabSamples2MetabolightsSamples(isaStudy));
+        metStudy.setSamples(isaTabSamples2MetabolightsSamples(isaStudy, metStudy));
 
 
         return metStudy;
@@ -192,7 +192,7 @@ public class IsaTab2MetaboLightsConverter {
 
     }
 
-    private static Collection<Sample> isaTabSamples2MetabolightsSamples(org.isatools.isacreator.model.Study isaStudy){
+    private static Collection<Sample> isaTabSamples2MetabolightsSamples(org.isatools.isacreator.model.Study isaStudy, Study metStudy){
 
         List<List<String>> isaSamplesData = isaStudy.getStudySample().getTableReferenceObject().getReferenceData().getData();
         List<Sample> metSamples = new LinkedList<Sample>();
@@ -213,7 +213,7 @@ public class IsaTab2MetaboLightsConverter {
 
             metSample.setSampleName(isaSamples.get(mapIsaStudyFieldName(isaStudy, SAMPLE_NAME)));
 
-            metSample.setFactors(isaTabFactors2MetaboLightsFactors(isaStudy, isaSamples));
+            metSample.setFactors(isaTabFactors2MetaboLightsFactors(isaStudy, isaSamples, metStudy));
 
             metSamples.add(metSample);
 
@@ -222,36 +222,43 @@ public class IsaTab2MetaboLightsConverter {
         return metSamples;
     }
 
-    private static Collection<Factors> isaTabFactors2MetaboLightsFactors(org.isatools.isacreator.model.Study isaStudy, List<String> isaSamples) {
+    private static Collection<Factors> isaTabFactors2MetaboLightsFactors(org.isatools.isacreator.model.Study isaStudy, List<String> isaSamples, Study metStudy) {
 
 		OrderedMap<String, FieldObject> isa2MetFactors = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup();
         List<Factors> metFactors = new LinkedList<Factors>();
 
-        try{
-            int i = 0;
-			for(Map.Entry<String, FieldObject> isaFactorEntrySet : isa2MetFactors.entrySet()){
-				String isaFactorKeys = isaFactorEntrySet.getKey();
 
-				FieldObject isaFactorValue = isaFactorEntrySet.getValue();
+        for (StudyFactor studyFactorfactor : metStudy.getFactors()) {     //We need to get the factors from the sample record as they may appear in a different order in Sample and Assay sheets
+            String factorName = FACTOR_VALUE + studyFactorfactor.getName() + "]";
 
-				if(isaFactorValue.getFieldName().startsWith(FACTOR)){
-					Factors factor = new Factors();
-					Ontology ontology = new Ontology();
-					factor.setFactorKey(trimIsaFactorKeys(isaFactorKeys));
-                    //int colNo = isaFactorValue.getColNo();           //This is the column number in the config file, not the real column number.
-                    String ontologyName = ontology.getName(isaSamples.get(i));
-                    factor.setFactorValue(ontologyName);
-					metFactors.add(factor);
+            try {
+                int i = 0;
+                for (Map.Entry<String, FieldObject> isaFactorEntrySet : isa2MetFactors.entrySet()) {
+                    String isaFactorKeys = isaFactorEntrySet.getKey();
 
-				}
+                    FieldObject isaFactorValue = isaFactorEntrySet.getValue();
 
-                i++;
+                    //if (isaFactorValue.getFieldName().startsWith(FACTOR)) {
+                    if (isaFactorValue.getFieldName().equals(factorName)) {
+                        Factors factor = new Factors();
+                        Ontology ontology = new Ontology();
+                        factor.setFactorKey(studyFactorfactor.getName());
+                        //int colNo = isaFactorValue.getColNo();           //This is the column number in the config file, not the real column number.
+                        String ontologyName = ontology.getName(isaSamples.get(i));
+                        factor.setFactorValue(ontologyName);
+                        metFactors.add(factor);
 
-			}
-		} catch(Exception e){
+                    }
 
-			logger.warn("Can not convert isaTab sample factors into MetaboLights factors." + e.getMessage());
-		}
+                    i++;
+
+                }
+            } catch (Exception e) {
+
+                logger.warn("Can not convert isaTab sample factors into MetaboLights factors." + e.getMessage());
+            }
+
+        }
 
         return metFactors;
     }
@@ -306,7 +313,14 @@ public class IsaTab2MetaboLightsConverter {
             List<Factors> allFactors = new LinkedList<Factors>();
             for (StudyFactor factor : metStudy.getFactors()){
                 String factorName = FACTOR_VALUE + factor.getName() +"]";
-                 String assayFactorValue = isaAssayLine.get(mapIsaFieldName(isaAssay, factorName));
+
+                String assayFactorValue = "";
+                try {
+                    assayFactorValue = isaAssayLine.get(mapIsaFieldName(isaAssay, factorName));
+                } catch (Exception e){
+                    assayFactorValue = null;
+                }
+
                 if (assayFactorValue != null){
                     Factors factors = new Factors();
                     factors.setFactorKey(factor.getName());
@@ -353,14 +367,17 @@ public class IsaTab2MetaboLightsConverter {
     }
 
 
-    private static int mapIsaFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
+    private static Integer mapIsaFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
 
 		List<String[]> assaySpreadsheet = getCurrentAssaySpreadsheet(isaAssay);
 
 		Collection<Integer> indexes = SpreadsheetManipulation.getIndexesWithThisColumnName(assaySpreadsheet, fieldName, true);
 
 		// Return the first one (there's should be only one...)
-		return indexes.iterator().next();
+        if (indexes != null && indexes.iterator().hasNext())
+		    return indexes.iterator().next();
+
+        return null;
 	}
 
 	private static List<String[]> getCurrentAssaySpreadsheet(org.isatools.isacreator.model.Assay isaAssay){
