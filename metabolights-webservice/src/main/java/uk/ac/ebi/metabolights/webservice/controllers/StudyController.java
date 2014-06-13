@@ -25,6 +25,7 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.webservice.model.StudyLite;
 import uk.ac.ebi.metabolights.webservice.model.User;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
@@ -100,7 +101,17 @@ public class StudyController {
 		// Get the user
 		User user = getUser();
 
-		return user.isCurator();
+		if (user.isCurator()) return true;
+
+		// If the user has the study in it's list of granted studies...
+		for (StudyLite study: user.getStudies()){
+
+			if (study.getAccesion().equals(metaboLightsId)) return true;
+
+		}
+
+		// If code has reached this point, user cant acces the data.
+		return false;
 
 	}
 	private User getUser(){

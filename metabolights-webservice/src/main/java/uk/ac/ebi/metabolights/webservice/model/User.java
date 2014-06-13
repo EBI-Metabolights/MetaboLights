@@ -15,6 +15,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents a user of the Metabolights / Isatab application.
@@ -114,6 +116,14 @@ public class User {
 	@Column(name="API_TOKEN")
 	@NotEmpty
 	private String apiToken;
+
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name="STUDY2USER"
+			,joinColumns=@JoinColumn(name="USER_ID")
+			,inverseJoinColumns=@JoinColumn(name="STUDY_ID")
+	)
+	private Set<StudyLite> studies = new HashSet<StudyLite>();
 
 	//_______________________________________________
 	// Getters and setters
@@ -262,5 +272,13 @@ public class User {
 
 	public void setApiToken(String api_token) {
 		this.apiToken = apiToken;
+	}
+
+	public Set<StudyLite> getStudies() {
+		return studies;
+	}
+
+	public void setStudies(Set<StudyLite> studies) {
+		this.studies = studies;
 	}
 }
