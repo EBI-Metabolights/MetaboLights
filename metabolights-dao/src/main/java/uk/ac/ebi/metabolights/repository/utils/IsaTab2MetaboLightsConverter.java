@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 6/13/14 3:46 PM
+ * Last modified: 6/16/14 9:10 AM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -127,8 +127,30 @@ public class IsaTab2MetaboLightsConverter {
         //Samples
         metStudy.setSamples(isaTabSamples2MetabolightsSamples(isaStudy, metStudy));
 
+        //Organism and Organism part
+        metStudy.setOrganism(sampleOrg2organism(metStudy));
+
 
         return metStudy;
+    }
+
+    private static Collection<Organism> sampleOrg2organism(Study metStudy) {
+
+        Set<Organism> organisms = new HashSet<Organism>();
+        List<String> sampleDeDuplication = new ArrayList<String>();
+
+        for (Sample sample: metStudy.getSamples()){
+            Organism organism = new Organism();
+            organism.setOrganismName(sample.getCharactersticsOrg());
+            organism.setOrganismPart(sample.getCharactersticsOrgPart());
+
+            if (!sampleDeDuplication.contains(organism.getOrganismName())) {
+                organisms.add(organism);
+                sampleDeDuplication.add(organism.getOrganismName());
+            }
+
+        }
+        return organisms;
     }
 
 

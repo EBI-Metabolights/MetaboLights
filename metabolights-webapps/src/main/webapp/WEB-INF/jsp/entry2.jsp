@@ -11,7 +11,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 6/13/14 2:05 PM
+  ~ Last modified: 6/13/14 4:34 PM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -290,13 +290,13 @@
 
         <!-- TAB1: INFO-->
         <div id="tabs-1">
-            <c:if test="${not empty organismNames}">
+            <c:if test="${not empty study.organism}">
                 <br/>
                 <fieldset class="box">
                     <legend><spring:message code="label.organisms"/>:</legend>
                     <br/>
-                    <c:forEach var="organismName" items="${organismNames}" >
-                        ${organismName}<br/>
+                    <c:forEach var="org" items="${study.organism}" >
+                        ${org.organismName}<br/>
                     </c:forEach>
                 </fieldset>
             </c:if>
