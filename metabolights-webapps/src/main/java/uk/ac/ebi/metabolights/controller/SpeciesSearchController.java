@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 03/02/14 14:42
+ * Last modified: 6/17/14 4:17 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -22,6 +22,7 @@ import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.service.AppContext;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,7 +43,51 @@ public class SpeciesSearchController extends AbstractController {
     List<String> speciesList;
 
 
-    @RequestMapping(value = "/species")
+    /**
+     * Forwards to the jsp based on the last part of the requested URL.
+     *
+     * @param request
+     * @return String indicating JSP target
+     */
+    public static ModelAndView searchForLastPartOfUrl (HttpServletRequest request) {
+        String requestUrl = request.getRequestURL().toString();
+        String target=requestUrl.replaceFirst("^(.)*/", "");
+        logger.debug("target is "+target);
+
+        target = target!=null&&!target.equals("")?target:"index";
+
+        return new ModelAndView ("redirect:download")
+        ;
+
+    }
+    /**
+     * Shortcuts for reference species
+     * @param request
+     * @return search page with selected organism
+     */
+    @RequestMapping(value={ "/human","/mouse","/arabidopsis", "/ecoli", "/celegans", "/yeast"})
+    public ModelAndView modelAndView (HttpServletRequest request) {
+
+        String requestUrl = request.getRequestURL().toString();
+
+        if (requestUrl.endsWith("/human"))
+            requestUrl = "reference?organisms=Homo%20sapiens%20(Human)";
+        else if (requestUrl.equals("/mouse"))
+            requestUrl = "reference?organisms=Mus%20musculus%20(Mouse)";
+        else if (requestUrl.equals("/arabidopsis"))
+            requestUrl = "reference?organisms=Arabidopsis%20thaliana%20(thale%20cress)";
+        else if (requestUrl.equals("/ecoli"))
+            requestUrl = "eference?organisms=Escherichia%20coli";
+        else if (requestUrl.equals("/celegans"))
+            requestUrl = "reference?organisms=Caenorhabditis%20elegans";
+        else if (requestUrl.equals("/yeast"))
+            requestUrl = "reference?organisms=Saccharomyces%20cerevisiae%20(Baker's%20yeast)";
+
+        return new ModelAndView ("redirect:"+requestUrl);
+    }
+
+
+    @RequestMapping(value = "/arabidopsis")
     public ModelAndView showSpecies() {
 
         //ModelAndView mav = new ModelAndView("compound");

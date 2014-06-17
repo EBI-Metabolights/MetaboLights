@@ -11,7 +11,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 6/13/14 4:34 PM
+  ~ Last modified: 6/16/14 2:32 PM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -124,7 +124,7 @@
 
             // setter
             $("#tabs").tabs( "option", "active", -1 );
-            $("#tabs-5").effect("highlight", {color: '#E2BD97'}, 1700);
+            $("#tabs-files").effect("highlight", {color: '#E2BD97'}, 1700);
         });
 
         $("input#fileSelector").bind("keypress keyup", function(e) {
@@ -261,13 +261,8 @@
         <!-- Setting up tab list-->
         <ul>
             <li><a href="#tabs-1" class="noLine"><spring:message code="label.studyDesign"/></a></li>
-            <li>
-                <a href="#tabs-2" class="noLine"><spring:message code="label.protocols"/></a>
-            </li>
-            <li>
-                <a href="#tabs-3" class="noLine"><spring:message code="label.sample"/></a>
-            </li>
-
+            <li><a href="#tabs-2" class="noLine"><spring:message code="label.protocols"/></a></li>
+            <li><a href="#tabs-3" class="noLine"><spring:message code="label.sample"/></a></li>
             <c:if test="${not empty study.assays}">
                 <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                     <li>
@@ -282,7 +277,7 @@
             </c:if>
             <c:if test="${not empty files}">
                 <li>
-                    <a href="#tabs-5" class="noLine"><spring:message code="label.Files"/></a>
+                    <a href="#tabs-files" class="noLine"><spring:message code="label.Files"/></a>
                 </li>
             </c:if>
         </ul>
@@ -357,7 +352,6 @@
             </c:if>
         </div>
 
-
         <!-- TAB2: Protocols-->
         <div id="tabs-2">
             <c:if test="${not empty study.protocols}">
@@ -402,8 +396,11 @@
                     </thead>
 
                     <tbody>
-                        <c:forEach var="sample" items="${study.samples}">
+                        <c:forEach var="sample" items="${study.samples}" varStatus="loopSampleLines">
                             <c:if test="${not empty sample}">
+                                <c:if test="${loopSampleLines.index == 10}">
+                                    </tbody><tbody id="sample_0" style='display:none'>
+                                </c:if>
                                 <tr>
                                     <td>${sample.sampleName}</td>
                                     <td>${sample.charactersticsOrg}</td>
@@ -418,72 +415,73 @@
                         </c:forEach>
                     </tbody>
                 </table>
+                <c:if test="${fn:length(study.samples) > 10}"><a href="#" class="showLink" id="sample_link_0">Show more</a></c:if>
             </c:if>
         </div>
 
 
         <!-- TAB4+: Assays-->
-        <c:if test="${not empty study.assays}">
-            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
-                <div id="tabs-${loopAssays.index + 4}">
-                    <div class="specs">
-                        <spring:message code="label.assayName"/>: <a href="${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a><br/>
-                        <spring:message code="label.measurement"/>: ${assay.measurement}<br/>
-                        <spring:message code="label.technology"/>:  ${assay.technology}&nbsp;
-                            <c:if test="${fn:contains(assay.technology,'NMR')}">
-                                <span aria-hidden="true" class="icon2-NMRLogo"></span>
-                            </c:if>
-                            <c:if test="${fn:contains(assay.technology,'mass')}">
-                                <span aria-hidden="true" class="icon2-MSLogo"></span>
-                            </c:if>
-                            <br>
-                        <spring:message code="label.platform"/>: ${assay.platform}<br>
+            <c:if test="${not empty study.assays}">
+                <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                    <div id="tabs-${loopAssays.index + 4}">
+                        <div class="specs">
+                            <spring:message code="label.assayName"/>: <a href="${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a><br/>
+                            <spring:message code="label.measurement"/>: ${assay.measurement}<br/>
+                            <spring:message code="label.technology"/>:  ${assay.technology}&nbsp;
+                                <c:if test="${fn:contains(assay.technology,'NMR')}">
+                                    <span aria-hidden="true" class="icon2-NMRLogo"></span>
+                                </c:if>
+                                <c:if test="${fn:contains(assay.technology,'mass')}">
+                                    <span aria-hidden="true" class="icon2-MSLogo"></span>
+                                </c:if>
+                                <br>
+                            <spring:message code="label.platform"/>: ${assay.platform}<br>
 
-                    </div>
-                    <br/>
-                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                        <div class="accordion">
-                    </c:if>
-
-                        <h5><spring:message code="label.data"/></h5>
-                        <div>
-                            <table>
-                                <thead class='text_header'>
-                                <tr>
-                                    <th>Source</th>
-                                    <c:forEach var="factor" items="${factors}">
-                                        <th>${factor.factorKey}</th>
-                                    </c:forEach>
-                                </tr>
-
-                                </thead>
-                                <tbody>
-                                <c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopAssayLines">
-                                <c:if test="${not empty assayLine.sampleName}">
-                                <c:if test="${loopAssayLines.index == 10}">
-                                </tbody><tbody id="assay_${loopAssays.index}" style='display:none'>
-                            </c:if>
-                            <tr>
-                                <td class="tableitem">${assayLine.sampleName}</td>
-                                <c:forEach var="factor" items="${assayLine.factors}">
-                                    <td>${factor.factorValue}</td>
-                                </c:forEach>
-                            </tr>
-                            </c:if>
-                            </c:forEach>
-                            </tbody>
-                            </table>
-                            <c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>
                         </div>
-                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                        <h5 class="maf" mafurl="${study.studyIdentifier}/assay/${assay.assayNumber}/maf"}"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
-                        <div></div>
-                    </div>
-                    </c:if>
+                        <br/>
+                        <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                            <div class="accordion">
+                        </c:if>
 
-                </div>
-            </c:forEach>
-        </c:if> <!-- end if assays-->
+                            <h5><spring:message code="label.data"/></h5>
+                            <div>
+                                <table>
+                                    <thead class='text_header'>
+                                    <tr>
+                                        <th>Source</th>
+                                        <c:forEach var="factor" items="${factors}">
+                                            <th>${factor.factorKey}</th>
+                                        </c:forEach>
+                                    </tr>
+
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopAssayLines">
+                                        <c:if test="${not empty assayLine.sampleName}">
+                                            <c:if test="${loopAssayLines.index == 10}">
+                                                </tbody><tbody id="assay_${loopAssays.index}" style='display:none'>
+                                            </c:if>
+                                            <tr>
+                                            <td class="tableitem">${assayLine.sampleName}</td>
+                                            <c:forEach var="factor" items="${assayLine.factors}">
+                                                <td>${factor.factorValue}</td>
+                                            </c:forEach>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
+                                </tbody>
+                                </table>
+                                <c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>
+                            </div>
+                        <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                            <h5 class="maf" mafurl="${study.studyIdentifier}/assay/${assay.assayNumber}/maf"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
+                            <div></div>
+                            </div>
+                        </c:if>
+                    </div>
+                </c:forEach>
+            </c:if> <!-- end if assays-->
+
         <c:if test="${not empty files}">
 
             <%--Only show token if study es private--%>
@@ -491,7 +489,7 @@
                 <c:set var="token" value="?token=${study.studyIdentifier}"/>
             </c:if>
 
-            <div id="tabs-5"> <!-- Study files -->
+            <div id="tabs-files"> <!-- Study files -->
                 <form action="${study.studyIdentifier}/files/selection" method="post">
                     <h5>
                         <a class="noLine" href="${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
@@ -539,7 +537,7 @@
                         <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/></p>
                     </div>
                 </form>
-            </div> <!--  ends tabs-5 files -->
+            </div> <!--  ends tabs-files files -->
         </c:if>
 
     </div> <!-- end configuring tabs -->
