@@ -17,8 +17,12 @@
 </p>
 <h3>MetaboLights use the following software components:</h3>
 <ul id="ackn">
-    <li><a href="http://www.jetbrains.com/idea/">The MetaboLights developers use IntelliJDEA for all software development</a></li>
+    <li><a href="http://www.jetbrains.com/idea/">The MetaboLights developers use IntelliJIDEA for all software development</a></li>
     <li><a href="http://sbw.kgi.edu/sbwWiki/sbw/autolayout">The SBW AutoLayout module from the Sauro Lab, University of Washington</a></li>
+    <li><a href="http://www.massbank.jp/">MassBank, public repository of mass spectral data.</a></li>
+    <li><a href="http://www.bml-nmr.org/">Birmingham Metabolite Library, NMR spectra collection.</a></li>
+    <li><a href="http://www.bmrb.wisc.edu/metabolomics/">Biological Magnetic Resonance Data Bank</a></li>
+    <li><a href="https://www.pivotaltracker.com/">PivotalTracker: Online project management tool</a></li>
 </ul>
 
 </p>

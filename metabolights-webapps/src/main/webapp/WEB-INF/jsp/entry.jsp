@@ -373,7 +373,7 @@ function toggleColumn(tableId, anchor, duration ) {
 			                <c:forEach var="protocol" items="${study.protocols}" varStatus="loopStatus">
 	                    		<c:choose>
 	                    			<c:when test="${not empty protocol.description}">
-			                    		<tr class="${(loopStatus.index+blanks) % 2 == 0 ? '' : 'coloured'}">
+			                    		<tr>
 					                    	<td class="tableitem">${protocol.name}</td>
 					                    	<td id="protocoldesc" class="tableitem">${protocol.description}</td>
 					                    </tr>
@@ -406,7 +406,7 @@ function toggleColumn(tableId, anchor, duration ) {
 							</thead>
 							<tbody>
 								<c:forEach var="MLAssayResult" items="${assay.MLAssayResult}" varStatus="loopStatus">
-	                    		<tr class="${loopStatus.index % 2 == 0 ? '' : 'coloured'}">
+	                    		<tr>
 			                   		<c:if test="${loopStatus.index == 10}">
 		                    			<%-- <tr><td colspan=2><a href="#" class="showLink" id="data_link_${loopStatusAssay.index}">Show more</a></td></tr> --%>
 		                    			</tbody><tbody id="data_${loopStatusAssay.index}" style='display:none'>
@@ -426,7 +426,7 @@ function toggleColumn(tableId, anchor, duration ) {
 			                    		</c:forEach>
 			                    	</td>
 	                    			<c:forEach var="fv" items="${MLAssayResult.assayResult.data.factorValues}">
-	                    				<td class="tableitem">${fv.value} ${fv.unit.value}</td>
+	                    				<td class="tableitem">${fv.value}&nbsp;${fv.unit.value}</td>
 	                    			</c:forEach>
 			                    </tr>
 			                    </c:forEach>
@@ -451,7 +451,7 @@ function toggleColumn(tableId, anchor, duration ) {
                                     <c:forEach var="met" items="${mlAssay.metabolitesGUI}" varStatus="loopStatusMet">
 
                                         <%-- Write the header, only the first time --%>
-                                        <c:if test="${loopStatusMet.index == 1}">
+                                        <c:if test="${loopStatusMet.index == 0}">
                                         <thead class='text_header'>
                                         <tr>
                                             <th><spring:message code="label.metabolites.description"/></th>
@@ -482,7 +482,7 @@ function toggleColumn(tableId, anchor, duration ) {
                                         </c:if>
 
                                         <%--Line itself --%>
-                                        <tr class="${loopStatusMet.index % 2 == 0 ? '' : 'coloured'}">
+                                        <tr>
                                             <td>${met.metabolite.description}
                                                 <c:choose>
                                                     <c:when test="${empty met.identifier}"></c:when>

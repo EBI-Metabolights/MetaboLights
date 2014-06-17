@@ -33,7 +33,7 @@
 
    	<p><a href="<spring:url value="statistics"/>"><strong><spring:message code="label.stats"/></strong></a></p>
 
-<%--    <p><a href="<spring:url value="acknowledgements"/>"><strong>Acknowledgements</strong></a></p>   --%>
+    <p><a href="<spring:url value="acknowledgements"/>"><strong>Acknowledgements</strong></a></p>
 
     <p><strong>Follow us on </strong>
         <span class="bigfont">
