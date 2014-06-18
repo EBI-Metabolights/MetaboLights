@@ -6,10 +6,10 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 17/10/13 13:16
+  ~ Last modified: 6/18/14 12:12 PM
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   --%>
 
 <h2>Acknowledgements</h2>
@@ -23,6 +23,7 @@
     <li><a href="http://www.bml-nmr.org/">Birmingham Metabolite Library, NMR spectra collection.</a></li>
     <li><a href="http://www.bmrb.wisc.edu/metabolomics/">Biological Magnetic Resonance Data Bank</a></li>
     <li><a href="https://www.pivotaltracker.com/">PivotalTracker: Online project management tool</a></li>
+    <li><a href="http://www.redline.cc/">Redline: Visual online bug reporting</a></li>
 </ul>
 
 </p>

@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 6/17/14 4:17 PM
+ * Last modified: 6/18/14 12:50 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -87,7 +87,7 @@ public class SpeciesSearchController extends AbstractController {
     }
 
 
-    @RequestMapping(value = "/arabidopsis")
+    @RequestMapping(value = "/species")
     public ModelAndView showSpecies() {
 
         //ModelAndView mav = new ModelAndView("compound");
