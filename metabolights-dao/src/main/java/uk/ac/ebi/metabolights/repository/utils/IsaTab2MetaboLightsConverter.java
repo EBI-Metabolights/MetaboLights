@@ -10,16 +10,19 @@
 
 package uk.ac.ebi.metabolights.repository.utils;
 
-import org.apache.commons.collections15.OrderedMap;
 import org.apache.log4j.Logger;
 import org.isatools.conversion.ArrayToListConversion;
 import org.isatools.conversion.Converter;
 import org.isatools.isacreator.configuration.FieldObject;
-import org.isatools.isacreator.model.Factor;
-import org.isatools.isacreator.model.StudyDesign;
+import org.isatools.isacreator.model.*;
 import org.isatools.manipulator.SpreadsheetManipulation;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.Assay;
+import uk.ac.ebi.metabolights.repository.model.Contact;
+import uk.ac.ebi.metabolights.repository.model.Protocol;
+import uk.ac.ebi.metabolights.repository.model.Publication;
+import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.io.File;
 import java.text.ParseException;
@@ -219,23 +222,25 @@ public class IsaTab2MetaboLightsConverter {
         List<List<String>> isaSamplesData = isaStudy.getStudySample().getTableReferenceObject().getReferenceData().getData();
         List<Sample> metSamples = new LinkedList<Sample>();
 
+		Map<String, Integer> sampleFieldsMap = getAssayFieldsMap(metStudy, isaStudy.getStudySample());
+
         for (List<String> isaSamples: isaSamplesData){
 
             Sample metSample = new Sample();
 
             Ontology ontology = new Ontology();
 
-            metSample.setSourceName(isaSamples.get(mapIsaStudyFieldName(isaStudy, SOURCE_NAME)));
+            metSample.setSourceName(getIsaLineValue(isaSamples, SOURCE_NAME, sampleFieldsMap));
 
-            metSample.setCharactersticsOrg(ontology.getName(isaSamples.get(mapIsaStudyFieldName(isaStudy, CHARACTERISTICS_ORGANISM))));
+            metSample.setCharactersticsOrg(ontology.getName(getIsaLineValue(isaSamples,  CHARACTERISTICS_ORGANISM, sampleFieldsMap)));
 
-            metSample.setCharactersticsOrgPart(ontology.getName(isaSamples.get(mapIsaStudyFieldName(isaStudy, CHARACTERISTICS_ORGANISM_PART ))));
+            metSample.setCharactersticsOrgPart(ontology.getName(getIsaLineValue(isaSamples,  CHARACTERISTICS_ORGANISM_PART, sampleFieldsMap)));
 
-            metSample.setProtocolRef(isaSamples.get(mapIsaStudyFieldName(isaStudy, PROTOCOL_REF)));
+            metSample.setProtocolRef(getIsaLineValue(isaSamples,  PROTOCOL_REF, sampleFieldsMap));
 
-            metSample.setSampleName(isaSamples.get(mapIsaStudyFieldName(isaStudy, SAMPLE_NAME)));
+            metSample.setSampleName(getIsaLineValue(isaSamples,  SAMPLE_NAME, sampleFieldsMap));
 
-            metSample.setFactors(isaTabFactors2MetaboLightsFactors(isaStudy, isaSamples, metStudy));
+            metSample.setFactors(isaTabSampleFactors2MetaboLightsSampleFactors( isaSamples, metStudy.getFactors(),sampleFieldsMap));
 
             metSamples.add(metSample);
 
@@ -244,59 +249,175 @@ public class IsaTab2MetaboLightsConverter {
         return metSamples;
     }
 
-    private static Collection<Factors> isaTabFactors2MetaboLightsFactors(org.isatools.isacreator.model.Study isaStudy, List<String> isaSamples, Study metStudy) {
+	private static Collection<AssayLine> isaTabAssayLines2MetabolightsAssayLines(org.isatools.isacreator.model.Assay isaAssay, Assay metAssay, Study metStudy){
 
-		OrderedMap<String, FieldObject> isa2MetFactors = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup();
-        List<Factors> metFactors = new LinkedList<Factors>();
+		List<List<String>> isaAssaysLines = isaAssay.getTableReferenceObject().getReferenceData().getData();
+		List<AssayLine> metAssayLines = new LinkedList<AssayLine>();
+
+		Map<String, Integer> assayFactorsMap = getAssayFieldsMap(metStudy, isaAssay);
+
+		boolean mafResolved = false;
+
+		for (List<String> isaAssayLine: isaAssaysLines){
+
+			AssayLine metAssayLine = new AssayLine();
+
+			metAssayLine.setSampleName(getIsaLineValue(isaAssayLine, ASSAY_COLUMN_SAMPLE_NAME,assayFactorsMap));
+			//TODO, all file references end in  " File", have to loop through the assay spreadsheet to find them
+
+//            List<Factors> allFactors = new LinkedList<Factors>();
+//            for (StudyFactor factor : metStudy.getFactorsFromIsaLine()){
+//                String factorName = FACTOR_VALUE + factor.getName() +"]";
+//
+//                String assayFactorValue = "";
+//                try {
+//                    assayFactorValue = isaAssayLine.get(getAssayColumnIndexByFieldName(isaAssay, factorName));
+//                } catch (Exception e){
+//                    assayFactorValue = null;
+//                }
+//
+//                if (assayFactorValue != null){
+//                    Factors factors = new Factors();
+//                    factors.setFactorKey(factor.getName());
+//                    factors.setFactorValue(assayFactorValue);
+//                    allFactors.add(factors);
+//
+//                }
+//
+//            }
+//
+//            if (allFactors != null)
+//                metAssayLine.setFactors(allFactors);
+
+			metAssayLine.setFactors(isaTabAssayFactors2MetaboLightsAssayFactors(isaAssayLine,metStudy.getFactors(),assayFactorsMap));
+
+			// If maf has been resolved....
+			if (!mafResolved){
+				// Set the metabolite assignment file name if not known (aka MAF)
+				if (metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName() == null) {
+
+					String mafValue = isaAssayLine.get(getAssayColumnIndexByFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE));
+
+					// If not empty or null
+					if (mafValue!= null && !mafValue.equals("")){
+
+						mafResolved = true;
+
+						String mafFileName = metStudy.getStudyLocation() + File.separator + mafValue;
+
+						File mafFile = new File(mafFileName);
+
+						if(mafFile.exists()){
+							metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(mafFileName);
+						}
+					}
 
 
-        for (StudyFactor studyFactorfactor : metStudy.getFactors()) {     //We need to get the factors from the sample record as they may appear in a different order in Sample and Assay sheets
-            String factorName = FACTOR_VALUE + studyFactorfactor.getName() + "]";
+				}
 
-            try {
-                int i = 0;
-                for (Map.Entry<String, FieldObject> isaFactorEntrySet : isa2MetFactors.entrySet()) {
-                    String isaFactorKeys = isaFactorEntrySet.getKey();
+			}
+			metAssayLines.add(metAssayLine);
+		}
 
-                    FieldObject isaFactorValue = isaFactorEntrySet.getValue();
+		return metAssayLines;
 
-                    //if (isaFactorValue.getFieldName().startsWith(FACTOR)) {
-                    if (isaFactorValue.getFieldName().equals(factorName)) {
-                        Factors factor = new Factors();
-                        Ontology ontology = new Ontology();
-                        factor.setFactorKey(studyFactorfactor.getName());
-                        //int colNo = isaFactorValue.getColNo();           //This is the column number in the config file, not the real column number.
-                        String ontologyName = ontology.getName(isaSamples.get(i));
-                        factor.setFactorValue(ontologyName);
-                        metFactors.add(factor);
+	}
 
-                    }
 
-                    i++;
+	private static Collection<Factors> isaTabSampleFactors2MetaboLightsSampleFactors( List<String> isaSampleLine, Collection<StudyFactor> metFactors, Map<String, Integer> sampleFieldsMap ) {
 
-                }
-            } catch (Exception e) {
-
-                logger.warn("Can not convert isaTab sample factors into MetaboLights factors." + e.getMessage());
-            }
-
-        }
-
-        return metFactors;
+		return getFactorsFromIsaLine(isaSampleLine, metFactors, sampleFieldsMap);
     }
 
-    private static String trimIsaFactorKeys(String isaFactorKeys) {
+	private static Collection<Factors> isaTabAssayFactors2MetaboLightsAssayFactors( List<String> isaAssayLine, Collection<StudyFactor> metFactors,Map<String, Integer> assayFieldsMap) {
 
-        String replaceFirst = "Factor Value\\[";
-        String replaceLast = "]";
-        String factorName = isaFactorKeys.replaceFirst(replaceFirst,"");
-        factorName = factorName.replace(replaceLast,"");
+		return getFactorsFromIsaLine(isaAssayLine, metFactors, assayFieldsMap);
 
-        return factorName;
-    }
+	}
+
+	private static Collection<Factors> getFactorsFromIsaLine(List<String> isaLine, Collection<StudyFactor> metFactors, Map<String, Integer> isaFieldsMap) {
+
+		Collection<Factors> newFactors = new ArrayList<Factors>();
 
 
-    private static int mapIsaStudyFieldName(org.isatools.isacreator.model.Study isaStudy, String sourceName){
+		for (StudyFactor studyFactor : metFactors) {     //We need to get the factors from the sample record as they may appear in a different order in Sample and Assay sheets
+
+
+			String factorName = FACTOR_VALUE + studyFactor.getName() + "]";
+
+			try {
+
+
+				String value = getIsaLineValue(isaLine, factorName, isaFieldsMap);
+
+				Factors factor = new Factors();
+				Ontology ontology = new Ontology();
+				factor.setFactorKey(studyFactor.getName());
+				String ontologyName = ontology.getName(value);
+				factor.setFactorValue(ontologyName);
+				newFactors.add(factor);
+
+
+//				int i = 0;
+//				for (Map.Entry<String, FieldObject> isaFactorEntrySet : isa2MetFactorMap.entrySet()) {
+//					String isaFactorKeys = isaFactorEntrySet.getKey();
+//
+//					FieldObject isaFactorValue = isaFactorEntrySet.getValue();
+//
+//					//if (isaFactorValue.getFieldName().startsWith(FACTOR)) {
+//					if (isaFactorValue.getFieldName().equals(factorName)) {
+//						Factors factor = new Factors();
+//						Ontology ontology = new Ontology();
+//						factor.setFactorKey(studyFactor.getName());
+//						//int colNo = isaFactorValue.getColNo();           //This is the column number in the config file, not the real column number.
+//						String ontologyName = ontology.getName(isaLine.get(i));
+//						factor.setFactorValue(ontologyName);
+//						metFactors.add(factor);
+//
+//					}
+//
+//					i++;
+//
+//				}
+			} catch (Exception e) {
+
+				logger.warn("Can not convert isaTab sample factors into MetaboLights factors." + e.getMessage());
+			}
+
+		}
+
+		return newFactors;
+	}
+//	  Not used?: 02-07-2014
+//    private static String trimIsaFactorKeys(String isaFactorKeys) {
+//
+//        String replaceFirst = "Factor Value\\[";
+//        String replaceLast = "]";
+//        String factorName = isaFactorKeys.replaceFirst(replaceFirst,"");
+//        factorName = factorName.replace(replaceLast,"");
+//
+//        return factorName;
+//    }
+
+	// Returns a map to get the value in an assay line based on the name
+	private static Map<String,Integer> getAssayFieldsMap(Study metStudy, org.isatools.isacreator.model.Assay assay){
+
+		Map<String,Integer> assayFieldsMap = new HashMap<String, Integer>();
+
+		// For each field in the assay
+		for (FieldObject field :  assay.getTableReferenceObject().getFieldLookup().values()){
+
+			Integer index = getAssayColumnIndexByFieldName(assay, field.getFieldName());
+
+			assayFieldsMap.put(field.getFieldName(), index);
+
+		}
+
+		return assayFieldsMap;
+
+	}
+
+    private static int getSampleColumnIndexByFieldName(org.isatools.isacreator.model.Study isaStudy, String sourceName){
 
         Collection<FieldObject> isaStudyFieldValue = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup().values();
         int colNo = 0;
@@ -318,78 +439,15 @@ public class IsaTab2MetaboLightsConverter {
         return fileList;
     }
 
-    private static Collection<AssayLine> isaTabAssayLines2MetabolightsAssayLines(org.isatools.isacreator.model.Assay isaAssay, Assay metAssay, Study metStudy){
+	private static String getIsaLineValue(List<String> isaLine, String fieldName, Map<String, Integer> isaFieldsMap){
 
-        List<List<String>> isaAssaysLines = isaAssay.getTableReferenceObject().getReferenceData().getData();
-        List<AssayLine> metAssayLines = new LinkedList<AssayLine>();
+		// Get the index
+		int index = isaFieldsMap.get(fieldName);
 
-		boolean mafResolved = false;
+		return isaLine.get(index);
+	}
 
-        for (List<String> isaAssayLine: isaAssaysLines){
-
-            AssayLine metAssayLine = new AssayLine();
-
-            metAssayLine.setSampleName(isaAssayLine.get(mapIsaFieldName(isaAssay, ASSAY_COLUMN_SAMPLE_NAME)));
-            //TODO, all file references end in  " File", have to loop through the assay spreadsheet to find them
-
-            List<Factors> allFactors = new LinkedList<Factors>();
-            for (StudyFactor factor : metStudy.getFactors()){
-                String factorName = FACTOR_VALUE + factor.getName() +"]";
-
-                String assayFactorValue = "";
-                try {
-                    assayFactorValue = isaAssayLine.get(mapIsaFieldName(isaAssay, factorName));
-                } catch (Exception e){
-                    assayFactorValue = null;
-                }
-
-                if (assayFactorValue != null){
-                    Factors factors = new Factors();
-                    factors.setFactorKey(factor.getName());
-                    factors.setFactorValue(assayFactorValue);
-                    allFactors.add(factors);
-
-                }
-
-            }
-
-            if (allFactors != null)
-                metAssayLine.setFactors(allFactors);
-
-			// If maf has been resolved....
-			if (!mafResolved){
-				// Set the metabolite assignment file name if not known (aka MAF)
-            	if (metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName() == null) {
-
-					String mafValue = isaAssayLine.get(mapIsaFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE));
-
-					// If not empty or null
-					if (mafValue!= null && !mafValue.equals("")){
-
-						mafResolved = true;
-
-						String mafFileName = metStudy.getStudyLocation() + File.separator + mafValue;
-
-						File mafFile = new File(mafFileName);
-
-						if(mafFile.exists()){
-							metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(mafFileName);
-						}
-					}
-
-
-				}
-
-			}
-            metAssayLines.add(metAssayLine);
-        }
-
-        return metAssayLines;
-
-    }
-
-
-    private static Integer mapIsaFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
+    private static Integer getAssayColumnIndexByFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
 
 		List<String[]> assaySpreadsheet = getCurrentAssaySpreadsheet(isaAssay);
 

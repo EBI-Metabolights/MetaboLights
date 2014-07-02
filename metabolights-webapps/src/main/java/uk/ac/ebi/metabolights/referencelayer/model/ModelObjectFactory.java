@@ -121,16 +121,24 @@ public class ModelObjectFactory {
 
     }
 
-	public static Collection<SpeciesGroup> getAllSpeciesTree()
-	{
+	public static Collection<SpeciesGroup> getAllSpeciesTree() {
+
+		SpeciesGroupDAO speciesGroupDAO= null;
+
 		try {
-			SpeciesGroupDAO speciesGroupDAO = new SpeciesGroupDAO(AppContext.getConnection());
+			speciesGroupDAO = new SpeciesGroupDAO(AppContext.getConnection());
 
 			return  speciesGroupDAO.getAll();
 		} catch (Exception e) {
 
 			logger.error("Can't retrieve species tree.", e);
 			return null;
+		} finally {
+			try {
+				speciesGroupDAO.returnPooledConnection();
+			} catch (Exception e) {
+				logger.error("Can't return connection to the pool.", e);
+			}
 		}
 
 	}

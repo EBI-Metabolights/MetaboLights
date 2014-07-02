@@ -98,6 +98,9 @@ public class AppContext {
       Connection conn = null;
       // Get a connection object
       conn = getDataSource().getConnection();
+
+	  // Based on http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html#Getting_the_actual_JDBC_connection
+	  conn = ((javax.sql.PooledConnection)conn).getConnection();
      
       return conn;
     }

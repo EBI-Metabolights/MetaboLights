@@ -9,7 +9,7 @@ Investigation Title	"Investigation"
 Investigation Description	""
 Investigation Submission Date	""
 Investigation Public Release Date	""
-Comment [Created with configuration]	""
+Comment [Created with configuration]	"config2"
 Comment [Last Opened With Configuration]	"config2"
 Comment [Created With Configuration]	"/Users/rms72/Configurations/config2"
 INVESTIGATION PUBLICATIONS
