@@ -17,6 +17,8 @@ update property_value set value = 'Triticum aestivum (Wheat)' where value = 'Tri
 update property_value set value = 'Ovis aries (Sheep)' where value = 'Ovis aries';
 update property_value set value = 'Vitis vinifera (Grape)' where value = 'Vitis vinifera';
 update property_value set value = 'Mus musculus (Mouse)' where value = 'Mus musculus';
+update property_value set value = 'Manihot esculenta (Cassava)' where value = 'Manihot esculenta';
+update property_value set value = 'Calanus helgolandicus (Copepod)' where value = 'Calanus helgolandicus';
 
 update property_value set value = 'reference compound' where value = 'Blank';
 update property_value set value = 'reference compound' where value = 'Quality control';
