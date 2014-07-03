@@ -384,35 +384,36 @@
         <div id="tabs-3">
             <c:if test="${not empty study.samples}">
                 <table>
-                    <thead class='text_header'>
-                    <tr>
-                        <th><spring:message code="label.sampleName"/></th>
-                        <th><spring:message code="label.organism"/></th>
-                        <th><spring:message code="label.organismPart"/></th>
-                        <c:forEach var="factor" items="${factors}">
-                            <th>${factor.factorKey}</th>
-                        </c:forEach>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                        <c:forEach var="sample" items="${study.samples}" varStatus="loopSampleLines">
-                            <c:if test="${not empty sample}">
-                                <c:if test="${loopSampleLines.index == 10}">
-                                    </tbody><tbody id="sample_0" style='display:none'>
-                                </c:if>
-                                <tr>
-                                    <td>${sample.sampleName}</td>
-                                    <td>${sample.charactersticsOrg}</td>
-                                    <td>${sample.charactersticsOrgPart}</td>
-                                    <c:forEach var="factor" items="${sample.factors}">
-                                        <td>${factor.factorValue}</td>
-                                    </c:forEach>
-                                    <%--<td>${sample.protocolRef}</td>--%>
-                                    <%--<td class="tableitem">${sample.sourceName}</td>--%>
-                                </tr>
+                    <c:forEach var="sample" items="${study.samples}" varStatus="loopSampleLines">
+                        <c:if test="${loopSampleLines.index == 0}">
+                            <thead class='text_header'>
+                            <tr>
+                                <th><spring:message code="label.sampleName"/></th>
+                                <th><spring:message code="label.organism"/></th>
+                                <th><spring:message code="label.organismPart"/></th>
+                                <c:forEach var="factor" items="${sample.factors}">
+                                    <th>${factor.factorKey}</th>
+                                </c:forEach>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        </c:if>
+                        <c:if test="${not empty sample}">
+                            <c:if test="${loopSampleLines.index == 10}">
+                                </tbody><tbody id="sample_0" style='display:none'>
                             </c:if>
-                        </c:forEach>
+                            <tr>
+                                <td>${sample.sampleName}</td>
+                                <td>${sample.charactersticsOrg}</td>
+                                <td>${sample.charactersticsOrgPart}</td>
+                                <c:forEach var="factor" items="${sample.factors}">
+                                    <td>${factor.factorValue}</td>
+                                </c:forEach>
+                                <%--<td>${sample.protocolRef}</td>--%>
+                                <%--<td class="tableitem">${sample.sourceName}</td>--%>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
                     </tbody>
                 </table>
                 <c:if test="${fn:length(study.samples) > 10}"><a href="#" class="showLink" id="sample_link_0">Show more</a></c:if>
@@ -446,17 +447,18 @@
                             <h5><spring:message code="label.data"/></h5>
                             <div>
                                 <table>
-                                    <thead class='text_header'>
-                                    <tr>
-                                        <th>Source</th>
-                                        <c:forEach var="factor" items="${factors}">
-                                            <th>${factor.factorKey}</th>
-                                        </c:forEach>
-                                    </tr>
-
-                                    </thead>
-                                    <tbody>
                                     <c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopAssayLines">
+                                        <c:if test="${loopAssayLines.index == 0}">
+                                            <thead class='text_header'>
+                                                <tr>
+                                                    <th>Source</th>
+                                                    <c:forEach var="factor" items="${assayLine.factors}">
+                                                        <th>${factor.factorKey}</th>
+                                                    </c:forEach>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                        </c:if>
                                         <c:if test="${not empty assayLine.sampleName}">
                                             <c:if test="${loopAssayLines.index == 10}">
                                                 </tbody><tbody id="assay_${loopAssays.index}" style='display:none'>
@@ -469,7 +471,8 @@
                                             </tr>
                                         </c:if>
                                     </c:forEach>
-                                </tbody>
+
+                                    </tbody>
                                 </table>
                                 <c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>
                             </div>
