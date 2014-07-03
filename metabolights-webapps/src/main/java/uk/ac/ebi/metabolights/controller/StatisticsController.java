@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 4/8/14 9:23 AM
+ * Last modified: 7/3/14 1:31 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -44,9 +44,12 @@ public class StatisticsController extends AbstractController{
         //How many submitters, reviewers, curators
         List<MLStats> subList  = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.SUBMITTERS.getValue());
 
+        List<MLStats> topSubList  = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.TOPSUBM.getValue());
+
         mav.addObject("dataList",dataList);
         mav.addObject("identifierList",idList);
         mav.addObject("submittersList",subList);
+        mav.addObject("topSubList",topSubList);
 
 		return mav;
     }
