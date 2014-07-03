@@ -493,6 +493,11 @@ input.resizable {
     border: 0px;
 }
 
+table.clean{
+    border: none;
+    margin: 5px;
+}
+
 
 #spectrumbrowser tr:nth-child(even)
 ,#spectrumbrowserms tr:nth-child(even)

@@ -20,9 +20,11 @@
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js" charset="utf-8"></script>
 
 <link rel="stylesheet" href="cssrl/iconfont/font_style.css" type="text/css" />
 <link rel="stylesheet"  href="css/ChEBICompound.css" type="text/css" />
+<link rel="stylesheet"  href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" type="text/css" />
 
 <script language="javascript" type="text/javascript">
 
@@ -154,6 +156,14 @@
             }
 
         });
+
+        $('table.display').dataTable( {
+                "scrollY": 350,
+                "scrollX": true,
+                "language": {
+                    "search": "Filter:"
+                }
+        } );
 
 
     });
@@ -355,7 +365,7 @@
         <!-- TAB2: Protocols-->
         <div id="tabs-2">
             <c:if test="${not empty study.protocols}">
-                <table>
+                <table class="clean">
                     <thead class='text_header'>
                     <tr>
                         <th>Protocol</th>
@@ -383,7 +393,7 @@
         <!-- TAB3: Sample-->
         <div id="tabs-3">
             <c:if test="${not empty study.samples}">
-                <table>
+                <table class="display clean">
                     <c:forEach var="sample" items="${study.samples}" varStatus="loopSampleLines">
                         <c:if test="${loopSampleLines.index == 0}">
                             <thead class='text_header'>
@@ -399,9 +409,9 @@
                             <tbody>
                         </c:if>
                         <c:if test="${not empty sample}">
-                            <c:if test="${loopSampleLines.index == 10}">
-                                </tbody><tbody id="sample_0" style='display:none'>
-                            </c:if>
+                            <%--<c:if test="${loopSampleLines.index == -10}">--%>
+                                <%--</tbody><tbody id="sample_0" style='display:none'>--%>
+                            <%--</c:if>--%>
                             <tr>
                                 <td>${sample.sampleName}</td>
                                 <td>${sample.charactersticsOrg}</td>
@@ -416,7 +426,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <c:if test="${fn:length(study.samples) > 10}"><a href="#" class="showLink" id="sample_link_0">Show more</a></c:if>
+                <%--<c:if test="${fn:length(study.samples) > 10}"><a href="#" class="showLink" id="sample_link_0">Show more</a></c:if>--%>
             </c:if>
         </div>
 
@@ -446,7 +456,7 @@
 
                             <h5><spring:message code="label.data"/></h5>
                             <div>
-                                <table>
+                                <table class="display clean">
                                     <c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopAssayLines">
                                         <c:if test="${loopAssayLines.index == 0}">
                                             <thead class='text_header'>
@@ -460,9 +470,9 @@
                                             <tbody>
                                         </c:if>
                                         <c:if test="${not empty assayLine.sampleName}">
-                                            <c:if test="${loopAssayLines.index == 10}">
-                                                </tbody><tbody id="assay_${loopAssays.index}" style='display:none'>
-                                            </c:if>
+                                            <%--<c:if test="${loopAssayLines.index == 10}">--%>
+                                                <%--</tbody><tbody id="assay_${loopAssays.index}" style='display:none'>--%>
+                                            <%--</c:if>--%>
                                             <tr>
                                             <td class="tableitem">${assayLine.sampleName}</td>
                                             <c:forEach var="factor" items="${assayLine.factors}">
@@ -474,7 +484,7 @@
 
                                     </tbody>
                                 </table>
-                                <c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>
+                                <%--<c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>--%>
                             </div>
                         <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
                             <h5 class="maf" mafurl="${study.studyIdentifier}/assay/${assay.assayNumber}/maf"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
