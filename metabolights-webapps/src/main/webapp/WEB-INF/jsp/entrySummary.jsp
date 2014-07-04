@@ -8,7 +8,7 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 4/3/14 9:49 AM
+  ~ Last modified: 7/4/14 9:17 AM
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -23,6 +23,7 @@
 	<c:choose>
 		<c:when test="${(!empty welcomemessage || !empty curator) && !searchResult.isPublic && empty reviewer}">
 			<div class="grid_20 alpha">
+                <a href="alt${searchResult.accStudy}" class="icon icon-generic" data-icon="&gt;"></a>|
 				<a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
 			</div>
 			<div class="grid_4 omega">
@@ -50,6 +51,7 @@
 		<c:otherwise>
             <c:if test="${!empty curator && searchResult.isPublic}">
                 <div class="grid_20 alpha">
+                    <a href="alt${searchResult.accStudy}" class="icon icon-generic" data-icon="&gt;"></a> |
                     <a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
                 </div>
                 <div class="grid_4 omega">
@@ -66,6 +68,7 @@
             </c:if>
 			<c:if test="${empty curator}">
                 <div class='grid_24 alpha omega'>
+                    <a href="alt${searchResult.accStudy}" class="icon icon-generic" data-icon="&gt;"></a> |
                     <a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
                 </div>
 			</c:if>
