@@ -21,7 +21,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <div style="overflow: auto">
-    <table>
+    <table class="maf clean display" assay="${assayNumber}">
         <thead class='text_header'>
             <tr>
                 <th>Metabolite identification</th>

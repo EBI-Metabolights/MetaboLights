@@ -63,6 +63,41 @@
 
         });
 
+        // Listen to click in MAF file title
+        // Like this: <h5 class="maf" mafurl=....
+        $("h5.maf").click(function(event) {
+
+            var headerClicked = event.target;
+            var mafUrl = headerClicked.getAttribute("mafurl");
+            var assay = headerClicked.getAttribute("assay");
+            var tablePlaceholder = $(headerClicked).next()[0];
+
+            // If the placeholder (DIV) is empty
+            if (tablePlaceholder.innerHTML == ""){
+
+                $.ajax({
+                    url: mafUrl,
+                    dataType: "html",
+                    context: headerClicked
+                }).done(function(data) {
+
+                    var tablePlaceHolder = $(this).next()[0];
+                    $(tablePlaceHolder).html(data);
+
+                    makeCoolTable("table.maf[assay='" + $(this).attr("assay") + "']");
+
+                });
+
+            }
+        });
+
+        $(function() {
+            $( ".accordion" ).accordion({
+                collapsible: true
+                ,heightStyle: "fill"
+            });
+        });
+
         var metLinkTimer = 0; // 0 is a safe "no timer" value
 
         $('.metLink').live('mouseenter', function(e) {
@@ -157,13 +192,7 @@
 
         });
 
-        $('table.display').dataTable( {
-                "scrollY": 350,
-                "scrollX": true,
-                "language": {
-                    "search": "Filter:"
-                }
-        } );
+        makeCoolTable();
 
 
     });
@@ -171,6 +200,21 @@
     $(function() {
         $( "#tabs" ).tabs();
     });
+
+    function makeCoolTable(selector){
+        if (selector === undefined){
+            selector = "table.display";
+        }
+
+        $(selector).dataTable( {
+//                "scrollY": 350,
+            "scrollX": true,
+            "language": {
+                "search": "Filter:"
+            }
+        } );
+
+    }
 
     function toggleColumn(tableId, anchor, duration ) {
 
@@ -277,9 +321,9 @@
                 <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                     <li>
                         <a href="#tabs-${loopAssays.index + 4}" class="noLine" title="${assay.fileName}"><spring:message code="label.assays"/>
-                            <c:if test="${fn:length(study.assays) gt 1}"> ${assay.assayNumber}</c:if>
+                            <c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                             <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                                <span class="icon icon-conceptual" data-icon="b" title="<spring:message code="label.mafFileFound"/>"/>
+                                &nbsp;<span class="icon icon-conceptual" data-icon="b" title="<spring:message code="label.mafFileFound"/>"/>
                             </c:if>
                         </a>
                     </li>
@@ -487,7 +531,8 @@
                                 <%--<c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>--%>
                             </div>
                         <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                            <h5 class="maf" mafurl="${study.studyIdentifier}/assay/${assay.assayNumber}/maf"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
+                            <br/><br/>
+                            <h5 class="maf" assay="${assay.assayNumber}" mafurl="${study.studyIdentifier}/assay/${assay.assayNumber}/maf"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
                             <div></div>
                             </div>
                         </c:if>
@@ -524,7 +569,7 @@
                     <h5><spring:message code="label.fileListTableExplanation"/></h5>
                     <p><input class="inputDiscrete resizable" id="fileSelector" class="" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>"></p>
                     <input type="hidden" name="token" value="${study.studyIdentifier}">
-                    <table id="files">
+                    <table id="files" class="clean">
                         <tr>
                             <th>Select</th>
                             <th>File</th>
