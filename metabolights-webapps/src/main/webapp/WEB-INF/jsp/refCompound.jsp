@@ -3,8 +3,12 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script src="http://keith-wood.name/js/jquery.svg.js"></script>
 <script src="http://keith-wood.name/js/jquery.svganim.js"></script>
-<script type="text/javascript"
-        src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>
+<%--<script type="text/javascript"--%>
+        <%--src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="http://www.ebi.ac.uk/~beisken/st/st.min.js" charset="utf-8"></script>
+<link rel="stylesheet"  href="cssrl/st.css" type="text/css" />
+
 
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
@@ -49,99 +53,228 @@
 
             $("#tabs").tabs({
                 cache: true,
+//                heightStyle: "fill",
                 activate: function (event, ui) {
 
                     // If the new tab is NMR...
                     if ($(ui.newTab.children('a')[0]).attr('href') == "#nmrSpectra-tab") {
 
-                        $("#spectrumbrowser").find("select").change(function (e) {
-                            e.preventDefault();
-
-                            /* Display the image */
-                            var spectrumId = $(this).val();
-
-                            /* Show info in the info div*/
-                            var nmrInfoDiv = $('#nmrInfo');
-                            /* Get the selected option */
-                            var option = $(this).find(":selected");
-
-
-                            /* Get the pathway object (json element)*/
-                            var spectra = nmrInfo[$(this)[0].selectedIndex];
-
-                            var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
-
-                            $.each(spectra.properties, function () {
-
-                                html = html + "<br/>" + this.name + ": "
-
-                                if (this.value.indexOf("http:") == 0) {
-                                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
-                                } else {
-                                    html = html + this.value;
-                                }
-
-                            });
-                            nmrInfoDiv.html(html);
-
-
-                        });
-
-                        // And now fire change event when the DOM is ready
-                        $("#spectrumbrowser").find("select").trigger('change');
-
+                        initializeNMRSpeckTackle()
                     }
+
                     // if the new tab is MS
                     if ($(ui.newTab.children('a')[0]).attr('href') == "#msSpectra-tab") {
 
-                        $("#spectrumbrowserms").find("select").change(function (e) {
-                            e.preventDefault();
-
-                            /* Display the image */
-                            var spectrumId = $(this).val();
-
-                            /* Show info in the info div*/
-                            var msInfoDiv = $('#msInfo');
-                            /* Get the selected option */
-                            var option = $(this).find(":selected");
-
-
-                            /* Get the spectra   object (json element)*/
-                            var spectra = msInfo[$(this)[0].selectedIndex];
-
-                            var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
-
-                            $.each(spectra.properties, function () {
-
-                                html = html + "<br/>" + this.name + ": "
-
-                                if (this.value.indexOf("http:") == 0) {
-                                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
-                                } else {
-                                    html = html + this.value;
-                                }
-
-                            });
-                            msInfoDiv.html(html);
-
-
-                        });
-
-                        // And now fire change event when the DOM is ready
-                        $("#spectrumbrowserms").find("select").trigger('change');
-
+                        initializeMSSpeckTackle();
                     }
+
+//                    // If the new tab is NMR...
+//                    if ($(ui.newTab.children('a')[0]).attr('href') == "#nmrSpectra-tab") {
+//
+//                        $("#spectrumbrowser").find("select").change(function (e) {
+//                            e.preventDefault();
+//
+//                            /* Display the image */
+//                            var spectrumId = $(this).val();
+//
+//                            /* Show info in the info div*/
+//                            var nmrInfoDiv = $('#nmrInfo');
+//                            /* Get the selected option */
+//                            var option = $(this).find(":selected");
+//
+//
+//                            /* Get the pathway object (json element)*/
+//                            var spectra = nmrInfo[$(this)[0].selectedIndex];
+//
+//                            var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
+//
+//                            $.each(spectra.properties, function () {
+//
+//                                html = html + "<br/>" + this.name + ": "
+//
+//                                if (this.value.indexOf("http:") == 0) {
+//                                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
+//                                } else {
+//                                    html = html + this.value;
+//                                }
+//
+//                            });
+//                            nmrInfoDiv.html(html);
+//
+//
+//                        });
+//
+//                        // And now fire change event when the DOM is ready
+//                        $("#spectrumbrowser").find("select").trigger('change');
+//
+//                    }
+//                    // if the new tab is MS
+//                    if ($(ui.newTab.children('a')[0]).attr('href') == "#msSpectra-tab") {
+//
+//                        $("#spectrumbrowserms").find("select").change(function (e) {
+//                            e.preventDefault();
+//
+//                            /* Display the image */
+//                            var spectrumId = $(this).val();
+//
+//                            /* Show info in the info div*/
+//                            var msInfoDiv = $('#msInfo');
+//                            /* Get the selected option */
+//                            var option = $(this).find(":selected");
+//
+//
+//                            /* Get the spectra   object (json element)*/
+//                            var spectra = msInfo[$(this)[0].selectedIndex];
+//
+//                            var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
+//
+//                            $.each(spectra.properties, function () {
+//
+//                                html = html + "<br/>" + this.name + ": "
+//
+//                                if (this.value.indexOf("http:") == 0) {
+//                                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
+//                                } else {
+//                                    html = html + this.value;
+//                                }
+//
+//                            });
+//                            msInfoDiv.html(html);
+//
+//
+//                        });
+//
+//                        // And now fire change event when the DOM is ready
+//                        $("#spectrumbrowserms").find("select").trigger('change');
+//
+//                    }
 
                     // to make bookmarkable
                     document.location.hash =  "#"+ui.newTab.attr("hash");
                 }
             });
         });
+
+
     });
 
     $(window).load(function () {
+
         $( "#tabs" ).tabs( "option", "active", tabToActivate );
+
     });
+
+    var MSchart;
+    var MSData;
+
+    function initializeMSSpeckTackle(){
+
+        if (MSchart != undefined) exit;
+
+        MSchart = st.chart.ms().xlabel("Mass-to-Charge").ylabel("Intensity").legend(false);
+
+        MSchart.render("#MSSpeckTackle");
+
+        MSData = st.data.set().x("peaks.mz").y("peaks.intensity").title("spectrumId");
+        MSchart.load (MSData);
+
+        loadSpectralist("#msSpectraList", msInfo);
+
+
+    }
+
+    var NMRchart;
+    var NMRarray;
+    function initializeNMRSpeckTackle(){
+
+        if (NMRchart != undefined) exit;
+
+        NMRchart = st.chart.nmr().xlabel("ppm").legend(false).margins([20, 40, 60, 0]);
+
+        NMRchart.render("#NMRSpeckTackle");
+
+        NMRarray = st.data.array().xlimits(["xMin","xMax"]).ylimits(["yMin", "yMax"]).y("data");
+        NMRchart.load (NMRarray);
+
+        loadSpectralist("#nmrSpectraList", nmrInfo);
+
+    }
+
+    function loadSpectralist(listSelector, spectraList){
+
+        // Get the SELECT ELEMENT
+        var list = $(listSelector)[0];
+
+        // Loop through the spectraList...
+        $.each(spectraList, function (i, item) {
+            $(list).append($('<option>', {
+                value: item.id,
+                text : item.name
+            }));
+        });
+
+        $(list).change({"spectraList":spectraList},function(event){
+
+            spectraChangeHandler(event);
+
+        })
+
+        // Get the first spectra and load it
+        loadSpectraAndInfo(spectraList[0], $(list).next().next());
+
+
+    }
+
+    function spectraChangeHandler(event){
+
+        /* Get the selected option */
+        var index = event.target.selectedIndex;
+
+        /* Get the spectra object (json element)*/
+        var spectra = event.data.spectraList[index];
+
+        var infoDiv = $(event.target).next().next();
+
+        loadSpectraAndInfo(spectra, infoDiv);
+    }
+
+    function loadSpectraAndInfo(spectra, infoDiv){
+
+        drawSpectra (spectra);
+        fillSpectraProperties(spectra,infoDiv);
+
+
+    }
+    function drawSpectra (spectra){
+
+        if (spectra.type == "NMR"){
+            data = NMRarray;
+        } else {
+            data = MSData;
+        }
+
+        //data.remove(0);
+        data.add(spectra.url);
+
+    }
+
+    function fillSpectraProperties(spectra, infoDiv){
+        var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
+
+        $.each(spectra.properties, function () {
+
+            html = html + "<br/>" + this.name + ": "
+
+            if (this.value.indexOf("http:") == 0) {
+                html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
+            } else {
+                html = html + this.value;
+            }
+
+        });
+        infoDiv.html(html);
+    }
+
 </script>
 <script type="text/javascript">
 
@@ -258,7 +391,6 @@
 
 
         // And now fire change event when the DOM is ready
-
         $('#pathwayList').trigger('change');
 
     });
@@ -331,286 +463,180 @@
 </div>
 
 <div class="grid_18 omega">
-<div id="tabs">
-<ul>
-    <li hash="chemistry">
-        <a class="noLine" href="#chemistry-tab"><spring:message code="ref.compound.tab.chemistry"/></a>
-    </li>
-    <c:if test="${compound.mc.hasSpecies}">
-        <li hash="biology">
-            <a class="noLine" href="#biology-tab"><spring:message code="ref.compound.tab.biology"/></a>
-        </li>
-    </c:if>
-    <c:if test="${compound.mc.hasPathways}">
-        <li hash="pathways">
-            <a class="noLine" href="#pathways-tab"><spring:message code="ref.compound.tab.pathways"/></a>
-        </li>
-    </c:if>
-    <c:if test="${compound.mc.hasReactions}">
-        <li hash="reactions">
-            <a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message
-                    code="ref.compound.tab.reactions"/></a>
-        </li>
-    </c:if>
-
-    <c:if test="${compound.mc.hasNMR}">
-        <li hash="nmrspectra">
-            <a class="noLine" href="#nmrSpectra-tab"><spring:message code="ref.compound.tab.nmrspectra"/></a>
-        </li>
-    </c:if>
-    <c:if test="${compound.mc.hasMS}">
-        <li hash="msspectra">
-            <a class="noLine" href="#msSpectra-tab"><spring:message code="ref.compound.tab.msspectra"/></a>
-        </li>
-    </c:if>
-    <c:if test="${compound.mc.hasLiterature}">
-        <li hash="literature">
-            <a class="noLine" href="citations?mtblc=${compound.mc.accession}"><spring:message
-                    code="ref.compound.tab.literature"/></a>
-        </li>
-    </c:if>
-</ul>
-
-<div id="chemistry-tab" class="tab">
-    <c:if test="${not empty compound.chebiEntity.definition}">
-        <h6><spring:message code="ref.compound.tab.characteristics.definition"/></h6>
-        ${compound.chebiEntity.definition}
-    </c:if>
-    <c:if test="${not empty compound.chebiEntity.iupacNames}">
-        <h6>IUPAC Name</h6>
-        <c:forEach var="iupacName" items="${compound.chebiEntity.iupacNames}">
-            ${iupacName.data}
-        </c:forEach>
-    </c:if>
-    <h6><spring:message code="ref.compound.tab.characteristics.chemicalproperties"/></h6>
-    <c:forEach var="formula" items="${compound.chebiEntity.formulae}">
-        <spring:message code="ref.compound.tab.characteristics.formula"/> - <span
-            id="formulae">${formula.data}</span><br/>
-    </c:forEach>
-    Average mass - ${compound.chebiEntity.mass}
-    <br/>
-    <h6><spring:message code="ref.compound.synonyms"/>:</h6>
-    <c:forEach var="synonym" items="${compound.chebiEntity.synonyms}">
-        <span class="tag">${synonym.data}</span>
-    </c:forEach>
-    <br/><br/>
-    ${compound.chebiEntity.inchi}<br/>
-</div>
-
-<c:if test="${compound.mc.hasSpecies}">
-    <!-- Found in -->
-    <div id="biology-tab" class="tab">
-            <%--<c:forEach var="metSpecie" items="${compound.mc.metSpecies}">--%>
-            <%--${metSpecie.species.species} - ${metSpecie.crossReference.accession}<br/>--%>
-            <%--</c:forEach>--%>
-        <c:forEach var="item" items="${compound.species}">
-            <br/>${item.key.species} :
-            <c:forEach var="xref" items="${item.value}">
-                <c:choose>
-                    <c:when test="${xref.crossReference.db.id eq 2}">
-                        <a class="tag" href='${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a class="tag"
-                           href='http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </c:forEach>
-    </div>
-</c:if>
-<c:if test="${compound.mc.hasPathways}">
-    <!-- Pathways -->
-    <div id="pathways-tab" class="tab">
-        <select id="pathwayList">
-            <c:forEach var="pathway" items="${compound.mc.metPathways}">
-                <option value="${pathway.id}" source="${pathway.database.name}"
-                        species="${pathway.speciesAssociated.species}">${pathway.name}</option>
-            </c:forEach>
-        </select>
-
-        <div id="pathwayInfo" class="specs"></div>
-        <div id="pathwayContainer"></div>
-        <script>
-            var pathwaysInfo = [
-                <c:forEach var="pathway" items="${compound.mc.metPathways}" varStatus="pathwayLoopStatus">
-                <c:if test="${pathwayLoopStatus.index gt 0}">,
-                </c:if>
-                {"id":${pathway.id}, "source": "${pathway.database.name}", "species": "${pathway.speciesAssociated.species}", "properties": [
-                    <c:forEach var="attribute" items="${pathway.attributes}" varStatus="attributeLoopStatus">
-                    <c:if test="${attributeLoopStatus.index gt 0}">,
-                    </c:if>
-                    {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
-                    </c:forEach>
-                ]
-                }
-                </c:forEach>
-            ];
-        </script>
-    </div>
-</c:if>
-<%-- Reactions
-<div id="tabs-4" class="tab">
-    <h4>To be implemented...</h4>
-    <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTLBHrDpm9cZkyAdfU7KdQnVLVZ9MG6SByle5QQM0IpSf2hBezB"/>
-</div>--%>
-
-<c:if test="${compound.mc.hasNMR}">
-    <!-- NMR Spectra -->
-    <div id="nmrSpectra-tab" class="tab">
-
-        <div id="spectrumbrowser">
-            <c:set var="count" value="0" scope="page"/>
-            {"list":
-            [<c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraloopStatus">
-            <c:if test="${spectra.spectraType == 'NMR'}">
-                <c:if test="${count gt 0}">,</c:if>{"name":"${spectra.name}", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}
-                <c:set var="count" value="${count + 1}" scope="page"/>
+    <div id="tabs" style="border: none">
+        <ul>
+            <li hash="chemistry">
+                <a class="noLine" href="#chemistry-tab"><spring:message code="ref.compound.tab.chemistry"/></a>
+            </li>
+            <c:if test="${compound.mc.hasSpecies}">
+                <li hash="biology">
+                    <a class="noLine" href="#biology-tab"><spring:message code="ref.compound.tab.biology"/></a>
+                </li>
             </c:if>
-        </c:forEach>
-            ]
-            }
-        </div>
-
-        <script>
-            var nmrInfo = [
-                <c:set var="count" value="0" scope="page"/>
-                <c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStatus">
-                <c:if test="${spectra.spectraType == 'NMR'}">
-                <c:if test="${count gt 0}">,
-                </c:if>
-                {"id":${spectra.id}, "name": "${spectra.name}", "url": "spectra/${spectra.id}/json", "type": "${spectra.spectraType}", "properties": [
-                    <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
-                    <c:if test="${attributeLoopStatus.index gt 0}">,
-                    </c:if>
-                    {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
-                    </c:forEach>
-                    <c:set var="count" value="${count + 1}" scope="page"/>
-                ]
-                }
-                </c:if>
-                </c:forEach>
-            ];
-        </script>
-        <div id="nmrInfo" class="specs"></div>
-    </div>
-</c:if>
-
-<c:if test="${compound.mc.hasMS}">
-    <!-- MS Spectra -->
-
-    <div id="msSpectra-tab" class="tab">
-
-        <div id="spectrumbrowserms">
-            <c:set var="count" value="0" scope="page"/>
-            {"list":
-            [<c:forEach var="msspectra" items="${compound.mc.metSpectras}" varStatus="msspectraLoopStatus">
-            <c:if test="${msspectra.spectraType == 'MS'}">
-                <c:if test="${count gt 0}">,</c:if>{"name":"${msspectra.name}", "id":${msspectra.id}, "url":"spectra/${msspectra.id}/json"}
-                <c:set var="count" value="${count + 1}" scope="page"/>
+            <c:if test="${compound.mc.hasPathways}">
+                <li hash="pathways">
+                    <a class="noLine" href="#pathways-tab"><spring:message code="ref.compound.tab.pathways"/></a>
+                </li>
             </c:if>
+            <c:if test="${compound.mc.hasReactions}">
+                <li hash="reactions">
+                    <a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message
+                            code="ref.compound.tab.reactions"/></a>
+                </li>
+            </c:if>
+            <c:if test="${compound.mc.hasNMR}">
+                <li hash="nmrspectra">
+                    <a class="noLine" href="#nmrSpectra-tab"><spring:message code="ref.compound.tab.nmrspectra"/></a>
+                </li>
+            </c:if>
+            <c:if test="${compound.mc.hasMS}">
+                <li hash="msspectra">
+                    <a class="noLine" href="#msSpectra-tab"><spring:message code="ref.compound.tab.msspectra"/></a>
+                </li>
+            </c:if>
+            <c:if test="${compound.mc.hasLiterature}">
+                <li hash="literature">
+                    <a class="noLine" href="citations?mtblc=${compound.mc.accession}"><spring:message
+                            code="ref.compound.tab.literature"/></a>
+                </li>
+            </c:if>
+        </ul>
+        <div id="chemistry-tab" class="tab">
+        <c:if test="${not empty compound.chebiEntity.definition}">
+            <h6><spring:message code="ref.compound.tab.characteristics.definition"/></h6>
+            ${compound.chebiEntity.definition}
+        </c:if>
+        <c:if test="${not empty compound.chebiEntity.iupacNames}">
+            <h6>IUPAC Name</h6>
+            <c:forEach var="iupacName" items="${compound.chebiEntity.iupacNames}">
+                ${iupacName.data}
+            </c:forEach>
+        </c:if>
+        <h6><spring:message code="ref.compound.tab.characteristics.chemicalproperties"/></h6>
+        <c:forEach var="formula" items="${compound.chebiEntity.formulae}">
+            <spring:message code="ref.compound.tab.characteristics.formula"/> - <span
+                id="formulae">${formula.data}</span><br/>
         </c:forEach>
-            ]
-            }
-        </div>
-        <script>
-            var msInfo = [
-                <c:set var="count" value="0" scope="page"/>
-                <c:forEach var="msspectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStat">
-                <c:if test="${msspectra.spectraType == 'MS'}">
-                <c:if test="${count gt 0}">,
-                </c:if>
-                {"id":${msspectra.id}, "name": "${msspectra.name}", "url": "spectra/${msspectra.id}/json", "type": "${msspectra.spectraType}", "properties": [
-                    <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
-                    <c:if test="${attributeLoopStatus.index gt 0}">,
-                    </c:if>
-                    {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
-                    </c:forEach>
-                    <c:set var="count" value="${count + 1}" />
-                ]
-                }
-                </c:if>
-                </c:forEach>
-            ];
-        </script>
-        <div id="msInfo" class="specs"></div>
+        Average mass - ${compound.chebiEntity.mass}
+        <br/>
+        <h6><spring:message code="ref.compound.synonyms"/>:</h6>
+        <c:forEach var="synonym" items="${compound.chebiEntity.synonyms}">
+            <span class="tag">${synonym.data}</span>
+        </c:forEach>
+        <br/><br/>
+        ${compound.chebiEntity.inchi}<br/>
     </div>
-</c:if>
+        <c:if test="${compound.mc.hasSpecies}">
+        <!-- Found in -->
+        <div id="biology-tab" class="tab">
+                <%--<c:forEach var="metSpecie" items="${compound.mc.metSpecies}">--%>
+                <%--${metSpecie.species.species} - ${metSpecie.crossReference.accession}<br/>--%>
+                <%--</c:forEach>--%>
+            <c:forEach var="item" items="${compound.species}">
+                <br/>${item.key.species} :
+                <c:forEach var="xref" items="${item.value}">
+                    <c:choose>
+                        <c:when test="${xref.crossReference.db.id eq 2}">
+                            <a class="tag" href='${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="tag"
+                               href='http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </c:forEach>
+        </div>
+    </c:if>
+        <c:if test="${compound.mc.hasPathways}">
+        <!-- Pathways -->
+        <div id="pathways-tab" class="tab">
+            <select id="pathwayList">
+                <c:forEach var="pathway" items="${compound.mc.metPathways}">
+                    <option value="${pathway.id}" source="${pathway.database.name}"
+                            species="${pathway.speciesAssociated.species}">${pathway.name}</option>
+                </c:forEach>
+            </select>
 
-<%--<c:if test="${compound.mc.hasNMR}">--%>
-<%--<!-- NMR Spectra -->--%>
-<%--<div id="tabs-5" class="tab">--%>
+            <div id="pathwayInfo" class="specs"></div>
+            <div id="pathwayContainer"></div>
+            <script>
+                var pathwaysInfo = [
+                    <c:forEach var="pathway" items="${compound.mc.metPathways}" varStatus="pathwayLoopStatus">
+                    <c:if test="${pathwayLoopStatus.index gt 0}">,
+                    </c:if>
+                    {"id":${pathway.id}, "source": "${pathway.database.name}", "species": "${pathway.speciesAssociated.species}", "properties": [
+                        <c:forEach var="attribute" items="${pathway.attributes}" varStatus="attributeLoopStatus">
+                        <c:if test="${attributeLoopStatus.index gt 0}">,
+                        </c:if>
+                        {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
+                        </c:forEach>
+                    ]
+                    }
+                    </c:forEach>
+                ];
+            </script>
+        </div>
+        </c:if>
+        <c:if test="${compound.mc.hasNMR}">
+        <!-- NMR Spectra -->
+        <div id="nmrSpectra-tab" class="tab">
+            <select class="grid_22" id="nmrSpectraList"></select>
+            <div id="NMRSpeckTackle" class="grid_22" style="height: 500px"></div>
+            <div id="nmrInfo" class="grid_22 specs"></div>
+            <script>
+                var nmrInfo = [
+                    <c:set var="count" value="0" scope="page"/>
+                    <c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStatus">
+                    <c:if test="${spectra.spectraType == 'NMR'}">
+                    <c:if test="${count gt 0}">,
+                    </c:if>
+                    {"id":${spectra.id}, "name": "${spectra.name}", "url": "spectra/${spectra.id}/json", "type": "${spectra.spectraType}", "properties": [
+                        <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
+                        <c:if test="${attributeLoopStatus.index gt 0}">,
+                        </c:if>
+                        {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
+                        </c:forEach>
+                        <c:set var="count" value="${count + 1}" scope="page"/>
+                    ]
+                    }
+                    </c:if>
+                    </c:forEach>
+                ];
 
-<%--<div id="spectrumbrowser">--%>
-<%--<c:set var="count" value="0" scope="page" />--%>
-<%--{"list":--%>
-<%--[<c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraloopStatus">--%>
-<%--<c:if test="${spectra.spectraType == 'NMR'}">--%>
-<%--<c:if test="${count gt 0}">,</c:if>{"name":"${spectra.name}", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}--%>
-<%--<c:set var="count" value="${count + 1}" scope="page"/>--%>
-<%--</c:if>--%>
-<%--</c:forEach>--%>
-<%--]--%>
-<%--}--%>
-<%--</div>--%>
+        </script>
+        </div>
+    </c:if>
+        <c:if test="${compound.mc.hasMS}">
+        <!-- MS Spectra -->
+        <div id="msSpectra-tab" class="tab">
+            <select class="grid_22" id="msSpectraList"></select>
+            <div id="MSSpeckTackle" class="grid_22" style="height: 500px"></div>
+            <div id="msInfo" class="grid_22 specs"></div>
+            <script>
+                var msInfo = [
+                    <c:set var="count" value="0" scope="page"/>
+                    <c:forEach var="msspectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStat">
+                    <c:if test="${msspectra.spectraType == 'MS'}">
+                    <c:if test="${count gt 0}">,
+                    </c:if>
+                    {"id":${msspectra.id}, "name": "${msspectra.name}", "url": "spectra/${msspectra.id}/json", "type": "${msspectra.spectraType}", "properties": [
+                        <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
+                        <c:if test="${attributeLoopStatus.index gt 0}">,
+                        </c:if>
+                        {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
+                        </c:forEach>
+                        <c:set var="count" value="${count + 1}" />
+                    ]
+                    }
+                    </c:if>
+                    </c:forEach>
+                ];
 
-<%--<script>--%>
-<%--var nmrInfo = [--%>
-<%--<c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStatus">--%>
-<%--<c:if test="${spectra.spectraType == 'NMR'}">--%>
-<%--<c:if test="${spectraLoopStatus.index gt 0}">,</c:if>--%>
-<%--{"id":${spectra.id}--%>
-<%--, "name":"${spectra.name}"--%>
-<%--, "url":"spectra/${spectra.id}/json"--%>
-<%--, "type":"${spectra.spectraType}"--%>
-<%--, "properties": [--%>
-<%--<c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">--%>
-<%--<c:if test="${attributeLoopStatus.index gt 0}">,</c:if>--%>
-<%--{"name": "${attribute.attributeDefinition.name}", "value":"${attribute.value}"}--%>
-<%--</c:forEach>--%>
-<%--]--%>
-<%--}--%>
-<%--</c:if>--%>
-<%--</c:forEach>--%>
-<%--];--%>
-<%--</script>--%>
-<%--<div id="nmrInfo" class="specs"></div>--%>
-<%--</div>--%>
-<%--</c:if>--%>
-
-
-<%--<c:if test="${compound.mc.hasMS}">--%>
-<%--<!-- MS Spectra -->--%>
-<%--<div id="tabs-6" class="tab">--%>
-<%--<div id="spectrumbrowserms">--%>
-<%--{"list":--%>
-<%--[<c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraloopStatus">--%>
-<%--<c:if test="${spectraloopStatus.index gt 0}">,</c:if>--%>
-<%--{"name":"${spectra.name}--%>
-<%--<c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeloopStatus">--%>
-<%--<c:if test="${attributeloopStatus.index eq 0}"> (</c:if>--%>
-<%--<c:if test="${attributeloopStatus.index gt 0}">, </c:if>--%>
-<%--${attribute.attributeDefinition.name}: ${attribute.value}--%>
-<%--<c:if test="${attributeloopStatus.index eq (fn:length(spectra.attributes)-1)}">)</c:if>--%>
-<%--</c:forEach>", "id":${spectra.id}, "url":"spectra/${spectra.id}/json"}--%>
-<%--</c:forEach>--%>
-<%--]--%>
-<%--}--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</c:if>--%>
-
-<%-- Literature
-<div id="tabs-7" class="tab">
-    <!--<h4>To be implemented...</h4>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIS7_rCf2a4_96A56MVeTRTsvyLmohyfOwBLDrUwds5HAat6RZ"/>
-    <br/>
-    <c:forEach var="citation" items="${compound.chebiEntity.citations}">
-        <span class="tag">${citation.data}</span><br/>
-    </c:forEach>
-</div>
---%>
-</div>
-</div>
-</div>
+            </script>
+        </div>
+    </c:if>
+</div> <%-- End of tabs--%>
+</div> <%-- End of tabs placeholder--%>
+</div> <%--End of content --%>
 <br/>
