@@ -253,7 +253,7 @@
             data = MSData;
         }
 
-        //data.remove(0);
+        data.remove(0);
         data.add(spectra.url);
 
     }
