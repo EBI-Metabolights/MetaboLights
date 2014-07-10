@@ -49,9 +49,9 @@
             <c:forEach var="metaboliteLine" items="${metaboliteAssignment.metaboliteAssignmentLines}" varStatus="loopMetabolites">
                 <c:if test="${not empty metaboliteLine.metaboliteIdentification}">
                     <%-- Show more stuff...show only ten lines by default --%>
-                    <c:if test="${loopMetabolites.index == 10}">
-                        </tbody><tbody id="met_${assayNumber}" style='display:none'>
-                    </c:if>
+                    <%--<c:if test="${loopMetabolites.index == 10}">--%>
+                        <%--</tbody><tbody id="met_${assayNumber}" style='display:none'>--%>
+                    <%--</c:if>--%>
 
                     <tr>
                         <td>${metaboliteLine.metaboliteIdentification}
