@@ -36,6 +36,7 @@ import java.util.UUID;
 @Controller
 public class LoginController extends AbstractController{
 
+	static final String ANONYMOUS_USER = "anonymousUser";
 	@Autowired
 	private EmailService emailService;
 
@@ -158,7 +159,7 @@ public class LoginController extends AbstractController{
 		// Get the spring authentication instance
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		if (auth.getPrincipal().equals("anonymousUser")){
+		if (auth.getPrincipal().equals(ANONYMOUS_USER)){
 
 			MetabolightsUser user = new MetabolightsUser();
 			user.setUserName(auth.getPrincipal().toString());

@@ -89,7 +89,7 @@ public class StudyController {
 			study.setStudyIdentifier(metabolightsId);
 			study.setPublicStudy(false);
 			study.setTitle("PRIVATE STUDY");
-			study.setDescription("This study is private and can not be accessed at the moment. Soon we will implement the required security layer in the webservice.");
+			study.setDescription("This study is private and you haven't got access to it.");
 		}
 
 		return  study;

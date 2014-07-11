@@ -43,7 +43,7 @@ ${localfrontierheader}
 		$loginA = $('[href="login"]');
 		$loginA.html('<sec:authentication property="principal.firstName" />');
         $loginA.attr("href", '<spring:url value="useroptions"/>');
-        $loginA.attr("title", '<spring:message code= "msg.welcome"/>&nbsp;<sec:authentication property="principal.firstName" />');
+        $loginA.attr("title", '<spring:message code= "msg.welcome"/><sec:authentication property="principal.firstName" />');
 
 	</script>
 </sec:authorize>

@@ -25,6 +25,7 @@ import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Sample;
@@ -49,6 +50,7 @@ import java.util.TreeSet;
 public class EntryController extends AbstractController {
 
 
+	private static final String ALTERNATIVE_ENTRY_PREFIX = "alt";
 	private static Logger logger = Logger.getLogger(EntryController.class);
 	private final String DESCRIPTION="descr";
 
@@ -241,20 +243,31 @@ public class EntryController extends AbstractController {
 	}
 
 
-	@RequestMapping(value = { "/alt{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
+	@RequestMapping(value = { "/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
     public ModelAndView showAltEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
 
         logger.info("requested entry " + mtblsId);
 
+		mtblsId = mtblsId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
 
         //compose the ws url..
 		String wsUrl = getWsPath(request);
 
         MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
 
+		// Get the user
+		MetabolightsUser user = LoginController.getLoggedUser();
+
 		// Use user token ...
-		wsClient.setUserToken(LoginController.getLoggedUser().getApiToken());
+		wsClient.setUserToken(user.getApiToken());
 		uk.ac.ebi.metabolights.repository.model.Study study = wsClient.getStudy(mtblsId);
+
+
+		// If the study is private and the user is annonymous
+		if (user.getUserName().equals(LoginController.ANONYMOUS_USER.toLowerCase()) && !study.isPublicStudy()){
+			return notLoggedIn(ALTERNATIVE_ENTRY_PREFIX + mtblsId);
+		}
+
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry2");
 
