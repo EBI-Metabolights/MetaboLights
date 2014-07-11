@@ -2,7 +2,7 @@
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
  * Cheminformatics and Metabolism group
  *
- * Last modified: 6/6/14 3:59 PM
+ * Last modified: 7/11/14 3:10 PM
  * Modified by:   kenneth
  *
  * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
@@ -59,7 +59,7 @@ public class EntryController extends AbstractController {
     private AccessionService accessionService;
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
-	public static final String REVIEWER_OBFUSATION_CODE_URL = "/reviewer{obfusationCode}";
+	public static final String REVIEWER_OBFUSCATION_CODE_URL = "/reviewer{obfuscationCode}";
 
 	@RequestMapping(value = "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayNumber}/maf")
 	public ModelAndView getMetabolitesIdentified(
@@ -82,14 +82,17 @@ public class EntryController extends AbstractController {
 		return mav;
 	}
 
-    @RequestMapping(value = {REVIEWER_OBFUSATION_CODE_URL})
-    public ModelAndView showReviewerEntry(@PathVariable("obfusationCode") String obfusationCode, HttpServletRequest request) {
+    @RequestMapping(value = {REVIEWER_OBFUSCATION_CODE_URL})
+    public ModelAndView showReviewerEntry(@PathVariable("obfuscationCode") String obfuscationCode, HttpServletRequest request) {
         Study study = null;
+                //TODO, Get the username from lucene index based on obfuscation code
+                //TODO, get the token from the database based on userid
+                //TODO, call the WS with the study id and user token
 
         try {
-            study = getStudy(null, obfusationCode, request);
+            study = getStudy(null, obfuscationCode, request);
         }  catch (IllegalAccessException e){
-            notLoggedIn(obfusationCode);
+            notLoggedIn(obfuscationCode);
         }
 
         if (study ==null || study.getAcc() == null || study.getAcc().equals("Error"))
