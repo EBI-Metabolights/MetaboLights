@@ -2,19 +2,11 @@
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
-  ~ Last modified: 08/10/13 11:33
+  ~ Last modified: 7/11/14 3:51 PM
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~ Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   --%>
-
-<%--
-  Created by IntelliJ IDEA.
-  User: tejasvi
-  Date: 24/09/13
-  Time: 13:31
-  To change this template use File | Settings | File Templates.
---%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -48,17 +40,12 @@
         <tbody>
             <c:forEach var="metaboliteLine" items="${metaboliteAssignment.metaboliteAssignmentLines}" varStatus="loopMetabolites">
                 <c:if test="${not empty metaboliteLine.metaboliteIdentification}">
-                    <%-- Show more stuff...show only ten lines by default --%>
-                    <%--<c:if test="${loopMetabolites.index == 10}">--%>
-                        <%--</tbody><tbody id="met_${assayNumber}" style='display:none'>--%>
-                    <%--</c:if>--%>
-
                     <tr>
                         <td>${metaboliteLine.metaboliteIdentification}
                             <c:choose>
                                 <c:when test="${empty metaboliteLine.databaseIdentifier}"></c:when>
                                 <c:when test="${fn:contains(metaboliteLine.databaseIdentifier,'CHEBI:')}">
-                                    <a class="metLink" identifier="${metaboliteLine.databaseIdentifier}" href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${metaboliteLine.databaseIdentifier}" target="_blank">(${metaboliteLine.databaseIdentifier})</a>
+                                    <a class="metLink" identifier="${metaboliteLine.databaseIdentifier}" href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${metaboliteLine.databaseIdentifier}" target="_blank"> (${metaboliteLine.databaseIdentifier})</a>
                                 </c:when>
                                 <c:otherwise>(${metaboliteLine.databaseIdentifier})</c:otherwise>
                             </c:choose>
@@ -75,10 +62,18 @@
                         <td>${metaboliteLine.charge}</td>
                         <td>${metaboliteLine.retentionTime}</td>
                         <td>${metaboliteLine.taxid}</td>
-                        <td>${metaboliteLine.database}(${metaboliteLine.databaseVersion})</td>
+                        <td>${metaboliteLine.database}
+                            <c:if test="${not empty metaboliteLine.databaseVersion}">
+                                (${metaboliteLine.databaseVersion})
+                            </c:if>
+                        </td>
                         <td>${metaboliteLine.reliability}</td>
                         <td>${metaboliteLine.uri}</td>
-                        <td>${metaboliteLine.searchEngine}(${metaboliteLine.searchEngineScore})</td>
+                        <td>${metaboliteLine.searchEngine}
+                            <c:if test="${not empty metaboliteLine.searchEngineScore}">
+                                (${metaboliteLine.searchEngineScore})
+                            </c:if>
+                        </td>
                         <td>${metaboliteLine.smallmoleculeAbundanceSub} ${metaboliteLine.smallmoleculeAbundanceStdevSub} ${metaboliteLine.smallmoleculeAbundanceStdErrorSub}</td>
                     </tr>
                 </c:if>
