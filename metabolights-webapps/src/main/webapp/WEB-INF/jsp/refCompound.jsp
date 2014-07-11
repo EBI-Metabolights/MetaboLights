@@ -69,87 +69,6 @@
                         initializeMSSpeckTackle();
                     }
 
-//                    // If the new tab is NMR...
-//                    if ($(ui.newTab.children('a')[0]).attr('href') == "#nmrSpectra-tab") {
-//
-//                        $("#spectrumbrowser").find("select").change(function (e) {
-//                            e.preventDefault();
-//
-//                            /* Display the image */
-//                            var spectrumId = $(this).val();
-//
-//                            /* Show info in the info div*/
-//                            var nmrInfoDiv = $('#nmrInfo');
-//                            /* Get the selected option */
-//                            var option = $(this).find(":selected");
-//
-//
-//                            /* Get the pathway object (json element)*/
-//                            var spectra = nmrInfo[$(this)[0].selectedIndex];
-//
-//                            var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
-//
-//                            $.each(spectra.properties, function () {
-//
-//                                html = html + "<br/>" + this.name + ": "
-//
-//                                if (this.value.indexOf("http:") == 0) {
-//                                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
-//                                } else {
-//                                    html = html + this.value;
-//                                }
-//
-//                            });
-//                            nmrInfoDiv.html(html);
-//
-//
-//                        });
-//
-//                        // And now fire change event when the DOM is ready
-//                        $("#spectrumbrowser").find("select").trigger('change');
-//
-//                    }
-//                    // if the new tab is MS
-//                    if ($(ui.newTab.children('a')[0]).attr('href') == "#msSpectra-tab") {
-//
-//                        $("#spectrumbrowserms").find("select").change(function (e) {
-//                            e.preventDefault();
-//
-//                            /* Display the image */
-//                            var spectrumId = $(this).val();
-//
-//                            /* Show info in the info div*/
-//                            var msInfoDiv = $('#msInfo');
-//                            /* Get the selected option */
-//                            var option = $(this).find(":selected");
-//
-//
-//                            /* Get the spectra   object (json element)*/
-//                            var spectra = msInfo[$(this)[0].selectedIndex];
-//
-//                            var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
-//
-//                            $.each(spectra.properties, function () {
-//
-//                                html = html + "<br/>" + this.name + ": "
-//
-//                                if (this.value.indexOf("http:") == 0) {
-//                                    html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
-//                                } else {
-//                                    html = html + this.value;
-//                                }
-//
-//                            });
-//                            msInfoDiv.html(html);
-//
-//
-//                        });
-//
-//                        // And now fire change event when the DOM is ready
-//                        $("#spectrumbrowserms").find("select").trigger('change');
-//
-//                    }
-
                     // to make bookmarkable
                     document.location.hash =  "#"+ui.newTab.attr("hash");
                 }
@@ -464,7 +383,7 @@
 </div>
 
 <div class="grid_18 omega">
-    <div id="tabs" style="border: none">
+    <div id="tabs" class="tabContainer">
         <ul>
             <li hash="chemistry">
                 <a class="noLine" href="#chemistry-tab"><spring:message code="ref.compound.tab.chemistry"/></a>

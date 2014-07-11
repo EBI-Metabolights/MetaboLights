@@ -261,6 +261,7 @@ public class EntryController extends AbstractController {
         mav.addObject("submittedID", accessionService.getSubmittedId(study.getStudyIdentifier()));
         mav.addObject("studyXRefs", accessionService.getStudyXRefs(study.getStudyIdentifier()));
         mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
+		mav.addObject("pageTitle", study.getStudyIdentifier() + ":" +study.getTitle() );
         for (Sample sample : study.getSamples()){
             mav.addObject("factors", sample.getFactors()); //just to get the correct order of the column headers
             break;

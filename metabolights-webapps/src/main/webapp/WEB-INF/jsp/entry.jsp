@@ -259,7 +259,7 @@ function toggleColumn(tableId, anchor, duration ) {
 	    </c:if>
         <br/><br/>
 
-		<div id="tabs">
+		<div id="tabs" class="tabContainer">
 			<ul>
 				<li><a href="#tabs-1" class="noLine"><spring:message code="label.studyDesign"/></a></li>
 				<li>

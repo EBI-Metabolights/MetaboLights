@@ -269,7 +269,7 @@
 <c:set var="stringToFind" value="${study.studyIdentifier}:assay:" />
 
 
-<div class="push_1 grid_22 box alpha omega">
+<div class="push_1 grid_22 alpha omega">
 
     <span class="right">
             <c:if test="${not empty study.studySubmissionDate}">
@@ -310,7 +310,7 @@
 
 
     <!-- Configuring tabs -->
-    <div id="tabs">
+    <div id="tabs" class="tabContainer">
 
         <!-- Setting up tab list-->
         <ul>

@@ -236,6 +236,11 @@ html.fontface .helpGeneric:before {
     min-height: 200px;
 }
 
+/*Tab container*/
+.tabContainer{
+    border : none !Important;
+}
+
 /* centered items */
 .center {
     text-align: center;
