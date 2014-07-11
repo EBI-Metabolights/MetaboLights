@@ -382,9 +382,9 @@
 
 </div>
 
-<div class="grid_18 omega">
+<div class="grid_18">
     <div id="tabs" class="tabContainer">
-        <ul>
+        <ul class="tabHeader">
             <li hash="chemistry">
                 <a class="noLine" href="#chemistry-tab"><spring:message code="ref.compound.tab.chemistry"/></a>
             </li>
@@ -501,9 +501,9 @@
         <c:if test="${compound.mc.hasNMR}">
         <!-- NMR Spectra -->
         <div id="nmrSpectra-tab" class="tab">
-            <select class="grid_22" id="nmrSpectraList"></select>
-            <div id="NMRSpeckTackle" class="grid_22" style="height: 500px"></div>
-            <div id="nmrInfo" class="grid_22 specs"></div>
+            <select class="grid_24" id="nmrSpectraList"></select>
+            <div id="NMRSpeckTackle" class="grid_24" style="height: 500px"></div>
+            <div id="nmrInfo" class="grid_23 specs"></div>
             <script>
                 var nmrInfo = [
                     <c:set var="count" value="0" scope="page"/>
@@ -530,9 +530,9 @@
         <c:if test="${compound.mc.hasMS}">
         <!-- MS Spectra -->
         <div id="msSpectra-tab" class="tab">
-            <select class="grid_22" id="msSpectraList"></select>
-            <div id="MSSpeckTackle" class="grid_22" style="height: 500px"></div>
-            <div id="msInfo" class="grid_22 specs"></div>
+            <select class="grid_24" id="msSpectraList"></select>
+            <div id="MSSpeckTackle" class="grid_24" style="height: 500px"></div>
+            <div id="msInfo" class="grid_23 specs"></div>
             <script>
                 var msInfo = [
                     <c:set var="count" value="0" scope="page"/>

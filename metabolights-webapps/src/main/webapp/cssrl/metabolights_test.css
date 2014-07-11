@@ -234,11 +234,15 @@ html.fontface .helpGeneric:before {
 /* Tab style */
 .tab {
     min-height: 200px;
+    padding: 2em 0 0 0 !Important;
 }
 
 /*Tab container*/
 .tabContainer{
     border : none !Important;
+}
+.tabHeader{
+    border: none !Important;
 }
 
 /* centered items */
@@ -515,7 +519,7 @@ table.clean{
     border: 1px;
     font-size: small;
     padding: 5px;
-    width: 98%;
+    /*width: 98%;*/
     margin: auto;
 }
 

@@ -313,7 +313,7 @@
     <div id="tabs" class="tabContainer">
 
         <!-- Setting up tab list-->
-        <ul>
+        <ul class="tabHeader">
             <li><a href="#tabs-1" class="noLine"><spring:message code="label.studyDesign"/></a></li>
             <li><a href="#tabs-2" class="noLine"><spring:message code="label.protocols"/></a></li>
             <li><a href="#tabs-3" class="noLine"><spring:message code="label.sample"/></a></li>
@@ -338,7 +338,7 @@
 
 
         <!-- TAB1: INFO-->
-        <div id="tabs-1">
+        <div id="tabs-1" class="tab">
             <c:if test="${not empty study.organism}">
                 <br/>
                 <fieldset class="box">
@@ -407,7 +407,7 @@
         </div>
 
         <!-- TAB2: Protocols-->
-        <div id="tabs-2">
+        <div id="tabs-2" class="tab">
             <c:if test="${not empty study.protocols}">
                 <table class="clean">
                     <thead class='text_header'>
@@ -435,7 +435,7 @@
         <!-- ends tabs-2 -->
 
         <!-- TAB3: Sample-->
-        <div id="tabs-3">
+        <div id="tabs-3" class="tab">
             <c:if test="${not empty study.samples}">
                 <table class="display clean">
                     <c:forEach var="sample" items="${study.samples}" varStatus="loopSampleLines">
@@ -478,7 +478,7 @@
         <!-- TAB4+: Assays-->
             <c:if test="${not empty study.assays}">
                 <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
-                    <div id="tabs-${loopAssays.index + 4}">
+                    <div id="tabs-${loopAssays.index + 4}" class="tab">
                         <div class="specs">
                             <spring:message code="label.assayName"/>: <a href="${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a><br/>
                             <spring:message code="label.measurement"/>: ${assay.measurement}<br/>
@@ -547,7 +547,7 @@
                 <c:set var="token" value="?token=${study.studyIdentifier}"/>
             </c:if>
 
-            <div id="tabs-files"> <!-- Study files -->
+            <div id="tabs-files" class="tab"> <!-- Study files -->
                 <form action="${study.studyIdentifier}/files/selection" method="post">
                     <h5>
                         <a class="noLine" href="${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
