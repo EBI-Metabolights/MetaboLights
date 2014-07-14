@@ -29,8 +29,10 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Sample;
+import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.AccessionService;
 import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
@@ -59,6 +61,9 @@ public class EntryController extends AbstractController {
 
     @Autowired
     private AccessionService accessionService;
+
+	@Autowired
+	SearchService searchService;
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 	public static final String REVIEWER_OBFUSCATION_CODE_URL = "/reviewer{obfuscationCode}";
@@ -276,7 +281,15 @@ public class EntryController extends AbstractController {
        // mav.addObject("organismNames", organismNames);
         mav.addObject("submittedID", accessionService.getSubmittedId(study.getStudyIdentifier()));
         mav.addObject("studyXRefs", accessionService.getStudyXRefs(study.getStudyIdentifier()));
-        mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
+
+		// For the file we need the study ID from the database...
+		// Get the study form the index
+		LuceneSearchResult indexedStudy = searchService.getStudy(mtblsId);
+
+
+		mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
+		mav.addObject("studyDBId", indexedStudy.getDbId());
+
 		mav.addObject("pageTitle", study.getStudyIdentifier() + ":" +study.getTitle() );
         for (Sample sample : study.getSamples()){
             mav.addObject("factors", sample.getFactors()); //just to get the correct order of the column headers

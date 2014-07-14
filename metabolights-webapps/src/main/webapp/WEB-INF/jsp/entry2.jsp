@@ -544,7 +544,7 @@
 
             <%--Only show token if study es private--%>
             <c:if test="${!study.publicStudy}">
-                <c:set var="token" value="?token=${study.studyIdentifier}"/>
+                <c:set var="token" value="?token=${studyDBId}"/>
             </c:if>
 
             <div id="tabs-files" class="tab"> <!-- Study files -->
