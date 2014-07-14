@@ -22,7 +22,7 @@ public abstract class AbstractController {
 		
 		//TODO dump stacktrace in log4j
 
-		ModelAndView mav = new ModelAndView("error");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("error");
 		mav.addObject("errorStack", TextUtils.getErrorStackAsHTML(ex));
 		mav.addObject("errorMainMessage", ex.getMessage());
 		return mav;
