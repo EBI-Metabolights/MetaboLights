@@ -532,7 +532,8 @@
                             </div>
                         <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
                             <br/><br/>
-                            <h5 class="maf" assay="${assay.assayNumber}" mafurl="${study.studyIdentifier}/assay/${assay.assayNumber}/maf"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
+                            <h5 class="maf" assay="${assay.assayNumber}" mafurl="${servletPath}/assay/${assay.assayNumber}/maf"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
+
                             <div></div>
                             </div>
                         </c:if>
@@ -599,4 +600,14 @@
         </c:if>
 
     </div> <!-- end configuring tabs -->
+</div>
+<div id="shareInfo">
+    <h5><spring:message code="title.study.paper.link"/></h5>
+    <p><spring:message code="label.study.paper.link"/></p>
+    <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/${study.studyIdentifier}" readonly/></p>
+    <c:if test="${!study.publicStudy}">
+        <h5><spring:message code="title.study.private.link"/></h5>
+        <p><spring:message code="label.study.private.link"/></p>
+        <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/altreviewer${obfuscationcode}" readonly/></p>
+    </c:if>
 </div>

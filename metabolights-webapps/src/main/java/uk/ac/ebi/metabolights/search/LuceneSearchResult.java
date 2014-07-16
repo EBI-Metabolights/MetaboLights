@@ -47,6 +47,7 @@ public class LuceneSearchResult {
     private List<Contact> contacts;
     private Set<String> affiliations = new LinkedHashSet<String>();
 	private Long dbId;
+	private String obfuscationCode;
 
     public LuceneSearchResult(Document doc, float score) {
 		this.doc = doc;
@@ -84,6 +85,7 @@ public class LuceneSearchResult {
 		this.submissionDate = parseDate("submissionDate");
         this.contacts = parseContacts();
 		this.dbId = Long.valueOf(doc.get("id"));
+		this.obfuscationCode = doc.get("obfuscationcode");
 
 	}
 
@@ -192,6 +194,12 @@ public class LuceneSearchResult {
 	}
 
 	public Long getDbId() {	return dbId; }
+
+	public String getObfuscationCode() {
+		return obfuscationCode;
+	}
+
+
 
 	/**
 	 * Holds assay information related to a study.

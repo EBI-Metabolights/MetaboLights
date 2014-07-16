@@ -49,7 +49,10 @@
         String servletPath = request.getAttribute("javax.servlet.forward.request_uri").toString();
         request.setAttribute("servletPath", servletPath);
     %>
-    <c:set scope="request" var="fullContextPath" value="http://${pageContext.request.serverName}${pageContext.request.contextPath}"/>
+    <c:if test="${pageContext.request.serverPort ne 80}">
+        <c:set var="port" value=":${pageContext.request.serverPort}"/>
+    </c:if>
+    <c:set scope="request" var="fullContextPath" value="http://${pageContext.request.serverName}${port}${pageContext.request.contextPath}"/>
     <c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
         <script type="text/javascript">var redline = {};redline.project_id = 196734042;</script>
         <script id="redline_js" src="http://www.redline.cc/assets/button.js" type="text/javascript"> </script>

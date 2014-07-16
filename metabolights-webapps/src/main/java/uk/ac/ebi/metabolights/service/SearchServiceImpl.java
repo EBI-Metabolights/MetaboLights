@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.analysis.PerFieldAnalyzerWrapper;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
@@ -90,6 +91,8 @@ public class SearchServiceImpl implements SearchService{
         aWrapper.addAnalyzer("protocol", new KeywordAnalyzer());
         aWrapper.addAnalyzer("status", new KeywordAnalyzer());
         aWrapper.addAnalyzer("investigation_acc", new KeywordAnalyzer());
+		aWrapper.addAnalyzer("obfuscationcode", new StandardAnalyzer());
+
         //aWrapper.addAnalyzer("investigation_description", new KeywordAnalyzer());
         //aWrapper.addAnalyzer("investigation_title", new KeywordAnalyzer());
         //aWrapper.addAnalyzer("Metabolite", new SimpleAnalyzer());
@@ -157,14 +160,19 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public LuceneSearchResult getStudy(String study) {
 
+		//Build the query...
+		String luceneQuery = "acc:"+ study;
+		return getStudyByQuery(luceneQuery);
+
+
+	}
+
+	private LuceneSearchResult getStudyByQuery(String luceneQuery) {
 		//Search results
 		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
-				
-		//Get the query...	
-		String luceneQuery = "acc:"+ study;
-		
+
 		logger.info("Searching for "+ luceneQuery);
-		
+
 		//Get the search result...
 		try {
 			searchResultHash = search(luceneQuery);
@@ -172,13 +180,20 @@ public class SearchServiceImpl implements SearchService{
 			// TODO Auto-generated catch block
 			logger.error("Cannot get the study requested:\n" + e.getMessage());
 		}
-		
+
 		// Get the result (Study)
 		// There must be only one
-		LuceneSearchResult result = searchResultHash.values().iterator().next().get(0); 
-		
+		LuceneSearchResult result = searchResultHash.values().iterator().next().get(0);
+
 		return result;
-		
+	}
+
+	@Override
+	public LuceneSearchResult getStudyByObfuscationCode(String obfuscationCode) {
+		//Build the query...
+		String luceneQuery = "obfuscationcode:"+ obfuscationCode;
+		return getStudyByQuery(luceneQuery);
+
 	}
 
 }

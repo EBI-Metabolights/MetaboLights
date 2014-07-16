@@ -22,6 +22,7 @@ public interface SearchService {
 	String getIndexDirectory();
 	int[] getPagingRange (double pageSize, double totalHits, int currentPage);
 	LuceneSearchResult getStudy(String study);
+	LuceneSearchResult getStudyByObfuscationCode(String obfuscationCode);
 
 
 }
