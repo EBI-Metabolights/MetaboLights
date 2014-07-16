@@ -457,7 +457,14 @@
                                 <%--</tbody><tbody id="sample_0" style='display:none'>--%>
                             <%--</c:if>--%>
                             <tr>
-                                <td>${sample.sampleName}</td>
+                                <td>
+                                <c:if test="${fn:startsWith(sample.sampleName, 'SAMEA')}">
+                                    <A href="http://www.ebi.ac.uk/biosamples/sample/${sample.sampleName}">${sample.sampleName}</A>
+                                </c:if>
+                                <c:if test="${!fn:startsWith(sample.sampleName, 'SAMEA')}">
+                                    ${sample.sampleName}
+                                </c:if>
+                                </td>
                                 <td>${sample.charactersticsOrg}</td>
                                 <td>${sample.charactersticsOrgPart}</td>
                                 <c:forEach var="factor" items="${sample.factors}">
