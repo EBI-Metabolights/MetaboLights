@@ -36,6 +36,12 @@
             },
             {
                 "selected": false,
+                "title": "Analysis",
+                "href": "analysis",
+                "tooltip": "MetaboAnalyst 2.5"
+            },
+            {
+                "selected": false,
                 "title": "Download",
                 "href": "download",
                 "tooltip": "Download"

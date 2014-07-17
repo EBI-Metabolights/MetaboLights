@@ -45,6 +45,8 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms from compounds', count(*), 6 from ref_species where final_id is null and species_member is not null;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', count(*), 7 from ref_metabolite;
 
+--Split any reported metabolies with "|"
+exec split_metabolites;
 
 -- Section "Metabolites identified"
 /**insert into ml_stats(page_section,str_name,str_value, sort_order) select 'Identified', DB, Count(*) as Total, '999' FROM (select CASE
@@ -73,18 +75,18 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitt
 insert into ml_stats(page_section,str_name,str_value,sort_order)
 select 'Topsubmitters', u.firstname||' '||u.lastname, count(s.acc), 1
 from study s, study2user s2u, user_detail u
-where 
+where
   s.id = s2u.study_id and
   s2u.user_id = u.id
   group by u.firstname||' '||u.lastname
   having count(s.acc) >=3
   order by 3 desc;
-  
---Force a different sort order, most submissions first  
+
+--Force a different sort order, most submissions first
 update ml_stats set sort_order = rownum where page_section = 'Topsubmitters';
 
-
 update ml_stats set sort_order = 999 where sort_order is null;
+
 commit;
 
 purge recyclebin;

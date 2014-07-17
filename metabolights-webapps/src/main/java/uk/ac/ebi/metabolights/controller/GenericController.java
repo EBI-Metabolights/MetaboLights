@@ -1,3 +1,13 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * Last modified: 7/17/14 12:09 PM
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ */
+
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.log4j.Logger;
@@ -20,13 +30,13 @@ public class GenericController {
 
 	private static Logger logger = Logger.getLogger(GenericController.class);
 
-	/** 
+	/**
 	 * Forwards to the jsp based on the last part of the requested URL.
-	 *  
+	 *
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	@RequestMapping(value={ "/about","/help","/download", "/useroptions", "/pleasewait"})
+	@RequestMapping(value={ "/about","/help","/download", "/useroptions", "/pleasewait" ,"/analysis"})
 	public ModelAndView modelAndView (HttpServletRequest request) {
 		return lastPartOfUrl(request);
 	}
@@ -47,9 +57,9 @@ public class GenericController {
 
 
 
-	/** 
+	/**
 	 * Forwards to the jsp based on the last part of the requested URL.
-	 *  
+	 *
 	 * @param request
 	 * @return String indicating JSP target
 	 */
@@ -58,8 +68,8 @@ public class GenericController {
 		String target=requestUrl.replaceFirst("^(.)*/", "");
 		logger.debug("target is "+target);
 
-		target = target!=null&&!target.equals("")?target:"index"; 
-		return AppContext.getMAVFactory().getFrontierMav(target); 
+		target = target!=null&&!target.equals("")?target:"index";
+		return AppContext.getMAVFactory().getFrontierMav(target);
 
 	}
 }
