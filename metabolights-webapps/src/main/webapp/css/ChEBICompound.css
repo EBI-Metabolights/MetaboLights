@@ -5,6 +5,8 @@ div.ChEBICompound {
     margin: 0px;
     overflow: hidden;
     background-color: white;
+    box-shadow: 10px 10px 5px #888888;
+    border:1px solid #d3d3d3;
 }
 
 div.ChEBICompound_image {
@@ -69,7 +71,7 @@ div.ChEBICompound_tab div.content p {
 div.ChEBICompound_tab div.content div.star {
     background-image: url('../img/ebi-icons/32px/star_yellow.png');
     background-size: 16px 16px;
-    background-repeat: repeat-x;
+    /*background-repeat: repeat-x;*/
     width: 16px;
     height: 16px;
     margin: 0 7px 0 7px;

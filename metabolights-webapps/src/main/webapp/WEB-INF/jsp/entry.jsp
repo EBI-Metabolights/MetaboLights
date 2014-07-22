@@ -90,9 +90,12 @@ $(document).ready(function() {
 
          var metlink;
          metlink = $(e.target);
+
  		 var metaboliteId = metlink.attr('identifier');
+         var displayId = metaboliteId;
 
-
+         // If the identifier is an MTBLC..we change it for CHEBI id
+         if (metaboliteId.indexOf("MTBLC")==0) metaboliteId = metaboliteId.replace("MTBLC", "CHEBI:");
 
          // If its a chebi id
  	 	if (metaboliteId.indexOf("CHEBI:")==0){
@@ -103,14 +106,13 @@ $(document).ready(function() {
  	 		var mouseX = offset.left + metlink.outerWidth() + 20;
      		var mouseY = offset.top;
 
- 	 		chebiId = metaboliteId;
 
  	 		$('#chebiInfo img:last-child').remove;
 
      		$('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
  	 		$('#chebiInfo').fadeIn('slow');
 
- 	 		chebiInfoDiv.setId(chebiId);
+ 	 		chebiInfoDiv.setDisplayIdAndLoad(displayId,metaboliteId);
  	 	}
 	}
 

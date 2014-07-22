@@ -19,6 +19,7 @@
 
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
+<%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.ChEBICompound.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js" charset="utf-8"></script>
 
@@ -33,8 +34,9 @@
         $("[id='protocoldesc']").linkify();
 
         $("body").append('<div id="chebiInfo"></div>');
-//	var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:'./proxy'});
-        var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:undefined, chebiDetailsUrl: './ebi/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
+        var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'500px', height:'400px',proxyUrl:undefined, chebiDetailsUrl: './ebi/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
+
+
         $('#chebiInfo').hide();
 
         $("a.showLink").click(function(event) {
@@ -122,26 +124,27 @@
             var metlink;
             metlink = $(e.target);
             var metaboliteId = metlink.attr('identifier');
+            var displayId = metaboliteId;
 
-
+            // If it's a MTBLC....change it to chebi
+            if (metaboliteId.indexOf("MTBLC")==0) metaboliteId = metaboliteId.replace("MTBLC", "CHEBI:");
 
             // If its a chebi id
             if (metaboliteId.indexOf("CHEBI:")==0){
 
-                //var mouseX = metlink.left + metlink.offsetParent.offsetLeft + metlink.offsetWidth + 80;
-                //var mouseY = metlink.top + metlink.offsetParent.offsetTop + metlink.offsetParent.offsetParent.offsetTop;
                 var offset = metlink.offset();
                 var mouseX = offset.left + metlink.outerWidth() + 20;
                 var mouseY = offset.top;
 
-                chebiId = metaboliteId;
+                //chebiId = metaboliteId;
 
                 $('#chebiInfo img:last-child').remove;
 
                 $('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
                 $('#chebiInfo').fadeIn('slow');
 
-                chebiInfoDiv.setId(chebiId);
+                //chebiInfoDiv.setId(chebiId);
+                chebiInfoDiv.setDisplayIdAndLoad(displayId,metaboliteId);
             }
         }
 
