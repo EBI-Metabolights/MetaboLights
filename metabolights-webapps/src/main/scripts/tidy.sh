@@ -7,3 +7,4 @@ find /nfs/production/panda/metabolights/logs/* -mtime +14 -exec rm -f {} \; 2>&1
 
 # Tidy up on-demand generated zip files
 find /nfs/public/rw/homes/tc_cm01/metabolights/prod/zip_ondemand/ -name "*.zip" -mtime +60 -exec rm {} \; 2>&1 >/dev/null
+find /nfs/public/rw/homes/tc_cm01/metabolights/prod/zip_ondemand/ -name "MTBLS*_*_*.zip" -exec rm {} \; 2>&1 >/dev/null
