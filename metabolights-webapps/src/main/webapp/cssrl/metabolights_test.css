@@ -29,9 +29,9 @@ a.noLine,
 
 a.noLine:link,
 a.noLine:visited,
-a:noLine:hover,
-a:noLine:focus,
-a:noLine:active {
+a.noLine:hover,
+a.noLine:focus,
+a.noLine:active {
     border-bottom-width: 0px;
 }
 
@@ -109,7 +109,7 @@ th, td {
     height: 100px;
     border-top-width: 0px;
     border-bottom-width: 0px;
-    padding-top: auto;
+    /*padding-top: auto;*/
     padding-bottom: 0px;
     padding-right: 0px;
     padding-left: 0px;
@@ -625,4 +625,10 @@ H4 span.icon {
 #wait img {
     width: 100px;
     margin-top: 100px;
+}
+
+.spectraList {
+    height: 180px;
+    border-width: 1px 0px 1px 0px;
+    text-decoration: underline;
 }

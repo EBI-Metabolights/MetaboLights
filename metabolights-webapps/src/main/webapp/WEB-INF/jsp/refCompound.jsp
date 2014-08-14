@@ -89,9 +89,9 @@
 
     function initializeMSSpeckTackle(){
 
-        if (MSchart != undefined) exit;
+        if (MSchart != undefined) return;
 
-        MSchart = st.chart.ms().xlabel("Mass-to-Charge").ylabel("Intensity").legend(false);
+        MSchart = st.chart.ms().xlabel("Mass-to-Charge").ylabel("Intensity").legend(true);
 
         MSchart.render("#MSSpeckTackle");
 
@@ -107,9 +107,9 @@
     var NMRarray;
     function initializeNMRSpeckTackle(){
 
-        if (NMRchart != undefined) exit;
+        if (NMRchart != undefined) return;
 
-        NMRchart = st.chart.nmr().xlabel("ppm").legend(false).margins([20, 40, 60, 0]);
+        NMRchart = st.chart.nmr().xlabel("ppm").legend(true).margins([20, 100, 60, 0]);
 
         NMRchart.render("#NMRSpeckTackle");
 
@@ -140,45 +140,138 @@
         })
 
         // Get the first spectra and load it
-        loadSpectraAndInfo(spectraList[0], $(list).next().next());
+        loadSpectraAndInfo([spectraList[0]], $(list).next().next());
 
 
     }
 
     function spectraChangeHandler(event){
 
+        var select = event.target;
+
+        if ($(select).attr("multiple"))
+        {
+            spectraChangeHandlderMultiple(event);
+
+        } else {
+            spectraChangeHandlderDropDown(event);
+        }
+
+
+    }
+
+    function spectraChangeHandlderMultiple(event)
+    {
+        /* Get the selected option */
+        var index = event.target.selectedIndex;
+
+        /* Get the selected spectra*/
+        var selectedSpectra = getSelectedSpectra(event.target, event.data.spectraList);
+
+        var infoDiv = $(event.target).next().next();
+
+        loadSpectraAndInfo(selectedSpectra, infoDiv);
+    }
+
+    function getSelectedSpectra (select, spectraList)
+    {
+        var spectra = new Array();
+
+        for (index = 0; index < select.children.length; ++index)
+        {
+            var option = select.children[index];
+
+            if (option.selected)
+            {
+                spectra.push (spectraList[index]);
+            }
+        }
+
+        return spectra;
+
+    }
+
+    function spectraChangeHandlderDropDown(event)
+    {
         /* Get the selected option */
         var index = event.target.selectedIndex;
 
         /* Get the spectra object (json element)*/
-        var spectra = event.data.spectraList[index];
+        var spectrum = event.data.spectraList[index];
 
         var infoDiv = $(event.target).next().next();
 
-        loadSpectraAndInfo(spectra, infoDiv);
+        loadSpectrumAndInfo(spectrum, infoDiv);
     }
 
+    function loadSpectrumAndInfo(spectrum, infoDiv){
+
+        loadSpectrum (spectrum);
+        loadSpectraInfo(spectrum,infoDiv);
+
+
+    }
     function loadSpectraAndInfo(spectra, infoDiv){
 
-        drawSpectra (spectra);
-        fillSpectraProperties(spectra,infoDiv);
+        loadSpectra (spectra);
+
+        if (spectra.length == 1)
+        {
+            loadSpectraInfo(spectra[0],infoDiv);
+            $(infoDiv).show();
+
+        } else {
+
+            $(infoDiv).hide();
+        }
+
 
 
     }
-    function drawSpectra (spectra){
+    function loadSpectra (spectra){
 
-        if (spectra.type == "NMR"){
+//        if (spectra.length > 0)
+//        {
+
+        // Take the first one to knoe the type
+        var spectrum = spectra[0];
+
+        if (spectrum.type == "NMR"){
+            data = NMRarray;
+        } else {
+            data = MSData;
+        }
+
+
+        /* Remove all the spectra */
+        data.remove();
+
+        var urls = new Array();
+
+        // Loop through the spectra to create a list of urls
+        for (index = 0; index < spectra.length; ++index)
+        {
+            urls.push (spectra[index].url);
+        }
+
+        data.add(urls);
+
+    }
+
+    function loadSpectrum (spectrum){
+
+        if (spectrum.type == "NMR"){
             data = NMRarray;
         } else {
             data = MSData;
         }
 
         data.remove(0);
-        data.add(spectra.url);
+        data.add(spectrum.url);
 
     }
 
-    function fillSpectraProperties(spectra, infoDiv){
+    function loadSpectraInfo(spectra, infoDiv){
         var html = spectra.name + "<br/> A " + spectra.type + " spectrum.";
 
         $.each(spectra.properties, function () {
@@ -501,7 +594,7 @@
         <c:if test="${compound.mc.hasNMR}">
         <!-- NMR Spectra -->
         <div id="nmrSpectra-tab" class="tab">
-            <select class="grid_24" id="nmrSpectraList"></select>
+            <select multiple class="grid_24 spectraList" id="nmrSpectraList"></select>
             <div id="NMRSpeckTackle" class="grid_24" style="height: 500px"></div>
             <div id="nmrInfo" class="grid_23 specs"></div>
             <script>
@@ -530,7 +623,7 @@
         <c:if test="${compound.mc.hasMS}">
         <!-- MS Spectra -->
         <div id="msSpectra-tab" class="tab">
-            <select class="grid_24" id="msSpectraList"></select>
+            <select multiple class="grid_24 spectraList" id="msSpectraList"></select>
             <div id="MSSpeckTackle" class="grid_24" style="height: 500px"></div>
             <div id="msInfo" class="grid_23 specs"></div>
             <script>

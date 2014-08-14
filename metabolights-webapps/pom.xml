@@ -28,6 +28,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <org.spring.version>3.1.0.RELEASE</org.spring.version>
+        <org.spring.security.version>3.1.0.RELEASE</org.spring.security.version>
     </properties>
 
     <build>
@@ -127,19 +128,19 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>${org.spring.version}</version>
+            <version>${org.spring.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${org.spring.version}</version>
+            <version>${org.spring.security.version}</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
-            <version>${org.spring.version}</version>
+            <version>${org.spring.security.version}</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
