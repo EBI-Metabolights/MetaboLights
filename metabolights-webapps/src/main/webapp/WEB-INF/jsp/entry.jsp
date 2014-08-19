@@ -531,11 +531,11 @@ function toggleColumn(tableId, anchor, duration ) {
             <div id="tabs-5"> <!-- Study files -->
                  <form action="${study.acc}/files/selection" method="post">
                     <h5>
-                    <a class="noLine" href="${study.acc}/files/${study.acc}${token}" title="<spring:message code="label.downloadstudy"/>">
+                    <a class="noLine" rel="nofollow" href="${study.acc}/files/${study.acc}${token}" title="<spring:message code="label.downloadstudy"/>">
                         <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
                     </a>
                     &nbsp;|&nbsp;
-                    <a class="noLine" href="${study.acc}/files/metadata${token}" title="<spring:message code="label.downloadstudyMetadata"/>">
+                    <a class="noLine" rel="nofollow" href="${study.acc}/files/metadata${token}" title="<spring:message code="label.downloadstudyMetadata"/>">
                         <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
                     </a>
                     &nbsp;
@@ -561,7 +561,7 @@ function toggleColumn(tableId, anchor, duration ) {
                             <tr>
                                 <td><input type="checkbox" name="file" value="${file.name}"/></td>
                                 <td>
-                                    <a href="${study.acc}/files/${file.name}${token}">${file.name}</a>
+                                    <a rel="nofollow" href="${study.acc}/files/${file.name}${token}">${file.name}</a>
                                 </td>
                             </tr>
                             <%--</c:if>--%>

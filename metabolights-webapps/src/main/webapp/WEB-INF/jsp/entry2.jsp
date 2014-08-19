@@ -561,11 +561,11 @@
             <div id="tabs-files" class="tab"> <!-- Study files -->
                 <form action="${study.studyIdentifier}/files/selection" method="post">
                     <h5>
-                        <a class="noLine" href="${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
+                        <a class="noLine" rel="nofollow" href="${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
                             <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
                         </a>
                         &nbsp;|&nbsp;
-                        <a class="noLine" href="${study.studyIdentifier}/files/metadata${token}" title="<spring:message code="label.downloadstudyMetadata"/>">
+                        <a class="noLine" rel="nofollow" href="${study.studyIdentifier}/files/metadata${token}" title="<spring:message code="label.downloadstudyMetadata"/>">
                         <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
                         </a>
                         &nbsp;
@@ -591,7 +591,7 @@
                             <tr>
                                 <td><input type="checkbox" name="file" value="${file.name}"/></td>
                                 <td>
-                                    <a href="${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
+                                    <a rel="nofollow" href="${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
                                 </td>
                             </tr>
                             <%--</c:if>--%>

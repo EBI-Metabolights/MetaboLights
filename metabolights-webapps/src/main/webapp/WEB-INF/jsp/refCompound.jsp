@@ -91,7 +91,7 @@
 
         if (MSchart != undefined) return;
 
-        MSchart = st.chart.ms().xlabel("Mass-to-Charge").ylabel("Intensity").legend(true);
+        MSchart = st.chart.ms().xlabel("Mass-to-Charge").ylabel("Intensity").legend(true).labels(true);
 
         MSchart.render("#MSSpeckTackle");
 
@@ -109,7 +109,7 @@
 
         if (NMRchart != undefined) return;
 
-        NMRchart = st.chart.nmr().xlabel("ppm").legend(true).margins([20, 100, 60, 0]);
+        NMRchart = st.chart.nmr().xlabel("ppm").legend(true).margins([20, 100, 60, 0]).labels(true);
 
         NMRchart.render("#NMRSpeckTackle");
 

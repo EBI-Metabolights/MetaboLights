@@ -140,7 +140,7 @@ public class FileDispatcherController extends AbstractController {
 
 			zipFile = studyId + "_" +  timeStamp;
 
-			zipFile = System.getProperty("java.io.tmpdir") + "/"+ zipFile + ".zip";
+			zipFile = zipOnDemandLocation + zipFile + ".zip";
 
 		}
 
@@ -328,43 +328,6 @@ public class FileDispatcherController extends AbstractController {
 			return false;
 		}
 
-
-//        //TODO, not very elegant, this is just to determine if the logged in user us a curator
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//
-//        if (auth.getPrincipal().equals(new String("anonymousUser"))){
-//
-//            // User is not logged in...can't access the study
-//            logger.info("anonymousUser not allowed to access " + studyId + " files");
-//            return false;
-//        }
-//
-//        // We have a proper MetaboLights user
-//        MetabolightsUser metabolightsUser = (MetabolightsUser) auth.getPrincipal();
-//
-//
-//        // ... if user is a curator:
-//        if (metabolightsUser.isCurator()) {
-//            return true;
-//
-//        // ... the user is not a curator but is logged in:
-//        } else {
-//
-//            try {
-//                // Check if the user is granted to access the study
-//                // Get the study
-//                Study study = studyService.getBiiStudy(studyId,true);
-//
-//                return true;
-//
-//            } catch (IllegalAccessException e){
-//
-//                // User can't access the file
-//                logger.info(metabolightsUser.getUserName() + " not allowed to access " + studyId + " files");
-//                return false;
-//
-//            }
-//        }
     } // End of method
 
 	public File[] getStudyFileList(String studyId) {
