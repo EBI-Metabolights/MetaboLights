@@ -633,3 +633,8 @@ H4 span.icon {
     border-width: 1px 0px 1px 0px;
     text-decoration: underline;
 }
+
+#slide {
+    margin: 5px;
+}
+
