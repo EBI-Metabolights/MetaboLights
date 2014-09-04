@@ -7,6 +7,7 @@
 #   Purpose : Export MTBLC and MTBLS entries from ML to EBI global search 
 #
 # 20130108  : Ken Haug - Created script
+# 20140904  : Ken Haug - Added "cd" to script directory
 #
 ##########################################################################
 
@@ -23,6 +24,7 @@ SPOOL_FILE=output.xml
 EXPORT_FILE=eb-eye_metabolights.xml
 VERSION=2
 FTP_LOCATION=/ebi/ftp/pub/databases/metabolights/eb-eye/
+cd /nfs/public/rw/homes/tc_cm01/metabolights/scripts/
 
 #################################
 #  End of Configurable Options  #
