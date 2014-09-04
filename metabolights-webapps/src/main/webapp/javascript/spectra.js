@@ -171,7 +171,7 @@ function loadSpectra(spectra) {
 //        if (spectra.length > 0)
 //        {
 
-    // Take the first one to knoe the type
+    // Take the first one to know the type
     var spectrum = spectra[0];
 
     if (spectrum.type == "NMR") {

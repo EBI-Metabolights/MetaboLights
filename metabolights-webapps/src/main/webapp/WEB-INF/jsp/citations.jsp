@@ -31,9 +31,9 @@ function toggle(element) {
 </script>
 <c:choose>
 	<c:when test="${not empty citationList}">
-		<h3>
+		<h4>
 			<b><a href="http://europepmc.org/">Europe PubMed Central results</a></b>
-		</h3>
+		</h4>
 		<c:forEach var="citation" items="${citationList}">
 			<div class="refLayerBox">
 				<b><spring:message code="ref.msg.CitationTitle"/></b>&nbsp;&#45;&nbsp;<a href="http://europepmc.org/abstract/MED/${citation.id}">${citation.title}</a>

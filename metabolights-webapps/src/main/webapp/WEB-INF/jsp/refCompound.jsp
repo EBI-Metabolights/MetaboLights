@@ -24,6 +24,7 @@
 <script type="text/javascript" src="javascript/pathways.js"></script>
 <script type="text/javascript" src="javascript/formularize.js"></script>
 <script type="text/javascript" src="javascript/spectra.js"></script>
+<script type="text/javascript" src="javascript/lazyload.js"></script>
 <script type="text/javascript" src="javascript/jquery.hc-sticky.min.js"></script>
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="http://www.ebi.ac.uk/~beisken/st/st.min.js" charset="utf-8"></script>
@@ -31,43 +32,19 @@
 
 <script>
 
-var tabToActivate = 0;
-
-$(document).ready(function () {
-
-    $('#slide').hcSticky({
-        top:10,
-        bottomEnd: 100,
-        wrapperClassName:"grid_4"
-    });
-    $("#formulae").formularize();
-
-    $.fn.getIndex = function () {
-        var $p = $(this).parent().children();
-        return $p.index(this);
-    }
-
-    initializeMSSpeckTackle();
-    initializeNMRSpeckTackle();
-
-});
-
-//$(window).load(function () {
-//
-//    $("#tabs").tabs("option", "active", tabToActivate);
-//
-//});
-
-</script>
-<script type="text/javascript">
-
-    $(document).ajaxStart(function () {
-        showWait();
-    }).ajaxStop(function () {
-        hideWait();
-    });
-
     $(document).ready(function () {
+
+        $('#slide').hcSticky({
+            top:10,
+            bottomEnd: 100,
+            wrapperClassName:"grid_4"
+        });
+        $("#formulae").formularize();
+
+        $.fn.getIndex = function () {
+            var $p = $(this).parent().children();
+            return $p.index(this);
+        }
 
         $("#hourglass").dialog({
             create: function () {
@@ -79,9 +56,22 @@ $(document).ready(function () {
             autoOpen: false
         });
 
+        initializeMSSpeckTackle();
+        initializeNMRSpeckTackle();
         bindPathways();
+        lazyload();
 
     });
+
+    $(document).ajaxStart(function () {
+        showWait();
+    }).ajaxStop(function () {
+        hideWait();
+    }).ajaxError(function () {
+        hideWait();
+
+    });
+
 
     function showWait() {
         document.body.style.cursor = "wait";
@@ -103,32 +93,36 @@ $(document).ready(function () {
 <h3>${compound.mc.accession} - ${compound.mc.name}</h3>
 
 <div class="grid_20">
-    <h3><a id="chemistry"><spring:message code="ref.compound.tab.chemistry"/></a></h3>
-    <c:if test="${not empty compound.chebiEntity.definition}">
-        <h6><spring:message code="ref.compound.tab.characteristics.definition"/></h6>
-        ${compound.chebiEntity.definition}
-    </c:if>
-    <c:if test="${not empty compound.chebiEntity.iupacNames}">
-        <h6>IUPAC Name</h6>
-        <c:forEach var="iupacName" items="${compound.chebiEntity.iupacNames}">
-            ${iupacName.data}
+    <section>
+        <h3><a id="chemistry"><spring:message code="ref.compound.tab.chemistry"/></a></h3>
+        <c:if test="${not empty compound.chebiEntity.definition}">
+            <%--<h6><spring:message code="ref.compound.tab.characteristics.definition"/></h6>--%>
+            ${compound.chebiEntity.definition}
+        </c:if>
+        <c:if test="${not empty compound.chebiEntity.iupacNames}">
+            <h5>IUPAC Name</h5>
+            <c:forEach var="iupacName" items="${compound.chebiEntity.iupacNames}">
+                ${iupacName.data}
+            </c:forEach>
+        </c:if>
+        <h5><spring:message code="ref.compound.tab.characteristics.chemicalproperties"/></h5>
+        <c:forEach var="formula" items="${compound.chebiEntity.formulae}">
+            <spring:message code="ref.compound.tab.characteristics.formula"/> - <span
+                id="formulae">${formula.data}</span><br/>
         </c:forEach>
-    </c:if>
-    <h6><spring:message code="ref.compound.tab.characteristics.chemicalproperties"/></h6>
-    <c:forEach var="formula" items="${compound.chebiEntity.formulae}">
-        <spring:message code="ref.compound.tab.characteristics.formula"/> - <span
-            id="formulae">${formula.data}</span><br/>
-    </c:forEach>
-    Average mass - ${compound.chebiEntity.mass}
-    <br/>
-    <h6><spring:message code="ref.compound.synonyms"/>:</h6>
-    <c:forEach var="synonym" items="${compound.chebiEntity.synonyms}">
-        <span class="tag">${synonym.data}</span>
-    </c:forEach>
-    <br/><br/>
-    ${compound.chebiEntity.inchi}<br/>
+        Average mass - ${compound.chebiEntity.mass}
+        <br/>
+        <h5><spring:message code="ref.compound.synonyms"/>:</h5>
+        <c:forEach var="synonym" items="${compound.chebiEntity.synonyms}">
+            <span class="tag">${synonym.data}</span>
+        </c:forEach>
+        <br/><br/>
+        ${compound.chebiEntity.inchi}<br/>
+
+    </section>
 
     <c:if test="${compound.mc.hasSpecies}">
+    <section>
         <h3><a id="biology"><spring:message code="ref.compound.tab.biology"/></a></h3>
         <!-- Found in -->
         <c:forEach var="item" items="${compound.species}">
@@ -145,8 +139,10 @@ $(document).ready(function () {
                 </c:choose>
             </c:forEach>
         </c:forEach>
+    </section>
     </c:if>
     <c:if test="${compound.mc.hasPathways}">
+    <section>
         <!-- Pathways -->
         <h3><a id="pathways"><spring:message code="ref.compound.tab.pathways"/></a></h3>
         <select id="pathwayList">
@@ -163,81 +159,102 @@ $(document).ready(function () {
             <%--</iframe>--%>
 
         </div>
-        <script>
-            currentMTBLC = "${compound.mc.accession}";
-            <c:forEach var="pathway" items="${compound.mc.metPathways}" varStatus="pathwayLoopStatus">
-                pathwaysInfo.push(
-                        {   "id":${pathway.id},
-                            "source": "${pathway.database.name}",
-                            "species": "${pathway.speciesAssociated.species}",
-                            "properties": [
-                                <c:forEach var="attribute" items="${pathway.attributes}" varStatus="attributeLoopStatus">
-                                    <c:if test="${attributeLoopStatus.index gt 0}">,</c:if>
-                                    {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
-                                </c:forEach>
-                            ]
-                        }
-                    )
-            </c:forEach>
-        </script>
+    </section>
+
+    <script>
+        currentMTBLC = "${compound.mc.accession}";
+        <c:forEach var="pathway" items="${compound.mc.metPathways}" varStatus="pathwayLoopStatus">
+            pathwaysInfo.push(
+                    {   "id":${pathway.id},
+                        "source": "${pathway.database.name}",
+                        "species": "${pathway.speciesAssociated.species}",
+                        "properties": [
+                            <c:forEach var="attribute" items="${pathway.attributes}" varStatus="attributeLoopStatus">
+                                <c:if test="${attributeLoopStatus.index gt 0}">,</c:if>
+                                {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
+                            </c:forEach>
+                        ]
+                    }
+                )
+        </c:forEach>
+    </script>
     </c:if>
+
+    <c:if test="${compound.mc.hasReactions}">
+        <section>
+            <!-- Reactions -->
+            <h3 lazyLoad="reactions?chebiId=${compound.mc.chebiId}"><a id="reactions"><spring:message code="ref.compound.tab.reactions"/></a></h3>
+        </section>
+    </c:if>
+
     <c:if test="${compound.mc.hasNMR}">
+    <section>
         <!-- NMR Spectra -->
         <h3><a id="nmrSpectra"><spring:message code="ref.compound.tab.nmrspectra"/></a></h3>
         <select multiple class="grid_24 spectraList" id="nmrSpectraList"></select>
         <div id="NMRSpeckTackle" class="grid_24" style="height: 500px"></div>
         <div id="nmrInfo" class="grid_23 specs"></div>
-        <script>
-            <c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStatus">
-                <c:if test="${spectra.spectraType == 'NMR'}">
-                    nmrInfo.push
-                    (
-                        {
-                            "id":${spectra.id},
-                            "name": "${spectra.name}",
-                            "url": "spectra/${spectra.id}/json",
-                            "type": "${spectra.spectraType}",
-                            "properties":
-                                [
-                                    <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
-                                        <c:if test="${attributeLoopStatus.index gt 0}">,</c:if>
-                                        {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
-                                    </c:forEach>
-                                ]
-                        }
-                    );
-                </c:if>
-            </c:forEach>
-        </script>
+    </section>
+    <script>
+        <c:forEach var="spectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStatus">
+            <c:if test="${spectra.spectraType == 'NMR'}">
+                nmrInfo.push
+                (
+                    {
+                        "id":${spectra.id},
+                        "name": "${spectra.name}",
+                        "url": "spectra/${spectra.id}/json",
+                        "type": "${spectra.spectraType}",
+                        "properties":
+                            [
+                                <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
+                                    <c:if test="${attributeLoopStatus.index gt 0}">,</c:if>
+                                    {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
+                                </c:forEach>
+                            ]
+                    }
+                );
+            </c:if>
+        </c:forEach>
+    </script>
     </c:if>
     <c:if test="${compound.mc.hasMS}">
+    <section>
         <!-- MS Spectra -->
         <h3><a id="msSpectra"><spring:message code="ref.compound.tab.msspectra"/></a></h3>
         <select multiple class="grid_24 spectraList" id="msSpectraList"></select>
         <div id="MSSpeckTackle" class="grid_24" style="height: 500px"></div>
         <div id="msInfo" class="grid_23 specs"></div>
-        <script>
-            <c:forEach var="msspectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStat">
-                <c:if test="${msspectra.spectraType == 'MS'}">
-                    msInfo.push
-                    (
-                        {
-                            "id":${msspectra.id},
-                            "name": "${msspectra.name}",
-                            "url": "spectra/${msspectra.id}/json",
-                            "type": "${msspectra.spectraType}",
-                            "properties":
-                                    [
-                                        <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
-                                            <c:if test="${attributeLoopStatus.index gt 0}">,</c:if>
-                                            {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
-                                        </c:forEach>
-                                    ]
-                        }
-                    );
-                </c:if>
-            </c:forEach>
-        </script>
+    </section>
+    <script>
+        <c:forEach var="msspectra" items="${compound.mc.metSpectras}" varStatus="spectraLoopStat">
+            <c:if test="${msspectra.spectraType == 'MS'}">
+                msInfo.push
+                (
+                    {
+                        "id":${msspectra.id},
+                        "name": "${msspectra.name}",
+                        "url": "spectra/${msspectra.id}/json",
+                        "type": "${msspectra.spectraType}",
+                        "properties":
+                                [
+                                    <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
+                                        <c:if test="${attributeLoopStatus.index gt 0}">,</c:if>
+                                        {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
+                                    </c:forEach>
+                                ]
+                    }
+                );
+            </c:if>
+        </c:forEach>
+    </script>
+    </c:if>
+
+    <c:if test="${compound.mc.hasLiterature}">
+    <section>
+        <!-- Literature -->
+        <h3 lazyLoad="citations?mtblc=${compound.mc.accession}"><a id="literature"><spring:message code="ref.compound.tab.literature"/></a></h3>
+    </section>
     </c:if>
 </div>
 
@@ -263,7 +280,7 @@ $(document).ready(function () {
         </c:if>
         <c:if test="${compound.mc.hasReactions}">
             <li>
-                <a href="reactions?chebiId=${compound.mc.chebiId}"><spring:message code="ref.compound.tab.reactions"/></a>
+                <a href="#reactions"><spring:message code="ref.compound.tab.reactions"/></a>
             </li>
         </c:if>
         <c:if test="${compound.mc.hasNMR}">
@@ -278,7 +295,7 @@ $(document).ready(function () {
         </c:if>
         <c:if test="${compound.mc.hasLiterature}">
             <li>
-                <a href="citations?mtblc=${compound.mc.accession}"><spring:message code="ref.compound.tab.literature"/></a>
+                <a href="#literature"><spring:message code="ref.compound.tab.literature"/></a>
             </li>
         </c:if>
     </ul>

@@ -638,3 +638,15 @@ H4 span.icon {
     margin: 5px;
 }
 
+section {
+    padding-top: 50px;
+}
+
+section h3,
+#slide li{
+    background: #E2BD97;
+    padding: 6px;
+    margin: 2px;
+    list-style-type: none;
+}
+
