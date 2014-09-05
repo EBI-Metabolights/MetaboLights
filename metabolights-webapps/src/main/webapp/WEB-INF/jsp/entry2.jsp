@@ -590,7 +590,9 @@
                     <br/>
                     <h5><spring:message code="label.fileListTableExplanation"/></h5>
                     <p><input class="inputDiscrete resizable" id="fileSelector" class="" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>"></p>
-                    <input type="hidden" name="token" value="${study.studyIdentifier}">
+                    <c:if test="${!study.publicStudy}">
+                        <input type="hidden" name="token" value="${studyDBId}">
+                    </c:if>
                     <table id="files" class="clean">
                         <tr>
                             <th>Select</th>
