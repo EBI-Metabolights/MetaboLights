@@ -43,7 +43,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 
-public class ReferenceLayerImporter{
+public class ReferenceLayerImporter {
 
     private Logger LOGGER = Logger.getLogger(ReferenceLayerImporter.class);
 
@@ -62,7 +62,7 @@ public class ReferenceLayerImporter{
     //private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
 	private static final Long CHEBI_DB_ID = new Long(1);
-    private String chebiIDRoot = "CHEBI:25212";
+    private String chebiIDRoot = ChebiMetaboliteScanner.CHEBI_METABOLITE_ROLE;
     private RelationshipType relationshipType = RelationshipType.HAS_ROLE;
 
 	public class ImportOptions

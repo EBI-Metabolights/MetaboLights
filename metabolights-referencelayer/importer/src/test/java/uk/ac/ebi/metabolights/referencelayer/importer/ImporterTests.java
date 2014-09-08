@@ -46,8 +46,8 @@ public class ImporterTests extends TestCase{
 		// Set up a simple configuration that logs on the console.
 	    BasicConfigurator.configure();
 
-        //DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV"); //OracleDatabaseInstance.getInstance("metabolightsDEV");
-		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
+        DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
+//		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
 		con = dbi.getConnection();
 
 
