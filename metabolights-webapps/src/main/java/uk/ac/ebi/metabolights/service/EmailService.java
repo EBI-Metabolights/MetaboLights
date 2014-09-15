@@ -177,7 +177,7 @@ public class EmailService {
 		body = body + "\n\n" +
 				"From: " + usr.getFirstName() +" "+ usr.getLastName() + "\n\n" +
 				"Email: " + usr.getEmailAddress() + "\n\n" +
-				"Affiliaction: "+ usr.getAffiliation() +" "+ usr.getAffiliationUrl() + "\n\n" +
+				"Affiliation: "+ usr.getAffiliation() +" "+ usr.getAffiliationUrl() + "\n\n" +
 				"Message: " + usr.getMessage() + "\n";
 		msg.setText(body);
 		//mailSender.send(msg);
