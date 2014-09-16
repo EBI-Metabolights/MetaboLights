@@ -23,13 +23,12 @@ package uk.ac.ebi.metabolights.referencelayer.importer;
 
 import org.apache.log4j.Logger;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntity;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntityList;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.RelationshipType;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: conesa
@@ -56,115 +55,116 @@ public class ChebiMetaboliteScanner {
 	}
 
 
-	public List<LiteEntity> scan () throws ChebiWebServiceFault_Exception {
+	private Map<String, Entity> scannedEntityList;
+
+	public Map<String, Entity> scan() throws ChebiWebServiceFault_Exception {
 		return scan(CHEBI_METABOLITE_ROLE);
 	}
 
 	// Scans chebi looking for any metabolite compound under the specified CHEBI entity.
-	public List<LiteEntity> scan(String chebiId) throws ChebiWebServiceFault_Exception {
-
-		List<LiteEntity> allIsA = getAllIsAChildren(chebiId);
-
-		List<LiteEntity> finalList= new ArrayList<LiteEntity>();
+	public Map<String, Entity> scan(String chebiId) throws ChebiWebServiceFault_Exception {
 
 
-		// Add the initial entity to the final array
-		LiteEntity itSelf = new LiteEntity();
+		// Set final list to null.
+		scannedEntityList = new HashMap<String, Entity>();
 
-		itSelf.setChebiId(chebiId);
-		allIsA.add(itSelf);
+		addChildrenMetabolitesForChebiID(chebiId);
 
-		// For each isA children we need to ask for structures
-		for (LiteEntity isA: allIsA){
-
-			List<LiteEntity> structures = getAllChildrenWithStructures(isA.getChebiId());
-
-
-			finalList.addAll(structures);
-
-		}
-
-		return finalList;
+		return scannedEntityList;
 
 	}
 
 
-	//
-	private List<LiteEntity> getAllIsAChildren(String chebiId) throws ChebiWebServiceFault_Exception {
+	/*
+	Add all children of the chebiId:
+		Is_a_tautomer (if structure) --> L-alanine zwiterion IS_TAUTOMER_OF L-alanine
+		Is_a  --> Human metabolite IS_A metabolite, L-Alanine IS_A alanine
+		Has_role (if no structure?, ask chebi).  --> adenine HAS_ROLE metabolite
 
-		// Case: "human metabolite" is a Metabolite
-		LiteEntityList el = null;
+	 */
+	private void addChildrenMetabolitesForChebiID(String chebiId) throws ChebiWebServiceFault_Exception {
 
-		LOGGER.info("Getting all children of " + chebiId + ". No structures and IS_A relationship" );
-		el = chebiWS.getAllOntologyChildrenInPath(chebiId, RelationshipType.IS_A,false);
 
-		return el.getListElement();
-	}
-	private List<LiteEntity> getAllChildrenWithStructures(String chebiEntity){
+		// Check if that Chebi Id is already in our list
+		if (scannedEntityList.containsKey(chebiId)) return ;
 
-		LOGGER.info("Getting all children structures of " + chebiEntity );
-		LiteEntityList childrenStructures = null;
-		List<LiteEntity> finalEntities = new ArrayList<LiteEntity>();
+		// ...it's not in our list...therefore we add it
+		// Get the complete entity
+		Entity entity = getChebiEntity(chebiId);
 
-		// Try to get the list of metabolites from chebi...
+		// Add it to our scanned list to avoid further look ups and endless loops.
+		// NOTE: classes will be added too, we may need to clean the list later or have 2 list (scanned and metabolites, or metabolites + classes).
+		scannedEntityList.put(chebiId,entity);
+
+
+		// Now explore children
+		List<LiteEntity> children = new ArrayList<LiteEntity>();
+
+
 		try {
-			childrenStructures = chebiWS.getAllOntologyChildrenInPath(chebiEntity, RelationshipType.HAS_ROLE,true);
-		} catch (ChebiWebServiceFault_Exception e) {
-			LOGGER.error("Can't get children structures of " + chebiEntity + ". Chebi WS can't be accessed");
-			return childrenStructures.getListElement();
-		}
 
-		LOGGER.debug(childrenStructures.getListElement().size() + " Chebi compounds returned");
+			// Regardless the structure we always do IS_A..
+			// ... try tautomers
+			List<LiteEntity> is_a = null;
+			is_a = getChebiIdsRelatives(chebiId, RelationshipType.IS_A);
 
-		finalEntities.addAll(childrenStructures.getListElement());
+			// Add them to the children list
+			children.addAll(is_a);
 
-		// If we have to do a fuzzy scan
-		if (doFuzzyScan){
-			LOGGER.debug("Fuzzy scan active for " + chebiEntity);
 
-			for (LiteEntity structure: childrenStructures.getListElement()){
+			if (doFuzzyScan) {
 
-				List<LiteEntity> relatives = getFamilyForChebiID(structure.getChebiId());
+				// If entity has a structure we can test for tautomers
+				if (entity.getSmiles() != null) {
 
-				// Add the relatives to the final list
-				finalEntities.addAll(relatives);
+					List<LiteEntity> structuralChildren = null;
+
+					// ... try tautomers
+					structuralChildren = getChebiIdsRelatives(chebiId, RelationshipType.IS_TAUTOMER_OF);
+
+					children.addAll(structuralChildren);
+
+					// ... try acids
+					structuralChildren = getChebiIdsRelatives(chebiId, RelationshipType.IS_CONJUGATE_ACID_OF);
+
+					children.addAll(structuralChildren);
+
+					// ... try bases
+					structuralChildren = getChebiIdsRelatives(chebiId, RelationshipType.IS_CONJUGATE_BASE_OF);
+
+					children.addAll(structuralChildren);
+
+
+					// no structure..
+				} else {
+					// ... try has_role
+					List<LiteEntity> roles = null;
+					roles = getChebiIdsRelatives(chebiId, RelationshipType.HAS_ROLE);
+
+					children.addAll(roles);
+
+				}
 
 			}
 
-		}
-
-		return finalEntities;
-	}
-
-	private List<LiteEntity> getFamilyForChebiID(String chebiId) {
-
-
-
-		List<LiteEntity> chebiIdRelatives = new ArrayList<LiteEntity>();
-
-
-		try {
-
-			// ... try tautomers
-			List<LiteEntity> tautomers = null;
-			tautomers = getChebiIdsRelatives(chebiId, RelationshipType.IS_TAUTOMER_OF);
-
-			chebiIdRelatives.addAll(tautomers);
-
-			// ... try children
-			List<LiteEntity>	children = getChebiIdsRelatives(chebiId, RelationshipType.IS_A);
-			chebiIdRelatives.addAll(children);
-
-			// ... try tautomers of the children
-			List<LiteEntity> childrenTautomers = getChebiIdsRelatives(children, RelationshipType.IS_TAUTOMER_OF);
-			chebiIdRelatives.addAll(childrenTautomers);
 
 		} catch (ChebiWebServiceFault_Exception e) {
-			LOGGER.error("Can't perform fuzy search of chebiID " + chebiId + " using chebi WS", e);
+			LOGGER.error("Can't perform fuzzy search of chebiID " + chebiId + " using chebi WS", e);
 		}
 
 
-		return chebiIdRelatives;
+		// Now we should have all children...
+		// Go through the list
+		for (LiteEntity child: children){
+
+			// Get again all children...
+			addChildrenMetabolitesForChebiID(child.getChebiId());
+		}
+
+	}
+
+	private Entity getChebiEntity(String chebiId) throws ChebiWebServiceFault_Exception {
+		return chebiWS.getCompleteEntity(chebiId);
 
 	}
 
@@ -177,23 +177,6 @@ public class ChebiMetaboliteScanner {
 
 
 		return children.getListElement();
-
-	}
-
-	private List<LiteEntity> getChebiIdsRelatives(List<LiteEntity> chebiIdList, RelationshipType relType) throws ChebiWebServiceFault_Exception {
-
-
-		List<LiteEntity> joinedRelatives = new ArrayList<LiteEntity>();
-
-		// For each chebiID in the lis
-		for (LiteEntity entity: chebiIdList){
-
-			List<LiteEntity> relatives = getChebiIdsRelatives(entity.getChebiId(),relType);
-
-			joinedRelatives.addAll(relatives);
-		}
-
-		return joinedRelatives;
 
 	}
 

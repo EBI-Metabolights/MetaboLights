@@ -24,9 +24,13 @@ package uk.ac.ebi.metabolights.referencelayer.importer;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntity;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * User: conesa
@@ -36,62 +40,117 @@ import java.util.List;
 public class ChebiMetaboliteScannerTest {
 
 	private String[] bileAcidMetabolitesExpected = {
-				"CHEBI:48698", "CHEBI:63829"
-				,"CHEBI:48700", "CHEBI:63831"
-				,"CHEBI:48701","CHEBI:63838"
-				,"CHEBI:48714", "CHEBI:63839"
-				,"CHEBI:48715", "CHEBI:63830"
-				,"CHEBI:48728", "CHEBI:63834"
-				,"CHEBI:48731", "CHEBI:63833"
-				,"CHEBI:48732", "CHEBI:63835"
-				,"CHEBI:48734", "CHEBI:63848"
-				,"CHEBI:48735", "CHEBI:63849"
-				,"CHEBI:48736"
-				,"CHEBI:48742", "CHEBI:63820"
-				,"CHEBI:48778"
-				,"CHEBI:48825"
-				,"CHEBI:48833"
-				,"CHEBI:48834"
-				,"CHEBI:52432"
-				,"CHEBI:15494", "CHEBI:48474"
-				,"CHEBI:27458", "CHEBI:52050"
-				,"CHEBI:27505", "CHEBI:52432"
-				,"CHEBI:28540"
+			"CHEBI:48887"
+			,"CHEBI:48698", "CHEBI:63829"
+			, "CHEBI:48700", "CHEBI:63831"
+			, "CHEBI:48701", "CHEBI:63838"
+			, "CHEBI:48714", "CHEBI:63839"
+			, "CHEBI:48715", "CHEBI:63830"
+			, "CHEBI:48728", "CHEBI:63834"
+			, "CHEBI:48731", "CHEBI:63833"
+			, "CHEBI:48732", "CHEBI:63835"
+			, "CHEBI:48734", "CHEBI:63848"
+			, "CHEBI:48735", "CHEBI:63849"
+			, "CHEBI:48736"
+			, "CHEBI:48742", "CHEBI:63820", "CHEBI:63824", "CHEBI:63823"
+			, "CHEBI:48778"
+			, "CHEBI:48825"
+			, "CHEBI:48833"
+			, "CHEBI:48834"
+			, "CHEBI:52432"
+			, "CHEBI:15494", "CHEBI:48474", "CHEBI:58752"
+			, "CHEBI:27458", "CHEBI:52050", "CHEBI:59807"
+			, "CHEBI:27505", "CHEBI:59879"
+			, "CHEBI:28540"
 	};
 
-	//Note: CHEBI:48474 is a conjugate base of CHEBI:58752 but we are not following that path,...shall we?
-	//Same: CHEBI:59879 is a conjugate base of CHEBI:52432
-	//Same: CHEBI:59807 is a conjugate base of CHEBI:52050
-
+	private String[] alanineMetabolitesExpected = {
+			"CHEBI:16449",
+			"CHEBI:15570",
+			"CHEBI:16977",
+			"CHEBI:76050",
+			"CHEBI:32440",
+			"CHEBI:32439",
+			"CHEBI:66916",
+			"CHEBI:32436",
+			"CHEBI:32435",
+			"CHEBI:57416",
+			"CHEBI:32432",
+			"CHEBI:32431",
+			"CHEBI:57972"
+	};
 
 	protected static final Logger LOGGER = Logger.getLogger(ChebiMetaboliteScannerTest.class);
 
 	@Test
-	public void testScanBileAcidMetabolites() throws Exception {
+	public void testScanAlanineBranch() throws Exception {
+
+		testChebiBranch(alanineMetabolitesExpected,"CHEBI:16449", "Alanine branch tests");
+	}
+
+	@Test
+	public void testBileAcidMetabolites() throws Exception {
+
+		testChebiBranch(bileAcidMetabolitesExpected,"CHEBI:48887", "bile acid metabolites branch tests");
+	}
+
+	private void testChebiBranch(String[] expected, String chebiId, String message) throws ChebiWebServiceFault_Exception {
 
 		ChebiMetaboliteScanner chebiScanner = new ChebiMetaboliteScanner();
 
 
-		List<LiteEntity> bileAcidMetabolites = chebiScanner.scan("CHEBI:48887");
+		Map<String, Entity> results = chebiScanner.scan(chebiId);
+
+		checkResults(results, expected);
 
 		// Check results size with expected size
-		Assert.assertEquals("Check bile acid metabolites scan size", bileAcidMetabolitesExpected.length, bileAcidMetabolites.size());
+		Assert.assertEquals(message, expected.length, results.size());
 
 	}
 
-	public void exportScanMetabolite() throws Exception {
+	@Test
+	public void printExpected(){
+		printEntities(bileAcidMetabolitesExpected, "bile acid expected");
+	}
 
-		ChebiMetaboliteScanner chebiScanner = new ChebiMetaboliteScanner();
+	private void checkResults(Map<String, Entity> result, String[] expected) {
 
-		List<LiteEntity> allMetabolites = chebiScanner.scan();
 
-		System.out.println("\n\n\nOutput");
+		Set<String> keysSet = result.keySet();
+		String[] keys = keysSet.toArray(new String[keysSet.size()]);
 
-		for (LiteEntity entity: allMetabolites){
-			System.out.println(entity.getChebiId());
+		// Substract expected from results
+		substractArray(keys,expected, "Results have some items not found in expected");
+
+		// Substract results from expected
+		substractArray(expected,keys, "Expected have some items not found in Results");
+
+	}
+
+	private void substractArray (String[] mainData, String[] elmentsToSubstract, String header){
+
+		Set<String> substraction;
+		substraction = new HashSet<String>(Arrays.asList(mainData));
+
+		substraction.removeAll(Arrays.asList(elmentsToSubstract));
+
+		if (substraction.size()!= 0 ){
+
+			printEntities(substraction.toArray(new String[substraction.size()]), header);
+
+			Assert.fail(header);
 		}
 
-
 	}
 
+	private void printEntities(String[] entities, String header) {
+
+		System.out.println(header);
+
+		for (int index = 0; index < entities.length; index++) {
+
+			System.out.println(entities[index]);
+		}
+
+	}
 }
