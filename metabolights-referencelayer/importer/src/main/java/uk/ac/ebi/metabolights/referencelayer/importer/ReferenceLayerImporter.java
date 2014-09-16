@@ -151,41 +151,44 @@ public class ReferenceLayerImporter {
         this.chebiIDRoot = chebiIDRoot;
     }
 
-	public void importMetabolitesFromChebi(){
+	public void importMetabolitesFromChebi() {
 
-        LOGGER.info("Importing metabolites from chebi. Root: " + chebiIDRoot + ", relationship type: " + relationshipType);
-        LiteEntityList el = null;
+		LOGGER.info("Importing metabolites from chebi. Root: " + chebiIDRoot + ", relationship type: " + relationshipType);
 
-        // Try to get the list of metabolites from chebi...
-        try {
-             el = chebiWS.getAllOntologyChildrenInPath(chebiIDRoot, relationshipType,true);
-        } catch (ChebiWebServiceFault_Exception e) {
-            LOGGER.error("Can't import Metabolites from chebi. Chebi WS can't be accessed");
-            return;
-        }
+		ChebiMetaboliteScanner scanner = new ChebiMetaboliteScanner();
 
-        LOGGER.info(el.getListElement().size() + " Chebi compounds returned.");
+		Map<String, Entity> allMetabolites = null;
 
-        Long imported = new Long(0);
+		try {
+			allMetabolites = scanner.scan(chebiIDRoot);
 
-        // Now try to save the metabolites
-        try {
+		} catch (ChebiWebServiceFault_Exception e) {
+			LOGGER.error("Can't scan metabolites from chebi", e);
+		}
 
-            // Now we should have a list of chebi ids...
-            for (LiteEntity le: el.getListElement()){
 
-                imported = imported + chebiID2MetaboLights(le.getChebiId());
+		LOGGER.info(allMetabolites.size() + " Chebi metabolites returned.");
 
-            }
+		Long imported = new Long(0);
 
-        } catch (DAOException e) {
+		// Now try to save the metabolites
+		try {
 
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+			// Now we should have a list of chebi ids...
+			for (Entity  metabolite: allMetabolites.values()) {
 
-        LOGGER.info(imported + " new compounds imported.");
+				imported = imported + chebiEntity2Metabolights(metabolite);
 
-    }
+			}
+
+		} catch (DAOException e) {
+
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
+
+		LOGGER.info(imported + " new compounds imported.");
+
+	}
 
 	/**
 	 * Refreshes status of already existing mtblc entries in the reference layer.
@@ -200,7 +203,7 @@ public class ReferenceLayerImporter {
 		for (MetaboLightsCompound mc: mtblcToRefresh)
 		{
 
-			chebiID2MetaboLightsNoFuzzy(mc.getChebiId());
+			chebiID2MetaboLights(mc.getChebiId());
 
 		}
 
@@ -266,127 +269,45 @@ public class ReferenceLayerImporter {
 	}
 
 
-	public void importMetaboliteFromChebiID(String chebiId) throws DAOException {
-
-		chebiID2MetaboLights(chebiId);
-	}
-
-
-	private int chebiID2MetaboLights(String chebiId) throws DAOException {
-
-		Collection<String> chebiFamily = getFamilyForChebiID(chebiId);
-
-		int imported = 0;
-
-		for(String chebiIDRelative: chebiFamily){
-
-			imported = imported + chebiID2MetaboLightsNoFuzzy(chebiIDRelative);
-		}
-
-		return imported;
-
-	}
-
-	private ArrayList<String> getFamilyForChebiID(String chebiId) {
-
-
-		// Try first the initial chebiId
-		ArrayList<String> chebiIdRelatives = new ArrayList<String>();
-		chebiIdRelatives.add(chebiId);
-
-		if ((importOptions & ImportOptions.DO_FUZZY_SEARCH) == ImportOptions.DO_FUZZY_SEARCH){
-
-
-			try {
-
-				// ... try tautomers
-				Collection<String> tautomers = null;
-				tautomers = getChebiIdsRelatives(chebiId, RelationshipType.IS_TAUTOMER_OF);
-
-				chebiIdRelatives.addAll(tautomers);
-
-				// ... try children
-				Collection<String>	children = getChebiIdsRelatives(chebiId, RelationshipType.IS_A);
-				chebiIdRelatives.addAll(children);
-
-				// ... try tautomers of the children
-				Collection<String> childrenTautomers = getChebiIdsRelatives(children, RelationshipType.IS_TAUTOMER_OF);
-				chebiIdRelatives.addAll(childrenTautomers);
-
-			} catch (ChebiWebServiceFault_Exception e) {
-				LOGGER.error("Can't perform fuzy search of chebiID " + chebiId + " using chebi WS", e);
-			}
-
-		}
-
-		return chebiIdRelatives;
-
-	}
-
-	private ArrayList<String> getChebiIdsRelatives(String chebiId, RelationshipType relType) throws ChebiWebServiceFault_Exception {
-
-
-		ArrayList<String> relatives = new ArrayList<String>();
-
-		// Get all the children of that chebi id
-		LiteEntityList children = chebiWS.getAllOntologyChildrenInPath(chebiId, relType, true);
-
-		for (LiteEntity le: children.getListElement()){
-			relatives.add(le.getChebiId());
-		}
-
-		return relatives;
-
-	}
-
-	private ArrayList<String> getChebiIdsRelatives(Collection<String> chebiIdList, RelationshipType relType) throws ChebiWebServiceFault_Exception {
-
-
-		ArrayList<String> joinedRelatives = new ArrayList<String>();
-
-		// For each chebiID in the lis
-		for (String chebiId: chebiIdList){
-
-			Collection<String> relatives = getChebiIdsRelatives(chebiId,relType);
-
-			joinedRelatives.addAll(relatives);
-		}
-
-		return joinedRelatives;
-
-	}
 	/*
 	Returns 1 if successful
 	 */
-    private int chebiID2MetaboLightsNoFuzzy(String chebiId) throws DAOException {
-
-        try {
-
-			// Get a complete entity....
-			Entity entity = chebiWS.getCompleteEntity(chebiId);
-
-			if (entity == null) {
-
-				// chebiID not found
-				LOGGER.info("The compound " + chebiId + " wasn't found by the chebi webservice");
-				return 0;
-			}
-
-            // If returned entity has a different CHEBI id (.. a secondary id was provided...)
-			if (!entity.getChebiId().equals(chebiId)){
-
-				// Switch to the primary chebiID
-				chebiId = entity.getChebiId();
-			}
+    private int chebiID2MetaboLights(String chebiId) throws DAOException {
 
 
-			String accession = chebiID2MetaboLightsID(chebiId);
+		// Get a complete entity....
+		Entity entity = null;
+		try {
+			entity = chebiWS.getCompleteEntity(chebiId);
+			chebiEntity2Metabolights(entity);
+
+
+		} catch (ChebiWebServiceFault_Exception e) {
+			LOGGER.info("Can't get a Complete entity for " + chebiId);
+			return 0;
+		}
+
+		if (entity == null) {
+
+			// chebiID not found
+			LOGGER.info("The compound " + chebiId + " wasn't found by the chebi webservice");
+			return 0;
+		}
+
+		return 1;
+    }
+
+	private int chebiEntity2Metabolights(Entity entity) throws DAOException {
+
+		try {
+
+			String accession = chebiID2MetaboLightsID(entity.getChebiId());
 
 
 			// Check if we have already the Metabolite (since querying the WS is what takes more...)
-            MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
+			MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
 
-            if (mc != null){
+			if (mc != null){
 
 				// If we don't need to update existing metabolites..
 				if ((importOptions & ImportOptions.UPDATE_EXISTING_MET) == 0){
@@ -403,24 +324,24 @@ public class ReferenceLayerImporter {
 
 				}
 
-            } else {
+			} else {
 
-                // ...if execution reach this point....we don't have the compound and needs to be imported from chebi WS.
-                mc = new MetaboLightsCompound();
+				// ...if execution reach this point....we don't have the compound and needs to be imported from chebi WS.
+				mc = new MetaboLightsCompound();
 
 				// ...log new compound found
-				LOGGER.info("The compound " + chebiId + " will be imported. Importing it");
+				LOGGER.info("The compound " + entity.getChebiId() + " will be imported. Importing it");
 
 			}
 
-            mc.setAccession(chebiID2MetaboLightsID(entity.getChebiId()));
-            mc.setChebiId(entity.getChebiId());
-            mc.setName(entity.getChebiAsciiName());
+			mc.setAccession(chebiID2MetaboLightsID(entity.getChebiId()));
+			mc.setChebiId(entity.getChebiId());
+			mc.setName(entity.getChebiAsciiName());
 
-            mc.setDescription(entity.getDefinition());
-            mc.setInchi(entity.getInchi());
-            mc.setFormula(extractFormula(entity.getFormulae()));
-            mc.setIupacNames(extractIupacNames(entity.getIupacNames()));
+			mc.setDescription(entity.getDefinition());
+			mc.setInchi(entity.getInchi());
+			mc.setFormula(extractFormula(entity.getFormulae()));
+			mc.setIupacNames(extractIupacNames(entity.getIupacNames()));
 
 
 			if ((importOptions & ImportOptions.REFRESH_MET_SPECIES) == ImportOptions.REFRESH_MET_SPECIES){
@@ -431,37 +352,36 @@ public class ReferenceLayerImporter {
 			}
 
 
-            mc.setHasLiterature(getLiterature(entity));
-            mc.setHasReaction(getReactions(mc.getChebiId()));
-            mc.setHasSpecies(mc.getMetSpecies().size() != 0);
+			mc.setHasLiterature(getLiterature(entity));
+			mc.setHasReaction(getReactions(mc.getChebiId()));
+			mc.setHasSpecies(mc.getMetSpecies().size() != 0);
 
-            mcd.save(mc);
+			mcd.save(mc);
 
-            return 1;
+			return 1;
 
-        } catch (DAOException e){
+		} catch (DAOException e){
 
-            Throwable cause = e.getCause();
+			Throwable cause = e.getCause();
 
-            if (cause instanceof SQLException){
+			if (cause instanceof SQLException){
 
-                SQLException sqle = (SQLException) cause;
-                // If it's bacause a duplicate key...
-                //http://stackoverflow.com/questions/1988570/how-to-catch-a-specific-exceptions-in-jdbc
-                if (sqle.getSQLState().startsWith("23")){
-                    LOGGER.info("The compound " + chebiId + " is already imported into the database (Duplicated primary key)", e);
-                    return 0;
-                } else {
-                    throw e;
-                }
-            } else {
-                throw e;
-            }
-        } catch (ChebiWebServiceFault_Exception e) {
-            LOGGER.info("Can't get a Complete entity for " + chebiId);
-            return 0;
-        }
-    }
+				SQLException sqle = (SQLException) cause;
+				// If it's bacause a duplicate key...
+				//http://stackoverflow.com/questions/1988570/how-to-catch-a-specific-exceptions-in-jdbc
+				if (sqle.getSQLState().startsWith("23")){
+					LOGGER.info("The compound " + entity.getChebiId() + " is already imported into the database (Duplicated primary key)", e);
+					return 0;
+				} else {
+					throw e;
+				}
+			} else {
+				throw e;
+			}
+
+		}
+
+	}
 
 	private void deleteExistingCHEBISpecies(MetaboLightsCompound mc) throws DAOException {
 
