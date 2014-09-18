@@ -399,15 +399,15 @@
                 </exclusion>
             </exclusions>
         </dependency>
-		<dependency>
-			<groupId>uk.ac.ebi.rhea</groupId>
-			<artifactId>rhea-ws-domain</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>uk.ac.ebi.rhea</groupId>
-			<artifactId>rhea-ws-client</artifactId>
-			<version>1.0</version>
+        <dependency>
+            <groupId>uk.ac.ebi.rhea</groupId>
+            <artifactId>rhea-ws-domain</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.rhea</groupId>
+            <artifactId>rhea-ws-client</artifactId>
+            <version>1.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>log4j</artifactId>
@@ -415,10 +415,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
-		<dependency>
-			<groupId>uk.ac.ebi.rhea</groupId>
-			<artifactId>rhea-domain</artifactId>
-			<version>1.7.0</version>
+        <dependency>
+            <groupId>uk.ac.ebi.rhea</groupId>
+            <artifactId>rhea-domain</artifactId>
+            <version>1.7.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>log4j</artifactId>
@@ -435,10 +435,10 @@
             </exclusions>
         </dependency>
 
-		<dependency>
-			<groupId>uk.ac.ebi.biobabel</groupId>
-			<artifactId>biobabel-citations</artifactId>
-			<version>2.0.3</version>
+        <dependency>
+            <groupId>uk.ac.ebi.biobabel</groupId>
+            <artifactId>biobabel-citations</artifactId>
+            <version>2.0.3</version>
             <exclusions>
                 <exclusion>
                     <artifactId>log4j</artifactId>
@@ -463,6 +463,14 @@
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
                     <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>logback-core</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -505,5 +513,56 @@
             <version>7.0.19</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.rcloud</groupId>
+            <artifactId>rcloud-server-api</artifactId>
+            <version>1.2.0-rcloud</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>uk.ac.ebi.rcloud</groupId>
+            <artifactId>rcloud-rpf</artifactId>
+            <version>1.2.0-rcloud</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-pool</artifactId>
+                    <groupId>commons-pool</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+
     </dependencies>
 </project>
