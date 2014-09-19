@@ -25,10 +25,10 @@ import org.apache.log4j.Logger;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.xml.namespace.QName;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * User: conesa
@@ -37,14 +37,21 @@ import java.util.Map;
  */
 public class ChebiMetaboliteScanner {
 
-	public static String  CHEBI_METABOLITE_ROLE = "CHEBI:25212";
-
-	private boolean doFuzzyScan = true;
-
 	private Logger LOGGER = Logger.getLogger(ChebiMetaboliteScanner.class);
 
-	private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
-//	private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+	public String  CHEBI_METABOLITE_ROLE = "CHEBI:25212";
+
+	private Map<String, Entity> scannedEntityList;
+	private boolean doFuzzyScan = true;
+
+	private ChebiWebServiceClient chebiWS;
+	private final String chebiWSUrl = "http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl";
+
+	public ChebiMetaboliteScanner() throws MalformedURLException {
+		chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+	}
+
+
 
 	public boolean isDoFuzzyScan() {
 		return doFuzzyScan;
@@ -55,8 +62,6 @@ public class ChebiMetaboliteScanner {
 	}
 
 
-	private Map<String, Entity> scannedEntityList;
-
 	public Map<String, Entity> scan() throws ChebiWebServiceFault_Exception {
 		return scan(CHEBI_METABOLITE_ROLE);
 	}
@@ -65,15 +70,52 @@ public class ChebiMetaboliteScanner {
 	public Map<String, Entity> scan(String chebiId) throws ChebiWebServiceFault_Exception {
 
 
+		ArrayList<String> chebiIds = new ArrayList<String>();
+		chebiIds.add(chebiId);
+
+		return scan(chebiIds);
+
+	}
+
+	// Scans chebi looking for any metabolite compound under the specified CHEBI entity collection.
+	public Map<String, Entity> scan(Collection<String> chebiIds) throws ChebiWebServiceFault_Exception {
+
+
+		LOGGER.info("Scanning chebi metabolites");
+		ArrayList<Entity> entities = new ArrayList<Entity>();
+
+
+		// For each of the id..
+		for (String chebiId: chebiIds){
+
+			// Get the complete entity
+			Entity entity = getChebiEntity(chebiId);
+			entities.add(entity);
+
+		}
+
+
+		return scanEntities(entities);
+
+	}
+
+	// Scans chebi looking for any metabolite compound under the specified CHEBI entity.
+	private Map<String, Entity> scanEntities(Collection<Entity> entities) throws ChebiWebServiceFault_Exception {
+
+
 		// Set final list to null.
 		scannedEntityList = new HashMap<String, Entity>();
 
-		addChildrenMetabolitesForChebiID(chebiId);
+		for (Entity entity: entities){
+
+			addChildrenMetabolitesForChebiID(entity);
+
+		}
+
 
 		return scannedEntityList;
 
 	}
-
 
 	/*
 	Add all children of the chebiId:
@@ -82,19 +124,23 @@ public class ChebiMetaboliteScanner {
 		Has_role (if no structure?, ask chebi).  --> adenine HAS_ROLE metabolite
 
 	 */
-	private void addChildrenMetabolitesForChebiID(String chebiId) throws ChebiWebServiceFault_Exception {
+	private void addChildrenMetabolitesForChebiID(Entity entity) throws ChebiWebServiceFault_Exception {
 
+
+		if (entity == null){
+			LOGGER.warn("addChildrenMetabolitesForChebiID received a null entity");
+			return;
+		}
+
+		LOGGER.debug("Getting children of " + entity.getChebiId());
 
 		// Check if that Chebi Id is already in our list
-		if (scannedEntityList.containsKey(chebiId)) return ;
+		if (scannedEntityList.containsKey(entity.getChebiId())) return ;
 
-		// ...it's not in our list...therefore we add it
-		// Get the complete entity
-		Entity entity = getChebiEntity(chebiId);
 
 		// Add it to our scanned list to avoid further look ups and endless loops.
 		// NOTE: classes will be added too, we may need to clean the list later or have 2 list (scanned and metabolites, or metabolites + classes).
-		scannedEntityList.put(chebiId,entity);
+		scannedEntityList.put(entity.getChebiId(),entity);
 
 
 		// Now explore children
@@ -106,7 +152,7 @@ public class ChebiMetaboliteScanner {
 			// Regardless the structure we always do IS_A..
 			// ... try tautomers
 			List<LiteEntity> is_a = null;
-			is_a = getChebiIdsRelatives(chebiId, RelationshipType.IS_A);
+			is_a = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_A,false);
 
 			// Add them to the children list
 			children.addAll(is_a);
@@ -120,17 +166,17 @@ public class ChebiMetaboliteScanner {
 					List<LiteEntity> structuralChildren = null;
 
 					// ... try tautomers
-					structuralChildren = getChebiIdsRelatives(chebiId, RelationshipType.IS_TAUTOMER_OF);
+					structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_TAUTOMER_OF);
 
 					children.addAll(structuralChildren);
 
 					// ... try acids
-					structuralChildren = getChebiIdsRelatives(chebiId, RelationshipType.IS_CONJUGATE_ACID_OF);
+					structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_CONJUGATE_ACID_OF);
 
 					children.addAll(structuralChildren);
 
 					// ... try bases
-					structuralChildren = getChebiIdsRelatives(chebiId, RelationshipType.IS_CONJUGATE_BASE_OF);
+					structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_CONJUGATE_BASE_OF);
 
 					children.addAll(structuralChildren);
 
@@ -139,8 +185,7 @@ public class ChebiMetaboliteScanner {
 				} else {
 					// ... try has_role
 					List<LiteEntity> roles = null;
-					roles = getChebiIdsRelatives(chebiId, RelationshipType.HAS_ROLE);
-
+					roles = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.HAS_ROLE);
 					children.addAll(roles);
 
 				}
@@ -149,7 +194,7 @@ public class ChebiMetaboliteScanner {
 
 
 		} catch (ChebiWebServiceFault_Exception e) {
-			LOGGER.error("Can't perform fuzzy search of chebiID " + chebiId + " using chebi WS", e);
+			LOGGER.error("Can't perform fuzzy search of chebiID " + entity + " using chebi WS", e);
 		}
 
 
@@ -157,8 +202,18 @@ public class ChebiMetaboliteScanner {
 		// Go through the list
 		for (LiteEntity child: children){
 
+			// ...it's not in our list...therefore we add it
+			// Get the complete entity
+			Entity childEntity = getChebiEntity(child.getChebiId());
+
+			if (childEntity == null){
+
+				LOGGER.warn("Chebi WS returned a null entity for " + child.getChebiId());
+				continue;
+			}
+
 			// Get again all children...
-			addChildrenMetabolitesForChebiID(child.getChebiId());
+			addChildrenMetabolitesForChebiID(childEntity);
 		}
 
 	}
@@ -170,14 +225,18 @@ public class ChebiMetaboliteScanner {
 
 	private List<LiteEntity> getChebiIdsRelatives(String chebiId, RelationshipType relType) throws ChebiWebServiceFault_Exception {
 
+		return getChebiIdsRelatives(chebiId, relType, true);
+
+	}
+
+	private List<LiteEntity> getChebiIdsRelatives(String chebiId, RelationshipType relType, boolean onlyStructure) throws ChebiWebServiceFault_Exception {
 		LOGGER.debug("Getting relatives for  " + chebiId + ". Relationship: " + relType.name());
 
 		// Get all the children of that chebi id
-		LiteEntityList children = chebiWS.getAllOntologyChildrenInPath(chebiId, relType, true);
-
+		LiteEntityList children = chebiWS.getAllOntologyChildrenInPath(chebiId, relType, onlyStructure);
 
 		return children.getListElement();
-
 	}
+
 
 }

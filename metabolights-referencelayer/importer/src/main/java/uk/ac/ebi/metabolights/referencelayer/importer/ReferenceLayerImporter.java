@@ -38,6 +38,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -55,14 +56,14 @@ public class ReferenceLayerImporter {
 
     private RheasResourceClient wsRheaClient;
 
-    //private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
-     private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+//    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
+    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
 
     // Temporary chebiWS for producction database.
     //private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
 	private static final Long CHEBI_DB_ID = new Long(1);
-    private String chebiIDRoot = ChebiMetaboliteScanner.CHEBI_METABOLITE_ROLE;
+    private String chebiIDRoot = "";
     private RelationshipType relationshipType = RelationshipType.HAS_ROLE;
 
 	public class ImportOptions
@@ -151,7 +152,7 @@ public class ReferenceLayerImporter {
         this.chebiIDRoot = chebiIDRoot;
     }
 
-	public void importMetabolitesFromChebi() {
+	public void importMetabolitesFromChebi() throws MalformedURLException {
 
 		LOGGER.info("Importing metabolites from chebi. Root: " + chebiIDRoot + ", relationship type: " + relationshipType);
 
@@ -160,7 +161,7 @@ public class ReferenceLayerImporter {
 		Map<String, Entity> allMetabolites = null;
 
 		try {
-			allMetabolites = scanner.scan(chebiIDRoot);
+			allMetabolites = scanner.scan();
 
 		} catch (ChebiWebServiceFault_Exception e) {
 			LOGGER.error("Can't scan metabolites from chebi", e);
@@ -226,6 +227,8 @@ public class ReferenceLayerImporter {
         Long imported = new Long(0);
 
 
+		ArrayList<String> chebiIds = new ArrayList<String>();
+
         // Open and go through the file
         try {
             //Use a buffered reader
@@ -241,7 +244,8 @@ public class ReferenceLayerImporter {
                     // Get the Chebi id ==> First element in a line separated by Tabulators
                     String[] values = line.split("\t");
 
-                    imported = imported + chebiID2MetaboLights(values[0]);
+					chebiIds.add(values[0]);
+
 
                 }
 
@@ -252,9 +256,11 @@ public class ReferenceLayerImporter {
             //Close the reader
             reader.close();
 
-        } catch (DAOException e) {
+			chebiID2MetaboLights(chebiIds);
 
-            LOGGER.error("Can't save a metabolite to the Database.",e);
+//        } catch (DAOException e) {
+//
+//            LOGGER.error("Can't save a metabolite to the Database.",e);
 
         } catch (Exception e) {
             LOGGER.error("Can't import Metabolites from chebi TSV.",e);
@@ -264,15 +270,20 @@ public class ReferenceLayerImporter {
         LOGGER.info(imported + " new compounds imported.");
 
     }
+
+
 	public void importMetabolitesFromChebiTSV(File chebiTSV) {
 		importMetabolitesFromChebiTSV(chebiTSV,1);
 	}
 
 
+	private void chebiID2MetaboLights(ArrayList<String> chebiIds) {
+	}
+
 	/*
 	Returns 1 if successful
 	 */
-    private int chebiID2MetaboLights(String chebiId) throws DAOException {
+    public int chebiID2MetaboLights(String chebiId) throws DAOException {
 
 
 		// Get a complete entity....

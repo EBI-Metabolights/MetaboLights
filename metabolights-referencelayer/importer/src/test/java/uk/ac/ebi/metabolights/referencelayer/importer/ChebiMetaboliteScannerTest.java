@@ -27,6 +27,7 @@ import org.junit.Test;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
 
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -85,7 +86,7 @@ public class ChebiMetaboliteScannerTest {
 	@Test
 	public void testScanAlanineBranch() throws Exception {
 
-		testChebiBranch(alanineMetabolitesExpected,"CHEBI:16449", "Alanine branch tests");
+		testChebiBranch(alanineMetabolitesExpected, "CHEBI:16449", "Alanine branch tests");
 	}
 
 	@Test
@@ -94,7 +95,18 @@ public class ChebiMetaboliteScannerTest {
 		testChebiBranch(bileAcidMetabolitesExpected,"CHEBI:48887", "bile acid metabolites branch tests");
 	}
 
-	private void testChebiBranch(String[] expected, String chebiId, String message) throws ChebiWebServiceFault_Exception {
+
+	@Test
+	public void testOutputAllMetabolites() throws Exception {
+
+		ChebiMetaboliteScanner scanner = new ChebiMetaboliteScanner();
+
+		Map<String,Entity> metabolites = scanner.scan();
+
+		printEntities(metabolites.keySet().toArray(new String[metabolites.size()]), "All metabolites");
+	}
+
+	private void testChebiBranch(String[] expected, String chebiId, String message) throws ChebiWebServiceFault_Exception, MalformedURLException {
 
 		ChebiMetaboliteScanner chebiScanner = new ChebiMetaboliteScanner();
 

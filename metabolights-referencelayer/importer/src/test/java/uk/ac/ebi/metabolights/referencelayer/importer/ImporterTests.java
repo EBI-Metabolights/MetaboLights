@@ -120,7 +120,7 @@ public class ImporterTests extends TestCase{
 		//rli.importMetaboliteFromChebiID("CHEBI:65640");
 		//rli.importMetaboliteFromChebiID("CHEBI:16449");
 		// To test import of "human metabolite"
-		rli.importMetaboliteFromChebiID("CHEBI:4167");
+		rli.chebiID2MetaboLights("CHEBI:4167");
 
 
 	}
