@@ -34,9 +34,7 @@ import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
 import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 
 import javax.xml.namespace.QName;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -211,73 +209,30 @@ public class ReferenceLayerImporter {
 
 	}
 
-    public void importMetabolitesFromChebiTSV(File chebiTSV, long startFrom){
+    public void importMetabolitesFromChebiTSV(File chebiTSV, long startFrom) throws DAOException {
 
         LOGGER.info("Importing metabolites from chebi. TSV: " + chebiTSV.getAbsoluteFile());
 
-        // Try to get the list of metabolites from chebi TSV...
-        // SAMPLE:
-        // ChEBI ID	ChEBI ASCII Name	Text Score	Tanimoto Similarity Score	Entry Status
-        // CHEBI:36062	3,4-dihydroxybenzoic acid	7.22
-        // CHEBI:1189	2-methoxyestrone	7.11
-        // CHEBI:1387	3,4-dihydroxyphenylethyleneglycol	7.11
-        // CHEBI:3648	chlorpromazine <i>N</i>-oxide	7.11
 
-        Long linesRead = new Long(0);
-        Long imported = new Long(0);
+		ArrayList<String> chebiIds = ChebiTools.chebiTsvToArrayList(chebiTSV);
 
+		chebiID2MetaboLights(chebiIds);
 
-		ArrayList<String> chebiIds = new ArrayList<String>();
-
-        // Open and go through the file
-        try {
-            //Use a buffered reader
-            BufferedReader reader = new BufferedReader(new FileReader(chebiTSV));
-            String line = "", text = "";
-
-            //Go through the file
-            while((line = reader.readLine()) != null)
-            {
-
-                // If its not the first line...skip it as it is the header definition line....
-                if (linesRead >= startFrom){
-                    // Get the Chebi id ==> First element in a line separated by Tabulators
-                    String[] values = line.split("\t");
-
-					chebiIds.add(values[0]);
-
-
-                }
-
-                linesRead++;
-
-            }
-
-            //Close the reader
-            reader.close();
-
-			chebiID2MetaboLights(chebiIds);
-
-//        } catch (DAOException e) {
-//
-//            LOGGER.error("Can't save a metabolite to the Database.",e);
-
-        } catch (Exception e) {
-            LOGGER.error("Can't import Metabolites from chebi TSV.",e);
-            return;
-        }
-
-        LOGGER.info(imported + " new compounds imported.");
+//        LOGGER.info(imported + " new compounds imported.");
 
     }
 
 
-	public void importMetabolitesFromChebiTSV(File chebiTSV) {
+	public void importMetabolitesFromChebiTSV(File chebiTSV) throws DAOException {
 		importMetabolitesFromChebiTSV(chebiTSV,1);
 	}
 
 
-	private void chebiID2MetaboLights(ArrayList<String> chebiIds) {
+	private void chebiID2MetaboLights(ArrayList<String> chebiIds) throws DAOException {
+
+		for (String chebiId: chebiIds){
+			chebiID2MetaboLights(chebiId);
+		}
 	}
 
 	/*

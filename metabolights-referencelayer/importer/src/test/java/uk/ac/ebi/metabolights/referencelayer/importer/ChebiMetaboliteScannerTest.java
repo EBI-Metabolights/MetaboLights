@@ -26,7 +26,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntityList;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.RelationshipType;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -139,6 +143,36 @@ public class ChebiMetaboliteScannerTest {
 
 	}
 
+	@Test
+	public void testGetRelativesUsingPost() throws IOException {
+
+		ChebiMetaboliteScanner scanner = new ChebiMetaboliteScanner();
+
+		// Request is a glutamine
+		// http://www.ebi.ac.uk/chebi/searchId.do;jsessionid=3D4261F5A57307342F1FFC90A1EE0A68?chebiId=CHEBI%3A28300
+		File tsv = scanner.makePostRequest("CHEBI:28300", RelationshipType.IS_A, true);
+
+		Assert.assertNotNull( "Tsv file shouldn't be null",tsv);
+	}
+
+	@Test
+	public void testGetChebiIdRelativesUsingHttpPOST() throws MalformedURLException {
+
+		ChebiMetaboliteScanner scanner = new ChebiMetaboliteScanner();
+
+		LiteEntityList liteEntityList = scanner.getChebiIdRelativesUsingHttpPOST("CHEBI:28300", RelationshipType.IS_A, true);
+
+		Assert.assertNotNull(liteEntityList);
+
+		Assert.assertEquals("GetChebiIdRelativesUsingHttpPOST size", 3,liteEntityList.getListElement().size());
+
+		Assert.assertEquals("CHEBI:17061 should be there", "CHEBI:17061",liteEntityList.getListElement().get(0).getChebiId());
+		Assert.assertEquals("CHEBI:18050 should be there", "CHEBI:18050",liteEntityList.getListElement().get(1).getChebiId());
+		Assert.assertEquals("CHEBI:58000 should be there", "CHEBI:58000",liteEntityList.getListElement().get(2).getChebiId());
+
+
+
+	}
 	private void substractArray (String[] mainData, String[] elmentsToSubstract, String header){
 
 		Set<String> substraction;
