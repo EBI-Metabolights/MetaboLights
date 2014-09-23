@@ -61,20 +61,20 @@ public class ReferenceLayerImporter {
     //private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
 	private static final Long CHEBI_DB_ID = new Long(1);
-    private String chebiIDRoot = "";
-    private RelationshipType relationshipType = RelationshipType.HAS_ROLE;
+    private String chebiIDRoot = null;
 
 	public class ImportOptions
 	{
 		public static final int REFRESH_MET_SPECIES = 0x1;
 		public static final int UPDATE_EXISTING_MET= 0x1<<1;
-		public static final int DO_FUZZY_SEARCH = 0x1<<2;
+//		public static final int DO_FUZZY_SEARCH = 0x1<<2;
 //		public static final int FOUR = 0x1<<3;
 //		public static final int FIVE = 0x1<<4;
 
 		// COMBOS...
 		public static final int SPECIES_AND_UPDATE_MET = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
-		public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET + DO_FUZZY_SEARCH;
+//		public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET + DO_FUZZY_SEARCH;
+public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 	}
 
 
@@ -134,14 +134,6 @@ public class ReferenceLayerImporter {
 		this.importOptions = importOptions;
 	}
 
-	public RelationshipType getRelationshipType() {
-        return relationshipType;
-    }
-
-    public void setRelationshipType(RelationshipType relationshipType) {
-        this.relationshipType = relationshipType;
-    }
-
     public String getChebiIDRoot() {
         return chebiIDRoot;
     }
@@ -152,14 +144,14 @@ public class ReferenceLayerImporter {
 
 	public void importMetabolitesFromChebi() throws MalformedURLException {
 
-		LOGGER.info("Importing metabolites from chebi. Root: " + chebiIDRoot + ", relationship type: " + relationshipType);
+		LOGGER.info("Importing metabolites from chebi. Root: " + chebiIDRoot);
 
 		ChebiMetaboliteScanner scanner = new ChebiMetaboliteScanner();
 
 		Map<String, Entity> allMetabolites = null;
 
 		try {
-			allMetabolites = scanner.scan();
+			allMetabolites = scanner.scan(chebiIDRoot==null?scanner.CHEBI_METABOLITE_ROLE:chebiIDRoot);
 
 		} catch (ChebiWebServiceFault_Exception e) {
 			LOGGER.error("Can't scan metabolites from chebi", e);
@@ -185,7 +177,7 @@ public class ReferenceLayerImporter {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
 
-		LOGGER.info(imported + " new compounds imported.");
+		LOGGER.info(imported + " new compounds imported/updated.");
 
 	}
 
@@ -357,7 +349,6 @@ public class ReferenceLayerImporter {
 			// if the species is reported by CHEBI....
 			if (metSpecies.getCrossReference().getDb().getId() == CHEBI_DB_ID){
 
-				System.out.print(true);
 				//...delete it in the DB.
 				mspd.delete(metSpecies);
 
@@ -380,7 +371,7 @@ public class ReferenceLayerImporter {
             hasLiterature = true;
         }
 
-        LOGGER.info("Getting Literature from chebi WS");
+        LOGGER.debug("Getting Literature from chebi WS");
 
         return hasLiterature;
     }
@@ -389,7 +380,7 @@ public class ReferenceLayerImporter {
     private boolean getReactions(String chebiID) {
         boolean hasReactions = false;
 
-        LOGGER.info("Initializing and getting reactions from Rhea WS");
+        LOGGER.debug("Initializing and getting reactions from Rhea WS");
         initializeRheaClient();
         List<RheaReaction> reactions = wsRheaClient.search(chebiID);
 

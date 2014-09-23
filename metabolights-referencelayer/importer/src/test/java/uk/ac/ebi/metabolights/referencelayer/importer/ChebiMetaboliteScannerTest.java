@@ -101,13 +101,29 @@ public class ChebiMetaboliteScannerTest {
 
 
 	@Test
-	public void testOutputAllMetabolites() throws Exception {
+	public void testOutputHumanXenobioticMetabolites() throws Exception {
 
 		ChebiMetaboliteScanner scanner = new ChebiMetaboliteScanner();
 
-		Map<String,Entity> metabolites = scanner.scan();
+		//http://www.ebi.ac.uk/chebi/searchId.do;jsessionid=B3C8FFD450719E928DBEFEEBECD5820D?chebiId=CHEBI%3A76967
+		String HUMAN_XENOBIOTIC_METABOLITE = "CHEBI:76967";
 
-		printEntities(metabolites.keySet().toArray(new String[metabolites.size()]), "All metabolites");
+
+		Map<String,Entity> metabolites = scanner.scan(HUMAN_XENOBIOTIC_METABOLITE);
+
+
+		printEntities(metabolites.keySet().toArray(new String[metabolites.size()]), "Human Xenobiotic metabolites");
+
+		// Has role = 121
+		// Is_a= 1 (drug metabolite)
+
+		// Drug metabolite:
+		//		Is_a = 48
+
+		// Plus tauromers, acids and conjugate bases, today (2014/09/22) chebi is returning 219.
+		Assert.assertTrue("All human xenobiotic metabolites count", 200 <= metabolites.size());
+
+
 	}
 
 	private void testChebiBranch(String[] expected, String chebiId, String message) throws ChebiWebServiceFault_Exception, MalformedURLException {

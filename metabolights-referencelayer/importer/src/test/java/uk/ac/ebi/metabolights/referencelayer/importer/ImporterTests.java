@@ -66,17 +66,11 @@ public class ImporterTests extends TestCase{
 
         ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
 
-        // Set the root to anminoacid
-        //rli.setChebiIDRoot("CHEBI:16449");
-		//rli.setRelationshipType(RelationshipType.HAS_FUNCTIONAL_PARENT);
+		//rli.setChebiIDRoot("CHEBI:76967");
 
-		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL);
+		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL-ReferenceLayerImporter.ImportOptions.UPDATE_EXISTING_MET);
         rli.importMetabolitesFromChebi();
 
-        /*
-        Expected compounds are:
-        CHEBI:177403-oxoalanine3CHEBI:48459N-(2,6-dichlorobenzoyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]alanine3CHEBI:48463N-(2,6-dichlorobenzoyl)-3-[6-(2,6-dimethoxyphenyl)-2-naphthyl]alanine3CHEBI:48473methyl 3-[2-(2,6-dichlorophenyl)quinolin-6-yl]alaninate3CHEBI:48475methyl N-(2,6-dichlorobenzyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]alaninate3CHEBI:48477methyl N-(2,6-dichlorobenzyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]-N-methylalaninate3CHEBI:48478N-(2,6-dichlorobenzyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]-N-methylalanine3CHEBI:48479N-(2,6-dichlorobenzoyl)-3-(2-phenoxy-6-quinolyl)alanine3CHEBI:48482methyl 3-(2-phenoxy-6-quinolyl)alaninate3CHEBI:48491methyl N-(tert-butoxycarbonyl)-3-[2-(2,6-dichlorophenyl)-6-quinolyl]alaninate3CHEBI:48492methyl N-(tert-butoxycarbonyl)-3-[2-(2,6-dichlorophenyl)-4-(phenylsulfanyl)-1,2,3,4,4a,8a-hexahydro-6-quinolyl]alaninate3
-         */
 
 	}
     public void testImportFromTSV() throws Exception {
@@ -94,7 +88,7 @@ public class ImporterTests extends TestCase{
 
 
 		// List from Ken's SQL query in CHEBI to get D- and L alanine....zwiterions not included:
-		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL- (ReferenceLayerImporter.ImportOptions.DO_FUZZY_SEARCH + ReferenceLayerImporter.ImportOptions.REFRESH_MET_SPECIES));
+		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL-  ReferenceLayerImporter.ImportOptions.REFRESH_MET_SPECIES);
 //		URL url = ImporterTests.class.getClassLoader().getResource("chebi_metabolites.tsv");
         //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites.tsv");
         //URL url = ImporterTests.class.getClassLoader().getResource("ChEBI_Results_Metabolites_20130607.tsv");

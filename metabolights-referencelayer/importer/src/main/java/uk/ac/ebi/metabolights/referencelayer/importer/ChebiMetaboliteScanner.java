@@ -157,6 +157,11 @@ public class ChebiMetaboliteScanner {
 		// NOTE: classes will be added too, we may need to clean the list later or have 2 list (scanned and metabolites, or metabolites + classes).
 		scannedEntityList.put(entity.getChebiId(),entity);
 
+		if (scannedEntityList.size()%100 == 0){
+			LOGGER.info(scannedEntityList.size() + " entities retrieved." );
+		}
+
+
 
 		// Now explore children
 		List<LiteEntity> children = new ArrayList<LiteEntity>();
@@ -164,44 +169,41 @@ public class ChebiMetaboliteScanner {
 
 		try {
 
-			// Regardless the structure we always do IS_A..
-			// ... try tautomers
-			List<LiteEntity> is_a = null;
-			is_a = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_A,false);
-
-			// Add them to the children list
-			children.addAll(is_a);
+			List<LiteEntity> structuralChildren = null;
 
 
+			// If entity hasn't got a structure...
+			if (entity.getSmiles() == null) {
+
+				// ... try has_role
+				List<LiteEntity> roles = null;
+				roles = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.HAS_ROLE,false);
+				children.addAll(roles);
+
+			}
+
+			// If fuzzy search is enabled...
 			if (doFuzzyScan) {
 
-				// If entity has a structure we can test for tautomers
+				// If entity has a structure...
 				if (entity.getSmiles() != null) {
 
-					List<LiteEntity> structuralChildren = null;
+
+					// ... try is_a (is_a alanine)
+					structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_A, false);
+					children.addAll(structuralChildren);
 
 					// ... try tautomers
 					structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_TAUTOMER_OF);
-
 					children.addAll(structuralChildren);
 
 					// ... try acids
 					structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_CONJUGATE_ACID_OF);
-
 					children.addAll(structuralChildren);
 
 					// ... try bases
 					structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_CONJUGATE_BASE_OF);
-
 					children.addAll(structuralChildren);
-
-
-					// no structure..
-				} else {
-					// ... try has_role
-					List<LiteEntity> roles = null;
-					roles = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.HAS_ROLE);
-					children.addAll(roles);
 
 				}
 
@@ -217,7 +219,11 @@ public class ChebiMetaboliteScanner {
 		// Go through the list
 		for (LiteEntity child: children){
 
-			// ...it's not in our list...therefore we add it
+			// ...if it's in our scanned list...skip it
+			if (scannedEntityList.containsKey(child.getChebiId())){
+				continue;
+			}
+
 			// Get the complete entity
 			Entity childEntity = getChebiEntity(child.getChebiId());
 
