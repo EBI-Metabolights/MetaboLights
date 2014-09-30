@@ -184,29 +184,6 @@
             <url>http://www.smartclient.com/maven2</url>
         </repository>
 
-        <repository>
-            <id>ebi-repo</id>
-            <name>The EBI internal repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-
-        <repository>
-            <id>ebi-snapshot-repo</id>
-            <name>The EBI internal snapshot repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
     </repositories>
 
     <pluginRepositories>

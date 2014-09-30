@@ -54,7 +54,7 @@ public class ReferenceLayerImporter {
 
     private RheasResourceClient wsRheaClient;
 
-//    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
+	//    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
     private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
 
     // Temporary chebiWS for producction database.
@@ -62,6 +62,7 @@ public class ReferenceLayerImporter {
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
 	private static final Long CHEBI_DB_ID = new Long(1);
     private String chebiIDRoot = null;
+	private ProcessReport processReport;
 
 	public class ImportOptions
 	{
@@ -86,6 +87,10 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 		BAKERSYEAST(new String[]{"CHEBI:75772","CHEBI:76949","CHEBI:76951"}, "Saccharomyces cerevisiae (Baker's yeast)", "NEWT:4932"),
 		MOUSE(new String[]{"CHEBI:75771"}, "Mus musculus (Mouse)", "NEWT:10090"),
 		STREPTOCOCCUS(new String[]{"CHEBI:76973", "CHEBI:76974", "CHEBI:75789"}, "Streptococcus pneumoniae", "NEWT:1313");
+//		DAPHNIA_MAGNA(new String[]{"CHEBI:83056"}, "Daphnia magna", "NEWT:35525" ),
+//		DAPHNIA_GALEATA(new String[]{"CHEBI:83038"}, "Daphnia galeata", "NEWT:35525" ),
+//		DAPHNIA_PULEX(new String[]{"CHEBI:83075"}, "Daphnia pulex", "NEWT:35525" ),
+//		DAPHNIA_TENEBROSA(new String[]{"CHEBI:83146"}, "Daphnia tenebrosa", "NEWT:35525" );
 
 		private String[] ontologyParentIds;
 		private String speciesName;
@@ -142,33 +147,40 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
         this.chebiIDRoot = chebiIDRoot;
     }
 
+	public ProcessReport getProcessReport() {
+		return processReport;
+	}
+
 	public void importMetabolitesFromChebi() throws MalformedURLException {
 
-		LOGGER.info("Importing metabolites from chebi. Root: " + chebiIDRoot);
+		processReport = new ProcessReport("Importing/updating metabolites from chebi, from " + chebiIDRoot, 2);
+		processReport.started();
 
 		ChebiMetaboliteScanner scanner = new ChebiMetaboliteScanner();
+		scanner.setParentProcessReport(processReport);
 
-		Map<String, Entity> allMetabolites = null;
+		Map<String, Entity> metabolitesToImport = null;
 
 		try {
-			allMetabolites = scanner.scan(chebiIDRoot==null?scanner.CHEBI_METABOLITE_ROLE:chebiIDRoot);
+			metabolitesToImport = scanner.scan(chebiIDRoot==null?scanner.CHEBI_METABOLITE_ROLE:chebiIDRoot);
 
 		} catch (ChebiWebServiceFault_Exception e) {
 			LOGGER.error("Can't scan metabolites from chebi", e);
 		}
 
+		processReport.oneMore();
 
-		LOGGER.info(allMetabolites.size() + " Chebi metabolites returned.");
-
-		Long imported = new Long(0);
+		ProcessReport importProcess = processReport.addSubProcess("Importing " + metabolitesToImport.size() + " compounds into MetaboLights", metabolitesToImport.size());
+		importProcess.started();
 
 		// Now try to save the metabolites
 		try {
 
 			// Now we should have a list of chebi ids...
-			for (Entity  metabolite: allMetabolites.values()) {
+			for (Entity  metabolite: metabolitesToImport.values()) {
 
-				imported = imported + chebiEntity2Metabolights(metabolite);
+				chebiEntity2Metabolights(metabolite);
+				importProcess.oneMore();
 
 			}
 
@@ -177,7 +189,9 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
 
-		LOGGER.info(imported + " new compounds imported/updated.");
+		importProcess.finished();
+		processReport.oneMore();
+		processReport.finished();
 
 	}
 
@@ -210,7 +224,6 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 		chebiID2MetaboLights(chebiIds);
 
-//        LOGGER.info(imported + " new compounds imported.");
 
     }
 
@@ -256,6 +269,12 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
     }
 
 	private int chebiEntity2Metabolights(Entity entity) throws DAOException {
+
+		// If the entity has no structure
+		if (entity.getSmiles()== null){
+			return 0;
+		}
+
 
 		try {
 

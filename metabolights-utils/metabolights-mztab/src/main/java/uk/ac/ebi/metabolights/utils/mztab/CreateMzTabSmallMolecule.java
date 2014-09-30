@@ -61,7 +61,8 @@ public class CreateMzTabSmallMolecule {
             molecule.setDatabaseVersion(utils.makeSureNotEmpty(metLine.getDatabaseVersion()));
             molecule.setSpectraRef(utils.makeSureNotEmpty(""));      //TODO, believe this will have to exist to pass validation
             molecule.setSearchEngine(utils.makeSureNotEmpty(metLine.getSearchEngine()));
-            molecule.setBestSearchEngineScore(utils.makeSureNotEmpty(metLine.getSearchEngineScore()));
+            //Not available in 2.1.8: Pablo, for it to compile.
+            // molecule.setBestSearchEngineScore(utils.makeSureNotEmpty(metLine.getSearchEngineScore()));
             molecule.setModifications(utils.makeSureNotEmpty(metLine.getModifications()));
             //molecule.setReliability(metLine.getReliability());                 //TODO, not a standard header
             //molecule.setURI(metLine.getUri());  //TODO, not a standard header

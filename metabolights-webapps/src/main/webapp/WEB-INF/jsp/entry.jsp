@@ -259,7 +259,7 @@ function toggleColumn(tableId, anchor, duration ) {
         <c:if test="${not empty study.contacts}">
             <br/>
             <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
-				<c:if test="${loopStatus.index ne 0}">, </c:if>
+				<c:if test='${loopStatus.index ne 0}'>,&nbsp;</c:if>
 	            <span id="aff"
                 	<c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>
                 >${contact.firstName}&nbsp;${contact.lastName}</span>

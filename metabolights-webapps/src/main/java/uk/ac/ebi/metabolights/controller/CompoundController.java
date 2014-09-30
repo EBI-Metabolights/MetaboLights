@@ -28,7 +28,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.cdb.webservice.*;
+import org.xml_cml.schema.cml2.react.Reaction;
+import uk.ac.ebi.cdb.webservice.ResponseWrapper;
+import uk.ac.ebi.cdb.webservice.Result;
+import uk.ac.ebi.cdb.webservice.WSCitationImpl;
+import uk.ac.ebi.cdb.webservice.WSCitationImplService;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
 import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
 import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
@@ -37,13 +41,14 @@ import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.rhea.ws.client.RheaFetchDataException;
 import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
-import uk.ac.ebi.rhea.ws.response.cmlreact.Reaction;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+//import uk.ac.ebi.rhea.ws.response.sbml1.cmlreact.Reaction;
 
 /**
  * Controller for reference layer compounds (=MTBLC*) details.

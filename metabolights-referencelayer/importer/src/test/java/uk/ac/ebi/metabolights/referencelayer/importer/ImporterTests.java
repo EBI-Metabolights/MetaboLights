@@ -66,7 +66,7 @@ public class ImporterTests extends TestCase{
 
         ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
 
-		//rli.setChebiIDRoot("CHEBI:76967");
+		rli.setChebiIDRoot("CHEBI:48887");
 
 		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL-ReferenceLayerImporter.ImportOptions.UPDATE_EXISTING_MET);
         rli.importMetabolitesFromChebi();

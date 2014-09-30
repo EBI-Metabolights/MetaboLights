@@ -141,7 +141,7 @@
         <repository>
             <id>EBI-maven-repo</id>
             <name>EBI-maven-repo</name>
-            <url>HTTPS://www.ebi.ac.uk/~maven/m2repo</url>
+            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
         </repository>
         <repository>
 			<id>chebi-repo-snapshot</id>

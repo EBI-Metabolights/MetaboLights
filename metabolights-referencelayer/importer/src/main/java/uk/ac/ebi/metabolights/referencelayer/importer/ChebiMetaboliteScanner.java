@@ -62,6 +62,9 @@ public class ChebiMetaboliteScanner {
 //	private final String chebiWSUrl = "http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl";
 	private final String chebiWSUrl = "http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
 
+	private ProcessReport parentProcessReport;
+	private ProcessReport processReport;
+
 	public ChebiMetaboliteScanner() throws MalformedURLException {
 		chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
 	}
@@ -76,6 +79,14 @@ public class ChebiMetaboliteScanner {
 		this.doFuzzyScan = doFuzzyScan;
 	}
 
+
+	public ProcessReport getParnetProcessReport() {
+		return parentProcessReport;
+	}
+
+	public void setParentProcessReport(ProcessReport processReport) {
+		this.parentProcessReport = processReport;
+	}
 
 	public Map<String, Entity> scan() throws ChebiWebServiceFault_Exception {
 		return scan(CHEBI_METABOLITE_ROLE);
@@ -95,22 +106,52 @@ public class ChebiMetaboliteScanner {
 	// Scans chebi looking for any metabolite compound under the specified CHEBI entity collection.
 	public Map<String, Entity> scan(Collection<String> chebiIds) throws ChebiWebServiceFault_Exception {
 
+		// Initialize process report
+		initializeProcessReport("Scanning chebi metabolites", chebiIds.size());
 
-		LOGGER.info("Scanning chebi metabolites");
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 
 
+		ProcessReport gettingEntities = processReport.addSubProcess("Getting " + chebiIds.size() + " entities", chebiIds.size());
+		gettingEntities.started();
 		// For each of the id..
 		for (String chebiId: chebiIds){
 
 			// Get the complete entity
 			Entity entity = getChebiEntity(chebiId);
 			entities.add(entity);
+			gettingEntities.oneMore();
 
 		}
 
+		gettingEntities.finished();
 
-		return scanEntities(entities);
+
+		Map<String,Entity> result = scanEntities(entities);
+
+		processReport.finished();
+
+		return result;
+
+	}
+
+	private void initializeProcessReport(String processName, int total) {
+
+		// Id there's no parent process report to hang ours...
+		if (parentProcessReport == null){
+
+			// ... we create a standalone one
+			processReport = new ProcessReport();
+			processReport.setProcessName(processName);
+			processReport.getPercentage().setTotal(total);
+
+		} else {
+
+			// we create one hanging frome the parent.
+			processReport = parentProcessReport.addSubProcess(processName,total);
+		}
+
+		processReport.started();
 
 	}
 
@@ -124,7 +165,6 @@ public class ChebiMetaboliteScanner {
 		for (Entity entity: entities){
 
 			addChildrenMetabolitesForChebiID(entity);
-
 		}
 
 
@@ -215,17 +255,21 @@ public class ChebiMetaboliteScanner {
 		}
 
 
+		// Increase the cout for the process
+		processReport.getPercentage().setTotal(processReport.getPercentage().getTotal()+ children.size());
+
 		// Now we should have all children...
 		// Go through the list
 		for (LiteEntity child: children){
 
 			// ...if it's in our scanned list...skip it
 			if (scannedEntityList.containsKey(child.getChebiId())){
+				processReport.oneMore();
 				continue;
 			}
-
 			// Get the complete entity
 			Entity childEntity = getChebiEntity(child.getChebiId());
+			processReport.oneMore();
 
 			if (childEntity == null){
 

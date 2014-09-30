@@ -248,5 +248,15 @@
         <put-attribute name="title" value="MetaboAnalyst" />
         <put-attribute name="body" value="/WEB-INF/jsp/analysis.jsp" />
     </definition>
+    <definition name="importmetabolites" extends="default">
+        <put-attribute name="title" value="Import Metabolites" />
+        <put-attribute name="body" value="/WEB-INF/jsp/importmetabolites.jsp" />
+    </definition>
+    <definition name="importmetabolitesstatus" extends="default">
+        <put-attribute name="title" value="Import Metabolites Status" />
+        <put-attribute name="body" value="/WEB-INF/jsp/importmetabolitesstatus.jsp" />
+    </definition>
+
+
 
 </tiles-definitions>

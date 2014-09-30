@@ -222,6 +222,7 @@
         <sec:intercept-url pattern="/addParameters" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/deleteParam" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/clearreflayercache" access="hasRole('ROLE_SUPER_USER')" />
+        <sec:intercept-url pattern="/importmetabolites*" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/securedredirect" access="isAuthenticated()" />
         <sec:intercept-url pattern="/login" access="permitAll"/>
         <sec:intercept-url pattern="/**" access="permitAll"/>

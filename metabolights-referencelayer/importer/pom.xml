@@ -47,7 +47,7 @@
             <artifactId>metabolights-referencelayer-dao</artifactId>
             <version>0.8-SNAPSHOT</version>
         </dependency>
-   		<dependency>
+        <dependency>
 			<groupId>uk.ac.ebi.biobabel</groupId>
 			<artifactId>biobabel-db</artifactId>
 			<version>1.3.7</version>
