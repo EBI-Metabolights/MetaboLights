@@ -36,9 +36,7 @@ import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -46,6 +44,7 @@ public class ReferenceLayerImporter {
 
     private Logger LOGGER = Logger.getLogger(ReferenceLayerImporter.class);
 
+	private ConnectionProvider connectionProvider;
     private MetaboLightsCompoundDAO mcd;
     private CrossReferenceDAO crd;
     private SpeciesDAO spd;
@@ -122,15 +121,20 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 	private int importOptions = ImportOptions.UPDATE_EXISTING_MET;
 
 	// Instantiate with a connection object
-    public ReferenceLayerImporter(Connection connection) throws IOException {
-        this.mcd = new MetaboLightsCompoundDAO(connection);
-        this.crd = new CrossReferenceDAO(connection);
-        this.spd = new SpeciesDAO(connection);
-		this.mspd = new MetSpeciesDAO(connection);
-		this.dbd = new DatabaseDAO(connection);
+    public ReferenceLayerImporter(ConnectionProvider connectionProvider) throws IOException {
+
+		this.connectionProvider = connectionProvider;
 
     }
 
+	private void initializeDAOs() throws IOException {
+		this.mcd = new MetaboLightsCompoundDAO(connectionProvider.getConnection());
+		this.crd = new CrossReferenceDAO(connectionProvider.getConnection());
+		this.spd = new SpeciesDAO(connectionProvider.getConnection());
+		this.mspd = new MetSpeciesDAO(connectionProvider.getConnection());
+		this.dbd = new DatabaseDAO(connectionProvider.getConnection());
+
+	}
 	public int getImportOptions() {
 		return importOptions;
 	}
@@ -151,7 +155,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 		return processReport;
 	}
 
-	public void importMetabolitesFromChebi() throws MalformedURLException {
+	public void importMetabolitesFromChebi() throws IOException {
 
 		processReport = new ProcessReport("Importing/updating metabolites from chebi, from " + chebiIDRoot, 2);
 		processReport.started();
@@ -178,7 +182,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 			// Now we should have a list of chebi ids...
 			for (Entity  metabolite: metabolitesToImport.values()) {
-
+				initializeDAOs();
 				chebiEntity2Metabolights(metabolite);
 				importProcess.oneMore();
 
@@ -199,7 +203,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 	 * Refreshes status of already existing mtblc entries in the reference layer.
 	 * @throws DAOException
 	 */
-	public void refreshMTBLC() throws DAOException {
+	public void refreshMTBLC() throws DAOException, IOException {
 
 		// Get all the MTBLC items
 		Set<MetaboLightsCompound> mtblcToRefresh = mcd.getAllCompounds();
@@ -215,7 +219,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 	}
 
-    public void importMetabolitesFromChebiTSV(File chebiTSV, long startFrom) throws DAOException {
+    public void importMetabolitesFromChebiTSV(File chebiTSV, long startFrom) throws DAOException, IOException {
 
         LOGGER.info("Importing metabolites from chebi. TSV: " + chebiTSV.getAbsoluteFile());
 
@@ -228,12 +232,12 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
     }
 
 
-	public void importMetabolitesFromChebiTSV(File chebiTSV) throws DAOException {
+	public void importMetabolitesFromChebiTSV(File chebiTSV) throws DAOException, IOException {
 		importMetabolitesFromChebiTSV(chebiTSV,1);
 	}
 
 
-	private void chebiID2MetaboLights(ArrayList<String> chebiIds) throws DAOException {
+	private void chebiID2MetaboLights(ArrayList<String> chebiIds) throws DAOException, IOException {
 
 		for (String chebiId: chebiIds){
 			chebiID2MetaboLights(chebiId);
@@ -243,13 +247,14 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 	/*
 	Returns 1 if successful
 	 */
-    public int chebiID2MetaboLights(String chebiId) throws DAOException {
+    public int chebiID2MetaboLights(String chebiId) throws DAOException, IOException {
 
 
 		// Get a complete entity....
 		Entity entity = null;
 		try {
 			entity = chebiWS.getCompleteEntity(chebiId);
+			initializeDAOs();
 			chebiEntity2Metabolights(entity);
 
 

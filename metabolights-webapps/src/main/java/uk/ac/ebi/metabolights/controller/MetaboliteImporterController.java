@@ -48,11 +48,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.metabolights.referencelayer.importer.ConnectionProvider;
 import uk.ac.ebi.metabolights.referencelayer.importer.ReferenceLayerImporter;
 import uk.ac.ebi.metabolights.service.AppContext;
 
 import javax.naming.NamingException;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 @Controller
@@ -88,7 +90,6 @@ public class MetaboliteImporterController extends AbstractController{
 
 					importer.setChebiIDRoot(chebiId);
 
-
 					importer.importMetabolitesFromChebi();
 
 				} catch (SQLException e) {
@@ -110,7 +111,24 @@ public class MetaboliteImporterController extends AbstractController{
 
 	private void initializeImporter() throws SQLException, NamingException, IOException {
 
-		importer = new ReferenceLayerImporter(AppContext.getConnection());
+		ConnectionProvider connectionProvider = new ConnectionProvider() {
+			@Override
+			public Connection getConnection() {
+				try {
+
+					return AppContext.getConnection();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (NamingException e) {
+					e.printStackTrace();
+				}
+
+				return null;
+			}
+		};
+
+		importer = new ReferenceLayerImporter(connectionProvider);
 
 	}
 	@RequestMapping({"/importmetabolitesstatus"})

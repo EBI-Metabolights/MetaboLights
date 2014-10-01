@@ -29,6 +29,7 @@ import org.junit.BeforeClass;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 
@@ -36,26 +37,37 @@ public class ImporterTests extends TestCase{
 
 	protected static final Logger LOGGER = Logger.getLogger(ImporterTests.class);
 
-	private Connection con;
+	private ConnectionProvider connectionProvider;
 
 
 	@Override
 	@BeforeClass
 	protected void setUp() throws Exception {
 
-		// Set up a simple configuration that logs on the console.
-	    BasicConfigurator.configure();
+		connectionProvider = new ConnectionProvider() {
+			@Override
+			public Connection getConnection() {
+				// Set up a simple configuration that logs on the console.
+				BasicConfigurator.configure();
 
-        DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
+				DatabaseInstance dbi = null;
+				try {
+					dbi = DatabaseInstance.getInstance("metabolightsDEV");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 //		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
-		con = dbi.getConnection();
+				return dbi.getConnection();
+
+			}
+		};
 
 
 	}
 	 @Override
 	 @AfterClass
 	protected void tearDown() throws Exception {
-		if (con != null) con.close();
+		if (connectionProvider != null) connectionProvider.getConnection().close();
 
 	}
 
@@ -64,7 +76,7 @@ public class ImporterTests extends TestCase{
 	 */
 	public void testImport() throws Exception {
 
-        ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
+        ReferenceLayerImporter rli = new ReferenceLayerImporter(connectionProvider);
 
 		rli.setChebiIDRoot("CHEBI:48887");
 
@@ -75,7 +87,7 @@ public class ImporterTests extends TestCase{
 	}
     public void testImportFromTSV() throws Exception {
 
-        ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
+        ReferenceLayerImporter rli = new ReferenceLayerImporter(connectionProvider);
 
 		// List of compounds that will need species to be refreshed
 		//rli.setDeleteExistingCHEBISpecies(true);
@@ -107,7 +119,7 @@ public class ImporterTests extends TestCase{
 
 	public void testImportSingleMolecule() throws Exception {
 
-		ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
+		ReferenceLayerImporter rli = new ReferenceLayerImporter(connectionProvider);
 
 		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL);
 
@@ -121,7 +133,7 @@ public class ImporterTests extends TestCase{
 
 	public void testRefresh() throws Exception {
 
-		ReferenceLayerImporter rli = new ReferenceLayerImporter(con);
+		ReferenceLayerImporter rli = new ReferenceLayerImporter(connectionProvider);
 
 
 		//rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL);
