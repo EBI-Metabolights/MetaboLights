@@ -80,8 +80,19 @@
         // Like this: <h5 class="maf" mafurl=....
         $("h5.maf").click(function(event) {
 
+
             var headerClicked = event.target;
+
+            if (!$(headerClicked).is("h5")){
+                headerClicked = $(headerClicked).parent()[0];
+            }
+
             var mafUrl = headerClicked.getAttribute("mafurl");
+
+            if (mafUrl == undefined) return;
+
+            $(headerClicked).removeAttr("mafurl");
+
             var assay = headerClicked.getAttribute("assay");
             var tablePlaceholder = $(headerClicked).next()[0];
 

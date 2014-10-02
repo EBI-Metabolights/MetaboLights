@@ -96,7 +96,7 @@ public class SpeciesUpdaterTest {
 		if (sp != null) {
 
 			sp.setTaxon(null);
-			sp.setSpeciesMemberId(0);
+			sp.setSpeciesMember(null);
 		} else {
 			sp = new Species();
 			sp.setSpecies("Homo sapiens (Human)");
@@ -107,7 +107,7 @@ public class SpeciesUpdaterTest {
 		// We should have the taxon information and and species member id....
 		assertEquals("Taxon should be populated" , NEWT_HUMAN, sp.getTaxon());
 
-		assertTrue("Species Member id should be populated." , sp.getSpeciesMemberId()!=0);
+		assertTrue("Species Member id should be populated." , sp.getSpeciesMember()!= null);
 
 	}
 
@@ -125,7 +125,7 @@ public class SpeciesUpdaterTest {
 		if (sp != null) {
 
 			sp.setSpecies(null);
-			sp.setSpeciesMemberId(0);
+			sp.setSpeciesMember(null);
 		} else {
 			sp = new Species();
 			sp.setTaxon(NEWT_HUMAN);
@@ -136,7 +136,7 @@ public class SpeciesUpdaterTest {
 		// We should have the taxon information and and species member id....
 		assertNotNull("Name should be populated", sp.getSpecies());
 
-		assertTrue("Species Member id should be populated." , sp.getSpeciesMemberId()!=0);
+		assertTrue("Species Member id should be populated." , sp.getSpeciesMember()!=null);
 
 	}
 
@@ -154,7 +154,7 @@ public class SpeciesUpdaterTest {
 		// If Human is not there (just in case)...
 		if (sp != null) {
 
-			sp.setSpeciesMemberId(0);
+			sp.setSpeciesMember(null);
 		} else {
 			sp = new Species();
 			sp.setSpecies("Aaptos ciliata");
@@ -163,7 +163,7 @@ public class SpeciesUpdaterTest {
 
 		speciesUpdater.UpdateSpeciesInformation(sp);
 
-		assertTrue("Species Member id should be populated." , sp.getSpeciesMemberId()!=0);
+		assertTrue("Species Member id should be populated." , sp.getSpeciesMember()!=null);
 
 	}
 }
