@@ -63,7 +63,6 @@
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
-
 <h2><spring:message code="msg.importmetabolites.status.title"/></h2>
 
 <c:if test="${empty report}">
@@ -72,13 +71,44 @@
 </c:if>
 
 <c:if test="${not empty report}">
-    <h3>${report.processName} - ${report.percentage} (Started at ${report.period.start}<c:if test="${not empty report.period.end}"> - finished at ${report.period.end}</c:if>)</h3>
+    <SCRIPT>
+        $(document).ready(function(){
+            $(".progressbar").each(function(){
+                var value = parseInt($(this).attr("value"));
+                $(this).progressbar({
+                    max: 100,
+                    value: value
+                });
+            });
+        })
+    </SCRIPT>
+    <c:if test="${empty report.period.end}">
+        <SCRIPT>
+        $(document).ready(function(){
+            setTimeout(function(){
+                location.reload();
+            },10000);
 
+        })
+        </SCRIPT>
+    </c:if>
+    <h3>${report.processName}</h3>
+    <div class="progressbar grid_22 push_1" value="${report.percentage.percentage}"></div>
+    <p>(Started at ${report.period.start}<c:if test="${not empty report.period.end}"> - finished at ${report.period.end}</c:if>)</p>
     <c:forEach var="subProcess" items="${report.subProcesses}">
-        <p>${subProcess.processName} - ${subProcess.percentage} (Started at ${subProcess.period.start}<c:if test="${not empty subProcess.period.end}"> - finished at ${subProcess.period.end}</c:if>)</p>
+        <h3>${subProcess.processName}</h3>
+        <div class="progressbar  grid_22 push_1" value="${subProcess.percentage.percentage}"></div>
+        <p>${subProcess.percentage.count} of ${subProcess.percentage.total} (Started at ${subProcess.period.start}<c:if test="${not empty subProcess.period.end}"> - finished at ${subProcess.period.end}</c:if>)</p>
         <c:forEach var="subSubProcess" items="${subProcess.subProcesses}">
-            <p>&nbsp;${subSubProcess.processName} - ${subSubProcess.percentage} (Started at ${subSubProcess.period.start}<c:if test="${not empty subSubProcess.period.end}"> - finished at ${subSubProcess.period.end}</c:if>)</p>
+            <h3>${subSubProcess.processName}</h3>
+            <div class="progressbar  grid_22 push_1" value="${subSubProcess.percentage.percentage}"></div>
+            <p>${subSubProcess.percentage.count} of ${subSubProcess.percentage.total} (Started at ${subSubProcess.period.start}<c:if test="${not empty subSubProcess.period.end}"> - finished at ${subSubProcess.period.end}</c:if>)</p>
         </c:forEach>
     </c:forEach>
+
+    <c:if test="${not empty report.period.end}">
+        <p><spring:message code="msg.importmetabolites.status.noreport1"/></p>
+    </c:if>
+
 </c:if>
 

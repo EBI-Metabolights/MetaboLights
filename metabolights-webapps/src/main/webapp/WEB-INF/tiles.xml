@@ -56,11 +56,6 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/refLayerSearch.jsp" />
 	</definition>
 
-    <definition name="clearreflayercache" extends="default">
-        <put-attribute name="title" value="Clear Cache" />
-        <put-attribute name="body" value="/WEB-INF/jsp/clearRefLayerCache.jsp" />
-    </definition>
-
 	<definition name="compound" extends="default">
 		<put-attribute name="title" value="Compound page" />
 		<put-attribute name="body" value="/WEB-INF/jsp/refCompound.jsp" />

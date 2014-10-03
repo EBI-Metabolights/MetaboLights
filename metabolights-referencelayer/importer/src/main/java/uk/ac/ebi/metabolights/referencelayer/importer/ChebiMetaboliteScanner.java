@@ -107,12 +107,12 @@ public class ChebiMetaboliteScanner {
 	public Map<String, Entity> scan(Collection<String> chebiIds) throws ChebiWebServiceFault_Exception {
 
 		// Initialize process report
-		initializeProcessReport("Scanning chebi metabolites", chebiIds.size());
+		initializeProcessReport("Scanning chebi for metabolites", chebiIds.size());
 
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 
 
-		ProcessReport gettingEntities = processReport.addSubProcess("Getting " + chebiIds.size() + " entities", chebiIds.size());
+		ProcessReport gettingEntities = processReport.addSubProcess("Getting " + (chebiIds.size()==1?chebiIds.iterator().next() + " tree":chebiIds.size() + " entities"), chebiIds.size());
 		gettingEntities.started();
 		// For each of the id..
 		for (String chebiId: chebiIds){
@@ -190,12 +190,16 @@ public class ChebiMetaboliteScanner {
 		LOGGER.debug("Getting children of " + entity.getChebiId());
 
 		// Check if that Chebi Id is already in our list
-		if (scannedEntityList.containsKey(entity.getChebiId())) return ;
+		if (scannedEntityList.containsKey(entity.getChebiId())) {
+			processReport.oneMore();
+			return ;
+		}
 
 
 		// Add it to our scanned list to avoid further look ups and endless loops.
 		// NOTE: classes will be added too, we may need to clean the list later or have 2 list (scanned and metabolites, or metabolites + classes).
 		scannedEntityList.put(entity.getChebiId(),entity);
+		processReport.oneMore();
 
 		if (scannedEntityList.size()%100 == 0){
 			LOGGER.info(scannedEntityList.size() + " entities retrieved." );
@@ -269,7 +273,6 @@ public class ChebiMetaboliteScanner {
 			}
 			// Get the complete entity
 			Entity childEntity = getChebiEntity(child.getChebiId());
-			processReport.oneMore();
 
 			if (childEntity == null){
 

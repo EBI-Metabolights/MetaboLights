@@ -110,8 +110,8 @@ $(function() {
             <li hash="validations"><a class="noLine" href="#valTab">Validations</a></li>
             <li hash="properties"><a class="noLine" href="#appTab">Application Properties</a></li>
 			<li hash="queue"><a class="noLine" href="#queueTab">Queue</a></li>
-			<li hash="health"><a class="noLine" href="#studyHealthTab">Study Health Tab</a></li>
-            <li hash="cache"><a class="noLine" href="#clearRefCache">Clear Ref Cache</a></li>
+			<li hash="health"><a class="noLine" href="#studyHealthTab">Study Health</a></li>
+            <li hash="referencelayer"><a class="noLine" href="#referencelayerTab">Reference Layer</a></li>
             <li hash="parameters"><a class="noLine" href="#MetaboLightsParameters">MetaboLights Parameters</a></li>
             <li hash="reindex"><a class="noLine" href="#reindexStudies">Reindex Studies</a></li>
 		</ul>
@@ -360,7 +360,7 @@ $(function() {
 
         </div>
 
-        <div class="refLayerBox" id="clearRefCache">
+        <div class="refLayerBox" id="referencelayerTab">
             <div class="grid_24 ">
                 <div class="grid_24 title">
                     Clear cache
@@ -369,6 +369,15 @@ $(function() {
                     <a href="clearreflayercache">Click to clear cache</a>
                 </div>
             </div>
+            <div class="grid_24 ">
+                <div class="grid_24 title">
+                    Import metabolites
+                </div>
+                <div class="grid_24">
+                    <a href="importmetabolites">Click to import/update metabolites</a>
+                </div>
+            </div>
+
         </div>
 
         <div class="refLayerBox" id="MetaboLightsParameters">

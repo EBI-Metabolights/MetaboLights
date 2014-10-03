@@ -104,6 +104,12 @@ public class MetaboliteImporterController extends AbstractController{
 		}.start();
 
 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		return new ModelAndView("redirect:" + "importmetabolitesstatus");
 
 
@@ -128,8 +134,8 @@ public class MetaboliteImporterController extends AbstractController{
 			}
 		};
 
-		importer = new ReferenceLayerImporter(connectionProvider);
 
+		importer = new ReferenceLayerImporter(connectionProvider);
 	}
 	@RequestMapping({"/importmetabolitesstatus"})
 	public ModelAndView showImportStatus() {
