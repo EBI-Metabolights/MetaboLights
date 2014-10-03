@@ -4,6 +4,27 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
+ * Last modified: 10/3/14 9:35 AM
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * Y
+ * ou may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
  * Last modified: 11/21/13 5:06 PM
  * Modified by:   conesa
  *
@@ -24,9 +45,9 @@ package uk.ac.ebi.metabolights.species.core.tools;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import uk.ac.ebi.metabolights.species.model.Taxon;
-import uk.ac.ebi.ook.web.services.Query;
-import uk.ac.ebi.ook.web.services.QueryService;
-import uk.ac.ebi.ook.web.services.QueryServiceLocator;
+import uk.ac.ebi.ols.soap.Query;
+import uk.ac.ebi.ols.soap.QueryService;
+import uk.ac.ebi.ols.soap.QueryServiceLocator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
