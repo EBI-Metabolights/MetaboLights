@@ -1,7 +1,7 @@
 package uk.ac.ebi.metabolights.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Logger;
 import uk.ac.ebi.rcloud.rpf.RemoteLogListener;
 import uk.ac.ebi.rcloud.rpf.ServantProviderFactory;
 import uk.ac.ebi.rcloud.server.RServices;
@@ -23,7 +23,7 @@ import java.util.Vector;
  * Created by kalai on 01/07/2014.
  */
 public class RCloudServiceImpl implements RCloudService {
-    private final Logger log = LoggerFactory.getLogger(RCloudServiceImpl.class);
+    private final Logger log = Logger.getLogger(RCloudServiceImpl.class);
 
     private ServantProviderFactory spFactory = null;
     private ServerRActionListener actionListener = null;
@@ -225,7 +225,7 @@ public class RCloudServiceImpl implements RCloudService {
     }
 
     class ServerRActionListener extends UnicastRemoteObject implements RActionListener {
-        final private Logger log = LoggerFactory.getLogger(getClass());
+        final private Logger log = Logger.getLogger(getClass());
 
         public ServerRActionListener() throws RemoteException {
             super();
@@ -243,7 +243,7 @@ public class RCloudServiceImpl implements RCloudService {
     // log listener implementation
 //
     class ServerLogListener extends UnicastRemoteObject implements RemoteLogListener {
-        final private Logger log = LoggerFactory.getLogger(getClass());
+        final private Logger log = Logger.getLogger(getClass());
 
         public ServerLogListener() throws RemoteException {
             super();
@@ -259,7 +259,7 @@ public class RCloudServiceImpl implements RCloudService {
 //
 
     class ServerGDObjectListener extends UnicastRemoteObject implements GDObjectListener {
-        final private Logger log = LoggerFactory.getLogger(getClass());
+        final private Logger log = Logger.getLogger(getClass());
 
 
         public ServerGDObjectListener() throws RemoteException {
