@@ -646,7 +646,17 @@ section h3,
 #slide li{
     background: #E2BD97;
     padding: 6px;
+}
+
+#slide li{
     margin: 2px;
     list-style-type: none;
 }
 
+section h3{
+    margin-bottom: 20px;
+}
+
+#BioJSReaction {
+    min-height: 250px;
+}

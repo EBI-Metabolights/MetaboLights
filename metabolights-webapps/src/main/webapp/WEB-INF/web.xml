@@ -107,6 +107,27 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>RheaProxy</servlet-name>
+        <servlet-class>uk.ac.ebi.pride.web.util.servlet.proxy.ProxyServlet</servlet-class>
+        <init-param>
+            <param-name>proxyHost</param-name>
+            <param-value>www.ebi.ac.uk</param-value>
+        </init-param>
+        <init-param>
+            <param-name>proxyPort</param-name>
+            <param-value>80</param-value>
+        </init-param>
+        <init-param>
+            <param-name>proxyPath</param-name>
+            <param-value>/rhea/rest/1.0/ws</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RheaProxy</servlet-name>
+        <url-pattern>/ebi/webservices/rhea/rest/1.0/ws/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>

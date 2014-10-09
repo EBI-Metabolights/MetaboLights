@@ -133,17 +133,23 @@ public class CompoundController extends AbstractController {
         //Setting up resource client
         RheasResourceClient client = new RheasResourceClient();
 
-        //Initialising and passing chebi Id as compound to Rhea
-        List<Reaction> reactions = null;
+//        //Initialising and passing chebi Id as compound to Rhea
+//        List<RheaReaction> reactions = null;
+//
+//		reactions = client.search(compound);
+//
 
-        try {
-            reactions = client.getRheasInCmlreact(compound);
-        } catch (RheaFetchDataException e) {
-            mav.addObject("errortext", e.getMessage());
-            return mav;
-        }
+		//Initialising and passing chebi Id as compound to Rhea
+		List<Reaction> reactions = null;
 
-        mav.addObject("Reactions", reactions);
+		try {
+			reactions = client.getRheasInCmlreact(compound);
+		} catch (RheaFetchDataException e) {
+			e.printStackTrace();
+		}
+
+		mav.addObject("reactions", reactions);
+
         return mav;
     }
 

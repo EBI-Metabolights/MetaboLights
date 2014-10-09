@@ -25,13 +25,13 @@
   --%>
 
 <c:choose>
-	<c:when test="${not empty Reactions}">
+	<c:when test="${not empty reactions}">
 		<h4>
 			<a href="http://www.ebi.ac.uk/rhea/">Rhea Reactions</a>
 		</h4>
         <c:set var="chebiUrl" value="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&amp;chebiId=" />
         <c:set var="chebiDimension" value="&amp;dimensions=200&amp;scaleMolecule=true"/>
-		<c:forEach var="Reaction" items="${Reactions}">
+		<c:forEach var="Reaction" items="${reactions}">
 				<div class="refLayerBox" style='clear: both;'>
                     <ul>
                         <li>

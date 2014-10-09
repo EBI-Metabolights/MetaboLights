@@ -75,9 +75,17 @@ public class MetaboliteImporterController extends AbstractController{
 	@Transactional
 	@RequestMapping({"/importmetabolitesrun"})
 	public ModelAndView importMetabolitesRun(
-			@RequestParam(required=true,value="chebiId") final String chebiId
+			@RequestParam(required=true, value="chebiId") final String chebiId
+			,@RequestParam(required=true, value="updateSpecies") final boolean updateSpecies
 	) throws IOException, SQLException, NamingException {
 
+
+		int importOptions = ReferenceLayerImporter.ImportOptions.UPDATE_EXISTING_MET;
+
+		importOptions = importOptions + (updateSpecies? ReferenceLayerImporter.ImportOptions.REFRESH_MET_SPECIES:0);
+
+
+		final int finalImportOptions = importOptions;
 
 		new Thread(){
 
@@ -87,6 +95,8 @@ public class MetaboliteImporterController extends AbstractController{
 				try {
 
 					initializeImporter();
+
+					importer.setImportOptions(finalImportOptions);
 
 					importer.setChebiIDRoot(chebiId);
 

@@ -48,7 +48,8 @@
     </p>
 
     <form action="importmetabolitesrun">
-        <input name="chebiId" value="CHEBI:25212">
-
+        <input name="chebiId" value="CHEBI:25212"><br>
+        Update species information for existing metabolites?<input name="updateSpecies" CHECKED type="checkbox" value="true"><br>
+        <input type="submit">
 
     </form>
