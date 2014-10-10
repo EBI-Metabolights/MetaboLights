@@ -7,6 +7,9 @@
         <%--src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="http://www.ebi.ac.uk/~beisken/st/st.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://www.ebi.ac.uk/enzymeportal/resources/javascript/biojs/Biojs.Rheaction.js"></script>
+<link rel="stylesheet"  href="http://www.ebi.ac.uk/enzymeportal/resources/javascript/biojs/biojs.Rheaction.css" type="text/css"/>
 <link rel="stylesheet"  href="http://www.ebi.ac.uk/~beisken/st/st.css" type="text/css" />
 
 

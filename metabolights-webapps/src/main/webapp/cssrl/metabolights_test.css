@@ -658,5 +658,6 @@ section h3{
 }
 
 #BioJSReaction {
+    margin-top: 10px;
     min-height: 250px;
 }
