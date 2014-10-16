@@ -61,6 +61,10 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/refCompound.jsp" />
 	</definition>
 
+    <definition name="altcompound" extends="default">
+        <put-attribute name="title" value="Beta Compound page" />
+        <put-attribute name="body" value="/WEB-INF/jsp/compound.jsp" />
+    </definition>
 
 	<definition name="index" extends="default">
 		<put-attribute name="title" value="MetaboLights - Metabolomics experiments and derived information" />

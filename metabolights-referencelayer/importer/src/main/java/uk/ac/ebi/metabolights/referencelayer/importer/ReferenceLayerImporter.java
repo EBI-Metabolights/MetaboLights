@@ -37,6 +37,7 @@ import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -128,11 +129,18 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
     }
 
 	private void initializeDAOs() throws IOException {
-		this.mcd = new MetaboLightsCompoundDAO(connectionProvider.getConnection());
-		this.crd = new CrossReferenceDAO(connectionProvider.getConnection());
-		this.spd = new SpeciesDAO(connectionProvider.getConnection());
-		this.mspd = new MetSpeciesDAO(connectionProvider.getConnection());
-		this.dbd = new DatabaseDAO(connectionProvider.getConnection());
+
+
+		// If already initialized
+		if (mcd != null) return;
+
+		Connection connection = connectionProvider.getConnection();
+
+		mcd = new MetaboLightsCompoundDAO(connection);
+		crd = new CrossReferenceDAO(connection);
+		spd = new SpeciesDAO(connection);
+		mspd = new MetSpeciesDAO(connection);
+		dbd = new DatabaseDAO(connection);
 
 	}
 	public int getImportOptions() {
@@ -180,9 +188,12 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 		// Now try to save the metabolites
 		try {
 
+			// Initialize now DAO (will happen only the firs time).
+			initializeDAOs();
+
 			// Now we should have a list of chebi ids...
 			for (Entity  metabolite: metabolitesToImport.values()) {
-				initializeDAOs();
+
 				chebiEntity2Metabolights(metabolite);
 				importProcess.oneMore();
 

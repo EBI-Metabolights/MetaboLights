@@ -191,7 +191,8 @@ public class ChebiMetaboliteScanner {
 
 		// Check if that Chebi Id is already in our list
 		if (scannedEntityList.containsKey(entity.getChebiId())) {
-			processReport.oneMore();
+			// This one is already in the list, decrease the total.
+			processReport.getPercentage().setTotal(processReport.getPercentage().getTotal()-1);
 			return ;
 		}
 
@@ -205,8 +206,6 @@ public class ChebiMetaboliteScanner {
 			LOGGER.info(scannedEntityList.size() + " entities retrieved." );
 		}
 
-
-
 		// Now explore children
 		List<LiteEntity> children = new ArrayList<LiteEntity>();
 
@@ -214,7 +213,6 @@ public class ChebiMetaboliteScanner {
 		try {
 
 			List<LiteEntity> structuralChildren = null;
-
 
 			// If entity hasn't got a structure...
 			if (entity.getSmiles() == null) {
@@ -229,13 +227,14 @@ public class ChebiMetaboliteScanner {
 			// If fuzzy search is enabled...
 			if (doFuzzyScan) {
 
+
+				// ... try is_a (is_a alanine, is a alkaloid (<-- no structure for this)
+				structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_A, false);
+				children.addAll(structuralChildren);
+
 				// If entity has a structure...
 				if (entity.getSmiles() != null) {
 
-
-					// ... try is_a (is_a alanine)
-					structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_A, false);
-					children.addAll(structuralChildren);
 
 					// ... try tautomers
 					structuralChildren = getChebiIdsRelatives((String) entity.getChebiId(), (RelationshipType) RelationshipType.IS_TAUTOMER_OF);
@@ -305,7 +304,7 @@ public class ChebiMetaboliteScanner {
 
 
 		// If returned items is 3000, ... we've reach the WS limit. We need all and therefore workaorund this limit
-		if (children.getListElement().size()==3000){
+		if (children.getListElement().size()==10000){
 
 			children = getChebiIdRelativesUsingHttpPOST(chebiId, relType,onlyStructure);
 

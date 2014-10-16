@@ -29,8 +29,8 @@
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="http://www.ebi.ac.uk/~beisken/st/st.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
-<script type="text/javascript" src="http://www.ebi.ac.uk/enzymeportal/resources/javascript/biojs/Biojs.Rheaction.js"></script>
-<link rel="stylesheet"  href="http://www.ebi.ac.uk/enzymeportal/resources/javascript/biojs/biojs.Rheaction.css" type="text/css"/>
+<script type="text/javascript" src="javascript/Biojs.Rheaction.js"></script>
+<link rel="stylesheet"  href="cssrl/biojs.Rheaction.css" type="text/css"/>
 <link rel="stylesheet"  href="http://www.ebi.ac.uk/~beisken/st/st.css" type="text/css" />
 
 
@@ -98,7 +98,7 @@
 
 <div class="grid_20">
     <section>
-        <h3><a id="chemistry"><spring:message code="ref.compound.tab.chemistry"/></a></h3>
+        <h3 class="chemistry"><a id="chemistry""><spring:message code="ref.compound.tab.chemistry"/></a></h3>
         <c:if test="${not empty compound.chebiEntity.definition}">
             <%--<h6><spring:message code="ref.compound.tab.characteristics.definition"/></h6>--%>
             ${compound.chebiEntity.definition}
@@ -127,7 +127,7 @@
 
     <c:if test="${compound.mc.hasSpecies}">
     <section>
-        <h3><a id="biology"><spring:message code="ref.compound.tab.biology"/></a></h3>
+        <h3 class="biology"><a id="biology"><spring:message code="ref.compound.tab.biology"/></a></h3>
         <!-- Found in -->
         <c:forEach var="item" items="${compound.species}">
             <br/>${item.key.species} :
@@ -148,7 +148,7 @@
     <c:if test="${compound.mc.hasPathways}">
     <section>
         <!-- Pathways -->
-        <h3><a id="pathways"><spring:message code="ref.compound.tab.pathways"/></a></h3>
+        <h3 class="pathways"><a id="pathways"><spring:message code="ref.compound.tab.pathways"/></a></h3>
         <select id="pathwayList">
             <c:forEach var="pathway" items="${compound.mc.metPathways}">
                 <option value="${pathway.id}">${pathway.name}</option>
@@ -187,15 +187,15 @@
     <c:if test="${compound.mc.hasReactions}">
         <section>
             <!-- Reactions -->
-            <h3 lazyLoad="reactions?chebiId=${compound.mc.chebiId}"><a id="reactions"><spring:message code="ref.compound.tab.reactions"/></a></h3>
+            <h3 class="reactions" lazyLoad="reactions?chebiId=${compound.mc.chebiId}"><a id="reactions"><spring:message code="ref.compound.tab.reactions"/></a></h3>
         </section>
     </c:if>
 
     <c:if test="${compound.mc.hasNMR}">
     <section>
         <!-- NMR Spectra -->
-        <h3><a id="nmrSpectra"><spring:message code="ref.compound.tab.nmrspectra"/></a></h3>
-        <select multiple class="grid_24 spectraList" id="nmrSpectraList"></select>
+        <h3 class="nmrSpectra"><a id="nmrSpectra"><spring:message code="ref.compound.tab.nmrspectra"/></a></h3>
+        <div class="grid_24 spectraList" id="nmrSpectraList"></div>
         <div id="NMRSpeckTackle" class="grid_24" style="height: 500px"></div>
         <div id="nmrInfo" class="grid_23 specs"></div>
     </section>
@@ -225,8 +225,8 @@
     <c:if test="${compound.mc.hasMS}">
     <section>
         <!-- MS Spectra -->
-        <h3><a id="msSpectra"><spring:message code="ref.compound.tab.msspectra"/></a></h3>
-        <select multiple class="grid_24 spectraList" id="msSpectraList"></select>
+        <h3 class="msSpectra"><a id="msSpectra"><spring:message code="ref.compound.tab.msspectra"/></a></h3>
+        <div class="grid_24 spectraList" id="msSpectraList"></div>
         <div id="MSSpeckTackle" class="grid_24" style="height: 500px"></div>
         <div id="msInfo" class="grid_23 specs"></div>
     </section>
@@ -257,7 +257,7 @@
     <c:if test="${compound.mc.hasLiterature}">
     <section>
         <!-- Literature -->
-        <h3 lazyLoad="citations?mtblc=${compound.mc.accession}"><a id="literature"><spring:message code="ref.compound.tab.literature"/></a></h3>
+        <h3 lazyLoad="citations?mtblc=${compound.mc.accession}" class="literature"><a id="literature"><spring:message code="ref.compound.tab.literature"/></a></h3>
     </section>
     </c:if>
 </div>
@@ -269,36 +269,36 @@
             <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName} - (${compound.mc.chebiId})</a>
         </p>
         <ul>
-        <li>
+        <li class="chemistry">
             <a href="#chemistry"><spring:message code="ref.compound.tab.chemistry"/></a>
         </li>
         <c:if test="${compound.mc.hasSpecies}">
-            <li>
+            <li class="biology">
                 <a href="#biology"><spring:message code="ref.compound.tab.biology"/></a>
             </li>
         </c:if>
         <c:if test="${compound.mc.hasPathways}">
-            <li>
+            <li class="pathways">
                 <a href="#pathways"><spring:message code="ref.compound.tab.pathways"/></a>
             </li>
         </c:if>
         <c:if test="${compound.mc.hasReactions}">
-            <li>
+            <li class="reactions">
                 <a href="#reactions"><spring:message code="ref.compound.tab.reactions"/></a>
             </li>
         </c:if>
         <c:if test="${compound.mc.hasNMR}">
-            <li>
+            <li class="nmrSpectra">
                 <a href="#nmrSpectra"><spring:message code="ref.compound.tab.nmrspectra"/></a>
             </li>
         </c:if>
         <c:if test="${compound.mc.hasMS}">
-            <li>
+            <li class="msSpectra">
                 <a href="#msSpectra"><spring:message code="ref.compound.tab.msspectra"/></a>
             </li>
         </c:if>
         <c:if test="${compound.mc.hasLiterature}">
-            <li>
+            <li class="literature">
                 <a href="#literature"><spring:message code="ref.compound.tab.literature"/></a>
             </li>
         </c:if>

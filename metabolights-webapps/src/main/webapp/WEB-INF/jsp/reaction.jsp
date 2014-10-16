@@ -90,7 +90,7 @@
         </select>
         <br/>
 
-        <h3 id="reactionTitle"></h3>
+        <h4 id="reactionTitle"></h4>
         <div id="BioJSReaction" class="grid_24">
         </div>
 

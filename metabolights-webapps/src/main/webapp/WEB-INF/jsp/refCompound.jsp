@@ -8,11 +8,9 @@
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="http://www.ebi.ac.uk/~beisken/st/st.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
-<script type="text/javascript" src="http://www.ebi.ac.uk/enzymeportal/resources/javascript/biojs/Biojs.Rheaction.js"></script>
-<link rel="stylesheet"  href="http://www.ebi.ac.uk/enzymeportal/resources/javascript/biojs/biojs.Rheaction.css" type="text/css"/>
+<script type="text/javascript" src="javascript/Biojs.Rheaction.js"></script>
+<link rel="stylesheet"  href="cssrl/biojs.Rheaction.css" type="text/css"/>
 <link rel="stylesheet"  href="http://www.ebi.ac.uk/~beisken/st/st.css" type="text/css" />
-
-
 
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
@@ -473,8 +471,11 @@
     <div class="grid_24">
         <p>
             <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
-                - (${compound.mc.chebiId})</a></p>
+            - (${compound.mc.chebiId})</a>
+        </p>
+        <p><a href="${compound.mc.accession}?alt" class="icon icon-generic" data-icon="&gt;">BETA</a></p>
     </div>
+
 
 </div>
 

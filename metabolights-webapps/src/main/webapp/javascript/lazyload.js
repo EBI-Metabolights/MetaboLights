@@ -26,7 +26,8 @@
 function lazyload() {
 
     // Search for elements with lazyload attributte to add icons
-    $("[lazyload]").append('<span class="icon icon-functional" data-icon="8">');
+    $("[lazyload]").append('<span class="icon icon-functional" data-icon="8"> - Click on this header to load the data');
+
 
     // Search for elements with lazyload attributte
     $("[lazyload]").on ("click", function (e){

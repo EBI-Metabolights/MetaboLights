@@ -68,15 +68,19 @@ function initializeNMRSpeckTackle() {
 
 function loadSpectralist(listSelector, spectraList) {
 
-    // Get the SELECT ELEMENT
+    // Get the Div with the spectra list
     var list = $(listSelector)[0];
 
     // Loop through the spectraList...
     $.each(spectraList, function (i, item) {
-        $(list).append($('<option>', {
-            value: item.id,
-            text: item.name
+        $(list).append($('<label />', {
+            'for': item.id, text: item.name}));
+        $(list).append($('<input>', {
+            id: item.id,
+            type: "checkbox"
         }));
+
+        $(list).append($('<br/>'));
     });
 
     $(list).change({"spectraList": spectraList}, function (event) {
@@ -86,33 +90,17 @@ function loadSpectralist(listSelector, spectraList) {
     })
 
     // Get the first spectra and load it
-    loadSpectraAndInfo([spectraList[0]], $(list).next().next());
+    //loadSpectraAndInfo([spectraList[0]], $(list).next().next());
 
 
 }
 
 function spectraChangeHandler(event) {
 
-    var select = event.target;
-
-    if ($(select).attr("multiple")) {
-        spectraChangeHandlderMultiple(event);
-
-    } else {
-        spectraChangeHandlderDropDown(event);
-    }
-
-
-}
-
-function spectraChangeHandlderMultiple(event) {
-    /* Get the selected option */
-    var index = event.target.selectedIndex;
-
     /* Get the selected spectra*/
     var selectedSpectra = getSelectedSpectra(event.target, event.data.spectraList);
 
-    var infoDiv = $(event.target).next().next();
+    var infoDiv = $(event.target).parent().next().next();
 
     loadSpectraAndInfo(selectedSpectra, infoDiv);
 }
@@ -120,28 +108,20 @@ function spectraChangeHandlderMultiple(event) {
 function getSelectedSpectra(select, spectraList) {
     var spectra = new Array();
 
-    for (index = 0; index < select.children.length; ++index) {
-        var option = select.children[index];
+    var children = $(select).parent().children().filter("input");
 
-        if (option.selected) {
+    for (var index = 0;index < children.size();index++){
+
+        var checkbox = children[index];
+
+        if (checkbox.checked){
             spectra.push(spectraList[index]);
         }
+
     }
 
     return spectra;
 
-}
-
-function spectraChangeHandlderDropDown(event) {
-    /* Get the selected option */
-    var index = event.target.selectedIndex;
-
-    /* Get the spectra object (json element)*/
-    var spectrum = event.data.spectraList[index];
-
-    var infoDiv = $(event.target).next().next();
-
-    loadSpectrumAndInfo(spectrum, infoDiv);
 }
 
 function loadSpectrumAndInfo(spectrum, infoDiv) {

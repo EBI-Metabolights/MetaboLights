@@ -53,10 +53,11 @@ public class ImporterTests extends TestCase{
 				DatabaseInstance dbi = null;
 				try {
 					dbi = DatabaseInstance.getInstance("metabolightsDEV");
+//					dbi = DatabaseInstance.getInstance("metabolightsPROD");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-//		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
+
 				return dbi.getConnection();
 
 			}
@@ -80,7 +81,7 @@ public class ImporterTests extends TestCase{
 
 		rli.setChebiIDRoot("CHEBI:48887");
 
-		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL-ReferenceLayerImporter.ImportOptions.UPDATE_EXISTING_MET);
+//		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL-ReferenceLayerImporter.ImportOptions.UPDATE_EXISTING_MET);
         rli.importMetabolitesFromChebi();
 
 

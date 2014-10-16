@@ -521,7 +521,8 @@ table.clean{
     font-size: small;
     padding: 5px;
     /*width: 98%;*/
-    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 /*SVG Pathways classes*/
@@ -629,9 +630,9 @@ H4 span.icon {
 }
 
 .spectraList {
-    height: 180px;
+    max-height: 186px;
     border-width: 1px 0px 1px 0px;
-    text-decoration: underline;
+    overflow-y: scroll;
 }
 
 #slide {
@@ -644,7 +645,6 @@ section {
 
 section h3,
 #slide li{
-    background: #E2BD97;
     padding: 6px;
 }
 
@@ -660,4 +660,40 @@ section h3{
 #BioJSReaction {
     margin-top: 10px;
     min-height: 250px;
+}
+
+.chemistry,
+.chemistry a{
+    background: #C5A94D;
+    color: black;
+}
+.biology,
+.biology a{
+    background: #785E0B;
+    color: white;
+}
+.pathways,
+.pathways a{
+    background: #E27C8A;
+    color: black;
+}
+.reactions,
+.reactions a{
+    background: #720A19;
+    color: white;
+}
+.nmrSpectra,
+.nmrSpectra a{
+    background: #78420B;
+    color: white;
+}
+.msSpectra,
+.msSpectra a{
+    background: #538594;
+    color: black;
+}
+.literature,
+.literature a{
+    background: #093C4A;
+    color: white;
 }

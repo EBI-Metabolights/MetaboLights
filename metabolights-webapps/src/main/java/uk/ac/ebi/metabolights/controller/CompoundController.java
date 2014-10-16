@@ -66,11 +66,14 @@ public class CompoundController extends AbstractController {
     private WSCitationImpl PMCSearchService;
 
     @RequestMapping(value = "/{compoundId:" + METABOLIGHTS_COMPOUND_ID_REG_EXP + "}")
-    public ModelAndView showEntry(@PathVariable("compoundId") String mtblc, HttpServletRequest request) {
-        logger.info("requested compound " + mtblc);
+    public ModelAndView showEntry(@PathVariable("compoundId") String mtblc, HttpServletRequest request,
+								  @RequestParam (required = false ,value="alt") String alt ) {
 
-        //ModelAndView mav = new ModelAndView("compound");
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("compound");
+		logger.info("requested compound " + mtblc);
+
+		String view = (alt == null? "compound": "altcompound");
+
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
         Compound compound=  ModelObjectFactory.getCompound(mtblc);
 
