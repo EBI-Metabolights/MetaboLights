@@ -28,8 +28,9 @@
     <groupId>uk.ac.ebi.metabolights</groupId>
     <artifactId>metabolights-sampledb</artifactId>
     <name>MetaboLights BioSample DB export</name>
+    <!--Migrated to slf4j + log4j-->
     <description>MetaboLights BioSample DB export module</description>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -53,6 +54,14 @@
                     <artifactId>slf4j-api</artifactId>
                     <groupId>org.slf4j</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -63,12 +72,12 @@
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>
             <artifactId>metabolights-isatab-utils</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>
             <artifactId>metabolights-dao</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

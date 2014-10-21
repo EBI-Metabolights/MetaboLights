@@ -22,11 +22,12 @@
 package uk.ac.ebi.metabolights.utils.sampletab;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.isatools.isacreator.model.Contact;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Publication;
 import org.isatools.isacreator.model.Study;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.SampleData;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Database;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Organization;
@@ -55,7 +56,7 @@ import java.util.Map;
  */
 public class SampleTabExporter {
 
-    private final static Logger logger = Logger.getLogger(SampleTabExporter.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(SampleTabExporter.class.getName());
     private ISATabReader isaTabReader = new ISATabReader();
     private SampleTabTools tools = new SampleTabTools();
     private SampleTabUriResolver uriResolver = new SampleTabUriResolver();

@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.utils.sampletab;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.text.ParseException;
@@ -37,7 +38,7 @@ import java.util.Date;
  */
 public class SampleTabTools {
 
-    private static Logger logger = Logger.getLogger(SampleTabTools.class);
+    private static Logger logger = LoggerFactory.getLogger(SampleTabTools.class);
     /**
      * Converts ISA-tab date format (string) to a SampleTab date (Date)
      * @param isaTabDate string from ISA-tab files
