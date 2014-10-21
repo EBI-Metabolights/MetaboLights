@@ -42,7 +42,8 @@
 
 package uk.ac.ebi.metabolights.repository.utils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.isatools.conversion.ArrayToListConversion;
 import org.isatools.conversion.Converter;
 import org.isatools.isacreator.configuration.FieldObject;
@@ -69,7 +70,7 @@ import java.util.*;
 public class IsaTab2MetaboLightsConverter {
 
 
-	static Logger logger = Logger.getLogger(IsaTab2MetaboLightsConverter.class);
+	static Logger logger = LoggerFactory.getLogger(IsaTab2MetaboLightsConverter.class);
     /*
     From isaTab specifications:
     "Dates

@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import com.csvreader.CsvReader;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
 import uk.ac.ebi.metabolights.repository.model.SampleMeasurement;
@@ -35,7 +36,7 @@ import java.util.Collection;
 
 public class MzTabDAO {
 
-    private final static Logger logger = Logger.getLogger(MzTabDAO.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(MzTabDAO.class.getName());
 
     public MetaboliteAssignment mapMetaboliteAssignmentFile(String assignmentFileName) {
         MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();

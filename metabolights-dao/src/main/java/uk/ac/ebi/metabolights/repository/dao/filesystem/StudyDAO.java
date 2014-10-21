@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
@@ -38,7 +39,7 @@ public class StudyDAO {
     private IsaTabInvestigationDAO isaTabInvestigationDAO;
     private File publicFolder;
     private File privateFolder;
-    private final static Logger logger = Logger.getLogger(StudyDAO.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(StudyDAO.class.getName());
 
     public StudyDAO(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder){
         this.isaTabInvestigationDAO = new IsaTabInvestigationDAO(isaTabRootConfigurationFolder);

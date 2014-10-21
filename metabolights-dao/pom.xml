@@ -29,7 +29,8 @@
     <artifactId>metabolights-dao</artifactId>
     <name>MetaboLights DAO</name>
     <description>MetaboLights Data Access Objects module</description>
-    <version>1.2-SNAPSHOT</version>
+    <!--Migrated to slf4j + log4j-->
+    <version>1.3-SNAPSHOT</version>
 
     <parent>
         <artifactId>metabolights-main</artifactId>
@@ -39,13 +40,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.isatools</groupId>
-            <artifactId>ISAcreator</artifactId>
+            <groupId>uk.ac.ebi.metabolights</groupId>
+            <artifactId>ISAcreator-shaded</artifactId>
             <version>1.7.7</version>
             <exclusions>
                 <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
+                    <groupId>org.isatools</groupId>
+                    <artifactId>ISAcreator</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -57,7 +58,7 @@
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>
             <artifactId>metabolights-isatab-utils</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.javacsv</groupId>
