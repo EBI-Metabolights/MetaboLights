@@ -22,6 +22,8 @@
 package uk.ac.ebi.metabolights.utils.isatab;
 
 import org.apache.commons.io.filefilter.RegexFileFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.ConfigurationException;
 import java.io.*;
@@ -31,6 +33,8 @@ public class IsaTabUtils {
     private static final String DEFAULT_INVESTIGATION_PATTERN = "i_.*\\.txt";
     private static final String FIELD_NAME_WITH_CONFIGURATION = "[created with configuration]";
     private static final String DEFAULT_CONFIGURATION_FOLDER = "default";
+	private static final Logger logger = LoggerFactory.getLogger(IsaTabUtils.class);
+
 
     public static String getInvestigationFileName (String folder) throws FileNotFoundException {
         return getInvestigationFileName(folder, DEFAULT_INVESTIGATION_PATTERN);
@@ -67,6 +71,8 @@ public class IsaTabUtils {
 
     public static File getInvestigationFile(File isaTabFolder, String investigationPattern) throws FileNotFoundException {
 
+
+		logger.debug("Getting Investigation file from " + isaTabFolder.getAbsolutePath() + ". Pattern: " + investigationPattern);
         //Search for the investigation file
         File[] fileList;
 
@@ -80,6 +86,8 @@ public class IsaTabUtils {
         if (fileList.length ==0 || fileList == null) {
             throw new FileNotFoundException("File with Ids (" + investigationPattern + ") not found");
         }
+
+		logger.debug("Investigation file found: " + fileList[0].getAbsolutePath());
 
         //There must be only one, so take the first
         return fileList[0];
@@ -104,7 +112,11 @@ public class IsaTabUtils {
      */
     public static File getConfigurationFolderFromStudy(File isaTabFolder, File rootConfigFolder, String defaultConfig) throws IOException, ConfigurationException {
 
-        File investigationFile = getInvestigationFile(isaTabFolder);
+        logger.debug("Getting configuration folder for " + isaTabFolder.getAbsolutePath());
+		logger.debug("Root configuration folder " + rootConfigFolder.getAbsolutePath() + ". Default configuration is " + defaultConfig);
+		logger.debug("Looking for lowercase line with text: " + FIELD_NAME_WITH_CONFIGURATION);
+
+		File investigationFile = getInvestigationFile(isaTabFolder);
 
         BufferedReader br = new BufferedReader(new FileReader(investigationFile));
         String configFileFolder = DEFAULT_CONFIGURATION_FOLDER;    //Just in case we Could not find the config files used in the investigation file
@@ -135,6 +147,8 @@ public class IsaTabUtils {
 
 					if (configFileFolder.equals("")) configFileFolder = DEFAULT_CONFIGURATION_FOLDER;
 
+					logger.debug("Configuration line found: " + line);
+
                     break; //Nothing more to do in this loop
 
                 }
@@ -155,9 +169,12 @@ public class IsaTabUtils {
         File configFolder = new File (rootConfigFolder.getAbsoluteFile() +  File.separator + configFileFolder);
 
         if (configFolder.exists()) {
+			logger.debug("Configuration found: " + configFolder.getAbsolutePath());
             return  configFolder;
         } else {
 
+
+			logger.debug("Configuration not found: " + configFolder.getAbsolutePath() + ", using default");
             // Build the final config folder with default config
             configFolder = new File (rootConfigFolder.getAbsoluteFile() +  File.separator + defaultConfig);
 
