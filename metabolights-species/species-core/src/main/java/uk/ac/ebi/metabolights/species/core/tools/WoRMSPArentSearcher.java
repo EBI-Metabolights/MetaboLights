@@ -23,8 +23,8 @@ package uk.ac.ebi.metabolights.species.core.tools;
 
 import aphia.v1_0.Classification;
 import org.apache.axis2.AxisFault;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import uk.ac.ebi.metabolights.referencelayer.worms.client.WoRMSClient;
 import uk.ac.ebi.metabolights.species.model.Taxon;
 
@@ -35,7 +35,7 @@ import uk.ac.ebi.metabolights.species.model.Taxon;
  */
 public class WoRMSPArentSearcher implements IParentSearcher {
 
-	static Logger logger = LogManager.getLogger(WoRMSPArentSearcher.class);
+	static Logger logger = LoggerFactory.getLogger(WoRMSPArentSearcher.class);
 	public static final String WoRMS_PREFIX = "WORMS";
 
 	private WoRMSClient woRMSClient;

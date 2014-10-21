@@ -21,8 +21,8 @@
 
 package uk.ac.ebi.metabolights.species.webservice;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +40,7 @@ public class ToolsController {
 
 	String GROUPS = "NEWT:10239~NEWT:2~NEWT:2157~NEWT:33090~NEWT:4751~NEWT:33208~NEWT:2759~NEWT:1";
 
-	private final static Logger logger = LogManager.getLogger(ToolsController.class.getName());
+	private final static Logger logger = LoggerFactory.getLogger(ToolsController.class.getName());
 
 
 	@RequestMapping("getgroup/{taxonId}")

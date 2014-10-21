@@ -54,8 +54,8 @@ package uk.ac.ebi.metabolights.species.core.tools;
 
 */
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import uk.ac.ebi.metabolights.species.globalnames.client.GlobalNamesWSClient;
 import uk.ac.ebi.metabolights.species.globalnames.model.Data;
 import uk.ac.ebi.metabolights.species.globalnames.model.GlobalNamesResponse;
@@ -72,7 +72,7 @@ Having a taxonomy identifier, it will lookup in the proper taxonomy until it fin
  */
 public class Grouper {
 
-	static Logger logger = LogManager.getLogger(Grouper.class);
+	static Logger logger = LoggerFactory.getLogger(Grouper.class);
 	private final uk.ac.ebi.metabolights.species.core.tools.OLSParentSearcher OLSParentSearcher = new uk.ac.ebi.metabolights.species.core.tools.OLSParentSearcher();
 	private Collection<IParentSearcher> parentSearchers = new ArrayList<IParentSearcher>();
 

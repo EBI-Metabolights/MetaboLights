@@ -21,8 +21,8 @@
 
 package uk.ac.metabolights.species.readers;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * User: conesa
@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
  */
 public class GenericTaxonomyReaderConfigDataStructure {
 
-	static Logger logger = LogManager.getLogger(GenericTaxonomyReaderConfigDataStructure.class);
+	static Logger logger = LoggerFactory.getLogger(GenericTaxonomyReaderConfigDataStructure.class);
 
 	private String taxonomyId;
 	private String version;

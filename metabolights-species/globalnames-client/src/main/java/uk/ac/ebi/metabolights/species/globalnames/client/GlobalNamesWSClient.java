@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.species.globalnames.client;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import uk.ac.ebi.metabolights.species.globalnames.model.GlobalNamesResponse;
 
@@ -40,7 +41,7 @@ import java.net.URL;
  */
 public class GlobalNamesWSClient {
 
-	private static Logger logger = Logger.getLogger(GlobalNamesWSClient.class);
+	private static Logger logger = LoggerFactory.getLogger(GlobalNamesWSClient.class);
     private String globalNamesWsUrl = "http://resolver.globalnames.org/name_resolvers.json";
 
     public GlobalNamesWSClient(String globalNamesWsUrl){

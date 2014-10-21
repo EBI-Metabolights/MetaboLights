@@ -23,8 +23,9 @@ package uk.ac.ebi.metabolights.species.globalnames.client;
 
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.util.ArrayList;
 
@@ -35,7 +36,7 @@ import java.util.ArrayList;
  */
 public class NameResolversParams {
 
-	private static Logger logger = Logger.getLogger(NameResolversParams.class);
+	private static Logger logger = LoggerFactory.getLogger(NameResolversParams.class);
 	public static final String NAMES_PARAM_NAME = "names";
 	public static final String DATA_SOURCE_PARAM_NAME = "data_source_ids";
 

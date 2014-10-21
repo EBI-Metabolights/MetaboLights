@@ -42,8 +42,8 @@
 
 package uk.ac.ebi.metabolights.species.core.tools;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import uk.ac.ebi.metabolights.species.model.Taxon;
 import uk.ac.ebi.ols.soap.Query;
 import uk.ac.ebi.ols.soap.QueryService;
@@ -55,7 +55,7 @@ import java.util.Map;
 
 public class OLSParentSearcher implements IParentSearcher {
 
-	static Logger logger = LogManager.getLogger(OLSParentSearcher.class);
+	static Logger logger = LoggerFactory.getLogger(OLSParentSearcher.class);
 
 	private QueryServiceLocator locator;
 
