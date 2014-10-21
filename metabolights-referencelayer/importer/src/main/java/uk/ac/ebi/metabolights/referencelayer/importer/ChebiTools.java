@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntity;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntityList;
 
@@ -37,7 +38,7 @@ import java.util.ArrayList;
  */
 public class ChebiTools {
 
-	private static Logger LOGGER = Logger.getLogger(ChebiTools.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(ChebiTools.class);
 	public static ArrayList<String> chebiTsvToArrayList(File chebiTsvExport, int startFrom) {
 
 		// Try to get the list of metabolites from chebi TSV...

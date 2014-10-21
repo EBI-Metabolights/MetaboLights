@@ -22,10 +22,11 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
@@ -42,7 +43,7 @@ import static org.junit.Assert.assertTrue;
  * Time: 12:18
  */
 public class SpeciesUpdaterTest {
-    protected static final Logger LOGGER = Logger.getLogger(SpeciesUpdaterTest.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(SpeciesUpdaterTest.class);
 	private static final String WORMS_TEST_ID = "WORMS:145379";
 	private static final String NEWT_HUMAN = "NEWT:9606";
 

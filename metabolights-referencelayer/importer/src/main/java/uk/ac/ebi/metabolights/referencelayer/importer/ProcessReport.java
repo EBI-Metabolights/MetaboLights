@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +39,7 @@ public class ProcessReport {
 	private List<ProcessReport> subProcesses = new ArrayList<ProcessReport>();
 	private Period period = new Period();
 	private Percentage percentage = new Percentage();
-	private Logger LOGGER = Logger.getLogger(ProcessReport.class);
+	private Logger LOGGER = LoggerFactory.getLogger(ProcessReport.class);
 
 	public ProcessReport(String processName, int steps){
 		this.processName = processName;

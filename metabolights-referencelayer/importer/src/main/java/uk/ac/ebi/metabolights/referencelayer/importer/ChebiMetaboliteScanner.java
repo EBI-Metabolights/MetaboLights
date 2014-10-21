@@ -30,7 +30,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 
@@ -51,7 +52,7 @@ import java.util.*;
 public class ChebiMetaboliteScanner {
 
 	private static final String CHEBI_FILE_EXPORTER_URL = "http://www.ebi.ac.uk/chebi/fileExporter.do";
-	private Logger LOGGER = Logger.getLogger(ChebiMetaboliteScanner.class);
+	private Logger LOGGER = LoggerFactory.getLogger(ChebiMetaboliteScanner.class);
 
 	public String  CHEBI_METABOLITE_ROLE = "CHEBI:25212";
 

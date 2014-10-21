@@ -23,9 +23,10 @@ package uk.ac.ebi.metabolights.referencelayer.importer;
 
 import junit.framework.TestCase;
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 
 import java.io.File;
@@ -35,7 +36,7 @@ import java.sql.Connection;
 
 public class ImporterTests extends TestCase{
 
-	protected static final Logger LOGGER = Logger.getLogger(ImporterTests.class);
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ImporterTests.class);
 
 	private ConnectionProvider connectionProvider;
 

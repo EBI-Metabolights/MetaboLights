@@ -23,8 +23,10 @@ package uk.ac.ebi.metabolights.referencelayer.importer;
 
 import junit.framework.TestCase;
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.BeforeClass;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.net.URL;
 
@@ -35,7 +37,7 @@ import java.net.URL;
  */
 public class RheaMatcherTest extends TestCase {
 
-    protected static final Logger LOGGER = Logger.getLogger(RheaMatcherTest.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(RheaMatcherTest.class);
 
 
 

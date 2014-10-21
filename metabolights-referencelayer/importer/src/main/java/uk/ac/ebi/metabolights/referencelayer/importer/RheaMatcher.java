@@ -21,17 +21,15 @@
 
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import org.apache.log4j.Logger;
-import sun.security.jgss.GSSUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntity;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntityList;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.RelationshipType;
-import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
-import uk.ac.ebi.rhea.ws.client.RheaResourceClient;
 import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
-import uk.ac.ebi.rhea.ws.response.sbml1.Reaction;
 import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 
 import java.io.BufferedReader;
@@ -48,7 +46,7 @@ import java.util.List;
  */
 public class RheaMatcher {
 
-    private Logger LOGGER = Logger.getLogger(RheaMatcher.class);
+    private Logger LOGGER = LoggerFactory.getLogger(RheaMatcher.class);
 
     private RheasResourceClient wsRheaClient;
     private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();

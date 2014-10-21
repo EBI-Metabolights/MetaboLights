@@ -43,7 +43,8 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesMembersDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
@@ -67,7 +68,7 @@ import java.util.*;
 public class SpeciesUpdater {
 
     public static final String NEWT_ONTOLOGY = "NEWT";
-    Logger LOGGER = Logger.getLogger(SpeciesUpdater.class);
+    Logger LOGGER = LoggerFactory.getLogger(SpeciesUpdater.class);
     OntologyLookUpService ols = new OntologyLookUpService();
 	SpeciesDAO speciesDAO;
 	SpeciesMembersDAO speciesMemberDAO;

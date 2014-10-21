@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.AttributeDefinitionDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.DatabaseDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
@@ -30,12 +31,15 @@ import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.domain.*;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 
 public class PathwayImporter {
 
-    private Logger LOGGER = Logger.getLogger(PathwayImporter.class);
+    private Logger LOGGER = LoggerFactory.getLogger(PathwayImporter.class);
 
     private static final String DEFAULT_PATHWAYS_TXT_NAME = "pathway.txt";
     private File pathwaysTxt = new File(DEFAULT_PATHWAYS_TXT_NAME);

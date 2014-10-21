@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
@@ -43,7 +44,7 @@ import java.util.*;
 
 public class ReferenceLayerImporter {
 
-    private Logger LOGGER = Logger.getLogger(ReferenceLayerImporter.class);
+    private Logger LOGGER = LoggerFactory.getLogger(ReferenceLayerImporter.class);
 
 	private ConnectionProvider connectionProvider;
     private MetaboLightsCompoundDAO mcd;

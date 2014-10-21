@@ -21,9 +21,10 @@
 
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.LiteEntityList;
@@ -85,7 +86,7 @@ public class ChebiMetaboliteScannerTest {
 			"CHEBI:57972"
 	};
 
-	protected static final Logger LOGGER = Logger.getLogger(ChebiMetaboliteScannerTest.class);
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ChebiMetaboliteScannerTest.class);
 
 	@Test
 	public void testScanAlanineBranch() throws Exception {
@@ -150,6 +151,9 @@ public class ChebiMetaboliteScannerTest {
 	}
 
 	private void testChebiBranch(String[] expected, String chebiId, String message) throws ChebiWebServiceFault_Exception, MalformedURLException {
+
+
+		LOGGER.info("testing chebi branch: " + message);
 
 		ChebiMetaboliteScanner chebiScanner = new ChebiMetaboliteScanner();
 
