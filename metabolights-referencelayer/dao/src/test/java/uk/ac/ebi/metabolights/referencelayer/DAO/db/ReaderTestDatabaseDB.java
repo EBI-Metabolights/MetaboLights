@@ -10,21 +10,19 @@
 
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
-import java.sql.Connection;
-
 import junit.framework.TestCase;
-
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.domain.Database;
 
+import java.sql.Connection;
+
 public class ReaderTestDatabaseDB extends TestCase{
 
-	protected static final Logger LOGGER = Logger.getLogger(ReaderTestDatabaseDB.class);
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ReaderTestDatabaseDB.class);
 
 	private Connection con;
 	protected DatabaseDAO dbd;
@@ -37,8 +35,8 @@ public class ReaderTestDatabaseDB extends TestCase{
 	@BeforeClass
 	protected void setUp() throws Exception {
 
-		// Set up a simple configuration that logs on the console.
-	    BasicConfigurator.configure();
+//		// Set up a simple configuration that logs on the console.
+//	    BasicConfigurator.configure();
 
 		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();

@@ -32,7 +32,7 @@
 package uk.ac.ebi.metabolights.referencelayer.spectra.viewer.model;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 import java.util.Arrays;
 import java.util.Collections;

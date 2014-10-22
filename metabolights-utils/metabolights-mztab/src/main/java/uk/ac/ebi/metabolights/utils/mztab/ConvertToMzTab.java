@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.utils.mztab;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
@@ -47,7 +48,7 @@ public class ConvertToMzTab {
     private Metadata metadata = new Metadata();
     ISAtabReader isaReader = new ISAtabReader();
 
-    private final static Logger logger = Logger.getLogger(ConvertToMzTab.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(ConvertToMzTab.class.getName());
 
     //private String argsMessage = "Please use either'maf_file_name mztab_file_name' to process files.";
 

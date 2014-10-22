@@ -11,6 +11,16 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.ac.ebi.biobabel.util.db.SQLLoader;
+import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
+import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetaboLightsCompoundDAO;
+import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
+import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,18 +30,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
-import uk.ac.ebi.biobabel.util.db.SQLLoader;
-import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
-import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetaboLightsCompoundDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.*;
-
 
 public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 
 
-	private Logger LOGGER = Logger.getLogger(MetaboLightsCompoundDAO.class);
+	private Logger LOGGER = LoggerFactory.getLogger(MetaboLightsCompoundDAO.class);
 
 	protected Connection con;
 	protected SQLLoader sqlLoader;

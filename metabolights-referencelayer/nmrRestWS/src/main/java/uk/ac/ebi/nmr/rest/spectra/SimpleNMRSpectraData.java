@@ -35,7 +35,7 @@ package uk.ac.ebi.nmr.rest.spectra;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 /**
  * @name    SimpleNMRSpectraData

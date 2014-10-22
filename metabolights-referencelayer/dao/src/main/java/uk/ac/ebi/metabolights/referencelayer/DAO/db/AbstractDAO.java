@@ -11,7 +11,8 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.SQLLoader;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 
@@ -39,7 +40,7 @@ public abstract class  AbstractDAO {
 
     protected void setUp(Class DAOClass) throws IOException {
         this.sqlLoader = new SQLLoader(DAOClass, con);
-        this.LOGGER = Logger.getLogger(DAOClass);
+        this.LOGGER = LoggerFactory.getLogger(DAOClass);
 
     }
 

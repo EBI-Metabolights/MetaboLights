@@ -11,8 +11,6 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 
-import org.apache.log4j.Logger;
-import uk.ac.ebi.biobabel.util.db.SQLLoader;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetSpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;

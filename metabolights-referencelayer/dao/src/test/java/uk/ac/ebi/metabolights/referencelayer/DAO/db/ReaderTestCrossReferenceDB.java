@@ -12,9 +12,10 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import junit.framework.TestCase;
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;
 import uk.ac.ebi.metabolights.referencelayer.domain.Database;
@@ -23,7 +24,7 @@ import java.sql.Connection;
 
 public class ReaderTestCrossReferenceDB extends TestCase{
 
-	protected static final Logger LOGGER = Logger.getLogger(ReaderTestCrossReferenceDB.class);
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ReaderTestCrossReferenceDB.class);
 
 	private Connection con;
 	protected CrossReferenceDAO crd;

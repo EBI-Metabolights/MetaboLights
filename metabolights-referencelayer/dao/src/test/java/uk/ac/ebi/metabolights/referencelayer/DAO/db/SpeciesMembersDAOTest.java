@@ -2,16 +2,14 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import junit.framework.TestCase;
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
 import java.util.Collection;
@@ -23,7 +21,7 @@ import java.util.Collection;
  */
 public class SpeciesMembersDAOTest extends TestCase{
 
-	protected static final Logger LOGGER = Logger.getLogger(SpeciesMembersDAOTest.class);
+	protected static final Logger LOGGER = LoggerFactory.getLogger(SpeciesMembersDAOTest.class);
 
 	private Connection con;
 	protected SpeciesMembersDAO spmd;

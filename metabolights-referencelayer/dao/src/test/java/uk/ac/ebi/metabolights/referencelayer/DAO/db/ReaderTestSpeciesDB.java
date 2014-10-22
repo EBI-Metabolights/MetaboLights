@@ -12,9 +12,10 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import junit.framework.TestCase;
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 
@@ -24,7 +25,7 @@ import java.util.Set;
 
 public class ReaderTestSpeciesDB extends TestCase{
 
-	protected static final Logger LOGGER = Logger.getLogger(ReaderTestSpeciesDB.class);
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ReaderTestSpeciesDB.class);
 
 	private Connection con;
 	protected SpeciesDAO speciesD;

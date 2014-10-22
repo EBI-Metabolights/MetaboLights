@@ -78,6 +78,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.1</version>
                 <configuration>
                     <pomFile>dependency-reduced-pom.xml</pomFile>
                 </configuration>

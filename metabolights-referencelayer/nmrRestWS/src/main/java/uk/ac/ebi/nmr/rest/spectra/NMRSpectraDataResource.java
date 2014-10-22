@@ -28,7 +28,7 @@
 package uk.ac.ebi.nmr.rest.spectra;
 
 import java.io.InputStream;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;

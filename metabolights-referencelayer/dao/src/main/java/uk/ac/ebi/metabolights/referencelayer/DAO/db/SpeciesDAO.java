@@ -11,7 +11,8 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.ISpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
@@ -24,7 +25,7 @@ import java.util.*;
 
 public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 
-	private static Logger LOGGER = Logger.getLogger(SpeciesDAO.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(SpeciesDAO.class);
 	private static GenericIdentityMap<Species> identityMap = new GenericIdentityMap<Species>();
     private List<String> autoCompleteList;
 

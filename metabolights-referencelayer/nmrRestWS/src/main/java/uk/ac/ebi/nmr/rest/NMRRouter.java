@@ -32,7 +32,7 @@
 package uk.ac.ebi.nmr.rest;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;

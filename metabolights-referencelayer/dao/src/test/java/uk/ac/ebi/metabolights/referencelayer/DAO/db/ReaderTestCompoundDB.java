@@ -10,24 +10,21 @@
 
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
-import java.io.File;
-import java.sql.Connection;
-import java.util.Set;
-
 import junit.framework.TestCase;
-
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.biobabel.util.db.OracleDatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.domain.*;
+
+import java.io.File;
+import java.sql.Connection;
 
 public class ReaderTestCompoundDB extends TestCase{
 
-	protected static final Logger LOGGER = Logger.getLogger(ReaderTestCompoundDB.class);
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ReaderTestCompoundDB.class);
 
 	private Connection con;
 	protected MetaboLightsCompoundDAO mcd;

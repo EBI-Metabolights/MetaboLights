@@ -36,6 +36,7 @@
      <module>metabolights-referencelayer</module>
      <module>metabolights-webapps</module>
      <module>metabolights-species</module>
+     <module>ISAcreator-shaded</module>
   </modules>
 
   <build>
@@ -77,27 +78,38 @@
         <type>jar</type>
         <scope>compile</scope>
     </dependency>
- 	<dependency>
- 		<groupId>log4j</groupId>
- 		<artifactId>log4j</artifactId>
- 		<version>1.2.16</version>
- 	 	<type>jar</type>
- 		<scope>compile</scope>
- 	</dependency>
+ 	<!--<dependency>-->
+ 		<!--<groupId>log4j</groupId>-->
+ 		<!--<artifactId>log4j</artifactId>-->
+ 		<!--<version>1.2.16</version>-->
+ 	 	<!--<type>jar</type>-->
+ 		<!--<scope>compile</scope>-->
+ 	<!--</dependency>-->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.7</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.7.7</version>
+        <scope>test</scope>
+    </dependency>
   </dependencies>
 
-   <distributionManagement>
+  <distributionManagement>
     <repository>
       <id>chebi-repo</id>
       <name>ChEBI Internal Repository</name>
       <url>scp://prod.ebi.ac.uk/ebi/sp/pro1/chebi/maven2_repo</url>
     </repository>
     <snapshotRepository>
-	  <uniqueVersion>false</uniqueVersion>
-	  <id>chebi-repo</id>
-	  <name>ChEBI Internal Repository</name>
-	  <url>scp://prod.ebi.ac.uk:/ebi/sp/pro1/chebi/maven2_repo</url>
-	</snapshotRepository>
+       <uniqueVersion>false</uniqueVersion>
+       <id>chebi-repo</id>
+       <name>ChEBI Internal Repository</name>
+       <url>scp://prod.ebi.ac.uk:/ebi/sp/pro1/chebi/maven2_repo</url>
+    </snapshotRepository>
     <site>
        <name>chebi</name>
        <id>prod.ebi.ac.uk</id>
@@ -105,61 +117,60 @@
     </site>
   </distributionManagement>
 
-    <repositories>
-  		<repository>
-		    <id>springsource-repo</id>
-		    <name>SpringSource Repository</name>
-		    <url>http://repo.springsource.org/release</url>
-		</repository>
-        	<repository>
-		    <id>Springframework milestone</id>
-        	<url>http://maven.springframework.org/milestone</url>
-  		</repository>
-		<repository>
-		    <id>intact-repo</id>
-	        <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
-		</repository>
-        <repository>
-	       <id>ebi-snapshot-repo</id>
-		   <name>The EBI internal snapshot repository</name>
-		   <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
-		   <releases>
-		       <enabled>false</enabled>
-		   </releases>
-		   <snapshots>
-		       <enabled>true</enabled>
-		   </snapshots>
-	    </repository>
-        <repository>
-            <id>oerc</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases/</url>
-        </repository>
-        <repository>
-            <id>oerc-2</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/groups/oerc</url>
-        </repository>
-        <repository>
-            <id>EBI-maven-repo</id>
-            <name>EBI-maven-repo</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-        </repository>
-        <repository>
-			<id>chebi-repo-snapshot</id>
-			<name>ChEBI Repository</name>
-			<url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
-			<snapshots>
-		       <enabled>true</enabled>
-		    </snapshots>
-		</repository>
-        <repository>
-            <id>limpopo-repo</id>
-            <name>Limpopo Mini-SF Repository</name>
-            <url>http://limpopo.sourceforge.net/maven/repo</url>
-        </repository>
-        <repository>
-            <id>wso2</id>
-            <url>http://dist.wso2.org/qarepo/</url>
-        </repository>
-   </repositories>
-
+  <repositories>
+    <repository>
+      <id>springsource-repo</id>
+      <name>SpringSource Repository</name>
+      <url>http://repo.springsource.org/release</url>
+    </repository>
+    <repository>
+      <id>Springframework milestone</id>
+      <url>http://maven.springframework.org/milestone</url>
+    </repository>
+    <repository>
+      <id>intact-repo</id>
+      <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
+    </repository>
+    <repository>
+      <id>ebi-snapshot-repo</id>
+      <name>The EBI internal snapshot repository</name>
+      <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>oerc</id>
+      <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases/</url>
+    </repository>
+    <repository>
+      <id>oerc-2</id>
+      <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/groups/oerc</url>
+    </repository>
+    <repository>
+      <id>EBI-maven-repo</id>
+      <name>EBI-maven-repo</name>
+      <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+    </repository>
+    <repository>
+      <id>chebi-repo-snapshot</id>
+      <name>ChEBI Repository</name>
+      <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>limpopo-repo</id>
+      <name>Limpopo Mini-SF Repository</name>
+      <url>http://limpopo.sourceforge.net/maven/repo</url>
+    </repository>
+    <repository>
+      <id>wso2</id>
+      <url>http://dist.wso2.org/qarepo/</url>
+    </repository>
+  </repositories>
 </project>
