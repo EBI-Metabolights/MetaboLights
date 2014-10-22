@@ -23,6 +23,8 @@ package uk.ac.ebi.metabolights.webservice.client;
 
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
@@ -39,6 +41,8 @@ import java.net.URL;
  * Time: 12:01
  */
 public class MetabolightsWsClient {
+
+	private static final Logger logger = LoggerFactory.getLogger(MetabolightsWsClient.class);
 
 	private static final String ANONYMOUS = "JAVA_WS_client_Anonymous";
 	private static final String DEAFULT_TOKEN_HEADER = "USER_TOKEN";
@@ -70,6 +74,8 @@ public class MetabolightsWsClient {
 	}
 
 	private String makeGetRequest(String path) {
+
+		logger.debug("Making get " + path + " request to webservice");
 
         try {
 
@@ -109,7 +115,9 @@ public class MetabolightsWsClient {
 
     public Study getStudy(String studyIdentifier){
 
-        String path = getStudyPath(studyIdentifier);
+        logger.info("Study " + studyIdentifier + " requested to the MetaboLights WS client");
+
+		String path = getStudyPath(studyIdentifier);
 
         // Make the request
         String response = makeGetRequest(path);
@@ -136,6 +144,7 @@ public class MetabolightsWsClient {
 
     private <T> T parseJason(String response, Class<T> valueType ){
 
+		logger.debug("Parsing json response into MetaboLights model: " + response);
         // Parse response (json) into Study Model...
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false); //TODO, why the hell does it fail on the new Study.studyLocation!  I give up, Ken
