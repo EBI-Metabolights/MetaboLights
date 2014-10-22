@@ -22,8 +22,8 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,7 +47,7 @@ import java.io.File;
 public class StudyController {
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
-	private final static Logger logger = LogManager.getLogger(StudyController.class.getName());
+	private final static Logger logger = LoggerFactory.getLogger(StudyController.class.getName());
 	private StudyDAO studyDAO;
 
 
