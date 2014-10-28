@@ -21,10 +21,10 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.TextUtils;
@@ -35,7 +35,7 @@ import uk.ac.ebi.metabolights.service.TextUtils;
  *
  */
 public abstract class AbstractController {
-	private static Logger logger = Logger.getLogger(AbstractController.class);
+	private static Logger logger = LoggerFactory.getLogger(AbstractController.class);
 
 	@ExceptionHandler(Exception.class)
 	public ModelAndView handleAnyException(Exception ex) {

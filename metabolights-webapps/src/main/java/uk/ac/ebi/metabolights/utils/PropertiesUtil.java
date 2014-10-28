@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.utils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -39,7 +40,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 
 	public static Context envCtx;
 
-	private static Logger logger = Logger.getLogger(PropertiesUtil.class);
+	private static Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
 
    @Override
    protected void processProperties(ConfigurableListableBeanFactory beanFactory,

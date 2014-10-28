@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -61,7 +62,7 @@ public class EntryController extends AbstractController {
 
 
 	private static final String ALTERNATIVE_ENTRY_PREFIX = "alt";
-	private static Logger logger = Logger.getLogger(EntryController.class);
+	private static Logger logger = LoggerFactory.getLogger(EntryController.class);
 	private final String DESCRIPTION="descr";
 
 	@Autowired

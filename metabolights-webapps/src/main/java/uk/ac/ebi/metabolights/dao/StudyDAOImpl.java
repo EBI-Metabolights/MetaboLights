@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.dao;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -46,7 +47,7 @@ import java.util.*;
 @Repository
 public class StudyDAOImpl implements StudyDAO{
 
-	private static Logger logger = Logger.getLogger(StudyDAOImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(StudyDAOImpl.class);
 
     private static String queryStrAcc = "FROM Study WHERE acc = :acc";
     private static String queryStrObfuscation = "FROM Study WHERE obfuscationCode = :obfuscationCode";

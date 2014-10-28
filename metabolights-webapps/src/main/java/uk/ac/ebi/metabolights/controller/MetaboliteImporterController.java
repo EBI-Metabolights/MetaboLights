@@ -42,7 +42,8 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,7 +62,7 @@ import java.sql.SQLException;
 public class MetaboliteImporterController extends AbstractController{
 
 
-    private static Logger logger = Logger.getLogger(MetaboliteImporterController.class);
+    private static Logger logger = LoggerFactory.getLogger(MetaboliteImporterController.class);
 	private static ReferenceLayerImporter importer;
 
     @RequestMapping({"/importmetabolites"})
@@ -76,7 +77,7 @@ public class MetaboliteImporterController extends AbstractController{
 	@RequestMapping({"/importmetabolitesrun"})
 	public ModelAndView importMetabolitesRun(
 			@RequestParam(required=true, value="chebiId") final String chebiId
-			,@RequestParam(required=true, value="updateSpecies") final boolean updateSpecies
+			,@RequestParam(required=false, value="updateSpecies", defaultValue = "false") final boolean updateSpecies
 	) throws IOException, SQLException, NamingException {
 
 

@@ -21,14 +21,14 @@
 
 package uk.ac.ebi.metabolights.authenticate;
 
-import java.util.Collection;
-import java.util.HashSet;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * For ISATab authentication in the Metabolights website.<br> 
@@ -39,7 +39,7 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
  *
  */
 public class IsaTabAuthentication implements Authentication {
-	private static Logger logger = Logger.getLogger(IsaTabAuthentication.class);
+	private static Logger logger = LoggerFactory.getLogger(IsaTabAuthentication.class);
 
 	private static final long serialVersionUID = 1593454290845634907L;
 

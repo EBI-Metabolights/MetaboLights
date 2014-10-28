@@ -32,7 +32,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -47,7 +48,7 @@ import uk.ac.ebi.metabolights.utils.StringUtils;
 public class SubmissionQueue {
 	
 	
-	private static Logger logger = Logger.getLogger(SubmissionQueue.class);
+	private static Logger logger = LoggerFactory.getLogger(SubmissionQueue.class);
 
 	private static String uploadDirectory = PropertiesUtil.getProperty("uploadDirectory");
 	private static String queueFolder;

@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.search;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.lucene.document.Document;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
@@ -37,7 +38,7 @@ import java.util.regex.Pattern;
  */
 public class LuceneSearchResult {
 
-	private static Logger logger = Logger.getLogger(LuceneSearchResult.class);
+	private static Logger logger = LoggerFactory.getLogger(LuceneSearchResult.class);
 
 	private List<Assay> assays;
 	private HashMap<String,Set<String>> factors;

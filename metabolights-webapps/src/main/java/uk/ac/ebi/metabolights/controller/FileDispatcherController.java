@@ -23,7 +23,8 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -55,7 +56,7 @@ import java.util.List;
 @Controller
 public class FileDispatcherController extends AbstractController {
 
-    private static Logger logger = Logger.getLogger(FileDispatcherController.class);
+    private static Logger logger = LoggerFactory.getLogger(FileDispatcherController.class);
 
     private static final String URL_4_FILES = "files";
 	@Autowired

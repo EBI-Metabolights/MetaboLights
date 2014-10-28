@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.model.queue;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.bioinvindex.model.Study;
@@ -52,7 +53,7 @@ import static java.lang.Thread.sleep;
 @Transactional
 public class SubmissionQueueProcessor {
 
-	private static Logger logger = Logger.getLogger(SubmissionQueueProcessor.class);
+	private static Logger logger = LoggerFactory.getLogger(SubmissionQueueProcessor.class);
 	private static String publicFtpStageLocation = PropertiesUtil.getProperty("publicFtpStageLocation");
 	private static String privateFtpStageLocation = PropertiesUtil.getProperty("privateFtpStageLocation");
     private static String zipOnDemandLocation = PropertiesUtil.getProperty("ondemand");

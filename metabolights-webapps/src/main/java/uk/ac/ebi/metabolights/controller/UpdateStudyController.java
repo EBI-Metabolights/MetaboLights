@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,7 +57,7 @@ import java.util.*;
 @Controller
 public class UpdateStudyController extends AbstractController {
 
-	private static Logger logger = Logger.getLogger(UpdateStudyController.class);
+	private static Logger logger = LoggerFactory.getLogger(UpdateStudyController.class);
 
 	//Ftp locations
 	private @Value("#{publicFtpStageLocation}") String publicFtpLocation;

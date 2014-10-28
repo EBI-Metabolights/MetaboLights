@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.controller;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,7 +78,7 @@ public class ManagerController extends AbstractController{
     @Autowired
 	private HomePageController homePageController;
 
-	private static Logger logger = Logger.getLogger(ManagerController.class);
+	private static Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	private @Value("#{isatabuploaderconfig}") String isatabUploaderConfig;
 	

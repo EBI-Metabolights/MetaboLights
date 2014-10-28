@@ -24,6 +24,7 @@ package uk.ac.ebi.metabolights.metabolightsuploader;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
 import uk.ac.ebi.metabolights.service.AccessionService;

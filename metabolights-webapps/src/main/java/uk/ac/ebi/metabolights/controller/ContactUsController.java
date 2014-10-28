@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -41,7 +42,7 @@ import javax.validation.Valid;
 @Controller
 public class ContactUsController extends AbstractController{
 	
-	private static Logger logger = Logger.getLogger(ContactUsController.class);
+	private static Logger logger = LoggerFactory.getLogger(ContactUsController.class);
 	
 	@Autowired
 	private EmailService emailService;

@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.model.queue;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 
@@ -49,7 +50,7 @@ public class SubmissionItem {
 	private File fileQueued;
     private Boolean isPublic;
 	
-	private static Logger logger = Logger.getLogger(SubmissionItem.class);
+	private static Logger logger = LoggerFactory.getLogger(SubmissionItem.class);
 	
 	static final String FILE_NAME_SEP = "~";
 	static final String FILE_NAME_FOR_PRD_UPDATES = "PRDupdatedate.zip";

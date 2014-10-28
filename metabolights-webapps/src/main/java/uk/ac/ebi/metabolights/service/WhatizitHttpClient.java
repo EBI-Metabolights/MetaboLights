@@ -30,7 +30,8 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -55,7 +56,7 @@ import java.io.InputStreamReader;
  */
 public class WhatizitHttpClient {
 
-	private static Logger logger = Logger.getLogger(WhatizitHttpClient.class);
+	private static Logger logger = LoggerFactory.getLogger(WhatizitHttpClient.class);
 
 	// URL of the processing servlet
 	public static final String SERVER_URL = "http://www.ebi.ac.uk/webservices/whatizit/pipe";

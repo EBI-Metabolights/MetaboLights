@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.authenticate;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -43,7 +44,7 @@ import java.security.MessageDigest;
 @Service
 public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 
-	private static Logger logger = Logger.getLogger(IsaTabAuthenticationProvider.class);
+	private static Logger logger = LoggerFactory.getLogger(IsaTabAuthenticationProvider.class);
 
 	@Autowired
 	private UserService userService;

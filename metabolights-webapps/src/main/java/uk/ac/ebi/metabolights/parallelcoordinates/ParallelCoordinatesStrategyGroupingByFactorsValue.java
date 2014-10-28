@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.ebi.bioinvindex.model.AssayGroup;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
@@ -113,7 +114,7 @@ import uk.ac.ebi.metabolights.service.SearchServiceImpl;
  */
 public class ParallelCoordinatesStrategyGroupingByFactorsValue implements ParallelCoordinatesStrategy{
 	
-	private static Logger logger = Logger.getLogger(ParallelCoordinatesStrategyGroupingByFactorsValue.class);
+	private static Logger logger = LoggerFactory.getLogger(ParallelCoordinatesStrategyGroupingByFactorsValue.class);
 	private AssayGroup ag;
 	private Study study;
 	private ParallelCoordinatesDataSet ds;

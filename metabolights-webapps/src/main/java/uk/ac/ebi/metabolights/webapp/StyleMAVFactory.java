@@ -23,7 +23,8 @@ package uk.ac.ebi.metabolights.webapp;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,7 +42,7 @@ import java.net.URL;
  */
 public class StyleMAVFactory {
 	
-	private static Logger logger = Logger.getLogger(StyleMAVFactory.class);
+	private static Logger logger = LoggerFactory.getLogger(StyleMAVFactory.class);
 	
 	// URLs to make the requests
 	private String headerURL;

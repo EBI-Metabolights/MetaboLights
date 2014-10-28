@@ -21,14 +21,15 @@
 
 package uk.ac.ebi.metabolights.utils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
 
 public class FileUtil {
 
-	private static Logger logger = Logger.getLogger (FileUtil.class);
+	private static Logger logger = LoggerFactory.getLogger (FileUtil.class);
 	
 	public static void replace (String fileToSearchIn, String textToSearch, String textToReplace) throws IOException{
 		String text;

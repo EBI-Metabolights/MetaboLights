@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.service;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.xml.transform.Source;
@@ -38,7 +39,7 @@ import java.io.InputStream;
 public class TextTaggerWhatizitImpl implements TextTaggerService {
 
 
-	private static Logger logger = Logger.getLogger(TextTaggerService.class);
+	private static Logger logger = LoggerFactory.getLogger(TextTaggerService.class);
 	private final String xsltFileName = "uncompilables/isatabuploaderconfig/chemicals.xslt";
 	//private final String xsltFileName = "ebimed.xslt";
 

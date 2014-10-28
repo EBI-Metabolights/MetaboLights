@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.model.queue;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ import java.util.Timer;
  */
 
 public class SubmissionQueueManager {
-	private static Logger log = Logger.getLogger(SubmissionQueueManager.class);
+	private static Logger log = LoggerFactory.getLogger(SubmissionQueueManager.class);
 	private static Timer tm;
  	
 	

@@ -32,7 +32,8 @@
 
 package uk.ac.ebi.metabolights.dao;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -56,7 +57,7 @@ import java.util.List;
 @Repository
 public class MetaboLightsParametersDAOImpl implements MetaboLightsParametersDAO{
 
-    private static Logger logger = Logger.getLogger(MetaboLightsParametersDAOImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(MetaboLightsParametersDAOImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;

@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,7 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class GenericController {
 
-	private static Logger logger = Logger.getLogger(GenericController.class);
+	private static Logger logger = LoggerFactory.getLogger(GenericController.class);
 
 	/**
 	 * Forwards to the jsp based on the last part of the requested URL.

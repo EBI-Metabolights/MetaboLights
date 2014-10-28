@@ -27,6 +27,7 @@ import org.isatools.isatab.manager.SimpleManager;
 import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;

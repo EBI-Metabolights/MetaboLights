@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,7 @@ import java.util.List;
 @Controller
 public class SearchController extends AbstractController{
 	
-	private static Logger logger = Logger.getLogger(SearchController.class);
+	private static Logger logger = LoggerFactory.getLogger(SearchController.class);
 	
 	@Autowired
 	private SearchService searchService;

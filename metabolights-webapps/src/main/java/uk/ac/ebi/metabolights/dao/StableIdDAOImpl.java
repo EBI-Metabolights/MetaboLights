@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.dao;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,7 +38,7 @@ import java.util.List;
 @Repository
 public class StableIdDAOImpl implements StableIdDAO {
 
-	private static Logger logger = Logger.getLogger(StableIdDAOImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(StableIdDAOImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;

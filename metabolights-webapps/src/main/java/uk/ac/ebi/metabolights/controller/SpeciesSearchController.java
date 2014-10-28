@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hamcrest.Matchers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +51,7 @@ import static ch.lambdaj.Lambda.*;
 @Controller
 public class SpeciesSearchController extends AbstractController {
 
-    private static Logger logger = Logger.getLogger(SpeciesSearchController.class);
+    private static Logger logger = LoggerFactory.getLogger(SpeciesSearchController.class);
     List<String> speciesList;
 
 

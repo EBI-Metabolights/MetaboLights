@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -71,7 +72,7 @@ public class ReferenceLayerController extends AbstractController {
     private static final String MTBLDomainName = "metabolights";
     private static ArrayOfString listOfMTBLFields;
     private static ModelAndView mav;
-    private static Logger logger = Logger.getLogger(IsaTabAuthentication.class);
+    private static Logger logger = LoggerFactory.getLogger(IsaTabAuthentication.class);
 
     public enum UserAction {
             clickedOnPage,

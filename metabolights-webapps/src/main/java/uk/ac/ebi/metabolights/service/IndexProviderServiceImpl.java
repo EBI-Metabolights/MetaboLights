@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.service;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.FSDirectory;
@@ -36,7 +37,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class IndexProviderServiceImpl implements IndexProviderService {
 
-	private static Logger logger = Logger.getLogger(IndexProviderServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(IndexProviderServiceImpl.class);
 	private IndexSearcher indexSearcher;
 	private IndexReader indexReader;
 	private @Value("#{luceneIndexDirectoryShort}bii/") String luceneIndexDirectory;

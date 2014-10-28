@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.service;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.analysis.PerFieldAnalyzerWrapper;
@@ -47,7 +48,7 @@ import java.util.List;
 @Service
 public class SearchServiceImpl implements SearchService{
 	
-	private static Logger logger = Logger.getLogger(SearchServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(SearchServiceImpl.class);
 	private final int topN = 10000; // some max value of results we want
 
 	@Autowired

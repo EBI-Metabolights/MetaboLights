@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.referencelayer.model;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
@@ -40,7 +41,7 @@ public class ModelObjectFactory {
 
 	//private static ModelObjectFactory mof;
 
-	private static Logger logger = Logger.getLogger(ModelObjectFactory.class);
+	private static Logger logger = LoggerFactory.getLogger(ModelObjectFactory.class);
 	public static Compound getCompound(String accession) {
 
 		try {

@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,7 +68,7 @@ import java.util.UUID;
 @Controller
 public class UserAccountController extends AbstractController{
 
-	private static Logger logger = Logger.getLogger(UserAccountController.class);
+	private static Logger logger = LoggerFactory.getLogger(UserAccountController.class);
 
 	@Autowired
 	private UserService userService;

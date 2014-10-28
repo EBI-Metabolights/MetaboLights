@@ -24,18 +24,16 @@
  */
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
-import org.isatools.isatab.commandline.AbstractImportLayerShellCommand;
-import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
-import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.isatools.tablib.utils.logging.ListTabAppender;
+import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
+import org.junit.Test;
 
 import java.util.List;
-import org.isatools.tablib.utils.logging.ListTabAppender;
-import org.apache.log4j.Category;
-import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author conesa

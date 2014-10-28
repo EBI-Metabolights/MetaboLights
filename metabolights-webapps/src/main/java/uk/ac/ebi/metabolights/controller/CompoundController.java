@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +58,7 @@ import java.util.List;
 @Controller
 public class CompoundController extends AbstractController {
 
-    private static Logger logger = Logger.getLogger(CompoundController.class);
+    private static Logger logger = LoggerFactory.getLogger(CompoundController.class);
     private @Value("#{EUPMCWebServiceURL}") String PMCurl;
 
     public static final String METABOLIGHTS_COMPOUND_ID_REG_EXP = "(?:MTBLC|mtblc).+";

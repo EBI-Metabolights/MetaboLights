@@ -22,7 +22,8 @@
 package uk.ac.ebi.metabolights.controller;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -64,7 +65,7 @@ public class SubmissionQueueController extends AbstractController {
     private UserService userService;
 
 
-    private static Logger logger = Logger.getLogger(SubmissionQueueController.class);
+    private static Logger logger = LoggerFactory.getLogger(SubmissionQueueController.class);
 
 
     static class BIIException extends Exception {
@@ -154,14 +155,14 @@ public class SubmissionQueueController extends AbstractController {
 
         } catch (BIIException e) {
             ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
-            logger.error(e);
+            logger.error("Submision exception", e);
             mav.addObject("error", e);
             mav.addObject("studyId", study);
             return mav;
         } catch (Exception e) {
 
             ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
-            logger.error(e);
+            logger.error("Submission exception",e);
             mav.addObject("error", e);
 
             // Add the study id...
@@ -266,7 +267,7 @@ public class SubmissionQueueController extends AbstractController {
 		} catch (BIIException e){
 
            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
-           logger.error(e);
+           logger.error("Submission exception", e);
            mav.addObject("error", e);
            mav.addObject("studyId", study);
            return mav;
@@ -274,7 +275,7 @@ public class SubmissionQueueController extends AbstractController {
        }  catch (Exception e){
 			
 			ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
-			logger.error(e);
+			logger.error("Submission exception",e);
 			mav.addObject("error", e);
             // Add the study id...
             mav.addObject("studyId", study);

@@ -21,7 +21,8 @@
 
 package uk.ac.ebi.metabolights.service;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ import java.util.List;
 @Service
 public class AccessionServiceImpl implements AccessionService {
 
-    private static Logger logger = Logger.getLogger(AccessionServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(AccessionServiceImpl.class);
 
 	@Autowired
 	public StableIdDAO stableIdDAO;
