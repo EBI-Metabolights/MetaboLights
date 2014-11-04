@@ -1,14 +1,19 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@page pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
   ~
   ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   ~
-  ~ Last modified: 7/11/14 4:21 PM
+  ~ Last modified: 2014-Oct-28
   ~ Modified by:   conesa
   ~
   ~
-  ~ ©, EMBL, European Bioinformatics Institute, 2014.
+  ~ Copyright 2014 EMBL-European Bioinformatics Institute.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -18,10 +23,6 @@
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
-
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <div style="overflow: auto">
     <table class="maf clean display" assay="${assayNumber}">

@@ -42,20 +42,16 @@
 
 package uk.ac.ebi.metabolights.repository.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.isatools.conversion.ArrayToListConversion;
 import org.isatools.conversion.Converter;
 import org.isatools.isacreator.configuration.FieldObject;
-import org.isatools.isacreator.model.*;
+import org.isatools.isacreator.model.Factor;
+import org.isatools.isacreator.model.StudyDesign;
 import org.isatools.manipulator.SpreadsheetManipulation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.model.*;
-import uk.ac.ebi.metabolights.repository.model.Assay;
-import uk.ac.ebi.metabolights.repository.model.Contact;
-import uk.ac.ebi.metabolights.repository.model.Protocol;
-import uk.ac.ebi.metabolights.repository.model.Publication;
-import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.io.File;
 import java.text.ParseException;
@@ -329,22 +325,33 @@ public class IsaTab2MetaboLightsConverter {
 				// Set the metabolite assignment file name if not known (aka MAF)
 				if (metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName() == null) {
 
-					String mafValue = isaAssayLine.get(getAssayColumnIndexByFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE));
+					String mafValue = null;
 
-					// If not empty or null
-					if (mafValue!= null && !mafValue.equals("")){
+					Integer mafColumnIndex = getAssayColumnIndexByFieldName(isaAssay, METABOLITE_ASSIGNMENT_FILE);
+
+					if (mafColumnIndex == null) {
 
 						mafResolved = true;
 
-						String mafFileName = metStudy.getStudyLocation() + File.separator + mafValue;
+					} else {
 
-						File mafFile = new File(mafFileName);
+						mafValue = isaAssayLine.get(mafColumnIndex);
 
-						if(mafFile.exists()){
-							metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(mafFileName);
+						// If not empty or null
+						if (mafValue!= null && !mafValue.equals("")){
+
+							mafResolved = true;
+
+							String mafFileName = metStudy.getStudyLocation() + File.separator + mafValue;
+
+							File mafFile = new File(mafFileName);
+
+							if(mafFile.exists()){
+								metAssay.getMetaboliteAssignment().setMetaboliteAssignmentFileName(mafFileName);
+							}
 						}
-					}
 
+					}
 
 				}
 
@@ -381,15 +388,17 @@ public class IsaTab2MetaboLightsConverter {
 			try {
 
 
-				String value = getIsaLineValue(isaLine, factorName, isaFieldsMap);
+				String value = getIsaLineValueNull(isaLine, factorName, isaFieldsMap);
 
-				Factors factor = new Factors();
-				Ontology ontology = new Ontology();
-				factor.setFactorKey(studyFactor.getName());
-				String ontologyName = ontology.getName(value);
-				factor.setFactorValue(ontologyName);
-				newFactors.add(factor);
+				if (value!= null) {
 
+					Factors factor = new Factors();
+					Ontology ontology = new Ontology();
+					factor.setFactorKey(studyFactor.getName());
+					String ontologyName = ontology.getName(value);
+					factor.setFactorValue(ontologyName);
+					newFactors.add(factor);
+				}
 
 //				int i = 0;
 //				for (Map.Entry<String, FieldObject> isaFactorEntrySet : isa2MetFactorMap.entrySet()) {
@@ -472,15 +481,35 @@ public class IsaTab2MetaboLightsConverter {
         return fileList;
     }
 
-	private static String getIsaLineValue(List<String> isaLine, String fieldName, Map<String, Integer> isaFieldsMap){
+	private static String getIsaLineValueNull(List<String> isaLine, String fieldName, Map<String, Integer> isaFieldsMap){
 
 		// Get the index
 		Integer index = isaFieldsMap.get(fieldName);
 
-        if (index == null)
-            index = 0;
+		if (index == null){
+
+			// We return an empty string when field is not found
+			return null;
+		}
+
 
 		return isaLine.get(index);
+	}
+
+
+	private static String getIsaLineValue(List<String> isaLine, String fieldName, Map<String, Integer> isaFieldsMap){
+
+		// Get the value
+		String value = getIsaLineValueNull(isaLine, fieldName, isaFieldsMap);
+
+        if (value == null){
+
+			// We return an empty string when field is not found
+			return "";
+		}
+
+
+		return value;
 	}
 
     private static Integer getAssayColumnIndexByFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {

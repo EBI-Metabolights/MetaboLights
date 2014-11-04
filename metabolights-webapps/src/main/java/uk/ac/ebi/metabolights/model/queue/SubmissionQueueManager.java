@@ -23,9 +23,6 @@ package uk.ac.ebi.metabolights.model.queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import uk.ac.ebi.metabolights.service.UserService;
 
 import java.util.Timer;
@@ -55,7 +52,7 @@ public class SubmissionQueueManager {
 		if (tm !=null) return;
 		
 		
-		tm = new Timer();
+		tm = new Timer("Submission queue thread");
 		
 		// interval between scans..
 		int minutes = 1;
