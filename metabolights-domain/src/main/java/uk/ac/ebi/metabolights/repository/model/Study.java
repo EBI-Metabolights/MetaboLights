@@ -44,6 +44,9 @@ public class Study {
     private Collection<Sample> samples;
     private Collection<Organism> organism;
 
+	// Tables Sample & Assays
+	private Table sampleTable;
+
     public Collection<Sample> getSamples() {
         return samples;
     }
@@ -163,4 +166,13 @@ public class Study {
     public void setOrganism(Collection<Organism> organism) {
         this.organism = organism;
     }
+
+	public Table getSampleTable() {
+		return sampleTable;
+	}
+
+	public void setSampleTable(Table sampleTable) {
+		this.sampleTable = sampleTable;
+	}
+
 }

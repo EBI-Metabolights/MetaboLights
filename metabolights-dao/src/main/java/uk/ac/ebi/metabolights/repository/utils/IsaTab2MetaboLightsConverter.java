@@ -251,7 +251,7 @@ public class IsaTab2MetaboLightsConverter {
         List<List<String>> isaSamplesData = isaStudy.getStudySample().getTableReferenceObject().getReferenceData().getData();
         List<Sample> metSamples = new LinkedList<Sample>();
 
-		Map<String, Integer> sampleFieldsMap = getAssayFieldsMap(metStudy, isaStudy.getStudySample());
+		Map<String, Integer> sampleFieldsMap = getAssayFieldsMap(isaStudy.getStudySample());
 
         for (List<String> isaSamples: isaSamplesData){
 
@@ -275,6 +275,10 @@ public class IsaTab2MetaboLightsConverter {
 
         }
 
+		// Create the sample table object
+		Table sampleTable = new Table(isaSamplesData, (LinkedHashMap<String, Field>) getTableFieldsMap(isaStudy.getStudySample()));
+		metStudy.setSampleTable(sampleTable);
+
         return metSamples;
     }
 
@@ -283,7 +287,7 @@ public class IsaTab2MetaboLightsConverter {
 		List<List<String>> isaAssaysLines = isaAssay.getTableReferenceObject().getReferenceData().getData();
 		List<AssayLine> metAssayLines = new LinkedList<AssayLine>();
 
-		Map<String, Integer> assayFactorsMap = getAssayFieldsMap(metStudy, isaAssay);
+		Map<String, Integer> assayFactorsMap = getAssayFieldsMap(isaAssay);
 
 		boolean mafResolved = false;
 
@@ -442,7 +446,7 @@ public class IsaTab2MetaboLightsConverter {
 //    }
 
 	// Returns a map to get the value in an assay line based on the name
-	private static Map<String,Integer> getAssayFieldsMap(Study metStudy, org.isatools.isacreator.model.Assay assay){
+	private static Map<String,Integer> getAssayFieldsMap(org.isatools.isacreator.model.Assay assay){
 
 		Map<String,Integer> assayFieldsMap = new HashMap<String, Integer>();
 
@@ -459,7 +463,28 @@ public class IsaTab2MetaboLightsConverter {
 
 	}
 
-    private static int getSampleColumnIndexByFieldName(org.isatools.isacreator.model.Study isaStudy, String sourceName){
+	// Returns a map to get the value in an assay line based on the name
+	private static Map<String,Field> getTableFieldsMap(org.isatools.isacreator.model.Assay assay){
+
+		Map<String,Field> tableFieldsMap = new LinkedHashMap<String, Field>();
+
+		// For each field in the assay
+		for (FieldObject field :  assay.getTableReferenceObject().getFieldLookup().values()){
+
+			Integer index = getAssayColumnIndexByFieldName(assay, field.getFieldName());
+
+			Field newField = new Field(field.getFieldName(), index,"todo");
+
+			tableFieldsMap.put(field.getFieldName(), newField);
+
+		}
+
+		return tableFieldsMap;
+
+	}
+
+
+	private static int getSampleColumnIndexByFieldName(org.isatools.isacreator.model.Study isaStudy, String sourceName){
 
         Collection<FieldObject> isaStudyFieldValue = isaStudy.getStudySample().getTableReferenceObject().getFieldLookup().values();
         int colNo = 0;

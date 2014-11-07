@@ -51,7 +51,7 @@ public class MetabolightsWsClientTest {
 		// If not setup skip (Avoid failing tests).
 		if (SUBMMITER_TOKEN == null) return;
 
-		MetabolightsWsClient wsClient = new MetabolightsWsClient("http://localhost.ebi.ac.uk:8080/metabolights/webservice/");
+		MetabolightsWsClient wsClient = new MetabolightsWsClient("http://localhost:8080/metabolights/webservice/");
 
 		// ****** Default anonymous access ********
 		// MTBLS1 is meant to be public...
