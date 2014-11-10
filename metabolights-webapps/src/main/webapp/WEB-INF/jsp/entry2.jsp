@@ -234,32 +234,13 @@
         $(selector).dataTable( {
 //                "scrollY": 350,
             "scrollX": true,
+            "order": [],
             "language": {
                 "search": "Filter:"
             }
         } );
 
     }
-
-    function toggleColumn(tableId, anchor, duration ) {
-
-        dataIcon = $(anchor).attr('data-icon');
-
-        // if collapsed
-        if (dataIcon == 'u'){
-            dataIcon = 'w';
-            $('#' + tableId + ' tr *:nth-child(1n+5)').show();
-
-
-            // else expanded
-        }else{
-            dataIcon = 'u';
-            $('#' + tableId + ' tr *:nth-child(1n+5)').hide();
-        }
-
-        $(anchor).attr('data-icon', dataIcon);
-    }
-
 </script>
 
 <c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>
@@ -518,34 +499,64 @@
 
                             <h5><spring:message code="label.data"/></h5>
                             <div>
-                                <table class="display clean">
-                                    <c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopAssayLines">
-                                        <c:if test="${loopAssayLines.index == 0}">
-                                            <thead class='text_header'>
-                                                <tr>
-                                                    <th>Source</th>
-                                                    <c:forEach var="factor" items="${assayLine.factors}">
-                                                        <th>${factor.factorKey}</th>
-                                                    </c:forEach>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                        </c:if>
-                                        <c:if test="${not empty assayLine.sampleName}">
-                                            <%--<c:if test="${loopAssayLines.index == 10}">--%>
-                                                <%--</tbody><tbody id="assay_${loopAssays.index}" style='display:none'>--%>
-                                            <%--</c:if>--%>
-                                            <tr>
-                                            <td class="tableitem">${assayLine.sampleName}</td>
-                                            <c:forEach var="factor" items="${assayLine.factors}">
-                                                <td>${factor.factorValue}</td>
+                                <c:if test="${not empty assay.assayTable}">
+                                    <table class="display clean">
+                                        <thead class='text_header'>
+                                        <tr>
+                                            <c:forEach var="fieldSet" items="${assay.assayTable.fields}">
+                                                <th>${fieldSet.value.header}</th>
                                             </c:forEach>
-                                            </tr>
-                                        </c:if>
-                                    </c:forEach>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="row" items="${assay.assayTable.iterator}">
+                                            <tr>
+                                                <c:forEach var="cell" items="${row.iterator}">
 
-                                    </tbody>
-                                </table>
+                                                    <c:set var="cellvalue" value="${cell.value}" scope="page"/>
+
+                                                    <c:if test="${cell.field.header eq 'Sample Name'}">
+                                                        <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
+                                                            <c:set var="cellvalue" value="<A href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</A>"/>
+                                                        </c:if>
+                                                    </c:if>
+                                                    <td>${cellvalue}</td>
+                                                </c:forEach>
+                                            </tr>
+
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </c:if>
+
+                                <%--<table class="display clean">--%>
+                                    <%--<c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopAssayLines">--%>
+                                        <%--<c:if test="${loopAssayLines.index == 0}">--%>
+                                            <%--<thead class='text_header'>--%>
+                                                <%--<tr>--%>
+                                                    <%--<th>Source</th>--%>
+                                                    <%--<c:forEach var="factor" items="${assayLine.factors}">--%>
+                                                        <%--<th>${factor.factorKey}</th>--%>
+                                                    <%--</c:forEach>--%>
+                                                <%--</tr>--%>
+                                            <%--</thead>--%>
+                                            <%--<tbody>--%>
+                                        <%--</c:if>--%>
+                                        <%--<c:if test="${not empty assayLine.sampleName}">--%>
+                                            <%--&lt;%&ndash;<c:if test="${loopAssayLines.index == 10}">&ndash;%&gt;--%>
+                                                <%--&lt;%&ndash;</tbody><tbody id="assay_${loopAssays.index}" style='display:none'>&ndash;%&gt;--%>
+                                            <%--&lt;%&ndash;</c:if>&ndash;%&gt;--%>
+                                            <%--<tr>--%>
+                                            <%--<td class="tableitem">${assayLine.sampleName}</td>--%>
+                                            <%--<c:forEach var="factor" items="${assayLine.factors}">--%>
+                                                <%--<td>${factor.factorValue}</td>--%>
+                                            <%--</c:forEach>--%>
+                                            <%--</tr>--%>
+                                        <%--</c:if>--%>
+                                    <%--</c:forEach>--%>
+
+                                    <%--</tbody>--%>
+                                <%--</table>--%>
                                 <%--<c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>--%>
                             </div>
                         <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
