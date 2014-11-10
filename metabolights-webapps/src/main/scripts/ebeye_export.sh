@@ -8,6 +8,7 @@
 #
 # 20130108  : Ken Haug - Created script
 # 20140904  : Ken Haug - Added "cd" to script directory
+# 20141110  : Ken Haug - Added MTBLS count to email output
 #
 ##########################################################################
 
@@ -51,11 +52,12 @@ sqlplus -s ${DB_CONNECTION} @ebeye_init.sql
 sqlplus -s ${DB_CONNECTION} @ebeye_export.sql ${SPOOL_FILE} ${VERSION}
 cat ${SPOOL_FILE} | perl -ne 'push(@a, $_); print shift(@a, ) if  $#a >=3 ;' > ${EXPORT_FILE}
 ACTUAL_ENTRIES=`grep "<entry id=" ${EXPORT_FILE}  | wc -l` 
+MTBLS_ENTRIES=`grep "<entry id=" ${EXPORT_FILE}  | grep MTBLS | wc -l`
 REPORTED_ENTRIES=`grep "<entry_count>" ${EXPORT_FILE} | cut -f2 -d'>' | cut -f1 -d'<'`
 
 if [ $ACTUAL_ENTRIES -eq $REPORTED_ENTRIES ]
 then
-  Info "There are ${ACTUAL_ENTRIES} entries in the EBeye export file"
+  Info "There are ${ACTUAL_ENTRIES} entries in the EBeye export file, of which ${MTBLS_ENTRIES} are studies"
 else
   Info "There are ${ACTUAL_ENTRIES} actual entries in the file, BUT we have ${REPORTED_ENTRIES} expected entries"
 fi
