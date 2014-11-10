@@ -21,8 +21,8 @@
 
 package uk.ac.ebi.metabolights.webservice.client;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -147,7 +147,8 @@ public class MetabolightsWsClient {
 		logger.debug("Parsing json response into MetaboLights model: " + response);
         // Parse response (json) into Study Model...
         ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false); //TODO, why the hell does it fail on the new Study.studyLocation!  I give up, Ken
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        //mapper.configure(JsonParser.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false); //TODO, why the hell does it fail on the new Study.studyLocation!  I give up, Ken
 
         try {
             return mapper.readValue(response, valueType);

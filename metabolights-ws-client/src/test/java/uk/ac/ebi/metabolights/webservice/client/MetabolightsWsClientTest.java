@@ -58,6 +58,9 @@ public class MetabolightsWsClientTest {
 		Study study = wsClient.getStudy("MTBLS1");
 		assertNotSame("Study should be accessible from an anonymous user", "PRIVATE STUDY", study.getTitle());
 
+		assertEquals("Sample data is present", 132, study.getSampleTable().getData().size());
+		assertEquals("Assay data is present", 132, study.getAssays().get(0).getAssayTable().getData().size());
+
 		// MTBLS4 is meant to be private...
 		study = wsClient.getStudy("MTBLS4");
 		assertEquals("Study shouldn't be accessible from an anonymous user", "PRIVATE STUDY", study.getTitle());

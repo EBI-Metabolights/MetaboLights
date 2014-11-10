@@ -600,7 +600,17 @@ public class IsaTab2MetaboLightsConverter {
                     getMAF(metAssay.getMetaboliteAssignment().getMetaboliteAssignmentFileName()));
 
             assays.add(metAssay);
-            i++;
+
+
+			// Create the assay table object
+			Table assayTable = new Table(isaAssay.getTableReferenceObject().getReferenceData().getData(), (LinkedHashMap<String, Field>) getTableFieldsMap(isaAssay));
+			metAssay.setAssayTable(assayTable);
+
+
+			i++;
+
+
+
         }
 
         return assays;

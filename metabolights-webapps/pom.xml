@@ -491,6 +491,18 @@
                     <artifactId>commons-dbcp</artifactId>
                     <groupId>commons-dbcp</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>ojdbc5</artifactId>
+                    <groupId>com.oracle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>h2</artifactId>
+                    <groupId>com.h2database</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>ols-client</artifactId>
+                    <groupId>ols</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -603,7 +615,7 @@
         <dependency>
             <artifactId>metabolights-ws-client</artifactId>
             <groupId>uk.ac.ebi.metabolights</groupId>
-            <version>2.0-SNAPSHOT</version>
+            <version>2.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <artifactId>metabolights-isatab-utils</artifactId>

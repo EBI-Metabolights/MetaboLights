@@ -21,6 +21,8 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,10 +45,12 @@ public class Table implements Iterable<Row>{
 	}
 
 	@Override
+	@JsonIgnore
 	public Iterator<Row> iterator() {
 		return new Rows(this);
 	}
 
+	@JsonIgnore
 	public Iterator<Row> getIterator(){return iterator();}
 	public LinkedHashMap<String, Field> getFields() {
 		return fields;

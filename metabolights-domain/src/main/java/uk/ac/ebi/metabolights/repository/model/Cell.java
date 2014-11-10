@@ -29,6 +29,7 @@ package uk.ac.ebi.metabolights.repository.model;
 public class Cell {
 
 	private final Row row;
+
 	private final Field field;
 
 	public Cell(Row row, Field field) {
@@ -39,4 +40,9 @@ public class Cell {
 	public String getValue(){
 		return row.getValues().get(field.getIndex());
 	}
+
+	public Field getField() {
+		return field;
+	}
+
 }

@@ -474,36 +474,21 @@
                         <c:forEach var="row" items="${study.sampleTable.iterator}">
                             <tr>
                                 <c:forEach var="cell" items="${row.iterator}">
-                                    <td>${cell.value}</td>
+
+                                    <c:set var="cellvalue" value="${cell.value}" scope="page"/>
+
+                                    <c:if test="${cell.field.header eq 'Sample Name'}">
+                                        <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
+                                            <c:set var="cellvalue" value="<A href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</A>"/>
+                                        </c:if>
+                                    </c:if>
+                                    <td>${cellvalue}</td>
                                 </c:forEach>
                             </tr>
 
                         </c:forEach>
                     </tbody>
                 </table>
-                        <%--<c:if test="${not empty sample}">--%>
-                            <%--&lt;%&ndash;<c:if test="${loopSampleLines.index == -10}">&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;</tbody><tbody id="sample_0" style='display:none'>&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;</c:if>&ndash;%&gt;--%>
-                            <%--<tr>--%>
-                                <%--<td>--%>
-                                <%--<c:if test="${fn:startsWith(sample.sampleName, 'SAMEA')}">--%>
-                                    <%--<A href="http://www.ebi.ac.uk/biosamples/sample/${sample.sampleName}">${sample.sampleName}</A>--%>
-                                <%--</c:if>--%>
-                                <%--<c:if test="${!fn:startsWith(sample.sampleName, 'SAMEA')}">--%>
-                                    <%--${sample.sampleName}--%>
-                                <%--</c:if>--%>
-                                <%--</td>--%>
-                                <%--<td>${sample.charactersticsOrg}</td>--%>
-                                <%--<td>${sample.charactersticsOrgPart}</td>--%>
-                                <%--<c:forEach var="factor" items="${sample.factors}">--%>
-                                    <%--<td>${factor.factorValue}</td>--%>
-                                <%--</c:forEach>--%>
-                                <%--&lt;%&ndash;<td>${sample.protocolRef}</td>&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<td class="tableitem">${sample.sourceName}</td>&ndash;%&gt;--%>
-                            <%--</tr>--%>
-                        <%--</c:if>--%>
-                <%--<c:if test="${fn:length(study.samples) > 10}"><a href="#" class="showLink" id="sample_link_0">Show more</a></c:if>--%>
             </c:if>
         </div>
 

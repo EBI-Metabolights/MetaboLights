@@ -33,7 +33,9 @@ public class Assay {
     private Collection<AssayLine> assayLines;
     private MetaboliteAssignment metaboliteAssignment; //this also contains a file name MAF
 
-    public String getMeasurement() {
+	private Table assayTable;
+
+	public String getMeasurement() {
         return measurement;
     }
 
@@ -81,7 +83,16 @@ public class Assay {
         this.assayLines = assayLines;
     }
 
-    public MetaboliteAssignment getMetaboliteAssignment() {
+	public Table getAssayTable() {
+		return assayTable;
+	}
+
+	public void setAssayTable(Table assayTable) {
+		this.assayTable = assayTable;
+	}
+
+
+	public MetaboliteAssignment getMetaboliteAssignment() {
         if (metaboliteAssignment == null)
             metaboliteAssignment = new MetaboliteAssignment();
 
