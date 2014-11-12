@@ -319,7 +319,6 @@ public class EntryController extends AbstractController {
 			return notLoggedIn(ALTERNATIVE_ENTRY_PREFIX + mtblsId);
 		}
 
-
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry2");
 
 		mav.addObject("pageTitle", study.getStudyIdentifier() + ":" +study.getTitle() );

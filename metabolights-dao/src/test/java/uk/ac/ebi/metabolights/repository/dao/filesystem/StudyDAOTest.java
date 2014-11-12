@@ -27,6 +27,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class StudyDAOTest {
 
@@ -55,6 +56,14 @@ public class StudyDAOTest {
 		assertEquals("MTBLS1 organism size",1, study.getOrganism().size());
 		assertEquals("MTBLS1 organism test","Homo sapiens (Human)", study.getOrganism().iterator().next().getOrganismName());
 		assertEquals("MTBLS1 organism part test","urine", study.getOrganism().iterator().next().getOrganismPart());
+
+
+		// Check metabolites assignment information is present
+		assertNotNull("Check existence of metabolites object", study.getAssays().get(0).getMetaboliteAssignment());
+		assertNotNull("Check existence of metabolite filename is filled", study.getAssays().get(0).getMetaboliteAssignment().getMetaboliteAssignmentFileName());
+		assertNotNull("Check existence of metabolite lines", study.getAssays().get(0).getMetaboliteAssignment().getMetaboliteAssignmentLines());
+		// 214 lines +  single pipes in 4 of them + 1 duuble pipe in 1 line = 220.
+		assertEquals("Check MTBSL1 metabolites lines number", 220,study.getAssays().get(0).getMetaboliteAssignment().getMetaboliteAssignmentLines().size());
 
 
         study = studyDAO.getStudy("MTBLS2", false);

@@ -20,15 +20,18 @@
  */
 
 var metLinkTimer = 0; // 0 is a safe "no timer" value
-
-$("body").append('<div id="chebiInfo"></div>');
-var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'500px', height:'400px',proxyUrl:undefined, chebiDetailsUrl: './ebi/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
-
-
-$('#chebiInfo').hide();
-
+var chebiInfoDiv;
 
 function scanCompoundLinks(){
+
+
+    if (!chebiInfoDiv){
+        // Add the placeholder div, and initialize compound
+
+        $("body").append('<div id="chebiInfo"></div>');
+        chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'500px', height:'400px',proxyUrl:undefined, chebiDetailsUrl: './ebi/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
+        $('#chebiInfo').hide();
+    }
 
 
     $('.metLink').live('mouseenter', function(e) {

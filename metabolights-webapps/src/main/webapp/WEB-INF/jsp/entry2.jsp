@@ -32,11 +32,13 @@
 <script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
 <%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.ChEBICompound.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
-<script type="text/javascript" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/chebicompoundpopup.js" charset="utf-8"></script>
 
 <link rel="stylesheet" href="cssrl/iconfont/font_style.css" type="text/css" />
 <link rel="stylesheet"  href="css/ChEBICompound.css" type="text/css" />
-<link rel="stylesheet"  href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" type="text/css" />
+<%--<link rel="stylesheet"  href="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.css" type="text/css" />--%>
+<link rel="stylesheet"  href="cssrl/dataTable.css" type="text/css" />
 
 <script language="javascript" type="text/javascript">
 
@@ -76,7 +78,9 @@
                     var tablePlaceHolder = $(this).next()[0];
                     $(tablePlaceHolder).html(data);
 
-                    makeCoolTable("table.maf[assay='" + $(this).attr("assay") + "']");
+                    scanCompoundLinks()
+
+                    initOrRefreshCoolTable("table.maf[assay='" + $(this).attr("assay") + "']");
 
                 });
 
@@ -86,7 +90,8 @@
         $(function() {
             $( ".accordion" ).accordion({
                 collapsible: true
-                ,heightStyle: "fill"
+                ,active:false
+                ,heightStyle: "content"
             });
         });
 
@@ -403,7 +408,7 @@
         <!-- TAB3: Sample-->
         <div id="tabs-3" class="tab">
             <c:if test="${not empty study.sampleTable}">
-                <table cooltablestatus="noinit" class="display clean">
+                <table class="display clean">
                     <thead class='text_header'>
                     <tr>
                     <c:forEach var="fieldSet" items="${study.sampleTable.fields}">
@@ -457,10 +462,10 @@
                             <div class="accordion">
                         </c:if>
 
-                            <h5><spring:message code="label.data"/></h5>
+                            <h5><span class="icon icon-functional" data-icon="A"></span><spring:message code="label.data"/></h5>
                             <div>
                                 <c:if test="${not empty assay.assayTable}">
-                                    <table cooltablestatus="noinit" class="display clean">
+                                    <table class="display clean">
                                         <thead class='text_header'>
                                         <tr>
                                             <c:forEach var="fieldSet" items="${assay.assayTable.fields}">
@@ -561,7 +566,7 @@
                     <c:if test="${!study.publicStudy}">
                         <input type="hidden" name="token" value="${studyDBId}">
                     </c:if>
-                    <table id="files" class="clean">
+                    <table id="files" class="clean display">
                         <tr>
                             <th>Select</th>
                             <th>File</th>

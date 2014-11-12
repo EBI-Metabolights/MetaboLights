@@ -697,3 +697,8 @@ section h3{
     background: #093C4A;
     color: white;
 }
+
+div.accordion h5 span{
+
+    vertical-align: middle;
+}

@@ -58,7 +58,7 @@ public class IsaTab2MetaboLightsConverter {
     private static final String ISA_TAB_DATE_FORMAT = "yyyy-MM-dd";
     private static SimpleDateFormat isaTabDateFormat = new SimpleDateFormat(ISA_TAB_DATE_FORMAT);
 
-    private static final String METABOLITE_ASSIGNMENT_FILE = "Metabolite Assignment File";
+    private static final String METABOLITE_ASSIGNMENT_FILE = "metabolite assignment file";
 
     private static MzTabDAO mzTabDAO = new MzTabDAO();
     //Below are for sample tab

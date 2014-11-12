@@ -52,8 +52,8 @@
 
     <%--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" ></script>--%>
     <%--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>--%>
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js" ></script>
-    <script type="text/javascript" src="//code.jquery.com/ui/1.11.2/jquery-ui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.min.js" ></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
 
 	<script type="text/javascript" src='<spring:url value="/javascript/jquery.movingboxes.js"/>' charset="utf-8"></script>
 	<script type="text/javascript" src='<spring:url value="/javascript/menu.js"/>'></script>
