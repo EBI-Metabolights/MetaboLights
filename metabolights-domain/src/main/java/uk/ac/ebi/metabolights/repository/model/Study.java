@@ -41,19 +41,10 @@ public class Study {
     private Collection<Publication> publications;
     private Collection<Protocol> protocols;
     private List<Assay> assays;
-    private Collection<Sample> samples;
     private Collection<Organism> organism;
 
 	// Tables Sample & Assays
 	private Table sampleTable;
-
-    public Collection<Sample> getSamples() {
-        return samples;
-    }
-
-    public void setSamples(Collection<Sample> samples) {
-        this.samples = samples;
-    }
 
     public List<Assay> getAssays() {
         return assays;

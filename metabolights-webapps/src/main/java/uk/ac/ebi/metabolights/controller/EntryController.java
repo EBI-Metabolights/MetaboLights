@@ -40,7 +40,6 @@ import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
-import uk.ac.ebi.metabolights.repository.model.Sample;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.*;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
@@ -343,11 +342,6 @@ public class EntryController extends AbstractController {
 		// For the reviwer link: use obfuscationcode
 		mav.addObject("obfuscationcode", indexedStudy.getObfuscationCode());
 
-		for (Sample sample : study.getSamples()){
-			mav.addObject("factors", sample.getFactors()); //just to get the correct order of the column headers
-			break;
-		}
-//        mav.addObject("samples", study.getSamples());
 		return  mav;
 	}
 

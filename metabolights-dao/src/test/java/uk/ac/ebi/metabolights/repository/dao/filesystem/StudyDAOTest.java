@@ -51,15 +51,31 @@ public class StudyDAOTest {
         Study study = studyDAO.getStudy("MTBLS1", true);
         assertEquals("MTBLS1 loaded?", study.getStudyIdentifier(),"MTBLS1");
 
-        study = studyDAO.getStudy("MTBLS2", false);                               //TODO, not standard column order per the config, so have to fix the code
+		// Check organism is populated
+		assertEquals("MTBLS1 organism size",1, study.getOrganism().size());
+		assertEquals("MTBLS1 organism test","Homo sapiens (Human)", study.getOrganism().iterator().next().getOrganismName());
+		assertEquals("MTBLS1 organism part test","urine", study.getOrganism().iterator().next().getOrganismPart());
+
+
+        study = studyDAO.getStudy("MTBLS2", false);
         assertEquals("MTBLS2 loaded?", study.getStudyIdentifier(),"MTBLS2");
+		assertEquals("MTBLS2 organism size",1, study.getOrganism().size());
+		assertEquals("MTBLS2 organism test","Arabidopsis thaliana (thale cress)", study.getOrganism().iterator().next().getOrganismName());
+		assertEquals("MTBLS2 organism part test","rosette leaf", study.getOrganism().iterator().next().getOrganismPart());
+
 
         study = studyDAO.getStudy("MTBLS3", true);
         assertEquals("MTBLS3 loaded?", study.getStudyIdentifier(),"MTBLS3");
+		assertEquals("MTBLS3 organism size",2, study.getOrganism().size());
 
 
         study = studyDAO.getStudy("MTBLS4", false);
         assertEquals("MTBLS4 loaded?", study.getStudyIdentifier(),"MTBLS4");
+		assertEquals("MTBLS4 organism size",1, study.getOrganism().size());
+		assertEquals("MTBLS4 organism test","Homo sapiens (Human)", study.getOrganism().iterator().next().getOrganismName());
+		assertEquals("MTBLS4 organism part test","blood plasma", study.getOrganism().iterator().next().getOrganismPart());
+
+
 
     }
 

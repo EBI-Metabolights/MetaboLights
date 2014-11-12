@@ -30,6 +30,8 @@ public class Field {
 	private int index;
 	private String header;
 	private String fieldType;
+	private String description;
+	private String cleanHeader;
 
 	public Field(){};
 	public Field(String header, int index, String fieldType){
@@ -58,4 +60,18 @@ public class Field {
 		this.fieldType = fieldType;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getDescription() {
+		return description;
+	}
+
+	public void setCleanHeader(String cleanHeader) {
+		this.cleanHeader = cleanHeader;
+	}
+
+	public String getCleanHeader() {
+		return cleanHeader;
+	}
 }

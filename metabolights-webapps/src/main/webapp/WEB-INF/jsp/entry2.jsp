@@ -44,38 +44,6 @@
 
         $("[id='protocoldesc']").linkify();
 
-        $("body").append('<div id="chebiInfo"></div>');
-        var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'500px', height:'400px',proxyUrl:undefined, chebiDetailsUrl: './ebi/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
-
-
-        $('#chebiInfo').hide();
-
-        $("a.showLink").click(function(event) {
-            var clickedId = event.target.id;
-            var idClickedSplit = clickedId.split("_");
-            /*id of the link is made up by 3 parts:
-             part 1: name of the div (eg.: syn) this is used to distinguish the show more
-             link of synonyms from the show more link in other divs
-             part 2: "link" to distinguish the link for show more link from other
-             ordinary links
-             part 3: the order of the result item to distinguish the show more button
-             in the result list is click. In case of filters of species or compounds
-             the order is always 0
-             */
-            var idPrefixClicked = idClickedSplit[0];
-            /*var itemClicked = idClickedSplit[1];*/
-            var orderOfItemClicked = idClickedSplit[2];
-            var idOfHiddenText = "#"+idPrefixClicked+"_"+orderOfItemClicked;
-            var jqClickedId= "#"+clickedId;
-            if ($(idOfHiddenText).is(":hidden")){
-                $(jqClickedId).text("Show less");
-            }else{
-                $(jqClickedId).text("Show more");
-            }
-            $(idOfHiddenText).slideToggle();
-
-        });
-
         // Listen to click in MAF file title
         // Like this: <h5 class="maf" mafurl=....
         $("h5.maf").click(function(event) {
@@ -122,53 +90,6 @@
             });
         });
 
-        var metLinkTimer = 0; // 0 is a safe "no timer" value
-
-        $('.metLink').live('mouseenter', function(e) {
-            // I'm assuming you don't want to stomp on an existing timer
-            if (!metLinkTimer) {
-                metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
-            }
-        }).live('mouseleave', function() {
-            // Cancel the timer if it hasn't already fired
-            if (metLinkTimer) {
-                clearTimeout(metLinkTimer);
-                metLinkTimer = 0;
-
-            }
-            $('#chebiInfo').fadeOut('slow');
-        });
-
-        function loadMetabolite(e) {
-            // Clear this as flag there's no timer outstanding
-            metLinkTimer = 0;
-
-            var metlink;
-            metlink = $(e.target);
-            var metaboliteId = metlink.attr('identifier');
-            var displayId = metaboliteId;
-
-            // If it's a MTBLC....change it to chebi
-            if (metaboliteId.indexOf("MTBLC")==0) metaboliteId = metaboliteId.replace("MTBLC", "CHEBI:");
-
-            // If its a chebi id
-            if (metaboliteId.indexOf("CHEBI:")==0){
-
-                var offset = metlink.offset();
-                var mouseX = offset.left + metlink.outerWidth() + 20;
-                var mouseY = offset.top;
-
-                //chebiId = metaboliteId;
-
-                $('#chebiInfo img:last-child').remove;
-
-                $('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
-                $('#chebiInfo').fadeIn('slow');
-
-                //chebiInfoDiv.setId(chebiId);
-                chebiInfoDiv.setDisplayIdAndLoad(displayId,metaboliteId);
-            }
-        }
 
         $("#shareInfo").hide();
 
@@ -217,28 +138,67 @@
 
         });
 
-        makeCoolTable();
+
+        $( "#tabs" ).tabs({
+            "activate": function(event , ui) {
+
+
+                initOrRefreshCoolTable(undefined, ui.newPanel);
+
+            }
+        });
+
 
 
     });
 
-    $(function() {
-        $( "#tabs" ).tabs();
-    });
 
-    function makeCoolTable(selector){
-        if (selector === undefined){
+    function initOrRefreshCoolTable(selector, context){
+
+        var table;
+
+        if (selector === undefined) {
             selector = "table.display";
         }
 
-        $(selector).dataTable( {
-//                "scrollY": 350,
-            "scrollX": true,
-            "order": [],
-            "language": {
-                "search": "Filter:"
-            }
-        } );
+
+        if (context){
+            table = $(context).find(selector);
+        } else {
+            table =$(selector);
+        }
+
+
+
+        // For those not initialized yet
+        var toInitialise = $.grep(table, function (table,index){
+            return !$(table).hasClass("dataTable");
+        })
+
+
+        if (toInitialise.length >0){
+
+            $(toInitialise).dataTable( {
+                "scrollX": true,
+                "order": [],
+                "language": {
+                    "search": "Filter:"
+                }
+            } );
+
+        }
+
+//        var toResize = $.grep(table, function (table,index){
+//            return $(table).hasClass("dataTable");
+//        })
+//
+//        if (toResize.length >0){
+//
+//            $(toResize).dataTable().draw(false);
+//
+//        }
+
+
 
     }
 </script>
@@ -443,11 +403,11 @@
         <!-- TAB3: Sample-->
         <div id="tabs-3" class="tab">
             <c:if test="${not empty study.sampleTable}">
-                <table class="display clean">
+                <table cooltablestatus="noinit" class="display clean">
                     <thead class='text_header'>
                     <tr>
                     <c:forEach var="fieldSet" items="${study.sampleTable.fields}">
-                        <th>${fieldSet.value.header}</th>
+                        <th>${fieldSet.value.cleanHeader}</th>
                     </c:forEach>
                     </tr>
                     </thead>
@@ -500,11 +460,11 @@
                             <h5><spring:message code="label.data"/></h5>
                             <div>
                                 <c:if test="${not empty assay.assayTable}">
-                                    <table class="display clean">
+                                    <table cooltablestatus="noinit" class="display clean">
                                         <thead class='text_header'>
                                         <tr>
                                             <c:forEach var="fieldSet" items="${assay.assayTable.fields}">
-                                                <th>${fieldSet.value.header}</th>
+                                                <th>${fieldSet.value.cleanHeader}</th>
                                             </c:forEach>
                                         </tr>
                                         </thead>

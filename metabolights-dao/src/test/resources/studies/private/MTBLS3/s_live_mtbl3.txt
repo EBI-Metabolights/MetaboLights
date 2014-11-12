@@ -61,4 +61,4 @@
 "BX1105"	"Caenorhabditis elegans"	"NCBITaxon"	"6239"	"Caenorhabditis elegans"	"SNOMEDCT"	"61889003"	"Sample collection"	"Cecilia_AA_batch23_42"	"Delta 9 fat 5 fat 7"	""	""
 "BX1106"	"Caenorhabditis elegans"	"NCBITaxon"	"6239"	"Caenorhabditis elegans"	"SNOMEDCT"	"61889003"	"Sample collection"	"Cecilia_AA_batch23_43"	"Delta 9 fat 5 fat 7"	""	""
 "BX1107"	"Caenorhabditis elegans"	"NCBITaxon"	"6239"	"Caenorhabditis elegans"	"SNOMEDCT"	"61889003"	"Sample collection"	"Cecilia_AA_batch23_45"	"Delta 9 fat 5 fat 7"	""	""
-"BX1108"	"Caenorhabditis elegans"	"NCBITaxon"	"6239"	"Caenorhabditis elegans"	"SNOMEDCT"	"61889003"	"Sample collection"	"Cecilia_AA_batch23_46"	"Delta 9 fat 5 fat 7"	""	""
+"BX1108"	"Pontinus kuhlii"	"NCBITaxon"	"6239"	"fin"	"SNOMEDCT"	"61889003"	"Sample collection"	"Cecilia_AA_batch23_46"	"Delta 9 fat 5 fat 7"	""	""

@@ -21,8 +21,6 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
-import java.util.Collection;
-
 public class Assay {
 
     private String measurement;
@@ -30,7 +28,6 @@ public class Assay {
     private String platform;
     private String fileName;
     private int assayNumber;
-    private Collection<AssayLine> assayLines;
     private MetaboliteAssignment metaboliteAssignment; //this also contains a file name MAF
 
 	private Table assayTable;
@@ -73,14 +70,6 @@ public class Assay {
 
     public void setAssayNumber(int assayNumber) {
         this.assayNumber = assayNumber;
-    }
-
-    public Collection<AssayLine> getAssayLines() {
-        return assayLines;
-    }
-
-    public void setAssayLines(Collection<AssayLine> assayLines) {
-        this.assayLines = assayLines;
     }
 
 	public Table getAssayTable() {
