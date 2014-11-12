@@ -90,7 +90,7 @@
         $(function() {
             $( ".accordion" ).accordion({
                 collapsible: true
-                ,active:false
+                ,active:1
                 ,heightStyle: "content"
             });
         });
@@ -437,103 +437,77 @@
                 </table>
             </c:if>
         </div>
-
-
         <!-- TAB4+: Assays-->
-            <c:if test="${not empty study.assays}">
-                <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
-                    <div id="tabs-${loopAssays.index + 4}" class="tab">
-                        <div class="specs">
-                            <spring:message code="label.assayName"/>: <a href="${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a><br/>
-                            <spring:message code="label.measurement"/>: ${assay.measurement}<br/>
-                            <spring:message code="label.technology"/>:  ${assay.technology}&nbsp;
-                                <c:if test="${fn:contains(assay.technology,'NMR')}">
-                                    <span aria-hidden="true" class="icon2-NMRLogo"></span>
-                                </c:if>
-                                <c:if test="${fn:contains(assay.technology,'mass')}">
-                                    <span aria-hidden="true" class="icon2-MSLogo"></span>
-                                </c:if>
-                                <br>
-                            <spring:message code="label.platform"/>: ${assay.platform}<br>
+        <c:if test="${not empty study.assays}">
+            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                <!-- start of an assay tab -->
+                <div id="tabs-${loopAssays.index + 4}" class="tab">
+                    <!-- Assay info section -->
+                    <div class="specs">
+                        <spring:message code="label.assayName"/>: <a href="${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a><br/>
+                        <spring:message code="label.measurement"/>: ${assay.measurement}<br/>
+                        <spring:message code="label.technology"/>:  ${assay.technology}&nbsp;
+                            <c:if test="${fn:contains(assay.technology,'NMR')}">
+                                <span aria-hidden="true" class="icon2-NMRLogo"></span>
+                            </c:if>
+                            <c:if test="${fn:contains(assay.technology,'mass')}">
+                                <span aria-hidden="true" class="icon2-MSLogo"></span>
+                            </c:if>
+                            <br>
+                        <spring:message code="label.platform"/>: ${assay.platform}<br>
 
-                        </div>
-                        <br/>
-                        <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                            <div class="accordion">
-                        </c:if>
-
-                            <h5><span class="icon icon-functional" data-icon="A"></span><spring:message code="label.data"/></h5>
-                            <div>
-                                <c:if test="${not empty assay.assayTable}">
-                                    <table class="display clean">
-                                        <thead class='text_header'>
-                                        <tr>
-                                            <c:forEach var="fieldSet" items="${assay.assayTable.fields}">
-                                                <th>${fieldSet.value.cleanHeader}</th>
-                                            </c:forEach>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:forEach var="row" items="${assay.assayTable.iterator}">
-                                            <tr>
-                                                <c:forEach var="cell" items="${row.iterator}">
-
-                                                    <c:set var="cellvalue" value="${cell.value}" scope="page"/>
-
-                                                    <c:if test="${cell.field.header eq 'Sample Name'}">
-                                                        <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
-                                                            <c:set var="cellvalue" value="<A href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</A>"/>
-                                                        </c:if>
-                                                    </c:if>
-                                                    <td>${cellvalue}</td>
-                                                </c:forEach>
-                                            </tr>
-
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </c:if>
-
-                                <%--<table class="display clean">--%>
-                                    <%--<c:forEach var="assayLine" items="${assay.assayLines}" varStatus="loopAssayLines">--%>
-                                        <%--<c:if test="${loopAssayLines.index == 0}">--%>
-                                            <%--<thead class='text_header'>--%>
-                                                <%--<tr>--%>
-                                                    <%--<th>Source</th>--%>
-                                                    <%--<c:forEach var="factor" items="${assayLine.factors}">--%>
-                                                        <%--<th>${factor.factorKey}</th>--%>
-                                                    <%--</c:forEach>--%>
-                                                <%--</tr>--%>
-                                            <%--</thead>--%>
-                                            <%--<tbody>--%>
-                                        <%--</c:if>--%>
-                                        <%--<c:if test="${not empty assayLine.sampleName}">--%>
-                                            <%--&lt;%&ndash;<c:if test="${loopAssayLines.index == 10}">&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;</tbody><tbody id="assay_${loopAssays.index}" style='display:none'>&ndash;%&gt;--%>
-                                            <%--&lt;%&ndash;</c:if>&ndash;%&gt;--%>
-                                            <%--<tr>--%>
-                                            <%--<td class="tableitem">${assayLine.sampleName}</td>--%>
-                                            <%--<c:forEach var="factor" items="${assayLine.factors}">--%>
-                                                <%--<td>${factor.factorValue}</td>--%>
-                                            <%--</c:forEach>--%>
-                                            <%--</tr>--%>
-                                        <%--</c:if>--%>
-                                    <%--</c:forEach>--%>
-
-                                    <%--</tbody>--%>
-                                <%--</table>--%>
-                                <%--<c:if test="${fn:length(assay.assayLines) > 10}"><a href="#" class="showLink" id="assay_link_${loopAssays.index}">Show more</a></c:if>--%>
-                            </div>
-                        <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                            <br/><br/>
-                            <h5 class="maf" assay="${assay.assayNumber}" mafurl="${servletPath}/assay/${assay.assayNumber}/maf"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
-
-                            <div></div>
-                            </div>
-                        </c:if>
                     </div>
-                </c:forEach>
-            </c:if> <!-- end if assays-->
+                    <br/>
+
+                    <!-- Start of assay data: metabolites + data -->
+                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                    <div class="accordion">
+
+                        <h5 class="maf" assay="${assay.assayNumber}" mafurl="${servletPath}/assay/${assay.assayNumber}/maf"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
+                        <div></div>
+                    </c:if>
+
+                    <!-- start of assay data -->
+                    <h5><span class="icon icon-functional" data-icon="A"></span><spring:message code="label.data"/></h5>
+                    <div>
+                        <c:if test="${not empty assay.assayTable}">
+                            <table class="display clean">
+                                <thead class='text_header'>
+                                <tr>
+                                    <c:forEach var="fieldSet" items="${assay.assayTable.fields}">
+                                        <th>${fieldSet.value.cleanHeader}</th>
+                                    </c:forEach>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="row" items="${assay.assayTable.iterator}">
+                                    <tr>
+                                        <c:forEach var="cell" items="${row.iterator}">
+
+                                            <c:set var="cellvalue" value="${cell.value}" scope="page"/>
+
+                                            <c:if test="${cell.field.header eq 'Sample Name'}">
+                                                <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
+                                                    <c:set var="cellvalue" value="<A href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</A>"/>
+                                                </c:if>
+                                            </c:if>
+                                            <td>${cellvalue}</td>
+                                        </c:forEach>
+                                    </tr>
+
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:if>
+                    </div> <!-- end of an assay data -->
+
+                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                        </div>
+                    </c:if>
+
+                </div> <!-- end of an assay tab -->
+            </c:forEach>
+        </c:if> <!-- end if assays-->
 
         <c:if test="${not empty files}">
 
@@ -566,7 +540,7 @@
                     <c:if test="${!study.publicStudy}">
                         <input type="hidden" name="token" value="${studyDBId}">
                     </c:if>
-                    <table id="files" class="clean display">
+                    <table id="files" class="clean">
                         <tr>
                             <th>Select</th>
                             <th>File</th>
