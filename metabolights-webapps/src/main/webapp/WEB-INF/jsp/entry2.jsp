@@ -412,7 +412,11 @@
                     <thead class='text_header'>
                     <tr>
                     <c:forEach var="fieldSet" items="${study.sampleTable.fields}">
-                        <th>${fieldSet.value.cleanHeader}</th>
+                        <c:set var="headerTitle" value="${fieldSet.value.description}"/>
+                        <c:if test="${not empty fieldSet.value.fieldType}">
+                            <c:set var="headerTitle" value="${headerTitle}\nType: ${fieldSet.value.fieldType}"/>
+                        </c:if>
+                        <th title="${headerTitle}">${fieldSet.value.cleanHeader}</th>
                     </c:forEach>
                     </tr>
                     </thead>
@@ -425,7 +429,7 @@
 
                                     <c:if test="${cell.field.header eq 'Sample Name'}">
                                         <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
-                                            <c:set var="cellvalue" value="<A href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</A>"/>
+                                            <c:set var="cellvalue" value="<A href='http://www.ebi.ac.uk/biosamples/sample/${cellvalue}'>${cellvalue}</A>"/>
                                         </c:if>
                                     </c:if>
                                     <td>${cellvalue}</td>
@@ -465,8 +469,9 @@
 
                         <h5 class="maf" assay="${assay.assayNumber}" mafurl="${servletPath}/assay/${assay.assayNumber}/maf"><span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/></h5>
                         <div></div>
+                    </div>
+                    <br/>
                     </c:if>
-
                     <!-- start of assay data -->
                     <h5><span class="icon icon-functional" data-icon="A"></span><spring:message code="label.data"/></h5>
                     <div>
@@ -475,7 +480,7 @@
                                 <thead class='text_header'>
                                 <tr>
                                     <c:forEach var="fieldSet" items="${assay.assayTable.fields}">
-                                        <th>${fieldSet.value.cleanHeader}</th>
+                                        <th title="${fieldSet.value.description}">${fieldSet.value.cleanHeader}</th>
                                     </c:forEach>
                                 </tr>
                                 </thead>
@@ -500,11 +505,6 @@
                             </table>
                         </c:if>
                     </div> <!-- end of an assay data -->
-
-                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                        </div>
-                    </c:if>
-
                 </div> <!-- end of an assay tab -->
             </c:forEach>
         </c:if> <!-- end if assays-->

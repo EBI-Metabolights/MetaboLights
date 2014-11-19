@@ -60,7 +60,8 @@ import java.util.TreeSet;
 public class EntryController extends AbstractController {
 
 
-	private static final String ALTERNATIVE_ENTRY_PREFIX = "alt";
+	private static final String ALTERNATIVE_ENTRY_PREFIX = "";
+	private static final String ENTRY_PREFIX = "alt";
 	private static Logger logger = LoggerFactory.getLogger(EntryController.class);
 	private final String DESCRIPTION="descr";
 
@@ -120,7 +121,7 @@ public class EntryController extends AbstractController {
 		return mav;
 	}
 
-	@RequestMapping(value = {"/" + REVIEWER_OBFUSCATION_CODE_URL})
+	@RequestMapping(value = {"/" + ENTRY_PREFIX + REVIEWER_OBFUSCATION_CODE_URL})
     public ModelAndView showReviewerEntry(@PathVariable("obfuscationCode") String obfuscationCode, HttpServletRequest request) {
         Study study = null;
 
@@ -215,7 +216,7 @@ public class EntryController extends AbstractController {
     }
 
 	//(value = "/entry/{metabolightsId}")
-	@RequestMapping(value = { "/{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
+	@RequestMapping(value = { "/" + ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
 	public ModelAndView showEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
 		logger.info("requested entry " + mtblsId);
 
@@ -226,7 +227,7 @@ public class EntryController extends AbstractController {
 		String referrer = request.getHeader("referer");
 		// If not comming from the wait page...
 		if (referrer == null || !referrer.contains("pleasewait")){
-			return new ModelAndView("redirect:pleasewait?goto=" + mtblsId);
+			return new ModelAndView("redirect:pleasewait?goto=" + ENTRY_PREFIX + mtblsId);
 		}
 
         try {

@@ -22,9 +22,9 @@
 package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.LinkedHashMultimap;
 
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -35,11 +35,13 @@ import java.util.List;
 public class Table implements Iterable<Row>{
 
 	private  List<List<String>> data;
-	private LinkedHashMap<String,Field> fields;
+	private LinkedHashMultimap<String,Field> fields;
 
-	public Table(){};
+	public Table(){
+		this.fields = LinkedHashMultimap.create();
+	};
 
-	public Table (List<List<String>> data, LinkedHashMap<String, Field> fields){
+	public Table (List<List<String>> data, LinkedHashMultimap<String, Field> fields){
 		this.data = data;
 		this.fields= fields;
 	}
@@ -52,9 +54,6 @@ public class Table implements Iterable<Row>{
 
 	@JsonIgnore
 	public Iterator<Row> getIterator(){return iterator();}
-	public LinkedHashMap<String, Field> getFields() {
-		return fields;
-	}
 
 	public List<List<String>> getData() {
 		return data;
@@ -64,7 +63,27 @@ public class Table implements Iterable<Row>{
 		this.data = data;
 	}
 
-	public void setFields(LinkedHashMap<String, Field> fields) {
+//	@JsonIgnore
+	public LinkedHashMultimap<String, Field> getFields() {
+		return fields;
+	}
+
+//	@JsonProperty(value = "fields")
+//	public Map<String, java.util.Collection<Field>> getFieldsToSerialize() {
+//		return fields.asMap();
+//	}
+
+
+//	@JsonIgnore
+	public void setFields(LinkedHashMultimap<String, Field> fields) {
 		this.fields = fields;
 	}
+
+//	@JsonProperty
+//	public void setFields(Map<String, Field> fields) {
+//		this.fields.clear();
+//		this.fields.putAll((com.google.common.collect.Multimap<? extends String, ? extends Field>) fields);
+//
+//	}
+
 }

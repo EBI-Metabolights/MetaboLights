@@ -22,21 +22,49 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:component-scan base-package="uk.ac.ebi.metabolights.webservice" />
     <!--<context:annotation-config/>-->
 
     <!--  this makes references to picture and style sheets work -->
-    <mvc:annotation-driven/>
+    <!--<mvc:annotation-driven/>-->
+
+    <!-- JSON parser configuration-->
+    <bean id="guavaObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject"><ref local="guavaObjectMapper" /></property>
+        <property name="targetMethod"><value>registerModule</value></property>
+        <property name="arguments">
+            <list>
+                <bean id="guavaModule" class="com.fasterxml.jackson.datatype.guava.GuavaModule"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <ref  local="guavaObjectMapper"/>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
     <mvc:default-servlet-handler/>
 
     <jee:jndi-lookup id="isatabConfigurationLocation" jndi-name="java:comp/env/isatabConfigurationLocation" />
@@ -61,23 +89,6 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
             </props>
         </property>
-    </bean>
-
-    <!-- Json rendering configuration-->
-    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-        <property name="order" value="1" />
-        <property name="mediaTypes">
-            <map>
-                <entry key="json" value="application/json" />
-                <entry key="xml" value="application/xml" />
-            </map>
-        </property>
-        <property name="defaultViews">
-            <list>
-                <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
-            </list>
-        </property>
-        <property name="ignoreAcceptHeader" value="true" />
     </bean>
 
     <import resource="spring-security.xml"/>

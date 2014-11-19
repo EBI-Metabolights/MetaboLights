@@ -21,20 +21,13 @@
 
 package uk.ac.ebi.metabolights.repository.utils;
 
-import org.isatools.conversion.ArrayToListConversion;
-import org.isatools.conversion.Converter;
-import org.isatools.isacreator.configuration.FieldObject;
-import org.isatools.isacreator.model.*;
-import org.isatools.manipulator.SpreadsheetManipulation;
+import com.google.common.collect.LinkedHashMultimap;
+import org.isatools.isacreator.model.Factor;
+import org.isatools.isacreator.model.StudyDesign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.model.*;
-import uk.ac.ebi.metabolights.repository.model.Assay;
-import uk.ac.ebi.metabolights.repository.model.Contact;
-import uk.ac.ebi.metabolights.repository.model.Protocol;
-import uk.ac.ebi.metabolights.repository.model.Publication;
-import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.io.File;
 import java.text.ParseException;
@@ -148,9 +141,19 @@ public class IsaTab2MetaboLightsConverter {
         Set<Organism> organisms = new HashSet<Organism>();
         List<String> sampleDeDuplication = new ArrayList<String>();
 
-		Field organismField = metStudy.getSampleTable().getFields().get(CHARACTERISTICS_ORGANISM);
-		Field organismPartField = metStudy.getSampleTable().getFields().get(CHARACTERISTICS_ORGANISM_PART);
+		// NOw, using a multimap we are getting a set instead but there should be only one field
+		Set<Field> organismFields = metStudy.getSampleTable().getFields().get(CHARACTERISTICS_ORGANISM);
+		Set<Field> organismPartFields = metStudy.getSampleTable().getFields().get(CHARACTERISTICS_ORGANISM_PART);
 
+		// Get the first field.
+		Field organismField = null;
+		Field organismPartField= null;
+
+		if (organismFields.size() >0) organismField = organismFields.iterator().next();
+		if (organismPartFields.size() >0) organismPartField = organismPartFields.iterator().next();
+
+		// If both field are null...exit with an empty collection
+		if (organismField == null && organismPartField == null) return organisms;
 
 
         for (Row sample: metStudy.getSampleTable()) {
@@ -242,7 +245,7 @@ public class IsaTab2MetaboLightsConverter {
         List<List<String>> isaSamplesData = isaStudy.getStudySample().getTableReferenceObject().getReferenceData().getData();
 
 		// Create the sample table object
-		Table sampleTable = new Table(isaSamplesData, (LinkedHashMap<String, Field>) getTableFieldsMap(isaStudy.getStudySample()));
+		Table sampleTable = new Table(isaSamplesData,  getTableFieldsMap(isaStudy.getStudySample()));
 		metStudy.setSampleTable(sampleTable);
 
         return sampleTable;
@@ -250,7 +253,19 @@ public class IsaTab2MetaboLightsConverter {
 
 	private static void fillMetaboliteAssignmentFile(Assay metAssay, Study metStudy){
 
-		Field mafColumnField = metAssay.getAssayTable().getFields().get(METABOLITE_ASSIGNMENT_FILE);
+		Field mafColumnField = null;
+
+		Set<Field> fields = metAssay.getAssayTable().getFields().get(METABOLITE_ASSIGNMENT_FILE);
+
+			// We get the first one (there should be only one.
+		if (fields.size()>0) {
+
+			mafColumnField = fields.iterator().next();
+
+			if (fields.size() >1) {
+				logger.warn(METABOLITE_ASSIGNMENT_FILE + " column it's found " + fields.size() + " times. We've taken the first occurrence at " + mafColumnField.getIndex());
+			}
+		}
 
 		// If column not present
 		if (mafColumnField == null) {
@@ -281,31 +296,48 @@ public class IsaTab2MetaboLightsConverter {
 	}
 
 	// Returns a map to get the value in an assay line based on the name
-	private static Map<String,Field> getTableFieldsMap(org.isatools.isacreator.model.Assay assay){
+	private static LinkedHashMultimap<String,Field> getTableFieldsMap(org.isatools.isacreator.model.Assay assay){
 
-		Map<String,Field> tableFieldsMap = new LinkedHashMap<String, Field>();
+		LinkedHashMultimap<String,Field> tableFieldsMap = LinkedHashMultimap.create();
 
 		// For each field in the assay
-		for (FieldObject field :  assay.getTableReferenceObject().getFieldLookup().values()){
+//		for (FieldObject field :  assay.getTableReferenceObject().getFieldLookup().values()){
+//
+//			Field newField = isaField2Field(field,assay);
+//
+//			tableFieldsMap.put(field.getFieldName().toLowerCase(), newField);
+//
+//		}
 
-			Field newField = isaField2Field(field,assay);
+		Integer index = 0;
 
-			tableFieldsMap.put(field.getFieldName().toLowerCase(), newField);
+		for (String header :  assay.getTableReferenceObject().getPreDefinedHeaders()){
+
+			// First header is the row number...don't want that.
+			if (index>0) {
+
+				Field newField = isaField2Field(header,index-1);
+
+				tableFieldsMap.put(header.toLowerCase(), newField);
+
+			}
+
+			index++;
+
 
 		}
+
 
 		return tableFieldsMap;
 
 	}
 
-	private static Field isaField2Field(FieldObject isaField, org.isatools.isacreator.model.Assay assay) {
+	private static Field isaField2Field(String isaFieldHeader, Integer index ) {
 
-		// Get the index
-		Integer index = getAssayColumnIndexByFieldName(assay, isaField.getFieldName());
 
 		// Parse the header
 		// Header can come with Field type [ xxx ] or plain...there are some cases with () but ignoring them so far.
-		String header = isaField.getFieldName();
+		String header = isaFieldHeader;
 
 		// Dafault type to basic
 		String type = "basic";
@@ -316,9 +348,9 @@ public class IsaTab2MetaboLightsConverter {
 			type = headerChunks[0];
 		}
 
-		Field field = new Field(isaField.getFieldName(), index,type);
+		Field field = new Field(header, index,type);
 
-		field.setDescription(isaField.getDescription());
+		//field.setDescription(isaField.getDescription());
 		field.setCleanHeader(header);
 
 
@@ -328,34 +360,34 @@ public class IsaTab2MetaboLightsConverter {
 
 	}
 
-    private static Integer getAssayColumnIndexByFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
-
-		List<String[]> assaySpreadsheet = getCurrentAssaySpreadsheet(isaAssay);
-
-		Collection<Integer> indexes = SpreadsheetManipulation.getIndexesWithThisColumnName(assaySpreadsheet, fieldName, true);
-
-		// Return the first one (there's should be only one...)
-        if (indexes != null && indexes.iterator().hasNext())
-		    return indexes.iterator().next();
-
-        return null;
-	}
-
-	private static List<String[]> getCurrentAssaySpreadsheet(org.isatools.isacreator.model.Assay isaAssay){
-
-		// If not the same current assay
-		if (!isaAssay.getAssayReference().equals(currentAssayName)){
-			currentAssayName = isaAssay.getAssayReference();
-
-			Object[][] values = isaAssay.getAssayDataMatrix();
-			Converter<Object[][], List<String[]>> arrayToListConversion = new ArrayToListConversion();
-
-			currentAssaySpreadsheet = arrayToListConversion.convert(values);
-
-		}
-
-		return currentAssaySpreadsheet;
-	}
+//    private static Integer getAssayColumnIndexByFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
+//
+//		List<String[]> assaySpreadsheet = getCurrentAssaySpreadsheet(isaAssay);
+//
+//		Collection<Integer> indexes = SpreadsheetManipulation.getIndexesWithThisColumnName(assaySpreadsheet, fieldName, true);
+//
+//		// Return the first one (there's should be only one...)
+//        if (indexes != null && indexes.iterator().hasNext())
+//		    return indexes.iterator().next();
+//
+//        return null;
+//	}
+//
+//	private static List<String[]> getCurrentAssaySpreadsheet(org.isatools.isacreator.model.Assay isaAssay){
+//
+//		// If not the same current assay
+//		if (!isaAssay.getAssayReference().equals(currentAssayName)){
+//			currentAssayName = isaAssay.getAssayReference();
+//
+//			Object[][] values = isaAssay.getAssayDataMatrix();
+//			Converter<Object[][], List<String[]>> arrayToListConversion = new ArrayToListConversion();
+//
+//			currentAssaySpreadsheet = arrayToListConversion.convert(values);
+//
+//		}
+//
+//		return currentAssaySpreadsheet;
+//	}
 
 
     private static List<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy, Study metStudy, boolean includeMetabolites){
@@ -383,7 +415,7 @@ public class IsaTab2MetaboLightsConverter {
             metAssay.setAssayNumber(i); //To enable a simpler URL structure like "MTBLS1/assay/1 or MTBLS2/assay/2
 
 			// Create the assay table object
-			Table assayTable = new Table(isaAssay.getTableReferenceObject().getReferenceData().getData(), (LinkedHashMap<String, Field>) getTableFieldsMap(isaAssay));
+			Table assayTable = new Table(isaAssay.getTableReferenceObject().getReferenceData().getData(), getTableFieldsMap(isaAssay));
 			metAssay.setAssayTable(assayTable);
 
 			// Look for the maf file

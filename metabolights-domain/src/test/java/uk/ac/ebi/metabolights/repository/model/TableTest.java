@@ -21,11 +21,11 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
+import com.google.common.collect.LinkedHashMultimap;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class TableTest {
@@ -81,20 +81,36 @@ public class TableTest {
 		return data;
 	}
 
-	static LinkedHashMap<String, Field> generateFieldsMap (int numberOfFields){
+	static LinkedHashMultimap<String, Field> generateFieldsMap (int numberOfFields){
 
-		LinkedHashMap<String,Field> fieldMap = new LinkedHashMap<String, Field>();
+		String[] headers = new String[numberOfFields];
 
 		for (int fieldCount = 0; fieldCount<numberOfFields;fieldCount++){
 
 			String header = "Field:" + fieldCount;
-			Field field = new Field(header, fieldCount,"todo");
-			fieldMap.put(header, field);
+
+			headers[fieldCount]= header;
+		}
+
+		return generateFieldsMap(headers);
+
+	}
+
+
+	static LinkedHashMultimap<String, Field> generateFieldsMap (String[] headers){
+
+		LinkedHashMultimap<String,Field> fieldMap =  LinkedHashMultimap.create();
+
+		for (int fieldCount = 0; fieldCount<headers.length;fieldCount++){
+
+			Field field = new Field(headers[fieldCount], fieldCount,"todo");
+			fieldMap.put(field.getHeader(), field);
 		}
 
 		return fieldMap;
 
 	}
+
 	private static String coordinates2Values(int rowCount, int colCount) {
 
 		return "R:" + rowCount + ":C" + colCount;
@@ -113,10 +129,40 @@ public class TableTest {
 
 	}
 
+	@Test
+	public void testDuplicatedHeaders() throws Exception {
+
+		Table table = getTable(2,new String[] {"Unit", "Unit"});
+
+		Assert.assertEquals("Data size test", 2, table.getData().size());
+
+		Assert.assertEquals("Fields size test", 2, table.getFields().size());
+
+
+
+		for (Field field:table.getFields().values()){
+
+			Assert.assertEquals("Teast field iteration ", "Unit", field.getHeader());
+
+		}
+
+
+
+
+	}
+
 	public static Table getTable(int rows, int columns) {
 		List<List<String>> data = generateData(rows,columns);
-		LinkedHashMap<String, Field> fieldMap = generateFieldsMap(columns);
+		LinkedHashMultimap<String, Field> fieldMap = generateFieldsMap(columns);
 
 		return new Table(data,fieldMap);
 	}
+
+	public static Table getTable(int rows, String[] columns) {
+		List<List<String>> data = generateData(rows,columns.length);
+		LinkedHashMultimap<String, Field> fieldMap = generateFieldsMap(columns);
+
+		return new Table(data,fieldMap);
+	}
+
 }

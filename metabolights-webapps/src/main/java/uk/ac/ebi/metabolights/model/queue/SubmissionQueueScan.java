@@ -21,6 +21,8 @@
 
 package uk.ac.ebi.metabolights.model.queue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.service.AppContext;
 
@@ -29,6 +31,7 @@ import java.util.TimerTask;
 
 @Transactional
 public class SubmissionQueueScan extends TimerTask{
+	private static Logger logger = LoggerFactory.getLogger(SubmissionQueueScan.class);
 
 	@Override
 	public void run() {
@@ -66,8 +69,15 @@ public class SubmissionQueueScan extends TimerTask{
 
 		} catch (Exception e) {
 
-			// Cannot load the queue
-			AppContext.getEmailService().sendSimpleEmail("ERROR while retrieving queued items", "There was an error in " + this.getClass() + "\nMethod: run()\n\nERROR:\n" + e.getMessage());
+			String message = "There was an error while retrieving queued items" + this.getClass() + "\nMethod: run()\n\nERROR:\n" + e.getMessage();
+
+
+			if (AppContext.getApplicationContext() != null) {
+				// Cannot load the queue
+				AppContext.getEmailService().sendSimpleEmail("ERROR while retrieving queued items", message);
+			} else {
+				logger.warn(message);
+			}
 
 		}
 

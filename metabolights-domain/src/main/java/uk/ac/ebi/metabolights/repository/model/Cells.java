@@ -32,17 +32,17 @@ import java.util.NoSuchElementException;
 public class Cells implements Iterator<Cell> {
 
 	private Row row;
-	private Iterator<Field> field;
+	private Iterator<Field> fields;
 	public Cells(Row row ){
 
 		this.row = row;
-		this.field = row.getTable().getFields().values().iterator();
+		this.fields = row.getTable().getFields().values().iterator();
 
 	}
 
 	@Override
 	public boolean hasNext() {
-		return field.hasNext();
+		return fields.hasNext();
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class Cells implements Iterator<Cell> {
 
 		if (! hasNext())   throw new NoSuchElementException();
 
-		Cell cell = new Cell(row, field.next());
+		Cell cell = new Cell(row, fields.next());
 
 		return cell;
 	}

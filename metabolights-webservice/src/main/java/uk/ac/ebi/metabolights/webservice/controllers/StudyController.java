@@ -22,8 +22,8 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,8 +57,8 @@ public class StudyController {
     private @Value("#{isatabConfigurationLocation}") String isatabRootConfigurationLocation;
 
     @RequestMapping("{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}")
-    @ResponseBody
-    public Study getStudyById(@PathVariable("metabolightsId") String metabolightsId) {
+	@ResponseBody
+	public Study getStudyById(@PathVariable("metabolightsId") String metabolightsId) {
 
 		logger.info("Requesting " + metabolightsId + " to the webservice");
 

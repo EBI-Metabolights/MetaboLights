@@ -57,6 +57,9 @@ public class StudyDAOTest {
 		assertEquals("MTBLS1 organism test","Homo sapiens (Human)", study.getOrganism().iterator().next().getOrganismName());
 		assertEquals("MTBLS1 organism part test","urine", study.getOrganism().iterator().next().getOrganismPart());
 
+		// Number of fields are correct
+		assertEquals("MTBLS1 assay fields count", 31, study.getAssays().get(0).getAssayTable().getFields().values().size());
+
 
 		// Check metabolites assignment information is present
 		assertNotNull("Check existence of metabolites object", study.getAssays().get(0).getMetaboliteAssignment());

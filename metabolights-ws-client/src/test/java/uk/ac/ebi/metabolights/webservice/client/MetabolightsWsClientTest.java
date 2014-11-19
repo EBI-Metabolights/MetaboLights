@@ -61,13 +61,14 @@ public class MetabolightsWsClientTest {
 		assertEquals("Sample data is present", 132, study.getSampleTable().getData().size());
 		assertEquals("Assay data is present", 132, study.getAssays().get(0).getAssayTable().getData().size());
 
+		assertEquals("Table fields are serialised and deserialised properly", 7, study.getSampleTable().getFields().size());
+		assertEquals("Assay Table fields are serialised and deserialised properly, incuding duplicates.", 7, study.getSampleTable().getFields().size());
+
 		// MTBLS4 is meant to be private...
 		study = wsClient.getStudy("MTBLS4");
 		assertEquals("Study shouldn't be accessible from an anonymous user", "PRIVATE STUDY", study.getTitle());
 
-
-
-		// ****** CUrator anonymous access ********
+		// ****** Curator anonymous access ********
 		wsClient.setUserToken(CURATOR_TOKEN);
 
 		// MTBLS4 is meant to be private...

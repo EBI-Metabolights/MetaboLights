@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.webservice.client;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -145,15 +146,23 @@ public class MetabolightsWsClient {
     private <T> T parseJason(String response, Class<T> valueType ){
 
 		logger.debug("Parsing json response into MetaboLights model: " + response);
-        // Parse response (json) into Study Model...
-        ObjectMapper mapper = new ObjectMapper();
-		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        //mapper.configure(JsonParser.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false); //TODO, why the hell does it fail on the new Study.studyLocation!  I give up, Ken
 
-        try {
+        // Parse response (json) into Study entity...
+
+		// Add guava serialization for multimaps (Table.Fields is a multimap now).
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new GuavaModule());
+
+
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+		try {
             return mapper.readValue(response, valueType);
         } catch (IOException e) {
-            e.printStackTrace();
+
+            logger.error("Can't parse ws response (json) back into " + valueType.getName() + ": " + e.getMessage());
+			logger.debug("Response is: " + response);
+
         }
 
         return null;
