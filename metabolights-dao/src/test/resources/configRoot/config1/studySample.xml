@@ -33,7 +33,7 @@
         <field header="Characteristics[Organism]" data-type="Ontology term" is-file-field="false"
                is-multiple-value="false" is-required="true" is-hidden="false" is-forced-ontology="false">
             <description>
-                <![CDATA[Provide a taxonomic information associated to the Source Biological material (for example, Species, genus, strain,....). Ideally, provide NCBI TaxID or NEWT identifier]]></description>
+                <![CDATA[Organism description]]></description>
             <default-value></default-value>
             <recommended-ontologies>
                 <ontology id="http://data.bioontology.org/ontologies/NCBITAXON" abbreviation="NCBITAXON"

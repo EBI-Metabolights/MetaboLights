@@ -62,7 +62,7 @@ public class MetabolightsWsClientTest {
 		assertEquals("Assay data is present", 132, study.getAssays().get(0).getAssayTable().getData().size());
 
 		assertEquals("Table fields are serialised and deserialised properly", 7, study.getSampleTable().getFields().size());
-		assertEquals("Assay Table fields are serialised and deserialised properly, incuding duplicates.", 7, study.getSampleTable().getFields().size());
+		assertEquals("Assay Table fields are serialised and deserialised properly, incuding duplicates.", 31, study.getAssays().get(0).getAssayTable().getFields().size());
 
 		// MTBLS4 is meant to be private...
 		study = wsClient.getStudy("MTBLS4");

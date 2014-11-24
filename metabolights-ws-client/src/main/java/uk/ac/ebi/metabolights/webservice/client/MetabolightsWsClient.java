@@ -23,7 +23,6 @@ package uk.ac.ebi.metabolights.webservice.client;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -151,7 +150,7 @@ public class MetabolightsWsClient {
 
 		// Add guava serialization for multimaps (Table.Fields is a multimap now).
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
+//		mapper.registerModule(new GuavaModule());
 
 
 		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

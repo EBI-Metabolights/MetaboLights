@@ -103,7 +103,7 @@ public class StudyController {
 			study.setDescription("This study is private and you haven't got access to it.");
 		}
 
-		return  study;
+			return  study;
 
 	}
 

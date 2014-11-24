@@ -21,7 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.utils;
 
-import com.google.common.collect.LinkedHashMultimap;
+import org.isatools.isacreator.configuration.FieldObject;
 import org.isatools.isacreator.model.Factor;
 import org.isatools.isacreator.model.StudyDesign;
 import org.slf4j.Logger;
@@ -42,7 +42,8 @@ import java.util.*;
 public class IsaTab2MetaboLightsConverter {
 
 
-	static Logger logger = LoggerFactory.getLogger(IsaTab2MetaboLightsConverter.class);
+    private static final String FIELDS_KEY_SEP = "~";
+    static Logger logger = LoggerFactory.getLogger(IsaTab2MetaboLightsConverter.class);
     /*
     From isaTab specifications:
     "Dates
@@ -142,15 +143,11 @@ public class IsaTab2MetaboLightsConverter {
         List<String> sampleDeDuplication = new ArrayList<String>();
 
 		// NOw, using a multimap we are getting a set instead but there should be only one field
-		Set<Field> organismFields = metStudy.getSampleTable().getFields().get(CHARACTERISTICS_ORGANISM);
-		Set<Field> organismPartFields = metStudy.getSampleTable().getFields().get(CHARACTERISTICS_ORGANISM_PART);
+//		Field organismField = metStudy.getSampleTable().getFields().get(CHARACTERISTICS_ORGANISM);
+//		Field organismPartField = metStudy.getSampleTable().getFields().get(CHARACTERISTICS_ORGANISM_PART);
+		Field organismField = getFieldByName(metStudy.getSampleTable(), CHARACTERISTICS_ORGANISM);
+		Field organismPartField = getFieldByName(metStudy.getSampleTable(),CHARACTERISTICS_ORGANISM_PART);
 
-		// Get the first field.
-		Field organismField = null;
-		Field organismPartField= null;
-
-		if (organismFields.size() >0) organismField = organismFields.iterator().next();
-		if (organismPartFields.size() >0) organismPartField = organismPartFields.iterator().next();
 
 		// If both field are null...exit with an empty collection
 		if (organismField == null && organismPartField == null) return organisms;
@@ -251,21 +248,22 @@ public class IsaTab2MetaboLightsConverter {
         return sampleTable;
     }
 
+    private static Field getFieldByName(Table table, String name){
+
+        for (String key: table.getFields().keySet()){
+
+            if (key.contains(FIELDS_KEY_SEP + name)){
+                return table.getFields().get(key);
+            }
+
+        }
+
+        return null;
+    }
 	private static void fillMetaboliteAssignmentFile(Assay metAssay, Study metStudy){
 
-		Field mafColumnField = null;
-
-		Set<Field> fields = metAssay.getAssayTable().getFields().get(METABOLITE_ASSIGNMENT_FILE);
-
-			// We get the first one (there should be only one.
-		if (fields.size()>0) {
-
-			mafColumnField = fields.iterator().next();
-
-			if (fields.size() >1) {
-				logger.warn(METABOLITE_ASSIGNMENT_FILE + " column it's found " + fields.size() + " times. We've taken the first occurrence at " + mafColumnField.getIndex());
-			}
-		}
+		//Field mafColumnField = metAssay.getAssayTable().getFields().get(METABOLITE_ASSIGNMENT_FILE);
+        Field mafColumnField = getFieldByName(metAssay.getAssayTable(),METABOLITE_ASSIGNMENT_FILE);
 
 		// If column not present
 		if (mafColumnField == null) {
@@ -296,29 +294,22 @@ public class IsaTab2MetaboLightsConverter {
 	}
 
 	// Returns a map to get the value in an assay line based on the name
-	private static LinkedHashMultimap<String,Field> getTableFieldsMap(org.isatools.isacreator.model.Assay assay){
+	private static LinkedHashMap<String,Field> getTableFieldsMap(org.isatools.isacreator.model.Assay assay){
 
-		LinkedHashMultimap<String,Field> tableFieldsMap = LinkedHashMultimap.create();
+		LinkedHashMap<String,Field> tableFieldsMap = new LinkedHashMap();
 
-		// For each field in the assay
-//		for (FieldObject field :  assay.getTableReferenceObject().getFieldLookup().values()){
-//
-//			Field newField = isaField2Field(field,assay);
-//
-//			tableFieldsMap.put(field.getFieldName().toLowerCase(), newField);
-//
-//		}
-
-		Integer index = 0;
+        // First header is the row number...don't want that.
+		Integer index = -1;
 
 		for (String header :  assay.getTableReferenceObject().getPreDefinedHeaders()){
 
-			// First header is the row number...don't want that.
-			if (index>0) {
+			if (index>-1) {
 
-				Field newField = isaField2Field(header,index-1);
+				FieldObject isaField = assay.getTableReferenceObject().getFieldByName(header);
 
-				tableFieldsMap.put(header.toLowerCase(), newField);
+				Field newField = isaField2Field(header,index, isaField);
+
+				tableFieldsMap.put(index + FIELDS_KEY_SEP + header.toLowerCase(), newField);
 
 			}
 
@@ -332,7 +323,7 @@ public class IsaTab2MetaboLightsConverter {
 
 	}
 
-	private static Field isaField2Field(String isaFieldHeader, Integer index ) {
+	private static Field isaField2Field(String isaFieldHeader, Integer index, FieldObject isaField) {
 
 
 		// Parse the header
@@ -350,7 +341,10 @@ public class IsaTab2MetaboLightsConverter {
 
 		Field field = new Field(header, index,type);
 
-		//field.setDescription(isaField.getDescription());
+		// Fill the description
+		if (isaField != null)
+			field.setDescription(isaField.getDescription());
+
 		field.setCleanHeader(header);
 
 
@@ -359,36 +353,6 @@ public class IsaTab2MetaboLightsConverter {
 
 
 	}
-
-//    private static Integer getAssayColumnIndexByFieldName(org.isatools.isacreator.model.Assay isaAssay, String fieldName) {
-//
-//		List<String[]> assaySpreadsheet = getCurrentAssaySpreadsheet(isaAssay);
-//
-//		Collection<Integer> indexes = SpreadsheetManipulation.getIndexesWithThisColumnName(assaySpreadsheet, fieldName, true);
-//
-//		// Return the first one (there's should be only one...)
-//        if (indexes != null && indexes.iterator().hasNext())
-//		    return indexes.iterator().next();
-//
-//        return null;
-//	}
-//
-//	private static List<String[]> getCurrentAssaySpreadsheet(org.isatools.isacreator.model.Assay isaAssay){
-//
-//		// If not the same current assay
-//		if (!isaAssay.getAssayReference().equals(currentAssayName)){
-//			currentAssayName = isaAssay.getAssayReference();
-//
-//			Object[][] values = isaAssay.getAssayDataMatrix();
-//			Converter<Object[][], List<String[]>> arrayToListConversion = new ArrayToListConversion();
-//
-//			currentAssaySpreadsheet = arrayToListConversion.convert(values);
-//
-//		}
-//
-//		return currentAssaySpreadsheet;
-//	}
-
 
     private static List<Assay> isaTabAssays2MetabolightsAssays(org.isatools.isacreator.model.Study isaStudy, Study metStudy, boolean includeMetabolites){
 

@@ -5,11 +5,11 @@
   ~
   ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   ~
-  ~ Last modified: 10/17/14 1:40 PM
+  ~ Last modified: 2014-Oct-21
   ~ Modified by:   conesa
   ~
   ~
-  ~ ©, EMBL, European Bioinformatics Institute, 2014.
+  ~ Copyright 2014 EMBL-European Bioinformatics Institute.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -71,6 +71,22 @@
                                     </resources>
                                 </transformer>
                             </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <executions>
+                    <execution><!-- Remove weird "*.class" in the root of the generated bundle -->
+                        <id>Clean bundle</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${basedir}/cleanbundle.sh</executable>
                         </configuration>
                     </execution>
                 </executions>

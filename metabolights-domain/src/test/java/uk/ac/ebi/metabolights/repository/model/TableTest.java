@@ -21,11 +21,11 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
-import com.google.common.collect.LinkedHashMultimap;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class TableTest {
@@ -81,7 +81,7 @@ public class TableTest {
 		return data;
 	}
 
-	static LinkedHashMultimap<String, Field> generateFieldsMap (int numberOfFields){
+	static LinkedHashMap<String, Field> generateFieldsMap (int numberOfFields){
 
 		String[] headers = new String[numberOfFields];
 
@@ -97,14 +97,14 @@ public class TableTest {
 	}
 
 
-	static LinkedHashMultimap<String, Field> generateFieldsMap (String[] headers){
+	static LinkedHashMap<String, Field> generateFieldsMap (String[] headers){
 
-		LinkedHashMultimap<String,Field> fieldMap =  LinkedHashMultimap.create();
+		LinkedHashMap<String,Field> fieldMap =  new LinkedHashMap();
 
 		for (int fieldCount = 0; fieldCount<headers.length;fieldCount++){
 
 			Field field = new Field(headers[fieldCount], fieldCount,"todo");
-			fieldMap.put(field.getHeader(), field);
+			fieldMap.put(fieldCount + "~" + field.getHeader(), field);
 		}
 
 		return fieldMap;
@@ -153,14 +153,14 @@ public class TableTest {
 
 	public static Table getTable(int rows, int columns) {
 		List<List<String>> data = generateData(rows,columns);
-		LinkedHashMultimap<String, Field> fieldMap = generateFieldsMap(columns);
+		LinkedHashMap<String, Field> fieldMap = generateFieldsMap(columns);
 
 		return new Table(data,fieldMap);
 	}
 
 	public static Table getTable(int rows, String[] columns) {
 		List<List<String>> data = generateData(rows,columns.length);
-		LinkedHashMultimap<String, Field> fieldMap = generateFieldsMap(columns);
+		LinkedHashMap<String, Field> fieldMap = generateFieldsMap(columns);
 
 		return new Table(data,fieldMap);
 	}

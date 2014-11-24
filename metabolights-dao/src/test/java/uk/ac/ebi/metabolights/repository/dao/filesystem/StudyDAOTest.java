@@ -22,6 +22,7 @@
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.net.URL;
@@ -59,6 +60,23 @@ public class StudyDAOTest {
 
 		// Number of fields are correct
 		assertEquals("MTBLS1 assay fields count", 31, study.getAssays().get(0).getAssayTable().getFields().values().size());
+
+		Field unitField = study.getAssays().get(0).getAssayTable().getFields().get("9~unit");
+		assertNotNull("Unit field for temperature returned", unitField);
+
+		unitField = study.getAssays().get(0).getAssayTable().getFields().get("18~unit");
+		assertNotNull("Unit field for tesla returned", unitField);
+
+
+		Field organism = study.getSampleTable().getFields().get("1~characteristics[organism]");
+		assertNotNull("Organism field count test", organism);
+
+
+		assertEquals("Organism field type test", "Characteristics", organism.getFieldType());
+		assertEquals("Organism field clean header test", "Organism", organism.getCleanHeader());
+		assertEquals("Organism field description test", "Organism description", organism.getDescription());
+
+
 
 
 		// Check metabolites assignment information is present

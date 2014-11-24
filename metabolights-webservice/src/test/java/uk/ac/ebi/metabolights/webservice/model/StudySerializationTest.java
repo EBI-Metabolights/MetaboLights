@@ -104,8 +104,8 @@ public class StudySerializationTest {
 
 		Assert.assertEquals("Test number of fields", table.getFields().size(), newTable.getFields().size());
 
-		Field field1 = table.getFields().get("Field1").iterator().next();
-		Field newField1 = newTable.getFields().get("Field1").iterator().next();
+		Field field1 = table.getFields().get("Field1");
+		Field newField1 = newTable.getFields().get("Field1");
 		Assert.assertEquals("Test field 1", field1.getHeader(), newField1.getHeader());
 
 	}

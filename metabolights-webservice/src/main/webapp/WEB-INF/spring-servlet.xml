@@ -39,31 +39,31 @@
     <!--<context:annotation-config/>-->
 
     <!--  this makes references to picture and style sheets work -->
-    <!--<mvc:annotation-driven/>-->
+    <mvc:annotation-driven/>
 
     <!-- JSON parser configuration-->
-    <bean id="guavaObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+    <!--<bean id="guavaObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>-->
 
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetObject"><ref local="guavaObjectMapper" /></property>
-        <property name="targetMethod"><value>registerModule</value></property>
-        <property name="arguments">
-            <list>
-                <bean id="guavaModule" class="com.fasterxml.jackson.datatype.guava.GuavaModule"/>
-            </list>
-        </property>
-    </bean>
+    <!--<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
+        <!--<property name="targetObject"><ref local="guavaObjectMapper" /></property>-->
+        <!--<property name="targetMethod"><value>registerModule</value></property>-->
+        <!--<property name="arguments">-->
+            <!--<list>-->
+                <!--<bean id="guavaModule" class="com.fasterxml.jackson.datatype.guava.GuavaModule"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
 
-    <mvc:annotation-driven>
-        <mvc:message-converters register-defaults="true">
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="objectMapper">
-                    <ref  local="guavaObjectMapper"/>
-                </property>
-            </bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
+    <!--<mvc:annotation-driven>-->
+        <!--<mvc:message-converters register-defaults="true">-->
+            <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
+                <!--<property name="objectMapper">-->
+                    <!--<ref  local="guavaObjectMapper"/>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</mvc:message-converters>-->
+    <!--</mvc:annotation-driven>-->
 
     <mvc:default-servlet-handler/>
 
