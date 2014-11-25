@@ -62,7 +62,6 @@
 		<c:otherwise>
             <c:if test="${!empty curator && searchResult.isPublic}">
                 <div class="grid_20 alpha">
-                    <a href="alt${searchResult.accStudy}" class="icon icon-generic" data-icon="&gt;">BETA</a> |
                     <a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
                 </div>
                 <div class="grid_4 omega">
@@ -79,7 +78,6 @@
             </c:if>
 			<c:if test="${empty curator}">
                 <div class='grid_24 alpha omega'>
-                    <a href="alt${searchResult.accStudy}" class="icon icon-generic" data-icon="&gt;">BETA</a> |
                     <a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
                 </div>
 			</c:if>
