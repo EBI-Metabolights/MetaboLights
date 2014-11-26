@@ -34,7 +34,6 @@
 	<c:choose>
 		<c:when test="${(!empty welcomemessage || !empty curator) && !searchResult.isPublic && empty reviewer}">
 			<div class="grid_20 alpha">
-                <a href="alt${searchResult.accStudy}" class="icon icon-generic" data-icon="&gt;">BETA</a>|
 				<a href="${searchResult.accStudy}"><strong>${searchResult.title}</strong></a>
 			</div>
 			<div class="grid_4 omega">
