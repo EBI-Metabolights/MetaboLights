@@ -202,8 +202,11 @@
     The security department
      -->
     <sec:http use-expressions="true" auto-config='true'>
-        <sec:intercept-url pattern="/updatepublicreleasedate" access="isAuthenticated()" /> <!-- requires-channel="https" -->
+        <sec:intercept-url pattern="/updatepublicreleasedate" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/updatepublicreleasedateform" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/updatestudy" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/updatestudyform" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/makestudyprivateform" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/deleteStudy" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/submit" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/biisubmit" access="isAuthenticated()" />

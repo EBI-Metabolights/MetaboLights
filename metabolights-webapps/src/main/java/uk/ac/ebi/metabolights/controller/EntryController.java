@@ -72,13 +72,18 @@ public class EntryController extends AbstractController {
     private AccessionService accessionService;
 
 	@Autowired
-	SearchService searchService;
+	private SearchService searchService;
 
 	@Autowired
 	private UserService userService;
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 	public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
+
+	public enum PageActions{
+		READ,
+		EDIT
+	}
 
 	@RequestMapping(value = "/" + ALTERNATIVE_ENTRY_PREFIX + REVIEWER_OBFUSCATION_CODE_URL + "/assay/{assayNumber}/maf")
 	public ModelAndView getAltReviewersMetabolitesIdentified(
@@ -150,7 +155,7 @@ public class EntryController extends AbstractController {
 		MetabolightsUser studyOwner = userService.lookupByUserName(userName);
 
 
-		return getAltEntryMAV(indexedStudy.getAccStudy(),request,studyOwner);
+		return getWSEntryMAV(indexedStudy.getAccStudy(), request, studyOwner);
 
 	}
 
@@ -294,12 +299,12 @@ public class EntryController extends AbstractController {
 
 
 	@RequestMapping(value = { "/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
-    public ModelAndView showAltEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
+    public ModelAndView showWSEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
 
-		return getAltEntryMAV(mtblsId, request, null);
+		return getWSEntryMAV(mtblsId, request, null);
     }
 
-	private ModelAndView getAltEntryMAV(String mtblsId, HttpServletRequest request, MetabolightsUser useThisUser) {
+	private ModelAndView getWSEntryMAV(String mtblsId, HttpServletRequest request, MetabolightsUser useThisUser) {
 		logger.info("requested entry " + mtblsId);
 
 		mtblsId = mtblsId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
@@ -459,6 +464,61 @@ public class EntryController extends AbstractController {
 			}
 		}
 		return fvSummary;
+	}
+
+	public static boolean canUserViewStudy(String study) {
+		return canUserDoThisToStudy(study,null,PageActions.READ);
+	}
+
+	public static boolean canUserEditStudy(String study) {
+		return canUserDoThisToStudy(study,null,PageActions.EDIT);
+	}
+
+
+	/**
+	 *
+	 * @param studyId
+	 * @param user
+	 * @param action - Actions could be "EDIT" or "READ"
+	 * @return
+	 */
+	public static boolean canUserDoThisToStudy(String studyId, MetabolightsUser user, PageActions action) {
+
+		// Get the user if not passsed
+		if (user == null) {
+
+			 user = LoginController.getLoggedUser();
+		}
+
+		// Return true if curator: curators can do anything.
+		if (user.isCurator()) {
+			return true;
+		} else {
+
+			// Get the study
+			LuceneSearchResult study = AppContext.getSearchService().getStudy(studyId);
+
+			boolean userOwnstudy = study.getSubmitter().getUserName().equals(user.getUserName());
+
+			// If accion READ
+			if (action == PageActions.READ){
+
+				// If public...
+				if(study.getIsPublic()){
+					// Allowed to any.
+					return true;
+				} else {
+
+					// Allowed to owner only.
+					return userOwnstudy;
+				}
+			// Write action or null or whatever (more restrictive), just in case.
+			} else {
+
+				return userOwnstudy;
+
+			}
+		}
 	}
 
 }

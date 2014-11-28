@@ -60,4 +60,7 @@ public abstract class AbstractController {
 		return printMessage(PropertyLookup.getMessage(titleTag), PropertyLookup.getMessage(messageTag));
 	}
 
+	protected ModelAndView getResctrictedAccessPage() {
+		return printMessage(PropertyLookup.getMessage("msg.cantAccessPage.title"), PropertyLookup.getMessage("msg.cantAccessPage.message"));
+	}
 }

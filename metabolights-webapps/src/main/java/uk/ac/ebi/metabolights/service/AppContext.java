@@ -46,6 +46,7 @@ public class AppContext {
 	private static DataSource ds;
 	private static StyleMAVFactory mavFactory;
 	private static AccessionService accessionService;
+	private static SearchService searchService;
 
 	/**
      * Injected from the class "ApplicationContextProvider" which is automatically
@@ -131,5 +132,14 @@ public class AppContext {
 			accessionService = (AccessionService) ctx.getBean(AccessionService.class);
 		}
 		return accessionService;
+	}
+
+	public static SearchService getSearchService() {
+
+		if (searchService == null){
+			searchService = (SearchService) ctx.getBean(SearchService.class);
+		}
+		return searchService;
+
 	}
 }

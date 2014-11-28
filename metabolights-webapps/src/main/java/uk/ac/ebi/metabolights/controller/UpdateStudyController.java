@@ -91,10 +91,16 @@ public class UpdateStudyController extends AbstractController {
 	public ModelAndView updatePublicReleaseDate(@RequestParam(required=true,value="study") String study,
 												@RequestParam(required=false,value="date") String defaultDate,
 												HttpServletRequest request) throws Exception{
-		
+
+
+		//Check access
+		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
+
 		// Get the correspondent ModelAndView
 		return getModelAndView(study, defaultDate, false, false);
-		
+
+
+
 	}
 
     @RequestMapping(value = { "/makestudyprivateform"})
@@ -103,6 +109,11 @@ public class UpdateStudyController extends AbstractController {
             @RequestParam(required=false,value="date") String defaultDate,
             HttpServletRequest request)
             throws Exception{
+
+
+		//Check access
+		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
+
 
         // Get the correspondent ModelAndView
         return getModelAndView(study, defaultDate, false, true);
@@ -120,14 +131,17 @@ public class UpdateStudyController extends AbstractController {
 	@RequestMapping(value = { "/updatestudyform"})
 	public ModelAndView updateStudyForm(@RequestParam(required=true,value="study") String study,
 									@RequestParam(required=false,value="date") String defaultDate,
-									HttpServletRequest request) throws Exception{
-		
+									HttpServletRequest request) throws Exception {
+
+		//Check access
+		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
+
 		// Get the correspondent ModelAndView
 		return getModelAndView(study, defaultDate, true, false);
-	
+
 	}
 
-    /**
+	/**
      * Send an email (each day) for 7 days before the study goes live.  Let's hope this is not too much for the submitter!
      */
     @RequestMapping(value = { "/findstudiesgoinglive"})
@@ -160,7 +174,8 @@ public class UpdateStudyController extends AbstractController {
 	 * @throws Exception 
 	 */
 	private ModelAndView getModelAndView(String study, String defaultDate, boolean isUpdateMode, boolean isPublic) throws Exception{
-		
+
+
 		//Get the study data
 		LuceneSearchResult luceneStudy = getStudy(study);
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateStudyForm");
@@ -243,120 +258,15 @@ public class UpdateStudyController extends AbstractController {
 		return null;
 	}
 
-    /*
-        Update the studies release date and status
-
-    public void updatePublicReleaseDate(String study, VisibilityStatus status, Date publicReleaseDate, Long userId) throws Exception {
-
-        // Add the user id to the unzip folder
-        String unzipFolder = uploadDirectory + userId + "/" + study;
-
-        // Create the uploader
-        IsaTabUploader itu = new IsaTabUploader();
-
-        // Set properties for file copying...
-        itu.setCopyToPrivateFolder(privateFtpLocation);
-        itu.setCopyToPublicFolder(publicFtpLocation);
-
-        // Change the status
-        try {
-
-            //Check if the zip file exists before changing anything else
-            File zipFile = new File (itu.getStudyFilePath(study, VisibilityStatus.PUBLIC));
-
-            // If not in public folder...
-            if (!zipFile.exists()){
-
-                // Try it in the private
-                zipFile = new File (itu.getStudyFilePath(study, VisibilityStatus.PRIVATE));
-
-                // Check if it exists
-                if (!zipFile.exists()){
-
-                    // Throw an exception
-                    throw new FileNotFoundException (PropertyLookup.getMessage("msg.makestudypublic.nofilefound", study));
-
-                }
-            }
-
-
-            // ************************
-            // Update the database first...
-            // ************************
-            // Get the study object
-            Study biiStudy = studyService.getBiiStudy(study,false);
-
-            // Set the new Public Release Date
-            biiStudy.setReleaseDate(publicReleaseDate);
-            biiStudy.setStatus(status);
-
-            logger.info("Updating study (database)");
-            // Save it
-            studyService.update(biiStudy);
-
-
-            // ************************
-            // Index it...
-            // ************************
-            //Get the path for the config folder (where the hibernate properties for the import layer are).
-            //String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath() + "biiconfig/";
-            String configPath = UpdateStudyController.class.getClassLoader().getResource("").getPath();
-
-            // Set the config folder, and the ftp folders
-            itusetDBConfigPath(configPath);
-
-            // reindex the study...
-            itu.reindexStudies(study);
-
-
-            // ************************
-            // Change the zip file
-            // ************************
-            // Set the unzip folder
-            itu.setUnzipFolder(unzipFolder);
-
-            // Create the replacement Hash
-            HashMap<String,String> replacementHash = new HashMap<String,String>();
-
-            // Add the Public release date field with the new value
-            replacementHash.put("Study Public Release Date", new SimpleDateFormat("yyyy-MM-dd").format(publicReleaseDate));
-
-            logger.info("Replacing Study Public Release Date in zip file. with " + publicReleaseDate);
-            // Call the replacement method...
-            itu.changeStudyFields(study, replacementHash);
-
-            // If the new status is public...
-            if (status == VisibilityStatus.PUBLIC){
-
-                // Move the file from the private
-                itu.moveFile(study, VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
-
-                // Change the permissions
-                String studyPath = itu.getStudyFilePath(study, VisibilityStatus.PUBLIC);
-                itu.changeFilePermissions(studyPath, VisibilityStatus.PUBLIC);
-            }
-
-
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (IsaTabException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (Exception e) {
-            throw new Exception("updatePublicReleaseDate error");
-        }
-
-
-    }
-*/
-
-     @RequestMapping(value = { "/updatepublicreleasedate" })
+    @RequestMapping(value = { "/updatepublicreleasedate" })
 	public ModelAndView changePublicReleaseDate(
 								@RequestParam(required=true,value="study") String study,
 								@RequestParam(required=true, value="pickdate") String publicReleaseDateS,
 								HttpServletRequest request) throws Exception {
 
+
+		//Check access
+		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
 
 		// Instantiate the param objects
 		RequestParameters params = new RequestParameters(publicReleaseDateS, study);
@@ -365,19 +275,23 @@ public class UpdateStudyController extends AbstractController {
 		logger.info("Updating the public release date of the study " + study + " owned by " + params.user.getUserName());
 		
 		// Validate the parameters...
-		ModelAndView validation = validateParameters(params);
+		ModelAndView mav = validateParameters(params);
 		
 		// If there is validation view...return it
-		if (validation != null){return validation;}
+		if (mav != null){return mav;}
 
         //Create the view
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateStudyForm");
+        //mav = AppContext.getMAVFactory().getFrontierMav("updateStudyForm");
 
         try{
 
             // Use de submitter user name in the study instead of the User (could be a curator).
         	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.study.getSubmitter().getUserName());
-		
+
+			//Return the ModelAndView
+			return mav;
+
+
 		} catch (Exception e) {
 			
 			String message = "There's been a problem while changing the Public Release date of the study " + study + "\n" + e.getMessage();
@@ -390,9 +304,7 @@ public class UpdateStudyController extends AbstractController {
 			
 		}
 		
-		//Return the ModelAndView
-		return mav;
-		
+
 	}
     
      
@@ -495,8 +407,8 @@ public class UpdateStudyController extends AbstractController {
     	String hostName = java.net.InetAddress.getLocalHost().getHostName();
     	
     	SubmissionItem si = new SubmissionItem(null,user.getUserName(),null,accession, false);
-    	si.submitToQueue();
-    	
+		si.submitToQueue();
+
 		// Cannot load the queue
 		emailService.sendQueuedDeletion(si.getUserId(),  hostName, accession);
 		
@@ -507,168 +419,6 @@ public class UpdateStudyController extends AbstractController {
 
     	 
     }
-//	/**
-//	 * Re-submit process:
-//		Each step must successfully validate, if not then stop and display an error
-//		no need to allocate a new MTBLS id during this process
-//		OK - Check that the logged in user owns the chosen study
-//		OK - Check that the study is PRIVATE (? what do we think ?).  This could stop submitters from "nullifying" a public study.
-//		OK - Unzip the new zipfile and check that the study id is matching (MTBLS id)
-//		OK - Update new zipfile with Public date from the resubmission form
-//		OK - Unload the old study
-//		OK - IF SUCCESSFULLY UNLOADED =  DO NOT Remove old study zipfile
-//		OK - IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
-//		OK - Upload the new study (includes Lucene re-index)
-//		OK - IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
-//		OK - Copy the new zipfile to the correct folder (public or private locations)
-//		OK - Remove old study zipfile
-//		Display a success or error page to the submitter.  Email metabolights-help and submitter with results
-//	 * @param file
-//	 * @param study
-//	 * @param publicReleaseDateS
-//	 * @param request
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	
-//	@RequestMapping(value = { "/updatestudy" })
-//	public ModelAndView updateStudy(
-//			@RequestParam("file") MultipartFile file, 
-//			@RequestParam(required=true,value="study") String study,
-//			@RequestParam(required=false, value="pickdate") String publicReleaseDateS,
-//			HttpServletRequest request) throws Exception{
-//		
-//		
-//		logger.info("Starting Updating study " + study);
-//		
-//		// Instantiate the param objects
-//		RequestParameters params = new RequestParameters(publicReleaseDateS, study, file);
-//		
-//		// Validate the parameters...
-//		ModelAndView validation = validateParameters(params);
-//		
-//		// If there is validation view...return it
-//		if (validation != null){return validation;}
-//		
-//		
-//		// Define the back up path of the existing file 
-//		File backup = new File(uploadDirectory + "backup/" + study + ".zip");
-//		boolean needRestore = false;
-//		
-//		try {
-//			
-//			// Write the file to the proper location
-//			File isaTabFile = new File(submissionController.writeFile(file, null));
-//			
-//			// Get the uploader configured...
-//			IsaTabUploader itu = submissionController.getIsaTabUploader(isaTabFile.getAbsolutePath(), params.status, params.publicReleaseDateS);
-//						
-//			// Check that the new zip file has the same studyID
-//			Map<String,String> zipValues = itu.getStudyFields(isaTabFile, new String[]{"Study Identifier"});
-//			
-//			String newStudyId = zipValues.get("Study Identifier");
-//			
-//			// If Ids do not match...
-//			if (!study.equals(newStudyId)){
-//				validation = getModelAndView(study, params.publicReleaseDateS, true);
-//				validation.addObject("validationmsg", PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
-//				//throw new Exception(PropertyLookup.getMessage("msg.validation.studyIdDoNotMatch",newStudyId,study));
-//				return validation;
-//			}
-//			
-//			// Check there is a previous back up
-//			if (backup.exists()){
-//				throw new Exception(PropertyLookup.getMessage("msg.validation.backupFileExists", study));
-//			}
-//			
-//			//Validate the new file
-//			try{
-//				// It has to be a directory...the call to getStudyFile has unzipped the file to unzip folder. We will use it.
-//				itu.validate(itu.getUnzipFolder());
-//				
-//			}catch (Exception e){
-//				
-//				validation = getModelAndView(study,params.publicReleaseDateS, true);
-//				validation.addObject("validationmsg", PropertyLookup.getMessage("msg.validation.invalid"));
-//				List<TabLoggingEventWrapper> isaTabLog = itu.getSimpleManager().getLastLog();
-//				validation.addObject("isatablog", isaTabLog);
-//				
-//				return validation;
-//			}
-//			
-//			// Make the backup...
-//			File currentFile = new File(itu.getStudyFilePath(study, VisibilityStatus.PRIVATE));
-//			FileUtils.copyFile(currentFile, backup);
-//			
-//			// Unload the study, this will remove the file too.
-//			logger.info("Deleting previous study " + study);
-//			itu.unloadISATabFile(study);
-//			
-//			// From this point restoring the backup must be done in case of an exception
-//			needRestore = true;
-//			
-//			// upload the new study with the new date
-//			// NOTE: this will unzip again the file (done previously in the getStudyFields
-//			// To avoid unziping it twice (specially for large files) we can set the isaTabFile property
-//			// to the unzipped folder and it should work...
-//			itu.setIsaTabFile(itu.getUnzipFolder());
-//			
-//			// To test the restore backup
-//			//if (needRestore){throw new Exception("fake exception");}
-//			
-//			logger.info("Uploading new study"); 
-//			
-//			itu.UploadWithoutIdReplacement(study);
-//
-//			// Remove the backup
-//			needRestore = false;
-//			backup.delete();
-//			
-//			// Return the result
-//			// Compose the messages...
-//			ModelAndView mav = new ModelAndView("updateStudyForm");
-//			mav.addObject("title", PropertyLookup.getMessage("msg.updatestudy.ok.title", study));
-//			mav.addObject("message", PropertyLookup.getMessage("msg.updatestudy.ok.msg",study));
-//			// We need the new study, the old might have wrong Public release date.
-//			mav.addObject("searchResult", getStudy(study));
-//			mav.addObject("updated", true);
-//				
-//			return mav;
-//			
-//		} catch (Exception e){
-//			
-//			// If there is a need of restoring the backup
-//			if (needRestore){
-//			 
-//				// Restore process...
-//				// Calculate the previous status
-//				VisibilityStatus oldStatus = params.study.getIsPublic()?VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE;
-//
-//				
-////				// Error:
-////				Caused by: java.lang.InterruptedException: sleep interrupted
-////				at java.lang.Thread.sleep(Native Method)
-////				at org.isatools.isatab.commandline.AbstractImportLayerShellCommand.createDataLocationManager(AbstractImportLayerShellCommand.java:402)
-//				
-//				// Get the uploader configured
-//				
-//				IsaTabUploader itu = submissionController.getIsaTabUploader(backup.getAbsolutePath(), oldStatus, null);
-//				
-//				// Upload the old study
-//				itu.UploadWithoutIdReplacement(study);
-//				
-//				// Delete the backup
-//				backup.delete();
-//				
-//				// TODO: Send email. Return a different response...
-//				throw new Exception("There was an error while updating the study. We have restored the previous experiment. " + e.getMessage());
-//				
-//			}else{
-//				throw e;
-//			}
-//		}
-//		
-//	}
 	
 	/**
 	 * Gets the study that has just been published.
@@ -680,7 +430,7 @@ public class UpdateStudyController extends AbstractController {
 		
 		//Search results
 		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
-				
+
 		//Get the query...	
 		String luceneQuery = "acc:"+ study;
 		
