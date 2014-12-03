@@ -702,3 +702,11 @@ div.accordion h5 span{
 
     vertical-align: middle;
 }
+
+legend span.ebiicon{
+    vertical-align: middle;
+    background-color: #ffffff;
+}
+legend span.ebiicon:hover{
+    background-color: #ffffff;
+}

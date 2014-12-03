@@ -316,7 +316,7 @@
                     <legend><spring:message code="label.organisms"/>:</legend>
                     <br/>
                     <c:forEach var="org" items="${study.organism}" >
-                        ${org.organismName}<br/>
+                        <p>${org.organismName}</p>
                     </c:forEach>
                 </fieldset>
             </c:if>
@@ -325,7 +325,7 @@
                 <fieldset class="box">
                     <legend><spring:message code="label.studyDesign"/>:</legend>
                     <br/>
-                    <ul id="resultList">
+                    <ul>
                         <c:forEach var="design" items="${study.descriptors}" >
                         <li>${design.description}
                         </c:forEach>
@@ -336,10 +336,10 @@
             <c:if test="${not empty study.publications}">
                 <br/>
                 <fieldset class="box">
-                    <legend><spring:message code="label.publications"/></legend>
-                    <c:forEach var="pub" items="${study.publications}">
-                        <br/>
-                        <div class="ebiicon book"></div>
+                    <legend><span class="ebiicon book"></span>&nbsp;<spring:message code="label.publications"/></legend>
+                    <c:forEach var="pub" items="${study.publications}" varStatus="loopPublications">
+                        <p>
+                        [${loopPublications.index+1}]&nbsp;
                         <c:set var="DOIValue" value="${pub.doi}"/>
                         <c:choose>
                             <c:when test="${not empty pub.pubmedId}">
@@ -359,7 +359,7 @@
                             <c:otherwise>${pub.title}</c:otherwise>
                         </c:choose>
                     </c:forEach>
-                    <br/>
+                    </p>
                 </fieldset>
             </c:if>
             <c:if test="${not empty study.factors}">
