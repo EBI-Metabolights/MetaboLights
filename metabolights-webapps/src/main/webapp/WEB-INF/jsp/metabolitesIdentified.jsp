@@ -9,17 +9,16 @@
   ~
   ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   ~
-  ~ Last modified: 2014-Oct-28
-  ~ Modified by:   conesa
+  ~ Last modified: 2014-Dec-04
+  ~ Modified by:   kenneth
   ~
-  ~
-  ~ Copyright 2014 EMBL-European Bioinformatics Institute.
+  ~ Copyright 2014 EMBL - European Bioinformatics Institute
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
-  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~      http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
@@ -46,6 +45,12 @@
                 <th>URI</th>
                 <th>Search engine</th>
                 <th>Abundance</th>
+
+                <c:forEach var="metaboliteLineHeader" items="${metaboliteAssignment.metaboliteAssignmentLines}" varStatus="loopMetabolitesHeader" end="0"> <%-- end="0" ensures only one row returned as we only want the headers once --%>
+                    <c:forEach var="measurementsHeader" items="${metaboliteLineHeader.sampleMeasurements}" varStatus="loopMeasurementsHeader">
+                        <th>${measurementsHeader.sampleName}</th>
+                    </c:forEach>
+                </c:forEach>
 
             </tr>
         </thead>
@@ -87,6 +92,9 @@
                             </c:if>
                         </td>
                         <td>${metaboliteLine.smallmoleculeAbundanceSub} ${metaboliteLine.smallmoleculeAbundanceStdevSub} ${metaboliteLine.smallmoleculeAbundanceStdErrorSub}</td>
+                        <c:forEach var="measurements" items="${metaboliteLine.sampleMeasurements}" varStatus="loopMeasurements">
+                            <td>${measurements.value}</td>
+                        </c:forEach>
                     </tr>
                 </c:if>
             </c:forEach>

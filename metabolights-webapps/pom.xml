@@ -4,7 +4,7 @@
   ~
   ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   ~
-  ~ Last modified: 2014-Nov-12
+  ~ Last modified: 2014-Dec-04
   ~ Modified by:   kenneth
   ~
   ~ Copyright 2014 EMBL - European Bioinformatics Institute
@@ -39,7 +39,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!--<org.spring.version>3.1.0.RELEASE</org.spring.version>-->
         <!--<org.spring.security.version>3.1.0.RELEASE</org.spring.security.version>-->
-        <org.spring.version>3.2.11.RELEASE</org.spring.version>
+        <org.spring.version>3.2.5.RELEASE</org.spring.version>
         <org.spring.security.version>3.2.5.RELEASE</org.spring.security.version>
     </properties>
 
