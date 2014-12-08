@@ -33,6 +33,7 @@ import java.io.File;
 public class ElasticSearchServiceTest {
 
 	ElasticSearchService elasticSearchService = new ElasticSearchService();
+	StudyDAO studyDAO;
 	private static String ISATAB_CONFIG_FOLDER;
 	private static String PRIVATE_FOLDER;
 	private static String PUBLIC_FOLDER;
@@ -49,9 +50,11 @@ public class ElasticSearchServiceTest {
 		PUBLIC_FOLDER = studiesFolderName + "/public";
 
 
-		ISATAB_CONFIG_FOLDER = System.getenv("STUDIES_FOLDER");
+		ISATAB_CONFIG_FOLDER = System.getenv("ISATAB_CONFIG_FOLDER");
 
 		Assert.assertNotNull("ISATAB_CONFIG_FOLDER: ISA Configuration folder variable is set.", ISATAB_CONFIG_FOLDER);
+
+
 
 
 	}
@@ -67,13 +70,15 @@ public class ElasticSearchServiceTest {
 	public void testIndex() throws Exception {
 
 
+		studyDAO = new StudyDAO(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER);
+
 		File studiesFolder = new File(PRIVATE_FOLDER);
 
 		indexFolder(studiesFolder);
 
-		studiesFolder = new File(PUBLIC_FOLDER);
-
-		indexFolder(studiesFolder);
+//		studiesFolder = new File(PUBLIC_FOLDER);
+//
+//		indexFolder(studiesFolder);
 
 
 
@@ -91,8 +96,6 @@ public class ElasticSearchServiceTest {
 	private void indexStudy(File studyFolder) throws IndexingFailureException {
 
 		// Need to load the study from the Folder
-
-		StudyDAO studyDAO = new StudyDAO(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER);
 
 		Study study = studyDAO.getStudy(studyFolder.getName(),false);
 

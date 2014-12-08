@@ -36,6 +36,7 @@
      <module>metabolights-webapps</module>
      <module>metabolights-species</module>
      <module>ISAcreator-shaded</module>
+     <module>metabolights-search</module>
   </modules>
 
   <build>

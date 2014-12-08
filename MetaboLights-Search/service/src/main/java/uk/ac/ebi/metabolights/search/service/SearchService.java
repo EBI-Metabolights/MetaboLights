@@ -36,7 +36,7 @@ public abstract class SearchService<I> {
 
 	protected final static Logger logger = LoggerFactory.getLogger(SearchService.class.getName());
 
-	private Collection<EntityConverter<I>> entityConverters = new ArrayList<EntityConverter<I>>();
+	protected Collection<EntityConverter<I>> entityConverters = new ArrayList<EntityConverter<I>>();
 
 	// Abstract methods
 	public abstract boolean getStatus();

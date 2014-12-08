@@ -21,40 +21,45 @@
 
 package uk.ac.ebi.metabolights.search.service.imp.es;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.node.Node;
-import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
-import uk.ac.ebi.metabolights.search.service.SearchQuery;
-import uk.ac.ebi.metabolights.search.service.SearchResult;
-import uk.ac.ebi.metabolights.search.service.SearchService;
-
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import uk.ac.ebi.metabolights.search.service.*;
 
 /**
  * User: conesa
  * Date: 03/12/14
  * Time: 17:38
  */
-public class ElasticSearchService extends SearchService <Study> {
+public class ElasticSearchService extends SearchService <String> {
 
 
 	private static final String STUDY_TYPE_NAME = "study";
-	Node node;
-	Client client;
+	TransportClient  client;
 	private String indexName = "metabolights";
 
+	private String clusterName = "conesa";
 
-	private void initialiseNode() {
-		if (node == null) {
-			node = nodeBuilder().node();
-			client = node.client();
-			logger.info("Instantiating Elastic search Node and client");
-		}
+	public ElasticSearchService(){
+		initialiseElasticSearchClient();
+	}
+
+	private void initialiseElasticSearchClient() {
+
+
+		Settings settings = ImmutableSettings.settingsBuilder()
+				.put("cluster.name", clusterName).build();
+
+		client =    new TransportClient(settings);
+
+		client.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
+
 	}
 
 	public String getIndexName() {
@@ -65,13 +70,19 @@ public class ElasticSearchService extends SearchService <Study> {
 		this.indexName = indexName;
 	}
 
+	public String getClusterName() {
+		return clusterName;
+	}
+
+	public void setClusterName(String clusterName) {
+		this.clusterName = clusterName;
+	}
+
 
 	@Override
 	public boolean getStatus() {
 
-
-		initialiseNode();
-		return (node != null);
+		return (client != null);
 	}
 
 	@Override
@@ -100,40 +111,34 @@ public class ElasticSearchService extends SearchService <Study> {
 	}
 
 	@Override
-	public SearchResult<Study> search(SearchQuery query) {
+	public SearchResult<String> search(SearchQuery query) {
 		return null;
 	}
 
 	@Override
-	protected void indexThis(Study indexEntity) throws IndexingFailureException {
+	protected void indexThis(String indexEntity) throws IndexingFailureException {
 
-		String studyS = study2JSON(indexEntity);
+		String id="";
 
-		client.prepareIndex(indexName, STUDY_TYPE_NAME,indexEntity.getStudyIdentifier()).setSource(studyS);
-
-	}
-
-	private String study2JSON(Study study) throws IndexingFailureException {
-
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
-
-		try {
-			String studyString = mapper.writeValueAsString(study);
-
-			return studyString;
-
-		} catch (JsonProcessingException e) {
-
-			logger.error("Can't convert Study into a Json string");
-			throw new IndexingFailureException(e);
+		JsonParser parser = new JsonParser();
+		// The JsonElement is the root node. It can be an object, array, null or
+		// java primitive.
+		JsonElement element = parser.parse(indexEntity);
+		// use the isxxx methods to find out the type of jsonelement. In our
+		// example we know that the root object is the Albums object and
+		// contains an array of dataset objects
+		if (element.isJsonObject()) {
+			JsonObject study = element.getAsJsonObject();
+			id = study.get("studyIdentifier").getAsString();
 		}
 
+		IndexResponse response = client.prepareIndex(indexName, STUDY_TYPE_NAME, id).setSource(indexEntity).execute().actionGet();
 
 	}
 
 	@Override
 	protected void addEntityConverters() {
 
+		entityConverters.add(new EntityConverterJSON());
 	}
 }
