@@ -21,27 +21,34 @@
 
 package uk.ac.ebi.metabolights.search.service.imp.es;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import uk.ac.ebi.metabolights.search.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
+import uk.ac.ebi.metabolights.search.service.SearchQuery;
+import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.search.service.SearchService;
 
 /**
  * User: conesa
  * Date: 03/12/14
  * Time: 17:38
  */
-public class ElasticSearchService extends SearchService <String> {
+public class ElasticSearchService implements SearchService <Object, LiteEntity> {
 
+	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
 
 	private static final String STUDY_TYPE_NAME = "study";
-	TransportClient  client;
+
+	private TransportClient  client;
 	private String indexName = "metabolights";
 
 	private String clusterName = "conesa";
@@ -92,7 +99,9 @@ public class ElasticSearchService extends SearchService <String> {
 
 		if (documentType !=null) {
 			DeleteResponse response = client.prepareDelete(indexName, documentType, id).execute().actionGet();
-
+			if (!response.isFound()){
+				throw new IndexingFailureException("Elastic search failed deleting id " + id);
+			}
 		}
 	}
 
@@ -111,34 +120,38 @@ public class ElasticSearchService extends SearchService <String> {
 	}
 
 	@Override
-	public SearchResult<String> search(SearchQuery query) {
+	public SearchResult<LiteEntity> search(SearchQuery query) {
+
+
+
+
 		return null;
 	}
 
 	@Override
-	protected void indexThis(String indexEntity) throws IndexingFailureException {
+	public void index(Object entity) throws IndexingFailureException {
 
-		String id="";
+		indexStudy((Study) entity);
+	}
 
-		JsonParser parser = new JsonParser();
-		// The JsonElement is the root node. It can be an object, array, null or
-		// java primitive.
-		JsonElement element = parser.parse(indexEntity);
-		// use the isxxx methods to find out the type of jsonelement. In our
-		// example we know that the root object is the Albums object and
-		// contains an array of dataset objects
-		if (element.isJsonObject()) {
-			JsonObject study = element.getAsJsonObject();
-			id = study.get("studyIdentifier").getAsString();
+	private void indexStudy(Study study) throws IndexingFailureException {
+
+		String id=study.getStudyIdentifier();
+		String studyS = study2String(study);
+		IndexResponse response = client.prepareIndex(indexName, STUDY_TYPE_NAME, id).setSource(studyS).execute().actionGet();
+
+	}
+	private String study2String(Study study) throws IndexingFailureException {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new GuavaModule());
+
+		try {
+			return mapper.writeValueAsString(study);
+
+		} catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+			throw new IndexingFailureException(e);
 		}
-
-		IndexResponse response = client.prepareIndex(indexName, STUDY_TYPE_NAME, id).setSource(indexEntity).execute().actionGet();
-
 	}
 
-	@Override
-	protected void addEntityConverters() {
 
-		entityConverters.add(new EntityConverterJSON());
-	}
 }

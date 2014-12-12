@@ -414,7 +414,7 @@
                     <c:forEach var="fieldSet" items="${study.sampleTable.fields}">
                         <c:set var="headerTitle" value="${fieldSet.value.description}"/>
                         <c:if test="${not empty fieldSet.value.fieldType}">
-                            <c:set var="headerTitle" value="${headerTitle}\nType: ${fieldSet.value.fieldType}"/>
+                            <c:set var="headerTitle" value="${headerTitle} - Type: ${fieldSet.value.fieldType}"/>
                         </c:if>
                         <th title="${headerTitle}">${fieldSet.value.cleanHeader}</th>
                     </c:forEach>

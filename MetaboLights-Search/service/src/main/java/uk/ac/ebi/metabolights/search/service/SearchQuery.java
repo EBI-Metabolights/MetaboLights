@@ -33,6 +33,8 @@ public class SearchQuery {
 	private String text;
 	private Collection<Facet> facets = new LinkedList<Facet>();
 	private Pagination pagination = new Pagination();
+	private SearchUser user;
+
 	public SearchQuery(String text){
 		this.text = text;
 	}
@@ -60,5 +62,13 @@ public class SearchQuery {
 	public void setPagination(Pagination pagination) {
 		this.pagination = pagination;
 	}
+	public SearchUser getUser() {
+		return user;
+	}
+
+	public void setUser(SearchUser user) {
+		this.user = user;
+	}
+
 
 }

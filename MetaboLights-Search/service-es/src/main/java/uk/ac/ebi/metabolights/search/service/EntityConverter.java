@@ -21,32 +21,15 @@
 
 package uk.ac.ebi.metabolights.search.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
-
 /**
  * User: conesa
  * Date: 02/12/14
- * Time: 13:38
+ * Time: 13:30
+ * E - Entity to convert.
+ * L - output of the convert method: a lite entity to be indexed
+ *
  */
-public class EntityConverterJSON implements EntityConverter<String> {
-	@Override
-	public boolean canYouHandleThis(Object entity) {
-		// In theory should be able to handle everything
-		return true;
-	}
-
-	@Override
-	public String convert(Object entity) throws EntityConversionException {
-
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
-
-		try {
-			return mapper.writeValueAsString(entity);
-
-		} catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-			throw new EntityConversionException(e);
-		}
-	}
+public interface EntityConverter<E,L> {
+	public boolean canYouHandleThis(E entity);
+	public L convert(E entity) throws EntityConversionException;
 }

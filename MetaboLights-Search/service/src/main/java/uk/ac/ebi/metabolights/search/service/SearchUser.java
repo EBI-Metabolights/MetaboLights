@@ -4,7 +4,7 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2014-Dec-02
+ * Last modified: 2014-Dec-11
  * Modified by:   conesa
  *
  *
@@ -23,10 +23,28 @@ package uk.ac.ebi.metabolights.search.service;
 
 /**
  * User: conesa
- * Date: 02/12/14
- * Time: 13:30
+ * Date: 11/12/14
+ * Time: 13:04
  */
-public interface EntityConverter<C> {
-	public boolean canYouHandleThis(Object entity);
-	public C convert(Object entity) throws EntityConversionException;
+public class SearchUser {
+
+	private String id;
+	private boolean isAdmin;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 }

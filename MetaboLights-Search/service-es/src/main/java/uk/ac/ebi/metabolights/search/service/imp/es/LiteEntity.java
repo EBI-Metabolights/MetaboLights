@@ -4,7 +4,7 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2014-Dec-02
+ * Last modified: 2014-Dec-11
  * Modified by:   conesa
  *
  *
@@ -19,19 +19,12 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-package uk.ac.ebi.metabolights.search.service;
+package uk.ac.ebi.metabolights.search.service.imp.es;
 
 /**
  * User: conesa
- * Date: 02/12/14
- * Time: 09:00
+ * Date: 11/12/14
+ * Time: 13:16
  */
-public interface SearchService<E,L> {
-
-
-	// Abstract methods
-	public boolean getStatus();
-	public void delete(String id) throws IndexingFailureException;
-	public SearchResult<L> search(SearchQuery query);
-	public void index(E entity) throws IndexingFailureException;
+public class LiteEntity {
 }

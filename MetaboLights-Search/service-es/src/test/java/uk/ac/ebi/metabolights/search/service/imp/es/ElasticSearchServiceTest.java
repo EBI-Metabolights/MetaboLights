@@ -27,6 +27,8 @@ import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
+import uk.ac.ebi.metabolights.search.service.SearchQuery;
+import uk.ac.ebi.metabolights.search.service.SearchResult;
 
 import java.io.File;
 
@@ -74,31 +76,50 @@ public class ElasticSearchServiceTest {
 
 		File studiesFolder = new File(PRIVATE_FOLDER);
 
-		indexFolder(studiesFolder);
+		indexFolder(studiesFolder, false);
 
-//		studiesFolder = new File(PUBLIC_FOLDER);
-//
-//		indexFolder(studiesFolder);
+		studiesFolder = new File(PUBLIC_FOLDER);
+
+		indexFolder(studiesFolder, true);
 
 
 
 	}
 
-	private void indexFolder(File studiesFolder) throws IndexingFailureException {
+	@Test
+	public boolean testSearch(){
+
+		SearchQuery query = new SearchQuery("MTBLS1");
+
+		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+
+		return result.getResults().size() ==1;
+	}
+
+	@Test
+	public void testDelete() throws IndexingFailureException {
+
+		studyDAO = new StudyDAO(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER);
+
+		elasticSearchService.delete("MTBLS1");
+	}
+
+	private void indexFolder(File studiesFolder, boolean publicStudy) throws IndexingFailureException {
 
 		for (File studyFolder:studiesFolder.listFiles()){
 			if (studyFolder.isDirectory()){
-				indexStudy(studyFolder);
+				indexStudy(studyFolder, publicStudy);
 			}
 		}
 	}
 
-	private void indexStudy(File studyFolder) throws IndexingFailureException {
+	private void indexStudy(File studyFolder, boolean publicStudy) throws IndexingFailureException {
 
 		// Need to load the study from the Folder
 
 		Study study = studyDAO.getStudy(studyFolder.getName(),false);
 
+		study.setPublicStudy(publicStudy);
 		elasticSearchService.index(study);
 
 	}
