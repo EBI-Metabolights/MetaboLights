@@ -31,7 +31,7 @@ public class IndexingFailureException extends Exception {
 	public IndexingFailureException(String message){
 		super(message);
 	}
-	public IndexingFailureException(Exception e){
+	public IndexingFailureException(String s, Exception e){
 		super(e);
 	}
 

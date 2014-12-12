@@ -21,14 +21,22 @@
 
 package uk.ac.ebi.metabolights.search.service.imp.es;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -36,6 +44,11 @@ import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
 import uk.ac.ebi.metabolights.search.service.SearchService;
+import uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel.LiteStudy;
+
+import java.io.IOException;
+
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 /**
  * User: conesa
@@ -67,6 +80,50 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		client.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
 
+
+		// Get index information...
+		final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
+		if (!res.isExists()) {
+			configureIndex();
+		}
+
+		// To delete an index:
+//		final DeleteIndexRequestBuilder delIdx = client.admin().indices().prepareDelete(indexName);
+//		delIdx.execute().actionGet();
+
+
+
+	}
+
+	private void configureIndex() {
+
+		XContentBuilder mapping = null;
+		try {
+
+			final CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(indexName);
+
+			// Create the mapping for the studies
+			final XContentBuilder mappingBuilder = jsonBuilder()
+					.startObject()
+						.startObject(STUDY_TYPE_NAME)
+							.startObject("properties")
+								.startObject("studyPublicReleaseDate")
+									.field("type", "date")
+								.endObject()
+							.endObject()
+						.endObject()
+					.endObject();
+
+			// Add the mapping for studies
+			createIndexRequestBuilder.addMapping(STUDY_TYPE_NAME, mappingBuilder);
+			logger.info(indexName + "/" + STUDY_TYPE_NAME + " created using this configuration: " + mappingBuilder.string());
+
+			// Execute it
+			createIndexRequestBuilder.execute().actionGet();
+
+		} catch (IOException e) {
+			logger.error("Can't create " + indexName + " index in eleasticsearch.", e);
+		}
 	}
 
 	public String getIndexName() {
@@ -108,7 +165,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	private String getDocumentTypeById(String id) {
 
 
-		if (id.indexOf("MTBLS") == 1) {
+		if (isAStudy(id)) {
 			return STUDY_TYPE_NAME;
 //		} else if (id.indexOf("MTBLC") == 1){
 //			return "compound";
@@ -119,13 +176,88 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
+	private boolean isAStudy(String id) {
+		return id.indexOf("MTBLS") == 0;
+	}
+
 	@Override
 	public SearchResult<LiteEntity> search(SearchQuery query) {
 
 
+		// Convert our Model query into an elastic search query
+
+		//So far let's do a plain text search.
+		QueryBuilder queryBuilder = QueryBuilders.queryString(query.getText());
+
+		SearchResponse response = client.prepareSearch(indexName).setQuery(queryBuilder).execute().actionGet();
+
+		if (response.getHits().getTotalHits()==0){
+			// Nothing hit
+			logger.info("Nothing was hit by the query: " + query.toString());
+		}
+
+		return convertElasticSearchResponse2SearchResult(response);
+	}
+
+	private SearchResult<LiteEntity> convertElasticSearchResponse2SearchResult(SearchResponse esResponse){
+
+		SearchResult<LiteEntity> searchResult = new SearchResult<LiteEntity>();
 
 
-		return null;
+		convertHits2Entities(esResponse, searchResult);
+
+		return searchResult;
+
+	}
+
+	private void convertHits2Entities(SearchResponse esResponse, SearchResult<LiteEntity> searchResult) {
+
+
+		for (SearchHit hit:esResponse.getHits()){
+			addLiteEntity(hit, searchResult);
+		}
+	}
+
+	private void addLiteEntity(SearchHit hit, SearchResult<LiteEntity> searchResult){
+
+		try {
+
+			LiteEntity liteEntity = null;
+
+			if (isAStudy(hit.getId())){
+				liteEntity = hit2Study(hit);
+			}
+
+			if (liteEntity != null)
+				searchResult.getResults().add(liteEntity);
+
+		} catch (IndexingFailureException e) {
+
+			searchResult.report("Can't convert hit: " + hit.getId() + " to LiteEntity");
+			logger.error("Conversion to liteentity error", e);
+		}
+
+
+
+	}
+
+	private LiteEntity hit2Study(SearchHit hit) throws IndexingFailureException {
+
+		LiteStudy study = new LiteStudy();
+
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new GuavaModule());
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+		try {
+			study =  mapper.readerForUpdating(study).readValue(hit.getSourceAsString());
+
+
+		} catch (IOException e) {
+			throw new IndexingFailureException("Can't convert elastic search hit to StudyLite class: " + e.getMessage(),e);
+		}
+
+		return study;
 	}
 
 	@Override
@@ -149,7 +281,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 			return mapper.writeValueAsString(study);
 
 		} catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-			throw new IndexingFailureException(e);
+			throw new IndexingFailureException("Can't serialize a study to a JSON String" , e);
 		}
 	}
 

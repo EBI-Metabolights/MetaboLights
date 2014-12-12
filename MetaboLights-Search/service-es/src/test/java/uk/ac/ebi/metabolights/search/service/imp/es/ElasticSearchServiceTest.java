@@ -29,6 +29,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel.LiteStudy;
 
 import java.io.File;
 
@@ -46,7 +47,7 @@ public class ElasticSearchServiceTest {
 
 
 		String studiesFolderName = System.getenv("STUDIES_FOLDER");
-		Assert.assertNotNull("STUDIES_FOLDER: Studies folder variable is set.", studiesFolderName);
+		Assert.assertNotNull("STUDIES_FOLDER: Studies folder variable provided.", studiesFolderName);
 
 		PRIVATE_FOLDER = studiesFolderName + "/private";
 		PUBLIC_FOLDER = studiesFolderName + "/public";
@@ -54,7 +55,7 @@ public class ElasticSearchServiceTest {
 
 		ISATAB_CONFIG_FOLDER = System.getenv("ISATAB_CONFIG_FOLDER");
 
-		Assert.assertNotNull("ISATAB_CONFIG_FOLDER: ISA Configuration folder variable is set.", ISATAB_CONFIG_FOLDER);
+		Assert.assertNotNull("ISATAB_CONFIG_FOLDER: ISA Configuration folder variable provided.", ISATAB_CONFIG_FOLDER);
 
 
 
@@ -87,13 +88,20 @@ public class ElasticSearchServiceTest {
 	}
 
 	@Test
-	public boolean testSearch(){
+	public void testSearch(){
 
 		SearchQuery query = new SearchQuery("MTBLS1");
 
 		SearchResult<LiteEntity> result = elasticSearchService.search(query);
 
-		return result.getResults().size() ==1;
+		Assert.assertTrue("MTBLS1 study is found" ,result.getResults().size() ==1);
+
+		LiteStudy mtbls1 = (LiteStudy) result.getResults().iterator().next();
+
+		Assert.assertEquals("MTBLS1 LiteStudy id populated", "MTBLS1", mtbls1.getStudyIdentifier());
+		Assert.assertNotNull("MTBLS1 LiteStudy title populated", mtbls1.getTitle());
+
+
 	}
 
 	@Test
