@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
@@ -36,6 +37,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,22 +82,42 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		client.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
 
-
-		// Get index information...
-		final IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
-		if (!res.isExists()) {
+		// If index does not exists..
+		if (!doesIndexExists()) {
+			// Create it and configure it.
 			configureIndex();
 		}
+	}
+	public boolean doesIndexExists(){
 
-		// To delete an index:
-//		final DeleteIndexRequestBuilder delIdx = client.admin().indices().prepareDelete(indexName);
-//		delIdx.execute().actionGet();
-
-
-
+		IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
+		return  res.isExists();
 	}
 
+	@Override
+	public void resetIndex() throws IndexingFailureException {
+
+		DeleteIndexResponse rep = null;
+		try {
+			rep = client.admin().
+					indices().
+					prepareDelete(indexName).
+					execute().
+					actionGet();
+		}
+		catch (IndexMissingException e) {
+			// Index not found, fine although maigth be strange
+			logger.warn("Index reset, well, index wasn't found.");
+
+		}
+
+		configureIndex();
+	}
+
+
 	private void configureIndex() {
+
+		logger.info("Configuring " + indexName + "  index.");
 
 		XContentBuilder mapping = null;
 		try {
@@ -106,11 +128,59 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 			final XContentBuilder mappingBuilder = jsonBuilder()
 					.startObject()
 						.startObject(STUDY_TYPE_NAME)
+							//_source configuration
+							.startObject("_source")
+								.array("excludes", new String[]{"assays", "protocols", "sampleTable", "contacts"})
+							.endObject()
+
+							// Timestamp
+							.startObject("_timestamp")
+								.field("enabled", true)
+								.field("store", true)
+								.field("format", "YYYY-MM-dd hh:mm:ss")
+							.endObject()
+
+							// Properties configutarion (fields types and storage)
 							.startObject("properties")
 								.startObject("studyPublicReleaseDate")
 									.field("type", "date")
 								.endObject()
-							.endObject()
+								.startObject("studySubmissionDate")
+									.field("type", "date")
+								.endObject()
+								.startObject("organism.organismName")
+									.field("type", "string")
+									.field("index", "not_analyzed")
+								.endObject()
+								.startObject("assays.technology")
+									.field("type", "string")
+									.field("index", "not_analyzed")
+								.endObject()
+								.startObject("assays.measurement")
+									.field("type", "string")
+									.field("index", "not_analyzed")
+								.endObject()
+
+								.startObject("publicStudy")
+									.field("type", "boolean")
+									.field("index", "not_analyzed")
+								.endObject()
+					.endObject()
+							// End of properties
+
+// Templates....in case of any use.
+//							.startArray("dynamic_templates")
+//								.startObject()
+//									.startObject("assays_template")
+//										.field("match", "assays")
+//										.startObject("mapping")
+//											.field("type","object")
+//											.field("store","no")
+//											//.field("index", "yes")
+//										.endObject()
+//									.endObject()
+//								.endObject()
+//							.endArray() // End of templates
 						.endObject()
 					.endObject();
 

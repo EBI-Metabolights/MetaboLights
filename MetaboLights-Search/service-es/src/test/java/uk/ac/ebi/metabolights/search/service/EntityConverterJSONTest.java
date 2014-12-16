@@ -50,8 +50,5 @@ public class EntityConverterJSONTest {
 
 		Assert.assertTrue("Test array JSON conversion", result.contains("Value1"));
 
-
-
-
 	}
 }

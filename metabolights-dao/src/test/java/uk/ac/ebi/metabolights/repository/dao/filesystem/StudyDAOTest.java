@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
+import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -36,19 +37,26 @@ public class StudyDAOTest {
 
     final String PUBLIC_STUDIES_LOCATION = "studies/public/";
     final String PRIVATE_STUDIES_LOCATION = "studies/private/";
+	private StudyDAO studyDAO;
+
+	@Before
+	public void initialiseTests() {
+
+		URL configRootUrl = StudyDAOTest.class.getClassLoader().getResource(ISA_CONF_LOCATION);
+		URL publicStudiesLocationUrl = StudyDAOTest.class.getClassLoader().getResource(PUBLIC_STUDIES_LOCATION) ;
+		URL privateStudiesLocationUrl = StudyDAOTest.class.getClassLoader().getResource(PRIVATE_STUDIES_LOCATION) ;
+
+		String configRoot = configRootUrl.getFile();
+		String publicStudiesLocation = publicStudiesLocationUrl.getFile();
+		String privateStudiesLocation = privateStudiesLocationUrl.getFile();
+
+		studyDAO = new StudyDAO(configRoot,publicStudiesLocation,privateStudiesLocation);
+
+	}
 
     @Test
     public void testGetStudy() throws Exception {
 
-        URL configRootUrl = StudyDAOTest.class.getClassLoader().getResource(ISA_CONF_LOCATION);
-        URL publicStudiesLocationUrl = StudyDAOTest.class.getClassLoader().getResource(PUBLIC_STUDIES_LOCATION) ;
-        URL privateStudiesLocationUrl = StudyDAOTest.class.getClassLoader().getResource(PRIVATE_STUDIES_LOCATION) ;
-
-        String configRoot = configRootUrl.getFile();
-        String publicStudiesLocation = publicStudiesLocationUrl.getFile();
-        String privateStudiesLocation = privateStudiesLocationUrl.getFile();
-
-        StudyDAO studyDAO = new StudyDAO(configRoot,publicStudiesLocation,privateStudiesLocation);
 
         Study study = studyDAO.getStudy("MTBLS1", true);
         assertEquals("MTBLS1 loaded?", study.getStudyIdentifier(),"MTBLS1");
@@ -105,8 +113,23 @@ public class StudyDAOTest {
 		assertEquals("MTBLS4 organism test","Homo sapiens (Human)", study.getOrganism().iterator().next().getOrganismName());
 		assertEquals("MTBLS4 organism part test","blood plasma", study.getOrganism().iterator().next().getOrganismPart());
 
-
-
     }
+
+	@Test
+	public void testTechnologyNormalization(){
+
+		Study study = studyDAO.getStudy("MTBLS114", false);
+
+		// Check technology is clean of ontologies for a ontologized value
+		assertEquals("MTBLS114 technology is 'clean'","NMR spectroscopy", study.getAssays().get(0).getTechnology());
+
+
+		study = studyDAO.getStudy("MTBLS1", false);
+
+		// Check technology is still clean , not ontologized value.
+		assertEquals("MTBLS1 technology is 'clean'","NMR spectroscopy", study.getAssays().get(0).getTechnology());
+
+
+	}
 
 }

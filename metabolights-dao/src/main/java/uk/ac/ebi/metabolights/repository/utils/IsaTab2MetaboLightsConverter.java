@@ -370,11 +370,11 @@ public class IsaTab2MetaboLightsConverter {
 
             metAssay.setFileName(isaAssay.getAssayReference());
 
-            metAssay.setMeasurement(isaAssay.getMeasurementEndpoint());
+            metAssay.setMeasurement(removeOntology(isaAssay.getMeasurementEndpoint()));
 
             metAssay.setPlatform(isaAssay.getAssayPlatform());
 
-            metAssay.setTechnology(isaAssay.getTechnologyType());
+            metAssay.setTechnology(removeOntology(isaAssay.getTechnologyType()));
 
             metAssay.setAssayNumber(i); //To enable a simpler URL structure like "MTBLS1/assay/1 or MTBLS2/assay/2
 
@@ -396,6 +396,19 @@ public class IsaTab2MetaboLightsConverter {
         }
 
         return assays;
+
+    }
+
+    // Cleans the XXX: part of an ontologised field, if exists.
+    private static String removeOntology(String ontologisedValue){
+        int colonPos = ontologisedValue.indexOf(":");
+
+        // if not found return same value
+        if (colonPos == -1) return ontologisedValue;
+
+        // Else remove it
+        return ontologisedValue.substring(colonPos+1);
+
 
     }
 

@@ -58,6 +58,7 @@ public class ElasticSearchServiceTest {
 		Assert.assertNotNull("ISATAB_CONFIG_FOLDER: ISA Configuration folder variable provided.", ISATAB_CONFIG_FOLDER);
 
 
+		studyDAO = new StudyDAO(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER);
 
 
 	}
@@ -72,8 +73,6 @@ public class ElasticSearchServiceTest {
 	@Test
 	public void testIndex() throws Exception {
 
-
-		studyDAO = new StudyDAO(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER);
 
 		File studiesFolder = new File(PRIVATE_FOLDER);
 
@@ -107,9 +106,24 @@ public class ElasticSearchServiceTest {
 	@Test
 	public void testDelete() throws IndexingFailureException {
 
-		studyDAO = new StudyDAO(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER);
-
 		elasticSearchService.delete("MTBLS1");
+	}
+
+
+	@Test
+	public void testResetIndex() throws IndexingFailureException {
+
+		// Call reset index...
+		elasticSearchService.resetIndex();
+
+		// Index should be empty but exist and should be configured.
+		Assert.assertEquals("Index exists", true, elasticSearchService.doesIndexExists());
+
+		// Index one study
+		indexStudy(new File(PUBLIC_FOLDER + "/MTBLS1"), true);
+
+
+
 	}
 
 	private void indexFolder(File studiesFolder, boolean publicStudy) throws IndexingFailureException {
@@ -124,7 +138,6 @@ public class ElasticSearchServiceTest {
 	private void indexStudy(File studyFolder, boolean publicStudy) throws IndexingFailureException {
 
 		// Need to load the study from the Folder
-
 		Study study = studyDAO.getStudy(studyFolder.getName(),false);
 
 		study.setPublicStudy(publicStudy);
