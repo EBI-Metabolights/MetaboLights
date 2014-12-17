@@ -4,6 +4,26 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
+ * Last modified: 2014-Dec-17
+ * Modified by:   kenneth
+ *
+ * Copyright 2014 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
  * Last modified: 8/14/14 1:27 PM
  * Modified by:   conesa
  *
@@ -48,7 +68,7 @@ public class GenericController {
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	@RequestMapping(value={ "/about","/help","/download", "/useroptions", "/pleasewait" ,"/analysis"})
+	@RequestMapping(value={ "/about","/help","/download", "/useroptions", "/pleasewait" ,"/analysis", "/advisoryboard"})
 	public ModelAndView modelAndView (HttpServletRequest request) {
 		return lastPartOfUrl(request);
 	}
