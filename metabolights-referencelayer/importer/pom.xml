@@ -84,6 +84,12 @@
             <artifactId>httpclient</artifactId>
             <version>4.3.5</version>
         </dependency>
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

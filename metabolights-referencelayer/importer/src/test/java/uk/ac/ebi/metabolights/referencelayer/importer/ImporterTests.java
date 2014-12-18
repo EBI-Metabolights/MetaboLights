@@ -80,7 +80,16 @@ public class ImporterTests extends TestCase{
 
         ReferenceLayerImporter rli = new ReferenceLayerImporter(connectionProvider);
 
-		rli.setChebiIDRoot("CHEBI:48887");
+		// By deafeult use "metabolite"
+		String chebiId= rli.getChebiIDRoot();
+
+		// Bile Acid metabolites
+		// chebiId = "CHEBI:48887";
+
+		// Plant metabolite: CHEBI:76924
+		// chebiId = "CHEBI:76924";
+
+		rli.setChebiIDRoot(chebiId);
 
 //		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL-ReferenceLayerImporter.ImportOptions.UPDATE_EXISTING_MET);
         rli.importMetabolitesFromChebi();
