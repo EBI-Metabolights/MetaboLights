@@ -21,14 +21,38 @@
 
 package uk.ac.ebi.metabolights.repository.dao.db;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * User: conesa
  * Date: 22/12/14
  * Time: 10:33
  */
-public interface DAO <E>{
+public abstract class DAO <E>{
 
-	public void save (E entity);
-	public E findById (Integer id);
-	public void delete(Integer id);
+	private Map<Integer,SQLQueryMapper<E>> sqlQueries = new HashMap<>();
+	public abstract void save (E entity);
+	public abstract E findById (Integer id);
+	public abstract void delete(Integer id);
+	protected abstract void loadQueries() throws DAOException;
+
+	/**
+	 *
+	 * @param key
+	 * @param query
+	 * @param getters: String with getters names of the entity, separated by ";"
+	 * @param entityClass
+	 * @throws DAOException
+	 */
+	protected void addQuery(int key, String query, String getters, Class entityClass) throws DAOException {
+
+		// Generate and array from the getters
+		String[] gettersA = getters.split(";");
+		SQLQueryMapper<E> sqlQueryMapper = new SQLQueryMapper<E>(query, gettersA, entityClass);
+		sqlQueries.put(key,sqlQueryMapper);
+	}
+	protected SQLQueryMapper<E> getQuery(int key){
+		return sqlQueries.get(key);
+	}
 }

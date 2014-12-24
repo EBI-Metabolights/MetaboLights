@@ -4,7 +4,7 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2014-Dec-22
+ * Last modified: 2014-Aug-21
  * Modified by:   conesa
  *
  *
@@ -19,21 +19,32 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-package uk.ac.ebi.metabolights.repository.dao.db;
+package uk.ac.ebi.metabolights.repository.model;
 
 /**
  * User: conesa
- * Date: 22/12/14
- * Time: 11:08
+ * Date: 13/06/2014
+ * Time: 14:55
  */
-public class DAOException extends Exception {
-	public DAOException(String message) {
-		super(message);
+public class StudyLite {
+
+	private Long studyId;
+
+	private String accesion;
+
+	public Long getStudyId() {
+		return studyId;
 	}
-	public DAOException(Exception e){
-		super(e);
+
+	public void setStudyId(Long studyId) {
+		this.studyId = studyId;
 	}
-	public DAOException(String message, Exception exception) {
-		super(message, exception);
+
+	public String getAccesion() {
+		return accesion;
+	}
+
+	public void setAccesion(String accesion) {
+		this.accesion = accesion;
 	}
 }

@@ -22,14 +22,24 @@
 package uk.ac.ebi.metabolights.repository.dao.db;
 
 import org.dbunit.DBTestCase;
+import org.dbunit.PropertiesBasedJdbcDatabaseTester;
+import org.dbunit.database.DatabaseConfig;
+import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Test;
-
-import java.io.FileInputStream;
+import uk.ac.ebi.metabolights.repository.model.Study;
 
 public class SQLQueryMapperTest extends DBTestCase {
 
+	public  SQLQueryMapperTest(){
+		super();
+		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,"org.postgresql.Driver");
+		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,"jdbc:postgresql://localhost/metabolights");
+		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME,"reader");
+		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,"reader");
+
+	}
 
 	@Test(expected = DAOException.class)
 	public void testWrongContructor() throws DAOException {
@@ -43,12 +53,27 @@ public class SQLQueryMapperTest extends DBTestCase {
 	}
 
 	@Test
-	public void testBasicQueryMapperRun() {
+	public void testBasicQueryMapperRun() throws Exception {
+
+		IDatabaseConnection connection = getConnection();
+
+		SQLQueryMapper<Study> studyQueryMapper = new SQLQueryMapper<>("SELECT * FROM STUDY WHERE ACC = ?", new String[]{"getStudyIdentifier"}, Study.class );
+
+		Study study = new Study();
+		study.setStudyIdentifier("NONE");
+		studyQueryMapper.run(connection.getConnection(),study);
 
 	}
 
 	@Override
 	protected IDataSet getDataSet() throws Exception {
-		return new FlatXmlDataSetBuilder().build(new FileInputStream("SQLQueryMapper.xml"));
+		return new FlatXmlDataSetBuilder().build(SQLQueryMapperTest.class.getClassLoader().getResourceAsStream("SQLQueryMapper.xml"));
+		//return new XmlDataSet(SQLQueryMapperTest.class.getClassLoader().getResourceAsStream("SQLQueryMapper.xml"));
+	}
+
+	@Override
+	protected void setUpDatabaseConfig(DatabaseConfig config) {
+		//config.setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, true);
+		//config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgresqlDataTypeFactory());
 	}
 }

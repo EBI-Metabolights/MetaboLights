@@ -21,24 +21,77 @@
 
 package uk.ac.ebi.metabolights.repository.dao.db;
 
+import uk.ac.ebi.metabolights.repository.model.User;
+
 /**
  * User: conesa
  * Date: 22/12/14
  * Time: 10:34
  */
-public class UsersDAO implements DAO {
+public class UsersDAO extends DAO<User> {
+
+	private enum QueryKeys{
+		FINDBYID,
+		INSERT,
+		UPDATE,
+		DELETE
+
+	}
 	@Override
-	public void save(Object entity) {
+	public void save(User entity) {
 
 	}
 
 	@Override
-	public Object findById(Integer id) {
+	public User findById(Integer id) {
 		return null;
 	}
 
 	@Override
 	public void delete(Integer id) {
+
+		SQLQueryMapper<User> deleteQuery = getQuery(QueryKeys.DELETE.ordinal());
+
+
+
+	}
+
+	@Override
+	protected void loadQueries() throws DAOException {
+
+		// Add users queries
+
+		// Delete query
+		addQuery(
+				QueryKeys.DELETE.ordinal(),
+				"DELETE FROM users where id = ?",
+				"id",
+				User.class
+		);
+
+		// Save query
+		addQuery(
+				QueryKeys.INSERT.ordinal(),
+//				"INSERT INTO users(" +
+//						"\"ID\", \"ADDRESS\", \"EMAIL\", \"JOINDATE\", \"PASSWORD\", \"ROLE\", \"USERNAME\"," +
+//						"\"AFFILIATION\", \"FIRSTNAME\", \"LASTNAME\", \"STATUS\", \"AFFILIATIONURL\", \"APITOKEN\") " +
+//				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+				"INSERT INTO users(" +
+						"\"PASSWORD\", \"USERNAME\") " +
+						"VALUES (?, ?)",
+
+				"getUserName;getDbPassword" ,
+				User.class
+		);
+		// Find by id
+		addQuery(
+				QueryKeys.FINDBYID.ordinal(),
+				"SELECT * FROM users where id = ?",
+				"id",
+				User.class
+		);
+
+
 
 	}
 }

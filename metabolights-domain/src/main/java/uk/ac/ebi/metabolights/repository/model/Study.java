@@ -42,6 +42,7 @@ public class Study {
     private Collection<Protocol> protocols;
     private List<Assay> assays;
     private Collection<Organism> organism;
+    private Collection<String> owners;
 
 	// Tables Sample & Assays
 	private Table sampleTable;
@@ -158,7 +159,15 @@ public class Study {
         this.organism = organism;
     }
 
-	public Table getSampleTable() {
+    public Collection<String> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(Collection<String> owners) {
+        this.owners = owners;
+    }
+
+    public Table getSampleTable() {
 		return sampleTable;
 	}
 

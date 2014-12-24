@@ -37,6 +37,7 @@ import java.util.List;
  * User: conesa
  * Date: 23/12/14
  * Time: 09:12
+ * Creates, prepares and populate a PreparedStatement using entity methods.
  */
 public class SQLQueryMapper<E> {
 	private static Logger logger = LoggerFactory.getLogger(SQLQueryMapper.class);
@@ -73,6 +74,8 @@ public class SQLQueryMapper<E> {
 	// Runs the query
 	public void run (Connection connection, E entity) throws SQLException, DAOException {
 
+		logger.debug("Running a prepared statement: " + query );
+
 		PreparedStatement stm = getPrepareSQLStatement(connection);
 
 		stm.clearParameters();
@@ -84,7 +87,8 @@ public class SQLQueryMapper<E> {
 
 			Method method = getters.get(index);
 
-			fillStatementParameter(stm,index,method,entity);
+			// Index in stamenents starts with 1
+			fillStatementParameter(stm,index+1,method,entity);
 		}
 
 	}
@@ -108,7 +112,7 @@ public class SQLQueryMapper<E> {
 
 			}
 		} catch (Exception e){
-			throw new DAOException("Can't fill statement parameter (index " + index +") invoking method " + method.getName() + ". Statement: " + query );
+			throw new DAOException("Can't fill statement parameter (index " + index +") invoking method " + method.getName() + ". Statement: " + query, e );
 		}
 	}
 	private PreparedStatement getPrepareSQLStatement(Connection connection) throws SQLException {
