@@ -71,14 +71,18 @@ public class SQLQueryMapper<E> {
 		}
 
 	}
-	// Runs the query
-	public void run (Connection connection, E entity) throws SQLException, DAOException {
+	// Maps Entity to the statement and returns it
+	public PreparedStatement map (Connection connection, Object dataHolder) throws DAOException {
 
 		logger.debug("Running a prepared statement: " + query );
 
 		PreparedStatement stm = getPrepareSQLStatement(connection);
 
-		stm.clearParameters();
+		try {
+			stm.clearParameters();
+		} catch (SQLException e) {
+			throw new DAOException("Can't clear statement parameters", e);
+		}
 
 		// Fills the statement with the query and the parameters, taken from the entity.
 		// Go through the methods
@@ -88,11 +92,13 @@ public class SQLQueryMapper<E> {
 			Method method = getters.get(index);
 
 			// Index in stamenents starts with 1
-			fillStatementParameter(stm,index+1,method,entity);
+			fillStatementParameter(stm,index+1,method,dataHolder);
 		}
 
+		return stm;
+
 	}
-	private void fillStatementParameter(PreparedStatement stm, int index, Method method, E entity) throws DAOException {
+	private void fillStatementParameter(PreparedStatement stm, int index, Method method, Object entity) throws DAOException {
 
 		// Get the return type
 		Type returnType = method.getReturnType();
@@ -115,13 +121,17 @@ public class SQLQueryMapper<E> {
 			throw new DAOException("Can't fill statement parameter (index " + index +") invoking method " + method.getName() + ". Statement: " + query, e );
 		}
 	}
-	private PreparedStatement getPrepareSQLStatement(Connection connection) throws SQLException {
+	private PreparedStatement getPrepareSQLStatement(Connection connection) throws DAOException {
 
 		// If we don't have a prepared statement
 		if (preparedStatement == null){
 
 			// Prepared statement
-			preparedStatement = connection.prepareStatement(query);
+			try {
+				preparedStatement = connection.prepareStatement(query);
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
 
 		}
 

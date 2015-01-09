@@ -21,6 +21,10 @@
 
 package uk.ac.ebi.metabolights.repository.dao.db;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,10 +35,24 @@ import java.util.Map;
  */
 public abstract class DAO <E>{
 
-	private Map<Integer,SQLQueryMapper<E>> sqlQueries = new HashMap<>();
-	public abstract void save (E entity);
-	public abstract E findById (Integer id);
-	public abstract void delete(Integer id);
+	// Should not be  more than one logger instance per DAO instance:
+	// See http://stackoverflow.com/a/11544957/3157958.
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	private Map<Integer,SQLQueryMapper<E>> sqlQueries;
+
+
+	public void save (E entity) throws DAOException {
+		if (getEntityId(entity) == null){
+			insert(entity);
+		} else {
+			update(entity);
+		}
+	};
+	protected abstract Object getEntityId(E entity);
+	protected abstract void insert(E entity) throws DAOException;
+	protected abstract void update(E entity);
+	public abstract E findById (Integer id) throws DAOException;
+	public abstract void delete(E entity) throws DAOException;
 	protected abstract void loadQueries() throws DAOException;
 
 	/**
@@ -53,6 +71,22 @@ public abstract class DAO <E>{
 		sqlQueries.put(key,sqlQueryMapper);
 	}
 	protected SQLQueryMapper<E> getQuery(int key){
+
+		// if not initiallized yet..
+		if (sqlQueries == null){
+			sqlQueries = new HashMap<>();
+
+			try {
+				loadQueries();
+			} catch (DAOException e) {
+				logger.error("Can't load queries for DAO", e);
+			}
+		}
+
+
 		return sqlQueries.get(key);
+	}
+	protected Connection getConnection(){
+		return DAOFactory.getConnection();
 	}
 }

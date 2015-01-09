@@ -23,12 +23,17 @@ package uk.ac.ebi.metabolights.repository.dao.db;
 
 import uk.ac.ebi.metabolights.repository.model.User;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * User: conesa
  * Date: 22/12/14
  * Time: 10:34
  */
 public class UsersDAO extends DAO<User> {
+
 
 	private enum QueryKeys{
 		FINDBYID,
@@ -37,22 +42,78 @@ public class UsersDAO extends DAO<User> {
 		DELETE
 
 	}
+
 	@Override
-	public void save(User entity) {
+	protected Object getEntityId(User entity) {
+		return entity.getUserId();
+	}
+
+	@Override
+	protected void insert(User newUser) throws  DAOException {
+
+		SQLQueryMapper<User> insertQuery = getQuery(QueryKeys.INSERT.ordinal());
+
+		PreparedStatement insertStm = insertQuery.map(getConnection(), newUser);
+
+		try {
+			insertStm.executeUpdate();
+
+			ResultSet keys = insertStm.getGeneratedKeys();
+
+			// There shoudl be only one
+			while (keys.next()) {
+				newUser.setUserId(keys.getLong(1));  //There should be only one
+				logger.debug( "new user inserted: user " +newUser.getUserId());
+			}
+			keys.close();
+
+		} catch (SQLException e) {
+			throw new DAOException("Can't insert user" , e);
+		}
+
 
 	}
 
 	@Override
-	public User findById(Integer id) {
+	protected void update(User entity) {
+
+	}
+
+	@Override
+	public User findById(Integer id) throws DAOException {
+
+		SQLQueryMapper<User> findByQuery = getQuery(QueryKeys.FINDBYID.ordinal());
+
+		// Create a dummy user to host the
+		PreparedStatement findByStm = findByQuery.map(getConnection(), id);
+
+		try {
+			findByStm.execute();
+
+			ResultSet rs = findByStm.getResultSet();
+
+		} catch (SQLException e) {
+			throw new DAOException("Can't find user by Id " + id , e);
+		}
+
+
+
+
 		return null;
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(User userToDelete) throws  DAOException {
 
 		SQLQueryMapper<User> deleteQuery = getQuery(QueryKeys.DELETE.ordinal());
 
+		PreparedStatement deleteStm = deleteQuery.map(getConnection(), userToDelete);
 
+		try {
+			deleteStm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException("Can't delete an user: UserId " + userToDelete.getUserId() , e);
+		}
 
 	}
 
@@ -65,7 +126,7 @@ public class UsersDAO extends DAO<User> {
 		addQuery(
 				QueryKeys.DELETE.ordinal(),
 				"DELETE FROM users where id = ?",
-				"id",
+				"getUserId",
 				User.class
 		);
 
@@ -77,21 +138,21 @@ public class UsersDAO extends DAO<User> {
 //						"\"AFFILIATION\", \"FIRSTNAME\", \"LASTNAME\", \"STATUS\", \"AFFILIATIONURL\", \"APITOKEN\") " +
 //				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				"INSERT INTO users(" +
-						"\"PASSWORD\", \"USERNAME\") " +
+						"password, username) " +
 						"VALUES (?, ?)",
 
 				"getUserName;getDbPassword" ,
 				User.class
 		);
+
+
 		// Find by id
 		addQuery(
 				QueryKeys.FINDBYID.ordinal(),
 				"SELECT * FROM users where id = ?",
-				"id",
-				User.class
+				"intValue",
+				Integer.class
 		);
-
-
 
 	}
 }

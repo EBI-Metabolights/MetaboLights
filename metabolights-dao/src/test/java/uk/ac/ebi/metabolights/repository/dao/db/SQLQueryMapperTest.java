@@ -21,8 +21,6 @@
 
 package uk.ac.ebi.metabolights.repository.dao.db;
 
-import org.dbunit.DBTestCase;
-import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
@@ -30,16 +28,7 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
-public class SQLQueryMapperTest extends DBTestCase {
-
-	public  SQLQueryMapperTest(){
-		super();
-		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,"org.postgresql.Driver");
-		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,"jdbc:postgresql://localhost/metabolights");
-		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME,"reader");
-		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,"reader");
-
-	}
+public class SQLQueryMapperTest extends DBTestCaseBase {
 
 	@Test(expected = DAOException.class)
 	public void testWrongContructor() throws DAOException {
@@ -57,11 +46,11 @@ public class SQLQueryMapperTest extends DBTestCase {
 
 		IDatabaseConnection connection = getConnection();
 
-		SQLQueryMapper<Study> studyQueryMapper = new SQLQueryMapper<>("SELECT * FROM STUDY WHERE ACC = ?", new String[]{"getStudyIdentifier"}, Study.class );
+		SQLQueryMapper<Study> studyQueryMapper = new SQLQueryMapper<>("SELECT * FROM studies WHERE acc = ?", new String[]{"getStudyIdentifier"}, Study.class );
 
 		Study study = new Study();
 		study.setStudyIdentifier("NONE");
-		studyQueryMapper.run(connection.getConnection(),study);
+		studyQueryMapper.map(connection.getConnection(),study);
 
 	}
 

@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.db;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +35,8 @@ public final class DAOFactory {
 	// DAO map
 	private static Map<String,DAO> daos = new HashMap<String, DAO>();
 
-	private static ConnectionProvider connectionProvider;
-
+	private static ConnectionProvider localConnectionProvider;
+	private static Connection connection;
 
 	private static <T extends DAO> T getDAO(Class<T> type) throws DAOException {
 
@@ -67,5 +68,20 @@ public final class DAOFactory {
 
 		return getDAO(UsersDAO.class);
 	}
+	public static Connection getConnection(){
+
+		if (connection == null){
+			connection = localConnectionProvider.getConnection();
+		}
+
+		return connection;
+
+
+	}
+	public static void setConnectionProvider(ConnectionProvider connectionProvider){
+		localConnectionProvider = connectionProvider;
+	}
+
+
 
 }
