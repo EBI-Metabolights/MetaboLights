@@ -4,10 +4,10 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2014-Dec-17
+ * Last modified: 2014-Dec-18
  * Modified by:   kenneth
  *
- * Copyright 2014 EMBL - European Bioinformatics Institute
+ * Copyright 2015 EMBL - European Bioinformatics Institute
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,8 +80,8 @@ import java.util.TreeSet;
 public class EntryController extends AbstractController {
 
 
-	private static final String ALTERNATIVE_ENTRY_PREFIX = "alt";
-	private static final String ENTRY_PREFIX = "";
+	private static final String ALTERNATIVE_ENTRY_PREFIX = "";
+	private static final String ENTRY_PREFIX = "alt";
 	private static Logger logger = LoggerFactory.getLogger(EntryController.class);
 	private final String DESCRIPTION="descr";
 
