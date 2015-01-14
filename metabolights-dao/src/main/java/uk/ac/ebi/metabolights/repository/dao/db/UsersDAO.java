@@ -21,11 +21,13 @@
 
 package uk.ac.ebi.metabolights.repository.dao.db;
 
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * User: conesa
@@ -75,16 +77,29 @@ public class UsersDAO extends DAO<User> {
 	}
 
 	@Override
-	protected void update(User entity) {
+	protected void update(User existingUser) throws DAOException {
+
+		SQLQueryMapper<User> updateQuery = getQuery(QueryKeys.UPDATE.ordinal());
+
+		PreparedStatement insertStm = updateQuery.map(getConnection(), existingUser);
+
+		try {
+			insertStm.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException("Can't update the  user" , e);
+		}
+
+
+
 
 	}
 
 	@Override
-	public User findById(Integer id) throws DAOException {
+	public User findById(Long id) throws DAOException {
 
 		SQLQueryMapper<User> findByQuery = getQuery(QueryKeys.FINDBYID.ordinal());
 
-		// Create a dummy user to host the
 		PreparedStatement findByStm = findByQuery.map(getConnection(), id);
 
 		try {
@@ -92,14 +107,35 @@ public class UsersDAO extends DAO<User> {
 
 			ResultSet rs = findByStm.getResultSet();
 
+			return fillEntity(rs);
+
 		} catch (SQLException e) {
 			throw new DAOException("Can't find user by Id " + id , e);
 		}
 
+	}
 
+	@Override
+	protected void fillReflexionMap() throws NoSuchMethodException {
 
+		reflexionMap.put ("address",User.class.getMethod("setAddress", String.class));
+		reflexionMap.put ("email",User.class.getMethod("setEmail", String.class));
+		reflexionMap.put ("joindate",User.class.getMethod("setJoinDate", Date.class));
+		reflexionMap.put ("password",User.class.getMethod("setDbPassword", String.class));
+		reflexionMap.put ("role",User.class.getMethod("setRole", AppRole.class));
+		reflexionMap.put ("username",User.class.getMethod("setUserName", new Class[]{String.class}));
+		reflexionMap.put ("affiliation",User.class.getMethod("setAffiliation", String.class));
+		reflexionMap.put ("firstname",User.class.getMethod("setFirstName", String.class));
+		reflexionMap.put ("lastname",User.class.getMethod("setLastName", String.class));
+		reflexionMap.put ("status",User.class.getMethod("setStatus", User.UserStatus.class));
+		reflexionMap.put ("affiliationurl",User.class.getMethod("setAffiliationUrl", String.class));
+		reflexionMap.put ("apitoken",User.class.getMethod("setApiToken", String.class));
+		reflexionMap.put ("id",User.class.getMethod("setUserId", Long.class));
+	}
 
-		return null;
+	@Override
+	protected void fillClass() {
+		this.aClass = User.class;
 	}
 
 	@Override
@@ -122,26 +158,34 @@ public class UsersDAO extends DAO<User> {
 
 		// Add users queries
 
-		// Delete query
+		// Delete by Id query
 		addQuery(
 				QueryKeys.DELETE.ordinal(),
-				"DELETE FROM users where id = ?",
+				"DELETE FROM users where id = ?;",
 				"getUserId",
 				User.class
 		);
 
-		// Save query
+		// Insert query
 		addQuery(
 				QueryKeys.INSERT.ordinal(),
-//				"INSERT INTO users(" +
-//						"\"ID\", \"ADDRESS\", \"EMAIL\", \"JOINDATE\", \"PASSWORD\", \"ROLE\", \"USERNAME\"," +
-//						"\"AFFILIATION\", \"FIRSTNAME\", \"LASTNAME\", \"STATUS\", \"AFFILIATIONURL\", \"APITOKEN\") " +
-//				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				"INSERT INTO users(" +
-						"password, username) " +
-						"VALUES (?, ?)",
+						"address, email, joindate, password, role, username, affiliation, firstname, lastname, status, affiliationurl, apitoken) " +
+						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
 
-				"getUserName;getDbPassword" ,
+				"getAddress;getEmail;getJoinDate;getDbPassword;getRole;getUserName;getAffiliation;getFirstName;getLastName;getStatus;getAffiliationUrl;getApiToken" ,
+				User.class
+		);
+
+
+		// Update query
+		addQuery(
+				QueryKeys.UPDATE.ordinal(),
+				"UPDATE users SET " +
+						"address=?, email=?, joindate=?, password=?, role=?, username=?, affiliation=?, firstname=?, lastname=?, status=?, affiliationurl=?, apitoken=? " +
+						"WHERE id = ?;",
+
+				"getAddress;getEmail;getJoinDate;getDbPassword;getRole;getUserName;getAffiliation;getFirstName;getLastName;getStatus;getAffiliationUrl;getApiToken;getUserId" ,
 				User.class
 		);
 
@@ -149,9 +193,9 @@ public class UsersDAO extends DAO<User> {
 		// Find by id
 		addQuery(
 				QueryKeys.FINDBYID.ordinal(),
-				"SELECT * FROM users where id = ?",
+				"SELECT * FROM users where id = ?;",
 				"intValue",
-				Integer.class
+				Long.class
 		);
 
 	}

@@ -57,7 +57,6 @@ public class SQLQueryMapperTest extends DBTestCaseBase {
 	@Override
 	protected IDataSet getDataSet() throws Exception {
 		return new FlatXmlDataSetBuilder().build(SQLQueryMapperTest.class.getClassLoader().getResourceAsStream("SQLQueryMapper.xml"));
-		//return new XmlDataSet(SQLQueryMapperTest.class.getClassLoader().getResourceAsStream("SQLQueryMapper.xml"));
 	}
 
 	@Override

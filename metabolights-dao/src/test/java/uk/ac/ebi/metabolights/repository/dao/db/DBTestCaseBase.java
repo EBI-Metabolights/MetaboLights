@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.repository.dao.db;
 
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
+import org.dbunit.operation.DatabaseOperation;
 
 import java.sql.Connection;
 
@@ -32,7 +33,7 @@ import java.sql.Connection;
  * Time: 12:38
  */
 public abstract class DBTestCaseBase extends DBTestCase{
- 		protected ConnectionProvider connectionProvider;
+ 		private ConnectionProvider connectionProvider;
 
 		public  DBTestCaseBase(){
 			super();
@@ -43,6 +44,15 @@ public abstract class DBTestCaseBase extends DBTestCase{
 
 			connectionProvider = new ConnectionProviderBridge(this) ;
 
+			DAOFactory.setConnectionProvider(connectionProvider);
+
+
+
+		}
+		@Override
+		protected DatabaseOperation getSetUpOperation() throws Exception
+		{
+			return DatabaseOperation.DELETE_ALL;
 		}
 
 		class ConnectionProviderBridge implements ConnectionProvider {
@@ -64,5 +74,6 @@ public abstract class DBTestCaseBase extends DBTestCase{
 				}
 			}
 		}
+
 	}
 

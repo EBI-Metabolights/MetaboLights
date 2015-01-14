@@ -233,7 +233,7 @@ public class User {
 	}
 
 	public void setApiToken(String api_token) {
-		this.apiToken = apiToken;
+		this.apiToken = api_token;
 	}
 
 	public Set<StudyLite> getStudies() {

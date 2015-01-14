@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -108,14 +109,34 @@ public class SQLQueryMapper<E> {
 			// Value returned by method
 			Object value = method.invoke(entity);
 
-			if (returnType.equals(Integer.TYPE)) {
-
-				stm.setInt(index, (Integer) value);
-
-			} else if (returnType.equals(String.class)) {
+			if (returnType.equals(String.class)) {
 
 				stm.setString(index, (String) value);
 
+
+			} else if (returnType.equals(Integer.TYPE)) {
+
+				stm.setInt(index, (Integer) value);
+
+			} else if (returnType.equals(Long.class)) {
+
+				stm.setLong(index, (Long) value);
+
+			} else if (returnType.equals(Date.class)) {
+
+				Date date = (Date) value;
+				stm.setTimestamp(index, new java.sql.Timestamp(date.getTime()));
+			// If it's an enum use the ordinal
+			}else if (value.getClass().isEnum()){
+
+				Method ordinalMethod = value.getClass().getMethod("ordinal");
+				Integer ordinal = (Integer) ordinalMethod.invoke(value);
+
+				stm.setInt(index,ordinal);
+
+			} else {
+				logger.warn("return type (" + returnType.toString() + ") of method " + method.getName() + " not understood. Consider adding this type to the fillStatementParameter method. Trying default approach: toString");
+				stm.setString(index, value.toString());
 			}
 		} catch (Exception e){
 			throw new DAOException("Can't fill statement parameter (index " + index +") invoking method " + method.getName() + ". Statement: " + query, e );
@@ -128,7 +149,7 @@ public class SQLQueryMapper<E> {
 
 			// Prepared statement
 			try {
-				preparedStatement = connection.prepareStatement(query);
+				preparedStatement = prepareStatement(connection,query);
 			} catch (SQLException e) {
 				throw new DAOException(e);
 			}
@@ -136,5 +157,16 @@ public class SQLQueryMapper<E> {
 		}
 
 		return preparedStatement;
+	}
+	// Prepares the statement, for Insert statements we need a different configuration, at least for Postgresql.
+	private static PreparedStatement prepareStatement(Connection connection, String query) throws SQLException {
+
+		// If its and insert query
+		if (query.toLowerCase().startsWith("insert")) {
+			return connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+		} else {
+			return connection.prepareStatement(query);
+		}
+
 	}
 }

@@ -26,6 +26,11 @@ import java.util.Date;
 import java.util.List;
 
 public class Study {
+
+
+    public enum StudyStatus{
+        PENDING, APPROVED
+    }
     private String studyIdentifier;
     private Date studyPublicReleaseDate;
     private Date studySubmissionDate;
@@ -33,6 +38,11 @@ public class Study {
     private String description;
     private String studyLocation;
     private boolean publicStudy;
+
+    // Database fields
+    private StudyStatus studyStatus = StudyStatus.PENDING;
+    private Long id;
+    private String obfuscationCode;
 
     // Collections
     private Collection<Contact> contacts;
@@ -110,6 +120,32 @@ public class Study {
     public void setStudyLocation(String studyLocation) {
         this.studyLocation = studyLocation;
     }
+
+    public StudyStatus getStudyStatus() {
+        return studyStatus;
+    }
+
+    public void setStudyStatus(StudyStatus studyStatus) {
+        this.studyStatus = studyStatus;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getObfuscationCode() {
+        return obfuscationCode;
+    }
+
+    public void setObfuscationCode(String obfuscationCode) {
+        this.obfuscationCode = obfuscationCode;
+    }
+
+    // Collections
 
     public Collection<Contact> getContacts() {
         return contacts;

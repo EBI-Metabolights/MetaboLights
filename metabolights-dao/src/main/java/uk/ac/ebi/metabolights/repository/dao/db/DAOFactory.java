@@ -53,8 +53,9 @@ public final class DAOFactory {
 			// Instantiate the new DAO type
 			try {
 				dao = type.newInstance();
+				dao.initialise();
 			} catch (Exception e) {
-				throw new DAOException("Can't instantiate DAO requested:" + type.getName());
+				throw new DAOException("Can't instantiate DAO requested:" + type.getName(), e);
 			}
 
 		}
@@ -83,5 +84,7 @@ public final class DAOFactory {
 	}
 
 
-
+	public static StudyDBDAO getStudyDAO() throws DAOException {
+		return getDAO(StudyDBDAO.class);
+	}
 }
