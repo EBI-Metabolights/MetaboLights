@@ -7,7 +7,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ISAcreator-shaded</artifactId>
-  <version>1.7.7</version>
+  <version>1.7.8</version>
   <build>
     <plugins>
       <plugin>
@@ -42,6 +42,7 @@
                     <resource>log4j.properties</resource>
                     <resource>log4j.xml</resource>
                     <resource>uk/ac/ebi/proteomics/common/log/log4j.properties</resource>
+                    <resource>hibernate.cfg.xml</resource>
                   </resources>
                 </transformer>
               </transformers>

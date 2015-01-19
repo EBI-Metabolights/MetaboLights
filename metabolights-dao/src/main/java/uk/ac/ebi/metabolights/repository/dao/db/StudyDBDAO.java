@@ -173,7 +173,7 @@ public class StudyDBDAO extends DAO<Study>{
 						"(acc, obfuscationcode, status) " +
 						"VALUES (?, ?, ?);",
 
-				"getStudyIdentifier;getObfuscationCode;getStudyStatus" ,
+				"getStudyIdentifier;getObfuscationCode; " ,
 				Study.class
 		);
 
