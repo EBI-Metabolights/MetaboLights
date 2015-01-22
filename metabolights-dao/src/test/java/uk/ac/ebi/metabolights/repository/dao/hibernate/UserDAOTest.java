@@ -4,7 +4,7 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2015-Jan-19
+ * Last modified: 2015-Jan-21
  * Modified by:   conesa
  *
  *
@@ -19,34 +19,32 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-package uk.ac.ebi.metabolights.repository.dao.model;
+package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
-import javax.persistence.*;
-import java.util.Date;
+import org.junit.Assert;
+import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.model.User;
 
-/**
- * User: conesa
- * Date: 19/01/15
- * Time: 14:12
- */
-@Entity
-@Table(name = "users")
-public class UserData {
+import java.util.List;
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Long id;
-	protected String address;
-	protected String email;
-	protected Date joinDate;
-	protected String password;
-	protected int role;
-	protected String userName;
-	protected String affiliation;
-	protected String firstName;
-	protected String lastName;
-	protected int status;
-	protected String affiliationUrl;
-	protected String apiToken;
-	//private Set<StudyLite> studies = new HashSet<StudyLite>();
+public class UserDAOTest  extends HibernateTest{
 
+	@Test
+	public void testConstructor() throws Exception {
+
+		UserDAO userDAO = new UserDAO();
+
+		Assert.assertEquals("Table has the users table", Constants.USERS_TABLE, userDAO.getDataModelName());
+
+
+	}
+	@Test
+	public void testFindAll(){
+
+		UserDAO userDAO = new UserDAO();
+
+		List<User> users = userDAO.findAll();
+
+
+	}
 }

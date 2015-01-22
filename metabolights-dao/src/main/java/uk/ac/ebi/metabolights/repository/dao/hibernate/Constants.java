@@ -4,7 +4,7 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2015-Jan-16
+ * Last modified: 2015-Jan-21
  * Modified by:   conesa
  *
  *
@@ -19,40 +19,14 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-package uk.ac.ebi.metabolights.repository.dao.model;
-
-import uk.ac.ebi.metabolights.repository.model.Study;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 /**
  * User: conesa
- * Date: 16/01/15
- * Time: 11:30
- *
- * This class is meant to represent a row in the study table..it's an intermediate data structure
- * more DB like than the actual Study model.
+ * Date: 21/01/15
+ * Time: 15:54
  */
-@Entity
-@Table(name = "studies")
-public class StudyData  {
-
-	public String acc;
-	public String obfuscationcode;
-	@Id @GeneratedValue (strategy = GenerationType.IDENTITY)
-	public Long id;
-
-	@ManyToMany
-	@JoinTable(name="study_user", joinColumns=@JoinColumn(name="studyid"), inverseJoinColumns=@JoinColumn(name="userid"))
-	public Set<UserData> users = new HashSet<>();
-
-	public StudyData(){}
-	public StudyData(Study study){
-
-		id = study.getId();
-		obfuscationcode = study.getObfuscationCode();
-		acc = study.getStudyIdentifier();
-	}
+public class Constants {
+	public static final String USERS_TABLE = "users";
+	public static final String STUDIES_TABLE = "studies";
 }

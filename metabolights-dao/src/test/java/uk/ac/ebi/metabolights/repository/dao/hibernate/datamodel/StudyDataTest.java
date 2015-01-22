@@ -19,18 +19,31 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-package uk.ac.ebi.metabolights.repository.dao.model;
+package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
 import org.hibernate.Session;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
+import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.util.HashSet;
 
 public class StudyDataTest  extends HibernateTest{
 
+	private static final String ACC = "ACC";
+	private static final String OCODE = "OCODE";
+
+	@Before
+	public void cleanDB(){
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.createQuery("delete from StudyData").executeUpdate();
+		session.createQuery("delete from UserData").executeUpdate();
+		session.close();
+	}
 
 	@Test
 	public void testStudyDataCRUD(){
@@ -43,7 +56,7 @@ public class StudyDataTest  extends HibernateTest{
 
 		// Add an user
 		UserData user = UserDataTest.getNewUserData();
-
+		session.save(user);
 		studyData.users.add(user);
 
 		session.save(studyData);
@@ -51,6 +64,22 @@ public class StudyDataTest  extends HibernateTest{
 		Assert.assertNotNull("Id it's been populated", studyData.id);
 		logger.info("New studyData id populated: " + studyData.id);
 
+		// Close the session
+		session.getTransaction().commit();
+		session.close();
+
+		// Open it again
+		session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+
+		// Try get to it
+		studyData = (StudyData)session.get(StudyData.class, studyData.id);
+
+		// Check some values..
+		Assert.assertEquals("StudyData retrieved test: Obfuscation code", OCODE,studyData.getObfuscationcode());
+		Assert.assertTrue("Accession starts with test:", studyData.getAcc().startsWith(ACC));
+
+		// Test deletion
 		session.delete(studyData);
 
 		session.getTransaction().commit();
@@ -65,12 +94,18 @@ public class StudyDataTest  extends HibernateTest{
 		StudyData studyData = getStudyData();
 
 		// Add an user
-		UserData user = UserDataTest.getNewUserData();
+		UserData user1 = UserDataTest.getNewUserData();
+		/// Save it
+		session.save(user1);
 
-		// Save the user
-		session.save(user);
+		// Same for user 2
+		UserData user2 = UserDataTest.getNewUserData();
+		session.save(user2);
 
-		studyData.users.add(user);
+
+		// Add 2 users
+		studyData.users.add(user1);
+		studyData.users.add(user2);
 
 		session.save(studyData);
 
@@ -78,20 +113,29 @@ public class StudyDataTest  extends HibernateTest{
 		// To see if hibernate will match id?
 		Assert.assertNotNull("Id it's been populated", studyData.id);
 		logger.info("New studyData id populated: " + studyData.id);
+		Assert.assertNotNull("Id of the bussinessMOdelEntity must be populated", studyData.getBussinesModelEntity().getId());
+
 
 		session.getTransaction().commit();
+
+		// Close session, studyData becomes detached
 		session.close();
 
 
-
-		// New session (
+		// New session
 		session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
 
+		UserData user3 = UserDataTest.getNewUserData();
+		session.save(user3);
+
 		// Instantiate a "clean" new set
 		HashSet<UserData> cleanUsers = new HashSet<>();
-		cleanUsers.add(user);
+
+		// Add one of the existing users and a new one
+		cleanUsers.add(user1);
+		cleanUsers.add(user3);
 
 		studyData.users = cleanUsers;
 
@@ -100,14 +144,13 @@ public class StudyDataTest  extends HibernateTest{
 		session.getTransaction().commit();
 
 
-
 	}
 
 	public static StudyData getStudyData() {
 
-		StudyData studyData = new StudyData();
-		studyData.acc = "ACC";
-		studyData.obfuscationcode = "OCODE";
+		StudyData studyData = DataModelFactory.getStudyDataInstance(new Study());
+		studyData.setAcc (ACC + System.currentTimeMillis());
+		studyData.setObfuscationcode (OCODE);
 
 		return studyData;
 	}
