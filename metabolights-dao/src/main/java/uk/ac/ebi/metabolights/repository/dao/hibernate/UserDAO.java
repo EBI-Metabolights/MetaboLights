@@ -99,8 +99,8 @@ public class UserDAO extends DAO {
 //	};
 
 	@Override
-	protected String getDataModelName() {
-		return UserData.class.getName();
+	protected Class getDataModelClass() {
+		return UserData.class;
 	}
 
 

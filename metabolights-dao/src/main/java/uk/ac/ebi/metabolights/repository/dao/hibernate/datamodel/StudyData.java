@@ -65,17 +65,29 @@ public class StudyData  extends DataModel<Study> {
 	public Set<UserData> users = new HashSet<>();
 
 	@Override
-	protected void setBussinessModelId(Long id) {
+	protected void setBusinessModelId(Long id) {
 
-		bussinesModelEntity.setId(id);
+		businessModelEntity.setId(id);
 	}
 
 	@Override
-	protected void bussinesModelToDataModel() {
+	protected void businessModelToDataModel() {
 
-		this.id = bussinesModelEntity.getId();
-		this.obfuscationcode = bussinesModelEntity.getObfuscationCode();
-		this.acc = bussinesModelEntity.getStudyIdentifier();
+		this.id = businessModelEntity.getId();
+		this.obfuscationcode = businessModelEntity.getObfuscationCode();
+		this.acc = businessModelEntity.getStudyIdentifier();
 
+	}
+
+	@Override
+	public Study dataModelToBusinessModel() {
+
+		businessModelEntity = new Study();
+
+		businessModelEntity.setId(this.id);
+		businessModelEntity.setObfuscationCode(this.obfuscationcode);
+		businessModelEntity.setStudyIdentifier(this.acc);
+
+		return businessModelEntity;
 	}
 }

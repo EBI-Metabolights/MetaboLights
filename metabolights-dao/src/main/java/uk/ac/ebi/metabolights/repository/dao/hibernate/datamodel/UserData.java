@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
 
 import javax.persistence.Entity;
@@ -148,27 +149,49 @@ public class UserData extends DataModel<User> {
 	}
 
 	@Override
-	protected void setBussinessModelId(Long id) {
-		bussinesModelEntity.setUserId(id);		
+	protected void setBusinessModelId(Long id) {
+		businessModelEntity.setUserId(id);
 	}
 
 	@Override
-	protected void bussinesModelToDataModel() {
+	protected void businessModelToDataModel() {
 
-		this.id = bussinesModelEntity.getUserId();
-		this.address =bussinesModelEntity.getAddress();
-		this.email =bussinesModelEntity.getEmail();
-		this.joinDate =bussinesModelEntity.getJoinDate();
-		this.password =bussinesModelEntity.getDbPassword();
-		this.role =bussinesModelEntity.getRole().ordinal();
-		this.userName =bussinesModelEntity.getUserName();
-		this.affiliation =bussinesModelEntity.getAffiliation();
-		this.firstName =bussinesModelEntity.getFirstName();
-		this.lastName =bussinesModelEntity.getLastName();
-		this.status =bussinesModelEntity.getStatus().ordinal();
-		this.affiliationUrl =bussinesModelEntity.getAffiliationUrl();
-		this.apiToken =bussinesModelEntity.getApiToken();
+		this.id = businessModelEntity.getUserId();
+		this.address =businessModelEntity.getAddress();
+		this.email =businessModelEntity.getEmail();
+		this.joinDate =businessModelEntity.getJoinDate();
+		this.password =businessModelEntity.getDbPassword();
+		this.role =businessModelEntity.getRole().ordinal();
+		this.userName =businessModelEntity.getUserName();
+		this.affiliation =businessModelEntity.getAffiliation();
+		this.firstName =businessModelEntity.getFirstName();
+		this.lastName =businessModelEntity.getLastName();
+		this.status =businessModelEntity.getStatus().ordinal();
+		this.affiliationUrl =businessModelEntity.getAffiliationUrl();
+		this.apiToken =businessModelEntity.getApiToken();
 
+	}
+
+	@Override
+	public User dataModelToBusinessModel() {
+
+		businessModelEntity = new User();
+
+		businessModelEntity.setUserId(this.id);
+		businessModelEntity.setAddress(this.address);
+		businessModelEntity.setEmail(this.email);
+		businessModelEntity.setJoinDate(this.joinDate);
+		businessModelEntity.setDbPassword(this.password);
+		businessModelEntity.setRole(AppRole.values()[this.role]);
+		businessModelEntity.setUserName(this.userName);
+		businessModelEntity.setAffiliation(this.affiliation);
+		businessModelEntity.setFirstName(this.firstName);
+		businessModelEntity.setLastName(this.lastName);
+		businessModelEntity.setStatus(User.UserStatus.values()[this.status]);
+		businessModelEntity.setAffiliationUrl(this.affiliationUrl);
+		businessModelEntity.setApiToken(this.apiToken);
+
+		return  businessModelEntity;
 	}
 	//private Set<StudyLite> studies = new HashSet<StudyLite>();
 

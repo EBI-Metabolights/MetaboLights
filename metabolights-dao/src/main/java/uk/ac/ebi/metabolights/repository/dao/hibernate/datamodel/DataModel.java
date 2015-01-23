@@ -24,7 +24,7 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 import javax.persistence.*;
 
 /**
- * B is a bussiness model entity
+ * B is a business model entity
  * User: conesa
  * Date: 21/01/15
  * Time: 08:53
@@ -34,7 +34,7 @@ public abstract class DataModel <B>{
 
 	// Instance variables
 	@Transient
-	protected B bussinesModelEntity;
+	protected B businessModelEntity;
 
 	protected Long id;
 
@@ -42,8 +42,9 @@ public abstract class DataModel <B>{
 	protected String table;
 
 	// Abstract methoods
-	protected abstract void setBussinessModelId(Long id);
-	protected abstract void bussinesModelToDataModel();
+	protected abstract void setBusinessModelId(Long id);
+	protected abstract void businessModelToDataModel();
+	public abstract B dataModelToBusinessModel();
 
 
 	// Getter and setters
@@ -55,17 +56,17 @@ public abstract class DataModel <B>{
 
 	public void setId(Long newId){
 
-		if (bussinesModelEntity != null) setBussinessModelId(newId);
+		if (businessModelEntity != null) setBusinessModelId(newId);
 		id =newId;
 	}
 
 	@Transient
 	public B getBussinesModelEntity() {
-		return bussinesModelEntity;
+		return businessModelEntity;
 	}
 
-	public void setBussinesModelEntity(B bussinesModelEntity) {
-		this.bussinesModelEntity = bussinesModelEntity;
-		if (bussinesModelEntity != null) bussinesModelToDataModel();
+	public void setBussinesModelEntity(B businessModelEntity) {
+		this.businessModelEntity = businessModelEntity;
+		if (businessModelEntity != null) businessModelToDataModel();
 	}
 }

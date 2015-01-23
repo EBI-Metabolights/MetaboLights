@@ -23,7 +23,10 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.DataModel;
+import uk.ac.ebi.metabolights.repository.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,60 +39,127 @@ import java.util.List;
 public abstract class DAO<BussinessEntity,dataModel extends DataModel> {
 
 	protected String dataModelName;
+	private static Logger logger = LoggerFactory.getLogger(DAO.class);
 
 	public DAO(){
-		this.dataModelName = getDataModelName();
+		this.dataModelName = getDataModelClass().getSimpleName();
 	}
 
-	protected abstract String getDataModelName();
+
+	protected abstract Class<dataModel> getDataModelClass();
 
 
 	protected Session getSession() {
 		return HibernateUtil.getSessionFactory().openSession();
 	}
+
 	protected void closeSession() {
 		Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
 		session.close();
 
 	}
 
-	public List<BussinessEntity> findBy(String where){
+	public List<BussinessEntity> findBy(String where , Filter filter) throws DAOException {
 
 		Session session = getSession();
 
-		Query query = session.createQuery("from " + dataModelName);
+
+		Query query = getQuery(session, where, filter);
 
 		List<dataModel> dataModels = query.list();
 
+		session.close();
+
 		return convertDataModelToBussinessModel(dataModels);
 
+	}
 
 
-	};
+	public BussinessEntity findSingle(String where, Filter filter) throws DAOException {
 
-	public BussinessEntity findSingle(String where){
+		return findBy(where, filter).iterator().next();
 
-		return findBy(where).iterator().next();
+	}
 
-	};
+	public  List<BussinessEntity>  findAll() throws DAOException {
 
-	public  List<BussinessEntity>  findAll(){
+		return findBy(null, null);
 
-		return findBy("");
+	}
 
-	};
 
+	public void save(BussinessEntity bussinessEntity) throws DAOException {
+
+		Session session = getSession();
+		session.beginTransaction();
+
+		// Convert BusinessEntity to DataModel
+		dataModel datamodel = getDataModel();
+
+		// Invoke the conversion
+		datamodel.setBussinesModelEntity(bussinessEntity);
+		session.save(datamodel);
+
+		session.getTransaction().commit();
+		session.close();
+
+	}
+
+	public void delete(BussinessEntity bussinessEntity) throws DAOException {
+
+		Session session = getSession();
+		session.beginTransaction();
+
+		// Convert BusinessEntity to DataModel
+		dataModel datamodel = getDataModel();
+
+		// Invoke the conversion
+		datamodel.setBussinesModelEntity(bussinessEntity);
+		session.delete(datamodel);
+
+		session.getTransaction().commit();
+		session.close();
+
+	}
+
+
+	private Query getQuery(Session session, String where, Filter filter) throws DAOException {
+
+		String queryS = "from " + dataModelName;
+		
+		// Add the where clause if exists
+		if (where != null && where.length()!=0) queryS = queryS + " where " + where;
+
+		Query query = session.createQuery(queryS);
+
+		// Fill query with parameters
+		if (filter != null) filter.fillQuery(query);
+
+		return query;
+	}
 
 	private List<BussinessEntity> convertDataModelToBussinessModel(List<dataModel>dataModels){
 
 		List<BussinessEntity> bussinessModels = new ArrayList<BussinessEntity>();
 
 		for (dataModel datamodel: dataModels){
-			Object bussinessModel = datamodel.getBussinesModelEntity();
-			bussinessModels.add((BussinessEntity) bussinessModel);
+			BussinessEntity bussinessModel = (BussinessEntity) datamodel.dataModelToBusinessModel();
+			bussinessModels.add(bussinessModel);
 
 		}
 
 		return bussinessModels;
+	}
+
+	public dataModel getDataModel() throws DAOException {
+		try {
+			return getDataModelClass().newInstance();
+		} catch (Exception e) {
+			throw new DAOException("Can't instantiate the datamodel " + getDataModelClass().getSimpleName() + ". Check You DAO implements getDataModelClass",e);
+		}
+	}
+
+	public BussinessEntity findById(Long id) throws DAOException {
+		return findSingle("id=:id", new Filter(new Object[]{"id", id}));
 	}
 }

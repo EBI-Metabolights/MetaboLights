@@ -23,27 +23,78 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import org.junit.Assert;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
 import uk.ac.ebi.metabolights.repository.model.User;
 
 import java.util.List;
 
 public class UserDAOTest  extends HibernateTest{
 
+	private static final String USER_NAME = "UserName";
+	private static final String LAST_NAME = "last name";
+	private static final String FIRST_NAME = "first name";
+	private static final String ADDRESS = "address";
+	private static final String AFFILIATION = "affiliation";
+	private static final String AFFILIATIONURL = "affiliationurl";
+	private static final String EMAIL = "email";
+
 	@Test
 	public void testConstructor() throws Exception {
 
 		UserDAO userDAO = new UserDAO();
 
-		Assert.assertEquals("Table has the users table", Constants.USERS_TABLE, userDAO.getDataModelName());
+		Assert.assertEquals("Class match test", UserData.class, userDAO.getDataModelClass());
+
+	}
+
+	@Test
+	public void testCRUDUserDAO() throws DAOException {
+
+		UserDAO userDAO = new UserDAO();
+
+		User newUser = new User();
+
+		newUser.setUserName(USER_NAME + System.currentTimeMillis());
+		newUser.setLastName(LAST_NAME);
+		newUser.setFirstName(FIRST_NAME);
+		newUser.setAddress(ADDRESS);
+		newUser.setAffiliation(AFFILIATION);
+		newUser.setAffiliationUrl(AFFILIATIONURL);
+		newUser.setDbPassword("password");
+		newUser.setEmail(EMAIL);
+
+		userDAO.save(newUser);
+
+		Assert.assertNotNull("User id it's been populated" ,newUser.getUserId());
+
+
+		// Test find
+		User savedUser = (User) userDAO.findById(newUser.getUserId());
+		Assert.assertEquals("Test username", newUser.getUserName(), savedUser.getUserName());
+
+
+		// Test update
+		savedUser.setUserName(USER_NAME + System.currentTimeMillis());
+		userDAO.save(savedUser);
+
+		savedUser = (User) userDAO.findById(newUser.getUserId());
+		Assert.assertNotSame("Test username", newUser.getUserName(), savedUser.getUserName());
+
+
+		// Now delete the user
+		userDAO.delete(savedUser);
+
 
 
 	}
 	@Test
-	public void testFindAll(){
+	public void testFindAll() throws DAOException {
 
 		UserDAO userDAO = new UserDAO();
 
 		List<User> users = userDAO.findAll();
+
+		logger.info(users.size() + " users found.");
 
 
 	}
