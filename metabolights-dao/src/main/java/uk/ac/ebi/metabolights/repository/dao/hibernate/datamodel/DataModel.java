@@ -46,7 +46,6 @@ public abstract class DataModel <B>{
 	protected abstract void businessModelToDataModel();
 	public abstract B dataModelToBusinessModel();
 
-
 	// Getter and setters
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,4 +68,17 @@ public abstract class DataModel <B>{
 		this.businessModelEntity = businessModelEntity;
 		if (businessModelEntity != null) businessModelToDataModel();
 	}
+
+//	protected Collection<DataModel<B>> convertBussinesModelCollection(Collection<B> bussinesCollection){
+//
+//		ArrayList<DataModel<B>> collection = new ArrayList<DataModel<B>>();
+//
+//		for (bussinesItem:bussinesCollection){
+//
+//			DataModel<B> dataModel =
+//		}
+//
+//
+//
+//	}
 }

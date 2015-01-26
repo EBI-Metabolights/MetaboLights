@@ -22,93 +22,117 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.DataModel;
-import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * User: conesa
  * Date: 21/01/15
  * Time: 14:55
  */
-public abstract class DAO<BussinessEntity,dataModel extends DataModel> {
+public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	protected String dataModelName;
 	private static Logger logger = LoggerFactory.getLogger(DAO.class);
 
+	// Wrapper for the session
+	protected SessionWrapper session = HibernateUtil.getSession();
+
 	public DAO(){
+
 		this.dataModelName = getDataModelClass().getSimpleName();
+
 	}
 
+	public SessionWrapper getSession() {
+		return session;
+	}
+
+	public void setSession(SessionWrapper session) {
+		this.session = session;
+	}
 
 	protected abstract Class<dataModel> getDataModelClass();
+	protected abstract void preSave(dataModel datamodel) throws DAOException;
 
+	public List<BusinessEntity> findBy(String where , Filter filter) throws DAOException {
 
-	protected Session getSession() {
-		return HibernateUtil.getSessionFactory().openSession();
-	}
+		session.needSession();
 
-	protected void closeSession() {
-		Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
-		session.close();
-
-	}
-
-	public List<BussinessEntity> findBy(String where , Filter filter) throws DAOException {
-
-		Session session = getSession();
-
-
-		Query query = getQuery(session, where, filter);
+		Query query = getQuery(where, filter);
 
 		List<dataModel> dataModels = query.list();
 
-		session.close();
 
-		return convertDataModelToBussinessModel(dataModels);
+		// We are bypassing any lazy initialization with this. So far it's fine.
+		List<BusinessEntity> businessEntities = convertDataModelToBusinessModel(dataModels);
+
+		session.noNeedSession();
+
+		return  businessEntities;
 
 	}
 
 
-	public BussinessEntity findSingle(String where, Filter filter) throws DAOException {
+	public BusinessEntity findSingle(String where, Filter filter) throws DAOException {
 
 		return findBy(where, filter).iterator().next();
 
 	}
 
-	public  List<BussinessEntity>  findAll() throws DAOException {
+	public  List<BusinessEntity>  findAll() throws DAOException {
 
 		return findBy(null, null);
 
 	}
 
 
-	public void save(BussinessEntity bussinessEntity) throws DAOException {
-
-		Session session = getSession();
-		session.beginTransaction();
+	public void save(BusinessEntity bussinessEntity) throws DAOException {
 
 		// Convert BusinessEntity to DataModel
 		dataModel datamodel = getDataModel();
 
 		// Invoke the conversion
 		datamodel.setBussinesModelEntity(bussinessEntity);
-		session.save(datamodel);
 
-		session.getTransaction().commit();
-		session.close();
+		// Pre save will trigger the save of prent objects if any.
+		preSave(datamodel);
+
+		saveDataModel(datamodel);
+
 
 	}
 
-	public void delete(BussinessEntity bussinessEntity) throws DAOException {
+	protected void saveDataModel(dataModel datamodel){
 
-		Session session = getSession();
-		session.beginTransaction();
+		session.needSession();
+
+		session.saveOrUpdate(datamodel);
+
+		session.noNeedSession();
+
+	}
+
+
+	public void save(Set<dataModel> dataModels) throws DAOException {
+
+		for (dataModel dataModel:dataModels) {
+
+			saveDataModel(dataModel);
+
+		}
+
+	}
+
+	public void delete(BusinessEntity bussinessEntity) throws DAOException {
+
+		session.needSession();
 
 		// Convert BusinessEntity to DataModel
 		dataModel datamodel = getDataModel();
@@ -117,13 +141,12 @@ public abstract class DAO<BussinessEntity,dataModel extends DataModel> {
 		datamodel.setBussinesModelEntity(bussinessEntity);
 		session.delete(datamodel);
 
-		session.getTransaction().commit();
-		session.close();
+		session.noNeedSession();
 
 	}
 
 
-	private Query getQuery(Session session, String where, Filter filter) throws DAOException {
+	private Query getQuery(String where, Filter filter) throws DAOException {
 
 		String queryS = "from " + dataModelName;
 		
@@ -138,12 +161,12 @@ public abstract class DAO<BussinessEntity,dataModel extends DataModel> {
 		return query;
 	}
 
-	private List<BussinessEntity> convertDataModelToBussinessModel(List<dataModel>dataModels){
+	private List<BusinessEntity> convertDataModelToBusinessModel(List<dataModel>dataModels){
 
-		List<BussinessEntity> bussinessModels = new ArrayList<BussinessEntity>();
+		List<BusinessEntity> bussinessModels = new ArrayList<BusinessEntity>();
 
 		for (dataModel datamodel: dataModels){
-			BussinessEntity bussinessModel = (BussinessEntity) datamodel.dataModelToBusinessModel();
+			BusinessEntity bussinessModel = (BusinessEntity) datamodel.dataModelToBusinessModel();
 			bussinessModels.add(bussinessModel);
 
 		}
@@ -159,7 +182,7 @@ public abstract class DAO<BussinessEntity,dataModel extends DataModel> {
 		}
 	}
 
-	public BussinessEntity findById(Long id) throws DAOException {
+	public BusinessEntity findById(Long id) throws DAOException {
 		return findSingle("id=:id", new Filter(new Object[]{"id", id}));
 	}
 }

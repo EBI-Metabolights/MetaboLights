@@ -26,7 +26,7 @@ import uk.ac.ebi.metabolights.repository.model.User;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Date;
+import java.util.*;
 
 
 /**
@@ -195,4 +195,38 @@ public class UserData extends DataModel<User> {
 	}
 	//private Set<StudyLite> studies = new HashSet<StudyLite>();
 
+	protected static Set<UserData>bussinessUsersToUserData(Collection<User> bussinesUsers){
+
+		Set<UserData> usersData = new HashSet<UserData>();
+
+		for (User bussinesItem :bussinesUsers){
+
+			UserData user = new UserData();
+			user.setBussinesModelEntity(bussinesItem);
+
+			// Add it to the collection
+			usersData.add(user);
+		}
+
+		return usersData;
+	}
+
+
+	public static Set<User> dataModelToUsers(Set<UserData> usersData) {
+
+		Set<User> users = new HashSet<User>();
+
+		for (UserData userData :usersData){
+
+			User user = new User();
+			user = userData.dataModelToBusinessModel();
+
+			// Add it to the collection
+			users.add(user);
+		}
+
+		return users;
+
+
+	}
 }

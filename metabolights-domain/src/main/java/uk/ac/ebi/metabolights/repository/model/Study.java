@@ -21,12 +21,12 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 public class Study {
-
 
     public enum StudyStatus{
         PENDING, APPROVED
@@ -42,7 +42,7 @@ public class Study {
     // Database fields
     private StudyStatus studyStatus = StudyStatus.PENDING;
     private Long id;
-    private String obfuscationCode;
+    private String obfuscationCode = java.util.UUID.randomUUID().toString();
 
     // Collections
     private Collection<Contact> contacts;
@@ -53,6 +53,8 @@ public class Study {
     private List<Assay> assays;
     private Collection<Organism> organism;
     private Collection<String> owners;
+    private Collection<User> users = new ArrayList<>();
+
 
 	// Tables Sample & Assays
 	private Table sampleTable;
@@ -210,5 +212,13 @@ public class Study {
 	public void setSampleTable(Table sampleTable) {
 		this.sampleTable = sampleTable;
 	}
+
+    public Collection<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<User> users) {
+        this.users = users;
+    }
 
 }

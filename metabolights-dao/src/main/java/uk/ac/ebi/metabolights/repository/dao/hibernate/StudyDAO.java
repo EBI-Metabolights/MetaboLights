@@ -21,54 +21,39 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
-import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
-import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
+import uk.ac.ebi.metabolights.repository.model.Study;
 
 /**
  * User: conesa
  * Date: 21/01/15
  * Time: 13:18
  */
-public class UserDAO extends DAO <User,UserData>{
+public class StudyDAO extends DAO <Study,StudyData>{
 
 	/**
-	 * Find a user by means of the userName.
-	 * @param userName
+	 * Find a user by means of the accession number.
+	 * @param accession
 	 */
-	public User findByName(String userName) throws DAOException {
+	public Study findByAccession(String accession) throws DAOException {
 
-		return findSingle("userName=:username",new Filter(new Object[]{"username",userName}));
+		return findSingle("acc=:acc",new Filter(new Object[]{"acc",accession}));
 
-	};
-
-	/**
-	 * Find a user by means of the user tokken.
-	 * @param userToken
-	 */
-	public User findByToken(String userToken) throws DAOException {
-
-		return findSingle("apiToken=:apitoken",new Filter(new Object[]{"apitoken",userToken}));
-
-	};
-
-	/**
-	 * Find a user by means of the email address.
-	 * @param email
-	 */
-	public User findByEmail(String email) throws DAOException {
-
-		return findSingle("email=:email",new Filter(new Object[]{"email",email}));
 	};
 
 	@Override
 	protected Class getDataModelClass() {
-		return UserData.class;
+		return StudyData.class;
 	}
 
 	@Override
-	protected void preSave(UserData datamodel) throws DAOException {
-		// Nothing to do. No parents.
-	}
+	protected void preSave(StudyData study) throws DAOException {
+		// Save users first
+		UserDAO usersDAO = new UserDAO();
+		usersDAO.setSession(this.session);
 
+		usersDAO.save(study.getUsers());
+
+	}
 
 }

@@ -50,7 +50,6 @@ public class User {
 	public User() {
 		//Some default values
 		this.role = AppRole.ROLE_SUBMITTER;
-		this.objectType="Person";
 		this.status= UserStatus.NEW;
 		this.joinDate=new Date();
 	}
@@ -83,7 +82,7 @@ public class User {
 
 	private AppRole role;
 
-	private String apiToken;
+	private String apiToken = java.util.UUID.randomUUID().toString();
 
 	private Set<StudyLite> studies = new HashSet<StudyLite>();
 

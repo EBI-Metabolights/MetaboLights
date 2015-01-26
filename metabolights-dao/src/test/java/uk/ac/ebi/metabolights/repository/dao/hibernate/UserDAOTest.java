@@ -28,7 +28,7 @@ import uk.ac.ebi.metabolights.repository.model.User;
 
 import java.util.List;
 
-public class UserDAOTest  extends HibernateTest{
+public class UserDAOTest  extends HibernateTest {
 
 	private static final String USER_NAME = "UserName";
 	private static final String LAST_NAME = "last name";
@@ -52,6 +52,46 @@ public class UserDAOTest  extends HibernateTest{
 
 		UserDAO userDAO = new UserDAO();
 
+		User newUser = getUser();
+
+		userDAO.save(newUser);
+
+		Assert.assertNotNull("User id it's been populated", newUser.getUserId());
+
+
+		// Test find
+		User savedUser = userDAO.findById(newUser.getUserId());
+		Assert.assertEquals("Test username", newUser.getUserName(), savedUser.getUserName());
+
+
+		// Test update
+		savedUser.setUserName(USER_NAME + System.currentTimeMillis());
+		userDAO.save(savedUser);
+
+		// Test findById
+		savedUser = userDAO.findById(newUser.getUserId());
+		Assert.assertNotSame("Test username", newUser.getUserName(), savedUser.getUserName());
+
+		// Test findByName
+		User byNameUser = userDAO.findByName(savedUser.getUserName());
+		Assert.assertEquals("Test findByUserName: username match", savedUser.getUserName(), byNameUser.getUserName());
+
+		// Test findByName
+		User byTokenUser = userDAO.findByToken(savedUser.getApiToken());
+		Assert.assertEquals("Test findByToken: username match", savedUser.getUserName(), byTokenUser.getUserName());
+
+		// Test findByEmail
+		User byEmailUser = userDAO.findByEmail(savedUser.getEmail());
+		Assert.assertEquals("Test findByEmail: username match", savedUser.getUserName(), byTokenUser.getUserName());
+
+
+		// Now delete the user
+		userDAO.delete(savedUser);
+
+
+	}
+
+	public static User getUser() {
 		User newUser = new User();
 
 		newUser.setUserName(USER_NAME + System.currentTimeMillis());
@@ -62,31 +102,9 @@ public class UserDAOTest  extends HibernateTest{
 		newUser.setAffiliationUrl(AFFILIATIONURL);
 		newUser.setDbPassword("password");
 		newUser.setEmail(EMAIL);
-
-		userDAO.save(newUser);
-
-		Assert.assertNotNull("User id it's been populated" ,newUser.getUserId());
-
-
-		// Test find
-		User savedUser = (User) userDAO.findById(newUser.getUserId());
-		Assert.assertEquals("Test username", newUser.getUserName(), savedUser.getUserName());
-
-
-		// Test update
-		savedUser.setUserName(USER_NAME + System.currentTimeMillis());
-		userDAO.save(savedUser);
-
-		savedUser = (User) userDAO.findById(newUser.getUserId());
-		Assert.assertNotSame("Test username", newUser.getUserName(), savedUser.getUserName());
-
-
-		// Now delete the user
-		userDAO.delete(savedUser);
-
-
-
+		return newUser;
 	}
+
 	@Test
 	public void testFindAll() throws DAOException {
 
@@ -99,3 +117,5 @@ public class UserDAOTest  extends HibernateTest{
 
 	}
 }
+
+

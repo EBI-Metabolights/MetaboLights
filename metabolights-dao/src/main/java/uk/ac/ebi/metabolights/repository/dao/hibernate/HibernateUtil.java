@@ -27,6 +27,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
 
@@ -74,5 +75,9 @@ public class HibernateUtil {
 
 
 
+	}
+
+	public static SessionWrapper getSession(){
+		return  new SessionWrapper(factory);
 	}
 }

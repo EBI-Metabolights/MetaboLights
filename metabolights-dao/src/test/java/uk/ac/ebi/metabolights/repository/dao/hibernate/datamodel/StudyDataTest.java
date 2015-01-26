@@ -57,9 +57,9 @@ public class StudyDataTest  extends HibernateTest{
 		// Add an user
 		UserData user = UserDataTest.getNewUserData();
 		session.save(user);
-		studyData.users.add(user);
+		studyData.getUsers().add(user);
 
-		session.save(studyData);
+		session.saveOrUpdate(studyData);
 
 		Assert.assertNotNull("Id it's been populated", studyData.id);
 		logger.info("New studyData id populated: " + studyData.id);
@@ -78,6 +78,9 @@ public class StudyDataTest  extends HibernateTest{
 		// Check some values..
 		Assert.assertEquals("StudyData retrieved test: Obfuscation code", OCODE,studyData.getObfuscationcode());
 		Assert.assertTrue("Accession starts with test:", studyData.getAcc().startsWith(ACC));
+
+		// Check users collection is retrieved
+		Assert.assertEquals("Are study users populated?", 1,studyData.getUsers().size());
 
 		// Test deletion
 		session.delete(studyData);
@@ -104,8 +107,8 @@ public class StudyDataTest  extends HibernateTest{
 
 
 		// Add 2 users
-		studyData.users.add(user1);
-		studyData.users.add(user2);
+		studyData.getUsers().add(user1);
+		studyData.getUsers().add(user2);
 
 		session.save(studyData);
 
@@ -137,7 +140,7 @@ public class StudyDataTest  extends HibernateTest{
 		cleanUsers.add(user1);
 		cleanUsers.add(user3);
 
-		studyData.users = cleanUsers;
+		studyData.setUsers(cleanUsers);
 
 		session.saveOrUpdate(studyData);
 

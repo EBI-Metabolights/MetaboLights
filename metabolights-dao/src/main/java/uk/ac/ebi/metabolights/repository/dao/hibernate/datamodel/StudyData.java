@@ -42,6 +42,7 @@ public class StudyData  extends DataModel<Study> {
 
 	private String acc;
 	private String obfuscationcode;
+	private Set<UserData> users = new HashSet<>();
 
 	public String getAcc() {
 		return acc;
@@ -59,10 +60,16 @@ public class StudyData  extends DataModel<Study> {
 		this.obfuscationcode = obfuscationcode;
 	}
 
-
 	@ManyToMany
 	@JoinTable(name="study_user", joinColumns=@JoinColumn(name="studyid"), inverseJoinColumns=@JoinColumn(name="userid"))
-	public Set<UserData> users = new HashSet<>();
+	public Set<UserData> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<UserData> users) {
+		this.users = users;
+	}
+
 
 	@Override
 	protected void setBusinessModelId(Long id) {
@@ -77,6 +84,9 @@ public class StudyData  extends DataModel<Study> {
 		this.obfuscationcode = businessModelEntity.getObfuscationCode();
 		this.acc = businessModelEntity.getStudyIdentifier();
 
+		// Convert Users...
+		this.users = UserData.bussinessUsersToUserData(businessModelEntity.getUsers());
+
 	}
 
 	@Override
@@ -87,6 +97,9 @@ public class StudyData  extends DataModel<Study> {
 		businessModelEntity.setId(this.id);
 		businessModelEntity.setObfuscationCode(this.obfuscationcode);
 		businessModelEntity.setStudyIdentifier(this.acc);
+
+		// Fill users
+		businessModelEntity.setUsers(UserData.dataModelToUsers(users));
 
 		return businessModelEntity;
 	}
