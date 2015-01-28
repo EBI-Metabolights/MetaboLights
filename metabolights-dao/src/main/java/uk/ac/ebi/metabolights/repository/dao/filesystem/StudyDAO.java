@@ -48,46 +48,10 @@ public class StudyDAO {
 
     }
 
-    public Study getStudy(String metabolightsId, boolean includeMetabolites){
+    public Study getStudy(String accession, boolean includeMetabolites){
 
-        // Try public studies location
-        File studyFolder = getInvestigationFolder(metabolightsId, publicFolder);
-
-        logger.info("Trying to parse study "+metabolightsId);
-
-        boolean isPublic = true;
-
-        // If we got nothing...
-        if (studyFolder == null) {
-
-            // Try private studies location
-            studyFolder = getInvestigationFolder(metabolightsId, privateFolder);
-
-            isPublic = false;
-        }
-
-        // We got something ...
-        if (studyFolder != null){
-
-            // Load the IsaTab investigation
-            org.isatools.isacreator.model.Investigation isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
-
-            // Convert it into a MetaboLights study
-            Study study = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites);
-
-            // Set status...
-            study.setPublicStudy(isPublic);
-
-            study.setStudyLocation(studyFolder.getAbsolutePath());
-
-            logger.info("Loaded study "+study.getStudyIdentifier());
-
-            return study;
-
-        } else {
-            return null;
-        }
-
+        Study newStudy = new Study();
+        return fillStudy(accession, includeMetabolites, newStudy);
 
     }
 
@@ -113,4 +77,47 @@ public class StudyDAO {
 		return (getInvestigationFolder(metaboLightsId,publicFolder) != null);
 	}
 
+    public Study fillStudy(String accession, boolean includeMetabolites, Study studyToFill) {
+
+        // Try public studies location
+        File studyFolder = getInvestigationFolder(accession, publicFolder);
+
+        logger.info("Trying to parse study "+ accession);
+
+        boolean isPublic = true;
+
+        // If we got nothing...
+        if (studyFolder == null) {
+
+            // Try private studies location
+            studyFolder = getInvestigationFolder(accession, privateFolder);
+
+            isPublic = false;
+        }
+
+        // We got something ...
+        if (studyFolder != null){
+
+            // Load the IsaTab investigation
+            org.isatools.isacreator.model.Investigation isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
+
+            // Convert it into a MetaboLights study
+             studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
+
+            // Set status...
+            studyToFill.setPublicStudy(isPublic);
+
+            studyToFill.setStudyLocation(studyFolder.getAbsolutePath());
+
+            logger.info("Loaded study "+ studyToFill.getStudyIdentifier());
+
+            return studyToFill;
+
+        } else {
+            return null;
+        }
+
+
+
+    }
 }

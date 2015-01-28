@@ -29,6 +29,7 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
@@ -65,7 +66,7 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 		session.needSession();
 
-		Query query = getQuery(where, filter);
+		Query query = getDefaultQuery(where, filter);
 
 		List<dataModel> dataModels = query.list();
 
@@ -82,13 +83,32 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	public BusinessEntity findSingle(String where, Filter filter) throws DAOException {
 
-		return findBy(where, filter).iterator().next();
+		try {
+			return findBy(where, filter).iterator().next();
+		} catch (NoSuchElementException e){
+			return null;
+		}
 
 	}
 
 	public  List<BusinessEntity>  findAll() throws DAOException {
 
 		return findBy(null, null);
+
+	}
+
+	public Object getUniqueValue(String wholeQuery, Filter filter) throws DAOException {
+
+		session.needSession();
+
+		Query query = getQuery(wholeQuery, filter);
+
+		Object value = query.uniqueResult();
+
+		session.noNeedSession();
+
+		return value;
+
 
 	}
 
@@ -101,7 +121,7 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 		// Invoke the conversion
 		datamodel.setBussinesModelEntity(bussinessEntity);
 
-		// Pre save will trigger the save of prent objects if any.
+		// Pre save will trigger the save of parent objects if any.
 		preSave(datamodel);
 
 		saveDataModel(datamodel);
@@ -145,13 +165,18 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	}
 
-
-	private Query getQuery(String where, Filter filter) throws DAOException {
+	private Query getDefaultQuery(String where, Filter filter) throws DAOException {
 
 		String queryS = "from " + dataModelName;
 		
 		// Add the where clause if exists
 		if (where != null && where.length()!=0) queryS = queryS + " where " + where;
+
+		return getQuery(queryS,filter);
+	}
+
+	private Query getQuery(String queryS, Filter filter) throws DAOException {
+
 
 		Query query = session.createQuery(queryS);
 

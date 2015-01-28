@@ -54,6 +54,10 @@ public class UserDataTest extends HibernateTest{
 		// Get a new user
 		UserData userData = getNewUserData();
 
+		StudyData newStudy = StudyDataTest.getStudyData();
+		userData.getStudies().add(newStudy);
+		session.save(newStudy);
+
 		// Test persistence
 		session.save(userData);
 
@@ -82,6 +86,13 @@ public class UserDataTest extends HibernateTest{
 		Assert.assertEquals("UserData retrieved test: role", ROLE,userData.getRole());
 		Assert.assertEquals("UserData retrieved test: ",STATUS ,userData.getStatus());
 		Assert.assertTrue("UserData retrieved test: userName startswith", userData.getUserName().startsWith(USERNAME));
+
+		// Check newStudy has been populated
+		Assert.assertEquals("User'studies collection populated?", 1,userData.getStudies().size());
+
+		StudyData savedStudy = userData.getStudies().iterator().next();
+		Assert.assertEquals("User's study retrieved test: accession", newStudy.getAcc(),savedStudy.getAcc());
+		Assert.assertEquals("User's study retrieved test: obfuscationCode", newStudy.getObfuscationcode(),savedStudy.getObfuscationcode());
 
 		session.delete(userData);
 

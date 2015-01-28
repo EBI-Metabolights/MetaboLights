@@ -29,7 +29,7 @@ import java.util.List;
 public class Study {
 
     public enum StudyStatus{
-        PENDING, APPROVED
+        PRIVATE, PENDING, APPROVED, PUBLIC
     }
     private String studyIdentifier;
     private Date studyPublicReleaseDate;
@@ -40,7 +40,7 @@ public class Study {
     private boolean publicStudy;
 
     // Database fields
-    private StudyStatus studyStatus = StudyStatus.PENDING;
+    private StudyStatus studyStatus = StudyStatus.PRIVATE;
     private Long id;
     private String obfuscationCode = java.util.UUID.randomUUID().toString();
 

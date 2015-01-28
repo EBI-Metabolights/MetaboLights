@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.repository.utils;
 
 import org.isatools.isacreator.configuration.FieldObject;
 import org.isatools.isacreator.model.Factor;
+import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.StudyDesign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,10 +65,10 @@ public class IsaTab2MetaboLightsConverter {
 	private static String currentAssayName = "";
 
 
-	public static Study convert( org.isatools.isacreator.model.Investigation investigation, String studyFolder, boolean includeMetabolites){
+	public static Study convert(Investigation investigation, String studyFolder, boolean includeMetabolites, Study studyToFill){
 
         // Convert the study from the ISAcreator model...
-        Study metStudy = isaTabInvestigation2MetaboLightsStudy(investigation, studyFolder, includeMetabolites);
+        Study metStudy = isaTabInvestigation2MetaboLightsStudy(investigation, studyFolder, includeMetabolites, studyToFill);
 
         // Convert the authors...
         return metStudy;
@@ -84,10 +85,10 @@ public class IsaTab2MetaboLightsConverter {
         return mzTabDAO.mapMetaboliteAssignmentFile(fileName);
     }
 
-    private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder, boolean includeMetabolites){
+    private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder, boolean includeMetabolites, Study studyToFill){
 
         // Instantiate new MetaboLights investigation object
-        Study metStudy = new Study();
+        Study metStudy = studyToFill;
 
 
         // Get the first and unique study

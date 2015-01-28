@@ -4,11 +4,11 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2014-Aug-21
+ * Last modified: 2015-Jan-28
  * Modified by:   conesa
  *
  *
- * Copyright 2014 EMBL-European Bioinformatics Institute.
+ * Copyright 2015 EMBL-European Bioinformatics Institute.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,41 +19,10 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-package uk.ac.ebi.metabolights.repository.model;
+package uk.ac.ebi.metabolights.repository.dao;
 
-/**
- * User: conesa
- * Date: 13/06/2014
- * Time: 14:55
- */
-public class StudyLite {
+import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateTest;
 
-	private Long studyId;
+public class StudyDAOTest extends HibernateTest {
 
-	private String accession;
-	private String obfuscationCode;
-
-	public Long getStudyId() {
-		return studyId;
-	}
-
-	public void setStudyId(Long studyId) {
-		this.studyId = studyId;
-	}
-
-	public String getAccession() {
-		return accession;
-	}
-
-	public void setAccession(String accession) {
-		this.accession = accession;
-	}
-
-	public void setObfuscationCode(String obfuscationCode) {
-		this.obfuscationCode = obfuscationCode;
-	}
-
-	public String getObfuscationCode() {
-		return obfuscationCode;
-	}
 }

@@ -24,8 +24,7 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.*;
 
 
@@ -50,6 +49,7 @@ public class UserData extends DataModel<User> {
 	private int status;
 	private String affiliationUrl;
 	private String apiToken;
+	private Set<StudyData> studies = new HashSet<>();
 
 
 	public String getAddress() {
@@ -148,6 +148,16 @@ public class UserData extends DataModel<User> {
 		this.apiToken = apiToken;
 	}
 
+	@ManyToMany
+	@JoinTable(name="study_user", joinColumns=@JoinColumn(name="userid"), inverseJoinColumns=@JoinColumn(name="studyid"))
+	public Set<StudyData> getStudies() {
+		return studies;
+	}
+
+	public void setStudies(Set<StudyData> studies) {
+		this.studies = studies;
+	}
+
 	@Override
 	protected void setBusinessModelId(Long id) {
 		businessModelEntity.setUserId(id);
@@ -191,11 +201,13 @@ public class UserData extends DataModel<User> {
 		businessModelEntity.setAffiliationUrl(this.affiliationUrl);
 		businessModelEntity.setApiToken(this.apiToken);
 
+		// Studies associated as Study Lite elements (Don't want the full studies pending from an user)
+		businessModelEntity.setStudies(StudyData.studyDataToStudyLite(studies));
+
 		return  businessModelEntity;
 	}
-	//private Set<StudyLite> studies = new HashSet<StudyLite>();
 
-	protected static Set<UserData>bussinessUsersToUserData(Collection<User> bussinesUsers){
+	protected static Set<UserData> businessModelToDataModel(Collection<User> bussinesUsers){
 
 		Set<UserData> usersData = new HashSet<UserData>();
 
@@ -212,7 +224,7 @@ public class UserData extends DataModel<User> {
 	}
 
 
-	public static Set<User> dataModelToUsers(Set<UserData> usersData) {
+	public static Set<User> dataModelToBusinessModel(Set<UserData> usersData) {
 
 		Set<User> users = new HashSet<User>();
 

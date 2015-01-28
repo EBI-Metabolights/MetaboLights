@@ -41,6 +41,15 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 	};
 
+	public boolean isStudyPublic(String accession) throws DAOException {
+		String query = "select count(*) from " + StudyData.class.getSimpleName() +
+				" where status= :status AND acc = :acc";
+
+		Long count = (Long)this.getUniqueValue(query, new Filter(new Object[]{"status",  Study.StudyStatus.PUBLIC.ordinal(),"acc", accession}));
+
+		return (count!=0L);
+	}
+
 	@Override
 	protected Class getDataModelClass() {
 		return StudyData.class;

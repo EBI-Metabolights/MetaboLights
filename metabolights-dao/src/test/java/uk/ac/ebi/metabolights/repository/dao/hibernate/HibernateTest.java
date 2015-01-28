@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
+import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.junit.Before;
 import org.slf4j.Logger;
@@ -43,8 +44,21 @@ public abstract class HibernateTest {
 		//hibernateProperties.load(SessionUtilTest.class.getResourceAsStream("hibernate.properties"));
 
 		configuration.setProperties(hibernateProperties);
+
+
+
 		HibernateUtil.initialize(configuration);
+
+		cleanDB();
 
 
 	}
+	protected void cleanDB(){
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.createQuery("delete from StudyData").executeUpdate();
+		session.createQuery("delete from UserData").executeUpdate();
+		session.close();
+	}
+
 }

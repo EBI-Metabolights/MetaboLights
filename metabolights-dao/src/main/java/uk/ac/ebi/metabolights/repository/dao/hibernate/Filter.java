@@ -89,6 +89,9 @@ public class Filter {
 
 		}else if (claz.equals(Long.class)){
 				query.setLong(key, (Long) value);
+		}else if (claz.equals(Integer.class)){
+			query.setInteger(key, (Integer) value);
+
 		} else {
 			throw new DAOException ("Can't fill query parameter, Class " + claz.getName()+ " not implemented");
 		}

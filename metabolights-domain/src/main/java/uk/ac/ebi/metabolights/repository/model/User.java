@@ -90,14 +90,6 @@ public class User {
 	// Getters and setters
 	//_______________________________________________
 
-	public String getObjectType() {
-		return objectType;
-	}
-
-	public void setObjectType(String objectType) {
-		this.objectType = objectType;
-	}
-
 	public Date getJoinDate() {
 		return joinDate;
 	}
@@ -207,15 +199,6 @@ public class User {
 		return status;
 	}
 
-
-	public Boolean isCurator(){
-		return getRole().equals(AppRole.ROLE_SUPER_USER);
-	}
-
-	public Boolean isReviewer(){
-		return getRole().equals(AppRole.ROLE_REVIEWER);
-	}
-
 	public AppRole getRole() {
 		if (role == null)  //Normal users don't have a role (only curators) so the default field is null
 			return AppRole.ROLE_SUBMITTER;
@@ -242,4 +225,28 @@ public class User {
 	public void setStudies(Set<StudyLite> studies) {
 		this.studies = studies;
 	}
+
+
+	public Boolean isCurator(){
+		return getRole().equals(AppRole.ROLE_SUPER_USER);
+	}
+
+	public Boolean isReviewer(){
+		return getRole().equals(AppRole.ROLE_REVIEWER);
+	}
+
+	public Boolean doesUserOwnsTheStudy(String accession){
+
+		// For each of the studies
+		for (StudyLite study : studies) {
+
+			if (study.getAccession().equals(accession)) {
+				return true;
+			}
+
+		}
+
+		return false;
+	}
+
 }

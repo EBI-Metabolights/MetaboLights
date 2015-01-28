@@ -23,7 +23,6 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
 import org.hibernate.Session;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
@@ -35,15 +34,6 @@ public class StudyDataTest  extends HibernateTest{
 
 	private static final String ACC = "ACC";
 	private static final String OCODE = "OCODE";
-
-	@Before
-	public void cleanDB(){
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.createQuery("delete from StudyData").executeUpdate();
-		session.createQuery("delete from UserData").executeUpdate();
-		session.close();
-	}
 
 	@Test
 	public void testStudyDataCRUD(){
@@ -67,6 +57,8 @@ public class StudyDataTest  extends HibernateTest{
 		// Close the session
 		session.getTransaction().commit();
 		session.close();
+
+
 
 		// Open it again
 		session = HibernateUtil.getSessionFactory().openSession();
@@ -154,6 +146,7 @@ public class StudyDataTest  extends HibernateTest{
 		StudyData studyData = DataModelFactory.getStudyDataInstance(new Study());
 		studyData.setAcc (ACC + System.currentTimeMillis());
 		studyData.setObfuscationcode (OCODE);
+		studyData.setStatus(Study.StudyStatus.PRIVATE.ordinal());
 
 		return studyData;
 	}

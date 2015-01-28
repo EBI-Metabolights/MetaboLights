@@ -24,12 +24,14 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate;
 import org.junit.Assert;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.security.SecurityService;
 
 import java.util.List;
 
-public class StudyDAOTest extends HibernateTest{
+public class StudyDBDAOTest extends HibernateTest{
 
 
 	private static final String ACC = "ACC";
@@ -37,16 +39,16 @@ public class StudyDAOTest extends HibernateTest{
 	@Test
 	public void testConstructor() throws Exception {
 
-		StudyDAO studyDAO = new StudyDAO();
+		StudyDAO studyDBDAO = new StudyDAO();
 
-		Assert.assertEquals("Class match test", StudyData.class, studyDAO.getDataModelClass());
+		Assert.assertEquals("Class match test", StudyData.class, studyDBDAO.getDataModelClass());
 
 	}
 
 	@Test
 	public void testCRUDStudyDAO() throws DAOException {
 
-		StudyDAO studyDAO = new StudyDAO();
+		StudyDAO studyDBDAO = new StudyDAO();
 
 		Study newStudy = new Study();
 
@@ -59,7 +61,7 @@ public class StudyDAOTest extends HibernateTest{
 
 		// Add the user to the study
 		newStudy.getUsers().add(newUser);
-		studyDAO.save(newStudy);
+		studyDBDAO.save(newStudy);
 
 		Assert.assertNotNull("Study id it's been populated" ,newStudy.getId());
 
@@ -68,22 +70,65 @@ public class StudyDAOTest extends HibernateTest{
 
 
 		// Test find
-		Study savedStudy =  studyDAO.findById(newStudy.getId());
+		Study savedStudy =  studyDBDAO.findById(newStudy.getId());
 		Assert.assertEquals("Test accession", newStudy.getStudyIdentifier(), savedStudy.getStudyIdentifier());
 		Assert.assertEquals("Test user count", newStudy.getUsers().size(), savedStudy.getUsers().size());
+
+
+		// Try isStudyPublic
+		Assert.assertEquals("Test isStudyPublic",false, studyDBDAO.isStudyPublic(newStudy.getStudyIdentifier()));
+
+		// Try Security service
+		SecurityService.userAccessingStudy(savedStudy.getStudyIdentifier(),newUser.getApiToken());
+
+		// Add a some users
+		UserDAO userDAO = new UserDAO();
+		User curator = UserDAOTest.getUser();
+		curator.setRole(AppRole.ROLE_SUPER_USER);
+		userDAO.save(curator);
+
+		// Create another user, not owner of the study.
+		User notOwner = UserDAOTest.getUser();
+		userDAO.save(notOwner);
+
+		// Test curator can access the study
+		SecurityService.userAccessingStudy(savedStudy.getStudyIdentifier(),curator.getApiToken());
+
+		// Test another user can't
+		try{
+
+			SecurityService.userAccessingStudy(savedStudy.getStudyIdentifier(),notOwner.getApiToken());
+
+			throw new AssertionError("a not owner user should trigger an exception when checking user access to a study");
+
+		} catch (SecurityException e){
+			logger.info("Expected exception: user, not an owner should throw an exception");
+		}
+
+
+		// Test a non existing user
+		try{
+
+			SecurityService.userAccessingStudy(savedStudy.getStudyIdentifier(),"foofoo");
+
+			throw new AssertionError("a non existing user should trigger an exception when checking user access to a study");
+
+		} catch (SecurityException e){
+			logger.info("Expected exception: user, non existing user should throw an exception");
+		}
+
+
 
 
 		// Test some user properties
 		User savedUser = savedStudy.getUsers().iterator().next();
 		Assert.assertEquals("Test saved user values", newUser.getUserName(), savedUser.getUserName());
 
-
-
 		// Test update
 		savedStudy.setStudyIdentifier(ACC + System.currentTimeMillis());
-		studyDAO.save(savedStudy);
+		studyDBDAO.save(savedStudy);
 
-		savedStudy = (Study) studyDAO.findById(newStudy.getId());
+		savedStudy = (Study) studyDBDAO.findById(newStudy.getId());
 		Assert.assertNotSame("Test obfuscation code", newStudy.getObfuscationCode(), savedStudy.getObfuscationCode());
 
 		// Now delete the user
@@ -94,9 +139,9 @@ public class StudyDAOTest extends HibernateTest{
 	@Test
 	public void testFindAll() throws DAOException {
 
-		StudyDAO studyDAO = new StudyDAO();
+		StudyDAO studyDBDAO = new StudyDAO();
 
-		List<Study> studies = studyDAO.findAll();
+		List<Study> studies = studyDBDAO.findAll();
 
 		logger.info(studies.size() + " studies found.");
 

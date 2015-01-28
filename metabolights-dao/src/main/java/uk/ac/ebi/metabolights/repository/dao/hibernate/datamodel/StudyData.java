@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
 import uk.ac.ebi.metabolights.repository.dao.hibernate.Constants;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.StudyLite;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -42,6 +43,7 @@ public class StudyData  extends DataModel<Study> {
 
 	private String acc;
 	private String obfuscationcode;
+	private int status;
 	private Set<UserData> users = new HashSet<>();
 
 	public String getAcc() {
@@ -58,6 +60,14 @@ public class StudyData  extends DataModel<Study> {
 
 	public void setObfuscationcode(String obfuscationcode) {
 		this.obfuscationcode = obfuscationcode;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	@ManyToMany
@@ -83,9 +93,10 @@ public class StudyData  extends DataModel<Study> {
 		this.id = businessModelEntity.getId();
 		this.obfuscationcode = businessModelEntity.getObfuscationCode();
 		this.acc = businessModelEntity.getStudyIdentifier();
+		this.status = businessModelEntity.getStudyStatus().ordinal();
 
 		// Convert Users...
-		this.users = UserData.bussinessUsersToUserData(businessModelEntity.getUsers());
+		this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
 
 	}
 
@@ -97,10 +108,60 @@ public class StudyData  extends DataModel<Study> {
 		businessModelEntity.setId(this.id);
 		businessModelEntity.setObfuscationCode(this.obfuscationcode);
 		businessModelEntity.setStudyIdentifier(this.acc);
+		businessModelEntity.setStudyStatus(Study.StudyStatus.values()[this.status]);
 
 		// Fill users
-		businessModelEntity.setUsers(UserData.dataModelToUsers(users));
+		businessModelEntity.setUsers(UserData.dataModelToBusinessModel(users));
 
 		return businessModelEntity;
+	}
+
+	public StudyLite studyDataToStudyLite() {
+
+		StudyLite studyLite = new StudyLite();
+
+		studyLite.setStudyId(this.id);
+		studyLite.setAccession(this.acc);
+		studyLite.setObfuscationCode(this.obfuscationcode);
+
+		return studyLite;
+	}
+
+	public static Set<Study> dataModelToBusinessModel(Set<StudyData> dataStudies) {
+
+		Set<Study>studies = new HashSet<Study>();
+
+		for (StudyData studyData :dataStudies){
+
+			Study studyLite = new Study();
+			studyLite = studyData.dataModelToBusinessModel();
+
+			// Add it to the collection
+			studies.add(studyLite);
+		}
+
+		return studies;
+
+
+	}
+
+
+
+	public static Set<StudyLite> studyDataToStudyLite(Set<StudyData> studies) {
+
+		Set<StudyLite>liteStudies = new HashSet<StudyLite>();
+
+		for (StudyData studyData :studies){
+
+			StudyLite studyLite = new StudyLite();
+			studyLite = studyData.studyDataToStudyLite();
+
+			// Add it to the collection
+			liteStudies.add(studyLite);
+		}
+
+		return liteStudies;
+
+
 	}
 }
