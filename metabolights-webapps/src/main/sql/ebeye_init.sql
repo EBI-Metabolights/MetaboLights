@@ -5,8 +5,10 @@ drop table study_compound;
 
 -- Tidy species in studies
 update property_value set value = 'Bos taurus (Bovine)' where value = 'Bos taurus';
-update property_value set value = 'Arabidopsis thaliana (thale cress)' where value = 'Arabidopsis thaliana';
-update property_value set value = 'Homo sapiens (Human)' where value = 'Homo sapiens';
+update property_value set value = 'Arabidopsis thaliana (thale cress)' where lower(value) = 'arabidopsis thaliana';
+update property_value set value = 'Homo sapiens (Human)' where lower(value) = 'homo sapiens';
+update property_value set value = 'Homo sapiens (Human)' where lower(value) = 'human';
+update property_value set value = 'Glycine max' where lower(value) = 'glycin max';
 update property_value set value = 'Hordeum vulgare var. distichum (Two-rowed barley)' where value = 'Hordeum vulgare subsp. vulgare';
 update property_value set value = 'Solanum lycopersicum (Tomato) ' where value = 'Solanum lycopersicum';
 update property_value set value = 'Malus domestica (Apple)' where value = 'Malus x domestica';
@@ -15,10 +17,12 @@ update property_value set value = 'Schizosaccharomyces pombe 972h- (Fission yeas
 update property_value set value = 'Sorghum bicolor (Sorghum)' where value = 'Sorghum bicolor';
 update property_value set value = 'Triticum aestivum (Wheat)' where value = 'Triticum aestivum';
 update property_value set value = 'Ovis aries (Sheep)' where value = 'Ovis aries';
-update property_value set value = 'Vitis vinifera (Grape)' where value = 'Vitis vinifera';
+update property_value set value = 'Vitis vinifera (Grape)' where lower(value) = 'vitis vinifera';
 update property_value set value = 'Mus musculus (Mouse)' where value = 'Mus musculus';
+update property_value set value = 'Rattus norvegicus (Rat)' where lower(value) = 'rattus norvegicus';
 update property_value set value = 'Manihot esculenta (Cassava)' where value = 'Manihot esculenta';
 update property_value set value = 'Calanus helgolandicus (Copepod)' where value = 'Calanus helgolandicus';
+
 
 update property_value set value = 'reference compound' where value = 'Blank';
 update property_value set value = 'reference compound' where value = 'Quality control';

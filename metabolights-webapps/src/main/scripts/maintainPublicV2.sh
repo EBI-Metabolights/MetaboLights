@@ -82,7 +82,7 @@ FUTURE_STUDIES=`echo -e ${GET_FUTURE_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}`
 
 for users in $FUTURE_STUDIES
 do
-    echo "Please go to http://www.ebi.ac.uk/metabolights/mysubmissions to see your private studies" | mailx -s 'Great news! You MetaboLights Study will soon go public' ${users}
+    echo "Please go to http://www.ebi.ac.uk/metabolights/mysubmissions to see your private studies" | mailx -s 'Great news! Your MetaboLights Study will soon go public' ${users}
     Info ------------------------------------------------------------------------------------------
     Info "Great news! A MetaboLights Study will soon go public for ${users}.  An email has been sent to ${users}"
     Info ------------------------------------------------------------------------------------------
