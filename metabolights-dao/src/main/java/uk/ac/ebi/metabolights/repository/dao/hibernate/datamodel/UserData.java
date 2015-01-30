@@ -48,7 +48,7 @@ public class UserData extends DataModel<User> {
 	private String lastName;
 	private int status;
 	private String affiliationUrl;
-	private String apiToken;
+	private String apiToken = java.util.UUID.randomUUID().toString();
 	private Set<StudyData> studies = new HashSet<>();
 
 

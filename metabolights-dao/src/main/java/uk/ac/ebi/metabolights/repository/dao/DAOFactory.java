@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
 
 /**
  * User: conesa
@@ -86,5 +87,8 @@ public class DAOFactory {
 	public StudyDAO getStudyDAO(){
 		StudyDAO newStudyDAO = new StudyDAO(isaTabRootConfigurationFolder,publicFolder,privateFolder);
 		return newStudyDAO;
+	}
+	public UserDAO getUserDAO() {
+		return new UserDAO();
 	}
 }

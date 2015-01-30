@@ -130,7 +130,10 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 						.startObject(STUDY_TYPE_NAME)
 							//_source configuration
 							.startObject("_source")
-								.array("excludes", new String[]{"assays", "protocols", "sampleTable", "contacts"})
+								.array("excludes", new String[]{"assays", "protocols", "sampleTable", "contacts", "obfuscationCode",
+										"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
+										"users.listOfAllStatus", "users.lastName","users.affiliationUrl","users.status",
+										"users.joinDate","users.email", "users.address", "users.userId", "users.role", "users.affiliation", "users.firstName"})
 							.endObject()
 
 							// Timestamp
@@ -165,7 +168,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 									.field("type", "boolean")
 									.field("index", "not_analyzed")
 								.endObject()
-					.endObject()
+							.endObject()
 							// End of properties
 
 // Templates....in case of any use.

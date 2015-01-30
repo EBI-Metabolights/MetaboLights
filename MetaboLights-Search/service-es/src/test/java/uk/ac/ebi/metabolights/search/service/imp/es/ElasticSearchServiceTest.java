@@ -21,10 +21,18 @@
 
 package uk.ac.ebi.metabolights.search.service.imp.es;
 
+import org.hibernate.cfg.Configuration;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
+import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
@@ -32,6 +40,7 @@ import uk.ac.ebi.metabolights.search.service.SearchResult;
 import uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel.LiteStudy;
 
 import java.io.File;
+import java.util.Properties;
 
 public class ElasticSearchServiceTest {
 
@@ -40,10 +49,15 @@ public class ElasticSearchServiceTest {
 	private static String ISATAB_CONFIG_FOLDER;
 	private static String PRIVATE_FOLDER;
 	private static String PUBLIC_FOLDER;
+	private UserData notOwner;
+	private UserData curator;
+	private UserData owner;
+	private StudyData privateStudy;
+	private StudyData publicStudy;
 
 
 	@Before
-	public void init(){
+	public void init() throws DAOException {
 
 
 		String studiesFolderName = System.getenv("STUDIES_FOLDER");
@@ -58,10 +72,73 @@ public class ElasticSearchServiceTest {
 		Assert.assertNotNull("ISATAB_CONFIG_FOLDER: ISA Configuration folder variable provided.", ISATAB_CONFIG_FOLDER);
 
 
-		studyDAO = new StudyDAO(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER);
+		// Configure database connection
+		Configuration configuration = new Configuration();
+
+		// Get property file (an empty one is taking default hibernate.properties)!!!
+		Properties hibernateProperties = new Properties();
+
+		configuration.setProperties(hibernateProperties);
+
+		DAOFactory.initialize(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER, configuration);
+
+		// Get the studyDAO.
+		studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+		initDB();
 
 
 	}
+
+	private void initDB() throws DAOException {
+
+		// Delete all data
+		SessionWrapper session = HibernateUtil.getSession();
+		session.needSession();
+		session.createQuery("delete from StudyData").executeUpdate();
+		session.createQuery("delete from UserData").executeUpdate();
+
+
+		// Add DB data for a private study and a public study
+		notOwner = createUser(AppRole.ROLE_SUBMITTER, "notOwner");
+		session.save(notOwner);
+
+		curator = createUser(AppRole.ROLE_SUPER_USER, "curator");
+		session.save(curator);
+
+		owner = createUser(AppRole.ROLE_SUBMITTER, "owner");
+		session.save(owner);
+
+
+		// Add study data
+		uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO dbStudyDAO = new uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO();
+
+		privateStudy = new StudyData();
+		privateStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+		privateStudy.setAcc("MTBLS5");
+		privateStudy.getUsers().add(owner);
+		session.save(privateStudy);
+
+		publicStudy = new StudyData();
+		publicStudy.setStatus(Study.StudyStatus.PUBLIC.ordinal());
+		publicStudy.setAcc("MTBLS1");
+		publicStudy.getUsers().add(owner);
+		session.save(publicStudy);
+
+		session.noNeedSession();
+
+
+	}
+
+	private UserData createUser(AppRole role, String userName){
+
+		UserData newUser = new UserData();
+		newUser.setRole(role.ordinal());
+		newUser.setUserName(userName);
+
+		return newUser;
+	}
+
 	@Test
 	public void testGetStatus() throws Exception {
 
@@ -81,7 +158,6 @@ public class ElasticSearchServiceTest {
 		studiesFolder = new File(PUBLIC_FOLDER);
 
 		indexFolder(studiesFolder, true);
-
 
 
 	}
@@ -111,7 +187,7 @@ public class ElasticSearchServiceTest {
 
 
 	@Test
-	public void testResetIndex() throws IndexingFailureException {
+	public void testResetIndex() throws IndexingFailureException, DAOException {
 
 		// Call reset index...
 		elasticSearchService.resetIndex();
@@ -126,7 +202,7 @@ public class ElasticSearchServiceTest {
 
 	}
 
-	private void indexFolder(File studiesFolder, boolean publicStudy) throws IndexingFailureException {
+	private void indexFolder(File studiesFolder, boolean publicStudy) throws IndexingFailureException, DAOException {
 
 		for (File studyFolder:studiesFolder.listFiles()){
 			if (studyFolder.isDirectory()){
@@ -135,10 +211,10 @@ public class ElasticSearchServiceTest {
 		}
 	}
 
-	private void indexStudy(File studyFolder, boolean publicStudy) throws IndexingFailureException {
+	private void indexStudy(File studyFolder, boolean publicStudy) throws IndexingFailureException, DAOException {
 
 		// Need to load the study from the Folder
-		Study study = studyDAO.getStudy(studyFolder.getName(),false);
+		Study study = studyDAO.getStudy(studyFolder.getName());
 
 		study.setPublicStudy(publicStudy);
 		elasticSearchService.index(study);
