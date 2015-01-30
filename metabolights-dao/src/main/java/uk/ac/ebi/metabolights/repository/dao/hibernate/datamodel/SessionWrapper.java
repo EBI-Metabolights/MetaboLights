@@ -22,9 +22,9 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 
 /**
  * User: conesa
@@ -48,7 +48,7 @@ public class SessionWrapper {
 			//session = HibernateUtil.getSessionFactory().getCurrentSession();
 			// If still empty ...
 			//if (session == null){
-				session = HibernateUtil.getSessionFactory().openSession();
+				session = factory.openSession();
 				session.beginTransaction();
 			//}
 		}
@@ -82,5 +82,16 @@ public class SessionWrapper {
 
 	public void saveOrUpdate(DataModel datamodel) {
 		session.saveOrUpdate(datamodel);
+	}
+	public void save(DataModel datamodel) {
+		session.save(datamodel);
+	}
+
+	public Object get(Class dataModelclass, Long id) {
+		return session.get(dataModelclass,id);
+	}
+
+	public SQLQuery createSQLQuery(String SQLQuery) {
+		return session.createSQLQuery(SQLQuery);
 	}
 }

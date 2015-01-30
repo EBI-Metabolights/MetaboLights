@@ -31,7 +31,7 @@ import uk.ac.ebi.metabolights.repository.security.SecurityService;
 
 import java.util.List;
 
-public class StudyDBDAOTest extends HibernateTest{
+public class StudyDBDAOTest extends DAOTest {
 
 
 	private static final String ACC = "ACC";
@@ -73,6 +73,15 @@ public class StudyDBDAOTest extends HibernateTest{
 		Study savedStudy =  studyDBDAO.findById(newStudy.getId());
 		Assert.assertEquals("Test accession", newStudy.getStudyIdentifier(), savedStudy.getStudyIdentifier());
 		Assert.assertEquals("Test user count", newStudy.getUsers().size(), savedStudy.getUsers().size());
+
+		savedStudy =  studyDBDAO.findByAccession(newStudy.getStudyIdentifier());
+		Assert.assertEquals("Test accession", newStudy.getStudyIdentifier(), savedStudy.getStudyIdentifier());
+		Assert.assertEquals("Test user count", newStudy.getUsers().size(), savedStudy.getUsers().size());
+
+		savedStudy =  studyDBDAO.findByObfuscationCode(newStudy.getObfuscationCode());
+		Assert.assertEquals("Test accession", newStudy.getStudyIdentifier(), savedStudy.getStudyIdentifier());
+		Assert.assertEquals("Test user count", newStudy.getUsers().size(), savedStudy.getUsers().size());
+
 
 
 		// Try isStudyPublic

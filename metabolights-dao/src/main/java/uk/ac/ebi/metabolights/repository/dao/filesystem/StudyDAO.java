@@ -51,7 +51,8 @@ public class StudyDAO {
     public Study getStudy(String accession, boolean includeMetabolites){
 
         Study newStudy = new Study();
-        return fillStudy(accession, includeMetabolites, newStudy);
+        newStudy.setStudyIdentifier(accession);
+        return fillStudy(includeMetabolites, newStudy);
 
     }
 
@@ -77,12 +78,12 @@ public class StudyDAO {
 		return (getInvestigationFolder(metaboLightsId,publicFolder) != null);
 	}
 
-    public Study fillStudy(String accession, boolean includeMetabolites, Study studyToFill) {
+    public Study fillStudy( boolean includeMetabolites, Study studyToFill) {
 
         // Try public studies location
-        File studyFolder = getInvestigationFolder(accession, publicFolder);
+        File studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), publicFolder);
 
-        logger.info("Trying to parse study "+ accession);
+        logger.info("Trying to parse study "+ studyToFill.getStudyIdentifier());
 
         boolean isPublic = true;
 
@@ -90,7 +91,7 @@ public class StudyDAO {
         if (studyFolder == null) {
 
             // Try private studies location
-            studyFolder = getInvestigationFolder(accession, privateFolder);
+            studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), privateFolder);
 
             isPublic = false;
         }

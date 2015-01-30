@@ -56,7 +56,7 @@ public class HibernateUtil {
 
 	}
 
-	public static SessionFactory getSessionFactory(){
+	private static SessionFactory getSessionFactory(){
 		return factory;
 	}
 
@@ -71,9 +71,6 @@ public class HibernateUtil {
 		// Add Entities here
 		configuration.addAnnotatedClass(StudyData.class);
 		configuration.addAnnotatedClass(UserData.class);
-
-
-
 
 	}
 

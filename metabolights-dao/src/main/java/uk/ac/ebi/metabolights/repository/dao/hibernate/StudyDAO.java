@@ -65,4 +65,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 	}
 
+	public Study findByObfuscationCode(String obfuscationCode) throws DAOException {
+		return findSingle("obfuscationcode=:oc",new Filter(new Object[]{"oc",obfuscationCode}));
+	}
 }

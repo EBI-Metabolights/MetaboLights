@@ -21,16 +21,15 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
-import org.hibernate.Session;
 import org.junit.Assert;
 import org.junit.Test;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateTest;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.util.HashSet;
 
-public class StudyDataTest  extends HibernateTest{
+public class StudyDataTest  extends DAOTest {
 
 	private static final String ACC = "ACC";
 	private static final String OCODE = "OCODE";
@@ -38,9 +37,9 @@ public class StudyDataTest  extends HibernateTest{
 	@Test
 	public void testStudyDataCRUD(){
 
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		SessionWrapper session = HibernateUtil.getSession();
 
-		session.beginTransaction();
+		session.needSession();
 		StudyData studyData = getStudyData();
 
 
@@ -55,14 +54,12 @@ public class StudyDataTest  extends HibernateTest{
 		logger.info("New studyData id populated: " + studyData.id);
 
 		// Close the session
-		session.getTransaction().commit();
-		session.close();
+		session.noNeedSession();
 
 
 
 		// Open it again
-		session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+		session.needSession();
 
 		// Try get to it
 		studyData = (StudyData)session.get(StudyData.class, studyData.id);
@@ -77,15 +74,15 @@ public class StudyDataTest  extends HibernateTest{
 		// Test deletion
 		session.delete(studyData);
 
-		session.getTransaction().commit();
+		session.noNeedSession();
 	}
 
 	@Test
 	public void testStudyDataCleanUsersSetUpdate(){
 
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		SessionWrapper session = HibernateUtil.getSession();
 
-		session.beginTransaction();
+		session.needSession();
 		StudyData studyData = getStudyData();
 
 		// Add an user
@@ -110,17 +107,11 @@ public class StudyDataTest  extends HibernateTest{
 		logger.info("New studyData id populated: " + studyData.id);
 		Assert.assertNotNull("Id of the bussinessMOdelEntity must be populated", studyData.getBussinesModelEntity().getId());
 
-
-		session.getTransaction().commit();
-
-		// Close session, studyData becomes detached
-		session.close();
+		session.noNeedSession();
 
 
 		// New session
-		session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-
+		session.needSession();
 
 		UserData user3 = UserDataTest.getNewUserData();
 		session.save(user3);
@@ -136,7 +127,7 @@ public class StudyDataTest  extends HibernateTest{
 
 		session.saveOrUpdate(studyData);
 
-		session.getTransaction().commit();
+		session.noNeedSession();
 
 
 	}

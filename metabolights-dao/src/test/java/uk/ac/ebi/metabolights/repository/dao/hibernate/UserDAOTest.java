@@ -28,7 +28,7 @@ import uk.ac.ebi.metabolights.repository.model.User;
 
 import java.util.List;
 
-public class UserDAOTest  extends HibernateTest {
+public class UserDAOTest  extends DAOTest {
 
 	private static final String USER_NAME = "UserName";
 	private static final String LAST_NAME = "last name";

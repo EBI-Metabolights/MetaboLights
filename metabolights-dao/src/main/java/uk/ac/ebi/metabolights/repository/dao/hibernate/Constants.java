@@ -29,4 +29,6 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate;
 public class Constants {
 	public static final String USERS_TABLE = "users";
 	public static final String STUDIES_TABLE = "studies";
+	public static final String  STUDY_USER_TABLE ="study_user";
+
 }

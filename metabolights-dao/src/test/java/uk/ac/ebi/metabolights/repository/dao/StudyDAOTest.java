@@ -21,8 +21,133 @@
 
 package uk.ac.ebi.metabolights.repository.dao;
 
-import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateTest;
+import junit.framework.Assert;
+import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserDataTest;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
+import uk.ac.ebi.metabolights.repository.model.Study;
 
-public class StudyDAOTest extends HibernateTest {
+public class StudyDAOTest extends DAOTest {
 
+
+	@Test
+	public void testGetPublicStudy() throws DAOException {
+
+
+		// Add MTBLS1 to the database
+		StudyData studyData = new StudyData();
+		studyData.setAcc("MTBLS1");
+		studyData.setStatus(Study.StudyStatus.PUBLIC.ordinal());
+
+
+		// Save it
+		SessionWrapper session = HibernateUtil.getSession();
+		session.needSession();
+		session.saveOrUpdate(studyData);
+		session.noNeedSession();
+
+
+		// Use now the Hybrid DAO...
+		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+		Study study = studyDAO.getStudy("MTBLS1");
+
+		Assert.assertEquals("Test DB part it's been populated: obfuscation code", studyData.getObfuscationcode(), study.getObfuscationCode());
+		Assert.assertEquals("Test DB part it's been populated: study status", studyData.getStatus(), study.getStudyStatus().ordinal());
+		Assert.assertNotNull("Test FS part it's been populated: study title", study.getTitle());
+
+	}
+
+	@Test
+	public void testGetPrivateStudy() throws DAOException {
+
+
+		// Get users: curator and owner and not owner (persisted already)
+		UserData curator = UserDataTest.addUserToDB(AppRole.ROLE_SUPER_USER);
+		UserData owner = UserDataTest.addUserToDB(AppRole.ROLE_SUBMITTER);
+		UserData notOwner = UserDataTest.addUserToDB(AppRole.ROLE_SUBMITTER);
+
+		// Add MTBLS3 to the database
+		StudyData studyData = new StudyData();
+		studyData.setAcc("MTBLS3");
+		studyData.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+
+		// Add the owner
+		studyData.getUsers().add(owner);
+
+		// Save it
+		SessionWrapper session = HibernateUtil.getSession();
+		session.needSession();
+		session.saveOrUpdate(studyData);
+		session.noNeedSession();
+
+		// Use now the Hybrid DAO...
+		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+		Study study = null;
+
+		// Try with an anonymous user
+		try {
+			// Should fail
+			studyDAO.getStudy(studyData.getAcc());
+			throw new AssertionError("MTBLS3 is private and getStudy(\"Accession\") should throw an exception");
+
+		} catch (SecurityException e) {
+			logger.info("Security exception expected");
+		}
+
+		// Try with the not owner user
+		try {
+			// Should fail
+			studyDAO.getStudy(studyData.getAcc(), notOwner.getApiToken());
+			throw new AssertionError("MTBLS3 is private and a not owner access should throw an exception");
+
+		} catch (SecurityException e) {
+			logger.info("Security exception expected");
+		}
+
+		// Try with the curator
+		// Shouldn't fail
+		studyDAO.getStudy(studyData.getAcc(),curator.getApiToken());
+
+		// Try with the owner
+		// Shouldn't fail
+		studyDAO.getStudy(studyData.getAcc(),owner.getApiToken());
+
+	}
+
+	@Test
+	public void testGetStudyByObfuscationCode() throws DAOException {
+
+		// Add MTBLS3 to the database
+		StudyData studyData = new StudyData();
+		studyData.setAcc("MTBLS3");
+
+		studyData.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+
+		// Save it
+		SessionWrapper session = HibernateUtil.getSession();
+		session.needSession();
+		session.saveOrUpdate(studyData);
+		session.noNeedSession();
+
+		// Use now the Hybrid DAO...
+		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+		Study study = null;
+
+		// Try with the obfuscationcode
+		study = studyDAO.getStudyByObfuscationCode(studyData.getObfuscationcode());
+
+		Assert.assertEquals("Test DB part it's been populated: obfuscation code", studyData.getObfuscationcode(), study.getObfuscationCode());
+		Assert.assertEquals("Test DB part it's been populated: study status", studyData.getStatus(), study.getStudyStatus().ordinal());
+		Assert.assertNotNull("Test FS part it's been populated: study title", study.getTitle());
+
+	}
 }

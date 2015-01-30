@@ -23,32 +23,21 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
-
-import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class StudyDAOTest {
+public class StudyDAOTest extends DAOTest {
 
-    final String ISA_CONF_LOCATION = "configRoot";
 
-    final String PUBLIC_STUDIES_LOCATION = "studies/public/";
-    final String PRIVATE_STUDIES_LOCATION = "studies/private/";
 	private StudyDAO studyDAO;
 
 	@Before
 	public void initialiseTests() {
 
-		URL configRootUrl = StudyDAOTest.class.getClassLoader().getResource(ISA_CONF_LOCATION);
-		URL publicStudiesLocationUrl = StudyDAOTest.class.getClassLoader().getResource(PUBLIC_STUDIES_LOCATION) ;
-		URL privateStudiesLocationUrl = StudyDAOTest.class.getClassLoader().getResource(PRIVATE_STUDIES_LOCATION) ;
-
-		String configRoot = configRootUrl.getFile();
-		String publicStudiesLocation = publicStudiesLocationUrl.getFile();
-		String privateStudiesLocation = privateStudiesLocationUrl.getFile();
 
 		studyDAO = new StudyDAO(configRoot,publicStudiesLocation,privateStudiesLocation);
 

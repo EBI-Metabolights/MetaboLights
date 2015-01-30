@@ -21,21 +21,21 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
-import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.exception.SQLGrammarException;
 import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
 
 import java.util.Properties;
 
-public abstract class HibernateTest {
+public class DDLTest {
 
-	protected Logger logger;
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	@Before
 	public void setUp() throws Exception {
-
-		logger= LoggerFactory.getLogger(this.getClass());
 
 		Configuration configuration = new Configuration();
 
@@ -45,20 +45,50 @@ public abstract class HibernateTest {
 
 		configuration.setProperties(hibernateProperties);
 
-
+		configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
 		HibernateUtil.initialize(configuration);
 
-		cleanDB();
 
 
 	}
-	protected void cleanDB(){
 
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.createQuery("delete from StudyData").executeUpdate();
-		session.createQuery("delete from UserData").executeUpdate();
-		session.close();
+	protected void dropTables(){
+
+		SessionWrapper session = HibernateUtil.getSession();
+		dropTable(session,Constants.STUDY_USER_TABLE);
+		dropTable(session, Constants.STUDIES_TABLE);
+		dropTable(session, Constants.USERS_TABLE);
+
 	}
+
+	private void dropTable(SessionWrapper session, String table){
+
+		session.needSession();
+
+		try {
+			session.createSQLQuery("DROP TABLE " + table).executeUpdate();
+		} catch (SQLGrammarException e) {
+			logger.info("Expected exception, when table does not exists");
+		}
+
+		session.noNeedSession();
+
+
+
+	}
+
+	@Test
+	public void testSchemaCreation() throws Exception {
+
+
+		dropTables();
+
+		// Set it up again
+		setUp();
+
+
+	}
+
 
 }

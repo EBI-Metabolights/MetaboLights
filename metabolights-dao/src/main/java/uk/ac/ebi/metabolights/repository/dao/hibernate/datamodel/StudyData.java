@@ -42,7 +42,7 @@ import java.util.Set;
 public class StudyData  extends DataModel<Study> {
 
 	private String acc;
-	private String obfuscationcode;
+	private String obfuscationcode = java.util.UUID.randomUUID().toString();
 	private int status;
 	private Set<UserData> users = new HashSet<>();
 

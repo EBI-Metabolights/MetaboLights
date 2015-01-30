@@ -50,13 +50,38 @@ public class StudyDAO {
 
 		Study study = dbDAO.findByAccession(accession);
 
-		fsDAO.fillStudy(accession, includeMetabolites, study);
-
-		return study;
+		return getStudyFromFileSystem(study,includeMetabolites);
 	}
 
 
+	public Study getStudy(String accession) throws DAOException {
 
+		return getStudy(accession,"",false);
+	}
+
+	public Study getStudy(String accession, String userToken) throws DAOException {
+		return getStudy(accession,userToken,false);
+	}
+
+	public Study getStudyByObfuscationCode(String obfuscationCode, boolean includeMetabolites) throws DAOException {
+
+		Study study = dbDAO.findByObfuscationCode(obfuscationCode);
+
+		return getStudyFromFileSystem(study, includeMetabolites);
+	}
+
+
+	private Study getStudyFromFileSystem(Study study, boolean includeMetabolites) throws DAOException {
+
+		fsDAO.fillStudy(includeMetabolites, study);
+
+		return study;
+
+	}
+
+	public Study getStudyByObfuscationCode(String obfuscationCode) throws DAOException {
+		return getStudyByObfuscationCode(obfuscationCode,false);
+	}
 }
 
 

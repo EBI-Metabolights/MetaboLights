@@ -21,22 +21,21 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
-import org.hibernate.Session;
 import org.junit.Assert;
 import org.junit.Test;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateTest;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
 
 import java.util.Date;
 
-public class UserDataTest extends HibernateTest{
+public class UserDataTest extends DAOTest {
 
 
 	private static final String ADDRESS = "address";
 	private static final String AFFILIATION = "affiliation";
 	private static final String WWWAFFILIATION = "wwwaffiliation";
-	private static final String TOKEN = "token";
 	private static final String EMAIL = "email";
 	private static final String FIRST_NAME = "firstName";
 	private static final String LAST_NAME = "lastName";
@@ -48,8 +47,8 @@ public class UserDataTest extends HibernateTest{
 	@Test
 	public void testUserDataCRUD(){
 
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+		SessionWrapper session = HibernateUtil.getSession();
+		session.needSession();
 
 		// Get a new user
 		UserData userData = getNewUserData();
@@ -65,12 +64,11 @@ public class UserDataTest extends HibernateTest{
 		logger.info("New userData id populated: " + userData.id);
 		Assert.assertNotNull("Id of the bussinessModelEntity must be populated", userData.getBussinesModelEntity().getUserId());
 
-		session.getTransaction().commit();
-		session.close();
+		session.noNeedSession();
+
 
 		// Test new data is been persisted
-		session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+		session.needSession();
 
 		userData = (UserData) session.get(UserData.class,userData.id);
 
@@ -78,7 +76,7 @@ public class UserDataTest extends HibernateTest{
 		Assert.assertEquals("UserData retrieved test: address", ADDRESS,userData.getAddress());
 		Assert.assertEquals("UserData retrieved test: affiliation", AFFILIATION,userData.getAffiliation());
 		Assert.assertEquals("UserData retrieved test: affiliation url", WWWAFFILIATION,userData.getAffiliationUrl());
-		Assert.assertEquals("UserData retrieved test: token", TOKEN,userData.getApiToken());
+		Assert.assertNotNull("UserData retrieved test: token",userData.getApiToken());
 		Assert.assertEquals("UserData retrieved test: email", EMAIL,userData.getEmail());
 		Assert.assertEquals("UserData retrieved test: first name", FIRST_NAME,userData.getFirstName());
 		Assert.assertEquals("UserData retrieved test: last name",LAST_NAME ,userData.getLastName());
@@ -96,7 +94,7 @@ public class UserDataTest extends HibernateTest{
 
 		session.delete(userData);
 
-		session.getTransaction().commit();
+		session.noNeedSession();
 	}
 
 	public static UserData getNewUserData() {
@@ -105,7 +103,7 @@ public class UserDataTest extends HibernateTest{
 		userData.setAddress (ADDRESS);
 		userData.setAffiliation (AFFILIATION);
 		userData.setAffiliationUrl (WWWAFFILIATION);
-		userData.setApiToken (TOKEN);
+		userData.setApiToken (java.util.UUID.randomUUID().toString());
 		userData.setEmail(EMAIL);
 		userData.setFirstName(FIRST_NAME);
 		userData.setJoinDate(new Date());
@@ -117,4 +115,21 @@ public class UserDataTest extends HibernateTest{
 
 		return userData;
 	}
+	public static UserData addUserToDB(UserData userData){
+
+		SessionWrapper session = HibernateUtil.getSession();
+		session.needSession();
+		session.save(userData);
+		session.noNeedSession();
+
+		return userData;
+	}
+	public static UserData addUserToDB(AppRole role){
+
+		UserData userData = getNewUserData();
+		userData.setRole(role.ordinal());
+		return addUserToDB(userData);
+
+	}
+
 }
