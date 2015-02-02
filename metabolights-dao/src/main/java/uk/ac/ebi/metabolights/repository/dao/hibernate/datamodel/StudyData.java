@@ -26,6 +26,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.StudyLite;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,6 +45,8 @@ public class StudyData  extends DataModel<Study> {
 	private String acc;
 	private String obfuscationcode = java.util.UUID.randomUUID().toString();
 	private int status;
+	// Initialise release date to 30 days after today.
+	private Date releaseDate = new Date(new Date().getTime() + (1000L*60L*60L*24L*30L));
 	private Set<UserData> users = new HashSet<>();
 
 	public String getAcc() {
@@ -70,6 +73,14 @@ public class StudyData  extends DataModel<Study> {
 		this.status = status;
 	}
 
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
 	@ManyToMany
 	@JoinTable(name="study_user", joinColumns=@JoinColumn(name="studyid"), inverseJoinColumns=@JoinColumn(name="userid"))
 	public Set<UserData> getUsers() {
@@ -94,6 +105,7 @@ public class StudyData  extends DataModel<Study> {
 		this.obfuscationcode = businessModelEntity.getObfuscationCode();
 		this.acc = businessModelEntity.getStudyIdentifier();
 		this.status = businessModelEntity.getStudyStatus().ordinal();
+		this.releaseDate = businessModelEntity.getStudyPublicReleaseDate();
 
 		// Convert Users...
 		this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
@@ -109,6 +121,7 @@ public class StudyData  extends DataModel<Study> {
 		businessModelEntity.setObfuscationCode(this.obfuscationcode);
 		businessModelEntity.setStudyIdentifier(this.acc);
 		businessModelEntity.setStudyStatus(Study.StudyStatus.values()[this.status]);
+		businessModelEntity.setStudyPublicReleaseDate(this.releaseDate);
 
 		// Fill users
 		businessModelEntity.setUsers(UserData.dataModelToBusinessModel(users));
@@ -123,6 +136,7 @@ public class StudyData  extends DataModel<Study> {
 		studyLite.setStudyId(this.id);
 		studyLite.setAccession(this.acc);
 		studyLite.setObfuscationCode(this.obfuscationcode);
+		studyLite.setReleaseDate(this.releaseDate);
 
 		return studyLite;
 	}

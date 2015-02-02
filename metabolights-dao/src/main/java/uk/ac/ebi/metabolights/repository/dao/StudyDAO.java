@@ -25,6 +25,8 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.security.SecurityService;
 
+import java.util.List;
+
 /**
  * User: conesa
  * Date: 27/01/15
@@ -81,6 +83,10 @@ public class StudyDAO {
 
 	public Study getStudyByObfuscationCode(String obfuscationCode) throws DAOException {
 		return getStudyByObfuscationCode(obfuscationCode,false);
+	}
+
+	public List<String> getList(String userToken) throws DAOException {
+		return dbDAO.getStudyListForUser(userToken);
 	}
 }
 

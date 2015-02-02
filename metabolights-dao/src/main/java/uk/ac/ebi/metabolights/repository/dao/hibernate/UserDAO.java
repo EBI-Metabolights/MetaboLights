@@ -22,6 +22,7 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
 
 /**
@@ -61,6 +62,11 @@ public class UserDAO extends DAO <User,UserData>{
 	};
 
 	@Override
+	protected void init() {
+		// Nothing to initialize
+	}
+
+	@Override
 	protected Class getDataModelClass() {
 		return UserData.class;
 	}
@@ -71,4 +77,14 @@ public class UserDAO extends DAO <User,UserData>{
 	}
 
 
+	public boolean hasUserThisRole(AppRole role, String userToken) throws DAOException {
+
+		String query = "select count(*) from " + UserData.class.getSimpleName() +
+				" where role= :role AND apiToken = :apiToken";
+
+		Long count = (Long)this.getUniqueValue(query, new Filter(new Object[]{"role",  role.ordinal(),"apiToken", userToken}));
+
+		return (count!=0L);
+
+	}
 }

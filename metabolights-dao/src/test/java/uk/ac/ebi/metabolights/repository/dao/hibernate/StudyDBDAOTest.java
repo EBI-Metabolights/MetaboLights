@@ -52,6 +52,7 @@ public class StudyDBDAOTest extends DAOTest {
 
 		Study newStudy = new Study();
 
+
 		newStudy.setStudyIdentifier(ACC + System.currentTimeMillis());
 		Assert.assertNotNull("Obfuscation code has a default value", newStudy.getObfuscationCode());
 

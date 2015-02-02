@@ -22,7 +22,10 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
+
+import java.util.List;
 
 /**
  * User: conesa
@@ -30,6 +33,9 @@ import uk.ac.ebi.metabolights.repository.model.Study;
  * Time: 13:18
  */
 public class StudyDAO extends DAO <Study,StudyData>{
+
+	private List<String> studyList;
+	private UserDAO usersDAO;
 
 	/**
 	 * Find a user by means of the accession number.
@@ -49,6 +55,12 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 		return (count!=0L);
 	}
+	@Override
+	protected void init(){
+
+		usersDAO = new UserDAO();
+		usersDAO.setSession(this.session);
+	}
 
 	@Override
 	protected Class getDataModelClass() {
@@ -58,14 +70,41 @@ public class StudyDAO extends DAO <Study,StudyData>{
 	@Override
 	protected void preSave(StudyData study) throws DAOException {
 		// Save users first
-		UserDAO usersDAO = new UserDAO();
-		usersDAO.setSession(this.session);
-
 		usersDAO.save(study.getUsers());
 
 	}
 
 	public Study findByObfuscationCode(String obfuscationCode) throws DAOException {
 		return findSingle("obfuscationcode=:oc",new Filter(new Object[]{"oc",obfuscationCode}));
+	}
+
+	public List<String> getStudyListForUser(String userToken) throws DAOException {
+
+		// Hibernate left join:
+		// from Cat as cat left join cat.mate.kittens as kittens
+		// https://docs.jboss.org/hibernate/orm/4.3/manual/en-US/html/ch16.html#queryhql-joins
+
+		String query = "select distinct study.acc from " + StudyData.class.getSimpleName() + " study" +
+				" left join study.users user";
+
+
+		// Create an empty filter
+		Filter filter = new Filter();
+
+		// is the user a curator?
+		boolean isCurator = usersDAO.hasUserThisRole(AppRole.ROLE_SUPER_USER, userToken);
+
+		// If not...
+		if (!isCurator) {
+
+			query = query + " where (study.status= " + Study.StudyStatus.PUBLIC.ordinal() + ") OR (user.apiToken=:apiToken) ";
+
+			// Add clause to where..
+			filter.fieldValuePairs.put("apiToken", userToken);
+		}
+
+		List studies = this.getList(query, filter);
+
+		return studies;
 	}
 }

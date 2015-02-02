@@ -66,9 +66,14 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	private TransportClient  client;
 	private String indexName = "metabolights";
 
-	private String clusterName = "conesa";
+	private String clusterName = "metabolights";
 
 	public ElasticSearchService(){
+		initialiseElasticSearchClient();
+	}
+	public ElasticSearchService(String clusterName){
+
+		this.clusterName = clusterName;
 		initialiseElasticSearchClient();
 	}
 

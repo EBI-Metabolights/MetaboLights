@@ -44,7 +44,7 @@ import java.util.Properties;
 
 public class ElasticSearchServiceTest {
 
-	ElasticSearchService elasticSearchService = new ElasticSearchService();
+	ElasticSearchService elasticSearchService = new ElasticSearchService("conesa");
 	StudyDAO studyDAO;
 	private static String ISATAB_CONFIG_FOLDER;
 	private static String PRIVATE_FOLDER;

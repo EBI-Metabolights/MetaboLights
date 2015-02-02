@@ -48,6 +48,7 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 	public DAO(){
 
 		this.dataModelName = getDataModelClass().getSimpleName();
+		init();
 
 	}
 
@@ -59,7 +60,10 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 		this.session = session;
 	}
 
+	protected abstract void init();
+
 	protected abstract Class<dataModel> getDataModelClass();
+
 	protected abstract void preSave(dataModel datamodel) throws DAOException;
 
 	public List<BusinessEntity> findBy(String where , Filter filter) throws DAOException {
@@ -109,9 +113,21 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 		return value;
 
-
 	}
 
+	public List getList(String wholeQuery, Filter filter) throws DAOException {
+
+		session.needSession();
+
+		Query query = getQuery(wholeQuery, filter);
+
+		List value = query.list();
+
+		session.noNeedSession();
+
+		return value;
+
+	}
 
 	public void save(BusinessEntity bussinessEntity) throws DAOException {
 

@@ -21,6 +21,8 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
+import java.util.Date;
+
 /**
  * User: conesa
  * Date: 13/06/2014
@@ -32,6 +34,7 @@ public class StudyLite {
 
 	private String accession;
 	private String obfuscationCode;
+	private Date releaseDate;
 
 	public Long getStudyId() {
 		return studyId;
@@ -55,5 +58,13 @@ public class StudyLite {
 
 	public String getObfuscationCode() {
 		return obfuscationCode;
+	}
+
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public Date getReleaseDate() {
+		return releaseDate;
 	}
 }

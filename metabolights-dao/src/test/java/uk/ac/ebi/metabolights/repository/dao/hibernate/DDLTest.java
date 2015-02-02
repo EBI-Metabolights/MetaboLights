@@ -75,7 +75,6 @@ public class DDLTest {
 		session.noNeedSession();
 
 
-
 	}
 
 	@Test

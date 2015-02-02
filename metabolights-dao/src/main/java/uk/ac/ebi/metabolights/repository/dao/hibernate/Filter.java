@@ -44,6 +44,11 @@ public class Filter {
 		 arrayObjectsToFieldValueMap(fieldValuePairsArray);
 
 	}
+
+	public Filter() {
+
+	}
+
 	public Map<String, Object> getFieldValuePairs() {
 		return fieldValuePairs;
 	}
@@ -71,8 +76,6 @@ public class Filter {
 	}
 
 	public void fillQuery(Query query) throws DAOException {
-
-
 
 		for (Map.Entry<String, Object> pair: fieldValuePairs.entrySet()) {
 

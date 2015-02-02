@@ -92,6 +92,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
             <version>2.5.1-SNAPSHOT</version>

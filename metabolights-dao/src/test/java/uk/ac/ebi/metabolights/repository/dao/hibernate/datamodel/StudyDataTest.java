@@ -27,6 +27,8 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 
 public class StudyDataTest  extends DAOTest {
@@ -130,6 +132,22 @@ public class StudyDataTest  extends DAOTest {
 		session.noNeedSession();
 
 
+	}
+
+	@Test
+	public void testDefaultValues(){
+
+		// Test default values of StudyData
+		StudyData studyData = new StudyData();
+
+		Date expectedreleaseDate = new Date();
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(expectedreleaseDate);
+		cal.add(Calendar.DATE, 30); //minus number would decrement the days
+		expectedreleaseDate = cal.getTime();
+
+		Assert.assertEquals("Release date is initialised properly", expectedreleaseDate.toString(), studyData.getReleaseDate().toString());
 	}
 
 	public static StudyData getStudyData() {
