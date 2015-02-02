@@ -4,7 +4,7 @@
 #
 # European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
 #
-# Last modified: 2015-Jan-30
+# Last modified: 2015-Feb-02
 # Modified by:   conesa
 #
 #
@@ -19,11 +19,26 @@
 # Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 #
 
-# Database parameters
-hibernate.connection.username=reader
-hibernate.connection.password=reader
-hibernate.connection.driver_class=org.postgresql.Driver
-hibernate.connection.url=jdbc:postgresql://localhost/metabolightsempty
+## Database parameters (PostgreSQL)
+#hibernate.connection.username=reader
+#hibernate.connection.password=reader
+#hibernate.connection.driver_class=org.postgresql.Driver
+#hibernate.connection.url=jdbc:postgresql://localhost/metabolights
 
 # To move to code configuration.
 hibernate.id.new_generator_mappings=true
+
+## Change this to get some good debug info for Hibernate
+#hibernate.show_sql=true
+#hibernate.format_sql=false
+#hibernate.use_sql_comments=false
+#
+## Set to 0 if you have problems with the Oracle Driver
+## (See http://forum.hibernate.org/viewtopic.php?t=82)
+#hibernate.max_fetch_depth=0
+#hibernate.jdbc.batch_size=0
+#hibernate.search.worker.batch_size=100
+#
+## This shouldn't need to be changed
+#hibernate.hbm2ddl.auto=create
+#hibernate.mapping.precedence=hbm,class
