@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.util.Calendar;
@@ -160,4 +161,12 @@ public class StudyDataTest  extends DAOTest {
 		return studyData;
 	}
 
+	public static StudyData addStudyToDB(StudyData studyData) {
+		SessionWrapper session = HibernateUtil.getSession();
+		session.needSession();
+		session.save(studyData);
+		session.noNeedSession();
+
+		return studyData;
+	}
 }

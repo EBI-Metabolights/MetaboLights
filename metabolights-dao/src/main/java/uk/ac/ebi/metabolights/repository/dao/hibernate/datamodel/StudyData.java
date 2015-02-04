@@ -49,6 +49,7 @@ public class StudyData  extends DataModel<Study> {
 	private Date releaseDate = new Date(new Date().getTime() + (1000L*60L*60L*24L*30L));
 	private Set<UserData> users = new HashSet<>();
 
+	@Column(unique = true)
 	public String getAcc() {
 		return acc;
 	}
@@ -57,6 +58,7 @@ public class StudyData  extends DataModel<Study> {
 		this.acc = acc;
 	}
 
+	@Column(unique = true)
 	public String getObfuscationcode() {
 		return obfuscationcode;
 	}

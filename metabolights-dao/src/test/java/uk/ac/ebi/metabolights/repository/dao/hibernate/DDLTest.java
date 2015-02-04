@@ -22,12 +22,16 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import org.hibernate.cfg.Configuration;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.SQLGrammarException;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyDataTest;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserDataTest;
 
 import java.util.Properties;
 
@@ -74,7 +78,6 @@ public class DDLTest {
 
 		session.noNeedSession();
 
-
 	}
 
 	@Test
@@ -85,6 +88,66 @@ public class DDLTest {
 
 		// Set it up again
 		setUp();
+
+
+		// Check constraints: Create 2 users same username
+		UserData userData = UserDataTest.getNewUserData();
+		UserDataTest.addUserToDB(userData);
+
+		userData.setId(null);
+
+		try {
+			UserDataTest.addUserToDB(userData);
+
+			throw new AssertionError("Username should be unique and exception should be thrown");
+		} catch (ConstraintViolationException e){
+			logger.info("Exception expected. Username unique constraint in place");
+		}
+
+		// Change username to test apiToken uniqueness
+		UserData sameApiToken = UserDataTest.getNewUserData();
+		sameApiToken.setApiToken(userData.getApiToken());
+		try {
+			UserDataTest.addUserToDB(sameApiToken);
+
+			throw new AssertionError("ApiToken should be unique and exception should be thrown");
+		} catch (ConstraintViolationException e){
+			logger.info("Exception expected. ApiToken unique constraint in place");
+		}
+
+
+
+
+		// Check constraints: Create 2 studies same acc
+		StudyData studyData = StudyDataTest.getStudyData();
+		StudyDataTest.addStudyToDB(studyData);
+
+		studyData.setId(null);
+
+		try {
+			StudyDataTest.addStudyToDB(studyData);
+
+			throw new AssertionError("Study accession should be unique and exception should be thrown");
+		} catch (ConstraintViolationException e){
+			logger.info("Exception expected. Study accession unique constraint in place");
+		}
+
+		// Check constraints: Test obfuscation code
+		StudyData sameOCode = StudyDataTest.getStudyData();
+		sameOCode.setObfuscationcode(studyData.getObfuscationcode());
+
+		try {
+			StudyDataTest.addStudyToDB(sameOCode);
+
+			throw new AssertionError("Study obfuscation code should be unique and exception should be thrown");
+		} catch (ConstraintViolationException e){
+			logger.info("Exception expected. Study obfuscation code unique constraint in place");
+		}
+
+
+
+
+
 
 
 	}

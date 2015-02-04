@@ -70,5 +70,14 @@ public class SearchQuery {
 		this.user = user;
 	}
 
+	public String toString(){
+		String result = text;
+
+		if (user != null) {
+			result = result + ";" + user.toString();
+		}
+
+		return result;
+	}
 
 }

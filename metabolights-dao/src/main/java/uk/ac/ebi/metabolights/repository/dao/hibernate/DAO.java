@@ -25,7 +25,6 @@ import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.DataModel;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -87,7 +87,6 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		String query = "select distinct study.acc from " + StudyData.class.getSimpleName() + " study" +
 				" left join study.users user";
 
-
 		// Create an empty filter
 		Filter filter = new Filter();
 
@@ -103,7 +102,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
 			filter.fieldValuePairs.put("apiToken", userToken);
 		}
 
-		List studies = this.getList(query, filter);
+		List<String> studies = this.getList(query, filter);
 
 		return studies;
 	}

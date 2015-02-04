@@ -52,7 +52,7 @@ public class Study {
     private Collection<Protocol> protocols;
     private List<Assay> assays;
     private Collection<Organism> organism;
-    private Collection<String> owners;
+    //private Collection<String> owners;
     private Collection<User> users = new ArrayList<>();
 
 
@@ -123,7 +123,7 @@ public class Study {
         this.studyLocation = studyLocation;
     }
 
-    public StudyStatus getStudyStatus() {
+    public StudyStatus  getStudyStatus() {
         return studyStatus;
     }
 
@@ -197,13 +197,13 @@ public class Study {
         this.organism = organism;
     }
 
-    public Collection<String> getOwners() {
-        return owners;
-    }
-
-    public void setOwners(Collection<String> owners) {
-        this.owners = owners;
-    }
+//    public Collection<String> getOwners() {
+//        return owners;
+//    }
+//
+//    public void setOwners(Collection<String> owners) {
+//        this.owners = owners;
+//    }
 
     public Table getSampleTable() {
 		return sampleTable;

@@ -29,7 +29,13 @@ package uk.ac.ebi.metabolights.search.service;
 public class SearchUser {
 
 	private String id;
-	private boolean isAdmin;
+	private boolean isAdmin = false;
+
+	public SearchUser(){}
+	public SearchUser(String id, boolean isAdmin){
+		this.id = id;
+		this.isAdmin = isAdmin;
+	}
 
 	public String getId() {
 		return id;
@@ -45,6 +51,10 @@ public class SearchUser {
 
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	public String toString(){
+		return "id: " + id + ";isAdmin:" + isAdmin;
 	}
 
 }

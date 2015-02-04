@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
 
 import java.net.URL;
 import java.util.Properties;

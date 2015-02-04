@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
 

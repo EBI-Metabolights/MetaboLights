@@ -27,7 +27,7 @@ import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserDataTest;

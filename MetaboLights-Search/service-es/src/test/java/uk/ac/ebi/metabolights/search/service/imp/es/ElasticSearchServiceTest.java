@@ -29,7 +29,7 @@ import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.SessionWrapper;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
@@ -37,12 +37,16 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.search.service.SearchUser;
 import uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel.LiteStudy;
 
-import java.io.File;
+import java.util.List;
 import java.util.Properties;
 
 public class ElasticSearchServiceTest {
+
+	private static final String SEARCH_TO_HIT_ALL = "metabolite";
+	private static final int STUDIES_COUNT = 3;
 
 	ElasticSearchService elasticSearchService = new ElasticSearchService("conesa");
 	StudyDAO studyDAO;
@@ -54,6 +58,7 @@ public class ElasticSearchServiceTest {
 	private UserData owner;
 	private StudyData privateStudy;
 	private StudyData publicStudy;
+	private StudyData publicStudy2;
 
 
 	@Before
@@ -125,6 +130,13 @@ public class ElasticSearchServiceTest {
 		publicStudy.getUsers().add(owner);
 		session.save(publicStudy);
 
+		publicStudy2 = new StudyData();
+		publicStudy2.setStatus(Study.StudyStatus.PUBLIC.ordinal());
+		publicStudy2.setAcc("MTBLS10");
+		publicStudy2.getUsers().add(curator);
+		session.save(publicStudy2);
+
+
 		session.noNeedSession();
 
 
@@ -148,33 +160,85 @@ public class ElasticSearchServiceTest {
 	}
 
 	@Test
-	public void testIndex() throws Exception {
+	public void testSearch(){
 
+		SearchQuery query = new SearchQuery(publicStudy.getAcc());
 
-		File studiesFolder = new File(PRIVATE_FOLDER);
+		SearchResult<LiteEntity> result = elasticSearchService.search(query);
 
-		indexFolder(studiesFolder, false);
+		Assert.assertTrue(publicStudy.getAcc() + " study is found" ,result.getResults().size() ==1);
 
-		studiesFolder = new File(PUBLIC_FOLDER);
+		LiteStudy mtbls1 = (LiteStudy) result.getResults().iterator().next();
 
-		indexFolder(studiesFolder, true);
+		Assert.assertEquals(publicStudy.getAcc() + " LiteStudy id populated", publicStudy.getAcc() , mtbls1.getStudyIdentifier());
+				Assert.assertNotNull(publicStudy.getAcc() + " LiteStudy title populated", mtbls1.getTitle());
 
 
 	}
 
 	@Test
-	public void testSearch(){
+	public void testSecureSearch(){
 
-		SearchQuery query = new SearchQuery("MTBLS1");
+
+		// Test a not owner
+		SearchQuery query = new SearchQuery(SEARCH_TO_HIT_ALL);
+		query.setUser(new SearchUser(notOwner.getUserName(),false));
+
+		// Test notOwner all available
+		// This should return all
+		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		Assert.assertTrue(" Only public studies should be found" ,result.getResults().size() ==2);
+
+
+		// Ask for a private study, not owned
+		query.setText(privateStudy.getAcc());
+		result = elasticSearchService.search(query);
+
+		Assert.assertTrue(privateStudy.getAcc() + " study shouldn't be found since is private and user is not an owner" ,result.getResults().size() ==0);
+
+
+		// Test empty user
+		query.setUser(null);
+
+		result = elasticSearchService.search(query);
+
+		Assert.assertTrue(privateStudy.getAcc() + " study shouldn't be found since is private and user is empty" ,result.getResults().size() ==0);
+
+
+		// Test owner
+		query.setUser(new SearchUser(owner.getUserName(), false));
+
+		result = elasticSearchService.search(query);
+
+		Assert.assertTrue(privateStudy.getAcc() + " study should be found since is private and user is the owner" ,result.getResults().size() ==1);
+
+
+		// Test curator
+		query.setUser(new SearchUser(curator.getUserName(), true));
+		// This should return all
+		query.setText("metabolite");
+
+		result = elasticSearchService.search(query);
+
+		Assert.assertTrue("All studies should be found, private and public" ,result.getResults().size() == STUDIES_COUNT);
+
+	}
+
+	@Test
+	public void testPagination(){
+
+		final int PAGE_SIZE = 2;
+
+		SearchQuery query = new SearchQuery(SEARCH_TO_HIT_ALL);
+		query.setUser(new SearchUser(curator.getUserName(), true));
+		query.getPagination().setPageSize(PAGE_SIZE);
 
 		SearchResult<LiteEntity> result = elasticSearchService.search(query);
 
-		Assert.assertTrue("MTBLS1 study is found" ,result.getResults().size() ==1);
+		Assert.assertEquals("Results size should fit pageSize",PAGE_SIZE, result.getResults().size());
+		Assert.assertEquals("Total count test", STUDIES_COUNT, result.getQuery().getPagination().getItemsCount());
 
-		LiteStudy mtbls1 = (LiteStudy) result.getResults().iterator().next();
 
-		Assert.assertEquals("MTBLS1 LiteStudy id populated", "MTBLS1", mtbls1.getStudyIdentifier());
-		Assert.assertNotNull("MTBLS1 LiteStudy title populated", mtbls1.getTitle());
 
 
 	}
@@ -182,7 +246,7 @@ public class ElasticSearchServiceTest {
 	@Test
 	public void testDelete() throws IndexingFailureException {
 
-		elasticSearchService.delete("MTBLS1");
+		elasticSearchService.delete(publicStudy.getAcc());
 	}
 
 
@@ -196,28 +260,27 @@ public class ElasticSearchServiceTest {
 		Assert.assertEquals("Index exists", true, elasticSearchService.doesIndexExists());
 
 		// Index one study
-		indexStudy(new File(PUBLIC_FOLDER + "/MTBLS1"), true);
-
-
+		indexStudy(publicStudy.getAcc());
 
 	}
 
-	private void indexFolder(File studiesFolder, boolean publicStudy) throws IndexingFailureException, DAOException {
+	@Test
+	public void testIndexAll() throws Exception {
 
-		for (File studyFolder:studiesFolder.listFiles()){
-			if (studyFolder.isDirectory()){
-				indexStudy(studyFolder, publicStudy);
-			}
+		elasticSearchService.resetIndex();
+
+		List<String> studies = studyDAO.getList(curator.getApiToken());
+
+		for (String accession : studies) {
+
+			indexStudy(accession);
 		}
+
 	}
 
-	private void indexStudy(File studyFolder, boolean publicStudy) throws IndexingFailureException, DAOException {
+	private void indexStudy(String accession) throws IndexingFailureException, DAOException {
 
-		// Need to load the study from the Folder
-		Study study = studyDAO.getStudy(studyFolder.getName());
-
-		study.setPublicStudy(publicStudy);
+		Study study = studyDAO.getStudy(accession, curator.getApiToken());
 		elasticSearchService.index(study);
-
 	}
 }

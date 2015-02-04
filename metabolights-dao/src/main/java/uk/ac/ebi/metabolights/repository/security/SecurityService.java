@@ -44,6 +44,11 @@ public class SecurityService {
 			return;
 		}
 
+		// If userToken is null.
+		if (userToken == null) {
+			throwSecurityException("Anonymous user (null) are not authorised to access " + accession);
+		}
+
 		// Get the user
 		User user = userDAO.findByToken(userToken);
 
@@ -59,10 +64,15 @@ public class SecurityService {
 				return;
 			}
 
+			throwSecurityException("User with token " + userToken + " is not authorised to access " + accession);
 		}
 
-		// If code reaches here throw an exception
-		throw new SecurityException("User with token " + userToken + " is not authorised to access " + accession);
+	}
+
+	private static void throwSecurityException(String message) throws SecurityException{
+
+		// Throw a security exception
+		throw new SecurityException(message);
 	}
 
 

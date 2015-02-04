@@ -92,6 +92,7 @@ public class UserData extends DataModel<User> {
 		this.role = role;
 	}
 
+	@Column(unique = true)
 	public String getUserName() {
 		return userName;
 	}
@@ -140,6 +141,7 @@ public class UserData extends DataModel<User> {
 		this.affiliationUrl = affiliationUrl;
 	}
 
+	@Column(unique = true)
 	public String getApiToken() {
 		return apiToken;
 	}

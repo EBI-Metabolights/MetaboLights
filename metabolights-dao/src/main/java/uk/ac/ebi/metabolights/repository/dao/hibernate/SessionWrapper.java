@@ -19,12 +19,13 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
+package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.DataModel;
 
 /**
  * User: conesa
@@ -45,12 +46,8 @@ public class SessionWrapper {
 		// If empty..
 		if (session ==null) {
 
-			//session = HibernateUtil.getSessionFactory().getCurrentSession();
-			// If still empty ...
-			//if (session == null){
-				session = factory.openSession();
-				session.beginTransaction();
-			//}
+			session = factory.openSession();
+			session.beginTransaction();
 		}
 
 		sessionCount++;

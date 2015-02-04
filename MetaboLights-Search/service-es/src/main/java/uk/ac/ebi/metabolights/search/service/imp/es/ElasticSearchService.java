@@ -29,12 +29,15 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.FilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.indices.IndexMissingException;
@@ -42,10 +45,7 @@ import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
-import uk.ac.ebi.metabolights.search.service.SearchQuery;
-import uk.ac.ebi.metabolights.search.service.SearchResult;
-import uk.ac.ebi.metabolights.search.service.SearchService;
+import uk.ac.ebi.metabolights.search.service.*;
 import uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel.LiteStudy;
 
 import java.io.IOException;
@@ -59,9 +59,13 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
  */
 public class ElasticSearchService implements SearchService <Object, LiteEntity> {
 
+	private static final String PROPERTIES = "properties";
+	private static final String STUDY_STATUS_FIELD = "publicStudy";
+	private static final String USER_NAME_FIELD = "users.userName";
 	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
 
 	private static final String STUDY_TYPE_NAME = "study";
+	private static String studyPrefix = "MTBLS";
 
 	private TransportClient  client;
 	private String indexName = "metabolights";
@@ -131,66 +135,85 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 			// Create the mapping for the studies
 			final XContentBuilder mappingBuilder = jsonBuilder()
-					.startObject()
-						.startObject(STUDY_TYPE_NAME)
-							//_source configuration
-							.startObject("_source")
-								.array("excludes", new String[]{"assays", "protocols", "sampleTable", "contacts", "obfuscationCode",
-										"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
-										"users.listOfAllStatus", "users.lastName","users.affiliationUrl","users.status",
-										"users.joinDate","users.email", "users.address", "users.userId", "users.role", "users.affiliation", "users.firstName"})
-							.endObject()
+				.startObject()
+					.startObject(STUDY_TYPE_NAME)
 
-							// Timestamp
-							.startObject("_timestamp")
-								.field("enabled", true)
-								.field("store", true)
-								.field("format", "YYYY-MM-dd hh:mm:ss")
-							.endObject()
-
-							// Properties configutarion (fields types and storage)
-							.startObject("properties")
-								.startObject("studyPublicReleaseDate")
-									.field("type", "date")
-								.endObject()
-								.startObject("studySubmissionDate")
-									.field("type", "date")
-								.endObject()
-								.startObject("organism.organismName")
-									.field("type", "string")
-									.field("index", "not_analyzed")
-								.endObject()
-								.startObject("assays.technology")
-									.field("type", "string")
-									.field("index", "not_analyzed")
-								.endObject()
-								.startObject("assays.measurement")
-									.field("type", "string")
-									.field("index", "not_analyzed")
-								.endObject()
-
-								.startObject("publicStudy")
-									.field("type", "boolean")
-									.field("index", "not_analyzed")
-								.endObject()
-							.endObject()
-							// End of properties
-
-// Templates....in case of any use.
-//							.startArray("dynamic_templates")
-//								.startObject()
-//									.startObject("assays_template")
-//										.field("match", "assays")
-//										.startObject("mapping")
-//											.field("type","object")
-//											.field("store","no")
-//											//.field("index", "yes")
-//										.endObject()
-//									.endObject()
-//								.endObject()
-//							.endArray() // End of templates
+						//_source configuration
+						.startObject("_source")
+							.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "obfuscationCode", "studyLocation",
+									"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
+									"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
+									"users.listOfAllStatus", "users.lastName", "users.affiliationUrl", "users.status",
+									"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
+									"users.affiliation", "users.firstName", "users.curator", "users.reviewer"})
 						.endObject()
-					.endObject();
+
+						// Timestamp
+						.startObject("_timestamp")
+							.field("enabled", true)
+							.field("store", true)
+							.field("format", "YYYY-MM-dd hh:mm:ss")
+						.endObject()
+
+						// Do not allow dynamic properties: strict is too strict, throws an exception
+						.field("dynamic", "false")
+
+						// Properties configutarion (fields types and storage)
+						.startObject(PROPERTIES)
+							.startObject("studyPublicReleaseDate")
+								.field("type", "date")
+							.endObject()
+							.startObject("studySubmissionDate")
+								.field("type", "date")
+							.endObject()
+							.startObject(STUDY_STATUS_FIELD)
+								.field("type", "boolean")
+								.field("index", "not_analyzed")
+							.endObject()
+							.startObject("studyIdentifier")
+								.field("type", "string")
+								.field("index", "not_analyzed")
+							.endObject()
+
+
+							// Collections
+							// Organisms
+							.startObject("organism")
+								.startObject(PROPERTIES)
+									.startObject("organismName")
+										.field("type", "string")
+										.field("index", "not_analyzed")
+									.endObject()
+								.endObject()
+							.endObject()
+
+							// Assays
+							.startObject("assays")
+								.startObject(PROPERTIES)
+									.startObject("technology")
+										.field("type", "string")
+										.field("index", "not_analyzed")
+									.endObject()
+									.startObject("measurement")
+										.field("type", "string")
+										.field("index", "not_analyzed")
+									.endObject()
+								.endObject()
+							.endObject()
+
+							// Users
+							.startObject("users")
+								.startObject(PROPERTIES)
+									.startObject("userName")
+										.field("type", "string")
+										.field("index", "not_analyzed")
+									.endObject()
+								.endObject()
+							.endObject()
+
+						.endObject() // End of Study Properties
+					.endObject() // End of study
+				.endObject();  //End of JSON root object.
 
 			// Add the mapping for studies
 			createIndexRequestBuilder.addMapping(STUDY_TYPE_NAME, mappingBuilder);
@@ -220,6 +243,13 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		this.clusterName = clusterName;
 	}
 
+	public static String getStudyPrefix() {
+		return studyPrefix;
+	}
+
+	public static void setStudyPrefix(String studyPrefix) {
+		ElasticSearchService.studyPrefix = studyPrefix;
+	}
 
 	@Override
 	public boolean getStatus() {
@@ -255,36 +285,139 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	}
 
 	private boolean isAStudy(String id) {
-		return id.indexOf("MTBLS") == 0;
+		return id.indexOf(studyPrefix) == 0;
 	}
 
 	@Override
 	public SearchResult<LiteEntity> search(SearchQuery query) {
 
+		// Get a SearchRequest
+		SearchRequestBuilder searchRequestBuilder = client.prepareSearch(indexName);
 
 		// Convert our Model query into an elastic search query
+		QueryBuilder queryBuilder = queryToQueryBuilder(query);
 
-		//So far let's do a plain text search.
-		QueryBuilder queryBuilder = QueryBuilders.queryString(query.getText());
+		// Set the query
+		searchRequestBuilder.setQuery(queryBuilder);
 
-		SearchResponse response = client.prepareSearch(indexName).setQuery(queryBuilder).execute().actionGet();
+		// Set pagination
+		searchRequestBuilder.setFrom(query.getPagination().getFirstPageItemNumber());
+		searchRequestBuilder.setSize(query.getPagination().getPageSize());
+
+		SearchResponse response = searchRequestBuilder.execute().actionGet();
 
 		if (response.getHits().getTotalHits()==0){
 			// Nothing hit
 			logger.info("Nothing was hit by the query: " + query.toString());
 		}
 
-		return convertElasticSearchResponse2SearchResult(response);
+		return convertElasticSearchResponse2SearchResult(response, query);
 	}
 
-	private SearchResult<LiteEntity> convertElasticSearchResponse2SearchResult(SearchResponse esResponse){
+	private QueryBuilder queryToQueryBuilder(SearchQuery query){
+
+		// Convert the query to an elasticsearch query
+		QueryBuilder queryBuilder = convertSearchQueryToQueryBuilder(query);
+
+		// Add the filters
+		queryBuilder = getFilterElasticSearchFilter(query, queryBuilder);
+
+		return queryBuilder;
+
+
+	}
+
+	private QueryBuilder getFilterElasticSearchFilter(SearchQuery query, QueryBuilder esSearchQuery) {
+
+
+		//Only public studies and owned...or all if admin
+		/*
+
+		{
+			"query" : {
+				"filtered" : {
+					"query": {
+						"query_string" : {
+							"query" : "profiling"
+						}
+					},
+					"filter" : {
+						"or": {
+							"filters": [
+								{
+									"term" : { "publicStudy" : true }
+								},
+								{
+									"term" : { "users.userName" : "owner" }
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+		*/
+
+
+		FilterBuilder filter = null;
+
+		// If there's no user ...
+		if (query.getUser() == null || !query.getUser().isAdmin()) {
+
+			// ... only public studies are accesible
+			filter = FilterBuilders.termFilter(STUDY_STATUS_FIELD, true);
+
+			// If user not null...
+			if (query.getUser() != null) {
+
+				// Build the filter by study status or owner
+				filter = FilterBuilders.orFilter(
+						filter,
+						FilterBuilders.termFilter(USER_NAME_FIELD, query.getUser().getId())
+				);
+			}
+
+		}
+
+		// If is admin (no filter)..
+		if (filter == null) return esSearchQuery;
+
+		// Otherwise crete a filteredQuery
+		return QueryBuilders.filteredQuery(esSearchQuery,filter);
+
+	}
+
+	private QueryBuilder convertSearchQueryToQueryBuilder(SearchQuery query) {
+
+		//So far let's do a plain text search.
+		QueryBuilder queryBuilder = QueryBuilders.queryString(query.getText());
+
+
+		return queryBuilder;
+	}
+
+	private SearchResult<LiteEntity> convertElasticSearchResponse2SearchResult(SearchResponse esResponse, SearchQuery query){
 
 		SearchResult<LiteEntity> searchResult = new SearchResult<LiteEntity>();
 
+		// Set the query
+		searchResult.setQuery(query);
 
 		convertHits2Entities(esResponse, searchResult);
 
+		fillPagination(esResponse,searchResult);
+
+
 		return searchResult;
+
+	}
+
+	private void fillPagination(SearchResponse esResponse, SearchResult<LiteEntity> searchResult) {
+
+		SearchQuery query = searchResult.getQuery();
+		Pagination pagination =query.getPagination();
+		pagination.setItemsCount((int) esResponse.getHits().getTotalHits());
+
 
 	}
 
@@ -314,8 +447,6 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 			searchResult.report("Can't convert hit: " + hit.getId() + " to LiteEntity");
 			logger.error("Conversion to liteentity error", e);
 		}
-
-
 
 	}
 
