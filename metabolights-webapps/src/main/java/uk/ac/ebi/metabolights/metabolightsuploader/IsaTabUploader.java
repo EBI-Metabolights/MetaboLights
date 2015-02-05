@@ -4,6 +4,26 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
+ * Last modified: 2015-Jan-30
+ * Modified by:   kenneth
+ *
+ * Copyright 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
  * Last modified: 5/12/14 1:34 PM
  * Modified by:   conesa
  *
@@ -26,7 +46,6 @@ import org.isatools.isatab.gui_invokers.GUIInvokerResult;
 import org.isatools.isatab.manager.SimpleManager;
 import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.checklists.CheckList;
@@ -235,6 +254,7 @@ public class IsaTabUploader {
         localErrorMessage = localErrorMessage.replaceAll(start + ".*" + end , "");
         localErrorMessage = "ERROR:  " + localErrorMessage.replaceAll("org.isatools." , "\norg.isatools.");
         localErrorMessage = localErrorMessage.replace("/nfs/public/rw/homes/tc_cm01/metabolights","MetaboLightsHomeFolder");
+        localErrorMessage = localErrorMessage.replace("/net/isilonP/public/rw/homes/tc_cm01/metabolights","MetaboLightsHomeFolder");
 
         return localErrorMessage;
     }
