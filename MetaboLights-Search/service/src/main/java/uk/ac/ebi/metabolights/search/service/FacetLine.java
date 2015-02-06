@@ -29,7 +29,7 @@ package uk.ac.ebi.metabolights.search.service;
 public class FacetLine {
 	private String value;
 	private boolean isChecked;
-	private int count;
+	private long count;
 
 	public FacetLine(String value){
 		this.value = value;
@@ -51,11 +51,11 @@ public class FacetLine {
 		this.isChecked = isChecked;
 	}
 
-	public int getCount() {
+	public long getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(long count) {
 		this.count = count;
 	}
 }

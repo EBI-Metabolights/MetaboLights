@@ -36,12 +36,14 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.FilterBuilder;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -49,6 +51,7 @@ import uk.ac.ebi.metabolights.search.service.*;
 import uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel.LiteStudy;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -300,8 +303,12 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		// Set the query
 		searchRequestBuilder.setQuery(queryBuilder);
 
+		// Add or not facets
+		considerFacets(query,searchRequestBuilder);
+
 		// Set pagination
-		searchRequestBuilder.setFrom(query.getPagination().getFirstPageItemNumber());
+		// Elastic search first element starts at 0
+		searchRequestBuilder.setFrom(query.getPagination().getFirstPageItemNumber()-1);
 		searchRequestBuilder.setSize(query.getPagination().getPageSize());
 
 		SearchResponse response = searchRequestBuilder.execute().actionGet();
@@ -324,39 +331,141 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		return queryBuilder;
 
+	}
+
+
+
+	// Add facets to the query
+	private void considerFacets(SearchQuery query, SearchRequestBuilder searchRequestBuilder){
+
+		// if there isn't  any facet
+		if (query.getFacets() == null) {
+
+			// No facets?
+			logger.warn("No facets found in the query. No agrregations added to elastic search request");
+			return;
+		}
+
+		//To store facet filters
+		ArrayList<FilterBuilder> facetFilters = new ArrayList<>();
+
+		// For each facet
+		for (Facet facet : query.getFacets()) {
+
+			// Add an aggregation
+			addAggregationFromFacet(searchRequestBuilder, facet);
+
+
+			// Get a filter for the facet
+			FilterBuilder facetFilter = getFilterFromFacet(facet);
+
+			// Add it if not null
+			if (facetFilter != null) {
+				facetFilters.add(facetFilter);
+			}
+
+		}
+
+		// If there isn't any filter
+		if  (facetFilters.size()==0) {
+
+			//no filter to apply
+			logger.debug("Empty facets: Nothing to filter with any facet");
+
+		} else if (facetFilters.size()==1) {
+
+			// Only one filter
+			searchRequestBuilder.setPostFilter(facetFilters.get(0));
+
+		// More than 1 facet filter
+		} else {
+			// Create an and filter
+			FilterBuilder[] filterBuilders =  facetFilters.toArray(new FilterBuilder[facetFilters.size()]);
+			searchRequestBuilder.setPostFilter(FilterBuilders.andFilter(filterBuilders));
+		}
 
 	}
 
-	private QueryBuilder getFilterElasticSearchFilter(SearchQuery query, QueryBuilder esSearchQuery) {
+	private FilterBuilder getFilterFromFacet(Facet facet) {
 
+		ArrayList<FilterBuilder> termFilters = new ArrayList<FilterBuilder>();
 
-		//Only public studies and owned...or all if admin
-		/*
+		// Loop through the lines
+		for (FacetLine facetLine : facet.getLines()) {
 
-		{
-			"query" : {
-				"filtered" : {
-					"query": {
-						"query_string" : {
-							"query" : "profiling"
-						}
-					},
-					"filter" : {
-						"or": {
-							"filters": [
-								{
-									"term" : { "publicStudy" : true }
-								},
-								{
-									"term" : { "users.userName" : "owner" }
-								}
-							]
-						}
+			FilterBuilder termFilter = facetLineToTermFilter(facetLine,facet.getName());
+
+			termFilters.add(termFilter);
+
+		}
+
+		// If there isn't any filter
+		if  (termFilters.size()==0) {
+
+			//...Facet define for aggregation but no filter yet (empty facet)
+			logger.debug("Empty facet: " + facet.getName() + ". Nothing to filter with this facet");
+			return null;
+
+		} else if (termFilters.size() == 1) {
+
+			// Only a termFilter
+			return termFilters.get(0);
+
+			// More than 1 term filter
+		} else {
+			// Create an or filter and return it
+
+			FilterBuilder[] filterBuilders = termFilters.toArray(new FilterBuilder[termFilters.size()]);
+			return FilterBuilders.orFilter(filterBuilders);
+		}
+
+	}
+
+	private FilterBuilder facetLineToTermFilter(FacetLine facetLine, String field) {
+		return FilterBuilders.termFilter(field, facetLine.getValue());
+
+	}
+
+	private void addAggregationFromFacet(SearchRequestBuilder searchRequestBuilder, Facet facet) {
+
+		TermsBuilder facetGroup = new TermsBuilder(facet.getName());
+
+		// So far name matches the field but needs to change and map pretty name with field name
+		facetGroup.field(facet.getName());
+
+		searchRequestBuilder.addAggregation(facetGroup);
+	}
+
+	/**
+	 * Only public studies and owned...or all if admin
+	 *
+	 * Sample query
+	 *
+	{
+		"query" : {
+			"filtered" : {
+				"query": {
+					"query_string" : {
+						"query" : "profiling"
+					}
+				},
+				"filter" : {
+					"or": {
+						"filters": [
+							{
+								"term" : { "publicStudy" : true }
+							},
+							{
+								"term" : { "users.userName" : "owner" }
+							}
+						]
 					}
 				}
 			}
 		}
-		*/
+	}
+	**/
+	private QueryBuilder getFilterElasticSearchFilter(SearchQuery query, QueryBuilder esSearchQuery) {
 
 
 		FilterBuilder filter = null;
@@ -407,8 +516,65 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		fillPagination(esResponse,searchResult);
 
+		fillFacets(esResponse,searchResult);
 
 		return searchResult;
+
+	}
+
+	private void fillFacets(SearchResponse esResponse, SearchResult<LiteEntity> searchResult) {
+
+		Aggregations aggregations = esResponse.getAggregations();
+
+		for (Aggregation aggregation : aggregations) {
+			StringTerms terms = (StringTerms) aggregation;
+			Facet facet = getFacetForAggregation(aggregation, searchResult);
+
+			if (facet != null) {
+				fillFacetWithAggregation(facet, terms);
+			}
+
+		}
+
+	}
+
+	private void fillFacetWithAggregation(Facet facet, StringTerms aggregation) {
+
+		for (Terms.Bucket bucket : aggregation.getBuckets()) {
+
+			fillFacetLineFromBucket (bucket,facet);
+
+		}
+	}
+
+	private void fillFacetLineFromBucket(Terms.Bucket bucket, Facet facet) {
+
+		for (FacetLine facetLine : facet.getLines()) {
+			if (facetLine.getValue().equals(bucket.getKey())) {
+				facetLine.setCount(bucket.getDocCount());
+				return;
+			}
+		}
+
+		// Not found?
+		FacetLine newLine = new FacetLine(bucket.getKey());
+		newLine.setCount(bucket.getDocCount());
+		facet.getLines().add(newLine);
+
+	}
+
+
+	private Facet getFacetForAggregation(Aggregation aggregation, SearchResult<LiteEntity> searchResult) {
+
+		for (Facet facet : searchResult.getQuery().getFacets()) {
+
+			if (facet.getName().equals(aggregation.getName())){
+				return facet;
+			}
+		}
+
+		logger.warn("facet not found for aggregation" + aggregation.getName());
+		return null;
 
 	}
 

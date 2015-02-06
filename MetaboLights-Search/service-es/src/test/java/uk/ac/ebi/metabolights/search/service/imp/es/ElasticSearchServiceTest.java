@@ -34,10 +34,7 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
-import uk.ac.ebi.metabolights.search.service.SearchQuery;
-import uk.ac.ebi.metabolights.search.service.SearchResult;
-import uk.ac.ebi.metabolights.search.service.SearchUser;
+import uk.ac.ebi.metabolights.search.service.*;
 import uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel.LiteStudy;
 
 import java.util.List;
@@ -239,9 +236,146 @@ public class ElasticSearchServiceTest {
 		Assert.assertEquals("Total count test", STUDIES_COUNT, result.getQuery().getPagination().getItemsCount());
 
 
+		// Request second page
+		query.getPagination().setPage(2);
+		result = elasticSearchService.search(query);
+
+		Assert.assertEquals("Page should be kept", 2, result.getQuery().getPagination().getPage());
+		Assert.assertEquals("Total count test", STUDIES_COUNT, result.getQuery().getPagination().getItemsCount());
+		Assert.assertEquals("Returned items should be one", 1, result.getResults().size());
+
+	}
+
+	@Test
+	public void testEmptyFacets(){
+
+
+		SearchQuery query = new SearchQuery(SEARCH_TO_HIT_ALL);
+		query.setUser(new SearchUser(curator.getUserName(), true));
+
+		// Add facets
+		Facet technologyFacet = new Facet("assays.technology");
+		query.getFacets().add(technologyFacet);
+
+		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+
+		// There should be two lines in the technology facet
+		Assert.assertEquals("1 facet group",1 , result.getQuery().getFacets().size());
+
+		// Check there are 2 lines
+		Assert.assertEquals("Number of technology facet lines",2 , technologyFacet.getLines().size());
+
+
+		// Try now with not owner
+		query.setUser(new SearchUser(notOwner.getUserName(), false));
+
+		// Add facets
+		query.getFacets().clear();
+		Facet studyStatus = new Facet("publicStudy");
+		query.getFacets().add(studyStatus);
+
+		result = elasticSearchService.search(query);
+
+		// There should be one facet
+		Assert.assertEquals("1 facet group",1 , result.getQuery().getFacets().size());
+
+		// Check there is 1 line (Only Public studies)
+		Assert.assertEquals("Number of studyStatus facet lines",1 , studyStatus.getLines().size());
+
+
+
+		// Clean lines..
+		studyStatus.getLines().clear();
+		technologyFacet.getLines().clear();
+
+		// Add technology facet
+		query.getFacets().add(technologyFacet);
+
+		result = elasticSearchService.search(query);
+
+		// There should be 2 facets
+		Assert.assertEquals("2 facet groups",2 , result.getQuery().getFacets().size());
+
+		Assert.assertEquals("Technology must have 2 lines (MS and NMR)",2 , technologyFacet.getLines().size());
+
+	}
+
+	@Test
+	public void testCheckedFacets(){
+
+		SearchQuery query = new SearchQuery(SEARCH_TO_HIT_ALL);
+		query.setUser(new SearchUser(curator.getUserName(), true));
+
+		// Add facets
+		Facet technologyFacet = new Facet("assays.technology");
+		technologyFacet.getLines().add(new FacetLine("NMR spectroscopy"));
+		query.getFacets().add(technologyFacet);
+
+		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+
+		// There should be two lines in the technology facet
+		Assert.assertEquals("1 facet group",1 , result.getQuery().getFacets().size());
+
+		// Check there are still 2 lines
+		Assert.assertEquals("Number of technology facet lines",2 , technologyFacet.getLines().size());
+
+		// Check facet line has effect in the total count (filter applied)
+		Assert.assertEquals("Number of results",1 , query.getPagination().getItemsCount());
+
+
+		// Check orFilter (2 lines in one facet group)
+		query = new SearchQuery(SEARCH_TO_HIT_ALL);
+		query.setUser(new SearchUser(curator.getUserName(), true));
+
+		// Add facets
+		technologyFacet = new Facet("assays.technology");
+		technologyFacet.getLines().add(new FacetLine("NMR spectroscopy"));
+		technologyFacet.getLines().add(new FacetLine("mass spectrometry"));
+		query.getFacets().add(technologyFacet);
+
+		result = elasticSearchService.search(query);
+
+		// There should be two lines in the technology facet
+		Assert.assertEquals("1 facet group",1 , result.getQuery().getFacets().size());
+
+		// Check there are still 2 lines
+		Assert.assertEquals("Number of technology facet lines",2 , technologyFacet.getLines().size());
+
+		// Check facet line has effect in the total count (filter applied as or...so all must be returned)
+		Assert.assertEquals("Or filter, Number of results",3 , query.getPagination().getItemsCount());
+
+
+		// Check andFilter (2 lines in diferent facet groups)
+		query = new SearchQuery(SEARCH_TO_HIT_ALL);
+		query.setUser(new SearchUser(curator.getUserName(), true));
+
+		// Add facets (MS and Public)
+		technologyFacet = new Facet("assays.technology");
+		technologyFacet.getLines().add(new FacetLine("mass spectrometry"));
+		query.getFacets().add(technologyFacet);
+
+		Facet studyStatus = new Facet("publicStudy");
+		studyStatus.getLines().add(new FacetLine("T"));
+		query.getFacets().add(studyStatus);
+
+
+		result = elasticSearchService.search(query);
+
+		// There should be two lines in the technology facet
+		Assert.assertEquals("2 facet group",2 , result.getQuery().getFacets().size());
+
+		// Check there are 2 lines
+		Assert.assertEquals("Number of technology facet lines",2 , technologyFacet.getLines().size());
+
+		// Check facet line has effect in the total count (filter applied as or...so all must be returned)
+		Assert.assertEquals("And filter(MS + public), Number of results",1 , query.getPagination().getItemsCount());
+
+
 
 
 	}
+
+
 
 	@Test
 	public void testDelete() throws IndexingFailureException {
