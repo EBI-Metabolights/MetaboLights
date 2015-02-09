@@ -370,9 +370,6 @@ public class ElasticSearchServiceTest {
 		// Check facet line has effect in the total count (filter applied as or...so all must be returned)
 		Assert.assertEquals("And filter(MS + public), Number of results",1 , query.getPagination().getItemsCount());
 
-
-
-
 	}
 
 

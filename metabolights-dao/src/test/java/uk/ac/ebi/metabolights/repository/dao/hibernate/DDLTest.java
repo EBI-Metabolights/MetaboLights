@@ -45,15 +45,13 @@ public class DDLTest {
 
 		// Get property file
 		Properties hibernateProperties = new Properties();
-		//hibernateProperties.load(SessionUtilTest.class.getResourceAsStream("hibernate.properties"));
+		hibernateProperties.load(DDLTest.class.getResourceAsStream("/hibernate.hidden.properties"));
 
 		configuration.setProperties(hibernateProperties);
 
 		configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
 		HibernateUtil.initialize(configuration);
-
-
 
 	}
 

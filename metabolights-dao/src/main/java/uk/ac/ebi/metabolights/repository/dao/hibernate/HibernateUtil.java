@@ -42,16 +42,14 @@ public class HibernateUtil {
 
 		logger.info("Initializing HibernateSession util.");
 
-
 		// Add classes to be handle by hibernate
 		addEntities(configuration);
 
 		// Get the service registry
-		ServiceRegistry sr = new StandardServiceRegistryBuilder().build();
+		ServiceRegistry sr = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 
 		// Get the session factory
 		factory = configuration.buildSessionFactory(sr);
-
 
 	}
 
