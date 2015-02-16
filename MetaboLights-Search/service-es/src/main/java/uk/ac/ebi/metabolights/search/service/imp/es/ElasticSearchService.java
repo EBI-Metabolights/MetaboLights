@@ -44,6 +44,7 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -65,6 +66,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	private static final String PROPERTIES = "properties";
 	private static final String STUDY_STATUS_FIELD = "publicStudy";
 	private static final String USER_NAME_FIELD = "users.userName";
+	private static final String STUDY_PUBLIC_RELEASE_DATE = "studyPublicReleaseDate";
 	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
 
 	private static final String STUDY_TYPE_NAME = "study";
@@ -165,6 +167,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 						.startObject(PROPERTIES)
 							.startObject("studyPublicReleaseDate")
 								.field("type", "date")
+								.field("store",true)
 							.endObject()
 							.startObject("studySubmissionDate")
 								.field("type", "date")
@@ -298,7 +301,8 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		SearchRequestBuilder searchRequestBuilder = client.prepareSearch(indexName);
 
 		// Convert our Model query into an elastic search query
-		QueryBuilder queryBuilder = queryToQueryBuilder(query);
+		QueryBuilder queryBuilder = queryToQueryBuilder(query,searchRequestBuilder);
+
 
 		// Set the query
 		searchRequestBuilder.setQuery(queryBuilder);
@@ -321,10 +325,10 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		return convertElasticSearchResponse2SearchResult(response, query);
 	}
 
-	private QueryBuilder queryToQueryBuilder(SearchQuery query){
+	private QueryBuilder queryToQueryBuilder(SearchQuery query, SearchRequestBuilder searchRequestBuilder){
 
 		// Convert the query to an elasticsearch query
-		QueryBuilder queryBuilder = convertSearchQueryToQueryBuilder(query);
+		QueryBuilder queryBuilder = convertSearchQueryToQueryBuilder(query,searchRequestBuilder);
 
 		// Add the filters
 		queryBuilder = getFilterElasticSearchFilter(query, queryBuilder);
@@ -496,11 +500,20 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private QueryBuilder convertSearchQueryToQueryBuilder(SearchQuery query) {
+	private QueryBuilder convertSearchQueryToQueryBuilder(SearchQuery query, SearchRequestBuilder searchRequestBuilder) {
 
-		//So far let's do a plain text search.
-		QueryBuilder queryBuilder = QueryBuilders.queryString(query.getText());
+		QueryBuilder queryBuilder;
 
+		if (query.getText()==null || query.getText().isEmpty()) {
+			queryBuilder = QueryBuilders.matchAllQuery();
+
+			// In this case specify an order..
+			searchRequestBuilder.addSort(STUDY_PUBLIC_RELEASE_DATE, SortOrder.DESC);
+
+		} else {
+			//So far let's do a plain text search.
+			queryBuilder = QueryBuilders.queryString(query.getText());
+		}
 
 		return queryBuilder;
 	}
@@ -525,6 +538,9 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	private void fillFacets(SearchResponse esResponse, SearchResult<LiteEntity> searchResult) {
 
 		Aggregations aggregations = esResponse.getAggregations();
+
+		// If theres no aggregations
+		if (aggregations == null) return;
 
 		for (Aggregation aggregation : aggregations) {
 			StringTerms terms = (StringTerms) aggregation;

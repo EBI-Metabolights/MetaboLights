@@ -19,125 +19,111 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>uk.ac.ebi.metabolights</groupId>
-  <artifactId>metabolights-main</artifactId>
-  <version>1.4</version>
-  <packaging>pom</packaging>
-  <name>MetaboLights main project</name>
-  <description>MetaboLights Main Project</description>
-  <modules>
-     <module>metabolights-utils</module>
-     <module>metabolights-domain</module>
-     <module>metabolights-dao</module>
-     <module>metabolights-webservice</module>
-     <module>metabolights-ws-client</module>
-     <module>metabolights-referencelayer</module>
-     <module>metabolights-webapps</module>
-     <module>metabolights-species</module>
-     <module>ISAcreator-shaded</module>
-     <module>metabolights-search</module>
-  </modules>
-
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh</artifactId>
-        <version>1.0-beta-6</version>
-      </extension>
-   </extensions>
-       <plugins>
-  	  <plugin>
-  		<groupId>org.apache.maven.plugins</groupId>
-  		<artifactId>maven-compiler-plugin</artifactId>
-  		<version>2.3.2</version>
-  	  </plugin>
-       </plugins>
-  </build>
-
-
-  <dependencies>
-    <!-- dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.15</version>
-      <scope>runtime</scope>
-    </dependency-->
- 	<dependency>
- 		<groupId>junit</groupId>
- 		<artifactId>junit</artifactId>
- 		<version>4.8.2</version>
- 		<type>jar</type>
- 		<scope>test</scope>
- 	</dependency>
-    <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.0.1</version>
-        <type>jar</type>
-        <scope>compile</scope>
-    </dependency>
- 	<!--<dependency>-->
- 		<!--<groupId>log4j</groupId>-->
- 		<!--<artifactId>log4j</artifactId>-->
- 		<!--<version>1.2.16</version>-->
- 	 	<!--<type>jar</type>-->
- 		<!--<scope>compile</scope>-->
- 	<!--</dependency>-->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.7.7</version>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>1.7.7</version>
-        <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-  <distributionManagement>
-    <repository>
-      <id>chebi-repo</id>
-      <name>ChEBI Internal Repository</name>
-      <url>scp://prod.ebi.ac.uk/ebi/sp/pro1/chebi/maven2_repo</url>
-    </repository>
-    <snapshotRepository>
-       <uniqueVersion>false</uniqueVersion>
-       <id>chebi-repo</id>
-       <name>ChEBI Internal Repository</name>
-       <url>scp://prod.ebi.ac.uk:/ebi/sp/pro1/chebi/maven2_repo</url>
-    </snapshotRepository>
-    <site>
-       <name>chebi</name>
-       <id>prod.ebi.ac.uk</id>
-       <url>scp://prod.ebi.ac.uk:/ebi/extserv/seqdb/internal/seqdb/projects/chebi/chebi-prg/${project.artifactId}</url>
-    </site>
-  </distributionManagement>
-
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>uk.ac.ebi.metabolights</groupId>
+    <artifactId>metabolights-main</artifactId>
+    <version>1.4</version>
+    <packaging>pom</packaging>
+    <name>MetaboLights main project</name>
+    <description>MetaboLights Main Project</description>
+    <modules>
+        <module>metabolights-utils</module>
+        <module>metabolights-domain</module>
+        <module>metabolights-dao</module>
+        <module>metabolights-webservice</module>
+        <module>metabolights-ws-client</module>
+        <module>metabolights-referencelayer</module>
+        <module>metabolights-webapps</module>
+        <module>metabolights-species</module>
+        <module>ISAcreator-shaded</module>
+        <module>metabolights-search</module>
+    </modules>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>1.0-beta-6</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.0.1</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.7</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>chebi-repo</id>
+            <name>ChEBI Internal Repository</name>
+            <url>scp://prod.ebi.ac.uk/ebi/sp/pro1/chebi/maven2_repo</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>chebi-repo</id>
+            <name>ChEBI Internal Repository</name>
+            <url>scp://prod.ebi.ac.uk:/ebi/sp/pro1/chebi/maven2_repo</url>
+        </snapshotRepository>
+        <site>
+            <name>chebi</name>
+            <id>prod.ebi.ac.uk</id>
+            <url>scp://prod.ebi.ac.uk:/ebi/extserv/seqdb/internal/seqdb/projects/chebi/chebi-prg/${project.artifactId}</url>
+        </site>
+    </distributionManagement>
     <repositories>
         <repository>
             <id>ebi-repo</id>
             <name>The EBI repository</name>
             <url>http://www.ebi.ac.uk/~maven/m2repo</url>
         </repository>
-		<repository>
-		    <id>intact-repo</id>
-	        <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
-		</repository>
         <repository>
-	       <id>ebi-snapshot-repo</id>
-		   <name>The EBI internal snapshot repository</name>
-		   <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
-		   <releases>
-		       <enabled>false</enabled>
-		   </releases>
-		   <snapshots>
-		       <enabled>true</enabled>
-		   </snapshots>
-	    </repository>
+            <id>intact-repo</id>
+            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
+        </repository>
+        <repository>
+            <id>ebi-snapshot-repo</id>
+            <name>The EBI internal snapshot repository</name>
+            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>oerc</id>
             <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases/</url>
@@ -147,13 +133,13 @@
             <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/groups/oerc</url>
         </repository>
         <repository>
-			<id>chebi-repo-snapshot</id>
-			<name>ChEBI Repository</name>
-			<url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
-			<snapshots>
-		       <enabled>true</enabled>
-		    </snapshots>
-		</repository>
+            <id>chebi-repo-snapshot</id>
+            <name>ChEBI Repository</name>
+            <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>limpopo-repo</id>
             <name>Limpopo Mini-SF Repository</name>
@@ -176,6 +162,5 @@
             <id>JBoss Public Maven Repository Group</id>
             <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
         </repository>
-   </repositories>
-
+    </repositories>
 </project>

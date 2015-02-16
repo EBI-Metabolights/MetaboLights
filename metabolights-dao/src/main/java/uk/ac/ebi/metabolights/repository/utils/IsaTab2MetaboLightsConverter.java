@@ -101,7 +101,12 @@ public class IsaTab2MetaboLightsConverter {
         metStudy.setDescription(isaStudy.getStudyDesc());
 
         if (isaStudy.getPublicReleaseDate() != null)
-            metStudy.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
+
+            // Give precedence to existing date
+            // Fill it if it doesn't exist.
+            if (metStudy.getStudyPublicReleaseDate() == null) {
+                metStudy.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
+            }
 
         if (isaStudy.getDateOfSubmission() != null)
             metStudy.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));

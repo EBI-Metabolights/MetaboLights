@@ -21,7 +21,10 @@
 
 package uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import uk.ac.ebi.metabolights.search.service.imp.es.LiteEntity;
+
+import java.util.Date;
 
 /**
  * User: conesa
@@ -33,6 +36,8 @@ public class LiteStudy extends LiteEntity {
 	private String studyIdentifier;
 	private String title;
 
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
+	private Date studyPublicReleaseDate;
 	public String getStudyIdentifier() {
 		return studyIdentifier;
 	}
@@ -47,5 +52,13 @@ public class LiteStudy extends LiteEntity {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Date getStudyPublicReleaseDate() {
+		return studyPublicReleaseDate;
+	}
+
+	public void setStudyPublicReleaseDate(Date studyPublicReleaseDate) {
+		this.studyPublicReleaseDate = studyPublicReleaseDate;
 	}
 }

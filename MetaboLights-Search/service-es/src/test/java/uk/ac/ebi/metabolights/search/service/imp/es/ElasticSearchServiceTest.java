@@ -45,7 +45,7 @@ public class ElasticSearchServiceTest {
 	private static final String SEARCH_TO_HIT_ALL = "metabolite";
 	private static final int STUDIES_COUNT = 3;
 
-	ElasticSearchService elasticSearchService = new ElasticSearchService("conesa");
+	ElasticSearchService elasticSearchService = new ElasticSearchService();
 	StudyDAO studyDAO;
 	private static String ISATAB_CONFIG_FOLDER;
 	private static String PRIVATE_FOLDER;
@@ -87,7 +87,7 @@ public class ElasticSearchServiceTest {
 		// Get the studyDAO.
 		studyDAO = DAOFactory.getInstance().getStudyDAO();
 
-		initDB();
+		//initDB();
 
 
 	}
@@ -110,7 +110,6 @@ public class ElasticSearchServiceTest {
 
 		owner = createUser(AppRole.ROLE_SUBMITTER, "owner");
 		session.save(owner);
-
 
 		// Add study data
 		uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO dbStudyDAO = new uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO();
@@ -168,7 +167,8 @@ public class ElasticSearchServiceTest {
 		LiteStudy mtbls1 = (LiteStudy) result.getResults().iterator().next();
 
 		Assert.assertEquals(publicStudy.getAcc() + " LiteStudy id populated", publicStudy.getAcc() , mtbls1.getStudyIdentifier());
-				Assert.assertNotNull(publicStudy.getAcc() + " LiteStudy title populated", mtbls1.getTitle());
+		Assert.assertNotNull(publicStudy.getAcc() + " LiteStudy title populated", mtbls1.getTitle());
+		Assert.assertEquals(publicStudy.getAcc() + " LiteStudy public release date populated", publicStudy.getReleaseDate(), mtbls1.getStudyPublicReleaseDate());
 
 
 	}
@@ -391,7 +391,7 @@ public class ElasticSearchServiceTest {
 		Assert.assertEquals("Index exists", true, elasticSearchService.doesIndexExists());
 
 		// Index one study
-		indexStudy(publicStudy.getAcc());
+		indexStudy(publicStudy.getAcc(), "");
 
 	}
 
@@ -400,18 +400,21 @@ public class ElasticSearchServiceTest {
 
 		elasticSearchService.resetIndex();
 
-		List<String> studies = studyDAO.getList(curator.getApiToken());
+//		String userToken = curator.getApiToken();
+		String userToken = "27497017-e8f1-41cf-976c-8a99ef7c01e9";
 
+		List<String> studies = studyDAO.getList(userToken);
 		for (String accession : studies) {
 
-			indexStudy(accession);
+			indexStudy(accession, userToken);
 		}
 
 	}
 
-	private void indexStudy(String accession) throws IndexingFailureException, DAOException {
+	private void indexStudy(String accession, String userToken) throws IndexingFailureException, DAOException {
 
-		Study study = studyDAO.getStudy(accession, curator.getApiToken());
+		Study study = studyDAO.getStudy(accession, userToken);
+
 		elasticSearchService.index(study);
 	}
 }

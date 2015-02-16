@@ -46,6 +46,7 @@ public class StudyDAOTest extends DAOTest {
     @Test
     public void testGetStudy() throws Exception {
 
+		logger.info("Test GetStudy started");
 
         Study study = studyDAO.getStudy("MTBLS1", true);
         assertEquals("MTBLS1 loaded?", study.getStudyIdentifier(),"MTBLS1");

@@ -24,20 +24,21 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
+import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.webservice.model.StudyLite;
-import uk.ac.ebi.metabolights.webservice.model.User;
+import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.webservice.model.RestResponse;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
 import java.io.File;
@@ -50,81 +51,51 @@ public class StudyController {
 	private final static Logger logger = LoggerFactory.getLogger(StudyController.class.getName());
 	private StudyDAO studyDAO;
 
-
-    // Properties from context
-    private @Value("#{publicStudiesLocation}") String publicStudiesLocationProp;
-    private @Value("#{privateStudiesLocation}") String privateStudiesLocationProp;
-    private @Value("#{isatabConfigurationLocation}") String isatabRootConfigurationLocation;
-
-    @RequestMapping("{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}")
+    @RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}")
 	@ResponseBody
-	public Study getStudyById(@PathVariable("metabolightsId") String metabolightsId) {
+	public RestResponse<Study> getStudyById(@PathVariable("accession") String accession) {
 
-		logger.info("Requesting " + metabolightsId + " to the webservice");
+		logger.info("Requesting " + accession + " to the webservice");
 
-		return getStudy(metabolightsId, false);
+		return getStudy(accession, false);
 	}
 
-	@RequestMapping("{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/full")
+	@RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}/full")
 	@ResponseBody
-	public Study getFullStudyById(@PathVariable("metabolightsId") String metabolightsId) {
+	public RestResponse<Study> getFullStudyById(@PathVariable("accession") String accession) {
 
-		logger.info("Requesting full study " + metabolightsId + " to the webservice");
+		logger.info("Requesting full study " + accession + " to the webservice");
 
-		return getStudy(metabolightsId, true);
+		return getStudy(accession, true);
 
 	}
 
-	private Study getStudy (String metabolightsId, boolean includeMAFFiles){
+	private RestResponse<Study> getStudy (String accession, boolean includeMAFFiles)  {
 
-		Study study;
+		RestResponse<Study> response = new RestResponse<Study>();
 
+		try {
+			studyDAO= getStudyDAO();
 
-		StudyDAO invDAO = getStudyDAO();
-
-		// Get the study status
-		boolean isStudyPublic = invDAO.isStudyPublic(metabolightsId);
-
-
-		// If the study is private.
-		if (isStudyPublic || canUserAccessStudy(metabolightsId)){
-
-			// Get the study
-			study = invDAO.getStudy(metabolightsId.toUpperCase(), includeMAFFiles);           //Do not include metabolites (MAF) when loading this from the webapp.  This is added on later as an AJAX call
-
-		} else {
-
-			logger.warn("Study " +  metabolightsId + " is private. User can't access the study");
-			// Let's return an empty one, until we implement security..
-			study = new Study();
-			study.setStudyIdentifier(metabolightsId);
-			study.setPublicStudy(false);
-			study.setTitle("PRIVATE STUDY");
-			study.setDescription("This study is private and you haven't got access to it.");
+		} catch (DAOException e) {
+			logger.error("Can't instantiate StudyDAO", e);
+			return null;
 		}
 
-			return  study;
 
-	}
-
-	private boolean canUserAccessStudy(String metaboLightsId){
-
-		// Get the user
-		User user = getUser();
-
-		if (user.isCurator()) return true;
-
-		// If the user has the study in it's list of granted studies...
-		for (StudyLite study: user.getStudies()){
-
-			if (study.getAccesion().equals(metaboLightsId)) return true;
-
+		// Get the study
+		try {
+			response.setContent(studyDAO.getStudy(accession.toUpperCase(), getUser().getApiToken(), includeMAFFiles));           //Do not include metabolites (MAF) when loading this from the webapp.  This is added on later as an AJAX call
+		} catch (DAOException e) {
+			logger.error("Can't get the study requested " + accession, e);
+			response.setMessage("Can't get the study requested.");
+			response.setErr(e);
 		}
 
-		// If code has reached this point, user cant acces the data.
-		return false;
+		return  response;
 
 	}
+
 	private User getUser(){
 
 		User user ;
@@ -142,28 +113,28 @@ public class StudyController {
 		return user;
 	}
 
-	private StudyDAO getStudyDAO() {
+	private uk.ac.ebi.metabolights.repository.dao.StudyDAO getStudyDAO() throws DAOException {
 
 		if (studyDAO == null){
 
-			studyDAO = new StudyDAO(isatabRootConfigurationLocation, publicStudiesLocationProp,privateStudiesLocationProp);
+			studyDAO = DAOFactory.getInstance().getStudyDAO();
 		}
 		return studyDAO;
 	}
 
-	@RequestMapping("{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/maf")
+	@RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/maf")
 	@ResponseBody
-	public MetaboliteAssignment getMetabolites(@PathVariable("metabolightsId") String metabolightsId, @PathVariable("assayIndex") String assayIndex){
+	public RestResponse<MetaboliteAssignment> getMetabolites(@PathVariable("accession") String accession, @PathVariable("assayIndex") String assayIndex){
 
 
-		logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + metabolightsId + " to the webservice");
+		logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + accession + " to the webservice");
 
 		// Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
-		Study study = getStudy(metabolightsId, false);
+		RestResponse<Study> response = getStudy(accession, false);
 
 		// Get the assay based on the index
-		Assay assay = study.getAssays().get(Integer.parseInt(assayIndex)-1);
+		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);
 
 		MzTabDAO mzTabDAO = new MzTabDAO();
 		MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
@@ -178,7 +149,7 @@ public class StudyController {
 			metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
 		}
 
-		return metaboliteAssignment;
+		return new RestResponse<MetaboliteAssignment>(metaboliteAssignment);
 	}
 
 	private boolean checkFileExists(String filePath){

@@ -24,8 +24,8 @@ package uk.ac.ebi.metabolights.webservice.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import uk.ac.ebi.metabolights.webservice.model.AppRole;
-import uk.ac.ebi.metabolights.webservice.model.User;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
+import uk.ac.ebi.metabolights.repository.model.User;
 
 import java.util.ArrayList;
 import java.util.Collection;

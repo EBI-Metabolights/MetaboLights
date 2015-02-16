@@ -28,6 +28,8 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
 
+import javax.sql.DataSource;
+
 /**
  * User: conesa
  * Date: 28/01/15
@@ -43,17 +45,39 @@ public class DAOFactory {
 
 	public static void initialize (String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, Configuration configuration){
 
+		initializeFields(isaTabRootConfigurationFolder, publicFolder, privateFolder);
+
+		HibernateUtil.initialize(configuration);
+
+	}
+
+	public static void initialize (String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, String JNDIDataSource){
+
+		initializeFields(isaTabRootConfigurationFolder, publicFolder, privateFolder);
+
+		HibernateUtil.initialize(JNDIDataSource);
+
+	}
+
+	public static void initializeWithDataSource(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, DataSource dataSource) {
+
+		initializeFields(isaTabRootConfigurationFolder, publicFolder, privateFolder);
+
+		HibernateUtil.initialize(dataSource);
+
+	}
+
+	private static void initializeFields(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder) {
 		if (isInitialized()) {
-			logger.warn("DAOFactory is already initialized..this shouldn't happen unsells you;ve found a good use case for it. Be carefull!");
+			logger.warn("DAOFactory is already initialized..this shouldn't happen unless you;ve found a good use case for it. Be carefull!");
 		}
 
 		DAOFactory.isaTabRootConfigurationFolder = isaTabRootConfigurationFolder;
 		DAOFactory.publicFolder = publicFolder;
 		DAOFactory.privateFolder = privateFolder;
-
-		HibernateUtil.initialize(configuration);
-
 	}
+
+
 	public static DAOFactory getInstance() throws DAOException {
 
 		if (!isInitialized()) {

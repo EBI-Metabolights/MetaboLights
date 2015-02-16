@@ -22,7 +22,6 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import oracle.jdbc.pool.OracleConnectionPoolDataSource;
-import org.hibernate.cfg.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -48,7 +47,6 @@ public class HibernateUtilTest {
 	private static final String JAVA_COMP_ENV_JDBC = JAVA_COMP_ENV+ "/jdbc";
 	private static final String JNDI_TEST_DATA_SOURCE = "/testDataSource";
 	private static final String JNDI_TEST_DATA_SOURCE_FULL = JAVA_COMP_ENV_JDBC + JNDI_TEST_DATA_SOURCE;
-	private Configuration configuration;
 
 	@Before
 	public void setUpClass() throws Exception {
@@ -73,33 +71,6 @@ public class HibernateUtilTest {
 	}
 
 	private void addPostrePoolToJNDI(Properties hibernateProperties) throws NamingException, SQLException {
-
-		// Create initial context
-		System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
-				"org.apache.naming.java.javaURLContextFactory");
-		System.setProperty(Context.URL_PKG_PREFIXES,
-				"org.apache.naming");
-		InitialContext ic = new InitialContext();
-
-		ic.createSubcontext(JAVA);
-		ic.createSubcontext(JAVA_COMP);
-		ic.createSubcontext(JAVA_COMP_ENV);
-		ic.createSubcontext(JAVA_COMP_ENV_JDBC);
-
-		// Construct DataSource
-		OracleConnectionPoolDataSource ds = new OracleConnectionPoolDataSource();
-		ds.setURL(hibernateProperties.getProperty("hibernate.connection.url"));
-		ds.setUser("hibernate.connection.username");
-		ds.setPassword("hibernate.connection.password");
-
-		ic.bind(JNDI_TEST_DATA_SOURCE, ds);
-
-
-		configuration = new Configuration();
-
-		configuration.setProperty("hibernate.connection.datasource", JNDI_TEST_DATA_SOURCE_FULL);
-		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.Oracle9iDialect");
-
 
 
 	}
@@ -133,10 +104,6 @@ public class HibernateUtilTest {
 		ic.bind(JNDI_TEST_DATA_SOURCE_FULL, ds);
 
 
-		configuration = new Configuration();
-		configuration.setProperty("hibernate.connection.datasource", JNDI_TEST_DATA_SOURCE_FULL);
-		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.Oracle9iDialect");
-
 
 	}
 	private Properties loadPropertyFile(String fileName) throws IOException {
@@ -153,7 +120,8 @@ public class HibernateUtilTest {
 	public void testInitialisationFromJDNDI() {
 
 
-		HibernateUtil.initialize(configuration);
+
+		HibernateUtil.initialize(JNDI_TEST_DATA_SOURCE_FULL);
 
 
 

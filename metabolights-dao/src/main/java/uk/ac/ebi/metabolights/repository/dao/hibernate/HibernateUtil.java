@@ -24,11 +24,14 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
+
+import javax.sql.DataSource;
 
 
 public class HibernateUtil {
@@ -42,6 +45,40 @@ public class HibernateUtil {
 
 		logger.info("Initializing HibernateSession util.");
 
+		// Call the private initializer
+		initializePrivate(configuration);
+
+	}
+
+
+	public static void initialize(String JNDIDataSource) {
+
+		logger.info("Initializing HibernateSession util form JNDI name representing a data source: " + JNDIDataSource);
+
+		Configuration configuration = new Configuration();
+		configuration.setProperty("hibernate.connection.datasource", JNDIDataSource);
+
+
+		initializePrivate(configuration);
+
+
+	}
+
+	public static void initialize(DataSource dataSource) {
+
+		logger.info("Initializing HibernateSession util form a DataSource instance." );
+
+		Configuration configuration = new Configuration();
+
+		// this is how to configure hibernate datasource
+		configuration.getProperties().put(Environment.DATASOURCE, dataSource);
+
+		initializePrivate(configuration);
+
+	}
+
+	private static void initializePrivate(Configuration configuration) {
+
 		// Add classes to be handle by hibernate
 		addEntities(configuration);
 
@@ -50,8 +87,8 @@ public class HibernateUtil {
 
 		// Get the session factory
 		factory = configuration.buildSessionFactory(sr);
-
 	}
+
 
 	private static SessionFactory getSessionFactory(){
 		return factory;
@@ -74,4 +111,5 @@ public class HibernateUtil {
 	public static SessionWrapper getSession(){
 		return  new SessionWrapper(factory);
 	}
+
 }

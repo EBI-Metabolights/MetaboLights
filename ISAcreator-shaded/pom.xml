@@ -53,6 +53,9 @@
                                         <exclude>org/slf4j/**</exclude>
                                         <exclude>META-INF/maven/org.slf4j/**</exclude>
                                         <exclude>org/apache/log4j/**</exclude>
+                                        <exclude>org/hibernate/**</exclude>
+                                        <exclude>META-INF/maven/org.hibernate/**</exclude>
+                                        <exclude>javax/persistence/**</exclude>
                                     </excludes>
                                 </filter>
                             </filters>
@@ -108,6 +111,12 @@
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator</artifactId>
             <version>1.7.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

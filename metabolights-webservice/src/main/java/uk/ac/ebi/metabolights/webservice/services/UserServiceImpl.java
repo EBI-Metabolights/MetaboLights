@@ -21,13 +21,16 @@
 
 package uk.ac.ebi.metabolights.webservice.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uk.ac.ebi.metabolights.webservice.dao.UserDAO;
-import uk.ac.ebi.metabolights.webservice.model.User;
+import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
+import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
 import java.util.List;
@@ -41,50 +44,56 @@ import java.util.List;
  */
 @Service 
 public class UserServiceImpl implements UserService{
-	 
-    @Autowired
-    private UserDAO userDAO;
-    
+
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+	private UserDAO userDAO;
+
+	public UserServiceImpl() throws DAOException {
+
+		userDAO = DAOFactory.getInstance().getUserDAO();
+	}
+
 	@Transactional
 	public User lookupByUserName(String userName) {
-		return  userDAO.findByName(userName);
+		return  null;
 	}
 
 	@Transactional
 	public User lookupByEmail(String email) {
-		return  userDAO.findByEmail(email);
+		return  null;
 	}
 
 	@Transactional
 	public Long insert(User user) {
-		return userDAO.insert(user);	
+		return null;
 	}
 
 	@Transactional
-	public void update(User user) {
-		userDAO.update(user);	
-	}
+	public void update(User user) {}
 
 	@Transactional
 	public User lookupById(Long id) {
-		return userDAO.findById(id);
+		return null;
 	}
 
 	@Transactional
-	public void delete(User user) {
-		userDAO.delete(user);
-	}
+	public void delete(User user) {}
 
 	@Transactional
-	public List<User> getAll() {
-		return userDAO.getAll();
-	}
+	public List<User> getAll() {return null;}
 
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
-		User user= userDAO.findByUserToken(s);
+		User user= null;
+		try {
+			user = userDAO.findByToken(s);
+
+		} catch (DAOException e) {
+			logger.error("Can't find user by token.", e);
+		}
 
 		if (user == null){
 			user = new User();
@@ -96,5 +105,4 @@ public class UserServiceImpl implements UserService{
 		return sUser;
 
 	}
-
 }

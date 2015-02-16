@@ -28,7 +28,7 @@
     <!--Migrated to slf4j + log4j-->
     <description>MetaboLights Web Service module</description>
     <packaging>war</packaging>
-    <version>0.3-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
     <parent>
         <artifactId>metabolights-main</artifactId>
@@ -61,8 +61,13 @@
         </dependency>
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>
+            <artifactId>service-es</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.metabolights</groupId>
             <artifactId>metabolights-dao</artifactId>
-            <version>1.4-SNAPSHOT</version>
+            <version>1.5-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -83,41 +88,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>${org.spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${org.spring.version}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-core</artifactId>-->
-            <!--<version>3.3.2.GA</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-annotations</artifactId>-->
-            <!--<version>3.4.0.GA</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-entitymanager</artifactId>-->
-            <!--<version>3.4.0.GA</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>4.3.2.Final</version>
-            <type>jar</type>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>antlr</groupId>

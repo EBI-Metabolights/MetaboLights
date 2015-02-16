@@ -27,6 +27,9 @@
                     <exclude>org/slf4j/**</exclude>
                     <exclude>META-INF/maven/org.slf4j/**</exclude>
                     <exclude>org/apache/log4j/**</exclude>
+                    <exclude>org/hibernate/**</exclude>
+                    <exclude>META-INF/maven/org.hibernate/**</exclude>
+                    <exclude>javax/persistence/**</exclude>
                   </excludes>
                 </filter>
               </filters>

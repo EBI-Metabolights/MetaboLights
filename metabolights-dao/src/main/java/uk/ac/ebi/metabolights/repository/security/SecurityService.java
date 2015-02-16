@@ -63,9 +63,10 @@ public class SecurityService {
 			if (user.doesUserOwnsTheStudy(accession)) {
 				return;
 			}
-
-			throwSecurityException("User with token " + userToken + " is not authorised to access " + accession);
 		}
+
+		// Else (user null) or not curator nor owner...
+		throwSecurityException("User with token " + userToken + " is not authorised to access " + accession);
 
 	}
 

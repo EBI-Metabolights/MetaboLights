@@ -73,23 +73,42 @@
     <jee:jndi-lookup id="dataSource" jndi-name="dataSource" resource-ref="true" />
 
 
-    <!-- Hibernate congiguration-->
-    <tx:annotation-driven />
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan"
-                  value="uk.ac.ebi.metabolights.webservice.model" />
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
-            </props>
+    <!--Configure the DAOFactory initialize method-->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass">
+            <value>uk.ac.ebi.metabolights.repository.dao.DAOFactory</value>
+        </property>
+        <property name="targetMethod">
+            <value>initializeWithDataSource</value>
+        </property>
+        <property name="arguments">
+            <list>
+                <ref bean="isatabConfigurationLocation"/>
+                <ref bean="publicStudiesLocation"/>
+                <ref bean="privateStudiesLocation"/>
+                <ref bean="dataSource"/>
+            </list>
         </property>
     </bean>
+
+
+    <!-- Hibernate congiguration-->
+    <!--<tx:annotation-driven />-->
+    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">-->
+        <!--<property name="sessionFactory" ref="sessionFactory" />-->
+    <!--</bean>-->
+
+    <!--<bean id="sessionFactory"-->
+          <!--class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource" />-->
+        <!--<property name="packagesToScan"-->
+                  <!--value="uk.ac.ebi.metabolights.webservice.model" />-->
+        <!--<property name="hibernateProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <import resource="spring-security.xml"/>
 

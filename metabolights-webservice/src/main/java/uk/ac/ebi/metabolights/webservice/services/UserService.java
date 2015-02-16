@@ -21,7 +21,7 @@
 
 package uk.ac.ebi.metabolights.webservice.services;
 
-import uk.ac.ebi.metabolights.webservice.model.User;
+import uk.ac.ebi.metabolights.repository.model.User;
 
 import java.util.List;
 
