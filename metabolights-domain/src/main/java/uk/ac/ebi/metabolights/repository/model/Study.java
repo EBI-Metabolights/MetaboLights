@@ -37,7 +37,6 @@ public class Study {
     private String title;
     private String description;
     private String studyLocation;
-    private boolean publicStudy;
 
     // Database fields
     private StudyStatus studyStatus = StudyStatus.PRIVATE;
@@ -108,12 +107,9 @@ public class Study {
     }
 
     public boolean isPublicStudy() {
-        return publicStudy;
+        return studyStatus.equals(StudyStatus.PUBLIC);
     }
 
-    public void setPublicStudy(boolean publicStudy) {
-        this.publicStudy = publicStudy;
-    }
 
     public String getStudyLocation() {
         return studyLocation;

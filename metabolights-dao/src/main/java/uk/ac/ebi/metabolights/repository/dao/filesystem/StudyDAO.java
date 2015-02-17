@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
@@ -48,7 +49,7 @@ public class StudyDAO {
 
     }
 
-    public Study getStudy(String accession, boolean includeMetabolites){
+    public Study getStudy(String accession, boolean includeMetabolites) throws DAOException {
 
         Study newStudy = new Study();
         newStudy.setStudyIdentifier(accession);
@@ -78,22 +79,25 @@ public class StudyDAO {
 		return (getInvestigationFolder(metaboLightsId,publicFolder) != null);
 	}
 
-    public Study fillStudy( boolean includeMetabolites, Study studyToFill) {
-
-        // Try public studies location
-        File studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), publicFolder);
+    public Study fillStudy( boolean includeMetabolites, Study studyToFill) throws DAOException {
 
         logger.info("Trying to parse study "+ studyToFill.getStudyIdentifier());
 
-        boolean isPublic = true;
+        // Try from the expected folder
+        File studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy()?publicFolder:privateFolder);
 
         // If we got nothing...
         if (studyFolder == null) {
 
-            // Try private studies location
-            studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), privateFolder);
+            // Try other studies location but there is a discrepancy between the DB and the Filesystem
+            studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy()?privateFolder:publicFolder);
 
-            isPublic = false;
+            // Warn about this:
+            if (studyFolder != null) {
+                logger.warn("Misplaced folder for the study " + studyToFill.getStudyIdentifier() + ": found here " + studyFolder.getAbsolutePath() + " and public=" + studyToFill.isPublicStudy());
+            }
+
+
         }
 
         // We got something ...
@@ -105,8 +109,6 @@ public class StudyDAO {
             // Convert it into a MetaboLights study
              studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
 
-            // Set status...
-            studyToFill.setPublicStudy(isPublic);
 
             studyToFill.setStudyLocation(studyFolder.getAbsolutePath());
 
@@ -115,7 +117,7 @@ public class StudyDAO {
             return studyToFill;
 
         } else {
-            return null;
+            throw new DAOException("Study folder for " + studyToFill.getStudyIdentifier() + " not found." );
         }
 
 

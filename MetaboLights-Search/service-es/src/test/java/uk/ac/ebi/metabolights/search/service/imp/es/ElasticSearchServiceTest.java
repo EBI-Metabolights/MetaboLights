@@ -372,8 +372,6 @@ public class ElasticSearchServiceTest {
 
 	}
 
-
-
 	@Test
 	public void testDelete() throws IndexingFailureException {
 

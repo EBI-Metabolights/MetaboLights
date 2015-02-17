@@ -231,10 +231,6 @@ public class User {
 		return getRole().equals(AppRole.ROLE_SUPER_USER);
 	}
 
-	public Boolean isReviewer(){
-		return getRole().equals(AppRole.ROLE_REVIEWER);
-	}
-
 	public Boolean doesUserOwnsTheStudy(String accession){
 
 		// For each of the studies

@@ -32,8 +32,7 @@ package uk.ac.ebi.metabolights.repository.model;
 public enum AppRole {
 
 	ROLE_SUBMITTER (0),
-	ROLE_SUPER_USER (1),
-	ROLE_REVIEWER(2);
+	ROLE_SUPER_USER (1);
 
 	private final int bit;
 

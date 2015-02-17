@@ -37,7 +37,7 @@ public class SecurityService {
 	private static UserDAO userDAO = new UserDAO();
 	private static StudyDAO studyDAO = new StudyDAO();
 
-	public static void userAccessingStudy(String accession, String userToken) throws SecurityException, DAOException {
+	public static void userAccessingStudy(String accession, String userToken) throws DAOException {
 
 		// If the study is public
 		if (studyDAO.isStudyPublic(accession)) {
@@ -55,25 +55,31 @@ public class SecurityService {
 		// If not null
 		if (user!=null) {
 
-			// If it's a curator
-			if (user.isCurator()) {
-				return;
+			// Add status check: if active
+			if (user.getStatus().equals(User.UserStatus.ACTIVE)) {
+
+				// If it's a curator
+				if (user.isCurator()) {
+					return;
+				}
+
+				if (user.doesUserOwnsTheStudy(accession)) {
+					return;
+				}
+
 			}
 
-			if (user.doesUserOwnsTheStudy(accession)) {
-				return;
-			}
 		}
 
 		// Else (user null) or not curator nor owner...
-		throwSecurityException("User with token " + userToken + " is not authorised to access " + accession);
+		throwSecurityException("User with token " + userToken + " is not authorised to access or study " + accession + " does not exist." );
 
 	}
 
-	private static void throwSecurityException(String message) throws SecurityException{
+	private static void throwSecurityException(String message) throws DAOException {
 
 		// Throw a security exception
-		throw new SecurityException(message);
+		throw new DAOException(message);
 	}
 
 

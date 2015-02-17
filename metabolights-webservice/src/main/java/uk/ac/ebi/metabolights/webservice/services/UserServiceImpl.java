@@ -26,14 +26,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
-
-import java.util.List;
 
 /**
  * Implementation for UserService. Note the Spring annotations such as @Service, @Autowired and @Transactional. 
@@ -54,37 +51,37 @@ public class UserServiceImpl implements UserService{
 		userDAO = DAOFactory.getInstance().getUserDAO();
 	}
 
-	@Transactional
-	public User lookupByUserName(String userName) {
-		return  null;
-	}
-
-	@Transactional
-	public User lookupByEmail(String email) {
-		return  null;
-	}
-
-	@Transactional
-	public Long insert(User user) {
-		return null;
-	}
-
-	@Transactional
-	public void update(User user) {}
-
-	@Transactional
-	public User lookupById(Long id) {
-		return null;
-	}
-
-	@Transactional
-	public void delete(User user) {}
-
-	@Transactional
-	public List<User> getAll() {return null;}
+//	@Transactional
+//	public User lookupByUserName(String userName) {
+//		return  null;
+//	}
+//
+//	@Transactional
+//	public User lookupByEmail(String email) {
+//		return  null;
+//	}
+//
+//	@Transactional
+//	public Long insert(User user) {
+//		return null;
+//	}
+//
+//	@Transactional
+//	public void update(User user) {}
+//
+//	@Transactional
+//	public User lookupById(Long id) {
+//		return null;
+//	}
+//
+//	@Transactional
+//	public void delete(User user) {}
+//
+//	@Transactional
+//	public List<User> getAll() {return null;}
 
 	@Override
-	@Transactional(readOnly = true)
+//	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
 		User user= null;

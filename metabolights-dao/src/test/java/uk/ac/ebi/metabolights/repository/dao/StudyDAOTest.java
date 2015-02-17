@@ -34,24 +34,34 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserDataTest;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
+import java.util.Date;
 import java.util.List;
 
 public class StudyDAOTest extends DAOTest {
 
 
-	private static final StudyData publicStudy = new StudyData();
+	private StudyData publicStudy;
 	private UserData curator;
 	private UserData owner;
 	private UserData notOwner;
 	private StudyData privateStudy;
 	private StudyDAO studyDAO;
+	private StudyData dbOnlyStudy;
 
 	@Before
 	public void initData() throws DAOException {
 
-		// Add MTBLS1 to the database
-		publicStudy.setAcc("MTBLS1");
+		// Add MTBLS4 to the database (files misplaced intentionally)
+		publicStudy = new StudyData();
+		publicStudy.setAcc("MTBLS4");
 		publicStudy.setStatus(Study.StudyStatus.PUBLIC.ordinal());
+		publicStudy.setReleaseDate(new Date());
+
+
+		// Add MTBLSXXX to the database
+		dbOnlyStudy = new StudyData();
+		dbOnlyStudy.setAcc("MTBLSXXX");
+		dbOnlyStudy.setStatus(Study.StudyStatus.PUBLIC.ordinal());
 
 
 		// Get users: curator and owner and not owner (persisted already)
@@ -64,10 +74,11 @@ public class StudyDAOTest extends DAOTest {
 		privateStudy.setAcc("MTBLS3");
 		privateStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
 
-		// Add MTBLS5 to the database (no diles needed so far
+		// Add MTBLS2 to the database
 		StudyData curatorsStudy = new StudyData();
 		curatorsStudy.setAcc("MTBLS5");
 		curatorsStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+
 
 
 		// Add the owner
@@ -81,6 +92,7 @@ public class StudyDAOTest extends DAOTest {
 		session.saveOrUpdate(publicStudy);
 		session.saveOrUpdate(privateStudy);
 		session.saveOrUpdate(curatorsStudy);
+		session.saveOrUpdate(dbOnlyStudy);
 		session.noNeedSession();
 
 
@@ -97,8 +109,46 @@ public class StudyDAOTest extends DAOTest {
 		Assert.assertEquals("Test DB part it's been populated: obfuscation code", publicStudy.getObfuscationcode(), study.getObfuscationCode());
 		Assert.assertEquals("Test DB part it's been populated: study status", publicStudy.getStatus(), study.getStudyStatus().ordinal());
 		Assert.assertNotNull("Test FS part it's been populated: study title", study.getTitle());
+		Assert.assertEquals("Test Relase date is the one fomr the DB and not from the file", publicStudy.getReleaseDate(), study.getStudyPublicReleaseDate());
 
 	}
+
+	@Test
+	public void testGetNonExistingStudy() {
+
+
+		Study study = null;
+		try {
+			study = studyDAO.getStudy("foo");
+
+
+			throw new AssertionError("Accessing a non existing study should throw an exception");
+
+		} catch (DAOException e) {
+			logger.info("Expected exception accessing non existing study");
+		}
+
+
+	}
+
+	@Test
+	public void testGetNonConsistentStudies() {
+
+
+		Study study = null;
+		try {
+			study = studyDAO.getStudy(dbOnlyStudy.getAcc());
+
+			throw new AssertionError("Accessing a db Only study should throw an exception");
+
+		} catch (DAOException e) {
+			logger.info("Expected exception accessing db only existing study");
+		}
+
+
+	}
+
+
 
 	@Test
 	public void testGetPrivateStudy() throws DAOException {
@@ -112,7 +162,7 @@ public class StudyDAOTest extends DAOTest {
 			studyDAO.getStudy(privateStudy.getAcc());
 			throw new AssertionError("MTBLS3 is private and getStudy(\"Accession\") should throw an exception");
 
-		} catch (SecurityException e) {
+		} catch (DAOException e) {
 			logger.info("Security exception expected");
 		}
 
@@ -122,9 +172,20 @@ public class StudyDAOTest extends DAOTest {
 			studyDAO.getStudy(privateStudy.getAcc(), notOwner.getApiToken());
 			throw new AssertionError("MTBLS3 is private and a not owner access should throw an exception");
 
-		} catch (SecurityException e) {
+		} catch (DAOException e) {
 			logger.info("Security exception expected");
 		}
+
+		// Try with a made up user token
+		try {
+			// Should fail
+			studyDAO.getStudy(privateStudy.getAcc(), java.util.UUID.randomUUID().toString());
+			throw new AssertionError("MTBLS3 is private and a not existing user access should throw an exception");
+
+		} catch (DAOException e) {
+			logger.info("Security exception expected");
+		}
+
 
 		// Try with the curator
 		// Shouldn't fail
@@ -155,13 +216,13 @@ public class StudyDAOTest extends DAOTest {
 	public void testGetStudyListForUser() throws Exception {
 
 		List studies = studyDAO.getList(owner.getApiToken());
-		Assert.assertEquals("Owner can access 2 out of 3 studies (public and owned private", 2, studies.size());
+		Assert.assertEquals("Owner can access 3 out of 4 studies (2 public and owned private)", 3, studies.size());
 
 		studies = studyDAO.getList(curator.getApiToken());
-		Assert.assertEquals("Curator should access 3 (all) studies" , 3, studies.size());
+		Assert.assertEquals("Curator should access 4 (all) studies" , 4, studies.size());
 
 		studies = studyDAO.getList(notOwner.getApiToken());
-		Assert.assertEquals("not Owner should access 1 study (public one)" , 1, studies.size());
+		Assert.assertEquals("not Owner should access 2 studies (public ones)" , 2, studies.size());
 
 
 	}

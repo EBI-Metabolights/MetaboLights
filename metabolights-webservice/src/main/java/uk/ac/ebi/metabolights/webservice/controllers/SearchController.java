@@ -22,7 +22,7 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +31,7 @@ import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
@@ -67,7 +68,7 @@ public class SearchController extends BasicController {
 
 	@RequestMapping(value ="reindex", method= RequestMethod.GET)
 	@ResponseBody
-	@Secured("ROLE_ADMIN")
+	@PreAuthorize( "hasRole('ROLE_SUPER_USER')")
 	public RestResponse<String> reindex() throws DAOException {
 
 		logger.info("full reindex requested to the webservice");
@@ -77,22 +78,29 @@ public class SearchController extends BasicController {
 		// Get all the studies
 		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
 
-		List<String> accessions = studyDAO.getList(getUser().getApiToken());
+
+		User user = getUser();
+		List<String> accessions = studyDAO.getList(user.getApiToken());
 
 		long indexed = 0;
 
 		for (String accession : accessions) {
 
-			Study study = studyDAO.getStudy(accession,getUser().getApiToken());
-
 			try {
+
+				Study study = studyDAO.getStudy(accession, user.getApiToken());
+
 				searchService.index(study);
 
 				indexed++;
 
 			} catch (IndexingFailureException e) {
-				logger.error("Can't index study " + accession);
+				logger.warn("Can't index study " + accession + ". " + e.getMessage());
+			} catch (DAOException e) {
+
+				logger.warn("Can't retrieve study " + accession + ". " + e.getMessage());
 			}
+
 
 		}
 

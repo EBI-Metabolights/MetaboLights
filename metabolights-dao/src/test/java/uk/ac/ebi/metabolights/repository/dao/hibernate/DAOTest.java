@@ -53,8 +53,6 @@ public abstract class DAOTest {
 
 		initFolders();
 
-		//HibernateUtil.initialize(configuration);
-
 		DAOFactory.initialize(configRoot,publicStudiesLocation,privateStudiesLocation,configuration);
 
 		cleanDB();

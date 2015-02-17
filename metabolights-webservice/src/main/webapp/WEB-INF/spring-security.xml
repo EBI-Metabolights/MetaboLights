@@ -25,6 +25,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
+    <global-method-security pre-post-annotations="enabled"/>
+
     <http entry-point-ref="restAuthenticationEntryPoint" create-session="stateless">
         <!-- Additional http configuration omitted -->
         <custom-filter position="PRE_AUTH_FILTER" ref="siteminderFilter" />

@@ -64,7 +64,7 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 public class ElasticSearchService implements SearchService <Object, LiteEntity> {
 
 	private static final String PROPERTIES = "properties";
-	private static final String STUDY_STATUS_FIELD = "publicStudy";
+	private static final String STUDY_STATUS_FIELD = "studyStatus";
 	private static final String USER_NAME_FIELD = "users.userName";
 	private static final String STUDY_PUBLIC_RELEASE_DATE = "studyPublicReleaseDate";
 	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
@@ -88,18 +88,21 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	private void initialiseElasticSearchClient() {
 
+		try {
+			Settings settings = ImmutableSettings.settingsBuilder()
+					.put("cluster.name", clusterName).build();
 
-		Settings settings = ImmutableSettings.settingsBuilder()
-				.put("cluster.name", clusterName).build();
+			client = new TransportClient(settings);
 
-		client =    new TransportClient(settings);
+			client.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
 
-		client.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
-
-		// If index does not exists..
-		if (!doesIndexExists()) {
-			// Create it and configure it.
-			configureIndex();
+			// If index does not exists..
+			if (!doesIndexExists()) {
+				// Create it and configure it.
+				configureIndex();
+			}
+		} catch (Exception e){
+			logger.error("Couldn't initialise elasticsearch service." , e);
 		}
 	}
 	public boolean doesIndexExists(){
@@ -167,13 +170,12 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 						.startObject(PROPERTIES)
 							.startObject("studyPublicReleaseDate")
 								.field("type", "date")
-								.field("store",true)
+								.field("store", true)
 							.endObject()
 							.startObject("studySubmissionDate")
 								.field("type", "date")
 							.endObject()
 							.startObject(STUDY_STATUS_FIELD)
-								.field("type", "boolean")
 								.field("index", "not_analyzed")
 							.endObject()
 							.startObject("studyIdentifier")
@@ -477,8 +479,8 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		// If there's no user ...
 		if (query.getUser() == null || !query.getUser().isAdmin()) {
 
-			// ... only public studies are accesible
-			filter = FilterBuilders.termFilter(STUDY_STATUS_FIELD, true);
+			// ... only public studies are accesible (TO LOWER CASE!!)
+			filter = FilterBuilders.termFilter(STUDY_STATUS_FIELD, Study.StudyStatus.PUBLIC.name().toLowerCase());
 
 			// If user not null...
 			if (query.getUser() != null) {

@@ -85,7 +85,7 @@ public class IsaTab2MetaboLightsConverter {
         return mzTabDAO.mapMetaboliteAssignmentFile(fileName);
     }
 
-    private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder, boolean includeMetabolites, Study studyToFill){
+    private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder, boolean includeMetabolites, Study studyToFill) {
 
         // Instantiate new MetaboLights investigation object
         Study metStudy = studyToFill;
@@ -100,13 +100,22 @@ public class IsaTab2MetaboLightsConverter {
         metStudy.setTitle(isaStudy.getStudyTitle());
         metStudy.setDescription(isaStudy.getStudyDesc());
 
-        if (isaStudy.getPublicReleaseDate() != null)
+        if (isaStudy.getPublicReleaseDate() != null){
 
             // Give precedence to existing date
             // Fill it if it doesn't exist.
             if (metStudy.getStudyPublicReleaseDate() == null) {
                 metStudy.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
             }
+        }
+
+        // If release dates do not match...
+        if (!isaStudy.getPublicReleaseDate().equals(metStudy.getStudyPublicReleaseDate())){
+
+            logger.warn(studyToFill.getStudyIdentifier() + " release date from the DB (" + studyToFill.getStudyPublicReleaseDate() + ") doesn't match the same in the file (" + isaStudy.getPublicReleaseDate() + ")");
+
+        }
+
 
         if (isaStudy.getDateOfSubmission() != null)
             metStudy.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));
