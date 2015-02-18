@@ -19,7 +19,7 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-package uk.ac.ebi.metabolights.webservice.model;
+package uk.ac.ebi.metabolights.repository.model.webservice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,15 +36,15 @@ public class RestResponse<Content> {
 	private String message;
 	private Exception err;
 	public RestResponse(){};
-	public RestResponse (Content content){
+	public RestResponse(Content content){
 		this.content = content;
 	}
-	public RestResponse (Exception err){
+	public RestResponse(Exception err){
 		this.message = err.getMessage();
 		this.err = err;
 	}
 
-	public RestResponse (String message,Exception err){
+	public RestResponse(String message, Exception err){
 		this.message = message;
 		this.err = err;
 	}

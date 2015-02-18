@@ -29,7 +29,7 @@
     <name>MetaboLights webservice client</name>
     <!--Migrated to slf4j + log4j-->
     <description>MetaboLights WebService Client</description>
-    <version>2.1-SNAPSHOT</version>
+    <version>3.0-SNAPSHOT</version>
 
     <parent>
         <artifactId>metabolights-main</artifactId>
@@ -41,7 +41,7 @@
         <dependency>
             <artifactId>metabolights-domain</artifactId>
             <groupId>uk.ac.ebi.metabolights</groupId>
-            <version>2.2-SNAPSHOT</version>
+            <version>3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

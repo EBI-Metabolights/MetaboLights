@@ -24,6 +24,7 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,13 +33,13 @@ import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
 import uk.ac.ebi.metabolights.search.service.SearchService;
 import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
 import uk.ac.ebi.metabolights.search.service.imp.es.LiteEntity;
-import uk.ac.ebi.metabolights.webservice.model.RestResponse;
 
 import java.util.List;
 
@@ -50,16 +51,17 @@ public class SearchController extends BasicController {
 
     @RequestMapping(method= RequestMethod.GET)
 	@ResponseBody
-	public RestResponse<SearchResult> search() {
+	public RestResponse<SearchResult> search(@RequestBody(required = false) SearchQuery query) {
 
 		logger.info("Search requested to the webservice");
 
 		RestResponse<SearchResult> response = new RestResponse<SearchResult>();
 
-		// Query
-		SearchQuery query = new SearchQuery("");
-
-		//
+		// If theres no query..default empty query.
+		if (query==null) {
+			query = new SearchQuery("");
+		}
+		
 		response.setContent(searchService.search(query));
 
 		return response;

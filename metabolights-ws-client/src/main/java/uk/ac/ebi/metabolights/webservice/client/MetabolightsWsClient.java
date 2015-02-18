@@ -22,11 +22,13 @@
 package uk.ac.ebi.metabolights.webservice.client;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -113,7 +115,7 @@ public class MetabolightsWsClient {
 
     }
 
-    public Study getStudy(String studyIdentifier){
+    public RestResponse<Study> getStudy(String studyIdentifier){
 
         logger.info("Study " + studyIdentifier + " requested to the MetaboLights WS client");
 
@@ -130,7 +132,7 @@ public class MetabolightsWsClient {
 		return "study/" + studyIdentifier;
 	}
 
-	public MetaboliteAssignment getMetabolites(String studyIdentifier, int assayNumber){
+	public RestResponse<MetaboliteAssignment> getMetabolites(String studyIdentifier, int assayNumber){
 
         String path = getStudyPath(studyIdentifier) + "/assay/" + assayNumber + "/maf";
 
@@ -142,7 +144,7 @@ public class MetabolightsWsClient {
     }
 
 
-    private <T> T parseJason(String response, Class<T> valueType ){
+    private <T> RestResponse<T> parseJason(String response, Class<T> valueType ){
 
 		logger.debug("Parsing json response into MetaboLights model: " + response);
 
@@ -152,11 +154,17 @@ public class MetabolightsWsClient {
 		ObjectMapper mapper = new ObjectMapper();
 //		mapper.registerModule(new GuavaModule());
 
-
-		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
 		try {
-            return mapper.readValue(response, valueType);
+
+//            TypeReference<RestResponse<T>> type = new TypeReference<RestResponse<T>>() {};
+
+            JavaType type = mapper.getTypeFactory().constructParametricType(RestResponse.class,valueType);
+
+//            return  mapper.readValue(response,valueType);
+            return  mapper.readValue(response,type );
+
         } catch (IOException e) {
 
             logger.error("Can't parse ws response (json) back into " + valueType.getName() + ": " + e.getMessage());

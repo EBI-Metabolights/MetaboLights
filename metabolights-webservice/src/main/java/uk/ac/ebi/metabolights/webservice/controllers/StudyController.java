@@ -38,7 +38,7 @@ import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
-import uk.ac.ebi.metabolights.webservice.model.RestResponse;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
 import java.io.File;

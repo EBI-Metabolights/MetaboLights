@@ -24,9 +24,9 @@ package uk.ac.ebi.metabolights.webservice.client;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.*;
 
 /**
  * User: conesa
@@ -35,6 +35,8 @@ import static org.junit.Assert.assertNotSame;
  */
 public class MetabolightsWsClientTest {
 
+	public static final String PRIVATE_STUDY = "MTBLS5";
+	public static final String PUBLIC_STUDY = "MTBLS1";
 	String SUBMMITER_TOKEN;
 	String CURATOR_TOKEN;
 
@@ -55,8 +57,10 @@ public class MetabolightsWsClientTest {
 
 		// ****** Default anonymous access ********
 		// MTBLS1 is meant to be public...
-		Study study = wsClient.getStudy("MTBLS1");
-		assertNotSame("Study should be accessible from an anonymous user", "PRIVATE STUDY", study.getTitle());
+		RestResponse<Study> response = wsClient.getStudy(PUBLIC_STUDY);
+		Study study = response.getContent();
+
+		assertEquals("Study should be accessible to an anonymous user", PUBLIC_STUDY, study.getStudyIdentifier());
 
 		assertEquals("Sample data is present", 132, study.getSampleTable().getData().size());
 		assertEquals("Assay data is present", 132, study.getAssays().get(0).getAssayTable().getData().size());
@@ -64,20 +68,30 @@ public class MetabolightsWsClientTest {
 		assertEquals("Table fields are serialised and deserialised properly", 7, study.getSampleTable().getFields().size());
 		assertEquals("Assay Table fields are serialised and deserialised properly, incuding duplicates.", 31, study.getAssays().get(0).getAssayTable().getFields().size());
 
-		// MTBLS4 is meant to be private...
-		study = wsClient.getStudy("MTBLS4");
-		assertEquals("Study shouldn't be accessible from an anonymous user", "PRIVATE STUDY", study.getTitle());
+		// MTBLS5 is meant to be private...
+		response = wsClient.getStudy(PRIVATE_STUDY);
+		study = response.getContent();
 
-		// ****** Curator anonymous access ********
+		assertNull("Study shouldn't be accessible to an anonymous user and should be null", study);
+		assertNotNull("Response should have a message", response.getMessage());
+
+		// ****** Curator access ********
 		wsClient.setUserToken(CURATOR_TOKEN);
 
-		// MTBLS4 is meant to be private...
-		study = wsClient.getStudy("MTBLS1");
-		assertNotSame("Study should be accessible from an curator user", "PRIVATE STUDY", study.getTitle());
+		response = wsClient.getStudy(PUBLIC_STUDY);
+		study = response.getContent();
 
-		study = wsClient.getStudy("MTBLS4");
-		// MTBLS4 is meant to be private...
-		assertNotSame("Study should be accessible from curator", "PRIVATE STUDY", study.getTitle());
+		assertEquals("Study should be accessible to a curator user", PUBLIC_STUDY, study.getStudyIdentifier());
+
+		response = wsClient.getStudy(PRIVATE_STUDY);
+		study = response.getContent();
+
+		// MTBLS5 is meant to be private...
+		assertNotNull("Study should be accessible to a curator user and shouldn't be null", study);
+		assertEquals("Study should be populated", PRIVATE_STUDY, study.getStudyIdentifier());
+
+
+
 
 
 
