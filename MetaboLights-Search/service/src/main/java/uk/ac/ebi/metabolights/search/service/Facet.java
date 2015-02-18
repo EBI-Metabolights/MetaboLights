@@ -32,7 +32,8 @@ import java.util.LinkedList;
 public class Facet {
 
 	private String name;
-	private Collection<FacetLine> lines = new LinkedList<FacetLine>();
+	private LinkedList<FacetLine> lines = new LinkedList<FacetLine>();
+	public Facet(){}
 	public Facet(String name){
 		this.name = name;
 	}
@@ -41,7 +42,7 @@ public class Facet {
 		return lines;
 	}
 
-	public void setLines(Collection<FacetLine> lines) {
+	public void setLines(LinkedList<FacetLine> lines) {
 		this.lines = lines;
 	}
 

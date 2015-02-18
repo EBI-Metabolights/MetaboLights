@@ -34,10 +34,7 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
-import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
-import uk.ac.ebi.metabolights.search.service.SearchQuery;
-import uk.ac.ebi.metabolights.search.service.SearchResult;
-import uk.ac.ebi.metabolights.search.service.SearchService;
+import uk.ac.ebi.metabolights.search.service.*;
 import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
 import uk.ac.ebi.metabolights.search.service.imp.es.LiteEntity;
 
@@ -51,9 +48,21 @@ public class SearchController extends BasicController {
 
     @RequestMapping(method= RequestMethod.GET)
 	@ResponseBody
-	public RestResponse<SearchResult> search(@RequestBody(required = false) SearchQuery query) {
+	public RestResponse<SearchResult> emptySearch() {
 
-		logger.info("Search requested to the webservice");
+		logger.debug("GET search requested to the webservice");
+
+		return searchWithQuery(new SearchQuery(""));
+
+	}
+
+	@RequestMapping(method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<SearchResult> searchWithQuery(@RequestBody SearchQuery query) {
+
+		logger.info("Search requested to the webservice: " + query);
+
+		addUserToQuery(query);
 
 		RestResponse<SearchResult> response = new RestResponse<SearchResult>();
 
@@ -61,10 +70,19 @@ public class SearchController extends BasicController {
 		if (query==null) {
 			query = new SearchQuery("");
 		}
-		
+
 		response.setContent(searchService.search(query));
 
 		return response;
+
+	}
+
+	private void addUserToQuery (SearchQuery query){
+
+		User currentUser = getUser();
+
+		SearchUser sUser = new SearchUser(currentUser.getUserName(),currentUser.isCurator());
+		query.setUser(sUser);
 
 	}
 

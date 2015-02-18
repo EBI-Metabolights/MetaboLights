@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.controller;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ import uk.ac.ebi.metabolights.webapp.GalleryItem;
 import uk.ac.ebi.metabolights.webapp.GalleryItem.GalleryItemType;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,7 +58,8 @@ public class HomePageController extends AbstractController{
 
     @Autowired
     private MetaboLightsParametersService metaboLightsParametersService;
-	
+
+    private Date galleryAge;
 	private String galleryItemsIds = null;
     private String galleryParam = "GALLERY_ITEMS";
 	private List<GalleryItem> gallery;
@@ -80,10 +83,17 @@ public class HomePageController extends AbstractController{
     private List<GalleryItem> getGalleryItems(){
 
 
-        if (gallery != null) return gallery;
+        if (gallery != null){
+            // If it's less than 1 day old...
+            if (DateUtils.isSameDay(galleryAge, new Date())) {
+                return gallery;
+            }
+
+        }
     	
     	// Instantiate the gallery.
     	gallery = new ArrayList<GalleryItem>();
+        galleryAge = new Date();
     	
     	// Get the gallery ids
     	String galleryItemsIdsS = getGalleryItemsIds();

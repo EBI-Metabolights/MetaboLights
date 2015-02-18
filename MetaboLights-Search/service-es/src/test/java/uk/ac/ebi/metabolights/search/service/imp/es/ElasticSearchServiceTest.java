@@ -25,6 +25,8 @@ import org.hibernate.cfg.Configuration;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
@@ -42,6 +44,7 @@ import java.util.Properties;
 
 public class ElasticSearchServiceTest {
 
+	private static final Logger logger = LoggerFactory.getLogger(ElasticSearchServiceTest.class);
 	private static final String SEARCH_TO_HIT_ALL = "metabolite";
 	private static final int STUDIES_COUNT = 3;
 
@@ -56,6 +59,7 @@ public class ElasticSearchServiceTest {
 	private StudyData privateStudy;
 	private StudyData publicStudy;
 	private StudyData publicStudy2;
+	private String curatorToken;
 
 
 	@Before
@@ -64,6 +68,8 @@ public class ElasticSearchServiceTest {
 
 		String studiesFolderName = System.getenv("STUDIES_FOLDER");
 		Assert.assertNotNull("STUDIES_FOLDER: Studies folder variable provided.", studiesFolderName);
+
+		curatorToken = System.getenv("CURATOR_TOKEN");
 
 		PRIVATE_FOLDER = studiesFolderName + "/private";
 		PUBLIC_FOLDER = studiesFolderName + "/public";
@@ -398,13 +404,21 @@ public class ElasticSearchServiceTest {
 
 		elasticSearchService.resetIndex();
 
+
 //		String userToken = curator.getApiToken();
-		String userToken = "27497017-e8f1-41cf-976c-8a99ef7c01e9";
+
+		// For Dev testing, real data
+		String userToken = curatorToken;
 
 		List<String> studies = studyDAO.getList(userToken);
 		for (String accession : studies) {
 
-			indexStudy(accession, userToken);
+			try {
+				indexStudy(accession, userToken);
+
+			} catch (DAOException e) {
+				logger.warn("There was a problem retrieving the study." , e);
+			}
 		}
 
 	}

@@ -25,7 +25,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
 /**
@@ -52,5 +55,17 @@ public class BasicController {
 		}
 
 		return user;
+	}
+
+	@ExceptionHandler
+	@ResponseBody
+	public RestResponse handleException(Exception e) {
+
+		RestResponse response = new RestResponse(e);
+
+		response.setMessage("There's been an error processing your request. See err object for technical details.");
+
+		return response;
+
 	}
 }

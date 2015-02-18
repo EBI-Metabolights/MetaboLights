@@ -77,6 +77,9 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	private String clusterName = "metabolights";
 
+	// Shared: to have a cleanner code when generating the mapping.
+	private XContentBuilder mapping = null;
+
 	public ElasticSearchService(){
 		initialiseElasticSearchClient();
 	}
@@ -123,7 +126,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 					actionGet();
 		}
 		catch (IndexMissingException e) {
-			// Index not found, fine although maigth be strange
+			// Index not found, fine although migth be strange
 			logger.warn("Index reset, well, index wasn't found.");
 
 		}
@@ -136,96 +139,22 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		logger.info("Configuring " + indexName + "  index.");
 
-		XContentBuilder mapping = null;
 		try {
 
 			final CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(indexName);
 
 			// Create the mapping for the studies
-			final XContentBuilder mappingBuilder = jsonBuilder()
-				.startObject()
-					.startObject(STUDY_TYPE_NAME)
+			mapping = jsonBuilder().startObject();
 
-						//_source configuration
-						.startObject("_source")
-							.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "obfuscationCode", "studyLocation",
-									"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
-									"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
-									"users.listOfAllStatus", "users.lastName", "users.affiliationUrl", "users.status",
-									"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
-									"users.affiliation", "users.firstName", "users.curator", "users.reviewer"})
-						.endObject()
+				// Add study mapping
+				addStudyMapping();
 
-						// Timestamp
-						.startObject("_timestamp")
-							.field("enabled", true)
-							.field("store", true)
-							.field("format", "YYYY-MM-dd hh:mm:ss")
-						.endObject()
-
-						// Do not allow dynamic properties: strict is too strict, throws an exception
-						.field("dynamic", "false")
-
-						// Properties configutarion (fields types and storage)
-						.startObject(PROPERTIES)
-							.startObject("studyPublicReleaseDate")
-								.field("type", "date")
-								.field("store", true)
-							.endObject()
-							.startObject("studySubmissionDate")
-								.field("type", "date")
-							.endObject()
-							.startObject(STUDY_STATUS_FIELD)
-								.field("index", "not_analyzed")
-							.endObject()
-							.startObject("studyIdentifier")
-								.field("type", "string")
-								.field("index", "not_analyzed")
-							.endObject()
-
-
-							// Collections
-							// Organisms
-							.startObject("organism")
-								.startObject(PROPERTIES)
-									.startObject("organismName")
-										.field("type", "string")
-										.field("index", "not_analyzed")
-									.endObject()
-								.endObject()
-							.endObject()
-
-							// Assays
-							.startObject("assays")
-								.startObject(PROPERTIES)
-									.startObject("technology")
-										.field("type", "string")
-										.field("index", "not_analyzed")
-									.endObject()
-									.startObject("measurement")
-										.field("type", "string")
-										.field("index", "not_analyzed")
-									.endObject()
-								.endObject()
-							.endObject()
-
-							// Users
-							.startObject("users")
-								.startObject(PROPERTIES)
-									.startObject("userName")
-										.field("type", "string")
-										.field("index", "not_analyzed")
-									.endObject()
-								.endObject()
-							.endObject()
-
-						.endObject() // End of Study Properties
-					.endObject() // End of study
-				.endObject();  //End of JSON root object.
+			// End mapping
+			mapping.endObject();  //End of JSON root object.
 
 			// Add the mapping for studies
-			createIndexRequestBuilder.addMapping(STUDY_TYPE_NAME, mappingBuilder);
-			logger.info(indexName + "/" + STUDY_TYPE_NAME + " created using this configuration: " + mappingBuilder.string());
+			createIndexRequestBuilder.addMapping(STUDY_TYPE_NAME, mapping);
+			logger.info(indexName + "/" + STUDY_TYPE_NAME + " created using this configuration: " + mapping.string());
 
 			// Execute it
 			createIndexRequestBuilder.execute().actionGet();
@@ -233,6 +162,115 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		} catch (IOException e) {
 			logger.error("Can't create " + indexName + " index in eleasticsearch.", e);
 		}
+	}
+
+	/**
+	 * Adds a the study mapping
+	 * @throws IOException
+	 */
+
+	private void addStudyMapping() throws IOException {
+
+
+
+
+		// Add study mapping root
+		mapping.startObject(STUDY_TYPE_NAME);
+
+
+			// Do not allow dynamic properties: strict is too strict, throws an exception
+			/**
+			 * To start allow dynamic mapping. This will cause elastic search to index almost everything
+			 * and have a "ugly mapping" with items like this ones:
+			 *
+			 * "10~label"
+			 * "10~labeled extract name"
+			 * ...
+			 *
+			 * If this affects performance we could:
+			 *
+			 * 1.- Switch off dymanic AND define manually the index (we should include what is missing and want to be searchable (OrganismPart, descriptors, factors, protocols...)
+			 * 2.- Leave dynamic on but customize it with templates:
+			 *
+			 * 		http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/custom-dynamic-mapping.html
+			 *      http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-root-object-type.html
+			 *
+			 */
+			//mapping.field("dynamic", "false");
+
+			// Timestamp
+			addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
+
+			//_source configuration
+			mapping.startObject("_source")
+				.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "obfuscationCode", "studyLocation",
+						"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
+						"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
+						"users.listOfAllStatus", "users.lastName", "users.affiliationUrl", "users.status",
+						"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
+						"users.affiliation", "users.firstName", "users.curator", "users.reviewer"})
+			.endObject()
+
+			// Properties configutarion (fields types and storage)
+			.startObject(PROPERTIES);
+
+				addObject("studyPublicReleaseDate", "type", "date", "store", true);
+
+				addObject("studySubmissionDate", "type", "date");
+
+				addObject(STUDY_STATUS_FIELD, "type", "string", "index", "not_analyzed");
+
+
+				addObject("studyIdentifier", "type", "string", "index", "not_analyzed");
+
+
+				// Collections
+				// Organisms
+				startObject("organism")
+					.startObject(PROPERTIES);
+
+						addObject("organismName", "type", "string", "index", "not_analyzed");
+
+					endObject()
+				.endObject();
+
+				// Assays
+				startObject("assays")
+					.startObject(PROPERTIES);
+						addObject("technology", "type", "string", "index", "not_analyzed");
+						addObject("measurement", "type", "string", "index", "not_analyzed");
+					endObject()
+				.endObject();
+
+				// Users
+				startObject("users")
+					.startObject(PROPERTIES);
+						addObject("userName", "type", "string", "index", "not_analyzed");
+					endObject()
+				.endObject()
+
+			.endObject() // End of Study Properties
+		.endObject(); // End of study
+
+	}
+
+	private XContentBuilder endObject() throws IOException {
+		return mapping.endObject();
+	}
+
+	private XContentBuilder startObject(String name) throws IOException {
+		return mapping.startObject(name);
+	}
+
+	private void addObject(String name, Object... attributes) throws IOException {
+
+		mapping.startObject(name);
+
+		for (int i = 0; i < attributes.length-1; i = i+2) {
+
+			mapping.field((String) attributes[i], attributes[i+1]);
+		}
+		mapping.endObject();
 	}
 
 	public String getIndexName() {

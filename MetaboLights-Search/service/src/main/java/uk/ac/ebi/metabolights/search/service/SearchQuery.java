@@ -21,6 +21,8 @@
 
 package uk.ac.ebi.metabolights.search.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -31,10 +33,12 @@ import java.util.LinkedList;
  */
 public class SearchQuery {
 	private String text;
-	private Collection<Facet> facets = new LinkedList<Facet>();
+	private LinkedList<Facet> facets = new LinkedList<Facet>();
 	private Pagination pagination = new Pagination();
+	@JsonIgnore
 	private SearchUser user;
 
+	public SearchQuery(){}
 	public SearchQuery(String text){
 		this.text = text;
 	}
@@ -51,7 +55,7 @@ public class SearchQuery {
 		return facets;
 	}
 
-	public void setFacets(Collection<Facet> facets) {
+	public void setFacets(LinkedList<Facet> facets) {
 		this.facets = facets;
 	}
 
