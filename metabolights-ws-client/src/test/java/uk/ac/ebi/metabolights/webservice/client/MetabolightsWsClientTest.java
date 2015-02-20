@@ -25,6 +25,8 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.search.service.SearchQuery;
+import uk.ac.ebi.metabolights.search.service.SearchResult;
 
 import static org.junit.Assert.*;
 
@@ -39,6 +41,7 @@ public class MetabolightsWsClientTest {
 	public static final String PUBLIC_STUDY = "MTBLS1";
 	String SUBMMITER_TOKEN;
 	String CURATOR_TOKEN;
+	private MetabolightsWsClient wsClient;
 
 	@Before
 	public void setUp(){
@@ -46,14 +49,13 @@ public class MetabolightsWsClientTest {
 		// Get token from environment...Do not commit them..
 		SUBMMITER_TOKEN = System.getenv("SUBMMITER_TOKEN");
 		CURATOR_TOKEN = System.getenv("CURATOR_TOKEN");
+		wsClient = new MetabolightsWsClient("http://localhost:8080/metabolights/webservice/");
 	}
 	@Test
 	public void testGetStudy() throws Exception {
 
 		// If not setup skip (Avoid failing tests).
 		if (SUBMMITER_TOKEN == null) return;
-
-		MetabolightsWsClient wsClient = new MetabolightsWsClient("http://localhost:8080/metabolights/webservice/");
 
 		// ****** Default anonymous access ********
 		// MTBLS1 is meant to be public...
@@ -90,12 +92,28 @@ public class MetabolightsWsClientTest {
 		assertNotNull("Study should be accessible to a curator user and shouldn't be null", study);
 		assertEquals("Study should be populated", PRIVATE_STUDY, study.getStudyIdentifier());
 
+	}
 
+	@Test
+	public void testSearch() {
 
+		RestResponse<SearchResult> response = wsClient.search();
 
-
-
-
+		assertNotNull(response);
+		assertNotSame("Something has been returned", 0,response.getContent().getResults().size());
 
 	}
+
+	@Test
+	public void testSearchWithQuery() {
+
+		SearchQuery query = new SearchQuery("human");
+
+		RestResponse<SearchResult> response = wsClient.search(query);
+
+		assertNotNull(response);
+		assertNotSame("Something has been returned", 0,response.getContent().getResults().size());
+
+	}
+
 }

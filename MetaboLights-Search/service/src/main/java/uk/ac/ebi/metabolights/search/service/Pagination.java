@@ -21,6 +21,8 @@
 
 package uk.ac.ebi.metabolights.search.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * User: conesa
  * Date: 02/12/14
@@ -60,13 +62,15 @@ public class Pagination {
 		this.pageSize = pageSize;
 	}
 
+	@JsonIgnore
 	public int getPageCount(){
 		return (int) Math.ceil(itemsCount/(double)pageSize);
 	}
-
+	@JsonIgnore
 	public int getFirstPageItemNumber() {
 		return ((page - 1) * pageSize) + 1;
 	}
+	@JsonIgnore
 	public int getLastPageItemNumber() {
 		if (page == getPageCount()){
 			return itemsCount;

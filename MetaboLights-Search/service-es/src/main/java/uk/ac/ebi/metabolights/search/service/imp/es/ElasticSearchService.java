@@ -518,7 +518,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		if (query.getUser() == null || !query.getUser().isAdmin()) {
 
 			// ... only public studies are accesible (TO LOWER CASE!!)
-			filter = FilterBuilders.termFilter(STUDY_STATUS_FIELD, Study.StudyStatus.PUBLIC.name().toLowerCase());
+			filter = FilterBuilders.termFilter(STUDY_STATUS_FIELD, Study.StudyStatus.PUBLIC.name());
 
 			// If user not null...
 			if (query.getUser() != null) {
