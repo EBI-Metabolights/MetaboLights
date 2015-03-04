@@ -27,7 +27,7 @@
 		<core-style ref="ssr_colors"></core-style> 
 		<template repeat="{{study in studies}}">
 			<div class="search_study">
-				<h3>{{study.title}}</h3>
+				<h3><a href="{{study.studyIdentifier}}">{{study.title}}</a></h3>
 				<span class="search_owners">
 				by
 				<template repeat="{{o in study.users}}">
@@ -55,7 +55,7 @@
 				</div>
 				
 				<div class="search_study_id">
-					<strong>{{study.studyIdentifier}}</strong> is the accession identifier and
+					<a href="{{study.studyIdentifier}}">{{study.studyIdentifier}}</a> is the accession identifier and
 					<template if="{{study.publicStudy}}">
 						was released on the
 					</template>
