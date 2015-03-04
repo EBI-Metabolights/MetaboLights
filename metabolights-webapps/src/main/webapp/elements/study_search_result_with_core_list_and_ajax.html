@@ -5,12 +5,17 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <link rel="import" href="../polymer/bower_components/core-ajax/core-ajax.html">
   <link rel="import" href="study_search_result.html">
+  <link rel="import" href="study_search_result_layout.html">
   <link rel="import" href="../polymer/bower_components/core-list/core-list.html">
   <link rel="import" href="../polymer/bower_components/page-er/page-er.html">
   <link rel="stylesheet" href="../polymer/bower_components/page-er/page-er.css">	
  </head>
 <body>
-
+<style>
+	.search_study h3{
+		background-color: bisque;
+	}
+</style>
 <script>
 	// Query object to send to the search request
   	var query = {

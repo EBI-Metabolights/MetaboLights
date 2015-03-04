@@ -19,46 +19,51 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   -->
 <link rel="import" href="../polymer/bower_components/polymer/polymer.html">
-
+<link rel="import" href="study_search_result_layout.html">
+<link rel="import" href="study_search_result_colors.html">
 <polymer-element name="search-result" attributes="studies">
 	<template>
-		   <style>
-      		:host {
-        		display: block;
-			}
-    	</style>
+		<core-style ref="ssr_layout"></core-style>
+		<core-style ref="ssr_colors"></core-style> 
 		<template repeat="{{study in studies}}">
 			<div class="search_study">
 				<h3>{{study.title}}</h3>
-				<strong>Release date: </strong> {{study.studyPublicReleaseDate}}
-				<strong>Organism</strong>
-				<ul>
+				<span class="search_owners">
+				by
+				<template repeat="{{o in study.users}}">
+					<a href="mailto:{{o.userName}}">{{o.firstName}} {{o.lastName}}</a>
+				</template>
+				</span>
+				
+				
+				<div class ="list search_study_organism">
+					<h4>Organism/s</h4>
+					<ul>
 					<template repeat="{{o in study.organism}}">
 						<li>{{o.organismName}}/{{o.organismPart}}</li>
 					</template>
-				</ul>
-
-				<strong>Factors</strong>
-				<ul>
+					</ul>
+				</div>
+				
+				<div class="list search_study_factors">
+					<h4>Factor/s</h4>
+					<ul>
 					<template repeat="{{f in study.factors}}">
 						<li>{{f.name}}</li>
 					</template>
-				</ul>
-
-				Study identifier:<strong>{{study.studyIdentifier}}</strong>
-
-				<strong>Owned by</strong>
-				<template repeat="{{o in study.users}}">
-					{{o.firstName}} {{o.lastName}} - {{o.userName}}
-				</template>
-
-
-				<template if="{{study.publicStudy}}">
-					PUBLIC
-				</template>
-				<template if="{{!study.publicStudy}}">
-					PRIVATE
-				</template>
+					</ul>
+				</div>
+				
+				<div class="search_study_id">
+					<strong>{{study.studyIdentifier}}</strong> is the accession identifier and
+					<template if="{{study.publicStudy}}">
+						was released on the
+					</template>
+					<template if="{{!study.publicStudy}}">
+						will be release on the
+					</template>
+					<strong>{{study.studyPublicReleaseDate}}</strong>
+				</div>
 
 			</div>
 		</template>
@@ -66,42 +71,42 @@
     <script>
         Polymer({
 			publish:{
-				"studies":[{
-					"studyIdentifier": "MTBLSXXX",
-					"studyTitle": "Title",
-					"studyStatus": "PUBLIC",
-					"studyPublicReleaseDate": "2012-03-28 23:00 PM GMT",
-					"factors": [
-						{
-							"name": "Sample type"
-						},
-						{
-							"name": "Spike in volume"
-						},
-						{
-							"name": "Deconvolution"
-						},
-						{
-							"name": "Alignment"
-						}
-					],
-					"organism": [
-						{
-							"organismName": "none",
-							"organismPart": "N/A"
-						},
-						{
-							"organismName": "Bovinae",
-							"organismPart": "bovine serum albumin-grown cell"
-						}
-					],
-					"users": [{
-						"lastName": "LastName",
-						"userName": "lastname@gmail.com",
-						"firstName": "Firstname"
-					}],
-					"publicStudy": true
-				}]
+//				"studies":[{
+//					"studyIdentifier": "MTBLSXXX",
+//					"studyTitle": "Title",
+//					"studyStatus": "PUBLIC",
+//					"studyPublicReleaseDate": "2012-03-28 23:00 PM GMT",
+//					"factors": [
+//						{
+//							"name": "Sample type"
+//						},
+//						{
+//							"name": "Spike in volume"
+//						},
+//						{
+//							"name": "Deconvolution"
+//						},
+//						{
+//							"name": "Alignment"
+//						}
+//					],
+//					"organism": [
+//						{
+//							"organismName": "none",
+//							"organismPart": "N/A"
+//						},
+//						{
+//							"organismName": "Bovinae",
+//							"organismPart": "bovine serum albumin-grown cell"
+//						}
+//					],
+//					"users": [{
+//						"lastName": "LastName",
+//						"userName": "lastname@gmail.com",
+//						"firstName": "Firstname"
+//					}],
+//					"publicStudy": true
+//				}]
 			},
 			ready: function () {
 				studies = [];
