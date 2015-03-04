@@ -1,0 +1,77 @@
+<html>
+<head>
+  <script src="../polymer/bower_components/webcomponentsjs/webcomponents.js"></script>
+  <!--<script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.5.5/webcomponents.js"/>-->
+  <!--<script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.5.5/polymer.min.js"/>-->
+  <!--<script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.5.5/polymer.js"/>-->
+  <link rel="import" href="study_search_result.html">
+  <link rel="import" href="../polymer/bower_components/core-list/core-list.html">
+	  <style>
+    html, body {
+      margin: 0;
+      -webkit-tap-highlight-color: transparent;
+      overflow: hidden;
+    }
+    
+    search-result-list {
+      display: block;
+      height: 100%;
+      margin: 0 auto;
+    }
+
+    .stuff {
+      min-height: 60px;
+      background: red !important;
+      border-bottom: 1px solid black;
+    }
+  </style>
+</head>
+<body fit>
+
+<search-result-list></search-result-list>
+
+<polymer-element name="search-result-list" layout vertical>
+<template>
+  <core-list id="list" data="{{data}}" selectionEnabled="{{selectionEnabled}}"
+    selection="{{selection}}" height="80" flex multi?={{multi}}>
+    <template>
+		<search-result study={{model}}></search-result>
+    </template>
+  </core-list>
+
+</template>
+<script>
+(function() {
+
+  Polymer('search-result-list', {
+    addIdx: 0,
+    deleteIdx: 0,
+    count: 50000,
+    ready: function() {
+      this.initArrayFull();
+      window.list = this.$.list;
+    },
+    initArrayEmpty: function() {
+      this.data = [];
+    },
+    initArrayFull: function() {
+      this.data = [{
+			studyTitle:"Study title 1",
+		  	id: 1
+		},
+	  	{
+	  		studyTitle:"Study title 2",
+	  		id: 1
+	  	},
+	  	{
+	  		studyTitle:"Study title 3",
+	  		id: 1
+	  	}];		  
+    }
+  });
+})();  
+</script>
+</polymer-element>
+
+</body>
+</html>

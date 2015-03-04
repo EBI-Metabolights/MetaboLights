@@ -1,0 +1,18 @@
+{
+  "name": "paper-shadow",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.3.0"
+  },
+  "homepage": "https://github.com/Polymer/paper-shadow",
+  "version": "0.3.6",
+  "_release": "0.3.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.3.6",
+    "commit": "b6d3b43e258c958b71a7477a8af3acad09f19707"
+  },
+  "_source": "git://github.com/Polymer/paper-shadow.git",
+  "_target": "^0.3.0",
+  "_originalSource": "Polymer/paper-shadow"
+}

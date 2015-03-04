@@ -1,0 +1,72 @@
+<html>
+<head>
+  <title>core-ajax</title>
+  <script src="../polymer/bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="import" href="../polymer/bower_components/core-ajax/core-ajax.html">
+  <link rel="import" href="study_search_result.html">
+  <link rel="import" href="../polymer/bower_components/core-list/core-list.html">
+  <link rel="import" href="../polymer/bower_components/page-er/page-er.html">
+  <link rel="stylesheet" href="../polymer/bower_components/page-er/page-er.css">	
+ </head>
+<body>
+
+<script>
+	// Query object to send to the search request
+  	var query = {
+		"text":"",
+		"facets":[],
+		"pagination":{
+			"page":1,
+			"pageSize":10
+		}
+	};
+	  
+	// Initialize the pager
+	var pager;
+
+	document.addEventListener('polymer-ready', function() {
+
+		pager = document.querySelector("page-er");	
+		pager.perpage = query.pagination.pageSize;
+
+		document.addEventListener('pager-change', function(e) {
+			query.pagination.page = e.detail.page+1;
+			search();
+		});
+
+		search();
+
+	});
+
+	function search(){
+		
+		$.ajax({
+	  		beforeSend: function(xhrObj){
+				xhrObj.setRequestHeader("Content-Type","application/json");
+				xhrObj.setRequestHeader("Accept","application/json");
+	  		},	
+			url: "http://localhost:8080/metabolights/webservice/search",
+			headers: {"user_token": "polymer"},
+			type: "POST",
+			dataType: "json",
+			data: JSON.stringify(query)
+		
+		}).done(function(data) {
+		
+			document.querySelector('search-result').studies = data.content.results;
+			
+			// Configure pager, fake whole set of data based on item count
+			pager.data = new Array(data.content.query.pagination.itemsCount);
+		  
+		}).fail(function() {
+			console.info("ajax failed")
+		});
+	};
+  </script>
+
+<page-er perpage="10"></page-er>	
+<search-result></search-result>
+
+</body>
+</html>
