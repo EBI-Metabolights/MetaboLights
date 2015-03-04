@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.webservice.client;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
@@ -97,10 +98,11 @@ public class MetabolightsWsClientTest {
 	@Test
 	public void testSearch() {
 
-		RestResponse<SearchResult> response = wsClient.search();
+		RestResponse<? extends SearchResult> response = wsClient.search();
 
 		assertNotNull(response);
 		assertNotSame("Something has been returned", 0,response.getContent().getResults().size());
+		assertEquals("Content is deserialized into proper LiteStudy", LiteStudy.class, response.getContent().getResults().iterator().next().getClass());
 
 	}
 
@@ -109,7 +111,7 @@ public class MetabolightsWsClientTest {
 
 		SearchQuery query = new SearchQuery("human");
 
-		RestResponse<SearchResult> response = wsClient.search(query);
+		RestResponse<? extends SearchResult> response = wsClient.search(query);
 
 		assertNotNull(response);
 		assertNotSame("Something has been returned", 0,response.getContent().getResults().size());

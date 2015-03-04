@@ -60,6 +60,7 @@ import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.*;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
@@ -136,7 +137,8 @@ public class EntryController extends AbstractController {
 	private ModelAndView getMetabolitesModelAndView(String mtblsId, int assayNumber, HttpServletRequest request, MetabolightsUser user) {
 		MetabolightsWsClient wsClient = getMetabolightsWsClient(request,user);
 
-		MetaboliteAssignment metaboliteAssignment = wsClient.getMetabolites( mtblsId,assayNumber);
+		RestResponse<MetaboliteAssignment> response = wsClient.getMetabolites( mtblsId,assayNumber);
+		MetaboliteAssignment metaboliteAssignment = response.getContent();
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("metabolitesIdentified");
 
@@ -303,7 +305,7 @@ public class EntryController extends AbstractController {
 		return false;
 	}
 
-	private String getWsPath(HttpServletRequest request) {
+	private static String getWsPath(HttpServletRequest request) {
 
 		//compose the ws url..
 		String wsUrl = request.getRequestURL().toString();
@@ -337,7 +339,9 @@ public class EntryController extends AbstractController {
 		MetabolightsWsClient wsClient = getMetabolightsWsClient(request, user);
 
 
-		uk.ac.ebi.metabolights.repository.model.Study study = wsClient.getStudy(mtblsId);
+		RestResponse<uk.ac.ebi.metabolights.repository.model.Study> response = wsClient.getStudy(mtblsId);
+
+		uk.ac.ebi.metabolights.repository.model.Study study = response.getContent();
 
 
 		// In case of reviewer mode, the user will not be anonymous.
@@ -357,11 +361,11 @@ public class EntryController extends AbstractController {
 		// Thing that don't come from the web service: xRefs...studydbId
 //        mav.addObject("submittedID", accessionService.getSubmittedId(study.getStudyIdentifier()));
 		mav.addObject("studyXRefs", accessionService.getStudyXRefs(study.getStudyIdentifier()));
+		mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
 
 		// For the file we need the study ID from the database...
 		// Get the study form the index
 		LuceneSearchResult indexedStudy = searchService.getStudy(mtblsId);
-		mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
 		mav.addObject("studyDBId", indexedStudy.getDbId());
 
 		// For the reviwer link: use obfuscationcode
@@ -370,7 +374,7 @@ public class EntryController extends AbstractController {
 		return  mav;
 	}
 
-	private MetabolightsWsClient getMetabolightsWsClient(HttpServletRequest request, MetabolightsUser user) {
+	public static MetabolightsWsClient getMetabolightsWsClient(HttpServletRequest request, MetabolightsUser user) {
 
 
 		//compose the ws url..

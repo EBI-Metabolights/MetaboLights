@@ -35,9 +35,10 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
+import uk.ac.ebi.metabolights.repository.model.LiteEntity;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.*;
-import uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel.LiteStudy;
 
 import java.util.List;
 import java.util.Properties;
@@ -93,7 +94,7 @@ public class ElasticSearchServiceTest {
 		// Get the studyDAO.
 		studyDAO = DAOFactory.getInstance().getStudyDAO();
 
-		//initDB();
+		initDB();
 
 
 	}
@@ -240,7 +241,7 @@ public class ElasticSearchServiceTest {
 
 		Assert.assertEquals("Results size should fit pageSize",PAGE_SIZE, result.getResults().size());
 		Assert.assertEquals("Total count test", STUDIES_COUNT, result.getQuery().getPagination().getItemsCount());
-
+		Assert.assertEquals("Page should be 1",query.getPagination().getPage(), result.getQuery().getPagination().getPage());
 
 		// Request second page
 		query.getPagination().setPage(2);

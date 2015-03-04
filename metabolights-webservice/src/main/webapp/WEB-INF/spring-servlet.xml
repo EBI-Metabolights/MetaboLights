@@ -73,23 +73,40 @@
     <jee:jndi-lookup id="dataSource" jndi-name="dataSource" resource-ref="true" />
 
 
-    <!--Configure the DAOFactory initialize method-->
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetClass">
-            <value>uk.ac.ebi.metabolights.repository.dao.DAOFactory</value>
-        </property>
-        <property name="targetMethod">
-            <value>initializeWithDataSource</value>
-        </property>
-        <property name="arguments">
-            <list>
-                <ref bean="isatabConfigurationLocation"/>
-                <ref bean="publicStudiesLocation"/>
-                <ref bean="privateStudiesLocation"/>
-                <ref bean="dataSource"/>
-            </list>
-        </property>
+    <!--&lt;!&ndash;Configure the DAOFactory initialize method&ndash;&gt;-->
+    <!--<bean id="DAOFactoryInitializer" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
+        <!--<property name="targetClass">-->
+            <!--<value>uk.ac.ebi.metabolights.repository.dao.DAOFactory</value>-->
+        <!--</property>-->
+        <!--<property name="targetMethod">-->
+            <!--<value>initializeWithDataSource</value>-->
+        <!--</property>-->
+        <!--<property name="arguments">-->
+            <!--<list>-->
+                <!--<ref bean="isatabConfigurationLocation"/>-->
+                <!--<ref bean="publicStudiesLocation"/>-->
+                <!--<ref bean="privateStudiesLocation"/>-->
+                <!--<ref bean="dataSource"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean id="DAOFactory"
+          class="uk.ac.ebi.metabolights.repository.dao.DAOFactory"
+          factory-method="initializeWithDataSource">
+        <constructor-arg index="0" ref="isatabConfigurationLocation"/>
+        <constructor-arg index="1" ref="publicStudiesLocation"/>
+        <constructor-arg index="2" ref="privateStudiesLocation"/>
+        <constructor-arg index="3" ref="dataSource"/>
     </bean>
+
+    <bean id="userDAO"
+          class="uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO"
+          autowire="byName"
+          factory-bean="DAOFactory"
+          factory-method="getUserDAO"/>
+
+
 
 
     <!-- Hibernate congiguration-->

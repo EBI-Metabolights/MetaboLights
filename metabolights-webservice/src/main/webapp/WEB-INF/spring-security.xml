@@ -33,7 +33,7 @@
     </http>
 
     <b:bean id="siteminderFilter" class="org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter">
-        <b:property name="principalRequestHeader" value="USER_TOKEN"/>
+        <b:property name="principalRequestHeader" value="user_token"/>
         <b:property name="authenticationManager" ref="authenticationManager" />
     </b:bean>
 

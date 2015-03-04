@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
+import org.hibernate.annotations.Type;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.Constants;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.StudyLite;
@@ -75,6 +76,7 @@ public class StudyData  extends DataModel<Study> {
 		this.status = status;
 	}
 
+	@Type(type="date")
 	public Date getReleaseDate() {
 		return releaseDate;
 	}

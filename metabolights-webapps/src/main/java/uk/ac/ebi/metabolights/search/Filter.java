@@ -43,7 +43,7 @@ public class Filter {
     public static final String TECHNOLOGY_FILTER = "technology";
     public static final String METABOLITE_FILTER = "metabolite";
 
-	private static final String FREE_TEXT_QUERY = "freeTextQuery";
+	public static final String FREE_TEXT_QUERY = "freeTextQuery";
 
 	private static final long serialVersionUID = -8290724660711400374L;
 

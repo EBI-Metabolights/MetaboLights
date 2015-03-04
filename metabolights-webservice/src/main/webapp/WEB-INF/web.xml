@@ -35,6 +35,18 @@
         </param-value>
     </context-param>
 
+    <filter>
+        <filter-name>CORS-filter</filter-name>
+        <filter-class>uk.ac.ebi.metabolights.webservice.filters.SimpleCORSFilter</filter-class>
+        <!-- Other options -->
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CORS-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <!-- Other options -->
+    </filter-mapping>
+
     <!-- implement security-->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
@@ -47,7 +59,6 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
 
     <context-param>
         <param-name>log4jConfigLocation</param-name>

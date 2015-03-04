@@ -31,12 +31,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.LiteEntity;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.*;
 import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
-import uk.ac.ebi.metabolights.search.service.imp.es.LiteEntity;
 
 import java.util.List;
 
@@ -133,7 +133,4 @@ public class SearchController extends BasicController {
 		return response;
 
 	}
-
-
-
 }

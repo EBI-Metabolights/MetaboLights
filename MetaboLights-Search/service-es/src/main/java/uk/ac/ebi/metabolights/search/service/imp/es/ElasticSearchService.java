@@ -36,7 +36,10 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.FilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -47,9 +50,10 @@ import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.model.LiteEntity;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.*;
-import uk.ac.ebi.metabolights.search.service.imp.es.resultsmodel.LiteStudy;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -206,9 +210,9 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 				.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "obfuscationCode", "studyLocation",
 						"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
 						"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
-						"users.listOfAllStatus", "users.lastName", "users.affiliationUrl", "users.status",
+						"users.listOfAllStatus", "users.affiliationUrl", "users.status",
 						"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
-						"users.affiliation", "users.firstName", "users.curator", "users.reviewer"})
+						"users.affiliation", "users.curator", "users.reviewer"})
 			.endObject()
 
 			// Properties configutarion (fields types and storage)

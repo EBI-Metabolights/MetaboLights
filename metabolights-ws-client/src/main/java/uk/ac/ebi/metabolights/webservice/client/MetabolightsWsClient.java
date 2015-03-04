@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.StudyLite;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
@@ -50,7 +51,7 @@ public class MetabolightsWsClient {
     private static final Logger logger = LoggerFactory.getLogger(MetabolightsWsClient.class);
 
     private static final String ANONYMOUS = "JAVA_WS_client_Anonymous";
-    private static final String DEAFULT_TOKEN_HEADER = "USER_TOKEN";
+    private static final String DEAFULT_TOKEN_HEADER = "user_token";
     private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
 
     private String tokenHeaderName = DEAFULT_TOKEN_HEADER;
@@ -259,19 +260,21 @@ public class MetabolightsWsClient {
         return null;
     }
 
-    public RestResponse<SearchResult> search() {
+    public RestResponse<? extends SearchResult> search() {
 
         logger.info("Empty search requested to the MetaboLights WS client");
 
         // Make the request
         String response = makeGetRequest("search");
 
-        return deserializeJSONString(response, SearchResult.class);
+        SearchResult<StudyLite> foo = new SearchResult<>();
+
+        return deserializeJSONString(response, foo.getClass());
 
 
     }
 
-    public RestResponse<SearchResult> search(SearchQuery query) {
+    public RestResponse<? extends SearchResult> search(SearchQuery query) {
 
         logger.info("Search requested to the MetaboLights WS client");
 
@@ -280,7 +283,9 @@ public class MetabolightsWsClient {
         // Make the request
         String response = makePostRequest("search", json);
 
-        return deserializeJSONString(response, SearchResult.class);
+        SearchResult<StudyLite> foo = new SearchResult<>();
+
+        return deserializeJSONString(response, foo.getClass());
 
 
     }

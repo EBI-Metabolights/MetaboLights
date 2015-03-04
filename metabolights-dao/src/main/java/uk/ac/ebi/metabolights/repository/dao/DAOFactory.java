@@ -43,27 +43,33 @@ public class DAOFactory {
 	private static String privateFolder;
 	private static final Logger logger = LoggerFactory.getLogger(DAOFactory.class);
 
-	public static void initialize (String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, Configuration configuration){
+	public static DAOFactory initialize (String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, Configuration configuration) throws DAOException {
 
 		initializeFields(isaTabRootConfigurationFolder, publicFolder, privateFolder);
 
 		HibernateUtil.initialize(configuration);
 
+		return getInstance();
+
 	}
 
-	public static void initialize (String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, String JNDIDataSource){
+	public static DAOFactory initialize (String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, String JNDIDataSource) throws DAOException {
 
 		initializeFields(isaTabRootConfigurationFolder, publicFolder, privateFolder);
 
 		HibernateUtil.initialize(JNDIDataSource);
 
+		return getInstance();
+
 	}
 
-	public static void initializeWithDataSource(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, DataSource dataSource) {
+	public static DAOFactory initializeWithDataSource(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, DataSource dataSource) throws DAOException {
 
 		initializeFields(isaTabRootConfigurationFolder, publicFolder, privateFolder);
 
 		HibernateUtil.initialize(dataSource);
+
+		return getInstance();
 
 	}
 

@@ -26,11 +26,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
+
+import javax.annotation.Resource;
 
 /**
  * Implementation for UserService. Note the Spring annotations such as @Service, @Autowired and @Transactional. 
@@ -44,12 +45,14 @@ public class UserServiceImpl implements UserService{
 
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+	@Resource(name = "userDAO")
 	private UserDAO userDAO;
 
 	public UserServiceImpl() throws DAOException {
 
-		userDAO = DAOFactory.getInstance().getUserDAO();
+		//userDAO = DAOFactory.getInstance().getUserDAO();
 	}
+
 
 //	@Transactional
 //	public User lookupByUserName(String userName) {
@@ -95,6 +98,7 @@ public class UserServiceImpl implements UserService{
 		if (user == null){
 			user = new User();
 			user.setUserName(s);
+			user.setStatus(User.UserStatus.ACTIVE);
 		}
 
 		SpringUser sUser = new SpringUser(user);

@@ -21,11 +21,10 @@
 
 package uk.ac.ebi.metabolights.checklists;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
+import static org.junit.Assert.assertEquals;
+
 
 public class SubmissionProcessCheckListSeedTest {
 

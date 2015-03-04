@@ -50,14 +50,14 @@ public class MLAssay {
 	private String platform;
 	private String measurement;
 	private String fileName;
-	private List<Factor> factors = new ArrayList();
-	private List<MLAssayResult> MLAssayResult = new ArrayList();
-	private List<Assay> assayLines = new ArrayList();
-	private List<MetaboliteGUI> metabolites = new ArrayList();
+	private List<Factor> factors = new ArrayList<>();
+	private List<MLAssayResult> MLAssayResult = new ArrayList<>();
+	private List<Assay> assayLines = new ArrayList<>();
+	private List<MetaboliteGUI> metabolites = new ArrayList<>();
 	private AssayGroup ag;
 	private Study study;
 	private ParallelCoordinatesDataSet pcds;
-	private List<String> sampleColumns = new ArrayList();
+	private List<String> sampleColumns = new ArrayList<>();
 	
 	
 	public static String getAssayNameFromAssay(Assay assay){
