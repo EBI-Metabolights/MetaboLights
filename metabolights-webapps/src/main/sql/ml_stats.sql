@@ -87,6 +87,9 @@ update ml_stats set sort_order = rownum where page_section = 'Topsubmitters';
 
 update ml_stats set sort_order = 999 where sort_order is null;
 
+update metabolights_parameters set value = (select listagg(acc,',')  WITHIN GROUP (order by acc) from  (select acc, releasedate from study where status = 0 order by 2 desc) where rownum <= 10)
+where name = 'GALLERY_ITEMS';
+
 commit;
 
 purge recyclebin;

@@ -5,10 +5,10 @@
   ~
   ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   ~
-  ~ Last modified: 2014-Nov-06
+  ~ Last modified: 2015-Mar-09
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2014 EMBL - European Bioinformatics Institute
+  ~ Copyright 2015 EMBL - European Bioinformatics Institute
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -125,6 +125,7 @@
     <jee:jndi-lookup id="publicFtpStageLocation"    jndi-name="java:comp/env/publicFtpStageLocation" />
     <jee:jndi-lookup id="publicFtpLocation"         jndi-name="java:comp/env/publicFtpLocation" />
     <jee:jndi-lookup id="isatabuploaderconfig"		jndi-name="java:comp/env/isatabuploaderconfig"/>
+    <jee:jndi-lookup id="userSpace"		            jndi-name="java:comp/env/userSpace"/>
 
 
 
