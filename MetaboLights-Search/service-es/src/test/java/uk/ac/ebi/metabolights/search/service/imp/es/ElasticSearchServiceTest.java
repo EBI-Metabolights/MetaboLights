@@ -34,10 +34,7 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
-import uk.ac.ebi.metabolights.repository.model.AppRole;
-import uk.ac.ebi.metabolights.repository.model.LiteEntity;
-import uk.ac.ebi.metabolights.repository.model.LiteStudy;
-import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.search.service.*;
 
 import java.util.List;
@@ -94,7 +91,7 @@ public class ElasticSearchServiceTest {
 		// Get the studyDAO.
 		studyDAO = DAOFactory.getInstance().getStudyDAO();
 
-		initDB();
+		//initDB();
 
 
 	}
@@ -150,6 +147,7 @@ public class ElasticSearchServiceTest {
 		UserData newUser = new UserData();
 		newUser.setRole(role.ordinal());
 		newUser.setUserName(userName);
+		newUser.setStatus(User.UserStatus.ACTIVE.ordinal());
 
 		return newUser;
 	}
@@ -313,9 +311,19 @@ public class ElasticSearchServiceTest {
 		SearchQuery query = new SearchQuery(SEARCH_TO_HIT_ALL);
 		query.setUser(new SearchUser(curator.getUserName(), true));
 
+		FacetLine line;
 		// Add facets
 		Facet technologyFacet = new Facet("assays.technology");
-		technologyFacet.getLines().add(new FacetLine("NMR spectroscopy"));
+
+		line = new FacetLine("NMR spectroscopy");
+		line.setChecked(true);
+		technologyFacet.getLines().add(line);
+
+		// Add an unchecked: should not afect the filter
+		line = new FacetLine("mass spectrometry");
+		line.setChecked(false);
+		technologyFacet.getLines().add(line);
+
 		query.getFacets().add(technologyFacet);
 
 		SearchResult<LiteEntity> result = elasticSearchService.search(query);
@@ -336,8 +344,14 @@ public class ElasticSearchServiceTest {
 
 		// Add facets
 		technologyFacet = new Facet("assays.technology");
-		technologyFacet.getLines().add(new FacetLine("NMR spectroscopy"));
-		technologyFacet.getLines().add(new FacetLine("mass spectrometry"));
+
+		line = new FacetLine("NMR spectroscopy");
+		line.setChecked(true);
+		technologyFacet.getLines().add(line);
+
+		line = new FacetLine("mass spectrometry");
+		line.setChecked(true);
+		technologyFacet.getLines().add(line);
 		query.getFacets().add(technologyFacet);
 
 		result = elasticSearchService.search(query);
@@ -358,11 +372,20 @@ public class ElasticSearchServiceTest {
 
 		// Add facets (MS and Public)
 		technologyFacet = new Facet("assays.technology");
-		technologyFacet.getLines().add(new FacetLine("mass spectrometry"));
+
+		line = new FacetLine("mass spectrometry");
+		line.setChecked(true);
+		technologyFacet.getLines().add(line);
+
 		query.getFacets().add(technologyFacet);
 
 		Facet studyStatus = new Facet("publicStudy");
-		studyStatus.getLines().add(new FacetLine("T"));
+
+		line = new FacetLine("T");
+		line.setChecked(true);
+		studyStatus.getLines().add(line);
+
+
 		query.getFacets().add(studyStatus);
 
 

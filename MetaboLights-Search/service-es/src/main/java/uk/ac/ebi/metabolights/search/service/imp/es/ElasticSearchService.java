@@ -234,6 +234,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 					.startObject(PROPERTIES);
 
 						addObject("organismName", "type", "string", "index", "not_analyzed");
+						addObject("organismPart", "type", "string", "index", "not_analyzed");
 
 					endObject()
 				.endObject();
@@ -251,8 +252,20 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 					.startObject(PROPERTIES);
 						addObject("userName", "type", "string", "index", "not_analyzed");
 					endObject()
-				.endObject()
+				.endObject();
 
+				// Factors
+				startObject("factors")
+					.startObject(PROPERTIES);
+						addObject("name", "type", "string", "index", "not_analyzed");
+					endObject()
+							.endObject();
+
+				startObject("descriptors")
+					.startObject(PROPERTIES);
+						addObject("description", "type", "string", "index", "not_analyzed");
+					endObject()
+				.endObject()
 			.endObject() // End of Study Properties
 		.endObject(); // End of study
 
@@ -441,9 +454,11 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		// Loop through the lines
 		for (FacetLine facetLine : facet.getLines()) {
 
-			FilterBuilder termFilter = facetLineToTermFilter(facetLine,facet.getName());
+			if (facetLine.isChecked()) {
+				FilterBuilder termFilter = facetLineToTermFilter(facetLine, facet.getName());
 
-			termFilters.add(termFilter);
+				termFilters.add(termFilter);
+			}
 
 		}
 
@@ -518,10 +533,11 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		FilterBuilder filter = null;
 
+		// User dependent filter
 		// If there's no user ...
 		if (query.getUser() == null || !query.getUser().isAdmin()) {
 
-			// ... only public studies are accesible (TO LOWER CASE!!)
+			// ... only public studies are accesible.
 			filter = FilterBuilders.termFilter(STUDY_STATUS_FIELD, Study.StudyStatus.PUBLIC.name());
 
 			// If user not null...
@@ -536,11 +552,82 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		}
 
+		// Facets filter...
+		//facetsToFilters(query, filter);
+
+
 		// If is admin (no filter)..
 		if (filter == null) return esSearchQuery;
 
 		// Otherwise crete a filteredQuery
 		return QueryBuilders.filteredQuery(esSearchQuery,filter);
+
+	}
+
+	// Plural, convert all facets to elasticsearch filters
+	private void facetsToFilters(SearchQuery query, FilterBuilder filter) {
+
+		FilterBuilder allFacetsFilter = null;
+
+		// Loop through each facet
+		for (Facet facet : query.getFacets()) {
+
+			FilterBuilder facetFilter = null;
+
+			// Filter for all elements within same facet (OR filter)
+			ArrayList<FilterBuilder> filters = facetToFilters(facet);
+
+			// For each filter
+			for (FilterBuilder lineFilter : filters) {
+
+				// if it's the first one
+				if (facetFilter == null){
+					facetFilter = lineFilter;
+				} else {
+					// Create an or filter
+					filter = FilterBuilders.orFilter(
+							filter,
+							lineFilter);
+				}
+			}
+
+			// Compose all Facets filter
+			// if it's the first one
+			if (allFacetsFilter == null){
+				allFacetsFilter = facetFilter;
+			} else {
+				// Create an AND filter
+				allFacetsFilter = FilterBuilders.andFilter(
+						facetFilter,
+						allFacetsFilter);
+			}
+
+		}
+
+		//if there is any filter
+		if (allFacetsFilter != null) {
+			filter = FilterBuilders.andFilter(allFacetsFilter, filter);
+		}
+
+	}
+
+	private ArrayList<FilterBuilder> facetToFilters(Facet facet) {
+
+		ArrayList<FilterBuilder> filters = new ArrayList();
+
+		for (FacetLine facetLine : facet.getLines()) {
+			// If line is checked...
+			if (facetLine.isChecked()) {
+
+				FilterBuilder term = FilterBuilders.termFilter(facet.getName(), facetLine.getValue());
+
+				filters.add(term);
+
+			}
+
+		}
+
+		return filters;
 
 	}
 

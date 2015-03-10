@@ -1,0 +1,128 @@
+<html>
+<head>
+  <title>core-ajax</title>
+  <script src="../polymer/bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="import" href="study_search_result.html">
+  <link rel="import" href="metabolights_facets.html">
+<!--  <link rel="import" href="study_search_result_layout.html">-->
+  <link rel="import" href="../polymer/bower_components/page-er/page-er.html">
+  <link rel="stylesheet" href="../polymer/bower_components/page-er/page-er.css">
+  <link rel="stylesheet" href="study_search.css">
+ </head>
+<body>
+<script>
+	// Initial query object to send to the search request
+  	function getEmptyQuery(){ 
+		var emptyQuery = {
+			"text":"",
+			"facets":[
+				{
+					"name": "assays.technology"
+				},
+				{
+					"name": "studyStatus"
+				},
+				{
+					"name": "organism.organismName"
+				},
+				{
+					"name": "organism.organismPart"
+				},
+				{
+					"name": "assays.measurement"
+				},
+				{
+					"name":"users.userName"
+				},
+				{
+					"name":"factors.name"
+				},
+				{
+					"name":"descriptors.description"
+				}
+			],
+			"pagination":{
+				"page":1,
+				"pageSize":10
+			}
+		};
+		
+		return emptyQuery;
+	};
+	
+	// Initialize the pager
+	var pager;
+	var query = getEmptyQuery();
+	
+	document.addEventListener('polymer-ready', function() {
+
+		pager = document.querySelector("page-er");	
+		pager.perpage = query.pagination.pageSize;
+
+		document.addEventListener('pager-change', function(e) {
+			query.pagination.page = e.detail.page+1;
+			search(true);
+		});
+		
+		$("#searchbox").keypress (function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+    		if(keycode == '13'){
+        		query = getEmptyQuery();
+				query.text= document.querySelector('input').value ;
+				search();	
+    		}
+		});
+		
+		search();
+
+	});
+	
+	function search(keepPage){
+		
+		if (query.pagination != undefined){
+			if (!keepPage) query.pagination.page = 1;
+		}
+		
+		$.ajax({
+	  		beforeSend: function(xhrObj){
+				xhrObj.setRequestHeader("Content-Type","application/json");
+				xhrObj.setRequestHeader("Accept","application/json");
+	  		},	
+			url: "http://localhost:8080/metabolights/webservice/search",
+			headers: {"user_token": "polymer"},
+			type: "POST",
+			dataType: "json",
+			data: JSON.stringify(query)
+		
+		}).done(function(data) {
+		
+			query = data.content.query;
+			document.querySelector('search-result').studies = data.content.results;
+			document.querySelector('metabolights-facets').query =query;
+			
+			document.querySelector('input').value = query.text;
+			// Configure pager, fake whole set of data based on item count
+			pager.data = new Array(query.pagination.itemsCount);
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+			
+			// Hide pager if no results
+			pager.hidden = (data.content.results.length == 0)
+			
+		  
+		}).fail(function() {
+			console.info("ajax failed")
+		});
+	};
+  </script>
+<input type=text id="searchbox" name="search_text" value="metabolomics">
+<div class="facets">
+	<metabolights-facets></metabolights-facets>	
+</div>
+<div class="search_results">
+	<search-result></search-result>
+</div>
+<page-er perpage="10"></page-er>	
+	
+</body>
+</html>

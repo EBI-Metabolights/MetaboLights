@@ -1,0 +1,15 @@
+{
+  "name": "bower-microajax",
+  "version": "0.3.0",
+  "main": "microajax.minified.js",
+  "homepage": "https://github.com/slobo/bower-microajax",
+  "_release": "0.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.3.0",
+    "commit": "bad8709ebe4907541b7fdd47ac56e1951ab1f85a"
+  },
+  "_source": "git://github.com/slobo/bower-microajax.git",
+  "_target": "~0.3.0",
+  "_originalSource": "microajax"
+}

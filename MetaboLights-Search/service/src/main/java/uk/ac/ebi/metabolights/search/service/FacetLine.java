@@ -31,6 +31,7 @@ public class FacetLine {
 	private boolean isChecked;
 	private long count;
 
+	public FacetLine(){}
 	public FacetLine(String value){
 		this.value = value;
 	}

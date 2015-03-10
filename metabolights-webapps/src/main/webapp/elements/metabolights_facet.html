@@ -1,0 +1,97 @@
+<!--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~
+  ~ Last modified: 2015-Feb-25
+  ~ Modified by:   conesa
+  ~
+  ~
+  ~ Copyright 2015 EMBL-European Bioinformatics Institute.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+  -->
+<link rel="import" href="../polymer/bower_components/polymer/polymer.html">
+<link rel="import" href="metabolights_facets_layout.html">
+<link rel="import" href="metabolights_facets_colors.html">
+<polymer-element name="metabolights-facet" attributes="facet displayname">
+	<template>
+		<core-style ref="facets_layout"></core-style>
+		<core-style ref="facets_colors"></core-style>
+		<div class="facet">
+			<h4>{{displayname}}</h4>
+<!--			<chi-sele local="{{autocompletevalues}}"></chi-sele>-->
+			<span class="facetlist"  id="{{facet.name}}">
+			<template repeat="{{line in facet.lines}}">
+				<span class="facetLine">
+				<input type="checkbox"  name="{{facet.name}}" value="{{line.value}}" checked="{{line.checked}}" on-change="{{changeHandler}}"/>
+				{{line.value}} ({{line.count}})
+				</span>
+			</template>
+				</span>
+			</div>
+		</template>
+	</template>
+    <script>
+		(function() {
+			// Run once. Private and static to the element.
+		  	var facetNames_ = 
+				{
+					"assays.technology": "Technology",
+				 	"studyStatus": "Status",
+					"organism.organismName": "Organism",
+					"assays.measurement":"Measurement",
+					"users.userName":"Submitter",
+					"factors.name": "Factors",
+					"descriptors.description": "Descriptors",
+					"organism.organismPart": "Part"
+				};
+
+			Polymer({
+				facet : {},
+				autocompletevalues:[],
+				computed: {
+					displayname: "getDisplayName()"
+				},
+				publish:{
+					facet:{}
+				},
+//				ready: function () {
+//					
+//				},
+				getDisplayName: function(){
+					var name = facetNames_[this.facet.name];
+					
+					if (name == undefined) name = this.facet.name;
+					return name;
+				},
+				generateAutocompleteArray: function(){
+
+					// For each line
+					for (var c=0;c<this.facet.lines.length;c++){
+						var line = this.facet.lines[c];
+						this.autocompletevalues.push(line.value);
+					}
+				},
+				facetChanged:function(){
+					this.generateAutocompleteArray();
+
+
+				},
+				changeHandler: function (event) {
+					// send the query: item should be changed in the query object already.
+					// To be done differently...this is a hack!
+					search(true);
+				}
+			});
+
+    	})();
+	</script>
+</polymer-element>

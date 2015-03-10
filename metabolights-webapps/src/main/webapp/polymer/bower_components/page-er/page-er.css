@@ -50,3 +50,34 @@
   -ms-user-select: none;
   user-select: none;
 }
+
+
+/*
+  Customize pagination styling
+*/
+
+page-er {
+  margin: 0 auto;
+}
+
+
+page-er .pagination li button{
+  color: white;
+  background: #C58A4D;
+/*  font-size: 1em;*/
+  text-transform: uppercase;
+  padding: 6px 8px;
+}
+
+page-er .pagination li button:hover {
+  background: #78420B;
+}
+
+page-er .pagination li.active button {
+  background: #C5A94D;
+}
+
+page-er .pagination li.disabled button {
+  background: grey;
+}
+

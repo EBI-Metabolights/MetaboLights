@@ -63,9 +63,24 @@ public class BasicController {
 
 		RestResponse response = new RestResponse(e);
 
-		response.setMessage("There's been an error processing your request. See err object for technical details.");
+		response.setMessage(explainErrorMessage(e));
+
+		// The error in some cases can't be serialized and therefore an exception is triggered: avoid it
+		Exception error = new Exception(e.getMessage());
+
+		response.setErr(error);
 
 		return response;
 
+	}
+
+	private String explainErrorMessage(Exception e) {
+
+		String explanation;
+
+
+		explanation = e.getMessage();
+
+		return explanation;
 	}
 }

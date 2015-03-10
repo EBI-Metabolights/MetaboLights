@@ -1,0 +1,21 @@
+*:focus .metabolights:focus{
+	outline-color: #C58A4D;
+}
+
+@media screen and (min-width:600px) {
+	.facets{
+		float: left;
+		width: 25%;
+	}
+	.search_results{
+		margin-left: 25%;
+	}
+
+}
+@media screen and (max-width:599px) {
+	.facets{
+	}
+	.search_results{
+	}	
+
+}
