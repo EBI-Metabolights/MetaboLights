@@ -4,6 +4,26 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
+ * Last modified: 2015-Mar-11
+ * Modified by:   kenneth
+ *
+ * Copyright 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
  * Last modified: 6/10/14 11:57 AM
  * Modified by:   conesa
  *
@@ -23,7 +43,6 @@ package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.checklists.CheckList;
 import uk.ac.ebi.metabolights.checklists.SubmissionProcessCheckListSeed;
@@ -55,10 +74,14 @@ public class IsaTabIdReplacer
 	static private String fileWithIds;
     static private String newOntologyType;
     static private String newOntologyValue; //This is the new type ontology reference used in ISAcreator 1.7.5+
+    static private String sampleFile;
+    static private String organism;
+    static private String organismPart;
+    static private String validateError = "***** You must make sure your study successfully passes the ISAcreator validation (file -> validate ISAtab) before resubmitting your study! *****\n";
 
 	static final String PROP_IDS = "isatab.ids";
 	static String[] idList;
-	static final String PROP_FILE_WITH_IDS = "isatab.filewithids";
+	static final String PROP_FILE_WITH_IDS = "isatab.investigationFile";
 
 	private String publicDate; 		//Date from submitter form
 	private String submissionDate;	//Date from submitter form
@@ -157,6 +180,7 @@ public class IsaTabIdReplacer
 
 	//Ids property
 	public HashMap<String,String> getIds(){return ids;}
+
 	public String getIdsNotes(){
 		String notes;
 
@@ -167,6 +191,7 @@ public class IsaTabIdReplacer
 		}
 		return notes;
 	}
+
 	//CheckList property
 	public void setCheckList(CheckList newCl){cl= newCl;}
 
@@ -203,6 +228,8 @@ public class IsaTabIdReplacer
 		metaboliteProfValueStr = props.getProperty("isatab.profilingValue");
         newOntologyType = props.getProperty("isatab.newOntologyType");
         newOntologyValue = props.getProperty("isatab.newOntologyValue");
+        organism = props.getProperty("isatab.organism");
+        organismPart = props.getProperty("isatab.organismPart");
 
 		logger.info(PROP_IDS + " property retrieved :" + ids + "," + pubDateStr + "," + subDateStr);
 
@@ -211,6 +238,7 @@ public class IsaTabIdReplacer
 
 	    //Initialize fileWithIds
 	    fileWithIds = props.getProperty(PROP_FILE_WITH_IDS);
+        sampleFile = props.getProperty("isatab.sampleFile");
 	}
 
 	private void updateCheckList (SubmissionProcessCheckListSeed spcls, String newNotes){
@@ -253,7 +281,7 @@ public class IsaTabIdReplacer
 		}
 
 		//Check CheckList Item
-		updateCheckList(SubmissionProcessCheckListSeed.FILEVALIDATION, "File passed basic validation: correct extension and file found.");
+		updateCheckList(SubmissionProcessCheckListSeed.FILEVALIDATION, "File passed basic validation: correct extensions and files found.");
 
 	}
 
@@ -272,6 +300,9 @@ public class IsaTabIdReplacer
 		logger.info("Validating the archive");
 		validateIsaTabArchive();
 
+        logger.info("Checking that Organism and Organism Part has been reported, note they can be empty");
+        validateOrganismFields();
+
 		//Replace id
 		logger.info("Replace study id and study dates");
 		replaceIdInFiles();
@@ -285,12 +316,59 @@ public class IsaTabIdReplacer
 
 	}
 
+    private void validateOrganismFields() throws Exception {
+        //Get the sample file
+        File isaTabFile = getISAtabFile(sampleFile);
+
+        logger.info("Loading sample file "+isaTabFile.getName());
+
+        checkSampleFields(isaTabFile);
+
+    }
+
+    private void checkSampleFields (File sampleFile) throws Exception{
+        try {
+            //Use a buffered reader
+            BufferedReader reader = new BufferedReader(new FileReader(sampleFile));
+            String line =reader.readLine(); //We only want the header line
+            String organismError = "Your study does not appear to contain the required field: ";
+
+            if (line != null) {
+
+                if (line.contains(organism)) {
+                    if (!line.contains(organismPart)) {
+                        bounceError(reader, organismError, organismPart);
+                    }
+                } else {
+                    bounceError(reader, organismError, organism);
+                }
+
+                if (line.contains("+"))
+                    bounceError(reader, "Bad syntax or incorrect character in header: ", "+");
+
+            }
+
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
+
+    private void bounceError(BufferedReader reader, String error, String fieldName) throws Exception{
+        String errTxt = error + fieldName + "  \n\n *** PLEASE DO NOT REMOVE ANY COLUMNS ! ***";
+            errTxt = errTxt + validateError;         //Todo, read error text from properties
+        reader.close();
+        logger.error(errTxt);
+        System.err.println(errTxt);
+        throw new Exception(errTxt);
+    }
+
 	private void replaceIdInFiles () throws Exception{
 
 		// Get the investigation file
-		File isaTabFile = getInvestigationFile();
+		File isaTabFile = getISAtabFile(fileWithIds);
 
-		logger.info("Loading investigation file");
+		logger.info("Loading investigation file "+isaTabFile.getName());
 
 		// Replace the id
 		replaceInFile(isaTabFile);
@@ -298,11 +376,11 @@ public class IsaTabIdReplacer
 	}
 
 	/**
-	 * @return
+	 * @return ISAtab file based on the given filename pattern
 	 * @throws IOException
 	 * @throws ConfigurationException
 	 */
-	private File getInvestigationFile() throws ConfigurationException, IOException {
+	private File getISAtabFile(String filePattern) throws ConfigurationException, IOException {
 
 		//Search for the investigation file
 		File isaFolder = new File(isaTabFolder);
@@ -311,28 +389,19 @@ public class IsaTabIdReplacer
 		// Load properties
 		loadProperties();
 
-//		//Define a filename filter
-//		FilenameFilter filter = new FilenameFilter() {
-//
-//			public boolean accept(File arg0, String arg1) {
-//
-//				//Accept only investigation files
-//				return (arg1.equals(fileWithIds));
-//			}
-//		};
-
-        FileFilter filter = new RegexFileFilter(fileWithIds);
+		//Define a filename filter
+        FileFilter filter = new RegexFileFilter(filePattern);
 
 		//Get the file list filtered
 		fileList = isaFolder.listFiles(filter);
 
-		//If there is not an investigation file...
+		//If there is not a file...
 		if (fileList.length ==0 || fileList == null) {
-			throw new FileNotFoundException ("File with Ids (" + fileWithIds + ") not found");
+			throw new FileNotFoundException ("File (" + filePattern + ") not found");
 		}
 
 		//There must be only one, so take the first
-		return fileList[0];
+		return fileList[0];  //Be aware that this only works with investigation (i_) and sample (s_) files
 	}
 
 	/**
@@ -378,10 +447,10 @@ public class IsaTabIdReplacer
 				}
 
                 if (!newOntologyUsed(line)){
-                    String errTxt = "\n\nThis study does not conform to the current ontology setup requirements.\n\n\n";
+                    String errTxt = "\n<b>This study does not conform to the current ontology setup requirements or it was created with an old version of ISAcreator</b>.\n\n\n";
                         errTxt = errTxt + "Please download the latest version of our ISAcreator bundle and update your study. ";
                         errTxt = errTxt + "Download here: ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip\n\n";
-                        errTxt = errTxt + "***** You must make sure your study successfully passes the ISAcreator validation (file -> validate ISAtab) before resubmitting your study! *****\n";
+                        errTxt = errTxt + validateError;
                     reader.close();
                     logger.error(errTxt);
                     System.err.println(errTxt);
@@ -542,7 +611,7 @@ public class IsaTabIdReplacer
     public void replaceFields(HashMap<String,String> replacementHash) throws Exception{
 
 		// Get the investigation file
-		File isaTabFile = getInvestigationFile();
+		File isaTabFile = getISAtabFile(fileWithIds);
 
 		// Replace the id
 		replaceFieldsInFile(isaTabFile, replacementHash);
@@ -641,12 +710,13 @@ public class IsaTabIdReplacer
     public Map<String,String> getFields(String[] fields) throws Exception{
 
 		// Get the investigation file
-		File isaTabFile = getInvestigationFile();
+		File isaTabFile = getISAtabFile(fileWithIds);
 
 		// Get Fields in file
 		return getFieldsInFile(isaTabFile, fields);
 
     }
+
     private Map<String,String> getFieldsInFile(File fileWithId, String[] fields) throws Exception{
 
     	logger.info("Getting fields in file -->" + fileWithId.getAbsolutePath());

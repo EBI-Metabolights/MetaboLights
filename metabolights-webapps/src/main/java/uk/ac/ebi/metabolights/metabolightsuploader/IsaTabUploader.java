@@ -4,7 +4,7 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2015-Jan-30
+ * Last modified: 2015-Mar-11
  * Modified by:   kenneth
  *
  * Copyright 2015 EMBL - European Bioinformatics Institute
@@ -42,6 +42,7 @@
 package uk.ac.ebi.metabolights.metabolightsuploader;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Level;
 import org.isatools.isatab.gui_invokers.GUIInvokerResult;
 import org.isatools.isatab.manager.SimpleManager;
 import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
@@ -238,9 +239,10 @@ public class IsaTabUploader {
         String localErrorMessage = "";
         if (sm.getLastLog() != null){
             for (TabLoggingEventWrapper logEvents : sm.getLastLog()){
-                String errorMessage = logEvents.getFormattedMessage();
-                if (!errorMessage.contains("Validation unsuccessful...")) //There is a record that only states that the validation failed, we don't need that
-                    localErrorMessage = errorMessage;    //Just keep the last one, that's all we need
+                if (logEvents.getLogEvent().getLevel().equals(Level.ERROR)) {
+                    localErrorMessage = localErrorMessage + logEvents.getFormattedMessage() + "\n";
+                }
+
             }
         }
 
@@ -250,13 +252,19 @@ public class IsaTabUploader {
             localErrorMessage = errorChunks[0];
 
         // Also remove stuff between the square brackets
-        String start = "\\[", end = "\\]";
+        String start = "\\[", end = "\\]\\]:";
         localErrorMessage = localErrorMessage.replaceAll(start + ".*" + end , "");
-        localErrorMessage = "ERROR:  " + localErrorMessage.replaceAll("org.isatools." , "\norg.isatools.");
+
+        ///String start = "\\[study", end = "\\]";
+        ///localErrorMessage = localErrorMessage.replaceAll(" study:","\n");
+        ///localErrorMessage = localErrorMessage.replaceAll(".*" + start , "");
+        localErrorMessage = localErrorMessage.replaceAll(".*:", "");
+        localErrorMessage = localErrorMessage.replaceAll("org.isatools." , "\norg.isatools.");
         localErrorMessage = localErrorMessage.replace("/nfs/public/rw/homes/tc_cm01/metabolights","MetaboLightsHomeFolder");
         localErrorMessage = localErrorMessage.replace("/net/isilonP/public/rw/homes/tc_cm01/metabolights","MetaboLightsHomeFolder");
 
         return localErrorMessage;
+
     }
 
 
@@ -271,20 +279,7 @@ public class IsaTabUploader {
 		//Unzip the file...
 		Unzip();
 
-        //Get the config files from the study and check if we have this configuration defined
-        String lastUsedConfigFile = validateConfigFiles();
-
-		//Validate the file
-		//GUIInvokerResult result = sm.validateISAtab(this.unzipFolder);
-        logger.info("Will try to validate this study using "+lastUsedConfigFile);
-        GUIInvokerResult result = sm.validateISAtabWithConfig(this.unzipFolder, lastUsedConfigFile);
-
-		// If not SUCCESS...
-        String userErrorMessage = removeGobbledygook();
-
-        userErrorMessage = userErrorMessage +  "\nWe could not successfully validate the study archive using configuration '"+ lastUsedConfigFile.replace(PropertiesUtil.getProperty("isatabConfigurationLocation"),"") + "'.  Please validate the study in ISAcreator before submitting to MetaboLights.\n";
-
-		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException(userErrorMessage,sm.getLastLog()) ;
+        firstISAvalidation();
 
 		//Update CheckList
 		//TODO...this should be passed to SimpleManager and get a more detailed and precise info.
@@ -297,7 +292,7 @@ public class IsaTabUploader {
 		itir.Execute();
 
 		//Load the isatab file
-		result = sm.loadISAtab(this.unzipFolder, owner, status, false);
+        GUIInvokerResult result = sm.loadISAtab(this.unzipFolder, owner, status, false);
 
 		// If not SUCCESS...
 		if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException("ERROR: The file has *not* been stored in our database.",sm.getLastLog());
@@ -323,6 +318,25 @@ public class IsaTabUploader {
 		return  itir.getIds();
 
 	}
+
+    private void firstISAvalidation() throws Exception{
+        //Get the config files from the study and check if we have this configuration defined
+        String lastUsedConfigFile = validateConfigFiles();
+
+        //Validate the file
+        //GUIInvokerResult result = sm.validateISAtab(this.unzipFolder);
+        logger.info("Will try to validate this study using "+lastUsedConfigFile);
+        GUIInvokerResult result = sm.validateISAtabWithConfig(this.unzipFolder, lastUsedConfigFile);
+
+        // If not SUCCESS...
+        String userErrorMessage =  "We could not successfully validate the study archive using configuration '"+ lastUsedConfigFile.replace(PropertiesUtil.getProperty("isatabConfigurationLocation"),"") + "'.  \n\n<B>Please validate the study in ISAcreator before submitting to MetaboLights.</B>\n\n";
+
+        userErrorMessage = userErrorMessage + removeGobbledygook();
+
+        //if (result != GUIInvokerResult.SUCCESS) throw new IsaTabException(userErrorMessage,sm.getLastLog()) ;
+        if (result != GUIInvokerResult.SUCCESS) throw new Exception(userErrorMessage) ;
+
+    }
 
 	private void moveUnzipFolderToFinalDestination() throws IOException{
 
@@ -538,7 +552,7 @@ public class IsaTabUploader {
                 copyFolder(srcFile,destFile);
             }
 
-        }else{
+        } else {
             //if file, then copy it
             //Use bytes stream to support all file types
             InputStream in = new FileInputStream(src);
