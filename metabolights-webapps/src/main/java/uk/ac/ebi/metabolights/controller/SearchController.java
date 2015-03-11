@@ -49,6 +49,7 @@ import java.util.List;
 public class SearchController extends AbstractController{
 	
 	private static Logger logger = LoggerFactory.getLogger(SearchController.class);
+
 	
 	@Autowired
 	private SearchService searchService;
@@ -70,7 +71,8 @@ public class SearchController extends AbstractController{
             //Add the action to the ModelAndView
             mav.addObject("action", "browse");
 
-            return mav;
+			return mav;
+
     }
 
 	/**

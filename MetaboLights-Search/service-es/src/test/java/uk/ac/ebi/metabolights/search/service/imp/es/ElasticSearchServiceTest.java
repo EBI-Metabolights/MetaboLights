@@ -388,7 +388,6 @@ public class ElasticSearchServiceTest {
 
 		query.getFacets().add(studyStatus);
 
-
 		result = elasticSearchService.search(query);
 
 		// There should be two lines in the technology facet

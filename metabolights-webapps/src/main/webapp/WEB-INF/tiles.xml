@@ -160,16 +160,6 @@
 		<put-attribute name="title" value="Browse" />
 	</definition>
 
-    <!--Alternative search pages: useing WS and elastic search-->
-    <definition name="wsSearchResult" extends="default">
-        <put-attribute name="title" value="Search" />
-        <put-attribute name="body" value="/WEB-INF/jsp/wssearchResults.jsp"/>
-    </definition>
-
-    <definition name="wsBrowse" extends="wsSearchResult">
-        <put-attribute name="title" value="Browse" />
-    </definition>
-
 
     <definition name="entry" extends="default">
         <!--<put-attribute name="title" value="Study" />-->
@@ -292,10 +282,14 @@
         <put-attribute name="body" value="/WEB-INF/jsp/importmetabolitesstatus.jsp" />
     </definition>
 
+    <!--Alternative search pages: useing WS and elastic search-->
+    <definition name="wsSearchResult" extends="default">
+        <put-attribute name="title" value="Search" />
+        <put-attribute name="body" value="/WEB-INF/jsp/wssearchResults.jsp"/>
+    </definition>
 
-    <definition name="searchcomponent" extends="default">
-        <put-attribute name="title" value="Testing a polymer search result component" />
-        <put-attribute name="body" value="/WEB-INF/jsp/searchcomponent.jsp" />
+    <definition name="wsBrowse" extends="wsSearchResult">
+        <put-attribute name="title" value="Browse" />
     </definition>
 
 

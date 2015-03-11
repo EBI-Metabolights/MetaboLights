@@ -15,10 +15,10 @@
   display: inline;
   line-height: 20px;
 }
-.pagination li.active button {
-  background: #2BA6CB;
-  color: #fff;
-}
+/*.pagination li.active button {*/
+  /*background: #2BA6CB;*/
+  /*color: #fff;*/
+/*}*/
 .pagination li.disabled button {
   color: #ccc;
   cursor: no-drop;
@@ -33,10 +33,43 @@
   -moz-border-radius: 0 5px 5px 0;
   border-radius: 0 5px 5px 0;
 }
-.pagination li  button {
-  background-color: #fff;
+/*.pagination li  button {*/
+  /*background-color: #fff;*/
+  /*border: 1px solid #eeeeee;*/
+  /*color: #C58A4D;*/
+  /*cursor: pointer;*/
+  /*float: left;*/
+  /*min-width: 40px;*/
+  /*line-height: 20px;*/
+  /*padding: 4px 12px;*/
+  /*text-decoration: none;*/
+  /*-webkit-touch-callout: none;*/
+  /*-webkit-user-select: none;*/
+  /*-khtml-user-select: none;*/
+  /*-moz-user-select: none;*/
+  /*-ms-user-select: none;*/
+  /*user-select: none;*/
+/*}*/
+
+
+/*
+  Customize pagination styling
+*/
+
+page-er {
+  margin: 0 auto;
+}
+
+
+page-er .pagination li button,
+.pagination li  button{
+  color: white;
+  background: #C58A4D;
+/*  font-size: 1em;*/
+  text-transform: uppercase;
+  padding: 6px 8px;
   border: 1px solid #eeeeee;
-  color: #2BA6CB;
+
   cursor: pointer;
   float: left;
   min-width: 40px;
@@ -49,35 +82,21 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
 }
 
-
-/*
-  Customize pagination styling
-*/
-
-page-er {
-  margin: 0 auto;
-}
-
-
-page-er .pagination li button{
-  color: white;
-  background: #C58A4D;
-/*  font-size: 1em;*/
-  text-transform: uppercase;
-  padding: 6px 8px;
-}
-
-page-er .pagination li button:hover {
+page-er .pagination li button:hover,
+.pagination li button:hover{
   background: #78420B;
 }
 
-page-er .pagination li.active button {
+page-er .pagination li.active button,
+.pagination li.active button{
   background: #C5A94D;
 }
 
-page-er .pagination li.disabled button {
+page-er .pagination li.disabled button,
+.pagination li.disabled button{
   background: grey;
 }
 

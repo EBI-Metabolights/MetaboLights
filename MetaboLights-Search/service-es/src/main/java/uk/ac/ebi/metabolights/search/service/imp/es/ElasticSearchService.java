@@ -175,9 +175,6 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	private void addStudyMapping() throws IOException {
 
-
-
-
 		// Add study mapping root
 		mapping.startObject(STUDY_TYPE_NAME);
 

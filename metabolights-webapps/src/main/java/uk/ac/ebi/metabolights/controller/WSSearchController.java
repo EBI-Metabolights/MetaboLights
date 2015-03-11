@@ -27,36 +27,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
-import uk.ac.ebi.metabolights.search.Filter;
-import uk.ac.ebi.metabolights.search.service.SearchQuery;
-import uk.ac.ebi.metabolights.search.service.SearchResult;
 import uk.ac.ebi.metabolights.service.AppContext;
-import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 
 /**
  * Controller for Metabolights searching using the webservice.
  * @author Pablo Conesa
  */
 @Controller
-@RequestMapping(WSSearchController.SEARCHWS)
 public class WSSearchController extends AbstractController{
 
-	public static final String SEARCHWS = "/searchws";
+	public static final String WS_SEARCH_SUFFIX = "_ws";
 	private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
 
 
     /**
      * Controller for a browse (empty internalSearch) request
      */
-    @RequestMapping(value = "/browse")
+    @RequestMapping(value = "browse" + WS_SEARCH_SUFFIX)
     public ModelAndView browse(HttpServletRequest request) throws Exception {
 
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(request, new SearchQuery(), "wsBrowse");
+		ModelAndView mav = internalSearch("wsBrowse");
 
 		//Add the action to the ModelAndView
 		mav.addObject("action", "wsBrowse");
@@ -68,53 +61,48 @@ public class WSSearchController extends AbstractController{
 	 * Controller for a internalSearch request, including possible filters.
 	 * @param request
 	 */
-	@RequestMapping(value = "/search", method = {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value = "/search" + WS_SEARCH_SUFFIX, method = {RequestMethod.GET})
 	public ModelAndView search (HttpServletRequest request) throws Exception {
 
-		//Prepare the filter
-		SearchQuery query = requestToQuery(request);
-				
+
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(request, query, "wsSearchResult");
-		
+		ModelAndView mav = internalSearch("wsSearchResult");
+
 		//Add the action to the ModelAndView
 		mav.addObject("action", "search");
 
 		return mav;
 	}
 
-
-	private ModelAndView internalSearch(HttpServletRequest request, SearchQuery query, String MAVName) throws Exception {
-
-		logger.info("Searching for "+ query);
-
-		//Prepare the query
-		MetabolightsWsClient client = EntryController.getMetabolightsWsClient(request,LoginController.getLoggedUser());
-
-		RestResponse<? extends SearchResult> response = client.search(query);
-
-		if (response.getErr() != null) {
-			throw new Exception("Upps!. Something went wrong during the search." , response.getErr());
-		}
-
-		logger.debug("Found #results = "+response.getContent().getQuery().getPagination().getItemsCount());
+	private ModelAndView internalSearch(String MAVName) {
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
-        mav.addObject("results", response.getContent());
-		mav.addObject("freeTextQuery", response.getContent().getQuery().getText());
+		mav.addObject("user_token", LoginController.getLoggedUser().getApiToken() );
 
-    	return mav;
+		return mav;
 	}
 
-	/**
-	 * Test page for polymer search result element
-	 */
-	@RequestMapping(value = "/searchcomponent", method = RequestMethod.GET)
-	public ModelAndView searchelement (HttpServletRequest request) throws Exception {
-
-		return AppContext.getMAVFactory().getFrontierMav("searchcomponent");
-
-	}
+//	private ModelAndView internalSearch(HttpServletRequest request, SearchQuery query, String MAVName) throws Exception {
+//
+//		logger.info("Searching for "+ query);
+//
+//		//Prepare the query
+//		MetabolightsWsClient client = EntryController.getMetabolightsWsClient(request,LoginController.getLoggedUser());
+//
+//		RestResponse<? extends SearchResult> response = client.search(query);
+//
+//		if (response.getErr() != null) {
+//			throw new Exception("Upps!. Something went wrong during the search." , response.getErr());
+//		}
+//
+//		logger.debug("Found #results = "+response.getContent().getQuery().getPagination().getItemsCount());
+//
+//		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
+//        mav.addObject("results", response.getContent());
+//		mav.addObject("freeTextQuery", response.getContent().getQuery().getText());
+//
+//    	return mav;
+//	}
 
 
 
@@ -159,65 +147,64 @@ public class WSSearchController extends AbstractController{
 //		return mav;
 //	}
 
-	/**request can come with 2 parameters:
-	 * query: freetext query
-	 * form with all the possible filters
-	 * @param request
-	 * @return
-	 */
-	public SearchQuery requestToQuery(HttpServletRequest request){
-
-		SearchQuery query = new SearchQuery();
-
-		// Get the search term
-		query.setText(request.getParameter(Filter.FREE_TEXT_QUERY));
-
-
-		// Get an enumeration of all parameters
-		Enumeration paramenum = request.getParameterNames();
-
-		//Loop through the enumeration
-		while (paramenum.hasMoreElements()) {
-			// Get the name of the request parameter
-			String name = (String)paramenum.nextElement();
-
-			//Which page are we on
-			if (name.equals("pageNumber")) {
-				query.getPagination().setPage(Integer.valueOf(request.getParameter(name)));
-				continue;
-			}
-
-//			//Get the Corresponding filterSet
-//			FilterSet fs = fss.get(name);
+//	/**request can come with 2 parameters:
+//	 * query: freetext query
+//	 * form with all the possible filters
+//	 * @param request
+//	 * @return
+//	 */
+//	public SearchQuery requestToQuery(HttpServletRequest request){
 //
-//			//If exists...
-//			if (fs != null){
+//		SearchQuery query = new SearchQuery();
 //
-//				// If the request parameter can appear more than once in the query string, get all values
-//				String[] values = request.getParameterValues(name);
+//		// Get the search term
+//		query.setText(request.getParameter(Filter.FREE_TEXT_QUERY));
 //
-//				for (int i=0; i<values.length; i++) {
 //
-//					String val = values[i];
-//					if (val == null)
-//						val = "";
+//		// Get an enumeration of all parameters
+//		Enumeration paramenum = request.getParameterNames();
 //
-//					//We need to update the status (checked/unchecked)
-//					FilterItem fi = fs.getFilterItems().get(val);
+//		//Loop through the enumeration
+//		while (paramenum.hasMoreElements()) {
+//			// Get the name of the request parameter
+//			String name = (String)paramenum.nextElement();
 //
-//					if (fi != null)   // Just in case the value is missing or we cannot access it, this will prevent a null pointer
-//						fi.setIsChecked(true);
-//					else {
-//						fi = new FilterItem(val, METABOLITE_FILTER, val);
-//						fi.setUTF8Value(val);
-//						fi.setIsChecked(true);
-//					}
-//
-//				}
+//			//Which page are we on
+//			if (name.equals("pageNumber")) {
+//				query.getPagination().setPage(Integer.valueOf(request.getParameter(name)));
+//				continue;
 //			}
-		}
-
-		return query;
-	}
+//
+////			//Get the Corresponding filterSet
+////			FilterSet fs = fss.get(name);
+////
+////			//If exists...
+////			if (fs != null){
+////
+////				// If the request parameter can appear more than once in the query string, get all values
+////				String[] values = request.getParameterValues(name);
+////
+////				for (int i=0; i<values.length; i++) {
+////
+////					String val = values[i];
+////					if (val == null)
+////						val = "";
+////
+////					//We need to update the status (checked/unchecked)
+////					FilterItem fi = fs.getFilterItems().get(val);
+////
+////					if (fi != null)   // Just in case the value is missing or we cannot access it, this will prevent a null pointer
+////						fi.setIsChecked(true);
+////					else {
+////						fi = new FilterItem(val, METABOLITE_FILTER, val);
+////						fi.setUTF8Value(val);
+////						fi.setIsChecked(true);
+////					}
+////
+////				}
+////			}
+//		}
+//
+//		return query;
+//	}
 }
-

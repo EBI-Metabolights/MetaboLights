@@ -99,6 +99,7 @@ public class SearchController extends BasicController {
 		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
 
 
+
 		User user = getUser();
 		List<String> accessions = studyDAO.getList(user.getApiToken());
 
@@ -106,6 +107,7 @@ public class SearchController extends BasicController {
 
 		for (String accession : accessions) {
 
+			String message = null;
 			try {
 
 				Study study = studyDAO.getStudy(accession, user.getApiToken());
@@ -115,12 +117,17 @@ public class SearchController extends BasicController {
 				indexed++;
 
 			} catch (IndexingFailureException e) {
-				logger.warn("Can't index study " + accession + ". " + e.getMessage());
+				message = "Can't index study " + accession + ". " + e.getMessage();
+
 			} catch (DAOException e) {
+				message = "Can't retrieve study " + accession + ". " + e.getMessage();
 
-				logger.warn("Can't retrieve study " + accession + ". " + e.getMessage());
+			} finally {
+				if (message != null) {
+					logger.warn(message);
+					response.setMessage(response.getMessage() + message + "\n");
+				}
 			}
-
 
 		}
 
