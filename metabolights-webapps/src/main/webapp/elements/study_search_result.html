@@ -21,15 +21,29 @@
 <link rel="import" href="../polymer/bower_components/polymer/polymer.html">
 <link rel="import" href="study_search_result_layout.html">
 <link rel="import" href="study_search_result_colors.html">
-<polymer-element name="search-result" attributes="studies">
+<link rel="import" href="ebi_styles.html">
+<polymer-element name="search-result" attributes="searchresponse">
 	<template>
 		<core-style ref="ssr_layout"></core-style>
-		<core-style ref="ssr_colors"></core-style> 
-
-		<template if="{{studies.length == 0}}">
-			<h3>Your search did not match any documents.</h3>
+		<core-style ref="ssr_colors"></core-style>
+		<core-style ref="ebi_styles"></core-style>
+		<link rel="stylesheet" href="../cssrl/test-scheme.css">
+		<template if="{{searchresponse.results.length == 0}}">
+			<h3>Your search
+				<template if="{{searchresponse.query.text !=''}}">
+					,&nbsp;<span class="searchterm">{{searchresponse.query.text}}</span>,
+				</template>
+				did not match any documents.</h3>
 		</template>
-		<template repeat="{{study in studies}}">
+		<template if="{{searchresponse.results.length != 0}}">
+			<h2>
+				MetaboLights found {{searchresponse.query.pagination.itemsCount}} results
+				<template if="{{searchresponse.query.text !=''}}">
+					for <span class="searchterm">{{searchresponse.query.text}}</span>
+				</template>
+			</h2>
+		</template>
+		<template repeat="{{study in searchresponse.results}}">
 			<div class="search_study">
 				<h4><a href="{{study.studyIdentifier}}">{{study.title}}</a></h4>
 				<span class="search_owners">
@@ -80,7 +94,6 @@
 			publish:{
 			},
 			ready: function () {
-				studies = [];
 			}
 			
 		});

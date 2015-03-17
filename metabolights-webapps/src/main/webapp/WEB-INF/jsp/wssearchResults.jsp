@@ -56,7 +56,7 @@
                     "name": "assays.measurement"
                 },
                 {
-                    "name":"users.userName"
+                    "name":"users.fullName"
                 },
                 {
                     "name":"factors.name"
@@ -77,11 +77,14 @@
     // Initialize the pager
     var pager;
     var query = getEmptyQuery();
+    var asideText;
 
     document.addEventListener('polymer-ready', function() {
 
         pager = document.querySelector("page-er");
         pager.perpage = query.pagination.pageSize;
+
+        asideText = document.querySelector("#search-extras-info");
 
         document.addEventListener('pager-change', function(e) {
             query.pagination.page = e.detail.page+1;
@@ -126,16 +129,41 @@
         }).done(function(data) {
 
             query = data.content.query;
-            document.querySelector('search-result').studies = data.content.results;
-            document.querySelector('metabolights-facets').query =query;
+
+            document.querySelector('search-result').searchresponse = data.content;
+            var facets = document.querySelector('metabolights-facets');
 
             document.querySelector('input').value = query.text;
-            // Configure pager, fake whole set of data based on item count
-            pager.data = new Array(query.pagination.itemsCount);
             $('html, body').animate({ scrollTop: 0 }, 'fast');
 
-            // Hide pager if no results
-            pager.hidden = (data.content.results.length == 0)
+            // Hide element when no if no results
+            if (data.content.results.length == 0) {
+
+                pager.hidden = true;
+                facets.hidden = true;
+
+            } else {
+
+                // Configure pager, fake whole set of data based on item count
+                pager.data = new Array(query.pagination.itemsCount);
+                pager.changePage(query.pagination.page-1);
+                pager.hidden = false;
+
+                facets.query =query
+                facets.hidden = false;
+
+            }
+
+            // If there is any text
+            if (query.text != ""){
+                asideText.innerText = 'Other results for "' + query.text + '"';
+                asideText.parentElement.parentElement.hidden = false;
+
+            } else {
+                asideText.parentElement.parentElement.hidden = true;
+            }
+
+
 
 
         }).fail(function() {
@@ -144,9 +172,14 @@
     };
 </script>
 
-<div horizontal layout>
-    <metabolights-facets></metabolights-facets>
-    <search-result flex></search-result>
+<aside class="grid_6 omega shortcuts expander" id="search-extras">
+    <div id="ebi_search_results">
+        <h3 class="slideToggle icon icon-functional" data-icon="u">Show more data from EMBL-EBI</h3><p id="search-extras-info" style="display: none;">Other results for "tom"</p><ul id="global-search-results" style="display: none;"><li><a href="/ebisearch/search.ebi?db=allebi&amp;t=tom">All results (1,040,623)</a></li><li><a href="/ebisearch/search.ebi?db=genomes&amp;t=tom">Genomes (167)</a></li><li><a href="/ebisearch/search.ebi?db=nucleotideSequences&amp;t=tom">Nucleotide sequences (995,157)</a></li><li><a href="/ebisearch/search.ebi?db=proteinSequences&amp;t=tom">Protein sequences (5,533)</a></li><li><a href="/ebisearch/search.ebi?db=macromolecularStructures&amp;t=tom">Macromolecular structures (50)</a></li><li><a href="/ebisearch/search.ebi?db=smallMolecules&amp;t=tom">Small molecules (1)</a></li><li><a href="/ebisearch/search.ebi?db=geneExpression&amp;t=tom">Gene expression (232)</a></li><li><a href="/ebisearch/search.ebi?db=molecularInteractions&amp;t=tom">Molecular interactions (24)</a></li><li><a href="/ebisearch/search.ebi?db=reactionsPathways&amp;t=tom">Reactions, pathways &amp; diseases (80)</a></li><li><a href="/ebisearch/search.ebi?db=proteinFamilies&amp;t=tom">Protein families (20)</a></li><li><a href="/ebisearch/search.ebi?db=proteinExpressionData&amp;t=tom">Protein expression data (0)</a></li><li><a href="/ebisearch/search.ebi?db=enzymes&amp;t=tom">Enzymes (0)</a></li><li><a href="/ebisearch/search.ebi?db=literature&amp;t=tom">Literature (38,552)</a></li><li><a href="/ebisearch/search.ebi?db=ontologies&amp;t=tom">Samples &amp; ontologies (764)</a></li><li><a href="/ebisearch/search.ebi?db=ebiweb&amp;t=tom">EBI web (43)</a></li></ul>
+    </div>
+</aside>
+<div layout horizontal>
+    <metabolights-facets auto-vertical></metabolights-facets>
+    <search-result auto-vertical></search-result>
 </div>
 <%--<nav class="facets">--%>
     <%--<metabolights-facets></metabolights-facets>--%>
@@ -157,7 +190,8 @@
 <page-er perpage="10"></page-er>
 
 
-
+<script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
+<script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
 
 <%-- TODO:
  welcome message / searched term

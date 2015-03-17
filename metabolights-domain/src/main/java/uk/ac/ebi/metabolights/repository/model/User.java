@@ -130,6 +130,13 @@ public class User {
 		this.lastName = lastName;
 	}
 
+	public String getFullName(){
+		return  (
+					(firstName == null?"":firstName) + " " +
+					(lastName == null?"":lastName)
+				).trim();
+	}
+
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}

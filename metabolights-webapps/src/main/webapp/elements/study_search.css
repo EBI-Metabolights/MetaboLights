@@ -2,6 +2,12 @@
 	outline-color: #C58A4D;
 }
 
+aside {
+	float: right !important;
+	top: -45px;
+	display: none;
+}
+
 @media screen and (min-width:600px) {
 	.facets{
 		float: left;

@@ -278,17 +278,17 @@ public class EntryController extends AbstractController {
      */
     private ModelAndView notLoggedIn(String mtblsId){
 
-            /// The current user is not allowed to access the study...
-            // If there isn't a logged in user...
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth.getPrincipal().equals("anonymousUser")){
-                // redirect force login...
-                return new ModelAndView("redirect:securedredirect?url=" + mtblsId);
+		/// The current user is not allowed to access the study...
+		// If there isn't a logged in user...
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth.getPrincipal().equals("anonymousUser")){
+			// redirect force login...
+			return new ModelAndView("redirect:securedredirect?url=" + mtblsId);
 
-                // The user is logged in but it's not authorised.
-            } else {
-                return new ModelAndView ("redirect:/index?message="+ PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" + mtblsId + ")");
-            }
+			// The user is logged in but it's not authorised.
+		} else {
+			return new ModelAndView ("redirect:/index?message="+ PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" + mtblsId + ")");
+		}
 
     }
 
@@ -345,7 +345,9 @@ public class EntryController extends AbstractController {
 
 
 		// In case of reviewer mode, the user will not be anonymous.
-		if (user.getUserName().equals(LoginController.ANONYMOUS_USER.toLowerCase()) && !study.isPublicStudy()) {
+		// Change: ws is not returning the study anymore if private it returns null and an error message/object
+		// For now I'm assuming if it's null == it's private. Bu we may want to check the error message instead.
+		if (user.getUserName().equals(LoginController.ANONYMOUS_USER.toLowerCase()) && (study == null)) {
 			return notLoggedIn(ALTERNATIVE_ENTRY_PREFIX + mtblsId);
 		}
 

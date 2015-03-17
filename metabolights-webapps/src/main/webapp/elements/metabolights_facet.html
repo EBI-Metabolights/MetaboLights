@@ -19,12 +19,11 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   -->
 <link rel="import" href="../polymer/bower_components/polymer/polymer.html">
-<link rel="import" href="metabolights_facets_layout.html">
-<link rel="import" href="metabolights_facets_colors.html">
 <polymer-element name="metabolights-facet" attributes="facet displayname">
 	<template>
 		<core-style ref="facets_layout"></core-style>
 		<core-style ref="facets_colors"></core-style>
+		<core-style ref="ebi_styles"></core-style>
 		<div class="facet">
 			<h4>{{displayname}}</h4>
 <!--			<chi-sele local="{{autocompletevalues}}"></chi-sele>-->
@@ -32,15 +31,16 @@
 			<template repeat="{{line in facet.lines}}">
 				<span class="facetLine">
 				<input type="checkbox"  name="{{facet.name}}" value="{{line.value}}" checked="{{line.checked}}" on-change="{{changeHandler}}"/>
-				{{line.value}} ({{line.count}})
+				{{line|formatLine}}
 				</span>
 			</template>
-				</span>
+			</span>
 			</div>
 		</template>
 	</template>
     <script>
 		(function() {
+
 			// Run once. Private and static to the element.
 		  	var facetNames_ = 
 				{
@@ -48,7 +48,7 @@
 				 	"studyStatus": "Status",
 					"organism.organismName": "Organism",
 					"assays.measurement":"Measurement",
-					"users.userName":"Submitter",
+					"users.fullName":"Submitter",
 					"factors.name": "Factors",
 					"descriptors.description": "Descriptors",
 					"organism.organismPart": "Part"
@@ -80,6 +80,21 @@
 						this.autocompletevalues.push(line.value);
 					}
 				},
+				formatLine : function(facetLine) {
+
+					var lineName = "";
+
+					if (facetLine.value == "") {
+						lineName = "[empty]";
+					} else {
+						lineName = facetLine.value;
+					}
+
+					// Add line count
+					//lineName = lineName + " (" + facetLine.count + ")";
+
+					return lineName;
+				},
 				facetChanged:function(){
 					this.generateAutocompleteArray();
 
@@ -88,7 +103,7 @@
 				changeHandler: function (event) {
 					// send the query: item should be changed in the query object already.
 					// To be done differently...this is a hack!
-					search(true);
+					search();
 				}
 			});
 

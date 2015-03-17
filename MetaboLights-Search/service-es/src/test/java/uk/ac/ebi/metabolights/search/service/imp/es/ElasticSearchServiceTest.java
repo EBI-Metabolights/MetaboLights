@@ -91,7 +91,7 @@ public class ElasticSearchServiceTest {
 		// Get the studyDAO.
 		studyDAO = DAOFactory.getInstance().getStudyDAO();
 
-		//initDB();
+		initDB();
 
 
 	}
@@ -106,13 +106,13 @@ public class ElasticSearchServiceTest {
 
 
 		// Add DB data for a private study and a public study
-		notOwner = createUser(AppRole.ROLE_SUBMITTER, "notOwner");
+		notOwner = createUser(AppRole.ROLE_SUBMITTER, "notOwner", "poor", "guy");
 		session.save(notOwner);
 
-		curator = createUser(AppRole.ROLE_SUPER_USER, "curator");
+		curator = createUser(AppRole.ROLE_SUPER_USER, "curator", "power", "guy");
 		session.save(curator);
 
-		owner = createUser(AppRole.ROLE_SUBMITTER, "owner");
+		owner = createUser(AppRole.ROLE_SUBMITTER, "owner", "have", "something");
 		session.save(owner);
 
 		// Add study data
@@ -142,12 +142,14 @@ public class ElasticSearchServiceTest {
 
 	}
 
-	private UserData createUser(AppRole role, String userName){
+	private UserData createUser(AppRole role, String userName, String firstName, String lastName){
 
 		UserData newUser = new UserData();
 		newUser.setRole(role.ordinal());
 		newUser.setUserName(userName);
 		newUser.setStatus(User.UserStatus.ACTIVE.ordinal());
+		newUser.setFirstName(firstName);
+		newUser.setLastName(lastName);
 
 		return newUser;
 	}
@@ -286,8 +288,6 @@ public class ElasticSearchServiceTest {
 
 		// Check there is 1 line (Only Public studies)
 		Assert.assertEquals("Number of studyStatus facet lines",1 , studyStatus.getLines().size());
-
-
 
 		// Clean lines..
 		studyStatus.getLines().clear();
@@ -428,10 +428,10 @@ public class ElasticSearchServiceTest {
 		elasticSearchService.resetIndex();
 
 
-//		String userToken = curator.getApiToken();
+		String userToken = curator.getApiToken();
 
 		// For Dev testing, real data
-		String userToken = curatorToken;
+//		String userToken = curatorToken;
 
 		List<String> studies = studyDAO.getList(userToken);
 		for (String accession : studies) {

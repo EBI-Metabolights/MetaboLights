@@ -31,6 +31,7 @@ import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
@@ -95,6 +96,8 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	private void initialiseElasticSearchClient() {
 
+		if (client != null) return;
+
 		try {
 			Settings settings = ImmutableSettings.settingsBuilder()
 					.put("cluster.name", clusterName).build();
@@ -108,7 +111,8 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 				// Create it and configure it.
 				configureIndex();
 			}
-		} catch (Exception e){
+		} catch (NoNodeAvailableException e){
+			client = null;
 			logger.error("Couldn't initialise elasticsearch service." , e);
 		}
 	}
@@ -207,7 +211,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 				.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "obfuscationCode", "studyLocation",
 						"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
 						"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
-						"users.listOfAllStatus", "users.affiliationUrl", "users.status",
+						"users.listOfAllStatus", "users.affiliationUrl", "users.status", "users.listOfAllStatus", "users.studies",
 						"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
 						"users.affiliation", "users.curator", "users.reviewer"})
 			.endObject()
@@ -248,6 +252,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 				startObject("users")
 					.startObject(PROPERTIES);
 						addObject("userName", "type", "string", "index", "not_analyzed");
+						addObject("fullName", "type", "string", "index", "not_analyzed");
 					endObject()
 				.endObject();
 
@@ -350,6 +355,9 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	@Override
 	public SearchResult<LiteEntity> search(SearchQuery query) {
+
+		// Initilize the client
+		initialiseElasticSearchClient();
 
 		// Get a SearchRequest
 		SearchRequestBuilder searchRequestBuilder = client.prepareSearch(indexName);

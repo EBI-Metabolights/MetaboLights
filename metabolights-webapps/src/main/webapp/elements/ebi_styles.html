@@ -4,7 +4,7 @@
   ~
   ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   ~
-  ~ Last modified: 2015-Feb-25
+  ~ Last modified: 2015-Mar-12
   ~ Modified by:   conesa
   ~
   ~
@@ -18,29 +18,53 @@
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   -->
-<link rel="import" href="../polymer/bower_components/polymer/polymer.html">
-<link rel="import" href="metabolights_facet.html">
-<link rel="import" href="metabolights_facets_layout.html">
-<link rel="import" href="metabolights_facets_colors.html">
-<link rel="import" href="ebi_styles.html">
-<polymer-element name="metabolights-facets" attributes="query">
-	<template>
-		<core-style ref="facets_layout"></core-style>
-		<core-style ref="facets_colors"></core-style>
-        <core-style ref="ebi_styles"></core-style>
-		<h3>Filter your results</h3>
-		<template repeat="{{facet in query.facets}}">
-			<metabolights-facet facet={{facet}}></metabolights-facet>
-		</template>
-	</template>
-    <script>
-        Polymer({
-			query : {},
-			publish:{
-				query:{},
-			},
-			ready: function () {
-			}
-		});
-	</script>
-</polymer-element>
+
+<link rel="import" href="../polymer/bower_components/core-style/core-style.html">
+<core-style id="ebi_styles">
+	<style>
+
+		h1,h2,h3,h4,h5,h6{
+			font-family: 'HelveticaNeueLT Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+			margin:9px 0;
+			clear:both;
+			line-height:1.2
+		}
+		h1{
+			font-size:370%;
+			margin:20px	0
+		}
+
+		h1.strapline {
+			font-size:277%
+		}
+		h2{
+			font-size:277%;
+			line-height:1.11
+		}
+		h2.strapline{
+			font-size:182%
+		}
+
+		h3{
+			font-size:182%
+		}
+		h4{
+			font-size:161.6%;
+		}
+		h5{
+			font-size:138.5%;
+		}
+		h6{
+			font-size:123%;
+			font-variant:small-caps;
+		}
+		span.searchterm {
+			font-style: italic;
+			padding: 0.1em 0.3em 0.1em 0.2em;
+			background-color: #EEE;
+			border-radius: 5px;
+		}
+
+	</style>
+
+</core-style>
