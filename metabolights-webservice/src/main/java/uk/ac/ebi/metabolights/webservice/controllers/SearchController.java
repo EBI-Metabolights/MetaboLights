@@ -22,29 +22,24 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
-import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.LiteEntity;
-import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
-import uk.ac.ebi.metabolights.search.service.*;
-import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
-
-import java.util.List;
+import uk.ac.ebi.metabolights.search.service.SearchQuery;
+import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.search.service.SearchService;
+import uk.ac.ebi.metabolights.search.service.SearchUser;
 
 @Controller
 @RequestMapping("search")
 public class SearchController extends BasicController {
 
-	private SearchService <Object,LiteEntity>searchService = new ElasticSearchService();
+	private SearchService <Object,LiteEntity>searchService = IndexController.searchService;
 
     @RequestMapping(method= RequestMethod.GET)
 	@ResponseBody
@@ -86,58 +81,4 @@ public class SearchController extends BasicController {
 
 	}
 
-	@RequestMapping(value ="reindex", method= RequestMethod.GET)
-	@ResponseBody
-	@PreAuthorize( "hasRole('ROLE_SUPER_USER')")
-	public RestResponse<String> reindex() throws DAOException {
-
-		logger.info("full reindex requested to the webservice");
-
-		RestResponse<String> response = new RestResponse<String>();
-
-		// Get all the studies
-		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
-
-
-
-		User user = getUser();
-		List<String> accessions = studyDAO.getList(user.getApiToken());
-
-		long indexed = 0;
-
-		for (String accession : accessions) {
-
-			String message = null;
-			try {
-
-				Study study = studyDAO.getStudy(accession, user.getApiToken());
-
-				searchService.index(study);
-
-				indexed++;
-
-			} catch (IndexingFailureException e) {
-				message = "Can't index study " + accession + ". " + e.getMessage();
-
-			} catch (DAOException e) {
-				message = "Can't retrieve study " + accession + ". " + e.getMessage();
-
-			} finally {
-				if (message != null) {
-					logger.warn(message);
-					response.setMessage(response.getMessage() + message + "\n");
-				}
-			}
-
-		}
-
-		if (indexed == accessions.size()) {
-			response.setContent("Reindexing finished successfully. " + accessions.size() + " reindexed. All");
-		} else {
-			response.setContent("Reindexing finished with errors. " + indexed + " indexed out of " + accessions.size());
-		}
-
-		return response;
-
-	}
 }

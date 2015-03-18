@@ -30,7 +30,7 @@ public interface SearchService<E,L> {
 
 
 	// Abstract methods
-	public boolean getStatus();
+	public String getStatus();
 	public void delete(String id) throws IndexingFailureException;
 	public void resetIndex() throws IndexingFailureException;
 	public SearchResult<L> search(SearchQuery query);

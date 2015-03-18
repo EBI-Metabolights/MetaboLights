@@ -36,6 +36,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -317,9 +318,23 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	}
 
 	@Override
-	public boolean getStatus() {
+	public String getStatus() {
 
-		return (client != null);
+		String status;
+
+		status = "Client " + (client == null?"not ":"") + " instantiated.\n";
+		status = status + "Cluster name: " + clusterName + ".\n";
+
+		if (client != null) {
+			status = status + "Transport addresses:\n";
+			for (TransportAddress transportAddress : client.transportAddresses()) {
+
+				status = status + "* " + transportAddress.toString();
+			}
+
+		}
+
+		return (status);
 	}
 
 	@Override
