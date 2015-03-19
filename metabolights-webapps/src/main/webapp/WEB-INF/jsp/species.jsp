@@ -7,6 +7,26 @@
   ~
   ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   ~
+  ~ Last modified: 2015-Mar-09
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2015 EMBL - European Bioinformatics Institute
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+  --%>
+
+<%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~
   ~ Last modified: 4/25/14 3:40 PM
   ~ Modified by:   conesa
   ~
@@ -82,7 +102,7 @@
             <li class="icon icon-species" data-icon="H"><A href="reference?organisms=Homo sapiens (Human)">Homo sapiens (Human)</a></li>
             <li class="icon icon-species" data-icon="M"><a href="reference?organisms=Mus musculus (Mouse)">Mus musculus (Mouse)</a></li>
             <li class="icon icon-species" data-icon="B"><a href="reference?organisms=Arabidopsis thaliana (thale cress)">Arabidopsis thaliana (thale cress)</a></li>
-            <li class="icon icon-species" data-icon="L"><a href="reference?organisms=Escherichia coli">E. coli</a></li>
+            <li class="icon icon-species" data-icon="L"><a href="reference?organisms=Escherichia coli">Escherichia coli</a></li>
             <li class="icon icon-species" data-icon="Y"><a href="reference?organisms=Saccharomyces cerevisiae (Baker's yeast)">Saccharomyces cerevisiae (Baker's yeast)</a></li>
             <li class="icon icon-species" data-icon="W"><a href="reference?organisms=Caenorhabditis elegans">Caenorhabditis elegans</a></li>
             <%--<li class="icon icon-species" data-icon="F"><a href="reference?organisms=Drosophila">Drosophila</li>--%>

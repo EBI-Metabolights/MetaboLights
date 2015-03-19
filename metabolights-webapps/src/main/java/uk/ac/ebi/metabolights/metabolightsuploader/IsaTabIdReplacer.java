@@ -4,7 +4,7 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2015-Mar-11
+ * Last modified: 2015-Mar-19
  * Modified by:   kenneth
  *
  * Copyright 2015 EMBL - European Bioinformatics Institute
@@ -166,6 +166,11 @@ public class IsaTabIdReplacer
 		this.isaTabFolder = isaTabFolder;
 	}
 	public IsaTabIdReplacer(){
+        try {
+            loadProperties();
+        } catch (Exception e){
+            logger.error("ERROR: Could not load properties file when instantiation IsaTabIdReplacer()!");
+        }
 
 	}
 
@@ -287,32 +292,36 @@ public class IsaTabIdReplacer
 
 	public void Execute() throws Exception{
 
-		logger.info("Starting submission upload");
+        try {
+            logger.info("Starting submission upload");
 
-		//Reset id List, it will be populated with the new accession numbers generated
-		ids.clear();
+            //Reset id List, it will be populated with the new accession numbers generated
+            ids.clear();
 
-		//Load properties
-		logger.info("Loading properties");
-		loadProperties();
+            //Load properties
+            logger.info("Loading properties");
+            loadProperties();
 
-		//Validate
-		logger.info("Validating the archive");
-		validateIsaTabArchive();
+            //Validate
+            logger.info("Validating the archive");
+            validateIsaTabArchive();
 
-        logger.info("Checking that Organism and Organism Part has been reported, note they can be empty");
-        validateOrganismFields();
+            logger.info("Checking that Organism and Organism Part has been reported, note they can be empty");
+            validateOrganismFields();
 
-		//Replace id
-		logger.info("Replace study id and study dates");
-		replaceIdInFiles();
+            //Replace id
+            logger.info("Replace study id and study dates");
+            replaceIdInFiles();
 
-		// If we are updating a study we have already the id
-		if (studyIdToUse != null)
-            ids.put(studyIdToUse, studyIdToUse);
+            // If we are updating a study we have already the id
+            if (studyIdToUse != null)
+                ids.put(studyIdToUse, studyIdToUse);
 
-		//Update CheckList
-		updateCheckList(SubmissionProcessCheckListSeed.IDREPLACEMENTS, getIdsNotes());
+            //Update CheckList
+            updateCheckList(SubmissionProcessCheckListSeed.IDREPLACEMENTS, getIdsNotes());
+        } catch (Exception e){
+            throw e;
+        }
 
 	}
 
@@ -365,13 +374,17 @@ public class IsaTabIdReplacer
 
 	private void replaceIdInFiles () throws Exception{
 
-		// Get the investigation file
-		File isaTabFile = getISAtabFile(fileWithIds);
+        try {
+            // Get the investigation file
+            File isaTabFile = getISAtabFile(fileWithIds);
 
-		logger.info("Loading investigation file "+isaTabFile.getName());
+            logger.info("Loading investigation file " + isaTabFile.getName());
 
-		// Replace the id
-		replaceInFile(isaTabFile);
+            // Replace the id
+            replaceInFile(isaTabFile);
+        } catch (Exception e) {
+            throw e;
+        }
 
 	}
 
@@ -382,7 +395,7 @@ public class IsaTabIdReplacer
 	 */
 	private File getISAtabFile(String filePattern) throws ConfigurationException, IOException {
 
-		//Search for the investigation file
+		//Search for the requested file
 		File isaFolder = new File(isaTabFolder);
 		File[] fileList;
 

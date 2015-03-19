@@ -20,6 +20,8 @@ cd ../metabolights-webservice
 mvn clean package $DEPLOY -DskipTests=true
 cd ../metabolights-ws-client
 mvn clean package $DEPLOY -DskipTests=true
+cd ../MetaboLights-Search
+mvn clean package $DEPLOY -DskipTests=true
 cd ../metabolights-webapps
 mvn compile war:inplace war:war
 cp $ML/metabolights-webapps/target/metabolights-webapp-*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-dev.war
