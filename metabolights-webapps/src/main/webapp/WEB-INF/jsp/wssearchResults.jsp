@@ -74,9 +74,29 @@
         return emptyQuery;
     };
 
+
+    function getQuery() {
+
+        // Get the hash...
+        var hash = window.location.hash;
+
+        if (hash){
+
+            // Remove hash
+            hash = hash.substring(1);
+
+            return JSON.parse(hash);
+
+        } else {
+            //If there is something
+            return getEmptyQuery();
+        }
+
+    };
+
     // Initialize the pager
     var pager;
-    var query = getEmptyQuery();
+    var query = getQuery();
     var asideText;
 
     document.addEventListener('polymer-ready', function() {
@@ -98,6 +118,12 @@
 
     });
 
+    window.onpopstate = function(event) {
+        query = getQuery();
+        search(true);
+    };
+
+
     function searchFromForm(){
 
         query = getEmptyQuery();
@@ -107,13 +133,39 @@
 
         return false;
 
-    }
+    };
+
+    function cleanQuery(){
+
+        for (var f = 0; f<query.facets.length; f++){
+
+            var facet = query.facets[f];
+
+            if (facet.lines !== undefined){
+                for (var l=facet.lines.length-1;l>=0;l--){
+                    if (!facet.lines[l].checked){
+                        facet.lines.splice(l,1);
+                    }
+                }
+            }
+        }
+
+    };
+
+
+    function writeQueryToUrl(){
+        var queryS = JSON.stringify(query);
+        window.location.hash = queryS;
+    };
 
     function search(keepPage){
 
         if (query.pagination != undefined){
             if (!keepPage) query.pagination.page = 1;
         }
+
+        cleanQuery();
+        writeQueryToUrl();
 
         $.ajax({
             beforeSend: function(xhrObj){
@@ -164,8 +216,6 @@
             }
 
 
-
-
         }).fail(function() {
             console.info("ajax failed")
         });
@@ -182,10 +232,10 @@
     <search-result auto-vertical></search-result>
 </div>
 <%--<nav class="facets">--%>
-    <%--<metabolights-facets></metabolights-facets>--%>
+<%--<metabolights-facets></metabolights-facets>--%>
 <%--</nav>--%>
 <%--<section class="search_results">--%>
-    <%--<search-result></search-result>--%>
+<%--<search-result></search-result>--%>
 <%--</section>--%>
 <page-er perpage="10"></page-er>
 
