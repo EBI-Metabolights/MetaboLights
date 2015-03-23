@@ -40,8 +40,7 @@
             <param name="ConversionPattern" value="%d{HH:mm:ss} %-5p %c{1}:%L - %m%n" />
         </layout>
     </appender>
-
-
+    
     <root>
         <priority value ="info" />
         <appender-ref ref="console" />

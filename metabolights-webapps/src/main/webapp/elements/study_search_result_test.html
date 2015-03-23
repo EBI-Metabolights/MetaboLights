@@ -1,128 +1,191 @@
 <html>
 <head>
   <title>core-ajax</title>
-  <script src="../polymer/bower_components/webcomponentsjs/webcomponents.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <link rel="import" href="study_search_result.html">
-  <link rel="import" href="metabolights_facets.html">
-<!--  <link rel="import" href="study_search_result_layout.html">-->
-  <link rel="import" href="../polymer/bower_components/page-er/page-er.html">
-  <link rel="stylesheet" href="../polymer/bower_components/page-er/page-er.css">
-  <link rel="stylesheet" href="study_search.css">
- </head>
-<body>
+<script src="../polymer/bower_components/webcomponentsjs/webcomponents.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<link rel="import" href="../elements/study_search_result.html">
+<link rel="import" href="../elements/metabolights_facets.html">
+<link rel="import" href="../polymer/bower_components/page-er/page-er.html">
+<link rel="stylesheet" href="../elements/study_search.css">
 <script>
-	// Initial query object to send to the search request
-  	function getEmptyQuery(){ 
-		var emptyQuery = {
-			"text":"",
-			"facets":[
-				{
-					"name": "assays.technology"
-				},
-				{
-					"name": "studyStatus"
-				},
-				{
-					"name": "organism.organismName"
-				},
-				{
-					"name": "organism.organismPart"
-				},
-				{
-					"name": "assays.measurement"
-				},
-				{
-					"name":"users.userName"
-				},
-				{
-					"name":"factors.name"
-				},
-				{
-					"name":"descriptors.description"
-				}
-			],
-			"pagination":{
-				"page":1,
-				"pageSize":10
-			}
-		};
-		
-		return emptyQuery;
+    // Initial query object to send to the search request
+    function getEmptyQuery(){
+        var emptyQuery = {
+            "text":"",
+            "facets":[
+                {
+                    "name": "assays.technology"
+                },
+                {
+                    "name": "studyStatus"
+                },
+                {
+                    "name": "organism.organismName"
+                },
+                {
+                    "name": "organism.organismPart"
+                },
+                {
+                    "name": "assays.measurement"
+                },
+                {
+                    "name":"users.fullName"
+                },
+                {
+                    "name":"factors.name"
+                },
+                {
+                    "name":"descriptors.description"
+                }
+            ],
+            "pagination":{
+                "page":1,
+                "pageSize":10
+            }
+        };
+
+        return emptyQuery;
+    };
+
+    // Initialize the pager
+    var pager;
+    var query = getEmptyQuery();
+    var asideText;
+
+    document.addEventListener('polymer-ready', function() {
+
+        pager = document.querySelector("page-er");
+        pager.perpage = query.pagination.pageSize;
+
+        asideText = document.querySelector("#search-extras-info");
+
+        document.addEventListener('pager-change', function(e) {
+            query.pagination.page = e.detail.page+1;
+            search(true);
+        });
+
+        // Hijack the submit
+        $("#local-search").attr("onsubmit", "return searchFromForm()");
+
+        search();
+
+    });
+	
+	
+	window.onpopstate = function(event) {
+  		query = JSON.parse(window.location.hash);
+		alert(window.location.hash);
 	};
-	
-	// Initialize the pager
-	var pager;
-	var query = getEmptyQuery();
-	
-	document.addEventListener('polymer-ready', function() {
 
-		pager = document.querySelector("page-er");	
-		pager.perpage = query.pagination.pageSize;
 
-		document.addEventListener('pager-change', function(e) {
-			query.pagination.page = e.detail.page+1;
-			search(true);
-		});
-		
-		$("#searchbox").keypress (function(event){
-			var keycode = (event.keyCode ? event.keyCode : event.which);
-    		if(keycode == '13'){
-        		query = getEmptyQuery();
-				query.text= document.querySelector('input').value ;
-				search();	
-    		}
-		});
-		
-		search();
+    function searchFromForm(){
 
-	});
+        query = getEmptyQuery();
+        var searchbox = document.querySelector('#local-searchbox') ;
+        query.text= searchbox.value ;
+        search();
+
+        return false;
+
+    }
+	function cleanQuery(){
 	
-	function search(keepPage){
+		for (var f = 0; f<query.facets.length; f++){
 		
-		if (query.pagination != undefined){
-			if (!keepPage) query.pagination.page = 1;
+			var facet = query.facets[f];
+			
+			if (facet.lines !== undefined){
+				for (var l=facet.lines.length-1;l>=0;l--){
+					if (!facet.lines[l].checked){
+						facet.lines.splice(l,1);
+					}
+				}
+			}
 		}
 		
-		$.ajax({
-	  		beforeSend: function(xhrObj){
-				xhrObj.setRequestHeader("Content-Type","application/json");
-				xhrObj.setRequestHeader("Accept","application/json");
-	  		},	
-			url: "http://localhost:8080/metabolights/webservice/search",
-			headers: {"user_token": "polymer"},
-			type: "POST",
-			dataType: "json",
-			data: JSON.stringify(query)
-		
-		}).done(function(data) {
-		
-			query = data.content.query;
-			document.querySelector('search-result').studies = data.content.results;
-			document.querySelector('metabolights-facets').query =query;
-			
-			document.querySelector('input').value = query.text;
-			// Configure pager, fake whole set of data based on item count
-			pager.data = new Array(query.pagination.itemsCount);
-			$('html, body').animate({ scrollTop: 0 }, 'fast');
-			
-			// Hide pager if no results
-			pager.hidden = (data.content.results.length == 0)
-			
-		  
-		}).fail(function() {
-			console.info("ajax failed")
-		});
-	};
-  </script>
-<input type=text id="searchbox" name="search_text" value="metabolomics">
-<div class="facets">
-	<metabolights-facets></metabolights-facets>	
-</div>
-<div class="search_results">
-	<search-result></search-result>
-</div>
-<page-er perpage="10"></page-er>	
+	}
 	
+	function writeQueryToUrl(){
+		var queryS = JSON.stringify(query);
+		window.location.hash = queryS;
+	}
+
+    function search(keepPage){
+
+        if (query.pagination != undefined){
+            if (!keepPage) query.pagination.page = 1;
+        }
+		
+		cleanQuery();
+		writeQueryToUrl();
+
+        $.ajax({
+            beforeSend: function(xhrObj){
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader("Accept","application/json");
+            },
+            url: "http://www.ebi.ac.uk/metabolights/webservice/search",
+            headers: {"user_token": "${user_token}"},
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(query)
+
+        }).done(function(data) {
+
+            query = data.content.query;
+
+            document.querySelector('search-result').searchresponse = data.content;
+            var facets = document.querySelector('metabolights-facets');
+
+            document.querySelector('input').value = query.text;
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+
+            // Hide element when no if no results
+            if (data.content.results.length == 0) {
+
+                pager.hidden = true;
+                facets.hidden = true;
+
+            } else {
+
+                // Configure pager, fake whole set of data based on item count
+                pager.data = new Array(query.pagination.itemsCount);
+                pager.changePage(query.pagination.page-1);
+                pager.hidden = false;
+
+                facets.query =query
+                facets.hidden = false;
+
+            }
+
+
+        }).fail(function() {
+            console.info("ajax failed")
+        });
+    };
+</script>
+</head>
+<body>
+
+<form id="local-search" name="local-search" action="search" method="post" onsubmit="return searchFromForm()">
+	<fieldset> 
+		<div class="left">
+			<label> 
+				<input type="text" name="freeTextQuery" id="local-searchbox">
+			</label>
+			<!-- Include some example searchterms - keep them short and few! --> 
+			
+		</div>
+		<div class="right">
+			<input type="submit" name="submit" value="Search" class="submit"> 
+		</div>               
+	</fieldset>       
+`</form>
+	
+<div layout horizontal>
+    <metabolights-facets auto-vertical></metabolights-facets>
+    <search-result auto-vertical></search-result>
+</div>
+<page-er perpage="10"></page-er></body>
 </body>
 </html>

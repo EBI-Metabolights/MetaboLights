@@ -81,7 +81,6 @@ public class DDLTest {
 	@Test
 	public void testSchemaCreation() throws Exception {
 
-
 		dropTables();
 
 		// Set it up again
