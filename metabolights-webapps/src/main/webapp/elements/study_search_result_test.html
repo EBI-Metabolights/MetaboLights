@@ -46,10 +46,31 @@
 
         return emptyQuery;
     };
+	
+	function getQuery() {
+		
+		// Get the hash...
+		var hash = window.location.hash;
+		
+		if (hash){
+		
+			// Remove hash
+			hash = hash.substring(1);
+			
+			return JSON.parse(hash);
+			
+		} else {
+			//If there is something
+			return getEmptyQuery();
+		}
+		
+	};
+	
+
 
     // Initialize the pager
     var pager;
-    var query = getEmptyQuery();
+    var query = getQuery();
     var asideText;
 
     document.addEventListener('polymer-ready', function() {
@@ -73,8 +94,8 @@
 	
 	
 	window.onpopstate = function(event) {
-  		query = JSON.parse(window.location.hash);
-		alert(window.location.hash);
+  		query = getQuery();
+		search(true);
 	};
 
 
