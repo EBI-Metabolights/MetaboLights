@@ -349,7 +349,7 @@
                                     <c:set var="DOIValue" value="${fn:replace(DOIValue, 'DOI:','')}"/>
                                 </c:if>
                                 <c:if test="${fn:contains(DOIValue, 'dx.doi')}">
-                                    <a href="http://${DOIValue}">${pub.title}</a>
+                                    <a href="${DOIValue}">${pub.title}</a>
                                 </c:if>
                                 <c:if test="${not fn:contains(DOIValue, 'dx.doi')}">
                                     <a href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
