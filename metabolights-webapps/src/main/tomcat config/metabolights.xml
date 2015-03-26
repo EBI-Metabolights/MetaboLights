@@ -73,6 +73,13 @@
     <ResourceLink  name="isatabConfigurationLocation" global="isatabConfigurationLocation" type="java.lang.String"/>
     <ResourceLink  name="publicFtpLocation" global="publicStudiesLocation" type="java.lang.String"/>
     <ResourceLink  name="privateFtpStageLocation" global="privateStudiesLocation" type="java.lang.String"/>
+    <!-- Email and host config -->
+    <ResourceLink  name="mailServer" global="mailServer" type="java.lang.String"/>
+    <ResourceLink  name="EBIHost" global="EBIHost" type="java.lang.String"/>
+    <ResourceLink  name="curationEmailAddress" global="curationEmailAddress" type="java.lang.String"/>
+
+
+
     <!--<Environment name="privateFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/private/" type="java.lang.String"/>-->
     <Environment name="ftpServer" value="ftp.ebi.ac.uk" type="java.lang.String"/>
     <Environment name="filebase" value="/ebi/ftp/" type="java.lang.String"/>
@@ -89,10 +96,6 @@
 
     <Environment name="ebiServiceURL" value="http://xxx:xxx/ebisearch/service.ebi?wsdl" type="java.lang.String"/>
     <Environment name="EUPMCWebServiceURL" value="http://xxx:xxx/webservices/citexplore/v3.0.1/service?wsdl" type="java.lang.String"/>
-    <Environment name="mailServer" value="xxxx" type="java.lang.String"/>
-    <Environment name="EBIHost" value="http://www.ebi.ac.uk/metabolights/" type="java.lang.String"/>
-
-    <Environment name="curationEmailAddress" value="xxx@xxx.xx" type="java.lang.String"/>
 
     <Environment name="userSpace" global="userSpace" type="java.lang.String"/>
 

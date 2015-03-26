@@ -1,0 +1,15 @@
+<html>
+<body>
+<H2>MetaboLights email</H2>
+<P>
+${body}
+</P>
+</P>
+Kind Regards, <br>
+<h3><img src="http://www.ebi.ac.uk/metabolights/img/MetaboLightsLogo.png"> The MetaboLights Team</h3>
+<div style="color:white">
+    ${technicalInfo}
+</div>
+</body>
+
+</html>

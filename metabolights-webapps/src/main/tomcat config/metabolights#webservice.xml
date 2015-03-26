@@ -40,5 +40,11 @@
   <ResourceLink  name="isatabConfigurationLocation" global="isatabConfigurationLocation" type="java.lang.String"/> 
   <ResourceLink  name="publicStudiesLocation" global="publicStudiesLocation" type="java.lang.String"/> 
   <ResourceLink  name="privateStudiesLocation" global="privateStudiesLocation" type="java.lang.String"/> 
-  <ResourceLink  name="dataSource" global="jdbc/metabolightsT" type="java.lang.String"/> 
+  <ResourceLink  name="dataSource" global="jdbc/metabolightsT" type="java.lang.String"/>
+
+  <!-- Email and host config -->
+  <ResourceLink  name="mailServer" global="mailServer" type="java.lang.String"/>
+  <ResourceLink  name="EBIHost" global="EBIHost" type="java.lang.String"/>
+  <ResourceLink  name="curationEmailAddress" global="curationEmailAddress" type="java.lang.String"/>
+
 </Context>

@@ -41,55 +41,32 @@
     <!--  this makes references to picture and style sheets work -->
     <mvc:annotation-driven/>
 
-    <!-- JSON parser configuration-->
-    <!--<bean id="guavaObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>-->
-
-    <!--<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
-        <!--<property name="targetObject"><ref local="guavaObjectMapper" /></property>-->
-        <!--<property name="targetMethod"><value>registerModule</value></property>-->
-        <!--<property name="arguments">-->
-            <!--<list>-->
-                <!--<bean id="guavaModule" class="com.fasterxml.jackson.datatype.guava.GuavaModule"/>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
-
-
-    <!--<mvc:annotation-driven>-->
-        <!--<mvc:message-converters register-defaults="true">-->
-            <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
-                <!--<property name="objectMapper">-->
-                    <!--<ref  local="guavaObjectMapper"/>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</mvc:message-converters>-->
-    <!--</mvc:annotation-driven>-->
-
     <mvc:default-servlet-handler/>
 
+    <!--JNDI variable from tomcat context files-->
     <jee:jndi-lookup id="isatabConfigurationLocation" jndi-name="java:comp/env/isatabConfigurationLocation" />
     <jee:jndi-lookup id="publicStudiesLocation" jndi-name="java:comp/env/publicStudiesLocation" />
     <jee:jndi-lookup id="privateStudiesLocation" jndi-name="java:comp/env/privateStudiesLocation" />
     <jee:jndi-lookup id="dataSource" jndi-name="dataSource" resource-ref="true" />
 
+    <!-- Email service settings-->
+    <jee:jndi-lookup id="mailServer"		        jndi-name="java:comp/env/mailServer"/>
+    <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
+    <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
 
-    <!--&lt;!&ndash;Configure the DAOFactory initialize method&ndash;&gt;-->
-    <!--<bean id="DAOFactoryInitializer" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
-        <!--<property name="targetClass">-->
-            <!--<value>uk.ac.ebi.metabolights.repository.dao.DAOFactory</value>-->
-        <!--</property>-->
-        <!--<property name="targetMethod">-->
-            <!--<value>initializeWithDataSource</value>-->
-        <!--</property>-->
-        <!--<property name="arguments">-->
-            <!--<list>-->
-                <!--<ref bean="isatabConfigurationLocation"/>-->
-                <!--<ref bean="publicStudiesLocation"/>-->
-                <!--<ref bean="privateStudiesLocation"/>-->
-                <!--<ref bean="dataSource"/>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="#{mailServer}"/>
+    </bean>
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <value>
+                resource.loader=class
+                class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+            </value>
+        </property>
+    </bean>
+
+
 
     <bean id="DAOFactory"
           class="uk.ac.ebi.metabolights.repository.dao.DAOFactory"
@@ -106,26 +83,6 @@
           factory-bean="DAOFactory"
           factory-method="getUserDAO"/>
 
-
-
-
-    <!-- Hibernate congiguration-->
-    <!--<tx:annotation-driven />-->
-    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">-->
-        <!--<property name="sessionFactory" ref="sessionFactory" />-->
-    <!--</bean>-->
-
-    <!--<bean id="sessionFactory"-->
-          <!--class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">-->
-        <!--<property name="dataSource" ref="dataSource" />-->
-        <!--<property name="packagesToScan"-->
-                  <!--value="uk.ac.ebi.metabolights.webservice.model" />-->
-        <!--<property name="hibernateProperties">-->
-            <!--<props>-->
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
-            <!--</props>-->
-        <!--</property>-->
-    <!--</bean>-->
 
     <import resource="spring-security.xml"/>
 
