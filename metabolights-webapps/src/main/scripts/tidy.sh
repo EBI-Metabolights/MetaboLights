@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Tidy up old submission files
 find /nfs/public/rw/homes/tc_cm01/metabolights/prod/upload/* -mtime +15 -exec rm -Rf {} \; 2>&1 >/dev/null
 find /nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/metadata/* -mtime +5 -exec rm -Rf {} \; 2>&1 >/dev/null
