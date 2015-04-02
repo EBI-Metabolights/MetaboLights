@@ -34,7 +34,6 @@
     <li><a href="http://www.bml-nmr.org/">Birmingham Metabolite Library, NMR spectra collection.</a></li>
     <li><a href="http://www.bmrb.wisc.edu/metabolomics/">Biological Magnetic Resonance Data Bank</a></li>
     <li><a href="https://www.pivotaltracker.com/">PivotalTracker: Online project management tool</a></li>
-    <li><a href="http://www.redline.cc/">Redline: Visual online bug reporting</a></li>
 </ul>
 
 </p>

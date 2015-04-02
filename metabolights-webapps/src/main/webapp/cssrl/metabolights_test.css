@@ -460,10 +460,6 @@ a.hide_closer {
     background: #fff;
 }
 
-#redline_side_car {
-    display: none;
-}
-
 tr:nth-child(even) {
     background-color: #ebebeb;
 }
