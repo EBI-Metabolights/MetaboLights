@@ -211,7 +211,7 @@ public class SpeciesUpdater {
 	private void UpdateSpecieGroup(Species sp) {
 
 		// If it has a speciesMember id we will not touch it.
-		if (sp.getSpeciesMember() ==null) {
+		if (sp.getSpeciesMember() != null) {
 			LOGGER.info ("Specie " + sp.getSpecies() + "(ID:" +sp.getId() + ") has an SpeciesMember asociated, we will not update it.");
 			return;
 		}

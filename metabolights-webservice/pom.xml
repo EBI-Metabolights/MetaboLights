@@ -5,10 +5,10 @@
   ~
   ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   ~
-  ~ Last modified: 2014-Dec-04
+  ~ Last modified: 2015-Apr-02
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2014 EMBL - European Bioinformatics Institute
+  ~ Copyright 2015 EMBL - European Bioinformatics Institute
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@
     <groupId>uk.ac.ebi.metabolights</groupId>
     <artifactId>metabolights-webservice</artifactId>
     <name>metabolights webservice</name>
-    <!--Migrated to slf4j + log4j-->
     <description>MetaboLights Web Service module</description>
     <packaging>war</packaging>
     <version>3.0-SNAPSHOT</version>
