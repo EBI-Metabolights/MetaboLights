@@ -30,7 +30,7 @@
     <name>MetaboLights Utilities</name>
     <description>MetaboLights Utilities</description>
     <packaging>pom</packaging>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 
     <parent>
         <artifactId>metabolights-main</artifactId>
@@ -42,6 +42,7 @@
         <module>metabolights-isatab-utils</module>
         <module>metabolights-mztab</module>
         <module>metabolights-sampledb</module>
+        <module>metabolights-ddi</module>
     </modules>
 
     <dependencies>

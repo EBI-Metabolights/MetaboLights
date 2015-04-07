@@ -22,7 +22,9 @@ cd ../metabolights-ws-client
 mvn clean package $DEPLOY -DskipTests=true
 cd ../MetaboLights-Search
 mvn clean package $DEPLOY -DskipTests=true
-cd ../metabolights-webapps
+cd ../metabolights-referencelayer/importer
+mvn clean install $DEPLOY -DskipTests=true
+cd ../../metabolights-webapps
 mvn compile war:inplace war:war
 cp $ML/metabolights-webapps/target/metabolights-webapp-*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-dev.war
 cp $ML/metabolights-webservice/target/metabolights-webservice*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webservice-dev.war
