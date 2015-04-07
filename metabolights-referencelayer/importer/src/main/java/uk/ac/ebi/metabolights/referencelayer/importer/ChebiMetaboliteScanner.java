@@ -4,6 +4,26 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
+ * Last modified: 2015-Apr-01
+ * Modified by:   kenneth
+ *
+ * Copyright 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
  * Last modified: 9/5/14 11:52 AM
  * Modified by:   conesa
  *
@@ -67,10 +87,23 @@ public class ChebiMetaboliteScanner {
 	private ProcessReport processReport;
 
 	public ChebiMetaboliteScanner() throws MalformedURLException {
-		chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+		chebiWS = getChebiWS();
 	}
 
+	public ChebiWebServiceClient getChebiWS() {
+		if (chebiWS == null)
+			try {
+				LOGGER.info("Starting a new instance of the ChEBI ChebiWebServiceClient");
+				chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+			} catch (MalformedURLException e) {
+				LOGGER.error("Error instanciating a new ChebiWebServiceClient "+ e.getMessage());
+			}
+		return chebiWS;
+	}
 
+	public void setChebiWS(ChebiWebServiceClient chebiWS) {
+		this.chebiWS = chebiWS;
+	}
 
 	public boolean isDoFuzzyScan() {
 		return doFuzzyScan;
@@ -287,7 +320,7 @@ public class ChebiMetaboliteScanner {
 	}
 
 	private Entity getChebiEntity(String chebiId) throws ChebiWebServiceFault_Exception {
-		return chebiWS.getCompleteEntity(chebiId);
+		return getChebiWS().getCompleteEntity(chebiId);
 
 	}
 
@@ -301,7 +334,7 @@ public class ChebiMetaboliteScanner {
 		LOGGER.debug("Getting relatives for  " + chebiId + ". Relationship: " + relType.name());
 
 		// Get all the children of that chebi id
-		LiteEntityList children = chebiWS.getAllOntologyChildrenInPath(chebiId, relType, onlyStructure);
+		LiteEntityList children = getChebiWS().getAllOntologyChildrenInPath(chebiId, relType, onlyStructure);
 
 
 		// If returned items is 3000, ... we've reach the WS limit. We need all and therefore workaorund this limit

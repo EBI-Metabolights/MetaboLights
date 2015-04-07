@@ -4,6 +4,26 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
+ * Last modified: 2015-Mar-30
+ * Modified by:   kenneth
+ *
+ * Copyright 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
  * Last modified: 6/11/14 9:56 AM
  * Modified by:   conesa
  *
@@ -23,7 +43,6 @@ package uk.ac.ebi.metabolights.webservice.client;
 
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
@@ -50,8 +69,9 @@ public class MetabolightsWsClientTest {
 		// Get token from environment...Do not commit them..
 		SUBMMITER_TOKEN = System.getenv("SUBMMITER_TOKEN");
 		CURATOR_TOKEN = System.getenv("CURATOR_TOKEN");
-		wsClient = new MetabolightsWsClient("http://localhost:8080/metabolights/webservice/");
+		wsClient = new MetabolightsWsClient("http://wwwdev.ebi.ac.uk/metabolights/webservice/");
 	}
+
 	@Test
 	public void testGetStudy() throws Exception {
 
@@ -101,8 +121,8 @@ public class MetabolightsWsClientTest {
 		RestResponse<? extends SearchResult> response = wsClient.search();
 
 		assertNotNull(response);
-		assertNotSame("Something has been returned", 0,response.getContent().getResults().size());
-		assertEquals("Content is deserialized into proper LiteStudy", LiteStudy.class, response.getContent().getResults().iterator().next().getClass());
+		assertNotSame("Something has been returned", 0, response.getContent().getResults().size());
+//		assertEquals("Content is deserialized into proper LiteStudy", LiteStudy.class, response.getContent().getResults().iterator().next().getClass());
 
 	}
 
