@@ -364,7 +364,7 @@ public class IsaTabIdReplacer
     }
 
     private void bounceError(BufferedReader reader, String error, String fieldName) throws Exception{
-        String errTxt = error + fieldName + "  \n\n *** PLEASE DO NOT REMOVE ANY COLUMNS ! ***";
+        String errTxt = error + fieldName + "  \n\n *** PLEASE DO NOT REMOVE ANY COLUMNS ! ***\n";
             errTxt = errTxt + validateError;         //Todo, read error text from properties
         reader.close();
         logger.error(errTxt);
