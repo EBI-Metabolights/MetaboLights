@@ -39,7 +39,7 @@ import java.util.Set;
 public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	protected String dataModelName;
-	private static Logger logger = LoggerFactory.getLogger(DAO.class);
+	protected static Logger logger = LoggerFactory.getLogger(DAO.class);
 
 	// Wrapper for the session
 	protected SessionWrapper session = HibernateUtil.getSession();

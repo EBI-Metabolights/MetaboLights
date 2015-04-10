@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
+import junit.framework.TestCase;
 import org.hibernate.cfg.Configuration;
 import org.junit.Before;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import java.net.URL;
 import java.util.Properties;
 
-public abstract class DAOTest {
+public abstract class DAOTest  extends TestCase{
 
 	private static final String ISA_CONF_LOCATION = "configRoot";
 	private static final String PUBLIC_STUDIES_LOCATION = "studies/public/";
@@ -79,6 +80,7 @@ public abstract class DAOTest {
 		session.needSession();
 		session.createQuery("delete from StudyData").executeUpdate();
 		session.createQuery("delete from UserData").executeUpdate();
+		session.createQuery("delete from StableId").executeUpdate();
 		session.noNeedSession();
 	}
 

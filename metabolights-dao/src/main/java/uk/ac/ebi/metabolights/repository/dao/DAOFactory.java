@@ -24,6 +24,7 @@ package uk.ac.ebi.metabolights.repository.dao;
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.AccessionDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
@@ -120,5 +121,9 @@ public class DAOFactory {
 	}
 	public UserDAO getUserDAO() {
 		return new UserDAO();
+	}
+
+	public AccessionDAO getAccessionDAO() {
+		return new AccessionDAO();
 	}
 }

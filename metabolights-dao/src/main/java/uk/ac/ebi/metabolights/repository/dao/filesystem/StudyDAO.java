@@ -24,6 +24,7 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
@@ -38,8 +39,8 @@ import java.io.FilenameFilter;
 public class StudyDAO {
 
     private IsaTabInvestigationDAO isaTabInvestigationDAO;
-    private File publicFolder;
-    private File privateFolder;
+    private static File publicFolder;
+    private static File privateFolder;
     private final static Logger logger = LoggerFactory.getLogger(StudyDAO.class.getName());
 
     public StudyDAO(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder){
@@ -57,7 +58,7 @@ public class StudyDAO {
 
     }
 
-    private File getInvestigationFolder(final String metabolightsId, File location){
+    public static File getStudyFolder(final String metabolightsId, File location){
 
         logger.info("Study location is "+location+" for study "+metabolightsId);
 
@@ -75,22 +76,61 @@ public class StudyDAO {
 
 
     }
-	public boolean isStudyPublic(String metaboLightsId){
-		return (getInvestigationFolder(metaboLightsId,publicFolder) != null);
-	}
+
+    public static File getRootFolder(String metabolightsId ){
+
+        // If no status is passes we will use private as a safety measure
+        return getRootFolderByStatus(metabolightsId, LiteStudy.StudyStatus.PRIVATE);
+
+    }
+
+    public static File getRootFolderByStatus(String metabolightsId, LiteStudy.StudyStatus status){
+
+        if (privateFolder == null || publicFolder == null){
+            logger.warn("Careful!, it seems you are using the StudyDAO without having it initialized. Private folder or public folder is/are null");
+        }
+
+        if (status.equals(LiteStudy.StudyStatus.PUBLIC)){
+            return publicFolder;
+        } else {
+            return privateFolder;
+        }
+
+    }
+
+//	public boolean isStudyPublic(String metaboLightsId){
+//		return (getStudyFolder(metaboLightsId, publicFolder) != null);
+//	}
+
+    public static File getPublicFolder() {
+        return publicFolder;
+    }
+
+    public static void setPublicFolder(File publicFolder) {
+        StudyDAO.publicFolder = publicFolder;
+    }
+
+    public static File getPrivateFolder() {
+        return privateFolder;
+    }
+
+    public static void setPrivateFolder(File privateFolder) {
+        StudyDAO.privateFolder = privateFolder;
+    }
+
 
     public Study fillStudy( boolean includeMetabolites, Study studyToFill) throws DAOException {
 
         logger.info("Trying to parse study "+ studyToFill.getStudyIdentifier());
 
         // Try from the expected folder
-        File studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy()?publicFolder:privateFolder);
+        File studyFolder = getStudyFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy() ? publicFolder : privateFolder);
 
         // If we got nothing...
         if (studyFolder == null) {
 
             // Try other studies location but there is a discrepancy between the DB and the Filesystem
-            studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy()?privateFolder:publicFolder);
+            studyFolder = getStudyFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy() ? privateFolder : publicFolder);
 
             // Warn about this:
             if (studyFolder != null) {
@@ -119,8 +159,6 @@ public class StudyDAO {
         } else {
             throw new DAOException("Study folder for " + studyToFill.getStudyIdentifier() + " not found." );
         }
-
-
 
     }
 }

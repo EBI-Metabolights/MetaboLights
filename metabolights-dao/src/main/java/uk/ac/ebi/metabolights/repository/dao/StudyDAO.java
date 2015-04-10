@@ -25,6 +25,7 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.security.SecurityService;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -87,6 +88,12 @@ public class StudyDAO {
 
 	public List<String> getList(String userToken) throws DAOException {
 		return dbDAO.getStudyListForUser(userToken);
+	}
+
+	public void addStudy(File studyFolder, String userToken) {
+
+		// We should move here all the itir stuff, done now in the webservice.
+
 	}
 }
 
