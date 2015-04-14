@@ -4,10 +4,10 @@
   ~
   ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
   ~
-  ~ Last modified: 2014-Dec-04
+  ~ Last modified: 2015-Apr-07
   ~ Modified by:   kenneth
   ~
-  ~ Copyright 2014 EMBL - European Bioinformatics Institute
+  ~ Copyright 2015 EMBL - European Bioinformatics Institute
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@
     <version>2.2</version>
     <packaging>war</packaging>
     <name>metabolights Web Application</name>
-    <!--Migrated to slf4j + log4j-->
     <description>MetaboLights Web Application</description>
 
     <parent>
@@ -37,8 +36,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!--<org.spring.version>3.1.0.RELEASE</org.spring.version>-->
-        <!--<org.spring.security.version>3.1.0.RELEASE</org.spring.security.version>-->
         <org.spring.version>3.2.5.RELEASE</org.spring.version>
         <org.spring.security.version>3.2.5.RELEASE</org.spring.security.version>
     </properties>
@@ -85,33 +82,6 @@
     </build>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-annotations</artifactId>-->
-            <!--<version>3.4.0.GA</version>-->
-            <!--<type>jar</type>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate</artifactId>-->
-            <!--<version>3.5.4-Final</version>-->
-            <!--<type>pom</type>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-search</artifactId>-->
-            <!--<version>3.4.0.Final</version>-->
-            <!--<type>pom</type>-->
-            <!--<scope>compile</scope>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>commons-io</artifactId>-->
-                    <!--<groupId>org.apache.commons</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -276,28 +246,10 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-        <!-- Should be provided by the import layer bundle.-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.lucene</groupId>-->
-            <!--<artifactId>lucene-core</artifactId>-->
-            <!--<version>2.9.2</version>-->
-            <!--<type>jar</type>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>oracle</groupId>
             <artifactId>ojdbc6</artifactId>
             <version>11.2.0.2</version>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>ojdbc6</artifactId>-->
-                    <!--<groupId>oracle</groupId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>ojdbc6</artifactId>-->
-                    <!--<groupId>oracle</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -487,10 +439,6 @@
                     <artifactId>h2</artifactId>
                     <groupId>com.h2database</groupId>
                 </exclusion>
-                <!--exclusion>
-                    <artifactId>ols-client</artifactId>
-                    <groupId>ols</groupId>
-                </exclusion-->
             </exclusions>
         </dependency>
         <dependency>
@@ -624,8 +572,8 @@
         </dependency>
         <dependency>
             <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
-            <artifactId>importer</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <artifactId>referencelayer-importer</artifactId>
+            <version>0.4-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-fileupload</artifactId>
