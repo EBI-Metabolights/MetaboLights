@@ -11,7 +11,7 @@
 #
 ##########################################################################
 source /homes/oracle/ora11setup.sh
-DB_CONNECTION=isatab/ethanol1@mtaprovm
+DB_CONNECTION=USER/PASSWORD@DATABASE
 EMAIL=kenneth@ebi.ac.uk
 SQL_BASIC_STR="set pagesize 100\n column acc format a10\n column ReleaseDate format a20"
 # Get private studies that are passed the release date
