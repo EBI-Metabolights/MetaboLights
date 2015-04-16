@@ -26,7 +26,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-		
+
 		$("#hourglass").dialog({
 		    create: function(){
 		    	$('.ui-dialog-titlebar-close').removeClass('ui-dialog-titlebar-close');
@@ -37,7 +37,7 @@
 		    autoOpen: false
 		});
 
-		
+
 	});
 
 	function submitStudy(){
@@ -47,16 +47,15 @@
 		} else {
 			return false;
 		}
-		
+
 	}
-	
+
 	function validate(){
-    	
 
     	isValid = true;
 
 		$fileErrorSpan = $("#fileError")[0];
-    	
+
     	// If we are uptading a study...other mode only have datepicker (update public release date.)
     	if ($fileErrorSpan != null){
         	$fileErrorSpan.innerText = "";
@@ -68,17 +67,17 @@
     	}
 
 		$dateErrorSpan = $("#dateError")[0];
-    	
+
 		$dateErrorSpan.innerText = "";
-		
+
     	if ($("#datepicker").val() ==''){
     		isValid = false;
     		$dateErrorSpan.innerText = '<spring:message code="BIISubmit.dateEmpty"/>';
     	}
-    	
+
     	return isValid;
     }
-	
+
 	function disableSubmission() {
 	    document.body.style.cursor = "wait";
 	    $('.ui-dialog-titlebar').hide();
@@ -92,16 +91,16 @@
 	          showOtherMonths: true,
 	          buttonText: 'Choose Date',
 	          dateFormat: 'dd-M-yy',
-	          minDate: '0',
+	          minDate: '+14',
 	          maxDate: '+1y'
 	      });
 	});
-	
+
 	function toggleDate() {
         document.forms['uf'].elements['pickdate'].focus();
-		return false; 
+		return false;
 	}
-	
+
 </script>
 
 
@@ -109,7 +108,7 @@
     <h2><c:out value="${title}"/></h2>
 </c:if>
 <c:if test="${not empty message}">
-	<p>${message}</p><br/>
+	<p>${message}</p>
 </c:if>
 
 <c:if test="${not empty ftpLocation}">
@@ -124,6 +123,8 @@
     <p/>
 </c:if>
 
+<p><span class="ui-state-highlight ui-corner-all"><spring:message code="msg.contactMetabolightsAboutReleaseDate" /></span></p>
+
 <c:if test="${not empty searchResult}">
     <br/>
 	<c:set var="nopublish" value="true"/>
@@ -135,7 +136,7 @@
 
 <c:if test="${empty updated}">
 	<form method="post" action="${action}" enctype="multipart/form-data" name="uf" id="updateStudyForm" onsubmit="return submitStudy()">
-		&nbsp;<br/>	
+		&nbsp;<br/>
 	    <input type="hidden" value="${study}" name="study"/>
 		<c:if test="${isUpdateMode}">
 			<div class="grid_6 alpha prefix_1"><spring:message code="label.isatabZipFile" />:</div>
@@ -149,7 +150,7 @@
 		<div class="grid_6 alpha prefix_1"><spring:message code="label.publicDate"/>:</div>
 		<div class="grid_17 omega">
             <input type="hidden" name="owner" value="${searchResult.submitter.userName}">
-            <input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12" value="<fmt:formatDate pattern="dd-MMM-yyyy" value="${defaultDate}"/>"/>
+            <input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
 			<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
 			<span id="dateError" class="error"></span>
 	    </div>
@@ -157,16 +158,17 @@
         <div class="grid_17 omega">
             <input type="checkbox" name="validated"/>
         </div>
+
 		<div id="hideableButtons" class="grid_17 prefix_7 alpha omega">
 			&nbsp;<br/>
 			<input name="submit" type="submit" class="submit" value="${submitText}">
 			<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
 	    </div>
-	
+
 	   	<div id="hourglass">
 	   		<img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
 	   	</div>
-	</form> 
+	</form>
 
 	<c:if test="${not empty validationmsg}">
 		<span class="error">${validationmsg}</span>

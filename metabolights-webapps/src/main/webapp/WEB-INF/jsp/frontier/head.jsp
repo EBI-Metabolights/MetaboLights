@@ -31,18 +31,10 @@
     <meta http-equiv="Window-target" content="_top" />
     <meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/" />
     <meta name="keywords" content="metabolite, metabolites, metabolism, metabolic, metabonomics, metabolomics, metabolomics study, metabolomics experiment, metabolic pathway, metabolite database, cosmos" />
+
     <link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/userstyles.css" type="text/css">
 	<link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/contents.css" type="text/css">
-
-	<link rel="stylesheet" href="//www.ebi.ac.uk/web_guidelines/css/compliance/mini/ebi-fluid-embl.css">
-   	<!-- you can replace this with [projectname]-colours.css. See http://frontier.ebi.ac.uk/web/style/colour for details of how to do this -->
-  	<!-- also inform ES so we can host your colour palette file -->
- 	<%--<link rel="stylesheet" href="http://www.ebi.ac.uk/web_guidelines/css/compliance/develop/embl-petrol-colours.css" type="text/css" media="screen">--%>
-
-	<!-- you can replace this with [projectname]-colours.css. See http://frontier.ebi.ac.uk/web/style/colour for details of how to do this -->
-	<%--<link rel="stylesheet" type="text/css" href="cssrl/icons.css" media="screen" />--%>
-
-    <%--Test--%>
+    <link rel="stylesheet" href="//www.ebi.ac.uk/web_guidelines/css/compliance/mini/ebi-fluid-embl.css">
     <link rel="stylesheet" href='<spring:url value="/cssrl/test-scheme.css"/>' type="text/css" media="screen">
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/metabolights_test.css"/>' media="screen" />
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/jquery-ui-1.9.2.custom.min.css"/>' media="all" />
@@ -64,20 +56,6 @@
         <c:set var="port" value=":${pageContext.request.serverPort}"/>
     </c:if>
     <c:set scope="request" var="fullContextPath" value="http://${pageContext.request.serverName}${port}${pageContext.request.contextPath}"/>
-    <c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
-        <script type="text/javascript">var redline = {};redline.project_id = 196734042;</script>
-        <script id="redline_js" src="http://www.redline.cc/assets/button.js" type="text/javascript"> </script>
-        <script>
-            $(document).ready(function() {
-                setTimeout(function(){
-                    // Handler for .ready() called.
-                    $("#redline_side_car").css("background-image","url(img/redline_left_button.png)");
-                    $("#redline_side_car").css("display", "block");
-                    $("#redline_side_car").css("z-index", "-1");
-                },1000);
-            });
-        </script>
-    </c:if>
 
     <%-- Add Google Analytics to the prod instance only   --%>
     <c:if test="${pageContext.request.serverName=='www.ebi.ac.uk'}" >

@@ -4,6 +4,26 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
+ * Last modified: 2015-Apr-07
+ * Modified by:   kenneth
+ *
+ * Copyright 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
  * Last modified: 4/23/14 4:51 PM
  * Modified by:   conesa
  *
@@ -31,12 +51,13 @@ import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.domain.Species;
-import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
+import uk.ac.ebi.rhea.ws.client.RheaResourceClient;
 import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 
 import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -53,12 +74,27 @@ public class ReferenceLayerImporter {
 	private MetSpeciesDAO mspd;
 	private DatabaseDAO dbd;
 
-    private RheasResourceClient wsRheaClient;
+    private RheaResourceClient wsRheaClient;
 
-	//    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient();
-    private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+    private ChebiWebServiceClient chebiWS;
 
-    // Temporary chebiWS for producction database.
+	public ChebiWebServiceClient getChebiWS() {
+		if (chebiWS == null)
+			try {
+				LOGGER.info("Starting a new instance of the ChEBI webservice");
+				chebiWS = new ChebiWebServiceClient(new URL("http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi", "ChebiWebServiceService"));
+			} catch (MalformedURLException e) {
+				LOGGER.error("Error instantiating a new ChebiWebServiceClient " + e.getMessage());
+			}
+
+		return chebiWS;
+	}
+
+	public void setChebiWS(ChebiWebServiceClient chebiWS) {
+		this.chebiWS = chebiWS;
+	}
+
+	// Temporary chebiWS for producction database.
     //private ChebiWebServiceClient chebiWS = new ChebiWebServiceClient(new URL("http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl"),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
     // Root chebi entity that holds all the compound to import, by default is "metabolite".
 	private static final Long CHEBI_DB_ID = new Long(1);
@@ -131,7 +167,6 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 	private void initializeDAOs() throws IOException {
 
-
 		// If already initialized
 		if (mcd != null) return;
 
@@ -191,6 +226,8 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 			// Initialize now DAO (will happen only the firs time).
 			initializeDAOs();
+			if (wsRheaClient == null)
+				this.wsRheaClient = getWsRheaClient();
 
 			// Now we should have a list of chebi ids...
 			for (Entity  metabolite: metabolitesToImport.values()) {
@@ -265,7 +302,8 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 		// Get a complete entity....
 		Entity entity = null;
 		try {
-			entity = chebiWS.getCompleteEntity(chebiId);
+			LOGGER.info("Getting information from ChEBI WS for "+chebiId);
+			entity = getChebiWS().getCompleteEntity(chebiId);
 			initializeDAOs();
 			chebiEntity2Metabolights(entity);
 
@@ -417,8 +455,12 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
         boolean hasReactions = false;
 
         LOGGER.debug("Initializing and getting reactions from Rhea WS");
-        initializeRheaClient();
-        List<RheaReaction> reactions = wsRheaClient.search(chebiID);
+		List<RheaReaction> reactions = new ArrayList();
+		try {
+			reactions = wsRheaClient.search(chebiID);
+		} catch (Exception e){
+			LOGGER.error("Could not get Rhea reaction for "+chebiID);
+		}
 
         if(reactions.size() != 0){
             hasReactions = true;
@@ -427,12 +469,25 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
         return hasReactions;
     }
 
-    private void initializeRheaClient(){
-        if (wsRheaClient == null){
-            wsRheaClient = new RheasResourceClient();
-        }
+	public RheaResourceClient getWsRheaClient() {
+		if (wsRheaClient instanceof RheaResourceClient) {
+			LOGGER.info("Returning the existing RheaResourceClient");
+			return wsRheaClient;
+		}
 
-    }
+		if (wsRheaClient == null) {
+			LOGGER.info("Returning a new RheaResourceClient");
+			wsRheaClient = new RheaResourceClient();
+		}
+
+		return wsRheaClient;
+	}
+
+
+	public void setWsRheaClient(RheaResourceClient wsRheaClient) {
+		this.wsRheaClient = wsRheaClient;
+	}
+
 
     private void importMetSpeciesFromCompundOrigins(MetaboLightsCompound mc, Entity chebiEntity, CrossReference chebiXRef) throws DAOException {
 
