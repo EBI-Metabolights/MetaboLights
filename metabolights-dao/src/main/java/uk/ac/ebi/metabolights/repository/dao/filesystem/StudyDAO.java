@@ -23,7 +23,9 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
@@ -38,8 +40,8 @@ import java.io.FilenameFilter;
 public class StudyDAO {
 
     private IsaTabInvestigationDAO isaTabInvestigationDAO;
-    private File publicFolder;
-    private File privateFolder;
+    private static File publicFolder;
+    private static File privateFolder;
     private final static Logger logger = LoggerFactory.getLogger(StudyDAO.class.getName());
 
     public StudyDAO(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder){
@@ -49,7 +51,7 @@ public class StudyDAO {
 
     }
 
-    public Study getStudy(String accession, boolean includeMetabolites) throws DAOException {
+    public Study getStudy(String accession, boolean includeMetabolites) throws DAOException, IsaTabException {
 
         Study newStudy = new Study();
         newStudy.setStudyIdentifier(accession);
@@ -57,7 +59,7 @@ public class StudyDAO {
 
     }
 
-    private File getInvestigationFolder(final String metabolightsId, File location){
+    public static File getStudyFolder(final String metabolightsId, File location){
 
         logger.info("Study location is "+location+" for study "+metabolightsId);
 
@@ -75,52 +77,109 @@ public class StudyDAO {
 
 
     }
-	public boolean isStudyPublic(String metaboLightsId){
-		return (getInvestigationFolder(metaboLightsId,publicFolder) != null);
-	}
 
-    public Study fillStudy( boolean includeMetabolites, Study studyToFill) throws DAOException {
-
-        logger.info("Trying to parse study "+ studyToFill.getStudyIdentifier());
-
+    public static File getStudyFolder(String studyIdentifier, boolean isPublic) {
         // Try from the expected folder
-        File studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy()?publicFolder:privateFolder);
+        File studyFolder = getStudyFolder(studyIdentifier, isPublic ? publicFolder : privateFolder);
 
         // If we got nothing...
         if (studyFolder == null) {
 
             // Try other studies location but there is a discrepancy between the DB and the Filesystem
-            studyFolder = getInvestigationFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy()?privateFolder:publicFolder);
+            studyFolder = getStudyFolder(studyIdentifier, isPublic ? privateFolder : publicFolder);
 
             // Warn about this:
             if (studyFolder != null) {
-                logger.warn("Misplaced folder for the study " + studyToFill.getStudyIdentifier() + ": found here " + studyFolder.getAbsolutePath() + " and public=" + studyToFill.isPublicStudy());
+                logger.warn("Misplaced folder for the study " + studyIdentifier + ": found here " + studyFolder.getAbsolutePath() + " and public=" + isPublic);
             }
 
-
         }
+        return studyFolder;
+    }
+
+    public static File getRootFolder(){
+
+        // If no status is passes we will use private as a safety measure
+        return getRootFolderByStatus(LiteStudy.StudyStatus.PRIVATE);
+
+    }
+
+    public static File getRootFolderByStatus(LiteStudy.StudyStatus status){
+
+        if (privateFolder == null || publicFolder == null){
+            logger.warn("Careful!, it seems you are using the StudyDAO without having it initialized. Private folder or public folder is/are null");
+        }
+
+        if (status.equals(LiteStudy.StudyStatus.PUBLIC)){
+            return publicFolder;
+        } else {
+            return privateFolder;
+        }
+
+    }
+
+    public static File getDestinationFolder(String studyIdentifier){
+
+        // If no status is passes we will use private as a safety measure
+        File destination = getRootFolderByStatus(LiteStudy.StudyStatus.PRIVATE);
+
+        destination = new File (destination, studyIdentifier);
+
+        return  destination;
+
+    }
+
+    public static File getPublicFolder() {
+        return publicFolder;
+    }
+
+    public static void setPublicFolder(File publicFolder) {
+        StudyDAO.publicFolder = publicFolder;
+    }
+
+    public static File getPrivateFolder() {
+        return privateFolder;
+    }
+
+    public static void setPrivateFolder(File privateFolder) {
+        StudyDAO.privateFolder = privateFolder;
+    }
+
+
+    public Study fillStudy( boolean includeMetabolites, Study studyToFill) throws DAOException, IsaTabException {
+
+        logger.info("Trying to parse study "+ studyToFill.getStudyIdentifier());
+
+        File studyFolder = getStudyFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy());
+
 
         // We got something ...
         if (studyFolder != null){
 
-            // Load the IsaTab investigation
-            org.isatools.isacreator.model.Investigation isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
+            return fillStudyFromFolder(includeMetabolites, studyToFill, studyFolder);
 
-            // Convert it into a MetaboLights study
-             studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
-
-
-            studyToFill.setStudyLocation(studyFolder.getAbsolutePath());
-
-            logger.info("Loaded study "+ studyToFill.getStudyIdentifier());
-
-            return studyToFill;
 
         } else {
             throw new DAOException("Study folder for " + studyToFill.getStudyIdentifier() + " not found." );
         }
 
+    }
+
+    public Study fillStudyFromFolder(boolean includeMetabolites, Study studyToFill, File studyFolder) throws IsaTabException {
+
+            // Set the location
+            studyToFill.setStudyLocation(studyFolder.getAbsolutePath());
 
 
+            // Load the IsaTab investigation
+            org.isatools.isacreator.model.Investigation isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
+
+        // Convert it into a MetaboLights study
+        studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
+
+
+        logger.info("Study loaded from folder: {}" , studyFolder.getAbsolutePath());
+
+        return studyToFill;
     }
 }

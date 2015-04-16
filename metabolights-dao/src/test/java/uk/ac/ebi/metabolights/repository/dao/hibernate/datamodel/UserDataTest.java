@@ -126,9 +126,15 @@ public class UserDataTest extends DAOTest {
 		return userData;
 	}
 	public static UserData addUserToDB(AppRole role){
+		return addUserToDB(role, User.UserStatus.ACTIVE);
+	}
+
+	public static UserData addUserToDB(AppRole role, User.UserStatus status){
 
 		UserData userData = getNewUserData();
 		userData.setRole(role.ordinal());
+		userData.setStatus(status.ordinal());
+
 		return addUserToDB(userData);
 
 	}

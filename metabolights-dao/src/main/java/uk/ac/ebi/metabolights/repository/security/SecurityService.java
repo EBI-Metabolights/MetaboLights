@@ -37,19 +37,37 @@ public class SecurityService {
 	private static UserDAO userDAO = new UserDAO();
 	private static StudyDAO studyDAO = new StudyDAO();
 
-	public static void userAccessingStudy(String accession, String userToken) throws DAOException {
+	public static void userAccessingStudy(String studyIdentifier, String userToken) throws DAOException {
 
 		// If the study is public
-		if (studyDAO.isStudyPublic(accession)) {
+		if (studyDAO.isStudyPublic(studyIdentifier)) {
 			return;
 		}
 
-		// If userToken is null.
-		if (userToken == null) {
-			throwSecurityException("Anonymous user (null) are not authorised to access " + accession);
+		checkUserAccess(userToken, "User with token " + userToken + " is not authorised to access or study " + studyIdentifier + " does not exist.", studyIdentifier);
+
+	}
+
+	public static User userDeletingStudy(String studyIdentifier, String userToken) throws DAOException {
+
+		// If the study is public
+		if (studyDAO.isStudyPublic(studyIdentifier)) {
+			throwSecurityException("Public studies can't be deleted and " + studyIdentifier + " is Public." );
 		}
 
 		// Get the user
+		return  checkUserAccess(userToken, "User with token " + userToken + " is not authorised to delete the study " + studyIdentifier + ". Only ACTIVE curators and/or owners can do it.", studyIdentifier);
+
+
+	}
+
+	private static User checkUserAccess(String userToken, String exceptionMessage, String studyIdentifier) throws DAOException {
+
+		// If userToken is null.
+		if (userToken == null) {
+			throwSecurityException("Anonymous user (null) are not authorised to perform this action. ");
+		}
+
 		User user = userDAO.findByToken(userToken);
 
 		// If not null
@@ -60,20 +78,25 @@ public class SecurityService {
 
 				// If it's a curator
 				if (user.isCurator()) {
-					return;
+					return user;
 				}
 
-				if (user.doesUserOwnsTheStudy(accession)) {
-					return;
+				if (studyIdentifier!=null && user.doesUserOwnsTheStudy(studyIdentifier)) {
+					return user;
 				}
 
 			}
 
 		}
 
-		// Else (user null) or not curator nor owner...
-		throwSecurityException("User with token " + userToken + " is not authorised to access or study " + accession + " does not exist." );
+		throwSecurityException(exceptionMessage);
 
+		return null;
+
+	}
+
+	private static User checkUserAccess(String userToken, String exceptionMessage) throws DAOException {
+		return checkUserAccess(userToken, exceptionMessage, null);
 	}
 
 	private static void throwSecurityException(String message) throws DAOException {
@@ -83,4 +106,21 @@ public class SecurityService {
 	}
 
 
+	public static User userCreatingStudy(String userToken) throws DAOException {
+
+		return checkUserAccess(userToken, "User with token " + userToken + " is not authorised to create a study.");
+
+
+	}
+
+	public static User userUpdatingStudy(String studyIdentifier, String userToken) throws DAOException {
+
+		// If the study is public
+		if (studyDAO.isStudyPublic(studyIdentifier)) {
+			throwSecurityException("Public studies can't be updated and " + studyIdentifier + " is Public." );
+		}
+
+
+		return checkUserAccess(userToken, "User with token " + userToken + " is not authorised to update the study " + studyIdentifier, studyIdentifier);
+	}
 }

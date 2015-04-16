@@ -62,6 +62,7 @@ public class DDLTest {
 		dropTable(session, Constants.STUDIES_TABLE);
 		dropTable(session, Constants.USERS_TABLE);
 
+
 	}
 
 	private void dropTable(SessionWrapper session, String table){
@@ -111,8 +112,6 @@ public class DDLTest {
 		} catch (ConstraintViolationException e){
 			logger.info("Exception expected. ApiToken unique constraint in place");
 		}
-
-
 
 
 		// Check constraints: Create 2 studies same acc

@@ -1,0 +1,11 @@
+mtblAdminEmailAddress=<YOUR EMAIL ADDRESS>
+mtblDevEmailAddress=<YOUR EMAIL ADDRESS>
+replyTo=<YOUR REPLY TO EMAIL ADDRESS>
+
+# Settings for ISAtab load/replacement.  Should not change this
+isatab.ids=Study Identifier;Investigation Identifier
+isatab.filewithids=i_Investigation.txt
+isatab.publicReleaseDate=Study Public Release Date
+isatab.studySubDate=Study Submission Date
+isatab.profilingType=Study Assay Measurement Type
+isatab.profilingValue=metabolite profiling

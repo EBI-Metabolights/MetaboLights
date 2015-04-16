@@ -43,6 +43,25 @@
 
     <mvc:default-servlet-handler/>
 
+
+    <!--
+	Provider of SpringApplication Context
+	Source: http://blog.jdevelop.eu/2008/07/06/access-the-spring-applicationcontext-from-everywhere-in-your-application/
+	-->
+    <bean id="contextApplicationContextProvider" class="uk.ac.ebi.metabolights.webservice.services.ApplicationContextProvider"></bean>
+
+    <!--  register the application properties -->
+    <bean id="propertyConfigurer" class="uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <!--<value>classpath:application.properties</value>-->
+                <!--<value>"file:#{isatabuploaderconfig}hibernate.properties"</value>-->
+            </list>
+        </property>
+    </bean>
+
+
     <!--JNDI variable from tomcat context files-->
     <jee:jndi-lookup id="isatabConfigurationLocation" jndi-name="java:comp/env/isatabConfigurationLocation" />
     <jee:jndi-lookup id="publicStudiesLocation" jndi-name="java:comp/env/publicStudiesLocation" />
@@ -54,9 +73,30 @@
     <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
 
+    <jee:jndi-lookup id="uploadDirectory"           jndi-name="java:comp/env/uploadDirectory" />
+
+    <!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
+        <!--<property name="host" value="#{mailServer}"/>-->
+    <!--</bean>-->
+
+    <!-- Gmail email settings -->
+    <jee:jndi-lookup id="mailpassword"		            jndi-name="java:comp/env/mailpassword"/>
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="#{mailServer}"/>
+
+        <property name="host"><value>smtp.gmail.com</value></property>
+        <property name="port"><value>587</value></property>
+        <property name="protocol"><value>smtp</value></property>
+        <property name="username"><value>p.conesa.mingo</value></property>
+        <property name="password"><value>#{mailpassword}</value></property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.quitwait">false</prop>
+            </props>
+        </property>
     </bean>
+
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
         <property name="velocityProperties">
             <value>
@@ -85,5 +125,7 @@
 
 
     <import resource="spring-security.xml"/>
+
+    <bean id="queueManager" class="uk.ac.ebi.metabolights.webservice.queue.SubmissionQueueManager"/>
 
 </beans>

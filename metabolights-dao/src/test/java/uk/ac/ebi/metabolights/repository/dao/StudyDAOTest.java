@@ -22,8 +22,10 @@
 package uk.ac.ebi.metabolights.repository.dao;
 
 import junit.framework.Assert;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
@@ -101,7 +103,7 @@ public class StudyDAOTest extends DAOTest {
 	}
 
 	@Test
-	public void testGetPublicStudy() throws DAOException {
+	public void testGetPublicStudy() throws DAOException, IsaTabException {
 
 
 		Study study = studyDAO.getStudy(publicStudy.getAcc());
@@ -109,7 +111,7 @@ public class StudyDAOTest extends DAOTest {
 		Assert.assertEquals("Test DB part it's been populated: obfuscation code", publicStudy.getObfuscationcode(), study.getObfuscationCode());
 		Assert.assertEquals("Test DB part it's been populated: study status", publicStudy.getStatus(), study.getStudyStatus().ordinal());
 		Assert.assertNotNull("Test FS part it's been populated: study title", study.getTitle());
-		Assert.assertEquals("Test Relase date is the one fomr the DB and not from the file", publicStudy.getReleaseDate(), study.getStudyPublicReleaseDate());
+		Assert.assertTrue("Test Relase date is the one from the DB and not from the file", DateUtils.isSameDay(publicStudy.getReleaseDate(), study.getStudyPublicReleaseDate()));
 
 	}
 
@@ -126,6 +128,8 @@ public class StudyDAOTest extends DAOTest {
 
 		} catch (DAOException e) {
 			logger.info("Expected exception accessing non existing study");
+		} catch (IsaTabException e) {
+			e.printStackTrace();
 		}
 
 
@@ -143,6 +147,8 @@ public class StudyDAOTest extends DAOTest {
 
 		} catch (DAOException e) {
 			logger.info("Expected exception accessing db only existing study");
+		} catch (IsaTabException e) {
+			e.printStackTrace();
 		}
 
 
@@ -151,7 +157,7 @@ public class StudyDAOTest extends DAOTest {
 
 
 	@Test
-	public void testGetPrivateStudy() throws DAOException {
+	public void testGetPrivateStudy() throws DAOException, IsaTabException {
 
 
 		Study study = null;
@@ -198,7 +204,7 @@ public class StudyDAOTest extends DAOTest {
 	}
 
 	@Test
-	public void testGetStudyByObfuscationCode() throws DAOException {
+	public void testGetStudyByObfuscationCode() throws DAOException, IsaTabException {
 
 
 		Study study = null;

@@ -70,7 +70,6 @@ public abstract class DAOTest {
 		publicStudiesLocation = publicStudiesLocationUrl.getFile();
 		privateStudiesLocation = privateStudiesLocationUrl.getFile();
 
-
 	}
 
 	protected void cleanDB(){
@@ -79,6 +78,7 @@ public abstract class DAOTest {
 		session.needSession();
 		session.createQuery("delete from StudyData").executeUpdate();
 		session.createQuery("delete from UserData").executeUpdate();
+		session.createQuery("delete from StableId").executeUpdate();
 		session.noNeedSession();
 	}
 
