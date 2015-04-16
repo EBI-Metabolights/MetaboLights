@@ -60,7 +60,7 @@ Study Factor Type Term Source REF	"EFO"
 STUDY ASSAYS
 Study Assay Measurement Type	"metabolite profiling"
 Study Assay Measurement Type Term Source REF	"OBI"
-Study Assay Measurement Type Term Accession Number	"0000366"
+Study Assay Measurement Type Term Accession Number	"http://purl.obolibrary.org/obo/OBI_0000366"
 Study Assay Technology Type	"mass spectrometry"
 Study Assay Technology Type Term Source REF	"OBI"
 Study Assay Technology Type Term Accession Number	""

@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.model.Field;
@@ -107,7 +108,7 @@ public class StudyDAOTest extends DAOTest {
     }
 
 	@Test
-	public void testTechnologyNormalization() throws DAOException {
+	public void testTechnologyNormalization() throws DAOException, IsaTabException {
 
 		Study study = studyDAO.getStudy("MTBLS114", false);
 

@@ -47,8 +47,9 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.AccessionDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
-import uk.ac.ebi.metabolights.webservice.utils.StringUtils;
+import uk.ac.ebi.metabolights.repository.utils.FileUtil;
+import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
+import uk.ac.ebi.metabolights.repository.utils.StringUtils;
 
 import javax.naming.ConfigurationException;
 import java.io.*;
@@ -86,12 +87,11 @@ public class IsaTabIdReplacer
 	private String submissionDate;	//Date from submitter form
 	private Integer singleStudy=0;	//Update when we find study ids in the file
 
-	private String studyIdToUse; // When updating a study, replacement must not be done.
+	private String studyIdentifier; // When updating a study, replacement must not be done.
 
     private static final Logger logger = LoggerFactory.getLogger(IsaTabIdReplacer.class);
 
 	private String isaTabFolder;
-    private String id;
 
 
 	public String getPublicDate() {
@@ -104,6 +104,13 @@ public class IsaTabIdReplacer
 		this.publicDate = publicDate;
 	}
 
+	public void setPublicDate(Date publicReleaseDate){
+
+		this.publicDate = IsaTab2MetaboLightsConverter.date2IsaTabDate(publicReleaseDate);
+
+	}
+
+
 	public String getSubmissionDate() {
 		return submissionDate;
 	}
@@ -112,12 +119,12 @@ public class IsaTabIdReplacer
 		this.submissionDate = submissionDate;
 	}
 
-	public String getStudyIdToUse(){
-		return studyIdToUse;
+	public String getStudyIdentifier(){
+		return studyIdentifier;
 	}
 
-	public void setStudyIdToUse(String studyIdToUse){
-		this.studyIdToUse = studyIdToUse;
+	public void setStudyIdentifier(String studyIdentifier){
+		this.studyIdentifier = studyIdentifier;
 	}
 
 
@@ -169,14 +176,10 @@ public class IsaTabIdReplacer
         this.isaTabFolder = isaTabFolder;
     }
 
-	//Id property
-	public String getId(){return id;}
-
-
 	private void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
 
 		//final String PROPS_FILE = "isatabidreplacer.properties";
-        final String PROPS_FILE = "application.properties";
+        final String PROPS_FILE = "idreplacer.properties";
 
 		//If properties are loaded
 		if (!props.isEmpty()) {return;}
@@ -256,9 +259,6 @@ public class IsaTabIdReplacer
         try {
             logger.info("Starting submission upload");
 
-            //Reset id List, it will be populated with the new accession numbers generated
-            id = null;
-
             //Load properties
             logger.info("Loading properties");
             loadProperties();
@@ -273,10 +273,6 @@ public class IsaTabIdReplacer
             //Replace id
             logger.info("Replace study id and study dates");
             replaceIdInFiles();
-
-            // If we are updating a study we have already the id
-            if (studyIdToUse != null)
-                id = studyIdToUse;
 
         } catch (Exception e){
             throw e;
@@ -388,13 +384,6 @@ public class IsaTabIdReplacer
 		// Reset number of studies.
 		singleStudy= 0;
 
-        // Do not increase the accession count if we are updating (we have studyToUse)
-		//Set the new accession number, one per file  (Investigation Id and Study Id)
-        //String accessionNumber = getAccessionService().getAccessionNumber();
-		id = studyIdToUse==null?getAccessionNumber():studyIdToUse;
-
-
-
 		try {
 			//Use a buffered reader
 			BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
@@ -433,7 +422,7 @@ public class IsaTabIdReplacer
 
 				//Replace Id in line (it could come with their own identifier, since we now accept those with the same initial identifier), also check for multiple studies reported
 				//Pass in the accession number to use for both study and investigation accession (same id per submission)
-				line = replaceIdInLine(line, id);
+				line = replaceIdInLine(line);
 
 
 				//Replace public release date for this study
@@ -465,7 +454,7 @@ public class IsaTabIdReplacer
 
 	}
 
-	private String replaceIdInLine(String line, String accessionNumber){
+	private String replaceIdInLine(String line){
 
 	    //For each id...
 	    for (int i=0;i<idList.length;i++) {
@@ -483,7 +472,7 @@ public class IsaTabIdReplacer
 	    	  idInitialValue = StringUtils.truncate(idInitialValue);
 
 	    	  //Compose the line:         Study Identifier   "MTBL1"
-	    	  line = id + "\t\"" + accessionNumber + "\"";
+	    	  line = id + "\t\"" + studyIdentifier + "\"";
 
 	    	  //If the value is a study identifier
 	    	  //This is necessary for the uploading using command line tools.
@@ -494,9 +483,9 @@ public class IsaTabIdReplacer
 
  				++singleStudy;  //Count how many study id's we have processed
 
-                // TODO? Do we want to keep
+                // TODO? Do we want to keep it
                 // getAccessionService().saveSubmittedId(idInitialValue, accessionNumber);
-	    		logger.info("Study identifier " + idInitialValue + " replaced with " +accessionNumber);
+	    		logger.info("Study identifier " + idInitialValue + " replaced with " +studyIdentifier);
 
 	    	  }
 

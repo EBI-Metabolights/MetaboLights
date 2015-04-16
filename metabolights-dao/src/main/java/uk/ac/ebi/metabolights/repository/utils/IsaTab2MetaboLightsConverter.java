@@ -87,30 +87,26 @@ public class IsaTab2MetaboLightsConverter {
 
     private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder, boolean includeMetabolites, Study studyToFill) {
 
-        // Instantiate new MetaboLights investigation object
-        Study metStudy = studyToFill;
-
 
         // Get the first and unique study
         org.isatools.isacreator.model.Study isaStudy = source.getStudies().values().iterator().next();
 
-
         // Populate direct study members
-        metStudy.setStudyIdentifier(isaStudy.getStudyId());
-        metStudy.setTitle(isaStudy.getStudyTitle());
-        metStudy.setDescription(isaStudy.getStudyDesc());
+        studyToFill.setStudyIdentifier(isaStudy.getStudyId());
+        studyToFill.setTitle(isaStudy.getStudyTitle());
+        studyToFill.setDescription(isaStudy.getStudyDesc());
 
         if (isaStudy.getPublicReleaseDate() != null){
 
             // Give precedence to existing date
             // Fill it if it doesn't exist.
-            if (metStudy.getStudyPublicReleaseDate() == null) {
-                metStudy.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
+            if (studyToFill.getStudyPublicReleaseDate() == null) {
+                studyToFill.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
             }
         }
 
         // If release dates do not match...
-        if (!isaStudy.getPublicReleaseDate().equals(metStudy.getStudyPublicReleaseDate())){
+        if (!isaStudy.getPublicReleaseDate().equals(date2IsaTabDate(studyToFill.getStudyPublicReleaseDate()))){
 
             logger.warn(studyToFill.getStudyIdentifier() + " release date from the DB (" + studyToFill.getStudyPublicReleaseDate() + ") doesn't match the same in the file (" + isaStudy.getPublicReleaseDate() + ")");
 
@@ -118,38 +114,38 @@ public class IsaTab2MetaboLightsConverter {
 
 
         if (isaStudy.getDateOfSubmission() != null)
-            metStudy.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));
+            studyToFill.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));
 
-        metStudy.setStudyLocation(studyFolder);
+        studyToFill.setStudyLocation(studyFolder);
 
 
         // Now collections
         // Contacts
-        metStudy.setContacts(isaTabContacts2MetaboLightsContacts(isaStudy));
+        studyToFill.setContacts(isaTabContacts2MetaboLightsContacts(isaStudy));
 
         // Study design descriptors
-        metStudy.setDescriptors(isaTabStudyDesign2MetaboLightsStudiesDesignDescriptors(isaStudy));
+        studyToFill.setDescriptors(isaTabStudyDesign2MetaboLightsStudiesDesignDescriptors(isaStudy));
 
         // Study factors
-        metStudy.setFactors(isaTabStudyFactors2MetaboLightsStudyFactors(isaStudy));
+        studyToFill.setFactors(isaTabStudyFactors2MetaboLightsStudyFactors(isaStudy));
 
         // Publications
-        metStudy.setPublications(isaTabPublications2MetaboLightsPublications(isaStudy));
+        studyToFill.setPublications(isaTabPublications2MetaboLightsPublications(isaStudy));
 
         // Protocols
-        metStudy.setProtocols(isaTabProtocols2MetaboLightsProtocols(isaStudy));
+        studyToFill.setProtocols(isaTabProtocols2MetaboLightsProtocols(isaStudy));
 
         //Assays
-        metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, metStudy, includeMetabolites));
+        studyToFill.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, studyToFill, includeMetabolites));
 
         //Samples
-        metStudy.setSampleTable(isaTabSamples2MetabolightsSamples(isaStudy, metStudy));
+        studyToFill.setSampleTable(isaTabSamples2MetabolightsSamples(isaStudy, studyToFill));
 
         //Organism and Organism part
-        metStudy.setOrganism(sampleOrg2organism(metStudy));
+        studyToFill.setOrganism(sampleOrg2organism(studyToFill));
 
 
-        return metStudy;
+        return studyToFill;
     }
 
     private static Collection<Organism> sampleOrg2organism(Study metStudy) {
@@ -475,5 +471,10 @@ public class IsaTab2MetaboLightsConverter {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    public static String date2IsaTabDate(Date date) {
+
+        return isaTabDateFormat.format(date.getTime());
     }
 }

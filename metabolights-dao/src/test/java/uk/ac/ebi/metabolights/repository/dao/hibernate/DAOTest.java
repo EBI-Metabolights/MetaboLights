@@ -21,7 +21,6 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
-import junit.framework.TestCase;
 import org.hibernate.cfg.Configuration;
 import org.junit.Before;
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import java.net.URL;
 import java.util.Properties;
 
-public abstract class DAOTest  extends TestCase{
+public abstract class DAOTest {
 
 	private static final String ISA_CONF_LOCATION = "configRoot";
 	private static final String PUBLIC_STUDIES_LOCATION = "studies/public/";
@@ -70,7 +69,6 @@ public abstract class DAOTest  extends TestCase{
 		configRoot = configRootUrl.getFile();
 		publicStudiesLocation = publicStudiesLocationUrl.getFile();
 		privateStudiesLocation = privateStudiesLocationUrl.getFile();
-
 
 	}
 

@@ -23,20 +23,18 @@ package uk.ac.ebi.metabolights.webservice.queue;
 
 //import org.isatools.isatab.gui_invokers.GUIInvokerResult;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.webservice.metabolightsuploader.IsaTabIdReplacer;
+import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import java.io.File;
-import java.io.IOException;
 
 import static java.lang.Thread.sleep;
 import static uk.ac.ebi.metabolights.webservice.queue.SubmissionItem.SubissionType;
@@ -56,11 +54,6 @@ public class SubmissionQueueProcessor {
 //    private static Boolean filesMovedPubToPriv = false;
 //    private static Boolean PrivToPriv = false;
 
-
-	public IsaTabIdReplacer getItir(String studyFolder) {
-
-		return new IsaTabIdReplacer(studyFolder);
-	}
 
 
 
@@ -97,10 +90,10 @@ public class SubmissionQueueProcessor {
 			// If it's a new study
 			if (si.getSubmissionType() == SubissionType.CREATE){
 				// Start the upload
-				accession = create();
+				Study newStudy  = create();
 
 				// Inform the user and team.
-				AppContext.getEmailService().sendQueuedStudySubmitted(si.getUserId(),si.getOriginalFileName() , si.getPublicReleaseDate(), accession);
+				AppContext.getEmailService().sendQueuedStudySubmitted(newStudy.getUsers().iterator().next().getEmail(),si.getOriginalFileName() , newStudy.getStudyPublicReleaseDate(), newStudy.getStudyIdentifier());
 			}
 
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
@@ -233,7 +226,7 @@ public class SubmissionQueueProcessor {
 	 * @return
 	 * @throws Exception
 	 */
-	private String create() throws Exception{
+	private Study create() throws Exception{
 
 
 		// Unzip the file...
@@ -242,31 +235,22 @@ public class SubmissionQueueProcessor {
 		// Validate: actually validations happen in the idReplacer. but ISAtab validation don't.
 		// TODO
 
-		// Get new ID and update files
-		//Replace the id...or leave it!!
-		IsaTabIdReplacer isaTabIdReplacer = getItir(si.getUnzippedFolder().getAbsolutePath());
-
-		isaTabIdReplacer.execute();
-
 		//Index the study
-
-		// Move folde to final destination
-		File finalDestination = moveUnzipFolderToFinalDestination(isaTabIdReplacer.getId());
 
 		// Persist in the database
 		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
 
-		studyDAO.addStudy(finalDestination);
+		// Add the study.
+		Study newStudy = studyDAO.add(si.getUnzippedFolder(), si.getPublicReleaseDate(), si.getUserId());
+
+		// Unzipped file should have been moved by the studyDAO
+		// FileUtils.deleteDirectory(si.getUnzippedFolder());
 
 		// Delete the original zip file...
 		si.getFileQueued().delete();
 
 		//Return the new accession number.
-		return  isaTabIdReplacer.getId();
-
-
-
-
+		return  newStudy;
 
 
 //		// Upload the file to bii
@@ -286,22 +270,6 @@ public class SubmissionQueueProcessor {
 
 		//return null;
 	}
-
-	private File moveUnzipFolderToFinalDestination(String accession) throws IOException {
-
-		//Calculate the destination (by default to private)
-		File destination = uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getRootFolder(accession);
-
-		logger.info("Moving study folder ({}) to {}", si.getUnzippedFolder().getAbsolutePath(),destination.getAbsolutePath());
-
-		// Clean destination
-		FileUtil.deleteDir(destination);
-
-		FileUtils.moveDirectory(si.getUnzippedFolder(), destination);
-
-		return destination;
-	}
-
 
 	/**
 	 * Delete a study from the system (both: Database and file system).
@@ -435,7 +403,7 @@ public class SubmissionQueueProcessor {
 //
 //			} catch (Exception e){
 //
-//				List<TabLoggingEventWrapper> isaTabLog = itu.getSimpleManager().getLastLog();
+//				List<TabLoggingEventWrapper> isaTabLog = itu.getSimpleManager().getErrors();
 //				throw new Exception(PropertyLookUpService.getMessage("msg.validation.invalid") + "\n\nERROR:" + e.getMessage() + "\n\n" + isaTabLog.toString() );
 //
 //			}

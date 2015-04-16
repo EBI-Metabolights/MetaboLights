@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Investigation;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.utils.isatab.IsaTabUtils;
 
 import javax.naming.ConfigurationException;
@@ -54,16 +55,26 @@ public class IsaTabInvestigationDAO {
      * @param isaTabStudyFolder - Directory containing the ISATAB files, eg. a study
      * @return boolean if successful or not!
      */
-    private boolean validateISAtabFiles(String isaTabStudyFolder) {
+    private boolean loadIsaTabFiles(String isaTabStudyFolder) throws IsaTabException {
+
+        Boolean imported = null;
 
         try {
-            return getIsatabFilesImporter(isaTabStudyFolder).importFile(isaTabStudyFolder);
+
+
+            imported = getIsatabFilesImporter(isaTabStudyFolder).importFile(isaTabStudyFolder);
+
+
         } catch (Exception e){
-            System.out.print("Error: " + e.getMessage());
 
+        } finally {
+
+            if (!imported) {
+                throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder, isatabFilesImporter.getMessages());
+            }
+
+            return imported;
         }
-
-        return false;
     }
 
     /**
@@ -71,11 +82,11 @@ public class IsaTabInvestigationDAO {
      * @param isaTabStudyFolder
      * @return ISAcrator Study object
      */
-    public Investigation getInvestigation(String isaTabStudyFolder) {
+    public Investigation getInvestigation(String isaTabStudyFolder) throws IsaTabException {
 
         Investigation investigation = null;
 
-        if (validateISAtabFiles(isaTabStudyFolder))
+        if (loadIsaTabFiles(isaTabStudyFolder))
             investigation = isatabFilesImporter.getInvestigation();
 
         return investigation;

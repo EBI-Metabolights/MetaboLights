@@ -21,7 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader;
 
-import org.isatools.tablib.utils.logging.TabLoggingEventWrapper;
+import org.isatools.errorreporter.model.ISAFileErrorReport;
 
 import java.util.List;
 
@@ -30,17 +30,29 @@ public class IsaTabException extends Exception{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<TabLoggingEventWrapper> lastLog;
+	private List<ISAFileErrorReport> errors;
     private String msg;
 
-	public IsaTabException (String message, List<TabLoggingEventWrapper> lastLog){
+	public IsaTabException (String message, List<ISAFileErrorReport> errors){
 		super(message);
-		this.lastLog = lastLog;
+		this.errors = errors;
         this.msg = message;
 		
 	}
-	public List<TabLoggingEventWrapper> getLastLog(){
-		return lastLog;
+
+    public IsaTabException (String message, Exception e){
+        super(message, e);
+        this.msg = message;
+
+    }
+
+    public IsaTabException(String message) {
+        super(message);
+        this.msg = message;
+    }
+
+    public List<ISAFileErrorReport> getErrors(){
+		return errors;
 	}
 	@Override
     public String getMessage(){
@@ -50,8 +62,8 @@ public class IsaTabException extends Exception{
     public String geTechnicalInfo(){
         StringBuffer logsStrBuffer = new StringBuffer();
 
-        for(TabLoggingEventWrapper log : lastLog){
-            logsStrBuffer.append(log.getFormattedMessage().toString());
+        for(ISAFileErrorReport error : errors){
+            logsStrBuffer.append(error.getProblemSummary().toString());
             logsStrBuffer.append("\n");
         }
 

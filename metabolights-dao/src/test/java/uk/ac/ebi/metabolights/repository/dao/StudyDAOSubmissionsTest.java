@@ -21,47 +21,37 @@
 
 package uk.ac.ebi.metabolights.repository.dao;
 
-import junit.framework.Assert;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.AccessionDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserDataTest;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class StudyDAOSubmissionsTest extends DAOTest {
 
 
-	private StudyData publicStudy;
 	private UserData curator;
 	private UserData owner;
 	private UserData notOwner;
-	private StudyData privateStudy;
 	private StudyDAO studyDAO;
-	private StudyData dbOnlyStudy;
 
 	@Before
 	public void initData() throws DAOException {
-
-		// Add MTBLS4 to the database (files misplaced intentionally)
-		publicStudy = new StudyData();
-		publicStudy.setAcc("MTBLS4");
-		publicStudy.setStatus(Study.StudyStatus.PUBLIC.ordinal());
-		publicStudy.setReleaseDate(new Date());
-
-
-		// Add MTBLSXXX to the database
-		dbOnlyStudy = new StudyData();
-		dbOnlyStudy.setAcc("MTBLSXXX");
-		dbOnlyStudy.setStatus(Study.StudyStatus.PUBLIC.ordinal());
 
 
 		// Get users: curator and owner and not owner (persisted already)
@@ -69,161 +59,112 @@ public class StudyDAOSubmissionsTest extends DAOTest {
 		owner = UserDataTest.addUserToDB(AppRole.ROLE_SUBMITTER);
 		notOwner = UserDataTest.addUserToDB(AppRole.ROLE_SUBMITTER);
 
-		// Add MTBLS3 to the database
-		privateStudy = new StudyData();
-		privateStudy.setAcc("MTBLS3");
-		privateStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
 
-		// Add MTBLS2 to the database
-		StudyData curatorsStudy = new StudyData();
-		curatorsStudy.setAcc("MTBLS5");
-		curatorsStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
-
-
-
-		// Add the owner
-		privateStudy.getUsers().add(owner);
-		// Add the curator to have 2 owner and test unique results in getList().
-		privateStudy.getUsers().add(curator);
-
-		// Save all
-		SessionWrapper session = HibernateUtil.getSession();
-		session.needSession();
-		session.saveOrUpdate(publicStudy);
-		session.saveOrUpdate(privateStudy);
-		session.saveOrUpdate(curatorsStudy);
-		session.saveOrUpdate(dbOnlyStudy);
-		session.noNeedSession();
-
+		AccessionDAO.setDefaultPrefix(StudyDAOSubmissionsTest.class.getSimpleName() + "_");
 
 		// Initialise de DAO
 		studyDAO = DAOFactory.getInstance().getStudyDAO();
 	}
 
 	@Test
-	public void testGetPublicStudy() throws DAOException {
+	public void testCRUDStudy() throws Exception {
 
 
-		Study study = studyDAO.getStudy(publicStudy.getAcc());
+		File submissionFolder = getStudyFolderToSubmit("MTBLS1", true);
 
-		Assert.assertEquals("Test DB part it's been populated: obfuscation code", publicStudy.getObfuscationcode(), study.getObfuscationCode());
-		Assert.assertEquals("Test DB part it's been populated: study status", publicStudy.getStatus(), study.getStudyStatus().ordinal());
-		Assert.assertNotNull("Test FS part it's been populated: study title", study.getTitle());
-		Assert.assertEquals("Test Relase date is the one fomr the DB and not from the file", publicStudy.getReleaseDate(), study.getStudyPublicReleaseDate());
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, 1);
+		Date publicReleaseDate = cal.getTime();
 
-	}
+		Study study = studyDAO.add(submissionFolder, publicReleaseDate, curator.getApiToken());
 
-	@Test
-	public void testGetNonExistingStudy() {
+		assertNotNull("studyAccession filled up", study.getStudyIdentifier());
+		assertNotNull("Accession starts with prefix", study.getStudyIdentifier().startsWith(AccessionDAO.getDefaultPrefix()));
+		assertTrue("Public release date set properly", DateUtils.isSameDay(study.getStudyPublicReleaseDate(), publicReleaseDate));
+		assertEquals("All files are moved",0,submissionFolder.list().length);
+
+		// Test READ...
+		Study readStudy = studyDAO.getStudy(study.getStudyIdentifier(), curator.getApiToken());
+
+		assertNotNull("Reading study just added", readStudy);
 
 
-		Study study = null;
+		// Test a failure submission
+		File emptyInvestigationFile = new File(submissionFolder, "i_Investigation.txt");
+		emptyInvestigationFile.createNewFile();
+
+
 		try {
-			study = studyDAO.getStudy("foo");
-
-
-			throw new AssertionError("Accessing a non existing study should throw an exception");
-
-		} catch (DAOException e) {
-			logger.info("Expected exception accessing non existing study");
+			studyDAO.update(submissionFolder,readStudy.getStudyIdentifier(),curator.getApiToken());
+			assertTrue("Update with invalid isaTab files should throw an exception", false);
+		} catch (IsaTabException e) {
+			// Expected
 		}
 
 
+		// Test audit has happened
+		File auditFolder = FileAuditUtil.getAuditFolder(uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getDestinationFolder(readStudy.getStudyIdentifier()));
+
+		assertEquals("Audit folder has a subfolder", 1, auditFolder.list().length);
+
+
+		// Test the deletion
+		testDeletion(readStudy);
+
+
 	}
 
-	@Test
-	public void testGetNonConsistentStudies() {
+	public void testDeletion(Study readStudy) throws IOException, DAOException, IsaTabException {
 
-
-		Study study = null;
+		// Test delete by anonymous
 		try {
-			study = studyDAO.getStudy(dbOnlyStudy.getAcc());
+			studyDAO.delete(readStudy.getStudyIdentifier(), "lalala");
 
-			throw new AssertionError("Accessing a db Only study should throw an exception");
+			assertTrue("Anonymous user shouldn't be able to delete a study", false);
 
-		} catch (DAOException e) {
-			logger.info("Expected exception accessing db only existing study");
+		} catch (DAOException e){
+			// Expected
+			logger.info("Anonymous can't delete a study.");
 		}
 
 
-	}
-
-
-
-	@Test
-	public void testGetPrivateStudy() throws DAOException {
-
-
-		Study study = null;
-
-		// Try with an anonymous user
+		// Test delete by notOwner
 		try {
-			// Should fail
-			studyDAO.getStudy(privateStudy.getAcc());
-			throw new AssertionError("MTBLS3 is private and getStudy(\"Accession\") should throw an exception");
+			studyDAO.delete(readStudy.getStudyIdentifier(), notOwner.getApiToken());
 
-		} catch (DAOException e) {
-			logger.info("Security exception expected");
+			assertTrue("A not owner shouldn't be able to delete a study", false);
+
+		} catch (DAOException e){
+			// Expected
+			logger.info("A not owner can't delete a study either.");
 		}
 
-		// Try with the not owner user
-		try {
-			// Should fail
-			studyDAO.getStudy(privateStudy.getAcc(), notOwner.getApiToken());
-			throw new AssertionError("MTBLS3 is private and a not owner access should throw an exception");
+		// Test delete by owner
+		studyDAO.delete(readStudy.getStudyIdentifier(), curator.getApiToken());
 
-		} catch (DAOException e) {
-			logger.info("Security exception expected");
-		}
+		assertNull("Study folder no longer exists", uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getStudyFolder(readStudy.getStudyIdentifier(),readStudy.isPublicStudy()));
+		assertNull("Study is not longer in the database", studyDAO.getStudy(readStudy.getStudyIdentifier(), curator.getApiToken()));
 
-		// Try with a made up user token
-		try {
-			// Should fail
-			studyDAO.getStudy(privateStudy.getAcc(), java.util.UUID.randomUUID().toString());
-			throw new AssertionError("MTBLS3 is private and a not existing user access should throw an exception");
+		logger.info("Study {} deleted by curator", readStudy.getStudyIdentifier());
+	}
 
-		} catch (DAOException e) {
-			logger.info("Security exception expected");
-		}
+	private File getStudyFolderToSubmit(String studyFolder, boolean isPublic) throws IOException {
 
+		String parentFolder = isPublic?publicStudiesLocation:privateStudiesLocation;
 
-		// Try with the curator
-		// Shouldn't fail
-		studyDAO.getStudy(privateStudy.getAcc(), curator.getApiToken());
+		File sourceFolder = new File(parentFolder, studyFolder);
 
-		// Try with the owner
-		// Shouldn't fail
-		studyDAO.getStudy(privateStudy.getAcc(), owner.getApiToken());
+		File destination = new File(FileUtils.getTempDirectory(), studyFolder);
+		destination.delete();
+
+		FileUtils.copyDirectory(sourceFolder, destination);
+
+		return destination;
 
 	}
 
-	@Test
-	public void testGetStudyByObfuscationCode() throws DAOException {
 
 
-		Study study = null;
-
-		// Try with the obfuscationcode
-		study = studyDAO.getStudyByObfuscationCode(privateStudy.getObfuscationcode());
-
-		Assert.assertEquals("Test DB part it's been populated: obfuscation code", privateStudy.getObfuscationcode(), study.getObfuscationCode());
-		Assert.assertEquals("Test DB part it's been populated: study status", privateStudy.getStatus(), study.getStudyStatus().ordinal());
-		Assert.assertNotNull("Test FS part it's been populated: study title", study.getTitle());
-
-	}
-
-	@Test
-	public void testGetStudyListForUser() throws Exception {
-
-		List studies = studyDAO.getList(owner.getApiToken());
-		Assert.assertEquals("Owner can access 3 out of 4 studies (2 public and owned private)", 3, studies.size());
-
-		studies = studyDAO.getList(curator.getApiToken());
-		Assert.assertEquals("Curator should access 4 (all) studies" , 4, studies.size());
-
-		studies = studyDAO.getList(notOwner.getApiToken());
-		Assert.assertEquals("not Owner should access 2 studies (public ones)" , 2, studies.size());
 
 
-	}
 }

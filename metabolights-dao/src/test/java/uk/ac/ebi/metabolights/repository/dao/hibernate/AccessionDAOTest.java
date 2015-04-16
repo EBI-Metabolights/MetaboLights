@@ -1,5 +1,8 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
+
+import static org.junit.Assert.*;
+
 public class AccessionDAOTest extends DAOTest {
 
 	public void testGetStableId() throws Exception {
