@@ -22,12 +22,16 @@
 package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Lite Study to be used as a search result element.
@@ -55,7 +59,41 @@ public class LiteStudy extends LiteEntity {
 	// Collections
 	private Collection<StudyFactor> factors;
 	private Collection<Organism> organism;
-	private Collection<User> users = new ArrayList<>();
+	private List<User> users = new ArrayList<>();
+	private ObservableList<User> usersObserver = FXCollections.observableList(users);
+
+	public LiteStudy(){
+
+		initialize();
+	}
+
+	private void initialize(){
+
+		// Configure the user listener collection.
+		listenToUsersListChanges();
+
+	}
+
+	private void listenToUsersListChanges() {
+
+		usersObserver.addListener(new ListChangeListener<User>() {
+			@Override
+			public void onChanged(Change<? extends User> change) {
+
+				if (change.wasAdded()) {
+					//Add the study to the user
+					addStudyToUsers(change.getAddedSubList());
+				}
+			}
+		});
+
+	}
+
+	private void addStudyToUsers(List<? extends User> addedUsers) {
+		for (User addedUser : addedUsers) {
+			addedUser.getStudies().add(this);
+		}
+	}
 
 	public String getStudyIdentifier() {
 		return studyIdentifier;
@@ -110,11 +148,11 @@ public class LiteStudy extends LiteEntity {
 		this.organism = organism;
 	}
 
-	public Collection<User> getUsers() {
+	public List<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Collection<User> users) {
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 
