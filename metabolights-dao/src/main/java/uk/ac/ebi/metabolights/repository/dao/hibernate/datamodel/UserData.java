@@ -204,19 +204,19 @@ public class UserData extends DataModel<User> {
 		businessModelEntity.setApiToken(this.apiToken);
 
 		// Studies associated as Study Lite elements (Don't want the full studies pending from an user)
-		businessModelEntity.setStudies(StudyData.studyDataToStudyLite(studies));
+		businessModelEntity.setStudies(StudyData.studyDataToLiteStudy(studies));
 
 		return  businessModelEntity;
 	}
 
-	protected static Set<UserData> businessModelToDataModel(Collection<User> bussinesUsers){
+	protected static Set<UserData> businessModelToDataModel(Collection<User> businessUsers){
 
 		Set<UserData> usersData = new HashSet<UserData>();
 
-		for (User bussinesItem :bussinesUsers){
+		for (User businessItem : businessUsers){
 
 			UserData user = new UserData();
-			user.setBussinesModelEntity(bussinesItem);
+			user.setBussinesModelEntity(businessItem);
 
 			// Add it to the collection
 			usersData.add(user);
@@ -226,14 +226,13 @@ public class UserData extends DataModel<User> {
 	}
 
 
-	public static Set<User> dataModelToBusinessModel(Set<UserData> usersData) {
+	public static List<User> dataModelToBusinessModel(Set<UserData> usersData) {
 
-		Set<User> users = new HashSet<User>();
+		List<User> users = new ArrayList<>();
 
 		for (UserData userData :usersData){
 
-			User user = new User();
-			user = userData.dataModelToBusinessModel();
+			User user = userData.dataModelToBusinessModel();
 
 			// Add it to the collection
 			users.add(user);

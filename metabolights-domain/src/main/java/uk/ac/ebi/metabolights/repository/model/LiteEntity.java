@@ -32,4 +32,14 @@ import org.slf4j.LoggerFactory;
 public class LiteEntity {
 
 	private static final Logger logger = LoggerFactory.getLogger(LiteEntity.class);
+
+	private Long persistenceId = 0L;
+
+	public Long getPersistenceId() {
+		return persistenceId;
+	}
+
+	public void setPersistenceId(Long persistenceId) {
+		this.persistenceId = persistenceId;
+	}
 }
