@@ -69,8 +69,10 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 	@Override
 	protected void preSave(StudyData study) throws DAOException {
-		// Save users first
-		usersDAO.save(study.getUsers());
+
+		// NOTE: Here we only save the users that do not exist. Any update of users should be done through usersDAO.save.
+		// Save new users first
+		usersDAO.save(study.getUsers(), true);
 
 	}
 

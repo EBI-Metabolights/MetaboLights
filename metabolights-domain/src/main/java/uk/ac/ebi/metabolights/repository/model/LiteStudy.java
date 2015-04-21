@@ -54,6 +54,7 @@ public class LiteStudy extends LiteEntity {
 	private Study.StudyStatus studyStatus = Study.StudyStatus.PRIVATE;
 	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date studyPublicReleaseDate;
+	private String obfuscationCode = java.util.UUID.randomUUID().toString();
 
 
 	// Collections
@@ -79,6 +80,8 @@ public class LiteStudy extends LiteEntity {
 		usersObserver.addListener(new ListChangeListener<User>() {
 			@Override
 			public void onChanged(Change<? extends User> change) {
+
+				change.next();
 
 				if (change.wasAdded()) {
 					//Add the study to the user
@@ -149,11 +152,21 @@ public class LiteStudy extends LiteEntity {
 	}
 
 	public List<User> getUsers() {
-		return users;
+		return usersObserver;
 	}
 
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+
+	public String getObfuscationCode() {
+		return obfuscationCode;
+	}
+
+	public void setObfuscationCode(String obfuscationCode) {
+		this.obfuscationCode = obfuscationCode;
+	}
+
+
 
 }
