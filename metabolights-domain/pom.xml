@@ -48,6 +48,12 @@
             <!--<artifactId>guava</artifactId>-->
             <!--<version>14.0</version>-->
         <!--</dependency>-->
+        <dependency>
+            <groupId>net.java.openjfx.backport</groupId>
+            <artifactId>openjfx-78-backport</artifactId>
+            <version>1.8.0-ea-b96.1</version>
+        </dependency>
     </dependencies>
+
 
 </project>

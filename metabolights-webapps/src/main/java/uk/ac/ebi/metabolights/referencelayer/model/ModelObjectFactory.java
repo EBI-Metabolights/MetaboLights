@@ -53,7 +53,7 @@ public class ModelObjectFactory {
 
 			mcd = new MetaboLightsCompoundDAO(AppContext.getConnection());
 
-			MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
+				MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
 
 			mcd.close();
 

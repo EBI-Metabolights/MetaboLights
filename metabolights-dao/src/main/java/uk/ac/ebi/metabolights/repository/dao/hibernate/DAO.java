@@ -128,7 +128,7 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	}
 
-	public void save(BusinessEntity bussinessEntity) throws DAOException {
+	public void save(BusinessEntity bussinessEntity ) throws DAOException {
 
 		// Convert BusinessEntity to DataModel
 		dataModel datamodel = getDataModel();
@@ -141,8 +141,8 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 		saveDataModel(datamodel);
 
-
 	}
+
 
 	protected void saveDataModel(dataModel datamodel){
 
@@ -156,9 +156,20 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 
 	public void save(Set<dataModel> dataModels) throws DAOException {
+		save(dataModels,false);
+	}
+
+	// DO not save if business entity is new: (To allow a user to have 2 studies):
+	// (NEW) Study1 <-->  (NEW) User1     converts into  StudyData1 --> UserData1 (note UserData1 doesn't point back to Study)
+	// (NEW) Study2 <-->  (SAVED) User1   converts into StudyData2 --> UserData1 (If we save UserData1 we will loose StudyData1<->UserData1)
+	public void save(Set<dataModel> dataModels, boolean onlyNewOnes) throws DAOException {
 
 		for (dataModel dataModel:dataModels) {
 
+			if (onlyNewOnes && !dataModel.isNew()){
+				// Next
+				continue;
+			}
 			saveDataModel(dataModel);
 
 		}

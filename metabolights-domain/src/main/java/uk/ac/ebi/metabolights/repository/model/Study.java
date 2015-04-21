@@ -21,7 +21,6 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +32,7 @@ public class Study extends LiteStudy{
     private String studyLocation;
 
     private Long id;
-    private String obfuscationCode = java.util.UUID.randomUUID().toString();
+
 
     // Collections
     private Collection<Contact> contacts;
@@ -84,14 +83,6 @@ public class Study extends LiteStudy{
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getObfuscationCode() {
-        return obfuscationCode;
-    }
-
-    public void setObfuscationCode(String obfuscationCode) {
-        this.obfuscationCode = obfuscationCode;
     }
 
     // Collections
