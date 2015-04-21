@@ -84,7 +84,7 @@ public class User {
 
 	private String apiToken = java.util.UUID.randomUUID().toString();
 
-	private Set<StudyLite> studies = new HashSet<StudyLite>();
+	private Set<LiteStudy> studies = new HashSet<LiteStudy>();
 
 	//_______________________________________________
 	// Getters and setters
@@ -225,11 +225,11 @@ public class User {
 		this.apiToken = api_token;
 	}
 
-	public Set<StudyLite> getStudies() {
+	public Set<LiteStudy> getStudies() {
 		return studies;
 	}
 
-	public void setStudies(Set<StudyLite> studies) {
+	public void setStudies(Set<LiteStudy> studies) {
 		this.studies = studies;
 	}
 
@@ -241,9 +241,9 @@ public class User {
 	public Boolean doesUserOwnsTheStudy(String accession){
 
 		// For each of the studies
-		for (StudyLite study : studies) {
+		for (LiteStudy study : studies) {
 
-			if (study.getAccession().equals(accession)) {
+			if (study.getStudyIdentifier().equals(accession)) {
 				return true;
 			}
 

@@ -41,7 +41,7 @@ public abstract class DataModel <B>{
 	@Transient
 	protected String table;
 
-	// Abstract methoods
+	// Abstract methods
 	protected abstract void setBusinessModelId(Long id);
 	protected abstract void businessModelToDataModel();
 	public abstract B dataModelToBusinessModel();
@@ -69,16 +69,15 @@ public abstract class DataModel <B>{
 		if (businessModelEntity != null) businessModelToDataModel();
 	}
 
-//	protected Collection<DataModel<B>> convertBussinesModelCollection(Collection<B> bussinesCollection){
-//
-//		ArrayList<DataModel<B>> collection = new ArrayList<DataModel<B>>();
-//
-//		for (bussinesItem:bussinesCollection){
-//
-//			DataModel<B> dataModel =
-//		}
-//
-//
-//
-//	}
+	/**
+	 * We consider new DataModels those with id null, base on declaration.
+	 * @return
+	 */
+	@Transient
+	public boolean isNew() {
+
+		return (id == null);
+
+	}
+
 }

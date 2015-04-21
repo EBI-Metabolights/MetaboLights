@@ -23,8 +23,8 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
 import org.hibernate.annotations.Type;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.Constants;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.StudyLite;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -102,6 +102,7 @@ public class StudyData  extends DataModel<Study> {
 		businessModelEntity.setId(id);
 	}
 
+
 	@Override
 	protected void businessModelToDataModel() {
 
@@ -133,14 +134,14 @@ public class StudyData  extends DataModel<Study> {
 		return businessModelEntity;
 	}
 
-	public StudyLite studyDataToStudyLite() {
+	public LiteStudy studyDataToLiteStudy() {
 
-		StudyLite studyLite = new StudyLite();
+		LiteStudy studyLite = new LiteStudy();
 
-		studyLite.setStudyId(this.id);
-		studyLite.setAccession(this.acc);
+		studyLite.setPersistenceId(this.id);
+		studyLite.setStudyIdentifier(this.acc);
 		studyLite.setObfuscationCode(this.obfuscationcode);
-		studyLite.setReleaseDate(this.releaseDate);
+		studyLite.setStudyPublicReleaseDate(this.releaseDate);
 
 		return studyLite;
 	}
@@ -165,14 +166,13 @@ public class StudyData  extends DataModel<Study> {
 
 
 
-	public static Set<StudyLite> studyDataToStudyLite(Set<StudyData> studies) {
+	public static Set<LiteStudy> studyDataToLiteStudy(Set<StudyData> studies) {
 
-		Set<StudyLite>liteStudies = new HashSet<StudyLite>();
+		Set<LiteStudy>liteStudies = new HashSet<LiteStudy>();
 
 		for (StudyData studyData :studies){
 
-			StudyLite studyLite = new StudyLite();
-			studyLite = studyData.studyDataToStudyLite();
+			LiteStudy studyLite = studyData.studyDataToLiteStudy();
 
 			// Add it to the collection
 			liteStudies.add(studyLite);

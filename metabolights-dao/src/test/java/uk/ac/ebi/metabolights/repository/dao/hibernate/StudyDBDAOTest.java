@@ -145,6 +145,45 @@ public class StudyDBDAOTest extends DAOTest {
 
 
 	}
+
+	@Test
+	public void test2StudiesForSameUser() throws DAOException {
+
+		StudyDAO studyDBDAO = new StudyDAO();
+
+		Study newStudy1 = new Study();
+		newStudy1.setStudyIdentifier(ACC + System.currentTimeMillis());
+
+		// Add one user
+		User newUser = UserDAOTest.getUser();
+
+		// Add the user to the studies
+		newStudy1.getUsers().add(newUser);
+		studyDBDAO.save(newStudy1);
+
+		Study newStudy2 = new Study();
+		newStudy2.setStudyIdentifier(ACC + System.currentTimeMillis());
+		newStudy2.getUsers().add(newUser);
+
+		studyDBDAO.save(newStudy2);
+
+
+		// Get the user from the database
+		UserDAO userDAO = new UserDAO();
+		User userFromDB =userDAO.findById(newUser.getUserId());
+
+		Assert.assertEquals("Test BD user has 2 studies", 2 ,userFromDB.getStudies().size());
+
+
+		// Test user has 2 studies
+		Assert.assertEquals("Test memory user has 2 studies", 2 ,newUser.getStudies().size());
+
+
+
+
+	}
+
+
 	@Test
 	public void testFindAll() throws DAOException {
 
