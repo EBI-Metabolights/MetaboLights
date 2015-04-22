@@ -35,7 +35,7 @@ import java.util.List;
 public class Table implements Iterable<Row>{
 
 	private  List<List<String>> data;
-	private LinkedHashMap<String,Field> fields;
+	private LinkedHashMap<String,Field> fields = new LinkedHashMap<>();
 
 	public Table(){
 	};
