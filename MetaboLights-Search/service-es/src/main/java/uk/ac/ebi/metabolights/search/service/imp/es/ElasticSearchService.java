@@ -23,7 +23,6 @@ package uk.ac.ebi.metabolights.search.service.imp.es;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
@@ -59,6 +58,7 @@ import uk.ac.ebi.metabolights.search.service.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -768,7 +768,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 			LiteEntity liteEntity = null;
 
-			if (isAStudy(hit.getId())){
+			if (hit.getType().equals(STUDY_TYPE_NAME)){
 				liteEntity = hit2Study(hit);
 			}
 
@@ -778,7 +778,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		} catch (IndexingFailureException e) {
 
 			searchResult.report("Can't convert hit: " + hit.getId() + " to LiteEntity");
-			logger.error("Conversion to liteentity error", e);
+			logger.error("Conversion to lite entity error", e);
 		}
 
 	}
@@ -788,7 +788,9 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		LiteStudy study = new LiteStudy();
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
+
+		// It's using GMT to deserialise, but JVM Timezone to serialise? Force JVM time zone here.
+		mapper.setTimeZone(Calendar.getInstance().getTimeZone());
 		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
 		try {
@@ -817,7 +819,6 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	}
 	private String study2String(Study study) throws IndexingFailureException {
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
 
 		try {
 			return mapper.writeValueAsString(study);

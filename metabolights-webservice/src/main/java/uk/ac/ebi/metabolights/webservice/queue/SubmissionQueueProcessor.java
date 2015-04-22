@@ -94,7 +94,7 @@ public class SubmissionQueueProcessor {
 			else if (si.getSubmissionType()== SubissionType.CHANGE_PUBLIC_RELEASE_DATE){
 
 				updatePublicReleaseDate();
-				AppContext.getEmailService().sendQueuedPublicReleaseDateUpdated(si.getUserId(), si.getAccession(), si.getPublicReleaseDate());
+				AppContext.getEmailService().sendQueuedPublicReleaseDateUpdated(si.getUserToken(), si.getAccession(), si.getPublicReleaseDate());
 
 			}
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
@@ -103,7 +103,7 @@ public class SubmissionQueueProcessor {
 				//Call deletion...
 				deleteStudy();
 
-				AppContext.getEmailService().sendStudyDeleted(si.getUserId(), si.getAccession());
+				AppContext.getEmailService().sendStudyDeleted(si.getUserToken(), si.getAccession());
 
 			}
 			// It's then an update
@@ -113,7 +113,7 @@ public class SubmissionQueueProcessor {
 				// Update study
 				updateStudy();
 
-				AppContext.getEmailService().sendQueuedStudyUpdated(si.getUserId(), si.getAccession(), si.getPublicReleaseDate());
+				AppContext.getEmailService().sendQueuedStudyUpdated(si.getUserToken(), si.getAccession(), si.getPublicReleaseDate());
 
 
 			} else {
@@ -132,7 +132,7 @@ public class SubmissionQueueProcessor {
             // Clean the process folder anyway
             cleanProcessFolder();
 
-			AppContext.getEmailService().sendSubmissionError(si.getUserId(), si.getOriginalFileName(), e);
+			AppContext.getEmailService().sendSubmissionError(si.getUserToken(), si.getOriginalFileName(), e);
 		}
 
 
@@ -226,7 +226,7 @@ public class SubmissionQueueProcessor {
 		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
 
 		// Add the study.
-		Study newStudy = studyDAO.add(si.getUnzippedFolder(), si.getPublicReleaseDate(), si.getUserId());
+		Study newStudy = studyDAO.add(si.getUnzippedFolder(), si.getPublicReleaseDate(), si.getUserToken());
 
 		//Index the study
 		searchService.index(newStudy);

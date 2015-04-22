@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.annotations.Type;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.Constants;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
@@ -47,7 +48,7 @@ public class StudyData  extends DataModel<Study> {
 	private String obfuscationcode = java.util.UUID.randomUUID().toString();
 	private int status;
 	// Initialise release date to 30 days after today.
-	private Date releaseDate = new Date(new Date().getTime() + (1000L*60L*60L*24L*30L));
+	private Date releaseDate =  new Date(DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH).getTime() + (1000L*60L*60L*24L*30L));
 	private Set<UserData> users = new HashSet<>();
 
 	@Column(unique = true)

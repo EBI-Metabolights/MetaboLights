@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
 import uk.ac.ebi.metabolights.repository.model.User;
@@ -40,7 +39,7 @@ import javax.annotation.Resource;
  * It is appropriate to annotate the service-layer classes with @Service to facilitate processing by tools or anticipating any future
  * service-specific capabilities that may be added to this annotation.
  */
-@Service 
+//@Service
 public class UserServiceImpl implements UserService{
 
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -85,25 +84,36 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 //	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String userToken) throws UsernameNotFoundException {
 
-		User user= null;
-		try {
-			user = userDAO.findByToken(s);
-
-		} catch (DAOException e) {
-			logger.error("Can't find user by token.", e);
-		}
-
-		if (user == null){
-			user = new User();
-			user.setUserName(s);
-			user.setStatus(User.UserStatus.ACTIVE);
-		}
+		User user = getUser(userToken);
 
 		SpringUser sUser = new SpringUser(user);
 
 		return sUser;
 
+	}
+
+	private User getUser(String userToken) {
+		User user = null ;
+		try {
+			user = userDAO.findByToken(userToken);
+
+			if (user == null){
+				user = new User();
+				user.setUserName(userToken);
+				user.setStatus(User.UserStatus.ACTIVE);
+			}
+
+
+		} catch (DAOException e) {
+			logger.error("Can't find user by token {}",userToken, e);
+		}
+		return user;
+	}
+
+	@Override
+	public User lookupByToken(String userToken) {
+		return getUser(userToken);
 	}
 }

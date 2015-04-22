@@ -23,12 +23,12 @@ package uk.ac.ebi.metabolights.webservice.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import junit.framework.Assert;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Table;
+import uk.ac.ebi.metabolights.repository.model.User;
 
 import java.io.IOException;
 
@@ -41,6 +41,10 @@ public class StudySerializationTest {
 		test.setTitle("title");
 
 		test.setSampleTable(getTestTable());
+
+
+		User user = new User();
+		test.getUsers().add(user);
 
 		return test;
 	}
@@ -67,17 +71,19 @@ public class StudySerializationTest {
 		Study study = getTestStudy();
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
 
 		String studyString = mapper.writeValueAsString(study);
 
-
 		Assert.assertTrue("Test serialization of a title", studyString.contains("\"title\":\"title\""));
-
 
 		// Test serialization of fields
 		Assert.assertTrue("Test serialization of a fields", studyString.contains("\"header\":\"Field1\""));
 
+		// Test serialization of users
+		Assert.assertTrue("Test serialization of a users", studyString.contains("\"users\":[{"));
+
+		// Test serialization of users, listofallstatus not serialized
+		Assert.assertFalse("listofstatus is being serialized!", studyString.contains("listOfAllStatus"));
 
 	}
 
@@ -88,7 +94,6 @@ public class StudySerializationTest {
 		Table table = getTestTable();
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
 
 		String tableString = mapper.writeValueAsString(table);
 

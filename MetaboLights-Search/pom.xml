@@ -32,7 +32,9 @@
 
     <artifactId>metabolights-search</artifactId>
     <name>MetaboLights Search</name>
+    <version>1.4</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>service</module>
         <module>service-es</module>
