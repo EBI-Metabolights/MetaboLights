@@ -21,6 +21,8 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -193,7 +195,7 @@ public class User {
 		return address;
 	}
 
-
+	@JsonIgnore
 	public UserStatus[] getListOfAllStatus(){
 		return UserStatus.values();
 	}
@@ -225,6 +227,7 @@ public class User {
 		this.apiToken = api_token;
 	}
 
+	@JsonIgnore
 	public Set<LiteStudy> getStudies() {
 		return studies;
 	}

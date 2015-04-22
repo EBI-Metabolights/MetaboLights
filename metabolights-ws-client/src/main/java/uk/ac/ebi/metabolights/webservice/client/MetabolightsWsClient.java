@@ -4,6 +4,26 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
+ * Last modified: 2015-Apr-22
+ * Modified by:   kenneth
+ *
+ * Copyright 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
  * Last modified: 6/11/14 10:03 AM
  * Modified by:   conesa
  *
@@ -53,6 +73,7 @@ public class MetabolightsWsClient {
     private static final String ANONYMOUS = "JAVA_WS_client_Anonymous";
     private static final String DEAFULT_TOKEN_HEADER = "user_token";
     private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
+    private static final String STUDY_PATH = "study/";
 
     private String tokenHeaderName = DEAFULT_TOKEN_HEADER;
     private String userToken = ANONYMOUS;
@@ -63,8 +84,6 @@ public class MetabolightsWsClient {
 
     public MetabolightsWsClient() {
     }
-
-    ;
 
     public String getTokenHeaderName() {
         return tokenHeaderName;
@@ -195,8 +214,19 @@ public class MetabolightsWsClient {
 
     }
 
+    public RestResponse<String[]> getAllStudyAcc() {
+
+        logger.info("Getting all public study identifiers from the MetaboLights WS client");
+
+        // Make the request
+        String response = makeGetRequest(STUDY_PATH + "list");
+
+        return deserializeJSONString(response, String[].class);
+
+    }
+
     private String getStudyPath(String studyIdentifier) {
-        return "study/" + studyIdentifier;
+        return STUDY_PATH + studyIdentifier;
     }
 
     public RestResponse<MetaboliteAssignment> getMetabolites(String studyIdentifier, int assayNumber) {
