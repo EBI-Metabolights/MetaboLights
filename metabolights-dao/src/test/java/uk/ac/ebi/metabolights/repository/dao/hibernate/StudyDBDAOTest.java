@@ -178,10 +178,44 @@ public class StudyDBDAOTest extends DAOTest {
 		// Test user has 2 studies
 		Assert.assertEquals("Test memory user has 2 studies", 2 ,newUser.getStudies().size());
 
+	}
+
+	@Test
+	public void test1Study2Users() throws DAOException {
+
+		StudyDAO studyDBDAO = new StudyDAO();
+
+		Study newStudy1 = new Study();
+		newStudy1.setStudyIdentifier(ACC + System.currentTimeMillis());
+
+		// Add one user
+		User newUser = UserDAOTest.getUser();
+
+		// Add the user to the studies
+		newStudy1.getUsers().add(newUser);
+
+		// Add one user
+		User newUser1 = UserDAOTest.getUser();
+
+		// Add the user to the studies
+		newStudy1.getUsers().add(newUser1);
+		studyDBDAO.save(newStudy1);
 
 
+
+		// Get the study from the database
+		studyDBDAO.findByAccession(newStudy1.getStudyIdentifier());
+
+		Assert.assertEquals("Study form DB must have 2 users", 2 ,newStudy1.getUsers().size());
+
+
+		// Test users have the study
+		Assert.assertEquals("User has the study", 1 ,newUser.getStudies().size());
+		Assert.assertEquals("User1 has the study", 1 ,newUser1.getStudies().size());
 
 	}
+
+
 
 
 	@Test
