@@ -22,6 +22,7 @@
 package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -60,6 +61,7 @@ public class LiteStudy extends LiteEntity {
 	// Collections
 	private Collection<StudyFactor> factors;
 	private Collection<Organism> organism;
+	@JsonProperty
 	private List<User> users = new ArrayList<>();
 	private ObservableList<User> usersObserver = FXCollections.observableList(users);
 
@@ -156,7 +158,12 @@ public class LiteStudy extends LiteEntity {
 	}
 
 	public void setUsers(List<User> users) {
-		this.users = users;
+
+		// To keep observableList in sync, do not overwrite the users, since the observer will not observe the new list
+//		this.users = users;
+
+		usersObserver.clear();
+		usersObserver.addAll(users);
 	}
 
 	public String getObfuscationCode() {

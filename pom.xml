@@ -38,6 +38,10 @@
         <!--<module>ISAcreator-shaded</module>-->
         <module>metabolights-search</module>
     </modules>
+    <properties>
+        <com.fasterxml.jackson.version>2.4.3</com.fasterxml.jackson.version>
+    </properties>
+
     <build>
         <extensions>
             <extension>
