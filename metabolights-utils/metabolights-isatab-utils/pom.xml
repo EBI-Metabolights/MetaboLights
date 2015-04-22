@@ -29,13 +29,14 @@
     <groupId>uk.ac.ebi.metabolights</groupId>
     <name>MetaboLights ISAtab Utilities</name>
     <description>MetaboLights ISAtab Utilities</description>
+    <!--Migrated to slf4j + log4j-->
     <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
         <artifactId>metabolights-utils</artifactId>
         <groupId>uk.ac.ebi.metabolights</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
 
 </project>
