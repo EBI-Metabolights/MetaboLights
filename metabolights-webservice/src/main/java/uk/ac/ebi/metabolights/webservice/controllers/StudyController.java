@@ -4,6 +4,26 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
+ * Last modified: 2015-Apr-22
+ * Modified by:   kenneth
+ *
+ * Copyright 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
  * Last modified: 7/11/14 3:39 PM
  * Modified by:   conesa
  *
@@ -42,6 +62,7 @@ import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
 import java.io.File;
+import java.util.List;
 
 @Controller
 @RequestMapping("study")
@@ -67,6 +88,37 @@ public class StudyController {
 		logger.info("Requesting full study " + accession + " to the webservice");
 
 		return getStudy(accession, true);
+
+	}
+
+	@RequestMapping("list")
+	@ResponseBody
+	public RestResponse<String[]> getAllStudyAccessions() {
+
+		logger.info("Requesting a list of all public studies from the webservice");
+
+		RestResponse<String[]> response = new RestResponse<>();
+
+		try {
+			studyDAO = getStudyDAO();
+
+		} catch (DAOException e) {
+			logger.error("Can't instantiate StudyDAO", e);
+			return null;
+		}
+
+		try {
+			List<String> studyList = studyDAO.getList(getUser().getApiToken());
+
+			String[] strarray = studyList.toArray(new String[0]);
+			response.setContent(strarray);
+		} catch (DAOException e) {
+			logger.error("Can't get the list of studies", e);
+			response.setMessage("Can't get the study requested.");
+			response.setErr(e);
+		}
+
+		return response;
 
 	}
 
@@ -141,18 +193,25 @@ public class StudyController {
 
 
 		String filePath = assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName();
-		if (checkFileExists(filePath)){
-			logger.info("MAF file found, starting to read data from "+filePath);
-			metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
-		}  else {
-			logger.error("MAF file " + filePath + " does not exist!");
-			metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
+
+		if (filePath != null || !filePath.isEmpty()) {
+			if (checkFileExists(filePath)) {
+				logger.info("MAF file found, starting to read data from " + filePath);
+				metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
+			} else {
+				logger.error("MAF file " + filePath + " does not exist!");
+				metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
+			}
 		}
 
 		return new RestResponse<MetaboliteAssignment>(metaboliteAssignment);
 	}
 
 	private boolean checkFileExists(String filePath){
+
+		if (filePath == null || filePath.isEmpty())
+			return false;        // No filename given
+
 		File mafFile = new File(filePath);
 
 		if (mafFile.exists())
