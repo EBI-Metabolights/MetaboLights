@@ -194,7 +194,7 @@ public class StudyController {
 
 		String filePath = assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName();
 
-		if (filePath != null || !filePath.isEmpty()) {
+		if (filePath != null && !filePath.isEmpty()) {
 			if (checkFileExists(filePath)) {
 				logger.info("MAF file found, starting to read data from " + filePath);
 				metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);

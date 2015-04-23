@@ -10,18 +10,17 @@ rm -r metabolights-webapps/src/main/webapp/WEB-INF/classes
 rm -r /usr/local/tomcat/webapps/metabolights
 rm metabolights-webapps/target/metabolights-webapp-*.war
 rm  $ML/metabolights-webservice/target/*.war
+rm  -rf $ML/metabolights-webservice/target/*
 cd metabolights-domain
 mvn clean install $DEPLOY -DskipTests=true
 cd ../metabolights-dao
 mvn clean install $DEPLOY -DskipTests=true
-cd ../metabolights-ws-client
-mvn clean install $DEPLOY -DskipTests=true
+cd ../MetaboLights-Search
+mvn clean package $DEPLOY -DskipTests=true
 cd ../metabolights-webservice
 mvn clean package $DEPLOY -DskipTests=true
 cd ../metabolights-ws-client
-mvn clean package $DEPLOY -DskipTests=true
-cd ../MetaboLights-Search
-mvn clean package $DEPLOY -DskipTests=true
+mvn clean install $DEPLOY -DskipTests=true
 cd ../metabolights-webapps
 mvn compile war:inplace war:war
 cp $ML/metabolights-webapps/target/metabolights-webapp-*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-dev.war

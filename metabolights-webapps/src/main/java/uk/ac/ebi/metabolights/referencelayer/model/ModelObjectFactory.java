@@ -50,28 +50,25 @@ public class ModelObjectFactory {
 
 			// Get the MetaboLights compound DAO
 			MetaboLightsCompoundDAO mcd;
-
 			mcd = new MetaboLightsCompoundDAO(AppContext.getConnection());
 
-				MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
-
-			mcd.close();
-
+			MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
+			//mcd.close();      //TODO, just for test
             mcd.returnPooledConnection();
 
+			if (mc != null ) {
+				// Get the chebi Entry
+				Entity chebiEntity = getCompleteEntityExample(mc.getChebiId());
+				Compound comp = new Compound(mc, chebiEntity);
+				logger.info("Getting compound from ChEBI" + accession);
+				return comp;
+			}
 
-			// Get the chebi Entry
-			Entity chebiEntity = getCompleteEntityExample(mc.getChebiId());
-
-
-			Compound comp = new Compound(mc, chebiEntity);
-
-
-			return comp;
+			return null;
 
 
 		} catch (Exception e) {
-
+			logger.error("Could not get compound " + accession);
 			logger.error(e.getMessage());
 
 			return null;
