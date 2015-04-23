@@ -178,9 +178,9 @@ public class EmailService {
 	/*
 	 * Email to send when a study is been successfully updated ...
 	 */
-	public void sendQueuedStudyUpdated(String userEmail,String ID, Date publicReleaseDate){
+	public void sendQueuedStudyUpdated(String userToken,String ID, Date publicReleaseDate){
 		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, curationEmailAddress};
+		String[] to = {userTokenToEmail(userToken), curationEmailAddress};
 		String subject = PropertyLookUpService.getMessage("mail.updateStudy.subject", ID);
 		String body = PropertyLookUpService.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
 

@@ -60,14 +60,21 @@
 	      maxActive="50"
 	      maxIdle="10"
 	      maxWait="-1"/>
-   <Environment name="isatabConfigurationLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations/" type="java.lang.String"/>
-   <Environment name="publicStudiesLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/studies/ftp/public/" type="java.lang.String"/>
-   <Environment name="privateStudiesLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/studies/stage/private/" type="java.lang.String"/>
-    <!-- This is where the new web app looks for the users upload directory (LABS) -->
-   <Environment name="userSpace" value="<some large file system>" type="java.lang.String"/>
 
-   <Environment name="mailServer" value="xxxx" type="java.lang.String"/>
-   <Environment name="EBIHost" value="http://www.ebi.ac.uk/metabolights/" type="java.lang.String"/>
-   <Environment name="curationEmailAddress" value="xxx@xxx.xx" type="java.lang.String"/>
+    <Environment name="isatabConfigurationLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations/" type="java.lang.String"/>
+    <Environment name="publicStudiesLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/studies/ftp/public/" type="java.lang.String"/>
+    <Environment name="privateStudiesLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/studies/stage/private/" type="java.lang.String"/>
+
+    <!-- uploadDirectory is used the by the metabolights-uploader module, for BII submissions -->
+    <Environment name="uploadDirectory" value="/nfs/production/panda/metabolights/isatab/upload/" type="java.lang.String"/>
+    <Environment name="ondemand" value="/nfs/public/rw/homes/tc_cm01/zip_ondemand/" type="java.lang.String"/>
+
+    <!-- This is where the new web app looks for the users upload directory (LABS) -->
+    <Environment name="userSpace" value="<some large file system>" type="java.lang.String"/>
+
+    <!-- Mail settings-->
+    <Environment name="mailServer" value="xxxx" type="java.lang.String"/>
+    <Environment name="EBIHost" value="http://www.ebi.ac.uk/metabolights/" type="java.lang.String"/>
+    <Environment name="curationEmailAddress" value="xxx@xxx.xx" type="java.lang.String"/>
 
 </GlobalNamingResources>

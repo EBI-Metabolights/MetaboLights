@@ -61,41 +61,43 @@
         </property>
     </bean>
 
+    <jee:jndi-lookup id="dataSource" jndi-name="dataSource" resource-ref="true" />
 
     <!--JNDI variable from tomcat context files-->
     <jee:jndi-lookup id="isatabConfigurationLocation" jndi-name="java:comp/env/isatabConfigurationLocation" />
     <jee:jndi-lookup id="publicStudiesLocation" jndi-name="java:comp/env/publicStudiesLocation" />
     <jee:jndi-lookup id="privateStudiesLocation" jndi-name="java:comp/env/privateStudiesLocation" />
-    <jee:jndi-lookup id="dataSource" jndi-name="dataSource" resource-ref="true" />
+    <jee:jndi-lookup id="uploadDirectory" jndi-name="java:comp/env/uploadDirectory" />
+    <jee:jndi-lookup id="ondemand" jndi-name="java:comp/env/ondemand" />
 
     <!-- Email service settings-->
-    <jee:jndi-lookup id="mailServer"		        jndi-name="java:comp/env/mailServer"/>
-    <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
-    <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
+    <jee:jndi-lookup id="mailServer" jndi-name="java:comp/env/mailServer"/>
+    <jee:jndi-lookup id="EBIHost" jndi-name="java:comp/env/EBIHost"/>
+    <jee:jndi-lookup id="curationEmailAddress" jndi-name="java:comp/env/curationEmailAddress"/>
 
-    <jee:jndi-lookup id="uploadDirectory"           jndi-name="java:comp/env/uploadDirectory" />
 
-    <!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
-        <!--<property name="host" value="#{mailServer}"/>-->
-    <!--</bean>-->
 
-    <!-- Gmail email settings -->
-    <jee:jndi-lookup id="mailpassword"		            jndi-name="java:comp/env/mailpassword"/>
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-
-        <property name="host"><value>smtp.gmail.com</value></property>
-        <property name="port"><value>587</value></property>
-        <property name="protocol"><value>smtp</value></property>
-        <property name="username"><value>p.conesa.mingo</value></property>
-        <property name="password"><value>#{mailpassword}</value></property>
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.starttls.enable">true</prop>
-                <prop key="mail.smtp.quitwait">false</prop>
-            </props>
-        </property>
+        <property name="host" value="#{mailServer}"/>
     </bean>
+
+    <!--&lt;!&ndash; Gmail email settings &ndash;&gt;-->
+    <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->
+    <!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
+
+        <!--<property name="host"><value>smtp.gmail.com</value></property>-->
+        <!--<property name="port"><value>587</value></property>-->
+        <!--<property name="protocol"><value>smtp</value></property>-->
+        <!--<property name="username"><value>gmailuser</value></property>-->
+        <!--<property name="password"><value>#{mailpassword}</value></property>-->
+        <!--<property name="javaMailProperties">-->
+            <!--<props>-->
+                <!--<prop key="mail.smtp.auth">true</prop>-->
+                <!--<prop key="mail.smtp.starttls.enable">true</prop>-->
+                <!--<prop key="mail.smtp.quitwait">false</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
         <property name="velocityProperties">
@@ -107,7 +109,7 @@
     </bean>
 
 
-
+    <!-- Configure the DAOFactory-->
     <bean id="DAOFactory"
           class="uk.ac.ebi.metabolights.repository.dao.DAOFactory"
           factory-method="initializeWithDataSource">

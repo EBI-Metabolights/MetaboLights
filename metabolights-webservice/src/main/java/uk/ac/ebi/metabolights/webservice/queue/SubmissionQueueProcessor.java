@@ -69,7 +69,7 @@ public class SubmissionQueueProcessor {
 		try {
 
 			// Check if the process can start
-			if (!CanProcessStart())
+			if (!canProcessStart())
 				throw new Exception("Processing (Submission) can't start. See logs for more detailed information.");
 
 			//Check if we process folder is empty
@@ -111,7 +111,7 @@ public class SubmissionQueueProcessor {
 			else if (si.getSubmissionType() == SubissionType.UPDATE) {
 
 				// Update study
-				updateStudy();
+				update();
 
 				AppContext.getEmailService().sendQueuedStudyUpdated(si.getUserToken(), si.getAccession(), si.getPublicReleaseDate());
 
@@ -159,7 +159,7 @@ public class SubmissionQueueProcessor {
         };
 	}
 
-	public boolean CanProcessStart(){
+	public boolean canProcessStart(){
 
 		int errors=0;
 
@@ -245,6 +245,52 @@ public class SubmissionQueueProcessor {
 		return newStudy;
 
 	}
+
+	/**
+	 * Re-submit process:
+	 no need to allocate a new MTBLS id during this process
+	 - Check that the logged in user owns the chosen study
+	 - Check that the study is PRIVATE (? what do we think ?).  This could stop submitters from "nullifying" a public study.
+
+	 - Update new zipfile with Public date from the resubmission form?
+	 - Update Public DB with public release date
+	 - Update files (audit must be active)
+	 - Index study
+	 - Remove zipfile in on demand forder if exists.
+	 - Display a success or error page to the submitter.  Email metabolights-help and submitter with results
+	 * @return
+	 * @throws Exception
+	 */
+
+
+	public Study update() throws Exception{
+
+
+		// Unzip the file...
+		si.unzip();
+
+		// Validate it before anything?
+
+		// Persist in the database
+		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+		// Add the study.
+		Study newStudy = studyDAO.update(si.getUnzippedFolder(), si.getAccession(),si.getPublicReleaseDate(), si.getUserToken());
+
+		//Index the study
+		searchService.index(newStudy);
+
+		// Delete the original zip file...
+		si.getFileQueued().delete();
+
+		// Delete the temporary zipfile if exist
+		deleteZippedFile(si.getAccession());
+
+		//Return the new accession number.
+		return newStudy;
+
+	}
+
 	/**
 	 * Delete a study from the system (both: Database and file system).
 	 * @throws Exception
@@ -306,157 +352,13 @@ public class SubmissionQueueProcessor {
 //		return studyDAO;
 //
 //	}
-	/**
-	 * Re-submit process:
-		Each step must successfully validate, if not then stop and display an error
-		no need to allocate a new MTBLS id during this process
-		OK - Check that the logged in user owns the chosen study
-		OK - Check that the study is PRIVATE (? what do we think ?).  This could stop submitters from "nullifying" a public study.
-		OK - Unzip the new zipfile and check that the study id is matching (MTBLS id)
-		OK - Update new zipfile with Public date from the resubmission form
-		OK - Unload the old study
-		OK - IF SUCCESSFULLY UNLOADED =  DO NOT Remove old study zipfile
-		OK - IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
-		OK - Upload the new study (includes Lucene re-index)
-		OK - IF ERROR = Reupload the old zipfile, DO NOT Remove old study zipfile
-		OK - Copy the new zipfile to the correct folder (public or private locations)
-		OK - Remove old study zipfile
-		Display a success or error page to the submitter.  Email metabolights-help and submitter with results
-	 * @return
-	 * @throws Exception
-	 */
-
-
-	public void updateStudy() throws Exception{
-
-
-//		// Define the back up path of the existing file
-//		File backup = new File(SubmissionQueue.getBackUpFolder() + si.getAccession());
-//		boolean needRestore = false;
-//
-//		try {
-//
-//			// Get the uploader configured...
-//			IsaTabUploader studyDAO = getIsaTabUploader();
-//
-//			// Check that the new zip file has the same studyID (this will unzip the file)
-//			Map<String,String> zipValues = studyDAO.getStudyFields(si.getFileQueued(), new String[]{"Study Identifier"});
-//
-//			String newStudyId = zipValues.get("Study Identifier");
-//
-//            //TODO, add a check for both the submitted studyid and the MTBLS id
-//			//If Ids do not match...
-//			if (!si.getAccession().equals(newStudyId)){
-//
-//				// Get study XRefs...
-//				List<MetaboLightsStudyXRef> studyXrefs = AppContext.getAccessionService().getStudyXRefs(si.getAccession());
-//
-//				boolean found = false;
-//
-//				for (MetaboLightsStudyXRef studyXRef:studyXrefs){
-//					if (studyXRef.getSubmittedId().equals(newStudyId)){
-//						found = true;
-//					}
-//				}
-//
-//				if (!found) {
-//					throw new Exception(PropertyLookUpService.getMessage("msg.validation.studyIdDoNotMatch", newStudyId, si.getAccession()));
-//				}
-//
-//			}
-//
-//			// Check there is a previous back up
-//			if (backup.exists()){
-//				throw new Exception(PropertyLookUpService.getMessage("msg.validation.backupFileExists", si.getAccession()));
-//			}
-//
-//			//Validate the new file
-//			try{
-//				// It has to be a directory...the call to getStudyFile has unzipped the file to unzip folder. We will use it.
-//				studyDAO.validate(studyDAO.getUnzipFolder());
-//
-//			} catch (Exception e){
-//
-//				List<TabLoggingEventWrapper> isaTabLog = studyDAO.getSimpleManager().getErrors();
-//				throw new Exception(PropertyLookUpService.getMessage("msg.validation.invalid") + "\n\nERROR:" + e.getMessage() + "\n\n" + isaTabLog.toString() );
-//
-//			}
-//
-//			// Make the backup...
-//			File currentFile = new File(studyDAO.getCurrentStudyFilePath(si.getAccession()));
-//			// NOTE: This is reseting the status based on the place the study it's been found.(Which makes it fail when the study is private and need to be public.
-//			studyDAO.setStatus(si.getStatus());
-//
-//			// Now it's unzipped...not a file anymore
-//			//FileUtils.copyFile(currentFile, backup);
-//			FileUtils.moveDirectory(currentFile, backup);
-//
-//			// Unload the study, this will remove the file too.
-//			logger.info("Deleting previous study " + si.getAccession());
-//			studyDAO.unloadISATabFile(si.getAccession());
-//
-//			// From this point restoring the backup must be done in case of an exception
-//			needRestore = true;
-//
-//			// upload the new study with the new date
-//			// NOTE: this will unzip again the file (done previously in the getStudyFields
-//			// To avoid unziping it twice (specially for large files) we can set the isaTabFile property
-//			// to the unzipped folder and it should work...
-//			studyDAO.setIsaTabFile(studyDAO.getUnzipFolder());
-//
-//			// To test the restore backup
-//			//if (needRestore){throw new Exception("fake exception");}
-//
-//			logger.info("Uploading new study");
-//
-//			studyDAO.UploadWithoutIdReplacement(si.getAccession());
-//
-//			// Remove the backup
-//			needRestore = false;
-//
-//
-//			FileUtils.deleteDirectory(backup);
-//            deleteZippedFile(si.getAccession());
-//
-//
-//		} catch (Exception e){
-//
-//			// If there is a need of restoring the backup
-//			if (needRestore){
-//
-//
-//				// TODO  Restore process...
-////				// Calculate the previous status
-////				VisibilityStatus oldStatus = params.study.getIsPublic()?VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE;
-////
-////
-//////				// Error:
-//////				Caused by: java.lang.InterruptedException: sleep interrupted
-//////				at java.lang.Thread.sleep(Native Method)
-//////				at org.isatools.isatab.commandline.AbstractImportLayerShellCommand.createDataLocationManager(AbstractImportLayerShellCommand.java:402)
-////
-////				// Get the uploader configured
-////				si.getFileQueued()
-////
-////				IsaTabUploader studyDAO = getIsaTabUploader(backup.getAbsolutePath(), oldStatus, null);
-////
-////				// Upload the old study
-////				studyDAO.UploadWithoutIdReplacement(si.getAccession());
-////
-////				// Delete the backup
-////				backup.delete();
-//
-//				// TODO: Send email. Return a different response...
-//				throw new Exception("There was an error while updating the study. We have restored the previous experiment. " + e.getMessage());
-//
-//			}else{
-//				throw e;
-//			}
-//		}
-
-	}
 
     private void deleteZippedFile(String study){
+
+		if (zipOnDemandLocation == null) {
+			logger.warn("ondemand folder is not set. Can't delete possible existing zipped files!!. Study: {}" ,study );
+			return;
+		}
 
         File zippedStudy = new File (zipOnDemandLocation + study + ".zip");
 
