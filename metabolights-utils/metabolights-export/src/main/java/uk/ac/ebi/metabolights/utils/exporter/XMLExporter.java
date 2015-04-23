@@ -37,27 +37,31 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XMLExporter {
 
-    private static String xmlFileName = null;
     private final static Logger logger = LoggerFactory.getLogger(XMLExporter.class.getName());
-    private static DocumentBuilderFactory dbf = null;
-    private static DocumentBuilder builder = null;
-    private static Document doc = null;
     private final static String DATABASE = "database";
     private final static String ENTRIES = "entries";
     private final static String FIELD = "field";
     private final static String DBKEY = "dbkey";
     private final static String XREF = "ref";
-    private static String[] allStudies = null;
     private final static String ML_BASE_URL = "http://www.ebi.ac.uk/metabolights";
     private final static String ML_BASE_FTP = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/";
-    private static String WSCLIENT_URL = ML_BASE_URL + "/webservice/";
     private final static String STUDY_STATUS = "Public";
     private final static String CROSS_REFS = "cross_references";
     private final static String OMICS_TYPE = "Metabolomics";
+    private static String xmlFileName = null;
+    private static DocumentBuilderFactory dbf = null;
+    private static DocumentBuilder builder = null;
+    private static Document doc = null;
+    private static String[] allStudies = null;
+    private static String WSCLIENT_URL = ML_BASE_URL + "/webservice/";
     private static MetabolightsWsClient wsClient;
+
+    public XMLExporter(){}
 
     public static DocumentBuilderFactory getDbf() {
         if (dbf == null)
@@ -66,21 +70,18 @@ public class XMLExporter {
     }
 
     public static DocumentBuilder getBuilder() {
-
         try {
             if (builder == null)
-            builder = getDbf().newDocumentBuilder();
+                builder = getDbf().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
-
         return builder;
     }
 
     public static Document getDoc() {
         if (doc == null)
             doc = getBuilder().newDocument();
-
         return doc;
     }
 
@@ -96,7 +97,11 @@ public class XMLExporter {
         return wsClient;
     }
 
-    public XMLExporter(){}
+    public static Boolean hasValue(String str){
+        if(str != null && !str.isEmpty())
+            return true;
+        return false;
+    }
 
     private static void initParams(String fileName, String wsClientURL){
         if (xmlFileName == null)
@@ -108,21 +113,17 @@ public class XMLExporter {
         validateParams(new String[]{xmlFileName,wsClientURL});
 
         doc = getDoc(); //Set up builder, parser and document
-
         allStudies = getAllStudies();
         wsClient = getWsClient();
-
     }
 
     public static void main(String[] args) throws Exception {
 
         if (!validateParams(args)){
-
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the xml export file ");
             System.out.println("    Parameter 2: The URL of the Web Service (optional)");
             System.out.println();
-
         } else {
 
             xmlFileName = args[0];
@@ -134,12 +135,10 @@ public class XMLExporter {
             writeFile(xmlFileName, WSCLIENT_URL);
 
         }
-
     }
 
 
     public static boolean writeFile(String fileName, String wsClientURL) throws Exception {
-
         try {
 
             initParams(fileName, wsClientURL);
@@ -173,7 +172,8 @@ public class XMLExporter {
     }
 
     private static String[] getStudiesList(){
-        RestResponse<String[]> response = getWsClient().getAllStudyAcc();   //{"MTBLS1","MTBLS2","MTBLS3"};
+        RestResponse<String[]> response = getWsClient().getAllStudyAcc();
+        //return new String[]{"MTBLS114"}; //{"MTBLS1", "MTBLS2", "MTBLS3"};
         return response.getContent();
     }
 
@@ -182,41 +182,122 @@ public class XMLExporter {
         return response.getContent();
     }
 
+    private static Element addProtocols(Element entry, Study study){
+
+        for (Protocol protocol : study.getProtocols()) {
+            String protocolName = protocol.getName();
+            String protocolDesc = protocol.getDescription();
+
+            switch (protocolName){
+                case "Sample collection": entry.appendChild(createChildElement(FIELD, "sample_protocol", protocolDesc)); break;
+                case "Data transformation": entry.appendChild(createChildElement(FIELD, "data_protocol", protocolDesc)); break;
+                case "Metabolite identification": entry.appendChild(createChildElement(FIELD, "metabolite_id_protocol", protocolDesc)); break;
+                case "Extraction": entry.appendChild(createChildElement(FIELD, "extraction_protocol", protocolDesc)); break;
+                case "Chromatography": entry.appendChild(createChildElement(FIELD, "chromatography_protocol", protocolDesc)); break;
+                case "Mass spectrometry": entry.appendChild(createChildElement(FIELD, "mass_spec_protocol", protocolDesc)); break;
+                case "NMR spectroscopy":  entry.appendChild(createChildElement(FIELD, "nmr_spec_protocol", protocolDesc)); break;
+                case "NMR assay": entry.appendChild(createChildElement(FIELD, "nmr_assay_protocol", protocolDesc)); break;
+                case "Derivatization": entry.appendChild(createChildElement(FIELD, "derivatization_protocol", protocolDesc)); break;
+                case "Statistical analysis": entry.appendChild(createChildElement(FIELD, "statistical_protocol", protocolDesc)); break;
+            }
+
+        }
+
+        return entry;
+    }
+
+    private static Element addXrefs(Integer numberOfAssays, Study study){
+        Element crossRefs = doc.createElement(CROSS_REFS);              //TODO, add ontologies and pubmed id's as well
+        List<String> xrefList = new ArrayList<>();
+        for (int i = 0; i < numberOfAssays; i++) {
+            i++;
+            RestResponse<MetaboliteAssignment> response = getWsClient().getMetabolites(study.getStudyIdentifier(), i);
+
+            if (response.getContent() != null){
+                MetaboliteAssignment maf = response.getContent();
+                if (maf.getMetaboliteAssignmentLines() != null) {
+                    for (MetaboliteAssignmentLine metaboliteAssignmentLine : maf.getMetaboliteAssignmentLines()) {
+                        String dbId = metaboliteAssignmentLine.getDatabaseIdentifier();
+                        dbId = dbId.trim(); //Get rid of spaces
+
+                        if (xrefList.contains(dbId))
+                            break; //Jump out as we only want unique xrefs in the list
+
+                        //Add this xref as it's the first time we see it in all assys for this study
+                        xrefList.add(dbId);
+
+                        if (dbId.startsWith("CHEBI:")) {
+                            crossRefs.appendChild(createChildElement(XREF, dbId, "ChEBI"));
+                            crossRefs.appendChild(createChildElement(XREF, dbId.replace("CHEBI:","MTBLC"), "MetaboLights"));  //Cheeky assumption for now
+                        } else if (dbId.startsWith("CID"))
+                            crossRefs.appendChild(createChildElement(XREF, dbId, "PubChem"));
+                        else if (dbId.startsWith("HMDB"))
+                            crossRefs.appendChild(createChildElement(XREF, dbId, "HMDB"));
+                        else if (dbId.startsWith("MTBLC"))
+                            crossRefs.appendChild(createChildElement(XREF, dbId, "MetaboLights"));
+                        else if (dbId.startsWith("LM"))
+                            crossRefs.appendChild(createChildElement(XREF, dbId, "LIPID MAPS"));
+                        else if (dbId.startsWith("C"))
+                            crossRefs.appendChild(createChildElement(XREF, dbId, "KEGG"));
+                        else if (dbId.startsWith("GMD"))
+                            crossRefs.appendChild(createChildElement(XREF, dbId, "GOLM"));
+                        //else if (dbId != null && !dbId.isEmpty() && dbId.length() > 2)
+                        //    crossRefs.appendChild(createChildElement(XREF, dbId, "OTHER"));
+
+                    }
+                }
+            }
+        }
+
+        if (study.getOrganism() != null)
+            for (Organism organism : study.getOrganism()) {
+                if (hasValue(organism.getOrganismName()))
+                    crossRefs.appendChild(createChildElement(XREF, organism.getOrganismName().trim(), "Organism"));
+
+                if (hasValue(organism.getOrganismPart()))
+                    crossRefs.appendChild(createChildElement(XREF, organism.getOrganismPart().trim(), "Organism Part"));
+            }
+
+       return crossRefs;
+    }
+
+
     private static void addStudies(){
         //First, add the surrounding <entries> tags
         Element entries = doc.createElement(ENTRIES);
 
         //Add all the public studies
         for (String studyAcc : allStudies){
-            System.out.println("Processing study "+studyAcc);
+            System.out.println("Processing study " + studyAcc);
             logger.info("Processing study "+studyAcc);
 
-            String sampleProtocol = null, dataProcessingProtocol = null;
             Integer numberOfAssays = 0;
             Study study = getStudy(studyAcc);
-
-            //Protocols
-            for (Protocol protocol : study.getProtocols()) {
-                String protocolName = protocol.getName();
-
-                if (protocolName.equalsIgnoreCase("Sample collection"))
-                    sampleProtocol = protocol.getDescription();
-
-                if (protocolName.equalsIgnoreCase("Data transformation"))
-                    dataProcessingProtocol = protocol.getDescription();
-            }
 
             Element entry = doc.createElement("entry");
             entry.setAttribute("id", studyAcc);
             entry.appendChild(createChildElement(FIELD, "name", study.getTitle()));
             entry.appendChild(createChildElement(FIELD, "description", study.getDescription()));
             entry.appendChild(createChildElement(FIELD, "omics_type", OMICS_TYPE));
-            entry.appendChild(createChildElement(FIELD, "sample_protocol",sampleProtocol));
-            entry.appendChild(createChildElement(FIELD, "data_protocol", dataProcessingProtocol));
 
+            //Add all protocols
+            entry = addProtocols(entry,study);
+
+            //Do not repeat values
+            List<String> techList = new ArrayList<>();
+            List<String> platformList = new ArrayList<>();
             for (Assay assay : study.getAssays()){
-                entry.appendChild(createChildElement(FIELD, "technology_type", assay.getTechnology()));
-                entry.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
+
+                if (assay.getTechnology()!= null && !assay.getTechnology().isEmpty() && !techList.contains(assay.getTechnology())) {
+                    techList.add(assay.getTechnology());
+                    entry.appendChild(createChildElement(FIELD, "technology_type", assay.getTechnology()));
+                }
+
+                if (assay.getPlatform() != null && !assay.getPlatform().isEmpty() && !platformList.contains(assay.getPlatform())) {
+                    platformList.add(assay.getPlatform());
+                    entry.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
+                }
+
                 numberOfAssays++;
             }
 
@@ -224,14 +305,27 @@ public class XMLExporter {
             entry.appendChild(createChildElement(FIELD, "ptm_modification", ""));  //Proteins only?
 
             for (User user: study.getUsers()){
-                entry.appendChild(createChildElement(FIELD, "project_submitter",user.getFirstName() + " " + user.getLastName() ));
-                entry.appendChild(createChildElement(FIELD, "submitter_keywords", user.getAffiliation() + ", " + user.getEmail()));
+                entry.appendChild(createChildElement(FIELD, "submitter", user.getFirstName() + " " + user.getLastName() ));
+                entry.appendChild(createChildElement(FIELD, "submitter_email", user.getEmail() ));
+                if (hasValue(user.getAffiliation()))
+                    entry.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
             }
 
             entry.appendChild(createChildElement(FIELD, "curator_keywords", "")); //We do not capture this
 
             for (StudyDesignDescriptors studyDesignDescriptors : study.getDescriptors()) {
-                entry.appendChild(createChildElement(FIELD, "study_design", studyDesignDescriptors.getDescription()));
+                String studyDesc = studyDesignDescriptors.getDescription();
+
+                if (studyDesc.contains(":")) {
+                    int i = 1;
+                    for (String retval : studyDesignDescriptors.getDescription().split(":")) {
+                        if (i == 2) //Get rid of ontology refs before ":"
+                            entry.appendChild(createChildElement(FIELD, "study_design", retval));
+                        i++;
+                    }
+                } else {
+                    entry.appendChild(createChildElement(FIELD, "study_design", studyDesc));
+                }
             }
 
             for (StudyFactor studyFactor : study.getFactors()) {
@@ -239,52 +333,18 @@ public class XMLExporter {
             }
 
             entry.appendChild(createChildElement(FIELD, "study_status", STUDY_STATUS));
-            entry.appendChild(createChildElement(FIELD, "full_dataset_link", ML_BASE_URL + "/" + studyAcc));
+            entry.appendChild(createChildElement(FIELD, "full_dataset_link", ML_BASE_URL + "/" + studyAcc));     //TODO, all files should be listed
             entry.appendChild(createChildElement(FIELD, "dataset_file", ML_BASE_FTP + studyAcc));
 
             for (Publication publication : study.getPublications()) {
-                if (publication.getDoi() != null && !publication.getDoi().isEmpty())
-                    entry.appendChild(createChildElement(FIELD, "publication", publication.getDoi().replaceAll("http://","").replaceFirst("dx.","")));
+                String completePublications = composePublications(publication);
 
-                if (publication.getPubmedId() != null && !publication.getPubmedId().isEmpty())
-                    entry.appendChild(createChildElement(FIELD, "publication", "PMID:"+publication.getPubmedId()));
+                if (hasValue(completePublications))
+                    entry.appendChild(createChildElement(FIELD, "publication", completePublications));
             }
 
-            //Add the cross references, in this case ID's for metabolites
-            Element crossRefs = doc.createElement(CROSS_REFS);
-            for (int i = 0; i < numberOfAssays; i++) {
-                i++;
-                RestResponse<MetaboliteAssignment> response = getWsClient().getMetabolites(studyAcc, i);
-                if (response.getContent() != null){
-                    MetaboliteAssignment maf = response.getContent();
-                    if (maf.getMetaboliteAssignmentLines() != null) {
-                        for (MetaboliteAssignmentLine metaboliteAssignmentLine : maf.getMetaboliteAssignmentLines()) {
-                            String dbId = metaboliteAssignmentLine.getDatabaseIdentifier();
-                            dbId = dbId.trim(); //Get rid of spaces
-
-                            if (dbId.startsWith("CHEBI:"))
-                                crossRefs.appendChild(createChildElement(XREF, dbId, "ChEBI"));
-                            else if (dbId.startsWith("CID"))
-                                crossRefs.appendChild(createChildElement(XREF, dbId, "PubChem"));
-                            else if (dbId.startsWith("HMDB"))
-                                crossRefs.appendChild(createChildElement(XREF, dbId, "HMDB"));
-                            else if (dbId.startsWith("MTBLC"))
-                                crossRefs.appendChild(createChildElement(XREF, dbId, "MetaboLights"));
-                            else if (dbId.startsWith("LM"))
-                                crossRefs.appendChild(createChildElement(XREF, dbId, "LIPID MAPS"));
-                            else if (dbId.startsWith("C"))
-                                crossRefs.appendChild(createChildElement(XREF, dbId, "KEGG"));
-                            else if (dbId.startsWith("GMD"))
-                                crossRefs.appendChild(createChildElement(XREF, dbId, "GOLM"));
-                            //else if (dbId != null && !dbId.isEmpty() && dbId.length() > 2)
-                            //    crossRefs.appendChild(createChildElement(XREF, dbId, "OTHER"));
-
-                        }
-                    }
-                }
-
-            }
-            entry.appendChild(crossRefs);
+            //Add the cross references
+            entry.appendChild(addXrefs(numberOfAssays, study));
 
             //Add the complete study to the entry section
             entries.appendChild(entry);
@@ -295,14 +355,36 @@ public class XMLExporter {
 
     }
 
+    private static String composePublications(Publication publication){
+        String completePublication = null;
+        String sep = ".";
+
+        if (hasValue(publication.getTitle()))
+            completePublication = publication.getTitle().trim();
+
+        if (hasValue(completePublication) && !completePublication.endsWith(sep))
+            completePublication = completePublication + sep;
+
+        if (hasValue(publication.getDoi()))
+            completePublication = completePublication + " " + publication.getDoi().replaceAll("http://","").replaceFirst("dx.", "");
+
+        if (hasValue(completePublication) && !completePublication.endsWith(sep))
+            completePublication = completePublication + sep;
+
+        if (hasValue(publication.getPubmedId()))
+            completePublication = completePublication + " " + "PMID:"+publication.getPubmedId();
+
+        if (hasValue(completePublication))
+            completePublication = completePublication.trim();
+
+        return completePublication;
+    }
+
     private static void createItemElement(String itemName, String itemValue){
         Element itemElement = doc.createElement(itemName);
 
         // add an attribute to the node
         itemElement.setTextContent(itemValue);
-
-        //Element element = doc.getDocumentElement();
-
 
         if (doc.getDocumentElement() != null) {    //There is a parent element
             doc.getDocumentElement().appendChild(itemElement);
@@ -326,11 +408,6 @@ public class XMLExporter {
             element.setAttribute("dbname", attributeText);
         }
 
-
-        // create text for the node
-        //element.insertBefore(doc.createTextNode(attributeText), element.getLastChild());
-        //doc.getDocumentElement().appendChild(element);
-
         return element;
 
     }
@@ -348,9 +425,8 @@ public class XMLExporter {
     private static boolean validateParams(String args[]){
 
         // If there isn't any parameter
-        if (args == null || args.length == 0){
+        if (args == null || args.length == 0)
             return false;
-        }
 
         if (args[0] == null || args[0].equals("") || !args[0].endsWith(".xml") || !args[0].contains(File.separator)){
             System.out.println("ERROR: You must provide a fully qualified filename with extension '.xml'");

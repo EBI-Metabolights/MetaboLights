@@ -32,7 +32,7 @@
     <parent>
         <artifactId>metabolights-main</artifactId>
         <groupId>uk.ac.ebi.metabolights</groupId>
-        <version>1.4</version>
+        <version>1.5</version>
     </parent>
 
     <properties>
@@ -44,7 +44,7 @@
         <module>dao</module>
         <module>WoRMS-client</module>
         <module>importer</module>
-        <module>BMLNMRtoMetaboLights</module>
+        <!-- module>BMLNMRtoMetaboLights</module-->
     </modules>
 
     <build>
