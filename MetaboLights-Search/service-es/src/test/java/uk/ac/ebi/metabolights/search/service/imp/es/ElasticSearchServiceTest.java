@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
@@ -116,7 +117,7 @@ public class ElasticSearchServiceTest {
 		session.save(owner);
 
 		// Add study data
-		uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO dbStudyDAO = new uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO();
+//		uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO dbStudyDAO = new uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO();
 
 		privateStudy = new StudyData();
 		privateStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
@@ -136,9 +137,7 @@ public class ElasticSearchServiceTest {
 		publicStudy2.getUsers().add(curator);
 		session.save(publicStudy2);
 
-
 		session.noNeedSession();
-
 
 	}
 
@@ -175,14 +174,17 @@ public class ElasticSearchServiceTest {
 
 		Assert.assertEquals(publicStudy.getAcc() + " LiteStudy id populated", publicStudy.getAcc() , mtbls1.getStudyIdentifier());
 		Assert.assertNotNull(publicStudy.getAcc() + " LiteStudy title populated", mtbls1.getTitle());
+
+		// With dates
 		Assert.assertEquals(publicStudy.getAcc() + " LiteStudy public release date populated", publicStudy.getReleaseDate(), mtbls1.getStudyPublicReleaseDate());
 
+		// Users collection has one user
+		Assert.assertEquals(publicStudy.getAcc() + " LiteStudy users collection should have 1 user", 1, mtbls1.getUsers().size() );
 
 	}
 
 	@Test
 	public void testSecureSearch(){
-
 
 		// Test a not owner
 		SearchQuery query = new SearchQuery(SEARCH_TO_HIT_ALL);
@@ -409,7 +411,7 @@ public class ElasticSearchServiceTest {
 
 
 	@Test
-	public void testResetIndex() throws IndexingFailureException, DAOException {
+	public void testResetIndex() throws IndexingFailureException, DAOException, IsaTabException {
 
 		// Call reset index...
 		elasticSearchService.resetIndex();
@@ -446,7 +448,7 @@ public class ElasticSearchServiceTest {
 
 	}
 
-	private void indexStudy(String accession, String userToken) throws IndexingFailureException, DAOException {
+	private void indexStudy(String accession, String userToken) throws IndexingFailureException, DAOException, IsaTabException {
 
 		Study study = studyDAO.getStudy(accession, userToken);
 

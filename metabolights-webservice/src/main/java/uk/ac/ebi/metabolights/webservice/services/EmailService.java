@@ -22,6 +22,8 @@
 package uk.ac.ebi.metabolights.webservice.services;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,11 +33,13 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
+import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.webservice.utils.TextUtils;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,6 +53,8 @@ import java.util.Map;
 @Service
 public class EmailService {
 
+	private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+
     private @Value("#{EBIHost}") String prodURL;
     private @Value("#{curationEmailAddress}") String curationEmailAddress;
 
@@ -60,6 +66,11 @@ public class EmailService {
 	@Qualifier("velocityEngine")
 	@Autowired
 	private VelocityEngine velocityEngine; // configured in servlet XML
+
+
+	@Qualifier("userDetailsService")
+	@Autowired
+	private UserService userService;
 
 
 	public void setMailSender(JavaMailSender mailSender) {
@@ -203,36 +214,22 @@ public class EmailService {
 	/*
 	 * Email to send when the submission process fails...
 	 */
-	public void sendSubmissionError(String userEmail, String fileName, Exception error) throws Exception {
+	public void sendSubmissionError(String userToken, String fileName, Exception error) throws Exception {
 		String from = curationEmailAddress;
-		String[] to = {userEmail, curationEmailAddress};
+		String[] to = {userTokenToEmail(userToken), curationEmailAddress};
 		String subject = PropertyLookUpService.getMessage("mail.errorInStudy.subject", fileName );
-        String hostName = java.net.InetAddress.getLocalHost().getHostName();
-        String body;
+        String hostName = InetAddress.getLocalHost().getHostName();
+        String body = PropertyLookUpService.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, error.getMessage()});
 
-//        if(error instanceof IsaTabException){
-//            IsaTabException ie = (IsaTabException) error;
-//            String[] errorChunks = null;
-//            String errorMessage = null;
-//            if (ie.geTechnicalInfo().contains("\tat "))
-//                errorChunks = ie.geTechnicalInfo().split("\tat ");
-//
-//            if (errorChunks != null)
-//                errorMessage = errorChunks[0];
-//
-//            if (errorMessage != null)
-//                errorMessage = errorMessage.replace("/nfs/public/rw/homes/tc_cm01/metabolights","MetaboLightsHomeFolder");
-//
-//            body = PropertyLookUpService.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, errorMessage});
-//        } else {
-            body = PropertyLookUpService.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, error.getMessage()});
-//        }
-		//sendSimpleEmail(from, to, subject, body);
-		sendHTMLEmail(from, to, subject, body, exceptionToString(error));
+		String technicalInfo = userTokenToText(userToken);
+
+		technicalInfo = technicalInfo + "\n" + exceptionToString(error);
+
+		sendHTMLEmail(from, to, subject, body, technicalInfo);
 
 	}
 
-	private void sendHTMLEmail(final String from, final String[] to, final String subject,  final String body,  final String technicalInfo) {
+	public void sendHTMLEmail(final String from, final String[] to, final String subject,  final String body,  final String technicalInfo) {
 
 		final String HTMLbody = body.replace("\n", "<BR/>");
 		final String HTMLtechnicalInfo = technicalInfo.replace("\n", "<BR/>");
@@ -303,7 +300,27 @@ public class EmailService {
 			tokens[1].contains("."); //Must have a somewhere.domain
 	}
 
+	public String userTokenToEmail(String userToken){
 
+		User user = userService.lookupByToken(userToken);
+
+		return user.getEmail();
+
+	}
+
+	public String userTokenToText(String userToken) {
+
+		User user = userService.lookupByToken(userToken);
+
+		String message =
+				"User's info:\n"+
+						"Full name: " + user.getFullName() + "\n" +
+						"Status: " + user.getStatus().name() + "\n" +
+						"Affiliation: " + user.getAffiliation() + "\n" +
+						"Join date: " + user.getJoinDate() + "\n";
+
+		return message;
+	}
 
 
 }

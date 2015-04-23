@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.LiteEntity;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -81,8 +82,10 @@ public class IndexController extends BasicController {
 				message = "Can't index study " + accession + ". " + e.getMessage();
 
 			} catch (DAOException e) {
-				message = "Can't retrieve study " + accession + ". " + e.getMessage();
+				message = "Can't retrieve study (DAOException) " + accession + ". " + e.getMessage();
 
+			} catch (IsaTabException e) {
+				message = "Can't retrieve study (IsaTabException) " + accession + ". " + e.getMessage();
 			} finally {
 				if (message != null) {
 					logger.warn(message);

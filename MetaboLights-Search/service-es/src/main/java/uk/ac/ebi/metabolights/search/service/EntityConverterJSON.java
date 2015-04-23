@@ -22,7 +22,6 @@
 package uk.ac.ebi.metabolights.search.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 
 /**
  * User: conesa
@@ -40,7 +39,7 @@ public class EntityConverterJSON implements EntityConverter<Object,String> {
 	public String convert(Object entity) throws EntityConversionException {
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
+
 
 		try {
 			return mapper.writeValueAsString(entity);

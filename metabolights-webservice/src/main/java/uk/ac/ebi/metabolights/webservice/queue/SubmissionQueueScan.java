@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.webservice.queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.mail.MailException;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 
@@ -35,6 +36,10 @@ public class SubmissionQueueScan extends TimerTask{
 
 	@Override
 	public void run() {
+
+
+		SubmissionItem si = null;
+
 		// Check if there is any item in the queue...
 		try {
 
@@ -45,36 +50,37 @@ public class SubmissionQueueScan extends TimerTask{
 			if (!queue.isEmpty()){
 
 				// Get the first Item (Should be sorted by submission time)
-				SubmissionItem si = queue.get(0);
+				si = queue.get(0);
 
 				// Process it
 				SubmissionQueueProcessor sp = new SubmissionQueueProcessor(si);
 
 				// Check first if the process can start, otherwise we will get an exception if can't start
 				if (sp.CanProcessStart()){
-					try {
-						sp.start();
-					} catch (Exception e) {
 
-						// Cannot submit
-                        if (e.getMessage() != null)
+					sp.start();
 
-
-						//AppContext.getEmailService().sendSimpleEmail(new String[] {si.getUserId()},errorSubject, errorMessage + fromMessage);
-						AppContext.getEmailService().sendSubmissionError(si.getUserId(),si.getOriginalFileName(), e);
-
-					}
 				}
 			}
 
 		} catch (Exception e) {
 
-			String message = "There was an error while retrieving queued items" + this.getClass() + "\nMethod: run()\n\nERROR:\n" + e.getMessage();
+			String message;
 
+			if (e instanceof MailException){
+				message = "There was an error sending an email after a submission. Email might be wrong or server might be down. User hasn't got any notification but submission might have been successful.\n";
+			} else {
+
+				message = "There was an error while retrieving queued items" + this.getClass() + "\nMethod: run()\n\nERROR:\n" + e.getMessage() + "\n";
+			}
+
+			message = message + si;
+
+			message = message + "\n" + AppContext.getEmailService().userTokenToText(si.getUserToken());
 
 			if (AppContext.getApplicationContext() != null) {
 				// Cannot load the queue
-				AppContext.getEmailService().sendSimpleEmail("ERROR while retrieving queued items", message);
+				AppContext.getEmailService().sendSimpleEmail("ERROR while running the queue", message);
 			} else {
 				logger.warn(message);
 			}

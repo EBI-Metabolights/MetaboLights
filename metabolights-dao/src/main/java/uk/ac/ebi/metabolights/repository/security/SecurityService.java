@@ -81,7 +81,11 @@ public class SecurityService {
 					return user;
 				}
 
-				if (studyIdentifier!=null && user.doesUserOwnsTheStudy(studyIdentifier)) {
+				// If no studyIdentifier passed
+				if (studyIdentifier == null) {
+					return user;
+
+				} else if (user.doesUserOwnsTheStudy(studyIdentifier)) {
 					return user;
 				}
 

@@ -124,7 +124,7 @@ public class SubmissionItem {
 		
 	}
 	
-	public String getUserId() {
+	public String getUserToken() {
 		return userId;
 	}
 	public String getAccession() {
@@ -222,6 +222,10 @@ public class SubmissionItem {
 	
 	public void moveFileTo(String destinationFolder, Boolean isMoveToErrorFolder) throws IOException{
 
+		if (!fileQueued.exists()) {
+			logger.error("Can't move submitted file {} to {}. File does not exists.");
+		}
+
         File destination =new File(destinationFolder + fileQueued.getName());
 
         Calendar cal = Calendar.getInstance();
@@ -268,7 +272,8 @@ public class SubmissionItem {
 	@Override
 	public String toString(){
 		
-		return (String.format("UserID: %s\nAccession: %s\nRelease date: %s\nOriginal file name: %s\n", userId, accession==null?"NEW":accession,publicReleaseDate,originalFileName));
+		return (String.format("Submission's info:\nType: %s\nUserToken: %s\nAccession: %s\nRelease date: %s\nOriginal file name: %s\n", getSubmissionType().name(),userId, accession==null?"Empty":accession,publicReleaseDate,originalFileName));
 		
 	}
+
 }

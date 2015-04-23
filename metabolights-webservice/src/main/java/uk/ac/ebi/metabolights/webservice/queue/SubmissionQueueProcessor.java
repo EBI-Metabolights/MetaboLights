@@ -25,11 +25,15 @@ package uk.ac.ebi.metabolights.webservice.queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.mail.MailException;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.LiteEntity;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.search.service.SearchService;
+import uk.ac.ebi.metabolights.webservice.controllers.IndexController;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
@@ -47,38 +51,29 @@ import static uk.ac.ebi.metabolights.webservice.queue.SubmissionItem.SubissionTy
 public class SubmissionQueueProcessor {
 
 	private static Logger logger = LoggerFactory.getLogger(SubmissionQueueProcessor.class);
-//	private static String publicFtpStageLocation = PropertiesUtil.getProperty("publicFtpStageLocation");
-//	private static String privateFtpStageLocation = PropertiesUtil.getProperty("privateFtpStageLocation");
     private static String zipOnDemandLocation = PropertiesUtil.getProperty("ondemand");
-//    private static String publicFtpLocation = PropertiesUtil.getProperty("publicFtpLocation");
-//    private static Boolean filesMovedPubToPriv = false;
-//    private static Boolean PrivToPriv = false;
+	private SearchService<Object,LiteEntity> searchService = IndexController.searchService;
 
-
-
-
-	//	private IsaTabUploader itu = new IsaTabUploader();
-	private StudyDAO itu;
+	private StudyDAO studyDAO;
 	private SubmissionItem si;
-	private String accession;
 
-	public SubmissionQueueProcessor(SubmissionItem ItemToSubmit) throws DAOException {
+	public SubmissionQueueProcessor(SubmissionItem itemToSubmit) throws DAOException {
 
-		itu = DAOFactory.getInstance().getStudyDAO();
-		this.si = ItemToSubmit;
+		studyDAO = DAOFactory.getInstance().getStudyDAO();
+		this.si = itemToSubmit;
 
 	}
 
-	public void start() throws Exception{
+	public void start() throws Exception {
 
-		try{
+		try {
 
 			// Check if the process can start
-			if (!CanProcessStart()) throw new Exception("Processing (Submission) can't start. See logs for more detailed information.");
+			if (!CanProcessStart())
+				throw new Exception("Processing (Submission) can't start. See logs for more detailed information.");
 
 			//Check if we process folder is empty
-			if (!isProcessFolderEmpty())
-			{
+			if (!isProcessFolderEmpty()) {
 				// there is something being processed..we need to wait.
 				logger.info("Submission process can't start: Process Folder (" + SubmissionQueue.getProcessFolder() + ") is not empty");
 				return;
@@ -88,38 +83,37 @@ public class SubmissionQueueProcessor {
 			si.moveFileTo(SubmissionQueue.getProcessFolder(), false);
 
 			// If it's a new study
-			if (si.getSubmissionType() == SubissionType.CREATE){
+			if (si.getSubmissionType() == SubissionType.CREATE) {
 				// Start the upload
-				Study newStudy  = create();
+				Study newStudy = create();
 
 				// Inform the user and team.
-				AppContext.getEmailService().sendQueuedStudySubmitted(newStudy.getUsers().iterator().next().getEmail(),si.getOriginalFileName() , newStudy.getStudyPublicReleaseDate(), newStudy.getStudyIdentifier());
+				AppContext.getEmailService().sendQueuedStudySubmitted(newStudy.getUsers().iterator().next().getEmail(), si.getOriginalFileName(), newStudy.getStudyPublicReleaseDate(), newStudy.getStudyIdentifier());
 			}
 
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
-			else if (si.getSubmissionType()== SubissionType.CHANGE_PUBLIC_RELEASE_DATE){
+			else if (si.getSubmissionType() == SubissionType.CHANGE_PUBLIC_RELEASE_DATE) {
 
 				updatePublicReleaseDate();
-				AppContext.getEmailService().sendQueuedPublicReleaseDateUpdated(si.getUserId(), si.getAccession(), si.getPublicReleaseDate());
+				AppContext.getEmailService().sendQueuedPublicReleaseDateUpdated(si.getUserToken(), si.getAccession(), si.getPublicReleaseDate());
 
 			}
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
-			else if (si.getSubmissionType()==SubissionType.DELETE){
+			else if (si.getSubmissionType() == SubissionType.DELETE) {
 
 				//Call deletion...
 				deleteStudy();
 
-				AppContext.getEmailService().sendStudyDeleted(si.getUserId(), si.getAccession());
+				AppContext.getEmailService().sendStudyDeleted(si.getUserToken(), si.getAccession());
 
 			}
 			// It's then an update
-			else if (si.getSubmissionType()==SubissionType.UPDATE)
-			{
+			else if (si.getSubmissionType() == SubissionType.UPDATE) {
 
 				// Update study
 				updateStudy();
 
-				AppContext.getEmailService().sendQueuedStudyUpdated(si.getUserId(), si.getAccession(), si.getPublicReleaseDate());
+				AppContext.getEmailService().sendQueuedStudyUpdated(si.getUserToken(), si.getAccession(), si.getPublicReleaseDate());
 
 
 			} else {
@@ -127,25 +121,28 @@ public class SubmissionQueueProcessor {
 				logger.warn("Don't know what to do with this submitted item: " + si);
 			}
 
-			// Clean the process folder anyway
-			cleanProcessFolder();
+		// If the user email is wrong or we cou;d get this error....inform curators
+		} catch (MailException e) {
 
-		}catch(Exception e){
+			// Throw it up....it should be catched in the caller
+			throw  e;
+
+
+		} catch (Exception e){
 
 			// There was an error in the submission process...
 			si.moveFileTo(SubmissionQueue.getErrorFolder(), true);
 
-            // Clean the process folder anyway
-            cleanProcessFolder();
+			AppContext.getEmailService().sendSubmissionError(si.getUserToken(), si.getOriginalFileName(), e);
 
-			AppContext.getEmailService().sendSubmissionError(si.getUserId(), si.getOriginalFileName(), e);
+		} finally {
+
+			// Clean the process folder anyway
+			cleanProcessFolder();
+
 		}
 
 
-	}
-
-	public String getIDs(){
-		return accession;
 	}
 
 	private void cleanProcessFolder(){
@@ -226,51 +223,28 @@ public class SubmissionQueueProcessor {
 	 * @return
 	 * @throws Exception
 	 */
-	private Study create() throws Exception{
+	private Study create() throws Exception {
 
 
 		// Unzip the file...
 		si.unzip();
 
-		// Validate: actually validations happen in the idReplacer. but ISAtab validation don't.
-		// TODO
-
-		//Index the study
-
 		// Persist in the database
 		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
 
 		// Add the study.
-		Study newStudy = studyDAO.add(si.getUnzippedFolder(), si.getPublicReleaseDate(), si.getUserId());
+		Study newStudy = studyDAO.add(si.getUnzippedFolder(), si.getPublicReleaseDate(), si.getUserToken());
 
-		// Unzipped file should have been moved by the studyDAO
-		// FileUtils.deleteDirectory(si.getUnzippedFolder());
+		//Index the study
+		searchService.index(newStudy);
 
 		// Delete the original zip file...
 		si.getFileQueued().delete();
 
 		//Return the new accession number.
-		return  newStudy;
+		return newStudy;
 
-
-//		// Upload the file to bii
-//
-//        try{
-//            //IsaTabUploader itu = getIsaTabUploader(isaTabFile, status, publicDate);
-//            itu = getIsaTabUploader();
-//
-//            // Upload the file
-//            return itu.Upload();
-//        } catch (Exception e){
-//
-//            // This is cleaning the process folder and it should be done in the caller method, this solves "disappearing the submitted file" when there is a validation error.
-//            //cleanProcessFolder();
-//            throw e;
-//        }
-
-		//return null;
 	}
-
 	/**
 	 * Delete a study from the system (both: Database and file system).
 	 * @throws Exception
@@ -278,13 +252,13 @@ public class SubmissionQueueProcessor {
 	private void deleteStudy() throws Exception {
 
 //	    // Get the IsaTabUploader (and unloader) configured
-//		itu = getIsaTabUploader();
+//		studyDAO = getIsaTabUploader();
 //
 //		// Unload it from the database, data locations and index.
-//	    itu.unloadISATabFile(si.getAccession());
+//	    studyDAO.unloadISATabFile(si.getAccession());
 //
 //	    // Remove files from our staging folder
-//	    File studyFolder = new File(itu.getCurrentStudyFilePath(si.getAccession()));
+//	    File studyFolder = new File(studyDAO.getCurrentStudyFilePath(si.getAccession()));
 //
 //	    FileUtils.deleteDirectory(studyFolder);
 
@@ -300,36 +274,36 @@ public class SubmissionQueueProcessor {
 //	private IsaTabUploader getIsaTabUploader() throws Exception{
 //
 //		// Set common properties
-//		itu.setOwner(si.getUserId());
-//		itu.setCopyToPrivateFolder(privateFtpStageLocation);
-//		itu.setCopyToPublicFolder(publicFtpStageLocation);
-//		itu.setStatus(si.getStatus());
+//		studyDAO.setOwner(si.getUserId());
+//		studyDAO.setCopyToPrivateFolder(privateFtpStageLocation);
+//		studyDAO.setCopyToPublicFolder(publicFtpStageLocation);
+//		studyDAO.setStatus(si.getStatus());
 //
 //		// Get the path for the config folder (where the hibernate properties for the import layer are).
 //        String configPath = PropertiesUtil.getProperty("isatabuploaderconfig"); //SubmissionController.class.getClassLoader().getResource("").getPath();
-//        itu.setDBConfigPath(configPath);
+//        studyDAO.setDBConfigPath(configPath);
 //
 //		// Get today's date.
 //		Calendar currentDate = Calendar.getInstance();
 //		SimpleDateFormat isaTabFormatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
 //		String submissionDate = isaTabFormatter.format(currentDate.getTime());
-//		itu.setSubmissionDate(submissionDate);
+//		studyDAO.setSubmissionDate(submissionDate);
 //
 //		// For deletion we don't have a public release date
 //		if (si.getPublicReleaseDate() != null)
 //		{
-//			itu.setPublicDate(isaTabFormatter.format(si.getPublicReleaseDate()));
+//			studyDAO.setPublicDate(isaTabFormatter.format(si.getPublicReleaseDate()));
 //		}
 //
 //		// Set properties related with the file itself...
 //		// Calculate the unzip folder (remove the extension + .)
 //		String unzipFolder = StringUtils.truncate(si.getFileQueued().getAbsolutePath(), 4);
 //
-//		itu.setUnzipFolder(unzipFolder);
+//		studyDAO.setUnzipFolder(unzipFolder);
 //
-//		itu.setIsaTabFile(si.getFileQueued().getAbsolutePath());
+//		studyDAO.setIsaTabFile(si.getFileQueued().getAbsolutePath());
 //
-//		return itu;
+//		return studyDAO;
 //
 //	}
 	/**
@@ -363,10 +337,10 @@ public class SubmissionQueueProcessor {
 //		try {
 //
 //			// Get the uploader configured...
-//			IsaTabUploader itu = getIsaTabUploader();
+//			IsaTabUploader studyDAO = getIsaTabUploader();
 //
 //			// Check that the new zip file has the same studyID (this will unzip the file)
-//			Map<String,String> zipValues = itu.getStudyFields(si.getFileQueued(), new String[]{"Study Identifier"});
+//			Map<String,String> zipValues = studyDAO.getStudyFields(si.getFileQueued(), new String[]{"Study Identifier"});
 //
 //			String newStudyId = zipValues.get("Study Identifier");
 //
@@ -399,19 +373,19 @@ public class SubmissionQueueProcessor {
 //			//Validate the new file
 //			try{
 //				// It has to be a directory...the call to getStudyFile has unzipped the file to unzip folder. We will use it.
-//				itu.validate(itu.getUnzipFolder());
+//				studyDAO.validate(studyDAO.getUnzipFolder());
 //
 //			} catch (Exception e){
 //
-//				List<TabLoggingEventWrapper> isaTabLog = itu.getSimpleManager().getErrors();
+//				List<TabLoggingEventWrapper> isaTabLog = studyDAO.getSimpleManager().getErrors();
 //				throw new Exception(PropertyLookUpService.getMessage("msg.validation.invalid") + "\n\nERROR:" + e.getMessage() + "\n\n" + isaTabLog.toString() );
 //
 //			}
 //
 //			// Make the backup...
-//			File currentFile = new File(itu.getCurrentStudyFilePath(si.getAccession()));
+//			File currentFile = new File(studyDAO.getCurrentStudyFilePath(si.getAccession()));
 //			// NOTE: This is reseting the status based on the place the study it's been found.(Which makes it fail when the study is private and need to be public.
-//			itu.setStatus(si.getStatus());
+//			studyDAO.setStatus(si.getStatus());
 //
 //			// Now it's unzipped...not a file anymore
 //			//FileUtils.copyFile(currentFile, backup);
@@ -419,7 +393,7 @@ public class SubmissionQueueProcessor {
 //
 //			// Unload the study, this will remove the file too.
 //			logger.info("Deleting previous study " + si.getAccession());
-//			itu.unloadISATabFile(si.getAccession());
+//			studyDAO.unloadISATabFile(si.getAccession());
 //
 //			// From this point restoring the backup must be done in case of an exception
 //			needRestore = true;
@@ -428,14 +402,14 @@ public class SubmissionQueueProcessor {
 //			// NOTE: this will unzip again the file (done previously in the getStudyFields
 //			// To avoid unziping it twice (specially for large files) we can set the isaTabFile property
 //			// to the unzipped folder and it should work...
-//			itu.setIsaTabFile(itu.getUnzipFolder());
+//			studyDAO.setIsaTabFile(studyDAO.getUnzipFolder());
 //
 //			// To test the restore backup
 //			//if (needRestore){throw new Exception("fake exception");}
 //
 //			logger.info("Uploading new study");
 //
-//			itu.UploadWithoutIdReplacement(si.getAccession());
+//			studyDAO.UploadWithoutIdReplacement(si.getAccession());
 //
 //			// Remove the backup
 //			needRestore = false;
@@ -464,10 +438,10 @@ public class SubmissionQueueProcessor {
 ////				// Get the uploader configured
 ////				si.getFileQueued()
 ////
-////				IsaTabUploader itu = getIsaTabUploader(backup.getAbsolutePath(), oldStatus, null);
+////				IsaTabUploader studyDAO = getIsaTabUploader(backup.getAbsolutePath(), oldStatus, null);
 ////
 ////				// Upload the old study
-////				itu.UploadWithoutIdReplacement(si.getAccession());
+////				studyDAO.UploadWithoutIdReplacement(si.getAccession());
 ////
 ////				// Delete the backup
 ////				backup.delete();
@@ -498,7 +472,7 @@ public class SubmissionQueueProcessor {
 
 
 //	    // Create the uploader
-//	    IsaTabUploader itu = new IsaTabUploader();
+//	    IsaTabUploader studyDAO = new IsaTabUploader();
 //
 //	    // Change the status
 //	    try {
@@ -526,29 +500,29 @@ public class SubmissionQueueProcessor {
 //            AppContext.getStudyService().update(biiStudy); // update the database
 //
 //            if (oldStatus == VisibilityStatus.PRIVATE && newStatus == VisibilityStatus.PUBLIC ){
-//                itu.setCopyToPrivateFolder(privateFtpStageLocation);
-//                itu.setCopyToPublicFolder(publicFtpStageLocation);
+//                studyDAO.setCopyToPrivateFolder(privateFtpStageLocation);
+//                studyDAO.setCopyToPublicFolder(publicFtpStageLocation);
 //                //filesMovedPrivToPub = true;
 //            } else if(oldStatus == VisibilityStatus.PUBLIC && newStatus == VisibilityStatus.PRIVATE){
-//                itu.setCopyToPrivateFolder(publicFtpLocation);
-//                itu.setCopyToPublicFolder(privateFtpStageLocation);
+//                studyDAO.setCopyToPrivateFolder(publicFtpLocation);
+//                studyDAO.setCopyToPublicFolder(privateFtpStageLocation);
 //                //filesMovedPubToPriv = true;
 //                logger.info("Setting the copy folders for copying from public FTP to private staging.");
 //            }  else if(oldStatus == VisibilityStatus.PRIVATE && newStatus == VisibilityStatus.PRIVATE) {
-//                itu.setCopyToPrivateFolder(privateFtpStageLocation);
-//                itu.setCopyToPublicFolder(publicFtpStageLocation);
+//                studyDAO.setCopyToPrivateFolder(privateFtpStageLocation);
+//                studyDAO.setCopyToPublicFolder(publicFtpStageLocation);
 //                PrivToPriv = true;
 //                logger.info("Changing only public release date in a Private study");
 //            }
 //
 //            //Since now we are storing the studies unzipped....we check if the folder exists
-//            File studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC));
+//            File studyFolder = new File (studyDAO.getStudyFilePath(si.getAccession(), VisibilityStatus.PUBLIC));
 //
 //            // If not in public folder...
 //            if (!studyFolder.exists()){
 //
 //                // Try it in the private
-//                studyFolder = new File (itu.getStudyFilePath(si.getAccession(), VisibilityStatus.PRIVATE));
+//                studyFolder = new File (studyDAO.getStudyFilePath(si.getAccession(), VisibilityStatus.PRIVATE));
 //
 //                // Check if it exists
 //                if (!studyFolder.exists()){
@@ -566,7 +540,7 @@ public class SubmissionQueueProcessor {
 //	        String configPath = PropertiesUtil.getProperty("isatabuploaderconfig") ; //SubmissionQueueProcessor.class.getClassLoader().getResource("").getPath();      //TODO, change to use JNDI parameters
 //
 //	        // Set the config folder, and the ftp folders
-//	        itu.setDBConfigPath(configPath);
+//	        studyDAO.setDBConfigPath(configPath);
 //
 //
 //
@@ -574,18 +548,18 @@ public class SubmissionQueueProcessor {
 //	        if (si.getStatus() == VisibilityStatus.PUBLIC){
 //
 //	            // Move the file from the private
-//	            itu.moveFile(si.getAccession(), VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
+//	            studyDAO.moveFile(si.getAccession(), VisibilityStatus.PRIVATE);  //Need to pass the old status, not the new public status
 //
 //	            // Change the permissions
 //
 //	        } else if(si.getStatus() == VisibilityStatus.PRIVATE && PrivToPriv == false){ // If the new status is private...
 //
 //                // Move the file from the public
-//                //itu.moveFile(si.getAccession(), VisibilityStatus.PRIVATE);
-//                itu.copyFilesFromPubToPriv(si.getAccession(), VisibilityStatus.PRIVATE);
+//                //studyDAO.moveFile(si.getAccession(), VisibilityStatus.PRIVATE);
+//                studyDAO.copyFilesFromPubToPriv(si.getAccession(), VisibilityStatus.PRIVATE);
 //            }
 //
-//            itu.setUnzipFolder(studyFolder.getAbsolutePath());
+//            studyDAO.setUnzipFolder(studyFolder.getAbsolutePath());
 //
 //            // ************************
 //            // Change the investigation file
@@ -600,10 +574,10 @@ public class SubmissionQueueProcessor {
 //            logger.info("Replacing Study Public Release Date in zip file. with " + si.getPublicReleaseDate());
 //
 //            // Call the replacement method...
-//            itu.changeStudyFields(si.getAccession(), replacementHash);
+//            studyDAO.changeStudyFields(si.getAccession(), replacementHash);
 //
 //            // reindex the study...
-//            itu.reindexStudies(si.getAccession());
+//            studyDAO.reindexStudies(si.getAccession());
 //
 //            // Delete the zipped file
 //            deleteZippedFile(si.getAccession());

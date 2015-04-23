@@ -153,7 +153,7 @@ public class SubmissionQueue {
 		for (int i = 0; i<queue.size(); i++){
 			SubmissionItem si = queue.get(i);
 			
-			if (si.getUserId().equalsIgnoreCase(userId)){
+			if (si.getUserToken().equalsIgnoreCase(userId)){
 				queueForUser.add(si);
 			}
 			
