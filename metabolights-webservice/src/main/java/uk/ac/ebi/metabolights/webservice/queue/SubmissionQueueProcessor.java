@@ -25,6 +25,7 @@ package uk.ac.ebi.metabolights.webservice.queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.mail.MailException;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
@@ -63,16 +64,16 @@ public class SubmissionQueueProcessor {
 
 	}
 
-	public void start() throws Exception{
+	public void start() throws Exception {
 
-		try{
+		try {
 
 			// Check if the process can start
-			if (!CanProcessStart()) throw new Exception("Processing (Submission) can't start. See logs for more detailed information.");
+			if (!CanProcessStart())
+				throw new Exception("Processing (Submission) can't start. See logs for more detailed information.");
 
 			//Check if we process folder is empty
-			if (!isProcessFolderEmpty())
-			{
+			if (!isProcessFolderEmpty()) {
 				// there is something being processed..we need to wait.
 				logger.info("Submission process can't start: Process Folder (" + SubmissionQueue.getProcessFolder() + ") is not empty");
 				return;
@@ -82,23 +83,23 @@ public class SubmissionQueueProcessor {
 			si.moveFileTo(SubmissionQueue.getProcessFolder(), false);
 
 			// If it's a new study
-			if (si.getSubmissionType() == SubissionType.CREATE){
+			if (si.getSubmissionType() == SubissionType.CREATE) {
 				// Start the upload
-				Study newStudy  = create();
+				Study newStudy = create();
 
 				// Inform the user and team.
-				AppContext.getEmailService().sendQueuedStudySubmitted(newStudy.getUsers().iterator().next().getEmail(),si.getOriginalFileName() , newStudy.getStudyPublicReleaseDate(), newStudy.getStudyIdentifier());
+				AppContext.getEmailService().sendQueuedStudySubmitted(newStudy.getUsers().iterator().next().getEmail(), si.getOriginalFileName(), newStudy.getStudyPublicReleaseDate(), newStudy.getStudyIdentifier());
 			}
 
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
-			else if (si.getSubmissionType()== SubissionType.CHANGE_PUBLIC_RELEASE_DATE){
+			else if (si.getSubmissionType() == SubissionType.CHANGE_PUBLIC_RELEASE_DATE) {
 
 				updatePublicReleaseDate();
 				AppContext.getEmailService().sendQueuedPublicReleaseDateUpdated(si.getUserToken(), si.getAccession(), si.getPublicReleaseDate());
 
 			}
 			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
-			else if (si.getSubmissionType()==SubissionType.DELETE){
+			else if (si.getSubmissionType() == SubissionType.DELETE) {
 
 				//Call deletion...
 				deleteStudy();
@@ -107,8 +108,7 @@ public class SubmissionQueueProcessor {
 
 			}
 			// It's then an update
-			else if (si.getSubmissionType()==SubissionType.UPDATE)
-			{
+			else if (si.getSubmissionType() == SubissionType.UPDATE) {
 
 				// Update study
 				updateStudy();
@@ -121,18 +121,25 @@ public class SubmissionQueueProcessor {
 				logger.warn("Don't know what to do with this submitted item: " + si);
 			}
 
-			// Clean the process folder anyway
-			cleanProcessFolder();
+		// If the user email is wrong or we cou;d get this error....inform curators
+		} catch (MailException e) {
 
-		}catch(Exception e){
+			// Throw it up....it should be catched in the caller
+			throw  e;
+
+
+		} catch (Exception e){
 
 			// There was an error in the submission process...
 			si.moveFileTo(SubmissionQueue.getErrorFolder(), true);
 
-            // Clean the process folder anyway
-            cleanProcessFolder();
-
 			AppContext.getEmailService().sendSubmissionError(si.getUserToken(), si.getOriginalFileName(), e);
+
+		} finally {
+
+			// Clean the process folder anyway
+			cleanProcessFolder();
+
 		}
 
 

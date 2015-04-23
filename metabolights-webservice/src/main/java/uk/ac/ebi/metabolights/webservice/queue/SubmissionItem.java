@@ -222,6 +222,10 @@ public class SubmissionItem {
 	
 	public void moveFileTo(String destinationFolder, Boolean isMoveToErrorFolder) throws IOException{
 
+		if (!fileQueued.exists()) {
+			logger.error("Can't move submitted file {} to {}. File does not exists.");
+		}
+
         File destination =new File(destinationFolder + fileQueued.getName());
 
         Calendar cal = Calendar.getInstance();
