@@ -26,9 +26,10 @@
     <parent>
         <artifactId>metabolights-search</artifactId>
         <groupId>uk.ac.ebi.metabolights</groupId>
-        <version>1.4</version>
+        <version>3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <version>3.1</version>
 
     <artifactId>service-es</artifactId>
     <name>MetaboLights Search Service - ES</name>
@@ -39,13 +40,13 @@
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>
             <artifactId>search-service</artifactId>
-            <version>3.0</version>
+            <version>3.1</version>
         </dependency>
 
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>
             <artifactId>metabolights-domain</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>3.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -79,7 +80,7 @@
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>
             <artifactId>metabolights-dao</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>3.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 
