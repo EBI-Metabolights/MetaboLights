@@ -76,11 +76,12 @@ public class CompoundController extends AbstractController {
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
-        Compound compound=  ModelObjectFactory.getCompound(mtblc);
+        Compound compound = ModelObjectFactory.getCompound(mtblc);
+        if (compound == null)
+            return printMessage("Error","The requested compound does not exist: "+ mtblc);
 
         mav.addObject("compound", compound);
 		mav.addObject("pageTitle", mtblc + " - " + compound.getMc().getName());
-
 
         return mav;
 
@@ -178,6 +179,8 @@ public class CompoundController extends AbstractController {
 
         //Passing MTBLC cmound id to Modelobjectfactory class
         Compound cmpd = ModelObjectFactory.getCompound(mtblc);
+        if (cmpd == null)
+            return printMessage("Error","The requested compound does not exist: "+ mtblc);
 
         //Creating a list object for DataItems
         List<DataItem> pmid = cmpd.getChebiEntity().getCitations();
