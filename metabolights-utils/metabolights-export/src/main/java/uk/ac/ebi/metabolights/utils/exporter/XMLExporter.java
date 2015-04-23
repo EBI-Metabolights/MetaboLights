@@ -97,6 +97,12 @@ public class XMLExporter {
         return wsClient;
     }
 
+    public static Boolean hasValue(String str){
+        if(str != null && !str.isEmpty())
+            return true;
+        return false;
+    }
+
     private static void initParams(String fileName, String wsClientURL){
         if (xmlFileName == null)
             xmlFileName = fileName;
@@ -167,7 +173,7 @@ public class XMLExporter {
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        //return new String[]{"MTBLS143"}; //{"MTBLS1", "MTBLS2", "MTBLS3"};
+        //return new String[]{"MTBLS114"}; //{"MTBLS1", "MTBLS2", "MTBLS3"};
         return response.getContent();
     }
 
@@ -183,8 +189,8 @@ public class XMLExporter {
             String protocolDesc = protocol.getDescription();
 
             switch (protocolName){
-                case "Sample collection": entry.appendChild(createChildElement(FIELD, "sample_protocol2", protocolDesc)); break;
-                case "Data transformation": entry.appendChild(createChildElement(FIELD, "data_protocol2", protocolDesc)); break;
+                case "Sample collection": entry.appendChild(createChildElement(FIELD, "sample_protocol", protocolDesc)); break;
+                case "Data transformation": entry.appendChild(createChildElement(FIELD, "data_protocol", protocolDesc)); break;
                 case "Metabolite identification": entry.appendChild(createChildElement(FIELD, "metabolite_id_protocol", protocolDesc)); break;
                 case "Extraction": entry.appendChild(createChildElement(FIELD, "extraction_protocol", protocolDesc)); break;
                 case "Chromatography": entry.appendChild(createChildElement(FIELD, "chromatography_protocol", protocolDesc)); break;
@@ -223,7 +229,6 @@ public class XMLExporter {
                         if (dbId.startsWith("CHEBI:")) {
                             crossRefs.appendChild(createChildElement(XREF, dbId, "ChEBI"));
                             crossRefs.appendChild(createChildElement(XREF, dbId.replace("CHEBI:","MTBLC"), "MetaboLights"));  //Cheeky assumption for now
-
                         } else if (dbId.startsWith("CID"))
                             crossRefs.appendChild(createChildElement(XREF, dbId, "PubChem"));
                         else if (dbId.startsWith("HMDB"))
@@ -246,10 +251,10 @@ public class XMLExporter {
 
         if (study.getOrganism() != null)
             for (Organism organism : study.getOrganism()) {
-                if (organism.getOrganismName() != null && !organism.getOrganismName().isEmpty())
+                if (hasValue(organism.getOrganismName()))
                     crossRefs.appendChild(createChildElement(XREF, organism.getOrganismName().trim(), "Organism"));
 
-                if (organism.getOrganismPart() != null && !organism.getOrganismPart().isEmpty())
+                if (hasValue(organism.getOrganismPart()))
                     crossRefs.appendChild(createChildElement(XREF, organism.getOrganismPart().trim(), "Organism Part"));
             }
 
@@ -302,7 +307,8 @@ public class XMLExporter {
             for (User user: study.getUsers()){
                 entry.appendChild(createChildElement(FIELD, "submitter", user.getFirstName() + " " + user.getLastName() ));
                 entry.appendChild(createChildElement(FIELD, "submitter_email", user.getEmail() ));
-                entry.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
+                if (hasValue(user.getAffiliation()))
+                    entry.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
             }
 
             entry.appendChild(createChildElement(FIELD, "curator_keywords", "")); //We do not capture this
@@ -331,11 +337,10 @@ public class XMLExporter {
             entry.appendChild(createChildElement(FIELD, "dataset_file", ML_BASE_FTP + studyAcc));
 
             for (Publication publication : study.getPublications()) {
-                if (publication.getDoi() != null && !publication.getDoi().isEmpty())
-                    entry.appendChild(createChildElement(FIELD, "publication", publication.getDoi().replaceAll("http://","").replaceFirst("dx.","")));
+                String completePublications = composePublications(publication);
 
-                if (publication.getPubmedId() != null && !publication.getPubmedId().isEmpty())
-                    entry.appendChild(createChildElement(FIELD, "publication", "PMID:"+publication.getPubmedId()));
+                if (hasValue(completePublications))
+                    entry.appendChild(createChildElement(FIELD, "publication", completePublications));
             }
 
             //Add the cross references
@@ -348,6 +353,31 @@ public class XMLExporter {
         //Add the complete study list to the entries section
         doc.getDocumentElement().appendChild(entries);
 
+    }
+
+    private static String composePublications(Publication publication){
+        String completePublication = null;
+        String sep = ".";
+
+        if (hasValue(publication.getTitle()))
+            completePublication = publication.getTitle().trim();
+
+        if (hasValue(completePublication) && !completePublication.endsWith(sep))
+            completePublication = completePublication + sep;
+
+        if (hasValue(publication.getDoi()))
+            completePublication = completePublication + " " + publication.getDoi().replaceAll("http://","").replaceFirst("dx.", "");
+
+        if (hasValue(completePublication) && !completePublication.endsWith(sep))
+            completePublication = completePublication + sep;
+
+        if (hasValue(publication.getPubmedId()))
+            completePublication = completePublication + " " + "PMID:"+publication.getPubmedId();
+
+        if (hasValue(completePublication))
+            completePublication = completePublication.trim();
+
+        return completePublication;
     }
 
     private static void createItemElement(String itemName, String itemValue){
