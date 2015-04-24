@@ -29,10 +29,10 @@
         <version>3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <version>3.1</version>
 
     <artifactId>service-es</artifactId>
     <name>MetaboLights Search Service - ES</name>
+    <version>3.1</version>
     <description>Elastic search implementation for the search service</description>
 
     <dependencies>

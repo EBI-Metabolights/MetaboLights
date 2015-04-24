@@ -192,7 +192,7 @@ public class UserData extends DataModel<User> {
 		businessModelEntity.setUserId(this.id);
 		businessModelEntity.setAddress(this.address);
 		businessModelEntity.setEmail(this.email);
-		businessModelEntity.setJoinDate(this.joinDate);
+		if (this.joinDate!=null) businessModelEntity.setJoinDate(new Date(this.joinDate.getTime()));
 		businessModelEntity.setDbPassword(this.password);
 		businessModelEntity.setRole(AppRole.values()[this.role]);
 		businessModelEntity.setUserName(this.userName);
