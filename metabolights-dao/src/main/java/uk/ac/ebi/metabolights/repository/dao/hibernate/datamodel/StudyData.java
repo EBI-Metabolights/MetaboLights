@@ -127,7 +127,7 @@ public class StudyData  extends DataModel<Study> {
 		businessModelEntity.setObfuscationCode(this.obfuscationcode);
 		businessModelEntity.setStudyIdentifier(this.acc);
 		businessModelEntity.setStudyStatus(Study.StudyStatus.values()[this.status]);
-		businessModelEntity.setStudyPublicReleaseDate(this.releaseDate);
+		businessModelEntity.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
 
 		// Fill users
 		businessModelEntity.setUsers(UserData.dataModelToBusinessModel(users));

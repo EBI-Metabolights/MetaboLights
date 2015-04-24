@@ -21,14 +21,16 @@
 
 package uk.ac.ebi.metabolights.webservice.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.Assert;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Table;
 import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
 import java.io.IOException;
 
@@ -41,7 +43,8 @@ public class StudySerializationTest {
 		test.setTitle("title");
 
 		test.setSampleTable(getTestTable());
-
+		// Has to be without timestamp
+		test.setStudyPublicReleaseDate(IsaTab2MetaboLightsConverter.isaTabDate2Date("2015-07-01"));
 
 		User user = new User();
 		test.getUsers().add(user);
@@ -65,12 +68,13 @@ public class StudySerializationTest {
 
 
 	@Test
-	public void testSerialization() throws JsonProcessingException {
+	public void testSerialization() throws IOException {
 
 
 		Study study = getTestStudy();
 
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
 		String studyString = mapper.writeValueAsString(study);
 
@@ -84,6 +88,12 @@ public class StudySerializationTest {
 
 		// Test serialization of users, listofallstatus not serialized
 		Assert.assertFalse("listofstatus is being serialized!", studyString.contains("listOfAllStatus"));
+
+
+		// Test deserialisation now
+		Study deserializedStudy = mapper.readValue(studyString,Study.class);
+
+		Assert.assertTrue("Public release date is not properly kept during serialization and parsing.", DateUtils.isSameDay(study.getStudyPublicReleaseDate(),deserializedStudy.getStudyPublicReleaseDate()));
 
 	}
 
@@ -114,5 +124,7 @@ public class StudySerializationTest {
 		Assert.assertEquals("Test field 1", field1.getHeader(), newField1.getHeader());
 
 	}
+
+
 
 }

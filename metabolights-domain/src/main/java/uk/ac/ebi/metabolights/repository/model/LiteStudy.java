@@ -21,7 +21,6 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -53,7 +52,6 @@ public class LiteStudy extends LiteEntity {
 
 	// Database fields
 	private Study.StudyStatus studyStatus = Study.StudyStatus.PRIVATE;
-	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date studyPublicReleaseDate;
 	private String obfuscationCode = java.util.UUID.randomUUID().toString();
 

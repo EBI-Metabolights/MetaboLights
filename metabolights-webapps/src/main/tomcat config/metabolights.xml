@@ -57,22 +57,18 @@
     <!-- Stop sessions being recovered from disk on server restart. -->
     <Manager className="org.apache.catalina.session.StandardManager" pathname=""/>
 
+
+
+    <!-- *********** From tomcat *************-->
     <ResourceLink  name="jdbc/metabolights" global="jdbc/metabolightsT" type="java.lang.String"/>
 
-    <!-- URL for new account creations, this is included in the emails sent -->
-    <Environment name="urlConfirmNewAccount" value="http://wwwdev.ebi.ac.uk/metabolights/confirmAccountRequest" type="java.lang.String"/>
-    <Environment name="urlActivateNewAccount" value="http://wwwdev.ebi.ac.uk/metabolights/activateAccount__NotifyUser" type="java.lang.String"/>
-
-    <!-- uploadDirectory is used the by the metabolights-uploader module, for BII submissions -->
-    <Environment name="uploadDirectory" value="/nfs/production/panda/metabolights/isatab/upload/" type="java.lang.String"/>
-
-    <!-- ftp locations are used by the metabolights-uploader and metabolights-webapp to distibute submitted archives -->
-    <Environment name="publicFtpStageLocation" value="/nfs/public/rw/homes/tc_cm01/studies/public/" type="java.lang.String"/>
-    <Environment name="isatabuploaderconfig" value="/nfs/production/panda/metabolights/isatab/dbconfig/" type="java.lang.String"/>
-
+    <!-- Folders -->
     <ResourceLink  name="isatabConfigurationLocation" global="isatabConfigurationLocation" type="java.lang.String"/>
     <ResourceLink  name="publicFtpLocation" global="publicStudiesLocation" type="java.lang.String"/>
     <ResourceLink  name="privateFtpStageLocation" global="privateStudiesLocation" type="java.lang.String"/>
+    <ResourceLink  name="uploadDirectory" global="uploadDirectory" type="java.lang.String"/>
+    <ResourceLink  name="ondemand" global="ondemand" type="java.lang.String"/>
+
     <!-- Email and host config -->
     <ResourceLink  name="mailServer" global="mailServer" type="java.lang.String"/>
     <ResourceLink  name="EBIHost" global="EBIHost" type="java.lang.String"/>
@@ -80,10 +76,21 @@
 
 
 
+    <!-- URL for new account creations, this is included in the emails sent -->
+    <Environment name="urlConfirmNewAccount" value="http://wwwdev.ebi.ac.uk/metabolights/confirmAccountRequest" type="java.lang.String"/>
+    <Environment name="urlActivateNewAccount" value="http://wwwdev.ebi.ac.uk/metabolights/activateAccount__NotifyUser" type="java.lang.String"/>
+
+
+    <!-- ftp locations are used by the metabolights-uploader and metabolights-webapp to distibute submitted archives -->
+    <Environment name="publicFtpStageLocation" value="/nfs/public/rw/homes/tc_cm01/studies/public/" type="java.lang.String"/>
+    <Environment name="isatabuploaderconfig" value="/nfs/production/panda/metabolights/isatab/dbconfig/" type="java.lang.String"/>
+
+
+
     <!--<Environment name="privateFtpLocation" value="/nfs/ftp/pub/databases/metabolights/studies/private/" type="java.lang.String"/>-->
     <Environment name="ftpServer" value="ftp.ebi.ac.uk" type="java.lang.String"/>
     <Environment name="filebase" value="/ebi/ftp/" type="java.lang.String"/>
-    <Environment name="ondemand" value="/nfs/public/rw/homes/tc_cm01/zip_ondemand/" type="java.lang.String"/>
+
 
     <!-- URLs for the frontier web service -->
     <Environment name="headerURL" value="http://xxx:xxx/web/template-service/prod/templates/compliance/masthead/global/services" type="java.lang.String"/>

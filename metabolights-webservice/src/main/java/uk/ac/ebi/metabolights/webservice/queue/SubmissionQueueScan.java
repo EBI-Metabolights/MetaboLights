@@ -56,7 +56,7 @@ public class SubmissionQueueScan extends TimerTask{
 				SubmissionQueueProcessor sp = new SubmissionQueueProcessor(si);
 
 				// Check first if the process can start, otherwise we will get an exception if can't start
-				if (sp.CanProcessStart()){
+				if (sp.canProcessStart()){
 
 					sp.start();
 
@@ -68,7 +68,7 @@ public class SubmissionQueueScan extends TimerTask{
 			String message;
 
 			if (e instanceof MailException){
-				message = "There was an error sending an email after a submission. Email might be wrong or server might be down. User hasn't got any notification but submission might have been successful.\n";
+				message = "There was an error sending an email after a submission. Email might be wrong. User hasn't got any notification but submission might have been successful.\n";
 			} else {
 
 				message = "There was an error while retrieving queued items" + this.getClass() + "\nMethod: run()\n\nERROR:\n" + e.getMessage() + "\n";

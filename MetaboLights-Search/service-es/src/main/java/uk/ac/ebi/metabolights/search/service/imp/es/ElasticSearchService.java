@@ -135,7 +135,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 					actionGet();
 		}
 		catch (IndexMissingException e) {
-			// Index not found, fine although migth be strange
+			// Index not found, fine although might be strange
 			logger.warn("Index reset, well, index wasn't found.");
 
 		}
@@ -806,6 +806,11 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	@Override
 	public void index(Object entity) throws IndexingFailureException {
+
+		// If index does not exists, this could be cached for performance reasons.
+		if (!doesIndexExists()) {
+			configureIndex();
+		}
 
 		indexStudy((Study) entity);
 	}

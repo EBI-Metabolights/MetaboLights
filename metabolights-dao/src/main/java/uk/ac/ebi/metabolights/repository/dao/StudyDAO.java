@@ -32,6 +32,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.security.SecurityService;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
+import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -186,6 +187,7 @@ public class StudyDAO {
 		IsaTabIdReplacer isaTabIdReplacer = new IsaTabIdReplacer(finalDestination.getAbsolutePath());
 		isaTabIdReplacer.setPublicDate(study.getStudyPublicReleaseDate());
 		isaTabIdReplacer.setStudyIdentifier(studyIdentifier);
+		isaTabIdReplacer.setSubmissionDate(IsaTab2MetaboLightsConverter.date2IsaTabDate(new Date()));
 		isaTabIdReplacer.execute();
 
 		// Save it regardless
