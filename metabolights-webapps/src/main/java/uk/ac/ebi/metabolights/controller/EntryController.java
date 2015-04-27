@@ -376,15 +376,17 @@ public class EntryController extends AbstractController {
 		return  mav;
 	}
 
+	public static MetabolightsWsClient getMetabolightsWsClient(HttpServletRequest request) {
+		return  getMetabolightsWsClient(request, LoginController.getLoggedUser());
+	}
 	public static MetabolightsWsClient getMetabolightsWsClient(HttpServletRequest request, MetabolightsUser user) {
-
 
 		//compose the ws url..
 		String wsUrl = getWsPath(request);
 
 		MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
 
-		// If the user is null use the Loged user
+		// If the user is null use the Logged user
 		if (user == null) user = LoginController.getLoggedUser();
 
 		// Use user token ...

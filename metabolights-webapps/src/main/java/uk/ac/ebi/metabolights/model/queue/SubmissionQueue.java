@@ -21,29 +21,16 @@
 
 package uk.ac.ebi.metabolights.model.queue;
 
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.checklists.CheckList;
-import uk.ac.ebi.metabolights.controller.SubmissionController;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
-import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
-import uk.ac.ebi.metabolights.utils.StringUtils;
+
+import java.io.File;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class SubmissionQueue {
 	

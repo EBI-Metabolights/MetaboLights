@@ -36,11 +36,13 @@ import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -280,17 +282,22 @@ public class UpdateStudyController extends AbstractController {
 		// If there is validation view...return it
 		if (mav != null){return mav;}
 
-        //Create the view
-        //mav = AppContext.getMAVFactory().getFrontierMav("updateStudyForm");
-
         try{
 
             // Use de submitter user name in the study instead of the User (could be a curator).
-        	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.study.getSubmitter().getUserName());
+//        	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.study.getSubmitter().getUserName());
 
-			//Return the ModelAndView
-			return mav;
+			MetabolightsWsClient wsClient =EntryController.getMetabolightsWsClient(request);
 
+			RestResponse<String> response = wsClient.updatePublicReleaseDate(params.publicReleaseDate, study);
+
+			if (response.getErr() == null)
+				return this.printMessage("Study public release updated", study + " public release date has been updated successfully to " + publicReleaseDateS);
+
+			else {
+
+				throw new Exception(response.getErr().getMessage());
+			}
 
 		} catch (Exception e) {
 			

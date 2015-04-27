@@ -39,10 +39,11 @@ import java.util.Set;
  *
  */
 @Entity
-@Table(name = "USER_DETAIL")
+//@Table(name = "USER_DETAIL")
+@Table(name = "users")
 //Oracle sequence, comment this *out* for MySQL
-@SequenceGenerator(name="userSeq", sequenceName="USER_DETAIL_SEQ", allocationSize=1)
-
+//@SequenceGenerator(name="userSeq", sequenceName="USER_DETAIL_SEQ", allocationSize=1)
+//
 public class MetabolightsUser implements Serializable{
 
 	public static enum UserStatus {
@@ -63,15 +64,14 @@ public class MetabolightsUser implements Serializable{
 	public MetabolightsUser() {
 		//Some default values
 		this.authorities = EnumSet.of(AppRole.ROLE_SUBMITTER);
-		this.objectType="Person";
-		this.status=UserStatus.NEW.getValue();
+		this.status=UserStatus.NEW;
 		this.joinDate=new java.util.Date();
 	}
 
 	@Id
 	@Column(name="ID")
     // Use this line for ORACLE DB
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="userSeq")
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="userSeq")
 
     // Use this for MYSQL
     // @GeneratedValue
@@ -96,9 +96,6 @@ public class MetabolightsUser implements Serializable{
 	@Transient
 	private Set<AppRole> authorities;
 
-	@Column(name="OBJ_TYPE")
-	private String objectType;
-
 	@Column(name="JOINDATE")
 	private Date joinDate;
 
@@ -118,7 +115,7 @@ public class MetabolightsUser implements Serializable{
     @NotEmpty
 	private String affiliation;
 
-	@Column(name="AFFILIATION_URL")
+	@Column(name="AFFILIATIONURL")
 	@NotEmpty
     private String affiliationUrl;
 
@@ -126,26 +123,18 @@ public class MetabolightsUser implements Serializable{
 	// that still needs approval.
 	@Column(name="STATUS")
     @NotEmpty
-	private String status;
+	private UserStatus status;
 
     @Column(name="ROLE")
     private Integer role;
 
-    @Column(name="API_TOKEN")
+    @Column(name="APITOKEN")
     @NotEmpty
     private String apiToken;
 
 	//_______________________________________________
 	// Getters and setters
 	//_______________________________________________
-
-	public String getObjectType() {
-		return objectType;
-	}
-
-	public void setObjectType(String objectType) {
-		this.objectType = objectType;
-	}
 
 	public Date getJoinDate() {
 		return joinDate;
@@ -275,11 +264,11 @@ public class MetabolightsUser implements Serializable{
 		return UserStatus.values();
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(UserStatus status) {
 		this.status = status;
 	}
 
-	public String getStatus() {
+	public UserStatus getStatus() {
 		return status;
 	}
 

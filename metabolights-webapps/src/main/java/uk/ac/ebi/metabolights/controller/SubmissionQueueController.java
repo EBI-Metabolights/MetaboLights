@@ -177,7 +177,7 @@ public class SubmissionQueueController extends AbstractController {
 	
 	@RequestMapping(value = "/queueExperiment", method = RequestMethod.POST)
 	public ModelAndView queueExperiment(
-			@RequestParam("file") MultipartFile file,
+			@RequestParam(required = true ,value = "file") MultipartFile file,
 			@RequestParam(required=true,value="pickdate") String publicDate,
 			@RequestParam(required=false,value="study") String study,
             @RequestParam(required=false,value="owner") String owner,
