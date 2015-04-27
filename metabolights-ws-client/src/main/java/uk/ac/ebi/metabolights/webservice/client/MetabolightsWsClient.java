@@ -46,6 +46,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.StudyLite;
@@ -60,6 +61,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 
 /**
  * User: conesa
@@ -139,13 +141,22 @@ public class MetabolightsWsClient {
     }
 
     private String makePostRequest(String path, String json) {
+        return makeRequestSendingData(path, json, "POST");
+    }
+
+    private String makePutRequest(String path, String json) {
+        return makeRequestSendingData(path, json, "PUT");
+    }
+
+
+    private String makeRequestSendingData(String path, String json, String method) {
 
         logger.debug("Making get " + path + " request to webservice");
 
         try {
 
             // Get a post connection
-            HttpURLConnection conn = getHttpURLConnection(path, "POST");
+            HttpURLConnection conn = getHttpURLConnection(path, method);
 
             conn.setRequestProperty("content-type", "application/json");
             conn.setDoOutput(true);
@@ -313,11 +324,23 @@ public class MetabolightsWsClient {
         // Make the request
         String response = makePostRequest("search", json);
 
-        SearchResult<StudyLite> foo = new SearchResult<>();
+        SearchResult<LiteStudy> foo = new SearchResult<>();
 
         return deserializeJSONString(response, foo.getClass());
 
 
     }
 
+    public RestResponse<String> updatePublicReleaseDate(Date newPublicReleaseDate, String studyIdentifier) {
+
+        logger.info("Public release date ({}) update of {} requested to MetaboLights WS client.", newPublicReleaseDate,studyIdentifier);
+
+        String json = serializeObject(newPublicReleaseDate);
+
+        // Make the request
+        String response = makePutRequest(getStudyPath(studyIdentifier) + "/publicreleasedate" , json);
+
+        return deserializeJSONString(response, String.class);
+
+    }
 }

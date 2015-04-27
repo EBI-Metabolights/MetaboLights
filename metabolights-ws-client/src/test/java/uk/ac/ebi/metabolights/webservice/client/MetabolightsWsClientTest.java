@@ -43,10 +43,13 @@ package uk.ac.ebi.metabolights.webservice.client;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -69,7 +72,7 @@ public class MetabolightsWsClientTest {
 		// Get token from environment...Do not commit them..
 		SUBMMITER_TOKEN = System.getenv("SUBMMITER_TOKEN");
 		CURATOR_TOKEN = System.getenv("CURATOR_TOKEN");
-		wsClient = new MetabolightsWsClient("http://wwwdev.ebi.ac.uk/metabolights/webservice/");
+		wsClient = new MetabolightsWsClient("http://localhost:8080/metabolights/webservice/");
 	}
 
 	@Test
@@ -134,8 +137,18 @@ public class MetabolightsWsClientTest {
 		RestResponse<? extends SearchResult> response = wsClient.search(query);
 
 		assertNotNull(response);
-		assertNotSame("Something has been returned", 0,response.getContent().getResults().size());
+		assertNotSame("Something has been returned", 0, response.getContent().getResults().size());
+		assertEquals("Content is NOT deserialized into proper LiteStudy class", LiteStudy.class, response.getContent().getResults().iterator().next().getClass());
 
 	}
+    @Test
+	public void testUpdatePublicReleaseDate() {
 
+		Date newPublicReleaseDate = new Date();
+
+		wsClient.setUserToken(CURATOR_TOKEN);
+		RestResponse<String> response = wsClient.updatePublicReleaseDate(newPublicReleaseDate, PRIVATE_STUDY);
+
+		assertNull("Public release date update threw an exception", response.getErr());
+	}
 }
