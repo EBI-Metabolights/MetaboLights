@@ -64,7 +64,7 @@ import java.util.*;
  */
 
 //@Controller
-public class IsaTabIdReplacer
+public class IsaTabReplacer
 {
 	static private Properties props = new Properties();
 	static private String pubDateStr;			//Replace str to look for in i_Investigation.txt
@@ -82,14 +82,17 @@ public class IsaTabIdReplacer
 	static final String PROP_IDS = "isatab.ids";
 	static String[] idList;
 	static final String PROP_FILE_WITH_IDS = "isatab.investigationFile";
+	private static final Logger logger = LoggerFactory.getLogger(IsaTabReplacer.class);
 
+
+	//	Instance variables
 	private String publicDate; 		//Date from submitter form
 	private String submissionDate;	//Date from submitter form
 	private Integer singleStudy=0;	//Update when we find study ids in the file
 
 	private String studyIdentifier; // When updating a study, replacement must not be done.
 
-    private static final Logger logger = LoggerFactory.getLogger(IsaTabIdReplacer.class);
+
 
 	private String isaTabFolder;
 
@@ -100,9 +103,9 @@ public class IsaTabIdReplacer
 		return publicDate;
 	}
 
-	public void setPublicDate(String publicDate) {
-		this.publicDate = publicDate;
-	}
+//	public void setPublicDate(String publicDate) {
+//		this.publicDate = publicDate;
+//	}
 
 	public void setPublicDate(Date publicReleaseDate){
 
@@ -144,7 +147,7 @@ public class IsaTabIdReplacer
 		}
 
 		//There is 1 arguments
-		IsaTabIdReplacer itr = new IsaTabIdReplacer();
+		IsaTabReplacer itr = new IsaTabReplacer();
 
 		//Set the IsaTabArchive
 		itr.setIsaTabFolder(args[0]);
@@ -155,10 +158,10 @@ public class IsaTabIdReplacer
 
 	}
 
-	public IsaTabIdReplacer(String isaTabFolder){
+	public IsaTabReplacer(String isaTabFolder){
 		this.isaTabFolder = isaTabFolder;
 	}
-	public IsaTabIdReplacer(){
+	public IsaTabReplacer(){
         try {
             loadProperties();
         } catch (Exception e){
@@ -176,7 +179,7 @@ public class IsaTabIdReplacer
         this.isaTabFolder = isaTabFolder;
     }
 
-	private void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
+	private static void loadProperties() throws FileNotFoundException, IOException, ConfigurationException{
 
 		//final String PROPS_FILE = "isatabidreplacer.properties";
         final String PROPS_FILE = "idreplacer.properties";
@@ -188,7 +191,7 @@ public class IsaTabIdReplacer
 		logger.info("Loading properties using getClassLoader().getResourceAsStream(" + PROPS_FILE + ")");
 
 		//Load the properties from the property file
-		props.load(IsaTabIdReplacer.class.getClassLoader().getResourceAsStream(PROPS_FILE));
+		props.load(IsaTabReplacer.class.getClassLoader().getResourceAsStream(PROPS_FILE));
 
 		//If property file is empty
 		if (props.size() ==0){
@@ -272,7 +275,7 @@ public class IsaTabIdReplacer
 
             //Replace id
             logger.info("Replace study id and study dates");
-            replaceIdInFiles();
+            replaceValuesInFiles();
 
         } catch (Exception e){
             throw e;
@@ -327,7 +330,7 @@ public class IsaTabIdReplacer
         throw new Exception(errTxt);
     }
 
-	private void replaceIdInFiles () throws Exception{
+	private void replaceValuesInFiles() throws Exception{
 
         try {
             // Get the investigation file
@@ -379,7 +382,7 @@ public class IsaTabIdReplacer
 	 */
 	private void replaceInFile(File fileWithId) throws Exception{
 
-		logger.info("Replacing ids in file -->" + fileWithId.getAbsolutePath());
+		logger.info("Replacing values in file -->" + fileWithId.getAbsolutePath());
 
 		// Reset number of studies.
 		singleStudy= 0;
@@ -424,7 +427,6 @@ public class IsaTabIdReplacer
 				//Pass in the accession number to use for both study and investigation accession (same id per submission)
 				line = replaceIdInLine(line);
 
-
 				//Replace public release date for this study
 				line = replacePubRelDateInLine(line);
 
@@ -439,7 +441,7 @@ public class IsaTabIdReplacer
 			reader.close();
 
 			//Save the file
-			FileUtil.String2File(text, fileWithId.getPath());
+			FileUtil.String2File(text, fileWithId.getPath(), true);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -455,6 +457,9 @@ public class IsaTabIdReplacer
 	}
 
 	private String replaceIdInLine(String line){
+
+		// If studyIdentifier is null, don't need to replace it
+		if (studyIdentifier == null) return line;
 
 	    //For each id...
 	    for (int i=0;i<idList.length;i++) {
@@ -503,19 +508,22 @@ public class IsaTabIdReplacer
 	 */
 	private String replacePubRelDateInLine(String line){
 
-	      //If the value is present in line, in the first position.
-	      if (line.indexOf(pubDateStr)==0){
+		// If public release date is null do nothing
+		if (publicDate == null) return line;
 
-	    	  logger.info(pubDateStr + " found in line " + line);
+		//If the value is present in line, in the first position.
+		if (line.indexOf(pubDateStr)==0){
 
-	    	  //Compose the line:Study Public Release Date	"10/03/2009"
-	    	  String newLine = pubDateStr + "\t\"" + getPublicDate() + "\"";
+		  logger.info(pubDateStr + " found in line " + line);
 
-	    	  return newLine;
+		  //Compose the line:Study Public Release Date	"10/03/2009"
+		  String newLine = pubDateStr + "\t\"" + getPublicDate() + "\"";
 
-	      } else {
-	    	  return line;
-	      }
+		  return newLine;
+
+		} else {
+		  return line;
+		}
 
 	}
 
@@ -523,6 +531,9 @@ public class IsaTabIdReplacer
 	 * String replace the MetaboLights submission date in i_investigation.txt file
 	 */
 	private String replaceSubmitDateInLine(String line){
+
+		// If submission date is null do nothing.
+		if (submissionDate == null) return line;
 
 		//If the value is present in line, in the first position.
 		if (line.indexOf(subDateStr)==0){
@@ -610,7 +621,7 @@ public class IsaTabIdReplacer
 			reader.close();
 
 			//Save the file
-			FileUtil.String2File(text, fileWithId.getPath());
+			FileUtil.String2File(text, fileWithId.getPath(), false);
 
 		} catch (Exception e) {
 			throw e;

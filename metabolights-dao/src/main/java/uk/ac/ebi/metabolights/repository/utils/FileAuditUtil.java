@@ -69,17 +69,7 @@ public class FileAuditUtil {
 		// Compose the file to back up
 		File fileToSave = new File (auditedFolder,fileToMove.getName());
 
-
-		// If the pattern is found
-		if (idFileAudited(fileToMove)) {
-
-			if (fileToSave.exists()) {
-
-				logger.info("backing up {}", fileToSave.getAbsolutePath());
-				FileUtils.moveFileToDirectory(fileToSave, backUpFolder, true);
-			}
-
-		}
+		backUpFile(fileToSave,backUpFolder);
 
 		fileToSave.delete();
 		// Now move the new file
@@ -87,7 +77,27 @@ public class FileAuditUtil {
 
 	}
 
-	public static boolean idFileAudited(File fileToMove) {
+	public static void backUpFile(File fileToBackUp) throws IOException {
+
+		File backUpFolder = getBackUpFolder(fileToBackUp.getParentFile());
+		backUpFile(fileToBackUp,backUpFolder);
+	}
+	public static void backUpFile(File fileToBackUp, File backUpFolder) throws IOException {
+
+		// If the pattern is found
+		if (isFileAudited(fileToBackUp)) {
+
+			if (fileToBackUp.exists()) {
+
+				logger.info("backing up {}", fileToBackUp.getAbsolutePath());
+				FileUtils.moveFileToDirectory(fileToBackUp, backUpFolder, true);
+			}
+
+		}
+
+	}
+
+	public static boolean isFileAudited(File fileToMove) {
 		// Get the files to back up
 		Pattern p  = Pattern.compile(BACKUP_FILE_NAME_PATTERN);
 		Matcher m = p.matcher(fileToMove.getName());

@@ -25,7 +25,7 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabIdReplacer;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabReplacer;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.AccessionDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -184,7 +184,7 @@ public class StudyDAO {
 		String studyIdentifier = study.getStudyIdentifier();
 
 		//Replace the id with the new id and other fields: Public Release Date
-		IsaTabIdReplacer isaTabIdReplacer = new IsaTabIdReplacer(finalDestination.getAbsolutePath());
+		IsaTabReplacer isaTabIdReplacer = new IsaTabReplacer(finalDestination.getAbsolutePath());
 		isaTabIdReplacer.setPublicDate(study.getStudyPublicReleaseDate());
 		isaTabIdReplacer.setStudyIdentifier(studyIdentifier);
 		isaTabIdReplacer.setSubmissionDate(IsaTab2MetaboLightsConverter.date2IsaTabDate(new Date()));
@@ -247,6 +247,30 @@ public class StudyDAO {
 		dbDAO.delete(dbData);
 
 		logger.info("Study {} successfully deleted from filesystem and Database.", studyIdentifier);
+
+	}
+
+	public void updateReleaseDate(String studyIdentifier, Date newPublicReleaseDate, String userToken) throws Exception {
+
+		// Security: Check if the user can edit the study
+		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken);
+
+		Study study = dbDAO.findByAccession(studyIdentifier);
+
+		// Change the date in the database
+		study.setStudyPublicReleaseDate(newPublicReleaseDate);
+		dbDAO.save(study);
+
+		// Get the location of the study
+		File studyFolder = fsDAO.getStudyFolder(studyIdentifier,study.isPublicStudy());
+
+		// Change the file....NOTE: This will not be audited....unless we implement some kind of audit system in the replacer
+		//Replace the id with the new id and other fields: Public Release Date
+		IsaTabReplacer isaTabReplacer = new IsaTabReplacer(studyFolder.getAbsolutePath());
+		isaTabReplacer.setPublicDate(newPublicReleaseDate);
+		isaTabReplacer.execute();
+
+		logger.info("{} public release date successfully updated", studyIdentifier);
 
 	}
 }

@@ -41,13 +41,13 @@ public class FileUtil {
 		text = StringUtils.replace(text, textToSearch, textToReplace);
 		
 		//Save the file
-		String2File(text, fileToSearchIn);
+		String2File(text, fileToSearchIn, false);
 		
 		
 	}
 	/**
 	 * Returns a string with the contents of a file.
-	 * @param file
+	 * @param fileToUse
 	 * @return
 	 * @throws java.io.IOException
 	 */
@@ -76,11 +76,15 @@ public class FileUtil {
 	}
 	/**
 	 * Takes the String passed and saves it in a file
-	 * @param text: Text to save
-	 * @param fileToSave: File to save (create) with "text" inside.
+	 * @param text : Text to save
+	 * @param fileToSave : File to save (create) with "text" inside.
+	 * @param backUp
 	 * @throws java.io.IOException
 	 */
-	public static void String2File (String text, String fileToSave) throws IOException{
+	public static void String2File(String text, String fileToSave, boolean backUp) throws IOException{
+
+		// Audit the file if required
+		if (backUp )FileAuditUtil.backUpFile(new File(fileToSave));
 
 		//instantiate a FileWriter
         FileWriter writer = new FileWriter(fileToSave);

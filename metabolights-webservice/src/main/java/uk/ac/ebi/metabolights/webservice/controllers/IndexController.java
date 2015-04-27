@@ -46,9 +46,17 @@ import java.util.List;
 @PreAuthorize( "hasRole('ROLE_SUPER_USER')")
 public class IndexController extends BasicController {
 
+	public IndexController() throws DAOException {
+		instantiateStudyDAO();
+	}
+
+	static void instantiateStudyDAO() throws DAOException {
+		studyDAO = DAOFactory.getInstance().getStudyDAO();
+	}
+
 	// Can we share the service among controllers? Let's try.
 	public static SearchService<Object, LiteEntity> searchService = new ElasticSearchService();
-
+	private static StudyDAO studyDAO;
 
 	@RequestMapping(value = "reindex", method = RequestMethod.GET)
 	@ResponseBody
@@ -59,9 +67,6 @@ public class IndexController extends BasicController {
 		RestResponse<String> response = new RestResponse<String>();
 
 		// Get all the studies
-		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
-
-
 		User user = getUser();
 		List<String> accessions = studyDAO.getList(user.getApiToken());
 
@@ -70,11 +75,10 @@ public class IndexController extends BasicController {
 		for (String accession : accessions) {
 
 			String message = null;
+
 			try {
 
-				Study study = studyDAO.getStudy(accession, user.getApiToken());
-
-				searchService.index(study);
+				indexStudy(accession, user.getApiToken());
 
 				indexed++;
 
@@ -103,6 +107,19 @@ public class IndexController extends BasicController {
 
 		return response;
 
+	}
+
+	static void indexStudy(String accession, String userToken) throws DAOException, IsaTabException, IndexingFailureException {
+
+		if (studyDAO == null) instantiateStudyDAO();
+
+		Study study = studyDAO.getStudy(accession, userToken);
+
+		indexStudy(study);
+	}
+
+	static void indexStudy(Study study) throws IndexingFailureException {
+		searchService.index(study);
 	}
 
 	@RequestMapping(value = "reset", method = RequestMethod.GET)

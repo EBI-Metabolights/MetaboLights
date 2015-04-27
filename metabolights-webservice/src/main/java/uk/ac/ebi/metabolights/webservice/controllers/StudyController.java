@@ -44,12 +44,8 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
@@ -59,14 +55,14 @@ import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
-import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequestMapping("study")
-public class StudyController {
+public class StudyController extends BasicController{
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 	private final static Logger logger = LoggerFactory.getLogger(StudyController.class.getName());
@@ -74,7 +70,7 @@ public class StudyController {
 
     @RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}")
 	@ResponseBody
-	public RestResponse<Study> getStudyById(@PathVariable("accession") String accession) {
+	public RestResponse<Study> getStudyById(@PathVariable("accession") String accession) throws DAOException {
 
 		logger.info("Requesting " + accession + " to the webservice");
 
@@ -83,7 +79,7 @@ public class StudyController {
 
 	@RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}/full")
 	@ResponseBody
-	public RestResponse<Study> getFullStudyById(@PathVariable("accession") String accession) {
+	public RestResponse<Study> getFullStudyById(@PathVariable("accession") String accession) throws DAOException {
 
 		logger.info("Requesting full study " + accession + " to the webservice");
 
@@ -93,19 +89,14 @@ public class StudyController {
 
 	@RequestMapping("list")
 	@ResponseBody
-	public RestResponse<String[]> getAllStudyAccessions() {
+	public RestResponse<String[]> getAllStudyAccessions() throws DAOException {
 
 		logger.info("Requesting a list of all public studies from the webservice");
 
 		RestResponse<String[]> response = new RestResponse<>();
 
-		try {
-			studyDAO = getStudyDAO();
+		studyDAO = getStudyDAO();
 
-		} catch (DAOException e) {
-			logger.error("Can't instantiate StudyDAO", e);
-			return null;
-		}
 
 		try {
 			List<String> studyList = studyDAO.getList(getUser().getApiToken());
@@ -122,18 +113,49 @@ public class StudyController {
 
 	}
 
-	private RestResponse<Study> getStudy (String accession, boolean includeMAFFiles)  {
+	/**
+	 * To update the public release date of a study.
+	 * @param accession
+	 * @param newPublicReleaseDate
+	 * @return
+	 */
+	@RequestMapping(value = "{accession:" + METABOLIGHTS_ID_REG_EXP +"}/publicreleasedate", method= RequestMethod.PUT)
+	@ResponseBody
+	public RestResponse<Boolean> updatePublicReleaseDate(@PathVariable("accession") String accession, @RequestBody Date newPublicReleaseDate) throws Exception {
+
+		User user = getUser();
+
+		logger.info("User {} requested to update {} public release date to {}", user.getFullName(),accession, newPublicReleaseDate);
+
+		studyDAO= getStudyDAO();
+
+		// Update the public release date
+		studyDAO.updateReleaseDate(accession, newPublicReleaseDate, user.getApiToken());
+
+		// Indexing missing!!
+		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
+		// Like this we might have concurrency issues?
+		Study study = studyDAO.getStudy(accession,user.getApiToken());
+
+		IndexController.indexStudy (study);
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		restResponse.setContent(true);
+		restResponse.setMessage("Public release date for " + accession + " updated to " + study.getStudyPublicReleaseDate() );
+
+		logger.info("public release date updated.");
+
+
+		return restResponse;
+
+
+	}
+
+	private RestResponse<Study> getStudy (String accession, boolean includeMAFFiles) throws DAOException {
 
 		RestResponse<Study> response = new RestResponse<Study>();
 
-		try {
-			studyDAO= getStudyDAO();
-
-		} catch (DAOException e) {
-			logger.error("Can't instantiate StudyDAO", e);
-			return null;
-		}
-
+		studyDAO= getStudyDAO();
 
 		// Get the study
 		try {
@@ -148,35 +170,20 @@ public class StudyController {
 
 	}
 
-	private User getUser(){
-
-		User user ;
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!auth.getPrincipal().equals(new String("anonymousUser"))){
-
-			 user = ((SpringUser) auth.getPrincipal()).getMetaboLightsUser();
-
-		} else {
-
-			user = new User();
-			user.setUserName(auth.getPrincipal().toString());
-		}
-
-		return user;
-	}
-
 	private uk.ac.ebi.metabolights.repository.dao.StudyDAO getStudyDAO() throws DAOException {
 
 		if (studyDAO == null){
 
+
 			studyDAO = DAOFactory.getInstance().getStudyDAO();
+
 		}
 		return studyDAO;
 	}
 
 	@RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/maf")
 	@ResponseBody
-	public RestResponse<MetaboliteAssignment> getMetabolites(@PathVariable("accession") String accession, @PathVariable("assayIndex") String assayIndex){
+	public RestResponse<MetaboliteAssignment> getMetabolites(@PathVariable("accession") String accession, @PathVariable("assayIndex") String assayIndex) throws DAOException {
 
 
 		logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + accession + " to the webservice");

@@ -129,11 +129,11 @@ public class FileAuditUtilTest extends TestCase {
 	@Test
 	public void testIdFileAudited() throws Exception {
 
-		assertTrue("i_file should be audited",FileAuditUtil.idFileAudited(i_file));
-		assertTrue("s_file should be audited",FileAuditUtil.idFileAudited(s_file));
-		assertTrue("a_file should be audited",FileAuditUtil.idFileAudited(a_file));
-		assertTrue("m_file should be audited",FileAuditUtil.idFileAudited(m_file));
-		assertFalse("u_file should not be audited", FileAuditUtil.idFileAudited(u_file));
-		assertFalse("ifile should not be audited", FileAuditUtil.idFileAudited(ifile));
+		assertTrue("i_file should be audited",FileAuditUtil.isFileAudited(i_file));
+		assertTrue("s_file should be audited",FileAuditUtil.isFileAudited(s_file));
+		assertTrue("a_file should be audited",FileAuditUtil.isFileAudited(a_file));
+		assertTrue("m_file should be audited",FileAuditUtil.isFileAudited(m_file));
+		assertFalse("u_file should not be audited", FileAuditUtil.isFileAudited(u_file));
+		assertFalse("ifile should not be audited", FileAuditUtil.isFileAudited(ifile));
 	}
 }
