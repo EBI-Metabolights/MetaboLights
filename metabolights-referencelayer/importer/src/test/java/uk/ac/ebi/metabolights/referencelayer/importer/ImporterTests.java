@@ -100,6 +100,9 @@ public class ImporterTests extends TestCase{
 
         ReferenceLayerImporter rli = new ReferenceLayerImporter(connectionProvider);
 
+        //rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL);
+        //rli.setImportOptions(ReferenceLayerImporter.ImportOptions.REFRESH_MET_SPECIES);
+
 		// By deafeult use "metabolite"
 		String chebiId= rli.getChebiIDRoot();
 
