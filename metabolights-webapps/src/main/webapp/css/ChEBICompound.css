@@ -118,3 +118,11 @@ div.ChEBICompound_tab div.collapse {
 div.ChEBICompound_tab div.expand {
     background-position: 0 -24px;
 }
+
+.metabolights{
+    background-image: url("../img/chebi-logo.png");
+    background-repeat: no-repeat;
+    background-size: 20px auto;
+    background-position: 90% 50%;
+    padding-right: 30px !important;
+}
