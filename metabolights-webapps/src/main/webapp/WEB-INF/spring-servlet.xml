@@ -212,6 +212,7 @@
 		<sec:intercept-url pattern="/submit" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/biisubmit" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/submittoqueue" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/referencespectraupload" access="isAuthenticated()" />
         <sec:intercept-url pattern="/mysubmissions" access="isAuthenticated()" />
         <sec:intercept-url pattern="/privatefiles" access="isAuthenticated()" />
         <sec:intercept-url pattern="/updateAccount" access="isAuthenticated()" />

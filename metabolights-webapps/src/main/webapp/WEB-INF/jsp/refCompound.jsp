@@ -474,6 +474,7 @@
             - (${compound.mc.chebiId})</a>
         </p>
         <p><a href="${compound.mc.accession}?alt" class="icon icon-generic" data-icon="&gt;">BETA</a></p>
+        <p><a href="referencespectraupload?cid=${compound.mc.accession}" class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
     </div>
 
 
