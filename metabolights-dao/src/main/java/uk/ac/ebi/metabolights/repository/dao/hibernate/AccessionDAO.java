@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
+import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StableId;
 
 
@@ -30,20 +31,6 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StableId;
  * Time: 13:18
  */
 public class AccessionDAO extends DAO <StableId,StableId>{
-
-	private static String defaultPrefix = "MTBLS";
-
-	/**
-	 * Default prefix to use in case of creating the table from scratch
-	 * @return String with the default prefix
-	 */
-	public static String getDefaultPrefix (){
-		return defaultPrefix;
-	}
-
-	public static void setDefaultPrefix(String newDefaultPrefix){
-		defaultPrefix = newDefaultPrefix;
-	}
 
 
 	@Override
@@ -115,7 +102,7 @@ public class AccessionDAO extends DAO <StableId,StableId>{
 	}
 
 	public String getStableId() throws DAOException {
-		return getStableId(defaultPrefix);
+		return getStableId(DAOFactory.defaultPrefix);
 	}
 
 

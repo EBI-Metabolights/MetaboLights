@@ -35,12 +35,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -71,11 +72,11 @@ public class FileDispatcherController extends AbstractController {
     // Get a single file from a study
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/{fileNamePattern:.+}")
     public ModelAndView getSingleFile(@PathVariable("studyId") String studyId,
-									  @RequestParam(value="token", defaultValue = "0") Long dbId, @PathVariable("fileNamePattern") String fileNamePattern,
+									  @RequestParam(value="token", defaultValue = "0") String obfuscationCode, @PathVariable("fileNamePattern") String fileNamePattern,
 									  HttpServletResponse response) {
 
 
-		// We can receive any regularexpresion pattern...but some of them may not be allowed in the URL:
+		// We can receive any regular expression pattern...but some of them may not be allowed in the URL:
 		//Replace them here
 		//Example (asterisks works): fileNamePattern = fileNamePattern.replace("~", "*");
 
@@ -88,13 +89,13 @@ public class FileDispatcherController extends AbstractController {
 		}
 
         // Stream the file
-        return streamFile(studyId, dbId,fileNamePattern,response);
+        return streamFile(studyId, obfuscationCode,fileNamePattern,response);
 
     }
 
 	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/selection")
 	public ModelAndView getSomeFiles(@PathVariable("studyId") String studyId,
-									 @RequestParam(value="token", defaultValue = "0") Long dbId,
+									 @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
 									  @RequestParam("file") List<String> selectedFiles,
 									  HttpServletResponse response) {
 
@@ -102,7 +103,7 @@ public class FileDispatcherController extends AbstractController {
 		// Join the files to make a regular expression
 		String fileNamePattern = org.apache.commons.lang.StringUtils.join(selectedFiles, "|");
 
-		return getSingleFile(studyId, dbId, fileNamePattern, response);
+		return getSingleFile(studyId, obfuscationCode, fileNamePattern, response);
 	}
 
     // Get the metabolite identification file of an assay
@@ -122,7 +123,7 @@ public class FileDispatcherController extends AbstractController {
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/{assayFileName:.+}/maf")
     public void getMafFile(@PathVariable("studyId") String studyId,
                               @PathVariable("assayFileName") String assayFileName,
-							  @RequestParam(value="token", defaultValue = "0") Long dbId,
+							  @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
                               HttpServletResponse response) {
 
         String mafFileName =  assayFileName.replaceFirst("a_","m_");
@@ -137,7 +138,7 @@ public class FileDispatcherController extends AbstractController {
         }
 
         // Stream the file
-        streamFile(studyId, dbId, mafFileName,response);
+        streamFile(studyId, obfuscationCode, mafFileName,response);
 
     }
 
@@ -234,14 +235,14 @@ public class FileDispatcherController extends AbstractController {
     }
 
     // Stream the file or folder to the response
-    private ModelAndView streamFile(String studyId, Long dbId, String fileNamePattern, HttpServletResponse response) {
+    private ModelAndView streamFile(String studyId, String obfuscationCode, String fileNamePattern, HttpServletResponse response) {
 
         try{
 			File[] files = null;
 			File fileToStream;
 
             // Get the complete path for the study folder
-			File studyFolder = getPathForFileAndCheckAccess(studyId,dbId, "");
+			File studyFolder = getPathForFileAndCheckAccess(studyId, obfuscationCode, "");
 
             // if file is null...
             if (studyFolder == null) {
@@ -281,7 +282,7 @@ public class FileDispatcherController extends AbstractController {
 
     // Compose and return the path where the file is meant to be
     // If user has no permission throws an exception...
-    private File getPathForFileAndCheckAccess (String studyId, Long dbId, String fileName){
+    private File getPathForFileAndCheckAccess (String studyId, String obfuscationCode, String fileName){
 
         // Get where the file is (either PUBLIC or PRIVATE)
         String pathS = getPathForFile(studyId,fileName);
@@ -295,7 +296,7 @@ public class FileDispatcherController extends AbstractController {
         if (file.exists()){
 
             // Check the user has privileges to access the file
-            if (canUserAccessFile(studyId, dbId, file)){
+            if (canUserAccessFile(studyId, obfuscationCode)){
 
                     return file;
             } else {
@@ -330,23 +331,26 @@ public class FileDispatcherController extends AbstractController {
 	}
 
     // Returns true if the user is allowed to get the file
-    private boolean canUserAccessFile(String studyId, Long dbId, File file){
-
-
-        // First check if the file is in the public folder...
-        if (file.getAbsolutePath().indexOf(PropertiesUtil.getProperty("publicFtpLocation"))>-1) return true;
-
+    private boolean canUserAccessFile(String studyId, String obfuscationCode){
 
 		// Get the study form the index
-		LuceneSearchResult indexedStudy = searchService.getStudy(studyId);
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+        LiteStudy study = wsClient.searchStudy(studyId);
+
+        // if null...user can't access the study...
+        if (study == null) return false;
 
 
-		if (indexedStudy.getDbId().compareTo(dbId) == 0){
+        if (study.isPublicStudy()) return true;
+
+
+		if (study.getObfuscationCode().equals(obfuscationCode)){
 			return true;
 		} else {
 
 			// If the dbId does not match
-			logger.info("dbID passed (" + dbId + ") does not match lucene study.dbId: " + studyId + "." + indexedStudy.getDbId());
+			logger.info("Obfuscation code passed ({}) does not match the obfuscation code for {}.", obfuscationCode, studyId );
 			return false;
 		}
 

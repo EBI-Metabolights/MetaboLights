@@ -42,7 +42,6 @@
         <module>metabolights-isatab-utils</module>
         <module>metabolights-mztab</module>
         <module>metabolights-sampledb</module>
-        <module>metabolights-export</module>
     </modules>
 
 </project>

@@ -53,7 +53,8 @@ public class SubmissionItem {
 	private static Logger logger = LoggerFactory.getLogger(SubmissionItem.class);
 	
 	static final String FILE_NAME_SEP = "~";
-	static final String FILE_NAME_FOR_PRD_UPDATES = "PRDupdatedate.zip";
+	// Not needed anymore...done through the WS...no need to queue.
+//	static final String FILE_NAME_FOR_PRD_UPDATES = "PRDupdatedate.zip";
 	static final String FILE_NAME_FOR_DELETIONS = "DELETE.zip";
     //static final String FILE_NAME_FOR_PUBLIC_TO_PRIVATE = "PTPStudy.zip";
 	
@@ -75,8 +76,6 @@ public class SubmissionItem {
 			if (publicReleaseDate == null)
 			{
 				this.originalFileName = FILE_NAME_FOR_DELETIONS;
-			} else {
-				this.originalFileName = FILE_NAME_FOR_PRD_UPDATES;
 			}
 		}else{
 			this.originalFileName = file.getOriginalFilename();

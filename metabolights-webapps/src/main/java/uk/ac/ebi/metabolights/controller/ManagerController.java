@@ -22,9 +22,9 @@
 package uk.ac.ebi.metabolights.controller;
 
 
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -36,7 +36,6 @@ import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
-import uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
@@ -187,7 +186,7 @@ public class ManagerController extends AbstractController{
 		mav.addObject("processFolder", (getFilesInFolder(new File(SubmissionQueue.getProcessFolder()))));
 		mav.addObject("errorFolder", (getFilesInFolder(new File(SubmissionQueue.getErrorFolder()))));
 		mav.addObject("backUpFolder", (getFilesInFolder(new File(SubmissionQueue.getBackUpFolder()))));
-		mav.addObject("queuerunnig", SubmissionQueueManager.getIsRunning());
+//		mav.addObject("queuerunnig", SubmissionQueueManager.getIsRunning());
 		mav.addObject("studiesHealth", getStudiesHealth());
 
         // Return ftp locations
@@ -243,25 +242,24 @@ public class ManagerController extends AbstractController{
 	
 	@RequestMapping(value = "/togglequeue", method = RequestMethod.GET)
 	public @ResponseBody String switchqueue() {
-		
-		String result = "";
-		
+
+
 		try{
-			
-			if (SubmissionQueueManager.getIsRunning()){
-			
-				SubmissionQueueManager.stop();
-			
 
-			}else{
-				SubmissionQueueManager.start();
+//			if (SubmissionQueueManager.getIsRunning()){
+//
+//				SubmissionQueueManager.stop();
+//
+//
+//			}else{
+//				SubmissionQueueManager.start();
+//
+//			}
 
-			}
-			
 		}catch (Exception e){
-			result = e.getMessage();
+			// Do nothing, better return error message.
 		}
-		
+
 	    return getQueueStatus();
 	}
 
@@ -270,8 +268,8 @@ public class ManagerController extends AbstractController{
 
         String result = "";
 
-        return SubmissionQueueManager.getIsRunning()?"ON":"OFF";
-
+//        return SubmissionQueueManager.getIsRunning()?"ON":"OFF";
+		return "NOT IMPLEMENTED";
     }
 
 	@RequestMapping({"/users"})

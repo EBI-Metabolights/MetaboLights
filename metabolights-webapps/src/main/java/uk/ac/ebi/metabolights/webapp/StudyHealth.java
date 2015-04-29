@@ -21,18 +21,13 @@
 
 package uk.ac.ebi.metabolights.webapp;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
-import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabUploader;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
-import uk.ac.ebi.metabolights.utils.PropertiesUtil;
+
+import java.io.File;
 
 public class StudyHealth {
 
-	static IsaTabUploader itu = new IsaTabUploader(null, null, null,PropertiesUtil.getProperty("publicFtpLocation"), PropertiesUtil.getProperty("privateFtpStageLocation"));
+//	static IsaTabUploader itu = new IsaTabUploader(null, null, null,PropertiesUtil.getProperty("publicFtpLocation"), PropertiesUtil.getProperty("privateFtpStageLocation"));
 
 	String identifier;
 	boolean isPublic;
@@ -44,7 +39,7 @@ public class StudyHealth {
 		isPublic = study.getIsPublic();
 		
 		// Calculate the path where the study files are meant to be.
-		studyPath = itu.getStudyFilePath(identifier, (isPublic?VisibilityStatus.PUBLIC:VisibilityStatus.PRIVATE));
+//		studyPath = itu.getStudyFilePath(identifier, (isPublic?VisibilityStatus.PUBLIC:VisibilityStatus.PRIVATE));
 		
 		// Check if it is there
 		isThere = new File(studyPath).exists();

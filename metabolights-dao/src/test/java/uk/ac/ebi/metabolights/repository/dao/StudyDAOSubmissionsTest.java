@@ -26,7 +26,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.AccessionDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
@@ -60,7 +59,7 @@ public class StudyDAOSubmissionsTest extends DAOTest {
 		notOwner = UserDataTest.addUserToDB(AppRole.ROLE_SUBMITTER);
 
 
-		AccessionDAO.setDefaultPrefix(StudyDAOSubmissionsTest.class.getSimpleName() + "_");
+		DAOFactory.setDefaultPrefix(StudyDAOSubmissionsTest.class.getSimpleName() + "_");
 
 		// Initialise de DAO
 		studyDAO = DAOFactory.getInstance().getStudyDAO();
@@ -79,7 +78,7 @@ public class StudyDAOSubmissionsTest extends DAOTest {
 		Study study = studyDAO.add(submissionFolder, publicReleaseDate, curator.getApiToken());
 
 		assertNotNull("studyAccession filled up", study.getStudyIdentifier());
-		assertNotNull("Accession starts with prefix", study.getStudyIdentifier().startsWith(AccessionDAO.getDefaultPrefix()));
+		assertNotNull("Accession starts with prefix", study.getStudyIdentifier().startsWith(DAOFactory.getDefaultPrefix()));
 		assertTrue("Public release date set properly", DateUtils.isSameDay(study.getStudyPublicReleaseDate(), publicReleaseDate));
 		assertEquals("All files are moved",0,submissionFolder.list().length);
 

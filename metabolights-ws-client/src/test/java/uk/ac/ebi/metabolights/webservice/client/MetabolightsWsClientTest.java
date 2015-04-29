@@ -133,6 +133,7 @@ public class MetabolightsWsClientTest {
 	public void testSearchWithQuery() {
 
 		SearchQuery query = new SearchQuery("human");
+		wsClient.setUserToken(CURATOR_TOKEN);
 
 		RestResponse<? extends SearchResult> response = wsClient.search(query);
 
@@ -141,7 +142,31 @@ public class MetabolightsWsClientTest {
 		assertEquals("Content is NOT deserialized into proper LiteStudy class", LiteStudy.class, response.getContent().getResults().iterator().next().getClass());
 
 	}
-    @Test
+
+	@Test
+	public void testSearchStudy() {
+
+		wsClient.setUserToken(CURATOR_TOKEN);
+
+		RestResponse<? extends SearchResult> response = wsClient.searchStudyWithResponse(PUBLIC_STUDY);
+
+		assertNotNull(response);
+		assertEquals("Search study method didn't return 1 item", 1, response.getContent().getResults().size());
+		LiteStudy study = (LiteStudy) response.getContent().getResults().iterator().next();
+
+		assertEquals("Study returned is not the expected.", PUBLIC_STUDY,study.getStudyIdentifier());
+
+		study = wsClient.searchStudy(PUBLIC_STUDY);
+
+		assertNotNull(study);
+		assertEquals("Study returned is not the expected.", PUBLIC_STUDY,study.getStudyIdentifier());
+
+
+
+	}
+
+
+	@Test
 	public void testUpdatePublicReleaseDate() {
 
 		Date newPublicReleaseDate = new Date();

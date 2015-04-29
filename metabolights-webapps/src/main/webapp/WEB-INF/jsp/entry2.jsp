@@ -248,18 +248,18 @@
             <c:if test="${not empty study.studyPublicReleaseDate}">
                 ,<spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studyPublicReleaseDate}"/></strong>
             </c:if>
-            <c:if test="${not empty studyXRefs}">
-                <br/><spring:message code="label.StudyXrefs"/>:
-                <c:forEach var="studyXref" items="${studyXRefs}" varStatus="loopIndex">
-                    <c:if test="${loopIndex.index > 0}"> , </c:if>
-                    <c:if test="${ not empty studyXref.XRefType.pattern_url}">
-                        <a href="${studyXref.XRefType.pattern_url}${studyXref.submittedId}">${studyXref.submittedId}</a>
-                    </c:if>
-                    <c:if test="${empty studyXref.XRefType.pattern_url}">
-                        ${studyXref.submittedId}
-                    </c:if>
-                </c:forEach>
-            </c:if>
+            <%--<c:if test="${not empty studyXRefs}">--%>
+                <%--<br/><spring:message code="label.StudyXrefs"/>:--%>
+                <%--<c:forEach var="studyXref" items="${studyXRefs}" varStatus="loopIndex">--%>
+                    <%--<c:if test="${loopIndex.index > 0}"> , </c:if>--%>
+                    <%--<c:if test="${ not empty studyXref.XRefType.pattern_url}">--%>
+                        <%--<a href="${studyXref.XRefType.pattern_url}${studyXref.submittedId}">${studyXref.submittedId}</a>--%>
+                    <%--</c:if>--%>
+                    <%--<c:if test="${empty studyXref.XRefType.pattern_url}">--%>
+                        <%--${studyXref.submittedId}--%>
+                    <%--</c:if>--%>
+                <%--</c:forEach>--%>
+            <%--</c:if>--%>
         </span>
 
     <c:if test="${not empty study.contacts}">
@@ -511,7 +511,7 @@
 
             <%--Only show token if study es private--%>
             <c:if test="${!study.publicStudy}">
-                <c:set var="token" value="?token=${studyDBId}"/>
+                <c:set var="token" value="?token=${study.obfuscationCode}"/>
             </c:if>
 
             <div id="tabs-files" class="tab"> <!-- Study files -->
@@ -536,7 +536,7 @@
                     <h5><spring:message code="label.fileListTableExplanation"/></h5>
                     <p><input class="inputDiscrete resizable" id="fileSelector" class="" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>"></p>
                     <c:if test="${!study.publicStudy}">
-                        <input type="hidden" name="token" value="${studyDBId}">
+                        <input type="hidden" name="token" value="${study.obfuscationCode}">
                     </c:if>
                     <table id="files" class="clean">
                         <tr>
@@ -559,7 +559,7 @@
 
                     <p><input name="submit" type="submit" class="submit" value="<spring:message code="label.downloadSelectedFiles"/>"/></p>
 
-                        <%--Show instructions--%>
+                    <%--Show instructions--%>
                     <div class="ui-state-highlight ui-corner-all">
                         <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/></p>
                     </div>

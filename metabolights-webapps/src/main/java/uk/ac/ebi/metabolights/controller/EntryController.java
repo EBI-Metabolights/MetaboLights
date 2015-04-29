@@ -63,6 +63,7 @@ import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
 import uk.ac.ebi.metabolights.service.*;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -84,6 +85,7 @@ public class EntryController extends AbstractController {
 	private static final String ALTERNATIVE_ENTRY_PREFIX = "";
 	private static final String ENTRY_PREFIX = "alt";
 	private static Logger logger = LoggerFactory.getLogger(EntryController.class);
+	private static String wsUrl;
 	private final String DESCRIPTION="descr";
 
 	@Autowired
@@ -100,17 +102,54 @@ public class EntryController extends AbstractController {
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 	public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
+	private static MetabolightsWsClient metabolightsWsClient;
 
 	public enum PageActions{
 		READ,
 		EDIT
 	}
 
+	/**
+	 * To get the WS client...this is not the right place, should it be a service?
+	 */
+	public static MetabolightsWsClient getMetabolightsWsClient() {
+		return  getMetabolightsWsClient( LoginController.getLoggedUser());
+	}
+	public static MetabolightsWsClient getMetabolightsWsClient(MetabolightsUser user) {
+
+		//compose the ws url..
+		String wsUrl = getWsPath();
+
+		MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
+
+		// If the user is null use the Logged user
+		if (user == null) user = LoginController.getLoggedUser();
+
+		// Use user token ...
+		wsClient.setUserToken(user.getApiToken());
+		return wsClient;
+	}
+
+	private static String getWsPath() {
+
+		if (wsUrl != null) return wsUrl;
+
+		String host = PropertiesUtil.getHost();
+
+		// Add the webservice part...
+		wsUrl = host + "webservice/";
+
+		return wsUrl;
+
+	}
+
+
+
+
 	@RequestMapping(value = "/" + ALTERNATIVE_ENTRY_PREFIX + REVIEWER_OBFUSCATION_CODE_URL + "/assay/{assayNumber}/maf")
 	public ModelAndView getAltReviewersMetabolitesIdentified(
 			@PathVariable("obfuscationCode") String obfuscationCode,
-			@PathVariable("assayNumber") int assayNumber,
-			HttpServletRequest request){
+			@PathVariable("assayNumber") int assayNumber){
 
 
 		// Get the username from lucene index based on obfuscation code
@@ -121,21 +160,20 @@ public class EntryController extends AbstractController {
 		MetabolightsUser studyOwner = userService.lookupByUserName(userName);
 
 
-		return getMetabolitesModelAndView(indexedStudy.getAccStudy(),assayNumber,request,studyOwner);
+		return getMetabolitesModelAndView(indexedStudy.getAccStudy(),assayNumber,studyOwner);
 	}
 
 	@RequestMapping(value = "/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayNumber}/maf")
 	public ModelAndView getAltMetabolitesIdentified(
 			@PathVariable("metabolightsId") String mtblsId,
-			@PathVariable("assayNumber") int assayNumber,
-			HttpServletRequest request){
+			@PathVariable("assayNumber") int assayNumber){
 
 
-		return getMetabolitesModelAndView(mtblsId, assayNumber, request, null);
+		return getMetabolitesModelAndView(mtblsId, assayNumber, null);
 	}
 
-	private ModelAndView getMetabolitesModelAndView(String mtblsId, int assayNumber, HttpServletRequest request, MetabolightsUser user) {
-		MetabolightsWsClient wsClient = getMetabolightsWsClient(request,user);
+	private ModelAndView getMetabolitesModelAndView(String mtblsId, int assayNumber, MetabolightsUser user) {
+		MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
 
 		RestResponse<MetaboliteAssignment> response = wsClient.getMetabolites( mtblsId,assayNumber);
 		MetaboliteAssignment metaboliteAssignment = response.getContent();
@@ -166,7 +204,7 @@ public class EntryController extends AbstractController {
     }
 
 	@RequestMapping(value = {"/" + ALTERNATIVE_ENTRY_PREFIX + REVIEWER_OBFUSCATION_CODE_URL})
-	public ModelAndView showAltReviewerEntry(@PathVariable("obfuscationCode") String obfuscationCode, HttpServletRequest request) {
+	public ModelAndView showAltReviewerEntry(@PathVariable("obfuscationCode") String obfuscationCode) {
 		Study study = null;
 
 		// Get the username from lucene index based on obfuscation code
@@ -177,7 +215,7 @@ public class EntryController extends AbstractController {
 		MetabolightsUser studyOwner = userService.lookupByUserName(userName);
 
 
-		return getWSEntryMAV(indexedStudy.getAccStudy(), request, studyOwner);
+		return getWSEntryMAV(indexedStudy.getAccStudy(), studyOwner);
 
 	}
 
@@ -305,28 +343,13 @@ public class EntryController extends AbstractController {
 		return false;
 	}
 
-	private static String getWsPath(HttpServletRequest request) {
-
-		//compose the ws url..
-		String wsUrl = request.getRequestURL().toString();
-
-		//Replace the servlet path (alt/MTBLS1")
-		wsUrl = wsUrl.replace(request.getServletPath(), "");
-
-		// Add the webservice part...
-		wsUrl = wsUrl + "/webservice/";
-
-		return wsUrl;
-	}
-
-
 	@RequestMapping(value = { "/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
     public ModelAndView showWSEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
 
-		return getWSEntryMAV(mtblsId, request, null);
+		return getWSEntryMAV(mtblsId, null);
     }
 
-	private ModelAndView getWSEntryMAV(String mtblsId, HttpServletRequest request, MetabolightsUser useThisUser) {
+	private ModelAndView getWSEntryMAV(String mtblsId, MetabolightsUser useThisUser) {
 		logger.info("requested entry " + mtblsId);
 
 		mtblsId = mtblsId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
@@ -336,7 +359,7 @@ public class EntryController extends AbstractController {
 		// If useThis user was passed, we use that user....it is the case for getting the MAV for the reviewr which does not requieres to be logged in, even if it's private.
 		MetabolightsUser user = useThisUser==null?LoginController.getLoggedUser(): useThisUser;
 
-		MetabolightsWsClient wsClient = getMetabolightsWsClient(request, user);
+		MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
 
 
 		RestResponse<uk.ac.ebi.metabolights.repository.model.Study> response = wsClient.getStudy(mtblsId);
@@ -355,41 +378,12 @@ public class EntryController extends AbstractController {
 
 		mav.addObject("pageTitle", study.getStudyIdentifier() + ":" +study.getTitle() );
 
-
-//        mav.addObject("accession", mtblsId);
 		mav.addObject("study", study);
 
-
 		// Thing that don't come from the web service: xRefs...studydbId
-//        mav.addObject("submittedID", accessionService.getSubmittedId(study.getStudyIdentifier()));
-		mav.addObject("studyXRefs", accessionService.getStudyXRefs(study.getStudyIdentifier()));
 		mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
 
-		// For the file we need the study ID from the database...
-		// Get the study form the index
-		LuceneSearchResult indexedStudy = searchService.getStudy(mtblsId);
-		mav.addObject("studyDBId", indexedStudy.getDbId());
-
-		// For the reviwer link: use obfuscationcode
-		mav.addObject("obfuscationcode", indexedStudy.getObfuscationCode());
-
 		return  mav;
-	}
-
-	public static MetabolightsWsClient getMetabolightsWsClient(HttpServletRequest request, MetabolightsUser user) {
-
-
-		//compose the ws url..
-		String wsUrl = getWsPath(request);
-
-		MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
-
-		// If the user is null use the Loged user
-		if (user == null) user = LoginController.getLoggedUser();
-
-		// Use user token ...
-		wsClient.setUserToken(user.getApiToken());
-		return wsClient;
 	}
 
 	/**

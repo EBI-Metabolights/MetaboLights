@@ -53,6 +53,7 @@ import uk.ac.ebi.metabolights.repository.model.StudyLite;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.StudySearchResult;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -324,7 +325,7 @@ public class MetabolightsWsClient {
         // Make the request
         String response = makePostRequest("search", json);
 
-        SearchResult<LiteStudy> foo = new SearchResult<>();
+        StudySearchResult foo = new StudySearchResult();
 
         return deserializeJSONString(response, foo.getClass());
 
@@ -343,4 +344,33 @@ public class MetabolightsWsClient {
         return deserializeJSONString(response, String.class);
 
     }
+
+    public RestResponse<? extends SearchResult> searchStudyWithResponse(String studyIdentifier) {
+
+        logger.info("Requesting a single study ({}) to the search engine.", studyIdentifier);
+
+        // Create the search query
+        SearchQuery searchQuery = new SearchQuery();
+
+        // NOTE: Elastic search explicit language!! breaking search interface.
+        searchQuery.setText("_id:" + studyIdentifier);
+
+        return  search(searchQuery);
+
+
+    }
+    public LiteStudy searchStudy(String studyIdentifier){
+
+        RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) searchStudyWithResponse(studyIdentifier);
+
+
+        if (response.getContent().getResults().size() == 0) {
+            return null;
+        } else {
+            return response.getContent().getResults().iterator().next();
+        }
+
+    }
+
+
 }
