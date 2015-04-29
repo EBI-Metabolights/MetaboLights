@@ -65,6 +65,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/compound.jsp" />
     </definition>
 
+    <definition name="referencespectraupload" extends="default">
+        <put-attribute name="title" value="Compound Reference Spectra Upload Page" />
+        <put-attribute name="body" value="/WEB-INF/jsp/uploadReferenceSpectra.jsp" />
+    </definition>
+
 	<definition name="index" extends="default">
 		<put-attribute name="title" value="MetaboLights - Metabolomics experiments and derived information" />
 		<put-attribute name="noBreadCrumb" value="true" />

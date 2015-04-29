@@ -290,11 +290,10 @@
             <c:if test="${not empty study.assays}">
                 <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                     <li>
-                        <a href="#tabs-${loopAssays.index + 4}" class="noLine" title="${assay.fileName}"><spring:message code="label.assays"/>
+                        <a href="#tabs-${loopAssays.index + 4}" class="noLine <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                metabolights
+                            </c:if>" title="${assay.fileName}"><spring:message code="label.assays"/>
                             <c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
-                            <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                                &nbsp;<span class="icon icon-conceptual" data-icon="b" title="<spring:message code="label.mafFileFound"/>"/>
-                            </c:if>
                         </a>
                     </li>
                 </c:forEach>

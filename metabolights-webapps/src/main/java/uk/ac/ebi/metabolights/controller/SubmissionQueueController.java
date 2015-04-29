@@ -25,6 +25,7 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,9 @@ import uk.ac.ebi.metabolights.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,11 +71,39 @@ public class SubmissionQueueController extends AbstractController {
 
     private static Logger logger = LoggerFactory.getLogger(SubmissionQueueController.class);
 
+    private @Value("#{uploadDirectory}") String uploadDirectory;
 
     static class BIIException extends Exception {
         public BIIException(String message){
             super(message);
         }
+    }
+
+
+    @RequestMapping(value = { "/referencespectraupload" })
+    public ModelAndView referenceSpectraUpload(HttpServletRequest request) {
+        MetabolightsUser user = null;
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("referencespectraupload"); // Call the Submission form page
+
+        if (request.getUserPrincipal() != null)
+            user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+        if (user != null){
+            //mav.addObject("user", user);
+            try {
+                mav.addObject("queueditems",SubmissionQueue.getQueuedForUserId(user.getUserName().toString()));
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            // If the user is a curator
+            if (user.isCurator()){
+                mav.addObject("users", userService.getAll());
+            }
+        }
+
+        return mav;
     }
 	
 	@RequestMapping(value = { "/submittoqueue" })
@@ -289,6 +321,82 @@ public class SubmissionQueueController extends AbstractController {
 		
         }
 	}
+
+    @RequestMapping(value = "/submitCompoundSpectra", method = RequestMethod.POST)
+    public ModelAndView uploadSpectra(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(required=true,value="compoundid") String compound,
+            @RequestParam(required=false,value="owner") String owner,
+            HttpServletRequest request)
+            throws Exception {
+
+        //Start the submission process...
+        logger.info("Compound Reference Spectra Upload. Start");
+
+        StringBuffer messageBody = new StringBuffer();
+        String hostName = java.net.InetAddress.getLocalHost().getHostName();
+        messageBody.append("Compound Reference Spectra submission started from machine " + hostName);
+
+        // Get the user
+        MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+        String submitter = user.getUserName();
+
+        // If the user is a curator but there is an owner...
+        if (owner != null && user.isCurator()){
+
+            // Overwrite the submitter with the owner...
+            submitter = owner;
+        }
+
+
+        try {
+
+            // Extend the message...
+            messageBody.append("\nFileName: " + file.getOriginalFilename() );
+            messageBody.append("\nCompound Identifier: " + compound );
+
+            if (submitter.equals(user.getUserName())){
+                messageBody.append("\nUser: " + user.getUserName());
+            } else {
+                messageBody.append("\nUser: " + user.getUserName() + "on behalf of " + submitter);
+            }
+
+
+            byte[] bytes = file.getBytes();
+
+            File dir = new File( uploadDirectory + File.separator + user.getUserName() + File.separator + compound );
+            if (!dir.exists())
+                dir.mkdirs();
+
+            // Create the file on server
+            File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+            stream.write(bytes);
+            stream.close();
+
+            logger.info("Server File Location="
+                    + serverFile.getAbsolutePath());
+
+            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("referencespectraupload");
+            mav.addObject("compoundId", compound);
+            mav.addObject("successfulUpload", "Compound Reference Spectra Uploaded Successfully");
+
+            return mav;
+
+        }  catch (Exception e){
+
+            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
+            logger.error("Submission exception",e);
+            mav.addObject("error", e);
+            // Add the study id...
+            mav.addObject("Compound ID", compound);
+            messageBody.append("\n\nERROR!!!!!\n\n" + e.getMessage() );
+            return mav;
+        }
+
+
+    }
 	
 	/**
 	 * Redirection after a user has successfully submitted. This prevents double submit with F5.
