@@ -72,6 +72,7 @@ public class SubmissionQueueController extends AbstractController {
     private static Logger logger = LoggerFactory.getLogger(SubmissionQueueController.class);
 
     private @Value("#{uploadDirectory}") String uploadDirectory;
+    private @Value("#{userSpace}") String uploadSpectraDirectory;
 
     static class BIIException extends Exception {
         public BIIException(String message){
@@ -364,7 +365,7 @@ public class SubmissionQueueController extends AbstractController {
 
             byte[] bytes = file.getBytes();
 
-            File dir = new File( uploadDirectory + File.separator + user.getUserName() + File.separator + compound );
+            File dir = new File( uploadSpectraDirectory + File.separator + user.getUserName() + File.separator + compound );
             if (!dir.exists())
                 dir.mkdirs();
 
