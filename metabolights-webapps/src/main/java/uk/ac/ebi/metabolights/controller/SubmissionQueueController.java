@@ -180,7 +180,7 @@ public class SubmissionQueueController extends AbstractController {
 			@RequestParam(required = true ,value = "file") MultipartFile file,
 			@RequestParam(required=true,value="pickdate") String publicDate,
 			@RequestParam(required=false,value="study") String study,
-            @RequestParam(required=false,value="owner") String owner,
+            @RequestParam(required=false,value="owner") String ownerId,
 			@RequestParam(required=false,value="validated", defaultValue ="false") boolean validated,
 			HttpServletRequest request) 
 		throws Exception {
@@ -188,23 +188,25 @@ public class SubmissionQueueController extends AbstractController {
 		//Start the submission process...
 	    logger.info("Queue Experiment. Start");
 	    
-	   StringBuffer messageBody = new StringBuffer();
-	   String hostName = java.net.InetAddress.getLocalHost().getHostName();
-	   messageBody.append("Study submission started from machine " + hostName);
-	   
-  	   // Get the user
-	   MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        StringBuffer messageBody = new StringBuffer();
+        String hostName = java.net.InetAddress.getLocalHost().getHostName();
+        messageBody.append("Study submission started from machine " + hostName);
 
-       String submitter = user.getUserName();
+        // Get the actual user (could be a curator).
+        MetabolightsUser actualUser = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
-       // If the user is a curator but there is an owner...
-       if (owner != null && user.isCurator()){
+        // The submitter, by default is the same user
+        MetabolightsUser submitter = actualUser;
 
-           // Overwrite the submitter with the owner...
-           submitter = owner;
-       }
 
-	   try {
+        // If the user is a curator but there is an owner...
+        if (ownerId != null && actualUser.isCurator()){
+
+            // Overwrite the submitter with the owner...
+            submitter = userService.lookupByEmail(ownerId);
+        }
+
+        try {
 
             if (file.isEmpty())
 				throw new BIIException(PropertyLookup.getMessage("BIISubmit.fileEmpty"));
@@ -215,11 +217,11 @@ public class SubmissionQueueController extends AbstractController {
 			if (!file.getOriginalFilename().toLowerCase().endsWith("zip"))
 				throw new BIIException(PropertyLookup.getMessage("BIISubmit.fileExtension"));
 
-		   if (!validated)
-			   throw new BIIException(PropertyLookup.getMessage("BIISubmit.notValidated"));
+            if (!validated)
+                throw new BIIException(PropertyLookup.getMessage("BIISubmit.notValidated"));
 
 
-		   //Check if the study is public today
+            //Check if the study is public today
             VisibilityStatus status = VisibilityStatus.PRIVATE;         //Defaults to a private study
 
             Date publicDateD;
@@ -233,10 +235,10 @@ public class SubmissionQueueController extends AbstractController {
             // Extend the message...
           	messageBody.append("\nFileName: " + file.getOriginalFilename() );
 
-           if (submitter.equals(user.getUserName())){
-                messageBody.append("\nUser: " + user.getUserName());
+           if (submitter.getUserName().equals(actualUser.getUserName())){
+                messageBody.append("\nUser: " + actualUser.getUserName());
            } else {
-               messageBody.append("\nUser: " + user.getUserName() + "on behalf of " + submitter);
+               messageBody.append("\nUser: " + actualUser.getUserName() + "on behalf of " + submitter.getUserName());
            }
     		if (study==null){
     			messageBody.append("\nNEW STUDY");
@@ -247,7 +249,7 @@ public class SubmissionQueueController extends AbstractController {
     		
     		
             logger.info("Queueing study");
-			SubmissionItem si = new SubmissionItem(file, submitter, publicDateD, study, false);
+			SubmissionItem si = new SubmissionItem(file, submitter.getApiToken(), publicDateD, study, false);
             
 			// Submit the item to the queue...
             si.submitToQueue();
@@ -259,35 +261,33 @@ public class SubmissionQueueController extends AbstractController {
 			httpSession.setAttribute("itemQueued", "msg.studyQueueSuccesfully");
 			
 			// Cannot load the queue
-			emailService.sendQueuedStudyEmail(si.getUserId(),si.getOriginalFileName() , FileUtils.byteCountToDisplaySize(si.getFileQueued().length()), si.getPublicReleaseDate(), hostName, study);
+			emailService.sendQueuedStudyEmail(submitter.getEmail(),si.getOriginalFileName() , FileUtils.byteCountToDisplaySize(si.getFileQueued().length()), si.getPublicReleaseDate(), hostName, study);
 			
 
 	    	return new ModelAndView("redirect:itemQueued");
 	    	
 		} catch (BIIException e){
 
-           ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
-           logger.error("Submission exception", e);
-           mav.addObject("error", e);
-           mav.addObject("studyId", study);
-           return mav;
+            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
+            logger.error("Submission exception", e);
+            mav.addObject("error", e);
+            mav.addObject("studyId", study);
+            return mav;
 
-       }  catch (Exception e){
+        } catch (Exception e){
 			
-			ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
-			logger.error("Submission exception",e);
-			mav.addObject("error", e);
+            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
+            logger.error("Submission exception",e);
+            mav.addObject("error", e);
             // Add the study id...
             mav.addObject("studyId", study);
 
-			messageBody.append("\n\nERROR!!!!!\n\n" + e.getMessage() );
-			emailService.sendSimpleEmail( "queueExperiment FAILED in " + hostName + " by " + user.getUserName() , messageBody.toString());
-			
-			return mav;
-		
-		}
-		
+            messageBody.append("\n\nERROR!!!!!\n\n" + e.getMessage() );
+            emailService.sendSimpleEmail( "queueExperiment FAILED in " + hostName + " by " + actualUser.getUserName() , messageBody.toString());
 
+            return mav;
+		
+        }
 	}
 	
 	/**

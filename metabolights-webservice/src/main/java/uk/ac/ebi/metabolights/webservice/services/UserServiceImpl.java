@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
@@ -103,6 +104,7 @@ public class UserServiceImpl implements UserService{
 				user = new User();
 				user.setUserName(userToken);
 				user.setStatus(User.UserStatus.ACTIVE);
+				user.setRole(AppRole.ANONYMOUS);
 			}
 
 

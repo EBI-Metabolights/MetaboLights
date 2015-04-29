@@ -33,6 +33,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.webservice.utils.TextUtils;
 
@@ -139,19 +140,6 @@ public class EmailService {
 	/*
 	 * Email to send when an Public Release Date update is being requested...
 	 */
-	public void sendQueuedPRLUpdate( String userEmail, Date publicReleaseDate, String hostName, String studyToUpdate){
-		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, curationEmailAddress};
-		String subject = PropertyLookUpService.getMessage("mail.queuedPRDUpdate.subject", studyToUpdate );
-		String body = PropertyLookUpService.getMessage("mail.queuedPRDUpdate.body", new String[]{userEmail, studyToUpdate,publicReleaseDate.toString(), hostName});
-
-		sendSimpleEmail(from, to, subject, body);
-
-	}
-
-	/*
-	 * Email to send when an Public Release Date update is being requested...
-	 */
 	public void sendQueuedDeletion( String userEmail, String hostName, String studyToDelete){
 		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
 		String[] to = {userEmail, curationEmailAddress};
@@ -180,22 +168,9 @@ public class EmailService {
 	 */
 	public void sendQueuedStudyUpdated(String userToken,String ID, Date publicReleaseDate){
 		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
-		String[] to = {userTokenToEmail(userToken), curationEmailAddress};
+		String[] to = getRecipientsArray(userToken);
 		String subject = PropertyLookUpService.getMessage("mail.updateStudy.subject", ID);
 		String body = PropertyLookUpService.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
-
-		sendSimpleEmail(from, to, subject, body);
-
-	}
-
-	/*
-	 * Email to send when a study's public release date is been successfully updated ...
-	 */
-	public void sendQueuedPublicReleaseDateUpdated(String userEmail,String ID, Date publicReleaseDate){
-		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, curationEmailAddress};
-		String subject = PropertyLookUpService.getMessage("mail.publicReleaseDate.subject", ID);
-		String body = PropertyLookUpService.getMessage("mail.publicReleaseDate.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
 
 		sendSimpleEmail(from, to, subject, body);
 
@@ -216,7 +191,7 @@ public class EmailService {
 	 */
 	public void sendSubmissionError(String userToken, String fileName, Exception error) throws Exception {
 		String from = curationEmailAddress;
-		String[] to = {userTokenToEmail(userToken), curationEmailAddress};
+		String[] to = getRecipientsArray(userToken);
 		String subject = PropertyLookUpService.getMessage("mail.errorInStudy.subject", fileName );
         String hostName = InetAddress.getLocalHost().getHostName();
         String body = PropertyLookUpService.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, error.getMessage()});
@@ -227,6 +202,16 @@ public class EmailService {
 
 		sendHTMLEmail(from, to, subject, body, technicalInfo);
 
+	}
+
+	private String[] getRecipientsArray(String userToken) {
+		String userEmail = userTokenToEmail(userToken);
+
+		if (userEmail.equals("")){
+			return new String[]{curationEmailAddress};
+		} else {
+			return new String[]{userEmail,curationEmailAddress};
+		}
 	}
 
 	public void sendHTMLEmail(final String from, final String[] to, final String subject,  final String body,  final String technicalInfo) {
@@ -302,9 +287,14 @@ public class EmailService {
 
 	public String userTokenToEmail(String userToken){
 
+		// Using the Spring user service. THis will return always a user
+		// Check for anonymous
 		User user = userService.lookupByToken(userToken);
 
-		return user.getEmail();
+		if (user.getRole() == AppRole.ANONYMOUS)
+			return "";
+		else
+			return user.getEmail();
 
 	}
 
@@ -313,11 +303,13 @@ public class EmailService {
 		User user = userService.lookupByToken(userToken);
 
 		String message =
-				"User's info:\n"+
-						"Full name: " + user.getFullName() + "\n" +
-						"Status: " + user.getStatus().name() + "\n" +
-						"Affiliation: " + user.getAffiliation() + "\n" +
-						"Join date: " + user.getJoinDate() + "\n";
+			"User's info:\n" +
+					"Full name: " + user.getFullName() + "\n" +
+					"Role: " + user.getRole().name() + "\n" +
+					"Status: " + user.getStatus().name() + "\n" +
+					"Affiliation: " + user.getAffiliation() + "\n" +
+					"Join date: " + user.getJoinDate() + "\n";
+
 
 		return message;
 	}

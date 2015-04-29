@@ -75,6 +75,8 @@
     <jee:jndi-lookup id="EBIHost" jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress" jndi-name="java:comp/env/curationEmailAddress"/>
 
+    <jee:jndi-lookup id="stableIdPrefix" jndi-name="java:comp/env/stableIdPrefix"/>
+
 
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -117,7 +119,9 @@
         <constructor-arg index="1" ref="publicStudiesLocation"/>
         <constructor-arg index="2" ref="privateStudiesLocation"/>
         <constructor-arg index="3" ref="dataSource"/>
+        <constructor-arg index="4" ref="stableIdPrefix"/>
     </bean>
+
 
     <bean id="userDAO"
           class="uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO"

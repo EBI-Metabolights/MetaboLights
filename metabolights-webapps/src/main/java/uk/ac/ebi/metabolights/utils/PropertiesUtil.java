@@ -42,7 +42,8 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 
 	private static Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
 
-   @Override
+
+	@Override
    protected void processProperties(ConfigurableListableBeanFactory beanFactory,
              Properties props) throws BeansException {
         super.processProperties(beanFactory, props);
@@ -70,10 +71,6 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
     	
     	if (property != null) {
     		
-    		// If not yet in property map.
-//    		if (propertiesMap.get(name) == null){
-//    			propertiesMap.put(name, property);
-//    		}
     		return property;
     	}
 
@@ -117,5 +114,13 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 		}
     
     }
- 
+
+	/**
+	 * Custom properties
+	 */
+	public static String getHost() {
+		return getProperty("EBIHost");
+	}
+
+
 }

@@ -61,6 +61,7 @@ public class DDLTest {
 		dropTable(session,Constants.STUDY_USER_TABLE);
 		dropTable(session, Constants.STUDIES_TABLE);
 		dropTable(session, Constants.USERS_TABLE);
+		dropTable(session, Constants.STABLE_ID_TABLE);
 
 
 	}
@@ -140,11 +141,9 @@ public class DDLTest {
 			logger.info("Exception expected. Study obfuscation code unique constraint in place");
 		}
 
-
-
-
-
-
+		// Stable id table created...
+		AccessionDAO accessionDAO = new AccessionDAO();
+		accessionDAO.getStableId("something");
 
 	}
 

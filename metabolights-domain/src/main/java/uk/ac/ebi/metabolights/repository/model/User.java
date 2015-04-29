@@ -51,7 +51,7 @@ public class User {
 //
 	public User() {
 		//Some default values
-		this.role = AppRole.ROLE_SUBMITTER;
+		this.role = AppRole.ANONYMOUS;
 		this.status= UserStatus.NEW;
 		this.joinDate=new Date();
 	}

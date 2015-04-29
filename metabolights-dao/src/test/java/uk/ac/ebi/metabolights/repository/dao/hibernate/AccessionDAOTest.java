@@ -1,6 +1,8 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 
+import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
+
 import static org.junit.Assert.*;
 
 public class AccessionDAOTest extends DAOTest {
@@ -9,22 +11,22 @@ public class AccessionDAOTest extends DAOTest {
 
 		AccessionDAO accessionDAO = new AccessionDAO();
 
-		String defaultPrefix = AccessionDAO.getDefaultPrefix();
+		String defaultPrefix = DAOFactory.getDefaultPrefix();
 
 		// Should be the first one using the default value
 		String stableID = accessionDAO.getStableId();
 
 		assertNotNull("Stable id is not null", stableID);
-		assertTrue("Using default prefix", stableID.startsWith(AccessionDAO.getDefaultPrefix()));
+		assertTrue("Using default prefix", stableID.startsWith(DAOFactory.getDefaultPrefix()));
 
 		// Request another one
 		String newStableID = accessionDAO.getStableId();
 		assertFalse("Next stable id is different", stableID.equals(newStableID ));
-		assertTrue("Using default prefix", newStableID.startsWith(AccessionDAO.getDefaultPrefix()));
+		assertTrue("Using default prefix", newStableID.startsWith(DAOFactory.getDefaultPrefix()));
 
 		// Set a new prefix
 		String newPrefix = "NEWPREFIX";
-		AccessionDAO.setDefaultPrefix(newPrefix);
+		DAOFactory.setDefaultPrefix(newPrefix);
 
 		// Request another one
 		stableID = accessionDAO.getStableId();

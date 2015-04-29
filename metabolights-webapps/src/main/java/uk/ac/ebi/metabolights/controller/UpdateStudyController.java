@@ -263,8 +263,7 @@ public class UpdateStudyController extends AbstractController {
     @RequestMapping(value = { "/updatepublicreleasedate" })
 	public ModelAndView changePublicReleaseDate(
 								@RequestParam(required=true,value="study") String study,
-								@RequestParam(required=true, value="pickdate") String publicReleaseDateS,
-								HttpServletRequest request) throws Exception {
+								@RequestParam(required=true, value="pickdate") String publicReleaseDateS) throws Exception {
 
 
 		//Check access
@@ -287,7 +286,7 @@ public class UpdateStudyController extends AbstractController {
             // Use de submitter user name in the study instead of the User (could be a curator).
 //        	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.study.getSubmitter().getUserName());
 
-			MetabolightsWsClient wsClient =EntryController.getMetabolightsWsClient(request);
+			MetabolightsWsClient wsClient =EntryController.getMetabolightsWsClient();
 
 			RestResponse<String> response = wsClient.updatePublicReleaseDate(params.publicReleaseDate, study);
 
