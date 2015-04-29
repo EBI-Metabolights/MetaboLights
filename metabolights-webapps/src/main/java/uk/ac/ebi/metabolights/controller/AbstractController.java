@@ -35,7 +35,7 @@ import uk.ac.ebi.metabolights.service.TextUtils;
  *
  */
 public abstract class AbstractController {
-	private static Logger logger = LoggerFactory.getLogger(AbstractController.class);
+	protected static Logger logger = LoggerFactory.getLogger(AbstractController.class);
 
 	@ExceptionHandler(Exception.class)
 	public ModelAndView handleAnyException(Exception ex) {

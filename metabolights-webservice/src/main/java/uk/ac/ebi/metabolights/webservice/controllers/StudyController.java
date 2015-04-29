@@ -44,6 +44,7 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
@@ -55,6 +56,7 @@ import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.webservice.services.EmailService;
 
 import java.io.File;
 import java.util.Date;
@@ -63,6 +65,9 @@ import java.util.List;
 @Controller
 @RequestMapping("study")
 public class StudyController extends BasicController{
+
+	@Autowired
+	private EmailService emailService;
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 	private final static Logger logger = LoggerFactory.getLogger(StudyController.class.getName());
@@ -132,7 +137,6 @@ public class StudyController extends BasicController{
 		// Update the public release date
 		studyDAO.updateReleaseDate(accession, newPublicReleaseDate, user.getApiToken());
 
-		// Indexing missing!!
 		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
 		// Like this we might have concurrency issues?
 		Study study = studyDAO.getStudy(accession,user.getApiToken());
@@ -145,6 +149,9 @@ public class StudyController extends BasicController{
 
 		logger.info("public release date updated.");
 
+
+		// Email about this
+		emailService.sendPublicReleaseDateUpdated(study);
 
 		return restResponse;
 

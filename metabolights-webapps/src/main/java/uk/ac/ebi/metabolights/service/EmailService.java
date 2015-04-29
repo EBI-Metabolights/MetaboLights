@@ -34,6 +34,7 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 import uk.ac.ebi.metabolights.form.ContactValidation;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -185,20 +186,41 @@ public class EmailService {
 
     /**
      * Sends an email to the submitter and the curators that a study will go public
-     * @param submitterEmail
-     * @param publicDate
-     * @param acc
+     * @param study
      */
-    public void sendStudyGoingPublicNotification(String submitterEmail, Date publicDate, String acc){
+    public void sendStudyGoingPublicNotification(LiteStudy study){
         SimpleMailMessage msg = new SimpleMailMessage(this.studySoonLiveTemplate);
-        String body = PropertyLookup.getMessage("msg.studySoonLive", acc, new SimpleDateFormat("dd-MM-yyyy").format(publicDate));
-        String[] emailTo = new String[] {submitterEmail,curationEmailAddress};
+        String body = PropertyLookup.getMessage("msg.studySoonLive", study.getStudyIdentifier(), new SimpleDateFormat("dd-MM-yyyy").format(study.getStudyPublicReleaseDate()));
+        String[] emailTo = getRecipientsForStudy(study);
         msg.setTo(emailTo);
         msg.setText(body);
         //mailSender.send(msg);
 		sendHTMLEmail(msg);
 
     }
+
+	private String[] getRecipientsForStudy(LiteStudy study) {
+
+		if (study == null){
+			return new String[]{curationEmailAddress};
+		} else {
+
+			int recipientsNumber = study.getUsers().size() + 1;
+
+			String[] recipients = new String[recipientsNumber];
+
+			for (int i = 0; i < study.getUsers().size(); i++) {
+
+				String email = study.getUsers().get(i).getEmail();
+				recipients[i] = email;
+			}
+
+			// Add the curators emailaddress
+			recipients[recipientsNumber-1] = curationEmailAddress;
+			return recipients;
+		}
+	}
+
 
 	private void sendHTMLEmail(SimpleMailMessage msg){
 		sendHTMLEmail(msg.getFrom(),msg.getTo(),msg.getSubject(),msg.getText(),"");

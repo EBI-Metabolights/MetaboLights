@@ -21,9 +21,6 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,8 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.service.AppContext;
-import uk.ac.ebi.metabolights.service.EmailService;
-import uk.ac.ebi.metabolights.service.StudyService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,14 +40,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class SubmissionController extends AbstractController {
-
-	@Autowired
-	private EmailService emailService;
-
-    @Autowired
-    private StudyService studyService;
-
-	private static Logger logger = LoggerFactory.getLogger(SubmissionController.class);
 
 	private @Value("#{isatabuploaderconfig}")String configFolder;
 

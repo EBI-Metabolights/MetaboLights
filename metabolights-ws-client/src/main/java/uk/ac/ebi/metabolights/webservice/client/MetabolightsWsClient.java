@@ -49,7 +49,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.StudyLite;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
@@ -309,7 +308,7 @@ public class MetabolightsWsClient {
         // Make the request
         String response = makeGetRequest("search");
 
-        SearchResult<StudyLite> foo = new SearchResult<>();
+        StudySearchResult foo = new StudySearchResult();
 
         return deserializeJSONString(response, foo.getClass());
 

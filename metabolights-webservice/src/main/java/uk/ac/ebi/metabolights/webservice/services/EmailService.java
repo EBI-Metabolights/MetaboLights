@@ -34,6 +34,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
+import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.webservice.utils.TextUtils;
 
@@ -153,11 +154,11 @@ public class EmailService {
 	/*
 	 * Email to send when a study is being successfully submitted...
 	 */
-	public void sendQueuedStudySubmitted(String userEmail, String fileName, Date publicReleaseDate, String ID){
+	public void sendQueuedStudySubmitted(Study newStudy, String fileName){
 		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, curationEmailAddress};
-		String subject = PropertyLookUpService.getMessage("mail.submittedStudy.subject", ID);
-		String body = PropertyLookUpService.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
+		String[] to = getRecipientsFromStudy(newStudy);
+		String subject = PropertyLookUpService.getMessage("mail.submittedStudy.subject", newStudy.getStudyIdentifier());
+		String body = PropertyLookUpService.getMessage("mail.submittedStudy.body", new String[]{fileName,  newStudy.getStudyIdentifier(), newStudy.getStudyPublicReleaseDate().toString(), prodURL});
 
 		sendSimpleEmail(from, to, subject, body);
 
@@ -166,11 +167,24 @@ public class EmailService {
 	/*
 	 * Email to send when a study is been successfully updated ...
 	 */
-	public void sendQueuedStudyUpdated(String userToken,String ID, Date publicReleaseDate){
+	public void sendQueuedStudyUpdated(Study updatedStudy){
 		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
-		String[] to = getRecipientsArray(userToken);
-		String subject = PropertyLookUpService.getMessage("mail.updateStudy.subject", ID);
-		String body = PropertyLookUpService.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
+		String[] to = getRecipientsFromStudy(updatedStudy);
+		String subject = PropertyLookUpService.getMessage("mail.updateStudy.subject", updatedStudy.getStudyIdentifier());
+		String body = PropertyLookUpService.getMessage("mail.updateStudy.body", new String[]{  updatedStudy.getStudyIdentifier(), updatedStudy.getStudyIdentifier(), updatedStudy.getStudyPublicReleaseDate().toString(), prodURL});
+
+		sendSimpleEmail(from, to, subject, body);
+
+	}
+
+	/*
+ * Email to send when a study's public release date is been successfully updated ...
+ */
+	public void sendPublicReleaseDateUpdated(Study study){
+		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
+		String[] to = getRecipientsFromStudy(study);
+		String subject = PropertyLookUpService.getMessage("mail.publicReleaseDate.subject", study.getStudyIdentifier());
+		String body = PropertyLookUpService.getMessage("mail.publicReleaseDate.body", new String[]{  study.getStudyIdentifier(), study.getStudyPublicReleaseDate().toString(), prodURL});
 
 		sendSimpleEmail(from, to, subject, body);
 
@@ -191,7 +205,7 @@ public class EmailService {
 	 */
 	public void sendSubmissionError(String userToken, String fileName, Exception error) throws Exception {
 		String from = curationEmailAddress;
-		String[] to = getRecipientsArray(userToken);
+		String[] to = getRecipientsFromToken(userToken);
 		String subject = PropertyLookUpService.getMessage("mail.errorInStudy.subject", fileName );
         String hostName = InetAddress.getLocalHost().getHostName();
         String body = PropertyLookUpService.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, error.getMessage()});
@@ -204,13 +218,36 @@ public class EmailService {
 
 	}
 
-	private String[] getRecipientsArray(String userToken) {
+	private String[] getRecipientsFromToken(String userToken) {
+
 		String userEmail = userTokenToEmail(userToken);
 
 		if (userEmail.equals("")){
 			return new String[]{curationEmailAddress};
 		} else {
 			return new String[]{userEmail,curationEmailAddress};
+		}
+	}
+
+	private String[] getRecipientsFromStudy(Study study) {
+
+		if (study == null){
+			return new String[]{curationEmailAddress};
+		} else {
+
+			int recipientsNumber = study.getUsers().size() + 1;
+
+			String[] recipients = new String[recipientsNumber];
+
+			for (int i = 0; i < study.getUsers().size(); i++) {
+
+				String email = study.getUsers().get(i).getEmail();
+				recipients[i] = email;
+			}
+
+			// Add the curators emailaddress
+			recipients[recipientsNumber-1] = curationEmailAddress;
+			return recipients;
 		}
 	}
 
