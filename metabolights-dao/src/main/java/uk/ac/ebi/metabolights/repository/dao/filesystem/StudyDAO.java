@@ -61,7 +61,7 @@ public class StudyDAO {
 
     public static File getStudyFolder(final String metabolightsId, File location){
 
-        logger.info("Study location is "+location+" for study "+metabolightsId);
+        logger.debug("Trying to locate {} folder: {}", metabolightsId, location);
 
         File[] files = location.listFiles(new FilenameFilter() {
             public boolean accept(File file, String s) {
@@ -72,6 +72,8 @@ public class StudyDAO {
         if (files != null && files.length == 1 ){
             return  files[0];
         } else {
+
+            logger.info("{} folder not found at {}", metabolightsId, location);
             return null;
         }
 
@@ -146,7 +148,7 @@ public class StudyDAO {
     }
 
 
-    public Study fillStudy( boolean includeMetabolites, Study studyToFill) throws DAOException, IsaTabException {
+    public Study fillStudy( boolean includeMetabolites, Study studyToFill) throws DAOException {
 
         logger.info("Trying to parse study "+ studyToFill.getStudyIdentifier());
 
@@ -156,8 +158,18 @@ public class StudyDAO {
         // We got something ...
         if (studyFolder != null){
 
-            return fillStudyFromFolder(includeMetabolites, studyToFill, studyFolder);
 
+            try {
+
+                fillStudyFromFolder(includeMetabolites, studyToFill, studyFolder);
+
+            } catch (Exception e) {
+
+                logger.warn("Folder for {} found, but metadata can't be loaded. Load process will continue but without metadata. This should be fixed submitting new metadata files.", studyToFill.getStudyIdentifier(),e);
+            }
+
+            // Return what we have (could be onlt DB data in case of metadata load failure.)
+            return studyToFill;
 
         } else {
             throw new DAOException("Study folder for " + studyToFill.getStudyIdentifier() + " not found." );
@@ -167,12 +179,12 @@ public class StudyDAO {
 
     public Study fillStudyFromFolder(boolean includeMetabolites, Study studyToFill, File studyFolder) throws IsaTabException {
 
-            // Set the location
-            studyToFill.setStudyLocation(studyFolder.getAbsolutePath());
+        // Set the location
+        studyToFill.setStudyLocation(studyFolder.getAbsolutePath());
 
 
-            // Load the IsaTab investigation
-            org.isatools.isacreator.model.Investigation isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
+        // Load the IsaTab investigation
+        org.isatools.isacreator.model.Investigation isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
 
         // Convert it into a MetaboLights study
         studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);

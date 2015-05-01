@@ -28,6 +28,7 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.Isa
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabReplacer;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.AccessionDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.security.SecurityService;
@@ -139,7 +140,7 @@ public class StudyDAO {
 	public Study update(File submissionFolder, String studyIdentifier, Date newPublicReleaseDate,String userToken) throws Exception {
 
 		// Security: Check if the user can add a study... it will throw and exception if not authorised
-		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken);
+		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken, null);
 
 		logger.info("{} update started by {}. Submission folder is {}",studyIdentifier, user.getFullName(), submissionFolder.getAbsolutePath());
 
@@ -250,10 +251,10 @@ public class StudyDAO {
 
 	}
 
-	public void updateReleaseDate(String studyIdentifier, Date newPublicReleaseDate, String userToken) throws Exception {
+	public void updateReleaseDate(String studyIdentifier, Date newPublicReleaseDate, String userToken) throws DAOException {
 
 		// Security: Check if the user can edit the study
-		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken);
+		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken, null);
 
 		Study study = dbDAO.findByAccession(studyIdentifier);
 
@@ -264,13 +265,48 @@ public class StudyDAO {
 		// Get the location of the study
 		File studyFolder = fsDAO.getStudyFolder(studyIdentifier,study.isPublicStudy());
 
-		// Change the file....NOTE: This will not be audited....unless we implement some kind of audit system in the replacer
-		//Replace the id with the new id and other fields: Public Release Date
-		IsaTabReplacer isaTabReplacer = new IsaTabReplacer(studyFolder.getAbsolutePath());
-		isaTabReplacer.setPublicDate(newPublicReleaseDate);
-		isaTabReplacer.execute();
+		try {
+			// Change the file....NOTE: This will not be audited....unless we implement some kind of audit system in the replacer
+			//Replace the id with the new id and other fields: Public Release Date
+			IsaTabReplacer isaTabReplacer = new IsaTabReplacer(studyFolder.getAbsolutePath());
+			isaTabReplacer.setPublicDate(newPublicReleaseDate);
+			isaTabReplacer.execute();
+
+		} catch (Exception e) {
+			logger.warn("Couldn't replace release date in isatab files.",e);
+		}
 
 		logger.info("{} public release date successfully updated", studyIdentifier);
+
+	}
+
+	public void updateStatus(String studyIdentifier, String userToken, LiteStudy.StudyStatus newStatus) throws DAOException {
+
+		// Security: Check if the user can edit the study
+		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken, newStatus);
+
+		// Find the study data from the DB
+		Study study = dbDAO.findByAccession(studyIdentifier);
+
+		// If new status is APPROVED
+		if (newStatus== LiteStudy.StudyStatus.APPROVED){
+
+			//...and release date has passed...promote it to PUBLIC
+			if (study.getStudyPublicReleaseDate().before(new Date())){
+				newStatus = LiteStudy.StudyStatus.PUBLIC;
+			}
+
+		}
+
+		// Change the status
+		study.setStudyStatus(newStatus);
+
+		if (newStatus == LiteStudy.StudyStatus.PUBLIC) {
+			study.setStudyPublicReleaseDate(new Date());
+		}
+
+		dbDAO.save(study);
+
 
 	}
 }

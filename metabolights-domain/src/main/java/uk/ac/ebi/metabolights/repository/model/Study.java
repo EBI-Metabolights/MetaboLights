@@ -31,8 +31,6 @@ public class Study extends LiteStudy{
     private String description;
     private String studyLocation;
 
-    private Long id;
-
 
     // Collections
     private Collection<Contact> contacts;
@@ -75,14 +73,6 @@ public class Study extends LiteStudy{
 
     public void setStudyLocation(String studyLocation) {
         this.studyLocation = studyLocation;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     // Collections

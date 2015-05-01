@@ -111,6 +111,8 @@ public class LiteStudy extends LiteEntity {
 	}
 
 	public void setStudyPublicReleaseDate(Date studyPublicReleaseDate) {
+
+
 		this.studyPublicReleaseDate = studyPublicReleaseDate;
 	}
 

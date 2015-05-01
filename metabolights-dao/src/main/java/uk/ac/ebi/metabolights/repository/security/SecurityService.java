@@ -21,9 +21,12 @@
 
 package uk.ac.ebi.metabolights.repository.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.User;
 
 /**
@@ -36,6 +39,9 @@ public class SecurityService {
 	private static final String masterToken = java.util.UUID.randomUUID().toString();
 	private static UserDAO userDAO = new UserDAO();
 	private static StudyDAO studyDAO = new StudyDAO();
+
+	private static final Logger logger = LoggerFactory.getLogger(SecurityService.class);
+
 
 	public static void userAccessingStudy(String studyIdentifier, String userToken) throws DAOException {
 
@@ -81,7 +87,7 @@ public class SecurityService {
 					return user;
 				}
 
-				// If no studyIdentifier passed
+				// If no studyIdentifier passed (invoked without study for new submissions)
 				if (studyIdentifier == null) {
 					return user;
 
@@ -117,14 +123,55 @@ public class SecurityService {
 
 	}
 
-	public static User userUpdatingStudy(String studyIdentifier, String userToken) throws DAOException {
+	public static User userUpdatingStudy(String studyIdentifier, String userToken, LiteStudy.StudyStatus newStatus) throws DAOException {
 
-		// If the study is public
-		if (studyDAO.isStudyPublic(studyIdentifier)) {
-			throwSecurityException("Public studies can't be updated and " + studyIdentifier + " is Public." );
+		// This will deal with ownership (curator or owner can access)
+		User user = checkUserAccess(userToken, "User with token " + userToken + " is not authorised to update the study " + studyIdentifier, studyIdentifier);
+
+		LiteStudy study = getStudyFromUser(user, studyIdentifier);
+
+		// but to update we need to check more stuff
+		// If user is a curator...can always update, even when it is public.
+		if (user.isCurator()) {
+
+			return user;
+
+
+		} else if (study.getStudyStatus() == LiteStudy.StudyStatus.PRIVATE) {
+
+			// If status is passed, user changing the status
+			if (newStatus != null) {
+
+				// User only can request a change to ONCURATION
+				if (newStatus == LiteStudy.StudyStatus.PENDING) {
+					return user;
+				}
+
+			// User updating the study through files...so, nos status change involved and study is private
+			} else {
+
+				return user;
+			}
 		}
 
 
-		return checkUserAccess(userToken, "User with token " + userToken + " is not authorised to update the study " + studyIdentifier, studyIdentifier);
+
+
+		// Else...not a curator and study not PRIVATE.
+		throwSecurityException(studyIdentifier + " study can't be updated when the status is " + study.getStudyStatus().name());
+
+		return null;
+	}
+
+	private static LiteStudy getStudyFromUser(User user, String studyIdentifier) {
+		for (LiteStudy study : user.getStudies()) {
+			if (study.getStudyIdentifier().equals(studyIdentifier)){
+				return study;
+			}
+		}
+
+		// This should never happen, unless user is a curator.
+		return null;
+
 	}
 }

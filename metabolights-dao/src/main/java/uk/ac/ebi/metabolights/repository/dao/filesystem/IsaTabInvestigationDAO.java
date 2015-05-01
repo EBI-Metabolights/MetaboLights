@@ -61,16 +61,21 @@ public class IsaTabInvestigationDAO {
 
         try {
 
+            initialiseIsatabFilesImporter(isaTabStudyFolder);
 
-            imported = getIsatabFilesImporter(isaTabStudyFolder).importFile(isaTabStudyFolder);
-
+            if (isatabFilesImporter != null) {
+                imported = isatabFilesImporter.importFile(isaTabStudyFolder);
+            }
 
         } catch (Exception e){
 
+            throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder, e);
+
         } finally {
 
-            if (!imported) {
-                throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder, isatabFilesImporter.getMessages());
+            // It there was an error loading files.
+            if (imported==null || !imported) {
+                throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder, isatabFilesImporter==null? null: isatabFilesImporter.getMessages());
             }
 
             return imported;
@@ -92,7 +97,7 @@ public class IsaTabInvestigationDAO {
         return investigation;
     }
 
-    private ISAtabFilesImporter getIsatabFilesImporter(String isaTabStudyFolder) throws IOException, ConfigurationException {
+    private ISAtabFilesImporter initialiseIsatabFilesImporter(String isaTabStudyFolder) throws IOException, ConfigurationException {
 
         // We need to get the configuration folder for the study
         String configFolder = getConfigurationFolderForStudy(isaTabStudyFolder);

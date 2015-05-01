@@ -33,13 +33,13 @@ public class LiteEntity {
 
 	private static final Logger logger = LoggerFactory.getLogger(LiteEntity.class);
 
-	private Long persistenceId = 0L;
+	private Long id = 0L;
 
-	public Long getPersistenceId() {
-		return persistenceId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setPersistenceId(Long persistenceId) {
-		this.persistenceId = persistenceId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

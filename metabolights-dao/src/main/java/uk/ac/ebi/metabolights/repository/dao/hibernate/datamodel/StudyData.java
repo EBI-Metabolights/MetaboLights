@@ -123,11 +123,7 @@ public class StudyData  extends DataModel<Study> {
 
 		businessModelEntity = new Study();
 
-		businessModelEntity.setId(this.id);
-		businessModelEntity.setObfuscationCode(this.obfuscationcode);
-		businessModelEntity.setStudyIdentifier(this.acc);
-		businessModelEntity.setStudyStatus(Study.StudyStatus.values()[this.status]);
-		businessModelEntity.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
+		studyDataToLiteStudy(businessModelEntity);
 
 		// Fill users
 		businessModelEntity.setUsers(UserData.dataModelToBusinessModel(users));
@@ -139,12 +135,19 @@ public class StudyData  extends DataModel<Study> {
 
 		LiteStudy studyLite = new LiteStudy();
 
-		studyLite.setPersistenceId(this.id);
-		studyLite.setStudyIdentifier(this.acc);
-		studyLite.setObfuscationCode(this.obfuscationcode);
-		studyLite.setStudyPublicReleaseDate(this.releaseDate);
+		studyDataToLiteStudy(studyLite);
 
 		return studyLite;
+	}
+
+	private void studyDataToLiteStudy(LiteStudy study){
+
+		study.setId(this.id);
+		study.setObfuscationCode(this.obfuscationcode);
+		study.setStudyIdentifier(this.acc);
+		study.setStudyStatus(Study.StudyStatus.values()[this.status]);
+		study.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
+
 	}
 
 	public static Set<Study> dataModelToBusinessModel(Set<StudyData> dataStudies) {
@@ -153,8 +156,7 @@ public class StudyData  extends DataModel<Study> {
 
 		for (StudyData studyData :dataStudies){
 
-			Study studyLite = new Study();
-			studyLite = studyData.dataModelToBusinessModel();
+			Study studyLite = studyData.dataModelToBusinessModel();
 
 			// Add it to the collection
 			studies.add(studyLite);
