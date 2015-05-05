@@ -119,10 +119,10 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 	// Enum that maps any chebi ontology parent to an species
 	public enum OntologyParentsToSpeciesMap{
 
-		HUMAN(new String[]{"CHEBI:75770", "CHEBI:77123", "CHEBI:76967"},"Homo sapiens (Human)", "NEWT:9606"),
+		HUMAN(new String[]{"CHEBI:75770", "CHEBI:77123", "CHEBI:76967"},"Homo sapiens", "NCBI:9606"),
 		ECOLI(new String[]{"CHEBI:76971", "CHEBI:76972","CHEBI:75761"},"Escherichia coli", "NEWT:562"),
-		BAKERSYEAST(new String[]{"CHEBI:75772","CHEBI:76949","CHEBI:76951"}, "Saccharomyces cerevisiae (Baker's yeast)", "NEWT:4932"),
-		MOUSE(new String[]{"CHEBI:75771"}, "Mus musculus (Mouse)", "NEWT:10090"),
+		BAKERSYEAST(new String[]{"CHEBI:75772","CHEBI:76949","CHEBI:76951"}, "Saccharomyces cerevisiae", "NCBI:4932"),
+		MOUSE(new String[]{"CHEBI:75771"}, "Mus musculus", "NCBI:10090"),
 		STREPTOCOCCUS(new String[]{"CHEBI:76973", "CHEBI:76974", "CHEBI:75789"}, "Streptococcus pneumoniae", "NEWT:1313");
 //		DAPHNIA_MAGNA(new String[]{"CHEBI:83056"}, "Daphnia magna", "NEWT:35525" ),
 //		DAPHNIA_GALEATA(new String[]{"CHEBI:83038"}, "Daphnia galeata", "NEWT:35525" ),

@@ -319,6 +319,7 @@ public class XMLExporter {
             Element additionalField = doc.createElement("additional_fields");
             entry.appendChild(additionalField);
 
+            additionalField.appendChild(createChildElement(FIELD, "repository", "MetaboLights"));
             additionalField.appendChild(createChildElement(FIELD, "omics_type", "Metabolomics"));
 
             //Add all protocols to the "additional_fields" tree

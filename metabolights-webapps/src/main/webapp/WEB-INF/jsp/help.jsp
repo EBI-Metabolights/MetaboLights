@@ -24,39 +24,35 @@
 <h2><spring:message code="msg.metabolightsAbout14"/></h2>
 
     <p>
-        Please note that these links will take you to our online Google Document.  <br/><br/>
-        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.account" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.setup" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.isasetup" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.study" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.describe" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.sample" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.assay" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.archive" />&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-        <spring:message code="help.url.baseUrl"/><spring:message code="help.url.submit" />&nbsp;&nbsp;&nbsp;
+        Please note that these links will take you to our online Google Documents.
+        <br/>
+        <br/>
+
+        <a href="https://docs.google.com/document/d/1gNITtVK_Ikwa14HDfPG04OfqbMo7NbnuulR4yjaZePo/edit?usp=sharing"/><strong>Overview</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="https://docs.google.com/document/d/1iXfJ3VmXXvubxpSnSIj5vzJpsXE1ZNxOwcwovFYwPxs/edit?usp=sharing"/><strong>Download&nbsp;and&nbsp;setup&nbsp;ISAcreator</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="https://docs.google.com/document/d/17DjTZRv-MAuRFDqkLPu3_3xC7dExA7VIi0QEtBNpbGY/edit?usp=sharing"/><strong>Setup&nbsp;and&nbsp;create&nbsp;NMR&nbsp;study</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="https://docs.google.com/document/d/1s7X5tLF0q0tXm76LMbBovW1NReOdmWoOGLO3bm7xm6E/edit?usp=sharing"/><strong>Setup&nbsp;and&nbsp;create&nbsp;GC/MS&nbsp;study</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="https://docs.google.com/document/d/1QIAwwt9yMZuZMi3sYaRnaHkW9BVgimgIBbF0lec7tu0/edit?usp=sharing"/><strong>Setup&nbsp;and&nbsp;create&nbsp;LC/MS&nbsp;study</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="https://docs.google.com/document/d/1Gnv0pvYpbYOY1pv-XZKXanCYMNIlMhPgVUEHCJ4gm98/edit?usp=sharing"/><strong>Submit&nbsp;your&nbsp;study&nbsp;to&nbsp;MetaboLights</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="https://docs.google.com/document/d/15rSS6Mrj2Aj_uMyh4-3n8RJzAdWi1uoHsaKkxqPyC4I/edit?usp=sharing"/><strong>Frequently&nbsp;asked&nbsp;questions&nbsp;(FAQ)</strong></a>&nbsp;&nbsp;&nbsp;
+
+        <br/>
+        <br/>
+        <a href="https://docs.google.com/document/d/1kvBdnleInVr1UMyV-sm91w2uK_IfkU11Rx-uxvILOFU/edit?usp=sharing"/><strong>Old&nbsp;submission&nbsp;guide&nbsp;-&nbsp;now&nbsp;obsolete</strong></a>
+
     </p>
-
     <p/>
-    
     <p/>
-
-
-    <h3><spring:message code="menu.submitHelp" /></h3>
-    <p>
-        <spring:message code="msg.metabolightsAbout8" />
-    </p>
-
-    <p/>
-
     <p><spring:message code="msg.trainOnline" /></p>
-
-    <p>
+    <p/>
+    <p><spring:message code="msg.metabolightsAbout8" /></p>
+    <p/>
+    <p/>
     <a href="<spring:url value="contact"/>"><strong><spring:message code="label.contact"/></strong></a>
     </p>
 
     <p/>
     <hr/>
     <p/>
-
-	    <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools" /></a>
+    <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools" /></a>
     <p><spring:message code="msg.metabolightsAbout6" /></p>

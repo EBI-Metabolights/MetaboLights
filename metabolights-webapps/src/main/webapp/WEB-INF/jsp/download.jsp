@@ -39,7 +39,7 @@
 
 <p><spring:message code="msg.metabolightsAbout13" /></p>
 
-<p><spring:message code="msg.metabolightsAbout8" /></p>
+<p/><spring:message code="msg.metaboLightsAbout16" />&nbsp;<spring:message code="msg.metabolightsAbout8" /></p>
 
 <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools"/></a>
 <p><spring:message code="msg.metabolightsAbout6" /></p>
