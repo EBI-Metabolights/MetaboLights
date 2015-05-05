@@ -344,6 +344,19 @@ public class MetabolightsWsClient {
 
     }
 
+    public RestResponse<String> updateStatus(LiteStudy.StudyStatus newStatus, String studyIdentifier) {
+
+        logger.info("Status ({}) update of {} requested to MetaboLights WS client.", newStatus,studyIdentifier);
+
+        String json = serializeObject(newStatus);
+
+        // Make the request
+        String response = makePutRequest(getStudyPath(studyIdentifier) + "/status" , json);
+
+        return deserializeJSONString(response, String.class);
+
+    }
+
     public RestResponse<? extends SearchResult> searchStudyWithResponse(String studyIdentifier) {
 
         logger.info("Requesting a single study ({}) to the search engine.", studyIdentifier);

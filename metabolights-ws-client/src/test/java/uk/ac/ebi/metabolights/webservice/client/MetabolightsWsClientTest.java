@@ -162,7 +162,6 @@ public class MetabolightsWsClientTest {
 		assertEquals("Study returned is not the expected.", PUBLIC_STUDY,study.getStudyIdentifier());
 
 
-
 	}
 
 
@@ -176,4 +175,14 @@ public class MetabolightsWsClientTest {
 
 		assertNull("Public release date update threw an exception", response.getErr());
 	}
+
+	@Test
+	public void testUpdateStatus() {
+
+		wsClient.setUserToken(CURATOR_TOKEN);
+		RestResponse<String> response = wsClient.updateStatus(LiteStudy.StudyStatus.PENDING, PRIVATE_STUDY);
+
+		assertNull("Status update threw an exception", response.getErr());
+	}
+
 }
