@@ -44,7 +44,6 @@
         <module>dao</module>
         <module>WoRMS-client</module>
         <module>importer</module>
-        <!-- module>BMLNMRtoMetaboLights</module-->
     </modules>
 
     <build>

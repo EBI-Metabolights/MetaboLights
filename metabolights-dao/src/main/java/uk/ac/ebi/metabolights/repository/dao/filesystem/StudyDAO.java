@@ -107,12 +107,10 @@ public class StudyDAO {
             org.isatools.isacreator.model.Investigation isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
 
             // Convert it into a MetaboLights study
-             studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
-
-
+            studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
             studyToFill.setStudyLocation(studyFolder.getAbsolutePath());
 
-            logger.info("Loaded study "+ studyToFill.getStudyIdentifier());
+            logger.info("Loaded study from filesystem "+ studyToFill.getStudyIdentifier());
 
             return studyToFill;
 

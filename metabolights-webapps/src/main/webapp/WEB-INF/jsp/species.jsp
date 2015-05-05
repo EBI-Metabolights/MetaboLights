@@ -78,11 +78,11 @@
     <div class="grid_10 alpha">
         <h3><spring:message code="menu.speciesmodeltitle"/></h3>
         <ul class="species">
-            <li class="icon icon-species" data-icon="H"><A href="reference?organisms=Homo sapiens (Human)">Homo sapiens (Human)</a></li>
-            <li class="icon icon-species" data-icon="M"><a href="reference?organisms=Mus musculus (Mouse)">Mus musculus (Mouse)</a></li>
-            <li class="icon icon-species" data-icon="B"><a href="reference?organisms=Arabidopsis thaliana (thale cress)">Arabidopsis thaliana (thale cress)</a></li>
+            <li class="icon icon-species" data-icon="H"><A href="reference?organisms=Homo sapiens">Homo sapiens (Human)</a></li>
+            <li class="icon icon-species" data-icon="M"><a href="reference?organisms=Mus musculus">Mus musculus (Mouse)</a></li>
+            <li class="icon icon-species" data-icon="B"><a href="reference?organisms=Arabidopsis thaliana">Arabidopsis thaliana (thale cress)</a></li>
             <li class="icon icon-species" data-icon="L"><a href="reference?organisms=Escherichia coli">Escherichia coli</a></li>
-            <li class="icon icon-species" data-icon="Y"><a href="reference?organisms=Saccharomyces cerevisiae (Baker's yeast)">Saccharomyces cerevisiae (Baker's yeast)</a></li>
+            <li class="icon icon-species" data-icon="Y"><a href="reference?organisms=Saccharomyces cerevisiae">Saccharomyces cerevisiae (Baker's yeast)</a></li>
             <li class="icon icon-species" data-icon="W"><a href="reference?organisms=Caenorhabditis elegans">Caenorhabditis elegans</a></li>
             <%--<li class="icon icon-species" data-icon="F"><a href="reference?organisms=Drosophila">Drosophila</li>--%>
         </ul>
