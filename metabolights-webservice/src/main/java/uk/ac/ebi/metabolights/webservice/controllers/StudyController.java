@@ -50,12 +50,11 @@ import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.Assay;
-import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
-import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 
 import java.io.File;
@@ -157,6 +156,46 @@ public class StudyController extends BasicController{
 
 
 	}
+
+	/**
+	 * To update the status of a study.
+	 * @param accession
+	 * @param newStatus
+	 * @return
+	 */
+	@RequestMapping(value = "{accession:" + METABOLIGHTS_ID_REG_EXP +"}/status", method= RequestMethod.PUT)
+	@ResponseBody
+	public RestResponse<Boolean> updateStatus(@PathVariable("accession") String accession, @RequestBody LiteStudy.StudyStatus newStatus) throws DAOException, IsaTabException, IndexingFailureException {
+
+		User user = getUser();
+
+		logger.info("User {} requested to update {} status to {}", user.getFullName(),accession, newStatus.name());
+
+		studyDAO= getStudyDAO();
+
+		// Update the status
+		studyDAO.updateStatus(accession, newStatus, user.getApiToken());
+
+		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
+		// Like this we might have concurrency issues?
+		Study study = studyDAO.getStudy(accession,user.getApiToken());
+
+		IndexController.indexStudy (study);
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		restResponse.setContent(true);
+		restResponse.setMessage("Status for " + accession + " updated to " + study.getStudyStatus() );
+
+		logger.info("{} study status updated." , accession);
+
+		// Email about this
+		emailService.sendStatusChanged(study);
+
+		return restResponse;
+
+
+	}
+
 
 	private RestResponse<Study> getStudy (String accession, boolean includeMAFFiles) throws DAOException {
 

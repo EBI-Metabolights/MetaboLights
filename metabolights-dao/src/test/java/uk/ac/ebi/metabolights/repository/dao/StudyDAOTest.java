@@ -332,7 +332,7 @@ public class StudyDAOTest extends DAOTest {
 		try {
 			// Should fail
 			// Change the status to PUBLIC.
-			studyDAO.updateStatus(study.getStudyIdentifier(), user.getApiToken(), newStatus);
+			studyDAO.updateStatus(study.getStudyIdentifier(), newStatus, user.getApiToken());
 
 			if (exceptionExpected) {
 				throw new AssertionError("User " + user.getUserName() + " should NOT be allowed to update the study status from " + study.getStudyStatus() + " to " + newStatus);

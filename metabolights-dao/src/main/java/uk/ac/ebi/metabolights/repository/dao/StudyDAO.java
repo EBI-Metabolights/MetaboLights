@@ -280,7 +280,7 @@ public class StudyDAO {
 
 	}
 
-	public void updateStatus(String studyIdentifier, String userToken, LiteStudy.StudyStatus newStatus) throws DAOException {
+	public void updateStatus(String studyIdentifier, LiteStudy.StudyStatus newStatus, String userToken) throws DAOException {
 
 		// Security: Check if the user can edit the study
 		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken, newStatus);

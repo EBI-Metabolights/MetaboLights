@@ -34,6 +34,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.webservice.utils.TextUtils;
@@ -56,8 +57,9 @@ import java.util.Map;
 public class EmailService {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+	public static final String REVIEWER_URL_PREFIX = "reviewer";
 
-    private @Value("#{EBIHost}") String prodURL;
+	private @Value("#{EBIHost}") String prodURL;
     private @Value("#{curationEmailAddress}") String curationEmailAddress;
 
     //Have to qualify these as the test Spring servlet is defining the same beans
@@ -189,6 +191,34 @@ public class EmailService {
 		sendSimpleEmail(from, to, subject, body);
 
 	}
+
+	public void sendStatusChanged(Study study) {
+
+		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
+		String[] to = getRecipientsFromStudy(study);
+		String subject = PropertyLookUpService.getMessage("mail.status.subject", study.getStudyIdentifier(), study.getStudyStatus().name());
+		String body = getMessageForStatusChange(study);
+
+		sendSimpleEmail(from, to, subject, body);
+
+	}
+
+	private String getMessageForStatusChange(Study study) {
+
+		switch (study.getStudyStatus()) {
+			case PRIVATE:
+				return PropertyLookUpService.getMessage("mail.status.body.private", study.getStudyStatus().name(), study.getStudyIdentifier(), LiteStudy.StudyStatus.PENDING.name());
+			case PENDING:
+				return PropertyLookUpService.getMessage("mail.status.body.incuration", study.getStudyStatus().name(), study.getStudyIdentifier());
+			case APPROVED:
+				return PropertyLookUpService.getMessage("mail.status.body.inreview", study.getStudyStatus().name(), study.getStudyIdentifier(), prodURL + REVIEWER_URL_PREFIX + study.getObfuscationCode(), prodURL + study.getStudyIdentifier());
+			case PUBLIC:
+				return PropertyLookUpService.getMessage("mail.status.body.public", study.getStudyStatus().name(), study.getStudyIdentifier());
+		}
+
+		return "Status changes to " + study.getStudyStatus();
+	}
+
 
 	public void sendStudyDeleted(String userEmail,String ID ){
 		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
@@ -350,6 +380,4 @@ public class EmailService {
 
 		return message;
 	}
-
-
 }
