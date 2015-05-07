@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService{
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
 		User user= null;
-		if (!s.isEmpty() || s != null) {
+		if (s != null && !s.isEmpty()) {
 			try {
 				user = userDAO.findByToken(s);
 
