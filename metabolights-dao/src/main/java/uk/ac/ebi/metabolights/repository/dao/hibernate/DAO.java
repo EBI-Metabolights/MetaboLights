@@ -4,17 +4,16 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2015-Jan-21
- * Modified by:   conesa
+ * Last modified: 2015-May-07
+ * Modified by:   kenneth
  *
- *
- * Copyright 2015 EMBL-European Bioinformatics Institute.
+ * Copyright 2015 EMBL - European Bioinformatics Institute
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
@@ -52,8 +51,8 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 	}
 
 	public SessionWrapper getSession() {
-		return session;
-	}
+        return session;
+    }
 
 	public void setSession(SessionWrapper session) {
 		this.session = session;
@@ -67,17 +66,26 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	public List<BusinessEntity> findBy(String where , Filter filter) throws DAOException {
 
-		session.needSession();
+        List<BusinessEntity> businessEntities = null;
 
-		Query query = getDefaultQuery(where, filter);
+        if (session == null)
+            session = HibernateUtil.getSession();
 
-		List<dataModel> dataModels = query.list();
+        try {
+            session.needSession();
+
+            Query query = getDefaultQuery(where, filter);
+
+            List<dataModel> dataModels = query.list();
 
 
-		// We are bypassing any lazy initialization with this. So far it's fine.
-		List<BusinessEntity> businessEntities = convertDataModelToBusinessModel(dataModels);
+            // We are bypassing any lazy initialization with this. So far it's fine.
+            businessEntities = convertDataModelToBusinessModel(dataModels);
 
-		session.noNeedSession();
+            session.noNeedSession();
+        } catch (Exception e) {
+            logger.error("ERROR: Could not query the database: " + e.getMessage());
+        }
 
 		return  businessEntities;
 
@@ -85,6 +93,9 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 
 	public BusinessEntity findSingle(String where, Filter filter) throws DAOException {
+
+        if (where == null && filter == null)
+            return null;
 
 		try {
 			return findBy(where, filter).iterator().next();
@@ -194,7 +205,7 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 	private Query getDefaultQuery(String where, Filter filter) throws DAOException {
 
 		String queryS = "from " + dataModelName;
-		
+
 		// Add the where clause if exists
 		if (where != null && where.length()!=0) queryS = queryS + " where " + where;
 
