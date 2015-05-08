@@ -34,7 +34,7 @@ import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 import javax.annotation.Resource;
 
 /**
- * Implementation for UserService. Note the Spring annotations such as @Service, @Autowired and @Transactional. 
+ * Implementation for UserService. Note the Spring annotations such as @Service, @Autowired and @Transactional.
  * These annotations are called Spring stereotype annotations.<br>
  * The @Service stereotype annotation used to decorate the UserServiceImpl class is a specialized form of the @Component annotation.
  * It is appropriate to annotate the service-layer classes with @Service to facilitate processing by tools or anticipating any future

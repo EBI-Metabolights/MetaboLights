@@ -2,32 +2,32 @@ set scan off serveroutput on
 truncate table study_compound;
 drop table study_compound;
 
-
 -- Tidy species in studies
-update property_value set value = 'Bos taurus (Bovine)' where value = 'Bos taurus';
-update property_value set value = 'Arabidopsis thaliana (thale cress)' where lower(value) = 'arabidopsis thaliana';
-update property_value set value = 'Homo sapiens (Human)' where lower(value) = 'homo sapiens';
-update property_value set value = 'Homo sapiens (Human)' where lower(value) = 'human';
-update property_value set value = 'Glycine max' where lower(value) = 'glycin max';
-update property_value set value = 'Hordeum vulgare var. distichum (Two-rowed barley)' where value = 'Hordeum vulgare subsp. vulgare';
-update property_value set value = 'Solanum lycopersicum (Tomato) ' where value = 'Solanum lycopersicum';
-update property_value set value = 'Malus domestica (Apple)' where value = 'Malus x domestica';
-update property_value set value = 'Saccharomyces cerevisiae (Baker''s yeast)' where value = 'Saccharomyces cerevisiae';
-update property_value set value = 'Schizosaccharomyces pombe 972h- (Fission yeast)' where value = 'Schizosaccharomyces pombe 972h-';
-update property_value set value = 'Sorghum bicolor (Sorghum)' where value = 'Sorghum bicolor';
-update property_value set value = 'Triticum aestivum (Wheat)' where value = 'Triticum aestivum';
-update property_value set value = 'Ovis aries (Sheep)' where value = 'Ovis aries';
-update property_value set value = 'Vitis vinifera (Grape)' where lower(value) = 'vitis vinifera';
-update property_value set value = 'Mus musculus (Mouse)' where value = 'Mus musculus';
-update property_value set value = 'Rattus norvegicus (Rat)' where lower(value) = 'rattus norvegicus';
-update property_value set value = 'Manihot esculenta (Cassava)' where value = 'Manihot esculenta';
-update property_value set value = 'Calanus helgolandicus (Copepod)' where value = 'Calanus helgolandicus';
-
-
-update property_value set value = 'reference compound' where value = 'Blank';
-update property_value set value = 'reference compound' where value = 'Quality control';
-update property_value set value = 'reference compound' where value = 'Reference';
---update property_value set value = 'reference compound' where value = 'Reference Standards or Materials';    // https://www.pivotaltracker.com/story/show/68542000
+update property_value set value = 'Bos taurus' where trim(lower(value)) = 'bos taurus (bovine)';
+update property_value set value = 'Arabidopsis thaliana' where trim(lower(value)) = 'arabidopsis thaliana (thale cress)';
+update property_value set value = 'Homo sapiens' where trim(lower(value)) = 'homo sapiens (human)';
+update property_value set value = 'Homo sapiens' where trim(lower(value)) = 'human';
+update property_value set value = 'Glycine max' where trim(lower(value)) = 'glycin max'; 
+update property_value set value = 'Hordeum vulgare var. distichum' where trim(lower(value)) = 'hordeum vulgare subsp. vulgare (two-rowed barley)';
+update property_value set value = 'Solanum lycopersicum' where trim(lower(value)) = 'solanum lycopersicum (tomato)';
+update property_value set value = 'Malus domestica' where trim(lower(value)) = 'malus x domestica';
+update property_value set value = 'Malus domestica' where trim(lower(value)) = 'malus domestica (apple)';
+update property_value set value = 'Saccharomyces cerevisiae' where trim(lower(value)) = 'saccharomyces cerevisiae (baker''s yeast)';
+update property_value set value = 'Schizosaccharomyces pombe 972h-' where trim(lower(value)) = 'schizosaccharomyces pombe 972h- (fission yeast)';
+update property_value set value = 'Sorghum bicolor' where trim(lower(value)) = 'sorghum bicolor (sorghum)';
+update property_value set value = 'Triticum aestivum (Wheat)' where trim(lower(value)) = 'triticum aestivum';
+update property_value set value = 'Ovis aries' where trim(lower(value)) = 'ovis aries (sheep)';
+update property_value set value = 'Vitis vinifera' where trim(lower(value)) = 'vitis vinifera (grape)';
+update property_value set value = 'Mus musculus' where trim(lower(value)) = 'mus musculus (mouse)';
+update property_value set value = 'Rattus norvegicus' where trim(lower(value)) = 'rattus norvegicus (rat)';
+update property_value set value = 'Manihot esculenta' where trim(lower(value)) = 'manihot esculenta (cassava)';
+update property_value set value = 'Calanus helgolandicus' where trim(lower(value)) = 'calanus helgolandicus (copepod)';
+update property_value set value = 'Reference compound or Materials' where trim(lower(value)) = 'blank';
+update property_value set value = 'Reference compound or Materials' where trim(lower(value)) = 'quality control';
+update property_value set value = 'Reference compound or Materials' where trim(lower(value)) = 'reference';
+update property_value set value = 'Reference compound or Materials' where trim(lower(value)) = 'none';
+update property_value set value = 'Reference compound or Materials' where trim(lower(value)) = 'reference compound mixture';
+commit;
 
 declare
   cursor c1 is select * from ref_species where final_id is not null;

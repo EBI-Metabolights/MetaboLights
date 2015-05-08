@@ -83,17 +83,17 @@ public class SpeciesSearchController extends AbstractController {
         String requestUrl = request.getRequestURL().toString();
 
         if (requestUrl.endsWith("/human"))
-            requestUrl = "reference?organisms=Homo%20sapiens%20(Human)";
+            requestUrl = "reference?organisms=Homo%20sapiens";
         else if (requestUrl.equals("/mouse"))
-            requestUrl = "reference?organisms=Mus%20musculus%20(Mouse)";
+            requestUrl = "reference?organisms=Mus%20musculus";
         else if (requestUrl.equals("/arabidopsis"))
-            requestUrl = "reference?organisms=Arabidopsis%20thaliana%20(thale%20cress)";
+            requestUrl = "reference?organisms=Arabidopsis%20thaliana";
         else if (requestUrl.equals("/ecoli"))
             requestUrl = "eference?organisms=Escherichia%20coli";
         else if (requestUrl.equals("/celegans"))
             requestUrl = "reference?organisms=Caenorhabditis%20elegans";
         else if (requestUrl.equals("/yeast"))
-            requestUrl = "reference?organisms=Saccharomyces%20cerevisiae%20(Baker's%20yeast)";
+            requestUrl = "reference?organisms=Saccharomyces%20cerevisiae";
 
         return new ModelAndView ("redirect:"+requestUrl);
     }
