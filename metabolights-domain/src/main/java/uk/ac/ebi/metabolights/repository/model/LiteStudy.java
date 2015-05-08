@@ -42,7 +42,26 @@ import java.util.List;
 public class LiteStudy extends LiteEntity {
 
 	public enum StudyStatus{
-		PRIVATE, PENDING, APPROVED, PUBLIC
+		SUBMITTED("Submitted", "Submitted status description"),
+		INCURATION("In curation", "In curation description"),
+		INREVIEW("In review", "In review description"),
+		PUBLIC("Public", "The study is public and accessible by everyone");
+		private final String descriptiveName;
+
+		public String getDescription() {
+			return description;
+		}
+
+		public String getDescriptiveName() {
+			return descriptiveName;
+		}
+
+		private final String description;
+
+		StudyStatus(String descriptiveName, String description){
+			this.descriptiveName = descriptiveName;
+			this.description = description;
+		}
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(LiteStudy.class);
@@ -51,7 +70,7 @@ public class LiteStudy extends LiteEntity {
 	private String title;
 
 	// Database fields
-	private Study.StudyStatus studyStatus = Study.StudyStatus.PRIVATE;
+	private Study.StudyStatus studyStatus = Study.StudyStatus.SUBMITTED;
 	private Date studyPublicReleaseDate;
 	private String obfuscationCode = java.util.UUID.randomUUID().toString();
 

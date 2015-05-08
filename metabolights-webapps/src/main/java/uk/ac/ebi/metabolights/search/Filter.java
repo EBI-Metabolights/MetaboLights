@@ -37,7 +37,7 @@ import java.util.Map.Entry;
  */
 public class Filter {
 
-	public static final String STATUS_PRIVATE = "PRIVATE";
+	public static final String STATUS_PRIVATE = "SUBMITTED";
 	public static final String STATUS_PUBLIC = "PUBLIC";
     public static final String ORGANISM_FILTER = "organism";
     public static final String TECHNOLOGY_FILTER = "technology";
@@ -119,7 +119,7 @@ public class Filter {
 
 	private void addStatusFilterSet(){
 
-		//Add fixed items to status filter set (PUBLIC AND PRIVATE)
+		//Add fixed items to status filter set (PUBLIC AND SUBMITTED)
 		FilterItem fiPublic = new FilterItem("Public studies" ,status.getName());
 		fiPublic.setValue(STATUS_PUBLIC);
 		status.put(fiPublic.getValue(), fiPublic);

@@ -28,6 +28,7 @@ import org.isatools.isacreator.model.Factor;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Study;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.IsaTabInvestigationDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +66,7 @@ public class ISATabReader {
      * @param isatabDirectory
      * @return ISAcreator Investigation
      */
-    public Investigation getIsaInvestigation(String configDirectory, String isatabDirectory){
+    public Investigation getIsaInvestigation(String configDirectory, String isatabDirectory) throws IsaTabException {
         Investigation investigation = new Investigation();
 
         investigation = getInvestigation(configDirectory,isatabDirectory);
@@ -208,7 +209,7 @@ public class ISATabReader {
      * @param parentDir
      * @return ISAcreator Investigation object
      */
-    public Investigation getInvestigation(String configDir, String parentDir) {
+    public Investigation getInvestigation(String configDir, String parentDir) throws IsaTabException {
 
         this.studyDirectory = parentDir;
 

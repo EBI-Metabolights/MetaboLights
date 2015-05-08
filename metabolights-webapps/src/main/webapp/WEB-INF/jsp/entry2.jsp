@@ -207,7 +207,22 @@
     }
 </script>
 
-<c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>
+<%--<c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>--%>
+
+
+<ol class="progtrckr" data-progtrckr-steps="${fn:length(studyStatuses)}">
+    <c:forEach var="status" items="${studyStatuses}"><%--
+        --%><c:if test="${status gt study.studyStatus}"><%--
+            --%><li class="progtrckr-todo">${status.descriptiveName}</li><%--
+        --%></c:if><%--
+        --%><c:if test="${status le study.studyStatus}"><%--
+            --%><li class="progtrckr-done">${status.descriptiveName}</li><%--
+        --%></c:if><%--
+
+    --%></c:forEach>
+</ol>
+
+<br/>
 
 <div class="push_1 grid_22 alpha omega">
     <h3>${study.studyIdentifier}:&nbsp;${study.title}</h3>
@@ -222,45 +237,36 @@
         <a id="viewFiles" class="noLine" href="#" title="<spring:message code="label.viewAllFiles"/>">
             <span class="icon icon-functional" data-icon="b"/><spring:message code="label.viewAllFiles"/>
         </a>
+        &nbsp;|&nbsp;
+        <%@include file="entryActions.jsp" %>
         <c:if test="${!(study.publicStudy)}">
             <span class="right">
             &nbsp;<spring:message code="label.expPrivate"/>
-            <c:if test="${!readOnly}">
-                <jsp:useBean id="datenow" class="java.util.Date" scope="page" />
-                <a class="noLine" href="updatepublicreleasedateform?study=${study.studyIdentifier}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="<spring:message code="label.makeStudyPublic"/>">
-                    &nbsp;<span class="icon icon-generic" data-icon="}" id="ebiicon" /><spring:message code="label.makeStudyPublic"/>
-                </a>
-            </c:if>
             </span>
         </c:if>
     </span>
 </div>
 
-<c:set var="stringToFind" value="${study.studyIdentifier}:assay:" />
+<%--<c:if test="${!readOnly}">--%>
+    <%--<jsp:useBean id="datenow" class="java.util.Date" scope="page" />--%>
+    <%--<a class="noLine" href="updatepublicreleasedateform?study=${study.studyIdentifier}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${datenow}" />" title="<spring:message code="label.makeStudyPublic"/>">--%>
+        <%--&nbsp;<span class="icon icon-generic" data-icon="}" id="ebiicon" /><spring:message code="label.makeStudyPublic"/>--%>
+    <%--</a>--%>
+<%--</c:if>--%>
 
 
+<%--<c:set var="stringToFind" value="${study.studyIdentifier}:assay:" />--%>
 <div class="push_1 grid_22 alpha omega">
 
     <span class="right">
-            <c:if test="${not empty study.studySubmissionDate}">
-                <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studySubmissionDate}"/></strong>
-            </c:if>
-            <c:if test="${not empty study.studyPublicReleaseDate}">
-                ,<spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studyPublicReleaseDate}"/></strong>
-            </c:if>
-            <%--<c:if test="${not empty studyXRefs}">--%>
-                <%--<br/><spring:message code="label.StudyXrefs"/>:--%>
-                <%--<c:forEach var="studyXref" items="${studyXRefs}" varStatus="loopIndex">--%>
-                    <%--<c:if test="${loopIndex.index > 0}"> , </c:if>--%>
-                    <%--<c:if test="${ not empty studyXref.XRefType.pattern_url}">--%>
-                        <%--<a href="${studyXref.XRefType.pattern_url}${studyXref.submittedId}">${studyXref.submittedId}</a>--%>
-                    <%--</c:if>--%>
-                    <%--<c:if test="${empty studyXref.XRefType.pattern_url}">--%>
-                        <%--${studyXref.submittedId}--%>
-                    <%--</c:if>--%>
-                <%--</c:forEach>--%>
-            <%--</c:if>--%>
-        </span>
+        <c:if test="${not empty study.studySubmissionDate}">
+            <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studySubmissionDate}"/></strong>
+        </c:if>
+        <c:if test="${not empty study.studyPublicReleaseDate}">
+            ,<spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studyPublicReleaseDate}"/></strong>
+        </c:if>
+        <br/><spring:message code="ref.msg.status"/>:${study.studyStatus.descriptiveName}
+    </span>
 
     <c:if test="${not empty study.contacts}">
         <br/>
@@ -576,6 +582,6 @@
     <c:if test="${!study.publicStudy}">
         <h5><spring:message code="title.study.private.link"/></h5>
         <p><spring:message code="label.study.private.link"/></p>
-        <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/reviewer${obfuscationcode}" readonly/></p>
+        <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly/></p>
     </c:if>
 </div>

@@ -39,6 +39,7 @@ import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.CommentAtt
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.NamedAttribute;
 import uk.ac.ebi.arrayexpress2.sampletab.datamodel.scd.node.attribute.OrganismAttribute;
 import uk.ac.ebi.arrayexpress2.sampletab.renderer.SampleTabWriter;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -70,7 +71,7 @@ public class SampleTabExporter {
      * Main, run from commandline
      * @param args
      */
-    public static void main(String[] args){
+    public static void main(String[] args) throws IsaTabException {
 
         if (!SampleTabTools.commandLineValidation(args)){
 
@@ -88,7 +89,7 @@ public class SampleTabExporter {
     public SampleTabExporter(){
     }
 
-    public SampleTabExporter(String[] args){
+    public SampleTabExporter(String[] args) throws IsaTabException {
 
         logger.info("Starting SampleTab exporter, with the following arguments: "+ args[0] +" : "+ args[1] +" : "+ args[2]);
         exportSampleFile(args[0], args[1], args[2]);
@@ -105,7 +106,7 @@ public class SampleTabExporter {
      * @param isatabDirectory
      * @return boolean, did it work?
      */
-    public boolean exportSampleFile(String configDirectory, String isatabDirectory, String filename) {
+    public boolean exportSampleFile(String configDirectory, String isatabDirectory, String filename) throws IsaTabException {
 
         logger.info("Populate the sampleData object from the ISA-tab files");
         SampleData samples = createSampleData(configDirectory, isatabDirectory);
@@ -138,7 +139,7 @@ public class SampleTabExporter {
      * @param isatabDirectory
      * @return SampleData
      */
-    private SampleData createSampleData(String configDirectory, String isatabDirectory){
+    private SampleData createSampleData(String configDirectory, String isatabDirectory) throws IsaTabException {
         SampleData sampleData = new SampleData();
         //Need to get the investigation first
         Investigation investigation = isaTabReader.getIsaInvestigation(configDirectory, isatabDirectory);

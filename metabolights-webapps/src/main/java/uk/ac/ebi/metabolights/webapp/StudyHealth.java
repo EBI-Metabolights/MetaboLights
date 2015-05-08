@@ -39,7 +39,7 @@ public class StudyHealth {
 		isPublic = study.getIsPublic();
 		
 		// Calculate the path where the study files are meant to be.
-//		studyPath = itu.getStudyFilePath(identifier, (isPublic?VisibilityStatus.PUBLIC:VisibilityStatus.PRIVATE));
+//		studyPath = itu.getStudyFilePath(identifier, (isPublic?VisibilityStatus.PUBLIC:VisibilityStatus.SUBMITTED));
 		
 		// Check if it is there
 		isThere = new File(studyPath).exists();

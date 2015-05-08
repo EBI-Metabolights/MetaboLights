@@ -358,7 +358,7 @@ public class ReferenceLayerController extends AbstractController {
         value = getValueFromEbieyeEntry(ColumnMap.study_status, ebieyeEntry);
         if (!value.equals("")) mc.setStudyStatus(value);
 
-        //TODO, we can add the organism and technology here to supplement the facets (for PRIVATE studies), but should only show *after* the user has logged in
+        //TODO, we can add the organism and technology here to supplement the facets (for SUBMITTED studies), but should only show *after* the user has logged in
 
         if (value.equals("1") && loggedIn){  // Private study and the user is logged in
 

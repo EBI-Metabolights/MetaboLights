@@ -18,27 +18,6 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*
- * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
- * Cheminformatics and Metabolism group
- *
- * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
- *
- * Last modified: 7/11/14 3:39 PM
- * Modified by:   conesa
- *
- *
- * ©, EMBL, European Bioinformatics Institute, 2014.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
- */
-
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
@@ -78,8 +57,19 @@ public class StudyController extends BasicController{
 
 		logger.info("Requesting " + accession + " to the webservice");
 
-		return getStudy(accession, false);
+		return getStudy(accession, false, null);
 	}
+
+	@RequestMapping("obfuscationcode/{obfuscationcode}")
+	@ResponseBody
+	public RestResponse<Study> getStudyByObfuscationCode(@PathVariable("obfuscationcode") String obfuscationCode) throws DAOException {
+
+		logger.info("Requesting study by obfuscation code " + obfuscationCode + " to the webservice");
+
+
+		return getStudy(null, false, obfuscationCode);
+	}
+
 
 	@RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}/full")
 	@ResponseBody
@@ -87,7 +77,7 @@ public class StudyController extends BasicController{
 
 		logger.info("Requesting full study " + accession + " to the webservice");
 
-		return getStudy(accession, true);
+		return getStudy(accession, true, null);
 
 	}
 
@@ -197,7 +187,7 @@ public class StudyController extends BasicController{
 	}
 
 
-	private RestResponse<Study> getStudy (String accession, boolean includeMAFFiles) throws DAOException {
+	private RestResponse<Study> getStudy(String accession, boolean includeMAFFiles, String obfuscationCode) throws DAOException {
 
 		RestResponse<Study> response = new RestResponse<Study>();
 
@@ -205,7 +195,17 @@ public class StudyController extends BasicController{
 
 		// Get the study
 		try {
-			response.setContent(studyDAO.getStudy(accession.toUpperCase(), getUser().getApiToken(), includeMAFFiles));           //Do not include metabolites (MAF) when loading this from the webapp.  This is added on later as an AJAX call
+
+			Study study = null;
+
+			if (obfuscationCode == null) {
+				study = studyDAO.getStudy(accession.toUpperCase(), getUser().getApiToken(), includeMAFFiles);
+			} else {
+				study = studyDAO.getStudyByObfuscationCode(obfuscationCode, includeMAFFiles);
+			}
+
+			response.setContent(study);
+
 		} catch (DAOException e) {
 			logger.error("Can't get the study requested " + accession, e);
 			response.setMessage("Can't get the study requested.");
@@ -236,7 +236,7 @@ public class StudyController extends BasicController{
 
 		// Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
-		RestResponse<Study> response = getStudy(accession, false);
+		RestResponse<Study> response = getStudy(accession, false, null);
 
 		// Get the assay based on the index
 		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);

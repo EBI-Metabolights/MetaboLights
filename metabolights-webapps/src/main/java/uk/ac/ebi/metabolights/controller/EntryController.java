@@ -59,6 +59,7 @@ import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.metabolights.model.MLAssay;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
@@ -205,22 +206,14 @@ public class EntryController extends AbstractController {
 
 	@RequestMapping(value = {"/" + ALTERNATIVE_ENTRY_PREFIX + REVIEWER_OBFUSCATION_CODE_URL})
 	public ModelAndView showAltReviewerEntry(@PathVariable("obfuscationCode") String obfuscationCode) {
-		Study study = null;
-
-		// Get the username from lucene index based on obfuscation code
-		LuceneSearchResult indexedStudy = searchService.getStudyByObfuscationCode(obfuscationCode);
-		String userName = indexedStudy.getSubmitter().getUserName();
-
-		// Get the token from the database user based on username
-		MetabolightsUser studyOwner = userService.lookupByUserName(userName);
 
 
-		return getWSEntryMAV(indexedStudy.getAccStudy(), studyOwner);
+		return getWSEntryMAV(null, obfuscationCode);
 
 	}
 
     /**
-     * Get the study based on either the study if or obfusation code
+     * Get the study based on either the study if or obfuscation code
      * @param mtblsId
      * @param obfusationCode
      * @param request
@@ -273,7 +266,7 @@ public class EntryController extends AbstractController {
         mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getAcc()));
 
         //Have to give the user the download stream as the study is not on the public ftp
-        //if (!study.getAcc().equals(VisibilityStatus.PRIVATE.toString()))
+        //if (!study.getAcc().equals(VisibilityStatus.SUBMITTED.toString()))
         //mav.addObject("fileLocation",fileLocation); //All zip files are now generated on the fly, so ftpLocation is really fileLocation
 
         return mav;
@@ -301,7 +294,7 @@ public class EntryController extends AbstractController {
             return notLoggedIn(mtblsId);
         }
 
-		// Is there a study with this name?  Was there an error?  Have you tried to access a PRIVATE study?
+		// Is there a study with this name?  Was there an error?  Have you tried to access a SUBMITTED study?
 		if (study ==null || study.getAcc() == null || study.getAcc().equals("Error"))
  			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.noStudyFound") + " (" + mtblsId + ")");
 
@@ -349,20 +342,29 @@ public class EntryController extends AbstractController {
 		return getWSEntryMAV(mtblsId, null);
     }
 
-	private ModelAndView getWSEntryMAV(String mtblsId, MetabolightsUser useThisUser) {
-		logger.info("requested entry " + mtblsId);
-
-		mtblsId = mtblsId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
-
+	private ModelAndView getWSEntryMAV(String mtblsId, String obfuscationCode) {
 
 		// Get the user
-		// If useThis user was passed, we use that user....it is the case for getting the MAV for the reviewr which does not requieres to be logged in, even if it's private.
-		MetabolightsUser user = useThisUser==null?LoginController.getLoggedUser(): useThisUser;
+		MetabolightsUser user = LoginController.getLoggedUser();
 
 		MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
 
 
-		RestResponse<uk.ac.ebi.metabolights.repository.model.Study> response = wsClient.getStudy(mtblsId);
+		RestResponse<uk.ac.ebi.metabolights.repository.model.Study> response;
+
+		if (obfuscationCode == null) {
+
+			logger.info("requested entry " + mtblsId);
+
+			mtblsId = mtblsId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
+
+			response = wsClient.getStudy(mtblsId);
+		} else {
+
+			logger.info("requested entry by obfuscation " + obfuscationCode);
+
+			response = wsClient.getStudybyObfuscationCode(obfuscationCode);
+		}
 
 		uk.ac.ebi.metabolights.repository.model.Study study = response.getContent();
 
@@ -379,6 +381,8 @@ public class EntryController extends AbstractController {
 		mav.addObject("pageTitle", study.getStudyIdentifier() + ":" +study.getTitle() );
 
 		mav.addObject("study", study);
+
+		mav.addObject("studyStatuses", LiteStudy.StudyStatus.values());
 
 		// Thing that don't come from the web service: xRefs...studydbId
 		mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));

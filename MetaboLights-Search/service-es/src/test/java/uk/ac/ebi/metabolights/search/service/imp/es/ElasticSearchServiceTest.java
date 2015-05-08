@@ -120,7 +120,7 @@ public class ElasticSearchServiceTest {
 //		uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO dbStudyDAO = new uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO();
 
 		privateStudy = new StudyData();
-		privateStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+		privateStudy.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
 		privateStudy.setAcc("MTBLS5");
 		privateStudy.getUsers().add(owner);
 		session.save(privateStudy);

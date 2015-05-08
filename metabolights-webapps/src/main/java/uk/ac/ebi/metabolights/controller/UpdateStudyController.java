@@ -107,22 +107,22 @@ public class UpdateStudyController extends AbstractController {
 
 	}
 
-    @RequestMapping(value = { "/makestudyprivateform"})
-    public ModelAndView makeStudyPrivate(
-            @RequestParam(required=true,value="study") String study,
-            @RequestParam(required=false,value="date") String defaultDate,
-            HttpServletRequest request)
-            throws Exception{
-
-
-		//Check access
-		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
-
-
-        // Get the correspondent ModelAndView
-        return getModelAndView(study, defaultDate, false, true);
-
-    }
+//    @RequestMapping(value = { "/makestudyprivateform"})
+//    public ModelAndView makeStudyPrivate(
+//            @RequestParam(required=true,value="study") String study,
+//            @RequestParam(required=false,value="date") String defaultDate,
+//            HttpServletRequest request)
+//            throws Exception{
+//
+//
+//		//Check access
+//		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
+//
+//
+//        // Get the correspondent ModelAndView
+//        return getModelAndView(study, defaultDate, false, true);
+//
+//    }
 
 	/**
 	 * Receives the study that is going to be updated and shows the updateStudy Page to let the user to set the public release date and upload the new file.
@@ -312,8 +312,52 @@ public class UpdateStudyController extends AbstractController {
 		
 
 	}
-    
-     
+
+	@RequestMapping(value = { "/updatestatus" })
+	public ModelAndView updateStatus(
+			@RequestParam(required=true,value="study") String study,
+			@RequestParam(required=true, value="newStatus") LiteStudy.StudyStatus newStatus) throws Exception {
+
+
+		//Check access
+		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
+
+		MetabolightsUser user = LoginController.getLoggedUser();
+
+		// Log start
+		logger.info("Updating status of the study " + study + " owned by " + user.getUserName());
+
+		try{
+
+			MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+			RestResponse<String> response = wsClient.updateStatus(newStatus, study);
+
+			if (response.getErr() == null)
+				return this.printMessage("Study status updated", response.getMessage());
+
+			else {
+
+				throw new Exception(response.getErr().getMessage());
+			}
+
+		} catch (Exception e) {
+
+			String message = "There's been a problem while changing the status of the study " + study + " to "  + newStatus + "\n" + e.getMessage();
+
+			// Auto-generated catch block
+			logger.error(message);
+
+			// Add the error to the page
+			throw new Exception (message);
+
+		}
+
+
+	}
+
+
+
     @RequestMapping(value = { "/deleteStudy" })
  	public ModelAndView deleteStudy(
  								@RequestParam(required=true,value="study") String studyId,
