@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class WSSearchController extends AbstractController{
 
-	public static final String WS_SEARCH_SUFFIX = "_ws";
+	public static final String WS_SEARCH_SUFFIX = "";
 	private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
 
 

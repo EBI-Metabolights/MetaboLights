@@ -49,7 +49,7 @@ import java.util.List;
 public class SearchController extends AbstractController{
 	
 	private static Logger logger = LoggerFactory.getLogger(SearchController.class);
-
+	public static final String SEARCH_SUFFIX = "_old";
 	
 	@Autowired
 	private SearchService searchService;
@@ -58,7 +58,7 @@ public class SearchController extends AbstractController{
     /**
      * Controller for a browse (empty search) request
      */
-    @RequestMapping(value = "/browse")
+    @RequestMapping(value = "/browse"+ SEARCH_SUFFIX)
     public ModelAndView browse(HttpServletRequest request) {
 
             //Prepare the filter
@@ -79,7 +79,7 @@ public class SearchController extends AbstractController{
 	 * Controller for a search request, including possible filters. 
 	 * @param request
 	 */
-	@RequestMapping(value = "/search", method = {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value = "/search" + SEARCH_SUFFIX, method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView luceneSearch (HttpServletRequest request) {
 
 		//Prepare the filter
@@ -179,7 +179,7 @@ public class SearchController extends AbstractController{
 		return filter;
 		
 	}
-	@RequestMapping(value = "/mysubmissions")
+	@RequestMapping(value = "/mysubmissions" + SEARCH_SUFFIX)
 	public ModelAndView MySubmissionsSearch (HttpServletRequest request) {
 		
 		//Get the filter object prepared (inside there is a clean up process that removes any initial filter)
