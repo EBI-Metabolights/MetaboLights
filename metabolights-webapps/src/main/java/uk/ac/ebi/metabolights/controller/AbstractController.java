@@ -63,4 +63,8 @@ public abstract class AbstractController {
 	protected ModelAndView getResctrictedAccessPage() {
 		return printMessage(PropertyLookup.getMessage("msg.cantAccessPage.title"), PropertyLookup.getMessage("msg.cantAccessPage.message"));
 	}
+
+	protected ModelAndView redirect(String where){
+		return  new ModelAndView ("redirect:" + where);
+	}
 }

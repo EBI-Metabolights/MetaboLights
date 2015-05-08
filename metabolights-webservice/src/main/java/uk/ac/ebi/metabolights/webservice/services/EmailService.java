@@ -211,7 +211,7 @@ public class EmailService {
 			case INCURATION:
 				return PropertyLookUpService.getMessage("mail.status.body.incuration", study.getStudyStatus().name(), study.getStudyIdentifier());
 			case INREVIEW:
-				return PropertyLookUpService.getMessage("mail.status.body.inreview", study.getStudyStatus().name(), study.getStudyIdentifier(), prodURL + REVIEWER_URL_PREFIX + study.getObfuscationCode(), prodURL + study.getStudyIdentifier());
+				return PropertyLookUpService.getMessage("mail.status.body.inreview", study.getStudyStatus().name(), study.getStudyIdentifier(), prodURL + REVIEWER_URL_PREFIX + study.getObfuscationCode(), prodURL + study.getStudyIdentifier(), curationEmailAddress );
 			case PUBLIC:
 				return PropertyLookUpService.getMessage("mail.status.body.public", study.getStudyStatus().name(), study.getStudyIdentifier());
 		}

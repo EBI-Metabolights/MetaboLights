@@ -334,7 +334,8 @@ public class UpdateStudyController extends AbstractController {
 			RestResponse<String> response = wsClient.updateStatus(newStatus, study);
 
 			if (response.getErr() == null)
-				return this.printMessage("Study status updated", response.getMessage());
+				//return this.printMessage("Study status updated", response.getMessage());
+				return this.redirect(study);
 
 			else {
 

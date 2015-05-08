@@ -380,7 +380,7 @@ public class MetabolightsWsClient {
 
     public RestResponse<? extends SearchResult> searchStudyWithResponse(String studyIdentifier) {
 
-        return  searchStudyWithResponse(studyIdentifier, "_id:");
+        return  searchStudyWithResponse(studyIdentifier, "_id");
 
     }
 
