@@ -226,6 +226,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 				addObject(STUDY_STATUS_FIELD, "type", "string", "index", "not_analyzed");
 
+				addObject("obfuscationCode", "type", "string", "index", "not_analyzed");
 
 				addObject("studyIdentifier", "type", "string", "index", "not_analyzed");
 

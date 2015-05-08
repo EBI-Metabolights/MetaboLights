@@ -157,7 +157,7 @@ public class StudyDataTest  extends DAOTest {
 		StudyData studyData = DataModelFactory.getStudyDataInstance(new Study());
 		studyData.setAcc (ACC + System.currentTimeMillis());
 		studyData.setObfuscationcode (OCODE);
-		studyData.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+		studyData.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
 
 		return studyData;
 	}

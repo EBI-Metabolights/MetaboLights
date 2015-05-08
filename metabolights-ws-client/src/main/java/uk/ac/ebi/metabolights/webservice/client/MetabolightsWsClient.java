@@ -74,6 +74,7 @@ public class MetabolightsWsClient {
 
     private static final String ANONYMOUS = "JAVA_WS_client_Anonymous";
     private static final String DEAFULT_TOKEN_HEADER = "user_token";
+    public static final String OBFUSCATIONCODE_PATH = "obfuscationcode/";
     private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
 
@@ -219,11 +220,31 @@ public class MetabolightsWsClient {
         String path = getStudyPath(studyIdentifier);
 
         // Make the request
+        return getStudyRestResponse(path);
+
+    }
+
+    public RestResponse<Study> getStudybyObfuscationCode(String obfuscationCode) {
+
+        logger.info("Study by obfuscation code " + obfuscationCode + " requested to the MetaboLights WS client");
+
+        String path = getObfuscationPath(obfuscationCode);
+
+        return getStudyRestResponse(path);
+
+    }
+
+    private RestResponse<Study> getStudyRestResponse(String path) {
+        // Make the request
         String response = makeGetRequest(path);
 
         return deserializeJSONString(response, Study.class);
-
     }
+
+    private String getObfuscationPath(String obfuscationCode) {
+        return STUDY_PATH + OBFUSCATIONCODE_PATH + obfuscationCode;
+    }
+
 
     public RestResponse<String[]> getAllStudyAcc() {
 
@@ -359,18 +380,25 @@ public class MetabolightsWsClient {
 
     public RestResponse<? extends SearchResult> searchStudyWithResponse(String studyIdentifier) {
 
+        return  searchStudyWithResponse(studyIdentifier, "_id");
+
+    }
+
+    public RestResponse<? extends SearchResult> searchStudyWithResponse(String studyIdentifier, String field) {
+
         logger.info("Requesting a single study ({}) to the search engine.", studyIdentifier);
 
         // Create the search query
         SearchQuery searchQuery = new SearchQuery();
 
         // NOTE: Elastic search explicit language!! breaking search interface.
-        searchQuery.setText("_id:" + studyIdentifier);
+        searchQuery.setText(field + ":" + studyIdentifier);
 
         return  search(searchQuery);
 
 
     }
+
     public LiteStudy searchStudy(String studyIdentifier){
 
         RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) searchStudyWithResponse(studyIdentifier);
@@ -383,6 +411,22 @@ public class MetabolightsWsClient {
         }
 
     }
+// It doesn't work since the user is anonymous and elastic search module always apply a security filter returning only owned private studies or Public ones.
+// If the study is private this will not work.
+//    public LiteStudy searchStudybyObfuscationCode(String obfuscationCode){
+//
+//        RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) searchStudyWithResponse(obfuscationCode, "obfuscationCode");
+//
+//
+//        if (response.getContent().getResults().size() == 0) {
+//            return null;
+//        } else {
+//            return response.getContent().getResults().iterator().next();
+//        }
+//
+//    }
+
+
 
 
 }

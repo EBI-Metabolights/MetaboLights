@@ -72,12 +72,7 @@ public class StudyDAO {
 			return null;
 		}
 
-		try {
-
-			 getStudyFromFileSystem(study,includeMetabolites);
-		} catch (IsaTabException e) {
-			logger.warn(e.getMessage(),e);
-		}
+		getStudyFromFileSystem(study,includeMetabolites);
 
 		return study;
 	}
@@ -92,7 +87,7 @@ public class StudyDAO {
 		return getStudy(studyIdentifier,userToken,false);
 	}
 
-	public Study getStudyByObfuscationCode(String obfuscationCode, boolean includeMetabolites) throws DAOException, IsaTabException {
+	public Study getStudyByObfuscationCode(String obfuscationCode, boolean includeMetabolites) throws DAOException {
 
 		Study study = dbDAO.findByObfuscationCode(obfuscationCode);
 
@@ -100,7 +95,7 @@ public class StudyDAO {
 	}
 
 
-	private Study getStudyFromFileSystem(Study study, boolean includeMetabolites) throws DAOException, IsaTabException {
+	private Study getStudyFromFileSystem(Study study, boolean includeMetabolites) throws DAOException {
 
 		fsDAO.fillStudy(includeMetabolites, study);
 
@@ -169,7 +164,7 @@ public class StudyDAO {
 
 		study.setStudyIdentifier(newStudyIdentifier);
 		study.setStudyPublicReleaseDate(publicReleaseDate);
-		// Status should be PRIVATE by default.
+		// Status should be SUBMITTED by default.
 		// Add the user
 		study.getUsers().add(user);
 
@@ -288,8 +283,8 @@ public class StudyDAO {
 		// Find the study data from the DB
 		Study study = dbDAO.findByAccession(studyIdentifier);
 
-		// If new status is APPROVED
-		if (newStatus== LiteStudy.StudyStatus.APPROVED){
+		// If new status is INREVIEW
+		if (newStatus== LiteStudy.StudyStatus.INREVIEW){
 
 			//...and release date has passed...promote it to PUBLIC
 			if (study.getStudyPublicReleaseDate().before(new Date())){

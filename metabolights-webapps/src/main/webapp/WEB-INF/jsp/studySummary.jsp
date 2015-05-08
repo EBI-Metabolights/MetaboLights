@@ -32,17 +32,11 @@
 
 <div class="grid_24 alpha omega box">
 	<c:choose>
-		<c:when test="${(!empty welcomemessage || !empty curator) && !(liteStudy.studyStatus == 'PUBLIC') && empty reviewer}">
+		<c:when test="${(!empty welcomemessage || !empty curator) && !(liteStudy.studyStatus == 'PUBLIC')}">
 			<div class="grid_20 alpha">
 				<a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
 			</div>
 			<div class="grid_4 omega">
-					<%--
-                    <form name="update-form" action="updatestudyform" method="post" class="one-button-form">
-                        <input type="hidden" name="study" value="${liteStudy.studyIdentifier}"/>
-                        <input type="submit" id="update" class="multi-line-button main" value=" <spring:message code="label.updatestudy"/> ">
-                    </form>
-                     --%>
 				<ul id="sddm">
 					<li><a onmouseover="mopen('actions${liteStudy.studyIdentifier}')"onmouseout="mclosetime()">
 						Actions<span class="smallArrow"></span></a>
@@ -51,7 +45,7 @@
 							<a href="updatepublicreleasedateform?study=${liteStudy.studyIdentifier}"><spring:message code="label.updateReleaseDate"/></a>
 							<a class="confirmLink" href="deleteStudy?study=${liteStudy.studyIdentifier}"><spring:message code="label.deleteStudy"/></a>
 							<jsp:useBean id="now" class="java.util.Date" scope="page" />
-							<a href="updatepublicreleasedateform?study=${liteStudy.studyIdentifier}&date=<fmt:formatDate pattern="dd-MMM-yyyy" value="${now}" />"><spring:message code="label.makeStudyPublic"/></a>
+							<a href="updatestatus?study=${liteStudy.studyIdentifier}&status=INCURATION"><spring:message code="label.status.requestCuration"/></a>
 						</div>
 					</li>
 				</ul>

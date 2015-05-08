@@ -180,7 +180,7 @@ public class MetabolightsWsClientTest {
 	public void testUpdateStatus() {
 
 		wsClient.setUserToken(CURATOR_TOKEN);
-		RestResponse<String> response = wsClient.updateStatus(LiteStudy.StudyStatus.PENDING, PRIVATE_STUDY);
+		RestResponse<String> response = wsClient.updateStatus(LiteStudy.StudyStatus.INCURATION, PRIVATE_STUDY);
 
 		assertNull("Status update threw an exception", response.getErr());
 	}

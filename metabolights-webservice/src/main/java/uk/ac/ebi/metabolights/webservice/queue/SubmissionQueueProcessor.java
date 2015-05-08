@@ -242,7 +242,7 @@ public class SubmissionQueueProcessor {
 	 * Re-submit process:
 	 no need to allocate a new MTBLS id during this process
 	 - Check that the logged in user owns the chosen study
-	 - Check that the study is PRIVATE (? what do we think ?).  This could stop submitters from "nullifying" a public study.
+	 - Check that the study is SUBMITTED (? what do we think ?).  This could stop submitters from "nullifying" a public study.
 
 	 - Update new zipfile with Public date from the resubmission form?
 	 - Update Public DB with public release date

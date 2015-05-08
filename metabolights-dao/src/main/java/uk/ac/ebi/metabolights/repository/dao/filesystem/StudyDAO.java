@@ -102,7 +102,7 @@ public class StudyDAO {
     public static File getRootFolder(){
 
         // If no status is passes we will use private as a safety measure
-        return getRootFolderByStatus(LiteStudy.StudyStatus.PRIVATE);
+        return getRootFolderByStatus(LiteStudy.StudyStatus.SUBMITTED);
 
     }
 
@@ -123,7 +123,7 @@ public class StudyDAO {
     public static File getDestinationFolder(String studyIdentifier){
 
         // If no status is passes we will use private as a safety measure
-        File destination = getRootFolderByStatus(LiteStudy.StudyStatus.PRIVATE);
+        File destination = getRootFolderByStatus(LiteStudy.StudyStatus.SUBMITTED);
 
         destination = new File (destination, studyIdentifier);
 

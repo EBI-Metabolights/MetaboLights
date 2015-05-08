@@ -97,7 +97,7 @@ public class SearchTest { //extends HibernateIntegrationTestCase {
 
 			// Make sure that: the index is based on the db schema you are testing with, and that it is up-to-date (use /reindex)
 
-	        String privStudyQuery = "+(status:PUBLIC user:username\\:"+user+"*) +status:PRIVATE";
+	        String privStudyQuery = "+(status:PUBLIC user:username\\:"+user+"*) +status:SUBMITTED";
 	        Map<Integer, ?> privateSearchResults = searchService.search(privStudyQuery);
 	        Iterator<Integer> iterator = privateSearchResults.keySet().iterator();
 			int usrPrivateCountLucene = iterator.next();

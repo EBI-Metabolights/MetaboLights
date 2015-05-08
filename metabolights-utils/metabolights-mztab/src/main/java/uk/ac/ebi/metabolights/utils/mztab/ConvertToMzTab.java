@@ -24,6 +24,8 @@ package uk.ac.ebi.metabolights.utils.mztab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -115,13 +117,13 @@ public class ConvertToMzTab {
 
     }
 
-    private Study getMlStudy(String configFolder, String studyFolder, String studyAccession){
+    private Study getMlStudy(String configFolder, String studyFolder, String studyAccession) throws IsaTabException, DAOException {
         Study study = isaReader.getMLStudy(configFolder,studyFolder, studyAccession);
 
         return study;
     }
 
-    public void convertMAFToMzTab(String studyFolder, String accessionNumber, String configDir) {
+    public void convertMAFToMzTab(String studyFolder, String accessionNumber, String configDir) throws IsaTabException, DAOException {
 
         //Get any mafFiles from the study
         Study study = isaReader.getMLStudy(configDir, studyFolder, accessionNumber);

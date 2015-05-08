@@ -22,6 +22,8 @@
 import org.isatools.isacreator.spreadsheet.model.TableReferenceObject;
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.utils.mztab.*;
 
 import java.io.File;
@@ -69,7 +71,7 @@ public class MzTabReaderTest {
 
 
     @Test
-    public void testWriteMzTab() {
+    public void testWriteMzTab() throws IsaTabException, DAOException {
 
         File studyDir = new File(studyDirectory);
         assert studyDir.isDirectory();

@@ -22,6 +22,8 @@
 package uk.ac.ebi.metabolights.utils.mztab;
 
 import uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.Contact;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -42,7 +44,7 @@ public class ISAtabReader {
         return studyDAO;
     }
 
-    public Study getMLStudy(String configFolder, String studyFolder, String studyAccession){
+    public Study getMLStudy(String configFolder, String studyFolder, String studyAccession) throws IsaTabException, DAOException {
         if (studyDAO == null)
             studyDAO = getStudyDAO(configFolder,studyFolder);
 
