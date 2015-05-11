@@ -235,7 +235,7 @@ public class SubmissionQueueController extends AbstractController {
         if (ownerId != null && actualUser.isCurator()){
 
             // Overwrite the submitter with the owner...
-            submitter = userService.lookupByEmail(ownerId);
+            submitter = userService.lookupByUserName(ownerId);
         }
 
         try {

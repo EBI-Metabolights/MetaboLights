@@ -65,8 +65,7 @@
 
     <!--JNDI variable from tomcat context files-->
     <jee:jndi-lookup id="isatabConfigurationLocation" jndi-name="java:comp/env/isatabConfigurationLocation" />
-    <jee:jndi-lookup id="publicStudiesLocation" jndi-name="java:comp/env/publicStudiesLocation" />
-    <jee:jndi-lookup id="privateStudiesLocation" jndi-name="java:comp/env/privateStudiesLocation" />
+    <jee:jndi-lookup id="studiesLocation" jndi-name="java:comp/env/studiesLocation" />
     <jee:jndi-lookup id="uploadDirectory" jndi-name="java:comp/env/uploadDirectory" />
     <jee:jndi-lookup id="ondemand" jndi-name="java:comp/env/ondemand" />
 
@@ -78,19 +77,16 @@
     <jee:jndi-lookup id="stableIdPrefix" jndi-name="java:comp/env/stableIdPrefix"/>
 
 
+    <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="#{mailServer}"/>
-    </bean>
 
-    <!--&lt;!&ndash; Gmail email settings &ndash;&gt;-->
-    <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->
-    <!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
+        <property name="host"><value>#{mailServer}</value></property>
 
-        <!--<property name="host"><value>smtp.gmail.com</value></property>-->
+        <!-- Gmail email settings -->
         <!--<property name="port"><value>587</value></property>-->
         <!--<property name="protocol"><value>smtp</value></property>-->
-        <!--<property name="username"><value>gmailuser</value></property>-->
+        <!--<property name="username"><value>p.conesa.mingo</value></property>-->
         <!--<property name="password"><value>#{mailpassword}</value></property>-->
         <!--<property name="javaMailProperties">-->
             <!--<props>-->
@@ -99,7 +95,8 @@
                 <!--<prop key="mail.smtp.quitwait">false</prop>-->
             <!--</props>-->
         <!--</property>-->
-    <!--</bean>-->
+        <!-- End gmail settings-->
+    </bean>
 
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
         <property name="velocityProperties">
@@ -116,10 +113,9 @@
           class="uk.ac.ebi.metabolights.repository.dao.DAOFactory"
           factory-method="initializeWithDataSource">
         <constructor-arg index="0" ref="isatabConfigurationLocation"/>
-        <constructor-arg index="1" ref="publicStudiesLocation"/>
-        <constructor-arg index="2" ref="privateStudiesLocation"/>
-        <constructor-arg index="3" ref="dataSource"/>
-        <constructor-arg index="4" ref="stableIdPrefix"/>
+        <constructor-arg index="1" ref="studiesLocation"/>
+        <constructor-arg index="2" ref="dataSource"/>
+        <constructor-arg index="3" ref="stableIdPrefix"/>
     </bean>
 
 

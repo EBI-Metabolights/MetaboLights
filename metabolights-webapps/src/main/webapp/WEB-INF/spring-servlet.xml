@@ -104,7 +104,7 @@
     </bean>
 
 
-    <jee:jndi-lookup id="privateFtpStageLocation"   jndi-name="java:comp/env/privateFtpStageLocation" />
+    <jee:jndi-lookup id="studiesLocation"   jndi-name="java:comp/env/studiesLocation" />
     <jee:jndi-lookup id="urlConfirmNewAccount"      jndi-name="java:comp/env/urlConfirmNewAccount" />
     <jee:jndi-lookup id="urlActivateNewAccount"     jndi-name="java:comp/env/urlActivateNewAccount" />
     <jee:jndi-lookup id="uploadDirectory"           jndi-name="java:comp/env/uploadDirectory" />
@@ -120,10 +120,6 @@
     <jee:jndi-lookup id="mailServer"		        jndi-name="java:comp/env/mailServer"/>
     <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
-
-    <!-- Global ones...coming from global tomcat-->
-    <jee:jndi-lookup id="publicFtpStageLocation"    jndi-name="java:comp/env/publicFtpStageLocation" />
-    <jee:jndi-lookup id="publicFtpLocation"         jndi-name="java:comp/env/publicFtpLocation" />
     <jee:jndi-lookup id="isatabuploaderconfig"		jndi-name="java:comp/env/isatabuploaderconfig"/>
     <jee:jndi-lookup id="userSpace"		            jndi-name="java:comp/env/userSpace"/>
 
@@ -250,10 +246,28 @@
     </sec:authentication-manager>
     <bean id="isaTabAuthenticationProv" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
 
-    <!-- Email stuff  -->
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="#{mailServer}"/>
+
+    <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+
+        <property name="host"><value>#{mailServer}</value></property>
+
+        <!-- Gmail email settings -->
+        <!--<property name="port"><value>587</value></property>-->
+        <!--<property name="protocol"><value>smtp</value></property>-->
+        <!--<property name="username"><value>p.conesa.mingo</value></property>-->
+        <!--<property name="password"><value>#{mailpassword}</value></property>-->
+        <!--<property name="javaMailProperties">-->
+            <!--<props>-->
+                <!--<prop key="mail.smtp.auth">true</prop>-->
+                <!--<prop key="mail.smtp.starttls.enable">true</prop>-->
+                <!--<prop key="mail.smtp.quitwait">false</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+        <!-- End gmail settings-->
     </bean>
+
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
         <property name="velocityProperties">
             <value>
@@ -263,22 +277,6 @@
         </property>
     </bean>
 
-
-    <!--
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="465" />
-		<property name="username" value="" />
-		<property name="password" value="" />
-
-		<property name="javaMailProperties">
-		   <props>
-	       	      <prop key="mail.smtp.auth">true</prop>
-	       	      <prop key="mail.smtp.starttls.enable">true</prop>
-	       	   </props>
-		</property>
-	</bean>
-    -->
 
 	<bean id="reminderTemplate" class="org.springframework.mail.SimpleMailMessage">
 	  <property name="from" value="${replyTo}"/>

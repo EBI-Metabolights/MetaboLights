@@ -33,7 +33,7 @@ public class LiteEntity {
 
 	private static final Logger logger = LoggerFactory.getLogger(LiteEntity.class);
 
-	private Long id = 0L;
+	private Long id = null;
 
 	public Long getId() {
 		return id;

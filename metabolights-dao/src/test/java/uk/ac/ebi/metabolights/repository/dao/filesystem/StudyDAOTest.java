@@ -41,7 +41,7 @@ public class StudyDAOTest extends DAOTest {
 	public void initialiseTests() {
 
 
-		studyDAO = new StudyDAO(configRoot,publicStudiesLocation,privateStudiesLocation);
+		studyDAO = new StudyDAO(configRoot, studiesLocation);
 
 	}
 

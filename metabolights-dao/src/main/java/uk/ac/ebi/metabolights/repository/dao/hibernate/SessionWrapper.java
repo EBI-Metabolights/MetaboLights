@@ -70,6 +70,8 @@ public class SessionWrapper {
 		}
 
 		sessionCount++;
+
+		logger.debug("Session count incremented to {}", sessionCount);
 		return session;
 
 	}
@@ -78,6 +80,8 @@ public class SessionWrapper {
 
 		// Decrease the count
 		sessionCount--;
+
+		logger.debug("Session count decremented to {}", sessionCount);
 
 		// If 0 close it
 		if (sessionCount == 0) {

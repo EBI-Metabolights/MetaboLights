@@ -54,9 +54,9 @@ public class StudyDAO {
 
 
 
-	public StudyDAO(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder){
+	public StudyDAO(String isaTabRootConfigurationFolder, String studiesFolder){
 
-		fsDAO = new uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO(isaTabRootConfigurationFolder, publicFolder, privateFolder);
+		fsDAO = new uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO(isaTabRootConfigurationFolder, studiesFolder);
 		dbDAO = new uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO();
 
 	}
@@ -174,10 +174,14 @@ public class StudyDAO {
 
 	private Study saveOrUpdate(File submissionFolder,  Study study) throws Exception {
 
-		// Now we move file to the final location
+		// Now we move file to the final location, this is creating a backup
 		File finalDestination = moveStudyFolderToFinalDestination(study.getStudyIdentifier(), submissionFolder);
 
 		String studyIdentifier = study.getStudyIdentifier();
+
+		// And this will create a back up again for the i_investigation file..if the destination exist an exception is thrown
+		// Giving 1 second to get a new audit folder name.
+		Thread.sleep(1000);
 
 		//Replace the id with the new id and other fields: Public Release Date
 		IsaTabReplacer isaTabIdReplacer = new IsaTabReplacer(finalDestination.getAbsolutePath());
@@ -235,7 +239,7 @@ public class StudyDAO {
 		Study dbData = dbDAO.findByAccession(studyIdentifier);
 
 		// Get the folder where the study is.
-		File studyFolder = fsDAO.getStudyFolder(studyIdentifier,dbData.isPublicStudy());
+		File studyFolder = fsDAO.getStudyFolder(studyIdentifier);
 
 		FileUtils.deleteDirectory(studyFolder);
 
@@ -258,7 +262,7 @@ public class StudyDAO {
 		dbDAO.save(study);
 
 		// Get the location of the study
-		File studyFolder = fsDAO.getStudyFolder(studyIdentifier,study.isPublicStudy());
+		File studyFolder = fsDAO.getStudyFolder(studyIdentifier);
 
 		try {
 			// Change the file....NOTE: This will not be audited....unless we implement some kind of audit system in the replacer

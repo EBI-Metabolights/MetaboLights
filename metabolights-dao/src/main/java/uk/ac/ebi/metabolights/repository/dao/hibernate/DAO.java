@@ -147,10 +147,14 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 		// Invoke the conversion
 		datamodel.setBussinesModelEntity(bussinessEntity);
 
+		session.needSession();
+
 		// Pre save will trigger the save of parent objects if any.
 		preSave(datamodel);
 
 		saveDataModel(datamodel);
+
+		session.noNeedSession();
 
 	}
 

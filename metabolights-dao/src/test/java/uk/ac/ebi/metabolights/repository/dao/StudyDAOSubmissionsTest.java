@@ -69,7 +69,7 @@ public class StudyDAOSubmissionsTest extends DAOTest {
 	public void testCRUDStudy() throws Exception {
 
 
-		File submissionFolder = getStudyFolderToSubmit("MTBLS1", true);
+		File submissionFolder = getStudyFolderToSubmit("MTBLS1");
 
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, 1);
@@ -92,7 +92,6 @@ public class StudyDAOSubmissionsTest extends DAOTest {
 		File emptyInvestigationFile = new File(submissionFolder, "i_Investigation.txt");
 		emptyInvestigationFile.createNewFile();
 
-
 		try {
 			studyDAO.update(submissionFolder,readStudy.getStudyIdentifier(),curator.getApiToken());
 			assertTrue("Update with invalid isaTab files should throw an exception", false);
@@ -104,7 +103,11 @@ public class StudyDAOSubmissionsTest extends DAOTest {
 		// Test audit has happened
 		File auditFolder = FileAuditUtil.getAuditFolder(uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getDestinationFolder(readStudy.getStudyIdentifier()));
 
-		assertEquals("Audit folder has a subfolder", 1, auditFolder.list().length);
+		// 3 subfolders should be created
+		// 1 - i_Investigation file with the original file (add) (done when replacing ids)
+		// 2 - i_Investigation file with updated id's and date (studyDAO.update()).
+		// 3 - i_Investigation file original 2nd submission (empty one).
+		assertEquals("Audit folder has 3 subfolders", 3, auditFolder.list().length);
 
 
 		// Test the deletion
@@ -141,15 +144,15 @@ public class StudyDAOSubmissionsTest extends DAOTest {
 		// Test delete by owner
 		studyDAO.delete(readStudy.getStudyIdentifier(), curator.getApiToken());
 
-		assertNull("Study folder no longer exists", uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getStudyFolder(readStudy.getStudyIdentifier(),readStudy.isPublicStudy()));
-		assertNull("Study is not longer in the database", studyDAO.getStudy(readStudy.getStudyIdentifier(), curator.getApiToken()));
+		assertNull("Study folder still exists after deletion", uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getStudyFolder(readStudy.getStudyIdentifier()));
+		assertNull("Study data still exists in the database", studyDAO.getStudy(readStudy.getStudyIdentifier(), curator.getApiToken()));
 
 		logger.info("Study {} deleted by curator", readStudy.getStudyIdentifier());
 	}
 
-	private File getStudyFolderToSubmit(String studyFolder, boolean isPublic) throws IOException {
+	private File getStudyFolderToSubmit(String studyFolder) throws IOException {
 
-		String parentFolder = isPublic?publicStudiesLocation:privateStudiesLocation;
+		String parentFolder = studiesLocation;
 
 		File sourceFolder = new File(parentFolder, studyFolder);
 
@@ -161,9 +164,4 @@ public class StudyDAOSubmissionsTest extends DAOTest {
 		return destination;
 
 	}
-
-
-
-
-
 }

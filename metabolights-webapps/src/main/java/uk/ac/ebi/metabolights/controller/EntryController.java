@@ -384,7 +384,7 @@ public class EntryController extends AbstractController {
 
 		mav.addObject("studyStatuses", LiteStudy.StudyStatus.values());
 
-		// Thing that don't come from the web service: xRefs...studydbId
+		// Things that don't come from the web service:
 		mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
 
 		return  mav;

@@ -50,8 +50,7 @@ public class ElasticSearchServiceTest {
 	ElasticSearchService elasticSearchService = new ElasticSearchService();
 	StudyDAO studyDAO;
 	private static String ISATAB_CONFIG_FOLDER;
-	private static String PRIVATE_FOLDER;
-	private static String PUBLIC_FOLDER;
+	private static String STUDIES_FOLDER;
 	private UserData notOwner;
 	private UserData curator;
 	private UserData owner;
@@ -70,8 +69,7 @@ public class ElasticSearchServiceTest {
 
 		curatorToken = System.getenv("CURATOR_TOKEN");
 
-		PRIVATE_FOLDER = studiesFolderName + "/private";
-		PUBLIC_FOLDER = studiesFolderName + "/public";
+		STUDIES_FOLDER = studiesFolderName ;
 
 
 		ISATAB_CONFIG_FOLDER = System.getenv("ISATAB_CONFIG_FOLDER");
@@ -87,7 +85,7 @@ public class ElasticSearchServiceTest {
 
 		configuration.setProperties(hibernateProperties);
 
-		DAOFactory.initialize(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER, configuration);
+		DAOFactory.initialize(ISATAB_CONFIG_FOLDER, STUDIES_FOLDER, configuration);
 
 		// Get the studyDAO.
 		studyDAO = DAOFactory.getInstance().getStudyDAO();

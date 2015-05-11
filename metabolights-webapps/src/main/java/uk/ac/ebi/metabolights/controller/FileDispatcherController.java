@@ -311,13 +311,7 @@ public class FileDispatcherController extends AbstractController {
     private String getPathForFile(String studyId, String fileName){
 
         // Try the public folder
-        File file = new File (PropertiesUtil.getProperty("publicFtpLocation") + studyId +"/" + fileName);
-
-        if (file.exists()) return file.getAbsolutePath();
-
-
-        // Try the private folder
-        file = new File(PropertiesUtil.getProperty("privateFtpStageLocation") + studyId + "/" + fileName);
+        File file = new File (PropertiesUtil.getProperty("studiesLocation") + studyId +"/" + fileName);
 
         if (file.exists()) return file.getAbsolutePath();
 

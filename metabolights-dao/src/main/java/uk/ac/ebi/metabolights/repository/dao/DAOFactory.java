@@ -40,14 +40,13 @@ public class DAOFactory {
 
 	private static DAOFactory instance;
 	private static String isaTabRootConfigurationFolder;
-	private static String publicFolder;
-	private static String privateFolder;
+	private static String studiesFolder;
 	private static final Logger logger = LoggerFactory.getLogger(DAOFactory.class);
 	public static String defaultPrefix = "MTBLS";
 
-	public static DAOFactory initialize (String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, Configuration configuration) throws DAOException {
+	public static DAOFactory initialize (String isaTabRootConfigurationFolder, String studiesFolder, Configuration configuration) throws DAOException {
 
-		initializeFields(isaTabRootConfigurationFolder, publicFolder, privateFolder, defaultPrefix);
+		initializeFields(isaTabRootConfigurationFolder, studiesFolder, defaultPrefix);
 
 		HibernateUtil.initialize(configuration);
 
@@ -55,9 +54,9 @@ public class DAOFactory {
 
 	}
 
-	public static DAOFactory initialize (String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, String JNDIDataSource) throws DAOException {
+	public static DAOFactory initialize (String isaTabRootConfigurationFolder, String studiesFolder, String JNDIDataSource) throws DAOException {
 
-		initializeFields(isaTabRootConfigurationFolder, publicFolder, privateFolder, defaultPrefix);
+		initializeFields(isaTabRootConfigurationFolder, studiesFolder, defaultPrefix);
 
 		HibernateUtil.initialize(JNDIDataSource);
 
@@ -65,9 +64,9 @@ public class DAOFactory {
 
 	}
 
-	public static DAOFactory initializeWithDataSource(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, DataSource dataSource, String defaultPrefix) throws DAOException {
+	public static DAOFactory initializeWithDataSource(String isaTabRootConfigurationFolder, String studiesFolder, DataSource dataSource, String defaultPrefix) throws DAOException {
 
-		initializeFields(isaTabRootConfigurationFolder, publicFolder, privateFolder, defaultPrefix);
+		initializeFields(isaTabRootConfigurationFolder, studiesFolder, defaultPrefix);
 
 		HibernateUtil.initialize(dataSource);
 
@@ -75,14 +74,13 @@ public class DAOFactory {
 
 	}
 
-	private static void initializeFields(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder, String defaultPrefix) {
+	private static void initializeFields(String isaTabRootConfigurationFolder, String studiesFolder, String defaultPrefix) {
 		if (isInitialized()) {
 			logger.warn("DAOFactory is already initialized..this shouldn't happen unless you've found a good use case for it. Be careful!");
 		}
 
 		DAOFactory.isaTabRootConfigurationFolder = isaTabRootConfigurationFolder;
-		DAOFactory.publicFolder = publicFolder;
-		DAOFactory.privateFolder = privateFolder;
+		DAOFactory.studiesFolder = studiesFolder;
 		DAOFactory.defaultPrefix = defaultPrefix;
 
 	}
@@ -109,13 +107,8 @@ public class DAOFactory {
 	public static String getIsaTabRootConfigurationFolder() {
 		return isaTabRootConfigurationFolder;
 	}
-
-	public static String getPublicFolder() {
-		return publicFolder;
-	}
-
-	public static String getPrivateFolder() {
-		return privateFolder;
+	public static String getStudiesFolder() {
+		return studiesFolder;
 	}
 
 	/**
@@ -131,7 +124,7 @@ public class DAOFactory {
 	}
 
 	public StudyDAO getStudyDAO(){
-		StudyDAO newStudyDAO = new StudyDAO(isaTabRootConfigurationFolder,publicFolder,privateFolder);
+		StudyDAO newStudyDAO = new StudyDAO(isaTabRootConfigurationFolder, studiesFolder);
 		return newStudyDAO;
 	}
 	public UserDAO getUserDAO() {

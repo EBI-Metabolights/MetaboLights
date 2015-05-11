@@ -33,11 +33,10 @@ import java.util.Properties;
 public abstract class DAOTest {
 
 	private static final String ISA_CONF_LOCATION = "configRoot";
-	private static final String PUBLIC_STUDIES_LOCATION = "studies/public/";
-	private static final String PRIVATE_STUDIES_LOCATION = "studies/private/";
+	private static final String STUDIES_LOCATION = "studies/";
 	protected String configRoot;
 	protected String publicStudiesLocation;
-	protected String privateStudiesLocation;
+	protected String studiesLocation;
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	@Before
@@ -53,7 +52,7 @@ public abstract class DAOTest {
 
 		initFolders();
 
-		DAOFactory.initialize(configRoot,publicStudiesLocation,privateStudiesLocation,configuration);
+		DAOFactory.initialize(configRoot, studiesLocation,configuration);
 
 		cleanDB();
 
@@ -63,12 +62,10 @@ public abstract class DAOTest {
 	private void initFolders() {
 
 		URL configRootUrl = DAOTest.class.getClassLoader().getResource(ISA_CONF_LOCATION);
-		URL publicStudiesLocationUrl = DAOTest.class.getClassLoader().getResource(PUBLIC_STUDIES_LOCATION) ;
-		URL privateStudiesLocationUrl = DAOTest.class.getClassLoader().getResource(PRIVATE_STUDIES_LOCATION) ;
+		URL studiesLocationUrl = DAOTest.class.getClassLoader().getResource(STUDIES_LOCATION) ;
 
 		configRoot = configRootUrl.getFile();
-		publicStudiesLocation = publicStudiesLocationUrl.getFile();
-		privateStudiesLocation = privateStudiesLocationUrl.getFile();
+		studiesLocation = studiesLocationUrl.getFile();
 
 	}
 

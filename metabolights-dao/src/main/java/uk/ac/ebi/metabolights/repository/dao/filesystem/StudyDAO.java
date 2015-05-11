@@ -40,14 +40,12 @@ import java.io.FilenameFilter;
 public class StudyDAO {
 
     private IsaTabInvestigationDAO isaTabInvestigationDAO;
-    private static File publicFolder;
-    private static File privateFolder;
+    private static File studiesFolder;
     private final static Logger logger = LoggerFactory.getLogger(StudyDAO.class.getName());
 
-    public StudyDAO(String isaTabRootConfigurationFolder, String publicFolder, String privateFolder){
+    public StudyDAO(String isaTabRootConfigurationFolder, String studiesFolder){
         this.isaTabInvestigationDAO = new IsaTabInvestigationDAO(isaTabRootConfigurationFolder);
-        this.publicFolder = new File(publicFolder);
-        this.privateFolder = new File(privateFolder);
+        this.studiesFolder = new File(studiesFolder);
 
     }
 
@@ -73,28 +71,20 @@ public class StudyDAO {
             return  files[0];
         } else {
 
-            logger.info("{} folder not found at {}", metabolightsId, location);
+            logger.debug("{} folder not found at {}", metabolightsId, location);
             return null;
         }
 
 
     }
 
-    public static File getStudyFolder(String studyIdentifier, boolean isPublic) {
+    public static File getStudyFolder(String studyIdentifier) {
         // Try from the expected folder
-        File studyFolder = getStudyFolder(studyIdentifier, isPublic ? publicFolder : privateFolder);
+        File studyFolder = getStudyFolder(studyIdentifier, studiesFolder);
 
-        // If we got nothing...
+        // Warn about this:
         if (studyFolder == null) {
-
-            // Try other studies location but there is a discrepancy between the DB and the Filesystem
-            studyFolder = getStudyFolder(studyIdentifier, isPublic ? privateFolder : publicFolder);
-
-            // Warn about this:
-            if (studyFolder != null) {
-                logger.warn("Misplaced folder for the study " + studyIdentifier + ": found here " + studyFolder.getAbsolutePath() + " and public=" + isPublic);
-            }
-
+            logger.warn("Folder for the study " + studyIdentifier + "not found here " + studiesFolder.getAbsolutePath());
         }
         return studyFolder;
     }
@@ -108,15 +98,11 @@ public class StudyDAO {
 
     public static File getRootFolderByStatus(LiteStudy.StudyStatus status){
 
-        if (privateFolder == null || publicFolder == null){
+        if (studiesFolder == null){
             logger.warn("Careful!, it seems you are using the StudyDAO without having it initialized. Private folder or public folder is/are null");
         }
 
-        if (status.equals(LiteStudy.StudyStatus.PUBLIC)){
-            return publicFolder;
-        } else {
-            return privateFolder;
-        }
+        return studiesFolder;
 
     }
 
@@ -131,20 +117,12 @@ public class StudyDAO {
 
     }
 
-    public static File getPublicFolder() {
-        return publicFolder;
+    public static File getStudiesFolder() {
+        return studiesFolder;
     }
 
-    public static void setPublicFolder(File publicFolder) {
-        StudyDAO.publicFolder = publicFolder;
-    }
-
-    public static File getPrivateFolder() {
-        return privateFolder;
-    }
-
-    public static void setPrivateFolder(File privateFolder) {
-        StudyDAO.privateFolder = privateFolder;
+    public static void setStudiesFolder(File studiesFolder) {
+        StudyDAO.studiesFolder = studiesFolder;
     }
 
 
@@ -152,8 +130,7 @@ public class StudyDAO {
 
         logger.info("Trying to parse study "+ studyToFill.getStudyIdentifier());
 
-        File studyFolder = getStudyFolder(studyToFill.getStudyIdentifier(), studyToFill.isPublicStudy());
-
+        File studyFolder = getStudyFolder(studyToFill.getStudyIdentifier());
 
         // We got something ...
         if (studyFolder != null){

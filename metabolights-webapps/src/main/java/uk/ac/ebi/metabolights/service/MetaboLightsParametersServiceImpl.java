@@ -19,17 +19,6 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*
- * EBI MetaboLights Project - 2013.
- *
- * File: MetaboLightsParametersServiceImpl.java
- *
- * Last modified: 1/17/13 10:52 AM
- * Modified by:   kenneth
- *
- * European Bioinformatics Institute, Wellcome Trust Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK.
- */
-
 package uk.ac.ebi.metabolights.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +28,6 @@ import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: kenneth
- * Date: 17/01/2013
- * Time: 10:52
- */
 
 @Service
 public class MetaboLightsParametersServiceImpl implements MetaboLightsParametersService {

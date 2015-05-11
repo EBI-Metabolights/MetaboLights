@@ -316,48 +316,19 @@ $(function() {
                 </table>
             </c:if>
 
-            <c:if test="${not empty publicFtpLocation}">
-                <br/><b>publicFtpLocation</b>
+            <c:if test="${not empty studiesLocation}">
+                <br/><b>studiesLocation</b>
                 <table cellpadding="5px" cellspacing="0px">
                     <thead class='text_header'>
                     <tr>
                         <th>File name</th>
                     </tr>
                     </thead>
-                    <c:forEach var="file" items="${publicFtpLocation}">
+                    <c:forEach var="file" items="${studiesLocation}">
                         <tr><td>${file.name}</td></tr>
                     </c:forEach>
                 </table>
             </c:if>
-
-            <c:if test="${not empty publicFtpStageLocation}">
-                <br/><b>publicFtpStageLocation</b>
-                <table cellpadding="5px" cellspacing="0px">
-                    <thead class='text_header'>
-                    <tr>
-                        <th>File name</th>
-                    </tr>
-                    </thead>
-                    <c:forEach var="file" items="${publicFtpStageLocation}">
-                        <tr><td>${file.name}</td></tr>
-                    </c:forEach>
-                </table>
-            </c:if>
-
-            <c:if test="${not empty privateFtpStageLocation}">
-                <br/><b>privateFtpStageLocation</b>
-                <table cellpadding="5px" cellspacing="0px">
-                    <thead class='text_header'>
-                    <tr>
-                        <th>File name</th>
-                    </tr>
-                    </thead>
-                    <c:forEach var="file" items="${privateFtpStageLocation}">
-                        <tr><td>${file.name}</td></tr>
-                    </c:forEach>
-                </table>
-            </c:if>
-
         </div>
 
         <div class="refLayerBox" id="referencelayerTab">

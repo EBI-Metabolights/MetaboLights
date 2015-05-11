@@ -147,22 +147,14 @@ public class ManagerController extends AbstractController{
 
 		// database connection consistency
 		validationResult.put("Database connection consistency", (hibernateProperties.getProperty("hibernate.connection.url").equals(metabolightsDs.getPoolProperties().getUrl())));
-		// Validate lucene index
-		validationResult.put("Lucene index consistency", (hibernateProperties.getProperty("hibernate.search.default.indexBase").equals(PropertiesUtil.getProperty("luceneIndexDirectoryShort"))));
-		
+
 		// Validate end character of path properties
 		validationResult.put("uploadDirectory ends with /", (PropertiesUtil.getProperty("uploadDirectory").endsWith("/")));
-		validationResult.put("publicFtpLocation ends with /", (PropertiesUtil.getProperty("publicFtpLocation").endsWith("/")));
-		validationResult.put("publicFtpStageLocation ends with /", (PropertiesUtil.getProperty("publicFtpStageLocation").endsWith("/")));
-		validationResult.put("privateFtpStageLocation ends with /", (PropertiesUtil.getProperty("privateFtpStageLocation").endsWith("/")));
-		validationResult.put("luceneIndexDirectoryShort ends with /", (PropertiesUtil.getProperty("luceneIndexDirectoryShort").endsWith("/")));
-		
+		validationResult.put("studiesLocation ends with /", (PropertiesUtil.getProperty("studiesLocation").endsWith("/")));
+
 		// Validate paths variable exists
-		validationResult.put("uploadDirectory existance", (new File(PropertiesUtil.getProperty("uploadDirectory")).exists()));
-		validationResult.put("publicFtpLocation existance", (new File(PropertiesUtil.getProperty("publicFtpLocation")).exists()));
-		validationResult.put("publicFtpStageLocation existance", (new File(PropertiesUtil.getProperty("publicFtpStageLocation")).exists()));
-		validationResult.put("privateFtpStageLocation existance", (new File(PropertiesUtil.getProperty("privateFtpStageLocation")).exists()));
-		validationResult.put("luceneIndexDirectoryShort existance", (new File(PropertiesUtil.getProperty("luceneIndexDirectoryShort")).exists()));
+		validationResult.put("uploadDirectory existence", (new File(PropertiesUtil.getProperty("uploadDirectory")).exists()));
+		validationResult.put("studiesLocation existence", (new File(PropertiesUtil.getProperty("studiesLocation")).exists()));
 		
 		
 		List<SubmissionItem> queue= null;
@@ -190,10 +182,7 @@ public class ManagerController extends AbstractController{
 		mav.addObject("studiesHealth", getStudiesHealth());
 
         // Return ftp locations
-        mav.addObject("publicFtpLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("publicFtpLocation")))));
-        mav.addObject("publicFtpStageLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("publicFtpStageLocation")))));
-        mav.addObject("privateFtpStageLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("privateFtpStageLocation")))));
-
+        mav.addObject("studiesLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("studiesLocation")))));
         mav.addObject("galleryIds", homePageController.getGalleryItemsIds());
 
 

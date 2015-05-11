@@ -21,13 +21,13 @@
 
 package uk.ac.ebi.metabolights.webapp;
 
+import uk.ac.ebi.metabolights.controller.FileDispatcherController;
 import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 import java.io.File;
 
 public class StudyHealth {
-
-//	static IsaTabUploader itu = new IsaTabUploader(null, null, null,PropertiesUtil.getProperty("publicFtpLocation"), PropertiesUtil.getProperty("privateFtpStageLocation"));
 
 	String identifier;
 	boolean isPublic;
@@ -37,10 +37,10 @@ public class StudyHealth {
 	public StudyHealth(LuceneSearchResult study){
 		identifier = study.getAccStudy();
 		isPublic = study.getIsPublic();
-		
+
 		// Calculate the path where the study files are meant to be.
-//		studyPath = itu.getStudyFilePath(identifier, (isPublic?VisibilityStatus.PUBLIC:VisibilityStatus.SUBMITTED));
-		
+		studyPath = PropertiesUtil.getProperty("studiesLocation") + "/" + study;
+
 		// Check if it is there
 		isThere = new File(studyPath).exists();
 	}

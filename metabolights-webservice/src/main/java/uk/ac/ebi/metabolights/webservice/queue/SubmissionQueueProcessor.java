@@ -302,48 +302,6 @@ public class SubmissionQueueProcessor {
 
 
 	}
-//	/**
-//	 * Returns a default configured uploader. After it you may probably need to set:
-//	 * UnzipFolder
-//	 * publicDate : Format expected --> dd-MMM-yyyy
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	private IsaTabUploader getIsaTabUploader() throws Exception{
-//
-//		// Set common properties
-//		studyDAO.setOwner(si.getUserId());
-//		studyDAO.setCopyToPrivateFolder(privateFtpStageLocation);
-//		studyDAO.setCopyToPublicFolder(publicFtpStageLocation);
-//		studyDAO.setStatus(si.getStatus());
-//
-//		// Get the path for the config folder (where the hibernate properties for the import layer are).
-//        String configPath = PropertiesUtil.getProperty("isatabuploaderconfig"); //SubmissionController.class.getClassLoader().getResource("").getPath();
-//        studyDAO.setDBConfigPath(configPath);
-//
-//		// Get today's date.
-//		Calendar currentDate = Calendar.getInstance();
-//		SimpleDateFormat isaTabFormatter = new SimpleDateFormat("yyyy-MM-dd"); // New ISAtab format (1.4)
-//		String submissionDate = isaTabFormatter.format(currentDate.getTime());
-//		studyDAO.setSubmissionDate(submissionDate);
-//
-//		// For deletion we don't have a public release date
-//		if (si.getPublicReleaseDate() != null)
-//		{
-//			studyDAO.setPublicDate(isaTabFormatter.format(si.getPublicReleaseDate()));
-//		}
-//
-//		// Set properties related with the file itself...
-//		// Calculate the unzip folder (remove the extension + .)
-//		String unzipFolder = StringUtils.truncate(si.getFileQueued().getAbsolutePath(), 4);
-//
-//		studyDAO.setUnzipFolder(unzipFolder);
-//
-//		studyDAO.setIsaTabFile(si.getFileQueued().getAbsolutePath());
-//
-//		return studyDAO;
-//
-//	}
 
     private void deleteZippedFile(String study){
 

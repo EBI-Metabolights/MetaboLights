@@ -66,8 +66,6 @@ public class UpdateStudyController extends AbstractController {
 	private static Logger logger = LoggerFactory.getLogger(UpdateStudyController.class);
 
 	//Ftp locations
-	private @Value("#{publicFtpStageLocation}") String publicFtpLocation;
-	private @Value("#{privateFtpStageLocation}") String privateFtpLocation;         //TODO, short term fix until filesystem is mounted RW
 	private @Value("#{uploadDirectory}") String uploadDirectory;
 	
 	@Autowired

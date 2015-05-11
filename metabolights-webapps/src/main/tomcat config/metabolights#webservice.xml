@@ -42,8 +42,7 @@
 
     <!-- Folders -->
     <ResourceLink  name="isatabConfigurationLocation" global="isatabConfigurationLocation" type="java.lang.String"/>
-    <ResourceLink  name="publicStudiesLocation" global="publicStudiesLocation" type="java.lang.String"/>
-    <ResourceLink  name="privateStudiesLocation" global="privateStudiesLocation" type="java.lang.String"/>
+    <ResourceLink  name="studiesLocation" global="studiesLocation" type="java.lang.String"/>
     <ResourceLink  name="uploadDirectory" global="uploadDirectory" type="java.lang.String"/>
     <ResourceLink  name="ondemand" global="ondemand" type="java.lang.String"/>
 
