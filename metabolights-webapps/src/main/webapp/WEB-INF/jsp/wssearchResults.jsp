@@ -71,6 +71,11 @@
             }
         };
 
+
+        <c:if test="${not empty freeTextQuery}">
+            emptyQuery.text = "${freeTextQuery}";
+        </c:if>
+
         return emptyQuery;
     };
 
@@ -82,7 +87,7 @@
 
         if (hash){
 
-            // Remove hash
+            // Remove the hash
             hash = hash.substring(1);
 
             return JSON.parse(hash);

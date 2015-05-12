@@ -82,10 +82,12 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
             // We are bypassing any lazy initialization with this. So far it's fine.
             businessEntities = convertDataModelToBusinessModel(dataModels);
 
-            session.noNeedSession();
         } catch (Exception e) {
+
             logger.error("ERROR: Could not query the database: " + e.getMessage());
-        }
+        } finally {
+			session.noNeedSession();
+		}
 
 		return  businessEntities;
 

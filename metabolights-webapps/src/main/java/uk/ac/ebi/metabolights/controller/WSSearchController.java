@@ -26,10 +26,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.service.AppContext;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller for Metabolights searching using the webservice.
@@ -46,7 +45,7 @@ public class WSSearchController extends AbstractController{
      * Controller for a browse (empty internalSearch) request
      */
     @RequestMapping(value = "browse" + WS_SEARCH_SUFFIX)
-    public ModelAndView browse(HttpServletRequest request) throws Exception {
+    public ModelAndView browse() throws Exception {
 
 		//Trigger the internalSearch based on the filter
 		ModelAndView mav = internalSearch("wsBrowse");
@@ -59,10 +58,10 @@ public class WSSearchController extends AbstractController{
 
 	/**
 	 * Controller for a internalSearch request, including possible filters.
-	 * @param request
+	 *
 	 */
 	@RequestMapping(value = "/search" + WS_SEARCH_SUFFIX, method = {RequestMethod.GET})
-	public ModelAndView search (HttpServletRequest request) throws Exception {
+	public ModelAndView search (@RequestParam(required=false,value="freeTextQuery") String freeTextQuery) throws Exception {
 
 
 		//Trigger the internalSearch based on the filter
@@ -70,6 +69,7 @@ public class WSSearchController extends AbstractController{
 
 		//Add the action to the ModelAndView
 		mav.addObject("action", "search");
+		mav.addObject("freeTextQuery", freeTextQuery);
 
 		return mav;
 	}
