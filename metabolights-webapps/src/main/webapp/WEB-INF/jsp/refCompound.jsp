@@ -1,16 +1,36 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<script src="http://keith-wood.name/js/jquery.svg.js"></script>
-<script src="http://keith-wood.name/js/jquery.svganim.js"></script>
+<%--
+  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+  ~ Cheminformatics and Metabolism group
+  ~
+  ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~
+  ~ Last modified: 2015-May-13
+  ~ Modified by:   kenneth
+  ~
+  ~ Copyright 2015 EMBL - European Bioinformatics Institute
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+  --%>
+
+<script src="javascript/jquery.svg.js"></script>
+<script src="javascript/jquery.svganim.js"></script>
 <%--<script type="text/javascript"--%>
         <%--src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-<script type="text/javascript" src="http://www.ebi.ac.uk/~beisken/st/st.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/st.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.Rheaction.js"></script>
 <link rel="stylesheet"  href="cssrl/biojs.Rheaction.css" type="text/css"/>
-<link rel="stylesheet"  href="http://www.ebi.ac.uk/~beisken/st/st.css" type="text/css" />
+<link rel="stylesheet"  href="css/st.css" type="text/css" />
 
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
