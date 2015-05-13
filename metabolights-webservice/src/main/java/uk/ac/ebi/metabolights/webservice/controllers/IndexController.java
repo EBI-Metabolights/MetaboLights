@@ -121,6 +121,9 @@ public class IndexController extends BasicController {
 	static void indexStudy(Study study) throws IndexingFailureException {
 		searchService.index(study);
 	}
+	static void deleteStudy(String studyIdentifier) throws IndexingFailureException {
+		searchService.delete(studyIdentifier);
+	}
 
 	@RequestMapping(value = "reset", method = RequestMethod.GET)
 	@ResponseBody

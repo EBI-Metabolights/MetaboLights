@@ -220,11 +220,11 @@ public class EmailService {
 	}
 
 
-	public void sendStudyDeleted(String userEmail,String ID ){
+	public void sendStudyDeleted(Study deletedStudy){
 		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, curationEmailAddress};
-		String subject = PropertyLookUpService.getMessage("mail.studyDeleted.subject", ID);
-		String body = PropertyLookUpService.getMessage("mail.studyDeleted.body", ID);
+		String[] to = getRecipientsFromStudy(deletedStudy);
+		String subject = PropertyLookUpService.getMessage("mail.studyDeleted.subject", deletedStudy.getStudyIdentifier());
+		String body = PropertyLookUpService.getMessage("mail.studyDeleted.body", deletedStudy.getStudyIdentifier());
 
 		sendSimpleEmail(from, to, subject, body);
 

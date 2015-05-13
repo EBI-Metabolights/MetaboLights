@@ -233,10 +233,15 @@ public class StudyDAO {
 		// Security: Check if the user can add a study... it will throw and exception if not authorised
 		User user = SecurityService.userDeletingStudy(studyIdentifier,apiToken);
 
-		logger.info("Deleting study {}, requested by ", studyIdentifier, user.getFullName());
+		logger.info("Deleting study {}, requested by {}", studyIdentifier, user.getFullName());
 
 		// Get the study from the DB
 		Study dbData = dbDAO.findByAccession(studyIdentifier);
+
+		if (dbData == null) {
+			logger.info("Study {} does not exist in the database.", studyIdentifier);
+			throw new DAOException("Study " + studyIdentifier + " does not exist in the database.");
+		}
 
 		// Get the folder where the study is.
 		File studyFolder = fsDAO.getStudyFolder(studyIdentifier);

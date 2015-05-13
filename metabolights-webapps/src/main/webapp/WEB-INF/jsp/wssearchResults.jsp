@@ -161,6 +161,7 @@
     function writeQueryToUrl(){
         var queryS = JSON.stringify(query);
         window.location.hash = queryS;
+        window.location.
     };
 
     function search(keepPage){

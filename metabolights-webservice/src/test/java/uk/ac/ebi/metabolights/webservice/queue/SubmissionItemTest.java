@@ -19,13 +19,6 @@ public class SubmissionItemTest extends TestCase {
 		si = new SubmissionItem(getSubmissionFile("email", "acc", "20150101", "updatedStudy.zip"));
 		assertEquals("Submission type: UPDATE", SubmissionItem.SubissionType.UPDATE, si.getSubmissionType());
 
-		// This is a Public release date change
-		si = new SubmissionItem(getSubmissionFile("email", "acc", "20150101", SubmissionItem.FILE_NAME_FOR_PRD_UPDATES));
-		assertEquals("Submission type: PUBLIC RELEASE DATE CHANGE", SubmissionItem.SubissionType.CHANGE_PUBLIC_RELEASE_DATE, si.getSubmissionType());
-
-		// This is a DELETION
-		si = new SubmissionItem(getSubmissionFile("email", "acc", "20150101", SubmissionItem.FILE_NAME_FOR_DELETIONS));
-		assertEquals("Submission type: CREATE", SubmissionItem.SubissionType.UPDATE, si.getSubmissionType());
 
 
 	}

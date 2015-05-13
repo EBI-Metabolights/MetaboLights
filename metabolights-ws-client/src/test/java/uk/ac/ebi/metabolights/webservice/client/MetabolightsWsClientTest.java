@@ -43,6 +43,8 @@ package uk.ac.ebi.metabolights.webservice.client;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
@@ -60,17 +62,20 @@ import static org.junit.Assert.*;
  */
 public class MetabolightsWsClientTest {
 
-	public static final String PRIVATE_STUDY = "MTBLS5";
+	public static final String PRIVATE_STUDY = "MTBLS_DEV11";
 	public static final String PUBLIC_STUDY = "MTBLS1";
-	String SUBMMITER_TOKEN;
+	String SUBMITTER_TOKEN;
 	String CURATOR_TOKEN;
 	private MetabolightsWsClient wsClient;
+
+	private static final Logger logger = LoggerFactory.getLogger(MetabolightsWsClientTest.class);
+
 
 	@Before
 	public void setUp(){
 
 		// Get token from environment...Do not commit them..
-		SUBMMITER_TOKEN = System.getenv("SUBMMITER_TOKEN");
+		SUBMITTER_TOKEN = System.getenv("SUBMITTER_TOKEN");
 		CURATOR_TOKEN = System.getenv("CURATOR_TOKEN");
 		wsClient = new MetabolightsWsClient("http://localhost:8080/metabolights/webservice/");
 	}
@@ -79,7 +84,7 @@ public class MetabolightsWsClientTest {
 	public void testGetStudy() throws Exception {
 
 		// If not setup skip (Avoid failing tests).
-		if (SUBMMITER_TOKEN == null) return;
+		if (SUBMITTER_TOKEN == null) return;
 
 		// ****** Default anonymous access ********
 		// MTBLS1 is meant to be public...
@@ -146,20 +151,77 @@ public class MetabolightsWsClientTest {
 	@Test
 	public void testSearchStudy() {
 
-		wsClient.setUserToken(CURATOR_TOKEN);
+		searchStudy(CURATOR_TOKEN,PUBLIC_STUDY);
 
-		RestResponse<? extends SearchResult> response = wsClient.searchStudyWithResponse(PUBLIC_STUDY);
+	}
+
+	public LiteStudy searchStudy(String userToken, String studyIdentifier) {
+
+		wsClient.setUserToken(userToken);
+
+		RestResponse<? extends SearchResult> response = wsClient.searchStudyWithResponse(studyIdentifier);
 
 		assertNotNull(response);
 		assertEquals("Search study method didn't return 1 item", 1, response.getContent().getResults().size());
 		LiteStudy study = (LiteStudy) response.getContent().getResults().iterator().next();
 
-		assertEquals("Study returned is not the expected.", PUBLIC_STUDY,study.getStudyIdentifier());
+		assertEquals("Study returned is not the expected.", studyIdentifier,study.getStudyIdentifier());
 
-		study = wsClient.searchStudy(PUBLIC_STUDY);
+		study = wsClient.searchStudy(studyIdentifier);
 
 		assertNotNull(study);
-		assertEquals("Study returned is not the expected.", PUBLIC_STUDY,study.getStudyIdentifier());
+		assertEquals("Study returned is not the expected.", studyIdentifier,study.getStudyIdentifier());
+
+		return study;
+	}
+
+
+	@Test
+	public void testDelete() {
+
+
+
+		// There should be a study
+		RestResponse<String> response = wsClient.deleteStudy(PRIVATE_STUDY);
+
+		assertNotNull(response);
+		assertNotNull("Anonymous user shouldn't be allowed to delete his own study", response.getErr());
+		logger.info("Anonymous not allowed to delete response is : {}" , response.getMessage());
+
+
+
+
+		// There should be a study
+		wsClient.setUserToken(SUBMITTER_TOKEN);
+
+
+		// Test study is in the index
+		LiteStudy study = wsClient.searchStudy(PRIVATE_STUDY);
+
+		assertNotNull("Study to be deleted not indexed",study);
+		assertEquals("Study returned is not the expected.", PRIVATE_STUDY, study.getStudyIdentifier());
+
+
+		response = wsClient.deleteStudy(PRIVATE_STUDY);
+
+		assertNotNull(response);
+		assertNotNull("Owner shouldn't be allowed to delete his own study", response.getErr());
+		logger.info("Owner not allowed to delete response is : {}" , response.getMessage());
+
+
+		// There should be a study
+		wsClient.setUserToken(CURATOR_TOKEN);
+		response = wsClient.deleteStudy(PRIVATE_STUDY);
+
+		assertNotNull(response);
+		assertNull("Curator should be allowed to delete any study", response.getErr());
+		logger.info("Curator allowed to delete response is : {}" , response.getMessage());
+
+		// Test study is NOT in the index anymore
+		 study = wsClient.searchStudy(PRIVATE_STUDY);
+
+		assertNull("Study deleted is still in the index",study);
+
 
 
 	}
@@ -183,6 +245,7 @@ public class MetabolightsWsClientTest {
 		RestResponse<String> response = wsClient.updateStatus(LiteStudy.StudyStatus.INCURATION, PRIVATE_STUDY);
 
 		assertNull("Status update threw an exception", response.getErr());
+
 	}
 
 }

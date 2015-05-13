@@ -105,6 +105,7 @@ public class UserServiceImpl implements UserService{
 				user.setUserName(userToken);
 				user.setStatus(User.UserStatus.ACTIVE);
 				user.setRole(AppRole.ANONYMOUS);
+				user.setApiToken(userToken);
 			}
 
 

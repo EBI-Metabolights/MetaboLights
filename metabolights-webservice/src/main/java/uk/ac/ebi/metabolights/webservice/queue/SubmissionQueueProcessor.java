@@ -90,15 +90,6 @@ public class SubmissionQueueProcessor {
 				// Inform the user and team.
 				AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());
 			}
-			// If the file name is empty...the user hasn't provided a file, therefore, only wants to change the public release date.
-			else if (si.getSubmissionType() == SubissionType.DELETE) {
-
-				//Call deletion...
-				deleteStudy();
-
-				AppContext.getEmailService().sendStudyDeleted(si.getUserToken(), si.getAccession());
-
-			}
 			// It's then an update
 			else if (si.getSubmissionType() == SubissionType.UPDATE) {
 

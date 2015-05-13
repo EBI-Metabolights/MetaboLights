@@ -48,12 +48,10 @@ import java.util.Date;
  *
  *  NEW SUBMISSIONS (no accession):  me@misite.com~~20150101~NewStudy.zip
  *  UPDATES (with accession):  me@misite.com~MTBLS13~20150101~updatedStudy.zip
- *  PUBLIC RELEASE DATE CHANGE:  me@misite.com~M TBLS13~20150301~PRDupdate.zip
- *  DELETE STUDY:  me@misite.com~MTBLS13~~DELETE.zip
  */
 public class SubmissionItem {
 	
-	private Date queuedDate;
+//	private Date queuedDate;
 	private Date publicReleaseDate;
 	private String userId;
 	private String accession;
@@ -61,15 +59,11 @@ public class SubmissionItem {
 	private MultipartFile fileToQueue;
 	private File fileQueued;
 	private File unzippedFolder;
-    private Boolean isPublic;
 	
 	private static Logger logger = LoggerFactory.getLogger(SubmissionItem.class);
 	
 	static final String FILE_NAME_SEP = "~";
-	static final String FILE_NAME_FOR_PRD_UPDATES = "PRDupdatedate.zip";
-	static final String FILE_NAME_FOR_DELETIONS = "DELETE.zip";
-    //static final String FILE_NAME_FOR_PUBLIC_TO_PRIVATE = "PTPStudy.zip";
-	
+
 	// Format the date to a canonical format (YYYYMMDD)
 	static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
@@ -88,34 +82,26 @@ public class SubmissionItem {
 
 	public enum SubissionType{
 		CREATE,
-		UPDATE,
-		DELETE,
-		CHANGE_PUBLIC_RELEASE_DATE,
-		CHANGE_STATUS
+		UPDATE
 
 	}
-	
-	public SubmissionItem(MultipartFile file, String user, Date publicReleaseDate, String accession, boolean isPublic){
-		this.fileToQueue = file;
-		this.userId =user;
-		this.publicReleaseDate = publicReleaseDate;
-		this.accession = accession ==null?"":accession;
-        this.isPublic = isPublic;
-		
-		// If there is no file could be a Public release date update or a deletion...
-		if (file == null)
-		{
-			//If date is null...then is a deletion
-			if (publicReleaseDate == null)
-			{
-				this.originalFileName = FILE_NAME_FOR_DELETIONS;
-			} else {
-				this.originalFileName = FILE_NAME_FOR_PRD_UPDATES;
-			}
-		}else{
-			this.originalFileName = file.getOriginalFilename();
-		}
-	}
+
+//	public SubmissionItem(MultipartFile file, String user, Date publicReleaseDate, String accession, boolean isPublic){
+//		this.fileToQueue = file;
+//		this.userId =user;
+//		this.publicReleaseDate = publicReleaseDate;
+//		this.accession = accession ==null?"":accession;
+//        this.isPublic = isPublic;
+//
+//		// If there is no file could be a Public release date update or a deletion...
+//		if (file == null)
+//		{
+//			// This should not happen anymore sine public release date update and deletions are not longer done through the queue
+//			logger.error("");
+//		}else{
+//			this.originalFileName = file.getOriginalFilename();
+//		}
+//	}
 	public SubmissionItem (File fileQueued) throws ParseException{
 		
 		this.fileQueued = fileQueued;
@@ -182,9 +168,7 @@ public class SubmissionItem {
 	 * 
 	 * For NEW submissions accession is not present
 	 * conesa@ebi.ac.uk~~20120516~mynewsubmissionarchive.zip
-	 * 
-	 * For updating "Public Release Date" (No file is provided).
-	 * conesa@ebi.ac.uk~MTBLS1~20120516~PRDupdatedate.zip
+	 *
 	 */
     String ComposeFileName(){
 
@@ -260,10 +244,6 @@ public class SubmissionItem {
 
 		if (getAccession().isEmpty()) {
 			return SubissionType.CREATE;
-		} else if (getOriginalFileName().equals(SubmissionItem.FILE_NAME_FOR_PRD_UPDATES)){
-			return SubissionType.CHANGE_PUBLIC_RELEASE_DATE;
-		} else if (getOriginalFileName().equals(SubmissionItem.FILE_NAME_FOR_DELETIONS)){
-			return SubissionType.DELETE;
 		} else {
 			return SubissionType.UPDATE;
 		}

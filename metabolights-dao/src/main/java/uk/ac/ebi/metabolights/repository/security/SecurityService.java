@@ -50,31 +50,62 @@ public class SecurityService {
 			return;
 		}
 
-		checkUserAccess(userToken, "User with token " + userToken + " is not authorised to access or study " + studyIdentifier + " does not exist.", studyIdentifier);
+		checkUserAccess(userToken, "access " + studyIdentifier, studyIdentifier);
 
 	}
 
 	public static User userDeletingStudy(String studyIdentifier, String userToken) throws DAOException {
 
-		// If the study is public
-		if (studyDAO.isStudyPublic(studyIdentifier)) {
-			throwSecurityException("Public studies can't be deleted and " + studyIdentifier + " is Public." );
+//		// If the study is public
+//		if (studyDAO.isStudyPublic(studyIdentifier)) {
+//			throwSecurityException("Public studies can't be deleted and " + studyIdentifier + " is Public." );
+//		}
+//
+//		// Get the user
+//		return  checkUserAccess(userToken, "User with token " + userToken + " is not authorised to delete the study " + studyIdentifier + ". Only ACTIVE curators and/or owners can do it.", studyIdentifier);
+
+		User user = tokenToUser(userToken,"delete " + studyIdentifier);
+
+		// if user is a curator
+		if (user.isCurator()){
+			return  user;
 		}
 
-		// Get the user
-		return  checkUserAccess(userToken, "User with token " + userToken + " is not authorised to delete the study " + studyIdentifier + ". Only ACTIVE curators and/or owners can do it.", studyIdentifier);
+		throwSecurityException(user.getFullName() + " is not authorised to delete. Only curators can do it. ");
 
+		return null;
 
 	}
 
-	private static User checkUserAccess(String userToken, String exceptionMessage, String studyIdentifier) throws DAOException {
+
+
+	/**
+	 * Lookup for an user by its token. If token null or token doesn't match, a security exception is thrown
+	 * @param userToken
+	 * @param action
+	 * @return
+	 * @throws DAOException
+	 */
+	private static User tokenToUser(String userToken, String action) throws DAOException {
 
 		// If userToken is null.
 		if (userToken == null) {
-			throwSecurityException("Anonymous user (null) are not authorised to perform this action. ");
+			throwSecurityException("Anonymous users (null) are not authorised to " + action);
 		}
 
 		User user = userDAO.findByToken(userToken);
+
+		// If null
+		if (user == null) {
+			throwSecurityException("The user token provided (" + userToken + ") does not correspond to any of our users in our system, you are not authorised to " + action);
+		}
+
+		return user;
+	}
+
+	private static User checkUserAccess(String userToken, String action, String studyIdentifier) throws DAOException {
+
+		User user = tokenToUser(userToken, action);
 
 		// If not null
 		if (user!=null) {
@@ -99,7 +130,7 @@ public class SecurityService {
 
 		}
 
-		throwSecurityException(exceptionMessage);
+		throwSecurityException( user.getFullName() + " (" + user.getUserId()+ "), you are not authorised to " + action);
 
 		return null;
 
@@ -118,7 +149,7 @@ public class SecurityService {
 
 	public static User userCreatingStudy(String userToken) throws DAOException {
 
-		return checkUserAccess(userToken, "User with token " + userToken + " is not authorised to create a study.");
+		return checkUserAccess(userToken, "create a study");
 
 
 	}
@@ -126,7 +157,7 @@ public class SecurityService {
 	public static User userUpdatingStudy(String studyIdentifier, String userToken, LiteStudy.StudyStatus newStatus) throws DAOException {
 
 		// This will deal with ownership (curator or owner can access)
-		User user = checkUserAccess(userToken, "User with token " + userToken + " is not authorised to update the study " + studyIdentifier, studyIdentifier);
+		User user = checkUserAccess(userToken, "update the study " + studyIdentifier, studyIdentifier);
 
 		LiteStudy study = getStudyFromUser(user, studyIdentifier);
 
@@ -147,15 +178,12 @@ public class SecurityService {
 					return user;
 				}
 
-			// User updating the study through files...so, nos status change involved and study is private
+				// User updating the study through files...so, nos status change involved and study is private
 			} else {
 
 				return user;
 			}
 		}
-
-
-
 
 		// Else...not a curator and study not SUBMITTED.
 		throwSecurityException(studyIdentifier + " study can't be updated when the status is " + study.getStudyStatus().name());

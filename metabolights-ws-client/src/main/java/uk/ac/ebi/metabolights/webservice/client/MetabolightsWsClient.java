@@ -104,55 +104,14 @@ public class MetabolightsWsClient {
         this.userToken = userToken;
     }
 
-    private String makeGetRequest(String path) {
+    private String makeRequest(String path, String method) {
 
-        logger.debug("Making get " + path + " request to webservice");
-
-        try {
-
-            // Get a GET connection
-            HttpURLConnection conn = getHttpURLConnection(path, "GET");
-
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
-
-            String message = org.apache.commons.io.IOUtils.toString(br);
-
-            conn.disconnect();
-
-            return message;
-
-        } catch (MalformedURLException e) {
-
-            e.printStackTrace();
-
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-
-        return null;
+       return makeRequestSendingData(path,null,method);
 
     }
+    private String makeRequestSendingData(String path, String dataToSend, String method) {
 
-    private String makePostRequest(String path, String json) {
-        return makeRequestSendingData(path, json, "POST");
-    }
-
-    private String makePutRequest(String path, String json) {
-        return makeRequestSendingData(path, json, "PUT");
-    }
-
-
-    private String makeRequestSendingData(String path, String json, String method) {
-
-        logger.debug("Making get " + path + " request to webservice");
+        logger.debug("Making a {} request to {}", method,path);
 
         try {
 
@@ -162,19 +121,19 @@ public class MetabolightsWsClient {
             conn.setRequestProperty("content-type", "application/json");
             conn.setDoOutput(true);
 
-            // Send JSON content
-            OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+            if (dataToSend != null) {
 
-            out.write(json);
-            out.close();
-//            OutputStream os = conn.getOutputStream();
-//            os.write(json.getBytes());
-//            os.flush();
+                // Send JSON content
+                OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
 
+                out.write(dataToSend);
+                out.close();
+
+            }
 
             // Read response
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException("Post request failed : HTTP error code : "
+                throw new RuntimeException(method + " request failed : HTTP error code : "
                         + conn.getResponseCode());
             }
 
@@ -199,6 +158,23 @@ public class MetabolightsWsClient {
 
         return null;
 
+    }
+
+
+    private String makePostRequest(String path, String json) {
+        return makeRequestSendingData(path, json, "POST");
+    }
+
+    private String makePutRequest(String path, String json) {
+        return makeRequestSendingData(path, json, "PUT");
+    }
+
+    private String makeDeleteRequest(String path) {
+        return makeRequest(path, "DELETE");
+    }
+
+    private String makeGetRequest(String path) {
+        return makeRequest(path, "GET");
     }
 
     private HttpURLConnection getHttpURLConnection(String path, String method) throws IOException {
@@ -403,12 +379,18 @@ public class MetabolightsWsClient {
 
         RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) searchStudyWithResponse(studyIdentifier);
 
-
         if (response.getContent().getResults().size() == 0) {
             return null;
         } else {
             return response.getContent().getResults().iterator().next();
         }
+    }
+
+    public RestResponse<String> deleteStudy(String studyIdentifier){
+
+        String response = makeDeleteRequest(getStudyPath(studyIdentifier));
+
+        return deserializeJSONString(response, String.class);
 
     }
 // It doesn't work since the user is anonymous and elastic search module always apply a security filter returning only owned private studies or Public ones.
