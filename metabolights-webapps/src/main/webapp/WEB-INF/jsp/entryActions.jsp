@@ -41,6 +41,9 @@
                             </ul>
                         </li>
                     </c:if>
+                    <c:if test="${curator}">
+                        <li><a href="deleteStudy?study=${study.studyIdentifier}">delete</a></li>
+                    </c:if>
                 </ul>
             </li>
         </ul>

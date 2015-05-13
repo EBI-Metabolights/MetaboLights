@@ -52,9 +52,9 @@
                 {
                     "name": "organism.organismPart"
                 },
-                {
-                    "name": "assays.measurement"
-                },
+//                {
+//                    "name": "assays.measurement"
+//                },
                 {
                     "name":"users.fullName"
                 },
@@ -161,7 +161,6 @@
     function writeQueryToUrl(){
         var queryS = JSON.stringify(query);
         window.location.hash = queryS;
-        window.location.
     };
 
     function search(keepPage){
