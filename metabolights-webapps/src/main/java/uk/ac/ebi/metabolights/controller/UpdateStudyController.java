@@ -102,23 +102,6 @@ public class UpdateStudyController extends AbstractController {
 
 	}
 
-//    @RequestMapping(value = { "/makestudyprivateform"})
-//    public ModelAndView makeStudyPrivate(
-//            @RequestParam(required=true,value="study") String study,
-//            @RequestParam(required=false,value="date") String defaultDate,
-//            HttpServletRequest request)
-//            throws Exception{
-//
-//
-//		//Check access
-//		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
-//
-//
-//        // Get the correspondent ModelAndView
-//        return getModelAndView(study, defaultDate, false, true);
-//
-//    }
-
 	/**
 	 * Receives the study that is going to be updated and shows the updateStudy Page to let the user to set the public release date and upload the new file.
 	 * 

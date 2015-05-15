@@ -113,7 +113,6 @@ $(function() {
 			<li hash="health"><a class="noLine" href="#studyHealthTab">Study Health</a></li>
             <li hash="referencelayer"><a class="noLine" href="#referencelayerTab">Reference Layer</a></li>
             <li hash="parameters"><a class="noLine" href="#MetaboLightsParameters">MetaboLights Parameters</a></li>
-            <li hash="reindex"><a class="noLine" href="#reindexStudies">Reindex Studies</a></li>
 		</ul>
         <div id="valTab">
             <br/>
@@ -299,6 +298,9 @@ $(function() {
                 <input name="submit" type="submit" class="submit" value="Change gallery Items">
             </form>
             <br/>
+
+            <a href="reindex" title="Reindex one-by-one">Reindex all the studies</a><br/>
+
             <c:if test="${not empty studiesHealth}">
                 <table cellpadding="5px" cellspacing="0px">
                     <tr><th>Study</th><th>is Public?</th><th>Must be under</th><th>is it there?</th></tr>
@@ -359,23 +361,6 @@ $(function() {
                 </div>
                 <div class="grid_24">
                     <a href="parameters">Click here for MetaboLights Parameters</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="refLayerBox" id="reindexStudies">
-            <div class="grid_24">
-                <div class="grid_24 title">
-                    Reindex studies
-                </div>
-                <div class="grid_24">
-                    <spring:message code="msg.studies.reindex"/>
-                    <br/>
-                    <br/>
-                    <ul id="reindexStudiesatOnce">
-                        <li><a href="reindex" title="Reindex one-by-one">Reindex studies one-by-one</a></li>
-                        <li><a href="reindexall" title="Reindex all">Reindex all studies</a></li>
-                    </ul>
                 </div>
             </div>
         </div>

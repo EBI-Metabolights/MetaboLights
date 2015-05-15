@@ -75,6 +75,8 @@ public class MetabolightsWsClient {
     private static final String ANONYMOUS = "JAVA_WS_client_Anonymous";
     private static final String DEAFULT_TOKEN_HEADER = "user_token";
     public static final String OBFUSCATIONCODE_PATH = "obfuscationcode/";
+    private static final String INDEXING_PATH = "index/";
+    public static final String REINDEX_PATH = "reindex";
     private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
 
@@ -133,7 +135,7 @@ public class MetabolightsWsClient {
 
             // Read response
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException(method + " request failed : HTTP error code : "
+                throw new RuntimeException(path + "(" + method + ") request failed : HTTP error code : "
                         + conn.getResponseCode());
             }
 
@@ -191,7 +193,7 @@ public class MetabolightsWsClient {
 
     public RestResponse<Study> getStudy(String studyIdentifier) {
 
-        logger.info("Study " + studyIdentifier + " requested to the MetaboLights WS client");
+        logger.debug("Study " + studyIdentifier + " requested to the MetaboLights WS client");
 
         String path = getStudyPath(studyIdentifier);
 
@@ -224,7 +226,7 @@ public class MetabolightsWsClient {
 
     public RestResponse<String[]> getAllStudyAcc() {
 
-        logger.info("Getting all public study identifiers from the MetaboLights WS client");
+        logger.debug("Getting all public study identifiers from the MetaboLights WS client");
 
         // Make the request
         String response = makeGetRequest(STUDY_PATH + "list");
@@ -235,6 +237,10 @@ public class MetabolightsWsClient {
 
     private String getStudyPath(String studyIdentifier) {
         return STUDY_PATH + studyIdentifier;
+    }
+
+    private String getIndexingPath(String action) {
+        return INDEXING_PATH + action;
     }
 
     public RestResponse<MetaboliteAssignment> getMetabolites(String studyIdentifier, int assayNumber) {
@@ -300,7 +306,7 @@ public class MetabolightsWsClient {
 
     public RestResponse<? extends SearchResult> search() {
 
-        logger.info("Empty search requested to the MetaboLights WS client");
+        logger.debug("Empty search requested to the MetaboLights WS client");
 
         // Make the request
         String response = makeGetRequest("search");
@@ -314,7 +320,7 @@ public class MetabolightsWsClient {
 
     public RestResponse<? extends SearchResult> search(SearchQuery query) {
 
-        logger.info("Search requested to the MetaboLights WS client");
+        logger.debug("Search requested to the MetaboLights WS client");
 
         String json = serializeObject(query);
 
@@ -330,7 +336,7 @@ public class MetabolightsWsClient {
 
     public RestResponse<String> updatePublicReleaseDate(Date newPublicReleaseDate, String studyIdentifier) {
 
-        logger.info("Public release date ({}) update of {} requested to MetaboLights WS client.", newPublicReleaseDate,studyIdentifier);
+        logger.debug("Public release date ({}) update of {} requested to MetaboLights WS client.", newPublicReleaseDate, studyIdentifier);
 
         String json = serializeObject(newPublicReleaseDate);
 
@@ -343,7 +349,7 @@ public class MetabolightsWsClient {
 
     public RestResponse<String> updateStatus(LiteStudy.StudyStatus newStatus, String studyIdentifier) {
 
-        logger.info("Status ({}) update of {} requested to MetaboLights WS client.", newStatus,studyIdentifier);
+        logger.debug("Status ({}) update of {} requested to MetaboLights WS client.", newStatus, studyIdentifier);
 
         String json = serializeObject(newStatus);
 
@@ -362,7 +368,7 @@ public class MetabolightsWsClient {
 
     public RestResponse<? extends SearchResult> searchStudyWithResponse(String studyIdentifier, String field) {
 
-        logger.info("Requesting a single study ({}) to the search engine.", studyIdentifier);
+        logger.debug("Requesting a single study ({}) to the search engine.", studyIdentifier);
 
         // Create the search query
         SearchQuery searchQuery = new SearchQuery();
@@ -393,6 +399,37 @@ public class MetabolightsWsClient {
         return deserializeJSONString(response, String.class);
 
     }
+
+    /**
+     * Indexing all
+     */
+
+    public RestResponse<String> reindex() {
+
+        logger.debug("Indexing all studies requested to MetaboLights WS client.");
+        
+
+        // Make the request
+        String response = makeGetRequest(getIndexingPath(REINDEX_PATH));
+
+        return deserializeJSONString(response, String.class);
+    }
+
+    /**
+     * Index study
+     */
+
+    public RestResponse<String> index(String studyIdentifier) {
+
+        logger.debug("{} indexing requested to MetaboLights WS client.", studyIdentifier);
+
+
+        // Make the request
+        String response = makeGetRequest(getIndexingPath(studyIdentifier));
+
+        return deserializeJSONString(response, String.class);
+    }
+
 // It doesn't work since the user is anonymous and elastic search module always apply a security filter returning only owned private studies or Public ones.
 // If the study is private this will not work.
 //    public LiteStudy searchStudybyObfuscationCode(String obfuscationCode){

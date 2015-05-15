@@ -1,7 +1,6 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import junit.framework.TestCase;
-import org.apache.log4j.BasicConfigurator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,9 +33,6 @@ public class SpeciesMembersDAOTest extends TestCase{
 	@Override
 	@BeforeClass
 	protected void setUp() throws Exception {
-
-		// Set up a simple configuration that logs on the console.
-		BasicConfigurator.configure();
 
 		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();

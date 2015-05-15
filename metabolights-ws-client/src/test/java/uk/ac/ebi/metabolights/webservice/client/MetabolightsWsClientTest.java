@@ -62,7 +62,7 @@ import static org.junit.Assert.*;
  */
 public class MetabolightsWsClientTest {
 
-	public static final String PRIVATE_STUDY = "MTBLS_DEV11";
+	public static final String PRIVATE_STUDY = "MTBLS_DEV10";
 	public static final String PUBLIC_STUDY = "MTBLS1";
 	String SUBMITTER_TOKEN;
 	String CURATOR_TOKEN;
@@ -130,7 +130,6 @@ public class MetabolightsWsClientTest {
 
 		assertNotNull(response);
 		assertNotSame("Something has been returned", 0, response.getContent().getResults().size());
-//		assertEquals("Content is deserialized into proper LiteStudy", LiteStudy.class, response.getContent().getResults().iterator().next().getClass());
 
 	}
 
@@ -180,25 +179,21 @@ public class MetabolightsWsClientTest {
 	public void testDelete() {
 
 
-
 		// There should be a study
 		RestResponse<String> response = wsClient.deleteStudy(PRIVATE_STUDY);
 
 		assertNotNull(response);
 		assertNotNull("Anonymous user shouldn't be allowed to delete his own study", response.getErr());
-		logger.info("Anonymous not allowed to delete response is : {}" , response.getMessage());
-
-
+		logger.info("Anonymous not allowed to delete response is : {}", response.getMessage());
 
 
 		// There should be a study
 		wsClient.setUserToken(SUBMITTER_TOKEN);
 
-
 		// Test study is in the index
 		LiteStudy study = wsClient.searchStudy(PRIVATE_STUDY);
 
-		assertNotNull("Study to be deleted not indexed",study);
+		assertNotNull("Study to be deleted not indexed", study);
 		assertEquals("Study returned is not the expected.", PRIVATE_STUDY, study.getStudyIdentifier());
 
 
@@ -206,7 +201,7 @@ public class MetabolightsWsClientTest {
 
 		assertNotNull(response);
 		assertNotNull("Owner shouldn't be allowed to delete his own study", response.getErr());
-		logger.info("Owner not allowed to delete response is : {}" , response.getMessage());
+		logger.info("Owner not allowed to delete response is : {}", response.getMessage());
 
 
 		// There should be a study
@@ -215,18 +210,14 @@ public class MetabolightsWsClientTest {
 
 		assertNotNull(response);
 		assertNull("Curator should be allowed to delete any study", response.getErr());
-		logger.info("Curator allowed to delete response is : {}" , response.getMessage());
+		logger.info("Curator allowed to delete response is : {}", response.getMessage());
 
 		// Test study is NOT in the index anymore
-		 study = wsClient.searchStudy(PRIVATE_STUDY);
+		study = wsClient.searchStudy(PRIVATE_STUDY);
 
-		assertNull("Study deleted is still in the index",study);
-
-
+		assertNull("Study deleted is still in the index", study);
 
 	}
-
-
 	@Test
 	public void testUpdatePublicReleaseDate() {
 
@@ -247,5 +238,44 @@ public class MetabolightsWsClientTest {
 		assertNull("Status update threw an exception", response.getErr());
 
 	}
+
+	@Test
+	public void testIndexingAll() {
+
+		RestResponse<String> response = wsClient.reindex();
+		assertNotNull("Anonymous user was allowed to reindex all!!", response.getErr());
+		logger.info("Anonymous user wasn't allowed to reindex, good!: {}", response.getMessage());
+
+
+		wsClient.setUserToken(CURATOR_TOKEN);
+		response = wsClient.reindex();
+		assertNull("Curator user was NOT allowed to reindex all!!", response.getErr());
+		logger.info("Curator user allowed to reindex, good!: {}", response.getMessage());
+
+
+	}
+
+	@Test
+	public void testIndexingStudy() {
+
+		RestResponse<String> response = wsClient.index(PRIVATE_STUDY);
+		assertNotNull("Anonymous user was allowed to reindex a private study!!", response.getErr());
+		logger.info("Anonymous user wasn't allowed to reindex, good!: {}", response.getMessage());
+
+		// Only curators are allowed to use the indexing interface, not even owners.
+		wsClient.setUserToken(SUBMITTER_TOKEN);
+		response = wsClient.index(PRIVATE_STUDY);
+		assertNotNull("Owner user was allowed to reindex "+ PRIVATE_STUDY + "!!", response.getErr());
+		logger.info("Owner user wasn't allowed to reindex, good!: {}", response.getMessage());
+
+
+		wsClient.setUserToken(CURATOR_TOKEN);
+		response = wsClient.index(PRIVATE_STUDY);
+		assertNull("Curator user was NOT allowed to reindex "+ PRIVATE_STUDY + "!!", response.getErr());
+		logger.info("Curator user allowed to reindex, good!: {}", response.getMessage());
+
+
+	}
+
 
 }

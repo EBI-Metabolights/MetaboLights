@@ -24,6 +24,7 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -58,6 +59,47 @@ public class IndexController extends BasicController {
 	public static SearchService<Object, LiteEntity> searchService = new ElasticSearchService();
 	private static StudyDAO studyDAO;
 
+	@RequestMapping(value = "{studyIdentifier:" + StudyController.METABOLIGHTS_ID_REG_EXP +"}", method = RequestMethod.GET)
+	@ResponseBody
+	public RestResponse<String> indexStudyUrl(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+		logger.info("Requesting " + studyIdentifier + " indexing to the webservice");
+
+		String message = null;
+
+		RestResponse<String> response = new RestResponse<String>();
+
+		// Get all the studies
+		User user = getUser();
+
+		try {
+
+			indexStudy(studyIdentifier, user.getApiToken());
+
+			response.setMessage(studyIdentifier + " indexed successfully.");
+			logger.info(response.getMessage());
+
+		} catch (IndexingFailureException e) {
+			message = "Can't index study " + studyIdentifier + ". " + e.getMessage();
+
+		} catch (DAOException e) {
+			message = "Can't retrieve study (DAOException) " + studyIdentifier + ". " + e.getMessage();
+
+		} catch (IsaTabException e) {
+			message = "Can't retrieve study (IsaTabException) " + studyIdentifier + ". " + e.getMessage();
+		} finally {
+
+			if (message != null) {
+				logger.warn(message);
+				response.setMessage(message);
+			}
+		}
+
+		return response;
+
+	}
+
+
 	@RequestMapping(value = "reindex", method = RequestMethod.GET)
 	@ResponseBody
 	public RestResponse<String> reindex() throws DAOException {
@@ -69,6 +111,22 @@ public class IndexController extends BasicController {
 		// Get all the studies
 		User user = getUser();
 		List<String> accessions = studyDAO.getList(user.getApiToken());
+
+		// Reset the index
+		try {
+			reset();
+
+		} catch (IndexingFailureException e) {
+			response.setMessage("Couldn't reset the index while indexing");
+			response.setErr(e);
+			response.setContent(e.getMessage());
+
+			logger.error(response.getMessage(), e);
+
+			return  response;
+		}
+
+
 
 		long indexed = 0;
 
@@ -100,9 +158,9 @@ public class IndexController extends BasicController {
 		}
 
 		if (indexed == accessions.size()) {
-			response.setContent("Reindexing finished successfully. " + accessions.size() + " reindexed. All");
+			response.setContent("Indexing finished successfully. " + accessions.size() + " indexed. All");
 		} else {
-			response.setContent("Reindexing finished with errors. " + indexed + " indexed out of " + accessions.size());
+			response.setContent("Indexing finished with errors. " + indexed + " indexed out of " + accessions.size());
 		}
 
 		return response;
@@ -129,13 +187,13 @@ public class IndexController extends BasicController {
 	@ResponseBody
 	public RestResponse<String> reset() throws  IndexingFailureException {
 
-		logger.info("Reseting the index");
+		logger.info("Resetting the index");
 
 		RestResponse<String> response = new RestResponse<String>();
 
 		searchService.resetIndex();
 
-		response.setMessage("Index succesfully reset");
+		response.setMessage("Index successfully reset");
 
 		return response;
 

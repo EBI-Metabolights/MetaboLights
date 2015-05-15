@@ -1,11 +1,10 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import junit.framework.TestCase;
-import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
@@ -30,9 +29,6 @@ public class SpeciesGroupDAOTest extends TestCase{
 	@Override
 	@BeforeClass
 	protected void setUp() throws Exception {
-
-		// Set up a simple configuration that logs on the console.
-		BasicConfigurator.configure();
 
 		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();

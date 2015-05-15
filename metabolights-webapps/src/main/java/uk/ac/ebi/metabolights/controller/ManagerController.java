@@ -30,19 +30,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
 import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
+import uk.ac.ebi.metabolights.webservice.client.models.StudySearchResult;
 
 import javax.naming.Binding;
 import javax.naming.NamingEnumeration;
@@ -206,27 +210,22 @@ public class ManagerController extends AbstractController{
 
 	private List<StudyHealth> getStudiesHealth(){
 		
-		List <StudyHealth> studies = new ArrayList<StudyHealth>();
-		List<LuceneSearchResult> totalResultList = new ArrayList<LuceneSearchResult>();
-		
-		HashMap<Integer,List<LuceneSearchResult>> studiesResult;
-		try {
-			studiesResult = searchService.search("*");
-		} catch (Exception e) {
-			logger.info("Can't search for all the studies in lucene index." + e.getMessage());
-			return null;
+		List <StudyHealth> studiesHealth = new ArrayList<StudyHealth>();
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		// Careful this returns all...and now it's fine but once compounds are added it will not work.
+		RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) wsClient.search();
+
+
+		StudySearchResult studies = response.getContent();
+		for (LiteStudy liteStudy : studies.getResults()) {
+
+			StudyHealth newSH = new StudyHealth(liteStudy);
+			studiesHealth.add(newSH);
 		}
 		
-		// Get the total result list
-		totalResultList = studiesResult.entrySet().iterator().next().getValue();
-		
-		// Create the List of StudyHealths
-		for (LuceneSearchResult lsr:totalResultList){
-			StudyHealth newSH = new StudyHealth(lsr);
-			studies.add(newSH);
-		}
-		
-		return studies;
+		return studiesHealth;
 	}
 	
 	@RequestMapping(value = "/togglequeue", method = RequestMethod.GET)
@@ -288,5 +287,37 @@ public class ManagerController extends AbstractController{
     	
     	return map;
     }
+
+	/**
+	 * Will reindex the whole index, to use carefully.
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/reindex") //must accept parameters else reindex all studies looping through
+	public ModelAndView reindexall(@RequestParam(required = false, value = "study") String studyIdentifier){
+
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<String> response;
+
+		if(studyIdentifier != null){
+
+			logger.info("Re-indexing studyIdentifier: " + studyIdentifier);
+
+			response = wsClient.index(studyIdentifier);
+
+		} else {
+
+			logger.info("Re-indexing all studies");
+
+			response = wsClient.reindex();
+
+		}
+
+		return printMessage(response.getMessage(), response.getContent());
+
+	}
+
 }
 

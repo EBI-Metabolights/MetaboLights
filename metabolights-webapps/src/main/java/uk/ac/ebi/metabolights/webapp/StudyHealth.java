@@ -21,8 +21,7 @@
 
 package uk.ac.ebi.metabolights.webapp;
 
-import uk.ac.ebi.metabolights.controller.FileDispatcherController;
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 import java.io.File;
@@ -34,12 +33,12 @@ public class StudyHealth {
 	String studyPath;
 	boolean isThere;
 	
-	public StudyHealth(LuceneSearchResult study){
-		identifier = study.getAccStudy();
-		isPublic = study.getIsPublic();
+	public StudyHealth(LiteStudy study){
+		identifier = study.getStudyIdentifier();
+		isPublic = study.isPublicStudy();
 
 		// Calculate the path where the study files are meant to be.
-		studyPath = PropertiesUtil.getProperty("studiesLocation") + "/" + study;
+		studyPath = PropertiesUtil.getProperty("studiesLocation") + identifier;
 
 		// Check if it is there
 		isThere = new File(studyPath).exists();
