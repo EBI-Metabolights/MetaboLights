@@ -305,4 +305,11 @@ public class MetabolightsUser implements Serializable{
     public void setApiToken(String apiToken) {
         this.apiToken = apiToken;
     }
+
+	public String getFullName(){
+		return  (
+				(firstName == null?"":firstName) + " " +
+						(lastName == null?"":lastName)
+		).trim();
+	}
 }

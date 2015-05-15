@@ -57,6 +57,9 @@
 //                },
                 {
                     "name":"users.fullName"
+                    <c:if test="${not empty usersFullName}">
+                        ,"lines":[{"value":"${usersFullName}","checked":true}]
+                    </c:if>
                 },
                 {
                     "name":"factors.name"

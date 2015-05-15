@@ -107,28 +107,19 @@ public class WSSearchController extends AbstractController{
 
 
 
-//	@RequestMapping(value = "/mysubmissions")
-//	public ModelAndView MySubmissionsSearch (HttpServletRequest request) {
-//
-//		//Get the filter object prepared (inside there is a clean up process that removes any initial filter)
-//		SearchQuery query = requestToQuery(request);
-//
-//		// Clean the free text internalSearch (It can be store in the session object during a previous free text internalSearch)
-//		filter.setFreeTextQuery("");
-//
-//		//As this page requires authentication we can be sure there is an user
-//		MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-//
-//		//Set the filter to private studies
-//		filter.getFss().get("mystudies").getFilterItems().get(user.getUserName()).setIsChecked(true);
-//
-//		//Get the ModelAndView
-//		ModelAndView mav = internalSearch(filter, "searchResult");
-//
-//		//Add the action to the ModelAndView
-//		mav.addObject("action", "mysubmissions");
-//
-//		//Add the message to the user
+	@RequestMapping(value = "/mysubmissions")
+	public ModelAndView MySubmissionsSearch () {
+
+
+		//Trigger the internalSearch based on the filter
+		ModelAndView mav = internalSearch("wsSearchResult");
+
+		//Add the action to the ModelAndView
+		mav.addObject("action", "mysubmissions");
+		mav.addObject("usersFullName", LoginController.getLoggedUser().getFullName());
+
+
+		//Add the message to the user
 //		String welcomeMessage;
 //
 //		//If he doesn't have any study
@@ -144,8 +135,8 @@ public class WSSearchController extends AbstractController{
 //		// Add the message to the response
 //		mav.addObject("welcomemessage", welcomeMessage);
 //
-//		return mav;
-//	}
+		return mav;
+	}
 
 //	/**request can come with 2 parameters:
 //	 * query: freetext query
