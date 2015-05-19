@@ -108,6 +108,33 @@ public class StudyController extends BasicController{
 
 	}
 
+	@RequestMapping("goinglive")
+	@ResponseBody
+	public RestResponse<String[]> getAllStudyIdentifiersGoingLive() throws DAOException {
+
+		logger.info("Requesting a list of all public studies that should go live to the webservice");
+
+		RestResponse<String[]> response = new RestResponse<>();
+
+		studyDAO = getStudyDAO();
+
+
+		try {
+			List<String> studyList = studyDAO.getStudiesToGoLiveList(getUser().getApiToken());
+
+			String[] strarray = studyList.toArray(new String[0]);
+			response.setContent(strarray);
+		} catch (DAOException e) {
+			logger.error("Can't get the list of studies going live", e);
+			response.setMessage("Can't get the studies requested.");
+			response.setErr(e);
+		}
+
+		return response;
+
+	}
+
+
 	/**
 	 * To update the public release date of a study.
 	 * @param studyIdentifier

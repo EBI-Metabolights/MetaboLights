@@ -120,6 +120,11 @@ public class StudyDAO {
 		return dbDAO.getStudyListForUser(userToken);
 	}
 
+	public List<String> getStudiesToGoLiveList(String userToken) throws DAOException {
+		return dbDAO.getStudiesToGoLiveList(userToken);
+	}
+
+
 	private String getAccessionNumber() throws DAOException {
 		AccessionDAO accessionDAO = DAOFactory.getInstance().getAccessionDAO();
 

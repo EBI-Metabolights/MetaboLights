@@ -35,7 +35,6 @@ public abstract class DAOTest {
 	private static final String ISA_CONF_LOCATION = "configRoot";
 	private static final String STUDIES_LOCATION = "studies/";
 	protected String configRoot;
-	protected String publicStudiesLocation;
 	protected String studiesLocation;
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());

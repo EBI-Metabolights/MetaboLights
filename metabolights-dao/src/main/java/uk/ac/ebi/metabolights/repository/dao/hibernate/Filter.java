@@ -25,6 +25,7 @@ import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,8 +93,10 @@ public class Filter {
 
 		}else if (claz.equals(Long.class)){
 				query.setLong(key, (Long) value);
-		}else if (claz.equals(Integer.class)){
+		}else if (claz.equals(Integer.class)) {
 			query.setInteger(key, (Integer) value);
+		}else if (claz.equals(Date.class)){
+			query.setDate(key,(Date)value);
 
 		} else {
 			throw new DAOException ("Can't fill query parameter, Class " + claz.getName()+ " not implemented");

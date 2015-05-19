@@ -367,4 +367,17 @@ public class StudyDAOTest extends DAOTest {
 
 		return null;
 	}
+	@Test
+	public void testGetStudiesToGoLive() throws DAOException {
+
+
+		// Change status ot the 2 public studies
+		studyDAO.updateStatus(dbOnlyStudy.getAcc(), LiteStudy.StudyStatus.INREVIEW, curator.getApiToken());
+
+		List<String> studiesToGoLive = studyDAO.getStudiesToGoLiveList(curator.getApiToken());
+
+		assertEquals("Wrong number of studies to go live for a curator", 0,studiesToGoLive.size());
+
+
+	}
 }
