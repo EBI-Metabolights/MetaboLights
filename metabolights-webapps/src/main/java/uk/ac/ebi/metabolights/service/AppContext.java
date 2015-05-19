@@ -21,7 +21,6 @@
 
 package uk.ac.ebi.metabolights.service;
 
-import org.springframework.aop.framework.Advised;
 import org.springframework.context.ApplicationContext;
 import uk.ac.ebi.metabolights.webapp.StyleMAVFactory;
 
@@ -41,12 +40,9 @@ public class AppContext {
     private static ApplicationContext ctx;
 	private static EmailService emailService;
 	private static UserService userService;
-	private static StudyService studyService;
 	private static String jndiName; 
 	private static DataSource ds;
 	private static StyleMAVFactory mavFactory;
-	private static AccessionService accessionService;
-	private static SearchService searchService;
 
 	/**
      * Injected from the class "ApplicationContextProvider" which is automatically
@@ -85,23 +81,7 @@ public class AppContext {
     	}
     	return mavFactory;
     }
-    
-    public static StudyService getStudyService(){
-    	if (studyService == null)
-    	{
-    		//studyService = (StudyService) ctx.getBean(StudyService.class);
-    		
-    		Advised advised = (Advised)ctx.getBean(StudyService.class);
-    		try {
-				studyService = (StudyService) advised.getTargetSource().getTarget();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
-    	return studyService;
-    }
-    
+
     public static DataSource getDataSource () throws NamingException
     {
     	
@@ -126,20 +106,4 @@ public class AppContext {
      
       return conn;
     }
-
-	public static AccessionService getAccessionService() {
-		if (accessionService == null){
-			accessionService = (AccessionService) ctx.getBean(AccessionService.class);
-		}
-		return accessionService;
-	}
-
-	public static SearchService getSearchService() {
-
-		if (searchService == null){
-			searchService = (SearchService) ctx.getBean(SearchService.class);
-		}
-		return searchService;
-
-	}
 }

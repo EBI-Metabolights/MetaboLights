@@ -25,20 +25,20 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<script>
+<%--<script>--%>
 
-    // increase the default animation speed to exaggerate the effect
-    $.fx.speeds._default = 1500;
-    $(function() {
-        $( "#dialog" ).dialog({
-            autoOpen: true,
-            show: "slide",
-            position: ['center',200]
-        });
+    <%--// increase the default animation speed to exaggerate the effect--%>
+    <%--$.fx.speeds._default = 1500;--%>
+    <%--$(function() {--%>
+        <%--$( "#dialog" ).dialog({--%>
+            <%--autoOpen: true,--%>
+            <%--show: "slide",--%>
+            <%--position: ['center',200]--%>
+        <%--});--%>
 
-    });
+    <%--});--%>
 
-</script>
+<%--</script>--%>
 <br/>
 <c:if test="${not empty message}">
     <div id="dialog" title="MetaboLights message">
@@ -46,49 +46,49 @@
     </div>
 </c:if>
 
+<%-- Gallery removed --%>
+<%--<c:if test="${not empty gallery}">--%>
+	<%--<br/>--%>
+	<%--<div id="boxes" class="grid_14 alpha omega mb-wrapper">--%>
+	 	<%--<c:forEach var="item" items="${gallery}">--%>
 
-<c:if test="${not empty gallery}">
-	<br/>
-	<div id="boxes" class="grid_14 alpha omega mb-wrapper">
-	 	<c:forEach var="item" items="${gallery}">
+            <%--<c:set var="title" value="${item.title}"/>--%>
+            <%--<c:set var="description" value="${item.description}"/>--%>
 
-            <c:set var="title" value="${item.title}"/>
-            <c:set var="description" value="${item.description}"/>
+            <%--<div>--%>
+			<%--<a href="${item.url}">--%>
+			<%--<table>--%>
+                <%--<tr>--%>
+                    <%--<c:if test="${not empty item.imgUrl}">--%>
+                        <%--<c:if test="${fn:length(title) gt 55}"><c:set var="title" value="${fn:substring(title, 0, 52)}..."/></c:if>--%>
+                        <%--<c:if test="${fn:length(description) gt 90}"><c:set var="description" value="${fn:substring(description, 0, 87)}..."/></c:if>--%>
+                        <%--<td style="width:150px;"><img src="${item.imgUrl}" onerror="this.src='img/large_noImage.gif';"/></td>--%>
+                        <%--<td>--%>
+                            <%--<a href="${item.url}">--%>
+                            <%--<h6 title="${item.title}">${title}</h6>--%>
+                            <%--<p>${description}</p>--%>
+                            <%--</a>--%>
+                        <%--</td>--%>
+                    <%--</c:if>--%>
+                    <%--<c:if test="${empty item.imgUrl}">--%>
+                        <%--<c:if test="${fn:length(title) gt 40}"><c:set var="title" value="${fn:substring(title, 0, 37)}..."/></c:if>--%>
+                        <%--<c:if test="${fn:length(description) gt 120}"><c:set var="description" value="${fn:substring(description, 0, 117)}..."/></c:if>--%>
+                        <%--<td>--%>
+                            <%--<a href="${item.url}">--%>
+                            <%--<h6>${title}</h6>--%>
+                            <%--<p>${description}</p>--%>
+                            <%--</a>--%>
+                        <%--</td>--%>
+                    <%--</c:if>--%>
+                <%--</tr>--%>
+			<%--</table>--%>
 
-            <div>
-			<a href="${item.url}">
-			<table>
-                <tr>
-                    <c:if test="${not empty item.imgUrl}">
-                        <c:if test="${fn:length(title) gt 55}"><c:set var="title" value="${fn:substring(title, 0, 52)}..."/></c:if>
-                        <c:if test="${fn:length(description) gt 90}"><c:set var="description" value="${fn:substring(description, 0, 87)}..."/></c:if>
-                        <td style="width:150px;"><img src="${item.imgUrl}" onerror="this.src='img/large_noImage.gif';"/></td>
-                        <td>
-                            <a href="${item.url}">
-                            <h6 title="${item.title}">${title}</h6>
-                            <p>${description}</p>
-                            </a>
-                        </td>
-                    </c:if>
-                    <c:if test="${empty item.imgUrl}">
-                        <c:if test="${fn:length(title) gt 40}"><c:set var="title" value="${fn:substring(title, 0, 37)}..."/></c:if>
-                        <c:if test="${fn:length(description) gt 120}"><c:set var="description" value="${fn:substring(description, 0, 117)}..."/></c:if>
-                        <td>
-                            <a href="${item.url}">
-                            <h6>${title}</h6>
-                            <p>${description}</p>
-                            </a>
-                        </td>
-                    </c:if>
-                </tr>
-			</table>
+			<%--</a>--%>
+			<%--</div>--%>
+	 	<%--</c:forEach>--%>
+	<%--</div>--%>
 
-			</a>
-			</div>
-	 	</c:forEach>
-	</div>
-
-</c:if>
+<%--</c:if>--%>
 
 <br/><br/>
 <div class="grid_5 alpha">
@@ -134,23 +134,23 @@
 
 
 
-<script>
-	/* $('.coolframe').shadow('lifted'); */
+<%--<script>--%>
+	<%--/* $('.coolframe').shadow('lifted'); */--%>
 
-	$(function(){
-	 $('#boxes').movingBoxes({
-		 startPanel: 1,
-		 currentPanel: 'current',
-		 speed: 0,
-		 initialized: function(e, slider, tar){
-		 	slider.options.speed = 500;
-		 },
-		 reducedSize:1,
-		 wrap: true,
-		 fixedHeight: true
-	 }); // add any non-default options inside here
-	});
+	<%--$(function(){--%>
+	 <%--$('#boxes').movingBoxes({--%>
+		 <%--startPanel: 1,--%>
+		 <%--currentPanel: 'current',--%>
+		 <%--speed: 0,--%>
+		 <%--initialized: function(e, slider, tar){--%>
+		 	<%--slider.options.speed = 500;--%>
+		 <%--},--%>
+		 <%--reducedSize:1,--%>
+		 <%--wrap: true,--%>
+		 <%--fixedHeight: true--%>
+	 <%--}); // add any non-default options inside here--%>
+	<%--});--%>
 
-</script>
+<%--</script>--%>
 
 

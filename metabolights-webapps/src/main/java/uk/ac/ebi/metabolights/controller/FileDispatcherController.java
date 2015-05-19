@@ -25,7 +25,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -33,11 +32,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
-import uk.ac.ebi.metabolights.service.SearchService;
-import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
@@ -60,11 +56,6 @@ public class FileDispatcherController extends AbstractController {
     private static Logger logger = LoggerFactory.getLogger(FileDispatcherController.class);
 
     private static final String URL_4_FILES = "files";
-	@Autowired
-	private StudyService studyService;
-
-	@Autowired
-	private SearchService searchService;
 
 	private  @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
 
@@ -184,10 +175,9 @@ public class FileDispatcherController extends AbstractController {
     }
 
     // Returns the download link for a study
-	public static String getDownloadLink(String study, VisibilityStatus status){
+	public static String getDownloadLink(String study){
 
 		String ftpLocation = null;
-
 
     	ftpLocation = study + "/" + URL_4_FILES + "/" + study;  //Private download, file stream
 

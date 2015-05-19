@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
@@ -253,17 +252,11 @@ public class SubmissionQueueController extends AbstractController {
                 throw new BIIException(PropertyLookup.getMessage("BIISubmit.notValidated"));
 
 
-            //Check if the study is public today
-            VisibilityStatus status = VisibilityStatus.PRIVATE;         //Defaults to a private study
 
             Date publicDateD;
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
             publicDateD = sdf.parse(publicDate);               //Date from the form
-
-            if (publicDateD.before(new Date())){  //The date received from the form does not contain time, so this should always be before "now"
-                status = VisibilityStatus.PUBLIC;
-            }
-
+            
             // Extend the message...
           	messageBody.append("\nFileName: " + file.getOriginalFilename() );
 

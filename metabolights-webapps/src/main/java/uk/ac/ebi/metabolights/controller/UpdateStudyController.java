@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
@@ -40,8 +39,6 @@ import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
-import uk.ac.ebi.metabolights.service.SearchService;
-import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,8 +46,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Make a study public. THis implies to change the status in the database, reindex, and move the zip file to the public ftp.
@@ -65,12 +60,6 @@ public class UpdateStudyController extends AbstractController {
 	//Ftp locations
 	private @Value("#{uploadDirectory}") String uploadDirectory;
 	
-	@Autowired
-	private SearchService searchService;
-	
-	@Autowired
-	private StudyService studyService;
-
 	@Autowired
 	private EntryController entryController;
 	
@@ -129,20 +118,21 @@ public class UpdateStudyController extends AbstractController {
     @RequestMapping(value = { "/findstudiesgoinglive"})
     public ModelAndView findStudiesGoingLive(){
 
-        List<String> studiesList = studyService.findStudiesGoingLive();
-        Iterator iter = studiesList.iterator();
-        while (iter.hasNext()){
-            String acc = (String) iter.next();
-            try {
-                LiteStudy study = getStudy(acc);
-                emailService.sendStudyGoingPublicNotification(study);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return new ModelAndView ("index");
+//        List<String> studiesList = studyService.findStudiesGoingLive();
+//        Iterator iter = studiesList.iterator();
+//        while (iter.hasNext()){
+//            String acc = (String) iter.next();
+//            try {
+//                LiteStudy study = getStudy(acc);
+//                emailService.sendStudyGoingPublicNotification(study);
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        return new ModelAndView ("index");
+		return toBeImplemented();
 
     }
 
@@ -185,7 +175,7 @@ public class UpdateStudyController extends AbstractController {
 			
 			
 			// Get the DownloadLink
-			String ftpLocation = FileDispatcherController.getDownloadLink(liteStudy.getStudyIdentifier(), liteStudy.isPublicStudy() ? VisibilityStatus.PUBLIC : VisibilityStatus.PRIVATE);
+			String ftpLocation = FileDispatcherController.getDownloadLink(liteStudy.getStudyIdentifier());
 			mav.addObject("ftpLocation", ftpLocation);
 			
 		} else if(isPublic){
@@ -197,7 +187,7 @@ public class UpdateStudyController extends AbstractController {
             logger.info("Method for making studies private, action: "+action);
 
             // Link to download the study
-            String ftpLocation = FileDispatcherController.getDownloadLink(liteStudy.getStudyIdentifier(), liteStudy.isPublicStudy() ? VisibilityStatus.PUBLIC : VisibilityStatus.PRIVATE);
+            String ftpLocation = FileDispatcherController.getDownloadLink(liteStudy.getStudyIdentifier());
             mav.addObject("ftpLocation", ftpLocation);
         } else {
 			
@@ -233,7 +223,7 @@ public class UpdateStudyController extends AbstractController {
 		}
 				
 		// Calculate the date and status
-		params.calculateStatusAndDate();
+		params.calculateDate();
 		
 		return null;
 	}
@@ -377,7 +367,6 @@ public class UpdateStudyController extends AbstractController {
 		
 		String publicReleaseDateS;
 		Date publicReleaseDate;
-		VisibilityStatus status;
 		MultipartFile file;
 		String studyId;
 		String validationmsg;
@@ -469,23 +458,14 @@ public class UpdateStudyController extends AbstractController {
 			return false;
 		}
 
-		public void calculateStatusAndDate() throws ParseException {
-			
-			//Check if the study is public today
-            status = VisibilityStatus.PRIVATE;   //Defaults to a private study
+		public void calculateDate() throws ParseException {
+
             publicReleaseDate = DateUtils.truncate(new Date(),Calendar.DAY_OF_MONTH); //Defaults to today.  Should come from the form, so just to be sure
             
             if (!publicReleaseDateS.isEmpty()) {
             	publicReleaseDate = new SimpleDateFormat("dd-MMM-yyyy").parse(publicReleaseDateS);  //Date from the form             
 
-                if (publicReleaseDate.before(new Date())){  //The date received from the form does not contain time, so this should always be before "now"
-                    status = VisibilityStatus.PUBLIC;
-                }
             }
-
 		}
-		
 	}
-
-
 }

@@ -41,7 +41,6 @@ import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
-import uk.ac.ebi.metabolights.service.SearchService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
@@ -71,9 +70,6 @@ public class ManagerController extends AbstractController{
 	 */
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private SearchService searchService;
 
     @Autowired
     private MetaboLightsParametersService parametersService;

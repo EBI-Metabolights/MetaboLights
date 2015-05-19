@@ -40,7 +40,7 @@ public class ISAtabReader {
     public StudyDAO getStudyDAO(String configFolder, String studyFolder) {
 
         if (studyDAO == null)
-            studyDAO = new StudyDAO(configFolder,studyFolder, "");
+            studyDAO = new StudyDAO(configFolder,studyFolder);
         return studyDAO;
     }
 

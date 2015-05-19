@@ -55,6 +55,11 @@ public abstract class AbstractController {
 		
 		return mav;
 	}
+
+	// To add to the todo task....when everything is refactored we should remove this method and no reference to it should be left.
+	public ModelAndView toBeImplemented(){
+		return printMessage("Not implemented", "this methos is not implemented yet wuth the new arquitecture.");
+	}
 	public ModelAndView printMessageFromLookup(String titleTag, String messageTag){
 		
 		return printMessage(PropertyLookup.getMessage(titleTag), PropertyLookup.getMessage(messageTag));

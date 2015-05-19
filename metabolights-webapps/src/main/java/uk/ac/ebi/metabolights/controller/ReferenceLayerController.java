@@ -23,7 +23,6 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,9 +39,8 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.referencelayer.EBeyeSearchCompound;
 import uk.ac.ebi.metabolights.referencelayer.RefLayerFilter;
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.service.AppContext;
-import uk.ac.ebi.metabolights.service.SearchService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URL;
@@ -59,9 +57,6 @@ import java.util.List;
  */
 @Controller
 public class ReferenceLayerController extends AbstractController {
-
-    @Autowired
-    private SearchService searchService;
 
     private @Value ("#{ebiServiceURL}") String url;
     private final String REFLAYERSESSION = "RefLayer";
@@ -363,25 +358,27 @@ public class ReferenceLayerController extends AbstractController {
         if (value.equals("1") && loggedIn){  // Private study and the user is logged in
 
             //Get the private study from the BII lucene index
-            LuceneSearchResult study = searchService.getStudy(accessionNumber);
+            LiteStudy study = EntryController.getMetabolightsWsClient().searchStudy(accessionNumber);
 
             //Add in the read private study data as this is not exported to the EB-eye index
             if (study != null){
 
                 //Document doc = study.getDoc();
 
-                //Get the first and last name + username of the submitter
-                LuceneSearchResult.Submitter submitter = study.getSubmitter();
+//                //Get the first and last name + username of the submitter
+//                LuceneSearchResult.Submitter submitter = study.getSubmitter();
+//
+//                if (user.isCurator() || user.getUserName().equals(submitter.getUserName())){   //Yup, you are a curator and/or the submitter
+//                    mc.setName(study.getTitle());
+//                    mc.setOrganism(study.getOrganisms());
+//                    mc.setTechnology_type(study.getTechnologies());
+//                    mc.setStudy_design(study.getStudyDesign());
+//                    mc.setLast_modification_date(parseDateToString(study.getReleaseDate()));
+//                    mc.setSubmitter(submitter.getFullName());
+//                    mc.setDescription(null); //Not in the index, and want to avoid the empty text in the jsp
+//                }
 
-                if (user.isCurator() || user.getUserName().equals(submitter.getUserName())){   //Yup, you are a curator and/or the submitter
-                    mc.setName(study.getTitle());
-                    mc.setOrganism(study.getOrganisms());
-                    mc.setTechnology_type(study.getTechnologies());
-                    mc.setStudy_design(study.getStudyDesign());
-                    mc.setLast_modification_date(parseDateToString(study.getReleaseDate()));
-                    mc.setSubmitter(submitter.getFullName());
-                    mc.setDescription(null); //Not in the index, and want to avoid the empty text in the jsp
-                }
+                mc.setName("Not implemented in the new architecture!");
 
             }
 

@@ -73,7 +73,7 @@
 
     <!-- This is where the web app looks for the lucene index -->
     <!--<Environment name="luceneIndexDirectory" value="/nfs/public/rw/homes/tc_cm01/lucene/prod/bii/" type="java.lang.String"/>-->
-    <Environment name="luceneIndexDirectoryShort" value="/nfs/public/rw/homes/tc_cm01/lucene/prod/" type="java.lang.String"/>
+    <!--<Environment name="luceneIndexDirectoryShort" value="/nfs/public/rw/homes/tc_cm01/lucene/prod/" type="java.lang.String"/>-->
 
     <Environment name="ebiServiceURL" value="http://xxx:xxx/ebisearch/service.ebi?wsdl" type="java.lang.String"/>
     <Environment name="EUPMCWebServiceURL" value="http://xxx:xxx/webservices/citexplore/v3.0.1/service?wsdl" type="java.lang.String"/>

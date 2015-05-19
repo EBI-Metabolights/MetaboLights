@@ -32,11 +32,9 @@ import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
-import uk.ac.ebi.metabolights.service.SearchService;
-import uk.ac.ebi.metabolights.utils.StringUtils;
 import uk.ac.ebi.metabolights.webapp.GalleryItem;
 import uk.ac.ebi.metabolights.webapp.GalleryItem.GalleryItemType;
 
@@ -53,9 +51,6 @@ public class HomePageController extends AbstractController{
 	
 	private static Logger logger = LoggerFactory.getLogger(HomePageController.class);
 	
-	@Autowired
-	private SearchService searchService;
-
     @Autowired
     private MetaboLightsParametersService metaboLightsParametersService;
 
@@ -75,7 +70,7 @@ public class HomePageController extends AbstractController{
 	    ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index", "message", message);
 	    
 	    //Add the gallery Items
-	    mav.addObject("gallery", getGalleryItems());
+//	    mav.addObject("gallery", getGalleryItems());
 	
 	    return mav;
     }
@@ -123,26 +118,26 @@ public class HomePageController extends AbstractController{
     			
     		} else {
 
-    			LuceneSearchResult study = searchService.getStudy(item);
+    			LiteStudy study = EntryController.getMetabolightsWsClient().searchStudy(item);
     			
     			if (study != null){
     				
     				String description = study.getTitle();
 
                     String title = item;
-                    if (!study.getAffiliations().isEmpty()){
 
-                        title = title.concat(" from ");
-
-                        for (String affiliation: study.getAffiliations()){
-                            // Will the first affiliation be enough? Let's see..
-                            title = title.concat(affiliation + ", ");
-                        }
-
-                        // Truncate the last 2 characters ", "
-                        title = StringUtils.truncate(title,2);
-
-                    }
+//
+//                    title = title.concat(" from (Implement affiliation!!)");
+//
+//                        for (String affiliation: study.getAffiliations()){
+//                            // Will the first affiliation be enough? Let's see..
+//                            title = title.concat(affiliation + ", ");
+//                        }
+//
+//                        // Truncate the last 2 characters ", "
+//                        title = StringUtils.truncate(title,2);
+//
+//                    }
 
     				// Convert it into a gallery item....
     				gi = new GalleryItem(title, description, item, null,GalleryItemType.Study);

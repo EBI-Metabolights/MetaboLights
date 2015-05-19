@@ -108,7 +108,7 @@
     <jee:jndi-lookup id="urlConfirmNewAccount"      jndi-name="java:comp/env/urlConfirmNewAccount" />
     <jee:jndi-lookup id="urlActivateNewAccount"     jndi-name="java:comp/env/urlActivateNewAccount" />
     <jee:jndi-lookup id="uploadDirectory"           jndi-name="java:comp/env/uploadDirectory" />
-    <jee:jndi-lookup id="luceneIndexDirectoryShort" jndi-name="java:comp/env/luceneIndexDirectoryShort" />
+    <!--<jee:jndi-lookup id="luceneIndexDirectoryShort" jndi-name="java:comp/env/luceneIndexDirectoryShort" />-->
     <jee:jndi-lookup id="ftpServer"                 jndi-name="java:comp/env/ftpServer" />
     <jee:jndi-lookup id="filebase"                  jndi-name="java:comp/env/filebase" />
     <jee:jndi-lookup id="ondemand"                  jndi-name="java:comp/env/ondemand" />
@@ -190,7 +190,7 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
                 <!--prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop-->
-                <prop key="hibernate.search.default.indexBase">#{luceneIndexDirectoryShort}</prop>
+                <!--<prop key="hibernate.search.default.indexBase">#{luceneIndexDirectoryShort}</prop>-->
             </props>
         </property>
     </bean>

@@ -21,18 +21,16 @@
 
 package uk.ac.ebi.metabolights.test;
 
+import junit.framework.Assert;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import junit.framework.Assert;
-
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
-
-import uk.ac.ebi.bioinvindex.model.Study;
 
 /**
  * A base class for database integration tests giving access to a singleton

@@ -25,7 +25,6 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 
 import java.io.File;
 import java.io.IOException;
@@ -208,13 +207,6 @@ public class SubmissionItem {
 		
 	}
 
-	public VisibilityStatus getStatus(){
-		
-		// If there is no public release date is because it is a deletion..return private.
-		if (publicReleaseDate == null) return VisibilityStatus.PRIVATE;
-		
-		return (getPublicReleaseDate().before(new Date())?VisibilityStatus.PUBLIC:VisibilityStatus.PRIVATE);
-	}
 
 	@Override
 	public String toString(){
