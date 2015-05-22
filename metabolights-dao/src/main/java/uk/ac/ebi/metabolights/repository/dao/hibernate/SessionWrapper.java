@@ -78,6 +78,8 @@ public class SessionWrapper {
 
 	public void noNeedSession() {
 
+		if (sessionCount <= 0) logger.warn("Wrong session count at noNeedSession: {}", sessionCount);
+
 		// Decrease the count
 		sessionCount--;
 

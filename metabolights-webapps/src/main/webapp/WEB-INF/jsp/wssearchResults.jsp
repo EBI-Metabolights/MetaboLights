@@ -193,7 +193,10 @@
             document.querySelector('search-result').searchresponse = data.content;
             var facets = document.querySelector('metabolights-facets');
 
-            document.querySelector('input').value = query.text;
+            var input = document.querySelector('input');
+
+            if (input != undefined) input.value = query.text;
+
             $('html, body').animate({ scrollTop: 0 }, 'fast');
 
             // Hide element when no if no results
