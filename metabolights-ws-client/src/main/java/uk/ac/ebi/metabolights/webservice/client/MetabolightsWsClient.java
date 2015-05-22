@@ -254,6 +254,19 @@ public class MetabolightsWsClient {
 
     }
 
+    public RestResponse<MetaboliteAssignment> getMetabolitesByObfuscationCode(String obfuscationCode, int assayNumber) {
+
+        logger.info("Metabolites by obfuscation code " + obfuscationCode + " requested to the MetaboLights WS client");
+
+        String path = getObfuscationPath(obfuscationCode) + "/assay/" + assayNumber + "/maf";
+
+        // Make the request
+        String response = makeGetRequest(path);
+
+        return deserializeJSONString(response, MetaboliteAssignment.class);
+
+    }
+
 
     private <T> RestResponse<T> deserializeJSONString(String response, Class<T> valueType) {
 

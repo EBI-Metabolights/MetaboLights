@@ -376,7 +376,18 @@ public class StudyDAOTest extends DAOTest {
 
 		List<String> studiesToGoLive = studyDAO.getStudiesToGoLiveList(curator.getApiToken());
 
-		assertEquals("Wrong number of studies to go live for a curator", 0,studiesToGoLive.size());
+		assertEquals("Wrong number of studies to go live for a curator", 0, studiesToGoLive.size());
+
+
+	}
+
+	@Test
+	public void testGetStudyIdByObfuscationCode() throws IsaTabException, DAOException {
+
+		String studyId = studyDAO.getStudyIdByObfuscationCode(privateStudy.getObfuscationcode());
+
+		assertEquals("StudyId returned by obfuscation code is wrong", privateStudy.getAcc(),studyId);
+
 
 
 	}

@@ -149,4 +149,25 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		return studies;
 
 	}
+
+	public String findStudyIdByObfuscationCode(String obfuscationCode) throws DAOException {
+
+		// No security here since the obfuscation code...if exist grants itself access to the resource
+
+		String query = "select acc from " + StudyData.class.getSimpleName() ;
+
+		query = query + " where obfuscationcode =:oc";
+
+		// Create an empty filter
+		Filter filter = new Filter();
+
+		// Add the date filter.
+		filter.fieldValuePairs.put("oc", obfuscationCode);
+
+
+		String studyId = (String) this.getUniqueValue(query, filter);
+
+		return studyId;
+
+	}
 }

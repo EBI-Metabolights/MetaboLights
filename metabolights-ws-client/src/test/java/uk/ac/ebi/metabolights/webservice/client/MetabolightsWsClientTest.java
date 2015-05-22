@@ -46,6 +46,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
@@ -63,7 +64,7 @@ import static org.junit.Assert.*;
 public class MetabolightsWsClientTest {
 
 	public static final String PRIVATE_STUDY = "MTBLS_DEV10";
-	public static final String PUBLIC_STUDY = "MTBLS1";
+	public static final String PUBLIC_STUDY = "MTBLS_DEV4";
 	String SUBMITTER_TOKEN;
 	String CURATOR_TOKEN;
 	private MetabolightsWsClient wsClient;
@@ -273,6 +274,22 @@ public class MetabolightsWsClientTest {
 		response = wsClient.index(PRIVATE_STUDY);
 		assertNull("Curator user was NOT allowed to reindex "+ PRIVATE_STUDY + "!!", response.getErr());
 		logger.info("Curator user allowed to reindex, good!: {}", response.getMessage());
+
+
+	}
+
+	@Test
+	public void testGetMetabolites(){
+
+
+		RestResponse<MetaboliteAssignment> metabolitesResponse = wsClient.getMetabolites(PUBLIC_STUDY, 1);
+
+		assertNull("WS.getMetabolites returned an error", metabolitesResponse.getErr());
+
+		metabolitesResponse = wsClient.getMetabolitesByObfuscationCode("4cfc95c7-51f3-422f-b609-38f977133a29", 1);
+
+
+		assertNull("WS.getMetabolitesByObfuscationCode returned an error", metabolitesResponse.getErr());
 
 
 	}

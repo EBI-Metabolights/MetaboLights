@@ -116,6 +116,14 @@ public class StudyDAO {
 		return getStudyByObfuscationCode(obfuscationCode,false);
 	}
 
+	public String getStudyIdByObfuscationCode(String obfuscationCode) throws DAOException, IsaTabException {
+
+		String studyId  = dbDAO.findStudyIdByObfuscationCode(obfuscationCode);
+
+		return studyId;
+	}
+
+
 	public List<String> getList(String userToken) throws DAOException {
 		return dbDAO.getStudyListForUser(userToken);
 	}

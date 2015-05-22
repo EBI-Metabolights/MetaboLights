@@ -131,33 +131,33 @@ public class EntryController extends AbstractController {
 			@PathVariable("assayNumber") int assayNumber){
 
 
-//		// Get the username from lucene index based on obfuscation code
-//		LuceneSearchResult indexedStudy = EntryController.getMetabolightsWsClient().getStudyByObfuscationCode(obfuscationCode);
-//		String userName = indexedStudy.getSubmitter().getUserName();
-//
-//		// Get the token from the database user based on username
-//		MetabolightsUser studyOwner = userService.lookupByUserName(userName);
-//
-//
-//		return getMetabolitesModelAndView(indexedStudy.getAccStudy(),assayNumber,studyOwner);
-
-
-		return printMessage("Not implemented yet","Not implemented yet with the new search / architecture.");
+		return getMetabolitesModelAndView(null,assayNumber,obfuscationCode);
 	}
 
-	@RequestMapping(value = "/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayNumber}/maf")
+	@RequestMapping(value = "/" + ALTERNATIVE_ENTRY_PREFIX + "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayNumber}/maf")
 	public ModelAndView getAltMetabolitesIdentified(
-			@PathVariable("metabolightsId") String mtblsId,
+			@PathVariable("studyIdentifier") String studyIdentifier,
 			@PathVariable("assayNumber") int assayNumber){
 
 
-		return getMetabolitesModelAndView(mtblsId, assayNumber, null);
+		return getMetabolitesModelAndView(studyIdentifier, assayNumber, null);
+
 	}
 
-	private ModelAndView getMetabolitesModelAndView(String mtblsId, int assayNumber, MetabolightsUser user) {
-		MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
+	private ModelAndView getMetabolitesModelAndView(String mtblsId, int assayNumber, String obfuscationCode) {
 
-		RestResponse<MetaboliteAssignment> response = wsClient.getMetabolites( mtblsId,assayNumber);
+		MetabolightsWsClient wsClient = getMetabolightsWsClient();
+
+
+
+		RestResponse<MetaboliteAssignment> response;
+
+		if (obfuscationCode == null){
+			response = wsClient.getMetabolites(mtblsId, assayNumber);
+		} else {
+			response = wsClient.getMetabolitesByObfuscationCode(obfuscationCode, assayNumber);
+		}
+
 		MetaboliteAssignment metaboliteAssignment = response.getContent();
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("metabolitesIdentified");

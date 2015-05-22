@@ -248,7 +248,6 @@ public class StudyController extends BasicController{
 
 		if (studyDAO == null){
 
-
 			studyDAO = DAOFactory.getInstance().getStudyDAO();
 
 		}
@@ -287,6 +286,22 @@ public class StudyController extends BasicController{
 
 		return new RestResponse<MetaboliteAssignment>(metaboliteAssignment);
 	}
+
+	@RequestMapping("obfuscationcode/{obfuscationcode}/assay/{assayIndex}/maf")
+	@ResponseBody
+	public RestResponse<MetaboliteAssignment> getMetabolitesByObfuscationCode(@PathVariable("obfuscationcode") String obfuscationCode, @PathVariable("assayIndex") String assayIndex) throws DAOException, IsaTabException {
+
+		logger.info("Requesting maf file of the assay " + assayIndex + " by obfuscationcode " + obfuscationCode + " to the webservice");
+
+		studyDAO = getStudyDAO();
+
+		String studyIdentifier = studyDAO.getStudyIdByObfuscationCode(obfuscationCode);
+
+
+		return getMetabolites(studyIdentifier, assayIndex);
+
+	}
+
 
 	private boolean checkFileExists(String filePath){
 
