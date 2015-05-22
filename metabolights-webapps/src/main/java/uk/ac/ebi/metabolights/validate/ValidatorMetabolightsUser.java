@@ -24,8 +24,6 @@ package uk.ac.ebi.metabolights.validate;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-
-
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.service.EmailService;
 
@@ -60,6 +58,7 @@ public class ValidatorMetabolightsUser implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(e, "affiliation", "NotEmpty.metabolightsUser.affiliation");
         ValidationUtils.rejectIfEmptyOrWhitespace(e, "affiliationUrl", "NotEmpty.metabolightsUser.affiliationUrl");
         ValidationUtils.rejectIfEmptyOrWhitespace(e, "address", "NotEmpty.metabolightsUser.address");
+		ValidationUtils.rejectIfEmptyOrWhitespace(e, "apiToken", "NotEmpty.metabolightsUser.apiToken");
 
 
 		// Check email valid pattern (TODO: better use regex)
