@@ -86,6 +86,8 @@ public class StudyDAOTest extends DAOTest {
 		// 214 lines +  single pipes in 4 of them + 1 duuble pipe in 1 line = 220.
 		assertEquals("Check MTBSL1 metabolites lines number", 220,study.getAssays().get(0).getMetaboliteAssignment().getMetaboliteAssignmentLines().size());
 
+		assertEquals("Backups are not populated properly", 2, study.getBackups().size());
+
 
         study = studyDAO.getStudy("MTBLS2", false);
         assertEquals("MTBLS2 loaded?", study.getStudyIdentifier(),"MTBLS2");

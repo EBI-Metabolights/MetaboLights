@@ -3,13 +3,17 @@ package uk.ac.ebi.metabolights.repository.utils;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.model.Backup;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,14 +27,13 @@ public class FileAuditUtil {
 	private static final Logger logger = LoggerFactory.getLogger(FileAuditUtil.class);
 	public static final String AUDIT_FOLDER_NAME = "audit";
 	public static final String AUDIT_SUBFOLDER_NAME_PATTERN = "yyyyMMddHHmmss";
+	private static DateFormat df = new SimpleDateFormat(AUDIT_SUBFOLDER_NAME_PATTERN);
 	public static final String BACKUP_FILE_NAME_PATTERN = "[isma]_.*";
 
 	public static File getBackUpFolder(File folderToBackUp) {
 
 
 		File auditFolder = getAuditFolder(folderToBackUp);
-
-		DateFormat df = new SimpleDateFormat(AUDIT_SUBFOLDER_NAME_PATTERN);
 
 		// Get the date today using Calendar object.
 		Date today = Calendar.getInstance().getTime();
@@ -107,4 +110,36 @@ public class FileAuditUtil {
 		return result;
 	}
 
+	public static Collection<Backup> getBackupsCollection(File backedUpFolder){
+
+		File auditFolder = getAuditFolder(backedUpFolder);
+
+		LinkedList<Backup> backups = new LinkedList<>();
+
+		if (auditFolder.exists()) {
+
+
+
+			for (File file : auditFolder.listFiles()) {
+				Date timeStamp = backupFolderName2Date(file.getName());
+				Backup backup = new Backup(file, timeStamp);
+				backups.add(backup);
+			}
+
+		}
+
+		return backups;
+	}
+
+	private static Date backupFolderName2Date(String backupFolderName) {
+
+		try {
+			return df.parse(backupFolderName);
+		} catch (ParseException e) {
+			logger.warn("Can't parse backup folder name into date!");
+		}
+
+		return null;
+
+	}
 }

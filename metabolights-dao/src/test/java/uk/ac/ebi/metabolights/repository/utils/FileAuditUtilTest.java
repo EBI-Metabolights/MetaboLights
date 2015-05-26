@@ -4,9 +4,11 @@ import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.model.Backup;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
 public class FileAuditUtilTest extends TestCase {
 
@@ -74,7 +76,7 @@ public class FileAuditUtilTest extends TestCase {
 	}
 
 	@Test
-	public void testMoveFileToAuditedFolder() throws IOException {
+	public void testMoveFileToAuditedFolder() throws IOException, InterruptedException {
 
 		File backUpFolder = FileAuditUtil.getBackUpFolder(auditedFolder);
 
@@ -120,6 +122,22 @@ public class FileAuditUtilTest extends TestCase {
 
 		// Back up should occur
 		assertEquals("existing a_auditable file moved, backup happens", 2, backUpFolder.list().length);
+
+		Collection<Backup> backups = FileAuditUtil.getBackupsCollection(auditedFolder);
+
+		assertEquals("FileAuditUtil does not populate the backup collection properly", 1, backups.size());
+
+		// Create it again since it has been moved
+		a_file.createNewFile();
+
+		// Sleep 1 second to get a new backup folder
+		Thread.sleep(1000);
+
+		FileAuditUtil.moveFileToAuditedFolder(a_file,auditedFolder);
+
+		backups = FileAuditUtil.getBackupsCollection(auditedFolder);
+
+		assertEquals("FileAuditUtil does not populate the backup collection properly", 2, backups.size());
 
 
 

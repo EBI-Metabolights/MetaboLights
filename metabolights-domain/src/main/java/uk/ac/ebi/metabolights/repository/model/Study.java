@@ -38,7 +38,7 @@ public class Study extends LiteStudy{
     private Collection<Publication> publications;
     private Collection<Protocol> protocols;
     private List<Assay> assays;
-
+    private Collection<Backup> backups;
 
     // Tables Sample & Assays
 	private Table sampleTable;
@@ -116,5 +116,14 @@ public class Study extends LiteStudy{
 	public void setSampleTable(Table sampleTable) {
 		this.sampleTable = sampleTable;
 	}
+
+    public Collection<Backup> getBackups() {
+        return backups;
+    }
+
+    public void setBackups(Collection<Backup> backups) {
+        this.backups = backups;
+    }
+
 
 }

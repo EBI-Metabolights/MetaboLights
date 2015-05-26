@@ -95,6 +95,8 @@ public class IsaTab2MetaboLightsConverter {
         studyToFill.setStudyIdentifier(isaStudy.getStudyId());
         studyToFill.setTitle(isaStudy.getStudyTitle());
         studyToFill.setDescription(isaStudy.getStudyDesc());
+        studyToFill.setStudyLocation(studyFolder);
+
 
         if (isaStudy.getPublicReleaseDate() != null){
 
@@ -105,18 +107,15 @@ public class IsaTab2MetaboLightsConverter {
             }
         }
 
-        // If release dates do not match...
+        // If release dates do not match (DB <--> Filesystem)...
         if (!isaStudy.getPublicReleaseDate().equals(date2IsaTabDate(studyToFill.getStudyPublicReleaseDate()))){
 
             logger.warn(studyToFill.getStudyIdentifier() + " release date from the DB (" + studyToFill.getStudyPublicReleaseDate() + ") doesn't match the same in the file (" + isaStudy.getPublicReleaseDate() + ")");
 
         }
 
-
         if (isaStudy.getDateOfSubmission() != null)
             studyToFill.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));
-
-        studyToFill.setStudyLocation(studyFolder);
 
 
         // Now collections
@@ -143,6 +142,9 @@ public class IsaTab2MetaboLightsConverter {
 
         //Organism and Organism part
         studyToFill.setOrganism(sampleOrg2organism(studyToFill));
+
+        // Backups
+        studyToFill.setBackups(FileAuditUtil.getBackupsCollection(new File(studyFolder)));
 
 
         return studyToFill;
