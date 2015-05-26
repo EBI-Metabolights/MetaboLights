@@ -22,7 +22,7 @@
         <ul>
             <li><a href="#">actions</a>
                 <ul>
-                    <li><a href="updatestudyform?study=${study.studyIdentifier}">change release date</a></li>
+                    <li><a href="updatepublicreleasedateform?study=${study.studyIdentifier}">change release date</a></li>
                     <c:if test="${(study.studyStatus == 'SUBMITTED') || curator}">
                         <li><a href="#">change status to ..</a>
                             <ul>

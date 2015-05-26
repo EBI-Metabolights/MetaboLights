@@ -517,6 +517,9 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		// So far name matches the field but needs to change and map pretty name with field name
 		facetGroup.field(facet.getName());
 
+		// No limit the size...
+		facetGroup.size(0);
+
 		searchRequestBuilder.addAggregation(facetGroup);
 	}
 

@@ -24,9 +24,13 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.internal.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.DataModel;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * User: conesa
@@ -53,6 +57,30 @@ public class SessionWrapper {
     }
 
     public Session needSession() {
+
+		// If we have a session ...
+		if (session != null){
+
+			// but it's useless
+			Connection connection = ((SessionImpl)session).connection();
+
+			boolean valid = false;
+
+			try {
+				valid = connection.isValid(1);
+
+			} catch (SQLException e) {
+				logger.warn("Exception at connection.isInvalid() invocation: {}.", e.getMessage());
+
+			} finally {
+				if (!valid){
+					logger.warn("Invalid connection. Resetting the session.");
+					sessionCount = 0;
+					session = null;
+				}
+			}
+
+		}
 
 		// If empty..
 		if (session == null) {
