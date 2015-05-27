@@ -354,5 +354,42 @@ public class StudyController extends BasicController{
 
 	}
 
+	/**
+	 * To update the public release date of a study.
+	 * @param studyIdentifier
+	 * @param backupIdentifier
+	 * @return
+	 */
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/restore", method= RequestMethod.PUT)
+	@ResponseBody
+	public RestResponse<Boolean> restore(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody String backupIdentifier) throws Exception {
+
+		User user = getUser();
+
+		logger.info("User {} requested to restore {} backup of {}", user.getFullName(),backupIdentifier,studyIdentifier);
+
+		studyDAO= getStudyDAO();
+
+		// Update the public release date
+		studyDAO.restoreBackup(studyIdentifier, user.getApiToken(), backupIdentifier);
+
+		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
+		// Like this we might have concurrency issues?
+		Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
+
+		IndexController.indexStudy (study);
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		restResponse.setContent(true);
+		restResponse.setMessage("Backup (" + backupIdentifier + ") of " + studyIdentifier + " restored.");
+
+		logger.info("Backup restored.");
+
+		return restResponse;
+
+
+	}
+
+
 
 }
