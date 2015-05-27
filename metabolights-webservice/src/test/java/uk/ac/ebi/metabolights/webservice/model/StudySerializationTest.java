@@ -26,13 +26,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.Assert;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
-import uk.ac.ebi.metabolights.repository.model.Field;
-import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.Table;
-import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedList;
 
 public class StudySerializationTest {
 
@@ -48,6 +48,13 @@ public class StudySerializationTest {
 
 		User user = new User();
 		test.getUsers().add(user);
+
+		Backup newBackup = new Backup(new File("."), new Date());
+
+		LinkedList<Backup> backups = new LinkedList<>();
+		backups.add(newBackup);
+		test.setBackups(backups);
+
 
 		return test;
 	}

@@ -819,7 +819,7 @@ ol.progtrckr li.progtrckr-todo:before {
 #cssmenu ul li:hover
 {
     background-color:inherit;
-    opacity: 0.9;
+    opacity: 1;
 }
 
 #cssmenu ul ul

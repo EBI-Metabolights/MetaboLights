@@ -28,6 +28,7 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.Isa
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabReplacer;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.AccessionDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.Backup;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
@@ -37,8 +38,11 @@ import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import static uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getStudyFolder;
 
 /**
  * User: conesa
@@ -148,7 +152,7 @@ public class StudyDAO {
 	public Study update(File submissionFolder, String studyIdentifier, Date newPublicReleaseDate,String userToken) throws Exception {
 
 		// Security: Check if the user can add a study... it will throw and exception if not authorised
-		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken, null);
+		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken);
 
 		logger.info("{} update started by {}. Submission folder is {}",studyIdentifier, user.getFullName(), submissionFolder.getAbsolutePath());
 
@@ -257,7 +261,7 @@ public class StudyDAO {
 		}
 
 		// Get the folder where the study is.
-		File studyFolder = fsDAO.getStudyFolder(studyIdentifier);
+		File studyFolder = getStudyFolder(studyIdentifier);
 
 		FileUtils.deleteDirectory(studyFolder);
 
@@ -271,7 +275,7 @@ public class StudyDAO {
 	public void updateReleaseDate(String studyIdentifier, Date newPublicReleaseDate, String userToken) throws DAOException {
 
 		// Security: Check if the user can edit the study
-		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken, null);
+		User user = SecurityService.userUpdatingStudy(studyIdentifier,userToken);
 
 		Study study = dbDAO.findByAccession(studyIdentifier);
 
@@ -280,7 +284,7 @@ public class StudyDAO {
 		dbDAO.save(study);
 
 		// Get the location of the study
-		File studyFolder = fsDAO.getStudyFolder(studyIdentifier);
+		File studyFolder = getStudyFolder(studyIdentifier);
 
 		try {
 			// Change the file....NOTE: This will not be audited....unless we implement some kind of audit system in the replacer
@@ -324,6 +328,40 @@ public class StudyDAO {
 
 		dbDAO.save(study);
 
+	}
+
+	public void restoreBackup (String studyIdentifier, String userToken, String backUpIdentifier) throws DAOException, IOException {
+
+		// Security: Check if the user can edit the study
+		User user = SecurityService.userUpdatingStudy(studyIdentifier, userToken);
+
+		// Restore back up...
+
+
+		// Get the StudyFolder
+		File studyFolder = getStudyFolder(studyIdentifier);
+
+		// Get the list of backup
+		Collection<Backup> backups = FileAuditUtil.getBackupsCollection(studyFolder);
+
+		File backupFolder = null;
+
+		for (Backup backup : backups) {
+
+			if (backup.getBackupId().equals(backUpIdentifier)) {
+				backupFolder = backup.getFolder();
+				break;
+			}
+		}
+
+		// If backup found
+		if (backupFolder != null) {
+
+			FileAuditUtil.moveFolderContentToAuditFolder(backupFolder,studyFolder);
+
+		} else {
+			throw new DAOException("Backup (" + backUpIdentifier + ") not found for " + studyIdentifier);
+		}
 
 	}
 }

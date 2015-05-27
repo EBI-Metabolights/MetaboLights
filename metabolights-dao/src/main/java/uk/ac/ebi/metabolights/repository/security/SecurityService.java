@@ -154,6 +154,9 @@ public class SecurityService {
 
 	}
 
+	public static User userUpdatingStudy(String studyIdentifier, String userToken) throws DAOException {
+		return userUpdatingStudy( studyIdentifier,  userToken, null);
+	}
 	public static User userUpdatingStudy(String studyIdentifier, String userToken, LiteStudy.StudyStatus newStatus) throws DAOException {
 
 		// This will deal with ownership (curator or owner can access)

@@ -12,6 +12,7 @@ import java.util.Collection;
 
 public class FileAuditUtilTest extends TestCase {
 
+	public static final String A_FOOO = "a_fooo";
 	private File auditedFolder;
 	private File i_file;
 	private File a_file;
@@ -20,6 +21,7 @@ public class FileAuditUtilTest extends TestCase {
 	private File ifile;
 	private File u_file;
 	private File testFolder;
+	private File aFolder;
 
 	@Before
 	public void setUp() throws IOException {
@@ -31,11 +33,15 @@ public class FileAuditUtilTest extends TestCase {
 
 		// Create some files
 		i_file = createAFile("i_fooo");
-		a_file = createAFile("a_fooo");
+		a_file = createAFile(A_FOOO);
 		s_file = createAFile("s_fooo");
 		m_file = createAFile("m_fooo");
 		ifile = createAFile("ifooo");
 		u_file = createAFile("u_fooo");
+
+		aFolder = createAFolder("aFolder");
+		createAFile(A_FOOO, aFolder);
+
 
 		auditedFolder  = new File(testFolder,"important_data");
 		auditedFolder.mkdir();
@@ -43,10 +49,20 @@ public class FileAuditUtilTest extends TestCase {
 
 	}
 
-	public File createAFile(String fileName) throws IOException {
-		File newFile = new File(testFolder,fileName);
+	private File createAFile(String file) throws IOException {
+		return createAFile(file, testFolder);
+	}
+
+	public File createAFile(String fileName, File folder) throws IOException {
+		File newFile = new File(folder,fileName);
 		newFile.createNewFile();
 		return newFile;
+	}
+
+	public File createAFolder(String folderName) throws IOException {
+		File newFolder = new File(testFolder, folderName);
+		newFolder.mkdir();
+		return newFolder;
 	}
 
 	@Test
@@ -83,8 +99,7 @@ public class FileAuditUtilTest extends TestCase {
 		FileAuditUtil.moveFileToAuditedFolder(i_file,auditedFolder,backUpFolder);
 
 		// Nothing there since audited folder was empty
-		assertEquals("new auditable file moved, but nothing to backup", 0, backUpFolder.list().length);
-
+		assertEquals("backup folder was created and it shouldn't since there wasn't anything to backup.", false, backUpFolder.exists());
 
 		// Create it again since it has been moved
 		i_file.createNewFile();
@@ -92,8 +107,6 @@ public class FileAuditUtilTest extends TestCase {
 
 		// Back up should occur
 		assertEquals("existing auditable file moved, backup happens", 1, backUpFolder.list().length);
-
-
 
 		// Test a not audited file
 		FileAuditUtil.moveFileToAuditedFolder(ifile,auditedFolder,backUpFolder);
@@ -140,6 +153,17 @@ public class FileAuditUtilTest extends TestCase {
 		assertEquals("FileAuditUtil does not populate the backup collection properly", 2, backups.size());
 
 
+		// Create it again since it has been moved
+		a_file.createNewFile();
+
+		// Sleep 1 second to get a new backup folder
+		Thread.sleep(1000);
+
+		FileAuditUtil.moveFolderContentToAuditFolder(aFolder, auditedFolder);
+
+		backups = FileAuditUtil.getBackupsCollection(auditedFolder);
+
+		assertEquals("FileAuditUtil does not populate the backup collection properly", 3, backups.size());
 
 
 	}

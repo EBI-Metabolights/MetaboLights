@@ -44,7 +44,7 @@ public class FileAuditUtil {
 
 		File backUpFolder = new File(auditFolder,backupDestination);
 
-		backUpFolder.mkdir();
+		//backUpFolder.mkdir();
 		return  backUpFolder;
 
 	}
@@ -77,6 +77,32 @@ public class FileAuditUtil {
 		fileToSave.delete();
 		// Now move the new file
 		FileUtils.moveFileToDirectory(fileToMove, auditedFolder, true);
+
+	}
+
+	public static void moveFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder ) throws IOException {
+
+		File backUpFolder = getBackUpFolder(auditedFolder);
+
+		moveFolderContentToAuditFolder(folderWithFilesToMove,auditedFolder, backUpFolder);
+
+	}
+
+		public static void moveFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder, File backUpFolder) throws IOException {
+
+		// If it's a file....let's be flexible and treat it as a single file move
+		if (!folderWithFilesToMove.isDirectory()) {
+
+			moveFileToAuditedFolder(folderWithFilesToMove, auditedFolder,backUpFolder);
+
+		} else {
+
+			// For each file/folder under the folderwith content
+			for (File file : folderWithFilesToMove.listFiles()) {
+				moveFileToAuditedFolder(file, auditedFolder,backUpFolder);
+			}
+
+		}
 
 	}
 

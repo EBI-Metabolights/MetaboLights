@@ -43,6 +43,17 @@
                     </c:if>
                     <c:if test="${curator}">
                         <li><a href="deleteStudy?study=${study.studyIdentifier}">delete</a></li>
+                        <c:if test="${not empty study.backups}">
+                            <c:if test="${fn:length(study.backups) gt 0}">
+                                <li><a href="#">restore ...</a>
+                                    <ul>
+                                        <c:forEach var="backup" items="${study.backups}">
+                                            <li><a href="restore?study=${study.studyIdentifier}&backup=${backup.backupTimeStamp}">${backup.backupTimeStamp}</a></li>
+                                        </c:forEach>
+                                    </ul>
+                                </li>
+                            </c:if>
+                        </c:if>
                     </c:if>
                 </ul>
             </li>
