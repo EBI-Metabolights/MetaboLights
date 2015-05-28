@@ -667,10 +667,16 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		} else {
 			//So far let's do a plain text search.
-			queryBuilder = QueryBuilders.queryString(query.getText());
+			queryBuilder = QueryBuilders.queryString(escapeText(query.getText()));
 		}
 
 		return queryBuilder;
+	}
+
+	private String escapeText(String text) {
+
+		return org.apache.lucene.queryparser.classic.QueryParser.escape(text);
+
 	}
 
 	private SearchResult<LiteEntity> convertElasticSearchResponse2SearchResult(SearchResponse esResponse, SearchQuery query){

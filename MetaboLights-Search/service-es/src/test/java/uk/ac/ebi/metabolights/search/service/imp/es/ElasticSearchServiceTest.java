@@ -65,7 +65,7 @@ public class ElasticSearchServiceTest {
 
 
 		String studiesFolderName = System.getenv("STUDIES_FOLDER");
-		Assert.assertNotNull("STUDIES_FOLDER: Studies folder variable provided.", studiesFolderName);
+		Assert.assertNotNull("STUDIES_FOLDER: Studies folder variable NOT provided.", studiesFolderName);
 
 		curatorToken = System.getenv("CURATOR_TOKEN");
 
@@ -74,7 +74,7 @@ public class ElasticSearchServiceTest {
 
 		ISATAB_CONFIG_FOLDER = System.getenv("ISATAB_CONFIG_FOLDER");
 
-		Assert.assertNotNull("ISATAB_CONFIG_FOLDER: ISA Configuration folder variable provided.", ISATAB_CONFIG_FOLDER);
+		Assert.assertNotNull("ISATAB_CONFIG_FOLDER: ISA Configuration folder variable NOT provided.", ISATAB_CONFIG_FOLDER);
 
 
 		// Configure database connection
@@ -452,4 +452,5 @@ public class ElasticSearchServiceTest {
 
 		elasticSearchService.index(study);
 	}
+
 }
