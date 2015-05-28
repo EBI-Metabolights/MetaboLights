@@ -436,11 +436,21 @@ public class MetabolightsWsClient {
 
         logger.debug("{} indexing requested to MetaboLights WS client.", studyIdentifier);
 
-
         // Make the request
         String response = makeGetRequest(getIndexingPath(studyIdentifier));
 
         return deserializeJSONString(response, String.class);
+    }
+
+    public RestResponse<String> restore(String studyIdentifier, String backupIdentifier) {
+
+        logger.debug("Restoring {} for {} requested to MetaboLights WS client.", backupIdentifier, studyIdentifier);
+
+        // Make the request
+        String response = makePutRequest(getStudyPath(studyIdentifier) + "/restore" , backupIdentifier);
+
+        return deserializeJSONString(response, String.class);
+
     }
 
 // It doesn't work since the user is anonymous and elastic search module always apply a security filter returning only owned private studies or Public ones.
