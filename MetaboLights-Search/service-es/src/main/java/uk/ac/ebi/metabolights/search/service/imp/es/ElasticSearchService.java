@@ -209,7 +209,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 			//_source configuration
 			mapping.startObject("_source")
-				.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "obfuscationCode", "studyLocation",
+				.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "studyLocation",
 						"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
 						"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
 						"users.listOfAllStatus", "users.affiliationUrl", "users.status", "users.listOfAllStatus", "users.studies",

@@ -313,6 +313,36 @@ public class UpdateStudyController extends AbstractController {
 
 	}
 
+	@RequestMapping(value = { "/restore" })
+	public ModelAndView restore(
+			@RequestParam(required=true,value="study") String study,
+			@RequestParam(required=true, value="backupidentifier") String backupIdentifier) throws Exception {
+
+
+		//Check access
+		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
+
+		MetabolightsUser user = LoginController.getLoggedUser();
+
+		// Log start
+		logger.info("Restoring backup ({}) of the study {}.", backupIdentifier, study);
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<String> response = wsClient.restore(study, backupIdentifier);
+
+		if (response.getErr() == null)
+			//return this.printMessage("Study status updated", response.getMessage());
+			return this.redirect(study);
+
+		else {
+
+			logger.error("There's been a problem while restoring the backup ({}) of {}:{} ", backupIdentifier,study, response.getErr().getMessage() );
+			throw new Exception(response.getErr().getMessage());
+		}
+
+	}
+
 
 
     @RequestMapping(value = { "/deleteStudy" })

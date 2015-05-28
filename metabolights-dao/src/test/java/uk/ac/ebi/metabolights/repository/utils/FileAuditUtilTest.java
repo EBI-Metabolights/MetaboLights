@@ -96,20 +96,20 @@ public class FileAuditUtilTest extends TestCase {
 
 		File backUpFolder = FileAuditUtil.getBackUpFolder(auditedFolder);
 
-		FileAuditUtil.moveFileToAuditedFolder(i_file,auditedFolder,backUpFolder);
+		FileAuditUtil.moveFileToAuditedFolder(i_file,auditedFolder,backUpFolder, false);
 
 		// Nothing there since audited folder was empty
 		assertEquals("backup folder was created and it shouldn't since there wasn't anything to backup.", false, backUpFolder.exists());
 
 		// Create it again since it has been moved
 		i_file.createNewFile();
-		FileAuditUtil.moveFileToAuditedFolder(i_file,auditedFolder,backUpFolder);
+		FileAuditUtil.moveFileToAuditedFolder(i_file,auditedFolder,backUpFolder, false);
 
 		// Back up should occur
 		assertEquals("existing auditable file moved, backup happens", 1, backUpFolder.list().length);
 
 		// Test a not audited file
-		FileAuditUtil.moveFileToAuditedFolder(ifile,auditedFolder,backUpFolder);
+		FileAuditUtil.moveFileToAuditedFolder(ifile,auditedFolder,backUpFolder, false);
 
 		// Nothing there since audited folder was empty
 		assertEquals("new not audited file moved, nothing to backup", 1, backUpFolder.list().length);
@@ -117,21 +117,21 @@ public class FileAuditUtilTest extends TestCase {
 
 		// Create it again since it has been moved
 		ifile.createNewFile();
-		FileAuditUtil.moveFileToAuditedFolder(ifile,auditedFolder,backUpFolder);
+		FileAuditUtil.moveFileToAuditedFolder(ifile,auditedFolder,backUpFolder, false);
 
 		// Back up shouldn't occur
 		assertEquals("existing not audited file replaced, backup does not happens", 1, backUpFolder.list().length);
 
 
 		// Test one more auditable file
-		FileAuditUtil.moveFileToAuditedFolder(a_file,auditedFolder,backUpFolder);
+		FileAuditUtil.moveFileToAuditedFolder(a_file,auditedFolder,backUpFolder, false);
 
 		// Nothing there since audited folder was empty
 		assertEquals("new a_auditable file moved, but nothing to backup", 1, backUpFolder.list().length);
 
 		// Create it again since it has been moved
 		a_file.createNewFile();
-		FileAuditUtil.moveFileToAuditedFolder(a_file,auditedFolder,backUpFolder);
+		FileAuditUtil.moveFileToAuditedFolder(a_file,auditedFolder,backUpFolder, false);
 
 		// Back up should occur
 		assertEquals("existing a_auditable file moved, backup happens", 2, backUpFolder.list().length);

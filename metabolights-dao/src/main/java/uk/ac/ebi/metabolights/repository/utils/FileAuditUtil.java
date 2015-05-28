@@ -64,10 +64,10 @@ public class FileAuditUtil {
 
 		File backUpFolder = getBackUpFolder(auditedFolder);
 
-		moveFileToAuditedFolder(fileToMove,auditedFolder,backUpFolder);
+		moveFileToAuditedFolder(fileToMove,auditedFolder,backUpFolder, false);
 	}
 
-	public static void moveFileToAuditedFolder(File fileToMove, File auditedFolder, File backUpFolder) throws IOException {
+	public static void moveFileToAuditedFolder(File fileToMove, File auditedFolder, File backUpFolder, boolean copy) throws IOException {
 
 		// Compose the file to back up
 		File fileToSave = new File (auditedFolder,fileToMove.getName());
@@ -75,35 +75,67 @@ public class FileAuditUtil {
 		backUpFile(fileToSave,backUpFolder);
 
 		fileToSave.delete();
-		// Now move the new file
-		FileUtils.moveFileToDirectory(fileToMove, auditedFolder, true);
+
+		if (copy) {
+
+			FileUtils.copyFileToDirectory(fileToMove,auditedFolder);
+
+		} else {
+
+			// Now move the new file
+			FileUtils.moveFileToDirectory(fileToMove, auditedFolder, true);
+
+		}
+
+	}
+
+	public static void moveFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder , boolean copy) throws IOException {
+
+		File backUpFolder = getBackUpFolder(auditedFolder);
+
+		moveFolderContentToAuditFolder(folderWithFilesToMove,auditedFolder, backUpFolder, copy);
 
 	}
 
 	public static void moveFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder ) throws IOException {
 
-		File backUpFolder = getBackUpFolder(auditedFolder);
 
-		moveFolderContentToAuditFolder(folderWithFilesToMove,auditedFolder, backUpFolder);
+		moveFolderContentToAuditFolder(folderWithFilesToMove,auditedFolder, false);
 
 	}
 
-		public static void moveFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder, File backUpFolder) throws IOException {
+	public static void copyFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder ) throws IOException {
+
+
+		moveFolderContentToAuditFolder(folderWithFilesToMove,auditedFolder, true);
+
+	}
+
+
+	public static void moveFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder, File backUpFolder, boolean copy) throws IOException {
 
 		// If it's a file....let's be flexible and treat it as a single file move
 		if (!folderWithFilesToMove.isDirectory()) {
 
-			moveFileToAuditedFolder(folderWithFilesToMove, auditedFolder,backUpFolder);
+			moveFileToAuditedFolder(folderWithFilesToMove, auditedFolder,backUpFolder, copy);
 
 		} else {
 
 			// For each file/folder under the folderwith content
 			for (File file : folderWithFilesToMove.listFiles()) {
-				moveFileToAuditedFolder(file, auditedFolder,backUpFolder);
+				moveFileToAuditedFolder(file, auditedFolder,backUpFolder, copy);
 			}
 
 		}
 
+	}
+
+	public static void moveFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder, File backUpFolder) throws IOException {
+		moveFolderContentToAuditFolder(folderWithFilesToMove,auditedFolder,backUpFolder,false);
+	}
+
+	public static void copyFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder, File backUpFolder) throws IOException {
+		moveFolderContentToAuditFolder(folderWithFilesToMove,auditedFolder,backUpFolder,true);
 	}
 
 	public static void backUpFile(File fileToBackUp) throws IOException {

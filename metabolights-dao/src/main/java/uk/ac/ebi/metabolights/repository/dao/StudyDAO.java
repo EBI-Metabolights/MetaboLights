@@ -238,7 +238,7 @@ public class StudyDAO {
 		// Go through the files to move
 		for (File file : studyFolder.listFiles()) {
 
-			FileAuditUtil.moveFileToAuditedFolder(file, finalDestination, backUpFolder);
+			FileAuditUtil.moveFileToAuditedFolder(file, finalDestination, backUpFolder, false);
 		}
 
 		return finalDestination;
@@ -357,7 +357,7 @@ public class StudyDAO {
 		// If backup found
 		if (backupFolder != null) {
 
-			FileAuditUtil.moveFolderContentToAuditFolder(backupFolder,studyFolder);
+			FileAuditUtil.copyFolderContentToAuditFolder(backupFolder,studyFolder);
 
 		} else {
 			throw new DAOException("Backup (" + backUpIdentifier + ") not found for " + studyIdentifier);
