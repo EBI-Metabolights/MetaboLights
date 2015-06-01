@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
@@ -320,12 +319,16 @@ public class FileDispatcherController extends AbstractController {
 		// Get the study form the index
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
-        // TODO: Not working for reviewers
-        // Implement a "canAccessStudy" and or "canEditStudy".
-        LiteStudy study = wsClient.searchStudy(studyId);
 
-        // if null...user can't access the study...
-        return (study != null);
+        boolean granted;
+        if (obfuscationCode.equals("0")) {
+            granted= wsClient.canViewStudy(studyId);
+        } else {
+            granted= wsClient.canViewStudyByObfuscationCode(obfuscationCode);
+        }
+
+        // if granted...user can access the study...
+        return granted;
 
     }
 

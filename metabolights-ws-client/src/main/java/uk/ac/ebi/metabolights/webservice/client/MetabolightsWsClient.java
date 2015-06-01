@@ -77,6 +77,8 @@ public class MetabolightsWsClient {
     public static final String OBFUSCATIONCODE_PATH = "obfuscationcode/";
     private static final String INDEXING_PATH = "index/";
     public static final String REINDEX_PATH = "reindex";
+    public static final String SECURITY_PATH = "security/";
+    public static final String SEC_STUDIES = "studies/";
     private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
 
@@ -299,7 +301,6 @@ public class MetabolightsWsClient {
 
         logger.debug("Serializing object to a Json string:" + objectToSerialize.getClass());
 
-
         // Get the mapper
         ObjectMapper mapper = new ObjectMapper();
 
@@ -451,6 +452,33 @@ public class MetabolightsWsClient {
         String response = makePutRequest(getStudyPath(studyIdentifier) + "/restore" , backupIdentifier);
 
         return deserializeJSONString(response, String.class);
+
+    }
+
+    public boolean canViewStudy(String studyIdentifier) {
+        logger.debug("Requesting canViewStudy ({}) to the webservice.", studyIdentifier);
+
+        // Make the request
+        String response = makeGetRequest(SECURITY_PATH + SEC_STUDIES + studyIdentifier + "/view");
+
+        RestResponse<Boolean> restResponse = deserializeJSONString(response, Boolean.class);
+
+        return restResponse.getContent();
+
+    }
+
+    public boolean canViewStudyByObfuscationCode(String obfuscationCode) {
+
+
+        logger.debug("Requesting canViewStudy ({}) to the webservice by obfuscation code.", obfuscationCode);
+
+        // Make the request
+        //studies/obfuscationcode/{obfuscationcode}/view
+        String response = makeGetRequest(SECURITY_PATH + SEC_STUDIES + "obfuscationcode/" + obfuscationCode + "/view");
+
+        RestResponse<Boolean> restResponse = deserializeJSONString(response, Boolean.class);
+
+        return restResponse.getContent();
 
     }
 

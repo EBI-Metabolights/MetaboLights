@@ -41,6 +41,7 @@
 
 package uk.ac.ebi.metabolights.webservice.client;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -63,8 +64,11 @@ import static org.junit.Assert.*;
  */
 public class MetabolightsWsClientTest {
 
-	public static final String PRIVATE_STUDY = "MTBLS_DEV10";
-	public static final String PUBLIC_STUDY = "MTBLS_DEV4";
+	public static final String PRIVATE_STUDY = "MTBLS10";
+	public static final String PRIVATE_STUDY_OC = "4faafe88-495c-4536-b818-a3cedcd6e768";
+
+	public static final String PUBLIC_STUDY = "MTBLS100";
+	public static final String PUBLIC_STUDY_OC = "c17f47f3-2f8c-4e30-b019-a13d4e519eb3";
 	String SUBMITTER_TOKEN;
 	String CURATOR_TOKEN;
 	private MetabolightsWsClient wsClient;
@@ -77,7 +81,14 @@ public class MetabolightsWsClientTest {
 
 		// Get token from environment...Do not commit them..
 		SUBMITTER_TOKEN = System.getenv("SUBMITTER_TOKEN");
+		if (SUBMITTER_TOKEN == null) {
+			SUBMITTER_TOKEN="owner";
+		}
+
 		CURATOR_TOKEN = System.getenv("CURATOR_TOKEN");
+		if (CURATOR_TOKEN == null) {
+			CURATOR_TOKEN="curator";
+		}
 		wsClient = new MetabolightsWsClient("http://localhost:8080/metabolights/webservice/");
 	}
 
@@ -290,6 +301,80 @@ public class MetabolightsWsClientTest {
 
 
 		assertNull("WS.getMetabolitesByObfuscationCode returned an error", metabolitesResponse.getErr());
+
+
+	}
+
+	@Test
+	public void testQueryPermissions(){
+
+		// BY ID
+
+		// Anonymous
+		boolean response = wsClient.canViewStudy(PUBLIC_STUDY);
+
+		Assert.assertTrue("Anonymous user should be able to access a public study", response);
+
+		response = wsClient.canViewStudy(PRIVATE_STUDY);
+
+		Assert.assertFalse("Anonymous user should NOT be able to access a private study", response);
+
+
+		// Curator
+		wsClient.setUserToken(CURATOR_TOKEN);
+
+		response = wsClient.canViewStudy(PUBLIC_STUDY);
+		Assert.assertTrue("Curator should be able to access a public study", response);
+
+		response = wsClient.canViewStudy(PRIVATE_STUDY);
+		Assert.assertTrue("Curator user should be able to access a private study", response);
+
+
+		// Owner
+		wsClient.setUserToken(SUBMITTER_TOKEN);
+
+		response = wsClient.canViewStudy(PUBLIC_STUDY);
+		Assert.assertTrue("Owner should be able to access a public study", response);
+
+		response = wsClient.canViewStudy(PRIVATE_STUDY);
+		Assert.assertTrue("Owner should be able to access his own private study", response);
+
+
+		// BY OC (Obfuscation code)
+
+		// Anonymous
+		response = wsClient.canViewStudyByObfuscationCode(PUBLIC_STUDY_OC);
+
+		Assert.assertTrue("Anonymous user should be able to access a public study", response);
+
+		response = wsClient.canViewStudyByObfuscationCode(PRIVATE_STUDY_OC);
+
+		Assert.assertTrue("Anonymous user should be able to access a private study by OC", response);
+
+
+		// Curator
+		wsClient.setUserToken(CURATOR_TOKEN);
+
+		response = wsClient.canViewStudyByObfuscationCode(PUBLIC_STUDY_OC);
+		Assert.assertTrue("Curator should be able to access a public study", response);
+
+		response = wsClient.canViewStudyByObfuscationCode(PRIVATE_STUDY_OC);
+		Assert.assertTrue("Curator user should be able to access a private study by its OC", response);
+
+
+		// Owner
+		wsClient.setUserToken(SUBMITTER_TOKEN);
+
+		response = wsClient.canViewStudyByObfuscationCode(PUBLIC_STUDY_OC);
+		Assert.assertTrue("Owner should be able to access a public study by OC", response);
+
+		response = wsClient.canViewStudyByObfuscationCode(PRIVATE_STUDY_OC);
+		Assert.assertTrue("Owner should be able to access his own private study by OC", response);
+
+
+
+
+
 
 
 	}
