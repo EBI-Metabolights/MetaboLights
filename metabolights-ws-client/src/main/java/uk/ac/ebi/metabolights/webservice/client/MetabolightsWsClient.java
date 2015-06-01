@@ -387,7 +387,8 @@ public class MetabolightsWsClient {
         SearchQuery searchQuery = new SearchQuery();
 
         // NOTE: Elastic search explicit language!! breaking search interface.
-        searchQuery.setText(field + ":" + studyIdentifier);
+        // Adding the non escaping char to avoid escaping :
+        searchQuery.setText("'" +field + ":" + studyIdentifier);
 
         return  search(searchQuery);
 
