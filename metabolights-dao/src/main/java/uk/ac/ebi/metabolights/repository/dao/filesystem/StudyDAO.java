@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
@@ -91,13 +90,6 @@ public class StudyDAO {
 
     public static File getRootFolder(){
 
-        // If no status is passes we will use private as a safety measure
-        return getRootFolderByStatus(LiteStudy.StudyStatus.SUBMITTED);
-
-    }
-
-    public static File getRootFolderByStatus(LiteStudy.StudyStatus status){
-
         if (studiesFolder == null){
             logger.warn("Careful!, it seems you are using the StudyDAO without having it initialized. Private folder or public folder is/are null");
         }
@@ -109,9 +101,13 @@ public class StudyDAO {
     public static File getDestinationFolder(String studyIdentifier){
 
         // If no status is passes we will use private as a safety measure
-        File destination = getRootFolderByStatus(LiteStudy.StudyStatus.SUBMITTED);
+        File destination = getRootFolder();
 
         destination = new File (destination, studyIdentifier);
+
+        if (!destination.exists()){
+            destination.mkdir();
+        }
 
         return  destination;
 

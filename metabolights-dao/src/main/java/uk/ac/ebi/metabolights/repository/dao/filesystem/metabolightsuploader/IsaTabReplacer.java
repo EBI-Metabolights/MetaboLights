@@ -441,7 +441,9 @@ public class IsaTabReplacer
 			reader.close();
 
 			//Save the file
-			FileUtil.String2File(text, fileWithId.getPath(), true);
+			// NOT we are not making a back up here!! I needed we will nee to call
+			//FileAuditUtil.backUpAuditedFolder(fileWithId.getParent());
+			FileUtil.String2File(text, fileWithId.getPath(),false);
 		} catch (Exception e) {
 			throw e;
 		}

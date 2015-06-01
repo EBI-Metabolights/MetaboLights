@@ -320,25 +320,14 @@ public class FileDispatcherController extends AbstractController {
 		// Get the study form the index
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
+        // TODO: Not working for reviewers
+        // Implement a "canAccessStudy" and or "canEditStudy".
         LiteStudy study = wsClient.searchStudy(studyId);
 
         // if null...user can't access the study...
-        if (study == null) return false;
+        return (study != null);
 
-
-        if (study.isPublicStudy()) return true;
-
-
-		if (study.getObfuscationCode().equals(obfuscationCode)){
-			return true;
-		} else {
-
-			// If the dbId does not match
-			logger.info("Obfuscation code passed ({}) does not match the obfuscation code for {}.", obfuscationCode, studyId );
-			return false;
-		}
-
-    } // End of method
+    }
 
 	public File[] getStudyFileList(String studyId) {
 

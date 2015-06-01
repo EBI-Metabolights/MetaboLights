@@ -302,7 +302,14 @@ public class EmailService {
 				message.setText(text, true);
 			}
 		};
-		this.mailSender.send(preparator);
+
+		try {
+
+			this.mailSender.send(preparator);
+		} catch (Exception e) {
+
+			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Body:\n{}\n\nTechnical info:\n{}",subject,body,technicalInfo, e );
+		}
 	}
 
 	private String exceptionToString(Exception error){

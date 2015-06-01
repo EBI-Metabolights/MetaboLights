@@ -73,6 +73,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	private static final String STUDY_STATUS_FIELD = "studyStatus";
 	private static final String USER_NAME_FIELD = "users.userName";
 	private static final String STUDY_PUBLIC_RELEASE_DATE = "studyPublicReleaseDate";
+	public static final String NO_ESCAPING_CHAR = "'";
 	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
 
 	private static final String STUDY_TYPE_NAME = "study";
@@ -675,7 +676,17 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	private String escapeText(String text) {
 
-		return org.apache.lucene.queryparser.classic.QueryParser.escape(text);
+		// Some queries come with fields like:
+		// _id:MTBLS143
+		// In this case we want to avoid escaping characters...
+		// As a convention,..if the query starts with ' we will not escape it
+
+		if (text.startsWith(NO_ESCAPING_CHAR)){
+
+			return text.replaceFirst(NO_ESCAPING_CHAR,"");
+		} else {
+			return org.apache.lucene.queryparser.classic.QueryParser.escape(text);
+		}
 
 	}
 

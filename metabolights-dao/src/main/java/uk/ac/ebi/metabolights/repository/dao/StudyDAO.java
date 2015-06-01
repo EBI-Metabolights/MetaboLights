@@ -232,14 +232,17 @@ public class StudyDAO {
 
 		logger.info("Moving study folder ({}) to {}", studyFolder.getAbsolutePath(), finalDestination.getAbsolutePath());
 
-		// Get the backupFolder
-		File backUpFolder = FileAuditUtil.getBackUpFolder(finalDestination);
+		// We need to copy, since submissions could be partial...(only maf file submitted)
+		FileAuditUtil.moveFolderContentToAuditFolder(studyFolder,finalDestination, true);
 
-		// Go through the files to move
-		for (File file : studyFolder.listFiles()) {
-
-			FileAuditUtil.moveFileToAuditedFolder(file, finalDestination, backUpFolder, false);
-		}
+//		// Get the backupFolder
+//		File backUpFolder = FileAuditUtil.getBackUpFolder(finalDestination);
+//
+//		// Go through the files to move
+//		for (File file : studyFolder.listFiles()) {
+//
+//			FileAuditUtil.moveFileToAuditedFolder(file, finalDestination, backUpFolder, false);
+//		}
 
 		return finalDestination;
 	}
@@ -357,7 +360,7 @@ public class StudyDAO {
 		// If backup found
 		if (backupFolder != null) {
 
-			FileAuditUtil.copyFolderContentToAuditFolder(backupFolder,studyFolder);
+			FileAuditUtil.moveFolderContentToAuditFolder(backupFolder,studyFolder,false);
 
 		} else {
 			throw new DAOException("Backup (" + backUpIdentifier + ") not found for " + studyIdentifier);

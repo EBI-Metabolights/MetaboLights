@@ -22,6 +22,8 @@
 package uk.ac.ebi.metabolights.service;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,6 +55,8 @@ import java.util.Map;
  */
 @Service
 public class EmailService {
+
+	private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     private @Value("#{EBIHost}") String prodURL;
     private @Value("#{curationEmailAddress}") String curationEmailAddress;
@@ -387,10 +391,19 @@ public class EmailService {
 				model.put("technicalInfo", HTMLtechnicalInfo);
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, "email_template/htmlemail.vm", model);
+
+
 				message.setText(text, true);
 			}
 		};
-		this.mailSender.send(preparator);
+
+		try {
+
+			this.mailSender.send(preparator);
+		} catch (Exception e) {
+
+			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Body:\n{}\n\nTechnical info:\n{}",subject,body,technicalInfo ,e);
+		}
 	}
 
 	private String exceptionToString(Exception error){
