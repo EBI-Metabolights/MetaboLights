@@ -51,6 +51,9 @@
     <ResourceLink  name="EBIHost" global="EBIHost" type="java.lang.String"/>
     <ResourceLink  name="curationEmailAddress" global="curationEmailAddress" type="java.lang.String"/>
 
+    <!-- Queue -->
+    <ResourceLink  name="queueRunner" global="queueRunner" type="java.lang.String"/>
+
     <!-- Prefix to be used for studies stable identifiers.-->
     <Environment name="stableIdPrefix" value="MTBLS_DEV" type="java.lang.String"/>
 

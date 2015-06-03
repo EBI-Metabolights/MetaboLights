@@ -21,10 +21,13 @@
 
 package uk.ac.ebi.metabolights.webservice.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -40,8 +43,9 @@ public class AppContext {
 	private static EmailService emailService;
 	private static UserService userService;
 
-	private static String jndiName; 
 	private static DataSource ds;
+    private static final Logger logger = LoggerFactory.getLogger(AppContext.class);
+
 
 
 	/**
@@ -99,4 +103,15 @@ public class AppContext {
      
       return conn;
     }
+
+    public static String getHostName() {
+        try {
+            return java.net.InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            logger.warn("Can't get hostname: {}", e.getMessage(), e);
+
+            return "localhost";
+        }
+    }
+
 }

@@ -23,7 +23,8 @@ package uk.ac.ebi.metabolights.webservice.queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ebi.metabolights.webservice.services.UserService;
+import uk.ac.ebi.metabolights.webservice.services.AppContext;
+import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import java.util.Timer;
 
@@ -32,25 +33,34 @@ import java.util.Timer;
  */
 
 public class SubmissionQueueManager {
+
 	private static Logger log = LoggerFactory.getLogger(SubmissionQueueManager.class);
 	private static Timer tm;
- 	
-	
-	private static UserService userService;
 
 	
+//	private static UserService userService;
+
+	private String queueRunner;
 	public SubmissionQueueManager(){
+
+		queueRunner = PropertiesUtil.getProperty("queueRunner");
+
+		// By default, only start the queue if its the designated machine.
+		if (!AppContext.getHostName().equals(queueRunner)) {
+			log.info("Queue not running in this machine. Hostname ({}) do not matches queuerunner ({})", AppContext.getHostName(), queueRunner);
+			return;
+		}
+
+
 		if (! getIsRunning()){
 			
 			start();
 		}
 	}
-	public static void start(){
-		
-		
+	private void start(){
+
 		// If timer is running
 		if (tm !=null) return;
-		
 		
 		tm = new Timer("Submission queue thread");
 		
@@ -79,10 +89,10 @@ public class SubmissionQueueManager {
 		return (tm!=null);
 	}
 
-	public void setUserService(UserService us) {
-		userService = us;
-	}
-	public static UserService getUserService(){
-		return userService;
-	}
+//	public void setUserService(UserService us) {
+//		userService = us;
+//	}
+//	public static UserService getUserService(){
+//		return userService;
+//	}
 }

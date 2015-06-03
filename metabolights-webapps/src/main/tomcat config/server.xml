@@ -57,4 +57,7 @@
     <Environment name="EBIHost" value="http://www.ebi.ac.uk/metabolights/" type="java.lang.String"/>
     <Environment name="curationEmailAddress" value="xxx@xxx.xx" type="java.lang.String"/>
 
+    <!-- Queue -->
+    <Environment name="queueRunner" value="xxxx" type="java.lang.String"/>
+
 </GlobalNamingResources>

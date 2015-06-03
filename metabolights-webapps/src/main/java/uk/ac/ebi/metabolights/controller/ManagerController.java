@@ -39,6 +39,7 @@ import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
 import uk.ac.ebi.metabolights.service.UserService;
@@ -210,9 +211,10 @@ public class ManagerController extends AbstractController{
 
 		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
-		// Careful this returns all...and now it's fine but once compounds are added it will not work.
-		RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) wsClient.search();
-
+		// Careful this returns all (actually not all only the first 10!)...and now it's fine but once compounds are added it will not work.
+		SearchQuery query = new SearchQuery();
+		query.setPagination(null);
+		RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) wsClient.search(query);
 
 		StudySearchResult studies = response.getContent();
 		for (LiteStudy liteStudy : studies.getResults()) {

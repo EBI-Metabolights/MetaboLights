@@ -391,8 +391,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		// Set pagination
 		// Elastic search first element starts at 0
-		searchRequestBuilder.setFrom(query.getPagination().getFirstPageItemNumber()-1);
-		searchRequestBuilder.setSize(query.getPagination().getPageSize());
+		setPagination(query, searchRequestBuilder);
 
 		SearchResponse response = searchRequestBuilder.execute().actionGet();
 
@@ -402,6 +401,17 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		}
 
 		return convertElasticSearchResponse2SearchResult(response, query);
+	}
+
+	private void setPagination(SearchQuery query, SearchRequestBuilder searchRequestBuilder) {
+
+		if (query.getPagination() == null) {
+			searchRequestBuilder.setFrom(0);
+			searchRequestBuilder.setSize(Integer.MAX_VALUE);
+		} else {
+			searchRequestBuilder.setFrom(query.getPagination().getFirstPageItemNumber() - 1);
+			searchRequestBuilder.setSize(query.getPagination().getPageSize());
+		}
 	}
 
 	private QueryBuilder queryToQueryBuilder(SearchQuery query, SearchRequestBuilder searchRequestBuilder){
@@ -770,8 +780,10 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		SearchQuery query = searchResult.getQuery();
 		Pagination pagination =query.getPagination();
-		pagination.setItemsCount((int) esResponse.getHits().getTotalHits());
 
+		if (pagination != null) {
+			pagination.setItemsCount((int) esResponse.getHits().getTotalHits());
+		}
 
 	}
 

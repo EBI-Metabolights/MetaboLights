@@ -76,6 +76,9 @@
 
     <jee:jndi-lookup id="stableIdPrefix" jndi-name="java:comp/env/stableIdPrefix"/>
 
+    <!-- Queue -->
+    <jee:jndi-lookup id="queueRunner" jndi-name="java:comp/env/queueRunner"/>
+
 
     <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->
 

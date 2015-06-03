@@ -73,17 +73,14 @@
 					</div>
 				</div>				
 				<div class="search_study_id">
-					<a href="{{study.studyIdentifier}}">{{study.studyIdentifier}}</a> is the accession identifier and the status is {{study.studyStatus}}. It
+					<a href="{{study.studyIdentifier}}">{{study.studyIdentifier}}</a> is the accession identifier and the status is <strong>{{study.studyStatus}}</strong>. It
 					<template if="{{study.publicStudy}}">
 						was released on the
 					</template>
 					<template if="{{!study.publicStudy}}">
 						will be release on the
 					</template>
-					<strong>{{study.studyPublicReleaseDate| formatDate}}</strong>
-					<template if="{{!study.publicStudy}}">
-						<div class="icon icon-functional" data-icon="l"></div>
-					</template>
+					{{study.studyPublicReleaseDate| formatDate}}
 				</div>
 
 			</div>
