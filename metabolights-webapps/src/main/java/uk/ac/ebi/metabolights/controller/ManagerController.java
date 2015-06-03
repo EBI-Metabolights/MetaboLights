@@ -26,7 +26,6 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,9 +50,12 @@ import uk.ac.ebi.metabolights.webservice.client.models.StudySearchResult;
 import javax.naming.Binding;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-import java.io.*;
+import java.io.File;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -80,8 +82,6 @@ public class ManagerController extends AbstractController{
 
 	private static Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
-	private @Value("#{isatabuploaderconfig}") String isatabUploaderConfig;
-	
 	@RequestMapping({"/config"})
 	public ModelAndView config() {
 		
@@ -90,23 +90,6 @@ public class ManagerController extends AbstractController{
 		
 		properties = PropertiesUtil.getProperties();
 
-
-		// Get the hibernate properties...
-		String hibernatePropertiesPath = isatabUploaderConfig + "hibernate.properties";
-		InputStream inputStream = null;
-		Properties hibernateProperties = new Properties();
-		try {
-			inputStream = new FileInputStream(hibernatePropertiesPath);
-
-			hibernateProperties.load(inputStream);
-
-			inputStream.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		NamingEnumeration<Binding> contextProps= null;
 
@@ -146,9 +129,6 @@ public class ManagerController extends AbstractController{
 		// Validation result
 		Map<String,Boolean> validationResult = new HashMap<String,Boolean>();
 
-		// database connection consistency
-		validationResult.put("Database connection consistency", (hibernateProperties.getProperty("hibernate.connection.url").equals(metabolightsDs.getPoolProperties().getUrl())));
-
 		// Validate end character of path properties
 		validationResult.put("uploadDirectory ends with /", (PropertiesUtil.getProperty("uploadDirectory").endsWith("/")));
 		validationResult.put("studiesLocation ends with /", (PropertiesUtil.getProperty("studiesLocation").endsWith("/")));
@@ -172,7 +152,6 @@ public class ManagerController extends AbstractController{
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("config");
 		mav.addObject("props", properties);
 		mav.addObject("contextProps", contextProps);
-		mav.addObject("hibernateProperties", hibernateProperties);
 		mav.addObject("connection", metabolightsDs);
 		mav.addObject("validation", validationResult);
 		mav.addObject("queue", queue);

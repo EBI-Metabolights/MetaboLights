@@ -47,7 +47,7 @@ public class SubmissionQueueManager {
 
 		// By default, only start the queue if its the designated machine.
 		if (!AppContext.getHostName().equals(queueRunner)) {
-			log.info("Queue not running in this machine. Hostname ({}) do not matches queuerunner ({})", AppContext.getHostName(), queueRunner);
+			log.info("Queue not running in this machine. Hostname ({}) do not matches queue runner ({})", AppContext.getHostName(), queueRunner);
 			return;
 		}
 

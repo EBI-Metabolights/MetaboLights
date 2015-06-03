@@ -213,10 +213,10 @@
 <ol class="progtrckr" data-progtrckr-steps="${fn:length(studyStatuses)}">
     <c:forEach var="status" items="${studyStatuses}"><%--
         --%><c:if test="${status gt study.studyStatus}"><%--
-            --%><li class="progtrckr-todo">${status.descriptiveName}</li><%--
+            --%><li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
         --%></c:if><%--
         --%><c:if test="${status le study.studyStatus}"><%--
-            --%><li class="progtrckr-done">${status.descriptiveName}</li><%--
+            --%><li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li><%--
         --%></c:if><%--
 
     --%></c:forEach>
