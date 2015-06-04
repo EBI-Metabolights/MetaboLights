@@ -35,6 +35,8 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+
+
     <context:component-scan base-package="uk.ac.ebi.metabolights.webservice" />
     <!--<context:annotation-config/>-->
 
@@ -42,7 +44,6 @@
     <mvc:annotation-driven/>
 
     <mvc:default-servlet-handler/>
-
 
     <!--
 	Provider of SpringApplication Context
@@ -78,6 +79,8 @@
 
     <!-- Queue -->
     <jee:jndi-lookup id="queueRunner" jndi-name="java:comp/env/queueRunner"/>
+
+    <jee:jndi-lookup id="userSpace" jndi-name="java:comp/env/userSpace"/>
 
 
     <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->

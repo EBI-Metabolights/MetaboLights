@@ -52,7 +52,7 @@
     <ResourceLink  name="EBIHost" global="EBIHost" type="java.lang.String"/>
     <ResourceLink  name="curationEmailAddress" global="curationEmailAddress" type="java.lang.String"/>
 
-
+    <ResourceLink  name="userSpace" global="userSpace" type="java.lang.String"/>
 
     <!-- URL for new account creations, this is included in the emails sent -->
     <Environment name="urlConfirmNewAccount" value="http://wwwdev.ebi.ac.uk/metabolights/confirmAccountRequest" type="java.lang.String"/>
@@ -72,8 +72,6 @@
 
     <Environment name="ebiServiceURL" value="http://xxx:xxx/ebisearch/service.ebi?wsdl" type="java.lang.String"/>
     <Environment name="EUPMCWebServiceURL" value="http://xxx:xxx/webservices/citexplore/v3.0.1/service?wsdl" type="java.lang.String"/>
-
-    <Environment name="userSpace" global="userSpace" type="java.lang.String"/>
 
 </Context>
 

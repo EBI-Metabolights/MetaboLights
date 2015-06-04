@@ -21,7 +21,6 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,8 +38,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class SubmissionController extends AbstractController {
-
-	private @Value("#{isatabuploaderconfig}")String configFolder;
 
 	@RequestMapping(value = { "/presubmit" })
 	public ModelAndView preSubmit(HttpServletRequest request) {
