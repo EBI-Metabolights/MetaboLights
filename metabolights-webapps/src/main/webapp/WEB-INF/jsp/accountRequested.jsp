@@ -61,6 +61,14 @@
 
 <div class="grid_24">
 	<div class="grid_6 alpha">
+		<p><spring:message code="label.orcid" />:</p>
+	</div>
+	<div class="grid_18 omega">
+		${user.orcid}
+	</div>
+</div>
+<div class="grid_24">
+	<div class="grid_6 alpha">
 		<p><spring:message code="label.firstName" />:</p>
 	</div>
 	<div class="grid_18 omega">
@@ -79,6 +87,16 @@
 
 <div class="grid_24">
 	<div class="grid_6 alpha">
+		<p><spring:message code="label.country" />:</p>
+	</div>
+	<div class="grid_18 omega">
+		<c:if test="${empty country}"> ${user.address}</c:if>  <!--  Short name UK -->
+		<c:if test="${not empty country}"> ${country}</c:if>	<!--  Long name United Kingdom -->
+	</div>
+</div>
+
+<div class="grid_24">
+	<div class="grid_6 alpha">
 		<p><spring:message code="label.affili" />:</p>
 	</div>
 	<div class="grid_18 omega">
@@ -92,16 +110,6 @@
 	</div>
 	<div class="grid_18 omega">
 		${user.affiliationUrl}
-	</div>
-</div>
-
-<div class="grid_24">
-	<div class="grid_6 alpha">
-		<p><spring:message code="label.country" />:</p>
-	</div>
-	<div class="grid_18 omega">
- 		<c:if test="${empty country}"> ${user.address}</c:if>  <!--  Short name UK -->
- 		<c:if test="${not empty country}"> ${country}</c:if>	<!--  Long name United Kingdom -->
 	</div>
 </div>
 

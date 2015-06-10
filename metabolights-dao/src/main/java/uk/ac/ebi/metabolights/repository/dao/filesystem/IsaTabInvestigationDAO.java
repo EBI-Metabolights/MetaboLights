@@ -21,8 +21,11 @@
 
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
+import org.isatools.errorreporter.model.ISAFileErrorReport;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Investigation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.utils.isatab.IsaTabUtils;
 
@@ -45,6 +48,8 @@ public class IsaTabInvestigationDAO {
 
     private static Map<String, String> studyConfigFolderMap = new HashMap<String, String>();
 
+    private static final Logger logger = LoggerFactory.getLogger(IsaTabInvestigationDAO.class);
+
     public IsaTabInvestigationDAO(String isaTabRootConfigurationLocation){
         this.isaTabRootConfigurationLocation = isaTabRootConfigurationLocation;
     }
@@ -59,6 +64,8 @@ public class IsaTabInvestigationDAO {
 
         Boolean imported = null;
 
+        logger.debug("Loading isatabfiles: {}", isaTabStudyFolder);
+
         try {
 
             initialiseIsatabFilesImporter(isaTabStudyFolder);
@@ -68,13 +75,30 @@ public class IsaTabInvestigationDAO {
             }
 
         } catch (Exception e){
-
+            logger.error("Exception loading isatab files.",e );
             throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder, e);
 
         } finally {
 
             // It there was an error loading files.
             if (imported==null || !imported) {
+
+                if (imported == null) {
+                    logger.debug("imported is null!");
+                } else {
+                    logger.debug("imported flag is {}" , imported);
+                }
+
+
+                if (isatabFilesImporter == null) {
+                    logger.debug("importer is null");
+                } else {
+                    logger.debug("importer log messages are: " );
+                    for (ISAFileErrorReport isaFileErrorReport : isatabFilesImporter.getMessages()) {
+                        logger.debug(isaFileErrorReport.getProblemSummary());
+                    }
+                }
+
                 throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder, isatabFilesImporter==null? null: isatabFilesImporter.getMessages());
             }
 
@@ -93,11 +117,12 @@ public class IsaTabInvestigationDAO {
 
         if (loadIsaTabFiles(isaTabStudyFolder))
             investigation = isatabFilesImporter.getInvestigation();
-
         return investigation;
     }
 
     private ISAtabFilesImporter initialiseIsatabFilesImporter(String isaTabStudyFolder) throws IOException, ConfigurationException {
+
+        logger.debug("Initialising isatab files importer.");
 
         // We need to get the configuration folder for the study
         String configFolder = getConfigurationFolderForStudy(isaTabStudyFolder);
@@ -112,17 +137,20 @@ public class IsaTabInvestigationDAO {
             isatabFilesImporter = new ISAtabFilesImporter(lastConfigurationLoaded);
         }
 
-
         return isatabFilesImporter;
     }
 
     private String getConfigurationFolderForStudy(String isaTabStudyFolder) throws IOException, ConfigurationException {
+
+        logger.debug("Looking for configuration folder for {}", isaTabStudyFolder);
 
         // Try the map...
         String configFolderName = studyConfigFolderMap.get(isaTabStudyFolder);
 
         // If not found...
         if (configFolderName == null){
+
+            logger.debug("No config folder stored in the map...looking into investigation file.");
 
             File configFolder = IsaTabUtils.getConfigurationFolderFromStudy(isaTabStudyFolder, isaTabRootConfigurationLocation);
 

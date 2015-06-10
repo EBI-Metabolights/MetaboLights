@@ -27,11 +27,9 @@ import uk.ac.ebi.metabolights.authenticate.AppRole;
 import uk.ac.ebi.metabolights.service.CountryService;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents a user of the Metabolights / Isatab application.
@@ -66,10 +64,13 @@ public class MetabolightsUser implements Serializable{
 		this.authorities = EnumSet.of(AppRole.ROLE_SUBMITTER);
 		this.status=UserStatus.NEW;
 		this.joinDate=new java.util.Date();
+		this.apiToken = UUID.randomUUID().toString();
+		this.role = AppRole.ROLE_SUBMITTER.ordinal();
 	}
 
 	@Id
 	@Column(name="ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
     // Use this line for ORACLE DB
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="userSeq")
 
@@ -90,7 +91,7 @@ public class MetabolightsUser implements Serializable{
 	private String dbPassword;
 
 	@Transient
-    @NotEmpty
+//    @NotEmpty
     private String userVerifyDbPassword;
 
 	@Transient
@@ -122,7 +123,7 @@ public class MetabolightsUser implements Serializable{
 	// Extra Metabolights column to be able to create a user account
 	// that still needs approval.
 	@Column(name="STATUS")
-    @NotEmpty
+    @NotNull
 	private UserStatus status;
 
     @Column(name="ROLE")
@@ -131,6 +132,10 @@ public class MetabolightsUser implements Serializable{
     @Column(name="APITOKEN")
     @NotEmpty
     private String apiToken;
+
+	@Column(name="ORCID")
+	private String orcid;
+
 
 	//_______________________________________________
 	// Getters and setters
@@ -195,13 +200,6 @@ public class MetabolightsUser implements Serializable{
 				authorities.add(AppRole.ROLE_SUPER_USER);
 			}
 		}
-
-        if (isReviewer()){
-            if (!authorities.contains(AppRole.ROLE_REVIEWER)){
-                authorities.add(AppRole.ROLE_REVIEWER);
-            }
-        }
-
 
 		return authorities;
 	}
@@ -274,14 +272,7 @@ public class MetabolightsUser implements Serializable{
 
 
     public Boolean isCurator(){
-        if (getRole().equals(1)) //Integer 1 is stored in the database if you are a curator
-            return true;
-
-        return false;
-    }
-
-    public Boolean isReviewer(){
-        if (getRole().equals(2)) //Integer 2 is stored in the database if you are a reviewer
+        if (getRole().equals(AppRole.ROLE_SUPER_USER.ordinal())) //Integer 1 is stored in the database if you are a curator
             return true;
 
         return false;
@@ -305,6 +296,14 @@ public class MetabolightsUser implements Serializable{
     public void setApiToken(String apiToken) {
         this.apiToken = apiToken;
     }
+
+	public String getOrcid() {
+		return orcid;
+	}
+
+	public void setOrcid(String orcid) {
+		this.orcid = orcid;
+	}
 
 	public String getFullName(){
 		return  (

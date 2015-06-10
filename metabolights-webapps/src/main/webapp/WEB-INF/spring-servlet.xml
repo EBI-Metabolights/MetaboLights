@@ -97,18 +97,11 @@
 	-->
 	<bean id="contextApplicationContextProvider" class="uk.ac.ebi.metabolights.service.ApplicationContextProvider"></bean>
 
-    <!--For EBI tomcat server deployment  -->
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="java:comp/env/jdbc/metabolights"/>
-        <property name="resourceRef" value="true" />
-    </bean>
-
 
     <jee:jndi-lookup id="studiesLocation"   jndi-name="java:comp/env/studiesLocation" />
     <jee:jndi-lookup id="urlConfirmNewAccount"      jndi-name="java:comp/env/urlConfirmNewAccount" />
     <jee:jndi-lookup id="urlActivateNewAccount"     jndi-name="java:comp/env/urlActivateNewAccount" />
     <jee:jndi-lookup id="uploadDirectory"           jndi-name="java:comp/env/uploadDirectory" />
-    <!--<jee:jndi-lookup id="luceneIndexDirectoryShort" jndi-name="java:comp/env/luceneIndexDirectoryShort" />-->
     <jee:jndi-lookup id="ftpServer"                 jndi-name="java:comp/env/ftpServer" />
     <jee:jndi-lookup id="filebase"                  jndi-name="java:comp/env/filebase" />
     <jee:jndi-lookup id="ondemand"                  jndi-name="java:comp/env/ondemand" />
@@ -129,68 +122,46 @@
 		<property name="locations">
 			<list>
                 <value>classpath:application.properties</value>
-				<!--<value>"file:#{isatabuploaderconfig}hibernate.properties"</value>-->
 			</list>
 		</property>
 	</bean>
-
-
-   <!-- Callback filter for Frontier template addition -->
- <!--
-   <bean id="frontierTemplateReferenceLayerFilter" class="uk.ac.ebi.pride.web.util.frontier.FrontierTemplateFilter">
-        <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
-   </bean>
- -->
-
-    <tx:annotation-driven />
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-
-    <!-- read settings from application.properties file
-         NB! only for local testing
-	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
-		<property name="driverClass" value="${hibernate.connection.driver_class}"/>
-		<property name="user" value="${hibernate.connection.username}"/>
-		<property name="password" value="${hibernate.connection.password}"/>
-		<property name="jdbcUrl" value="${hibernate.connection.url}"/>
-		<property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
-		<property name="minPoolSize" value="${jdbc.minPoolSize}"/>
-		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
-		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
-		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/>
-	</bean>   -->
-
-	<!--bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${hibernate.connection.driver_class}"/>
-		<property name="username" value="${hibernate.connection.username}"/>
-		<property name="password" value="${hibernate.connection.password}"/>
-		<property name="url" value="${hibernate.connection.url}"/>
-	</bean-->
 
     <bean id="modelAndViewFactory" class="uk.ac.ebi.metabolights.webapp.StyleMAVFactory">
         <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
         <property name="localHeaderURL" value="#{localHeaderURL}"/>
         <property name="headerURL" value="#{headerURL}"/>
         <property name="footerURL" value="#{footerURL}"/>
-   	</bean>
+    </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <!-- Database connectivity configuration -->
+    <!-- Get the data source from tomcat (JNDI resource)  -->
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/metabolights"/>
+        <property name="resourceRef" value="true" />
+    </bean>
+
+
+    <tx:annotation-driven />
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation">
             <value>classpath:hibernate.cfg.xml</value>
         </property>
-        <property name="configurationClass">
-            <value>org.hibernate.cfg.AnnotationConfiguration</value>
-        </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
                 <!--prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop-->
                 <!--<prop key="hibernate.search.default.indexBase">#{luceneIndexDirectoryShort}</prop>-->
             </props>
         </property>
     </bean>
+
+
 
     <!--
     The security department
