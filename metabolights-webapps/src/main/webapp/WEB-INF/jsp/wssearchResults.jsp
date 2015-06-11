@@ -188,10 +188,19 @@
 
         }).done(function(data) {
 
+            var results = document.querySelector('search-result');
+            var facets = document.querySelector('metabolights-facets');
+
+            if (data.err != undefined){
+                pager.hidden = true;
+                facets.hidden = true;
+                results.noresultmessage = data.message;
+            }
+
+            results.searchresponse = data.content;
+
             query = data.content.query;
 
-            document.querySelector('search-result').searchresponse = data.content;
-            var facets = document.querySelector('metabolights-facets');
 
             var input = document.querySelector('input');
 
@@ -210,7 +219,7 @@
                 // Configure pager, fake whole set of data based on item count
                 pager.data = new Array(query.pagination.itemsCount);
                 pager.changePage(query.pagination.page-1);
-                pager.hidden = false;
+                pager.hidden = query.pagination.itemsCount <= query.pagination.pageSize;
 
                 facets.query =query
                 facets.hidden = false;
@@ -226,6 +235,8 @@
                 asideText.parentElement.parentElement.hidden = true;
             }
 
+            results.hidden=false;
+
 
         }).fail(function() {
             console.info("ajax failed")
@@ -239,28 +250,14 @@
     </div>
 </aside>
 <div layout horizontal>
-    <metabolights-facets auto-vertical></metabolights-facets>
-    <search-result auto-vertical></search-result>
+    <metabolights-facets auto-vertical hidden></metabolights-facets>
+    <search-result auto-vertical hidden header="${sHeader}" noresultmessage='${noresultsmessage}'></search-result>
 </div>
-<%--<nav class="facets">--%>
-<%--<metabolights-facets></metabolights-facets>--%>
-<%--</nav>--%>
-<%--<section class="search_results">--%>
-<%--<search-result></search-result>--%>
-<%--</section>--%>
-<page-er perpage="10"></page-er>
+<page-er hidden perpage="10"></page-er>
 
 
 <script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
 <script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
-
-<%-- TODO:
- welcome message / searched term
- Highlight
- My studies mode
-
---%>
-
 
 
 <%--TODO EBI search integration

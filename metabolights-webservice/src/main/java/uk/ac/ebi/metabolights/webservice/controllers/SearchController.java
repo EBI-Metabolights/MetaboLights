@@ -66,7 +66,17 @@ public class SearchController extends BasicController {
 			query = new SearchQuery("");
 		}
 
-		response.setContent(searchService.search(query));
+		try{
+			response.setContent(searchService.search(query));
+		} catch (Exception e){
+
+			// In case of an error...
+			SearchResult result = new SearchResult();
+			result.setQuery(query);
+			response.setContent(result);
+			response.setErr(e);
+			response.setMessage("Search service is not working properly");
+		}
 
 		return response;
 

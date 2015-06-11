@@ -27,15 +27,15 @@
 		<div class="facet">
 			<h4>{{displayname}}</h4>
 <!--			<chi-sele local="{{autocompletevalues}}"></chi-sele>-->
-			<span class="facetlist"  id="{{facet.name}}">
+			<div class="facetlist"  id="{{facet.name}}">
 			<template repeat="{{line in facet.lines}}">
 				<span class="facetLine">
 				<input type="checkbox"  name="{{facet.name}}" value="{{line.value}}" checked="{{line.checked}}" on-change="{{changeHandler}}"/>
 				{{line|formatLine}}
 				</span>
 			</template>
-			</span>
 			</div>
+		</div>
 		</template>
 	</template>
     <script>

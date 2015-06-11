@@ -373,6 +373,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	@Override
 	public SearchResult<LiteEntity> search(SearchQuery query) {
 
+
 		// Initilize the client
 		initialiseElasticSearchClient();
 
@@ -380,14 +381,14 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		SearchRequestBuilder searchRequestBuilder = client.prepareSearch(indexName);
 
 		// Convert our Model query into an elastic search query
-		QueryBuilder queryBuilder = queryToQueryBuilder(query,searchRequestBuilder);
+		QueryBuilder queryBuilder = queryToQueryBuilder(query, searchRequestBuilder);
 
 
 		// Set the query
 		searchRequestBuilder.setQuery(queryBuilder);
 
 		// Add or not facets
-		considerFacets(query,searchRequestBuilder);
+		considerFacets(query, searchRequestBuilder);
 
 		// Set pagination
 		// Elastic search first element starts at 0
@@ -395,12 +396,13 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		SearchResponse response = searchRequestBuilder.execute().actionGet();
 
-		if (response.getHits().getTotalHits()==0){
+		if (response.getHits().getTotalHits() == 0) {
 			// Nothing hit
 			logger.info("Nothing was hit by the query: " + query.toString());
 		}
 
 		return convertElasticSearchResponse2SearchResult(response, query);
+
 	}
 
 	private void setPagination(SearchQuery query, SearchRequestBuilder searchRequestBuilder) {

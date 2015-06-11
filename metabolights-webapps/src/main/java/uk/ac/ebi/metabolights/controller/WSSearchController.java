@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.AppContext;
 
 /**
@@ -38,6 +39,10 @@ import uk.ac.ebi.metabolights.service.AppContext;
 public class WSSearchController extends AbstractController{
 
 	public static final String WS_SEARCH_SUFFIX = "";
+	public static final String SEARCH_MODE = "wsSearchResult";
+	public static final String MY_SUBMISSIONS_MODE = "wsMySubmissions";
+	public static final String HEADER = "sHeader";
+	public static final String NORESULTSMESSAGE = "noresultsmessage";
 	private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
 
 
@@ -65,7 +70,7 @@ public class WSSearchController extends AbstractController{
 
 
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch("wsSearchResult");
+		ModelAndView mav = internalSearch(SEARCH_MODE);
 
 		//Add the action to the ModelAndView
 		mav.addObject("action", "search");
@@ -78,6 +83,18 @@ public class WSSearchController extends AbstractController{
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
 		mav.addObject("user_token", LoginController.getLoggedUser().getApiToken() );
+
+		if (MAVName.equals(SEARCH_MODE)){
+			mav.addObject(HEADER, PropertyLookup.getMessage("msg.search.title"));
+			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.search.noresults"));
+		} else if (MAVName.equals(MY_SUBMISSIONS_MODE)){
+			mav.addObject(HEADER, PropertyLookup.getMessage("msg.mysubmissions.title"));
+			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.mysubmissions.noresults"));
+		// Browse mode
+		} else {
+			mav.addObject(HEADER, PropertyLookup.getMessage("msg.browse.title"));
+			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.browse.noresults"));
+		}
 
 		return mav;
 	}
@@ -112,7 +129,7 @@ public class WSSearchController extends AbstractController{
 
 
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch("wsSearchResult");
+		ModelAndView mav = internalSearch(MY_SUBMISSIONS_MODE);
 
 		//Add the action to the ModelAndView
 		mav.addObject("action", "mysubmissions");

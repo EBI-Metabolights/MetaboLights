@@ -276,6 +276,9 @@
         <put-attribute name="title" value="Browse" />
     </definition>
 
+    <definition name="wsMySubmissions" extends="wsSearchResult">
+        <put-attribute name="title" value="My submissions" />
+    </definition>
 
 
 </tiles-definitions>
