@@ -579,7 +579,7 @@
     <h5><spring:message code="title.study.paper.link"/></h5>
     <p><spring:message code="label.study.paper.link"/></p>
     <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/${study.studyIdentifier}" readonly/></p>
-    <c:if test="${!study.publicStudy}">
+    <c:if test="${study.studyStatus == 'INREVIEW'}">
         <h5><spring:message code="title.study.private.link"/></h5>
         <p><spring:message code="label.study.private.link"/></p>
         <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly/></p>
