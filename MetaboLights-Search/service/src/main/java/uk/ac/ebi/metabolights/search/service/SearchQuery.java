@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.search.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -34,6 +35,7 @@ import java.util.LinkedList;
 public class SearchQuery {
 	private String text;
 	private LinkedList<Facet> facets = new LinkedList<Facet>();
+	private ArrayList<Booster> boosters = new ArrayList();
 	private Pagination pagination = new Pagination();
 	@JsonIgnore
 	private SearchUser user;
@@ -72,6 +74,10 @@ public class SearchQuery {
 
 	public void setUser(SearchUser user) {
 		this.user = user;
+	}
+
+	public ArrayList<Booster> getBoosters() {
+		return boosters;
 	}
 
 	public String toString(){

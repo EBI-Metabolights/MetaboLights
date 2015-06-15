@@ -37,10 +37,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.FilterBuilder;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -680,10 +677,38 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 		} else {
 			//So far let's do a plain text search.
-			queryBuilder = QueryBuilders.queryString(escapeText(query.getText()));
+			queryBuilder = textToQueryBuilder(query);
 		}
 
 		return queryBuilder;
+	}
+
+
+	/**
+	 * Generates a boolean query with the text and all the "boosting fields".
+	 * https://www.elastic.co/guide/en/elasticsearch/guide/current/_boosting_query_clauses.html
+	 * @param query
+	 * @return
+	 */
+	private QueryBuilder textToQueryBuilder(SearchQuery query) {
+
+		QueryBuilder textQuery =  QueryBuilders.queryString(escapeText(query.getText()));
+
+		// Get a boolean query with the querystring to start with
+		BoolQueryBuilder booleanQuery = QueryBuilders.boolQuery().must(textQuery);
+
+		// Add the "boosting fields"
+		for (Booster booster :query.getBoosters()){
+
+			TermQueryBuilder boostingField = QueryBuilders.termQuery(booster.getFieldName(), query.getText());
+			boostingField.boost(booster.getBoost());
+
+			booleanQuery.should(boostingField);
+
+		}
+
+
+		return booleanQuery;
 	}
 
 	private String escapeText(String text) {

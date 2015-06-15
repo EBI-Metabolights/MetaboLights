@@ -71,7 +71,13 @@
             "pagination":{
                 "page":1,
                 "pageSize":10
-            }
+            },
+            "boosters":[
+                {
+                    "fieldName": "title",
+                    "boost": 1
+                }
+            ]
         };
 
 
