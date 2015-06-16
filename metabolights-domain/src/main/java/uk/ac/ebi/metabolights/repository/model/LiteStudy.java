@@ -42,10 +42,10 @@ import java.util.List;
 public class LiteStudy extends LiteEntity {
 
 	public enum StudyStatus{
-		SUBMITTED("Submitted", "Submitted status description"),
-		INCURATION("In curation", "In curation description"),
-		INREVIEW("In review", "In review description"),
-		PUBLIC("Public", "The study is public and accessible by everyone");
+		SUBMITTED("Submitted", "The study is in progress and is private to you. You can make any changes, even delete the study. This submission will have to pass our initial validation checks."),
+		INCURATION("In curation", "At this stage you can not make any changes. Be advised that further information may be required, and we may contact you for further information"),
+		INREVIEW("In review", "Approved by our curation team. Ready to be shared with journals and reviewers."),
+		PUBLIC("Public", "Anyone can view and download it. It is searchable and will be exported to other search engines like http://metabolomexchange.org/");
 		private final String descriptiveName;
 
 		public String getDescription() {
