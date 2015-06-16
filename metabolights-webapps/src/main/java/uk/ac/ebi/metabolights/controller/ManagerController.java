@@ -22,7 +22,6 @@
 package uk.ac.ebi.metabolights.controller;
 
 
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +49,7 @@ import uk.ac.ebi.metabolights.webservice.client.models.StudySearchResult;
 import javax.naming.Binding;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
