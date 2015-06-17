@@ -138,7 +138,7 @@ $(function() {
                 <table cellpadding="5px" cellspacing="0px">
                     <tr><th>DataSource - metabolights</th><th>Value</th></tr>
                     <tr>
-                        <td>url</td><td>${connection}</td>
+                        <td>url</td><td>${connection.poolProperties.url}</td>
                     </tr>
 
                 </table>

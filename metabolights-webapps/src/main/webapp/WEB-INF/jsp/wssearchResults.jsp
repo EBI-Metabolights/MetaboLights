@@ -112,7 +112,6 @@
     var pager;
     var query = getQuery();
     var asideText;
-    var searchActive = false;
 
     document.addEventListener('polymer-ready', function() {
 
@@ -174,17 +173,6 @@
     };
 
     function search(keepPage){
-
-
-        if (searchActive) {
-            return;
-        } else {
-
-            // Indicate we are searching...
-            searchActive = true;
-
-        }
-
 
         if (query.pagination != undefined){
             if (!keepPage) query.pagination.page = 1;
@@ -255,15 +243,10 @@
 
             results.hidden=false;
 
-            searchActive = false;
 
         }).fail(function() {
-            console.info("ajax failed, can't search.");
-            searchActive = false;
-
+            console.info("ajax failed")
         });
-
-
     };
 </script>
 
