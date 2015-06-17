@@ -79,7 +79,7 @@
 
     <hr/>
     <br/>
-    <a class="noLine" href="http://www.bbsrc.ac.uk/research/grants-search/AwardDetails/?FundingReference=BB%2fL024152%2f1"><img src="img/bbsrcLarge.png" alt="BBSCR"/></a>
+    <a class="noLine" href="http://www.bbsrc.ac.uk/pa/grants/AwardDetails.aspx?FundingReference=BB/I000933/1"><img src="img/bbsrcLarge.png" alt="BBSCR"/></a>
         &nbsp;&nbsp;&nbsp; <img src="img/embl.png" alt="EMBL"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.metabolomics.bioc.cam.ac.uk/metabolomics/"><img src="img/camLogo.png" alt="UC"/></a>
     <br/>
     <p><spring:message code="msg.metabolightsAbout5"/></p>
