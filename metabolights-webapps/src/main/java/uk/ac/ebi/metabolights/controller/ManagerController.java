@@ -51,6 +51,7 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.File;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -152,7 +153,11 @@ public class ManagerController extends AbstractController{
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("config");
 		mav.addObject("props", properties);
 		mav.addObject("contextProps", contextProps);
-		mav.addObject("connection", metabolightsDs);
+		try {
+			mav.addObject("connection", metabolightsDs.getConnection().getMetaData().getURL());
+		} catch (SQLException e) {
+			mav.addObject("connection", e.getMessage());
+		}
 		mav.addObject("validation", validationResult);
 		mav.addObject("queue", queue);
 		mav.addObject("processFolder", (getFilesInFolder(new File(SubmissionQueue.getProcessFolder()))));
