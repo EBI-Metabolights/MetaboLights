@@ -112,14 +112,22 @@
     var pager;
     var query = getQuery();
     var asideText;
+    var results;
+    var facets;
+    var searchBox;
+
     var searchActive = false;
 
     document.addEventListener('polymer-ready', function() {
 
-        pager = document.querySelector("page-er");
-        pager.perpage = query.pagination.pageSize;
+        window.onpopstate = function(event) {
+            query = getQuery();
+            search(true);
+        };
 
-        asideText = document.querySelector("#search-extras-info");
+        populateVariables();
+
+        pager.perpage = query.pagination.pageSize;
 
         document.addEventListener('pager-change', function(e) {
             query.pagination.page = e.detail.page+1;
@@ -127,23 +135,19 @@
         });
 
         // Hijack the submit
-        $("#local-search").attr("onsubmit", "return searchFromForm()");
+        $(searchBox).attr("onsubmit", "return searchFromForm()");
 
         search();
 
+
     });
 
-    window.onpopstate = function(event) {
-        query = getQuery();
-        search(true);
-    };
 
 
     function searchFromForm(){
 
         query = getEmptyQuery();
-        var searchbox = document.querySelector('#local-searchbox') ;
-        query.text= searchbox.value ;
+        query.text= searchBox.value ;
         search();
 
         return false;
@@ -182,6 +186,9 @@
 
             // Indicate we are searching...
             searchActive = true;
+            pager.hidden = true;
+            results.hidden = true;
+            facets.hidden = true;
 
         }
 
@@ -206,12 +213,8 @@
 
         }).done(function(data) {
 
-            var results = document.querySelector('search-result');
-            var facets = document.querySelector('metabolights-facets');
-
             if (data.err != undefined){
-                pager.hidden = true;
-                facets.hidden = true;
+
                 results.noresultmessage = data.message;
             }
 
@@ -220,9 +223,7 @@
             query = data.content.query;
 
 
-            var input = document.querySelector('input');
-
-            if (input != undefined) input.value = query.text;
+            if (searchBox != undefined) searchBox.value = query.text;
 
             $('html, body').animate({ scrollTop: 0 }, 'fast');
 
@@ -241,6 +242,7 @@
 
                 facets.query =query
                 facets.hidden = false;
+
 
             }
 
@@ -265,6 +267,23 @@
 
 
     };
+
+    function populateVariables() {
+
+        pager = fillVarWithElement(pager,"page-er");
+        asideText = fillVarWithElement(asideText ,"#search-extras-info");
+        results = fillVarWithElement(results, 'search-result');
+        facets = fillVarWithElement(facets,'metabolights-facets');
+        searchBox = fillVarWithElement(searchBox ,'#local-searchbox');
+
+    }
+    function fillVarWithElement(variable, element){
+        if (variable == undefined){
+            return document.querySelector(element);
+        }
+
+        return variable;
+    }
 </script>
 
 <aside class="grid_6 omega shortcuts expander" id="search-extras">
