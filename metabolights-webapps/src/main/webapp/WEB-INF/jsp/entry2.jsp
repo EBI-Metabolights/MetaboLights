@@ -27,7 +27,7 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
 <%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.ChEBICompound.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>

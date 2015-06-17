@@ -1,0 +1,188 @@
+﻿/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
+ * Last modified: 2014-Aug-20
+ * Modified by:   kenneth
+ *
+ * Copyright 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+#st-options {
+    padding: 5px;
+    font-family: Verdana, sans-serif;
+    font-size: x-small;
+    box-shadow: 2px 2px 1px #888;
+}
+
+#st-popup {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: dashed;
+    border-radius: 10px;
+    border-width: 1px;
+    padding: 3px;
+    font-size: small;
+    font-family: Verdana, sans-serif;
+}
+
+.st-unselectable, .st-base {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.st-g-main {
+    pointer-events: all;
+}
+
+.st-base {
+    font-family: Verdana, sans-serif;
+    color: #333333;
+}
+
+.st-circle {
+    stroke-width: 1;
+    stroke: black;
+}
+
+.st-line {
+    stroke-width: 1;
+    fill: none;
+}
+
+.st-xaxis {
+    font-family: Verdana, sans-serif;
+    font-size: small;
+    color: #333333;
+}
+
+.st-xaxis path {
+    fill: none;
+    stroke: #333333;
+}
+
+.st-xaxis line {
+    fill: none;
+    stroke: lightgray;
+}
+
+.st-yaxis {
+    font-family: Verdana, sans-serif;
+    font-size: small;
+}
+
+.st-yaxis path {
+    fill: none;
+    stroke: #333333;;
+}
+
+.st-yaxis line {
+    fill: none;
+    stroke: lightgray;
+}
+
+.st-labels {
+    font-family: Verdana, sans-serif;
+    font-size: x-small;
+    text-anchor: middle;
+}
+
+.st-grid line {
+    stroke: #333333;;
+}
+
+.st-grid text {
+    display: none;
+}
+
+.st-grid .minor line {
+    stroke-opacity: .5;
+}
+
+.st-selection {
+    stroke: blue;
+    stroke-width: 2px;
+    stroke-opacity: 1;
+    fill: #0166be;
+    opacity: 0.5;
+}
+
+.st-legend {
+    padding: 5px;
+    font-family: Verdana, sans-serif;
+    font-size: x-small;
+    overflow: hidden;
+}
+
+.st-tooltips {
+    font-family: Verdana, sans-serif;
+    font-size: small;
+    float: left;
+}
+
+.st-spinner {
+    margin: auto;
+    width: 30px;
+    text-align: center;
+}
+
+.st-spinner > div {
+    width: 10px;
+    height: 10px;
+    background-color: #333;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+    animation: bouncedelay 1.4s infinite ease-in-out;
+    /* Prevent first frame from flickering when animation starts */
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.st-spinner .st-bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.st-spinner .st-bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+@-webkit-keyframes bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0.0);
+    }
+
+    40% {
+        -webkit-transform: scale(1.0);
+    }
+}
+
+@keyframes bouncedelay {
+    0%, 80%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+
+    40% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
