@@ -65,7 +65,7 @@ public class WSSearchController extends AbstractController{
 	 * Controller for a internalSearch request, including possible filters.
 	 *
 	 */
-	@RequestMapping(value = "/search" + WS_SEARCH_SUFFIX, method = {RequestMethod.GET})
+	@RequestMapping(value = "/search" + WS_SEARCH_SUFFIX, method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView search (@RequestParam(required=false,value="freeTextQuery") String freeTextQuery) throws Exception {
 
 
