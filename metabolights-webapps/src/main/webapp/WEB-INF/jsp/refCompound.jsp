@@ -1,26 +1,16 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<script src="http://keith-wood.name/js/jquery.svg.js"></script>
-<script src="http://keith-wood.name/js/jquery.svganim.js"></script>
+<script src="javascript/jquery.svg.js"></script>
+<script src="javascript/jquery.svganim.js"></script>
 <%--<script type="text/javascript"--%>
         <%--src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-<script type="text/javascript" src="http://www.ebi.ac.uk/~beisken/st/st.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/st.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.Rheaction.js"></script>
 <link rel="stylesheet"  href="cssrl/biojs.Rheaction.css" type="text/css"/>
-<link rel="stylesheet"  href="http://www.ebi.ac.uk/~beisken/st/st.css" type="text/css" />
-
-<%--
-  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
-  ~ Cheminformatics and Metabolism group
-  ~
-  ~ Last modified: 06/09/13 21:05
-  ~ Modified by:   kenneth
-  ~
-  ~ Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
-  --%>
+<link rel="stylesheet"  href="css/st.css" type="text/css" />
 
 <script>
 
