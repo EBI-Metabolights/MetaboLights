@@ -1,6 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
@@ -86,13 +86,15 @@
 
 	$(function() {
 		$( "#datepicker" ).datepicker( {
-	          changeMonth: true,
-	          changeYear: true,
-	          showOtherMonths: true,
-	          buttonText: 'Choose Date',
-	          dateFormat: 'dd-M-yy',
-	          minDate: '+14',
-	          maxDate: '+1y'
+	        changeMonth: true,
+	        changeYear: true,
+	        showOtherMonths: true,
+	        buttonText: 'Choose Date',
+	        dateFormat: 'dd-M-yy'
+			<sec:authorize access="!hasRole('ROLE_SUPER_USER')">
+				,minDate: '+7',
+				maxDate: '+1y'
+			</sec:authorize>
 	      });
 	});
 
