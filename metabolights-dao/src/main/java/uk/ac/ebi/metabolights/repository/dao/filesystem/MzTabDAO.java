@@ -30,6 +30,7 @@ import uk.ac.ebi.metabolights.repository.model.SampleMeasurement;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -112,7 +113,9 @@ public class MzTabDAO {
         Collection<MetaboliteAssignmentLine> metaboliteAssignmentLines = new ArrayList<MetaboliteAssignmentLine>();
 
         try {
-            fileData = new CsvReader(fileName, '\t');     // Read the tab-separated MAF
+//            fileData = new CsvReader(fileName, '\t');     // Read the tab-separated MAF
+            fileData = new CsvReader(fileName, '\t', StandardCharsets.UTF_8);     // Read the tab-separated MAF in UTF-8
+
             fileData.readHeaders();                       // Read the header records
 
             while (fileData.readRecord()){
