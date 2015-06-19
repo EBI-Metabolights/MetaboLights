@@ -24,18 +24,19 @@
 		<core-style ref="facets_layout"></core-style>
 		<core-style ref="facets_colors"></core-style>
 		<core-style ref="ebi_styles"></core-style>
-		<div class="facet">
-			<h4>{{displayname}}</h4>
-<!--			<chi-sele local="{{autocompletevalues}}"></chi-sele>-->
-			<div class="facetlist"  id="{{facet.name}}">
-			<template repeat="{{line in facet.lines}}">
-				<span class="facetLine">
-				<input type="checkbox"  name="{{facet.name}}" value="{{line.value}}" checked="{{line.checked}}" on-change="{{changeHandler}}"/>
-				{{line|formatLine}}
-				</span>
-			</template>
+		<template if="{{facet.lines.length > 1}}">
+			<div class="facet">
+				<h4>{{displayname}}</h4>
+	<!--			<chi-sele local="{{autocompletevalues}}"></chi-sele>-->
+				<div class="facetlist"  id="{{facet.name}}">
+				<template repeat="{{line in facet.lines}}">
+					<span class="facetLine">
+					<input type="checkbox"  name="{{facet.name}}" value="{{line.value}}" checked="{{line.checked}}" on-change="{{changeHandler}}"/>
+					{{line|formatLine}}
+					</span>
+				</template>
+				</div>
 			</div>
-		</div>
 		</template>
 	</template>
     <script>
