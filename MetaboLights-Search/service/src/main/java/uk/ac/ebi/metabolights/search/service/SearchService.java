@@ -33,6 +33,6 @@ public interface SearchService<E,L> {
 	public String getStatus();
 	public void delete(String id) throws IndexingFailureException;
 	public void resetIndex() throws IndexingFailureException;
-	public SearchResult<L> search(SearchQuery query);
+	public SearchResult<Object> search(SearchQuery query);
 	public void index(E entity) throws IndexingFailureException;
 }

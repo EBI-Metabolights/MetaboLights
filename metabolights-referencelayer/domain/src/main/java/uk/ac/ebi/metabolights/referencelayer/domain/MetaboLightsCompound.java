@@ -45,8 +45,8 @@ public class MetaboLightsCompound extends Identifier {
     // Iupac Names (separated by |)
     private String iupacNames;
 
-    //Status:  0 = Public, 1=Private
-    private String studyStatus;
+    //Status (Always public so far)
+    private String studyStatus = "PUBLIC";
 
     private boolean hasLiterature;
 

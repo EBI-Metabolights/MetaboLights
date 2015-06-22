@@ -164,7 +164,7 @@ public class ElasticSearchServiceTest {
 
 		SearchQuery query = new SearchQuery(publicStudy.getAcc());
 
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Object> result = elasticSearchService.search(query);
 
 		Assert.assertTrue(publicStudy.getAcc() + " study is found" ,result.getResults().size() ==1);
 
@@ -190,7 +190,7 @@ public class ElasticSearchServiceTest {
 
 		// Test notOwner all available
 		// This should return all
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Object> result = elasticSearchService.search(query);
 		Assert.assertTrue(" Only public studies should be found" ,result.getResults().size() ==2);
 
 
@@ -237,7 +237,7 @@ public class ElasticSearchServiceTest {
 		query.setUser(new SearchUser(curator.getUserName(), true));
 		query.getPagination().setPageSize(PAGE_SIZE);
 
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Object> result = elasticSearchService.search(query);
 
 		Assert.assertEquals("Results size should fit pageSize",PAGE_SIZE, result.getResults().size());
 		Assert.assertEquals("Total count test", STUDIES_COUNT, result.getQuery().getPagination().getItemsCount());
@@ -264,7 +264,7 @@ public class ElasticSearchServiceTest {
 		Facet technologyFacet = new Facet("assays.technology");
 		query.getFacets().add(technologyFacet);
 
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Object> result = elasticSearchService.search(query);
 
 		// There should be two lines in the technology facet
 		Assert.assertEquals("1 facet group",1 , result.getQuery().getFacets().size());
@@ -326,7 +326,7 @@ public class ElasticSearchServiceTest {
 
 		query.getFacets().add(technologyFacet);
 
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Object> result = elasticSearchService.search(query);
 
 		// There should be two lines in the technology facet
 		Assert.assertEquals("1 facet group",1 , result.getQuery().getFacets().size());

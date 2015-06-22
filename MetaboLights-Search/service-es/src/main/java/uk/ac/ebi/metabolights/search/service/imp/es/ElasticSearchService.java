@@ -48,6 +48,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.repository.model.LiteEntity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -67,24 +68,32 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 public class ElasticSearchService implements SearchService <Object, LiteEntity> {
 
 	private static final String PROPERTIES = "properties";
-	private static final String STUDY_STATUS_FIELD = "studyStatus";
+	private static final String STATUS_FIELD = "studyStatus";
 	private static final String USER_NAME_FIELD = "users.userName";
 	private static final String STUDY_PUBLIC_RELEASE_DATE = "studyPublicReleaseDate";
 	public static final String NO_ESCAPING_CHAR = "'";
+
 	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
 
+	private static final String COMPOUND_TYPE_NAME = "compound";
 	private static final String STUDY_TYPE_NAME = "study";
 	private static String studyPrefix = "MTBLS";
 
-	private TransportClient  client;
+	// Index configurations
 	private String indexName = "metabolights";
-
 	private String clusterName = "metabolights";
 
-	// Shared: to have a cleanner code when generating the mapping.
+
+	// Instances
+	private ObjectMapper mapper;
+	private TransportClient  client;
+
+	// Shared: to have a cleaner code when generating the mapping.
 	private XContentBuilder mapping = null;
 
 	public ElasticSearchService(){
+
+
 		initialiseElasticSearchClient();
 	}
 	public ElasticSearchService(String clusterName){
@@ -94,6 +103,15 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	}
 
 	private void initialiseElasticSearchClient() {
+
+		// Initialise JSON deserializer.
+		if (mapper == null) {
+
+			mapper= new ObjectMapper();
+			mapper.setTimeZone(Calendar.getInstance().getTimeZone());
+			mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+		}
 
 		if (client != null) return;
 
@@ -156,19 +174,70 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 				// Add study mapping
 				addStudyMapping();
 
-			// End mapping
-			mapping.endObject();  //End of JSON root object.
+			mapping.endObject();
 
 			// Add the mapping for studies
 			createIndexRequestBuilder.addMapping(STUDY_TYPE_NAME, mapping);
 			logger.info(indexName + "/" + STUDY_TYPE_NAME + " created using this configuration: " + mapping.string());
 
+
+			// New mapping for the compounds
+			mapping = jsonBuilder().startObject();
+
+				// Add compound mapping
+				addCompoundMapping();
+
+			// End mapping
+			mapping.endObject();  //End of JSON root object.
+
+
+			// Add the mapping for the compounds
+			createIndexRequestBuilder.addMapping(COMPOUND_TYPE_NAME, mapping);
+			logger.info(indexName + "/" + COMPOUND_TYPE_NAME + " created using this configuration: " + mapping.string());
+
 			// Execute it
 			createIndexRequestBuilder.execute().actionGet();
+
+
 
 		} catch (IOException e) {
 			logger.error("Can't create " + indexName + " index in eleasticsearch.", e);
 		}
+	}
+	/**
+	 * Adds a the compound mapping
+	 * @throws IOException
+	 */
+
+	private void addCompoundMapping() throws IOException {
+
+		// Add compound mapping root
+		mapping.startObject(COMPOUND_TYPE_NAME);
+
+
+		// Do not allow dynamic properties: strict is too strict, throws an exception
+		//mapping.field("dynamic", "false");
+
+		// Timestamp
+		addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
+
+		//_source configuration
+		//		mapping.startObject("_source")
+		//				.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "studyLocation",
+		//						"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
+		//						"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
+		//						"users.listOfAllStatus", "users.affiliationUrl", "users.status", "users.listOfAllStatus", "users.studies",
+		//						"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
+		//						"users.affiliation", "users.curator", "users.reviewer"})
+		//				.endObject()
+
+		// Properties configutarion (fields types and storage)
+		mapping.startObject(PROPERTIES);
+
+		addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
+
+		addObject("accession", "type", "string", "index", "not_analyzed");
+
 	}
 
 	/**
@@ -222,7 +291,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 				addObject("studySubmissionDate", "type", "date");
 
-				addObject(STUDY_STATUS_FIELD, "type", "string", "index", "not_analyzed");
+				addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
 
 				addObject("obfuscationCode", "type", "string", "index", "not_analyzed");
 
@@ -368,7 +437,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	}
 
 	@Override
-	public SearchResult<LiteEntity> search(SearchQuery query) {
+	public SearchResult<Object> search(SearchQuery query) {
 
 
 		// Initilize the client
@@ -572,7 +641,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		if (query.getUser() == null || !query.getUser().isAdmin()) {
 
 			// ... only public studies are accesible.
-			filter = FilterBuilders.termFilter(STUDY_STATUS_FIELD, Study.StudyStatus.PUBLIC.name());
+			filter = FilterBuilders.termFilter(STATUS_FIELD, Study.StudyStatus.PUBLIC.name());
 
 			// If user not null...
 			if (query.getUser() != null) {
@@ -727,9 +796,9 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private SearchResult<LiteEntity> convertElasticSearchResponse2SearchResult(SearchResponse esResponse, SearchQuery query){
+	private SearchResult<Object> convertElasticSearchResponse2SearchResult(SearchResponse esResponse, SearchQuery query){
 
-		SearchResult<LiteEntity> searchResult = new SearchResult<LiteEntity>();
+		SearchResult<Object> searchResult = new SearchResult<Object>();
 
 		// Set the query
 		searchResult.setQuery(query);
@@ -744,7 +813,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private void fillFacets(SearchResponse esResponse, SearchResult<LiteEntity> searchResult) {
+	private void fillFacets(SearchResponse esResponse, SearchResult<Object> searchResult) {
 
 		Aggregations aggregations = esResponse.getAggregations();
 
@@ -789,7 +858,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	}
 
 
-	private Facet getFacetForAggregation(Aggregation aggregation, SearchResult<LiteEntity> searchResult) {
+	private Facet getFacetForAggregation(Aggregation aggregation, SearchResult<Object> searchResult) {
 
 		for (Facet facet : searchResult.getQuery().getFacets()) {
 
@@ -803,7 +872,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private void fillPagination(SearchResponse esResponse, SearchResult<LiteEntity> searchResult) {
+	private void fillPagination(SearchResponse esResponse, SearchResult<Object> searchResult) {
 
 		SearchQuery query = searchResult.getQuery();
 		Pagination pagination =query.getPagination();
@@ -814,7 +883,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private void convertHits2Entities(SearchResponse esResponse, SearchResult<LiteEntity> searchResult) {
+	private void convertHits2Entities(SearchResponse esResponse, SearchResult<Object> searchResult) {
 
 
 		for (SearchHit hit:esResponse.getHits()){
@@ -822,18 +891,23 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		}
 	}
 
-	private void addLiteEntity(SearchHit hit, SearchResult<LiteEntity> searchResult){
+	private void addLiteEntity(SearchHit hit, SearchResult<Object> searchResult){
 
 		try {
 
-			LiteEntity liteEntity = null;
+			Object entity = null;
 
 			if (hit.getType().equals(STUDY_TYPE_NAME)){
-				liteEntity = hit2Study(hit);
+				entity = hit2Study(hit);
 			}
 
-			if (liteEntity != null)
-				searchResult.getResults().add(liteEntity);
+			if (hit.getType().equals(COMPOUND_TYPE_NAME)){
+				entity = hit2Compound(hit);
+			}
+			
+
+			if (entity != null)
+				searchResult.getResults().add(entity);
 
 		} catch (IndexingFailureException e) {
 
@@ -843,15 +917,29 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
+	private MetaboLightsCompound hit2Compound(SearchHit hit) throws IndexingFailureException {
+
+		MetaboLightsCompound compound = new MetaboLightsCompound();
+
+		// It's using GMT to deserialize, but JVM Timezone to serialise? Force JVM time zone here.
+
+		try {
+			compound =  mapper.readerForUpdating(compound).readValue(hit.getSourceAsString());
+
+
+		} catch (IOException e) {
+			throw new IndexingFailureException("Can't convert elastic search hit to Compound class: " + e.getMessage(),e);
+		}
+
+		return compound;
+
+	}
+
 	private LiteEntity hit2Study(SearchHit hit) throws IndexingFailureException {
 
 		LiteStudy study = new LiteStudy();
 
-		ObjectMapper mapper = new ObjectMapper();
-
-		// It's using GMT to deserialise, but JVM Timezone to serialise? Force JVM time zone here.
-		mapper.setTimeZone(Calendar.getInstance().getTimeZone());
-		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		// It's using GMT to deserialize, but JVM Timezone to serialise? Force JVM time zone here.
 
 		try {
 			study =  mapper.readerForUpdating(study).readValue(hit.getSourceAsString());
@@ -872,7 +960,22 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 			configureIndex();
 		}
 
-		indexStudy((Study) entity);
+		if (entity instanceof Study) {
+			indexStudy((Study) entity);
+		} else if (entity instanceof MetaboLightsCompound){
+			indexCompound((MetaboLightsCompound) entity);
+		} else {
+
+			throw new IndexingFailureException("Don't know ho to index the entity. Class:" + entity.getClass().getCanonicalName());
+		}
+	}
+
+	private void indexCompound(MetaboLightsCompound compound) throws IndexingFailureException {
+
+		String id=compound.getAccession();
+		String compoundS = entity2String(compound);
+		IndexResponse response = client.prepareIndex(indexName, COMPOUND_TYPE_NAME, id).setSource(compoundS).execute().actionGet();
+
 	}
 
 	private void indexStudy(Study study) throws IndexingFailureException {
@@ -882,16 +985,19 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		IndexResponse response = client.prepareIndex(indexName, STUDY_TYPE_NAME, id).setSource(studyS).execute().actionGet();
 
 	}
+
 	private String study2String(Study study) throws IndexingFailureException {
-		ObjectMapper mapper = new ObjectMapper();
-
-		try {
-			return mapper.writeValueAsString(study);
-
-		} catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-			throw new IndexingFailureException("Can't serialize a study to a JSON String" , e);
-		}
+		return entity2String(study);
 	}
 
+	private String entity2String(Object entity) throws IndexingFailureException {
+
+		try {
+			return mapper.writeValueAsString(entity);
+
+		} catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+			throw new IndexingFailureException("Can't serialize a " + entity.getClass().getCanonicalName() + " to a JSON String" , e);
+		}
+	}
 
 }

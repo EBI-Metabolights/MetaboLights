@@ -50,6 +50,12 @@
         </dependency>
 
         <dependency>
+            <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
+            <artifactId>metabolights-referencelayer-domain</artifactId>
+            <version>0.9-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>1.4.1</version>
