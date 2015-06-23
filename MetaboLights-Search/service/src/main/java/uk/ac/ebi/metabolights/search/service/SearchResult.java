@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.search.service;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,7 @@ import java.util.List;
  */
 public class SearchResult<I> {
 	private SearchQuery query;
+	@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.WRAPPER_ARRAY, property = "type")
 	private List<I> results = new LinkedList<I>();
 	private List<String> reportLines = new ArrayList<String>();
 
