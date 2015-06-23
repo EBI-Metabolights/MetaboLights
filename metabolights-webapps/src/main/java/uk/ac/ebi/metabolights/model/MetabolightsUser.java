@@ -28,10 +28,7 @@ import uk.ac.ebi.metabolights.service.CountryService;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents a user of the Metabolights / Isatab application.
@@ -66,6 +63,9 @@ public class MetabolightsUser implements Serializable{
 		this.objectType="Person";
 		this.status=UserStatus.NEW.getValue();
 		this.joinDate=new java.util.Date();
+		this.apiToken = UUID.randomUUID().toString();
+		this.role = AppRole.ROLE_SUBMITTER.ordinal();
+
 	}
 
 	@Id
@@ -207,13 +207,6 @@ public class MetabolightsUser implements Serializable{
 			}
 		}
 
-        if (isReviewer()){
-            if (!authorities.contains(AppRole.ROLE_REVIEWER)){
-                authorities.add(AppRole.ROLE_REVIEWER);
-            }
-        }
-
-
 		return authorities;
 	}
 
@@ -285,14 +278,7 @@ public class MetabolightsUser implements Serializable{
 
 
     public Boolean isCurator(){
-        if (getRole().equals(1)) //Integer 1 is stored in the database if you are a curator
-            return true;
-
-        return false;
-    }
-
-    public Boolean isReviewer(){
-        if (getRole().equals(2)) //Integer 2 is stored in the database if you are a reviewer
+        if (getRole().equals(AppRole.ROLE_SUPER_USER.ordinal())) //Integer 1 is stored in the database if you are a curator
             return true;
 
         return false;
