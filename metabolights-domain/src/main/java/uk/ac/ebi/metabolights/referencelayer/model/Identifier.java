@@ -1,4 +1,4 @@
-package uk.ac.ebi.metabolights.referencelayer.domain;
+package uk.ac.ebi.metabolights.referencelayer.model;
 
 /**
  * User: conesa

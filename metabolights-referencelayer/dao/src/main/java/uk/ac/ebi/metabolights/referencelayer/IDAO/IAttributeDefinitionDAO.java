@@ -10,12 +10,12 @@
 
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.AttributeDefinition;
+import uk.ac.ebi.metabolights.referencelayer.model.AttributeDefinition;
 
 import java.util.Collection;
 
 /**
- * Reader for {@link uk.ac.ebi.metabolights.referencelayer.domain.AttributeDefinition} objects from MetaboLights reference layer.
+ * Reader for {@link uk.ac.ebi.metabolights.referencelayer.model.AttributeDefinition} objects from MetaboLights reference layer.
  * @author Pablo Conesa
  */
 

@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
@@ -18,6 +20,7 @@ public class CompoundsTests {
 
 	private static final Logger logger = LoggerFactory.getLogger(CompoundsTests.class);
 	public static final String ACCESSION = "MTBLC123456";
+	private static final String STUDY_ID = "LALALA1";
 
 
 	@Test
@@ -39,8 +42,51 @@ public class CompoundsTests {
 
 		SearchResult searchResult = elasticSearchService.search(searchQuery);
 
-		Assert.assertEquals("Search does not returns the compound 123456" , searchResult.getResults().size());
+		Assert.assertEquals("Search does not returns the compound 123456" ,1, searchResult.getResults().size());
+
+	}
+
+	@Test
+	public void testMixedIndex() throws IndexingFailureException {
+
+		testSimpleCompoundIndex();
+		testSimpleStudyIndex();
+
+		ElasticSearchService elasticSearchService = new ElasticSearchService();
+
+		// A search must return it
+		SearchQuery searchQuery = new SearchQuery();
+
+		SearchResult searchResult = elasticSearchService.search(searchQuery);
+
+		Assert.assertEquals("Search does not returns the 2 different entities." ,2, searchResult.getResults().size());
 
 
 	}
+
+	@Test
+	public void testSimpleStudyIndex() throws IndexingFailureException {
+
+		Study study = new Study();
+
+		study.setStudyIdentifier(STUDY_ID);
+		study.setTitle("a study");
+		study.setStudyStatus(LiteStudy.StudyStatus.PUBLIC);
+
+
+		ElasticSearchService elasticSearchService = new ElasticSearchService();
+
+		elasticSearchService.index(study);
+
+		// A search must return it
+		SearchQuery searchQuery = new SearchQuery("'_id:" + STUDY_ID);
+
+		SearchResult searchResult = elasticSearchService.search(searchQuery);
+
+		Assert.assertEquals("Search does not returns the study " + STUDY_ID ,1, searchResult.getResults().size());
+
+
+	}
+
+
 }

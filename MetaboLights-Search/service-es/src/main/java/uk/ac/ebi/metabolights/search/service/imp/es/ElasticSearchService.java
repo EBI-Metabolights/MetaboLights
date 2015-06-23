@@ -48,7 +48,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.repository.model.LiteEntity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;

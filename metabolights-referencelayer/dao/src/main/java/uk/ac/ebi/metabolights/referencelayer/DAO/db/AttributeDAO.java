@@ -13,7 +13,7 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IAttributeDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.*;
+import uk.ac.ebi.metabolights.referencelayer.model.*;
 
 import java.io.IOException;
 import java.sql.*;

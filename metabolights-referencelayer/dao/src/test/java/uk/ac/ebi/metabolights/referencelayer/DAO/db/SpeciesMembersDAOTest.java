@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesMembers;
 
 import java.sql.Connection;
 import java.util.Collection;

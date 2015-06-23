@@ -22,6 +22,7 @@
 package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -39,6 +40,8 @@ import java.util.List;
  * Date: 24/02/15
  * Time: 09:38
  */
+
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="objectType")
 public class LiteStudy extends LiteEntity {
 
 	public enum StudyStatus{

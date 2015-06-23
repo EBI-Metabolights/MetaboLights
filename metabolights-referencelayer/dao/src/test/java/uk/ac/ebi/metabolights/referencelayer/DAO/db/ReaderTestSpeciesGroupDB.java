@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
 
 import java.sql.Connection;
 

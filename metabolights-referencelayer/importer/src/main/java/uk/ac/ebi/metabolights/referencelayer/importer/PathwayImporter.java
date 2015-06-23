@@ -29,7 +29,7 @@ import uk.ac.ebi.metabolights.referencelayer.DAO.db.DatabaseDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
-import uk.ac.ebi.metabolights.referencelayer.domain.*;
+import uk.ac.ebi.metabolights.referencelayer.model.*;
 
 import java.io.BufferedReader;
 import java.io.File;

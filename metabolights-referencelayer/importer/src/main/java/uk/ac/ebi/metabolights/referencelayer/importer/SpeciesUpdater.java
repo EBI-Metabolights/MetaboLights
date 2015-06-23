@@ -48,8 +48,8 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesMembersDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesMembers;
 import uk.ac.ebi.metabolights.species.core.tools.Grouper;
 import uk.ac.ebi.metabolights.species.model.Taxon;
 

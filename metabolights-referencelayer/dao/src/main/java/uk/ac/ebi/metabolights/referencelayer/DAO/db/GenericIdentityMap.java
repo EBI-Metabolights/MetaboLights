@@ -10,8 +10,8 @@
 
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.Identifier;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.Identifier;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 
 import java.util.HashMap;
 import java.util.Map;

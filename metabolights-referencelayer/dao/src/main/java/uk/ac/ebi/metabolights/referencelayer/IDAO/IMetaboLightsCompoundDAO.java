@@ -10,7 +10,7 @@
 
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 
 import java.util.Set;
 

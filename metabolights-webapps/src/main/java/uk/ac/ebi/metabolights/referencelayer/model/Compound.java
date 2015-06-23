@@ -21,10 +21,7 @@
 
 package uk.ac.ebi.metabolights.referencelayer.model;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
 import uk.ac.ebi.metabolights.utils.GroupingUtil;
 
 import java.util.Collection;

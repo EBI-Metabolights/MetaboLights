@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.service.AppContext;
 

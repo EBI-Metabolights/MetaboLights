@@ -8,7 +8,7 @@
  * Copyright 2013 - European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  */
 
-package uk.ac.ebi.metabolights.referencelayer.domain;
+package uk.ac.ebi.metabolights.referencelayer.model;
 
 import java.util.List;
 

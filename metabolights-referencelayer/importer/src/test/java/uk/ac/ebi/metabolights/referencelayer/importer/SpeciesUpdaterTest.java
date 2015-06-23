@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 
 import java.sql.Connection;
 

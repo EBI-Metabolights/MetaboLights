@@ -47,10 +47,10 @@ import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
-import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
+import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 import uk.ac.ebi.rhea.ws.client.RheaResourceClient;
 import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 
