@@ -16,10 +16,10 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.SQLLoader;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetaboLightsCompoundDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
-import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
+import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.Pathway;
+import uk.ac.ebi.metabolights.referencelayer.model.Spectra;
 
 import java.io.IOException;
 import java.sql.Connection;

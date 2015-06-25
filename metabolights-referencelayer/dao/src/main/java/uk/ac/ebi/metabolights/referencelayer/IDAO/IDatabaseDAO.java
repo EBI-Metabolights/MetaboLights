@@ -10,7 +10,7 @@
 
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.Database;
+import uk.ac.ebi.metabolights.referencelayer.model.Database;
 
 import java.util.Collection;
 

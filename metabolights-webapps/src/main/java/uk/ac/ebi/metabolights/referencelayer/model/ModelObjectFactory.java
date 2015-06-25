@@ -28,10 +28,6 @@ import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
-import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
 import uk.ac.ebi.metabolights.service.AppContext;
 
 import java.util.Collection;

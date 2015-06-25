@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
 
 import java.sql.Connection;
 
@@ -123,7 +123,7 @@ public class ReaderTestSpeciesGroupDB extends TestCase{
 
 		assertNotNull(spg);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , spg.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , spg.getId().longValue());
 		assertEquals("Checking SpeciesGroup name" , expectedvalues[1] , spg.getName());
 
 

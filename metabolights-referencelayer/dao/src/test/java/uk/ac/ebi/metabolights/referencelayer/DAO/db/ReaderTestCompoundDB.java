@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.*;
+import uk.ac.ebi.metabolights.referencelayer.model.*;
 
 import java.io.File;
 import java.sql.Connection;
@@ -242,7 +242,7 @@ public class ReaderTestCompoundDB extends TestCase{
 
 		assertNotNull(mc);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , mc.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , mc.getId().longValue());
 		assertEquals("Checking " + expectedvalues[1] + " accesion" , expectedvalues[1] , mc.getAccession());
 		assertEquals("Checking " + expectedvalues[1] + " name" , expectedvalues[2] , mc.getName());
 		assertEquals("Checking " + expectedvalues[1] + " description" , expectedvalues[3] , mc.getDescription());

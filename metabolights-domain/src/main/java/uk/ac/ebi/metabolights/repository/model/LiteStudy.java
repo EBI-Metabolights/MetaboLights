@@ -21,7 +21,9 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -39,7 +41,10 @@ import java.util.List;
  * Date: 24/02/15
  * Time: 09:38
  */
-public class LiteStudy extends LiteEntity {
+
+@JsonTypeName("LiteStudy")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class LiteStudy extends Entity {
 
 	public enum StudyStatus{
 		SUBMITTED("Submitted", "The study is private to you only. You are able to make any changes, including deletion of the study. This submission will have to pass our initial automated validation checks before we can start our curation."),
@@ -142,7 +147,6 @@ public class LiteStudy extends LiteEntity {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 	public boolean isPublicStudy() {
 		return studyStatus.equals(StudyStatus.PUBLIC);

@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.metabolights.repository.model.LiteEntity;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
@@ -39,7 +38,7 @@ import uk.ac.ebi.metabolights.search.service.SearchUser;
 @RequestMapping("search")
 public class SearchController extends BasicController {
 
-	private SearchService <Object,LiteEntity>searchService = IndexController.searchService;
+	private SearchService searchService = IndexController.searchService;
 
     @RequestMapping(method= RequestMethod.GET)
 	@ResponseBody

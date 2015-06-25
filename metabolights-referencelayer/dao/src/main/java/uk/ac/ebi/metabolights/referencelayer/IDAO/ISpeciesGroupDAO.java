@@ -10,7 +10,7 @@
 
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
 
 import java.io.IOException;
 import java.util.Collection;

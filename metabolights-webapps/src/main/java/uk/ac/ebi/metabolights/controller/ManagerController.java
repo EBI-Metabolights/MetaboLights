@@ -35,6 +35,7 @@ import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
@@ -44,7 +45,7 @@ import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
-import uk.ac.ebi.metabolights.webservice.client.models.StudySearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 
 import javax.naming.Binding;
 import javax.naming.NamingEnumeration;
@@ -197,15 +198,25 @@ public class ManagerController extends AbstractController{
 
 		// Careful this returns all (actually not all only the first 10!)...and now it's fine but once compounds are added it will not work.
 		SearchQuery query = new SearchQuery();
+		query.setText("'_type:study");
 		query.setPagination(null);
-		RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) wsClient.search(query);
+		RestResponse<? extends MixedSearchResult> response = wsClient.search(query);
 
-		StudySearchResult studies = response.getContent();
-		for (LiteStudy liteStudy : studies.getResults()) {
+		MixedSearchResult studies = response.getContent();
+		for (Entity entity : studies.getResults()) {
 
-			StudyHealth newSH = new StudyHealth(liteStudy);
-			studiesHealth.add(newSH);
+			if (entity instanceof LiteStudy) {
+				LiteStudy liteStudy = (LiteStudy) entity;
+
+				StudyHealth newSH = new StudyHealth(liteStudy);
+				studiesHealth.add(newSH);
+			} else {
+
+				logger.warn("We are getting something else than LiteStudy objects when requesting all the studies. Class: {}", entity.getClass().getCanonicalName());
+
+			}
 		}
+
 		
 		return studiesHealth;
 	}

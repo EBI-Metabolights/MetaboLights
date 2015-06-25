@@ -13,8 +13,8 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.ISpeciesMembersDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesMembers;
 
 import java.io.IOException;
 import java.sql.Connection;

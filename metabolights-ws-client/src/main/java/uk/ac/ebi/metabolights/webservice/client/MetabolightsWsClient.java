@@ -52,7 +52,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
-import uk.ac.ebi.metabolights.webservice.client.models.StudySearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -318,21 +318,21 @@ public class MetabolightsWsClient {
         return null;
     }
 
-    public RestResponse<? extends SearchResult> search() {
+    public RestResponse<? extends MixedSearchResult> search() {
 
         logger.debug("Empty search requested to the MetaboLights WS client");
 
         // Make the request
         String response = makeGetRequest("search");
 
-        StudySearchResult foo = new StudySearchResult();
+        MixedSearchResult foo = new MixedSearchResult();
 
         return deserializeJSONString(response, foo.getClass());
 
 
     }
 
-    public RestResponse<? extends SearchResult> search(SearchQuery query) {
+    public RestResponse<? extends MixedSearchResult> search(SearchQuery query) {
 
         logger.debug("Search requested to the MetaboLights WS client");
 
@@ -341,7 +341,7 @@ public class MetabolightsWsClient {
         // Make the request
         String response = makePostRequest("search", json);
 
-        StudySearchResult foo = new StudySearchResult();
+        MixedSearchResult foo = new MixedSearchResult();
 
         return deserializeJSONString(response, foo.getClass());
 
@@ -398,12 +398,12 @@ public class MetabolightsWsClient {
 
     public LiteStudy searchStudy(String studyIdentifier){
 
-        RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) searchStudyWithResponse(studyIdentifier);
+        RestResponse<MixedSearchResult> response = (RestResponse<MixedSearchResult>) searchStudyWithResponse(studyIdentifier);
 
         if (response.getContent().getResults().size() == 0) {
             return null;
         } else {
-            return response.getContent().getResults().iterator().next();
+            return (LiteStudy) response.getContent().getResults().iterator().next();
         }
     }
 

@@ -10,14 +10,14 @@
 
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 
 import java.util.Collection;
 
 /**
- * Reader for {@link uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies} objects from MetaboLights reference layer.
+ * Reader for {@link uk.ac.ebi.metabolights.referencelayer.model.MetSpecies} objects from MetaboLights reference layer.
  * @author Pablo Conesa
  */
 

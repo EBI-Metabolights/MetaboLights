@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.LiteEntity;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.SearchService;
 import uk.ac.ebi.metabolights.webservice.controllers.IndexController;
@@ -52,7 +52,7 @@ public class SubmissionQueueProcessor {
 
 	private static Logger logger = LoggerFactory.getLogger(SubmissionQueueProcessor.class);
     private static String zipOnDemandLocation = PropertiesUtil.getProperty("ondemand");
-	private SearchService<Object,LiteEntity> searchService = IndexController.searchService;
+	private SearchService<Entity> searchService = IndexController.searchService;
 
 	private StudyDAO studyDAO;
 	private SubmissionItem si;

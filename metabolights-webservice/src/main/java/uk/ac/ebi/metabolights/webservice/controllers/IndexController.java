@@ -32,7 +32,6 @@ import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.LiteEntity;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
@@ -48,7 +47,7 @@ import java.util.List;
 public class IndexController extends BasicController {
 
 	// Can we share the service among controllers? Let's try.
-	public static SearchService<Object, LiteEntity> searchService = new ElasticSearchService();
+	public static SearchService searchService = new ElasticSearchService();
 	private StudyDAO _studyDAO;
 
 	private StudyDAO getStudyDAO() throws DAOException {

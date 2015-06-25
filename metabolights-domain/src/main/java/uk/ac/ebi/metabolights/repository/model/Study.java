@@ -21,10 +21,13 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Study extends LiteStudy{
 
     private Date studySubmissionDate;

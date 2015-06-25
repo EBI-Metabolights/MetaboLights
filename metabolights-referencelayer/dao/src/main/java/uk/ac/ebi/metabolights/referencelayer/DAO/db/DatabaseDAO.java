@@ -22,7 +22,7 @@ import java.util.Set;
 
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IDatabaseDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.Database;
+import uk.ac.ebi.metabolights.referencelayer.model.Database;
 
 
 public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {

@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesMembers;
 
 import java.sql.Connection;
 import java.util.Collection;
@@ -75,7 +75,7 @@ public class SpeciesMembersDAOTest extends TestCase{
 		assertNotNull(spm);
 
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , spm.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , spm.getId().longValue());
 		assertEquals("Checking " + expectedvalues[1] + " Taxon" , expectedvalues[1] , spm.getTaxon());
 		assertEquals("Checking " + expectedvalues[1] + " Taxon description" , expectedvalues[2] , spm.getTaxonDesc());
 

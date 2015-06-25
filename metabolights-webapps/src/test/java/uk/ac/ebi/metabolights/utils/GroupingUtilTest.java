@@ -23,8 +23,8 @@ package uk.ac.ebi.metabolights.utils;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 
 import java.util.ArrayList;
 import java.util.Collection;

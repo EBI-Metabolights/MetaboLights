@@ -14,8 +14,8 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 import org.hamcrest.Matchers;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.ISpeciesGroupDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesGroup;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
 
 import java.io.IOException;
 import java.sql.Connection;
