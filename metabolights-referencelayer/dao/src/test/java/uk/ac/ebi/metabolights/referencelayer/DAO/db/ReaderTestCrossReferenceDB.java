@@ -129,7 +129,7 @@ public class ReaderTestCrossReferenceDB extends TestCase{
 
 		assertNotNull(cr);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id", Long.parseLong(expectedvalues[0]), cr.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id", Long.parseLong(expectedvalues[0]), cr.getId().longValue());
 		assertEquals("Checking CrossRefererence accession" , expectedvalues[1] , cr.getAccession());
 
         // If the id is not null (compound is saved)...

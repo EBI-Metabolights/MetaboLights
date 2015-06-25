@@ -10,7 +10,9 @@
 
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import uk.ac.ebi.metabolights.referencelayer.model.*;
+import uk.ac.ebi.metabolights.referencelayer.model.Attribute;
+import uk.ac.ebi.metabolights.referencelayer.model.Spectra;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 import java.util.Collection;
 
@@ -40,7 +42,7 @@ public interface IAttributeDAO {
      * @param pathway, Pathway qualified by the attribute.
      * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.Exception
      */
-    void savePathwayAttribute(Attribute attribute, Identifier pathway) throws DAOException;
+    void savePathwayAttribute(Attribute attribute, Entity pathway) throws DAOException;
 
 
     /**

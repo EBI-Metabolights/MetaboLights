@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.referencelayer.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * MetaboLights compound to Species linking object
  */
-public class MetSpecies extends Identifier{
+public class MetSpecies extends Entity {
 
     private Species species;
     private CrossReference crossReference;

@@ -40,7 +40,7 @@ public class SpeciesTest {
         assertEquals("hasCode expected to be equal", sp1.hashCode(), sp2.hashCode());
 
         sp2.setSpecies("bye");
-        sp2.setId(3);
+        sp2.setId(3L);
 
         assertFalse("Equals expected to be false", sp1.equals(sp2));
         assertEquals("hasCode expected to be equal to 3.hashCode", new Long(3).hashCode(), sp2.hashCode());

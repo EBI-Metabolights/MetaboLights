@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.referencelayer.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Species reference table
  */
-public class Species extends Identifier {
+public class Species extends Entity {
 
     private String species;
     private String description;

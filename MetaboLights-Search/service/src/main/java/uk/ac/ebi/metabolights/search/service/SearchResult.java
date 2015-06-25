@@ -21,9 +21,9 @@
 
 package uk.ac.ebi.metabolights.search.service;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,9 +35,8 @@ import java.util.List;
  * Date: 02/12/14
  * Time: 09:59
  */
-public class SearchResult<I> {
+public class SearchResult<I extends Entity> {
 	private SearchQuery query;
-	@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.WRAPPER_ARRAY, property = "type")
 	private List<I> results = new LinkedList<I>();
 	private List<String> reportLines = new ArrayList<String>();
 

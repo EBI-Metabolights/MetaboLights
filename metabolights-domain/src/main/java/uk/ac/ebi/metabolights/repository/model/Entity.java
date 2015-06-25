@@ -21,17 +21,28 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 
 /**
  * User: conesa
  * Date: 24/02/15
  * Time: 09:51
  */
-public class LiteEntity {
 
-	private static final Logger logger = LoggerFactory.getLogger(LiteEntity.class);
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include= JsonTypeInfo.As.PROPERTY, property="ObjectType")
+@JsonSubTypes({
+
+		@JsonSubTypes.Type(value=LiteStudy.class, name="LiteStudy"),
+		@JsonSubTypes.Type(value=MetaboLightsCompound.class, name="compound")
+
+})
+public class Entity {
+
+	private static final Logger logger = LoggerFactory.getLogger(Entity.class);
 
 	private Long id = null;
 

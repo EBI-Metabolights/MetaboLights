@@ -10,9 +10,11 @@
 
 package uk.ac.ebi.metabolights.referencelayer.model;
 
+import uk.ac.ebi.metabolights.repository.model.Entity;
+
 import java.util.Collection;
 
-public class SpeciesGroup extends Identifier{
+public class SpeciesGroup extends Entity {
 
     private String name;
     private Collection<SpeciesMembers> speciesMembersList;

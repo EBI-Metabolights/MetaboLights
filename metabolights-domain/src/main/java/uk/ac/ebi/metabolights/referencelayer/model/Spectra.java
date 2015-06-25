@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.referencelayer.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.Collection;
  *
  * MetaboLights compound to Spectra linking object
  */
-public class Spectra extends Identifier{
+public class Spectra extends Entity {
 
     private File pathToJsonSpectra;
     private String name;

@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.referencelayer.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Attribute definition for generic Attributes (it doesn't hod any values, just name and description)
  */
-public class AttributeDefinition extends Identifier implements Comparable<AttributeDefinition>{
+public class AttributeDefinition extends Entity implements Comparable<AttributeDefinition>{
 
 	private String name;
     private String description;

@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.referencelayer.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Species reference table
  */
-public class Attribute extends Identifier implements Comparable<Attribute>{
+public class Attribute extends Entity implements Comparable<Attribute>{
 
     private String value;
     private AttributeDefinition attributeDefinition;

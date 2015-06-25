@@ -11,6 +11,7 @@
 package uk.ac.ebi.metabolights.referencelayer.model;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  *
  * Source of any entry (CHEBI, METABOLIGHTS,....)
  */
-public class Database extends Identifier {
+public class Database extends Entity {
 
 	private String name;
 

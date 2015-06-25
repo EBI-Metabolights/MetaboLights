@@ -242,7 +242,7 @@ public class ReaderTestCompoundDB extends TestCase{
 
 		assertNotNull(mc);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , mc.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , mc.getId().longValue());
 		assertEquals("Checking " + expectedvalues[1] + " accesion" , expectedvalues[1] , mc.getAccession());
 		assertEquals("Checking " + expectedvalues[1] + " name" , expectedvalues[2] , mc.getName());
 		assertEquals("Checking " + expectedvalues[1] + " description" , expectedvalues[3] , mc.getDescription());

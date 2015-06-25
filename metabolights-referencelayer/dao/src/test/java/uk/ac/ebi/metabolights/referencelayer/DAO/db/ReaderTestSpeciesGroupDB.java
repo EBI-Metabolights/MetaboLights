@@ -123,7 +123,7 @@ public class ReaderTestSpeciesGroupDB extends TestCase{
 
 		assertNotNull(spg);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , spg.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , spg.getId().longValue());
 		assertEquals("Checking SpeciesGroup name" , expectedvalues[1] , spg.getName());
 
 

@@ -10,7 +10,9 @@
 
 package uk.ac.ebi.metabolights.referencelayer.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +23,8 @@ import java.util.Collection;
  *
  * @author Pablo Conesa
  */
-public class MetaboLightsCompound extends Identifier {
+@JsonTypeName("compound")
+public class MetaboLightsCompound extends Entity {
 
 
     // The public accession number of this compound.

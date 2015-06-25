@@ -10,8 +10,7 @@
 
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
-import uk.ac.ebi.metabolights.referencelayer.model.Identifier;
-import uk.ac.ebi.metabolights.referencelayer.model.Species;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +20,7 @@ import java.util.Map;
  * Date: 18/04/2013
  * Time: 09:40
  */
-public class GenericIdentityMap<E extends Identifier> {
+public class GenericIdentityMap<E extends Entity> {
 
     private Map<Long,E> map;
 

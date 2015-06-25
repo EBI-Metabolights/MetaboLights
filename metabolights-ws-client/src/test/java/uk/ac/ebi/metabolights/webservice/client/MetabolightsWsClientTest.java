@@ -46,12 +46,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 
 import java.util.Date;
 
@@ -138,10 +140,15 @@ public class MetabolightsWsClientTest {
 	@Test
 	public void testSearch() {
 
-		RestResponse<? extends SearchResult> response = wsClient.search();
+		RestResponse<? extends MixedSearchResult> response = wsClient.search();
 
 		assertNotNull(response);
 		assertNotSame("Something has been returned", 0, response.getContent().getResults().size());
+
+		Entity entity = response.getContent().getResults().iterator().next();
+
+
+
 
 	}
 

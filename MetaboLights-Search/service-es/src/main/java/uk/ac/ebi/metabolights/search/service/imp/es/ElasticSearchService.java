@@ -49,7 +49,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.repository.model.LiteEntity;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.*;
@@ -65,7 +65,7 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
  * Date: 03/12/14
  * Time: 17:38
  */
-public class ElasticSearchService implements SearchService <Object, LiteEntity> {
+public class ElasticSearchService implements SearchService <Entity> {
 
 	private static final String PROPERTIES = "properties";
 	private static final String STATUS_FIELD = "studyStatus";
@@ -437,7 +437,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	}
 
 	@Override
-	public SearchResult<Object> search(SearchQuery query) {
+	public SearchResult<Entity> search(SearchQuery query) {
 
 
 		// Initilize the client
@@ -796,9 +796,9 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private SearchResult<Object> convertElasticSearchResponse2SearchResult(SearchResponse esResponse, SearchQuery query){
+	private SearchResult<Entity> convertElasticSearchResponse2SearchResult(SearchResponse esResponse, SearchQuery query){
 
-		SearchResult<Object> searchResult = new SearchResult<Object>();
+		SearchResult<Entity> searchResult = new SearchResult<Entity>();
 
 		// Set the query
 		searchResult.setQuery(query);
@@ -813,7 +813,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private void fillFacets(SearchResponse esResponse, SearchResult<Object> searchResult) {
+	private void fillFacets(SearchResponse esResponse, SearchResult<Entity> searchResult) {
 
 		Aggregations aggregations = esResponse.getAggregations();
 
@@ -858,7 +858,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	}
 
 
-	private Facet getFacetForAggregation(Aggregation aggregation, SearchResult<Object> searchResult) {
+	private Facet getFacetForAggregation(Aggregation aggregation, SearchResult<Entity> searchResult) {
 
 		for (Facet facet : searchResult.getQuery().getFacets()) {
 
@@ -872,7 +872,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private void fillPagination(SearchResponse esResponse, SearchResult<Object> searchResult) {
+	private void fillPagination(SearchResponse esResponse, SearchResult<Entity> searchResult) {
 
 		SearchQuery query = searchResult.getQuery();
 		Pagination pagination =query.getPagination();
@@ -883,7 +883,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private void convertHits2Entities(SearchResponse esResponse, SearchResult<Object> searchResult) {
+	private void convertHits2Entities(SearchResponse esResponse, SearchResult<Entity> searchResult) {
 
 
 		for (SearchHit hit:esResponse.getHits()){
@@ -891,11 +891,11 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 		}
 	}
 
-	private void addLiteEntity(SearchHit hit, SearchResult<Object> searchResult){
+	private void addLiteEntity(SearchHit hit, SearchResult<Entity> searchResult){
 
 		try {
 
-			Object entity = null;
+			Entity entity = null;
 
 			if (hit.getType().equals(STUDY_TYPE_NAME)){
 				entity = hit2Study(hit);
@@ -935,7 +935,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 
 	}
 
-	private LiteEntity hit2Study(SearchHit hit) throws IndexingFailureException {
+	private Entity hit2Study(SearchHit hit) throws IndexingFailureException {
 
 		LiteStudy study = new LiteStudy();
 
@@ -953,7 +953,7 @@ public class ElasticSearchService implements SearchService <Object, LiteEntity> 
 	}
 
 	@Override
-	public void index(Object entity) throws IndexingFailureException {
+	public void index(Entity entity) throws IndexingFailureException {
 
 		// If index does not exists, this could be cached for performance reasons.
 		if (!doesIndexExists()) {

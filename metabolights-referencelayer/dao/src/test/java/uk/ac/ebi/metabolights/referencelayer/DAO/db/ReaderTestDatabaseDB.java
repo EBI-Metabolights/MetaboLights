@@ -125,7 +125,7 @@ public class ReaderTestDatabaseDB extends TestCase{
 
 		assertNotNull(db);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , db.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , db.getId().longValue());
 		assertEquals("Checking database name" , expectedvalues[1] , db.getName());
 
 
