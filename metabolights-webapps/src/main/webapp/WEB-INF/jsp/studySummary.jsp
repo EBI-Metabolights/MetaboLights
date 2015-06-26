@@ -25,57 +25,11 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-
-<%--<div id="hourglass">
-    <img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.fetchingData"/></b>
-</div>--%>
-
 <div class="grid_24 alpha omega box">
-	<c:choose>
-		<c:when test="${(!empty welcomemessage || !empty curator) && !(liteStudy.studyStatus == 'PUBLIC')}">
-			<div class="grid_20 alpha">
-				<a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
-			</div>
-			<div class="grid_4 omega">
-				<ul id="sddm">
-					<li><a onmouseover="mopen('actions${liteStudy.studyIdentifier}')"onmouseout="mclosetime()">
-						Actions<span class="smallArrow"></span></a>
-						<div id="actions${liteStudy.studyIdentifier}" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
-							<a href="updatestudyform?study=${liteStudy.studyIdentifier}"><spring:message code="label.updatestudy"/></a>
-							<a href="updatepublicreleasedateform?study=${liteStudy.studyIdentifier}"><spring:message code="label.updateReleaseDate"/></a>
-							<a class="confirmLink" href="deleteStudy?study=${liteStudy.studyIdentifier}"><spring:message code="label.deleteStudy"/></a>
-							<jsp:useBean id="now" class="java.util.Date" scope="page" />
-							<a href="updatestatus?study=${liteStudy.studyIdentifier}&status=INCURATION"><spring:message code="label.status.requestCuration"/></a>
-						</div>
-					</li>
-				</ul>
-				<div style="clear:both"></div>
-			</div>
-		</c:when>
-		<c:otherwise>
-			<c:if test="${!empty curator && (liteStudy.studyStatus == 'PUBLIC')}">
-				<div class="grid_20 alpha">
-					<a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
-				</div>
-				<div class="grid_4 omega">
-					<ul id="sddm">
-						<li><a onmouseover="mopen('actions${liteStudy.studyIdentifier}')"onmouseout="mclosetime()">
-							Actions<span class="smallArrow"></span></a>
-							<div id="actions${liteStudy.studyIdentifier}" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
-								<a href="makestudyprivateform?study=${liteStudy.studyIdentifier}">Make it private</a>
-							</div>
-						</li>
-					</ul>
-					<div style="clear:both"></div>
-				</div>
-			</c:if>
-			<c:if test="${empty curator}">
-				<div class='grid_24 alpha omega'>
-					<a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
-				</div>
-			</c:if>
-		</c:otherwise>
-	</c:choose>
+
+	<div class='grid_24 alpha omega'>
+		<a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
+	</div>
 
 	<div class='grid_20 alpha omega'>
 		<strong><spring:message code="label.releaseDate"/>:</strong> <fmt:formatDate pattern="dd-MMM-yyyy" value="${liteStudy.studyPublicReleaseDate}"/>
@@ -114,15 +68,5 @@
 			</c:forEach>
 		</ul>
 	</div>
-
-
-	<%--<div class='grid_24 alpha omega'>--%>
-	<%--<strong><spring:message code="label.assays" /></strong>--%>
-	<%--<ul id="resultList">--%>
-	<%--<c:forEach var="assay" items="${searchResult.assays}">--%>
-	<%--<li>${assay.technology} (${assay.count})</li>--%>
-	<%--</c:forEach>--%>
-	<%--</ul>--%>
-	<%--</div>--%>
 
 </div>

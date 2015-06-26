@@ -31,22 +31,27 @@
 <!--suppress ALL -->
 <tiles-definitions>
 
-	<definition name="twosections.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
-		<put-attribute name="leftmenu" value="" />
-		<put-attribute name="content" value="" />
-	</definition>
+	<!--<definition name="twosections.def" template="/WEB-INF/jsp/frontier/twosections.jsp">-->
+		<!--<put-attribute name="leftmenu" value="" />-->
+		<!--<put-attribute name="content" value="" />-->
+	<!--</definition>-->
+
+    <!--<definition name="twosections" extends="default">-->
+    <!--<put-attribute name="body" value="twosections.def"/>-->
+    <!--</definition>-->
+    <!--<definition name="searchResult.def" template="/WEB-INF/jsp/frontier/twosections.jsp">-->
+    <!--<put-attribute name="leftmenu" value="/WEB-INF/jsp/searchFilter.jsp" />-->
+    <!--<put-attribute name="content" value="/WEB-INF/jsp/searchResults.jsp" />-->
+    <!--</definition>-->
 
 
-	<definition name="default" template="/WEB-INF/jsp/frontier/layout.jsp">
+
+    <definition name="default" template="/WEB-INF/jsp/frontier/layout.jsp">
 		<put-attribute name="head" value="/WEB-INF/jsp/frontier/head.jsp" />
 		<put-attribute name="header" value="/WEB-INF/jsp/frontier/header.jsp" />
 		<put-attribute name="localheader" value="/WEB-INF/jsp/frontier/localheader.jsp" />
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/WEB-INF/jsp/frontier/footer.jsp" />
-	</definition>
-
-	<definition name="twosections" extends="default">
-		<put-attribute name="body" value="twosections.def"/>
 	</definition>
 
 
@@ -129,21 +134,6 @@
     <definition name="reaction" template="/WEB-INF/jsp/reaction.jsp"/>
 
     <definition name="metabolitesIdentified" template="/WEB-INF/jsp/metabolitesIdentified.jsp"/>
-
-	<definition name="searchResult.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
-        <put-attribute name="leftmenu" value="/WEB-INF/jsp/searchFilter.jsp" />
-		<put-attribute name="content" value="/WEB-INF/jsp/searchResults.jsp" />
-	</definition>
-
-	<definition name="searchResult" extends="default">
-		<put-attribute name="title" value="Search" />
-		<put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp"/>
-	</definition>
-
-	<definition name="browse" extends="searchResult">
-		<put-attribute name="title" value="Browse" />
-	</definition>
-
 
     <definition name="entry" extends="default">
         <!--<put-attribute name="title" value="Study" />-->
@@ -266,7 +256,21 @@
         <put-attribute name="body" value="/WEB-INF/jsp/importmetabolitesstatus.jsp" />
     </definition>
 
-    <!--Alternative search pages: useing WS and elastic search-->
+    <!-- Standard search pages: JSP-->
+    <definition name="searchResult" extends="default">
+        <put-attribute name="title" value="Search" />
+        <put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp"/>
+    </definition>
+
+    <definition name="browse" extends="searchResult">
+        <put-attribute name="title" value="Browse" />
+    </definition>
+
+    <definition name="mysubmissions" extends="searchResult">
+        <put-attribute name="title" value="My submissions" />
+    </definition>
+
+    <!--Alternative search pages: using WS and polymer, not working on IE-->
     <definition name="wsSearchResult" extends="default">
         <put-attribute name="title" value="Search" />
         <put-attribute name="body" value="/WEB-INF/jsp/wssearchResults.jsp"/>
