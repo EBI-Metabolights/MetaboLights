@@ -257,16 +257,16 @@
     </definition>
 
     <!-- Standard search pages: JSP-->
-    <definition name="searchResult" extends="default">
+    <definition name="search" extends="default">
         <put-attribute name="title" value="Search" />
         <put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp"/>
     </definition>
 
-    <definition name="browse" extends="searchResult">
+    <definition name="browse" extends="search">
         <put-attribute name="title" value="Browse" />
     </definition>
 
-    <definition name="mysubmissions" extends="searchResult">
+    <definition name="mysubmissions" extends="search">
         <put-attribute name="title" value="My submissions" />
     </definition>
 

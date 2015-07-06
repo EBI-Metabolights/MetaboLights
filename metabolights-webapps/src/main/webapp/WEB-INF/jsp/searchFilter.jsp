@@ -67,64 +67,65 @@ facets[].facet.lines[].FacetLine.checked
 
 	<form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">
 
-
 		<h3><spring:message code="label.searchFilter"/></h3>
 
 		<c:forEach var="facet" items="${facets}">
 
-			<c:set var="caption">
-				<c:choose>
-					<c:when test="${facet.name=='assays.technology'}"><spring:message code="label.technology"/></c:when>
-					<c:when test="${facet.name=='studyStatus'}"><spring:message code="label.facetStatus"/></c:when>
-					<c:when test="${facet.name=='organism.organismName'}"><spring:message code="label.organism"/></c:when>
-					<c:when test="${facet.name=='users.fullName'}"><spring:message code="label.subm"/></c:when>
-					<c:when test="${facet.name=='factors.name'}"><spring:message code="label.factor"/></c:when>
-					<c:when test="${facet.name=='descriptors.description'}"><spring:message code="label.descriptors"/></c:when>
-					<c:when test="${facet.name=='organism.organismPart'}"><spring:message code="label.organismPart"/></c:when>
-					<c:otherwise>${facet.name}</c:otherwise>
-				</c:choose>
-			</c:set>
-			<h4>${caption}</h4>
-			<c:if test="${fn:length(facet.lines) gt 5}">
-				<div class="ui-widget">
-					<input
-							class="inputDiscrete resizable"
-							id="autocomplete_${facet.name}"
-							placeholder= "Find your ${caption}"
-					/>
-					<script>var availableTags = new Array();</script>
-				</div>
-			</c:if>
-
-			<ul class="filterset"  id="${facet.name}">
-				<c:forEach var="times" begin="0" end="1" step="1">
-					<c:set var="checkedItems" value="0"/>
-					<c:forEach var="line" items="${facet.lines}">
-						<c:if test='${(line.checked and (times == 0)) or (!line.checked and (times == 1))}'>
-							<c:if test='${(line.checked and (times == 0))}'>
-								<c:set var="checkedItems" value="${checkedItems + 1}"/>
-							</c:if>
-							<input 	type="checkbox"
-									name="${line.value}"
-									value="${line.value}"
-									<c:if test='${line.checked}'>CHECKED</c:if>
-									onclick="this.form.submit();">
-							<c:if test="${line.count<1}"><span class="dimmed">${line.value}</span> </c:if>
-							<c:if test="${line.count>0}">${line.value}</c:if>
-							<br/>
-							<c:if test="${fn:length(facet.lines) gt 5}">
-								<script>availableTags.push("${line.value}")</script>
-							</c:if>
-						</c:if>
-					</c:forEach>
-				</c:forEach>
+			<c:if test="${fn:length(facet.lines) gt 1}">
+				<c:set var="caption">
+					<c:choose>
+						<c:when test="${facet.name=='assays.technology'}"><spring:message code="label.technology"/></c:when>
+						<c:when test="${facet.name=='studyStatus'}"><spring:message code="label.facetStatus"/></c:when>
+						<c:when test="${facet.name=='organism.organismName'}"><spring:message code="label.organism"/></c:when>
+						<c:when test="${facet.name=='users.fullName'}"><spring:message code="label.subm"/></c:when>
+						<c:when test="${facet.name=='factors.name'}"><spring:message code="label.factor"/></c:when>
+						<c:when test="${facet.name=='descriptors.description'}"><spring:message code="label.descriptors"/></c:when>
+						<c:when test="${facet.name=='organism.organismPart'}"><spring:message code="label.organismPart"/></c:when>
+						<c:otherwise>${facet.name}</c:otherwise>
+					</c:choose>
+				</c:set>
+				<h4>${caption}</h4>
 				<c:if test="${fn:length(facet.lines) gt 5}">
-					<script>fillAutocomplete('autocomplete_${facet.name}', availableTags);</script>
+					<div class="ui-widget">
+						<input
+								class="inputDiscrete resizable"
+								id="autocomplete_${facet.name}"
+								placeholder= "Find your ${caption}"
+						/>
+						<script>var availableTags = new Array();</script>
+					</div>
 				</c:if>
-			</ul>
 
+				<ul class="filterset"  id="${facet.name}">
+					<c:forEach var="times" begin="0" end="1" step="1">
+						<c:set var="checkedItems" value="0"/>
+						<c:forEach var="line" items="${facet.lines}">
+							<c:if test='${(line.checked and (times == 0)) or (!line.checked and (times == 1))}'>
+								<c:if test='${(line.checked and (times == 0))}'>
+									<c:set var="checkedItems" value="${checkedItems + 1}"/>
+								</c:if>
+								<input 	type="checkbox"
+										name="${facet.name}"
+										value="${line.value}"
+										<c:if test='${line.checked}'>CHECKED</c:if>
+										onclick="this.form.submit();">
+								<c:if test="${line.count<1}"><span class="dimmed">${line.value}</span> </c:if>
+								<c:if test="${line.count>0}">${line.value}</c:if>
+								<br/>
+								<c:if test="${fn:length(facet.lines) gt 5}">
+									<script>availableTags.push("${line.value}")</script>
+								</c:if>
+							</c:if>
+						</c:forEach>
+					</c:forEach>
+					<c:if test="${fn:length(facet.lines) gt 5}">
+						<script>fillAutocomplete('autocomplete_${facet.name}', availableTags);</script>
+					</c:if>
+				</ul>
+			</c:if>
 		</c:forEach>
-		<input type="hidden" name="freeTextQuery" value="<c:out value="${freeTextQuery}"/>"/>
+
+		<input type="hidden" name="freeTextQuery" value="${searchResponse.content.query.text}"/>
 	    <input type="hidden" name="pageNumber" value="1"/>
 	</form>
 <%--</c:if>--%>

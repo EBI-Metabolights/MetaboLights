@@ -32,10 +32,14 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.Booster;
 import uk.ac.ebi.metabolights.search.service.Facet;
+import uk.ac.ebi.metabolights.search.service.FacetLine;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Controller for Metabolights searching using the webservice.
@@ -57,10 +61,10 @@ public class WSSearchController extends AbstractController{
      * Controller for a browse (empty internalSearch) request
      */
     @RequestMapping(value = BROWSE )
-    public ModelAndView browse() throws Exception {
+    public ModelAndView browse(HttpServletRequest request) throws Exception {
 
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(BROWSE);
+		ModelAndView mav = internalSearch(BROWSE, request);
 
 		return mav;
     }
@@ -70,16 +74,16 @@ public class WSSearchController extends AbstractController{
 	 *
 	 */
 	@RequestMapping(value = SEARCH, method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView search (@RequestParam(required=false,value="freeTextQuery") String freeTextQuery) throws Exception {
+	public ModelAndView search (@RequestParam(required=false,value="freeTextQuery") String freeTextQuery, HttpServletRequest request) throws Exception {
 
 
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(SEARCH);
+		ModelAndView mav = internalSearch(SEARCH, request);
 
 		return mav;
 	}
 
-	private ModelAndView internalSearch(String MAVName) {
+	private ModelAndView internalSearch(String MAVName, HttpServletRequest request) {
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
 
@@ -98,10 +102,9 @@ public class WSSearchController extends AbstractController{
 			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.browse.noresults"));
 		}
 
-
 		// Make the search
 		// Get the query
-		SearchQuery query = getEmptyQuery();
+		SearchQuery query = getQuery(request);
 
 		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
@@ -109,9 +112,13 @@ public class WSSearchController extends AbstractController{
 
 		mav.addObject("searchResponse", entitySearchResult);
 
+
 		// Add methods
 		if (entitySearchResult.getErr() == null){
 			mav.addObject("pagecount", entitySearchResult.getContent().getQuery().getPagination().getPageCount());
+			mav.addObject("firstPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getFirstPageItemNumber());
+			mav.addObject("lastPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getLastPageItemNumber());
+
 		}
 
 
@@ -119,13 +126,90 @@ public class WSSearchController extends AbstractController{
 		return mav;
 	}
 
+	private SearchQuery getQuery(HttpServletRequest request) {
+
+		// Get an empty query
+		SearchQuery query = getEmptyQuery();
+
+		// Fill query with request parameters
+		populateQueryFromRequest (query, request);
+
+
+		return query;
+
+	}
+
+	private void populateQueryFromRequest(SearchQuery query, HttpServletRequest request) {
+
+		// Get the parameters
+		Map<String,String[]> parameters = request.getParameterMap();
+
+
+		// Go through all the entries (Key + String[])
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+
+			String key = entry.getKey();
+
+			// If its the page
+			if (key.equals ("pageNumber")){
+
+				int page = Integer.parseInt(entry.getValue()[0]);
+
+				query.getPagination().setPage(page);
+			} else if (key.equals ("freeTextQuery")){
+				query.setText(entry.getValue()[0]);
+
+			//... its a facet....fill the facet
+			} else {
+
+				populateFacet (query, entry);
+
+			}
+
+		}
+
+		return;
+
+	}
+
+	private void populateFacet(SearchQuery query, Map.Entry<String, String[]> entry) {
+
+		// Get the facet by name
+		Facet facet = getFacetByName(query, entry.getKey());
+
+		if (facet != null){
+
+			for (String value : entry.getValue()) {
+
+				FacetLine newLine = new FacetLine();
+				newLine.setChecked(true);
+				newLine.setValue(value);
+				facet.getLines().add(newLine);
+
+			}
+		}
+
+	}
+
+	private Facet getFacetByName(SearchQuery query, String name) {
+
+		for (Facet facet : query.getFacets()) {
+			if (facet.getName().equals(name)){
+				return facet;
+			}
+		}
+
+		logger.warn("Facet with name {} not found.", name);
+		return null;
+	}
+
 
 	@RequestMapping(value = MY_SUBMISSIONS)
-	public ModelAndView MySubmissionsSearch () {
+	public ModelAndView MySubmissionsSearch (HttpServletRequest request) {
 
 
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(MY_SUBMISSIONS);
+		ModelAndView mav = internalSearch(MY_SUBMISSIONS, request);
 
 		mav.addObject("usersFullName", LoginController.getLoggedUser().getFullName());
 
