@@ -121,8 +121,6 @@ public class WSSearchController extends AbstractController{
 
 		}
 
-
-
 		return mav;
 	}
 

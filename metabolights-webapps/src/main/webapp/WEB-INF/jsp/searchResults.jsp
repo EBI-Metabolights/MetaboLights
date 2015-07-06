@@ -83,7 +83,7 @@
     <section class="grid_18 push_6" id="search-results">
         <section class="grid_23 title alpha omega" >
             <div class="grid_12">
-                <strong>${pagination.itemsCount}&nbsp;result<c:if test="${pagination.itemsCount gt 1}">s</c:if><%--
+                <strong>${pagination.itemsCount}&nbsp;result<c:if test="${pagination.itemsCount ne 1}">s</c:if><%--
                     --%><c:if test="${pagecount gt 1}"><%--
                         --%>,&nbsp;showing ${firstPageItemNumber} to ${lastPageItemNumber}
                     </c:if>

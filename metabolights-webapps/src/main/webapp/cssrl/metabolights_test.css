@@ -857,3 +857,9 @@ ol.progtrckr li.progtrckr-todo:before {
 {
     display:block
 }
+
+
+
+#search-extras {
+ top: -50px;
+}
