@@ -21,9 +21,12 @@
 
 package uk.ac.ebi.metabolights.webservice.utils;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 
@@ -47,7 +50,7 @@ public class FileUtil {
 	}
 	/**
 	 * Returns a string with the contents of a file.
-	 * @param file
+	 * @param fileToUse
 	 * @return
 	 * @throws java.io.IOException
 	 */
@@ -153,5 +156,42 @@ public class FileUtil {
 
 	}
 
+	// Get the file, stream to browser
+	// Stream a file to the browser
+	public static void streamFile(File file, HttpServletResponse response){
 
+		// get the extension
+		String extension = org.springframework.util.StringUtils.getFilenameExtension(file.getName());
+
+		// let the browser know the type of file
+		String contenType = "application/" + extension;
+
+		streamFile(file,response,contenType);
+
+
+	}
+	public static void streamFile(File file, HttpServletResponse response, String contentType ){
+
+		try {
+
+			// get your file as InputStream
+			InputStream is = new FileInputStream(file);
+
+			// let the browser know the type of file
+			response.setContentType(contentType);
+
+			// Specify the file name
+			response.setHeader( "Content-Disposition", "filename=" + file.getName()   );
+
+			// copy it to response's OutputStream
+			IOUtils.copy(is, response.getOutputStream());
+
+		} catch (FileNotFoundException e) {
+			logger.info("Can't stream file "+ file.getAbsolutePath() + "!, File not found.");
+			throw new RuntimeException(PropertyLookUpService.getMessage("Entry.fileMissing"));
+		} catch (IOException ex) {
+			logger.info("Error writing file to output stream. Filename was '"+ file.getAbsolutePath() + "'");
+			throw new RuntimeException(PropertyLookUpService.getMessage("Entry.fileMissing"));
+		}
+	}
 }

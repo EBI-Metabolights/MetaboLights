@@ -35,14 +35,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Map;
 
-public class GroupingUtil <I,K>  {
+public class GroupingUtil<I,K>  {
 
     private Multimap<K,I> sourceCol = ArrayListMultimap.create();
     private Map<K,Collection<I>> groupedCol;
 
     private String clusteringMethod;
     private Class itemClass;
-    public GroupingUtil  (Collection<I> sourceCol, String clusteringMethod, Class itemClass){
+    public GroupingUtil(Collection<I> sourceCol, String clusteringMethod, Class itemClass){
 
         this.clusteringMethod = clusteringMethod;
         this.itemClass = itemClass;

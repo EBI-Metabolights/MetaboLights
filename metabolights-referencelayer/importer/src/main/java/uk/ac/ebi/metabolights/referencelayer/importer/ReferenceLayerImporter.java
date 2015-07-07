@@ -65,7 +65,9 @@ import java.util.*;
 
 public class ReferenceLayerImporter {
 
-    private Logger LOGGER = LoggerFactory.getLogger(ReferenceLayerImporter.class);
+	public static final String MTBLC_PREFIX = "MTBLC";
+	public static final String CHEBI_PREFIX = "CHEBI:";
+	private Logger LOGGER = LoggerFactory.getLogger(ReferenceLayerImporter.class);
 
 	private ConnectionProvider connectionProvider;
     private MetaboLightsCompoundDAO mcd;
@@ -254,7 +256,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 	 */
 	public void refreshMTBLC() throws DAOException, IOException {
 
-		// Get all the MTBLC items
+		// Get all the MTBLC_PREFIX items
 		Set<MetaboLightsCompound> mtblcToRefresh = mcd.getAllCompounds();
 
 		// For each compound
@@ -612,8 +614,13 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
     }
 
 
-    private String chebiID2MetaboLightsID(String chebiID){
-        return (chebiID.replaceFirst("CHEBI:", "MTBLC"));
+    public static  String chebiID2MetaboLightsID(String chebiID){
+        return (chebiID.replaceFirst(CHEBI_PREFIX, MTBLC_PREFIX));
     }
+
+	public static String MetaboLightsID2chebiID(String compoundId) {
+		return (compoundId.replaceFirst(MTBLC_PREFIX, CHEBI_PREFIX));
+	}
+
 }
 
