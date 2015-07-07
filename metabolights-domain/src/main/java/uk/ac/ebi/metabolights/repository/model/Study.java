@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Study extends LiteStudy{
+public class Study extends LiteStudy {
 
     private Date studySubmissionDate;
     private String description;
@@ -42,9 +42,10 @@ public class Study extends LiteStudy{
     private Collection<Protocol> protocols;
     private List<Assay> assays;
     private Collection<Backup> backups;
+    private Validations validations;
 
     // Tables Sample & Assays
-	private Table sampleTable;
+    private Table sampleTable;
 
     public List<Assay> getAssays() {
         return assays;
@@ -113,12 +114,12 @@ public class Study extends LiteStudy{
     }
 
     public Table getSampleTable() {
-		return sampleTable;
-	}
+        return sampleTable;
+    }
 
-	public void setSampleTable(Table sampleTable) {
-		this.sampleTable = sampleTable;
-	}
+    public void setSampleTable(Table sampleTable) {
+        this.sampleTable = sampleTable;
+    }
 
     public Collection<Backup> getBackups() {
         return backups;
@@ -126,6 +127,14 @@ public class Study extends LiteStudy{
 
     public void setBackups(Collection<Backup> backups) {
         this.backups = backups;
+    }
+
+    public Validations getValidations() {
+        return validations;
+    }
+
+    public void setValidations(Validations validations) {
+        this.validations = validations;
     }
 
 

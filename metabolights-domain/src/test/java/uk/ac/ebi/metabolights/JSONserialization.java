@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.Validation;
+import uk.ac.ebi.metabolights.repository.model.Validations;
 
 import java.io.IOException;
 
@@ -108,6 +111,50 @@ public class JSONserialization {
 		study = (LiteStudy) entities.get(1);
 
 
+	}
+
+	@Test
+	public void testFullStudySerialization() throws IOException {
+
+
+		ObjectMapper mapper = new ObjectMapper();
+		Study study = getNewFullStudy();
+
+		String studyJSON = mapper.writeValueAsString(study);
+
+		logger.info("Full Study serialised into {}", studyJSON);
+
+		study = mapper.readValue(studyJSON,study.getClass());
+
+		Assert.assertEquals("Study not serialised properly.", STUDY_ID, study.getStudyIdentifier());
+
+		Assert.assertEquals("Study hasn't got a validation.", 1, study.getValidations().getEntries().size());
+
+		Validation aValidation = (Validation) study.getValidations().getEntries().iterator().next();
+
+		Assert.assertEquals("validation hasPassed not serialised properly.", true, aValidation.getPassedRequirement());
+
+	}
+
+	private Study getNewFullStudy() {
+		Study study = new Study();
+
+		study.setStudyIdentifier(STUDY_ID);
+		study.setTitle("a study");
+		study.setStudyStatus(LiteStudy.StudyStatus.PUBLIC);
+
+		Validation aValidation = new Validation();
+		aValidation.setDescription("Validation description");
+		aValidation.setPassedRequirement(true);
+		aValidation.setType(Validation.Requirement.OPTIONAL);
+
+		Validations validations = new Validations();
+		validations.getEntries().add(aValidation);
+
+		study.setValidations(validations);
+
+
+		return study;
 	}
 
 }
