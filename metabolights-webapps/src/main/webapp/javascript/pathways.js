@@ -99,7 +99,7 @@ function bindPathways(){
         //        var object = $('#pathwayContainer');
         ////        (object).attr('data', 'pathway/' + pathwayId + '/svg');
         //        (object).attr('src', 'pathway/' + pathwayId + '/svg');
-        loadPathway('pathway/' + pathwayId + '/svg');
+        loadPathway('webservice/compounds/pathway/' + pathwayId + '/svg');
     });
 
     // And now fire change event when the DOM is ready
