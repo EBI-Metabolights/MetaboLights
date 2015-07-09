@@ -28,21 +28,17 @@ package uk.ac.ebi.metabolights.utils;
  */
 
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GroupingUtil<I,K>  {
 
-    private Multimap<K,I> sourceCol = ArrayListMultimap.create();
-    private Map<K,Collection<I>> groupedCol;
+    private HashMap<K,ArrayList<I>> groupedCol = new HashMap<>();
 
     private String clusteringMethod;
     private Class itemClass;
-    public GroupingUtil(Collection<I> sourceCol, String clusteringMethod, Class itemClass){
+    public GroupingUtil(ArrayList<I> sourceCol, String clusteringMethod, Class itemClass){
 
         this.clusteringMethod = clusteringMethod;
         this.itemClass = itemClass;
@@ -51,20 +47,11 @@ public class GroupingUtil<I,K>  {
 
     }
 
-    public Map<K, Collection<I>> getGroupedCol() {
+    public HashMap<K, ArrayList<I>> getGroupedCol() {
         return groupedCol;
     }
 
-    public String getClusteringMethod() {
-        return clusteringMethod;
-    }
-
-    public Class getItemClass() {
-        return itemClass;
-    }
-
-
-    private void group(Collection<I> sourceCol){
+    private void group(ArrayList<I> sourceCol){
 
         // Get the member to call
         java.lang.reflect.Method method;
@@ -91,8 +78,16 @@ public class GroupingUtil<I,K>  {
                 // Get the value invoking the method
                 K value = (K)method.invoke(item);
 
-                // Add this object to the multimap
-                this.sourceCol.put(value, item);
+                // Get the entry fot that value
+                ArrayList<I> collection = groupedCol.get(value);
+
+                if (collection == null){
+
+                    collection = new ArrayList<I>();
+                    groupedCol.put(value,collection);
+                }
+
+                collection.add(item);
 
 
             } catch (IllegalAccessException e) {
@@ -103,9 +98,6 @@ public class GroupingUtil<I,K>  {
             }
 
         }
-
-        //Create the map...
-        groupedCol = this.sourceCol.asMap();
 
     }
 

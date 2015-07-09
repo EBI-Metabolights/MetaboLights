@@ -46,6 +46,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -71,6 +72,7 @@ public class MetabolightsWsClientTest {
 
 	public static final String PUBLIC_STUDY = "MTBLS100";
 	public static final String PUBLIC_STUDY_OC = "c17f47f3-2f8c-4e30-b019-a13d4e519eb3";
+	public static final String COMPOUND = "MTBLC10440";
 	String SUBMITTER_TOKEN;
 	String CURATOR_TOKEN;
 	private MetabolightsWsClient wsClient;
@@ -378,13 +380,21 @@ public class MetabolightsWsClientTest {
 		response = wsClient.canViewStudyByObfuscationCode(PRIVATE_STUDY_OC);
 		Assert.assertTrue("Owner should be able to access his own private study by OC", response);
 
+	}
+
+	@Test
+	public void testGetCompound() throws Exception {
 
 
+		RestResponse<Compound> response = wsClient.getCompound(COMPOUND);
 
+		// We should get the compound
 
-
+		assertNotNull("There was an error getting a compound", response.getErr());
+		assertEquals("Compound doesn't have the id", COMPOUND, response.getContent().getMc().getAccession());
 
 	}
+
 
 
 }

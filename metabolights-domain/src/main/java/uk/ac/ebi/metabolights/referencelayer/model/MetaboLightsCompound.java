@@ -64,7 +64,7 @@ public class MetaboLightsCompound extends Entity {
     private boolean hasMS;
 
     // Species associated with the metabolite
-    private Collection<MetSpecies> metSpecies = new ArrayList<MetSpecies>();
+    private ArrayList<MetSpecies> metSpecies = new ArrayList<MetSpecies>();
 
     // Spectrums associated with the metabolite
     private Collection<Spectra> metSpectras = new ArrayList<Spectra>();
@@ -134,7 +134,7 @@ public class MetaboLightsCompound extends Entity {
         return chebiId;
     }
 
-    public Collection<MetSpecies> getMetSpecies() {
+    public ArrayList<MetSpecies> getMetSpecies() {
 
         return metSpecies;
     }

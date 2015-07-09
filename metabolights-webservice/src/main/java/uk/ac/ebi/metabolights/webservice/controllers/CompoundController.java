@@ -36,6 +36,7 @@ import uk.ac.ebi.metabolights.referencelayer.importer.ReferenceLayerImporter;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.Pathway;
 import uk.ac.ebi.metabolights.referencelayer.model.Spectra;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.services.ModelObjectFactory;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.rhea.ws.client.RheaFetchDataException;
@@ -71,7 +72,7 @@ public class CompoundController extends BasicController {
 
     @RequestMapping(value = COMPOUND_MAPPING)
     @ResponseBody
-    public Compound getCompound(@PathVariable(COMPOUND_VAR) String compoundId) throws DAOException {
+    public RestResponse<Compound> getCompound(@PathVariable(COMPOUND_VAR) String compoundId) throws DAOException {
 
 		logger.info("requested compound " + compoundId);
 
@@ -80,7 +81,9 @@ public class CompoundController extends BasicController {
         if (compound == null)
             throw new DAOException("The requested compound does not exist: "+ compoundId);
 
-        return compound;
+        RestResponse<Compound> response = new RestResponse();
+        response.setContent(compound);
+        return response;
 
     }
 

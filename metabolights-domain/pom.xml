@@ -44,6 +44,12 @@
             <version>${com.fasterxml.jackson.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${com.fasterxml.jackson.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>net.java.openjfx.backport</groupId>
             <artifactId>openjfx-78-backport</artifactId>
             <version>1.8.0-ea-b96.1</version>
@@ -59,13 +65,6 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${com.fasterxml.jackson.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${com.fasterxml.jackson.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>uk.ac.ebi.chebi.webapps.chebiWS.client</groupId>

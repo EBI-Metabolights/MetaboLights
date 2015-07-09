@@ -30,6 +30,10 @@ public class Spectra extends Entity {
     private SpectraType spectraType;
     private Collection<Attribute> attributes = new ArrayList<Attribute>();
 
+    public Spectra() {
+
+    }
+
     public enum SpectraType {
         NMR,
         MS
