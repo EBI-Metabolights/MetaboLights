@@ -571,6 +571,16 @@
                     </div>
                 </form>
             </div> <!--  ends tabs-files files -->
+
+
+            <%--Here validations--%>
+
+            <c:forEach var="validation" items="${study.}">
+
+                <td class="tableitem">${validation.name}</td>
+
+            </c:forEach>
+
         </c:if>
 
     </div> <!-- end configuring tabs -->

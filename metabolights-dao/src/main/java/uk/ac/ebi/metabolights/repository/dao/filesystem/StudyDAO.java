@@ -25,11 +25,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.Organism;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.Validation;
+import uk.ac.ebi.metabolights.repository.model.Validations;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
+import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtils;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Collection;
 
 /**
  * User: conesa
@@ -42,7 +47,7 @@ public class StudyDAO {
     private static File studiesFolder;
     private final static Logger logger = LoggerFactory.getLogger(StudyDAO.class.getName());
 
-    public StudyDAO(String isaTabRootConfigurationFolder, String studiesFolder){
+    public StudyDAO(String isaTabRootConfigurationFolder, String studiesFolder) {
         this.isaTabInvestigationDAO = new IsaTabInvestigationDAO(isaTabRootConfigurationFolder);
         this.studiesFolder = new File(studiesFolder);
 
@@ -56,7 +61,7 @@ public class StudyDAO {
 
     }
 
-    public static File getStudyFolder(final String metabolightsId, File location){
+    public static File getStudyFolder(final String metabolightsId, File location) {
 
         logger.debug("Trying to locate {} folder: {}", metabolightsId, location);
 
@@ -66,8 +71,8 @@ public class StudyDAO {
             }
         });
 
-        if (files != null && files.length == 1 ){
-            return  files[0];
+        if (files != null && files.length == 1) {
+            return files[0];
         } else {
 
             logger.debug("{} folder not found at {}", metabolightsId, location);
@@ -88,9 +93,9 @@ public class StudyDAO {
         return studyFolder;
     }
 
-    public static File getRootFolder(){
+    public static File getRootFolder() {
 
-        if (studiesFolder == null){
+        if (studiesFolder == null) {
             logger.warn("Careful!, it seems you are using the StudyDAO without having it initialized. Private folder or public folder is/are null");
         }
 
@@ -98,18 +103,18 @@ public class StudyDAO {
 
     }
 
-    public static File getDestinationFolder(String studyIdentifier){
+    public static File getDestinationFolder(String studyIdentifier) {
 
         // If no status is passes we will use private as a safety measure
         File destination = getRootFolder();
 
-        destination = new File (destination, studyIdentifier);
+        destination = new File(destination, studyIdentifier);
 
-        if (!destination.exists()){
+        if (!destination.exists()) {
             destination.mkdir();
         }
 
-        return  destination;
+        return destination;
 
     }
 
@@ -122,14 +127,14 @@ public class StudyDAO {
     }
 
 
-    public Study fillStudy( boolean includeMetabolites, Study studyToFill) throws DAOException {
+    public Study fillStudy(boolean includeMetabolites, Study studyToFill) throws DAOException {
 
-        logger.info("Trying to parse study "+ studyToFill.getStudyIdentifier());
+        logger.info("Trying to parse study " + studyToFill.getStudyIdentifier());
 
         File studyFolder = getStudyFolder(studyToFill.getStudyIdentifier());
 
         // We got something ...
-        if (studyFolder != null){
+        if (studyFolder != null) {
 
 
             try {
@@ -138,14 +143,14 @@ public class StudyDAO {
 
             } catch (Exception e) {
 
-                logger.warn("Folder for {} found, but metadata can't be loaded. Load process will continue but without metadata. This should be fixed submitting new metadata files.", studyToFill.getStudyIdentifier(),e);
+                logger.warn("Folder for {} found, but metadata can't be loaded. Load process will continue but without metadata. This should be fixed submitting new metadata files.", studyToFill.getStudyIdentifier(), e);
             }
 
             // Return what we have (could be onlt DB data in case of metadata load failure.)
             return studyToFill;
 
         } else {
-            throw new DAOException("Study folder for " + studyToFill.getStudyIdentifier() + " not found." );
+            throw new DAOException("Study folder for " + studyToFill.getStudyIdentifier() + " not found.");
         }
 
     }
@@ -161,10 +166,12 @@ public class StudyDAO {
 
         // Convert it into a MetaboLights study
         studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
+        StudyValidationUtils.validate(studyToFill);
 
-
-        logger.info("Study loaded from folder: {}" , studyFolder.getAbsolutePath());
+        logger.info("Study loaded from folder: {}", studyFolder.getAbsolutePath());
 
         return studyToFill;
     }
+
+
 }
