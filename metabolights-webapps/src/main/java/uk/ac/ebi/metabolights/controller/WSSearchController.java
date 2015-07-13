@@ -29,7 +29,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.search.service.Booster;
+import uk.ac.ebi.metabolights.search.service.Facet;
+import uk.ac.ebi.metabolights.search.service.FacetLine;
+import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
+import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Controller for Metabolights searching using the webservice.
@@ -38,25 +48,23 @@ import uk.ac.ebi.metabolights.service.AppContext;
 @Controller
 public class WSSearchController extends AbstractController{
 
-	public static final String WS_SEARCH_SUFFIX = "";
-	public static final String SEARCH_MODE = "wsSearchResult";
-	public static final String MY_SUBMISSIONS_MODE = "wsMySubmissions";
 	public static final String HEADER = "sHeader";
 	public static final String NORESULTSMESSAGE = "noresultsmessage";
+	public static final String BROWSE = "browse";
+	public static final String SEARCH = "search";
+	private static final String MY_SUBMISSIONS = "mysubmissions";
+
 	private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
 
 
     /**
      * Controller for a browse (empty internalSearch) request
      */
-    @RequestMapping(value = "browse" + WS_SEARCH_SUFFIX)
-    public ModelAndView browse() throws Exception {
+    @RequestMapping(value = BROWSE )
+    public ModelAndView browse(HttpServletRequest request) throws Exception {
 
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch("wsBrowse");
-
-		//Add the action to the ModelAndView
-		mav.addObject("action", "wsBrowse");
+		ModelAndView mav = internalSearch(BROWSE, request);
 
 		return mav;
     }
@@ -65,29 +73,27 @@ public class WSSearchController extends AbstractController{
 	 * Controller for a internalSearch request, including possible filters.
 	 *
 	 */
-	@RequestMapping(value = "/search" + WS_SEARCH_SUFFIX, method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView search (@RequestParam(required=false,value="freeTextQuery") String freeTextQuery) throws Exception {
+	@RequestMapping(value = SEARCH, method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView search (@RequestParam(required=false,value="freeTextQuery") String freeTextQuery, HttpServletRequest request) throws Exception {
 
 
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(SEARCH_MODE);
-
-		//Add the action to the ModelAndView
-		mav.addObject("action", "search");
-		mav.addObject("freeTextQuery", freeTextQuery);
+		ModelAndView mav = internalSearch(SEARCH, request);
 
 		return mav;
 	}
 
-	private ModelAndView internalSearch(String MAVName) {
+	private ModelAndView internalSearch(String MAVName, HttpServletRequest request) {
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
-		mav.addObject("user_token", LoginController.getLoggedUser().getApiToken() );
 
-		if (MAVName.equals(SEARCH_MODE)){
+		//used for the JSP form
+		mav.addObject("action", MAVName);
+
+		if (MAVName.equals(SEARCH)){
 			mav.addObject(HEADER, PropertyLookup.getMessage("msg.search.title"));
 			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.search.noresults"));
-		} else if (MAVName.equals(MY_SUBMISSIONS_MODE)){
+		} else if (MAVName.equals(MY_SUBMISSIONS)){
 			mav.addObject(HEADER, PropertyLookup.getMessage("msg.mysubmissions.title"));
 			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.mysubmissions.noresults"));
 		// Browse mode
@@ -96,123 +102,157 @@ public class WSSearchController extends AbstractController{
 			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.browse.noresults"));
 		}
 
+		// Make the search
+		// Get the query
+		SearchQuery query = getQuery(request);
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<? extends MixedSearchResult> entitySearchResult = wsClient.search(query);
+
+		mav.addObject("searchResponse", entitySearchResult);
+
+
+		// Add methods
+		if (entitySearchResult.getErr() == null){
+			mav.addObject("pagecount", entitySearchResult.getContent().getQuery().getPagination().getPageCount());
+			mav.addObject("firstPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getFirstPageItemNumber());
+			mav.addObject("lastPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getLastPageItemNumber());
+
+		}
+
 		return mav;
 	}
 
-//	private ModelAndView internalSearch(HttpServletRequest request, SearchQuery query, String MAVName) throws Exception {
-//
-//		logger.info("Searching for "+ query);
-//
-//		//Prepare the query
-//		MetabolightsWsClient client = EntryController.getMetabolightsWsClient(request,LoginController.getLoggedUser());
-//
-//		RestResponse<? extends SearchResult> response = client.search(query);
-//
-//		if (response.getErr() != null) {
-//			throw new Exception("Upps!. Something went wrong during the search." , response.getErr());
-//		}
-//
-//		logger.debug("Found #results = "+response.getContent().getQuery().getPagination().getItemsCount());
-//
-//		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
-//        mav.addObject("results", response.getContent());
-//		mav.addObject("freeTextQuery", response.getContent().getQuery().getText());
-//
-//    	return mav;
-//	}
+	private SearchQuery getQuery(HttpServletRequest request) {
+
+		// Get an empty query
+		SearchQuery query = getEmptyQuery();
+
+		// Fill query with request parameters
+		populateQueryFromRequest (query, request);
 
 
+		return query;
+
+	}
+
+	private void populateQueryFromRequest(SearchQuery query, HttpServletRequest request) {
+
+		// Get the parameters
+		Map<String,String[]> parameters = request.getParameterMap();
 
 
-	@RequestMapping(value = "/mysubmissions")
-	public ModelAndView MySubmissionsSearch () {
+		// Go through all the entries (Key + String[])
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+
+			String key = entry.getKey();
+
+			// If its the page
+			if (key.equals ("pageNumber")){
+
+				int page = Integer.parseInt(entry.getValue()[0]);
+
+				query.getPagination().setPage(page);
+			} else if (key.equals ("freeTextQuery")){
+				query.setText(entry.getValue()[0]);
+
+			//... its a facet....fill the facet
+			} else {
+
+				populateFacet (query, entry);
+
+			}
+
+		}
+
+		return;
+
+	}
+
+	private void populateFacet(SearchQuery query, Map.Entry<String, String[]> entry) {
+
+		// Get the facet by name
+		Facet facet = getFacetByName(query, entry.getKey());
+
+		if (facet != null){
+
+			for (String value : entry.getValue()) {
+
+				FacetLine newLine = new FacetLine();
+				newLine.setChecked(true);
+				newLine.setValue(value);
+				facet.getLines().add(newLine);
+
+			}
+		}
+
+	}
+
+	private Facet getFacetByName(SearchQuery query, String name) {
+
+		for (Facet facet : query.getFacets()) {
+			if (facet.getName().equals(name)){
+				return facet;
+			}
+		}
+
+		logger.warn("Facet with name {} not found.", name);
+		return null;
+	}
+
+
+	@RequestMapping(value = MY_SUBMISSIONS)
+	public ModelAndView MySubmissionsSearch (HttpServletRequest request) {
 
 
 		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(MY_SUBMISSIONS_MODE);
+		ModelAndView mav = internalSearch(MY_SUBMISSIONS, request);
 
-		//Add the action to the ModelAndView
-		mav.addObject("action", "mysubmissions");
 		mav.addObject("usersFullName", LoginController.getLoggedUser().getFullName());
 
-
-		//Add the message to the user
-//		String welcomeMessage;
-//
-//		//If he doesn't have any study
-//        //TODO, the two text messages are no longer displayed, BUT the welcomeMessage string must be present in the JSP
-//		if (filter.getInitialHits() ==0){
-//			welcomeMessage = PropertyLookup.getMessage("msg.welcomeWithoutStudies",
-//					user.getFirstName());
-//		} else {
-//			welcomeMessage =  PropertyLookup.getMessage("msg.welcomeWithStudies",
-//					user.getFirstName(), Integer.toString(filter.getInitialHits()));
-//		}
-//
-//		// Add the message to the response
-//		mav.addObject("welcomemessage", welcomeMessage);
-//
 		return mav;
 	}
 
-//	/**request can come with 2 parameters:
-//	 * query: freetext query
-//	 * form with all the possible filters
-//	 * @param request
-//	 * @return
-//	 */
-//	public SearchQuery requestToQuery(HttpServletRequest request){
+	private SearchQuery getEmptyQuery(){
+
+		SearchQuery emptyQuery = new SearchQuery();
+
+		addFacet("assays.technology", emptyQuery);
+		addFacet( "studyStatus", emptyQuery);
+		addFacet("organism.organismName", emptyQuery);
+		addFacet("organism.organismPart", emptyQuery);
+		addFacet("users.fullName", emptyQuery);
+
+
+//		<c:if test="${not empty usersFullName}">
+//				,"lines":[{"value":"${usersFullName}","checked":true}]
+//			</c:if>
+
+		addFacet("factors.name", emptyQuery);
+		addFacet("descriptors.description", emptyQuery);
+		emptyQuery.getPagination().setPage(1);
+		emptyQuery.getPagination().setPageSize(10);
+
+		Booster titleBooster = new Booster();
+		titleBooster.setBoost(1);
+		titleBooster.setFieldName("title");
+
+		emptyQuery.getBoosters().add(titleBooster);
 //
-//		SearchQuery query = new SearchQuery();
-//
-//		// Get the search term
-//		query.setText(request.getParameter(Filter.FREE_TEXT_QUERY));
-//
-//
-//		// Get an enumeration of all parameters
-//		Enumeration paramenum = request.getParameterNames();
-//
-//		//Loop through the enumeration
-//		while (paramenum.hasMoreElements()) {
-//			// Get the name of the request parameter
-//			String name = (String)paramenum.nextElement();
-//
-//			//Which page are we on
-//			if (name.equals("pageNumber")) {
-//				query.getPagination().setPage(Integer.valueOf(request.getParameter(name)));
-//				continue;
-//			}
-//
-////			//Get the Corresponding filterSet
-////			FilterSet fs = fss.get(name);
-////
-////			//If exists...
-////			if (fs != null){
-////
-////				// If the request parameter can appear more than once in the query string, get all values
-////				String[] values = request.getParameterValues(name);
-////
-////				for (int i=0; i<values.length; i++) {
-////
-////					String val = values[i];
-////					if (val == null)
-////						val = "";
-////
-////					//We need to update the status (checked/unchecked)
-////					FilterItem fi = fs.getFilterItems().get(val);
-////
-////					if (fi != null)   // Just in case the value is missing or we cannot access it, this will prevent a null pointer
-////						fi.setIsChecked(true);
-////					else {
-////						fi = new FilterItem(val, METABOLITE_FILTER, val);
-////						fi.setUTF8Value(val);
-////						fi.setIsChecked(true);
-////					}
-////
-////				}
-////			}
-//		}
-//
-//		return query;
-//	}
+//		<c:if test="${not empty freeTextQuery}">
+//				emptyQuery.text = "${freeTextQuery}";
+//		</c:if>
+
+		return emptyQuery;
+
+
+	}
+
+	private void addFacet(String facetName, SearchQuery query) {
+
+		query.getFacets().add(new Facet(facetName));
+	}
+
+
 }

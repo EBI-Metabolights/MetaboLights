@@ -19,7 +19,7 @@ import uk.ac.ebi.metabolights.search.service.SearchResult;
 public class CompoundsTests {
 
 	private static final Logger logger = LoggerFactory.getLogger(CompoundsTests.class);
-	public static final String ACCESSION = "MTBLC123456";
+	public static final String ACCESSION = "MTBLC15570";
 	private static final String STUDY_ID = "LALALA1";
 
 
@@ -29,7 +29,12 @@ public class CompoundsTests {
 		MetaboLightsCompound compound = new MetaboLightsCompound();
 
 		compound.setAccession(ACCESSION);
-		compound.setName("a compound");
+		compound.setName("D-alanine");
+		compound.setDescription("The D-enantiomer of alanine.");
+		compound.setHasSpecies(true);
+		compound.setHasNMR(true);
+		compound.setHasMS(true);
+		compound.setHasLiterature(true);
 		compound.setStudyStatus("PUBLIC");
 
 
