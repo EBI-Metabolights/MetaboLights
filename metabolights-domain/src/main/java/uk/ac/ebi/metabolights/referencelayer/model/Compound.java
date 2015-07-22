@@ -21,21 +21,12 @@
 
 package uk.ac.ebi.metabolights.referencelayer.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
-import uk.ac.ebi.metabolights.utils.GroupingUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Compound {
 
 	private MetaboLightsCompound mc;
 	private Entity chebiEntity;
-	@JsonIgnore
-    private HashMap<Species,ArrayList<MetSpecies>> species;
-
 
 
 	public Compound(){}
@@ -58,17 +49,11 @@ public class Compound {
 		return chebiEntity;
 	}
 
-    public Map<Species,ArrayList<MetSpecies>> getSpecies(){
+	protected void setMc(MetaboLightsCompound mc) {
+		this.mc = mc;
+	}
 
-        // Grouping util not instantiated....
-        if (species == null) {
-            GroupingUtil speciesGU = new GroupingUtil(mc.getMetSpecies(),"getSpecies",MetSpecies.class);
-
-            species = speciesGU.getGroupedCol();
-        }
-
-        return species;
-
-    }
-
+	protected void setChebiEntity(Entity chebiEntity) {
+		this.chebiEntity = chebiEntity;
+	}
 }

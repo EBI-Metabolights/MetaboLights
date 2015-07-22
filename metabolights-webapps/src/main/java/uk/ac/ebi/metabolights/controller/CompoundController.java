@@ -35,8 +35,10 @@ import uk.ac.ebi.cdb.webservice.Result;
 import uk.ac.ebi.cdb.webservice.WSCitationImpl;
 import uk.ac.ebi.cdb.webservice.WSCitationImplService;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
+import uk.ac.ebi.metabolights.model.WebCompound;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.rhea.ws.client.RheaFetchDataException;
 import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
@@ -73,12 +75,20 @@ public class CompoundController extends AbstractController {
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
-        Compound compound = ModelObjectFactory.getCompound(mtblc);
-        if (compound == null)
-            return printMessage("Error","The requested compound does not exist: "+ mtblc);
+//        Compound compound = ModelObjectFactory.getCompound(mtblc);
+        RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
 
-        mav.addObject("compound", compound);
-		mav.addObject("pageTitle", mtblc + " - " + compound.getMc().getName());
+        Compound compound = response.getContent();
+
+        if (compound == null)
+            return printMessage("Couldn't get the requested compound: "+ mtblc, response.getErr().getMessage());
+
+        // We need the species grouped
+        WebCompound webCompound = new WebCompound(compound);
+
+
+        mav.addObject("compound", webCompound);
+		mav.addObject("pageTitle", mtblc + " - " + webCompound.getMc().getName());
 
         return mav;
 
