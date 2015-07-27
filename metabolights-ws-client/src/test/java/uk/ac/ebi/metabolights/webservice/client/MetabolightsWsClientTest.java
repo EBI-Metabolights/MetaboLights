@@ -69,7 +69,7 @@ public class MetabolightsWsClientTest {
 	public static final String PRIVATE_STUDY = "MTBLS10";
 	public static final String PRIVATE_STUDY_OC = "4faafe88-495c-4536-b818-a3cedcd6e768";
 
-	public static final String PUBLIC_STUDY = "MTBLS100";
+	public static final String PUBLIC_STUDY = "MTBLS1";
 	public static final String PUBLIC_STUDY_OC = "c17f47f3-2f8c-4e30-b019-a13d4e519eb3";
 	String SUBMITTER_TOKEN;
 	String CURATOR_TOKEN;

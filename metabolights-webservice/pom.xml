@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
-  ~ Cheminformatics and Metabolism group
+  ~ ebi metabolights - http://www.ebi.ac.uk/metabolights
+  ~ cheminformatics and metabolism group
   ~
-  ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+  ~ european bioinformatics institute (embl-ebi), european molecular biology laboratory, wellcome trust genome campus, hinxton, cambridge cb10 1sd, united kingdom
   ~
-  ~ Last modified: 2015-Apr-21
-  ~ Modified by:   kenneth
+  ~ last modified: 2015-apr-21
+  ~ modified by:   kenneth
   ~
-  ~ Copyright 2015 EMBL - European Bioinformatics Institute
+  ~ copyright 2015 embl - european bioinformatics institute
   ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
+  ~ licensed under the apache license, version 2.0 (the "license");
+  ~ you may not use this file except in compliance with the license.
+  ~ you may obtain a copy of the license at
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~      http://www.apache.org/licenses/license-2.0
   ~
-  ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+  ~ unless required by applicable law or agreed to in writing, software distributed under the license is distributed on an "as is" basis, without warranties or conditions of any kind, either express or implied. see the license for the specific language governing permissions and limitations under the license.
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">

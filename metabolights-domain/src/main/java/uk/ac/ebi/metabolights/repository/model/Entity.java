@@ -33,13 +33,13 @@ import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
  * Time: 09:51
  */
 
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include= JsonTypeInfo.As.PROPERTY, property="ObjectType")
-@JsonSubTypes({
-
-		@JsonSubTypes.Type(value=LiteStudy.class, name="LiteStudy"),
-		@JsonSubTypes.Type(value=MetaboLightsCompound.class, name="compound")
-
-})
+//@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include= JsonTypeInfo.As.PROPERTY, property="ObjectType")
+//@JsonSubTypes({
+//
+//		@JsonSubTypes.Type(value=LiteStudy.class, name="LiteStudy"),
+//		@JsonSubTypes.Type(value=MetaboLightsCompound.class, name="compound")
+//
+//})
 public class Entity {
 
 	private static final Logger logger = LoggerFactory.getLogger(Entity.class);

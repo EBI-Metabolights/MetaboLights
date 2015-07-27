@@ -57,6 +57,14 @@ div#local-title.logo-title span {
     padding-right: 0px;
 }
 
+.iconTick {
+    color : lightgreen;
+}
+
+.iconCross {
+    color : red;
+}
+
 div .box {
     background-color: #ffffff;
     margin: 3px 0px 3px 0px;

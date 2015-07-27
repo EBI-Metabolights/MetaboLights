@@ -35,4 +35,6 @@ public class StudyValidationUtilsTest extends TestCase {
         Assert.assertEquals("validation hasPassed", true, aValidation.getPassedRequirement());
 
     }
+
+
 }

@@ -309,6 +309,11 @@
                     <a href="#tabs-files" class="noLine"><spring:message code="label.Files"/></a>
                 </li>
             </c:if>
+
+            <li>
+                <a href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/></a>
+            </li>
+
         </ul>
 
 
@@ -571,17 +576,34 @@
                     </div>
                 </form>
             </div> <!--  ends tabs-files files -->
-
-
-            <%--Here validations--%>
-
-            <c:forEach var="validation" items="${study.}">
-
-                <td class="tableitem">${validation.name}</td>
-
-            </c:forEach>
-
         </c:if>
+        <!-- TAB: Validations-->
+        <div id="tabs-validations" class="tab">
+            <c:if test="${not empty study.validations.entries}">
+                <br/>
+                <fieldset class="box">
+                    <legend><spring:message code="label.studyvalidation"/>:</legend>
+                    <br/>
+                    We have the found the following information in this study
+                    &nbsp;
+                    <c:forEach var="validation" items="${study.validations.entries}" >
+                    <li>${validation.description}
+                        <%--&nbsp;--%>
+                            <%--${validation.passedRequirement}--%>
+                        <%--&nbsp;--%>
+                        <c:if test="${validation.passedRequirement}">
+                        &nbsp;
+                        <span aria-hidden="true" class="iconTick">&#10004;</span>
+                        </c:if>
+                       <c:if test="${validation.passedRequirement == false}">
+                        &nbsp;
+                        <span aria-hidden="true" class="iconCross">&#10008;</span>
+                    </c:if>
+                    </c:forEach>
+                </fieldset>
+            </c:if>
+        </div>
+        <!-- ends tabs-Validations -->
 
     </div> <!-- end configuring tabs -->
 </div>
