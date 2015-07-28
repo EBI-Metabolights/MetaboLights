@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.*;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.io.File;
 import java.io.IOException;
@@ -161,7 +162,7 @@ public class JSONserialization {
 
 
 		ObjectMapper mapper = new ObjectMapper();
-		LiteStudy study = getNewStudy();
+		Study study = getNewStudy();
 
 		String studyJSON = mapper.writeValueAsString(study);
 
@@ -173,8 +174,8 @@ public class JSONserialization {
 
 	}
 
-	private LiteStudy getNewStudy() {
-		LiteStudy study = new LiteStudy();
+	private Study getNewStudy() {
+		Study study = new Study();
 
 		study.setStudyIdentifier(STUDY_ID);
 		study.setTitle("a study");

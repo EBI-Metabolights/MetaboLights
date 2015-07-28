@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.xml_cml.schema.cml2.react.Reaction;
 import uk.ac.ebi.cdb.webservice.ResponseWrapper;
 import uk.ac.ebi.cdb.webservice.Result;
 import uk.ac.ebi.cdb.webservice.WSCitationImpl;
@@ -40,8 +39,7 @@ import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
-import uk.ac.ebi.rhea.ws.client.RheaFetchDataException;
-import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
+import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URL;
@@ -101,23 +99,20 @@ public class CompoundController extends AbstractController {
         //Instantiate Model and view
         ModelAndView mav = new ModelAndView("reaction");
 
-        //Setting up resource client
-        RheasResourceClient client = new RheasResourceClient();
+//        //Setting up resource client
+//        RheasResourceClient client = new RheasResourceClient();
 
-//        //Initialising and passing chebi Id as compound to Rhea
-//        List<RheaReaction> reactions = null;
-//
-//		reactions = client.search(compound);
-//
+        //Initialising and passing chebi Id as compound to Rhea
+        ReactionsList reactions = null;
 
-		//Initialising and passing chebi Id as compound to Rhea
-		List<Reaction> reactions = null;
+        RestResponse<ReactionsList> response = EntryController.getMetabolightsWsClient().getCompoundReactions(compound);
 
-		try {
-			reactions = client.getRheasInCmlreact(compound);
-		} catch (RheaFetchDataException e) {
-			e.printStackTrace();
-		}
+        if (response.getErr() != null) {
+            logger.error("Can't get reaction for {}: {}", compound,response.getErr().getMessage(), response.getErr());
+        } else {
+
+            reactions = response.getContent();
+        }
 
 		mav.addObject("reactions", reactions);
 

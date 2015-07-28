@@ -30,61 +30,9 @@
         <c:set var="chebiUrl" value="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&amp;chebiId=" />
         <c:set var="chebiDimension" value="&amp;dimensions=200&amp;scaleMolecule=true"/>
         <select id="reactionsList">
-        <c:forEach var="Reaction" items="${reactions}">
-            <option value="${Reaction.id}">
-            <c:forEach var="ReactiveMechanism"
-                       items="${Reaction.reactiveCentreAndMechanismAndReactantList}"
-                       varStatus="ReactionLoop">
-                <c:if test="${ReactiveMechanism.class.simpleName eq 'ReactantList'}">
-                    <c:forEach var="Reactant"
-                               items="${ReactiveMechanism.reactantListOrReactant}"
-                               varStatus="ReactantLoop">
-                        <c:choose>
-                            <c:when test="${ReactantLoop.index eq 0}">
-                                ${Reactant.title}
-                            </c:when>
-                            <c:otherwise>
-                                <b>&#43;</b>
-                                ${Reactant.title}
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </c:if>
-                <c:if test="${ReactionLoop.index eq 0}">
-                    <c:choose>
-                        <c:when test="${Reaction.convention eq 'rhea:direction.UN'}">
-                            <b>&#60;&#63;&#62;</b>
-                        </c:when>
-                        <c:when test="${Reaction.convention eq 'rhea:direction.LR'}">
-                            <b>&#61;&#62;</b>
-                        </c:when>
-                        <c:when test="${Reaction.convention eq 'rhea:direction.BI'}">
-                            <b>&#60;&#61;&#62;</b>
-                        </c:when>
-                        <c:when test="${Reaction.convention eq 'rhea:direction.RL'}">
-                            <b>&#60;&#61;</b>
-                        </c:when>
-                        <c:otherwise>
-                            <b>&#60;&#63;&#62;</b>
-                        </c:otherwise>
-                    </c:choose>
-                </c:if>
-                <c:if test="${ReactiveMechanism.class.simpleName eq 'ProductList'}">
-                    <c:forEach var="Product"
-                               items="${ReactiveMechanism.productListOrProduct}"
-                               varStatus="ProductLoop">
-                        <c:choose>
-                            <c:when test="${ProductLoop.index eq 0}">
-                                ${Product.title}
-                            </c:when>
-                            <c:otherwise>
-                                <b>&#43;</b>
-                                ${Product.title}
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </c:if>
-            </c:forEach>
+        <c:forEach var="reaction" items="${reactions}">
+            <option value="${reaction.id}">
+                <c:out value="${reaction.name}"/>
             </option>
         </c:forEach>
         </select>

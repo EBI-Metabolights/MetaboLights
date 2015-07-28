@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -43,6 +44,10 @@ import java.util.List;
  */
 
 @JsonTypeName("LiteStudy")
+@JsonSubTypes({
+		@JsonSubTypes.Type(value=Study.class, name="Study")
+
+})
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LiteStudy extends Entity {
 

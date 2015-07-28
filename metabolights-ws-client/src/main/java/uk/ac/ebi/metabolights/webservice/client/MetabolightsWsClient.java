@@ -46,7 +46,6 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml_cml.schema.cml2.react.Reaction;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -55,6 +54,7 @@ import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -63,7 +63,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -459,7 +458,7 @@ public class MetabolightsWsClient {
         logger.debug("Restoring {} for {} requested to MetaboLights WS client.", backupIdentifier, studyIdentifier);
 
         // Make the request
-        String response = makePutRequest(getStudyPath(studyIdentifier) + "/restore" , backupIdentifier);
+        String response = makePutRequest(getStudyPath(studyIdentifier) + "/restore", backupIdentifier);
 
         return deserializeJSONString(response, String.class);
 
@@ -519,7 +518,7 @@ public class MetabolightsWsClient {
 
     }
 
-    public RestResponse<? extends ArrayList> getReactions(String compoundIdentifier) {
+    public RestResponse<ReactionsList> getCompoundReactions(String compoundIdentifier) {
 
         logger.debug("Reactions for compound " + compoundIdentifier + " requested to the MetaboLights WS client");
 
@@ -531,9 +530,9 @@ public class MetabolightsWsClient {
         // Make the request
         String response = makeGetRequest(path);
 
-        ArrayList<Reaction> reactions = new ArrayList<Reaction>();
+        ReactionsList reactions = new ReactionsList();
 
-        return deserializeJSONString(response, reactions.getClass());
+        return (RestResponse<ReactionsList>) deserializeJSONString(response, reactions.getClass());
 
     }
 

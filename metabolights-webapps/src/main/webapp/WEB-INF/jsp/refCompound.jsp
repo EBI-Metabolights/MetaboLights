@@ -489,7 +489,7 @@
             </c:if>
             <c:if test="${compound.mc.hasReactions}">
                 <li hash="reactions">
-                    <a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message
+                    <a class="noLine" href="reactions?chebiId=${compound.mc.accession}"><spring:message
                             code="ref.compound.tab.reactions"/></a>
                 </li>
             </c:if>

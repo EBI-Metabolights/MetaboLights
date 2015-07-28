@@ -46,6 +46,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml_cml.schema.cml2.react.Reaction;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
@@ -55,6 +56,7 @@ import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
 import java.util.Date;
 
@@ -70,7 +72,7 @@ public class MetabolightsWsClientTest {
 	public static final String PRIVATE_STUDY = "MTBLS10";
 	public static final String PRIVATE_STUDY_OC = "4faafe88-495c-4536-b818-a3cedcd6e768";
 
-	public static final String PUBLIC_STUDY = "MTBLS100";
+	public static final String PUBLIC_STUDY = "MTBLS1";
 	public static final String PUBLIC_STUDY_OC = "c17f47f3-2f8c-4e30-b019-a13d4e519eb3";
 	public static final String COMPOUND = "MTBLC10440";
 	String SUBMITTER_TOKEN;
@@ -394,6 +396,19 @@ public class MetabolightsWsClientTest {
 		assertEquals("Compound doesn't have the id", COMPOUND, response.getContent().getMc().getAccession());
 
 	}
+
+	@Test
+	public void testGetReactions() throws Exception {
+
+
+		RestResponse<ReactionsList> response = (RestResponse<ReactionsList>) wsClient.getCompoundReactions(COMPOUND);
+
+		// We should get the a list of reactions
+		assertNull("There was an error getting reactions", response.getErr());
+		assertEquals("Reactions are not returned as class", response.getContent().get(0).getClass(), Reaction.class);
+
+	}
+
 
 
 

@@ -37,7 +37,7 @@ import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 @JsonSubTypes({
 
 		@JsonSubTypes.Type(value=LiteStudy.class, name="LiteStudy"),
-		@JsonSubTypes.Type(value=MetaboLightsCompound.class, name="compound")
+		@JsonSubTypes.Type(value=MetaboLightsCompound.class, name="Compound")
 
 })
 public class Entity {

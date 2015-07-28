@@ -28,13 +28,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.xml_cml.schema.cml2.react.Reaction;
+import org.xml_cml.schema.cml2.react.Product;
+import org.xml_cml.schema.cml2.react.ProductList;
+import org.xml_cml.schema.cml2.react.Reactant;
+import org.xml_cml.schema.cml2.react.ReactantList;
 import uk.ac.ebi.cdb.webservice.*;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.importer.ReferenceLayerImporter;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.Pathway;
+import uk.ac.ebi.metabolights.referencelayer.model.Reaction;
 import uk.ac.ebi.metabolights.referencelayer.model.Spectra;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.services.ModelObjectFactory;
@@ -130,26 +134,115 @@ public class CompoundController extends BasicController {
 	}
     @RequestMapping(value = COMPOUND_MAPPING + "/reactions")
     @ResponseBody
-    private List<Reaction> showReactions(@PathVariable(COMPOUND_VAR) String compound) {
-
-
-        //Setting up resource client
-        RheasResourceClient client = new RheasResourceClient();
+    private RestResponse<List<Reaction>> showReactions(@PathVariable(COMPOUND_VAR) String compound) {
 
         // Get the chebiid from the compound id
         String chebiId = ReferenceLayerImporter.MetaboLightsID2chebiID(compound);
 
 		//Initialising and passing chebi Id as compound to Rhea
 		List<Reaction> reactions = null;
+        RestResponse <List<Reaction>> response = new RestResponse<>();
 
 		try {
-			reactions = client.getRheasInCmlreact(chebiId);
+			reactions = getReactionsAndConvert(chebiId);
+            response.setContent(reactions);
 		} catch (RheaFetchDataException e) {
 			e.printStackTrace();
+
+            response.setErr(e);
 		}
 
+        return response;
+    }
+
+    private List<Reaction> getReactionsAndConvert(String chebiId) throws RheaFetchDataException {
+
+        //Setting up resource client
+        RheasResourceClient client = new RheasResourceClient();
+
+        List<Reaction> reactions = new ArrayList<>();
+
+        List<org.xml_cml.schema.cml2.react.Reaction> rheaReactions = client.getRheasInCmlreact(chebiId);
+
+        for (org.xml_cml.schema.cml2.react.Reaction rheaReaction : rheaReactions) {
+
+            Reaction reaction = rheaReactionToReaction(rheaReaction);
+
+            reactions.add(reaction);
+
+        }
 
         return reactions;
+
+    }
+
+    private Reaction rheaReactionToReaction(org.xml_cml.schema.cml2.react.Reaction rheaReaction) {
+
+        Reaction reaction = new Reaction();
+
+
+        reaction.setId(rheaReaction.getId());
+
+
+        // Reactants
+        String reactants = "";
+        // Direction
+        String direction= "<->";
+        // Products
+        String products = "";
+
+        // loop through the participants
+        for (Object object : rheaReaction.getReactiveCentreAndMechanismAndReactantList()) {
+
+            if (object instanceof ReactantList){
+
+                ReactantList reactantList = (ReactantList) object;
+
+                for (Object reactantObject : reactantList.getReactantListOrReactant()) {
+
+                    if (!reactants.isEmpty()){
+                        reactants = reactants + " + ";
+                    }
+                    reactants = reactants + ((Reactant) reactantObject).getTitle();
+                }
+            }
+
+
+            if (object instanceof ProductList){
+
+                ProductList productList = (ProductList) object;
+
+                for (Object productObject : productList.getProductListOrProduct()) {
+
+                    if (!products.isEmpty()){
+                        products = products + " + ";
+                    }
+
+                    products = products + ((Product) productObject).getTitle();
+                }
+            }
+        }
+
+
+        // Compose the direction
+        if (rheaReaction.getConvention().equals("rhea:direction.UN")){
+            direction = "<?>";
+        } else if (rheaReaction.getConvention().equals("rhea:direction.LR")){
+            direction = "->";
+        } else if (rheaReaction.getConvention().equals("rhea:direction.BI")){
+            direction = "<->";
+        } else if (rheaReaction.getConvention().equals("rhea:direction.RL")){
+            direction = "<-";
+        } else {
+            direction = "<?>";
+        }
+
+        reaction.setName(reactants + " " + direction + " " + products);
+
+
+
+        return reaction;
+
     }
 
     @RequestMapping(value = COMPOUND_MAPPING + "/citations")
