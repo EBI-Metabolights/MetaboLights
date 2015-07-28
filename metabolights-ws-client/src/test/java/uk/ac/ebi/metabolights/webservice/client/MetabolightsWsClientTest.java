@@ -46,9 +46,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml_cml.schema.cml2.react.Reaction;
-import uk.ac.ebi.cdb.webservice.Result;
+import uk.ac.ebi.metabolights.referencelayer.model.Citation;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
+import uk.ac.ebi.metabolights.referencelayer.model.Reaction;
 import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -419,7 +419,7 @@ public class MetabolightsWsClientTest {
 
 		// We should get the a list of citations
 		assertNull("There was an error getting citations", response.getErr());
-		assertEquals("Citations are not returned as class", response.getContent().get(0).getClass(), Result.class);
+		assertEquals("Citations are not returned as class", response.getContent().get(0).getClass(), Citation.class);
 
 	}
 
