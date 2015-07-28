@@ -11,7 +11,18 @@ public class Validations  {
 
     private Collection<Validation> entries = new LinkedList<>();
 
+    private boolean passedMinimumRequirement = false;
+
     public Collection<Validation> getEntries() {
         return entries;
     }
+
+    public boolean isPassedMinimumRequirement() {
+        return passedMinimumRequirement;
+    }
+
+    public void setPassedMinimumRequirement(boolean passedMinimumRequirement) {
+        this.passedMinimumRequirement = passedMinimumRequirement;
+    }
+
 }
