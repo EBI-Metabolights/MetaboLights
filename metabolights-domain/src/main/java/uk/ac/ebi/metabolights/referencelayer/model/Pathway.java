@@ -39,6 +39,10 @@ public class Pathway extends Entity {
         construct(0,name, database, pathToPathwayFile, speciesAssociated);
     }
 
+    public Pathway() {
+
+    }
+
     private void construct(long id, String name, Database database, File pathToPathwayFile, Species speciesAssociated){
         this.setId(id);
         this.name = name;

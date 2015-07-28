@@ -362,7 +362,7 @@
 //          $('[id=pathway]').imageLens({ lensSize: 350 , borderColor: "#666666", borderSize: 2});
 
             svg = $('#pathwayContainer').svg('get');
-            svg.load('pathway/' + pathwayId + '/svg', {addTo: false, changeSize: true, onLoad: loadDone});
+            svg.load('webservice/compounds/pathway/' + pathwayId + '/svg', {addTo: false, changeSize: true, onLoad: loadDone});
 
             /* Show info in the info div*/
             var pathwayInfoDiv = $('#pathwayInfo');
@@ -489,7 +489,7 @@
             </c:if>
             <c:if test="${compound.mc.hasReactions}">
                 <li hash="reactions">
-                    <a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message
+                    <a class="noLine" href="reactions?compoundId=${compound.mc.accession}"><spring:message
                             code="ref.compound.tab.reactions"/></a>
                 </li>
             </c:if>
@@ -505,7 +505,7 @@
             </c:if>
             <c:if test="${compound.mc.hasLiterature}">
                 <li hash="literature">
-                    <a class="noLine" href="citations?mtblc=${compound.mc.accession}"><spring:message
+                    <a class="noLine" href="citations?compoundId=${compound.mc.accession}"><spring:message
                             code="ref.compound.tab.literature"/></a>
                 </li>
             </c:if>
@@ -600,7 +600,7 @@
                     <c:if test="${spectra.spectraType == 'NMR'}">
                     <c:if test="${count gt 0}">,
                     </c:if>
-                    {"id":${spectra.id}, "name": "${spectra.name}", "url": "spectra/${spectra.id}/json", "type": "${spectra.spectraType}", "properties": [
+                    {"id":${spectra.id}, "name": "${spectra.name}", "url": "webservice/compounds/spectra/${spectra.id}/json", "type": "${spectra.spectraType}", "properties": [
                         <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
                         <c:if test="${attributeLoopStatus.index gt 0}">,
                         </c:if>
@@ -629,7 +629,7 @@
                     <c:if test="${msspectra.spectraType == 'MS'}">
                     <c:if test="${count gt 0}">,
                     </c:if>
-                    {"id":${msspectra.id}, "name": "${msspectra.name}", "url": "spectra/${msspectra.id}/json", "type": "${msspectra.spectraType}", "properties": [
+                    {"id":${msspectra.id}, "name": "${msspectra.name}", "url": "webservice/compounds/spectra/${msspectra.id}/json", "type": "${msspectra.spectraType}", "properties": [
                         <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
                         <c:if test="${attributeLoopStatus.index gt 0}">,
                         </c:if>

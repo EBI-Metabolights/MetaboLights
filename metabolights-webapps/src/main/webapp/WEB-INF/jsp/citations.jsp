@@ -38,11 +38,11 @@ function toggle(element) {
 			<div class="refLayerBox">
 				<b><spring:message code="ref.msg.CitationTitle"/></b>&nbsp;&#45;&nbsp;<a href="http://europepmc.org/abstract/MED/${citation.id}">${citation.title}</a>
 				<br /> 
-				<b><spring:message code="ref.msg.CitationAuthors"/></b>&nbsp;&#45;&nbsp;${citation.authorString} <br />
-				<b><spring:message code="ref.msg.CitationPubMed"/></b>&nbsp;&#45;&nbsp;<a href="http://www.ncbi.nlm.nih.gov/pubmed?term=${citation.pmid}">${citation.pmid}</a>
+				<b><spring:message code="ref.msg.CitationAuthors"/></b>&nbsp;&#45;&nbsp;${citation.authorsText} <br />
+				<%--<b><spring:message code="ref.msg.CitationPubMed"/></b>&nbsp;&#45;&nbsp;<a href="http://www.ncbi.nlm.nih.gov/pubmed?term=${citation.id}">${citation.id}</a>--%>
 				<br />
-				<a href="javascript:toggle('showAbstract${citation.id}')"><b><spring:message code="ref.msg.CitationAbstract"/></b></a>
-				<div id="showAbstract${citation.id}" style="display: none;">${citation.abstractText}
+                <a href="javascript:toggle('showAbstract${citation.id}')"><b><spring:message code="ref.msg.CitationAbstract"/></b></a>
+				<div id="showAbstract${citation.id}" style="display: none;">${citation.abstracT}
 				</div>	
 			</div>
 			<br />

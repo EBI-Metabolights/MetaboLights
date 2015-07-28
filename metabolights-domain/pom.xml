@@ -40,14 +40,21 @@
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${com.fasterxml.jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>${com.fasterxml.jackson.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.google.guava</groupId>-->
-            <!--<artifactId>guava</artifactId>-->
-            <!--<version>14.0</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${com.fasterxml.jackson.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>net.java.openjfx.backport</groupId>
             <artifactId>openjfx-78-backport</artifactId>
@@ -59,19 +66,10 @@
             <artifactId>commons-lang</artifactId>
             <version>2.5</version>
         </dependency>
-
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${com.fasterxml.jackson.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${com.fasterxml.jackson.version}</version>
-            <scope>test</scope>
+            <groupId>uk.ac.ebi.chebi.webapps.chebiWS.client</groupId>
+            <artifactId>chebiWS-client</artifactId>
+            <version>2.2.1</version>
         </dependency>
     </dependencies>
-
 </project>

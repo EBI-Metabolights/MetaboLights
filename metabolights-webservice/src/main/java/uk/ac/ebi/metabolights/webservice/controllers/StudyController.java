@@ -34,6 +34,7 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
+import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 
 import java.io.File;
@@ -54,7 +55,7 @@ public class StudyController extends BasicController{
 
     @RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}", method = RequestMethod.GET)
 	@ResponseBody
-	public RestResponse<Study> getStudyById(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+	public StudyRestResponse getStudyById(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
 
 		logger.info("Requesting " + studyIdentifier + " to the webservice");
 
@@ -63,7 +64,7 @@ public class StudyController extends BasicController{
 
 	@RequestMapping("obfuscationcode/{obfuscationcode}")
 	@ResponseBody
-	public RestResponse<Study> getStudyByObfuscationCode(@PathVariable("obfuscationcode") String obfuscationCode) throws DAOException {
+	public StudyRestResponse getStudyByObfuscationCode(@PathVariable("obfuscationcode") String obfuscationCode) throws DAOException {
 
 		logger.info("Requesting study by obfuscation code " + obfuscationCode + " to the webservice");
 
@@ -215,9 +216,9 @@ public class StudyController extends BasicController{
 	}
 
 
-	private RestResponse<Study> getStudy(String studyIdentifier, boolean includeMAFFiles, String obfuscationCode) throws DAOException {
+	private StudyRestResponse getStudy(String studyIdentifier, boolean includeMAFFiles, String obfuscationCode) throws DAOException {
 
-		RestResponse<Study> response = new RestResponse<Study>();
+		StudyRestResponse response = new StudyRestResponse();
 
 		studyDAO= getStudyDAO();
 
