@@ -187,7 +187,7 @@
     <c:if test="${compound.mc.hasReactions}">
         <section>
             <!-- Reactions -->
-            <h3 class="reactions" lazyLoad="reactions?chebiId=${compound.mc.chebiId}"><a id="reactions"><spring:message code="ref.compound.tab.reactions"/></a></h3>
+            <h3 class="reactions" lazyLoad="reactions?compoundId=${compound.mc.accession}"><a id="reactions"><spring:message code="ref.compound.tab.reactions"/></a></h3>
         </section>
     </c:if>
 
@@ -257,7 +257,7 @@
     <c:if test="${compound.mc.hasLiterature}">
     <section>
         <!-- Literature -->
-        <h3 lazyLoad="citations?mtblc=${compound.mc.accession}" class="literature"><a id="literature"><spring:message code="ref.compound.tab.literature"/></a></h3>
+        <h3 lazyLoad="citations?compoundId=${compound.mc.accession}" class="literature"><a id="literature"><spring:message code="ref.compound.tab.literature"/></a></h3>
     </section>
     </c:if>
 </div>

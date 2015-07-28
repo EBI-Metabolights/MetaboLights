@@ -489,7 +489,7 @@
             </c:if>
             <c:if test="${compound.mc.hasReactions}">
                 <li hash="reactions">
-                    <a class="noLine" href="reactions?chebiId=${compound.mc.accession}"><spring:message
+                    <a class="noLine" href="reactions?compoundId=${compound.mc.accession}"><spring:message
                             code="ref.compound.tab.reactions"/></a>
                 </li>
             </c:if>
@@ -505,7 +505,7 @@
             </c:if>
             <c:if test="${compound.mc.hasLiterature}">
                 <li hash="literature">
-                    <a class="noLine" href="citations?mtblc=${compound.mc.accession}"><spring:message
+                    <a class="noLine" href="citations?compoundId=${compound.mc.accession}"><spring:message
                             code="ref.compound.tab.literature"/></a>
                 </li>
             </c:if>

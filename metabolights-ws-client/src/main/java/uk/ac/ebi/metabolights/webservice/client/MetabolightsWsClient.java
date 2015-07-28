@@ -53,6 +53,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
@@ -542,4 +543,22 @@ public class MetabolightsWsClient {
     }
 
 
+    public RestResponse<CitationsList> getCompoundCitations(String compoundIdentifier) {
+
+        logger.debug("Reactions for compound " + compoundIdentifier + " requested to the MetaboLights WS client");
+
+        String path = getCompoundPath(compoundIdentifier);
+
+        path = path + "/citations";
+
+
+        // Make the request
+        String response = makeGetRequest(path);
+
+        CitationsList citations = new CitationsList();
+
+        return (RestResponse<CitationsList>) deserializeJSONString(response, citations.getClass());
+
+
+    }
 }
