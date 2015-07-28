@@ -585,6 +585,12 @@
                     <legend><spring:message code="label.studyvalidation"/>:</legend>
                     <br/>
                     We have the found the following information in this study
+                    <c:if test="${study.validations.passedMinimumRequirement == false}">
+                       STUDY FAILED
+                    </c:if>
+                    <c:if test="${study.validations.passedMinimumRequirement == true}">
+                        STUDY PASSED
+                    </c:if>
                     &nbsp;
                     <c:forEach var="validation" items="${study.validations.entries}" >
                     <li>${validation.description}
