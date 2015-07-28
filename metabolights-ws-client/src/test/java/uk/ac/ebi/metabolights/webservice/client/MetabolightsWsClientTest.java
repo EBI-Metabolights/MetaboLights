@@ -46,6 +46,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml_cml.schema.cml2.react.Reaction;
+import uk.ac.ebi.cdb.webservice.Result;
+import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -53,7 +56,9 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
 import java.util.Date;
 
@@ -71,6 +76,7 @@ public class MetabolightsWsClientTest {
 
 	public static final String PUBLIC_STUDY = "MTBLS1";
 	public static final String PUBLIC_STUDY_OC = "c17f47f3-2f8c-4e30-b019-a13d4e519eb3";
+	public static final String COMPOUND = "MTBLC10440";
 	String SUBMITTER_TOKEN;
 	String CURATOR_TOKEN;
 	private MetabolightsWsClient wsClient;
@@ -169,7 +175,7 @@ public class MetabolightsWsClientTest {
 	@Test
 	public void testSearchStudy() {
 
-		searchStudy(CURATOR_TOKEN,PUBLIC_STUDY);
+		searchStudy(CURATOR_TOKEN, PUBLIC_STUDY);
 
 	}
 
@@ -378,13 +384,45 @@ public class MetabolightsWsClientTest {
 		response = wsClient.canViewStudyByObfuscationCode(PRIVATE_STUDY_OC);
 		Assert.assertTrue("Owner should be able to access his own private study by OC", response);
 
+	}
+
+	@Test
+	public void testGetCompound() throws Exception {
 
 
+		RestResponse<Compound> response = wsClient.getCompound(COMPOUND);
 
+		// We should get the compound
 
-
+		assertNotNull("There was an error getting a compound", response.getErr());
+		assertEquals("Compound doesn't have the id", COMPOUND, response.getContent().getMc().getAccession());
 
 	}
+
+	@Test
+	public void testGetReactions() throws Exception {
+
+
+		RestResponse<ReactionsList> response = wsClient.getCompoundReactions(COMPOUND);
+
+		// We should get the a list of reactions
+		assertNull("There was an error getting reactions", response.getErr());
+		assertEquals("Reactions are not returned as class", response.getContent().get(0).getClass(), Reaction.class);
+
+	}
+
+	@Test
+	public void testGetCitations() throws Exception {
+
+
+		RestResponse<CitationsList> response = wsClient.getCompoundCitations(COMPOUND);
+
+		// We should get the a list of citations
+		assertNull("There was an error getting citations", response.getErr());
+		assertEquals("Citations are not returned as class", response.getContent().get(0).getClass(), Result.class);
+
+	}
+
 
 
 }

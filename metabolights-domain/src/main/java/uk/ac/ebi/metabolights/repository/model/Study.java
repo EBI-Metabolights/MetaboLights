@@ -22,11 +22,12 @@
 package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
+@JsonTypeName("Study")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Study extends LiteStudy {
 

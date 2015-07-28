@@ -251,7 +251,7 @@ public class FileDispatcherController extends AbstractController {
 				files[0] = studyFolder;
 			}
 
-			// Create a zip file if aply:
+			// Create a zip file if apply:
 			fileToStream = createZipFile(files, studyId);
 
             // Now we have a file (normal file, or zipped folder)

@@ -31,6 +31,10 @@ public class MetSpecies extends Entity {
         construct(0,species,crossReference);
     }
 
+    public MetSpecies() {
+
+    }
+
     private void construct(long id, Species species, CrossReference crossReference){
         this.setId(id);
         this.species = species;

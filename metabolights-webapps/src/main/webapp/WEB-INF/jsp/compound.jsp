@@ -27,11 +27,11 @@
 <script type="text/javascript" src="javascript/lazyload.js"></script>
 <script type="text/javascript" src="javascript/jquery.hc-sticky.min.js"></script>
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-<script type="text/javascript" src="http://www.ebi.ac.uk/~beisken/st/st.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/st.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.Rheaction.js"></script>
 <link rel="stylesheet"  href="cssrl/biojs.Rheaction.css" type="text/css"/>
-<link rel="stylesheet"  href="http://www.ebi.ac.uk/~beisken/st/st.css" type="text/css" />
+<link rel="stylesheet"  href="css/st.css" type="text/css" />
 
 
 <script>
@@ -187,7 +187,7 @@
     <c:if test="${compound.mc.hasReactions}">
         <section>
             <!-- Reactions -->
-            <h3 class="reactions" lazyLoad="reactions?chebiId=${compound.mc.chebiId}"><a id="reactions"><spring:message code="ref.compound.tab.reactions"/></a></h3>
+            <h3 class="reactions" lazyLoad="reactions?compoundId=${compound.mc.accession}"><a id="reactions"><spring:message code="ref.compound.tab.reactions"/></a></h3>
         </section>
     </c:if>
 
@@ -257,7 +257,7 @@
     <c:if test="${compound.mc.hasLiterature}">
     <section>
         <!-- Literature -->
-        <h3 lazyLoad="citations?mtblc=${compound.mc.accession}" class="literature"><a id="literature"><spring:message code="ref.compound.tab.literature"/></a></h3>
+        <h3 lazyLoad="citations?compoundId=${compound.mc.accession}" class="literature"><a id="literature"><spring:message code="ref.compound.tab.literature"/></a></h3>
     </section>
     </c:if>
 </div>

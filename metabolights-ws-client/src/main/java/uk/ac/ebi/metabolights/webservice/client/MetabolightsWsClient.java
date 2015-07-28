@@ -46,13 +46,16 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -79,6 +82,7 @@ public class MetabolightsWsClient {
     public static final String REINDEX_PATH = "reindex";
     public static final String SECURITY_PATH = "security/";
     public static final String SEC_STUDIES = "studies/";
+    private static final String COMPOUND_PATH = "compounds/";
     private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
 
@@ -221,6 +225,12 @@ public class MetabolightsWsClient {
         return deserializeJSONString(response, Study.class);
     }
 
+    private RestResponse<Compound> getCompoundRestResponse(String path) {
+        // Make the request
+        String response = makeGetRequest(path);
+
+        return deserializeJSONString(response, Compound.class);
+    }
     private String getObfuscationPath(String obfuscationCode) {
         return STUDY_PATH + OBFUSCATIONCODE_PATH + obfuscationCode;
     }
@@ -449,7 +459,7 @@ public class MetabolightsWsClient {
         logger.debug("Restoring {} for {} requested to MetaboLights WS client.", backupIdentifier, studyIdentifier);
 
         // Make the request
-        String response = makePutRequest(getStudyPath(studyIdentifier) + "/restore" , backupIdentifier);
+        String response = makePutRequest(getStudyPath(studyIdentifier) + "/restore", backupIdentifier);
 
         return deserializeJSONString(response, String.class);
 
@@ -498,6 +508,57 @@ public class MetabolightsWsClient {
 //    }
 
 
+    public RestResponse<Compound> getCompound(String compoundIdentifier) {
+
+        logger.debug("Compound " + compoundIdentifier + " requested to the MetaboLights WS client");
+
+        String path = getCompoundPath(compoundIdentifier);
+
+        // Make the request
+        return getCompoundRestResponse(path);
+
+    }
+
+    public RestResponse<ReactionsList> getCompoundReactions(String compoundIdentifier) {
+
+        logger.debug("Reactions for compound " + compoundIdentifier + " requested to the MetaboLights WS client");
+
+        String path = getCompoundPath(compoundIdentifier);
+
+        path = path + "/reactions";
 
 
+        // Make the request
+        String response = makeGetRequest(path);
+
+        ReactionsList reactions = new ReactionsList();
+
+        return (RestResponse<ReactionsList>) deserializeJSONString(response, reactions.getClass());
+
+    }
+
+
+    private String getCompoundPath(String compoundIdentifier) {
+        return  COMPOUND_PATH + compoundIdentifier;
+    }
+
+
+    public RestResponse<CitationsList> getCompoundCitations(String compoundIdentifier) {
+
+        logger.debug("Reactions for compound " + compoundIdentifier + " requested to the MetaboLights WS client");
+
+        String path = getCompoundPath(compoundIdentifier);
+
+        path = path + "/citations";
+
+
+        // Make the request
+        String response = makeGetRequest(path);
+
+        CitationsList citations = new CitationsList();
+
+        return (RestResponse<CitationsList>) deserializeJSONString(response, citations.getClass());
+
+
+    }
 }
