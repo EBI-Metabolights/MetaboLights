@@ -34,8 +34,8 @@ import org.xml_cml.schema.cml2.react.Reactant;
 import org.xml_cml.schema.cml2.react.ReactantList;
 import uk.ac.ebi.cdb.webservice.*;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
-import uk.ac.ebi.metabolights.referencelayer.importer.ReferenceLayerImporter;
 import uk.ac.ebi.metabolights.referencelayer.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.services.ModelObjectFactory;
@@ -141,7 +141,7 @@ public class CompoundController extends BasicController {
     private RestResponse<List<Reaction>> showReactions(@PathVariable(COMPOUND_VAR) String compound) {
 
         // Get the chebiid from the compound id
-        String chebiId = ReferenceLayerImporter.MetaboLightsID2chebiID(compound);
+        String chebiId = MetaboLightsCompoundDAO.MetaboLightsID2chebiID(compound);
 
 		//Initialising and passing chebi Id as compound to Rhea
 		List<Reaction> reactions = null;
@@ -256,7 +256,7 @@ public class CompoundController extends BasicController {
 
 
         // Get the chebiid from the compound id
-        String chebiId = ReferenceLayerImporter.MetaboLightsID2chebiID(compound);
+        String chebiId = MetaboLightsCompoundDAO.MetaboLightsID2chebiID(compound);
 
         // Get the list of pubmed ids
         List<DataItem> pmid = getChebiCitations(compound);

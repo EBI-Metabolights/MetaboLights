@@ -192,7 +192,7 @@ public class PathwayImporter {
         }
 
         // Compose the metabolite accession:
-        String acc = ReferenceLayerImporter.chebiID2MetaboLightsID(chebiId);
+        String acc = MetaboLightsCompoundDAO.chebiID2MetaboLightsID(chebiId);
 
 
         // We need to copy the file to the compound folder + ACC: compoundFolder/MTBLC1234

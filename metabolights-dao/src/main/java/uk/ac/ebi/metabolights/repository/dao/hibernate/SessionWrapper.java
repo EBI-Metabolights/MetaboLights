@@ -61,16 +61,21 @@ public class SessionWrapper {
 		// If we have a session ...
 		if (session != null){
 
-			// but it's useless
-			Connection connection = ((SessionImpl)session).connection();
 
 			boolean valid = false;
 
+			Connection connection = null;
 			try {
+
+				// but it's useless
+				connection = ((SessionImpl)session).connection();
+
 				valid = connection.isValid(1);
 
 			} catch (SQLException e) {
 				logger.warn("Exception at connection.isInvalid() invocation: {}.", e.getMessage());
+			} catch (Exception e){
+				logger.warn("Cannot establish a connection with the current session: " + e.getMessage());
 
 			} finally {
 				if (!valid){

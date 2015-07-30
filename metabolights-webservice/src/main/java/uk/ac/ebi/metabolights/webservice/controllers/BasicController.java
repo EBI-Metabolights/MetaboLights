@@ -78,7 +78,6 @@ public class BasicController {
 
 		String explanation;
 
-
 		explanation = e.getMessage();
 
 		return explanation;
