@@ -110,7 +110,7 @@
             e.preventDefault();
 
             // setter
-            $("#tabs").tabs( "option", "active", -1 );
+            $("#tabs").tabs( "option", "active", -2 );
             $("#tabs-files").effect("highlight", {color: '#E2BD97'}, 1700);
         });
 
