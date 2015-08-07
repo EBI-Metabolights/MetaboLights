@@ -311,7 +311,7 @@
             </c:if>
 
             <li>
-                <a href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/></a>
+                <a id="valid-tab" href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/></a>
             </li>
 
         </ul>

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
@@ -36,9 +37,13 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
+import uk.ac.ebi.metabolights.search.service.SearchQuery;
+import uk.ac.ebi.metabolights.search.service.SearchResult;
 import uk.ac.ebi.metabolights.search.service.SearchService;
 import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
+import uk.ac.ebi.metabolights.webservice.services.ModelObjectFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -168,9 +173,102 @@ public class IndexController extends BasicController {
 
 	}
 
+
+	@RequestMapping(value = "compounds", method = RequestMethod.GET)
+	@ResponseBody
+	public RestResponse<ArrayList<String>> indexCompounds() throws DAOException, IsaTabException {
+
+		logger.info("Requesting all compound to be indexed to the webservice");
+
+		List<String> ids = ModelObjectFactory.getAllCompoundsId();
+
+		return indexCompounds(ids);
+
+	}
+
+	@RequestMapping(value = "{compoundId:" + CompoundController.METABOLIGHTS_COMPOUND_ID_REG_EXP +"}", method = RequestMethod.GET)
+	@ResponseBody
+	public RestResponse<ArrayList<String>> indexCompoundUrl(@PathVariable("compoundId") String compoundId) {
+
+		logger.info("Requesting " + compoundId + " to be indexed to the webservice");
+
+		ArrayList<String> id = new ArrayList<>();
+		id.add(compoundId);
+
+		RestResponse<ArrayList<String>> response = indexCompounds(id);
+
+		return response;
+
+	}
+
+	private RestResponse<ArrayList<String>> indexCompounds(List<String> ids) {
+
+
+		RestResponse<ArrayList<String>> response = new RestResponse<>();
+		response.setContent(new ArrayList<String>());
+
+		long indexed = 0;
+
+		for (String id : ids) {
+			if (indexCompound(id, response)){
+				indexed++;
+			}
+		}
+
+		// If everything was indexed...
+		if (indexed == ids.size()){
+			response.setMessage("All compounds were successfully indexed.");
+		} else {
+			response.setMessage(ids.size()-indexed + " were not indexed. Please, see content for error details.");
+			response.setErr(new IndexingFailureException("Some compounds were not indexed. See response content for details."));
+		}
+		return response;
+
+	}
+
+	private boolean indexCompound(String compoundId, RestResponse<ArrayList<String>> response)  {
+
+		// Get it from the index
+		// ' Avoid search service to remove the colon.
+		SearchQuery query = new SearchQuery("'_id:" + compoundId);
+
+		SearchResult result =searchService.search(query);
+
+		// If there is any hit
+		if ((result.getResults().size() != 0)) {
+			response.getContent().add(compoundId + " already indexed.");
+			return true;
+		}
+
+		Compound mc = ModelObjectFactory.getCompound(compoundId);
+
+		if (mc == null) {
+			response.getContent().add("Can't get " + compoundId + " to be indexed.");
+			return false;
+		} else {
+
+			return indexCompound(mc, response);
+		}
+	}
+
+	private boolean indexCompound(Compound mc, RestResponse<ArrayList<String>> response) {
+
+		try {
+			searchService.index(mc.getMc());
+			response.getContent().add(mc.getMc().getAccession() + " indexed successfully.");
+			return true;
+		} catch (IndexingFailureException e) {
+			logger.error("Can't index compound {}", mc.getMc().getAccession());
+			response.getContent().add(mc.getMc().getAccession() + " not indexed: " + e.getMessage());
+			return false;
+
+		}
+
+
+	}
+
+
 	private void indexStudy(String accession, String userToken) throws DAOException, IsaTabException, IndexingFailureException {
-
-
 
 		Study study = getStudyDAO().getStudy(accession, userToken);
 

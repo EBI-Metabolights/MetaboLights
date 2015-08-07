@@ -193,11 +193,10 @@ public class StudyController extends BasicController{
 		studyDAO= getStudyDAO();
 
 		// Update the status
-		studyDAO.updateStatus(studyIdentifier, newStatus, user.getApiToken());
+		Study study = studyDAO.updateStatus(studyIdentifier, newStatus, user.getApiToken());
 
 		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
 		// Like this we might have concurrency issues?
-		Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
 
 		IndexController.indexStudy (study);
 

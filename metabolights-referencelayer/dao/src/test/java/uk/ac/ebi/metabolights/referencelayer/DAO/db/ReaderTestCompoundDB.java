@@ -20,6 +20,7 @@ import uk.ac.ebi.metabolights.referencelayer.model.*;
 
 import java.io.File;
 import java.sql.Connection;
+import java.util.List;
 
 public class ReaderTestCompoundDB extends TestCase{
 
@@ -188,6 +189,15 @@ public class ReaderTestCompoundDB extends TestCase{
 //        assertEquals("testing getAllCompounds, at least there must be one", true, mcs.size()>0);
 //
 //    }
+
+    public void testGetAllCompoundIds() throws Exception {
+
+        List<String> ids = mcd.getAllCompoundsIds();
+
+        assertNotNull("ids collection is null", ids);
+        assertFalse("No compound ids were returned", ids.size()==0);
+    }
+
 
     public  void testExistCompound() throws Exception{
 

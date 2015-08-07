@@ -173,5 +173,38 @@ public class ModelObjectFactory {
 	private ModelObjectFactory(){}
 
 
+	public static List<String> getAllCompoundsId() {
 
+		MetaboLightsCompoundDAO mcd = null;
+
+		try {
+
+			logger.info("Getting all compounds ids");
+
+			// Get the MetaboLights compound DAO
+			mcd = new MetaboLightsCompoundDAO(AppContext.getConnection());
+
+			List<String> ids = mcd.getAllCompoundsIds();
+
+			return ids;
+
+
+		} catch (Exception e) {
+			logger.error("Could not get list of compound's ids");
+			logger.error(e.getMessage());
+
+			return null;
+		} finally {
+			//mcd.close();      //TODO, just for test
+			if (mcd != null) {
+				try {
+					mcd.returnPooledConnection();
+				} catch (Exception e) {
+					logger.error("Can't return pooled connection", e);
+				}
+			}
+
+		}
+
+	}
 }

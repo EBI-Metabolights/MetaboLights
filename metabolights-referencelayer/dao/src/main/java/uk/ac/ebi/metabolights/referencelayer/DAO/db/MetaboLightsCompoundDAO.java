@@ -26,13 +26,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 
+    public static final String MTBLC_PREFIX = "MTBLC";
+    public static final String CHEBI_PREFIX = "CHEBI:";
 
 	private Logger LOGGER = LoggerFactory.getLogger(MetaboLightsCompoundDAO.class);
 
@@ -132,6 +132,33 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         return findByCompound("--where.compound.all",null);
     }
 
+    public List<String> getAllCompoundsIds() throws DAOException {
+
+        ResultSet rs = null;
+        try {
+            PreparedStatement stm = sqlLoader.getPreparedStatement("--compound.id", "--where.compound.all");
+            stm.clearParameters();
+
+            rs = stm.executeQuery();
+
+            List ids = new ArrayList();
+            while (rs.next()) {
+                ids.add(rs.getString(1));
+            }
+
+            return ids;
+
+
+        } catch (SQLException e){
+            throw new DAOException(e);
+        } finally {
+            if (rs != null) try {
+                rs.close();
+            } catch (SQLException ex) {
+                LOGGER.error("Closing ResultSet", ex);
+            }
+        }
+    }
 
     public boolean doesCompoundExists(Long compoundId) throws DAOException {
 
@@ -416,4 +443,12 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
             throw new DAOException(ex);
 		}
 	}
+    public static  String chebiID2MetaboLightsID(String chebiID){
+        return (chebiID.replaceFirst(CHEBI_PREFIX, MTBLC_PREFIX));
+    }
+
+    public static String MetaboLightsID2chebiID(String compoundId) {
+        return (compoundId.replaceFirst(MTBLC_PREFIX, CHEBI_PREFIX));
+    }
+
 }

@@ -72,7 +72,7 @@
                 ,
               </c:otherwise>
             </c:choose>
-            <a href="${specie}">${specie.species.name}</a>
+            <a href="${specie.crossReference.accession}">${specie.crossReference.accession}</a>
           </c:forEach>
         </p>
       </div>

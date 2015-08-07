@@ -65,8 +65,6 @@ import java.util.*;
 
 public class ReferenceLayerImporter {
 
-	public static final String MTBLC_PREFIX = "MTBLC";
-	public static final String CHEBI_PREFIX = "CHEBI:";
 	private Logger LOGGER = LoggerFactory.getLogger(ReferenceLayerImporter.class);
 
 	private ConnectionProvider connectionProvider;
@@ -335,7 +333,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 		try {
 
-			String accession = chebiID2MetaboLightsID(entity.getChebiId());
+			String accession = MetaboLightsCompoundDAO.chebiID2MetaboLightsID(entity.getChebiId());
 
 
 			// Check if we have already the Metabolite (since querying the WS is what takes more...)
@@ -368,7 +366,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 			}
 
-			mc.setAccession(chebiID2MetaboLightsID(entity.getChebiId()));
+			mc.setAccession(MetaboLightsCompoundDAO.chebiID2MetaboLightsID(entity.getChebiId()));
 			mc.setChebiId(entity.getChebiId());
 			mc.setName(entity.getChebiAsciiName());
 
@@ -612,15 +610,5 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
         return null;
     }
-
-
-    public static  String chebiID2MetaboLightsID(String chebiID){
-        return (chebiID.replaceFirst(CHEBI_PREFIX, MTBLC_PREFIX));
-    }
-
-	public static String MetaboLightsID2chebiID(String compoundId) {
-		return (compoundId.replaceFirst(MTBLC_PREFIX, CHEBI_PREFIX));
-	}
-
 }
 
