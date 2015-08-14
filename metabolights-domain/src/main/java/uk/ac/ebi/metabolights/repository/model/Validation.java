@@ -12,6 +12,9 @@ public class Validation {
     private boolean passedRequirement;
     private Requirement type = Requirement.MANDATORY;
 
+
+    private String message;
+
     public enum Requirement {
         MANDATORY,
         OPTIONAL
@@ -39,6 +42,14 @@ public class Validation {
 
     public void setType(Requirement type) {
         this.type = type;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 }

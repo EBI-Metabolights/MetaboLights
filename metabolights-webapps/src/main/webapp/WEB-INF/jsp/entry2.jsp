@@ -94,6 +94,12 @@
             });
         });
 
+        $(function() {
+            $('#accordion h5.none').accordion({
+                collapsible: false
+            });
+        });
+
 
         $("#shareInfo").hide();
 
@@ -593,18 +599,29 @@
                     </c:if>
                     &nbsp;
                     <c:forEach var="validation" items="${study.validations.entries}" >
-                    <li>${validation.description}
-                        <%--&nbsp;--%>
-                            <%--${validation.passedRequirement}--%>
-                        <%--&nbsp;--%>
-                        <c:if test="${validation.passedRequirement}">
-                        &nbsp;
-                        <span aria-hidden="true" class="iconTick">&#10004;</span>
+                      <%--&lt;%&ndash;&nbsp;&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;${validation.passedRequirement}&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;&nbsp;&ndash;%&gt;--%>
+                         <c:if test="${validation.passedRequirement}">
+                            <div class="accordion">
+                                <h5 class="none"><span aria-hidden="true" style="color:darkgreen">&#10004;</span>  &nbsp; ${validation.description}</h5>
+                                <%--<div>${validation.message}</div>--%>
+                            </div>
+                         </c:if>
+                         <c:if test="${validation.passedRequirement == false}">
+                                <c:if test="${validation.type == 'OPTIONAL'}">
+                                    <div class="accordion">
+                                        <h5><span aria-hidden="true" style="color:darkorange">&#10008;</span>   &nbsp;${validation.description}</h5>
+                                        <div>${validation.message}</div>
+                                    </div>
+                                </c:if>
+                                <c:if test="${validation.type == 'MANDATORY'}">
+                                    <div class="accordion">
+                                        <h5><span aria-hidden="true" style="color:red">&#10008;</span>   &nbsp; ${validation.description}</h5>
+                                        <div>${validation.message}</div>
+                                    </div>
+                                </c:if>
                         </c:if>
-                       <c:if test="${validation.passedRequirement == false}">
-                        &nbsp;
-                        <span aria-hidden="true" class="iconCross">&#10008;</span>
-                    </c:if>
                     </c:forEach>
                 </fieldset>
             </c:if>

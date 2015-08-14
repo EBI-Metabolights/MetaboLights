@@ -58,11 +58,15 @@ div#local-title.logo-title span {
 }
 
 .iconTick {
-    color : lightgreen;
+    color : darkgreen;
 }
 
 .iconCross {
-    color : red;
+    color : indianred;
+}
+
+.iconCrossNeutral {
+    color : orange;
 }
 
 div .box {
