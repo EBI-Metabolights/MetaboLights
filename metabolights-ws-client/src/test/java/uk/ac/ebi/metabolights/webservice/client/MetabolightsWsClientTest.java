@@ -56,6 +56,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
 import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
@@ -242,7 +243,74 @@ public class MetabolightsWsClientTest {
 
 		assertNull("Study deleted is still in the index", study);
 
+
 	}
+
+
+
+	@Test
+	public void testIndexAdmin() {
+
+
+		wsClient.setUserToken(CURATOR_TOKEN);
+
+		RestResponse<String> resetResponse = wsClient.resetIndex();
+		logger.info(resetResponse.getMessage());
+		assertNull("Index couldn't be reset", resetResponse.getErr());
+
+
+		RestResponse status = wsClient.getIndexStatus();
+		logStatus(status);
+
+
+		// Delete studies index and compounds
+		RestResponse<ArrayListOfStrings> response = wsClient.deleteCompoundsIndex();
+		assertNull("Compounds index couldn't be deleted" , response.getErr());
+
+		status = wsClient.getIndexStatus();
+		logStatus(status);
+
+		// Studies index
+		response = wsClient.deleteStudiesIndex();
+		assertNull("Studies index couldn't be deleted" , response.getErr());
+
+		status = wsClient.getIndexStatus();
+		logStatus(status);
+
+
+		// Index a compound
+		response = wsClient.indexCompound(COMPOUND);
+		assertNull("Compound couldn't be indexed" , response.getErr());
+
+		// Index a mix of studies and compounds
+		response = wsClient.indexStudy(PUBLIC_STUDY);
+		assertNull("Study couldn't be indexed" , response.getErr());
+
+
+		// Index all?
+
+		// Delete index
+		response = wsClient.deleteIndex();
+		assertNull("Whole index couldn't be deleted" , response.getErr());
+
+		status = wsClient.getIndexStatus();
+		logStatus(status);
+
+
+	}
+
+	private void logStatus(RestResponse<ArrayListOfStrings> status) {
+
+		String message  = "********INDEX STATUS *********\n";
+
+		for (String line : status.getContent()) {
+
+			message = message + line + "\n";
+		}
+
+		logger.info(message);
+	}
+
 	@Test
 	public void testUpdatePublicReleaseDate() {
 
@@ -283,19 +351,19 @@ public class MetabolightsWsClientTest {
 	@Test
 	public void testIndexingStudy() {
 
-		RestResponse<String> response = wsClient.index(PRIVATE_STUDY);
+		RestResponse<ArrayListOfStrings> response = wsClient.indexStudy(PRIVATE_STUDY);
 		assertNotNull("Anonymous user was allowed to reindex a private study!!", response.getErr());
 		logger.info("Anonymous user wasn't allowed to reindex, good!: {}", response.getMessage());
 
 		// Only curators are allowed to use the indexing interface, not even owners.
 		wsClient.setUserToken(SUBMITTER_TOKEN);
-		response = wsClient.index(PRIVATE_STUDY);
+		response = wsClient.indexStudy(PRIVATE_STUDY);
 		assertNotNull("Owner user was allowed to reindex "+ PRIVATE_STUDY + "!!", response.getErr());
 		logger.info("Owner user wasn't allowed to reindex, good!: {}", response.getMessage());
 
 
 		wsClient.setUserToken(CURATOR_TOKEN);
-		response = wsClient.index(PRIVATE_STUDY);
+		response = wsClient.indexStudy(PRIVATE_STUDY);
 		assertNull("Curator user was NOT allowed to reindex "+ PRIVATE_STUDY + "!!", response.getErr());
 		logger.info("Curator user allowed to reindex, good!: {}", response.getMessage());
 

@@ -54,6 +54,7 @@ import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
+import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
@@ -64,7 +65,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: conesa
@@ -79,10 +82,12 @@ public class MetabolightsWsClient {
     private static final String DEAFULT_TOKEN_HEADER = "user_token";
     public static final String OBFUSCATIONCODE_PATH = "obfuscationcode/";
     private static final String INDEXING_PATH = "index/";
-    public static final String REINDEX_PATH = "reindex";
+    public static final String REINDEX_PATH = "all";
     public static final String SECURITY_PATH = "security/";
     public static final String SEC_STUDIES = "studies/";
     private static final String COMPOUND_PATH = "compounds/";
+    public static final String STUDIES = "studies";
+    public static final String COMPOUNDS = "compounds";
     private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
 
@@ -117,7 +122,7 @@ public class MetabolightsWsClient {
        return makeRequestSendingData(path,null,method);
 
     }
-    private String makeRequestSendingData(String path, String dataToSend, String method) {
+    private String makeRequestSendingData(String path, Object dataToSend, String method) {
 
         logger.debug("Making a {} request to {}", method,path);
 
@@ -131,10 +136,20 @@ public class MetabolightsWsClient {
 
             if (dataToSend != null) {
 
+                String json = null;
+
+                // If it's not a String
+                if (!(dataToSend instanceof String)) {
+
+                    json = serializeObject(dataToSend);
+                } else {
+                    json = (String) dataToSend;
+                }
+
                 // Send JSON content
                 OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
 
-                out.write(dataToSend);
+                out.write(json);
                 out.close();
 
             }
@@ -169,12 +184,12 @@ public class MetabolightsWsClient {
     }
 
 
-    private String makePostRequest(String path, String json) {
-        return makeRequestSendingData(path, json, "POST");
+    private String makePostRequest(String path, Object data) {
+        return makeRequestSendingData(path, data, "POST");
     }
 
-    private String makePutRequest(String path, String json) {
-        return makeRequestSendingData(path, json, "PUT");
+    private String makePutRequest(String path, Object data) {
+        return makeRequestSendingData(path, data, "PUT");
     }
 
     private String makeDeleteRequest(String path) {
@@ -425,35 +440,6 @@ public class MetabolightsWsClient {
 
     }
 
-    /**
-     * Indexing all
-     */
-
-    public RestResponse<String> reindex() {
-
-        logger.debug("Indexing all studies requested to MetaboLights WS client.");
-        
-
-        // Make the request
-        String response = makeGetRequest(getIndexingPath(REINDEX_PATH));
-
-        return deserializeJSONString(response, String.class);
-    }
-
-    /**
-     * Index study
-     */
-
-    public RestResponse<String> index(String studyIdentifier) {
-
-        logger.debug("{} indexing requested to MetaboLights WS client.", studyIdentifier);
-
-        // Make the request
-        String response = makeGetRequest(getIndexingPath(studyIdentifier));
-
-        return deserializeJSONString(response, String.class);
-    }
-
     public RestResponse<String> restore(String studyIdentifier, String backupIdentifier) {
 
         logger.debug("Restoring {} for {} requested to MetaboLights WS client.", backupIdentifier, studyIdentifier);
@@ -560,5 +546,125 @@ public class MetabolightsWsClient {
         return (RestResponse<CitationsList>) deserializeJSONString(response, citations.getClass());
 
 
+    }
+
+    /**
+     *
+     *
+     * INDEXING MANAGEMENT OPERATIONS
+     *
+     *
+     */
+
+
+    /**
+     * Index status
+     */
+    public RestResponse<ArrayListOfStrings> getIndexStatus(){
+
+        String path = getIndexingPath("status");
+
+        // Make the request
+        String responseS = makeGetRequest(path);
+
+        return deserializeJSONString(responseS, ArrayListOfStrings.class);
+
+    }
+
+    /**
+     * Reset index
+     */
+    public RestResponse<String> resetIndex(){
+
+        String path = getIndexingPath("reset");
+
+        // Make the request
+        String responseS = makeGetRequest(path);
+
+        return deserializeJSONString(responseS, String.class);
+
+    }
+
+    /**
+     * Indexing all
+     */
+
+    public RestResponse<String> reindex() {
+
+        logger.debug("Indexing all studies and compounds requested to MetaboLights WS client.");
+
+
+        // Make the request
+        String response = makeGetRequest(getIndexingPath(REINDEX_PATH));
+
+        return deserializeJSONString(response, String.class);
+    }
+
+
+
+    public RestResponse<ArrayListOfStrings> deleteIndex() {
+
+        String response = makeDeleteRequest(getIndexingPath(""));
+
+        return deserializeJSONString(response, ArrayListOfStrings.class);
+    }
+
+    public RestResponse<ArrayListOfStrings> deleteStudiesIndex() {
+
+        String response = makeDeleteRequest(getIndexingPath(STUDIES));
+
+        return deserializeJSONString(response, ArrayListOfStrings.class);
+    }
+    public RestResponse<ArrayListOfStrings> deleteCompoundsIndex() {
+
+        String response = makeDeleteRequest(getIndexingPath(COMPOUNDS));
+
+        return deserializeJSONString(response, ArrayListOfStrings.class);
+    }
+
+    public RestResponse<ArrayListOfStrings> indexStudies(List<String> studyIds) {
+
+        logger.debug("Indexing all studies requested to MetaboLights WS client.");
+
+        // Make the request
+        String response = makePostRequest(getIndexingPath(STUDIES), studyIds);
+
+        return deserializeJSONString(response, ArrayListOfStrings.class);
+    }
+
+    public RestResponse<ArrayListOfStrings> indexAllStudies(){
+
+        return indexStudies(null);
+    }
+
+    public RestResponse<ArrayListOfStrings> indexCompounds(List<String> compoundIds) {
+
+        logger.debug("Indexing all compounds requested to MetaboLights WS client.");
+
+        // Make the request
+        String response = makePostRequest(getIndexingPath(COMPOUNDS), compoundIds);
+
+        return deserializeJSONString(response, ArrayListOfStrings.class);
+    }
+
+    public RestResponse<ArrayListOfStrings> indexAllCompounds(){
+
+        return indexCompounds(null);
+    }
+
+    public RestResponse<ArrayListOfStrings> indexStudy(String studyIdentifier) {
+
+        List<String> studyIdList = new ArrayList<>();
+        studyIdList.add(studyIdentifier);
+        return indexStudies(studyIdList);
+
+
+    }
+
+    public RestResponse<ArrayListOfStrings> indexCompound(String compound) {
+
+        List<String> compoundList = new ArrayList<>();
+        compoundList.add(compound);
+        return indexCompounds(compoundList);
     }
 }

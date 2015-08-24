@@ -45,6 +45,7 @@ import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
+import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 
 import javax.naming.Binding;
@@ -86,7 +87,9 @@ public class ManagerController extends AbstractController{
 
 	@RequestMapping({"/config"})
 	public ModelAndView config() {
-		
+
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
 		Map<String,String> properties=null;
 		
@@ -178,6 +181,7 @@ public class ManagerController extends AbstractController{
             mav.addObject("instances", instances.getParameterValue().split(INSTANCES_SEP));
         }
 
+		mav.addObject("status", wsClient.getIndexStatus().getContent());
 
 		return mav;
 		
@@ -282,35 +286,112 @@ public class ManagerController extends AbstractController{
     }
 
 	/**
-	 * Will reindex the whole index, to use carefully.
+	 * Will reindex all studies, to use carefully.
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/reindex") //must accept parameters else reindex all studies looping through
-	public ModelAndView reindexall(@RequestParam(required = false, value = "study") String studyIdentifier){
+	@RequestMapping(value = "/reindexstudies") //must accept parameters else reindex all studies looping through
+	public ModelAndView reindexstudies(@RequestParam(required = false, value = "study") String studyIdentifier){
 
 
 		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
-		RestResponse<String> response;
+		RestResponse<ArrayListOfStrings> response;
 
 		if(studyIdentifier != null){
 
 			logger.info("Re-indexing studyIdentifier: " + studyIdentifier);
 
-			response = wsClient.index(studyIdentifier);
+			response = wsClient.indexStudy(studyIdentifier);
 
 		} else {
 
 			logger.info("Re-indexing all studies");
 
-			response = wsClient.reindex();
+			response = wsClient.indexAllStudies();
 
 		}
 
 		return printMessage(response.getMessage(), response.getContent());
 
 	}
+
+	/**
+	 * Will delete the studies index, to use carefully.
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/deleteindexedstudies")
+	public ModelAndView deleteindexedstudies(){
+
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<ArrayListOfStrings> response;
+
+
+
+		logger.info("Deleting studies index");
+
+		response = wsClient.deleteStudiesIndex();
+
+		return printMessage(response.getMessage(), response.getContent());
+
+	}
+
+	/**
+	 * Will reindex all compound, to use carefully.
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/reindexcompounds") //must accept parameters else reindex all studies looping through
+	public ModelAndView reindexcompounds(@RequestParam(required = false, value = "compound") String compound){
+
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<ArrayListOfStrings> response;
+
+		if(compound != null){
+
+			logger.info("Re-indexing compound: " + compound);
+
+			response = wsClient.indexCompound(compound);
+
+		} else {
+
+			logger.info("Re-indexing all compounds");
+
+			response = wsClient.indexAllCompounds();
+
+		}
+
+		return printMessage(response.getMessage(), response.getContent());
+
+	}
+
+	/**
+	 * Will delete the studies index, to use carefully.
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/deleteindexedcompounds")
+	public ModelAndView deleteIndexedCompounds(){
+
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<ArrayListOfStrings> response;
+
+		logger.info("Deleting compounds index");
+
+		response = wsClient.deleteCompoundsIndex();
+
+		return printMessage(response.getMessage(), response.getContent());
+
+	}
+
+
 
 }
 

@@ -36,6 +36,7 @@ import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
+import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +49,8 @@ public class StudyController extends BasicController{
 
 	@Autowired
 	private EmailService emailService;
+	@Autowired
+	private IndexingService indexingService;
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 	private final static Logger logger = LoggerFactory.getLogger(StudyController.class.getName());
@@ -159,7 +162,7 @@ public class StudyController extends BasicController{
 		// Like this we might have concurrency issues?
 		Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
 
-		IndexController.indexStudy (study);
+		indexingService.indexStudy(study);
 
 		RestResponse<Boolean> restResponse = new RestResponse<>();
 		restResponse.setContent(true);
@@ -199,7 +202,7 @@ public class StudyController extends BasicController{
 		// Like this we might have concurrency issues?
 		Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
 
-		IndexController.indexStudy (study);
+		indexingService.indexStudy(study);
 
 		RestResponse<Boolean> restResponse = new RestResponse<>();
 		restResponse.setContent(true);
@@ -339,7 +342,7 @@ public class StudyController extends BasicController{
 		// Update the status
 		studyDAO.delete(studyIdentifier, user.getApiToken());
 
-		IndexController.deleteStudy(studyIdentifier);
+		indexingService.deleteStudy(studyIdentifier);
 
 		RestResponse<Boolean> restResponse = new RestResponse<>();
 		restResponse.setContent(true);
@@ -378,7 +381,7 @@ public class StudyController extends BasicController{
 		// Like this we might have concurrency issues?
 		Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
 
-		IndexController.indexStudy (study);
+		indexingService.indexStudy (study);
 
 		RestResponse<Boolean> restResponse = new RestResponse<>();
 		restResponse.setContent(true);

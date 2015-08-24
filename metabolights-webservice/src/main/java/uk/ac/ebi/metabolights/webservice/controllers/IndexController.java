@@ -22,26 +22,14 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.metabolights.referencelayer.model.Compound;
-import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
-import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
+import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
-import uk.ac.ebi.metabolights.search.service.SearchQuery;
-import uk.ac.ebi.metabolights.search.service.SearchResult;
-import uk.ac.ebi.metabolights.search.service.SearchService;
-import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
-import uk.ac.ebi.metabolights.webservice.services.ModelObjectFactory;
+import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,138 +39,44 @@ import java.util.List;
 @PreAuthorize( "hasRole('ROLE_SUPER_USER')")
 public class IndexController extends BasicController {
 
-	// Can we share the service among controllers? Let's try.
-	public static SearchService searchService = new ElasticSearchService();
-	private StudyDAO _studyDAO;
+	public static final String ALL_STUDIES = "studies";
+	public static final String ALL_COMPOUNDS = "compounds";
+	@Autowired
+	IndexingService indexingService;
 
-	private StudyDAO getStudyDAO() throws DAOException {
 
-		if (_studyDAO == null){
-			_studyDAO = DAOFactory.getInstance().getStudyDAO();
-		}
-
-		return _studyDAO;
-
-	}
-
-	@RequestMapping(value = "{studyIdentifier:" + StudyController.METABOLIGHTS_ID_REG_EXP +"}", method = RequestMethod.GET)
+	@RequestMapping(value = "all", method = RequestMethod.GET)
 	@ResponseBody
-	public RestResponse<String> indexStudyUrl(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
-
-		logger.info("Requesting " + studyIdentifier + " indexing to the webservice");
-
-		String message = null;
-
-		RestResponse<String> response = new RestResponse<String>();
-
-		// Get all the studies
-		User user = getUser();
-
-		try {
-
-			indexStudy(studyIdentifier, user.getApiToken());
-
-			response.setMessage(studyIdentifier + " indexed successfully.");
-			logger.info(response.getMessage());
-
-		} catch (IndexingFailureException e) {
-			message = "Can't index study " + studyIdentifier + ". " + e.getMessage();
-
-		} catch (DAOException e) {
-			message = "Can't retrieve study (DAOException) " + studyIdentifier + ". " + e.getMessage();
-
-		} catch (IsaTabException e) {
-			message = "Can't retrieve study (IsaTabException) " + studyIdentifier + ". " + e.getMessage();
-		} finally {
-
-			if (message != null) {
-				logger.warn(message);
-				response.setMessage(message);
-			}
-		}
-
-		return response;
-
-	}
-
-
-	@RequestMapping(value = "reindex", method = RequestMethod.GET)
-	@ResponseBody
-	public RestResponse<String> reindex() throws DAOException {
+	public RestResponse<ArrayList<String>> reindex() throws DAOException {
 
 		logger.info("full reindex requested to the webservice");
 
-		RestResponse<String> response = new RestResponse<String>();
-
-		// Get all the studies
-		User user = getUser();
-		List<String> accessions = getStudyDAO().getList(user.getApiToken());
-
-		// Reset the index
-		try {
-			reset();
-
-		} catch (IndexingFailureException e) {
-			response.setMessage("Couldn't reset the index while indexing");
-			response.setErr(e);
-			response.setContent(e.getMessage());
-
-			logger.error(response.getMessage(), e);
-
-			return  response;
-		}
+		RestResponse<ArrayList<String>> response = new RestResponse<>();
+		response.setContent(new ArrayList<String>());
 
 
+		// Index all the studies
+		indexingService.indexStudies(null, response);
 
-		long indexed = 0;
-
-		for (String accession : accessions) {
-
-			String message = null;
-
-			try {
-
-				indexStudy(accession, user.getApiToken());
-
-				indexed++;
-
-			} catch (IndexingFailureException e) {
-				message = "Can't index study " + accession + ". " + e.getMessage();
-
-			} catch (DAOException e) {
-				message = "Can't retrieve study (DAOException) " + accession + ". " + e.getMessage();
-
-			} catch (IsaTabException e) {
-				message = "Can't retrieve study (IsaTabException) " + accession + ". " + e.getMessage();
-			} finally {
-				if (message != null) {
-					logger.warn(message);
-					response.setMessage(response.getMessage() + message + "\n");
-				}
-			}
-
-		}
-
-		if (indexed == accessions.size()) {
-			response.setContent("Indexing finished successfully. " + accessions.size() + " indexed. All");
-		} else {
-			response.setContent("Indexing finished with errors. " + indexed + " indexed out of " + accessions.size());
-		}
+		// Index all the compounds
+		indexingService.indexCompounds(null, response);
 
 		return response;
 
 	}
 
 
-	@RequestMapping(value = "compounds", method = RequestMethod.GET)
+	@RequestMapping(value = "{studyIdentifier:" + StudyController.METABOLIGHTS_ID_REG_EXP +"}", method = RequestMethod.GET)
 	@ResponseBody
-	public RestResponse<ArrayList<String>> indexCompounds() throws DAOException, IsaTabException {
+	public RestResponse<ArrayList<String>> indexStudyUrl(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
 
-		logger.info("Requesting all compound to be indexed to the webservice");
+		logger.info("Requesting " + studyIdentifier + " indexing to the webservice");
 
-		List<String> ids = ModelObjectFactory.getAllCompoundsId();
+		ArrayList<String> id = new ArrayList<>();
+		id.add(studyIdentifier);
 
-		return indexCompounds(ids);
+		return indexingService.indexStudies(id, null);
+
 
 	}
 
@@ -195,91 +89,102 @@ public class IndexController extends BasicController {
 		ArrayList<String> id = new ArrayList<>();
 		id.add(compoundId);
 
-		RestResponse<ArrayList<String>> response = indexCompounds(id);
+		return indexingService.indexCompounds(id, null);
+
+
+	}
+
+
+
+	@RequestMapping(value = ALL_COMPOUNDS, method = RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<ArrayList<String>> indexCompoundsUrl(@RequestBody(required = false) List<String> ids) throws DAOException {
+
+		logger.info("Requesting all compound to be indexed to the webservice");
+
+
+		return indexingService.indexCompounds(ids, null);
+
+	}
+
+	@RequestMapping(value = ALL_STUDIES, method = RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<ArrayList<String>> indexStudiesUrl(@RequestBody(required = false) List<String> ids) throws DAOException {
+
+		logger.info("Requesting all studies to be indexed to the webservice");
+
+		return indexingService.indexStudies(ids, null);
+
+
+	}
+
+	@RequestMapping(value = ALL_STUDIES, method = RequestMethod.DELETE)
+	@ResponseBody
+	public RestResponse<ArrayList<String>>  deleteIndexedStudies() throws IndexingFailureException {
+
+		logger.info("Deleting indexed studies");
+
+		RestResponse<ArrayList<String>> response = new RestResponse<>();
+
+		indexingService.getSearchService().deleteStudies();
+
+		response.setMessage("Studies deleted from the index");
 
 		return response;
 
 	}
 
-	private RestResponse<ArrayList<String>> indexCompounds(List<String> ids) {
+	@RequestMapping(method = RequestMethod.DELETE)
+	@ResponseBody
+	public RestResponse<ArrayList<String>>  deleteIndex(@RequestBody(required = false) List<String> ids) throws IndexingFailureException {
 
+		logger.info("Deleting index");
 
 		RestResponse<ArrayList<String>> response = new RestResponse<>();
-		response.setContent(new ArrayList<String>());
+		boolean allOk = true;
 
-		long indexed = 0;
+		if (ids == null) {
 
-		for (String id : ids) {
-			if (indexCompound(id, response)){
-				indexed++;
+			indexingService.getSearchService().deleteIndex();
+		} else {
+
+			for (String id : ids) {
+				try {
+					indexingService.getSearchService().delete(id);
+					response.getContent().add(id + " deleted from the index.");
+				} catch (IndexingFailureException e) {
+					response.getContent().add("Couldn't delete " + id + " from the index: " + e.getMessage());
+					allOk = false;
+
+				}
+
 			}
 		}
 
-		// If everything was indexed...
-		if (indexed == ids.size()){
-			response.setMessage("All compounds were successfully indexed.");
+		if (allOk) {
+			response.setMessage("Index deleted");
 		} else {
-			response.setMessage(ids.size()-indexed + " were not indexed. Please, see content for error details.");
-			response.setErr(new IndexingFailureException("Some compounds were not indexed. See response content for details."));
+			response.setMessage("Some documents couldn't be deleted from the index. Check the content.");
 		}
+
 		return response;
 
 	}
 
-	private boolean indexCompound(String compoundId, RestResponse<ArrayList<String>> response)  {
+	@RequestMapping(value = ALL_COMPOUNDS, method = RequestMethod.DELETE)
+	@ResponseBody
+	public RestResponse<ArrayList<String>>  deleteIndexedCompounds() throws IndexingFailureException {
 
-		// Get it from the index
-		// ' Avoid search service to remove the colon.
-		SearchQuery query = new SearchQuery("'_id:" + compoundId);
+		logger.info("Deleting indexed compounds");
 
-		SearchResult result =searchService.search(query);
+		RestResponse<ArrayList<String>> response = new RestResponse<>();
 
-		// If there is any hit
-		if ((result.getResults().size() != 0)) {
-			response.getContent().add(compoundId + " already indexed.");
-			return true;
-		}
+		indexingService.getSearchService().deleteCompounds();
 
-		Compound mc = ModelObjectFactory.getCompound(compoundId);
+		response.setMessage("Compounds deleted from the index");
 
-		if (mc == null) {
-			response.getContent().add("Can't get " + compoundId + " to be indexed.");
-			return false;
-		} else {
+		return response;
 
-			return indexCompound(mc, response);
-		}
-	}
-
-	private boolean indexCompound(Compound mc, RestResponse<ArrayList<String>> response) {
-
-		try {
-			searchService.index(mc.getMc());
-			response.getContent().add(mc.getMc().getAccession() + " indexed successfully.");
-			return true;
-		} catch (IndexingFailureException e) {
-			logger.error("Can't index compound {}", mc.getMc().getAccession());
-			response.getContent().add(mc.getMc().getAccession() + " not indexed: " + e.getMessage());
-			return false;
-
-		}
-
-
-	}
-
-
-	private void indexStudy(String accession, String userToken) throws DAOException, IsaTabException, IndexingFailureException {
-
-		Study study = getStudyDAO().getStudy(accession, userToken);
-
-		indexStudy(study);
-	}
-
-	static void indexStudy(Study study) throws IndexingFailureException {
-		searchService.index(study);
-	}
-	static void deleteStudy(String studyIdentifier) throws IndexingFailureException {
-		searchService.delete(studyIdentifier);
 	}
 
 	@RequestMapping(value = "reset", method = RequestMethod.GET)
@@ -290,7 +195,7 @@ public class IndexController extends BasicController {
 
 		RestResponse<String> response = new RestResponse<String>();
 
-		searchService.resetIndex();
+		indexingService.getSearchService().resetIndex();
 
 		response.setMessage("Index successfully reset");
 
@@ -299,17 +204,19 @@ public class IndexController extends BasicController {
 	}
 	@RequestMapping(value = "status", method = RequestMethod.GET)
 	@ResponseBody
-	public RestResponse<String> status()  {
+	public RestResponse<ArrayList<String>> status()  {
 
 		logger.info("Getting index status");
 
-		RestResponse<String> response = new RestResponse<String>();
+		RestResponse<ArrayList<String>> response = new RestResponse<ArrayList<String>>();
 
-		String status = searchService.getStatus();
+		ArrayList<String> status = indexingService.getSearchService().getStatus();
 
-		response.setMessage(status);
+		response.setContent(status);
 
 		return response;
 
 	}
+
+
 }

@@ -23,6 +23,8 @@ package uk.ac.ebi.metabolights.webservice.queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
@@ -36,6 +38,8 @@ public class SubmissionQueueManager {
 
 	private static Logger log = LoggerFactory.getLogger(SubmissionQueueManager.class);
 	private static Timer tm;
+	@Autowired
+	private ElasticSearchService searchService;
 
 	
 //	private static UserService userService;

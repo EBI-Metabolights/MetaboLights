@@ -25,15 +25,14 @@ package uk.ac.ebi.metabolights.webservice.queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.search.service.SearchService;
-import uk.ac.ebi.metabolights.webservice.controllers.IndexController;
+import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
@@ -52,7 +51,9 @@ public class SubmissionQueueProcessor {
 
 	private static Logger logger = LoggerFactory.getLogger(SubmissionQueueProcessor.class);
     private static String zipOnDemandLocation = PropertiesUtil.getProperty("ondemand");
-	private SearchService<Entity> searchService = IndexController.searchService;
+
+	@Autowired
+	private ElasticSearchService searchService;
 
 	private StudyDAO studyDAO;
 	private SubmissionItem si;
@@ -271,26 +272,6 @@ public class SubmissionQueueProcessor {
 
 		//Return the new accession number.
 		return newStudy;
-
-	}
-
-	/**
-	 * Delete a study from the system (both: Database and file system).
-	 * @throws Exception
-	 */
-	private void deleteStudy() throws Exception {
-
-//	    // Get the IsaTabUploader (and unloader) configured
-//		studyDAO = getIsaTabUploader();
-//
-//		// Unload it from the database, data locations and index.
-//	    studyDAO.unloadISATabFile(si.getAccession());
-//
-//	    // Remove files from our staging folder
-//	    File studyFolder = new File(studyDAO.getCurrentStudyFilePath(si.getAccession()));
-//
-//	    FileUtils.deleteDirectory(studyFolder);
-
 
 	}
 

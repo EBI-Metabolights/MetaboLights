@@ -33,7 +33,9 @@
                                 <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=SUBMITTED" confirmationText="Are you sure you want to change the status back to Submitted?" onclick="return confirmAction(this);">submitted</a></li>
                                 </c:if>
                                 <c:if test="${(study.studyStatus == 'SUBMITTED') || (curator && (study.studyStatus != 'INCURATION'))}">
+
                                     <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>
+
                                 </c:if>
                                 <c:if test="${curator && (study.studyStatus != 'INREVIEW')}">
                                     <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INREVIEW" confirmationText="Is the study ready to be reviewed?" onclick="return confirmAction(this);">in review</a></li>

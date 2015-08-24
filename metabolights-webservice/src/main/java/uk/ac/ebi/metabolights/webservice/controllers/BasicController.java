@@ -40,7 +40,7 @@ public class BasicController {
 
 	protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
 
-	protected User getUser(){
+	public static User getUser(){
 
 		User user ;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

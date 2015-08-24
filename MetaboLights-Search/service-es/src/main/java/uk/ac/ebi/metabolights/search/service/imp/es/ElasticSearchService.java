@@ -23,15 +23,23 @@ package uk.ac.ebi.metabolights.search.service.imp.es;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
+import org.elasticsearch.action.admin.indices.mapping.delete.DeleteMappingRequest;
+import org.elasticsearch.action.admin.indices.mapping.delete.DeleteMappingResponse;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequestBuilder;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.cluster.metadata.MappingMetaData;
+import org.elasticsearch.cluster.metadata.MetaData;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -75,9 +83,10 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
 
-	private static final String COMPOUND_TYPE_NAME = "compound";
-	private static final String STUDY_TYPE_NAME = "study";
-	private static String studyPrefix = "MTBLS";
+	public static final String COMPOUND_TYPE_NAME = "compound";
+	public static final String STUDY_TYPE_NAME = "study";
+	private  String studyPrefix = "MTBLS";
+	private  String compoundPrefix = "MTBLC";
 
 	// Index configurations
 	private String indexName = "metabolights";
@@ -123,6 +132,9 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 			client.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
 
+
+			logger.info("Connected to index (elasticsearch) server.");
+
 			// If index does not exists..
 			if (!doesIndexExists()) {
 				// Create it and configure it.
@@ -131,6 +143,9 @@ public class ElasticSearchService implements SearchService <Entity> {
 		} catch (NoNodeAvailableException e){
 			client = null;
 			logger.error("Couldn't initialise elasticsearch service." , e);
+		} catch (IndexingFailureException e) {
+			client = null;
+			logger.error("Couldn't configure index." , e);
 		}
 	}
 	public boolean doesIndexExists(){
@@ -142,6 +157,13 @@ public class ElasticSearchService implements SearchService <Entity> {
 	@Override
 	public void resetIndex() throws IndexingFailureException {
 
+		deleteIndex();
+
+		configureIndex();
+	}
+
+	@Override
+	public void deleteIndex() {
 		DeleteIndexResponse rep = null;
 		try {
 			rep = client.admin().
@@ -155,192 +177,211 @@ public class ElasticSearchService implements SearchService <Entity> {
 			logger.warn("Index reset, well, index wasn't found.");
 
 		}
-
-		configureIndex();
 	}
 
 
-	private void configureIndex() {
-
-		logger.info("Configuring " + indexName + "  index.");
-
-		try {
-
-			final CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(indexName);
-
-			// Create the mapping for the studies
-			mapping = jsonBuilder().startObject();
-
-				// Add study mapping
-				addStudyMapping();
-
-			mapping.endObject();
-
-			// Add the mapping for studies
-			createIndexRequestBuilder.addMapping(STUDY_TYPE_NAME, mapping);
-			logger.info(indexName + "/" + STUDY_TYPE_NAME + " created using this configuration: " + mapping.string());
+	public void configureIndex() throws IndexingFailureException {
 
 
-			// New mapping for the compounds
-			mapping = jsonBuilder().startObject();
+		// Add index
+		addIndex();
 
-				// Add compound mapping
-				addCompoundMapping();
+		// Add study mapping
+		addStudyMapping();
 
-			// End mapping
-			mapping.endObject();  //End of JSON root object.
-
-
-			// Add the mapping for the compounds
-			createIndexRequestBuilder.addMapping(COMPOUND_TYPE_NAME, mapping);
-			logger.info(indexName + "/" + COMPOUND_TYPE_NAME + " created using this configuration: " + mapping.string());
-
-			// Execute it
-			createIndexRequestBuilder.execute().actionGet();
+		// Add compound mapping
+		addCompoundMapping();
 
 
+	}
 
-		} catch (IOException e) {
-			logger.error("Can't create " + indexName + " index in eleasticsearch.", e);
+	public void addIndex() throws IndexingFailureException {
+
+		final CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(indexName);
+
+		CreateIndexResponse response = createIndexRequestBuilder.execute().actionGet();
+
+		if (!response.isAcknowledged()) {
+			throw new IndexingFailureException("Can't create index " + indexName + ": " + response.toString());
 		}
+
+		logger.info("Index {} created.", indexName);
 	}
+
 	/**
 	 * Adds a the compound mapping
 	 * @throws IOException
 	 */
 
-	private void addCompoundMapping() throws IOException {
+	public void addCompoundMapping() throws IndexingFailureException {
 
-		// Add compound mapping root
-		mapping.startObject(COMPOUND_TYPE_NAME);
+		try {
+			mapping = jsonBuilder().startObject();
+
+				// Add compound mapping root
+				mapping.startObject(COMPOUND_TYPE_NAME);
+
+			// Do not allow dynamic properties: strict is too strict, throws an exception
+			//mapping.field("dynamic", "false");
+
+				// Timestamp
+				addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
+
+				// Properties configutarion (fields types and storage)
+				mapping.startObject(PROPERTIES);
+
+					addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
+
+					addObject("accession", "type", "string", "index", "not_analyzed");
+
+//				endObject();
+//
 
 
-		// Do not allow dynamic properties: strict is too strict, throws an exception
-		//mapping.field("dynamic", "false");
+			endObject();
 
-		// Timestamp
-		addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
 
-		//_source configuration
-		//		mapping.startObject("_source")
-		//				.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "studyLocation",
-		//						"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
-		//						"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
-		//						"users.listOfAllStatus", "users.affiliationUrl", "users.status", "users.listOfAllStatus", "users.studies",
-		//						"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
-		//						"users.affiliation", "users.curator", "users.reviewer"})
-		//				.endObject()
 
-		// Properties configutarion (fields types and storage)
-		mapping.startObject(PROPERTIES);
+		} catch (IOException e) {
+			throw new IndexingFailureException("Can't build study mapping for the index.", e);
+		}
 
-		addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
+	addMappingToIndex(mapping, COMPOUND_TYPE_NAME);
 
-		addObject("accession", "type", "string", "index", "not_analyzed");
 
-	}
+}
 
 	/**
 	 * Adds a the study mapping
 	 * @throws IOException
 	 */
 
-	private void addStudyMapping() throws IOException {
-
-		// Add study mapping root
-		mapping.startObject(STUDY_TYPE_NAME);
+	public void addStudyMapping() throws IndexingFailureException {
 
 
-			// Do not allow dynamic properties: strict is too strict, throws an exception
-			/**
-			 * To start allow dynamic mapping. This will cause elastic search to index almost everything
-			 * and have a "ugly mapping" with items like this ones:
-			 *
-			 * "10~label"
-			 * "10~labeled extract name"
-			 * ...
-			 *
-			 * If this affects performance we could:
-			 *
-			 * 1.- Switch off dymanic AND define manually the index (we should include what is missing and want to be searchable (OrganismPart, descriptors, factors, protocols...)
-			 * 2.- Leave dynamic on but customize it with templates:
-			 *
-			 * 		http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/custom-dynamic-mapping.html
-			 *      http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-root-object-type.html
-			 *
-			 */
-			//mapping.field("dynamic", "false");
+		// Create the mapping for the studieses mapping
+		try {
+			mapping = jsonBuilder().startObject();
 
-			// Timestamp
-			addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
-
-			//_source configuration
-			mapping.startObject("_source")
-				.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "studyLocation",
-						"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
-						"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
-						"users.listOfAllStatus", "users.affiliationUrl", "users.status", "users.listOfAllStatus", "users.studies",
-						"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
-						"users.affiliation", "users.curator", "users.reviewer"})
-			.endObject()
-
-			// Properties configutarion (fields types and storage)
-			.startObject(PROPERTIES);
-
-				addObject("studyPublicReleaseDate", "type", "date", "store", true);
-
-				addObject("studySubmissionDate", "type", "date");
-
-				addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
-
-				addObject("obfuscationCode", "type", "string", "index", "not_analyzed");
-
-				addObject("studyIdentifier", "type", "string", "index", "not_analyzed");
+			// Add study mapping root
+			mapping.startObject(STUDY_TYPE_NAME);
 
 
-				// Collections
-				// Organisms
-				startObject("organism")
-					.startObject(PROPERTIES);
+				// Do not allow dynamic properties: strict is too strict, throws an exception
+				/**
+				 * To start allow dynamic mapping. This will cause elastic search to index almost everything
+				 * and have a "ugly mapping" with items like this ones:
+				 *
+				 * "10~label"
+				 * "10~labeled extract name"
+				 * ...
+				 *
+				 * If this affects performance we could:
+				 *
+				 * 1.- Switch off dymanic AND define manually the index (we should include what is missing and want to be searchable (OrganismPart, descriptors, factors, protocols...)
+				 * 2.- Leave dynamic on but customize it with templates:
+				 *
+				 * 		http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/custom-dynamic-mapping.html
+				 *      http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-root-object-type.html
+				 *
+				 */
+				//mapping.field("dynamic", "false");
 
-						addObject("organismName", "type", "string", "index", "not_analyzed");
-						addObject("organismPart", "type", "string", "index", "not_analyzed");
+				// Timestamp
+				addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
 
-					endObject()
-				.endObject();
-
-				// Assays
-				startObject("assays")
-					.startObject(PROPERTIES);
-						addObject("technology", "type", "string", "index", "not_analyzed");
-						addObject("measurement", "type", "string", "index", "not_analyzed");
-					endObject()
-				.endObject();
-
-				// Users
-				startObject("users")
-					.startObject(PROPERTIES);
-						addObject("userName", "type", "string", "index", "not_analyzed");
-						addObject("fullName", "type", "string", "index", "not_analyzed");
-					endObject()
-				.endObject();
-
-				// Factors
-				startObject("factors")
-					.startObject(PROPERTIES);
-						addObject("name", "type", "string", "index", "not_analyzed");
-					endObject()
-							.endObject();
-
-				startObject("descriptors")
-					.startObject(PROPERTIES);
-						addObject("description", "type", "string", "index", "not_analyzed");
-					endObject()
+				//_source configuration
+				mapping.startObject("_source")
+					.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "studyLocation",
+							"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
+							"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
+							"users.listOfAllStatus", "users.affiliationUrl", "users.status", "users.listOfAllStatus", "users.studies",
+							"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
+							"users.affiliation", "users.curator", "users.reviewer"})
 				.endObject()
-			.endObject() // End of Study Properties
-		.endObject(); // End of study
+
+				// Properties configutarion (fields types and storage)
+				.startObject(PROPERTIES);
+
+					addObject("studyPublicReleaseDate", "type", "date", "store", true);
+
+					addObject("studySubmissionDate", "type", "date");
+
+					addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
+
+					addObject("obfuscationCode", "type", "string", "index", "not_analyzed");
+
+					addObject("studyIdentifier", "type", "string", "index", "not_analyzed");
+
+
+					// Collections
+					// Organisms
+					startObject("organism")
+						.startObject(PROPERTIES);
+							addObject("organismName", "type", "string", "index", "not_analyzed");
+							addObject("organismPart", "type", "string", "index", "not_analyzed");
+						endObject()
+					.endObject();
+
+					// Assays
+					startObject("assays")
+						.startObject(PROPERTIES);
+							addObject("technology", "type", "string", "index", "not_analyzed");
+							addObject("measurement", "type", "string", "index", "not_analyzed");
+						endObject()
+					.endObject();
+
+					// Users
+					startObject("users")
+						.startObject(PROPERTIES);
+							addObject("userName", "type", "string", "index", "not_analyzed");
+							addObject("fullName", "type", "string", "index", "not_analyzed");
+						endObject()
+					.endObject();
+
+					// Factors
+					startObject("factors")
+						.startObject(PROPERTIES);
+							addObject("name", "type", "string", "index", "not_analyzed");
+						endObject()
+					.endObject();
+
+					startObject("descriptors")
+						.startObject(PROPERTIES);
+							addObject("description", "type", "string", "index", "not_analyzed");
+						endObject()
+					.endObject()
+				.endObject() // End of Study Properties
+			.endObject(); // End of study
+
+			mapping.endObject();
+
+
+		} catch (IOException e) {
+			throw new IndexingFailureException("Can't build study mapping for the index.", e);
+		}
+
+		addMappingToIndex(mapping, STUDY_TYPE_NAME);
+
 
 	}
+
+	private void addMappingToIndex(XContentBuilder newMapping, String documentType) throws IndexingFailureException {
+
+		// Put the mapping
+		PutMappingRequestBuilder putMappingRequestBuilder = client.admin().indices().preparePutMapping(indexName).setType(documentType);
+
+		putMappingRequestBuilder.setSource(newMapping);
+
+		PutMappingResponse response = putMappingRequestBuilder.execute().actionGet();
+
+		if (response.isAcknowledged()) {
+			logger.info(indexName + "/" + documentType + " created");
+		} else {
+			throw new IndexingFailureException("Can't add study mapping to the index: " +  response.toString());
+		}
+	}
+
 
 	private XContentBuilder endObject() throws IOException {
 		return mapping.endObject();
@@ -377,32 +418,64 @@ public class ElasticSearchService implements SearchService <Entity> {
 		this.clusterName = clusterName;
 	}
 
-	public static String getStudyPrefix() {
+	public String getStudyPrefix() {
 		return studyPrefix;
 	}
 
-	public static void setStudyPrefix(String studyPrefix) {
-		ElasticSearchService.studyPrefix = studyPrefix;
+	public void setStudyPrefix(String studyPrefix) {
+		this.studyPrefix = studyPrefix;
 	}
 
+	public String getCompoundPrefix() {
+		return compoundPrefix;
+	}
+
+	public void setCompoundPrefix(String compoundPrefix) {
+		this.compoundPrefix = compoundPrefix;
+	}
+
+
 	@Override
-	public String getStatus() {
+	public ArrayList<String> getStatus() {
 
-		String status;
+		ArrayList<String> status = new ArrayList<>();
 
-		status = "Client " + (client == null?"not ":"") + " instantiated.\n";
-		status = status + "Cluster name: " + clusterName + ".\n";
+		status.add("Client " + (client == null?"not ":"") + " instantiated");
+		status.add( "Cluster name: " + clusterName );
 
 		if (client != null) {
-			status = status + "Transport addresses:\n";
+			status.add( "Transport addresses");
 			for (TransportAddress transportAddress : client.transportAddresses()) {
 
-				status = status + "* " + transportAddress.toString();
+				status.add( "* " + transportAddress.toString());
 			}
+
+
+			// Get index status
+
+			status.add( "Index status:");
+
+
+			status.add( "Does index exists? " + doesIndexExists());
+			
+			MappingMetaData mapping = getMapping(STUDY_TYPE_NAME);
+			status.add( "Does study mapping exists? " + (mapping != null));
+			if (mapping != null) {
+				status.add( "Studies mapping: " + mapping.source() );
+			}
+
+
+
+			mapping = getMapping(COMPOUND_TYPE_NAME);
+			status.add( "Does compounds mapping exists? " + (mapping != null));
+			if (mapping != null) {
+				status.add( "Compounds mapping " + (mapping.source()) );
+			}
+
 
 		}
 
-		return (status);
+		return status;
 	}
 
 	@Override
@@ -411,20 +484,66 @@ public class ElasticSearchService implements SearchService <Entity> {
 		String documentType = getDocumentTypeById(id);
 
 		if (documentType !=null) {
-			DeleteResponse response = client.prepareDelete(indexName, documentType, id).execute().actionGet();
-			if (!response.isFound()){
-				throw new IndexingFailureException("Elastic search failed deleting id " + id);
+
+
+
+			// Kind of a hack: If the there is a * we assume you want to delete all documents of that type.
+			// Example: MTBLS*....warning: MTBLS12* will delete all documents as well and not only those that match the pattern.
+			if (id.indexOf("*") != -1) {
+
+
+				deleteDocumentType(documentType);
+
+
+				// Delete by id
+			} else {
+
+				DeleteResponse response = client.prepareDelete(indexName, documentType, id).execute().actionGet();
+
+				if (!response.isFound()) {
+					throw new IndexingFailureException("Elastic search failed deleting id " + id + ", message: " + response.toString());
+				}
+
 			}
+
+
 		}
 	}
+
+	public void deleteStudies() throws IndexingFailureException {
+
+		deleteDocumentType(STUDY_TYPE_NAME);
+
+	}
+
+	public void deleteCompounds() throws IndexingFailureException {
+
+		deleteDocumentType(COMPOUND_TYPE_NAME);
+
+	}
+
+
+	private DeleteMappingResponse deleteDocumentType(String documentType) throws IndexingFailureException {
+
+		DeleteMappingRequest deleteMappingRequest = new DeleteMappingRequest(indexName).types(documentType);
+
+		DeleteMappingResponse response = client.admin().indices().deleteMapping(deleteMappingRequest).actionGet();
+
+		if (!response.isAcknowledged()) {
+			throw new IndexingFailureException("Elastic search failed deleting all documents of type  " + documentType + ":  " + response.getContext().toString());
+		}
+
+		return response;
+	}
+
 
 	private String getDocumentTypeById(String id) {
 
 
 		if (isAStudy(id)) {
 			return STUDY_TYPE_NAME;
-//		} else if (id.indexOf("MTBLC") == 1){
-//			return "compound";
+		} else if (isACompound(id)){
+			return COMPOUND_TYPE_NAME;
 		} else {
 			logger.warn("Can't resolve elastic search document type for id " + id );
 			return null;
@@ -434,6 +553,9 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 	private boolean isAStudy(String id) {
 		return id.indexOf(studyPrefix) == 0;
+	}
+	private boolean isACompound(String id) {
+		return id.indexOf(compoundPrefix) == 0;
 	}
 
 	@Override
@@ -998,6 +1120,26 @@ public class ElasticSearchService implements SearchService <Entity> {
 		} catch (com.fasterxml.jackson.core.JsonProcessingException e) {
 			throw new IndexingFailureException("Can't serialize a " + entity.getClass().getCanonicalName() + " to a JSON String" , e);
 		}
+	}
+
+	public boolean doesMappingExists(String documentTypeName) {
+
+
+
+		return (getMapping(documentTypeName)!= null);
+	}
+
+	public MappingMetaData getMapping(String documentTypeName) {
+		ClusterStateResponse resp = client.admin().cluster().prepareState().execute().actionGet();
+
+		MetaData metadata = resp.getState().getMetaData();
+
+		if (metadata.index(indexName) != null){
+			return  resp.getState().getMetaData().index(indexName).mapping(documentTypeName);
+		} else {
+			return null;
+		}
+
 	}
 
 }

@@ -137,6 +137,10 @@
 
     <import resource="spring-security.xml"/>
 
+
+    <bean id="searchService" class="uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService">
+        <property name="studyPrefix" value="${stableIdPrefix}"/>
+    </bean>
     <bean id="queueManager" class="uk.ac.ebi.metabolights.webservice.queue.SubmissionQueueManager"/>
 
 </beans>

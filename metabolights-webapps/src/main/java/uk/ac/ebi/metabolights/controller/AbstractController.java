@@ -29,6 +29,9 @@ import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.TextUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Abstract controller providing common functionality to the real controllers.
  * @author markr
@@ -48,12 +51,22 @@ public abstract class AbstractController {
 		mav.addObject("errorMainMessage", ex.getMessage());
 		return mav;
 	}
-	public ModelAndView printMessage(String title, String message){
+	public ModelAndView printMessage(String title, Collection<String> message){
+
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("message");
 		mav.addObject("title",title);
 		mav.addObject("message", message);
-		
+
 		return mav;
+
+	}
+	public ModelAndView printMessage(String title, String message){
+
+		ArrayList<String> messages = new ArrayList<>();
+		messages.add(message);
+
+		return printMessage(title, messages);
+
 	}
 
 	// To add to the todo task....when everything is refactored we should remove this method and no reference to it should be left.

@@ -25,5 +25,8 @@
 <h2>${title}</h2>
 
 <div class="grid_24 alpha omega">
-	<p>${message}</p>
+  <c:forEach var="line" items="${message}">
+    <p>${line}</p>
+  </c:forEach>
+
 </div>

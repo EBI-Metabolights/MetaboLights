@@ -111,6 +111,7 @@ $(function() {
             <li hash="properties"><a class="noLine" href="#appTab">Application Properties</a></li>
 			<li hash="queue"><a class="noLine" href="#queueTab">Queue</a></li>
 			<li hash="health"><a class="noLine" href="#studyHealthTab">Study Health</a></li>
+            <li hash="index"><a class="noLine" href="#indexTab">Index maintenace</a></li>
             <li hash="referencelayer"><a class="noLine" href="#referencelayerTab">Reference Layer</a></li>
             <li hash="parameters"><a class="noLine" href="#MetaboLightsParameters">MetaboLights Parameters</a></li>
 		</ul>
@@ -292,12 +293,6 @@ $(function() {
 
         <div id="studyHealthTab">
             <br/>
-            <form method="post" action="setgalleryItems">
-                <label>Gallery Items (comma separated ID):</label>
-                <input type=text value="${galleryIds}" name="galleryitems" size="60"/>
-                <input name="submit" type="submit" class="submit" value="Change gallery Items">
-            </form>
-            <br/>
 
             <a href="reindex" title="Reindex one-by-one">Reindex all the studies</a><br/>
 
@@ -306,7 +301,7 @@ $(function() {
                     <tr><th>Study</th><th>is Public?</th><th>Must be under</th><th>is it there?</th></tr>
                     <c:forEach var="study" items="${studiesHealth}">
                         <tr>
-                            <td><a href="reindex?study=${study.identifier}" title="Reindex this study">${study.identifier}</a></td>
+                            <td><a href="reindexstudies?study=${study.identifier}" title="Reindex this study">${study.identifier}</a></td>
                             <td>${study.isPublic}</td>
                             <td>${study.studyPath}</td>
                             <td <c:if test="${not study.isThere}">class="error"</c:if> >
@@ -331,6 +326,25 @@ $(function() {
                     </c:forEach>
                 </table>
             </c:if>
+        </div>
+
+        <div id="indexTab">
+            <h3>All</h3>
+            <a href="reindex" title="Reindex all!!">Reindex all</a><br/>
+
+            <h3>Studies</h3>
+            <a href="deleteindexedstudies" title="Delete all indexed studies">Delete all indexed studies</a><br/>
+            <a href="reindexstudies" title="Reindex all the studies">Reindex all the studies</a><br/>
+
+            <h3>Compounds</h3>
+            <a href="deleteindexedcompounds" title="Delete all indexed compounds">Delete all indexed compounds</a><br/>
+            <a href="reindexcompounds" title="Reindex all the compounds">Reindex all the compounds</a><br/>
+
+            <h3>Status</h3>
+            <c:forEach var="message" items="${status}">
+                <p>${message}</p>
+            </c:forEach>
+
         </div>
 
         <div class="refLayerBox" id="referencelayerTab">
