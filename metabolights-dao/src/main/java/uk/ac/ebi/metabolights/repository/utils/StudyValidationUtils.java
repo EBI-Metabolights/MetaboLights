@@ -89,12 +89,14 @@ public class StudyValidationUtils {
 
     public static Validation organismCheck(Study study) {
         Validation aValidation = getValidationObject(ORGANISMS_INVOLVED, Validation.Requirement.MANDATORY);
-//        boolean isPresent = !study.getOrganism().isEmpty();
-        boolean isPresent = false;
+        boolean isPresent = !study.getOrganism().isEmpty();
         aValidation.setPassedRequirement(isPresent);
         if (!isPresent) {
             aValidation.setMessage("Organisms information is missing/incorrect. Also check for Bad syntax or incorrect character in s_file header: \"+\". "
             + validateError);
+        }
+        else{
+            setPassedMessage(aValidation);
         }
         return aValidation;
     }
@@ -112,6 +114,9 @@ public class StudyValidationUtils {
         if (!isPresent) {
             aValidation.setMessage("The study description is either too short and is unavailable");
         }
+        else{
+            setPassedMessage(aValidation);
+        }
         return aValidation;
     }
 
@@ -122,17 +127,21 @@ public class StudyValidationUtils {
         if (!isPresent) {
             aValidation.setMessage("The experimental study factors are not specified");
         }
+        else{
+            setPassedMessage(aValidation);
+        }
         return aValidation;
     }
 
     public static Validation protocolsCheck(Study study) {
         Validation aValidation = getValidationObject(PROTOCOLS, Validation.Requirement.MANDATORY);
         boolean isPresent = !study.getProtocols().isEmpty();
-        //TODO   change variable being set
-        aValidation.setPassedRequirement(false);
-        isPresent = false;
+        aValidation.setPassedRequirement(isPresent);
         if (!isPresent) {
             aValidation.setMessage("The protocol columns are empty");
+        }
+        else{
+            setPassedMessage(aValidation);
         }
         return aValidation;
     }
@@ -144,6 +153,9 @@ public class StudyValidationUtils {
         if (!isPresent) {
             aValidation.setMessage("The sample columns are empty");
         }
+        else{
+            setPassedMessage(aValidation);
+        }
         return aValidation;
     }
 
@@ -154,17 +166,26 @@ public class StudyValidationUtils {
         if (!isPresent) {
             aValidation.setMessage("The assay columns are empty");
         }
+        else{
+            setPassedMessage(aValidation);
+        }
         return aValidation;
     }
 
     public static Validation publicationCheck(Study study) {
         Validation aValidation = getValidationObject(PUBLICATIONS, Validation.Requirement.OPTIONAL);
         boolean isPresent = !study.getPublications().isEmpty();
-        isPresent = false;
-        aValidation.setPassedRequirement(false);
+        aValidation.setPassedRequirement(isPresent);
         if (!isPresent) {
             aValidation.setMessage("No publication is linked");
         }
+        else{
+            setPassedMessage(aValidation);
+        }
         return aValidation;
+    }
+
+    private static void setPassedMessage(Validation validation){
+        validation.setMessage("Acceptable level of information is available");
     }
 }
