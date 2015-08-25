@@ -1,9 +1,14 @@
 package uk.ac.ebi.metabolights.repository.utils;
 
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabReplacer;
 import uk.ac.ebi.metabolights.repository.model.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Properties;
 
 /**
  * Created by kalai on 07/07/15.
@@ -19,6 +24,8 @@ public class StudyValidationUtils {
     public static final String ASSAYS = "Assay(s) reported";
     public static final String SAMPLES = "Sample(s) reported";
     public static final String PUBLICATIONS = "Publication(s) associated with this study";
+    static private String validateError = "\n You must make sure your study successfully passes the ISAcreator validation (file -> validate ISAtab) before resubmitting your study!";
+
 
     public static Collection<String> getMandatoryFields() {
         Collection<String> mandatoryFields = new LinkedList<>();
@@ -82,10 +89,12 @@ public class StudyValidationUtils {
 
     public static Validation organismCheck(Study study) {
         Validation aValidation = getValidationObject(ORGANISMS_INVOLVED, Validation.Requirement.MANDATORY);
-        boolean isPresent = !study.getOrganism().isEmpty();
+//        boolean isPresent = !study.getOrganism().isEmpty();
+        boolean isPresent = false;
         aValidation.setPassedRequirement(isPresent);
         if (!isPresent) {
-            aValidation.setMessage("Organisms information is missing/incorrect.");
+            aValidation.setMessage("Organisms information is missing/incorrect. Also check for Bad syntax or incorrect character in s_file header: \"+\". "
+            + validateError);
         }
         return aValidation;
     }

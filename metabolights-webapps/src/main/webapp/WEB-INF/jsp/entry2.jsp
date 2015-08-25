@@ -590,13 +590,17 @@
                 <fieldset class="box">
                     <legend><spring:message code="label.studyvalidation"/>:</legend>
                     <br/>
-                    We have the found the following information in this study
-                    <c:if test="${study.validations.passedMinimumRequirement == false}">
-                       STUDY FAILED
-                    </c:if>
-                    <c:if test="${study.validations.passedMinimumRequirement == true}">
-                        STUDY PASSED
-                    </c:if>
+                    We have the found the following information in this study:
+                    <span aria-hidden="true" style="color:darkgreen">&#10004;</span> Provided
+                    <span aria-hidden="true" style="color:red">&#10008;</span> Not provided (Mandatory)
+                    <span aria-hidden="true" style="color:darkorange">&#10008;</span> Not provided (Optional)
+
+                    <%--<c:if test="${study.validations.passedMinimumRequirement == false}">--%>
+                       <%--STUDY FAILED--%>
+                    <%--</c:if>--%>
+                    <%--<c:if test="${study.validations.passedMinimumRequirement == true}">--%>
+                        <%--STUDY PASSED--%>
+                    <%--</c:if>--%>
                     &nbsp;
                     <c:forEach var="validation" items="${study.validations.entries}" >
                       <%--&lt;%&ndash;&nbsp;&ndash;%&gt;--%>
