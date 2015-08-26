@@ -84,17 +84,14 @@ public class EmailService {
 
     /**
      * Sends an email to the submitter and the curators that a study will go public
-     * @param submitterEmail
-     * @param publicDate
-     * @param acc
+     * @param study
      */
-    public void sendStudyGoingPublicNotification(String submitterEmail, Date publicDate, String acc){
-
+    public void sendStudyGoingPublicNotification(Study study){
 
 		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
-		String[] to = new String[] {submitterEmail,curationEmailAddress};
-		String subject = PropertyLookUpService.getMessage("mail.studySoonLive.subject", acc);
-        String body = PropertyLookUpService.getMessage("msg.studySoonLive.body", acc, new SimpleDateFormat("dd-MM-yyyy").format(publicDate));
+		String[] to = getRecipientsFromStudy(study);
+		String subject = PropertyLookUpService.getMessage("mail.studySoonLive.subject", study.getStudyIdentifier());
+        String body = PropertyLookUpService.getMessage("mail.studySoonLive.body", study.getStudyIdentifier(), new SimpleDateFormat("dd-MM-yyyy").format(study.getStudyPublicReleaseDate()));
 
 		sendSimpleEmail(from, to, subject, body);
 

@@ -136,6 +136,11 @@ public class StudyDAO {
 		return dbDAO.getStudiesToGoLiveList(userToken);
 	}
 
+	public List<String> getStudiesToGoLiveList(String userToken, int numbeOfDays) throws DAOException {
+		return dbDAO.getStudiesToGoLiveList(userToken, numbeOfDays);
+	}
+
+
 
 	private String getAccessionNumber() throws DAOException {
 		AccessionDAO accessionDAO = DAOFactory.getInstance().getAccessionDAO();

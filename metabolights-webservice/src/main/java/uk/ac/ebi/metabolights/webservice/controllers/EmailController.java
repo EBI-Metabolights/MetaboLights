@@ -25,10 +25,12 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
+import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 
@@ -53,6 +55,28 @@ public class EmailController extends BasicController {
 		RestResponse<String> response = new RestResponse<>();
 
 		response.setMessage("Study deleted email sent");
+
+		return response;
+
+	}
+
+	@RequestMapping(method= RequestMethod.GET, value = "studygoinglive/{studyId}")
+	@ResponseBody
+	public RestResponse<String> studyGoingLiveEmail(@PathVariable(value="studyId") String studyId) throws DAOException, IsaTabException {
+
+		logger.debug("About to send study going live email.");
+
+		// Get the study
+		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+		// NOTE: this loads all the data, files system data included, could be improved if we only load data from DB (enough)
+		Study study = studyDAO.getStudy(studyId, getUser().getApiToken());
+
+		emailService.sendStudyGoingPublicNotification(study);
+
+		RestResponse<String> response = new RestResponse<>();
+
+		response.setMessage("Study going live email sent");
 
 		return response;
 

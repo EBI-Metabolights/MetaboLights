@@ -74,6 +74,7 @@ facets[].facet.lines[].FacetLine.checked
 			<c:if test="${fn:length(facet.lines) gt 1}">
 				<c:set var="caption">
 					<c:choose>
+						<c:when test="${facet.name=='ObjectType'}"><spring:message code="label.entrytype"/></c:when>
 						<c:when test="${facet.name=='assays.technology'}"><spring:message code="label.technology"/></c:when>
 						<c:when test="${facet.name=='studyStatus'}"><spring:message code="label.facetStatus"/></c:when>
 						<c:when test="${facet.name=='organism.organismName'}"><spring:message code="label.organism"/></c:when>

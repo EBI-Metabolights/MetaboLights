@@ -112,9 +112,9 @@ public class StudyController extends BasicController{
 
 	}
 
-	@RequestMapping("goinglive")
+	@RequestMapping("goinglive/{days}")
 	@ResponseBody
-	public RestResponse<String[]> getAllStudyIdentifiersGoingLive() throws DAOException {
+	public RestResponse<String[]> getAllStudyIdentifiersGoingLive(@PathVariable("days") int numberOfDays) throws DAOException {
 
 		logger.info("Requesting a list of all public studies that should go live to the webservice");
 
@@ -124,7 +124,7 @@ public class StudyController extends BasicController{
 
 
 		try {
-			List<String> studyList = studyDAO.getStudiesToGoLiveList(getUser().getApiToken());
+			List<String> studyList = studyDAO.getStudiesToGoLiveList(getUser().getApiToken(), numberOfDays);
 
 			String[] strarray = studyList.toArray(new String[0]);
 			response.setContent(strarray);

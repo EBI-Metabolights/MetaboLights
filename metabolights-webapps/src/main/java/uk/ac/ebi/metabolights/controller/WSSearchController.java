@@ -39,6 +39,7 @@ import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.AbstractMap;
 import java.util.Map;
 
 /**
@@ -54,10 +55,20 @@ public class WSSearchController extends AbstractController{
 	public static final String SEARCH = "search";
 	private static final String MY_SUBMISSIONS = "mysubmissions";
 
+	// Facets
+	public static final String OBJECT_TYPE = "ObjectType";
+	public static final String ASSAYS_TECHNOLOGY = "assays.technology";
+	public static final String STUDY_STATUS = "studyStatus";
+	public static final String ORGANISM_ORGANISM_NAME = "organism.organismName";
+	public static final String ORGANISM_ORGANISM_PART = "organism.organismPart";
+	public static final String USERS_FULL_NAME = "users.fullName";
+	public static final String FACTORS_NAME = "factors.name";
+	public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
+
 	private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
 
 
-    /**
+	/**
      * Controller for a browse (empty internalSearch) request
      */
     @RequestMapping(value = BROWSE )
@@ -83,7 +94,34 @@ public class WSSearchController extends AbstractController{
 		return mav;
 	}
 
+
+	@RequestMapping({ "/reflayersearch", "/reference", "/compounds" })
+	public ModelAndView searchCompounds(HttpServletRequest request){
+
+		// Get the query
+		SearchQuery query = getQuery(request);
+
+		// Add a compound filter
+		Map.Entry compoundFilter = new AbstractMap.SimpleEntry(OBJECT_TYPE,new String[]{"compound"});
+
+
+		populateFacet(query ,compoundFilter);
+
+		// Make the search
+		return internalSearch(SEARCH, query);
+
+
+
+	}
 	private ModelAndView internalSearch(String MAVName, HttpServletRequest request) {
+
+		// Get the query
+		SearchQuery query = getQuery(request);
+		// Make the search
+		return internalSearch(MAVName, query);
+	}
+
+	private ModelAndView internalSearch(String MAVName, SearchQuery query){
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
 
@@ -102,9 +140,6 @@ public class WSSearchController extends AbstractController{
 			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.browse.noresults"));
 		}
 
-		// Make the search
-		// Get the query
-		SearchQuery query = getQuery(request);
 
 		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
@@ -113,7 +148,7 @@ public class WSSearchController extends AbstractController{
 		mav.addObject("searchResponse", entitySearchResult);
 
 
-		// Add methods
+		// Add object methods that can't be called from JSP.
 		if (entitySearchResult.getErr() == null){
 			mav.addObject("pagecount", entitySearchResult.getContent().getQuery().getPagination().getPageCount());
 			mav.addObject("firstPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getFirstPageItemNumber());
@@ -218,19 +253,20 @@ public class WSSearchController extends AbstractController{
 
 		SearchQuery emptyQuery = new SearchQuery();
 
-		addFacet("assays.technology", emptyQuery);
-		addFacet( "studyStatus", emptyQuery);
-		addFacet("organism.organismName", emptyQuery);
-		addFacet("organism.organismPart", emptyQuery);
-		addFacet("users.fullName", emptyQuery);
+		addFacet(OBJECT_TYPE, emptyQuery);
+		addFacet(ASSAYS_TECHNOLOGY, emptyQuery);
+		addFacet(STUDY_STATUS, emptyQuery);
+		addFacet(ORGANISM_ORGANISM_NAME, emptyQuery);
+		addFacet(ORGANISM_ORGANISM_PART, emptyQuery);
+		addFacet(USERS_FULL_NAME, emptyQuery);
 
 
 //		<c:if test="${not empty usersFullName}">
 //				,"lines":[{"value":"${usersFullName}","checked":true}]
 //			</c:if>
 
-		addFacet("factors.name", emptyQuery);
-		addFacet("descriptors.description", emptyQuery);
+		addFacet(FACTORS_NAME, emptyQuery);
+		addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
 		emptyQuery.getPagination().setPage(1);
 		emptyQuery.getPagination().setPageSize(10);
 

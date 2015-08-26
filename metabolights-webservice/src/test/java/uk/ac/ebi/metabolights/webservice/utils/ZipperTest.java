@@ -34,7 +34,7 @@ public class ZipperTest extends TestCase {
 		try{
 
 			//Test the zip command
-			Zipper.zip( folderToZip, zipFile.getAbsolutePath());
+			Zipper.zip(folderToZip, zipFile.getAbsolutePath());
 
 			//Test the unzip command
 			Zipper.unzip(zipFile.getAbsolutePath());

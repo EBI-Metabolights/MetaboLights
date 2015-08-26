@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
+import org.apache.commons.lang.time.DateUtils;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -110,9 +111,14 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		return studies;
 	}
 
-
 	// Gets all studies to go live that the user is granted to access.
 	public List<String> getStudiesToGoLiveList(String userToken) throws DAOException {
+
+		return getStudiesToGoLiveList(userToken, 0);
+	}
+
+		// Gets all studies to go live that the user is granted to access.
+	public List<String> getStudiesToGoLiveList(String userToken, int numberOfDays) throws DAOException {
 
 		// Hibernate left join:
 		// from Cat as cat left join cat.mate.kittens as kittens
@@ -127,13 +133,17 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		// Query to check date...
 		StudyData study = new StudyData();
 
-		query = query + " where (study.releaseDate <=:now and study.status= " + Study.StudyStatus.INREVIEW.ordinal() + ")";
+
+		// Calculate the limit date
+		Date limit = DateUtils.addDays(new Date(),numberOfDays);
+
+		query = query + " where (study.releaseDate <=:limit and study.status= " + Study.StudyStatus.INREVIEW.ordinal() + ")";
 
 		// Create an empty filter
 		Filter filter = new Filter();
 
 		// Add the date filter.
-		filter.fieldValuePairs.put("now", new Date());
+		filter.fieldValuePairs.put("limit", limit);
 
 		// If not...
 		if (!isCurator) {
