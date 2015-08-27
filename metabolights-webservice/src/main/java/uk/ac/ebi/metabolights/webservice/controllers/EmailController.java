@@ -34,6 +34,9 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("email")
 @PreAuthorize( "hasRole('ROLE_SUPER_USER')")
@@ -42,41 +45,76 @@ public class EmailController extends BasicController {
 	@Autowired
 	private EmailService emailService ;
 
-    @RequestMapping(method= RequestMethod.POST, value = "studydeleted")
+    @RequestMapping(method= RequestMethod.POST, value = "test")
 	@ResponseBody
-	public RestResponse<String> studydeletedemail(@RequestParam(required=true,value="useremail") String useremail,
-												  @RequestParam(required=true,value="hostname") String hostname,
-												  @RequestParam(required=true,value="studyid") String studyid) {
+	public RestResponse<String> sendTestEmail(@RequestParam(required=true,value="useremail") String useremail) {
 
-		logger.debug("About to send study deleted email.");
+		logger.debug("About to send a test email.");
 
-		emailService.sendQueuedDeletion(useremail,hostname,studyid);
+		emailService.sendSimpleEmail(new String[]{useremail}, "This is a test email from metabolights", "This is trying to test if the email settings and servers involved are working properly.");
 
 		RestResponse<String> response = new RestResponse<>();
 
-		response.setMessage("Study deleted email sent");
+		response.setMessage("Test email sent");
 
 		return response;
 
 	}
 
-	@RequestMapping(method= RequestMethod.GET, value = "studygoinglive/{studyId}")
+
+	@RequestMapping(method= RequestMethod.GET, value = "goinglive/{numberOfDays}")
 	@ResponseBody
-	public RestResponse<String> studyGoingLiveEmail(@PathVariable(value="studyId") String studyId) throws DAOException, IsaTabException {
+	public RestResponse<ArrayList<String>> studyGoingLiveEmail(@PathVariable(value="numberOfDays") int numberOfDays) throws DAOException {
 
-		logger.debug("About to send study going live email.");
+		logger.debug("About to send studies going live in {} days emails.", numberOfDays);
 
-		// Get the study
+		// Get the study DAO
 		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
 
-		// NOTE: this loads all the data, files system data included, could be improved if we only load data from DB (enough)
-		Study study = studyDAO.getStudy(studyId, getUser().getApiToken());
+		// Get the list of studies going live in the days specified
+		List<String> studiesGoingLive = studyDAO.getStudiesToGoLiveList(getUser().getApiToken(),numberOfDays);
 
-		emailService.sendStudyGoingPublicNotification(study);
+		RestResponse<ArrayList<String>> response = new RestResponse<>();
+		response.setContent(new ArrayList<String>());
 
-		RestResponse<String> response = new RestResponse<>();
+		String itemLog = null;
+		int errors = 0;
 
-		response.setMessage("Study going live email sent");
+		for (String studyId : studiesGoingLive) {
+
+			// NOTE: this loads all the data, files system data included, could be improved if we only load data from DB (enough)
+			Study study = null;
+			try {
+				study = studyDAO.getStudy(studyId, getUser().getApiToken());
+
+				emailService.sendStudyGoingPublicNotification(study);
+
+				itemLog = "Going live email for " + studyId + " sent successfully.";
+
+
+			} catch (IsaTabException e) {
+
+				itemLog = "Can't get study " + studyId + " to send going live email: " + e.getMessage();
+				logger.error(itemLog, studyId,e);
+				errors++;
+				response.setErr(e);
+
+			} catch (Exception e){
+				itemLog = "Can't send study going live email for " + studyId + ": " + e.getMessage();
+				logger.error(itemLog, studyId,e);
+				errors++;
+				response.setErr(e);
+			}
+
+			response.getContent().add(itemLog);
+
+		}
+
+		if (errors > 0) {
+			response.setMessage("There were " + errors + " errors out of " + studiesGoingLive.size() + ". Check content for details. Last error is in the error object.");
+		} else {
+			response.setMessage("Study going live email sent");
+		}
 
 		return response;
 

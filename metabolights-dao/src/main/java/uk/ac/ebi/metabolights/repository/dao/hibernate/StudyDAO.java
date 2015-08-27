@@ -26,6 +26,7 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -134,16 +135,21 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		StudyData study = new StudyData();
 
 
-		// Calculate the limit date
-		Date limit = DateUtils.addDays(new Date(),numberOfDays);
+		// Calculate the date limits
+		Date todayMidNight = DateUtils.round(new Date(), Calendar.DAY_OF_MONTH);
 
-		query = query + " where (study.releaseDate <=:limit and study.status= " + Study.StudyStatus.INREVIEW.ordinal() + ")";
+		// 0 means today
+		Date lLimit = DateUtils.addDays(todayMidNight,numberOfDays);
+		Date uLimit = DateUtils.addDays(todayMidNight,numberOfDays+1);
+
+		query = query + " where (study.releaseDate <:ulimit and study.releaseDate >=:llimit and study.status= " + Study.StudyStatus.INREVIEW.ordinal() + ")";
 
 		// Create an empty filter
 		Filter filter = new Filter();
 
 		// Add the date filter.
-		filter.fieldValuePairs.put("limit", limit);
+		filter.fieldValuePairs.put("ulimit", uLimit);
+		filter.fieldValuePairs.put("llimit", lLimit);
 
 		// If not...
 		if (!isCurator) {

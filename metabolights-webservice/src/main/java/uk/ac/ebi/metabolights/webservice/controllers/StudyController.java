@@ -176,7 +176,6 @@ public class StudyController extends BasicController{
 
 		return restResponse;
 
-
 	}
 
 	/**
