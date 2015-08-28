@@ -138,8 +138,15 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		// Calculate the date limits
 		Date todayMidNight = DateUtils.round(new Date(), Calendar.DAY_OF_MONTH);
 
-		// 0 means today
-		Date lLimit = DateUtils.addDays(todayMidNight,numberOfDays);
+		// 0 will get all studies until today
+		Date lLimit = null;
+
+		if (numberOfDays!=0){
+			lLimit = DateUtils.addDays(todayMidNight,numberOfDays);
+		} else {
+			lLimit = DateUtils.addDays(todayMidNight, -3000);
+		}
+
 		Date uLimit = DateUtils.addDays(todayMidNight,numberOfDays+1);
 
 		query = query + " where (study.releaseDate <:ulimit and study.releaseDate >=:llimit and study.status= " + Study.StudyStatus.INREVIEW.ordinal() + ")";

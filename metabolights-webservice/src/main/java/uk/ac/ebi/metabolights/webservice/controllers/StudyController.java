@@ -40,6 +40,7 @@ import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -138,6 +139,55 @@ public class StudyController extends BasicController{
 
 	}
 
+	@RequestMapping("makestudiespublic")
+	@ResponseBody
+	public RestResponse<ArrayList<String>> makeStudiesPublic() throws DAOException {
+
+		logger.info("Making studies public");
+
+		RestResponse<ArrayList<String>> response = new RestResponse<>();
+		response.setContent(new ArrayList<String>());
+
+		studyDAO = getStudyDAO();
+
+		List<String> studyList = studyDAO.getStudiesToGoLiveList(getUser().getApiToken());
+
+		String itemLog;
+		int errors = 0;
+
+		for (String studyIdentifier : studyList) {
+
+			try {
+				updateStatus(studyIdentifier, LiteStudy.StudyStatus.PUBLIC);
+				itemLog = "Study " + studyIdentifier + " made PUBLIC.";
+
+			} catch (Exception e) {
+
+				itemLog = "Can't make " + studyIdentifier + " PUBLIC: " + e.getMessage();
+				logger.error(itemLog, studyIdentifier,e);
+				errors++;
+				response.setErr(e);
+			}
+
+			response.getContent().add(itemLog);
+
+		}
+
+		if (errors > 0) {
+			response.setMessage("There were " + errors + " errors out of " + studyList.size() + ". Check content for details. Last error is in the error object.");
+		} else {
+			if (studyList.size()== 0){
+				response.setMessage("There isn't any study due to be public today.");
+			} else {
+
+				response.setMessage("All studies were made public. See content for list.");
+			}
+		}
+
+		return response;
+
+	}
+
 
 	/**
 	 * To update the public release date of a study.
@@ -186,7 +236,29 @@ public class StudyController extends BasicController{
 	 */
 	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/status", method= RequestMethod.PUT)
 	@ResponseBody
-	public RestResponse<Boolean> updateStatus(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody LiteStudy.StudyStatus newStatus) throws DAOException, IsaTabException, IndexingFailureException {
+	public RestResponse<Boolean> updateStatusUrl(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody LiteStudy.StudyStatus newStatus) {
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+
+		try {
+			newStatus = updateStatus(studyIdentifier, newStatus);
+
+			restResponse.setContent(true);
+			restResponse.setMessage("Status for " + studyIdentifier + " updated to " + newStatus );
+
+		} catch (Exception e) {
+
+			restResponse.setMessage("Couldn't update status for " + studyIdentifier + ": " + e.getMessage());
+			restResponse.setErr(e);
+		}
+
+
+		return restResponse;
+
+	}
+
+
+	private LiteStudy.StudyStatus updateStatus(String studyIdentifier, LiteStudy.StudyStatus newStatus) throws DAOException, IsaTabException, IndexingFailureException {
 
 		User user = getUser();
 
@@ -203,18 +275,12 @@ public class StudyController extends BasicController{
 
 		indexingService.indexStudy(study);
 
-		RestResponse<Boolean> restResponse = new RestResponse<>();
-		restResponse.setContent(true);
-		restResponse.setMessage("Status for " + studyIdentifier + " updated to " + study.getStudyStatus() );
-
 		logger.info("{} study status updated." , studyIdentifier);
 
 		// Email about this
 		emailService.sendStatusChanged(study);
 
-		return restResponse;
-
-
+		return study.getStudyStatus();
 	}
 
 
