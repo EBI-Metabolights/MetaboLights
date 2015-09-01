@@ -31,6 +31,7 @@ import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -83,6 +84,7 @@ public class LiteStudy extends Entity {
 	private Study.StudyStatus studyStatus = Study.StudyStatus.SUBMITTED;
 	private Date studyPublicReleaseDate;
 	private String obfuscationCode = java.util.UUID.randomUUID().toString();
+	private String studySize = "0M";
 
 
 	// Collections
@@ -200,6 +202,13 @@ public class LiteStudy extends Entity {
 
 	public void setObfuscationCode(String obfuscationCode) {
 		this.obfuscationCode = obfuscationCode;
+	}
+	public String getStudySize() {
+		return studySize;
+	}
+
+	public void setStudySize(String studysize) {
+		this.studySize = studysize;
 	}
 
 

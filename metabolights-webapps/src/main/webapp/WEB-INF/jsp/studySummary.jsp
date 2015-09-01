@@ -59,6 +59,7 @@
 
 	<div class='grid_6 omega'>
 		<spring:message code="label.expId" />: <strong>${liteStudy.studyIdentifier}</strong><br/>
+		<spring:message code="label.filesize" />: <strong>${liteStudy.studySize}</strong><br/>
 		<spring:message code="label.subm" />&nbsp;
 		<ul id="resultList">
 			<c:forEach var="owner" items="${liteStudy.users}">

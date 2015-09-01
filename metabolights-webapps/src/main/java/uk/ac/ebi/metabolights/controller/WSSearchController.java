@@ -224,7 +224,6 @@ public class WSSearchController extends AbstractController{
 		addFacet("organism.organismPart", emptyQuery);
 		addFacet("users.fullName", emptyQuery);
 
-
 //		<c:if test="${not empty usersFullName}">
 //				,"lines":[{"value":"${usersFullName}","checked":true}]
 //			</c:if>
