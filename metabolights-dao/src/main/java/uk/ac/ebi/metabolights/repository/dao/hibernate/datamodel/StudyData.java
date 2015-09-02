@@ -51,14 +51,14 @@ public class StudyData  extends DataModel<Study> {
 	// Initialise release date to 30 days after today.
 	private Date releaseDate =  new Date(DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH).getTime() + (1000L*60L*60L*24L*30L));
 	private Set<UserData> users = new HashSet<>();
-	private String studysize = "0M";
+	private BigDecimal studysize = new BigDecimal(0);
 
 	@Column(name="studysize")
-	public String getStudysize() {
+	public BigDecimal getStudysize() {
 		return studysize;
 	}
 
-	public void setStudysize(String studysize) {
+	public void setStudysize(BigDecimal studysize) {
 		this.studysize = studysize;
 	}
 
