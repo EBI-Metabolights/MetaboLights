@@ -94,6 +94,12 @@
             });
         });
 
+//        $(function() {
+//            $('#accordion h5.none').accordion({
+//                collapsible: false
+//            });
+//        });
+
 
         $("#shareInfo").hide();
 
@@ -110,7 +116,7 @@
             e.preventDefault();
 
             // setter
-            $("#tabs").tabs( "option", "active", -1 );
+            $("#tabs").tabs( "option", "active", -2 );
             $("#tabs-files").effect("highlight", {color: '#E2BD97'}, 1700);
         });
 
@@ -311,7 +317,7 @@
             </c:if>
 
             <li>
-                <a href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/></a>
+                <a id="valid-tab" href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/></a>
             </li>
 
         </ul>
@@ -584,27 +590,42 @@
                 <fieldset class="box">
                     <legend><spring:message code="label.studyvalidation"/>:</legend>
                     <br/>
-                    We have the found the following information in this study
-                    <c:if test="${study.validations.passedMinimumRequirement == false}">
-                       STUDY FAILED
-                    </c:if>
-                    <c:if test="${study.validations.passedMinimumRequirement == true}">
-                        STUDY PASSED
-                    </c:if>
+                    We have the found the following information in this study:
+                    <span aria-hidden="true" style="color:darkgreen">&#10004;</span> Provided
+                    <span aria-hidden="true" style="color:red">&#10008;</span> Not provided (Mandatory)
+                    <span aria-hidden="true" style="color:darkorange">&#10008;</span> Not provided (Optional)
+
+                    <%--<c:if test="${study.validations.passedMinimumRequirement == false}">--%>
+                       <%--STUDY FAILED--%>
+                    <%--</c:if>--%>
+                    <%--<c:if test="${study.validations.passedMinimumRequirement == true}">--%>
+                        <%--STUDY PASSED--%>
+                    <%--</c:if>--%>
                     &nbsp;
                     <c:forEach var="validation" items="${study.validations.entries}" >
-                    <li>${validation.description}
-                        <%--&nbsp;--%>
-                            <%--${validation.passedRequirement}--%>
-                        <%--&nbsp;--%>
-                        <c:if test="${validation.passedRequirement}">
-                        &nbsp;
-                        <span aria-hidden="true" class="iconTick">&#10004;</span>
+                      <%--&lt;%&ndash;&nbsp;&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;${validation.passedRequirement}&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;&nbsp;&ndash;%&gt;--%>
+                         <c:if test="${validation.passedRequirement}">
+                            <div class="accordion">
+                                <h5 class="none"><span aria-hidden="true" style="color:darkgreen">&#10004;</span>  &nbsp; ${validation.description}</h5>
+                                <div>${validation.message}</div>
+                            </div>
+                         </c:if>
+                         <c:if test="${validation.passedRequirement == false}">
+                                <c:if test="${validation.type == 'OPTIONAL'}">
+                                    <div class="accordion">
+                                        <h5><span aria-hidden="true" style="color:darkorange">&#10008;</span>   &nbsp;${validation.description}</h5>
+                                        <div>${validation.message}</div>
+                                    </div>
+                                </c:if>
+                                <c:if test="${validation.type == 'MANDATORY'}">
+                                    <div class="accordion">
+                                        <h5><span aria-hidden="true" style="color:red">&#10008;</span>   &nbsp; ${validation.description}</h5>
+                                        <div>${validation.message}</div>
+                                    </div>
+                                </c:if>
                         </c:if>
-                       <c:if test="${validation.passedRequirement == false}">
-                        &nbsp;
-                        <span aria-hidden="true" class="iconCross">&#10008;</span>
-                    </c:if>
                     </c:forEach>
                 </fieldset>
             </c:if>
