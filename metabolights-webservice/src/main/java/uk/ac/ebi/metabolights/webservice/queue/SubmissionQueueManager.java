@@ -61,7 +61,7 @@ public class SubmissionQueueManager {
 			start();
 		}
 	}
-	private void start(){
+	public void start(){
 
 		// If timer is running
 		if (tm !=null) return;
@@ -80,23 +80,17 @@ public class SubmissionQueueManager {
 			
 		
 	}
-	public static void stop(){
+	public void stop(){
 		
 		if(tm == null) return;
 		
-		log.info("Submission queue is stoping.");
-		tm.cancel();
+		log.info("Submission queue is stopping\t\ttm.cancel();\n.");
 		tm = null;
 		
 	}
-	public static boolean getIsRunning(){
+	public boolean getIsRunning(){
 		return (tm!=null);
 	}
 
-//	public void setUserService(UserService us) {
-//		userService = us;
-//	}
-//	public static UserService getUserService(){
-//		return userService;
-//	}
+
 }

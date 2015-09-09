@@ -88,6 +88,8 @@ public class MetabolightsWsClient {
     private static final String COMPOUND_PATH = "compounds/";
     public static final String STUDIES = "studies";
     public static final String COMPOUNDS = "compounds";
+    private static final String QUEUE_PATH = "queue/";
+
     private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
 
@@ -99,6 +101,15 @@ public class MetabolightsWsClient {
     }
 
     public MetabolightsWsClient() {
+    }
+
+
+    public String getMetabolightsWsUrl() {
+        return metabolightsWsUrl;
+    }
+
+    public void setMetabolightsWsUrl(String metabolightsWsUrl) {
+        this.metabolightsWsUrl = metabolightsWsUrl;
     }
 
     public String getTokenHeaderName() {
@@ -156,7 +167,7 @@ public class MetabolightsWsClient {
 
             // Read response
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException(path + "(" + method + ") request failed : HTTP error code : "
+                throw new RuntimeException("MetaboLights Java WS client: " + conn.getURL().toString() + "(" + method + ") request failed : HTTP error code : "
                         + conn.getResponseCode());
             }
 
@@ -270,6 +281,9 @@ public class MetabolightsWsClient {
         return INDEXING_PATH + action;
     }
 
+    private String getQueuePath(String action) {
+        return QUEUE_PATH + action;
+    }
     public RestResponse<MetaboliteAssignment> getMetabolites(String studyIdentifier, int assayNumber) {
 
         String path = getStudyPath(studyIdentifier) + "/assay/" + assayNumber + "/maf";
@@ -666,5 +680,43 @@ public class MetabolightsWsClient {
         List<String> compoundList = new ArrayList<>();
         compoundList.add(compound);
         return indexCompounds(compoundList);
+    }
+
+
+    /**
+     *
+     *
+     * QUEUE MANAGEMENT OPERATIONS
+     *
+     *
+     */
+
+
+    /**
+     * Queue status
+     */
+    public RestResponse<Boolean> getQueueStatus(){
+
+        String path = getQueuePath("status");
+
+        // Make the request
+        String responseS = makeGetRequest(path);
+
+        return deserializeJSONString(responseS, Boolean.class);
+
+    }
+
+    /**
+     * Toggle queue
+     */
+    public RestResponse<Boolean> toggleQueue(){
+
+        String path = getQueuePath("toggle");
+
+        // Make the request
+        String responseS = makeGetRequest(path);
+
+        return deserializeJSONString(responseS, Boolean.class);
+
     }
 }

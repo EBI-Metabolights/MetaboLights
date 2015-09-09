@@ -67,10 +67,14 @@ $(function() {
 
     function toggleQueue(instance) {
       $.ajax({
-        url: "proxy?url=http://" + instance + '/metabolights/togglequeue',
+        url: "togglequeue",
+        data:{
+           'user_token': '${user_token}',
+           'instance': instance
+        },
         success: function(data) {
 
-            $("[instance='" + instance + "']").html(data);
+            $("[instance='" + instance + "']").html(data.toString());
 
         }
       });
@@ -81,9 +85,13 @@ $(function() {
         var instance = statusTD.getAttribute("instance");
 
         $.ajax({
-            url: "proxy?url=http://" + instance + '/metabolights/queuestatus',
+            url: "queuestatus",
+            data:{
+                'user_token': '${user_token}',
+                'instance': instance
+            },
             success: function(data) {
-                $(statusTD).html(data);
+                $(statusTD).html(data.toString());
             }
         });
     }
@@ -267,7 +275,7 @@ $(function() {
                 </table>
             </c:if>
             <br/><br/>
-            <c:if test="${not empty queuerunnig}">
+            <c:if test="${not empty queueRunning}">
 
                 <c:if test="${not empty instances}">
                     <table id="instances">

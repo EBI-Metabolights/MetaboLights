@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -167,13 +166,15 @@ public class ManagerController extends AbstractController{
 		mav.addObject("processFolder", (getFilesInFolder(new File(SubmissionQueue.getProcessFolder()))));
 		mav.addObject("errorFolder", (getFilesInFolder(new File(SubmissionQueue.getErrorFolder()))));
 		mav.addObject("backUpFolder", (getFilesInFolder(new File(SubmissionQueue.getBackUpFolder()))));
-//		mav.addObject("queuerunnig", SubmissionQueueManager.getIsRunning());
 		mav.addObject("studiesHealth", getStudiesHealth());
 
         // Return ftp locations
         mav.addObject("studiesLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("studiesLocation")))));
         mav.addObject("galleryIds", homePageController.getGalleryItemsIds());
 
+		// Queue management
+		mav.addObject("user_token", LoginController.getLoggedUser().getApiToken());
+		mav.addObject("queueRunning", EntryController.getMetabolightsWsClient().getQueueStatus().getContent());
 
         MetaboLightsParameters instances = parametersService.getMetaboLightsParametersOnName("instances");
 
@@ -225,37 +226,46 @@ public class ManagerController extends AbstractController{
 		return studiesHealth;
 	}
 	
-	@RequestMapping(value = "/togglequeue", method = RequestMethod.GET)
-	public @ResponseBody String switchqueue() {
+	@RequestMapping(value = "/togglequeue")
+	public @ResponseBody String toggleQueue(@RequestParam(required = true, value = "user_token") String user_token, @RequestParam(required = true, value = "instance") String instance) {
 
+		String wsUrl = "http://" + EntryController.composeWSPath(instance + "/metabolights/" );
 
-		try{
+		MetabolightsWsClient client = EntryController.getMetabolightsWsClient(user_token, wsUrl);
 
-//			if (SubmissionQueueManager.getIsRunning()){
-//
-//				SubmissionQueueManager.stop();
-//
-//
-//			}else{
-//				SubmissionQueueManager.start();
-//
-//			}
+		RestResponse<Boolean> response;
 
-		}catch (Exception e){
-			// Do nothing, better return error message.
+		try {
+
+			response = client.toggleQueue();
+			return response.getMessage();
+
+		} catch (Exception e){
+
+			return e.getMessage();
 		}
-
-	    return getQueueStatus();
 	}
 
-    @RequestMapping(value = "/queuestatus", method = RequestMethod.GET)
-    public @ResponseBody String getQueueStatus() {
+    @RequestMapping(value = "/queuestatus")
+    public @ResponseBody String getQueueStatus(@RequestParam(required = true, value = "user_token") String user_token, @RequestParam(required = true, value = "instance") String instance) {
 
-        String result = "";
+		String wsUrl = "http://" + EntryController.composeWSPath(instance + "/metabolights/" );
 
-//        return SubmissionQueueManager.getIsRunning()?"ON":"OFF";
-		return "NOT IMPLEMENTED";
-    }
+		MetabolightsWsClient client = EntryController.getMetabolightsWsClient(user_token, wsUrl);
+
+		RestResponse<Boolean> response;
+
+		try {
+
+			response = client.getQueueStatus();
+			return response.getMessage();
+
+		} catch (Exception e){
+
+			return e.getMessage();
+		}
+
+	}
 
 	@RequestMapping({"/users"})
 	public ModelAndView users(){
