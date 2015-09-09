@@ -28,6 +28,7 @@ import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,6 +51,18 @@ public class StudyData  extends DataModel<Study> {
 	// Initialise release date to 30 days after today.
 	private Date releaseDate =  new Date(DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH).getTime() + (1000L*60L*60L*24L*30L));
 	private Set<UserData> users = new HashSet<>();
+	private BigDecimal studysize = new BigDecimal(0);
+
+	@Column(name="studysize")
+	public BigDecimal getStudysize() {
+		return studysize;
+	}
+
+	public void setStudysize(BigDecimal studysize) {
+		this.studysize = studysize;
+	}
+
+
 
 	@Column(unique = true)
 	public String getAcc() {
@@ -112,6 +125,7 @@ public class StudyData  extends DataModel<Study> {
 		this.acc = businessModelEntity.getStudyIdentifier();
 		this.status = businessModelEntity.getStudyStatus().ordinal();
 		this.releaseDate = businessModelEntity.getStudyPublicReleaseDate();
+		this.studysize = businessModelEntity.getStudySize();
 
 		// Convert Users...
 		this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
@@ -147,6 +161,7 @@ public class StudyData  extends DataModel<Study> {
 		study.setStudyIdentifier(this.acc);
 		study.setStudyStatus(Study.StudyStatus.values()[this.status]);
 		study.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
+		study.setStudySize(this.studysize);
 
 	}
 

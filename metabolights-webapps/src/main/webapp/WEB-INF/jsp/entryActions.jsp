@@ -36,6 +36,18 @@
 
                                     <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>
 
+                                <c:if test="${(study.studyStatus == 'SUBMITTED' || (curator && (study.studyStatus != 'INCURATION')))}">
+                                    <c:if test="${(study.validations.passedMinimumRequirement == 'TRUE')}">
+                                        <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>
+                                    </c:if>
+                                    <c:if test="${(study.validations.passedMinimumRequirement == 'FALSE')}">
+                                        <c:if test="${(!curator)}">
+                                            <li><a confirmationText="Please make sure the study has all the required info" onclick="return warnAction(this);">in curation</a></li>
+                                        </c:if>
+                                        <c:if test="${(curator)}">
+                                            <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Please make sure the study has all the required info" onclick="return warnAndProceedAction(this);">in curation</a></li>
+                                        </c:if>
+                                    </c:if>
                                 </c:if>
                                 <c:if test="${curator && (study.studyStatus != 'INREVIEW')}">
                                     <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INREVIEW" confirmationText="Is the study ready to be reviewed?" onclick="return confirmAction(this);">in review</a></li>
@@ -68,6 +80,8 @@
 
 <div id="confirmaction" title="Are you sure..." style="display: none">
 </div>
+<div id="warnaction" title="The study is incomplete" style="display: none">
+</div>
 <script type="text/javascript">
    function confirmAction(element){
 
@@ -90,6 +104,65 @@
                        $(this).dialog("close");
                    }
                }
+       });
+
+//       $(dialog).dialog("open");
+
+       return false;
+   }
+   function warnAction(element){
+
+       var dialog = $("#warnaction");
+
+       // Fill dialog
+       var targetUrl = $(element).attr("href");
+       var text = $(element).attr("confirmationText");
+
+       dialog.text(text);
+
+       $(dialog).dialog({
+//           autoOpen: false,
+           modal: true,
+           buttons : {
+               "Check" : function() {
+                  // window.location.href = targetUrl;
+                  $(this).dialog("close");
+                  document.getElementById("valid-tab").click();
+               },
+               "Cancel" : function() {
+                   $(this).dialog("close");
+               }
+           }
+       });
+
+//       $(dialog).dialog("open");
+
+       return false;
+   }
+
+   function warnAndProceedAction(element){
+
+       var dialog = $("#warnaction");
+
+       // Fill dialog
+       var targetUrl = $(element).attr("href");
+       var text = $(element).attr("confirmationText");
+
+       dialog.text(text);
+
+       $(dialog).dialog({
+//           autoOpen: false,
+           modal: true,
+           buttons : {
+               "Check" : function() {
+                   // window.location.href = targetUrl;
+                   $(this).dialog("close");
+                   document.getElementById("valid-tab").click();
+               },
+               "Proceed anyway" : function() {
+                   window.location.href = targetUrl;
+               }
+           }
        });
 
 //       $(dialog).dialog("open");
