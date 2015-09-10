@@ -358,14 +358,6 @@ $(function() {
         <div class="refLayerBox" id="referencelayerTab">
             <div class="grid_24 ">
                 <div class="grid_24 title">
-                    Clear cache
-                </div>
-                <div class="grid_24">
-                    <a href="clearreflayercache">Click to clear cache</a>
-                </div>
-            </div>
-            <div class="grid_24 ">
-                <div class="grid_24 title">
                     Import metabolites
                 </div>
                 <div class="grid_24">

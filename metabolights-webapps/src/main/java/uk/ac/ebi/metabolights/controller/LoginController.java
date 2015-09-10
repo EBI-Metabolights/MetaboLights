@@ -67,7 +67,14 @@ public class LoginController extends AbstractController{
 	@RequestMapping({"/login-success"})
 	public ModelAndView loggedIn() {
 	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
-		return new ModelAndView ("redirect:mysubmissions");
+
+		MetabolightsUser user = LoginController.getLoggedUser();
+
+		if (user.isCurator()){
+			return new ModelAndView ("redirect:useroptions");
+		} else {
+			return new ModelAndView("redirect:mysubmissions");
+		}
     }
 
 	@RequestMapping({"/loggedout"})
