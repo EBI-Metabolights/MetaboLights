@@ -38,11 +38,16 @@ public class SubmissionQueueManager {
 
 	private static Logger log = LoggerFactory.getLogger(SubmissionQueueManager.class);
 	private static Timer tm;
-	@Autowired
-	private ElasticSearchService searchService;
+	public static ElasticSearchService searchService;
 
-	
-//	private static UserService userService;
+	public ElasticSearchService getSearchService() {
+		return searchService;
+	}
+
+	@Autowired
+	public void setSearchService(ElasticSearchService searchService) {
+		SubmissionQueueManager.searchService = searchService;
+	}
 
 	private String queueRunner;
 	public SubmissionQueueManager(){
