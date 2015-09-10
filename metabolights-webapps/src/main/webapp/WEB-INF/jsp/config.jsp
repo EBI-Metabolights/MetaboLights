@@ -256,7 +256,7 @@ $(function() {
                         </tr>
                     </thead>
                 <c:forEach var="file" items="${errorFolder}">
-                    <tr><td>${file.name}</td></tr>
+                    <tr><td><a href="errorFile/${file.name}">${file.name}</a></td></tr>
                 </c:forEach>
                 </table>
             </c:if>

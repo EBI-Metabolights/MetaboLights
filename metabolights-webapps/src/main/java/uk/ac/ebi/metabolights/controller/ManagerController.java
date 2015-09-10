@@ -168,7 +168,8 @@ public class ManagerController extends AbstractController{
 		mav.addObject("backUpFolder", (getFilesInFolder(new File(SubmissionQueue.getBackUpFolder()))));
 		mav.addObject("studiesHealth", getStudiesHealth());
 
-        // Return ftp locations
+
+		// Return ftp locations
         mav.addObject("studiesLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("studiesLocation")))));
         mav.addObject("galleryIds", homePageController.getGalleryItemsIds());
 
