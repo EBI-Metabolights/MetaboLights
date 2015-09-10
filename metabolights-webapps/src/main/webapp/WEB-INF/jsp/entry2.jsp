@@ -36,6 +36,7 @@
 
 <link rel="stylesheet" href="cssrl/iconfont/font_style.css" type="text/css" />
 <link rel="stylesheet"  href="css/ChEBICompound.css" type="text/css" />
+<link rel="stylesheet"  href="css/metabolights.css" type="text/css" />
 <%--<link rel="stylesheet"  href="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.css" type="text/css" />--%>
 <link rel="stylesheet"  href="cssrl/dataTable.css" type="text/css" />
 
@@ -231,7 +232,13 @@
 <br/>
 
 <div class="push_1 grid_22 alpha omega">
-    <h3>${study.studyIdentifier}:&nbsp;${study.title}</h3>
+    <h3>${study.studyIdentifier}:&nbsp;${study.title}
+        <span class="right Share_study">
+            <a id="share" class="noLine" href="#" title="<spring:message code="label.study.share"/>">
+            <span class="icon icon-generic" data-icon="L"><spring:message code="label.study.share"/>
+            </a>
+        </span>
+    </h3>
 </div>
 
 <div class="push_1 grid_22 subtitle alpha omega">
