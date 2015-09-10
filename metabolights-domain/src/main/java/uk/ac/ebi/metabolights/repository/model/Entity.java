@@ -27,6 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 
+import java.util.Collection;
+
 /**
  * User: conesa
  * Date: 24/02/15
@@ -44,6 +46,7 @@ public class Entity {
 	private static final Logger logger = LoggerFactory.getLogger(Entity.class);
 
 	private Long id = null;
+	private Collection<Organism> organism;
 
 	public Long getId() {
 		return id;
@@ -51,5 +54,13 @@ public class Entity {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Collection<Organism> getOrganism() {
+		return organism;
+	}
+
+	public void setOrganism(Collection<Organism> organism) {
+		this.organism = organism;
 	}
 }

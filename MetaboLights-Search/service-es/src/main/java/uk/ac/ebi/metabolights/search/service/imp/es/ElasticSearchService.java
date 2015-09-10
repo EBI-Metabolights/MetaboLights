@@ -56,9 +56,12 @@ import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+import uk.ac.ebi.metabolights.repository.model.Organism;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.*;
 
@@ -234,13 +237,15 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 					addObject("accession", "type", "string", "index", "not_analyzed");
 
-//				endObject();
-//
+					// Collections
+					// Organisms
+					startObject("organism")
+						.startObject(PROPERTIES);
+							addObject("organismName", "type", "string", "index", "not_analyzed");
+						endObject()
+					.endObject();
 
-
-			endObject();
-
-
+			    endObject();
 
 		} catch (IOException e) {
 			throw new IndexingFailureException("Can't build study mapping for the index.", e);
@@ -1095,8 +1100,34 @@ public class ElasticSearchService implements SearchService <Entity> {
 	private void indexCompound(MetaboLightsCompound compound) throws IndexingFailureException {
 
 		String id=compound.getAccession();
+
+		// Fill organism collection, to be used for the facets
+		fillOrganisms(compound);
+
+
 		String compoundS = entity2String(compound);
 		IndexResponse response = client.prepareIndex(indexName, COMPOUND_TYPE_NAME, id).setSource(compoundS).execute().actionGet();
+
+	}
+
+	private void fillOrganisms(MetaboLightsCompound compound) {
+
+		ArrayList<Organism> organisms = new ArrayList<>();
+
+		for (MetSpecies metSpecies : compound.getMetSpecies()) {
+
+			Species specie = metSpecies.getSpecies();
+
+			Organism organism = new Organism();
+
+			organism.setOrganismName(specie.getSpecies());
+
+			organisms.add(organism);
+
+		}
+
+
+		compound.setOrganism(organisms);
 
 	}
 
