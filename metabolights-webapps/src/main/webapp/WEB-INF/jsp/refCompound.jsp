@@ -68,7 +68,6 @@
                     }
 
                     if ($(ui.newTab.children('a')[0]).attr('href') == "#pathways-tab") {
-                        alert();
                         pathways.displayPathwayData("${compound.mc.chebiId}",'pathwayContainer');
                     }
 
