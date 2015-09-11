@@ -35,7 +35,6 @@ var pathways = (function() {
 	}
 
 	function displayPathwayData(chemId, domId){
-		alert(chemId);
 		var pathways = getAssociatedPathways(chemId);
 		var myDiv = document.getElementById(domId);
 		$('#'+domId).empty();
