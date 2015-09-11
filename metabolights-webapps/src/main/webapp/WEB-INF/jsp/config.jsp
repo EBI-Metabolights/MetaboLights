@@ -302,8 +302,6 @@ $(function() {
         <div id="studyHealthTab">
             <br/>
 
-            <a href="reindex" title="Reindex one-by-one">Reindex all the studies</a><br/>
-
             <c:if test="${not empty studiesHealth}">
                 <table cellpadding="5px" cellspacing="0px">
                     <tr><th>Study</th><th>is Public?</th><th>Must be under</th><th>is it there?</th></tr>
@@ -337,8 +335,6 @@ $(function() {
         </div>
 
         <div id="indexTab">
-            <h3>All</h3>
-            <a href="reindex" title="Reindex all!!">Reindex all</a><br/>
 
             <h3>Studies</h3>
             <a href="deleteindexedstudies" title="Delete all indexed studies">Delete all indexed studies</a><br/>
