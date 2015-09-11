@@ -10,6 +10,7 @@
 <script type="text/javascript" src="javascript/st.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.Rheaction.js"></script>
+<script type="text/javascript" src="javascript/wiki-pathways.js"></script>
 <link rel="stylesheet"  href="cssrl/biojs.Rheaction.css" type="text/css"/>
 <link rel="stylesheet"  href="css/st.css" type="text/css" />
 
@@ -60,6 +61,19 @@
 
                         initializeMSSpeckTackle();
                     }
+
+                    if ($(ui.newTab.children('a')[0]).attr('href') == "#msSpectra-tab") {
+
+                        initializeMSSpeckTackle();
+                    }
+
+                    if ($(ui.newTab.children('a')[0]).attr('href') == "#pathways-tab") {
+                        alert();
+                        pathways.displayPathwayData("${compound.mc.chebiId}",'pathwayContainer');
+                    }
+
+
+
 
                     // to make bookmarkable
                     document.location.hash =  "#"+ui.newTab.attr("hash");
@@ -344,60 +358,6 @@
         });
 
 
-        $('#pathwayContainer').svg({onLoad: drawIntro});
-
-        function drawIntro(svg) {
-        };
-
-        $("#pathwayList").change(function (e) {
-            e.preventDefault();
-
-            /* Display the image */
-            var pathwayId = $(this).val();
-
-//            var container = $('#pathwayContainer');
-//            container.html('');
-//            container.append("<img id='pathway' src='pathway/" + pathwayId + "/png'/>");
-//
-//          $('[id=pathway]').imageLens({ lensSize: 350 , borderColor: "#666666", borderSize: 2});
-
-            svg = $('#pathwayContainer').svg('get');
-            svg.load('webservice/compounds/pathway/' + pathwayId + '/svg', {addTo: false, changeSize: true, onLoad: loadDone});
-
-            /* Show info in the info div*/
-            var pathwayInfoDiv = $('#pathwayInfo');
-            /* Get the selected option */
-            var option = $(this).find(":selected");
-
-
-            /* Get the pathway object (json element)*/
-            var pathway = pathwaysInfo[$(this)[0].selectedIndex];
-
-            if (pathway) {
-
-                var html = "generated from " + pathway.source + "<br/>for  " + pathway.species;
-
-                $.each(pathway.properties, function () {
-
-                    html = html + "<br/>" + this.name + ":"
-
-                    if (this.value.indexOf("http:") == 0) {
-                        html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
-                    } else {
-                        html = html + this.value;
-                    }
-
-                });
-                pathwayInfoDiv.html(html);
-
-            }
-
-        });
-
-
-        // And now fire change event when the DOM is ready
-        $('#pathwayList').trigger('change');
-
     });
 
     function showWait() {
@@ -558,34 +518,22 @@
         </div>
     </c:if>
         <c:if test="${compound.mc.hasPathways}">
-        <!-- Pathways -->
-        <div id="pathways-tab" class="tab">
-            <select id="pathwayList">
-                <c:forEach var="pathway" items="${compound.mc.metPathways}">
-                    <option value="${pathway.id}" source="${pathway.database.name}"
-                            species="${pathway.speciesAssociated.species}">${pathway.name}</option>
-                </c:forEach>
-            </select>
+            <!-- Pathways -->
+            <div id="pathways-tab" class="tab">
+                <section>
+                    <!-- Pathways -->
+                    <h3 class="pathways"><a id="pathways"><spring:message code="ref.compound.tab.pathways"/></a></h3>
 
-            <div id="pathwayInfo" class="specs"></div>
-            <div id="pathwayContainer"></div>
-            <script>
-                var pathwaysInfo = [
-                    <c:forEach var="pathway" items="${compound.mc.metPathways}" varStatus="pathwayLoopStatus">
-                    <c:if test="${pathwayLoopStatus.index gt 0}">,
-                    </c:if>
-                    {"id":${pathway.id}, "source": "${pathway.database.name}", "species": "${pathway.speciesAssociated.species}", "properties": [
-                        <c:forEach var="attribute" items="${pathway.attributes}" varStatus="attributeLoopStatus">
-                        <c:if test="${attributeLoopStatus.index gt 0}">,
-                        </c:if>
-                        {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
-                        </c:forEach>
-                    ]
-                    }
-                    </c:forEach>
-                ];
-            </script>
-        </div>
+                    <div id="pathwayContainer" height="100%" width="100%">
+                            <%--<object id="pathwayContainer" height="100%" width="100%" type="image/svg+xml">--%>
+                            <%--</object>--%>
+                            <%--<iframe   type="image/svg+xml">--%>
+                            <%--</iframe>--%>
+                    </div>
+                </section>
+            </div>
+
+
         </c:if>
         <c:if test="${compound.mc.hasNMR}">
         <!-- NMR Spectra -->
@@ -643,6 +591,7 @@
                 ];
 
             </script>
+
         </div>
     </c:if>
 </div> <%-- End of tabs--%>
