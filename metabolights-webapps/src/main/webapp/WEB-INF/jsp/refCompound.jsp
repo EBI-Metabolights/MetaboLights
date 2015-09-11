@@ -68,7 +68,6 @@
                     }
 
                     if ($(ui.newTab.children('a')[0]).attr('href') == "#pathways-tab") {
-                        alert();
                         pathways.displayPathwayData("${compound.mc.chebiId}",'pathwayContainer');
                     }
 
@@ -522,8 +521,6 @@
             <div id="pathways-tab" class="tab">
                 <section>
                     <!-- Pathways -->
-                    <h3 class="pathways"><a id="pathways"><spring:message code="ref.compound.tab.pathways"/></a></h3>
-
                     <div id="pathwayContainer" height="100%" width="100%">
                             <%--<object id="pathwayContainer" height="100%" width="100%" type="image/svg+xml">--%>
                             <%--</object>--%>

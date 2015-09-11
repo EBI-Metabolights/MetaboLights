@@ -40,11 +40,32 @@
 
 <%--</script>--%>
 <br/>
-<c:if test="${not empty message}">
-    <div id="dialog" title="MetaboLights message">
-        <p><b><c:out value="${message}"/></b></p>
+<div class="grid_24">
+    <div class="grid_6 alpha lp20">
+        <h2><spring:message code="title.serviceName" /></h2>
+        <p><spring:message code="msg.metabolightsAbout1" />&nbsp;<spring:message code="msg.metabolightsAbout" /></p>
     </div>
-</c:if>
+
+
+    <div class="grid_10">
+        <h2><spring:message code="title.download" /></h2>
+        <p>
+            <a class="icon icon-generic bigfont" data-icon="T" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
+            <spring:message code="msg.metabolightsAbout12" />
+        </p>
+        <br/>&nbsp;
+        <p>
+            <a class="icon icon-functional bigfont" data-icon="A" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
+            <spring:message code="msg.metabolightsAbout7" />
+        </p>
+    </div>
+
+    <div class="grid_7">
+        <a class="twitter-timeline"  href="https://twitter.com/MetaboLights" data-widget-id="642268788906422272">Tweets by @MetaboLights</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+</div>
+<br/>
 
 <%-- Gallery removed --%>
 <%--<c:if test="${not empty gallery}">--%>
@@ -91,28 +112,13 @@
 <%--</c:if>--%>
 
 <br/><br/>
-<div class="grid_5 alpha">
-    <h2><spring:message code="title.serviceName" /></h2>
-    <p><spring:message code="msg.metabolightsAbout1" />&nbsp;<spring:message code="msg.metabolightsAbout" /></p>
-</div>
 
-<div class="grid_11">
-        <h2><spring:message code="title.download" /></h2>
-        <p>
-            <a class="icon icon-generic bigfont" data-icon="T" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
-            <spring:message code="msg.metabolightsAbout12" />
-        </p>
-        <br/>&nbsp;
-        <p>
-            <a class="icon icon-functional bigfont" data-icon="A" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
-            <spring:message code="msg.metabolightsAbout7" />
-        </p>
-</div>
 
-<div class="grid_8 omega">
+
+<div class="grid_24">
     <%--<h2><spring:message code="title.submit"/> </h2>--%>
     <br/><br/><br/>
-    <div class='grid_20 alpha omega prefix_2'>
+    <div class='grid_8 prefix_3 postfix_2'>
         <a href="submittoqueue">
             <div class="bigbutton maincolorI">
                 <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
@@ -120,13 +126,13 @@
             </div>
         </a>
     </div>
-    <div class="grid_24"><p>&nbsp;</p></div>
-    <div class='grid_20 alpha omega prefix_2'>
+    <div class='grid_8 prefix_2 postfix_2'>
         <a href="mysubmissions?status=PRIVATE">
             <div class="bigbutton seccolorI">
 
                 <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
                 <span><spring:message code="label.updateOldStudySub"/></span>
+                </br>
             </div>
         </a>
     </div>
