@@ -58,6 +58,7 @@ import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
+import javax.sound.midi.Soundbank;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -253,10 +254,12 @@ public class MetabolightsWsClient {
 
     private RestResponse<Compound> getCompoundRestResponse(String path) {
         // Make the request
+
         String response = makeGetRequest(path);
 
         return deserializeJSONString(response, Compound.class);
     }
+
     private String getObfuscationPath(String obfuscationCode) {
         return STUDY_PATH + OBFUSCATIONCODE_PATH + obfuscationCode;
     }
@@ -272,6 +275,18 @@ public class MetabolightsWsClient {
         return deserializeJSONString(response, String[].class);
 
     }
+
+    public RestResponse<String[]> getAllCompoundsAcc() {
+
+        logger.debug("Getting all public compound identifiers from the MetaboLights WS client");
+
+        // Make the request
+        String response = makeGetRequest(COMPOUND_PATH + "list");
+
+        return deserializeJSONString(response, String[].class);
+
+    }
+
 
     private String getStudyPath(String studyIdentifier) {
         return STUDY_PATH + studyIdentifier;
@@ -511,6 +526,7 @@ public class MetabolightsWsClient {
     public RestResponse<Compound> getCompound(String compoundIdentifier) {
 
         logger.debug("Compound " + compoundIdentifier + " requested to the MetaboLights WS client");
+        System.out.println("Compound " + compoundIdentifier + " requested to the MetaboLights WS client");
 
         String path = getCompoundPath(compoundIdentifier);
 
