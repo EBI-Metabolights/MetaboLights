@@ -134,8 +134,37 @@ public class CompoundController extends BasicController {
 
 		FileUtil.streamFile(pathway.getPathToPathwayFile(), response, "image/png");
 
-
 	}
+
+    @RequestMapping("list")
+    @ResponseBody
+    public RestResponse<String[]> getAllCompoundIdentifiers() throws DAOException {
+
+        logger.info("Requesting a list of all public compounds from the webservice");
+
+        RestResponse<String[]> response = new RestResponse<>();
+
+        try {
+            List<String> compoundList = ModelObjectFactory.getAllCompoundsId();;
+            String[] strarray = compoundList.toArray(new String[0]);
+            response.setContent(strarray);
+        } catch (Exception e) {
+            logger.error("Can't get the list of studies", e);
+            response.setMessage("Can't get the study requested.");
+            response.setErr(e);
+        }
+
+        return response;
+
+    }
+
+    @RequestMapping(value = COMPOUND_MAPPING + "/getStudies")
+    @ResponseBody
+    private String getStudies(@PathVariable(COMPOUND_VAR) String compound) {
+
+        return compound;
+    }
+
     @RequestMapping(value = COMPOUND_MAPPING + "/reactions")
     @ResponseBody
     private RestResponse<List<Reaction>> showReactions(@PathVariable(COMPOUND_VAR) String compound) {
