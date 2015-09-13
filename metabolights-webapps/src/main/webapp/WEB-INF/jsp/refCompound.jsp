@@ -520,12 +520,8 @@
             <!-- Pathways -->
             <div id="pathways-tab" class="tab">
                 <section>
-                    <!-- Pathways -->
+                    <!-- Pathways Container -->
                     <div id="pathwayContainer" height="100%" width="100%">
-                            <%--<object id="pathwayContainer" height="100%" width="100%" type="image/svg+xml">--%>
-                            <%--</object>--%>
-                            <%--<iframe   type="image/svg+xml">--%>
-                            <%--</iframe>--%>
                     </div>
                 </section>
             </div>
