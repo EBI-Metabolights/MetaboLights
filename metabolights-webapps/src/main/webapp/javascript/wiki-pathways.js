@@ -35,8 +35,10 @@
 		}
 
 		function displayPathwayData(chemId, domId){
+
 			var pathways = getAssociatedPathways(chemId);
 			var myDiv = document.getElementById(domId);
+
 			$('#'+domId).empty();
 
 			var pathwayCanvas = document.createElement("div");
