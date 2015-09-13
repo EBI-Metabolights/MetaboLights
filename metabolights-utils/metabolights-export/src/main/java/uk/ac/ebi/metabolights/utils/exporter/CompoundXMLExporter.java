@@ -99,13 +99,14 @@ public class CompoundXMLExporter {
             setRootXmlElements();
 
             //Loop thorough the compounds returned from the WS
-            addCompounds();
+            addCompounds(doc);
 
             writeDocument(doc);
             return true;
         } catch (Exception e) {
             logger.error("Could not create XML document "+fileName);
             System.out.println("Could not create XML document "+fileName);
+
             return false;
         }
     }
@@ -196,6 +197,69 @@ public class CompoundXMLExporter {
         return response.getContent();
     }
 
+    public static void addCompounds(Document doc_){
+        //First, add the surrounding <entries> tags
+        Element entries = doc_.createElement(COMPOUNDS);
+        int numberofcompounds = allCompounds.length;
+        //Add all the public studies
+        int i =0;
+        for (String compoundAcc : allCompounds){
+            try {
+                System.out.println("Processing compound " + compoundAcc);
+                logger.info("Processing Compound " + compoundAcc);
+
+                //TODO, add ontologies
+                //TODO, add pubmed
+
+                MetaboLightsCompound compound = getCompound(compoundAcc).getMc();
+
+                Element entry = doc_.createElement("compound");
+                entry.setAttribute("id", compoundAcc);
+
+                //Add the sub tree "additional_fields"
+                Element additionalField = doc_.createElement("additional_fields");
+                entry.appendChild(additionalField);
+
+                additionalField.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
+                additionalField.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
+                additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
+                additionalField.appendChild(createChildElement(FIELD, "has_species", String.valueOf(compound.getHasSpecies())));
+
+                ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
+                Element metspec = doc_.createElement("MetSpecies");
+                ArrayList<String> StudyList = new ArrayList<>();
+                for (MetSpecies species : metSpecies) {
+                    Element spec = doc_.createElement("Species");
+                    spec.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
+                    spec.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
+                    spec.appendChild(createChildElement(FIELD, "CrossReference", species.getCrossReference().getAccession()));
+
+                    metspec.appendChild(spec);
+
+                    if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
+                        System.out.println(species.getCrossReference().getDb().getName());
+                        StudyList.add(species.getCrossReference().getAccession());
+                    }
+                }
+                Element studiesAssoc = doc_.createElement("Studies");
+                for(String study: StudyList){
+                    studiesAssoc.appendChild(createChildElement(FIELD, "study", study));
+                }
+                additionalField.appendChild(metspec);
+                additionalField.appendChild(studiesAssoc);
+                //Add the complete study to the entry section
+                entries.appendChild(entry);
+            }catch (Exception e){
+                System.out.println(e.toString());
+            }
+            i++;
+            System.out.println(String.valueOf(i) + " ------- " +  String.valueOf(numberofcompounds - i));
+        }
+
+        //Add the complete study list to the entries section
+        doc_.getDocumentElement().appendChild(entries);
+    }
+
 
     private static void addCompounds(){
         //First, add the surrounding <entries> tags
@@ -233,18 +297,24 @@ public class CompoundXMLExporter {
                     metspec.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
                     metspec.appendChild(createChildElement(FIELD, "CrossReference", species.getCrossReference().getAccession()));
 
-                    if (species.getCrossReference().getDb().getName() == "MTBLS") {
+                    if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
+                        System.out.println(species.getCrossReference().getDb().getName());
                         StudyList.add(species.getCrossReference().getAccession());
                     }
                 }
                 additionalField.appendChild(metspec);
-                System.out.println(StudyList.size());
+                System.out.println(StudyList.toString());
                 additionalField.appendChild(createChildElement(FIELD, "StudyID", StudyList.toString()));
 
                 //Add the complete study to the entry section
                 entries.appendChild(entry);
             }catch (Exception e){
                 System.out.println(e.toString());
+            }
+            i++;
+
+            if(i > 500){
+                break;
             }
         }
 
