@@ -270,8 +270,8 @@ public class IsaTabReplacer
             logger.info("Validating the archive");
             validateIsaTabArchive();
 
-//            logger.info("Checking that Organism and Organism Part has been reported, note they can be empty");
-//            validateOrganismFields();
+            logger.info("Checking that Organism and Organism Part has been reported, note they can be empty");
+            validateOrganismFields();
 
             //Replace id
             logger.info("Replace study id and study dates");

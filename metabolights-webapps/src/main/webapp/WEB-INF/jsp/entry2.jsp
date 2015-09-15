@@ -94,11 +94,11 @@
             });
         });
 
-//        $(function() {
-//            $('#accordion h5.none').accordion({
-//                collapsible: false
-//            });
-//        });
+        $(function() {
+            $('#accordion h5.none').accordion({
+                collapsible: false
+            });
+        });
 
 
         $("#shareInfo").hide();
@@ -609,7 +609,7 @@
                          <c:if test="${validation.passedRequirement}">
                             <div class="accordion">
                                 <h5 class="none"><span aria-hidden="true" style="color:darkgreen">&#10004;</span>  &nbsp; ${validation.description}</h5>
-                                <div>${validation.message}</div>
+                                <%--<div>${validation.message}</div>--%>
                             </div>
                          </c:if>
                          <c:if test="${validation.passedRequirement == false}">

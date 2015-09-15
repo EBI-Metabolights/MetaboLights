@@ -210,7 +210,13 @@ public class StudyDAO {
         isaTabIdReplacer.setPublicDate(study.getStudyPublicReleaseDate());
         isaTabIdReplacer.setStudyIdentifier(studyIdentifier);
         isaTabIdReplacer.setSubmissionDate(IsaTab2MetaboLightsConverter.date2IsaTabDate(new Date()));
-        isaTabIdReplacer.execute();
+        try {
+            isaTabIdReplacer.execute();
+        }
+        catch(Exception e){
+             logger.error(e.getMessage());
+             study.getIsatabErrorMessages().add(e.getMessage());
+        }
 
         // Save it regardless
         dbDAO.save(study);
@@ -222,6 +228,8 @@ public class StudyDAO {
         } catch (Exception e) {
 
             logger.info("new isatab files for {} can't be loaded.  Error: {}", studyIdentifier, e.getMessage());
+            study.getIsatabErrorMessages().add(e.getMessage());
+            study.getIsatabErrorMessages().add("Can't load the isatab files you have submitted. The study identifier is: " + studyIdentifier);
             throw new IsaTabException("Can't load the isatab files you have submitted. The study identifier is: " + studyIdentifier, e);
         }
 
@@ -303,6 +311,8 @@ public class StudyDAO {
 
         } catch (Exception e) {
             logger.warn("Couldn't replace release date in isatab files.", e);
+            study.getIsatabErrorMessages().add(e.getMessage());
+            study.getIsatabErrorMessages().add("Couldn't replace release date in isatab files.");
         }
 
         logger.info("{} public release date successfully updated", studyIdentifier);

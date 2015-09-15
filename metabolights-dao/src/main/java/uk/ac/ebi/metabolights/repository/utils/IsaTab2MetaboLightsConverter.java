@@ -28,6 +28,7 @@ import org.isatools.isacreator.model.StudyDesign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabReplacer;
 import uk.ac.ebi.metabolights.repository.model.*;
 
 import java.io.File;
@@ -88,8 +89,18 @@ public class IsaTab2MetaboLightsConverter {
     private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder, boolean includeMetabolites, Study studyToFill) {
 
 
+
         // Get the first and unique study
         org.isatools.isacreator.model.Study isaStudy = source.getStudies().values().iterator().next();
+
+        IsaTabReplacer isaTabIdReplacer = new IsaTabReplacer(new File(studyFolder).getAbsolutePath());
+        try {
+            isaTabIdReplacer.execute();
+        }
+        catch(Exception e){
+            logger.error(e.getMessage());
+            studyToFill.getIsatabErrorMessages().add(e.getMessage());
+        }
 
         // Populate direct study members
         studyToFill.setStudyIdentifier(isaStudy.getStudyId());

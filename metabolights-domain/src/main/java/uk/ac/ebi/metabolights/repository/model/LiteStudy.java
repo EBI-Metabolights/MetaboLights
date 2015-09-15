@@ -95,6 +95,8 @@ public class LiteStudy extends Entity {
     private List<User> users = new ArrayList<>();
     private ObservableList<User> usersObserver = FXCollections.observableList(users);
 
+    private List<String> isatabErrorMessages = new ArrayList<>();
+
 
     private String studyHumanReadable = "";
 
@@ -223,6 +225,13 @@ public class LiteStudy extends Entity {
 
     public void setStudyHumanReadable(String studyHumanReadable) {
         this.studyHumanReadable = studyHumanReadable;
+    }
+    public List<String> getIsatabErrorMessages() {
+        return isatabErrorMessages;
+    }
+
+    public void setIsatabErrorMessages(List<String> isatabErrorMessages) {
+        this.isatabErrorMessages = isatabErrorMessages;
     }
 
 
