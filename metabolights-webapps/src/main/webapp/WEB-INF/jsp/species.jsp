@@ -41,7 +41,7 @@
                     minLength: 3,
                     select: function(event, ui)
                         {
-                            $(location).attr('href', "reference?organisms=" + ui.item.value);
+                            $(location).attr('href', "search?organism.organismName=" + ui.item.value);
 
                         }
             }).attr('autocomplete','on').attr("z-index", 1000);
@@ -78,13 +78,13 @@
     <div class="grid_10 alpha">
         <h3><spring:message code="menu.speciesmodeltitle"/></h3>
         <ul class="species">
-            <li class="icon icon-species" data-icon="H"><A href="reference?organisms=Homo sapiens">Homo sapiens (Human)</a></li>
-            <li class="icon icon-species" data-icon="M"><a href="reference?organisms=Mus musculus">Mus musculus (Mouse)</a></li>
-            <li class="icon icon-species" data-icon="B"><a href="reference?organisms=Arabidopsis thaliana">Arabidopsis thaliana (thale cress)</a></li>
-            <li class="icon icon-species" data-icon="L"><a href="reference?organisms=Escherichia coli">Escherichia coli</a></li>
-            <li class="icon icon-species" data-icon="Y"><a href="reference?organisms=Saccharomyces cerevisiae">Saccharomyces cerevisiae (Baker's yeast)</a></li>
-            <li class="icon icon-species" data-icon="W"><a href="reference?organisms=Caenorhabditis elegans">Caenorhabditis elegans</a></li>
-            <%--<li class="icon icon-species" data-icon="F"><a href="reference?organisms=Drosophila">Drosophila</li>--%>
+            <li class="icon icon-species" data-icon="H"><A href="search?organism.organismName=Homo sapiens">Homo sapiens (Human)</a></li>
+            <li class="icon icon-species" data-icon="M"><a href="search?organism.organismName=Mus musculus">Mus musculus (Mouse)</a></li>
+            <li class="icon icon-species" data-icon="B"><a href="search?organism.organismName=Arabidopsis thaliana">Arabidopsis thaliana (thale cress)</a></li>
+            <li class="icon icon-species" data-icon="L"><a href="search?organism.organismName=Escherichia coli">Escherichia coli</a></li>
+            <li class="icon icon-species" data-icon="Y"><a href="search?organism.organismName=Saccharomyces cerevisiae">Saccharomyces cerevisiae (Baker's yeast)</a></li>
+            <li class="icon icon-species" data-icon="W"><a href="search?organism.organismName=Caenorhabditis elegans">Caenorhabditis elegans</a></li>
+            <%--<li class="icon icon-species" data-icon="F"><a href="search?organisms=Drosophila">Drosophila</li>--%>
         </ul>
 
 

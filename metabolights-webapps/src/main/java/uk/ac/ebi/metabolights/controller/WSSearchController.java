@@ -273,6 +273,11 @@ public class WSSearchController extends AbstractController{
 		titleBooster.setBoost(1);
 		titleBooster.setFieldName("title");
 
+		titleBooster = new Booster();
+		titleBooster.setBoost(1);
+		titleBooster.setFieldName("name");
+
+
 		emptyQuery.getBoosters().add(titleBooster);
 //
 //		<c:if test="${not empty freeTextQuery}">

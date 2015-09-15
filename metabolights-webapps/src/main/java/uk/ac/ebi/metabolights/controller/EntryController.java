@@ -62,6 +62,10 @@ public class EntryController extends AbstractController {
 	public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
 	private static MetabolightsWsClient metabolightsWsClient;
 
+	public static MetabolightsWsClient getMetabolightsWsClient(String instance) {
+		return null;
+	}
+
 	public enum PageActions{
 		READ,
 		EDIT
@@ -78,15 +82,22 @@ public class EntryController extends AbstractController {
 		//compose the ws url..
 		String wsUrl = getWsPath();
 
-		MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
 
 		// If the user is null use the Logged user
 		if (user == null) user = LoginController.getLoggedUser();
 
+		return getMetabolightsWsClient(user.getApiToken(),wsUrl);
+	}
+
+	public static MetabolightsWsClient getMetabolightsWsClient(String user_token, String wsUrl) {
+
+		MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
+
 		// Use user token ...
-		wsClient.setUserToken(user.getApiToken());
+		wsClient.setUserToken(user_token);
 		return wsClient;
 	}
+
 
 	private static String getWsPath() {
 
@@ -95,10 +106,15 @@ public class EntryController extends AbstractController {
 		String host = PropertiesUtil.getHost();
 
 		// Add the webservice part...
-		wsUrl = host + "webservice/";
+		wsUrl = composeWSPath(host);
 
 		return wsUrl;
 
+	}
+
+	public static String composeWSPath(String host){
+
+		return host + "webservice/";
 	}
 
 

@@ -90,7 +90,6 @@ public class LiteStudy extends Entity {
 
     // Collections
     private Collection<StudyFactor> factors;
-    private Collection<Organism> organism;
     @JsonProperty
     private List<User> users = new ArrayList<>();
     private ObservableList<User> usersObserver = FXCollections.observableList(users);
@@ -179,14 +178,6 @@ public class LiteStudy extends Entity {
 
     public void setFactors(Collection<StudyFactor> factors) {
         this.factors = factors;
-    }
-
-    public Collection<Organism> getOrganism() {
-        return organism;
-    }
-
-    public void setOrganism(Collection<Organism> organism) {
-        this.organism = organism;
     }
 
     public List<User> getUsers() {

@@ -67,10 +67,14 @@ $(function() {
 
     function toggleQueue(instance) {
       $.ajax({
-        url: "proxy?url=http://" + instance + '/metabolights/togglequeue',
+        url: "togglequeue",
+        data:{
+           'user_token': '${user_token}',
+           'instance': instance
+        },
         success: function(data) {
 
-            $("[instance='" + instance + "']").html(data);
+            $("[instance='" + instance + "']").html(data.toString());
 
         }
       });
@@ -81,9 +85,13 @@ $(function() {
         var instance = statusTD.getAttribute("instance");
 
         $.ajax({
-            url: "proxy?url=http://" + instance + '/metabolights/queuestatus',
+            url: "queuestatus",
+            data:{
+                'user_token': '${user_token}',
+                'instance': instance
+            },
             success: function(data) {
-                $(statusTD).html(data);
+                $(statusTD).html(data.toString());
             }
         });
     }
@@ -248,7 +256,7 @@ $(function() {
                         </tr>
                     </thead>
                 <c:forEach var="file" items="${errorFolder}">
-                    <tr><td>${file.name}</td></tr>
+                    <tr><td><a href="errorFile/${file.name}">${file.name}</a></td></tr>
                 </c:forEach>
                 </table>
             </c:if>
@@ -267,7 +275,7 @@ $(function() {
                 </table>
             </c:if>
             <br/><br/>
-            <c:if test="${not empty queuerunnig}">
+            <c:if test="${not empty queueRunning}">
 
                 <c:if test="${not empty instances}">
                     <table id="instances">
@@ -293,8 +301,6 @@ $(function() {
 
         <div id="studyHealthTab">
             <br/>
-
-            <a href="reindex" title="Reindex one-by-one">Reindex all the studies</a><br/>
 
             <c:if test="${not empty studiesHealth}">
                 <table cellpadding="5px" cellspacing="0px">
@@ -329,8 +335,6 @@ $(function() {
         </div>
 
         <div id="indexTab">
-            <h3>All</h3>
-            <a href="reindex" title="Reindex all!!">Reindex all</a><br/>
 
             <h3>Studies</h3>
             <a href="deleteindexedstudies" title="Delete all indexed studies">Delete all indexed studies</a><br/>
@@ -348,14 +352,6 @@ $(function() {
         </div>
 
         <div class="refLayerBox" id="referencelayerTab">
-            <div class="grid_24 ">
-                <div class="grid_24 title">
-                    Clear cache
-                </div>
-                <div class="grid_24">
-                    <a href="clearreflayercache">Click to clear cache</a>
-                </div>
-            </div>
             <div class="grid_24 ">
                 <div class="grid_24 title">
                     Import metabolites

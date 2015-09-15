@@ -25,7 +25,6 @@ package uk.ac.ebi.metabolights.webservice.queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
@@ -52,8 +51,7 @@ public class SubmissionQueueProcessor {
 	private static Logger logger = LoggerFactory.getLogger(SubmissionQueueProcessor.class);
     private static String zipOnDemandLocation = PropertiesUtil.getProperty("ondemand");
 
-	@Autowired
-	private ElasticSearchService searchService;
+	private ElasticSearchService searchService = SubmissionQueueManager.searchService;
 
 	private StudyDAO studyDAO;
 	private SubmissionItem si;

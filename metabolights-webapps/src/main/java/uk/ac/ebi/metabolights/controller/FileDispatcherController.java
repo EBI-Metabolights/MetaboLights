@@ -56,6 +56,8 @@ public class FileDispatcherController extends AbstractController {
 
     private static final String URL_4_FILES = "files";
 
+    private static final String URL_4_ERROR_FILES = "errorFile";
+
 	private  @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
 
 
@@ -172,6 +174,25 @@ public class FileDispatcherController extends AbstractController {
         return file;
 
     }
+
+
+    // Download the requested error file
+    @RequestMapping(value =  URL_4_ERROR_FILES + "/{errorFileName}")
+    public ModelAndView getErrorFile(@PathVariable("errorFileName") String errorFileName,
+                                     @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
+                                     HttpServletResponse response) {
+        try{
+            String errorFilePath = PropertiesUtil.getProperty("uploadDirectory") + "queueerrors/" + errorFileName + ".zip";
+            File errorFile = new File (errorFilePath);
+            streamFile(errorFile,response);
+            return null;
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            return  new ModelAndView ("redirect:/index?message="+ e.getMessage());
+        }
+    }
+
+
 
     // Returns the download link for a study
 	public static String getDownloadLink(String study){

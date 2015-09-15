@@ -38,11 +38,16 @@ public class SubmissionQueueManager {
 
 	private static Logger log = LoggerFactory.getLogger(SubmissionQueueManager.class);
 	private static Timer tm;
-	@Autowired
-	private ElasticSearchService searchService;
+	public static ElasticSearchService searchService;
 
-	
-//	private static UserService userService;
+	public ElasticSearchService getSearchService() {
+		return searchService;
+	}
+
+	@Autowired
+	public void setSearchService(ElasticSearchService searchService) {
+		SubmissionQueueManager.searchService = searchService;
+	}
 
 	private String queueRunner;
 	public SubmissionQueueManager(){
@@ -61,7 +66,7 @@ public class SubmissionQueueManager {
 			start();
 		}
 	}
-	private void start(){
+	public void start(){
 
 		// If timer is running
 		if (tm !=null) return;
@@ -80,23 +85,17 @@ public class SubmissionQueueManager {
 			
 		
 	}
-	public static void stop(){
+	public void stop(){
 		
 		if(tm == null) return;
 		
-		log.info("Submission queue is stoping.");
-		tm.cancel();
+		log.info("Submission queue is stopping\t\ttm.cancel();\n.");
 		tm = null;
 		
 	}
-	public static boolean getIsRunning(){
+	public boolean getIsRunning(){
 		return (tm!=null);
 	}
 
-//	public void setUserService(UserService us) {
-//		userService = us;
-//	}
-//	public static UserService getUserService(){
-//		return userService;
-//	}
+
 }

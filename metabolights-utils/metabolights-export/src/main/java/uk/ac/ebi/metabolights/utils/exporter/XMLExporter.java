@@ -158,6 +158,8 @@ public class XMLExporter {
             //Loop thorough the studies returned from the WS
             addStudies();
 
+
+
             writeDocument(doc);
             return true;
         } catch (Exception e) {
@@ -235,50 +237,52 @@ public class XMLExporter {
     private static void addXrefs(Element crossRefs, Study study){
         List<String> xrefList = new ArrayList<>();
 
-        for (int i = 0; i < study.getAssays().size(); i++) {
-            i++;
-            RestResponse<MetaboliteAssignment> response = getWsClient().getMetabolites(study.getStudyIdentifier(), i);
 
-            if (response.getContent() != null){
-                MetaboliteAssignment maf = response.getContent();
-                if (maf.getMetaboliteAssignmentLines() != null) {
-                    for (MetaboliteAssignmentLine metaboliteAssignmentLine : maf.getMetaboliteAssignmentLines()) {
-                        String dbId = metaboliteAssignmentLine.getDatabaseIdentifier();
-                        String metName = metaboliteAssignmentLine.getMetaboliteIdentification();
-                        dbId = dbId.trim(); //Get rid of spaces
+            for (int i = 0; i < study.getAssays().size(); i++) {
+                i++;
+                RestResponse<MetaboliteAssignment> response = getWsClient().getMetabolites(study.getStudyIdentifier(), i);
 
-                        //To avoid looping throught this data twice, populate the metabolite list here
-                        if (hasValue(metName) && !getMetaboliteList().contains(metName))
+                if (response.getContent() != null) {
+                    MetaboliteAssignment maf = response.getContent();
+                    if (maf.getMetaboliteAssignmentLines() != null) {
+                        for (MetaboliteAssignmentLine metaboliteAssignmentLine : maf.getMetaboliteAssignmentLines()) {
+                            String dbId = metaboliteAssignmentLine.getDatabaseIdentifier();
+                            String metName = metaboliteAssignmentLine.getMetaboliteIdentification();
+                            dbId = dbId.trim(); //Get rid of spaces
+
+                            //To avoid looping throught this data twice, populate the metabolite list here
+                            if (hasValue(metName) && !getMetaboliteList().contains(metName))
                                 metaboliteList.add(metName);
 
-                        if (xrefList.contains(dbId) || !hasValue(dbId))
-                            continue; //Jump out as we only want unique xrefs in the list
+                            if (xrefList.contains(dbId) || !hasValue(dbId))
+                                continue; //Jump out as we only want unique xrefs in the list
 
-                        //Add this xref as it's the first time we see it in all assys for this study
-                        xrefList.add(dbId);
+                            //Add this xref as it's the first time we see it in all assys for this study
+                            xrefList.add(dbId);
 
-                        if (dbId.startsWith("CHEBI:")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "ChEBI"));
-                            crossRefs.appendChild(createChildElement(REF, dbId.replace("CHEBI:", "MTBLC"), "MetaboLights"));  //Cheeky assumption for now
-                        } else if (dbId.startsWith("CID")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "PubChem"));
-                        } else if (dbId.startsWith("HMDB")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "HMDB"));
-                        } else if (dbId.startsWith("MTBLC")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "MetaboLights"));
-                        } else if (dbId.startsWith("LM")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "LIPID MAPS"));
-                        } else if (dbId.startsWith("C")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "KEGG"));
-                        } else if (dbId.startsWith("GMD")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "GOLM"));
+                            if (dbId.startsWith("CHEBI:")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "ChEBI"));
+                                crossRefs.appendChild(createChildElement(REF, dbId.replace("CHEBI:", "MTBLC"), "MetaboLights"));  //Cheeky assumption for now
+                            } else if (dbId.startsWith("CID")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "PubChem"));
+                            } else if (dbId.startsWith("HMDB")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "HMDB"));
+                            } else if (dbId.startsWith("MTBLC")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "MetaboLights"));
+                            } else if (dbId.startsWith("LM")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "LIPID MAPS"));
+                            } else if (dbId.startsWith("C")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "KEGG"));
+                            } else if (dbId.startsWith("GMD")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "GOLM"));
+                            }
+
+
                         }
-
-
                     }
                 }
             }
-        }
+
 
     }
 
@@ -289,118 +293,126 @@ public class XMLExporter {
 
         //Add all the public studies
         for (String studyAcc : allStudies){
-            System.out.println("Processing study " + studyAcc);
-            logger.info("Processing study " + studyAcc);
+            try{
 
-            //TODO, add ontologies
-            //TODO, add pubmed
+                System.out.println("Processing study " + studyAcc);
+                logger.info("Processing study " + studyAcc);
 
-            // Empty the metabolites list
-            setMetaboliteList(new ArrayList<String>());
+                //TODO, add ontologies
+                //TODO, add pubmed
 
-            Study study = getStudy(studyAcc);
+                // Empty the metabolites list
+                setMetaboliteList(new ArrayList<String>());
 
-            Element entry = doc.createElement("entry");
-            entry.setAttribute("id", studyAcc);
-            entry.appendChild(addGenericElement("name", study.getTitle()));
-            entry.appendChild(addGenericElement("description", study.getDescription()));
+                Study study = getStudy(studyAcc);
 
-            //Add the sub tree "cross_references"
-            Element crossRefs = doc.createElement("cross_references");
-            entry.appendChild(crossRefs);
-            addXrefs(crossRefs, study);   //Add cross refs AND get the list of metabolites to add to additional_fields
+                Element entry = doc.createElement("entry");
+                entry.setAttribute("id", studyAcc);
+                entry.appendChild(addGenericElement("name", study.getTitle()));
+                entry.appendChild(addGenericElement("description", study.getDescription()));
 
-            //Add the sub branch "dates"
-            Element dateFields = doc.createElement("dates");
-            entry.appendChild(dateFields);
-            addDates(dateFields, study);
+                //Add the sub tree "cross_references"
+                Element crossRefs = doc.createElement("cross_references");
+                entry.appendChild(crossRefs);
+                addXrefs(crossRefs, study);   //Add cross refs AND get the list of metabolites to add to additional_fields
 
-            //Add the sub tree "additional_fields"
-            Element additionalField = doc.createElement("additional_fields");
-            entry.appendChild(additionalField);
+                //Add the sub branch "dates"
+                Element dateFields = doc.createElement("dates");
+                entry.appendChild(dateFields);
+                addDates(dateFields, study);
 
-            additionalField.appendChild(createChildElement(FIELD, "repository", "MetaboLights"));
-            additionalField.appendChild(createChildElement(FIELD, "omics_type", "Metabolomics"));
+                //Add the sub tree "additional_fields"
+                Element additionalField = doc.createElement("additional_fields");
+                entry.appendChild(additionalField);
 
-            //Add all protocols to the "additional_fields" tree
-            addProtocols(additionalField, study);
+                additionalField.appendChild(createChildElement(FIELD, "repository", "MetaboLights"));
+                additionalField.appendChild(createChildElement(FIELD, "omics_type", "Metabolomics"));
 
-            //Do not repeat values
-            List<String> techList = new ArrayList<>();
-            List<String> platformList = new ArrayList<>();
-            for (Assay assay : study.getAssays()){
+                //Add all protocols to the "additional_fields" tree
+                addProtocols(additionalField, study);
 
-                if (assay.getTechnology()!= null && !assay.getTechnology().isEmpty() && !techList.contains(assay.getTechnology())) {
-                    techList.add(assay.getTechnology());
-                    additionalField.appendChild(createChildElement(FIELD, "technology_type", assay.getTechnology()));
-                }
+                //Do not repeat values
+                List<String> techList = new ArrayList<>();
+                List<String> platformList = new ArrayList<>();
+                for (Assay assay : study.getAssays()){
 
-                if (assay.getPlatform() != null && !assay.getPlatform().isEmpty() && !platformList.contains(assay.getPlatform())) {
-                    platformList.add(assay.getPlatform());
-                    additionalField.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
-                }
-
-            }
-
-            additionalField.appendChild(createChildElement(FIELD, "disease", ""));  //We currently do not capture this in a concise way
-            additionalField.appendChild(createChildElement(FIELD, "ptm_modification", ""));  //Proteins only?
-
-            for (User user: study.getUsers()){
-                additionalField.appendChild(createChildElement(FIELD, "submitter", user.getFirstName() + " " + user.getLastName() ));
-                additionalField.appendChild(createChildElement(FIELD, "submitter_email", user.getEmail() ));
-                if (hasValue(user.getAffiliation()))
-                    additionalField.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
-            }
-
-            additionalField.appendChild(createChildElement(FIELD, "curator_keywords", "")); //We do not capture this
-
-            for (StudyDesignDescriptors studyDesignDescriptors : study.getDescriptors()) {
-                String studyDesc = studyDesignDescriptors.getDescription();
-
-                if (studyDesc.contains(":")) {
-                    int i = 1;
-                    for (String retval : studyDesignDescriptors.getDescription().split(":")) {
-                        if (i == 2) //Get rid of ontology refs before ":"
-                            additionalField.appendChild(createChildElement(FIELD, "study_design", retval));
-                        i++;
+                    if (assay.getTechnology()!= null && !assay.getTechnology().isEmpty() && !techList.contains(assay.getTechnology())) {
+                        techList.add(assay.getTechnology());
+                        additionalField.appendChild(createChildElement(FIELD, "technology_type", assay.getTechnology()));
                     }
-                } else {
-                    additionalField.appendChild(createChildElement(FIELD, "study_design", studyDesc));
-                }
-            }
 
-            for (StudyFactor studyFactor : study.getFactors()) {
-                additionalField.appendChild(createChildElement(FIELD, "study_factor",studyFactor.getName()));
-            }
+                    if (assay.getPlatform() != null && !assay.getPlatform().isEmpty() && !platformList.contains(assay.getPlatform())) {
+                        platformList.add(assay.getPlatform());
+                        additionalField.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
+                    }
 
-            additionalField.appendChild(createChildElement(FIELD, "study_status", "Public"));
-            additionalField.appendChild(createChildElement(FIELD, "full_dataset_link", ML_BASE_URL + "/" + studyAcc));     //TODO, all files should be listed
-            additionalField.appendChild(createChildElement(FIELD, "dataset_file", ML_BASE_FTP + studyAcc));
-
-            if (study.getOrganism() != null)
-                for (Organism organism : study.getOrganism()) {
-                    if (hasValue(organism.getOrganismName()))
-                        additionalField.appendChild(createChildElement(FIELD, "Organism", organism.getOrganismName().trim()));
-
-                    if (hasValue(organism.getOrganismPart()))
-                        additionalField.appendChild(createChildElement(FIELD, "Organism Part", organism.getOrganismPart().trim()));
                 }
 
-            for (Publication publication : study.getPublications()) {
-                String completePublications = composePublications(publication);
+                additionalField.appendChild(createChildElement(FIELD, "disease", ""));  //We currently do not capture this in a concise way
+                additionalField.appendChild(createChildElement(FIELD, "ptm_modification", ""));  //Proteins only?
 
-                if (hasValue(completePublications))
-                    additionalField.appendChild(createChildElement(FIELD, "publication", completePublications));
+                for (User user: study.getUsers()){
+                    additionalField.appendChild(createChildElement(FIELD, "submitter", user.getFirstName() + " " + user.getLastName() ));
+                    additionalField.appendChild(createChildElement(FIELD, "submitter_email", user.getEmail() ));
+                    if (hasValue(user.getAffiliation()))
+                        additionalField.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
+                }
+
+                additionalField.appendChild(createChildElement(FIELD, "curator_keywords", "")); //We do not capture this
+
+                for (StudyDesignDescriptors studyDesignDescriptors : study.getDescriptors()) {
+                    String studyDesc = studyDesignDescriptors.getDescription();
+
+                    if (studyDesc.contains(":")) {
+                        int i = 1;
+                        for (String retval : studyDesignDescriptors.getDescription().split(":")) {
+                            if (i == 2) //Get rid of ontology refs before ":"
+                                additionalField.appendChild(createChildElement(FIELD, "study_design", retval));
+                            i++;
+                        }
+                    } else {
+                        additionalField.appendChild(createChildElement(FIELD, "study_design", studyDesc));
+                    }
+                }
+
+                for (StudyFactor studyFactor : study.getFactors()) {
+                    additionalField.appendChild(createChildElement(FIELD, "study_factor",studyFactor.getName()));
+                }
+
+                additionalField.appendChild(createChildElement(FIELD, "study_status", "Public"));
+                additionalField.appendChild(createChildElement(FIELD, "full_dataset_link", ML_BASE_URL + "/" + studyAcc));     //TODO, all files should be listed
+                additionalField.appendChild(createChildElement(FIELD, "dataset_file", ML_BASE_FTP + studyAcc));
+
+                if (study.getOrganism() != null)
+                    for (Organism organism : study.getOrganism()) {
+                        if (hasValue(organism.getOrganismName()))
+                            additionalField.appendChild(createChildElement(FIELD, "Organism", organism.getOrganismName().trim()));
+
+                        if (hasValue(organism.getOrganismPart()))
+                            additionalField.appendChild(createChildElement(FIELD, "Organism Part", organism.getOrganismPart().trim()));
+                    }
+
+                for (Publication publication : study.getPublications()) {
+                    String completePublications = composePublications(publication);
+
+                    if (hasValue(completePublications))
+                        additionalField.appendChild(createChildElement(FIELD, "publication", completePublications));
+                }
+
+                //Add the metabolites from the the xrefs loop to the additional_fields sub-tree
+                for (String met : metaboliteList) {
+                    additionalField.appendChild(createChildElement(FIELD, "metabolite_name", met));
+                }
+
+                //Add the complete study to the entry section
+                entries.appendChild(entry);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
             }
 
-            //Add the metabolites from the the xrefs loop to the additional_fields sub-tree
-            for (String met : metaboliteList) {
-                additionalField.appendChild(createChildElement(FIELD, "metabolite_name", met));
-            }
 
-            //Add the complete study to the entry section
-            entries.appendChild(entry);
         }
+
 
         //Add the complete study list to the entries section
         doc.getDocumentElement().appendChild(entries);
