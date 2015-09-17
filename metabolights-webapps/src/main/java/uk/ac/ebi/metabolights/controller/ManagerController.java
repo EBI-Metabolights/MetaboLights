@@ -206,23 +206,30 @@ public class ManagerController extends AbstractController{
 		SearchQuery query = new SearchQuery();
 		query.setText("'_type:study");
 		query.setPagination(null);
-		RestResponse<? extends MixedSearchResult> response = wsClient.search(query);
 
-		MixedSearchResult studies = response.getContent();
-		for (Entity entity : studies.getResults()) {
+		RestResponse<? extends MixedSearchResult> response;
+		try {
 
-			if (entity instanceof LiteStudy) {
-				LiteStudy liteStudy = (LiteStudy) entity;
+			response = wsClient.search(query);
 
-				StudyHealth newSH = new StudyHealth(liteStudy);
-				studiesHealth.add(newSH);
-			} else {
+			MixedSearchResult studies = response.getContent();
+			for (Entity entity : studies.getResults()) {
 
-				logger.warn("We are getting something else than LiteStudy objects when requesting all the studies. Class: {}", entity.getClass().getCanonicalName());
+				if (entity instanceof LiteStudy) {
+					LiteStudy liteStudy = (LiteStudy) entity;
 
+					StudyHealth newSH = new StudyHealth(liteStudy);
+					studiesHealth.add(newSH);
+				} else {
+
+					logger.warn("We are getting something else than LiteStudy objects when requesting all the studies. Class: {}", entity.getClass().getCanonicalName());
+
+				}
 			}
-		}
 
+		} catch (Exception e){
+			logger.warn("Can't get al studies from the search, it might not be up and running: {}" , e.getMessage());
+		}
 		
 		return studiesHealth;
 	}

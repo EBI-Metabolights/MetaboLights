@@ -193,11 +193,6 @@
 
 	<definition name="html" template="/WEB-INF/jsp/html.jsp"/>
 
-    <definition name="ebeyehelp" extends="default">
-		<put-attribute name="title" value="Ebi-eye test" />
-		<put-attribute name="body" value="/WEB-INF/jsp/ebeyehelp.jsp" />
-	</definition>
-
 	<definition name="message" extends="default">
         <put-attribute name="title" value="Message" />
         <put-attribute name="body" value="/WEB-INF/jsp/message.jsp" />

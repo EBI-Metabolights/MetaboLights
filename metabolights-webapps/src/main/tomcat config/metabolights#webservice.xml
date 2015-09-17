@@ -60,6 +60,6 @@
     <!-- Prefix to be used for studies stable identifiers.-->
     <Environment name="stableIdPrefix" value="MTBLS_DEV" type="java.lang.String"/>
 
-
+    <Environment name="EUPMCWebServiceURL" value="http://www.ebi.ac.uk/webservices/citexplore/v3.0.1/service?wsdl" type="java.lang.String"/>
 
 </Context>

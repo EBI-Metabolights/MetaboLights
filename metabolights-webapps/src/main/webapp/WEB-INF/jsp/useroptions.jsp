@@ -72,12 +72,5 @@
     </div>
     </a>
 </div>
-<div class='grid_6 prefix_2 omega'>
-    <a href="<spring:url value="ebeyehelp"/>">
-    <div class="bigbutton seccolorI">
-         <span class="bigfont"><spring:message code="menu.Ebeye" /></span><br/>
-    </div>
-    </a>
-</div>
 
 </sec:authorize>

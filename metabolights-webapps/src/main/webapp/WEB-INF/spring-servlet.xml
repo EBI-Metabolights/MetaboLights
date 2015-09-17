@@ -108,8 +108,6 @@
     <jee:jndi-lookup id="headerURL"                 jndi-name="java:comp/env/headerURL" />
     <jee:jndi-lookup id="localHeaderURL"            jndi-name="java:comp/env/localHeaderURL" />
     <jee:jndi-lookup id="footerURL"                 jndi-name="java:comp/env/footerURL" />
-    <jee:jndi-lookup id="ebiServiceURL"				jndi-name="java:comp/env/ebiServiceURL"/>
-    <jee:jndi-lookup id="EUPMCWebServiceURL"		jndi-name="java:comp/env/EUPMCWebServiceURL"/>
     <jee:jndi-lookup id="mailServer"		        jndi-name="java:comp/env/mailServer"/>
     <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>

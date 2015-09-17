@@ -40,6 +40,8 @@ import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.cluster.metadata.MetaData;
+import org.elasticsearch.cluster.node.DiscoveryNode;
+import org.elasticsearch.common.collect.ImmutableList;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -456,11 +458,25 @@ public class ElasticSearchService implements SearchService <Entity> {
 			}
 
 
+			// Test for nodes connected....
+			ImmutableList<DiscoveryNode> discoveryNodes = client.connectedNodes();
+
+			status.add("Nodes connection:");
+
+			if (discoveryNodes.isEmpty()) {
+				status.add("Client is not connected to any node. Check elastic search is running.");
+
+				return status;
+
+			} else {
+				for (DiscoveryNode discoveryNode : discoveryNodes) {
+					status.add(discoveryNode.toString());
+				}
+			}
+
+
 			// Get index status
-
-			status.add( "Index status:");
-
-
+			status.add("Index status:");
 			status.add( "Does index exists? " + doesIndexExists());
 			
 			MappingMetaData mapping = getMapping(STUDY_TYPE_NAME);
