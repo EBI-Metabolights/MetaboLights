@@ -304,31 +304,15 @@ $(function() {
 
             <c:if test="${not empty studiesHealth}">
                 <table cellpadding="5px" cellspacing="0px">
-                    <tr><th>Study</th><th>is Public?</th><th>Must be under</th><th>is it there?</th></tr>
+                    <tr><th>Study</th><th>Has folder?</th><th>In the DB</th><th>Indexed?</th><th>is Ok?</th></tr>
                     <c:forEach var="study" items="${studiesHealth}">
                         <tr>
                             <td><a href="reindexstudies?study=${study.identifier}" title="Reindex this study">${study.identifier}</a></td>
-                            <td>${study.isPublic}</td>
-                            <td>${study.studyPath}</td>
-                            <td <c:if test="${not study.isThere}">class="error"</c:if> >
-                                ${study.isThere}
-                            </td>
-
+                            <td>${study.itInTheFileSystem}</td>
+                            <td>${study.itInTheDB}</td>
+                            <td>${study.itInTheIndex}</td>
+                            <td <c:if test="${not(study.itInTheIndex && study.itInTheDB && study.itInTheFileSystem && true)}">class="error"</c:if>>${study.itInTheIndex && study.itInTheDB && study.itInTheFileSystem && true}</td>
                         </tr>
-                    </c:forEach>
-                </table>
-            </c:if>
-
-            <c:if test="${not empty studiesLocation}">
-                <br/><b>studiesLocation</b>
-                <table cellpadding="5px" cellspacing="0px">
-                    <thead class='text_header'>
-                    <tr>
-                        <th>File name</th>
-                    </tr>
-                    </thead>
-                    <c:forEach var="file" items="${studiesLocation}">
-                        <tr><td>${file.name}</td></tr>
                     </c:forEach>
                 </table>
             </c:if>

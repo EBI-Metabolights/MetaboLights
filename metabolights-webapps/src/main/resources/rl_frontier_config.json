@@ -19,7 +19,7 @@
             {
                 "selected": false,
                 "title": "Browse Studies",
-                "href": "browse",
+                "href": "studies",
                 "tooltip": "Browse all Studies/Experiments"
             },
             {

@@ -22,42 +22,64 @@
 package uk.ac.ebi.metabolights.webapp;
 
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
-import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 import java.io.File;
 
 public class StudyHealth {
 
 	String identifier;
-	boolean isPublic;
-	String studyPath;
-	boolean isThere;
-	
+	Boolean isPublic;
+	File studyFolder;
+	boolean isItInTheFileSystem;
+	boolean isItInTheDB;
+	boolean isItInTheIndex;
+
 	public StudyHealth(LiteStudy study){
 		identifier = study.getStudyIdentifier();
 		isPublic = study.isPublicStudy();
+		isItInTheIndex = true;
+	}
 
-		// Calculate the path where the study files are meant to be.
-		studyPath = PropertiesUtil.getProperty("studiesLocation") + identifier;
+	// From the database we have only the accession
+	public StudyHealth(String identifier) {
+		this.identifier = identifier;
+	}
 
-		// Check if it is there
-		isThere = new File(studyPath).exists();
+
+	public File getStudyFolder() {
+		return studyFolder;
+	}
+
+	public void setStudyFolder(File studyFolder) {
+		this.studyFolder = studyFolder;
+		isItInTheFileSystem = studyFolder.exists();
+	}
+
+	public boolean isItInTheFileSystem() {
+		return isItInTheFileSystem;
+	}
+
+	public boolean isItInTheDB() {
+		return isItInTheDB;
+	}
+
+	public void setItInTheDB(boolean itInTheDB) {
+		this.isItInTheDB = itInTheDB;
+	}
+
+	public boolean isItInTheIndex() {
+		return isItInTheIndex;
+	}
+
+	public void setItInTheIndex(boolean itInTheIndex) {
+		this.isItInTheIndex = itInTheIndex;
 	}
 
 	public String getIdentifier() {
 		return identifier;
 	}
 
-	public boolean getIsPublic() {
+	public Boolean isPublic() {
 		return isPublic;
 	}
-
-	public String getStudyPath() {
-		return studyPath;
-	}
-
-	public boolean getIsThere() {
-		return isThere;
-	}
-	
 }
