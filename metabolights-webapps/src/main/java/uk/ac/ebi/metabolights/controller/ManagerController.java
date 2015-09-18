@@ -54,10 +54,7 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -169,10 +166,6 @@ public class ManagerController extends AbstractController{
 		mav.addObject("studiesHealth", getStudiesHealth());
 
 
-		// Return ftp locations
-        mav.addObject("studiesLocation", (getFilesInFolder(new File(PropertiesUtil.getProperty("studiesLocation")))));
-        mav.addObject("galleryIds", homePageController.getGalleryItemsIds());
-
 		// Queue management
 		mav.addObject("user_token", LoginController.getLoggedUser().getApiToken());
 		mav.addObject("queueRunning", EntryController.getMetabolightsWsClient().getQueueStatus().getContent());
@@ -196,13 +189,79 @@ public class ManagerController extends AbstractController{
 	}
 
 
-	private List<StudyHealth> getStudiesHealth(){
-		
-		List <StudyHealth> studiesHealth = new ArrayList<StudyHealth>();
+	private Collection<StudyHealth> getStudiesHealth(){
 
 		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+		
+		Map <String,StudyHealth> studiesHealth = new HashMap<>();
 
-		// Careful this returns all (actually not all only the first 10!)...and now it's fine but once compounds are added it will not work.
+		// Gather information from Indes, Filesystem and DB and check consistency
+		// Careful this returns all studies
+		getAllIndexedStudies(studiesHealth, wsClient);
+
+		checkWithDBStudies(studiesHealth, wsClient);
+
+		checkWithFSStudies(studiesHealth);
+
+		
+		return studiesHealth.values();
+	}
+
+	private void checkWithDBStudies(Map<String, StudyHealth> studiesHealth, MetabolightsWsClient wsClient) {
+
+		RestResponse<String[]> allStudiesAccResponse = wsClient.getAllStudyAcc();
+
+		if (allStudiesAccResponse.getErr() != null){
+
+			logger.warn("Can't get all study accessions from the WS: {}", allStudiesAccResponse.getErr().getMessage());
+			return;
+		}
+
+		String[] studiesAccessions = allStudiesAccResponse.getContent();
+
+
+		for (String studiesAccession : studiesAccessions) {
+
+			StudyHealth studyHealth = getStudyHealth(studiesAccession, studiesHealth);
+
+			studyHealth.setItInTheDB(true);
+		}
+
+
+	}
+
+
+	private void checkWithFSStudies(Map<String, StudyHealth> studiesHealth) {
+
+		File[] studiesLocations = getFilesInFolder(new File(PropertiesUtil.getProperty("studiesLocation")));
+
+
+		for (File studyFolder : studiesLocations) {
+
+			StudyHealth studyHealth = getStudyHealth(studyFolder.getName(), studiesHealth);
+
+			studyHealth.setStudyFolder(studyFolder);
+		}
+
+
+	}
+
+
+	private StudyHealth getStudyHealth(String studyAccession, Map<String, StudyHealth> studiesHealth) {
+
+		StudyHealth studyHealth = studiesHealth.get(studyAccession);
+
+		if (studyHealth == null){
+			studyHealth = new StudyHealth(studyAccession);
+
+			studiesHealth.put(studyAccession, studyHealth);
+		}
+		return studyHealth;
+	}
+
+	private void getAllIndexedStudies(Map<String, StudyHealth> studiesHealth, MetabolightsWsClient wsClient) {
+
+
 		SearchQuery query = new SearchQuery();
 		query.setText("'_type:study");
 		query.setPagination(null);
@@ -219,7 +278,7 @@ public class ManagerController extends AbstractController{
 					LiteStudy liteStudy = (LiteStudy) entity;
 
 					StudyHealth newSH = new StudyHealth(liteStudy);
-					studiesHealth.add(newSH);
+					studiesHealth.put(liteStudy.getStudyIdentifier(),newSH);
 				} else {
 
 					logger.warn("We are getting something else than LiteStudy objects when requesting all the studies. Class: {}", entity.getClass().getCanonicalName());
@@ -228,12 +287,10 @@ public class ManagerController extends AbstractController{
 			}
 
 		} catch (Exception e){
-			logger.warn("Can't get al studies from the search, it might not be up and running: {}" , e.getMessage());
+			logger.warn("Can't get all the studies from the search, it might not be up and running: {}" , e.getMessage());
 		}
-		
-		return studiesHealth;
 	}
-	
+
 	@RequestMapping(value = "/togglequeue")
 	public @ResponseBody String toggleQueue(@RequestParam(required = true, value = "user_token") String user_token, @RequestParam(required = true, value = "instance") String instance) {
 

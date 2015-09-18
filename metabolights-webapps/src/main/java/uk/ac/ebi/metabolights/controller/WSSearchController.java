@@ -94,6 +94,23 @@ public class WSSearchController extends AbstractController{
 		return mav;
 	}
 
+	@RequestMapping({ "/studies" })
+	public ModelAndView searchStudies(HttpServletRequest request){
+
+		// Get the query
+		SearchQuery query = getQuery(request);
+
+		// Add a compound filter
+		Map.Entry compoundFilter = new AbstractMap.SimpleEntry(OBJECT_TYPE,new String[]{"study"});
+
+
+		populateFacet(query ,compoundFilter);
+
+		// Make the search
+		return internalSearch(SEARCH, query);
+
+	}
+
 
 	@RequestMapping({ "/reflayersearch", "/reference", "/compounds" })
 	public ModelAndView searchCompounds(HttpServletRequest request){
@@ -109,8 +126,6 @@ public class WSSearchController extends AbstractController{
 
 		// Make the search
 		return internalSearch(SEARCH, query);
-
-
 
 	}
 	private ModelAndView internalSearch(String MAVName, HttpServletRequest request) {
