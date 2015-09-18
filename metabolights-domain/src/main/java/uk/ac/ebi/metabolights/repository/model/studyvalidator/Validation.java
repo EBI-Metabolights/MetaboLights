@@ -1,0 +1,98 @@
+package uk.ac.ebi.metabolights.repository.model.studyvalidator;
+
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.Group;
+
+/**
+ * Created by kalai on 18/09/15.
+ */
+public abstract class Validation {
+
+    public Validation(String description, Requirement type) {
+        this.description = description;
+        this.type = type;
+    }
+
+    public Validation(String description, Requirement type, Group group) {
+        this.description = description;
+        this.type = type;
+        this.group = group;
+    }
+
+    private String description;
+
+
+    private Status status;
+
+
+    private Group group;
+
+    private boolean passedRequirement;
+
+    private Requirement type = Requirement.MANDATORY;
+
+
+    private String message = "";
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean getPassedRequirement() {
+        return passedRequirement;
+    }
+
+    public void setPassedRequirement(boolean passedRequirement) {
+        this.passedRequirement = passedRequirement;
+    }
+
+    public Requirement getType() {
+        return type;
+    }
+
+    public void setType(Requirement type) {
+        this.type = type;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    abstract public boolean hasPassed();
+
+    public void setStatus() {
+        if (getPassedRequirement()) {
+            setStatus(Status.GREEN);
+        } else {
+            if (getType().equals(Requirement.MANDATORY)) {
+                setStatus(Status.RED);
+            } else {
+                setStatus(Status.ORANGE);
+            }
+        }
+
+    }
+}

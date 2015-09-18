@@ -637,6 +637,37 @@
                 </fieldset>
             </c:if>
         </div>
+        <!-- TAB: Validations new -->
+        <!-- ends tabs-Validations -->
+        <div id="tabs-validations" class="tab">
+            <c:if test="${not empty study.overallValidation.validationEntries}">
+                <table class="display clean">
+                    <thead class='text_header'>
+                    <tr>
+                        <c:forEach var="fieldSet" items="${study.overallValidation.validationEntries.fields}">
+                            <c:set var="headerTitle" value="${fieldSet.value.description}"/>
+                            <c:if test="${not empty fieldSet.value.fieldType}">
+                                <c:set var="headerTitle" value="${headerTitle} - Type: ${fieldSet.value.fieldType}"/>
+                            </c:if>
+                            <th title="${headerTitle}">${fieldSet.value.cleanHeader}</th>
+                        </c:forEach>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="row" items="${study.overallValidation.validationEntries.iterator}">
+                        <tr>
+                            <c:forEach var="cell" items="${row.iterator}">
+
+                                <c:set var="cellvalue" value="${cell.value}" scope="page"/>
+                                <td>${cellvalue}</td>
+                            </c:forEach>
+                        </tr>
+
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:if>
+        </div>
         <!-- ends tabs-Validations -->
 
     </div> <!-- end configuring tabs -->

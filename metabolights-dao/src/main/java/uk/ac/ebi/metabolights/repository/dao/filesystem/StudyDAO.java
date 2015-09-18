@@ -30,6 +30,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Validation;
 import uk.ac.ebi.metabolights.repository.model.Validations;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
+import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtilities;
 import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtils;
 
 import java.io.File;
@@ -166,7 +167,8 @@ public class StudyDAO {
 
         // Convert it into a MetaboLights study
         studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
-        StudyValidationUtils.validate(studyToFill);
+        //StudyValidationUtils.validate(studyToFill);
+        studyToFill.setOverallValidation(StudyValidationUtilities.validate(studyToFill));
 
         logger.info("Study loaded from folder: {}", studyFolder.getAbsolutePath());
 
