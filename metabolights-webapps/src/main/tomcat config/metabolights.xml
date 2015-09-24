@@ -61,7 +61,6 @@
 
     <!-- public ftp url -->
     <Environment name="ftpServer" value="ftp.ebi.ac.uk" type="java.lang.String"/>
-    <Environment name="filebase" value="/ebi/ftp/" type="java.lang.String"/>
 
 
     <!-- URLs for the frontier web service -->

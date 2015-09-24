@@ -154,10 +154,6 @@ public class IsaTab2MetaboLightsConverter {
         //Organism and Organism part
         studyToFill.setOrganism(sampleOrg2organism(studyToFill));
 
-        // Backups
-        studyToFill.setBackups(FileAuditUtil.getBackupsCollection(new File(studyFolder)));
-
-
         return studyToFill;
     }
 

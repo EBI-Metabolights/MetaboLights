@@ -1,14 +1,11 @@
 package uk.ac.ebi.metabolights.repository.utils;
 
-import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabReplacer;
-import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.Validation;
+import uk.ac.ebi.metabolights.repository.model.Validations;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Properties;
 
 /**
  * Created by kalai on 07/07/15.
@@ -42,26 +39,51 @@ public class StudyValidationUtils {
     public static void validate(Study study) {
         Validations validations = new Validations();
 
-        validations.getEntries().add(isatabCheck(study));
-        validations.getEntries().add(organismCheck(study));
-        // validations.getEntries().add(studyTitle(study));
-        validations.getEntries().add(studyDescriptionCheck(study));
-        validations.getEntries().add(studyFactorsCheck(study));
+        try {
 
-        validations.getEntries().add(protocolsCheck(study));
-        validations.getEntries().add(samplesCheck(study));
-        validations.getEntries().add(assaysCheck(study));
-        validations.getEntries().add(publicationCheck(study));
+            validations.getEntries().add(isatabCheck(study));
+            validations.getEntries().add(organismCheck(study));
+            // validations.getEntries().add(studyTitle(study));
+            validations.getEntries().add(studyDescriptionCheck(study));
+            validations.getEntries().add(studyFactorsCheck(study));
 
-        //TODO other validations
-        // MAF file check
-        // CHEBI iD present (database identifier) REQUIRED
-        // Publication: IDS OPTIONAL
+            validations.getEntries().add(protocolsCheck(study));
+            validations.getEntries().add(samplesCheck(study));
+            validations.getEntries().add(assaysCheck(study));
+            validations.getEntries().add(publicationCheck(study));
+
+            //TODO other validations
+            // MAF file check
+            // CHEBI iD present (database identifier) REQUIRED
+            // Publication: IDS OPTIONAL
+
+            // Validation run without errors.
+            validations.getEntries().add(validationrunCheck(null));
+
+        } catch (Exception e){
+
+            // Something went wrong during validations. Add a validation about being able to validate!
+            validations.getEntries().add(validationrunCheck(e));
+
+        }
 
 
         validations.setPassedMinimumRequirement(check(validations));
         study.setValidations(validations);
 
+    }
+
+    private static Validation validationrunCheck(Exception exception) {
+        Validation aValidation = new Validation();
+        aValidation.setDescription("For any study we should be able to run all the validations.");
+        if (exception == null){
+            aValidation.setMessage("We could run all the validations. Some might have not passed but we didn't get any error.");
+        } else {
+            aValidation.setMessage("We could NOT run all the validations. There was an exception during the validation: " + exception.getMessage() + ", " + exception.getClass().getName());
+        }
+        aValidation.setType(Validation.Requirement.MANDATORY);
+        aValidation.setPassedRequirement(exception ==null);
+        return aValidation;
     }
 
     private static boolean check(Validations validations) {
