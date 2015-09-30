@@ -94,7 +94,7 @@ public class SessionWrapper {
 
 			if (session.isOpen()) {
 				session.beginTransaction();
-				logger.info("Starting a new Hibernate session in SessionWrapper");
+				logger.debug("Starting a new Hibernate session in SessionWrapper");
 			}
 			else {
 				logger.error("Could not get a session from the Hibernate SessionFactory");
@@ -120,10 +120,10 @@ public class SessionWrapper {
 
 		// If 0 close it
 		if (sessionCount == 0) {
-			logger.info("sessionCount is 0, try to commit and close the Hibernate session");
+			logger.debug("sessionCount is 0, try to commit and close the Hibernate session");
 
 			if (session.isOpen()) {
-				logger.info("Session is open but no longer required, trying to commit and close");
+				logger.debug("Session is open but no longer required, trying to commit and close");
 				session.getTransaction().commit();
 				session.close();
 				session = null;
