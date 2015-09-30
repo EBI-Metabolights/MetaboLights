@@ -336,7 +336,17 @@
             </c:if>
 
             <li>
-                <a id="valid-tab" href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/></a>
+                <a id="valid-tab" href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/>&nbsp;
+                    <c:if test="${study.validations.status == 'GREEN'}">
+                       <span aria-hidden="true" style="color:darkgreen">&#10004;
+                    </c:if>
+                    <c:if test="${study.validations.status == 'RED'}">
+                        <span aria-hidden="true" style="color:red">&#10008;</span>
+                    </c:if>
+                    <c:if test="${study.validations.status == 'ORANGE'}">
+                        <span aria-hidden="true" style="color:darkorange">&#10008;</span>
+                    </c:if>
+                </a>
             </li>
 
         </ul>
@@ -605,50 +615,49 @@
             </div> <!--  ends tabs-files files -->
         </c:if>
         <!-- TAB: Validations-->
+
         <div id="tabs-validations" class="tab">
             <c:if test="${not empty study.validations.entries}">
-                <br/>
-                <fieldset class="box">
-                    <legend><spring:message code="label.studyvalidation"/>:</legend>
-                    <br/>
-                    We have the found the following information in this study:
-                    <span aria-hidden="true" style="color:darkgreen">&#10004;</span> Provided
-                    <span aria-hidden="true" style="color:red">&#10008;</span> Not provided (Mandatory)
-                    <span aria-hidden="true" style="color:darkorange">&#10008;</span> Not provided (Optional)
+                <table class="display clean">
+                    <thead class='text_header'>
+                    <tr>
+                        <th>Condition</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Requirement</th>
+                        <th>Group</th>
+                        <th>Message</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="validation" items="${study.validations.entries}">
+                        <tr>
+                            <c:if test="${validation.status == 'GREEN'}">
+                                    <td><span aria-hidden="true" style="color:darkgreen">&#10004;</span>
+                                    </td>
+                                <td>Provided</td>
+                            </c:if>
+                            <c:if test="${validation.status == 'RED'}">
+                                <td><span aria-hidden="true" style="color:red">&#10008;</span>
+                                </td>
+                                <td>Missing</td>
+                            </c:if>
+                            <c:if test="${validation.status == 'ORANGE'}">
+                                <td><span aria-hidden="true" style="color:darkorange">&#10008;</span>
+                                </td>
+                                <td>Missing</td>
+                            </c:if>
 
-                    <%--<c:if test="${study.validations.passedMinimumRequirement == false}">--%>
-                       <%--STUDY FAILED--%>
-                    <%--</c:if>--%>
-                    <%--<c:if test="${study.validations.passedMinimumRequirement == true}">--%>
-                        <%--STUDY PASSED--%>
-                    <%--</c:if>--%>
-                    &nbsp;
-                    <c:forEach var="validation" items="${study.validations.entries}" >
-                      <%--&lt;%&ndash;&nbsp;&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;${validation.passedRequirement}&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;&nbsp;&ndash;%&gt;--%>
-                         <c:if test="${validation.passedRequirement}">
-                            <div class="accordion">
-                                <h5 class="none"><span aria-hidden="true" style="color:darkgreen">&#10004;</span>  &nbsp; ${validation.description}</h5>
-                                <%--<div>${validation.message}</div>--%>
-                            </div>
-                         </c:if>
-                         <c:if test="${validation.passedRequirement == false}">
-                                <c:if test="${validation.type == 'OPTIONAL'}">
-                                    <div class="accordion">
-                                        <h5><span aria-hidden="true" style="color:darkorange">&#10008;</span>   &nbsp;${validation.description}</h5>
-                                        <div>${validation.message}</div>
-                                    </div>
-                                </c:if>
-                                <c:if test="${validation.type == 'MANDATORY'}">
-                                    <div class="accordion">
-                                        <h5><span aria-hidden="true" style="color:red">&#10008;</span>   &nbsp; ${validation.description}</h5>
-                                        <div>${validation.message}</div>
-                                    </div>
-                                </c:if>
-                        </c:if>
+                            <%--<td>${validation.status}</td>--%>
+                            <td>${validation.description}</td>
+                            <td>${validation.type}</td>
+                            <td>${validation.group}</td>
+                            <td>${validation.message}</td>
+                        </tr>
+
                     </c:forEach>
-                </fieldset>
+                    </tbody>
+                </table>
             </c:if>
         </div>
         <!-- ends tabs-Validations -->
