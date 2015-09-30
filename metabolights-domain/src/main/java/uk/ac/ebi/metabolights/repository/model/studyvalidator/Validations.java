@@ -14,6 +14,8 @@ public class Validations {
 
     private Status status = Status.GREEN;
 
+    private boolean passedMinimumRequirement = false;
+
     public Collection<Validation> getEntries() {
         return entries;
     }
@@ -25,5 +27,14 @@ public class Validations {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public boolean isPassedMinimumRequirement() {
+        return passedMinimumRequirement;
+    }
+
+    public void setPassedMinimumRequirement(boolean passedMinimumRequirement) {
+        this.passedMinimumRequirement = passedMinimumRequirement;
+    }
+
 
 }

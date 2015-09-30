@@ -41,7 +41,7 @@ public class PublicationValidation extends ValidationGroup {
         for (Validation validation : getValidations()) {
             validation.setPassedRequirement(validation.hasPassed());
             validation.setStatus();
-            validation.setMessage("Hello");
+            //validation.setMessage("Hello");
         }
         return getValidations();
     }
@@ -65,6 +65,7 @@ public class PublicationValidation extends ValidationGroup {
                 }
 
             } else {
+                setMessage("Publication list is empty");
                 return false;
             }
             return true;
@@ -81,6 +82,12 @@ public class PublicationValidation extends ValidationGroup {
 
         @Override
         public boolean hasPassed() {
+            if (!getStudy().getPublications().isEmpty()) {
+                //TODO add author info to Publication class
+            } else {
+                setMessage("Publication list is empty");
+                return false;
+            }
             return true;
         }
     }
@@ -90,7 +97,7 @@ public class PublicationValidation extends ValidationGroup {
     public static class PublicationIDsValidation extends Validation {
         @JsonCreator
         public PublicationIDsValidation() {
-            super(DescriptionConstants.PUBLICATION_AUTHORS, Requirement.OPTIONAL, Group.PUBLICATION);
+            super(DescriptionConstants.PUBLICATION_IDS, Requirement.OPTIONAL, Group.PUBLICATION);
         }
 
         @Override
@@ -102,6 +109,7 @@ public class PublicationValidation extends ValidationGroup {
                     }
                 }
             } else {
+                setMessage("Publication list is empty");
                 return false;
             }
             return true;

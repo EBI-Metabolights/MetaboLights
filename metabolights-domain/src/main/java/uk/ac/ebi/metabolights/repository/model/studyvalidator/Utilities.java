@@ -28,6 +28,21 @@ public class Utilities {
 
     }
 
+    public static boolean checkPassedMinimumRequirement(Collection<Validation> validations) {
+        int red = 0;
+        int orange = 0;
+        for (Validation validation : validations) {
+            if (validation.getStatus().equals(Status.ORANGE)) {
+                orange++;
+            }
+            if (validation.getStatus().equals(Status.RED)) {
+                red++;
+            }
+        }
+        return red > 0 ? false : orange > 0 ? true : true;
+
+    }
+
     public static boolean minCharRequirementPassed(String toCheck, int limit) {
         return toCheck.length() >= limit;
     }

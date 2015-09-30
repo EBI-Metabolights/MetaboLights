@@ -3,28 +3,26 @@ package uk.ac.ebi.metabolights.repository.model.studyvalidator;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.FactorValidation;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.Group;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.PublicationValidation;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.StudyValidation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
 
 /**
  * Created by kalai on 18/09/15.
  * Extending classes must be made static and annotated with JsonTypeInfo for serialization and de-serialization to work
- *
  */
 
-@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.EXTERNAL_PROPERTY, property="type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value=FactorValidation.FactorNameValidation.class, name="FactorName"),
-        @JsonSubTypes.Type(value=FactorValidation.FactorTypeValidation.class, name="FactorType"),
-        @JsonSubTypes.Type(value= StudyValidation.MinimumStudyValidation.class, name="MinimumStudyValidation"),
-        @JsonSubTypes.Type(value= StudyValidation.StudyDescriptionValidation.class, name="StudyDescriptionValidation"),
-        @JsonSubTypes.Type(value= StudyValidation.StudyDesignDescriptorsValidation.class, name="StudyDesignDescriptorsValidation"),
-        @JsonSubTypes.Type(value= StudyValidation.StudyTitleValidation.class, name="StudyTitleValidation"),
-        @JsonSubTypes.Type(value= PublicationValidation.PublicationAuthorValidation.class, name="PublicationAuthorValidation"),
-        @JsonSubTypes.Type(value= PublicationValidation.PublicationIDsValidation.class, name="PublicationIDsValidation"),
-        @JsonSubTypes.Type(value= PublicationValidation.PublicationTitleValidation.class, name="PublicationTitleValidation")
+        @JsonSubTypes.Type(value = FactorValidation.FactorNameValidation.class, name = "FactorName"),
+        @JsonSubTypes.Type(value = FactorValidation.FactorTypeValidation.class, name = "FactorType"),
+        @JsonSubTypes.Type(value = StudyValidation.MinimumStudyValidation.class, name = "MinimumStudyValidation"),
+        @JsonSubTypes.Type(value = StudyValidation.StudyDescriptionValidation.class, name = "StudyDescriptionValidation"),
+        @JsonSubTypes.Type(value = StudyValidation.StudyDesignDescriptorsValidation.class, name = "StudyDesignDescriptorsValidation"),
+        @JsonSubTypes.Type(value = StudyValidation.StudyTitleValidation.class, name = "StudyTitleValidation"),
+        @JsonSubTypes.Type(value = PublicationValidation.PublicationAuthorValidation.class, name = "PublicationAuthorValidation"),
+        @JsonSubTypes.Type(value = PublicationValidation.PublicationIDsValidation.class, name = "PublicationIDsValidation"),
+        @JsonSubTypes.Type(value = PublicationValidation.PublicationTitleValidation.class, name = "PublicationTitleValidation"),
+        @JsonSubTypes.Type(value = OrganismValidation.OrganismNameValidation.class, name = "OrganismNameValidation"),
+        @JsonSubTypes.Type(value = ExceptionValidation.UnexpectedExceptionValidation.class, name = "UnexpectedExceptionValidation")
 })
 public abstract class Validation {
 
@@ -39,7 +37,7 @@ public abstract class Validation {
         this.group = group;
     }
 
-    public Validation(){
+    public Validation() {
     }
 
     private String description;
@@ -53,7 +51,7 @@ public abstract class Validation {
     private Requirement type = Requirement.MANDATORY;
 
 
-    private String message = "";
+    private String message = "OK";
 
     public String getDescription() {
         return description;

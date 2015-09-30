@@ -12,5 +12,6 @@ public enum Group {
     ORGANISM,
     ASSAYS,
     FILES,
-    CROSSREFS
+    CROSSREFS,
+    EXCEPTION
 }

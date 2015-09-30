@@ -6,10 +6,7 @@ import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Table;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.FactorValidation;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.Group;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.PublicationValidation;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.StudyValidation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -32,23 +29,32 @@ public class StudyValidationUtilities {
         validations.getEntries().addAll(validationList);
         Status status = Utilities.checkOverallStatus(validationList);
         validations.setStatus(status);
+        validations.setPassedMinimumRequirement(Utilities.checkPassedMinimumRequirement(validationList));
         return validations;
     }
 
 
     private static Collection<Validation> generateValidations(Study study) {
         Collection<Validation> validations = new LinkedList<>();
-
-        for (Group group : Group.values()) {
-            if (group.equals(Group.STUDY)) {
-                validations.addAll(new StudyValidation(group).isValid(study));
+        try {
+            for (Group group : Group.values()) {
+                if (!group.equals(Group.EXCEPTION)) {
+                    if (group.equals(Group.STUDY)) {
+                        validations.addAll(new StudyValidation(group).isValid(study));
+                    }
+                    if (group.equals(Group.PUBLICATION)) {
+                        validations.addAll(new PublicationValidation(group).isValid(study));
+                    }
+                    if (group.equals(Group.FACTORS)) {
+                        validations.addAll(new FactorValidation(group).isValid(study));
+                    }
+                    if (group.equals(Group.ORGANISM)) {
+                        validations.addAll(new OrganismValidation(group).isValid(study));
+                    }
+                }
             }
-            if (group.equals(Group.PUBLICATION)) {
-                validations.addAll(new PublicationValidation(group).isValid(study));
-            }
-            if (group.equals(Group.FACTORS)) {
-                validations.addAll(new FactorValidation(group).isValid(study));
-            }
+        }catch(Exception e){
+           validations.addAll(new ExceptionValidation(Group.EXCEPTION, e).isValid(study));
         }
         return validations;
     }

@@ -41,7 +41,7 @@ public class StudyValidation extends ValidationGroup {
         for (Validation validation : getValidations()) {
             validation.setPassedRequirement(validation.hasPassed());
             validation.setStatus();
-            validation.setMessage("Hello");
+            //validation.setMessage("Hello");
         }
         return getValidations();
     }

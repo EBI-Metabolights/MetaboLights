@@ -16,6 +16,10 @@ public class DescriptionConstants {
     public static final String FACTOR_NAME= "Study factors";
     public static final String FACTOR_TYPE = "Study factor type";
 
+    //ORGANISM
+    public static final String ORGANISM_NAME= "Organism name";
+    public static final String ORGANISM_PART = "Organism part";
+
 
     //PUBLICATIONS
 
@@ -30,4 +34,8 @@ public class DescriptionConstants {
     public static final String SAMPLES = "Sample(s) reported";
     public static final String PUBLICATIONS = "Publication(s) associated with this study";
     public static final String ISATAB = "Isatab file check";
+
+
+    //OTHER
+    public static final String EXCEPTION = "For any study we should be able to run all the validations";
 }

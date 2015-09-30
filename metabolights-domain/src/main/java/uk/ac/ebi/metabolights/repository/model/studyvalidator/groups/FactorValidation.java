@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.StudyFactor;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.Collection;
@@ -20,7 +22,7 @@ public class FactorValidation extends ValidationGroup {
     public FactorValidation(Group group) {
         super(group);
         getValidations().add(new FactorNameValidation());
-        getValidations().add(new FactorTypeValidation());
+        //getValidations().add(new FactorTypeValidation());
     }
 
     public FactorValidation(){
@@ -34,7 +36,6 @@ public class FactorValidation extends ValidationGroup {
         for (Validation validation : getValidations()) {
             validation.setPassedRequirement(validation.hasPassed());
             validation.setStatus();
-            validation.setMessage("Hello");
         }
         return getValidations();
     }
@@ -48,7 +49,18 @@ public class FactorValidation extends ValidationGroup {
         }
         @Override
         public boolean hasPassed() {
-            return false;
+            if (!getStudy().getFactors().isEmpty()) {
+                for (StudyFactor studyFactor : getStudy().getFactors()) {
+                    if (!Utilities.minCharRequirementPassed(studyFactor.getName(), 3)) {
+                        setMessage("Study Factor " + studyFactor.getName() + "is not valid");
+                        return false;
+                    }
+                }
+
+            } else {
+                return false;
+            }
+            return true;
         }
     }
 

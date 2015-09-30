@@ -324,7 +324,17 @@
             </c:if>
 
             <li>
-                <a id="valid-tab" href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/></a>
+                <a id="valid-tab" href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/>&nbsp;
+                    <c:if test="${study.validations.status == 'GREEN'}">
+                       <span aria-hidden="true" style="color:darkgreen">&#10004;
+                    </c:if>
+                    <c:if test="${study.validations.status == 'RED'}">
+                        <span aria-hidden="true" style="color:red">&#10008;</span>
+                    </c:if>
+                    <c:if test="${study.validations.status == 'ORANGE'}">
+                        <span aria-hidden="true" style="color:darkorange">&#10008;</span>
+                    </c:if>
+                </a>
             </li>
 
         </ul>
@@ -591,88 +601,13 @@
             </div> <!--  ends tabs-files files -->
         </c:if>
         <!-- TAB: Validations-->
-        <%--<div id="tabs-validations" class="tab">--%>
-            <%--<c:if test="${not empty study.validations.entries}">--%>
-                <%--<br/>--%>
-                <%--<fieldset class="box">--%>
-                    <%--<legend><spring:message code="label.studyvalidation"/>:</legend>--%>
-                    <%--<br/>--%>
-                    <%--We have the found the following information in this study:--%>
-                    <%--<span aria-hidden="true" style="color:darkgreen">&#10004;</span> Provided--%>
-                    <%--<span aria-hidden="true" style="color:red">&#10008;</span> Not provided (Mandatory)--%>
-                    <%--<span aria-hidden="true" style="color:darkorange">&#10008;</span> Not provided (Optional)--%>
 
-                    <%--&lt;%&ndash;<c:if test="${study.validations.passedMinimumRequirement == false}">&ndash;%&gt;--%>
-                       <%--&lt;%&ndash;STUDY FAILED&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;</c:if>&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;<c:if test="${study.validations.passedMinimumRequirement == true}">&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;STUDY PASSED&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;</c:if>&ndash;%&gt;--%>
-                    <%--&nbsp;--%>
-                    <%--<c:forEach var="validation" items="${study.validations.entries}" >--%>
-                      <%--&lt;%&ndash;&lt;%&ndash;&nbsp;&ndash;%&gt;&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;&lt;%&ndash;${validation.passedRequirement}&ndash;%&gt;&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;&lt;%&ndash;&nbsp;&ndash;%&gt;&ndash;%&gt;--%>
-                         <%--<c:if test="${validation.passedRequirement}">--%>
-                            <%--<div class="accordion">--%>
-                                <%--<h5 class="none"><span aria-hidden="true" style="color:darkgreen">&#10004;</span>  &nbsp; ${validation.description}</h5>--%>
-                                <%--&lt;%&ndash;<div>${validation.message}</div>&ndash;%&gt;--%>
-                            <%--</div>--%>
-                         <%--</c:if>--%>
-                         <%--<c:if test="${validation.passedRequirement == false}">--%>
-                                <%--<c:if test="${validation.type == 'OPTIONAL'}">--%>
-                                    <%--<div class="accordion">--%>
-                                        <%--<h5><span aria-hidden="true" style="color:darkorange">&#10008;</span>   &nbsp;${validation.description}</h5>--%>
-                                        <%--<div>${validation.message}</div>--%>
-                                    <%--</div>--%>
-                                <%--</c:if>--%>
-                                <%--<c:if test="${validation.type == 'MANDATORY'}">--%>
-                                    <%--<div class="accordion">--%>
-                                        <%--<h5><span aria-hidden="true" style="color:red">&#10008;</span>   &nbsp; ${validation.description}</h5>--%>
-                                        <%--<div>${validation.message}</div>--%>
-                                    <%--</div>--%>
-                                <%--</c:if>--%>
-                        <%--</c:if>--%>
-                    <%--</c:forEach>--%>
-                <%--</fieldset>--%>
-            <%--</c:if>--%>
-        <%--</div>--%>
-        <!-- TAB: Validations new -->
-        <!-- ends tabs-Validations -->
-        <%--<div id="tabs-validations" class="tab">--%>
-            <%--<c:if test="${not empty study.overallValidation.validationEntries}">--%>
-                <%--<table class="display clean">--%>
-                    <%--<thead class='text_header'>--%>
-                    <%--<tr>--%>
-                        <%--<c:forEach var="fieldSet" items="${study.overallValidation.validationEntries.fields}">--%>
-                            <%--<c:set var="headerTitle" value="${fieldSet.value.description}"/>--%>
-                            <%--<c:if test="${not empty fieldSet.value.fieldType}">--%>
-                                <%--<c:set var="headerTitle" value="${headerTitle} - Type: ${fieldSet.value.fieldType}"/>--%>
-                            <%--</c:if>--%>
-                            <%--<th title="${headerTitle}">${fieldSet.value.cleanHeader}</th>--%>
-                        <%--</c:forEach>--%>
-                    <%--</tr>--%>
-                    <%--</thead>--%>
-                    <%--<tbody>--%>
-                    <%--<c:forEach var="row" items="${study.overallValidation.validationEntries.iterator}">--%>
-                        <%--<tr>--%>
-                            <%--<c:forEach var="cell" items="${row.iterator}">--%>
-
-                                <%--<c:set var="cellvalue" value="${cell.value}" scope="page"/>--%>
-                                <%--<td>${cellvalue}</td>--%>
-                            <%--</c:forEach>--%>
-                        <%--</tr>--%>
-
-                    <%--</c:forEach>--%>
-                    <%--</tbody>--%>
-                <%--</table>--%>
-            <%--</c:if>--%>
-        <%--</div>--%>
         <div id="tabs-validations" class="tab">
             <c:if test="${not empty study.validations.entries}">
                 <table class="display clean">
                     <thead class='text_header'>
                     <tr>
+                        <th>Condition</th>
                         <th>Status</th>
                         <th>Description</th>
                         <th>Requirement</th>
@@ -684,16 +619,19 @@
                     <c:forEach var="validation" items="${study.validations.entries}">
                         <tr>
                             <c:if test="${validation.status == 'GREEN'}">
-                                    <td>Provided  <span aria-hidden="true" style="color:darkgreen">&#10004;</span>
+                                    <td><span aria-hidden="true" style="color:darkgreen">&#10004;</span>
                                     </td>
+                                <td>Provided</td>
                             </c:if>
                             <c:if test="${validation.status == 'RED'}">
-                                <td>Not provided <span aria-hidden="true" style="color:red">&#10008;</span>
+                                <td><span aria-hidden="true" style="color:red">&#10008;</span>
                                 </td>
+                                <td>Missing</td>
                             </c:if>
                             <c:if test="${validation.status == 'ORANGE'}">
-                                <td>Not provided <span aria-hidden="true" style="color:darkorange">&#10008;</span>
+                                <td><span aria-hidden="true" style="color:darkorange">&#10008;</span>
                                 </td>
+                                <td>Missing</td>
                             </c:if>
 
                             <%--<td>${validation.status}</td>--%>
