@@ -5,10 +5,8 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Table;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.OverallValidation;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.FactorValidation;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.Group;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.PublicationValidation;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.StudyValidation;
@@ -20,13 +18,21 @@ import java.util.LinkedList;
  * Created by kalai on 18/09/15.
  */
 public class StudyValidationUtilities {
-    private static Logger logger = LoggerFactory.getLogger(StudyValidationUtilities.class);
 
-    public static OverallValidation validate(Study study) {
-        Collection<Validation> validations = generateValidations(study);
-        Table validationTable = Utilities.convertValidationsListToTable(validations);
-        Status status = Utilities.checkOverallStatus(validations);
-        return new OverallValidation(validationTable, status);
+//    public static OverallValidation validate(Study study) {
+//        Collection<Validation> validations = generateValidations(study);
+//        //Table validationTable = Utilities.convertValidationsListToTable(validations);
+//        Status status = Utilities.checkOverallStatus(validations);
+//        return new OverallValidation(validations, status);
+//    }
+
+    public static Validations validate(Study study) {
+        Collection<Validation> validationList = generateValidations(study);
+        Validations validations = new Validations();
+        validations.getEntries().addAll(validationList);
+        Status status = Utilities.checkOverallStatus(validationList);
+        validations.setStatus(status);
+        return validations;
     }
 
 
@@ -34,15 +40,14 @@ public class StudyValidationUtilities {
         Collection<Validation> validations = new LinkedList<>();
 
         for (Group group : Group.values()) {
-            switch (group) {
-                case STUDY:
-                    validations.addAll(new StudyValidation(group).isValid(study));
-                case PUBLICATION:
-                    validations.addAll(new PublicationValidation(group).isValid(study));
-//                case FACTORS:
-//                    validations.addAll(new FactorValidation(group).isValid(study));
-                    break;
-
+            if (group.equals(Group.STUDY)) {
+                validations.addAll(new StudyValidation(group).isValid(study));
+            }
+            if (group.equals(Group.PUBLICATION)) {
+                validations.addAll(new PublicationValidation(group).isValid(study));
+            }
+            if (group.equals(Group.FACTORS)) {
+                validations.addAll(new FactorValidation(group).isValid(study));
             }
         }
         return validations;
@@ -51,16 +56,16 @@ public class StudyValidationUtilities {
     public static void main(String[] args) {
         Study study = new Study();
 
-        study.setTitle("I dont know what I am doing with my life!");
+        study.setTitle("Life is cool!");
 
         Collection<Publication> publicationCollection = new LinkedList<>();
         Publication publication = new Publication();
-        publication.setTitle("I dont want this to be published");
+        publication.setTitle("To be published");
         publicationCollection.add(publication);
         study.setPublications(publicationCollection);
 
-        OverallValidation overallValidation = StudyValidationUtilities.validate(study);
-        System.out.println("Data: " + overallValidation.getValidationEntries().getData().toString());
+        Validations validations = StudyValidationUtilities.validate(study);
+        System.out.println("Status: " + validations.getStatus());
     }
 
 

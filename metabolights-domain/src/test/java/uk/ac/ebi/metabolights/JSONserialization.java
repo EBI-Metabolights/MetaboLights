@@ -7,11 +7,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.Validation;
-import uk.ac.ebi.metabolights.repository.model.Validations;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.PublicationValidation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.StudyValidation;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * User: conesa
@@ -60,7 +67,7 @@ public class JSONserialization {
 
 		String studyJSON = mapper.writeValueAsString(study);
 
-		logger.info("Study serialised into {}" , studyJSON);
+		logger.info("Study serialised into {}", studyJSON);
 
 		study = mapper.readValue(studyJSON,study.getClass());
 
@@ -92,13 +99,13 @@ public class JSONserialization {
 		EntityList entities = new EntityList();
 
 
-		entities.add( compound);
+		entities.add(compound);
 		entities.add(study);
 
 		String entitiesJSON = mapper.writeValueAsString(entities);
 
 
-		logger.info("Entities serialised into {}" , entitiesJSON);
+		logger.info("Entities serialised into {}", entitiesJSON);
 
 		entities = mapper.readValue(entitiesJSON, entities.getClass());
 
@@ -120,6 +127,10 @@ public class JSONserialization {
 		ObjectMapper mapper = new ObjectMapper();
 		Study study = getNewFullStudy();
 
+		logger.info("Before mapping Validation status " + study.getValidations().getEntries().iterator().next().getStatus().name());
+		Assert.assertEquals("Before mapping Validation status", Status.GREEN, study.getValidations().getEntries().iterator().next().getStatus());
+
+
 		String studyJSON = mapper.writeValueAsString(study);
 
 		logger.info("Full Study serialised into {}", studyJSON);
@@ -127,12 +138,20 @@ public class JSONserialization {
 		study = mapper.readValue(studyJSON,study.getClass());
 
 		Assert.assertEquals("Study not serialised properly.", STUDY_ID, study.getStudyIdentifier());
+		logger.info("size : " + study.getValidations().getEntries().size());
 
-		Assert.assertEquals("Study hasn't got a validation.", 1, study.getValidations().getEntries().size());
+		Assert.assertEquals("Study hasn't got a validation.", 2, study.getValidations().getEntries().size());
 
-		Validation aValidation = (Validation) study.getValidations().getEntries().iterator().next();
+		Assert.assertEquals("study title Validation status", Status.GREEN, study.getValidations().getEntries().iterator().next().getStatus());
 
-		Assert.assertEquals("validation hasPassed not serialised properly.", true, aValidation.getPassedRequirement());
+		for(Validation validation : study.getValidations().getEntries()){
+			logger.info(validation.getDescription());
+
+		}
+
+		//Validation aValidation = (Validation) study.getValidations().getEntries().iterator().next();
+
+		//Assert.assertEquals("validation hasPassed not serialised properly.", true, aValidation.getPassedRequirement());
 
 	}
 
@@ -140,21 +159,42 @@ public class JSONserialization {
 		Study study = new Study();
 
 		study.setStudyIdentifier(STUDY_ID);
-		study.setTitle("a study");
+		//study.setTitle("a study");
 		study.setStudyStatus(LiteStudy.StudyStatus.PUBLIC);
 
-		Validation aValidation = new Validation();
-		aValidation.setDescription("Validation description");
-		aValidation.setPassedRequirement(true);
-		aValidation.setType(Validation.Requirement.OPTIONAL);
+
+		study.setTitle("Life is so cool, all is well!");
+
+		Collection<Publication> publicationCollection = new LinkedList<>();
+		Publication publication = new Publication();
+		publication.setTitle("scooby dooby doo scooby dooby doo scooby dooby doo scooby dooby doo scooby dooby doo");
+		publication.setPubmedId("123456");
+		publicationCollection.add(publication);
+		study.setPublications(publicationCollection);
+
+
 
 		Validations validations = new Validations();
-		validations.getEntries().add(aValidation);
+		validations.getEntries().addAll(generateValidations(study));
 
 		study.setValidations(validations);
 
 
 		return study;
+	}
+
+	private static Collection<Validation> generateValidations(Study study) {
+		Collection<Validation> validations = new LinkedList<>();
+
+		for (Group group : Group.values()) {
+			if (group.equals(Group.STUDY)) {
+				validations.addAll(new StudyValidation(group).isValid(study));
+			}
+			if (group.equals(Group.PUBLICATION)) {
+				validations.addAll(new PublicationValidation(group).isValid(study));
+			}
+		}
+		return validations;
 	}
 
 }

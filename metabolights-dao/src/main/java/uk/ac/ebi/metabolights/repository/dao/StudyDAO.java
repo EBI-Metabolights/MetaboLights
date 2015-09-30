@@ -32,6 +32,7 @@ import uk.ac.ebi.metabolights.repository.model.Backup;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.security.SecurityService;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
@@ -341,7 +342,7 @@ public class StudyDAO {
         // Change the status
         // Change to inCuration, based on the study validation.
         if (newStatus == LiteStudy.StudyStatus.INCURATION) {
-            if (!user.isCurator() && !study.getValidations().isPassedMinimumRequirement()) {
+            if (!user.isCurator() && study.getValidations().getStatus() != Status.GREEN) {
                 logger.warn("The study is not valid and you don't have enough privileges to change the status to inCuration");
                 throw new DAOException("The study is not valid and you don't have enough privileges to change the status to inCuration");
             }

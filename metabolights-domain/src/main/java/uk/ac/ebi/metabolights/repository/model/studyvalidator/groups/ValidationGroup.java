@@ -1,5 +1,7 @@
 package uk.ac.ebi.metabolights.repository.model.studyvalidator.groups;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
@@ -10,11 +12,21 @@ import java.util.LinkedList;
 /**
  * Created by kalai on 18/09/15.
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include= JsonTypeInfo.As.PROPERTY, property="@class")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value=FactorValidation.class, name="FactorValidation"),
+        @JsonSubTypes.Type(value= StudyValidation.class, name="StudyValidation"),
+        @JsonSubTypes.Type(value= PublicationValidation.class, name="PublicationValidation")
+})
 public abstract class ValidationGroup {
 
     public ValidationGroup(Group groupName, Study study ){
          this.groupName = groupName;
          this.study = study;
+    }
+
+    public ValidationGroup(){
+
     }
 
     public ValidationGroup(Group groupName){
@@ -25,7 +37,7 @@ public abstract class ValidationGroup {
 
     private Group groupName;
 
-    public Study getStudy() {
+    public static Study getStudy() {
         return study;
     }
 
@@ -33,7 +45,7 @@ public abstract class ValidationGroup {
         this.study = study;
     }
 
-    private Study study;
+    public static Study study;
 
     public Group getGroupName() {
         return groupName;

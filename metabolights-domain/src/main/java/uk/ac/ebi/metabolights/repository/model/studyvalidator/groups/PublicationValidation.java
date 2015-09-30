@@ -1,5 +1,9 @@
 package uk.ac.ebi.metabolights.repository.model.studyvalidator.groups;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -13,6 +17,8 @@ import java.util.Collection;
 /**
  * Created by kalai on 18/09/15.
  */
+@JsonTypeName("PublicationValidation")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PublicationValidation extends ValidationGroup {
 
     Publication publication;
@@ -24,6 +30,10 @@ public class PublicationValidation extends ValidationGroup {
         getValidations().add(new PublicationIDsValidation());
     }
 
+    public PublicationValidation(){
+
+    }
+
     @Override
 
     public Collection<Validation> isValid(Study study) {
@@ -31,24 +41,29 @@ public class PublicationValidation extends ValidationGroup {
         for (Validation validation : getValidations()) {
             validation.setPassedRequirement(validation.hasPassed());
             validation.setStatus();
+            validation.setMessage("Hello");
         }
         return getValidations();
     }
 
-    public class PublicationTitleValidation extends Validation {
+    @JsonTypeName("PublicationTitleValidation")
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class PublicationTitleValidation extends Validation {
+        @JsonCreator
         public PublicationTitleValidation() {
-            super(DescriptionConstants.PUBLICATION_TITLE, Requirement.MANDATORY, getGroupName());
+            super(DescriptionConstants.PUBLICATION_TITLE, Requirement.MANDATORY, Group.PUBLICATION);
         }
 
         @Override
         public boolean hasPassed() {
             if (!getStudy().getPublications().isEmpty()) {
-                while (getStudy().getPublications().iterator().hasNext()) {
-                    Publication publication = getStudy().getPublications().iterator().next();
+                for (Publication publication : getStudy().getPublications()) {
+
                     if (!Utilities.minCharRequirementPassed(publication.getTitle(), 15)) {
                         return false;
                     }
                 }
+
             } else {
                 return false;
             }
@@ -56,27 +71,32 @@ public class PublicationValidation extends ValidationGroup {
         }
     }
 
-    public class PublicationAuthorValidation extends Validation {
+    @JsonTypeName("PublicationAuthorValidation")
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class PublicationAuthorValidation extends Validation {
+        @JsonCreator
         public PublicationAuthorValidation() {
-            super(DescriptionConstants.PUBLICATION_AUTHORS, Requirement.MANDATORY, getGroupName());
+            super(DescriptionConstants.PUBLICATION_AUTHORS, Requirement.MANDATORY, Group.PUBLICATION);
         }
 
         @Override
         public boolean hasPassed() {
-            return false;
+            return true;
         }
     }
 
-    public class PublicationIDsValidation extends Validation {
+    @JsonTypeName("PublicationIDsValidation")
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class PublicationIDsValidation extends Validation {
+        @JsonCreator
         public PublicationIDsValidation() {
-            super(DescriptionConstants.PUBLICATION_TITLE, Requirement.OPTIONAL, getGroupName());
+            super(DescriptionConstants.PUBLICATION_AUTHORS, Requirement.OPTIONAL, Group.PUBLICATION);
         }
 
         @Override
         public boolean hasPassed() {
             if (!getStudy().getPublications().isEmpty()) {
-                while (getStudy().getPublications().iterator().hasNext()) {
-                    Publication publication = getStudy().getPublications().iterator().next();
+                for (Publication publication : getStudy().getPublications()) {
                     if (publication.getPubmedId().isEmpty()) {
                         return false;
                     }

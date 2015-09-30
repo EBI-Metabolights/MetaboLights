@@ -2,10 +2,12 @@ package uk.ac.ebi.metabolights.repository.utils;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.model.Organism;
 import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.OverallValidation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -19,19 +21,23 @@ public class StudyValidationUtilitiesTest extends TestCase {
 
     }
 
+
+    @Test
     public void testValidate() throws Exception {
         Study study = new Study();
 
-        study.setTitle("I dont know what I am doing with my life!");
+        study.setTitle("Life is so cool, all is well!");
 
         Collection<Publication> publicationCollection = new LinkedList<>();
         Publication publication = new Publication();
-        publication.setTitle("I dont want this to be published");
+        publication.setTitle("scooby dooby doo scooby dooby doo scooby dooby doo scooby dooby doo scooby dooby doo");
+        publication.setPubmedId("123456");
         publicationCollection.add(publication);
         study.setPublications(publicationCollection);
 
-        OverallValidation overallValidation = StudyValidationUtilities.validate(study);
-        assertEquals(true, overallValidation.getValidationEntries().getData().size() > 0);
+        Validations validations = StudyValidationUtilities.validate(study);
+        assertEquals(true, validations.getEntries().size() > 0);
+        assertEquals(true, validations.getStatus().equals(Status.GREEN));
 
 //        Validation aValidation = (Validation) study.getValidations().getEntries().iterator().next();
 //

@@ -23,7 +23,7 @@ package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.OverallValidation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 
 import java.util.Collection;
 import java.util.Date;
@@ -48,7 +48,6 @@ public class Study extends LiteStudy {
     private Validations validations;
 
 
-    private OverallValidation overallValidation;
 
     // Tables Sample & Assays
     private Table sampleTable;
@@ -142,14 +141,4 @@ public class Study extends LiteStudy {
     public void setValidations(Validations validations) {
         this.validations = validations;
     }
-
-    public OverallValidation getOverallValidation() {
-        return overallValidation;
-    }
-
-    public void setOverallValidation(OverallValidation overallValidation) {
-        this.overallValidation = overallValidation;
-    }
-
-
 }

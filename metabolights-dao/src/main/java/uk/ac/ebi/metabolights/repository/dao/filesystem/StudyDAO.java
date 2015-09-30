@@ -27,11 +27,9 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.Isa
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Organism;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.Validation;
-import uk.ac.ebi.metabolights.repository.model.Validations;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtilities;
-import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtils;
+import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtilities;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -167,8 +165,7 @@ public class StudyDAO {
 
         // Convert it into a MetaboLights study
         studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
-        //StudyValidationUtils.validate(studyToFill);
-        studyToFill.setOverallValidation(StudyValidationUtilities.validate(studyToFill));
+        studyToFill.setValidations(StudyValidationUtilities.validate(studyToFill));
 
         logger.info("Study loaded from folder: {}", studyFolder.getAbsolutePath());
 
