@@ -43,9 +43,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class XMLExporter {
+public class StudyXMLExporter {
 
-    private final static Logger logger = LoggerFactory.getLogger(XMLExporter.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(StudyXMLExporter.class.getName());
     private final static String ENTRIES = "entries";
     private final static String FIELD = "field";
     private final static String REF = "ref";
@@ -61,7 +61,7 @@ public class XMLExporter {
     private static MetabolightsWsClient wsClient;
     private static List<String> metaboliteList;
 
-    public XMLExporter(){}
+    public StudyXMLExporter(){}
 
     public static DocumentBuilderFactory getDbf() {
         if (dbf == null)
@@ -105,7 +105,7 @@ public class XMLExporter {
     }
 
     public static void setMetaboliteList(List<String> metaboliteList) {
-        XMLExporter.metaboliteList = metaboliteList;
+        StudyXMLExporter.metaboliteList = metaboliteList;
     }
 
     public static Boolean hasValue(String str){
@@ -151,14 +151,11 @@ public class XMLExporter {
         try {
 
             initParams(fileName, wsClientURL);
-
             // create the root element node
             setRootXmlElements();
 
             //Loop thorough the studies returned from the WS
             addStudies();
-
-
 
             writeDocument(doc);
             return true;
@@ -409,7 +406,7 @@ public class XMLExporter {
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
-
+            break;
 
         }
 

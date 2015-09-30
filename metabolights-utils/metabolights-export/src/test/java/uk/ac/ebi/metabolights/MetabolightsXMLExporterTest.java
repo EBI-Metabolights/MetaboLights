@@ -21,13 +21,14 @@
 package uk.ac.ebi.metabolights;
 
 import junit.framework.TestCase;
+import uk.ac.ebi.metabolights.utils.exporter.MetabolightsXMLExporter;
 import uk.ac.ebi.metabolights.utils.exporter.XMLExporter;
 
-public class XMLExporterTest  extends TestCase{
+public class MetabolightsXMLExporterTest  extends TestCase{
 
-    XMLExporter xmlExporter = new XMLExporter();
-    String ISATabRootDirectory = XMLExporterTest.class.getClassLoader().getResource(".").getPath();
-    String fileName = ISATabRootDirectory + "test_export.xml";
+    MetabolightsXMLExporter xmlExporter = new MetabolightsXMLExporter();
+    String ISATabRootDirectory = MetabolightsXMLExporterTest.class.getClassLoader().getResource(".").getPath();
+    String fileName = ISATabRootDirectory + "ml_export.xml";
     String wsURL = "http://www.ebi.ac.uk/metabolights/webservice/";
 
     public void testXMLExporter(){
