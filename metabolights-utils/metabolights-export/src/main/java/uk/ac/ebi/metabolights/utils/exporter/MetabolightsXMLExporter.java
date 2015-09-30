@@ -48,7 +48,7 @@ import java.util.List;
 
 public class MetabolightsXMLExporter {
 
-    private final static Logger logger = LoggerFactory.getLogger(XMLExporter.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(MetabolightsXMLExporter.class.getName());
     private final static String STUDIES = "studies";
     private final static String COMPOUNDS = "compounds";
     private final static String FIELD = "field";
@@ -245,7 +245,7 @@ public class MetabolightsXMLExporter {
 
             i++;
             System.out.println(String.valueOf(i) + " ------- " +  String.valueOf(numberofcompounds - i));
-            break;
+
         }
 
         //Add the complete study list to the entries section
@@ -499,7 +499,6 @@ public class MetabolightsXMLExporter {
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
-            break;
 
         }
 
