@@ -193,58 +193,78 @@ public class MetabolightsXMLExporter {
         int i =0;
         for (String compoundAcc : allCompounds){
 
-            System.out.println("Processing compound " + compoundAcc);
-            logger.info("Processing Compound " + compoundAcc);
+            try {
+                System.out.println("Processing compound " + compoundAcc);
+                logger.info("Processing Compound " + compoundAcc);
 
-            //TODO, add ontologies
-            //TODO, add pubmed
+                //TODO, add ontologies
+                //TODO, add pubmed
 
-            MetaboLightsCompound compound = getCompound(compoundAcc).getMc();
+                MetaboLightsCompound compound = getCompound(compoundAcc).getMc();
 
-            Element entry = doc_.createElement("compound");
-            entry.setAttribute("id", compoundAcc);
+                Element entry = doc_.createElement("compound");
+                entry.setAttribute("id", compoundAcc);
 
-            //Add the sub tree "additional_fields"
-            Element additionalField = doc_.createElement("additional_fields");
+                //Add the sub tree "additional_fields"
+                Element additionalField = doc_.createElement("additional_fields");
 
 
-            entry.appendChild(createChildElement( FIELD, "inchi", compound.getInchi()));
-            entry.appendChild(createChildElement( FIELD, "iupac", compound.getIupacNames()));
-            entry.appendChild(createChildElement( FIELD, "formula", compound.getFormula()));
-            entry.appendChild(createChildElement( FIELD, "has_species", String.valueOf(compound.getHasSpecies())));
-            System.out.println("here");
-            ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
-            Element metspec = doc_.createElement("MetSpecies");
-            ArrayList<String> StudyList = new ArrayList<>();
-            for (MetSpecies species : metSpecies) {
-                Element spec = doc_.createElement("Species");
-                spec.appendChild(createChildElement( FIELD, "organism", species.getSpecies().getSpecies()));
-                spec.appendChild(createChildElement( FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
-                spec.appendChild(createChildElement( FIELD, "CrossReference", species.getCrossReference().getAccession()));
+                entry.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
+                entry.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
+                entry.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
+                entry.appendChild(createChildElement(FIELD, "has_species", String.valueOf(compound.getHasSpecies())));
+                try {
+                    ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
+                    Element metspec = doc_.createElement("MetSpecies");
+                    ArrayList<String> StudyList = new ArrayList<>();
+                    for (MetSpecies species : metSpecies) {
+                        Element spec = doc_.createElement("Species");
+                        spec.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
 
-                metspec.appendChild(spec);
+                        if (!species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
+                            spec.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
+                        }
 
-                if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
-                    System.out.println(species.getCrossReference().getDb().getName());
-                    StudyList.add(species.getCrossReference().getAccession());
+                        spec.appendChild(createChildElement(FIELD, "CrossReference", species.getCrossReference().getAccession()));
+
+                        metspec.appendChild(spec);
+
+                        if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
+                            System.out.println(species.getCrossReference().getAccession());
+                            if (StudyList.contains(species.getCrossReference().getAccession())) {
+                                System.out.println("exists");
+                            } else {
+                                StudyList.add(species.getCrossReference().getAccession());
+                            }
+
+                        }
+
+                        Element studiesAssoc = doc_.createElement("Studies");
+                        System.out.println(StudyList.size());
+                        for (String study : StudyList) {
+                            studiesAssoc.appendChild(createChildElement(FIELD, "study", study));
+                        }
+
+                        additionalField.appendChild(metspec);
+                        additionalField.appendChild(studiesAssoc);
+                    }
+                }catch(Exception e){
+
+                    System.out.println(e.getMessage());
+
                 }
+
+                entry.appendChild(additionalField);
+                //Add the complete study to the entry section
+                entries.appendChild(entry);
+
+
+                i++;
+                System.out.println(String.valueOf(i) + " ------- " + String.valueOf(numberofcompounds - i));
             }
-
-
-            Element studiesAssoc = doc_.createElement("Studies");
-            for(String study: StudyList){
-                studiesAssoc.appendChild(createChildElement(FIELD, "study", study));
+            catch (Exception e){
+                System.out.println(e.getMessage());
             }
-
-            additionalField.appendChild(metspec);
-            additionalField.appendChild(studiesAssoc);
-            entry.appendChild(additionalField);
-            //Add the complete study to the entry section
-            entries.appendChild(entry);
-
-
-            i++;
-            System.out.println(String.valueOf(i) + " ------- " +  String.valueOf(numberofcompounds - i));
 
         }
 
