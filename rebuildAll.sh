@@ -16,7 +16,7 @@ mvn clean install $DEPLOY -DskipTests=true
 cd ../metabolights-dao
 mvn clean install $DEPLOY -DskipTests=true
 cd ../MetaboLights-Search
-mvn clean package $DEPLOY -DskipTests=true
+mvn clean install $DEPLOY -DskipTests=true
 cd ../metabolights-webservice
 mvn clean package $DEPLOY -DskipTests=true
 cd ../metabolights-ws-client
