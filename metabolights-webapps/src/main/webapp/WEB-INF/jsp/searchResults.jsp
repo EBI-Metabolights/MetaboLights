@@ -109,18 +109,6 @@
                     <a href="#" data-action="next">&rsaquo;</a>
                     <a href="#" data-action="last">&raquo;</a>
                 </div>
-
-                <%--<div class="grid_11 omega">--%>
-                    <%--<span id="pagination" class="right">--%>
-                    <%--<c:if test="${pagination.page ne 1}">--%>
-                        <%--<a href="#" onClick="navigate(${pagination.page-1})">&lt;</a>--%>
-                    <%--</c:if>--%>
-                    <%--<b><c:out value="page ${pagination.page}"/></b>--%>
-                    <%--<c:if test="${pagination.page lt pagecount}">--%>
-                        <%--<a href="#" onClick="navigate(${pagination.page+1})">&gt;</a>--%>
-                    <%--</c:if>--%>
-                    <%--</span>--%>
-                <%--</div>--%>
             </c:if>
 
         </section>
