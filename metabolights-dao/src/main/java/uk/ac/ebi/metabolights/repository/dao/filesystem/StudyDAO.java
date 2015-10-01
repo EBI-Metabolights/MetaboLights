@@ -26,10 +26,12 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.Validation;
+
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.ExceptionValidations;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
+
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
-import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtils;
+import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtilities;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -178,24 +180,13 @@ public class StudyDAO {
         // Add Backups
         studyToFill.setBackups(FileAuditUtil.getBackupsCollection(studyFolder));
 
-        StudyValidationUtils.validate(studyToFill);
+        studyToFill.setValidations(StudyValidationUtilities.validate(studyToFill));
 
         // If there was an exception...
         if (exception != null) {
-
-
-            Validation validation = new Validation();
-
-            validation.setMessage(exception.getMessage());
-            validation.setType(Validation.Requirement.MANDATORY);
-            validation.setPassedRequirement(false);
-            validation.setDescription("Study metadata must load.");
-
-
             // Add a validation for the exception
-            studyToFill.getValidations().getEntries().add(validation);
-
-            throw exception;
+            studyToFill.getValidations().getEntries().add(new ExceptionValidations.UnexpectedExceptionValidation("Study metadata must load", exception));
+//            throw exception;
         }
 
         logger.info("Study loaded from folder: {}", studyFolder.getAbsolutePath());

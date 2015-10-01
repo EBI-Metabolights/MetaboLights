@@ -22,7 +22,6 @@ package uk.ac.ebi.metabolights;
 
 import junit.framework.TestCase;
 import uk.ac.ebi.metabolights.utils.exporter.MetabolightsXMLExporter;
-import uk.ac.ebi.metabolights.utils.exporter.XMLExporter;
 
 public class MetabolightsXMLExporterTest  extends TestCase{
 
