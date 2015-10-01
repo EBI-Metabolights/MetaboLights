@@ -13,8 +13,8 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.Group;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.PublicationValidation;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.StudyValidation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.PublicationValidations;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.StudyValidations;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -188,10 +188,10 @@ public class JSONserialization {
 
 		for (Group group : Group.values()) {
 			if (group.equals(Group.STUDY)) {
-				validations.addAll(new StudyValidation(group).isValid(study));
+				validations.addAll(new StudyValidations(group).isValid(study));
 			}
 			if (group.equals(Group.PUBLICATION)) {
-				validations.addAll(new PublicationValidation(group).isValid(study));
+				validations.addAll(new PublicationValidations(group).isValid(study));
 			}
 		}
 		return validations;

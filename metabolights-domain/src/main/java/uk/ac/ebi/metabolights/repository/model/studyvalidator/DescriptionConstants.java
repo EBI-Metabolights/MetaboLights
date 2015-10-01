@@ -29,11 +29,11 @@ public class DescriptionConstants {
 
 
     public static final String STUDY_FACTORS = "Study factors used in the experiment";
-    public static final String PROTOCOLS = "Experimental protocol(s) defined";
-    public static final String ASSAYS = "Assay(s) reported";
-    public static final String SAMPLES = "Sample(s) reported";
+    public static final String PROTOCOLS = "Experimental protocol(s)";
+    public static final String ASSAYS = "Assay(s)";
+    public static final String SAMPLES = "Sample(s)";
     public static final String PUBLICATIONS = "Publication(s) associated with this study";
-    public static final String ISATAB = "Isatab file check";
+    public static final String ISATAB_INVESTIGATION = "Isatab investigation file check";
 
 
     //OTHER

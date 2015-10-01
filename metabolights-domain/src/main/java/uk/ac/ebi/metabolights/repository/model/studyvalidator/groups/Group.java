@@ -13,5 +13,7 @@ public enum Group {
     ASSAYS,
     FILES,
     CROSSREFS,
-    EXCEPTION
+    EXCEPTION,
+    ISATAB,
+    SAMPLES
 }
