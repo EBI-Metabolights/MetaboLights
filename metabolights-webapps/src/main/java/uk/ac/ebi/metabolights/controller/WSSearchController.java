@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.Booster;
@@ -112,7 +113,7 @@ public class WSSearchController extends AbstractController{
 	}
 
 
-	@RequestMapping({ "/reflayersearch", "/reference", "/compounds" })
+	@RequestMapping({"/reference", "/compounds" })
 	public ModelAndView searchCompounds(HttpServletRequest request){
 
 		// Get the query
@@ -141,7 +142,7 @@ public class WSSearchController extends AbstractController{
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
 
 		//used for the JSP form
-		mav.addObject("action", MAVName);
+		mav.addObject("action", SEARCH);
 
 		if (MAVName.equals(SEARCH)){
 			mav.addObject(HEADER, PropertyLookup.getMessage("msg.search.title"));
@@ -256,10 +257,21 @@ public class WSSearchController extends AbstractController{
 	public ModelAndView MySubmissionsSearch (HttpServletRequest request) {
 
 
-		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(MY_SUBMISSIONS, request);
+		// Get the query
+		SearchQuery query = getQuery(request);
 
-		mav.addObject("usersFullName", LoginController.getLoggedUser().getFullName());
+		MetabolightsUser user = LoginController.getLoggedUser();
+
+		// Add a compound filter
+		Map.Entry userFilter = new AbstractMap.SimpleEntry(USERS_FULL_NAME,new String[]{user.getFullName()});
+
+
+		populateFacet(query ,userFilter);
+
+
+		//Trigger the internalSearch based on the filter
+		ModelAndView mav = internalSearch(MY_SUBMISSIONS, query);
+
 
 		return mav;
 	}

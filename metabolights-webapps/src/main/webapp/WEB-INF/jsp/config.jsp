@@ -324,9 +324,18 @@ $(function() {
             <a href="deleteindexedstudies" title="Delete all indexed studies">Delete all indexed studies</a><br/>
             <a href="reindexstudies" title="Reindex all the studies">Reindex all the studies</a><br/>
 
+            <form method="get" action="reindexstudies">
+                <label>Study to re/index:</label><input type="text" name="study"> <input type="submit" value="Index">
+            </form>
+            <a href="reindexstudies" title="Reindex all the studies">Reindex all the studies</a><br/>
+
             <h3>Compounds</h3>
             <a href="deleteindexedcompounds" title="Delete all indexed compounds">Delete all indexed compounds</a><br/>
             <a href="reindexcompounds" title="Reindex all the compounds">Reindex all the compounds</a><br/>
+
+            <form method="get" action="reindexcompounds">
+                <label>Compound to re/index:</label><input type="text" name="compound"> <input type="submit" value="Index">
+            </form>
 
             <h3>Status</h3>
             <c:forEach var="message" items="${status}">
