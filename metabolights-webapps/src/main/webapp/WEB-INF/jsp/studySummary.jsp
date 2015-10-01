@@ -64,7 +64,7 @@
 		<ul id="resultList">
 			<c:forEach var="owner" items="${liteStudy.users}">
 				<li>
-					<a href="mailto:${owner.email}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}">${owner.fullName}</a>
+					<a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}">${owner.fullName}</a>
 				</li>
 			</c:forEach>
 		</ul>
