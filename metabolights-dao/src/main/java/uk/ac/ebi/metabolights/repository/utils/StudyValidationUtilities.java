@@ -13,13 +13,6 @@ import java.util.LinkedList;
  */
 public class StudyValidationUtilities {
 
-//    public static OverallValidation validate(Study study) {
-//        Collection<Validation> validations = generateValidations(study);
-//        //Table validationTable = Utilities.convertValidationsListToTable(validations);
-//        Status status = Utilities.checkOverallStatus(validations);
-//        return new OverallValidation(validations, status);
-//    }
-
     public static Validations validate(Study study) {
         Collection<Validation> validationList = generateValidations(study);
         Validations validations = new Validations();
@@ -67,21 +60,4 @@ public class StudyValidationUtilities {
         }
         return validations;
     }
-
-    public static void main(String[] args) {
-        Study study = new Study();
-
-        study.setTitle("Life is cool!");
-
-        Collection<Publication> publicationCollection = new LinkedList<>();
-        Publication publication = new Publication();
-        publication.setTitle("To be published");
-        publicationCollection.add(publication);
-        study.setPublications(publicationCollection);
-
-        Validations validations = StudyValidationUtilities.validate(study);
-        System.out.println("Status: " + validations.getStatus());
-    }
-
-
 }

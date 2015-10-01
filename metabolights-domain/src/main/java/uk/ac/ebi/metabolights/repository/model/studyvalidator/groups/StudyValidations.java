@@ -24,15 +24,15 @@ public class StudyValidations extends ValidationGroup {
         super(group);
         getValidations().add(new StudyTitleValidation());
         getValidations().add(new StudyDescriptionValidation());
-       // getValidations().add(new StudyDesignDescriptorsValidation());
-       // getValidations().add(new MinimumStudyValidation());
+        // getValidations().add(new StudyDesignDescriptorsValidation());
+        // getValidations().add(new MinimumStudyValidation());
     }
 
     public StudyValidations(Group group, Study study) {
         super(group, study);
     }
 
-    public StudyValidations(){
+    public StudyValidations() {
     }
 
     @Override
@@ -55,9 +55,12 @@ public class StudyValidations extends ValidationGroup {
 
         @Override
         public boolean hasPassed() {
-           return Utilities.minCharRequirementPassed(
-                   getStudy().getTitle(), 15
-           );
+            if (!Utilities.minCharRequirementPassed(
+                    getStudy().getTitle(), 15)) {
+                setMessage("Study title is too short");
+                return false;
+            }
+            return true;
         }
     }
 
@@ -71,9 +74,12 @@ public class StudyValidations extends ValidationGroup {
 
         @Override
         public boolean hasPassed() {
-            return Utilities.minCharRequirementPassed(
-                    getStudy().getDescription(), 30
-            );
+            if (!Utilities.minCharRequirementPassed(
+                    getStudy().getDescription(), 30)) {
+                setMessage("Study description is too short");
+                return false;
+            }
+            return true;
         }
     }
 

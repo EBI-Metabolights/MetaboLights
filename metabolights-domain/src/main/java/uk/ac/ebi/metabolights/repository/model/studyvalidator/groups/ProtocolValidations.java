@@ -2,9 +2,11 @@ package uk.ac.ebi.metabolights.repository.model.studyvalidator.groups;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import uk.ac.ebi.metabolights.repository.model.Protocol;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.Collection;
@@ -43,11 +45,19 @@ public class ProtocolValidations extends ValidationGroup {
 
         @Override
         public boolean hasPassed() {
-            if (getStudy().getProtocols().isEmpty()) {
-                setMessage("Protocols list is empty");
+            if (!getStudy().getProtocols().isEmpty()) {
+                for (Protocol protocol : getStudy().getProtocols()) {
+                    if (!Utilities.minCharRequirementPassed(protocol.getDescription(), 3)) {
+                        setMessage("Protocol description is not sufficient or not all required fields are provided. Example:\"" + "\n"
+                        + protocol.getName() + "\" is either not provided or not sufficiently described");
+                        return false;
+                    }
+                }
+                return true;
+            } else {
+                setMessage("Protocols is empty");
                 return false;
             }
-            return true;
         }
     }
 }

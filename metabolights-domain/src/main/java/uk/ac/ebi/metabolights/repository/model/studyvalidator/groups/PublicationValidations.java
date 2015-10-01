@@ -26,7 +26,7 @@ public class PublicationValidations extends ValidationGroup {
     public PublicationValidations(Group group) {
         super(group);
         getValidations().add(new PublicationTitleValidation());
-        getValidations().add(new PublicationAuthorValidation());
+        //getValidations().add(new PublicationAuthorValidation());
         getValidations().add(new PublicationIDsValidation());
     }
 
@@ -57,14 +57,14 @@ public class PublicationValidations extends ValidationGroup {
         public boolean hasPassed() {
             if (!getStudy().getPublications().isEmpty()) {
                 for (Publication publication : getStudy().getPublications()) {
-
                     if (!Utilities.minCharRequirementPassed(publication.getTitle(), 15)) {
+                        setMessage("Publication Title length is not sufficient");
                         return false;
                     }
                 }
 
             } else {
-                setMessage("Publication list is empty");
+                setMessage("Publication is empty");
                 return false;
             }
             return true;
@@ -84,7 +84,7 @@ public class PublicationValidations extends ValidationGroup {
             if (!getStudy().getPublications().isEmpty()) {
                 //TODO add author info to Publication class
             } else {
-                setMessage("Publication list is empty");
+                setMessage("Publication is empty");
                 return false;
             }
             return true;
@@ -104,11 +104,12 @@ public class PublicationValidations extends ValidationGroup {
             if (!getStudy().getPublications().isEmpty()) {
                 for (Publication publication : getStudy().getPublications()) {
                     if (publication.getPubmedId().isEmpty()) {
+                        setMessage("Pubmed ID is not provided");
                         return false;
                     }
                 }
             } else {
-                setMessage("Publication list is empty");
+                setMessage("Publication is empty");
                 return false;
             }
             return true;

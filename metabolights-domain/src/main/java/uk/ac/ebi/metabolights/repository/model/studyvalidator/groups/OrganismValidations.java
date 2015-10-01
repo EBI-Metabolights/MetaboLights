@@ -60,7 +60,7 @@ public class OrganismValidations extends ValidationGroup {
                 }
 
             } else {
-                setMessage("Organism list is empty");
+                setMessage("Organism is empty");
                 return false;
             }
             return true;
@@ -87,7 +87,7 @@ public class OrganismValidations extends ValidationGroup {
                 }
 
             } else {
-                setMessage("Organism list is empty");
+                setMessage("Organism is empty");
                 return false;
             }
             return true;
