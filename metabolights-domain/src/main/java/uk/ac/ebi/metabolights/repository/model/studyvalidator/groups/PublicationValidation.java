@@ -41,7 +41,6 @@ public class PublicationValidation extends ValidationGroup {
         for (Validation validation : getValidations()) {
             validation.setPassedRequirement(validation.hasPassed());
             validation.setStatus();
-            //validation.setMessage("Hello");
         }
         return getValidations();
     }

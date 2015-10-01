@@ -18,7 +18,8 @@ import java.util.LinkedList;
         @JsonSubTypes.Type(value= StudyValidation.class, name="StudyValidation"),
         @JsonSubTypes.Type(value= PublicationValidation.class, name="PublicationValidation"),
         @JsonSubTypes.Type(value= OrganismValidation.class, name="OrganismValidation"),
-        @JsonSubTypes.Type(value= ExceptionValidation.class, name="ExceptionValidation")
+        @JsonSubTypes.Type(value= ExceptionValidation.class, name="ExceptionValidation"),
+        @JsonSubTypes.Type(value= IsatabValidation.class, name="IsatabValidation")
 })
 public abstract class ValidationGroup {
 
