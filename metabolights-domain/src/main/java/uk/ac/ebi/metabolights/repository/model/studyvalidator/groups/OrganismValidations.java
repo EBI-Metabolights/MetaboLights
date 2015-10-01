@@ -15,17 +15,17 @@ import java.util.Collection;
 /**
  * Created by kalai on 30/09/15.
  */
-@JsonTypeName("OrganismValidation")
+@JsonTypeName("OrganismValidations")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OrganismValidation extends ValidationGroup {
+public class OrganismValidations extends ValidationGroup {
 
-    public OrganismValidation(Group group) {
+    public OrganismValidations(Group group) {
         super(group);
         getValidations().add(new OrganismNameValidation());
         getValidations().add(new OrganismPartValidation());
     }
 
-    public OrganismValidation() {
+    public OrganismValidations() {
 
     }
 
@@ -60,6 +60,7 @@ public class OrganismValidation extends ValidationGroup {
                 }
 
             } else {
+                setMessage("Organism list is empty");
                 return false;
             }
             return true;
@@ -86,6 +87,7 @@ public class OrganismValidation extends ValidationGroup {
                 }
 
             } else {
+                setMessage("Organism list is empty");
                 return false;
             }
             return true;

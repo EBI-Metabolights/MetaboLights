@@ -1,10 +1,7 @@
 package uk.ac.ebi.metabolights.repository.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.Table;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
 
@@ -40,21 +37,33 @@ public class StudyValidationUtilities {
             for (Group group : Group.values()) {
                 if (!group.equals(Group.EXCEPTION)) {
                     if (group.equals(Group.STUDY)) {
-                        validations.addAll(new StudyValidation(group).isValid(study));
+                        validations.addAll(new StudyValidations(group).isValid(study));
                     }
                     if (group.equals(Group.PUBLICATION)) {
-                        validations.addAll(new PublicationValidation(group).isValid(study));
+                        validations.addAll(new PublicationValidations(group).isValid(study));
                     }
                     if (group.equals(Group.FACTORS)) {
-                        validations.addAll(new FactorValidation(group).isValid(study));
+                        validations.addAll(new FactorValidations(group).isValid(study));
                     }
                     if (group.equals(Group.ORGANISM)) {
-                        validations.addAll(new OrganismValidation(group).isValid(study));
+                        validations.addAll(new OrganismValidations(group).isValid(study));
+                    }
+                    if (group.equals(Group.ISATAB)) {
+                        validations.addAll(new IsatabValidations(group).isValid(study));
+                    }
+                    if (group.equals(Group.ASSAYS)) {
+                        validations.addAll(new AssayValidations(group).isValid(study));
+                    }
+                    if (group.equals(Group.PROTOCOLS)) {
+                        validations.addAll(new ProtocolValidations(group).isValid(study));
+                    }
+                    if (group.equals(Group.SAMPLES)) {
+                        validations.addAll(new SampleValidations(group).isValid(study));
                     }
                 }
             }
-        }catch(Exception e){
-           validations.addAll(new ExceptionValidation(Group.EXCEPTION, e).isValid(study));
+        } catch (Exception e) {
+            validations.addAll(new ExceptionValidations(Group.EXCEPTION, e).isValid(study));
         }
         return validations;
     }

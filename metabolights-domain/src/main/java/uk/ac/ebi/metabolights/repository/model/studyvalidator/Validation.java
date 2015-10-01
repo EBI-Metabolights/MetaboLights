@@ -12,17 +12,21 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = FactorValidation.FactorNameValidation.class, name = "FactorName"),
-        @JsonSubTypes.Type(value = FactorValidation.FactorTypeValidation.class, name = "FactorType"),
-        @JsonSubTypes.Type(value = StudyValidation.MinimumStudyValidation.class, name = "MinimumStudyValidation"),
-        @JsonSubTypes.Type(value = StudyValidation.StudyDescriptionValidation.class, name = "StudyDescriptionValidation"),
-        @JsonSubTypes.Type(value = StudyValidation.StudyDesignDescriptorsValidation.class, name = "StudyDesignDescriptorsValidation"),
-        @JsonSubTypes.Type(value = StudyValidation.StudyTitleValidation.class, name = "StudyTitleValidation"),
-        @JsonSubTypes.Type(value = PublicationValidation.PublicationAuthorValidation.class, name = "PublicationAuthorValidation"),
-        @JsonSubTypes.Type(value = PublicationValidation.PublicationIDsValidation.class, name = "PublicationIDsValidation"),
-        @JsonSubTypes.Type(value = PublicationValidation.PublicationTitleValidation.class, name = "PublicationTitleValidation"),
-        @JsonSubTypes.Type(value = OrganismValidation.OrganismNameValidation.class, name = "OrganismNameValidation"),
-        @JsonSubTypes.Type(value = ExceptionValidation.UnexpectedExceptionValidation.class, name = "UnexpectedExceptionValidation")
+        @JsonSubTypes.Type(value = FactorValidations.FactorNameValidation.class, name = "FactorName"),
+        @JsonSubTypes.Type(value = FactorValidations.FactorTypeValidation.class, name = "FactorType"),
+        @JsonSubTypes.Type(value = StudyValidations.MinimumStudyValidation.class, name = "MinimumStudyValidation"),
+        @JsonSubTypes.Type(value = StudyValidations.StudyDescriptionValidation.class, name = "StudyDescriptionValidation"),
+        @JsonSubTypes.Type(value = StudyValidations.StudyDesignDescriptorsValidation.class, name = "StudyDesignDescriptorsValidation"),
+        @JsonSubTypes.Type(value = StudyValidations.StudyTitleValidation.class, name = "StudyTitleValidation"),
+        @JsonSubTypes.Type(value = PublicationValidations.PublicationAuthorValidation.class, name = "PublicationAuthorValidation"),
+        @JsonSubTypes.Type(value = PublicationValidations.PublicationIDsValidation.class, name = "PublicationIDsValidation"),
+        @JsonSubTypes.Type(value = PublicationValidations.PublicationTitleValidation.class, name = "PublicationTitleValidation"),
+        @JsonSubTypes.Type(value = OrganismValidations.OrganismNameValidation.class, name = "OrganismNameValidation"),
+        @JsonSubTypes.Type(value = ExceptionValidations.UnexpectedExceptionValidation.class, name = "UnexpectedExceptionValidation"),
+        @JsonSubTypes.Type(value = IsatabValidations.IsatabInvestigationFileStructureValidation.class, name = "IsatabInvestigationFileStructureValidation"),
+        @JsonSubTypes.Type(value = AssayValidations.AssayValidation.class, name = "AssayValidation"),
+        @JsonSubTypes.Type(value = ProtocolValidations.ProtocolValidation.class, name = "ProtocolValidation"),
+        @JsonSubTypes.Type(value = SampleValidations.SampleValidation.class, name = "SampleValidation")
 })
 public abstract class Validation {
 

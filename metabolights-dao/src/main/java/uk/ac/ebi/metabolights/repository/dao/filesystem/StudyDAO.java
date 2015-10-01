@@ -27,7 +27,7 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.Isa
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.ExceptionValidation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.ExceptionValidations;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
 
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
@@ -185,7 +185,7 @@ public class StudyDAO {
         // If there was an exception...
         if (exception != null) {
             // Add a validation for the exception
-            studyToFill.getValidations().getEntries().add(new ExceptionValidation.UnexpectedExceptionValidation("Study metadata must load", exception));
+            studyToFill.getValidations().getEntries().add(new ExceptionValidations.UnexpectedExceptionValidation("Study metadata must load", exception));
 //            throw exception;
         }
 

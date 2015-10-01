@@ -15,24 +15,24 @@ import java.util.Collection;
 /**
  * Created by kalai on 18/09/15.
  */
-@JsonTypeName("StudyValidation")
+@JsonTypeName("StudyValidations")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class StudyValidation extends ValidationGroup {
+public class StudyValidations extends ValidationGroup {
 
 
-    public StudyValidation(Group group) {
+    public StudyValidations(Group group) {
         super(group);
         getValidations().add(new StudyTitleValidation());
         getValidations().add(new StudyDescriptionValidation());
-        getValidations().add(new StudyDesignDescriptorsValidation());
-        getValidations().add(new MinimumStudyValidation());
+       // getValidations().add(new StudyDesignDescriptorsValidation());
+       // getValidations().add(new MinimumStudyValidation());
     }
 
-    public StudyValidation(Group group, Study study) {
+    public StudyValidations(Group group, Study study) {
         super(group, study);
     }
 
-    public StudyValidation(){
+    public StudyValidations(){
     }
 
     @Override
@@ -41,7 +41,6 @@ public class StudyValidation extends ValidationGroup {
         for (Validation validation : getValidations()) {
             validation.setPassedRequirement(validation.hasPassed());
             validation.setStatus();
-            //validation.setMessage("Hello");
         }
         return getValidations();
     }
@@ -72,7 +71,9 @@ public class StudyValidation extends ValidationGroup {
 
         @Override
         public boolean hasPassed() {
-            return true;
+            return Utilities.minCharRequirementPassed(
+                    getStudy().getDescription(), 30
+            );
         }
     }
 

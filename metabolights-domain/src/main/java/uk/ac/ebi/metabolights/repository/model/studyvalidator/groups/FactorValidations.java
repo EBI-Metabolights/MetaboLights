@@ -16,16 +16,16 @@ import java.util.Collection;
 /**
  * Created by kalai on 18/09/15.
  */
-@JsonTypeName("FactorValidation")
+@JsonTypeName("FactorValidations")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FactorValidation extends ValidationGroup {
-    public FactorValidation(Group group) {
+public class FactorValidations extends ValidationGroup {
+    public FactorValidations(Group group) {
         super(group);
         getValidations().add(new FactorNameValidation());
         //getValidations().add(new FactorTypeValidation());
     }
 
-    public FactorValidation(){
+    public FactorValidations(){
 
     }
 
@@ -58,6 +58,7 @@ public class FactorValidation extends ValidationGroup {
                 }
 
             } else {
+                setMessage("Factors list is empty");
                 return false;
             }
             return true;

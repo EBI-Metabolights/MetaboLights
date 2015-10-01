@@ -13,23 +13,23 @@ import java.util.Collection;
 /**
  * Created by kalai on 30/09/15.
  */
-@JsonTypeName("ExceptionValidation")
+@JsonTypeName("ExceptionValidations")
 @JsonIgnoreProperties(ignoreUnknown = true)
 
-public class ExceptionValidation extends ValidationGroup {
+public class ExceptionValidations extends ValidationGroup {
 
 
-    public ExceptionValidation(Group group) {
+    public ExceptionValidations(Group group) {
         super(group);
         getValidations().add(new UnexpectedExceptionValidation());
     }
 
-    public ExceptionValidation(Group group, Exception exception) {
+    public ExceptionValidations(Group group, Exception exception) {
         super(group);
         getValidations().add(new UnexpectedExceptionValidation(exception));
     }
 
-    public ExceptionValidation() {
+    public ExceptionValidations() {
 
     }
 

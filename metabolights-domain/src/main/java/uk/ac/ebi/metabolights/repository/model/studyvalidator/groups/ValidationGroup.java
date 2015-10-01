@@ -2,7 +2,6 @@ package uk.ac.ebi.metabolights.repository.model.studyvalidator.groups;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
@@ -14,12 +13,15 @@ import java.util.LinkedList;
  */
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include= JsonTypeInfo.As.PROPERTY, property="@class")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value=FactorValidation.class, name="FactorValidation"),
-        @JsonSubTypes.Type(value= StudyValidation.class, name="StudyValidation"),
-        @JsonSubTypes.Type(value= PublicationValidation.class, name="PublicationValidation"),
-        @JsonSubTypes.Type(value= OrganismValidation.class, name="OrganismValidation"),
-        @JsonSubTypes.Type(value= ExceptionValidation.class, name="ExceptionValidation"),
-        @JsonSubTypes.Type(value= IsatabValidation.class, name="IsatabValidation")
+        @JsonSubTypes.Type(value=FactorValidations.class, name="FactorValidations"),
+        @JsonSubTypes.Type(value= StudyValidations.class, name="StudyValidations"),
+        @JsonSubTypes.Type(value= PublicationValidations.class, name="PublicationValidations"),
+        @JsonSubTypes.Type(value= OrganismValidations.class, name="OrganismValidations"),
+        @JsonSubTypes.Type(value= ExceptionValidations.class, name="ExceptionValidations"),
+        @JsonSubTypes.Type(value= IsatabValidations.class, name="IsatabValidations"),
+        @JsonSubTypes.Type(value= AssayValidations.class, name="AssayValidations"),
+        @JsonSubTypes.Type(value= ProtocolValidations.class, name="ProtocolValidations"),
+        @JsonSubTypes.Type(value= SampleValidations.class, name="SampleValidations")
 })
 public abstract class ValidationGroup {
 

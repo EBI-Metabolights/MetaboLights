@@ -17,20 +17,20 @@ import java.util.Collection;
 /**
  * Created by kalai on 18/09/15.
  */
-@JsonTypeName("PublicationValidation")
+@JsonTypeName("PublicationValidations")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PublicationValidation extends ValidationGroup {
+public class PublicationValidations extends ValidationGroup {
 
     Publication publication;
 
-    public PublicationValidation(Group group) {
+    public PublicationValidations(Group group) {
         super(group);
         getValidations().add(new PublicationTitleValidation());
         getValidations().add(new PublicationAuthorValidation());
         getValidations().add(new PublicationIDsValidation());
     }
 
-    public PublicationValidation(){
+    public PublicationValidations(){
 
     }
 
