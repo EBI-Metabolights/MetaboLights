@@ -260,7 +260,7 @@ public class IsaTabReplacer
 	public void execute() throws Exception{
 
         try {
-            logger.info("Starting submission upload");
+            logger.info("Starting id replacement process");
 
             //Load properties
             logger.info("Loading properties");

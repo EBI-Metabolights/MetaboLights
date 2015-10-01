@@ -18,7 +18,6 @@ import java.util.Collection;
 
 public class ExceptionValidation extends ValidationGroup {
 
-    public static Exception exception;
 
     public ExceptionValidation(Group group) {
         super(group);
@@ -27,8 +26,7 @@ public class ExceptionValidation extends ValidationGroup {
 
     public ExceptionValidation(Group group, Exception exception) {
         super(group);
-        this.exception = exception;
-        getValidations().add(new UnexpectedExceptionValidation());
+        getValidations().add(new UnexpectedExceptionValidation(exception));
     }
 
     public ExceptionValidation() {
@@ -41,20 +39,29 @@ public class ExceptionValidation extends ValidationGroup {
         for (Validation validation : getValidations()) {
             validation.setPassedRequirement(validation.hasPassed());
             validation.setStatus();
-            validation.setMessage("We could NOT successfully run all the validations. Some validations might have passed." +
-                    " There was an exception during the validation: " +
-                    exception.getMessage() + ", " +
-                    exception.getClass().getName());
-        }
+           }
         return getValidations();
     }
 
     @JsonTypeName("UnexpectedExceptionValidation")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class UnexpectedExceptionValidation extends Validation {
-        @JsonCreator
+
         public UnexpectedExceptionValidation() {
             super(DescriptionConstants.EXCEPTION, Requirement.MANDATORY, Group.EXCEPTION);
+        }
+
+        public UnexpectedExceptionValidation(Exception exception) {
+            super(DescriptionConstants.EXCEPTION, Requirement.MANDATORY, Group.EXCEPTION);
+            setMessage("We could NOT successfully run all the validations. Some validations might have passed." +
+                    " There was an exception during the validation: " +
+                    exception.getMessage() + ", " +
+                    exception.getClass().getName());
+        }
+
+        public UnexpectedExceptionValidation(String description, Exception e) {
+            super(description, Requirement.MANDATORY, Group.EXCEPTION);
+            setMessage("Something went wrong here: " + e.getMessage());
         }
 
         @Override

@@ -25,16 +25,10 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>
+<%--<script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>--%>
+<script type="text/javascript" src="javascript/jquery.jqpagination.min.js"></script>
+<link rel="stylesheet" href="cssrl/jqpagination.css" type="text/css" />
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
-<script type="text/javascript">
-    function navigate(_pageNumber) {
-        filterForm = document.forms['filterForm'];
-        pageNumberField = filterForm.elements["pageNumber"];
-        pageNumberField.value=_pageNumber;
-        filterForm.submit();
-    }
-</script>
 <h2>
     <%-- Error --%>
     <c:if test="${!empty searcResult.err}">
@@ -65,8 +59,26 @@
 <c:set var="query" value="${searchResponse.content.query}"/>
 <c:set var="pagination" value="${query.pagination}"/>
 <c:set var="hits" value="${searchResponse.content.results}"/>
-<c:set var="hits" value="${searchResponse.content.results}"/>
 <c:set var="facets" value="${query.facets}"/>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        $('.pagination').jqPagination({
+            paged: function (page) {
+                // do something with the page variable
+                filterForm = document.forms['filterForm'];
+                pageNumberField = filterForm.elements["pageNumber"];
+                pageNumberField.value= page;
+                filterForm.submit();
+
+            },
+            current_page: ${pagination.page},
+            max_page: ${pagecount}
+        });
+    });
+</script>
 
 <c:if test="${!empty searchResponse}">
     <c:if test="${!empty query.text}">
@@ -90,17 +102,25 @@
                 </strong>
             </div>
             <c:if test="${pagecount gt 1}">
-                <div class="grid_11 omega">
-                    <span id="pagination" class="right">
-                    <c:if test="${pagination.page ne 1}">
-                        <a href="#" onClick="navigate(${pagination.page-1})">&lt;</a>
-                    </c:if>
-                    <b><c:out value="page ${pagination.page}"/></b>
-                    <c:if test="${pagination.page lt pagecount}">
-                        <a href="#" onClick="navigate(${pagination.page+1})">&gt;</a>
-                    </c:if>
-                    </span>
+                <div class="right pagination">
+                    <a href="#" data-action="first">&laquo;</a>
+                    <a href="#" data-action="previous">&lsaquo;</a>
+                    <input type="text" readonly="readonly" />
+                    <a href="#" data-action="next">&rsaquo;</a>
+                    <a href="#" data-action="last">&raquo;</a>
                 </div>
+
+                <%--<div class="grid_11 omega">--%>
+                    <%--<span id="pagination" class="right">--%>
+                    <%--<c:if test="${pagination.page ne 1}">--%>
+                        <%--<a href="#" onClick="navigate(${pagination.page-1})">&lt;</a>--%>
+                    <%--</c:if>--%>
+                    <%--<b><c:out value="page ${pagination.page}"/></b>--%>
+                    <%--<c:if test="${pagination.page lt pagecount}">--%>
+                        <%--<a href="#" onClick="navigate(${pagination.page+1})">&gt;</a>--%>
+                    <%--</c:if>--%>
+                    <%--</span>--%>
+                <%--</div>--%>
             </c:if>
 
         </section>
@@ -116,7 +136,7 @@
 
         <c:if test="${pagecount gt 1}">
             <div id="paginationBottom" class="grid_23 title alpha" ></div>
-            <script>$('#pagination').clone().appendTo('#paginationBottom');</script>
+            <script>$('.pagination').clone().appendTo('#paginationBottom');</script>
         </c:if>
 
         <c:if test="${!empty query.text}">

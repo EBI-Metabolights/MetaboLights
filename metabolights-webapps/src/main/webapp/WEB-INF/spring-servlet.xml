@@ -103,7 +103,6 @@
     <jee:jndi-lookup id="urlActivateNewAccount"     jndi-name="java:comp/env/urlActivateNewAccount" />
     <jee:jndi-lookup id="uploadDirectory"           jndi-name="java:comp/env/uploadDirectory" />
     <jee:jndi-lookup id="ftpServer"                 jndi-name="java:comp/env/ftpServer" />
-    <jee:jndi-lookup id="filebase"                  jndi-name="java:comp/env/filebase" />
     <jee:jndi-lookup id="ondemand"                  jndi-name="java:comp/env/ondemand" />
     <jee:jndi-lookup id="headerURL"                 jndi-name="java:comp/env/headerURL" />
     <jee:jndi-lookup id="localHeaderURL"            jndi-name="java:comp/env/localHeaderURL" />

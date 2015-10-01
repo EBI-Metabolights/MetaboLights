@@ -278,6 +278,10 @@
         <c:if test="${not empty study.studyPublicReleaseDate}">
             ,<spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studyPublicReleaseDate}"/></strong>
         </c:if>
+        <c:if test="${not empty study.updateDate}">
+            ,<spring:message code="label.updateDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.updateDate}"/></strong>
+        </c:if>
+
         <br/><spring:message code="ref.msg.status"/>:${study.studyStatus.descriptiveName}
     </span>
 
@@ -303,9 +307,17 @@
 
         <!-- Setting up tab list-->
         <ul class="tabHeader">
-            <li><a href="#tabs-1" class="noLine"><spring:message code="label.studyDesign"/></a></li>
-            <li><a href="#tabs-2" class="noLine"><spring:message code="label.protocols"/></a></li>
-            <li><a href="#tabs-3" class="noLine"><spring:message code="label.sample"/></a></li>
+            <%--So far if any collection, like factors is empty, it means there was an error loading isatab file, and conversion never happened.--%>
+            <c:if test="${study.factors != null}">
+                <li><a href="#tabs-1" class="noLine"><spring:message code="label.studyDesign"/></a></li>
+            </c:if>
+
+            <c:if test="${not empty study.protocols}">
+                <li><a href="#tabs-2" class="noLine"><spring:message code="label.protocols"/></a></li>
+            </c:if>
+            <c:if test="${not empty study.sampleTable}">
+                <li><a href="#tabs-3" class="noLine"><spring:message code="label.sample"/></a></li>
+            </c:if>
             <c:if test="${not empty study.assays}">
                 <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                     <li>
@@ -341,77 +353,79 @@
 
 
         <!-- TAB1: INFO-->
-        <div id="tabs-1" class="tab">
-            <c:if test="${not empty study.organism}">
-                <br/>
-                <fieldset class="box">
-                    <legend><spring:message code="label.organisms"/>:</legend>
+        <c:if test="${study.factors != null}">
+            <div id="tabs-1" class="tab">
+                <c:if test="${not empty study.organism}">
                     <br/>
-                    <c:forEach var="org" items="${study.organism}" >
-                        <p>${org.organismName}</p>
-                    </c:forEach>
-                </fieldset>
-            </c:if>
-            <c:if test="${not empty study.descriptors}">
-                <br/>
-                <fieldset class="box">
-                    <legend><spring:message code="label.studyDesign"/>:</legend>
-                    <br/>
-                    <ul>
-                        <c:forEach var="design" items="${study.descriptors}" >
-                        <li>${design.description}
+                    <fieldset class="box">
+                        <legend><spring:message code="label.organisms"/>:</legend>
+                        <br/>
+                        <c:forEach var="org" items="${study.organism}" >
+                            <p>${org.organismName}</p>
                         </c:forEach>
-                    </ul>
-                </fieldset>
-            </c:if>
+                    </fieldset>
+                </c:if>
+                <c:if test="${not empty study.descriptors}">
+                    <br/>
+                    <fieldset class="box">
+                        <legend><spring:message code="label.studyDesign"/>:</legend>
+                        <br/>
+                        <ul>
+                            <c:forEach var="design" items="${study.descriptors}" >
+                            <li>${design.description}
+                            </c:forEach>
+                        </ul>
+                    </fieldset>
+                </c:if>
 
-            <c:if test="${not empty study.publications}">
-                <br/>
-                <fieldset class="box">
-                    <legend><span class="ebiicon book"></span>&nbsp;<spring:message code="label.publications"/></legend>
-                    <c:forEach var="pub" items="${study.publications}" varStatus="loopPublications">
-                        <p>
-                        [${loopPublications.index+1}]&nbsp;
-                        <c:set var="DOIValue" value="${pub.doi}"/>
-                        <c:choose>
-                            <c:when test="${not empty pub.pubmedId}">
-                                <a href="http://europepmc.org/abstract/MED/${pub.pubmedId}">${pub.title}</a>
-                            </c:when>
-                            <c:when test="${not empty pub.doi}">
-                                <c:if test="${fn:contains(DOIValue, 'DOI')}">
-                                    <c:set var="DOIValue" value="${fn:replace(DOIValue, 'DOI:','')}"/>
-                                </c:if>
-                                <c:if test="${fn:contains(DOIValue, 'dx.doi')}">
-                                    <a href="${DOIValue}">${pub.title}</a>
-                                </c:if>
-                                <c:if test="${not fn:contains(DOIValue, 'dx.doi')}">
-                                    <a href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
-                                </c:if>
-                            </c:when>
-                            <c:otherwise>${pub.title}</c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                    </p>
-                </fieldset>
-            </c:if>
-            <c:if test="${not empty study.factors}">
-                <br/>
-                <fieldset class="box">
-                    <legend><spring:message code="label.experimentalFactors"/></legend>
-                    <ul>
-                        <c:forEach var="fv" items="${study.factors}">
-                            <li>
-                                ${fv.name}
-                            </li>
+                <c:if test="${not empty study.publications}">
+                    <br/>
+                    <fieldset class="box">
+                        <legend><span class="ebiicon book"></span>&nbsp;<spring:message code="label.publications"/></legend>
+                        <c:forEach var="pub" items="${study.publications}" varStatus="loopPublications">
+                            <p>
+                            [${loopPublications.index+1}]&nbsp;
+                            <c:set var="DOIValue" value="${pub.doi}"/>
+                            <c:choose>
+                                <c:when test="${not empty pub.pubmedId}">
+                                    <a href="http://europepmc.org/abstract/MED/${pub.pubmedId}">${pub.title}</a>
+                                </c:when>
+                                <c:when test="${not empty pub.doi}">
+                                    <c:if test="${fn:contains(DOIValue, 'DOI')}">
+                                        <c:set var="DOIValue" value="${fn:replace(DOIValue, 'DOI:','')}"/>
+                                    </c:if>
+                                    <c:if test="${fn:contains(DOIValue, 'dx.doi')}">
+                                        <a href="${DOIValue}">${pub.title}</a>
+                                    </c:if>
+                                    <c:if test="${not fn:contains(DOIValue, 'dx.doi')}">
+                                        <a href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>${pub.title}</c:otherwise>
+                            </c:choose>
                         </c:forEach>
-                    </ul>
-                </fieldset>
-            </c:if>
-        </div>
+                        </p>
+                    </fieldset>
+                </c:if>
+                <c:if test="${not empty study.factors}">
+                    <br/>
+                    <fieldset class="box">
+                        <legend><spring:message code="label.experimentalFactors"/></legend>
+                        <ul>
+                            <c:forEach var="fv" items="${study.factors}">
+                                <li>
+                                    ${fv.name}
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </fieldset>
+                </c:if>
+            </div>
+        </c:if>
 
         <!-- TAB2: Protocols-->
-        <div id="tabs-2" class="tab">
-            <c:if test="${not empty study.protocols}">
+        <c:if test="${not empty study.protocols}">
+            <div id="tabs-2" class="tab">
                 <table class="clean">
                     <thead class='text_header'>
                     <tr>
@@ -433,13 +447,13 @@
                     </c:forEach>
                     </tbody>
                 </table>
-            </c:if>
-        </div>
+            </div>
+        </c:if>
         <!-- ends tabs-2 -->
 
         <!-- TAB3: Sample-->
-        <div id="tabs-3" class="tab">
-            <c:if test="${not empty study.sampleTable}">
+        <c:if test="${not empty study.sampleTable}">
+            <div id="tabs-3" class="tab">
                 <table class="display clean">
                     <thead class='text_header'>
                     <tr>
@@ -471,8 +485,8 @@
                         </c:forEach>
                     </tbody>
                 </table>
-            </c:if>
-        </div>
+            </div>
+        </c:if>
         <!-- TAB4+: Assays-->
         <c:if test="${not empty study.assays}">
             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">

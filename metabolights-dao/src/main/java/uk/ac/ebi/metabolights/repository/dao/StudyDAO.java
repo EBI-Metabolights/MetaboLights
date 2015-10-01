@@ -366,7 +366,6 @@ public class StudyDAO {
 
         // Restore back up...
 
-
         // Get the StudyFolder
         File studyFolder = getStudyFolder(studyIdentifier);
 

@@ -25,15 +25,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.Organism;
 import uk.ac.ebi.metabolights.repository.model.Study;
+
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.ExceptionValidation;
+import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
+
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
-import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtilities;
 import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtilities;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.Collection;
 
 /**
  * User: conesa
@@ -142,10 +143,11 @@ public class StudyDAO {
 
             } catch (Exception e) {
 
-                logger.warn("Folder for {} found, but metadata can't be loaded. Load process will continue but without metadata. This should be fixed submitting new metadata files.", studyToFill.getStudyIdentifier(), e);
+                logger.warn("Folder for {} found, but metadata can't be loaded. Load process will continue but without metadata. This should be fixed by submitting new metadata files.", studyToFill.getStudyIdentifier(), e);
+
             }
 
-            // Return what we have (could be onlt DB data in case of metadata load failure.)
+            // Return what we have (could be only DB data in case of metadata load failure.)
             return studyToFill;
 
         } else {
@@ -159,13 +161,33 @@ public class StudyDAO {
         // Set the location
         studyToFill.setStudyLocation(studyFolder.getAbsolutePath());
 
+        IsaTabException exception = null;
 
         // Load the IsaTab investigation
-        org.isatools.isacreator.model.Investigation isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
+        org.isatools.isacreator.model.Investigation isaInvestigation = null;
+        try {
 
-        // Convert it into a MetaboLights study
-        studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
+            isaInvestigation = isaTabInvestigationDAO.getInvestigation(studyFolder.getAbsolutePath());
+
+            // Convert it into a MetaboLights study
+            studyToFill = IsaTab2MetaboLightsConverter.convert(isaInvestigation, studyFolder.getAbsolutePath(), includeMetabolites, studyToFill);
+
+
+        } catch (IsaTabException e) {
+            exception = e;
+        }
+
+        // Add Backups
+        studyToFill.setBackups(FileAuditUtil.getBackupsCollection(studyFolder));
+
         studyToFill.setValidations(StudyValidationUtilities.validate(studyToFill));
+
+        // If there was an exception...
+        if (exception != null) {
+            // Add a validation for the exception
+            studyToFill.getValidations().getEntries().add(new ExceptionValidation.UnexpectedExceptionValidation("Study metadata must load", exception));
+//            throw exception;
+        }
 
         logger.info("Study loaded from folder: {}", studyFolder.getAbsolutePath());
 

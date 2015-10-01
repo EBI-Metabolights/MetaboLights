@@ -28,7 +28,6 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 @JsonTypeName("Study")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Study extends LiteStudy {
@@ -46,8 +45,6 @@ public class Study extends LiteStudy {
     private List<Assay> assays;
     private Collection<Backup> backups;
     private Validations validations;
-
-
 
     // Tables Sample & Assays
     private Table sampleTable;

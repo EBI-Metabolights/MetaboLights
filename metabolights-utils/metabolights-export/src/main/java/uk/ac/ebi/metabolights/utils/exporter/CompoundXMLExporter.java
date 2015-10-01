@@ -54,7 +54,7 @@ import java.util.Date;
 
 public class CompoundXMLExporter {
 
-    private final static Logger logger = LoggerFactory.getLogger(XMLExporter.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(CompoundXMLExporter.class.getName());
     private final static String COMPOUNDS = "compounds";
     private final static String FIELD = "field";
     private final static String REF = "ref";
@@ -94,13 +94,10 @@ public class CompoundXMLExporter {
         try {
 
             initParams(fileName, wsClientURL);
-
             // create the root element node
             setRootXmlElements();
-
             //Loop thorough the compounds returned from the WS
             addCompounds(doc);
-
             writeDocument(doc);
             return true;
         } catch (Exception e) {
@@ -204,7 +201,7 @@ public class CompoundXMLExporter {
         //Add all the public studies
         int i =0;
         for (String compoundAcc : allCompounds){
-            try {
+
                 System.out.println("Processing compound " + compoundAcc);
                 logger.info("Processing Compound " + compoundAcc);
 
@@ -220,19 +217,19 @@ public class CompoundXMLExporter {
                 Element additionalField = doc_.createElement("additional_fields");
                 entry.appendChild(additionalField);
 
-                additionalField.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
-                additionalField.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
-                additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
-                additionalField.appendChild(createChildElement(FIELD, "has_species", String.valueOf(compound.getHasSpecies())));
-
+                additionalField.appendChild(createChildElement( FIELD, "inchi", compound.getInchi()));
+                additionalField.appendChild(createChildElement( FIELD, "iupac", compound.getIupacNames()));
+                additionalField.appendChild(createChildElement( FIELD, "formula", compound.getFormula()));
+                additionalField.appendChild(createChildElement( FIELD, "has_species", String.valueOf(compound.getHasSpecies())));
+                System.out.println("here");
                 ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
                 Element metspec = doc_.createElement("MetSpecies");
                 ArrayList<String> StudyList = new ArrayList<>();
                 for (MetSpecies species : metSpecies) {
                     Element spec = doc_.createElement("Species");
-                    spec.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
-                    spec.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
-                    spec.appendChild(createChildElement(FIELD, "CrossReference", species.getCrossReference().getAccession()));
+                    spec.appendChild(createChildElement( FIELD, "organism", species.getSpecies().getSpecies()));
+                    spec.appendChild(createChildElement( FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
+                    spec.appendChild(createChildElement( FIELD, "CrossReference", species.getCrossReference().getAccession()));
 
                     metspec.appendChild(spec);
 
@@ -241,6 +238,8 @@ public class CompoundXMLExporter {
                         StudyList.add(species.getCrossReference().getAccession());
                     }
                 }
+
+
                 Element studiesAssoc = doc_.createElement("Studies");
                 for(String study: StudyList){
                     studiesAssoc.appendChild(createChildElement(FIELD, "study", study));
@@ -249,11 +248,11 @@ public class CompoundXMLExporter {
                 additionalField.appendChild(studiesAssoc);
                 //Add the complete study to the entry section
                 entries.appendChild(entry);
-            }catch (Exception e){
-                System.out.println(e.toString());
-            }
+
+
             i++;
             System.out.println(String.valueOf(i) + " ------- " +  String.valueOf(numberofcompounds - i));
+            break;
         }
 
         //Add the complete study list to the entries section
@@ -284,18 +283,18 @@ public class CompoundXMLExporter {
                 Element additionalField = doc.createElement("additional_fields");
                 entry.appendChild(additionalField);
 
-                additionalField.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
-                additionalField.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
-                additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
-                additionalField.appendChild(createChildElement(FIELD, "has_species", String.valueOf(compound.getHasSpecies())));
+                additionalField.appendChild(createChildElement( FIELD, "inchi", compound.getInchi()));
+                additionalField.appendChild(createChildElement( FIELD, "iupac", compound.getIupacNames()));
+                additionalField.appendChild(createChildElement( FIELD, "formula", compound.getFormula()));
+                additionalField.appendChild(createChildElement( FIELD, "has_species", String.valueOf(compound.getHasSpecies())));
 
                 ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
                 Element metspec = doc.createElement("MetSpecies");
                 ArrayList<String> StudyList = new ArrayList<>();
                 for (MetSpecies species : metSpecies) {
-                    metspec.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
-                    metspec.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
-                    metspec.appendChild(createChildElement(FIELD, "CrossReference", species.getCrossReference().getAccession()));
+                    metspec.appendChild(createChildElement( FIELD, "organism", species.getSpecies().getSpecies()));
+                    metspec.appendChild(createChildElement( FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
+                    metspec.appendChild(createChildElement( FIELD, "CrossReference", species.getCrossReference().getAccession()));
 
                     if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
                         System.out.println(species.getCrossReference().getDb().getName());
@@ -304,7 +303,7 @@ public class CompoundXMLExporter {
                 }
                 additionalField.appendChild(metspec);
                 System.out.println(StudyList.toString());
-                additionalField.appendChild(createChildElement(FIELD, "StudyID", StudyList.toString()));
+                additionalField.appendChild(createChildElement( FIELD, "StudyID", StudyList.toString()));
 
                 //Add the complete study to the entry section
                 entries.appendChild(entry);
@@ -351,6 +350,30 @@ public class CompoundXMLExporter {
     }
 
     private static Element createChildElement(String elementType, String attributeValue, String attributeText){
+
+        // add element after the last child of the root element
+        Element element = doc.createElement(elementType);
+
+        // add an attribute to the node
+        if (elementType.equals(FIELD)) {
+            element.setAttribute("name", attributeValue);
+            //element.setAttribute("type", "text");
+            element.setTextContent(attributeText);
+            //} else if (elementType.equals(DBKEY)){
+            //    element.setAttribute(DBKEY, attributeValue);
+        } else if (elementType.equals(REF)){
+            element.setAttribute("dbkey", attributeValue);
+            element.setAttribute("dbname", attributeText);
+        } else if (elementType.equals(DATE)) {
+            element.setAttribute("type", attributeValue);
+            element.setAttribute("value", attributeText);
+        }
+
+        return element;
+
+    }
+
+    private static Element createChildElement(Document doc, String elementType, String attributeValue, String attributeText){
 
         // add element after the last child of the root element
         Element element = doc.createElement(elementType);

@@ -170,7 +170,7 @@ public class EmailService {
 		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
 		String[] to = getRecipientsFromStudy(updatedStudy);
 		String subject = PropertyLookUpService.getMessage("mail.updateStudy.subject", updatedStudy.getStudyIdentifier());
-		String body = PropertyLookUpService.getMessage("mail.updateStudy.body", new String[]{  updatedStudy.getStudyIdentifier(), updatedStudy.getStudyIdentifier(), updatedStudy.getStudyPublicReleaseDate().toString(), prodURL});
+		String body = PropertyLookUpService.getMessage("mail.updateStudy.body", new String[]{  updatedStudy.getStudyIdentifier(), updatedStudy.getStudyPublicReleaseDate().toString(), prodURL});
 
 		sendSimpleEmail(from, to, subject, body);
 

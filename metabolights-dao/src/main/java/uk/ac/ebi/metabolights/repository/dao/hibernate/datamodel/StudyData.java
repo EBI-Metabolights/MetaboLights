@@ -50,6 +50,7 @@ public class StudyData  extends DataModel<Study> {
 	private int status;
 	// Initialise release date to 30 days after today.
 	private Date releaseDate =  new Date(DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH).getTime() + (1000L*60L*60L*24L*30L));
+	private Date updateDate =  new Date();
 	private Set<UserData> users = new HashSet<>();
 	private BigDecimal studysize = new BigDecimal(0);
 
@@ -99,6 +100,15 @@ public class StudyData  extends DataModel<Study> {
 		this.releaseDate = releaseDate;
 	}
 
+	@Type(type="date")
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
 	@ManyToMany
 	@JoinTable(name="study_user", joinColumns=@JoinColumn(name="studyid"), inverseJoinColumns=@JoinColumn(name="userid"))
 	public Set<UserData> getUsers() {
@@ -125,6 +135,7 @@ public class StudyData  extends DataModel<Study> {
 		this.acc = businessModelEntity.getStudyIdentifier();
 		this.status = businessModelEntity.getStudyStatus().ordinal();
 		this.releaseDate = businessModelEntity.getStudyPublicReleaseDate();
+		this.updateDate = businessModelEntity.getUpdateDate();
 		this.studysize = businessModelEntity.getStudySize();
 
 		// Convert Users...
@@ -161,6 +172,7 @@ public class StudyData  extends DataModel<Study> {
 		study.setStudyIdentifier(this.acc);
 		study.setStudyStatus(Study.StudyStatus.values()[this.status]);
 		study.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
+		study.setUpdateDate(new Date(this.updateDate.getTime()));
 		study.setStudySize(this.studysize);
 
 	}

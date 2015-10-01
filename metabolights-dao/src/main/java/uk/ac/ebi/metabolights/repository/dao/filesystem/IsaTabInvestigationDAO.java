@@ -76,7 +76,7 @@ public class IsaTabInvestigationDAO {
 
         } catch (Exception e){
             logger.error("Exception loading isatab files.",e );
-            throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder, e);
+            throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder + ": " + e.getMessage(), e);
 
         } finally {
 
