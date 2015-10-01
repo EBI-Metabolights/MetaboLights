@@ -29,7 +29,8 @@ public class DescriptionConstants {
 
 
     public static final String STUDY_FACTORS = "Study factors used in the experiment";
-    public static final String PROTOCOLS = "Experimental protocol(s)";
+    public static final String PROTOCOLS_ALL = "Comprehensive Experimental protocol";
+    public static final String PROTOCOLS_MINIMUM = "Minimum Experimental protocol";
     public static final String ASSAYS = "Assay(s)";
     public static final String SAMPLES = "Sample(s)";
     public static final String PUBLICATIONS = "Publication(s) associated with this study";

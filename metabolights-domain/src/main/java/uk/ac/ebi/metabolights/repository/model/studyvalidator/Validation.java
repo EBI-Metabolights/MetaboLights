@@ -25,6 +25,7 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
         @JsonSubTypes.Type(value = ExceptionValidations.UnexpectedExceptionValidation.class, name = "UnexpectedExceptionValidation"),
         @JsonSubTypes.Type(value = IsatabValidations.IsatabInvestigationFileStructureValidation.class, name = "IsatabInvestigationFileStructureValidation"),
         @JsonSubTypes.Type(value = AssayValidations.AssayValidation.class, name = "AssayValidation"),
+        @JsonSubTypes.Type(value = ProtocolValidations.MinimumProtocolValidation.class, name = "MinimumProtocolValidation"),
         @JsonSubTypes.Type(value = ProtocolValidations.ProtocolValidation.class, name = "ProtocolValidation"),
         @JsonSubTypes.Type(value = SampleValidations.SampleValidation.class, name = "SampleValidation")
 })

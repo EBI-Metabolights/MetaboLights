@@ -41,9 +41,9 @@ public class StudyValidationUtilities {
                     if (group.equals(Group.ORGANISM)) {
                         validations.addAll(new OrganismValidations(group).isValid(study));
                     }
-                    if (group.equals(Group.ISATAB)) {
-                        validations.addAll(new IsatabValidations(group).isValid(study));
-                    }
+//                    if (group.equals(Group.ISATAB)) {
+//                        validations.addAll(new IsatabValidations(group).isValid(study));
+//                    }
                     if (group.equals(Group.ASSAYS)) {
                         validations.addAll(new AssayValidations(group).isValid(study));
                     }
