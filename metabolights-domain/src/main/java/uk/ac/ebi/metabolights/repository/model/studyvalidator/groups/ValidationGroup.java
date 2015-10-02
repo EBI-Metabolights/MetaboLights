@@ -11,30 +11,30 @@ import java.util.LinkedList;
 /**
  * Created by kalai on 18/09/15.
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include= JsonTypeInfo.As.PROPERTY, property="@class")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value=FactorValidations.class, name="FactorValidations"),
-        @JsonSubTypes.Type(value= StudyValidations.class, name="StudyValidations"),
-        @JsonSubTypes.Type(value= PublicationValidations.class, name="PublicationValidations"),
-        @JsonSubTypes.Type(value= OrganismValidations.class, name="OrganismValidations"),
-        @JsonSubTypes.Type(value= ExceptionValidations.class, name="ExceptionValidations"),
-        @JsonSubTypes.Type(value= IsatabValidations.class, name="IsatabValidations"),
-        @JsonSubTypes.Type(value= AssayValidations.class, name="AssayValidations"),
-        @JsonSubTypes.Type(value= ProtocolValidations.class, name="ProtocolValidations"),
-        @JsonSubTypes.Type(value= SampleValidations.class, name="SampleValidations")
+        @JsonSubTypes.Type(value = FactorValidations.class, name = "FactorValidations"),
+        @JsonSubTypes.Type(value = StudyValidations.class, name = "StudyValidations"),
+        @JsonSubTypes.Type(value = PublicationValidations.class, name = "PublicationValidations"),
+        @JsonSubTypes.Type(value = OrganismValidations.class, name = "OrganismValidations"),
+        @JsonSubTypes.Type(value = ExceptionValidations.class, name = "ExceptionValidations"),
+        @JsonSubTypes.Type(value = IsatabValidations.class, name = "IsatabValidations"),
+        @JsonSubTypes.Type(value = AssayValidations.class, name = "AssayValidations"),
+        @JsonSubTypes.Type(value = ProtocolValidations.class, name = "ProtocolValidations"),
+        @JsonSubTypes.Type(value = SampleValidations.class, name = "SampleValidations")
 })
 public abstract class ValidationGroup {
 
-    public ValidationGroup(Group groupName, Study study ){
-         this.groupName = groupName;
-         this.study = study;
+    public ValidationGroup(Group groupName, Study study) {
+        this.groupName = groupName;
+        this.study = study;
     }
 
-    public ValidationGroup(){
+    public ValidationGroup() {
 
     }
 
-    public ValidationGroup(Group groupName){
+    public ValidationGroup(Group groupName) {
         this.groupName = groupName;
     }
 
@@ -67,7 +67,6 @@ public abstract class ValidationGroup {
     public void setValidations(Collection<Validation> validations) {
         this.validations = validations;
     }
-
 
 
     abstract public Collection<Validation> isValid(Study study);

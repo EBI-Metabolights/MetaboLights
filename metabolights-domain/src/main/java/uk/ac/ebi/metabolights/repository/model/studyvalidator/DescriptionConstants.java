@@ -39,4 +39,8 @@ public class DescriptionConstants {
 
     //OTHER
     public static final String EXCEPTION = "For any study we should be able to run all the validations";
+
+    //FILES
+    public static final String MAF_FILE = "Metabolite Identification file";
+    public static final String MAF_FILE_ASSAY_CROSSCHECK = "Metabolites reported in Assays";
 }

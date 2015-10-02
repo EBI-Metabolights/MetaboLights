@@ -49,13 +49,20 @@ public class ProtocolValidations extends ValidationGroup {
         public boolean hasPassed() {
             if (!getStudy().getProtocols().isEmpty()) {
                 int notPassed = 0;
+                int passed = 0;
                 for (Protocol protocol : getStudy().getProtocols()) {
                     if (!Utilities.minCharRequirementPassed(protocol.getDescription(), 3)) {
                         notPassed++;
+                    } else {
+                        passed++;
                     }
                 }
                 if (notPassed == getStudy().getProtocols().size()) {
                     setMessage("No details provided");
+                    return false;
+                }
+                if (passed < 4) {
+                    setMessage("Minimum 4 fields for Protocols has to be filled in");
                     return false;
                 } else {
                     return true;
@@ -80,8 +87,8 @@ public class ProtocolValidations extends ValidationGroup {
             if (!getStudy().getProtocols().isEmpty()) {
                 for (Protocol protocol : getStudy().getProtocols()) {
                     if (!Utilities.minCharRequirementPassed(protocol.getDescription(), 3)) {
-                        setMessage("Protocol description is not sufficient or not all required fields are provided. Example:\"" + "\n"
-                                + protocol.getName() + "\" is either not provided or not sufficiently described");
+                        setMessage("Protocol description is not sufficient or not all required fields are provided. Example:"
+                                + "\"" + protocol.getName() + "\" is either not provided or not sufficiently described.");
                         return false;
                     }
                 }
