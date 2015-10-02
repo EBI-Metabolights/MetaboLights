@@ -304,6 +304,11 @@ public class WSSearchController extends AbstractController{
 		titleBooster.setBoost(1);
 		titleBooster.setFieldName("name");
 
+		titleBooster = new Booster();
+		titleBooster.setBoost(2);
+		titleBooster.setFieldName("_id");
+
+
 
 		emptyQuery.getBoosters().add(titleBooster);
 //
