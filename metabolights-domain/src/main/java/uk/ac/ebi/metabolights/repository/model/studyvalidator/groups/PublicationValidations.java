@@ -13,107 +13,60 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Created by kalai on 18/09/15.
  */
-@JsonTypeName("PublicationValidations")
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class PublicationValidations extends ValidationGroup {
 
-    Publication publication;
+public class PublicationValidations {
 
-    public PublicationValidations(Group group) {
-        super(group);
-        getValidations().add(new PublicationTitleValidation());
-        //getValidations().add(new PublicationAuthorValidation());
-        getValidations().add(new PublicationIDsValidation());
+    public static Collection<Validation> getValidations(Study study) {
+        Collection<Validation> publicationValidations = new LinkedList<>();
+        publicationValidations.add(getPublicationTitleValidation(study));
+        publicationValidations.add(getPublicationPubmedIDValidation(study));
+        return publicationValidations;
     }
 
-    public PublicationValidations(){
 
-    }
-
-    @Override
-
-    public Collection<Validation> isValid(Study study) {
-        setStudy(study);
-        for (Validation validation : getValidations()) {
-            validation.setPassedRequirement(validation.hasPassed());
-            validation.setStatus();
-        }
-        return getValidations();
-    }
-
-    @JsonTypeName("PublicationTitleValidation")
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class PublicationTitleValidation extends Validation {
-        @JsonCreator
-        public PublicationTitleValidation() {
-            super(DescriptionConstants.PUBLICATION_TITLE, Requirement.MANDATORY, Group.PUBLICATION);
-        }
-
-        @Override
-        public boolean hasPassed() {
-            if (!getStudy().getPublications().isEmpty()) {
-                for (Publication publication : getStudy().getPublications()) {
-                    if (!Utilities.minCharRequirementPassed(publication.getTitle(), 15)) {
-                        setMessage("Publication Title length is not sufficient");
-                        return false;
-                    }
+    public static Validation getPublicationTitleValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PUBLICATION_TITLE, Requirement.MANDATORY, Group.PUBLICATION);
+        if (!study.getPublications().isEmpty()) {
+            for (Publication publication : study.getPublications()) {
+                if (!Utilities.minCharRequirementPassed(publication.getTitle(), 15)) {
+                    validation.setMessage("Publication Title length is not sufficient");
+                    validation.setPassedRequirement(false);
                 }
-
-            } else {
-                setMessage("Publication is empty");
-                return false;
             }
-            return true;
+        } else {
+            validation.setMessage("Publication is empty");
+            validation.setPassedRequirement(false);
         }
+        validation.setStatus();
+        return validation;
     }
 
-    @JsonTypeName("PublicationAuthorValidation")
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class PublicationAuthorValidation extends Validation {
-        @JsonCreator
-        public PublicationAuthorValidation() {
-            super(DescriptionConstants.PUBLICATION_AUTHORS, Requirement.MANDATORY, Group.PUBLICATION);
-        }
 
-        @Override
-        public boolean hasPassed() {
-            if (!getStudy().getPublications().isEmpty()) {
-                //TODO add author info to Publication class
-            } else {
-                setMessage("Publication is empty");
-                return false;
-            }
-            return true;
-        }
-    }
-
-    @JsonTypeName("PublicationIDsValidation")
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class PublicationIDsValidation extends Validation {
-        @JsonCreator
-        public PublicationIDsValidation() {
-            super(DescriptionConstants.PUBLICATION_IDS, Requirement.OPTIONAL, Group.PUBLICATION);
-        }
-
-        @Override
-        public boolean hasPassed() {
-            if (!getStudy().getPublications().isEmpty()) {
-                for (Publication publication : getStudy().getPublications()) {
-                    if (publication.getPubmedId().isEmpty()) {
-                        setMessage("Pubmed ID is not provided");
-                        return false;
-                    }
+    public static Validation getPublicationPubmedIDValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PUBLICATION_IDS, Requirement.OPTIONAL, Group.PUBLICATION);
+        if (!study.getPublications().isEmpty()) {
+            for (Publication publication : study.getPublications()) {
+                if (publication.getPubmedId().isEmpty()) {
+                    validation.setMessage("Pubmed ID is not provided");
+                    validation.setPassedRequirement(false);
                 }
-            } else {
-                setMessage("Publication is empty");
-                return false;
             }
-            return true;
+        } else {
+            validation.setMessage("Publication is empty");
+            validation.setPassedRequirement(false);
         }
+        validation.setStatus();
+        return validation;
     }
+
+     /*
+    TODO PublicationAuthorValidation
+    */
+
 
 }

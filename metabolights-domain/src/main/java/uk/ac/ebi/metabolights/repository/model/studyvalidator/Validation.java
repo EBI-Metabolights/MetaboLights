@@ -7,29 +7,8 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
 
 /**
  * Created by kalai on 18/09/15.
- * Extending classes must be made static and annotated with JsonTypeInfo for serialization and de-serialization to work
  */
-
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = FactorValidations.FactorNameValidation.class, name = "FactorName"),
-        @JsonSubTypes.Type(value = FactorValidations.FactorTypeValidation.class, name = "FactorType"),
-        @JsonSubTypes.Type(value = StudyValidations.MinimumStudyValidation.class, name = "MinimumStudyValidation"),
-        @JsonSubTypes.Type(value = StudyValidations.StudyDescriptionValidation.class, name = "StudyDescriptionValidation"),
-        @JsonSubTypes.Type(value = StudyValidations.StudyDesignDescriptorsValidation.class, name = "StudyDesignDescriptorsValidation"),
-        @JsonSubTypes.Type(value = StudyValidations.StudyTitleValidation.class, name = "StudyTitleValidation"),
-        @JsonSubTypes.Type(value = PublicationValidations.PublicationAuthorValidation.class, name = "PublicationAuthorValidation"),
-        @JsonSubTypes.Type(value = PublicationValidations.PublicationIDsValidation.class, name = "PublicationIDsValidation"),
-        @JsonSubTypes.Type(value = PublicationValidations.PublicationTitleValidation.class, name = "PublicationTitleValidation"),
-        @JsonSubTypes.Type(value = OrganismValidations.OrganismNameValidation.class, name = "OrganismNameValidation"),
-        @JsonSubTypes.Type(value = ExceptionValidations.UnexpectedExceptionValidation.class, name = "UnexpectedExceptionValidation"),
-        @JsonSubTypes.Type(value = IsatabValidations.IsatabInvestigationFileStructureValidation.class, name = "IsatabInvestigationFileStructureValidation"),
-        @JsonSubTypes.Type(value = AssayValidations.AssayValidation.class, name = "AssayValidation"),
-        @JsonSubTypes.Type(value = ProtocolValidations.MinimumProtocolValidation.class, name = "MinimumProtocolValidation"),
-        @JsonSubTypes.Type(value = ProtocolValidations.ProtocolValidation.class, name = "ProtocolValidation"),
-        @JsonSubTypes.Type(value = SampleValidations.SampleValidation.class, name = "SampleValidation")
-})
-public abstract class Validation {
+public class Validation {
 
     public Validation(String description, Requirement type) {
         this.description = description;
@@ -51,7 +30,7 @@ public abstract class Validation {
 
     private Group group;
 
-    private boolean passedRequirement;
+    private boolean passedRequirement = true;
 
     private Requirement type = Requirement.MANDATORY;
 
@@ -105,8 +84,6 @@ public abstract class Validation {
     public void setGroup(Group group) {
         this.group = group;
     }
-
-    abstract public boolean hasPassed();
 
     public void setStatus() {
         if (getPassedRequirement()) {

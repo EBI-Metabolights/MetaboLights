@@ -10,93 +10,69 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Created by kalai on 01/10/15.
  */
-@JsonTypeName("ProtocolValidations")
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ProtocolValidations extends ValidationGroup {
 
-    public ProtocolValidations(Group group) {
-        super(group);
-        getValidations().add(new MinimumProtocolValidation());
-        getValidations().add(new ProtocolValidation());
-    }
+public class ProtocolValidations {
 
-    public ProtocolValidations() {
+    public static Collection<Validation> getValidations(Study study) {
+        Collection<Validation> protocolValidations = new LinkedList<>();
+        protocolValidations.add(getMinimumProtocolValidation(study));
+        protocolValidations.add(getComprehensiveProtocolValidation(study));
+        return protocolValidations;
 
     }
 
-    @Override
-    public Collection<Validation> isValid(Study study) {
-        setStudy(study);
-        for (Validation validation : getValidations()) {
-            validation.setPassedRequirement(validation.hasPassed());
-            validation.setStatus();
-        }
-        return getValidations();
-    }
 
-    @JsonTypeName("MinimumProtocolValidation")
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class MinimumProtocolValidation extends Validation {
-        public MinimumProtocolValidation() {
-            super(DescriptionConstants.PROTOCOLS_MINIMUM, Requirement.MANDATORY, Group.PROTOCOLS);
-        }
-
-        @Override
-        public boolean hasPassed() {
-            if (!getStudy().getProtocols().isEmpty()) {
-                int notPassed = 0;
-                int passed = 0;
-                for (Protocol protocol : getStudy().getProtocols()) {
-                    if (!Utilities.minCharRequirementPassed(protocol.getDescription(), 3)) {
-                        notPassed++;
-                    } else {
-                        passed++;
-                    }
-                }
-                if (notPassed == getStudy().getProtocols().size()) {
-                    setMessage("No details provided");
-                    return false;
-                }
-                if (passed < 4) {
-                    setMessage("Minimum 4 fields for Protocols has to be filled in");
-                    return false;
+    public static Validation getMinimumProtocolValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PROTOCOLS_MINIMUM, Requirement.MANDATORY, Group.PROTOCOLS);
+        if (!study.getProtocols().isEmpty()) {
+            int notPassed = 0;
+            int passed = 0;
+            for (Protocol protocol : study.getProtocols()) {
+                if (!Utilities.minCharRequirementPassed(protocol.getDescription(), 3)) {
+                    notPassed++;
                 } else {
-                    return true;
+                    passed++;
                 }
-
-            } else {
-                setMessage("Protocols is empty");
-                return false;
             }
+            if (notPassed == study.getProtocols().size()) {
+                validation.setMessage("No details provided");
+                validation.setPassedRequirement(false);
+            }
+            if (passed < 4) {
+                validation.setMessage("Minimum 4 fields for Protocols has to be filled in");
+                validation.setPassedRequirement(false);
+            }
+        } else {
+            validation.setMessage("Protocols is empty");
+            validation.setPassedRequirement(false);
         }
+        validation.setStatus();
+        return validation;
+
     }
 
-    @JsonTypeName("ProtocolValidation")
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class ProtocolValidation extends Validation {
-        public ProtocolValidation() {
-            super(DescriptionConstants.PROTOCOLS_ALL, Requirement.OPTIONAL, Group.PROTOCOLS);
-        }
 
-        @Override
-        public boolean hasPassed() {
-            if (!getStudy().getProtocols().isEmpty()) {
-                for (Protocol protocol : getStudy().getProtocols()) {
-                    if (!Utilities.minCharRequirementPassed(protocol.getDescription(), 3)) {
-                        setMessage("Protocol description is not sufficient or not all required fields are provided. Example:"
-                                + "\"" + protocol.getName() + "\" is either not provided or not sufficiently described.");
-                        return false;
-                    }
+    public static Validation getComprehensiveProtocolValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PROTOCOLS_ALL, Requirement.OPTIONAL, Group.PROTOCOLS);
+        if (!study.getProtocols().isEmpty()) {
+            for (Protocol protocol : study.getProtocols()) {
+                if (!Utilities.minCharRequirementPassed(protocol.getDescription(), 3)) {
+                    validation.setMessage("Protocol description is not sufficient or not all required fields are provided. Example:"
+                            + "\"" + protocol.getName() + "\" is either not provided or not sufficiently described.");
+                    validation.setPassedRequirement(false);
+                    break;
                 }
-                return true;
-            } else {
-                setMessage("Protocols is empty");
-                return false;
             }
+        } else {
+            validation.setMessage("Protocols is empty");
+            validation.setPassedRequirement(false);
         }
+        validation.setStatus();
+        return validation;
     }
 }

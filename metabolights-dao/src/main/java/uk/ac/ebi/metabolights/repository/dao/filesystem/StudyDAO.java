@@ -185,7 +185,9 @@ public class StudyDAO {
         // If there was an exception...
         if (exception != null) {
             // Add a validation for the exception
-            studyToFill.getValidations().getEntries().add(new ExceptionValidations.UnexpectedExceptionValidation("Study metadata must load", exception));
+            studyToFill.getValidations().getEntries().add(
+                    ExceptionValidations.getSuccessfulMetaDataLoadValidation(
+                            exception, "Study metadata must load"));
 //            throw exception;
         }
 
