@@ -84,14 +84,29 @@ public class ProtocolValidations {
     }
 
     private static String getErrMessage(List<String> emptyProtocolFields) {
-        String errMessage = "Protocol description is not sufficient or not all required fields are provided for field(s):";
+        String errMessage = "Protocol description is not sufficient or not all required fields are provided. Missing field(s):";
         for (int i = 0; i < emptyProtocolFields.size(); i++) {
             errMessage += " " + emptyProtocolFields.get(i);
             if (i < emptyProtocolFields.size() - 1) {
-              errMessage +=",";
+                errMessage += ",";
             }
         }
         //errMessage += " has not been described.";
         return errMessage;
     }
+
+    public static boolean metaboliteIdentificationProtocolIsPresent(Study study) {
+        if (study.getProtocols().isEmpty()) {
+            return false;
+        }
+        for (Protocol protocol : study.getProtocols()) {
+            if (protocol.getName().equals("Metabolite identification")) {
+                if (protocol.getDescription().length() > 3) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

@@ -26,6 +26,9 @@ public class AssayValidations {
         Collection<Validation> assayValidations = new LinkedList<>();
         //assayValidations.add(getAssayValidation(study));
         assayValidations.addAll(getAssayValidations(study));
+        if (ProtocolValidations.metaboliteIdentificationProtocolIsPresent(study)) {
+            assayValidations.add(mafFileReferencedValidation(study));
+        }
         return assayValidations;
     }
 
@@ -56,7 +59,7 @@ public class AssayValidations {
     }
 
     public static Validation getAssayHasFilesValidation(Study study) {
-        Validation validation = new Validation(DescriptionConstants.ASSAY_FILES, Requirement.MANDATORY, Group.ASSAYS);
+        Validation validation = new Validation(DescriptionConstants.ASSAY_FILES, Requirement.MANDATORY, Group.FILES);
         for (Assay assay : study.getAssays()) {
             List<String> fileFields = getFileFieldsFrom(assay.getAssayTable().getFields());
             List<String> fileColumnsThatAreEmpty = new ArrayList<>();
@@ -133,7 +136,7 @@ public class AssayValidations {
     }
 
     public static Validation referencedFilesArePresentInFileSystem(Study study, boolean assayRawFileValidationHasPassed) {
-        Validation validation = new Validation(DescriptionConstants.ASSAY_FILES_IN_FILESYSTEM, Requirement.MANDATORY, Group.ASSAYS);
+        Validation validation = new Validation(DescriptionConstants.ASSAY_FILES_IN_FILESYSTEM, Requirement.MANDATORY, Group.FILES);
         if (!assayRawFileValidationHasPassed) {
             validation.setPassedRequirement(false);
             validation.setMessage("No assay raw files are referenced");
@@ -206,6 +209,59 @@ public class AssayValidations {
 //        for (String file : rawFilesNoMatchList) {
 //            errMessage += file + ";";
 //        }
+        return errMessage;
+    }
+
+    private static Validation mafFileReferencedValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.ASSAY_MAF_REFERENCE, Requirement.MANDATORY, Group.FILES);
+        List<Assay> assaysWithNoMaf = new ArrayList<>();
+        //TODO
+        for (Assay assay : study.getAssays()) {
+            int mafIndex = getMAFIndex(assay.getAssayTable().getFields());
+            if (mafIndex != -1) {
+                if (!isMafReferenced(mafIndex, assay.getAssayTable().getData())) {
+                    assaysWithNoMaf.add(assay);
+                }
+            }
+        }
+        if (assaysWithNoMaf.size() > 0) {
+            validation.setPassedRequirement(false);
+            validation.setMessage(getMafErrMessage(assaysWithNoMaf, study.getAssays().size()));
+        }
+        validation.setStatus();
+        return validation;
+
+    }
+
+    private static int getMAFIndex(LinkedHashMap<String, Field> tableFields) {
+        int i = -1;
+        for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
+            i++;
+            if (entry.getKey().contains("metabolite assignment file")) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private static boolean isMafReferenced(int index, List<List<String>> tableData) {
+        for (List<String> data : tableData) {
+            if (data.get(index).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static String getMafErrMessage(List<Assay> assaysWithNoMaf, int assaySize) {
+        if(assaySize==1) return "Assay table have no MAF file reference";
+        String errMessage = "The following assay(s) have no MAF file reference:";
+        for (int i = 0; i < assaysWithNoMaf.size(); i++) {
+            errMessage += " Assay " + assaysWithNoMaf.get(i).getAssayNumber();
+            if (i < assaysWithNoMaf.size() - 1) {
+                errMessage += ",";
+            }
+        }
         return errMessage;
     }
 }

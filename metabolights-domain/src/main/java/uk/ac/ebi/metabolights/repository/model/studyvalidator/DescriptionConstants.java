@@ -32,9 +32,12 @@ public class DescriptionConstants {
     public static final String PROTOCOLS_ALL = "Comprehensive Experimental protocol";
     public static final String PROTOCOLS_MINIMUM = "Minimum Experimental protocol";
 
+
     public static final String ASSAYS = "Assay(s)";
     public static final String ASSAY_FILES = "Assay has raw files referenced";
     public static final String ASSAY_FILES_IN_FILESYSTEM = "Assay referenced raw files are present in filesystem";
+    public static final String ASSAY_MAF_REFERENCE = "Metabolite Assignment File is referenced in Assays";
+    public static final String ASSAY_MAF_FILE = "Metabolite Assignment File is present in study folder";
 
 
     public static final String SAMPLES = "Sample(s)";
