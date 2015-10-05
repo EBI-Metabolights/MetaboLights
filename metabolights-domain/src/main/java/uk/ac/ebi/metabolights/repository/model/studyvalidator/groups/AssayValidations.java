@@ -20,6 +20,8 @@ import java.util.*;
 
 public class AssayValidations {
 
+    private static int[] indicesToCrosscheck;
+
     public static Collection<Validation> getValidations(Study study) {
         Collection<Validation> assayValidations = new LinkedList<>();
         //assayValidations.add(getAssayValidation(study));
@@ -63,7 +65,7 @@ public class AssayValidations {
                     fileColumnsThatAreEmpty.add(fileField);
                 }
             }
-            if (fileColumnsThatAreEmpty.size() >0 ) {
+            if (fileColumnsThatAreEmpty.size() == fileFields.size()) {
                 validation.setPassedRequirement(false);
                 validation.setMessage(getErrMessage(assay, fileColumnsThatAreEmpty));
                 validation.setStatus();
@@ -87,6 +89,16 @@ public class AssayValidations {
 
     private static boolean containsFileKeyword(String field) {
         return field.contains(" file");
+    }
+
+    private static List<String> getFileFieldsThatHasRefValue(List<String> fileFields, Table assayData) {
+        List<String> fileColumnsThatAreEmpty = new ArrayList<>();
+        for (String fileField : fileFields) {
+            if (!thisFileColumnHasFilesReferenced(fileField, assayData.getData())) {
+                fileColumnsThatAreEmpty.add(fileField);
+            }
+        }
+        return fileColumnsThatAreEmpty;
     }
 
     private static boolean thisFileColumnHasFilesReferenced(String fileColumn, List<List<String>> tableData) {
@@ -124,7 +136,7 @@ public class AssayValidations {
         Validation validation = new Validation(DescriptionConstants.ASSAY_FILES_IN_FILESYSTEM, Requirement.MANDATORY, Group.ASSAYS);
         if (!assayRawFileValidationHasPassed) {
             validation.setPassedRequirement(false);
-            validation.setMessage("Not all assay file columns are filled with reference files");
+            validation.setMessage("No assay raw files are referenced");
         } else {
             List<String> rawFilesListFromFilesystem = getFileNamesInDirectory(study.getStudyLocation());
             Map<Boolean, List<String>> booleanListMap = allAssayColumnsHasFilesMatchedInFileSystem(rawFilesListFromFilesystem, study.getAssays());
@@ -156,13 +168,15 @@ public class AssayValidations {
         Map<Boolean, List<String>> hasPassed_FailedFilNamesMap = new LinkedHashMap<>();
         for (Assay assay : assays) {
             List<String> fileFields = getFileFieldsFrom(assay.getAssayTable().getFields());
-            int[] indexesToBeLookedUpon = getAllIndexes(fileFields);
+            //int[] indexesToBeLookedUpon = getAllIndexes(fileFields);
             List<String> noPhysicalReference = new ArrayList<>();
-            for (int i = 0; i < indexesToBeLookedUpon.length; i++) {
-                for (List<String> data : assay.getAssayTable().getData()) {
-                    String tableRowEntry = data.get(indexesToBeLookedUpon[i]);
-                    if (!match(tableRowEntry, rawFilesList)) {
-                        noPhysicalReference.add(tableRowEntry);
+            for (int i = 0; i < fileFields.size(); i++) {
+                if (thisFileColumnHasFilesReferenced(fileFields.get(i), assay.getAssayTable().getData())) {
+                    for (List<String> data : assay.getAssayTable().getData()) {
+                        String tableRowEntry = data.get(indexToCheck(fileFields.get(i)));
+                        if (!match(tableRowEntry, rawFilesList)) {
+                            noPhysicalReference.add(tableRowEntry);
+                        }
                     }
                 }
             }
@@ -188,10 +202,10 @@ public class AssayValidations {
     }
 
     private static String getNonMatchedFileMessage(List<String> rawFilesNoMatchList) {
-        String errMessage = "Files reported in assay columns, are not present in file system. Example: ";
-        for (String file : rawFilesNoMatchList) {
-            errMessage += file + ";";
-        }
+        String errMessage = "Files reported in assay columns, are not present in study folder";
+//        for (String file : rawFilesNoMatchList) {
+//            errMessage += file + ";";
+//        }
         return errMessage;
     }
 }
