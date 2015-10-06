@@ -127,7 +127,8 @@ public class AssayValidations {
     private static String getErrMessage(Assay assay, List<String> fileColumnsThatAreEmpty) {
         String errMessage = "";
         int assayNumber = assay.getAssayNumber();
-        errMessage = "Assay-" + assayNumber + " has raw files missing. Column(s):";
+        //TODO Handle one Assay case
+        errMessage = "Assay " + assayNumber + " has raw files missing. Column(s):";
         for (String column : fileColumnsThatAreEmpty) {
             errMessage += " " + getfieldName(column) + ",";
         }
@@ -303,16 +304,18 @@ public class AssayValidations {
 
     private static boolean isMafReferenced(int index, List<List<String>> tableData) {
         for (List<String> data : tableData) {
-            if (data.get(index).isEmpty()) {
-                return false;
+            if (!data.get(index).isEmpty()) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private static String getMafErrMessage(List<Assay> assaysWithNoMaf, int assaySize) {
-        if (assaySize == 1) return "Assay table have no MAF file reference";
-        String errMessage = "The following assay(s) have no MAF file reference:";
+        if (assaySize == 1) return "Metabolite identification protocol is described" +
+                " but no MAF file referenced in the Assay table";
+        String errMessage = "Metabolite identification protocol is described " +
+                "but the following assay(s) have no MAF file reference:";
         for (int i = 0; i < assaysWithNoMaf.size(); i++) {
             errMessage += " Assay " + assaysWithNoMaf.get(i).getAssayNumber();
             if (i < assaysWithNoMaf.size() - 1) {
