@@ -112,11 +112,11 @@ public class AssayValidations {
     private static boolean thisFileColumnHasFilesReferenced(String fileColumn, List<List<String>> tableData) {
         int index = indexToCheck(fileColumn);
         for (List<String> data : tableData) {
-            if (data.get(index).isEmpty()) {
-                return false;
+            if (!data.get(index).isEmpty()) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private static int indexToCheck(String fileColumn) {
@@ -127,7 +127,8 @@ public class AssayValidations {
     private static String getErrMessage(Assay assay, List<String> fileColumnsThatAreEmpty) {
         String errMessage = "";
         int assayNumber = assay.getAssayNumber();
-        errMessage = "Assay-" + assayNumber + " has raw files missing. Column(s):";
+        //TODO Handle one Assay case
+        errMessage = "Assay " + assayNumber + " has raw files missing. Column(s):";
         for (String column : fileColumnsThatAreEmpty) {
             errMessage += " " + getfieldName(column) + ",";
         }
@@ -174,17 +175,20 @@ public class AssayValidations {
 
     private static Map<Boolean, List<String>> allAssayColumnsHasFilesMatchedInFileSystem(List<String> rawFilesList, List<Assay> assays) {
         Map<Boolean, List<String>> hasPassed_FailedFilNamesMap = new LinkedHashMap<>();
+        List<String> noPhysicalReference = new ArrayList<>();
+
         for (Assay assay : assays) {
             List<String> fileFields = getFileFieldsFrom(assay.getAssayTable().getFields());
             //int[] indexesToBeLookedUpon = getAllIndexes(fileFields);
-            List<String> noPhysicalReference = new ArrayList<>();
             for (int i = 0; i < fileFields.size(); i++) {
                 if (thisFileColumnHasFilesReferenced(fileFields.get(i), assay.getAssayTable().getData())) {
                     HashSet<String> uniqueNames = new HashSet();
 
                     for (List<String> data : assay.getAssayTable().getData()) {
                         String tableRowEntry = data.get(indexToCheck(fileFields.get(i)));
-                        uniqueNames.add(tableRowEntry);
+                        if (!tableRowEntry.isEmpty()) {
+                            uniqueNames.add(tableRowEntry);
+                        }
                     }
 
                     for (String uniqName : uniqueNames) {
@@ -194,10 +198,10 @@ public class AssayValidations {
                     }
                 }
             }
-            if (noPhysicalReference.size() > 0) {
-                hasPassed_FailedFilNamesMap.put(false, noPhysicalReference);
-                return hasPassed_FailedFilNamesMap;
-            }
+        }
+        if (noPhysicalReference.size() > 0) {
+            hasPassed_FailedFilNamesMap.put(false, noPhysicalReference);
+            return hasPassed_FailedFilNamesMap;
         }
         hasPassed_FailedFilNamesMap.put(true, new ArrayList<String>());
         return hasPassed_FailedFilNamesMap;
@@ -281,11 +285,11 @@ public class AssayValidations {
                 maf_file_validation.setPassedRequirement(false);
                 maf_file_validation.setMessage(getMafFileErrMessage(notPresentInStudyFolder));
             }
+            maf_file_validation.setStatus();
+            mafValidations.add(maf_file_validation);
         }
         maf_reference_validation.setStatus();
-        maf_file_validation.setStatus();
         mafValidations.add(maf_reference_validation);
-        mafValidations.add(maf_file_validation);
         return mafValidations;
 
     }
@@ -303,16 +307,18 @@ public class AssayValidations {
 
     private static boolean isMafReferenced(int index, List<List<String>> tableData) {
         for (List<String> data : tableData) {
-            if (data.get(index).isEmpty()) {
-                return false;
+            if (!data.get(index).isEmpty()) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private static String getMafErrMessage(List<Assay> assaysWithNoMaf, int assaySize) {
-        if (assaySize == 1) return "Assay table have no MAF file reference";
-        String errMessage = "The following assay(s) have no MAF file reference:";
+        if (assaySize == 1) return "Metabolite identification protocol is described" +
+                " but no MAF file is referenced in the Assay table";
+        String errMessage = "Metabolite identification protocol is described " +
+                "but the following assay(s) have no MAF file reference:";
         for (int i = 0; i < assaysWithNoMaf.size(); i++) {
             errMessage += " Assay " + assaysWithNoMaf.get(i).getAssayNumber();
             if (i < assaysWithNoMaf.size() - 1) {
@@ -338,7 +344,9 @@ public class AssayValidations {
         for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithMaf_map.entrySet()) {
             int index = entry.getKey().intValue();
             String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
-            mafFileNames.add(maf_file_name);
+            if (!maf_file_name.isEmpty()) {
+                mafFileNames.add(maf_file_name);
+            }
         }
         return mafFileNames;
     }
