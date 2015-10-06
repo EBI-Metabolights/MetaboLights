@@ -36,7 +36,7 @@
 
                                     <%--<li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>--%>
                                 <%--</c:if>--%>
-                                 <%--<c:if test="${(study.studyStatus == 'SUBMITTED') || (curator && (study.studyStatus != 'INCURATION'))}">--%>
+                                 <%--<c:if test="${(st  udy.studyStatus == 'SUBMITTED') || (curator && (study.studyStatus != 'INCURATION'))}">--%>
                                     <%--<li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>--%>
                                 <%--</c:if>--%>
                                 <c:if test="${(study.studyStatus == 'SUBMITTED' || (curator && (study.studyStatus != 'INCURATION')))}">
