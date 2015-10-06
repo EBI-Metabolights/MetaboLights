@@ -42,7 +42,7 @@ public class StudyValidations {
     public static Validation getStudyDescriptionValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.STUDY_DESCRIPTION, Requirement.MANDATORY, Group.STUDY);
         if (!Utilities.minCharRequirementPassed(
-                study.getTitle(), 30)) {
+                study.getDescription(), 30)) {
             validation.setMessage("Study description is too short");
             validation.setPassedRequirement(false);
         }
