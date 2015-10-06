@@ -89,16 +89,22 @@ public class IsaTab2MetaboLightsConverter {
     private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder, boolean includeMetabolites, Study studyToFill) {
 
 
-
         // Get the first and unique study
         org.isatools.isacreator.model.Study isaStudy = source.getStudies().values().iterator().next();
 
         IsaTabReplacer isaTabIdReplacer = new IsaTabReplacer(new File(studyFolder).getAbsolutePath());
+
         try {
-            isaTabIdReplacer.execute();
+            if (!isaTabIdReplacer.execute()) {
+
+                for (Exception exception : isaTabIdReplacer.getExceptions()) {
+                    studyToFill.getIsatabErrorMessages().add(exception.getMessage());
+
+                }
+            }
         }
         catch(Exception e){
-            logger.error(e.getMessage());
+
             studyToFill.getIsatabErrorMessages().add(e.getMessage());
         }
 

@@ -91,11 +91,9 @@ public class IsaTabReplacer
 	private Integer singleStudy=0;	//Update when we find study ids in the file
 
 	private String studyIdentifier; // When updating a study, replacement must not be done.
-
-
-
 	private String isaTabFolder;
 
+	private List<Exception> exceptions = new ArrayList<>();
 
 	public String getPublicDate() {
 		if (publicDate == null)
@@ -257,7 +255,7 @@ public class IsaTabReplacer
 
 	}
 
-	public void execute() throws Exception{
+	public boolean execute() throws Exception{
 
         try {
             logger.info("Starting id replacement process");
@@ -270,12 +268,11 @@ public class IsaTabReplacer
             logger.info("Validating the archive");
             validateIsaTabArchive();
 
-            logger.info("Checking that Organism and Organism Part has been reported, note they can be empty");
-            validateOrganismFields();
-
             //Replace id
             logger.info("Replace study id and study dates");
-            replaceValuesInFiles();
+            validateAndReplaceValuesInInvestigationFile();
+
+			return (exceptions.size() ==0);
 
         } catch (Exception e){
             throw e;
@@ -283,54 +280,21 @@ public class IsaTabReplacer
 
 	}
 
-    private void validateOrganismFields() throws Exception {
-        //Get the ample file
-        File isaTabFile = getISAtabFile(sampleFile);
 
-        logger.info("Loading sample file "+isaTabFile.getName());
+	private void annotateError(Exception e) {
+		logger.error(e.getMessage());
+		exceptions.add(e);
 
-        checkSampleFields(isaTabFile);
+	}
 
-    }
+	private void annotateError(String message){
 
-    private void checkSampleFields (File sampleFile) throws Exception{
-        try {
-            //Use a buffered reader
-            BufferedReader reader = new BufferedReader(new FileReader(sampleFile));
-            String line =reader.readLine(); //We only want the header line
-            String organismError = "Your study does not appear to contain the required field: ";
+		Exception exception = new IsaTabException(message);
+		annotateError(exception);
 
-            if (line != null) {
+	}
 
-                if (line.contains(organism)) {
-                    if (!line.contains(organismPart)) {
-                        bounceError(reader, organismError, organismPart);
-                    }
-                } else {
-                    bounceError(reader, organismError, organism);
-                }
-
-                if (line.contains("+"))
-                    bounceError(reader, "Bad syntax or incorrect character in header: ", "+");
-
-            }
-
-        } catch (Exception e) {
-            throw e;
-        }
-
-    }
-
-    private void bounceError(BufferedReader reader, String error, String fieldName) throws Exception{
-        String errTxt = error + fieldName + "  \n\n *** PLEASE DO NOT REMOVE ANY COLUMNS ! ***";
-            errTxt = errTxt + validateError;         //Todo, read error text from properties
-        reader.close();
-        logger.error(errTxt);
-        System.err.println(errTxt);
-        throw new Exception(errTxt);
-    }
-
-	private void replaceValuesInFiles() throws Exception{
+	private void validateAndReplaceValuesInInvestigationFile(){
 
         try {
             // Get the investigation file
@@ -340,9 +304,11 @@ public class IsaTabReplacer
 
             // Replace the id
             replaceInFile(isaTabFile);
+
+
         } catch (Exception e) {
-            throw e;
-        }
+			annotateError(e);
+		}
 
 	}
 
@@ -380,9 +346,9 @@ public class IsaTabReplacer
 	 * @param fileWithId
 	 * @throws Exception
 	 */
-	private void replaceInFile(File fileWithId) throws Exception{
+	private void replaceInFile(File fileWithId){
 
-		logger.info("Replacing values in file -->" + fileWithId.getAbsolutePath());
+		logger.info("Reading investigation file -->" + fileWithId.getAbsolutePath());
 
 		// Reset number of studies.
 		singleStudy= 0;
@@ -398,18 +364,12 @@ public class IsaTabReplacer
 
 				if (!checkIfMetaboliteProfiling(line)){    //Check if this is metabolite profiling
 					String errTxt = "Sorry, only metabolite profiling is accepted in MetaboLights";  //Todo, read error text from properties
-					reader.close();
-					logger.error(errTxt);
-					System.err.println(errTxt);
-					throw new Exception(errTxt);
+					annotateError(errTxt);
 				}
 
 				if (singleStudy>1){  //If we already have assigned a study, fail the upload
 					String errTxt = "Sorry, Only one study per submission accepted in MetaboLights";  //Todo, read error text from properties
-					reader.close();
-					logger.error(errTxt);
-					System.err.println(errTxt);
-					throw new Exception(errTxt);
+					annotateError(errTxt);
 				}
 
                 if (!newOntologyUsed(line)){
@@ -417,10 +377,8 @@ public class IsaTabReplacer
                         errTxt = errTxt + "Please download the latest version of our ISAcreator bundle and update your study. ";
                         errTxt = errTxt + "Download here: ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip\n\n";
                         errTxt = errTxt + validateError;
-                    reader.close();
-                    logger.error(errTxt);
-                    System.err.println(errTxt);
-                    throw new Exception(errTxt);
+
+                    annotateError(errTxt);
                 }
 
 				//Replace Id in line (it could come with their own identifier, since we now accept those with the same initial identifier), also check for multiple studies reported
@@ -444,8 +402,11 @@ public class IsaTabReplacer
 			// NOT we are not making a back up here!! I needed we will nee to call
 			//FileAuditUtil.backUpAuditedFolder(fileWithId.getParent());
 			FileUtil.String2File(text, fileWithId.getPath(),false);
-		} catch (Exception e) {
-			throw e;
+
+		} catch (FileNotFoundException e) {
+			annotateError(e);
+		} catch (IOException e) {
+			annotateError(e);
 		}
 
 	}
@@ -756,4 +717,9 @@ public class IsaTabReplacer
     	return line;
 
 	}
+
+	public List<Exception> getExceptions() {
+		return exceptions;
+	}
+
 }

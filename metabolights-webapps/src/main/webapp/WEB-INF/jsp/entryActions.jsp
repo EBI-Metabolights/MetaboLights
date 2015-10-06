@@ -20,7 +20,7 @@
 <c:if test="${readOnly eq false}">
     <nav id="cssmenu">
         <ul>
-            <li><a href="#">actions</a>
+            <li><a href="#">Actions</a>
                 <ul>
                     <c:if test="${(study.studyStatus == 'SUBMITTED') || curator}">
                         <c:if test="${(study.studyStatus != 'PUBLIC')}">
