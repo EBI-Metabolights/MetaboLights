@@ -11,86 +11,55 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Created by kalai on 30/09/15.
  */
-@JsonTypeName("OrganismValidations")
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class OrganismValidations extends ValidationGroup {
+public class OrganismValidations {
 
-    public OrganismValidations(Group group) {
-        super(group);
-        getValidations().add(new OrganismNameValidation());
-        getValidations().add(new OrganismPartValidation());
+
+    public static Collection<Validation> getValidations(Study study) {
+        Collection<Validation> organismValidations = new LinkedList<>();
+        organismValidations.add(getOrganismNameValidation(study));
+        organismValidations.add(getOrganismPartValidation(study));
+        return organismValidations;
     }
 
-    public OrganismValidations() {
-
-    }
-
-    @Override
-    public Collection<Validation> isValid(Study study) {
-        setStudy(study);
-        for (Validation validation : getValidations()) {
-            validation.setPassedRequirement(validation.hasPassed());
-            validation.setStatus();
-        }
-        return getValidations();
-    }
-
-
-    @JsonTypeName("OrganismNameValidation")
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class OrganismNameValidation extends Validation {
-
-        @JsonCreator
-        public OrganismNameValidation() {
-            super(DescriptionConstants.ORGANISM_NAME, Requirement.MANDATORY, Group.ORGANISM);
-        }
-
-        @Override
-        public boolean hasPassed() {
-            if (!getStudy().getOrganism().isEmpty()) {
-                for (Organism organism : getStudy().getOrganism()) {
-                    if (!Utilities.minCharRequirementPassed(organism.getOrganismName(), 3)) {
-                        setMessage("Organism name is not valid");
-                        return false;
-                    }
+    public static Validation getOrganismNameValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.ORGANISM_NAME, Requirement.MANDATORY, Group.ORGANISM);
+        if (!study.getOrganism().isEmpty()) {
+            for (Organism organism : study.getOrganism()) {
+                if (!Utilities.minCharRequirementPassed(organism.getOrganismName(), 3)) {
+                    validation.setMessage("Organism name is not valid");
+                    validation.setPassedRequirement(false);
                 }
-
-            } else {
-                setMessage("Organism is empty");
-                return false;
             }
-            return true;
+
+        } else {
+            validation.setMessage("Organism is empty");
+            validation.setPassedRequirement(false);
         }
+        validation.setStatus();
+        return validation;
     }
 
-    @JsonTypeName("OrganismPartValidation")
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class OrganismPartValidation extends Validation {
-
-        @JsonCreator
-        public OrganismPartValidation() {
-            super(DescriptionConstants.ORGANISM_PART, Requirement.MANDATORY, Group.ORGANISM);
-        }
-
-        @Override
-        public boolean hasPassed() {
-            if (!getStudy().getOrganism().isEmpty()) {
-                for (Organism organism : getStudy().getOrganism()) {
-                    if (!Utilities.minCharRequirementPassed(organism.getOrganismPart(), 3)) {
-                        setMessage("Organism part is not valid");
-                        return false;
-                    }
+    public static Validation getOrganismPartValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.ORGANISM_PART, Requirement.MANDATORY, Group.ORGANISM);
+        if (!study.getOrganism().isEmpty()) {
+            for (Organism organism : study.getOrganism()) {
+                if (!Utilities.minCharRequirementPassed(organism.getOrganismPart(), 3)) {
+                    validation.setMessage("Organism part is not valid");
+                    validation.setPassedRequirement(false);
                 }
-
-            } else {
-                setMessage("Organism is empty");
-                return false;
             }
-            return true;
+
+        } else {
+            validation.setMessage("Organism is empty");
+            validation.setPassedRequirement(false);
         }
+        validation.setStatus();
+        return validation;
     }
+
 }

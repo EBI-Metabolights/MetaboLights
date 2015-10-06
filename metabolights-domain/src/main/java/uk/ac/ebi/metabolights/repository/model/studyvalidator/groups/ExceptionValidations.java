@@ -9,65 +9,37 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Created by kalai on 30/09/15.
  */
-@JsonTypeName("ExceptionValidations")
-@JsonIgnoreProperties(ignoreUnknown = true)
+public class ExceptionValidations {
 
-public class ExceptionValidations extends ValidationGroup {
-
-
-    public ExceptionValidations(Group group) {
-        super(group);
-        getValidations().add(new UnexpectedExceptionValidation());
+    public static Collection<Validation> getValidations(Exception e) {
+        Collection<Validation> exceptionValidations = new LinkedList<>();
+        exceptionValidations.add(getUnexpectedExceptionValidation(e));
+        return exceptionValidations;
     }
 
-    public ExceptionValidations(Group group, Exception exception) {
-        super(group);
-        getValidations().add(new UnexpectedExceptionValidation(exception));
+    public static Validation getUnexpectedExceptionValidation(Exception exception) {
+        Validation validation = new Validation(DescriptionConstants.EXCEPTION, Requirement.MANDATORY, Group.EXCEPTION);
+        validation.setMessage("Something went wrong here: " + exception.getMessage());
+        validation.setPassedRequirement(false);
+        validation.setStatus();
+        return validation;
     }
 
-    public ExceptionValidations() {
+    public static Validation getSuccessfulMetaDataLoadValidation(Exception exception, String validationDescription) {
+        Validation validation = new Validation(validationDescription, Requirement.MANDATORY, Group.EXCEPTION);
+        validation.setMessage("We could NOT successfully run all the validations. Some validations might have passed." +
+                " There was an exception during the validation: " +
+                exception.getMessage() + ", " +
+                exception.getClass().getName());
+        validation.setPassedRequirement(false);
+        validation.setStatus();
+        return validation;
 
-    }
-
-    @Override
-    public Collection<Validation> isValid(Study study) {
-        setStudy(study);
-        for (Validation validation : getValidations()) {
-            validation.setPassedRequirement(validation.hasPassed());
-            validation.setStatus();
-           }
-        return getValidations();
-    }
-
-    @JsonTypeName("UnexpectedExceptionValidation")
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class UnexpectedExceptionValidation extends Validation {
-
-        public UnexpectedExceptionValidation() {
-            super(DescriptionConstants.EXCEPTION, Requirement.MANDATORY, Group.EXCEPTION);
-        }
-
-        public UnexpectedExceptionValidation(Exception exception) {
-            super(DescriptionConstants.EXCEPTION, Requirement.MANDATORY, Group.EXCEPTION);
-            setMessage("We could NOT successfully run all the validations. Some validations might have passed." +
-                    " There was an exception during the validation: " +
-                    exception.getMessage() + ", " +
-                    exception.getClass().getName());
-        }
-
-        public UnexpectedExceptionValidation(String description, Exception e) {
-            super(description, Requirement.MANDATORY, Group.EXCEPTION);
-            setMessage("Something went wrong here: " + e.getMessage());
-        }
-
-        @Override
-        public boolean hasPassed() {
-            return false;
-        }
     }
 
 

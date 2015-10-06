@@ -27,36 +27,15 @@ public class StudyValidationUtilities {
     private static Collection<Validation> generateValidations(Study study) {
         Collection<Validation> validations = new LinkedList<>();
         try {
-            for (Group group : Group.values()) {
-                if (!group.equals(Group.EXCEPTION)) {
-                    if (group.equals(Group.STUDY)) {
-                        validations.addAll(new StudyValidations(group).isValid(study));
-                    }
-                    if (group.equals(Group.PUBLICATION)) {
-                        validations.addAll(new PublicationValidations(group).isValid(study));
-                    }
-                    if (group.equals(Group.FACTORS)) {
-                        validations.addAll(new FactorValidations(group).isValid(study));
-                    }
-                    if (group.equals(Group.ORGANISM)) {
-                        validations.addAll(new OrganismValidations(group).isValid(study));
-                    }
-//                    if (group.equals(Group.ISATAB)) {
-//                        validations.addAll(new IsatabValidations(group).isValid(study));
-//                    }
-                    if (group.equals(Group.ASSAYS)) {
-                        validations.addAll(new AssayValidations(group).isValid(study));
-                    }
-                    if (group.equals(Group.PROTOCOLS)) {
-                        validations.addAll(new ProtocolValidations(group).isValid(study));
-                    }
-                    if (group.equals(Group.SAMPLES)) {
-                        validations.addAll(new SampleValidations(group).isValid(study));
-                    }
-                }
-            }
+            validations.addAll(StudyValidations.getValidations(study));
+            validations.addAll(SampleValidations.getValidations(study));
+            validations.addAll(PublicationValidations.getValidations(study));
+            validations.addAll(ProtocolValidations.getValidations(study));
+            validations.addAll(OrganismValidations.getValidations(study));
+            validations.addAll(FactorValidations.getValidations(study));
+            validations.addAll(AssayValidations.getValidations(study));
         } catch (Exception e) {
-            validations.addAll(new ExceptionValidations(Group.EXCEPTION, e).isValid(study));
+            validations.addAll(ExceptionValidations.getValidations(e));
         }
         return validations;
     }

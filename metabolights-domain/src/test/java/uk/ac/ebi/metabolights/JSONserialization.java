@@ -12,9 +12,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.Group;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.PublicationValidations;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.StudyValidations;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -185,14 +183,16 @@ public class JSONserialization {
 
 	private static Collection<Validation> generateValidations(Study study) {
 		Collection<Validation> validations = new LinkedList<>();
-
-		for (Group group : Group.values()) {
-			if (group.equals(Group.STUDY)) {
-				validations.addAll(new StudyValidations(group).isValid(study));
-			}
-			if (group.equals(Group.PUBLICATION)) {
-				validations.addAll(new PublicationValidations(group).isValid(study));
-			}
+		try {
+			validations.addAll(StudyValidations.getValidations(study));
+			validations.addAll(SampleValidations.getValidations(study));
+			validations.addAll(PublicationValidations.getValidations(study));
+			validations.addAll(ProtocolValidations.getValidations(study));
+			validations.addAll(OrganismValidations.getValidations(study));
+			validations.addAll(FactorValidations.getValidations(study));
+			validations.addAll(AssayValidations.getValidations(study));
+		} catch (Exception e) {
+			validations.addAll(ExceptionValidations.getValidations(e));
 		}
 		return validations;
 	}
