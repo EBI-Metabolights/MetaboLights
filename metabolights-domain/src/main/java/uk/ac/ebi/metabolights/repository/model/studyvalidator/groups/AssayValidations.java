@@ -309,10 +309,6 @@ public class AssayValidations {
     }
 
     public static List<String> referencedMafFilesNotPresentInFileSystem(Map<Integer, Assay> mafIndex_assaysWithMaf_map, Study study) {
-        // get maf file names from assay table   ; top entry per maf table is enough; as it is repeated
-        // get all filenames list in study folder
-        // for each maf file, look up this list
-
         List<String> notPresentInStudyFolder = new ArrayList<>();
         List<String> fileNames = getFileNamesInDirectory(study.getStudyLocation());
         for (String maf_file : getMafFileNames(mafIndex_assaysWithMaf_map)) {
