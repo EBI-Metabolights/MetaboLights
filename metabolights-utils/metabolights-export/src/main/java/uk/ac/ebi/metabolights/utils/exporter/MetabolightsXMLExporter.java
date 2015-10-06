@@ -276,12 +276,9 @@ public class MetabolightsXMLExporter {
 
                 System.out.println(String.valueOf(i) + " ------- " + String.valueOf(numberofcompounds - i) + "=====" + String.valueOf(failedCompounds.size()));
             }
-            catch (Exception e){
+            catch (Exception e) {
                 System.out.println(e.getMessage());
                 failedCompounds.add(compoundAcc);
-            }
-            if ( i >250) {
-                break;
             }
         }
 
@@ -541,7 +538,6 @@ public class MetabolightsXMLExporter {
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
-            break;
         }
     }
 
