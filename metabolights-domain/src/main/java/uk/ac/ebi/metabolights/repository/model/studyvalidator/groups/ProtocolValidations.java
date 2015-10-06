@@ -9,8 +9,10 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by kalai on 01/10/15.
@@ -60,13 +62,18 @@ public class ProtocolValidations {
     public static Validation getComprehensiveProtocolValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.PROTOCOLS_ALL, Requirement.OPTIONAL, Group.PROTOCOLS);
         if (!study.getProtocols().isEmpty()) {
+            List<String> emptyProtocolFields = new ArrayList<>();
             for (Protocol protocol : study.getProtocols()) {
                 if (!Utilities.minCharRequirementPassed(protocol.getDescription(), 3)) {
-                    validation.setMessage("Protocol description is not sufficient or not all required fields are provided. Example:"
-                            + "\"" + protocol.getName() + "\" is either not provided or not sufficiently described.");
-                    validation.setPassedRequirement(false);
-                    break;
+//                    validation.setMessage("Protocol description is not sufficient or not all required fields are provided. Example:"
+//                            + "\"" + protocol.getName() + "\" is either not provided or not sufficiently described.");
+                    emptyProtocolFields.add(protocol.getName());
+//                    validation.setPassedRequirement(false);
                 }
+            }
+            if (emptyProtocolFields.size() > 0) {
+                validation.setPassedRequirement(false);
+                validation.setMessage(getErrMessage(emptyProtocolFields));
             }
         } else {
             validation.setMessage("Protocols is empty");
@@ -75,4 +82,31 @@ public class ProtocolValidations {
         validation.setStatus();
         return validation;
     }
+
+    private static String getErrMessage(List<String> emptyProtocolFields) {
+        String errMessage = "Protocol description is not sufficient or not all required fields are provided. Missing field(s):";
+        for (int i = 0; i < emptyProtocolFields.size(); i++) {
+            errMessage += " " + emptyProtocolFields.get(i);
+            if (i < emptyProtocolFields.size() - 1) {
+                errMessage += ",";
+            }
+        }
+        //errMessage += " has not been described.";
+        return errMessage;
+    }
+
+    public static boolean metaboliteIdentificationProtocolIsPresent(Study study) {
+        if (study.getProtocols().isEmpty()) {
+            return false;
+        }
+        for (Protocol protocol : study.getProtocols()) {
+            if (protocol.getName().equals("Metabolite identification")) {
+                if (protocol.getDescription().length() > 3) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
