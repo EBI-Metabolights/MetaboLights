@@ -180,10 +180,16 @@ public class AssayValidations {
             List<String> noPhysicalReference = new ArrayList<>();
             for (int i = 0; i < fileFields.size(); i++) {
                 if (thisFileColumnHasFilesReferenced(fileFields.get(i), assay.getAssayTable().getData())) {
+                    HashSet<String> uniqueNames = new HashSet();
+
                     for (List<String> data : assay.getAssayTable().getData()) {
                         String tableRowEntry = data.get(indexToCheck(fileFields.get(i)));
-                        if (!match(tableRowEntry, rawFilesList)) {
-                            noPhysicalReference.add(tableRowEntry);
+                        uniqueNames.add(tableRowEntry);
+                    }
+
+                    for (String uniqName : uniqueNames) {
+                        if (!match(uniqName, rawFilesList)) {
+                            noPhysicalReference.add(uniqName);
                         }
                     }
                 }
@@ -195,6 +201,14 @@ public class AssayValidations {
         }
         hasPassed_FailedFilNamesMap.put(true, new ArrayList<String>());
         return hasPassed_FailedFilNamesMap;
+    }
+
+    private static HashSet<String> getUniqueFileNames(List<String> fileDataColumn) {
+        HashSet<String> uniqNames = new HashSet();
+        for (String fileName : fileDataColumn) {
+            uniqNames.add(fileName);
+        }
+        return uniqNames;
     }
 
     private static int[] getAllIndexes(List<String> fileFields) {
