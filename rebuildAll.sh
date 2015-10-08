@@ -15,7 +15,9 @@ cd metabolights-domain
 mvn clean install $DEPLOY -DskipTests=true
 cd ../metabolights-dao
 mvn clean install $DEPLOY -DskipTests=true
-cd ../MetaboLights-Search
+cd ../metabolights-referencelayer/dao
+mvn clean install $DEPLOY -DskipTests=true
+cd ../../MetaboLights-Search
 mvn clean install $DEPLOY -DskipTests=true
 cd ../metabolights-webservice
 mvn clean package $DEPLOY -DskipTests=true

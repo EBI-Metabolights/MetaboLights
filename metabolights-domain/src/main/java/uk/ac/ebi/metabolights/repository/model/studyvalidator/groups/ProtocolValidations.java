@@ -46,7 +46,7 @@ public class ProtocolValidations {
                 validation.setPassedRequirement(false);
             }
             if (passed < 4) {
-                validation.setMessage("Minimum 4 fields for Protocols has to be filled in");
+                validation.setMessage("Not enough protocols has descriptions");
                 validation.setPassedRequirement(false);
             }
         } else {

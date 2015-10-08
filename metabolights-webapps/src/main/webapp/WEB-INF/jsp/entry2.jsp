@@ -194,7 +194,8 @@
                 "order": [],
                 "language": {
                     "search": "Filter:"
-                }
+                },
+                "pageLength": 25
             } );
 
         }
