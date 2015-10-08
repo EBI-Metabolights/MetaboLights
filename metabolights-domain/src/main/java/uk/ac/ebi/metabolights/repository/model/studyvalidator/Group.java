@@ -1,4 +1,4 @@
-package uk.ac.ebi.metabolights.repository.model.studyvalidator.groups;
+package uk.ac.ebi.metabolights.repository.model.studyvalidator;
 
 /**
  * Created by kalai on 18/09/15.

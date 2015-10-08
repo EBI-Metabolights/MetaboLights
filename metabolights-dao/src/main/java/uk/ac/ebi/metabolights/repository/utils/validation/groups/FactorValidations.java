@@ -1,14 +1,11 @@
-package uk.ac.ebi.metabolights.repository.model.studyvalidator.groups;
+package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.StudyFactor;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.DescriptionConstants;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
+import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.Collection;
@@ -17,9 +14,14 @@ import java.util.LinkedList;
 /**
  * Created by kalai on 18/09/15.
  */
-public class FactorValidations {
+public class FactorValidations implements IValidationProcess{
 
-    public static Collection<Validation> getValidations(Study study) {
+    @Override
+    public String getAbout() {
+        return Group.FACTORS.toString();
+    }
+
+    public  Collection<Validation> getValidations(Study study) {
         Collection<Validation> factorValidations = new LinkedList<>();
         factorValidations.add(getFactorNameValidation(study));
         return factorValidations;

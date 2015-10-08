@@ -44,7 +44,7 @@ public class Study extends LiteStudy {
     private Collection<Protocol> protocols;
     private List<Assay> assays;
     private Collection<Backup> backups;
-    private Validations validations;
+    private Validations validations = new Validations();
 
     // Tables Sample & Assays
     private Table sampleTable;

@@ -1,15 +1,13 @@
-package uk.ac.ebi.metabolights.repository.model.studyvalidator.groups;
+package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Table;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.DescriptionConstants;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 
 import java.io.File;
 import java.util.*;
@@ -18,11 +16,17 @@ import java.util.*;
  * Created by kalai on 01/10/15.
  */
 
-public class AssayValidations {
+public class AssayValidations implements IValidationProcess {
 
     private static int[] indicesToCrosscheck;
 
-    public static Collection<Validation> getValidations(Study study) {
+
+    @Override
+    public String getAbout() {
+        return Group.ASSAYS.toString();
+    }
+
+    public  Collection<Validation> getValidations(Study study) {
         Collection<Validation> assayValidations = new LinkedList<>();
         //assayValidations.add(getAssayValidation(study));
         assayValidations.addAll(getAssayValidations(study));

@@ -1,4 +1,4 @@
-package uk.ac.ebi.metabolights.repository.model.studyvalidator;
+package uk.ac.ebi.metabolights.repository.utils.validation;
 
 /**
  * Created by kalai on 18/09/15.

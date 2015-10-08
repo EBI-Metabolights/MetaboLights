@@ -1,10 +1,6 @@
 package uk.ac.ebi.metabolights.repository.model.studyvalidator;
 
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
-
 /**
  * Created by kalai on 18/09/15.
  */

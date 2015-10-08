@@ -9,10 +9,10 @@ import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -126,7 +126,7 @@ public class JSONserialization {
 		Study study = getNewFullStudy();
 
 		logger.info("Before mapping Validation status " + study.getValidations().getEntries().iterator().next().getStatus().name());
-		Assert.assertEquals("Before mapping Validation status", Status.GREEN, study.getValidations().getEntries().iterator().next().getStatus());
+		Assert.assertEquals("Before mapping Validation status", Status.RED, study.getValidations().getEntries().iterator().next().getStatus());
 
 
 		String studyJSON = mapper.writeValueAsString(study);
@@ -136,20 +136,16 @@ public class JSONserialization {
 		study = mapper.readValue(studyJSON,study.getClass());
 
 		Assert.assertEquals("Study not serialised properly.", STUDY_ID, study.getStudyIdentifier());
-		logger.info("size : " + study.getValidations().getEntries().size());
 
-		Assert.assertEquals("Study hasn't got a validation.", 2, study.getValidations().getEntries().size());
+		logger.info("Validation size : " + study.getValidations().getEntries().size());
+		Assert.assertEquals("Study hasn't got a validation.", 1, study.getValidations().getEntries().size());
 
-		Assert.assertEquals("study title Validation status", Status.GREEN, study.getValidations().getEntries().iterator().next().getStatus());
+		Assert.assertEquals("study title Validation status", Status.RED, study.getValidations().getEntries().iterator().next().getStatus());
 
 		for(Validation validation : study.getValidations().getEntries()){
 			logger.info(validation.getDescription());
 
 		}
-
-		//Validation aValidation = (Validation) study.getValidations().getEntries().iterator().next();
-
-		//Assert.assertEquals("validation hasPassed not serialised properly.", true, aValidation.getPassedRequirement());
 
 	}
 
@@ -170,31 +166,13 @@ public class JSONserialization {
 		publicationCollection.add(publication);
 		study.setPublications(publicationCollection);
 
-
-
-		Validations validations = new Validations();
-		validations.getEntries().addAll(generateValidations(study));
-
-		study.setValidations(validations);
+		// Add a validation
+		Validation validation = new Validation("description", Requirement.MANDATORY, Group.PROTOCOLS);
+		study.getValidations().getEntries().add(validation);
 
 
 		return study;
 	}
 
-	private static Collection<Validation> generateValidations(Study study) {
-		Collection<Validation> validations = new LinkedList<>();
-		try {
-			validations.addAll(StudyValidations.getValidations(study));
-			validations.addAll(SampleValidations.getValidations(study));
-			validations.addAll(PublicationValidations.getValidations(study));
-			validations.addAll(ProtocolValidations.getValidations(study));
-			validations.addAll(OrganismValidations.getValidations(study));
-			validations.addAll(FactorValidations.getValidations(study));
-			validations.addAll(AssayValidations.getValidations(study));
-		} catch (Exception e) {
-			validations.addAll(ExceptionValidations.getValidations(e));
-		}
-		return validations;
-	}
 
 }

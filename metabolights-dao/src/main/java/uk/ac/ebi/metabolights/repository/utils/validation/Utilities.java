@@ -1,4 +1,7 @@
-package uk.ac.ebi.metabolights.repository.model.studyvalidator;
+package uk.ac.ebi.metabolights.repository.utils.validation;
+
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.Collection;
 

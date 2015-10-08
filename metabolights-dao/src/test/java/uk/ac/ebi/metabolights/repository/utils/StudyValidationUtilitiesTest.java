@@ -1,13 +1,11 @@
 package uk.ac.ebi.metabolights.repository.utils;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.junit.Test;
-import uk.ac.ebi.metabolights.repository.model.Organism;
 import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
+import uk.ac.ebi.metabolights.repository.utils.validation.StudyValidationUtilities;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -35,9 +33,9 @@ public class StudyValidationUtilitiesTest extends TestCase {
         publicationCollection.add(publication);
         study.setPublications(publicationCollection);
 
-        Validations validations = StudyValidationUtilities.validate(study);
-        assertEquals(true, validations.getEntries().size() > 0);
-        assertEquals(true, validations.getStatus().equals(Status.GREEN));
+        StudyValidationUtilities.validate(study);
+        assertEquals(true, study.getValidations().getEntries().size() > 0);
+        assertEquals(true, study.getValidations().getStatus().equals(Status.RED));
 
 //        Validation aValidation = (Validation) study.getValidations().getEntries().iterator().next();
 //

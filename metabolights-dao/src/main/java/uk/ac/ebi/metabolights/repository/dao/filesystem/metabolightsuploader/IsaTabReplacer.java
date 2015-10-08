@@ -86,7 +86,7 @@ public class IsaTabReplacer
 	//	Instance variables
 	private String publicDate; 		//Date from submitter form
 	private String submissionDate;	//Date from submitter form
-	private Integer singleStudy=0;	//Update when we find study ids in the file
+	private Integer studyNumber =0;	//Update when we find study ids in the file
 
 	private String studyIdentifier; // When updating a study, replacement must not be done.
 	private String isaTabFolder;
@@ -347,7 +347,10 @@ public class IsaTabReplacer
 		logger.info("Reading investigation file -->" + fileWithId.getAbsolutePath());
 
 		// Reset number of studies.
-		singleStudy= 0;
+		studyNumber = 0;
+		boolean wrongStudyNumber = false;
+
+
 
 		try {
 			//Use a buffered reader
@@ -363,9 +366,10 @@ public class IsaTabReplacer
 					annotateError(errTxt);
 				}
 
-				if (singleStudy>1){  //If we already have assigned a study, fail the upload
+				if (studyNumber >1 && !wrongStudyNumber){  //If we already have assigned a study, fail the upload
 					String errTxt = "Sorry, Only one study per submission accepted in MetaboLights";  //Todo, read error text from properties
 					annotateError(errTxt);
+					wrongStudyNumber = true;
 				}
 
                 if (!newOntologyUsed(line)){
@@ -395,7 +399,7 @@ public class IsaTabReplacer
 			reader.close();
 
 			//Save the file
-			// NOT we are not making a back up here!! I needed we will nee to call
+			// NOT we are not making a back up here!! If needed we will need to call
 			//FileAuditUtil.backUpAuditedFolder(fileWithId.getParent());
 			FileUtil.String2File(text, fileWithId.getPath(),false);
 
@@ -436,7 +440,7 @@ public class IsaTabReplacer
 				  String idInitialValue = StringUtils.replace(line, id + "\t\"", "");
 				  idInitialValue = StringUtils.truncate(idInitialValue);
 
-				  //Compose the line:         Study Identifier   "MTBL1"
+				  //Compose the line:         Study Identifier   "MTBLS1"
 				  line = id + "\t\"" + studyIdentifier + "\"";
 
 				  logger.info("Study identifier " + idInitialValue + " replaced with " +studyIdentifier);
@@ -450,7 +454,7 @@ public class IsaTabReplacer
 	    	  //Only Study Identifier can be linked.
 	    	  if ("Study Identifier".equals(id)){
 
- 				++singleStudy;  //Count how many study id's we have processed
+ 				++studyNumber;  //Count how many study id's we have processed
 
 	    	  }
 

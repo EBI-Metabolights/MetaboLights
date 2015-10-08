@@ -26,12 +26,9 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
-
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.ExceptionValidations;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
-
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
-import uk.ac.ebi.metabolights.repository.utils.StudyValidationUtilities;
+import uk.ac.ebi.metabolights.repository.utils.validation.StudyValidationUtilities;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -161,8 +158,6 @@ public class StudyDAO {
         // Set the location
         studyToFill.setStudyLocation(studyFolder.getAbsolutePath());
 
-        IsaTabException exception = null;
-
         // Load the IsaTab investigation
         org.isatools.isacreator.model.Investigation isaInvestigation = null;
         try {
@@ -174,22 +169,17 @@ public class StudyDAO {
 
 
         } catch (IsaTabException e) {
-            exception = e;
+
+            StudyValidationUtilities.AddValidationFromException(studyToFill, "Study metadata load","We could NOT load the isatab files: " + e.getMessage() + ", " +
+                    e.getClass().getName());
+
         }
 
         // Add Backups
         studyToFill.setBackups(FileAuditUtil.getBackupsCollection(studyFolder));
 
-        studyToFill.setValidations(StudyValidationUtilities.validate(studyToFill));
+        StudyValidationUtilities.validate(studyToFill);
 
-        // If there was an exception...
-        if (exception != null) {
-            // Add a validation for the exception
-            studyToFill.getValidations().getEntries().add(
-                    ExceptionValidations.getSuccessfulMetaDataLoadValidation(
-                            exception, "Study metadata must load"));
-//            throw exception;
-        }
 
         logger.info("Study loaded from folder: {}", studyFolder.getAbsolutePath());
 
