@@ -1,12 +1,6 @@
 package uk.ac.ebi.metabolights.repository.model.studyvalidator;
 
-import uk.ac.ebi.metabolights.repository.model.Field;
-import uk.ac.ebi.metabolights.repository.model.Table;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  * Created by kalai on 18/09/15.
@@ -44,6 +38,9 @@ public class Utilities {
     }
 
     public static boolean minCharRequirementPassed(String toCheck, int limit) {
+
+        // Test for null values
+        if (toCheck == null ) return false;
         return toCheck.length() >= limit;
     }
 }

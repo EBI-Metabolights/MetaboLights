@@ -75,8 +75,6 @@ public class IsaTabReplacer
     static private String newOntologyType;
     static private String newOntologyValue; //This is the new type ontology reference used in ISAcreator 1.7.5+
     static private String sampleFile;
-    static private String organism;
-    static private String organismPart;
     static private String validateError = "***** You must make sure your study successfully passes the ISAcreator validation (file -> validate ISAtab) before resubmitting your study! *****\n";
 
 	static final String PROP_IDS = "isatab.ids";
@@ -209,8 +207,6 @@ public class IsaTabReplacer
 		metaboliteProfValueStr = props.getProperty("isatab.profilingValue");
         newOntologyType = props.getProperty("isatab.newOntologyType");
         newOntologyValue = props.getProperty("isatab.newOntologyValue");
-        organism = props.getProperty("isatab.organism");
-        organismPart = props.getProperty("isatab.organismPart");
 
 		logger.info(PROP_IDS + " property retrieved :" + ids + "," + pubDateStr + "," + subDateStr);
 
@@ -421,8 +417,6 @@ public class IsaTabReplacer
 
 	private String replaceIdInLine(String line){
 
-		// If studyIdentifier is null, don't need to replace it
-		if (studyIdentifier == null) return line;
 
 	    //For each id...
 	    for (int i=0;i<idList.length;i++) {
@@ -435,12 +429,19 @@ public class IsaTabReplacer
 
 	    	  logger.info("Line with identifiers found: " + line);
 
-	    	  //Get the Id Value (i.e.: BII-1-S)
-	    	  String idInitialValue = StringUtils.replace(line, id + "\t\"", "");
-	    	  idInitialValue = StringUtils.truncate(idInitialValue);
+			  // If studyIdentifier is null, don't need to replace it
+			  if (studyIdentifier != null) {
 
-	    	  //Compose the line:         Study Identifier   "MTBL1"
-	    	  line = id + "\t\"" + studyIdentifier + "\"";
+				  //Get the Id Value (i.e.: BII-1-S)
+				  String idInitialValue = StringUtils.replace(line, id + "\t\"", "");
+				  idInitialValue = StringUtils.truncate(idInitialValue);
+
+				  //Compose the line:         Study Identifier   "MTBL1"
+				  line = id + "\t\"" + studyIdentifier + "\"";
+
+				  logger.info("Study identifier " + idInitialValue + " replaced with " +studyIdentifier);
+
+			  }
 
 	    	  //If the value is a study identifier
 	    	  //This is necessary for the uploading using command line tools.
@@ -450,10 +451,6 @@ public class IsaTabReplacer
 	    	  if ("Study Identifier".equals(id)){
 
  				++singleStudy;  //Count how many study id's we have processed
-
-                // TODO? Do we want to keep it
-                // getAccessionService().saveSubmittedId(idInitialValue, accessionNumber);
-	    		logger.info("Study identifier " + idInitialValue + " replaced with " +studyIdentifier);
 
 	    	  }
 

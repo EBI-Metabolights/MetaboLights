@@ -109,7 +109,10 @@ public class IsaTab2MetaboLightsConverter {
         }
 
         // Populate direct study members
-        studyToFill.setStudyIdentifier(isaStudy.getStudyId());
+        if (studyToFill.getStudyIdentifier() == null || studyToFill.getStudyIdentifier().isEmpty())
+        {
+            studyToFill.setStudyIdentifier(isaStudy.getStudyId());
+        }
         studyToFill.setTitle(isaStudy.getStudyTitle());
         studyToFill.setDescription(isaStudy.getStudyDesc());
         studyToFill.setStudyLocation(studyFolder);

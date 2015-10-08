@@ -1,8 +1,10 @@
 package uk.ac.ebi.metabolights.repository.utils;
 
-import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Utilities;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.groups.*;
 
 import java.util.Collection;
@@ -34,6 +36,8 @@ public class StudyValidationUtilities {
             validations.addAll(OrganismValidations.getValidations(study));
             validations.addAll(FactorValidations.getValidations(study));
             validations.addAll(AssayValidations.getValidations(study));
+            validations.addAll(IsatabValidations.getValidations(study));
+
         } catch (Exception e) {
             validations.addAll(ExceptionValidations.getValidations(e));
         }
