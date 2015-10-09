@@ -210,6 +210,9 @@ public class StudyDAO {
         IsaTabReplacer isaTabIdReplacer = new IsaTabReplacer(finalDestination.getAbsolutePath());
         isaTabIdReplacer.setPublicDate(study.getStudyPublicReleaseDate());
         isaTabIdReplacer.setStudyIdentifier(studyIdentifier);
+
+        // Only set the submission date for new studies!
+        // Tricky since the date is only in the file and the previous files have been already moved to the backup...
         isaTabIdReplacer.setSubmissionDate(IsaTab2MetaboLightsConverter.date2IsaTabDate(new Date()));
         try {
             isaTabIdReplacer.execute();
