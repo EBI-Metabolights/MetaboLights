@@ -45,286 +45,289 @@ import java.util.Map;
 
 /**
  * Controller for Metabolights searching using the webservice.
+ *
  * @author Pablo Conesa
  */
 @Controller
-public class WSSearchController extends AbstractController{
+public class WSSearchController extends AbstractController {
 
-	public static final String HEADER = "sHeader";
-	public static final String NORESULTSMESSAGE = "noresultsmessage";
-	public static final String BROWSE = "browse";
-	public static final String SEARCH = "search";
-	private static final String MY_SUBMISSIONS = "mysubmissions";
+    public static final String HEADER = "sHeader";
+    public static final String NORESULTSMESSAGE = "noresultsmessage";
+    public static final String BROWSE = "browse";
+    public static final String SEARCH = "search";
+    private static final String MY_SUBMISSIONS = "mysubmissions";
 
-	// Facets
-	public static final String OBJECT_TYPE = "ObjectType";
-	public static final String ASSAYS_TECHNOLOGY = "assays.technology";
-	public static final String STUDY_STATUS = "studyStatus";
-	public static final String ORGANISM_ORGANISM_NAME = "organism.organismName";
-	public static final String ORGANISM_ORGANISM_PART = "organism.organismPart";
-	public static final String USERS_FULL_NAME = "users.fullName";
-	public static final String FACTORS_NAME = "factors.name";
-	public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
+    // Facets
+    public static final String OBJECT_TYPE = "ObjectType";
+    public static final String ASSAYS_TECHNOLOGY = "assays.technology";
+    public static final String STUDY_STATUS = "studyStatus";
+    public static final String ORGANISM_ORGANISM_NAME = "organism.organismName";
+    public static final String ORGANISM_ORGANISM_PART = "organism.organismPart";
+    public static final String USERS_FULL_NAME = "users.fullName";
+    public static final String FACTORS_NAME = "factors.name";
+    public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
+    public static final String VALIDATIONS_STATUS = "validations.status"; //new facet added
 
-	private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
+    private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
 
 
-	/**
+    /**
      * Controller for a browse (empty internalSearch) request
      */
-    @RequestMapping(value = BROWSE )
+    @RequestMapping(value = BROWSE)
     public ModelAndView browse(HttpServletRequest request) throws Exception {
 
-		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(BROWSE, request);
+        //Trigger the internalSearch based on the filter
+        ModelAndView mav = internalSearch(BROWSE, request);
 
-		return mav;
+        return mav;
     }
 
-	/**
-	 * Controller for a internalSearch request, including possible filters.
-	 *
-	 */
-	@RequestMapping(value = SEARCH, method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView search (@RequestParam(required=false,value="freeTextQuery") String freeTextQuery, HttpServletRequest request) throws Exception {
+    /**
+     * Controller for a internalSearch request, including possible filters.
+     */
+    @RequestMapping(value = SEARCH, method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView search(@RequestParam(required = false, value = "freeTextQuery") String freeTextQuery, HttpServletRequest request) throws Exception {
 
 
-		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(SEARCH, request);
+        //Trigger the internalSearch based on the filter
+        ModelAndView mav = internalSearch(SEARCH, request);
 
-		return mav;
-	}
+        return mav;
+    }
 
-	@RequestMapping({ "/studies" })
-	public ModelAndView searchStudies(HttpServletRequest request){
+    @RequestMapping({"/studies"})
+    public ModelAndView searchStudies(HttpServletRequest request) {
 
-		// Get the query
-		SearchQuery query = getQuery(request);
+        // Get the query
+        SearchQuery query = getQuery(request);
 
-		// Add a compound filter
-		Map.Entry compoundFilter = new AbstractMap.SimpleEntry(OBJECT_TYPE,new String[]{"study"});
+        // Add a compound filter
+        Map.Entry compoundFilter = new AbstractMap.SimpleEntry(OBJECT_TYPE, new String[]{"study"});
 
 
-		populateFacet(query ,compoundFilter);
+        populateFacet(query, compoundFilter);
 
-		// Make the search
-		return internalSearch(SEARCH, query);
+        // Make the search
+        return internalSearch(SEARCH, query);
 
-	}
+    }
 
 
-	@RequestMapping({"/reference", "/compounds" })
-	public ModelAndView searchCompounds(HttpServletRequest request){
+    @RequestMapping({"/reference", "/compounds"})
+    public ModelAndView searchCompounds(HttpServletRequest request) {
 
-		// Get the query
-		SearchQuery query = getQuery(request);
+        // Get the query
+        SearchQuery query = getQuery(request);
 
-		// Add a compound filter
-		Map.Entry compoundFilter = new AbstractMap.SimpleEntry(OBJECT_TYPE,new String[]{"compound"});
+        // Add a compound filter
+        Map.Entry compoundFilter = new AbstractMap.SimpleEntry(OBJECT_TYPE, new String[]{"compound"});
 
 
-		populateFacet(query ,compoundFilter);
+        populateFacet(query, compoundFilter);
 
-		// Make the search
-		return internalSearch(SEARCH, query);
+        // Make the search
+        return internalSearch(SEARCH, query);
 
-	}
-	private ModelAndView internalSearch(String MAVName, HttpServletRequest request) {
+    }
 
-		// Get the query
-		SearchQuery query = getQuery(request);
-		// Make the search
-		return internalSearch(MAVName, query);
-	}
+    private ModelAndView internalSearch(String MAVName, HttpServletRequest request) {
 
-	private ModelAndView internalSearch(String MAVName, SearchQuery query){
+        // Get the query
+        SearchQuery query = getQuery(request);
+        // Make the search
+        return internalSearch(MAVName, query);
+    }
 
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
+    private ModelAndView internalSearch(String MAVName, SearchQuery query) {
 
-		//used for the JSP form
-		mav.addObject("action", SEARCH);
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
 
-		if (MAVName.equals(SEARCH)){
-			mav.addObject(HEADER, PropertyLookup.getMessage("msg.search.title"));
-			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.search.noresults"));
-		} else if (MAVName.equals(MY_SUBMISSIONS)){
-			mav.addObject(HEADER, PropertyLookup.getMessage("msg.mysubmissions.title"));
-			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.mysubmissions.noresults"));
-		// Browse mode
-		} else {
-			mav.addObject(HEADER, PropertyLookup.getMessage("msg.browse.title"));
-			mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.browse.noresults"));
-		}
+        //used for the JSP form
+        mav.addObject("action", SEARCH);
 
+        if (MAVName.equals(SEARCH)) {
+            mav.addObject(HEADER, PropertyLookup.getMessage("msg.search.title"));
+            mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.search.noresults"));
+        } else if (MAVName.equals(MY_SUBMISSIONS)) {
+            mav.addObject(HEADER, PropertyLookup.getMessage("msg.mysubmissions.title"));
+            mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.mysubmissions.noresults"));
+            // Browse mode
+        } else {
+            mav.addObject(HEADER, PropertyLookup.getMessage("msg.browse.title"));
+            mav.addObject(NORESULTSMESSAGE, PropertyLookup.getMessage("msg.browse.noresults"));
+        }
 
-		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
-		RestResponse<? extends MixedSearchResult> entitySearchResult = wsClient.search(query);
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
-		mav.addObject("searchResponse", entitySearchResult);
+        RestResponse<? extends MixedSearchResult> entitySearchResult = wsClient.search(query);
 
+        mav.addObject("searchResponse", entitySearchResult);
 
-		// Add object methods that can't be called from JSP.
-		if (entitySearchResult.getErr() == null){
-			mav.addObject("pagecount", entitySearchResult.getContent().getQuery().getPagination().getPageCount());
-			mav.addObject("firstPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getFirstPageItemNumber());
-			mav.addObject("lastPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getLastPageItemNumber());
 
-		}
+        // Add object methods that can't be called from JSP.
+        if (entitySearchResult.getErr() == null) {
+            mav.addObject("pagecount", entitySearchResult.getContent().getQuery().getPagination().getPageCount());
+            mav.addObject("firstPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getFirstPageItemNumber());
+            mav.addObject("lastPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getLastPageItemNumber());
 
-		return mav;
-	}
+        }
 
-	private SearchQuery getQuery(HttpServletRequest request) {
+        return mav;
+    }
 
-		// Get an empty query
-		SearchQuery query = getEmptyQuery();
+    private SearchQuery getQuery(HttpServletRequest request) {
 
-		// Fill query with request parameters
-		populateQueryFromRequest (query, request);
+        // Get an empty query
+        SearchQuery query = getEmptyQuery();
 
+        // Fill query with request parameters
+        populateQueryFromRequest(query, request);
 
-		return query;
 
-	}
+        return query;
 
-	private void populateQueryFromRequest(SearchQuery query, HttpServletRequest request) {
+    }
 
-		// Get the parameters
-		Map<String,String[]> parameters = request.getParameterMap();
+    private void populateQueryFromRequest(SearchQuery query, HttpServletRequest request) {
 
+        // Get the parameters
+        Map<String, String[]> parameters = request.getParameterMap();
 
-		// Go through all the entries (Key + String[])
-		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 
-			String key = entry.getKey();
+        // Go through all the entries (Key + String[])
+        for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 
-			// If its the page
-			if (key.equals ("pageNumber")){
+            String key = entry.getKey();
 
-				int page = Integer.parseInt(entry.getValue()[0]);
+            // If its the page
+            if (key.equals("pageNumber")) {
 
-				query.getPagination().setPage(page);
-			} else if (key.equals ("freeTextQuery")){
-				query.setText(entry.getValue()[0]);
+                int page = Integer.parseInt(entry.getValue()[0]);
 
-			//... its a facet....fill the facet
-			} else {
+                query.getPagination().setPage(page);
+            } else if (key.equals("freeTextQuery")) {
+                query.setText(entry.getValue()[0]);
 
-				populateFacet (query, entry);
+                //... its a facet....fill the facet
+            } else {
 
-			}
+                populateFacet(query, entry);
 
-		}
+            }
 
-		return;
+        }
 
-	}
+        return;
 
-	private void populateFacet(SearchQuery query, Map.Entry<String, String[]> entry) {
+    }
 
-		// Get the facet by name
-		Facet facet = getFacetByName(query, entry.getKey());
+    private void populateFacet(SearchQuery query, Map.Entry<String, String[]> entry) {
 
-		if (facet != null){
+        // Get the facet by name
+        Facet facet = getFacetByName(query, entry.getKey());
 
-			for (String value : entry.getValue()) {
+        if (facet != null) {
 
-				FacetLine newLine = new FacetLine();
-				newLine.setChecked(true);
-				newLine.setValue(value);
-				facet.getLines().add(newLine);
+            for (String value : entry.getValue()) {
 
-			}
-		}
+                FacetLine newLine = new FacetLine();
+                newLine.setChecked(true);
+                newLine.setValue(value);
+                facet.getLines().add(newLine);
 
-	}
+            }
+        }
 
-	private Facet getFacetByName(SearchQuery query, String name) {
+    }
 
-		for (Facet facet : query.getFacets()) {
-			if (facet.getName().equals(name)){
-				return facet;
-			}
-		}
+    private Facet getFacetByName(SearchQuery query, String name) {
 
-		logger.warn("Facet with name {} not found.", name);
-		return null;
-	}
+        for (Facet facet : query.getFacets()) {
+            if (facet.getName().equals(name)) {
+                return facet;
+            }
+        }
 
+        logger.warn("Facet with name {} not found.", name);
+        return null;
+    }
 
-	@RequestMapping(value = MY_SUBMISSIONS)
-	public ModelAndView MySubmissionsSearch (HttpServletRequest request) {
 
+    @RequestMapping(value = MY_SUBMISSIONS)
+    public ModelAndView MySubmissionsSearch(HttpServletRequest request) {
 
-		// Get the query
-		SearchQuery query = getQuery(request);
 
-		MetabolightsUser user = LoginController.getLoggedUser();
+        // Get the query
+        SearchQuery query = getQuery(request);
 
-		// Add a compound filter
-		Map.Entry userFilter = new AbstractMap.SimpleEntry(USERS_FULL_NAME,new String[]{user.getFullName()});
+        MetabolightsUser user = LoginController.getLoggedUser();
 
+        // Add a compound filter
+        Map.Entry userFilter = new AbstractMap.SimpleEntry(USERS_FULL_NAME, new String[]{user.getFullName()});
 
-		populateFacet(query ,userFilter);
 
+        populateFacet(query, userFilter);
 
-		//Trigger the internalSearch based on the filter
-		ModelAndView mav = internalSearch(MY_SUBMISSIONS, query);
 
+        //Trigger the internalSearch based on the filter
+        ModelAndView mav = internalSearch(MY_SUBMISSIONS, query);
 
-		return mav;
-	}
 
-	private SearchQuery getEmptyQuery(){
+        return mav;
+    }
 
-		SearchQuery emptyQuery = new SearchQuery();
+    private SearchQuery getEmptyQuery() {
 
-		addFacet(OBJECT_TYPE, emptyQuery);
-		addFacet(ASSAYS_TECHNOLOGY, emptyQuery);
-		addFacet(STUDY_STATUS, emptyQuery);
-		addFacet(ORGANISM_ORGANISM_NAME, emptyQuery);
-		addFacet(ORGANISM_ORGANISM_PART, emptyQuery);
-		addFacet(USERS_FULL_NAME, emptyQuery);
+        SearchQuery emptyQuery = new SearchQuery();
+
+        addFacet(OBJECT_TYPE, emptyQuery);
+        addFacet(ASSAYS_TECHNOLOGY, emptyQuery);
+        addFacet(STUDY_STATUS, emptyQuery);
+        addFacet(ORGANISM_ORGANISM_NAME, emptyQuery);
+        addFacet(ORGANISM_ORGANISM_PART, emptyQuery);
+        addFacet(USERS_FULL_NAME, emptyQuery);
 
 //		<c:if test="${not empty usersFullName}">
 //				,"lines":[{"value":"${usersFullName}","checked":true}]
 //			</c:if>
 
-		addFacet(FACTORS_NAME, emptyQuery);
-		addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
-		emptyQuery.getPagination().setPage(1);
-		emptyQuery.getPagination().setPageSize(10);
+        addFacet(FACTORS_NAME, emptyQuery);
+        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
+        addFacet(VALIDATIONS_STATUS, emptyQuery); // Adding a new facet for validation status
 
-		Booster titleBooster = new Booster();
-		titleBooster.setBoost(1);
-		titleBooster.setFieldName("title");
+        emptyQuery.getPagination().setPage(1);
+        emptyQuery.getPagination().setPageSize(10);
 
-		titleBooster = new Booster();
-		titleBooster.setBoost(1);
-		titleBooster.setFieldName("name");
+        Booster titleBooster = new Booster();
+        titleBooster.setBoost(1);
+        titleBooster.setFieldName("title");
 
-		titleBooster = new Booster();
-		titleBooster.setBoost(2);
-		titleBooster.setFieldName("_id");
+        titleBooster = new Booster();
+        titleBooster.setBoost(1);
+        titleBooster.setFieldName("name");
+
+        titleBooster = new Booster();
+        titleBooster.setBoost(2);
+        titleBooster.setFieldName("_id");
 
 
-
-		emptyQuery.getBoosters().add(titleBooster);
+        emptyQuery.getBoosters().add(titleBooster);
 //
 //		<c:if test="${not empty freeTextQuery}">
 //				emptyQuery.text = "${freeTextQuery}";
 //		</c:if>
 
-		return emptyQuery;
+        return emptyQuery;
 
 
-	}
+    }
 
-	private void addFacet(String facetName, SearchQuery query) {
+    private void addFacet(String facetName, SearchQuery query) {
 
-		query.getFacets().add(new Facet(facetName));
-	}
+        query.getFacets().add(new Facet(facetName));
+    }
 
 
 }
