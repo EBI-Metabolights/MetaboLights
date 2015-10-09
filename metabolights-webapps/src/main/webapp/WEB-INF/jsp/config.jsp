@@ -322,11 +322,13 @@ $(function() {
 
             <h3>Studies</h3>
             <a href="deleteindexedstudies" title="Delete all indexed studies">Delete all indexed studies</a><br/>
-            <a href="reindexstudies" title="Reindex all the studies">Reindex all the studies</a><br/>
+
+            <a href="resetIndex" title="Reset index: Delete, rebuild and re-apply the mappings for studies and compounds">Reset index</a> (delete, rebuild and re-apply the mappings)<br/>
 
             <form method="get" action="reindexstudies">
                 <label>Study to re/index:</label><input type="text" name="study"> <input type="submit" value="Index">
             </form>
+
             <a href="reindexstudies" title="Reindex all the studies">Reindex all the studies</a><br/>
 
             <h3>Compounds</h3>

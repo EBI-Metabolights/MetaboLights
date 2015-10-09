@@ -392,6 +392,23 @@ public class ManagerController extends AbstractController{
 	}
 
 	/**
+	 * Reset index
+	 * First delete the whole index, then rebuild the index, applying the mappings for studies and compounds
+	 */
+	@RequestMapping(value = "/resetIndex")
+	public ModelAndView resetIndex(){
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<String> response;
+
+		logger.info("Reset index: Delete, rebuild and re-apply the mappings for studies and compounds");
+		response = wsClient.resetIndex();
+
+		return printMessage(response.getMessage(), response.getContent());
+	}
+
+	/**
 	 * Will delete the studies index, to use carefully.
 	 * @return
 	 * @throws Exception
