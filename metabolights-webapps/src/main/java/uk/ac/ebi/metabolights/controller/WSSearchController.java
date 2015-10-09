@@ -66,7 +66,8 @@ public class WSSearchController extends AbstractController {
     public static final String USERS_FULL_NAME = "users.fullName";
     public static final String FACTORS_NAME = "factors.name";
     public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
-    public static final String VALIDATIONS_STATUS = "validations.status"; //new facet added
+    public static final String VALIDATIONS_STATUS = "validations.status";
+    public static final String VALIDATIONS_ENTRIES_STATUS = "validations.entries.statusExt";
 
     private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
 
@@ -295,7 +296,8 @@ public class WSSearchController extends AbstractController {
 
         addFacet(FACTORS_NAME, emptyQuery);
         addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
-        addFacet(VALIDATIONS_STATUS, emptyQuery); // Adding a new facet for validation status
+        addFacet(VALIDATIONS_STATUS, emptyQuery);
+        addFacet(VALIDATIONS_ENTRIES_STATUS, emptyQuery);
 
         emptyQuery.getPagination().setPage(1);
         emptyQuery.getPagination().setPageSize(10);

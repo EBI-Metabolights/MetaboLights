@@ -93,4 +93,11 @@ public class Validation {
         }
 
     }
+
+    public String getStatusExt(){
+        return  (
+                (description == null?"":description) + " " +
+                        (passedRequirement == true?"(PASSED)":"(FAILED)")
+        ).trim();
+    }
 }

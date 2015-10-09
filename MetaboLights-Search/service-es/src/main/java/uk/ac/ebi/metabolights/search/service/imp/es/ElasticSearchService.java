@@ -357,6 +357,17 @@ public class ElasticSearchService implements SearchService <Entity> {
 						.startObject(PROPERTIES);
 							addObject("description", "type", "string", "index", "not_analyzed");
 						endObject()
+					.endObject();
+
+					// Validations details
+					startObject("validations")
+						.startObject(PROPERTIES)
+							.startObject("entries")
+								.startObject(PROPERTIES);
+									addObject("statusExt", "type", "string", "index", "not_analyzed" );
+								endObject();
+							endObject();
+						endObject()
 					.endObject()
 				.endObject() // End of Study Properties
 			.endObject(); // End of study
