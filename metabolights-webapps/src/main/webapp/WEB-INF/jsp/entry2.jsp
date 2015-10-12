@@ -280,7 +280,7 @@
             ,<spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studyPublicReleaseDate}"/></strong>
         </c:if>
         <c:if test="${not empty study.updateDate}">
-            ,<spring:message code="label.updateDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.updateDate}"/></strong>
+            ,<spring:message code="label.updateDate"/>: <strong title="${study.updateDate}"><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.updateDate}"/></strong>
         </c:if>
 
         <br/><spring:message code="ref.msg.status"/>:${study.studyStatus.descriptiveName}
