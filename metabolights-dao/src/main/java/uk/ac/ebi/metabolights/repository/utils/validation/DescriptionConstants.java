@@ -34,6 +34,7 @@ public class DescriptionConstants {
 
 
     public static final String ASSAYS = "Assay(s)";
+    public static final String ASSAY_PLATFORM = "Assay platform information";
     public static final String ASSAY_FILES = "Assay has raw files referenced";
     public static final String ASSAY_FILES_IN_FILESYSTEM = "Assay referenced raw files are present in filesystem";
     public static final String ASSAY_MAF_REFERENCE = "Metabolite Assignment File is referenced in Assays";
