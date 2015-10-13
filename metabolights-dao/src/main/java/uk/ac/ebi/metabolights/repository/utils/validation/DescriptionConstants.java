@@ -31,6 +31,7 @@ public class DescriptionConstants {
     public static final String STUDY_FACTORS = "Study factors used in the experiment";
     public static final String PROTOCOLS_ALL = "Comprehensive Experimental protocol";
     public static final String PROTOCOLS_MINIMUM = "Minimum Experimental protocol";
+    public static final String PROTOCOLS_SAMPLE_COLLECTION = "Sample Collection protocol";
 
 
     public static final String ASSAYS = "Assay(s)";
