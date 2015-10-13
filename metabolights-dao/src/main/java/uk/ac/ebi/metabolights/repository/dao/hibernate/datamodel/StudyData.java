@@ -50,6 +50,8 @@ public class StudyData  extends DataModel<Study> {
 	private int status;
 	// Initialise release date to 30 days after today.
 	private Date releaseDate =  new Date(DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH).getTime() + (1000L*60L*60L*24L*30L));
+
+    @Column(name="updatedate")
 	private Date updateDate =  new Date();
 	private Date submissionDate =  new Date();
 	private Set<UserData> users = new HashSet<>();
@@ -101,11 +103,12 @@ public class StudyData  extends DataModel<Study> {
 		this.releaseDate = releaseDate;
 	}
 
-	@Type(type="date")
+	@Type(type="timestamp")
 	public Date getUpdateDate() {
 		return updateDate;
 	}
 
+	@Type(type="timestamp")
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
