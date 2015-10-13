@@ -35,7 +35,6 @@ import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.security.SecurityService;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
-import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -187,6 +186,7 @@ public class StudyDAO {
 
         study.setStudyIdentifier(newStudyIdentifier);
         study.setStudyPublicReleaseDate(publicReleaseDate);
+        study.setStudySubmissionDate(new Date());
         // Status should be SUBMITTED by default.
         // Add the user
         study.getUsers().add(user);
@@ -210,10 +210,8 @@ public class StudyDAO {
         IsaTabReplacer isaTabIdReplacer = new IsaTabReplacer(finalDestination.getAbsolutePath());
         isaTabIdReplacer.setPublicDate(study.getStudyPublicReleaseDate());
         isaTabIdReplacer.setStudyIdentifier(studyIdentifier);
+        isaTabIdReplacer.setSubmissionDate(study.getStudySubmissionDate());
 
-        // Only set the submission date for new studies!
-        // Tricky since the date is only in the file and the previous files have been already moved to the backup...
-        isaTabIdReplacer.setSubmissionDate(IsaTab2MetaboLightsConverter.date2IsaTabDate(new Date()));
         try {
             isaTabIdReplacer.execute();
         }

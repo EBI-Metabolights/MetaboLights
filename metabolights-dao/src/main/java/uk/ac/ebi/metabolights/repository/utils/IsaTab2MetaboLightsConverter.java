@@ -30,6 +30,9 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabReplacer;
 import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.io.File;
 import java.text.ParseException;
@@ -118,24 +121,12 @@ public class IsaTab2MetaboLightsConverter {
         studyToFill.setStudyLocation(studyFolder);
 
 
-        if (isaStudy.getPublicReleaseDate() != null){
+        // Public release date (prioritise DB)
+        studyToFill.setStudyPublicReleaseDate(chooseDate(studyToFill.getStudyPublicReleaseDate(),isaStudy.getPublicReleaseDate(),"Release date", studyToFill));
 
-            // Give precedence to existing date
-            // Fill it if it doesn't exist.
-            if (studyToFill.getStudyPublicReleaseDate() == null) {
-                studyToFill.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
-            }
-        }
+        // Submission date..(prioritise DB)
+        studyToFill.setStudySubmissionDate(chooseDate(studyToFill.getStudySubmissionDate(), isaStudy.getDateOfSubmission(), "Submission date", studyToFill));
 
-        // If release dates do not match (DB <--> Filesystem)...
-        if (!isaStudy.getPublicReleaseDate().equals(date2IsaTabDate(studyToFill.getStudyPublicReleaseDate()))){
-
-            logger.warn(studyToFill.getStudyIdentifier() + " release date from the DB (" + studyToFill.getStudyPublicReleaseDate() + ") doesn't match the same in the file (" + isaStudy.getPublicReleaseDate() + ")");
-
-        }
-
-        if (isaStudy.getDateOfSubmission() != null)
-            studyToFill.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));
 
 
         // Now collections
@@ -164,6 +155,40 @@ public class IsaTab2MetaboLightsConverter {
         studyToFill.setOrganism(sampleOrg2organism(studyToFill));
 
         return studyToFill;
+    }
+
+
+    private static Date chooseDate(Date firstOption, String secondOption, String field, Study studyToFill){
+
+        Validation validation = new Validation(field + " synchronization", Requirement.OPTIONAL, Group.ISATAB);
+
+        Date chosenOne = firstOption;
+
+        // Date from isatab file.
+        if (secondOption == null) {
+            validation.setMessage(studyToFill.getStudyIdentifier() + " " + field + " from the filesystem is null");
+            validation.setPassedRequirement(false);
+
+        } else if (firstOption == null) {
+            validation.setMessage(studyToFill.getStudyIdentifier() + " " + field + " from the DB is null");
+            validation.setPassedRequirement(false);
+            chosenOne = isaTabDate2Date(secondOption);
+
+        // If second option does not match the first one....
+        } else if (!secondOption.equals(date2IsaTabDate(firstOption))) {
+                validation.setMessage(studyToFill.getStudyIdentifier() + " " + field + " from the DB (" + firstOption + ") doesn't match the same in the file (" + secondOption + ")");
+                validation.setPassedRequirement(false);
+
+        } else {
+            validation.setMessage(studyToFill.getStudyIdentifier() + " " + field + " from the DB (" + firstOption + ") matches the same in the file (" + secondOption + ")");
+            validation.setPassedRequirement(true);
+        }
+
+        validation.setStatus();
+        studyToFill.getValidations().getEntries().add(validation);
+
+        return chosenOne;
+
     }
 
     private static Collection<Organism> sampleOrg2organism(Study metStudy) {

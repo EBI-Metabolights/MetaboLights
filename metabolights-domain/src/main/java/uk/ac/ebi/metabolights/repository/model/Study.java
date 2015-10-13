@@ -26,13 +26,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 @JsonTypeName("Study")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Study extends LiteStudy {
 
-    private Date studySubmissionDate;
     private String description;
     private String studyLocation;
 
@@ -55,14 +53,6 @@ public class Study extends LiteStudy {
 
     public void setAssays(List<Assay> assays) {
         this.assays = assays;
-    }
-
-    public Date getStudySubmissionDate() {
-        return studySubmissionDate;
-    }
-
-    public void setStudySubmissionDate(Date studySubmissionDate) {
-        this.studySubmissionDate = studySubmissionDate;
     }
 
     public String getDescription() {

@@ -83,8 +83,12 @@ public class LiteStudy extends Entity {
 
     // Database fields
     private Study.StudyStatus studyStatus = Study.StudyStatus.SUBMITTED;
+
+    // Dates
     private Date studyPublicReleaseDate;
     private Date updateDate;
+    private Date studySubmissionDate;
+
     private String obfuscationCode = java.util.UUID.randomUUID().toString();
     private BigDecimal studySize = new BigDecimal(0);
 
@@ -160,6 +164,15 @@ public class LiteStudy extends Entity {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+    public Date getStudySubmissionDate() {
+        return studySubmissionDate;
+    }
+
+    public void setStudySubmissionDate(Date studySubmissionDate) {
+        this.studySubmissionDate = studySubmissionDate;
+    }
+
 
     public String getTitle() {
         return title;

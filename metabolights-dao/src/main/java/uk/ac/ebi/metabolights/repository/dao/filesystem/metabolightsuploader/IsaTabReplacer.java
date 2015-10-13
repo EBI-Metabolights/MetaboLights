@@ -99,23 +99,18 @@ public class IsaTabReplacer
 		return publicDate;
 	}
 
-//	public void setPublicDate(String publicDate) {
-//		this.publicDate = publicDate;
-//	}
 
 	public void setPublicDate(Date publicReleaseDate){
 
 		this.publicDate = IsaTab2MetaboLightsConverter.date2IsaTabDate(publicReleaseDate);
-
 	}
-
 
 	public String getSubmissionDate() {
 		return submissionDate;
 	}
 
-	public void setSubmissionDate(String submissionDate) {
-		this.submissionDate = submissionDate;
+	public void setSubmissionDate(Date submissionDate) {
+		this.submissionDate = IsaTab2MetaboLightsConverter.date2IsaTabDate(submissionDate);
 	}
 
 	public String getStudyIdentifier(){
@@ -127,32 +122,6 @@ public class IsaTabReplacer
 	}
 
 
-    /**
-	 *
-	 * @param args
-	 * First param must be the file name to work with. It should be a ISATab folder.
-     * @throws Exception
-	 *
-	 */
-	public static void main( String[] args ) throws Exception{
-
-		//Check the arguments. 2 is needed.
-		if (args.length != 2){
-			System.out.println("2 arguments are required. 1: IsaFolder, 2: Submission Date");
-			return;
-		}
-
-		//There is 1 arguments
-		IsaTabReplacer itr = new IsaTabReplacer();
-
-		//Set the IsaTabArchive
-		itr.setIsaTabFolder(args[0]);
-		itr.setSubmissionDate(args[1]);
-
-		//Run it
-		itr.execute();
-
-	}
 
 	public IsaTabReplacer(String isaTabFolder){
 		this.isaTabFolder = isaTabFolder;

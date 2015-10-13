@@ -274,7 +274,7 @@
 
     <span class="right">
         <c:if test="${not empty study.studySubmissionDate}">
-            <spring:message code="label.subDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studySubmissionDate}"/></strong>
+            <spring:message code="label.subDate"/>: <strong title="<fmt:formatDate pattern="dd-MMM-yyyy hh:mm" value="${study.studySubmissionDate}"/>"><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studySubmissionDate}"/></strong>
         </c:if>
         <c:if test="${not empty study.studyPublicReleaseDate}">
             ,<spring:message code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy" value="${study.studyPublicReleaseDate}"/></strong>
