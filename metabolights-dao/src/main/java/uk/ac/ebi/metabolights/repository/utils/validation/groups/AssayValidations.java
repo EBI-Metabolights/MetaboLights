@@ -26,7 +26,7 @@ public class AssayValidations implements IValidationProcess {
         return Group.ASSAYS.toString();
     }
 
-    public  Collection<Validation> getValidations(Study study) {
+    public Collection<Validation> getValidations(Study study) {
         Collection<Validation> assayValidations = new LinkedList<>();
         //assayValidations.add(getAssayValidation(study));
         assayValidations.addAll(getAssayValidations(study));
@@ -58,6 +58,7 @@ public class AssayValidations implements IValidationProcess {
             validation.setMessage("No assay data is provided");
             validation.setPassedRequirement(false);
         } else {
+            assayValidations.add(getAssayHasPlatformInfoValidation(study));
             Validation assayRawFileValidation = getAssayHasFilesValidation(study);
             assayValidations.add(assayRawFileValidation);
             assayValidations.add(referencedFilesArePresentInFileSystem(study, assayRawFileValidation.getPassedRequirement()));
@@ -65,6 +66,37 @@ public class AssayValidations implements IValidationProcess {
         assayValidations.add(validation);
         validation.setStatus();
         return assayValidations;
+    }
+
+    public static Validation getAssayHasPlatformInfoValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.ASSAY_PLATFORM, Requirement.OPTIONAL, Group.ASSAYS);
+        List<Integer> assaysWithNoPlatform = new ArrayList<>();
+        for (Assay assay : study.getAssays()) {
+            if (assay.getPlatform().isEmpty()) {
+                assaysWithNoPlatform.add(assay.getAssayNumber());
+            }
+        }
+        if (assaysWithNoPlatform.size() > 0) {
+            validation.setPassedRequirement(false);
+            validation.setMessage(getPlatformErrMsg(assaysWithNoPlatform, study.getAssays().size()));
+        }
+
+        validation.setStatus();
+        return validation;
+    }
+
+    private static String getPlatformErrMsg(List<Integer> assaysWithNoPlatform, int assaySize) {
+        if (assaySize == 1) {
+            return "Assay has no platform information";
+        }
+        String errMessage = "The following assays have no platform information:";
+        for (int i = 0; i < assaysWithNoPlatform.size(); i++) {
+            errMessage += " Assay " + assaysWithNoPlatform.get(i);
+            if (i < assaysWithNoPlatform.size() - 1) {
+                errMessage += ",";
+            }
+        }
+        return errMessage;
     }
 
     public static Validation getAssayHasFilesValidation(Study study) {

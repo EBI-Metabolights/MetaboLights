@@ -24,10 +24,13 @@ public class ProtocolValidations implements IValidationProcess {
         return Group.PROTOCOLS.toString();
     }
 
-    public  Collection<Validation> getValidations(Study study) {
+    public Collection<Validation> getValidations(Study study) {
         Collection<Validation> protocolValidations = new LinkedList<>();
         protocolValidations.add(getMinimumProtocolValidation(study));
         protocolValidations.add(getComprehensiveProtocolValidation(study));
+        if (!study.getSampleTable().getData().isEmpty()) {
+            protocolValidations.add(getSampleCollectionProtocolValidation(study));
+        }
         return protocolValidations;
 
     }
@@ -54,7 +57,7 @@ public class ProtocolValidations implements IValidationProcess {
                 validation.setPassedRequirement(false);
             }
         } else {
-            validation.setMessage("Protocols is empty");
+            validation.setMessage("Protocols are empty");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -80,7 +83,7 @@ public class ProtocolValidations implements IValidationProcess {
                 validation.setMessage(getErrMessage(emptyProtocolFields));
             }
         } else {
-            validation.setMessage("Protocols is empty");
+            validation.setMessage("Protocols are empty");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -99,18 +102,41 @@ public class ProtocolValidations implements IValidationProcess {
         return errMessage;
     }
 
+    public static Validation getSampleCollectionProtocolValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PROTOCOLS_SAMPLE_COLLECTION, Requirement.OPTIONAL, Group.PROTOCOLS);
+        if (!sampleCollectionProtocolIsPresent(study)) {
+            validation.setPassedRequirement(false);
+            validation.setMessage("Samples data is provided but no \"Sample collection\" protocol is" +
+                    " described");
+
+        }
+
+        validation.setStatus();
+        return validation;
+    }
+
     public static boolean metaboliteIdentificationProtocolIsPresent(Study study) {
-        if (study.getProtocols().isEmpty()) {
+        return fieldIsPresent(study.getProtocols(), "Metabolite identification");
+    }
+
+    public static boolean sampleCollectionProtocolIsPresent(Study study) {
+        return fieldIsPresent(study.getProtocols(), "Sample collection");
+    }
+
+    private static boolean fieldIsPresent(Collection<Protocol> protocols, String fieldName) {
+        if (protocols.isEmpty()) {
             return false;
         }
-        for (Protocol protocol : study.getProtocols()) {
-            if (protocol.getName().equals("Metabolite identification")) {
+        for (Protocol protocol : protocols) {
+            if (protocol.getName().equals(fieldName)) {
                 if (protocol.getDescription().length() > 3) {
                     return true;
                 }
             }
         }
         return false;
+
     }
+
 }
 
