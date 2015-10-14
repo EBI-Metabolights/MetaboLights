@@ -11,6 +11,7 @@ public class DescriptionConstants {
     public static final String STUDY_DESCRIPTION = "Study description";
     public static final String STUDY_DESIGN_DESCRIPTORS = "Study design descriptors";
     public static final String STUDY_MAX_ONE = "Maximum only one study found";
+    public static final String STUDY_TEXT = "Study text successfully decoded";
 
     //FACTORS
     public static final String FACTOR_NAME= "Study factors";
