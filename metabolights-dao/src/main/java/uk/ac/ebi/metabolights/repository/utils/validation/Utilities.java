@@ -4,6 +4,7 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -52,13 +53,15 @@ public class Utilities {
     public static List<String> getNonUnicodeCharacters(String s) {
         final List<String> result = new ArrayList<String>();
         for (int i = 0, n = s.length(); i < n; i++) {
-            final String character = s.substring(i, i + 1);
+            String character = s.substring(i, i + 1);
             int other_Symbol = Character.OTHER_SYMBOL;
             int this_ = Character.getType(character.charAt(0));
-            // 24 is for ? mark
-            if (other_Symbol == this_ || (24 == this_)) {
+
+            // 0x003F is for ? mark
+            if (other_Symbol == this_ || Arrays.equals(character.toCharArray(), Character.toChars(0x003F))) {
                 result.add(character);
             }
+
         }
         return result;
     }

@@ -59,19 +59,20 @@ public class StudyValidations implements IValidationProcess {
     */
 
     public static Validation studyDecodeIsSuccessfulValidation(Study study) {
-        Validation validation = new Validation(DescriptionConstants.STUDY_TEXT, Requirement.MANDATORY, Group.STUDY);
+        Validation validation = new Validation(DescriptionConstants.STUDY_TEXT, Requirement.OPTIONAL, Group.STUDY);
         String message = "";
         if (Utilities.getNonUnicodeCharacters(study.getTitle()).size() > 0) {
-            message += "Study title contains characters that cannot be successfully decoded. \n";
+            message += "Study title, \n";
         }
         if (Utilities.getNonUnicodeCharacters(study.getDescription()).size() > 0) {
-            message += "Study description contains characters that cannot be successfully decoded. \n";
+            message += "Study description,\n";
         }
         if (Utilities.getNonUnicodeCharacters(getContactAsString(study.getContacts())).size() > 0) {
-            message += "Study contact contains characters that cannot be successfully decoded. \n";
+            message += "Study contact,\n";
         }
         if (!message.isEmpty()) {
             validation.setPassedRequirement(false);
+            message += "contains characters that cannot be successfully decoded";
             validation.setMessage(message);
         }
         validation.setStatus();
