@@ -128,7 +128,7 @@ public class ProtocolValidations implements IValidationProcess {
             return false;
         }
         for (Protocol protocol : protocols) {
-            if (protocol.getName().equals(fieldName)) {
+            if (protocol.getName().equalsIgnoreCase(fieldName)) {
                 if (protocol.getDescription().length() > 3) {
                     return true;
                 }
