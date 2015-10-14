@@ -104,7 +104,7 @@
 
         $("#shareInfo").hide();
 
-        $("a#share").click(function(e) {
+        $("a.share").click(function(e) {
             e.preventDefault();
             $("#shareInfo").dialog({
                 height:400,
@@ -235,7 +235,7 @@
 <div class="push_1 grid_22 alpha omega">
     <h3>${study.studyIdentifier}:&nbsp;${study.title}
         <span class="right Share_study">
-            <a id="share" class="noLine" href="#" title="<spring:message code="label.study.share"/>">
+            <a class="noLine share" href="#" title="<spring:message code="label.study.share"/>">
             <span class="icon icon-generic" data-icon="L"><spring:message code="label.study.share"/>
             </a>
         </span>
@@ -244,7 +244,7 @@
 
 <div class="push_1 grid_22 subtitle alpha omega">
     <span>
-        <a id="share" class="noLine" href="#" title="<spring:message code="label.study.share"/>">
+        <a class="noLine share" href="#" title="<spring:message code="label.study.share"/>">
             <span class="icon icon-generic" data-icon="L"><spring:message code="label.study.share"/>
         </a>
         &nbsp;|&nbsp;
