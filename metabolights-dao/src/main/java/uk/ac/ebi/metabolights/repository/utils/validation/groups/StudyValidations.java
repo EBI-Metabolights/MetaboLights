@@ -33,8 +33,8 @@ public class StudyValidations implements IValidationProcess{
     public static Validation getStudyTitleValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.STUDY_TITLE, Requirement.MANDATORY, Group.STUDY);
         if (!Utilities.minCharRequirementPassed(
-                study.getTitle(), 15)) {
-            validation.setMessage("Study title is too short");
+                study.getTitle(), 70)) {
+            validation.setMessage("Study title lacks detail");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -44,8 +44,8 @@ public class StudyValidations implements IValidationProcess{
     public static Validation getStudyDescriptionValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.STUDY_DESCRIPTION, Requirement.MANDATORY, Group.STUDY);
         if (!Utilities.minCharRequirementPassed(
-                study.getDescription(), 30)) {
-            validation.setMessage("Study description is too short");
+                study.getDescription(), 200)) {
+            validation.setMessage("Study description lacks detail");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();

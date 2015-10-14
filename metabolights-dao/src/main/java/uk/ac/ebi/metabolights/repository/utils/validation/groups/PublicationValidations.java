@@ -35,7 +35,7 @@ public class PublicationValidations implements IValidationProcess{
         if (!study.getPublications().isEmpty()) {
             for (Publication publication : study.getPublications()) {
                 if (!Utilities.minCharRequirementPassed(publication.getTitle(), 15)) {
-                    validation.setMessage("Publication Title length is not sufficient");
+                    validation.setMessage("Publication title length is too brief");
                     validation.setPassedRequirement(false);
                 }
             }

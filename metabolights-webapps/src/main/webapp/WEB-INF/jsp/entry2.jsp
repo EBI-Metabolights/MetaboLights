@@ -636,17 +636,17 @@
                             <c:if test="${validation.status == 'GREEN'}">
                                     <td><span aria-hidden="true" style="color:darkgreen">&#10004;</span>
                                     </td>
-                                <td>Provided</td>
+                                <td>PASSES</td>
                             </c:if>
                             <c:if test="${validation.status == 'RED'}">
                                 <td><span aria-hidden="true" style="color:red">&#10008;</span>
                                 </td>
-                                <td>Missing</td>
+                                <td>FAILS</td>
                             </c:if>
                             <c:if test="${validation.status == 'ORANGE'}">
                                 <td><span aria-hidden="true" style="color:darkorange">&#10008;</span>
                                 </td>
-                                <td>Missing</td>
+                                <td>INCOMPLETE</td>
                             </c:if>
 
                             <%--<td>${validation.status}</td>--%>
