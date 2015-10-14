@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <script src="javascript/jquery.svg.js"></script>
 <script src="javascript/jquery.svganim.js"></script>
 <%--<script type="text/javascript"--%>
@@ -9,6 +10,7 @@
 <script type="text/javascript" src="javascript/st.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/Biojs.Rheaction.js"></script>
+<script type="text/javascript" src="javascript/wiki-pathways.js"></script>
 <link rel="stylesheet"  href="cssrl/biojs.Rheaction.css" type="text/css"/>
 <link rel="stylesheet"  href="css/st.css" type="text/css" />
 
@@ -59,6 +61,18 @@
 
                         initializeMSSpeckTackle();
                     }
+
+                    if ($(ui.newTab.children('a')[0]).attr('href') == "#msSpectra-tab") {
+
+                        initializeMSSpeckTackle();
+                    }
+
+                    if ($(ui.newTab.children('a')[0]).attr('href') == "#pathways-tab") {
+                        pathways.displayPathwayData("${compound.mc.chebiId}",'pathwayContainer');
+                    }
+
+
+
 
                     // to make bookmarkable
                     document.location.hash =  "#"+ui.newTab.attr("hash");
@@ -343,60 +357,6 @@
         });
 
 
-        $('#pathwayContainer').svg({onLoad: drawIntro});
-
-        function drawIntro(svg) {
-        };
-
-        $("#pathwayList").change(function (e) {
-            e.preventDefault();
-
-            /* Display the image */
-            var pathwayId = $(this).val();
-
-//            var container = $('#pathwayContainer');
-//            container.html('');
-//            container.append("<img id='pathway' src='pathway/" + pathwayId + "/png'/>");
-//
-//          $('[id=pathway]').imageLens({ lensSize: 350 , borderColor: "#666666", borderSize: 2});
-
-            svg = $('#pathwayContainer').svg('get');
-            svg.load('pathway/' + pathwayId + '/svg', {addTo: false, changeSize: true, onLoad: loadDone});
-
-            /* Show info in the info div*/
-            var pathwayInfoDiv = $('#pathwayInfo');
-            /* Get the selected option */
-            var option = $(this).find(":selected");
-
-
-            /* Get the pathway object (json element)*/
-            var pathway = pathwaysInfo[$(this)[0].selectedIndex];
-
-            if (pathway) {
-
-                var html = "generated from " + pathway.source + "<br/>for  " + pathway.species;
-
-                $.each(pathway.properties, function () {
-
-                    html = html + "<br/>" + this.name + ":"
-
-                    if (this.value.indexOf("http:") == 0) {
-                        html = html + "<a href=\"" + this.value + "\">" + this.value + "</a>"
-                    } else {
-                        html = html + this.value;
-                    }
-
-                });
-                pathwayInfoDiv.html(html);
-
-            }
-
-        });
-
-
-        // And now fire change event when the DOM is ready
-        $('#pathwayList').trigger('change');
-
     });
 
     function showWait() {
@@ -464,6 +424,7 @@
             - (${compound.mc.chebiId})</a>
         </p>
         <p><a href="${compound.mc.accession}?alt" class="icon icon-generic" data-icon="&gt;">BETA</a></p>
+        <p><a href="referencespectraupload?cid=${compound.mc.accession}" class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
     </div>
 
 
@@ -487,7 +448,7 @@
             </c:if>
             <c:if test="${compound.mc.hasReactions}">
                 <li hash="reactions">
-                    <a class="noLine" href="reactions?chebiId=${compound.mc.chebiId}"><spring:message
+                    <a class="noLine" href="reactions?compoundId=${compound.mc.accession}"><spring:message
                             code="ref.compound.tab.reactions"/></a>
                 </li>
             </c:if>
@@ -503,7 +464,7 @@
             </c:if>
             <c:if test="${compound.mc.hasLiterature}">
                 <li hash="literature">
-                    <a class="noLine" href="citations?mtblc=${compound.mc.accession}"><spring:message
+                    <a class="noLine" href="citations?compoundId=${compound.mc.accession}"><spring:message
                             code="ref.compound.tab.literature"/></a>
                 </li>
             </c:if>
@@ -556,34 +517,16 @@
         </div>
     </c:if>
         <c:if test="${compound.mc.hasPathways}">
-        <!-- Pathways -->
-        <div id="pathways-tab" class="tab">
-            <select id="pathwayList">
-                <c:forEach var="pathway" items="${compound.mc.metPathways}">
-                    <option value="${pathway.id}" source="${pathway.database.name}"
-                            species="${pathway.speciesAssociated.species}">${pathway.name}</option>
-                </c:forEach>
-            </select>
+            <!-- Pathways -->
+            <div id="pathways-tab" class="tab">
+                <section>
+                    <!-- Pathways Container -->
+                    <div id="pathwayContainer" height="100%" width="100%">
+                    </div>
+                </section>
+            </div>
 
-            <div id="pathwayInfo" class="specs"></div>
-            <div id="pathwayContainer"></div>
-            <script>
-                var pathwaysInfo = [
-                    <c:forEach var="pathway" items="${compound.mc.metPathways}" varStatus="pathwayLoopStatus">
-                    <c:if test="${pathwayLoopStatus.index gt 0}">,
-                    </c:if>
-                    {"id":${pathway.id}, "source": "${pathway.database.name}", "species": "${pathway.speciesAssociated.species}", "properties": [
-                        <c:forEach var="attribute" items="${pathway.attributes}" varStatus="attributeLoopStatus">
-                        <c:if test="${attributeLoopStatus.index gt 0}">,
-                        </c:if>
-                        {"name": "${attribute.attributeDefinition.name}", "value": "${attribute.value}"}
-                        </c:forEach>
-                    ]
-                    }
-                    </c:forEach>
-                ];
-            </script>
-        </div>
+
         </c:if>
         <c:if test="${compound.mc.hasNMR}">
         <!-- NMR Spectra -->
@@ -598,7 +541,7 @@
                     <c:if test="${spectra.spectraType == 'NMR'}">
                     <c:if test="${count gt 0}">,
                     </c:if>
-                    {"id":${spectra.id}, "name": "${spectra.name}", "url": "spectra/${spectra.id}/json", "type": "${spectra.spectraType}", "properties": [
+                    {"id":${spectra.id}, "name": "${spectra.name}", "url": "webservice/compounds/spectra/${spectra.id}/json", "type": "${spectra.spectraType}", "properties": [
                         <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
                         <c:if test="${attributeLoopStatus.index gt 0}">,
                         </c:if>
@@ -627,7 +570,7 @@
                     <c:if test="${msspectra.spectraType == 'MS'}">
                     <c:if test="${count gt 0}">,
                     </c:if>
-                    {"id":${msspectra.id}, "name": "${msspectra.name}", "url": "spectra/${msspectra.id}/json", "type": "${msspectra.spectraType}", "properties": [
+                    {"id":${msspectra.id}, "name": "${msspectra.name}", "url": "webservice/compounds/spectra/${msspectra.id}/json", "type": "${msspectra.spectraType}", "properties": [
                         <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
                         <c:if test="${attributeLoopStatus.index gt 0}">,
                         </c:if>
@@ -641,6 +584,7 @@
                 ];
 
             </script>
+
         </div>
     </c:if>
 </div> <%-- End of tabs--%>

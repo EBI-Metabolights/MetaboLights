@@ -31,4 +31,9 @@ WHERE {0}
 
 --exist.compound:\
 SELECT COUNT(*) FROM REF_METABOLITE WHERE {0}
+
+--compound.id:\
+SELECT ACC \
+FROM REF_METABOLITE \
+WHERE {0}
 	

@@ -22,32 +22,41 @@
 <link rel="import" href="study_search_result_layout.html">
 <link rel="import" href="study_search_result_colors.html">
 <link rel="import" href="ebi_styles.html">
-<polymer-element name="search-result" attributes="searchresponse">
+<polymer-element name="search-result" attributes="searchresponse noresultmessage header">
 	<template>
 		<core-style ref="ssr_layout"></core-style>
 		<core-style ref="ssr_colors"></core-style>
 		<core-style ref="ebi_styles"></core-style>
 		<link rel="stylesheet" href="../cssrl/test-scheme.css">
+		<h2>{{header}}</h2>
+		<!--Header: No results-->
 		<template if="{{searchresponse.results.length == 0}}">
-			<h3>Your search
+			<h3>
 				<template if="{{searchresponse.query.text !=''}}">
-					,&nbsp;<span class="searchterm">{{searchresponse.query.text}}</span>,
+					 Your search,&nbsp;<span class="searchterm">{{searchresponse.query.text}}</span>, did not match any documents.
 				</template>
-				did not match any documents.</h3>
+				<template if="{{searchresponse.query.text ==''}}">
+					&nbsp;{{noresultmessage}}
+				</template>
+
+
+			</h3>
 		</template>
+		<!-- Headers: some results -->
 		<template if="{{searchresponse.results.length != 0}}">
-			<h2>
+			<h3>
 				MetaboLights found {{searchresponse.query.pagination.itemsCount}} results
 				<template if="{{searchresponse.query.text !=''}}">
 					for <span class="searchterm">{{searchresponse.query.text}}</span>
 				</template>
-			</h2>
+			</h3>
 		</template>
+
 		<template repeat="{{study in searchresponse.results}}">
 			<div class="search_study">
 				<h4><a href="{{study.studyIdentifier}}">{{study.title}}</a></h4>
 				<span class="search_owners">
-				by
+				submitted by
 				<template repeat="{{o in study.users}}">
 					<a href="mailto:{{o.userName}}">{{o.firstName}} {{o.lastName}}</a>
 				</template>
@@ -73,17 +82,14 @@
 					</div>
 				</div>				
 				<div class="search_study_id">
-					<a href="{{study.studyIdentifier}}">{{study.studyIdentifier}}</a> is the accession identifier and
+					<a href="{{study.studyIdentifier}}">{{study.studyIdentifier}}</a> is the accession identifier and the status is <strong>{{study.studyStatus}}</strong>. It
 					<template if="{{study.publicStudy}}">
 						was released on the
 					</template>
 					<template if="{{!study.publicStudy}}">
 						will be release on the
 					</template>
-					<strong>{{study.studyPublicReleaseDate}}</strong>
-					<template if="{{!study.publicStudy}}">
-						<div class="icon icon-functional" data-icon="l"></div>
-					</template>
+					{{study.studyPublicReleaseDate| formatDate}}
 				</div>
 
 			</div>
@@ -94,6 +100,9 @@
 			publish:{
 			},
 			ready: function () {
+			},
+			formatDate: function (date){
+				return (new Date(date));
 			}
 			
 		});

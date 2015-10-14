@@ -25,7 +25,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -33,14 +32,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
-import uk.ac.ebi.metabolights.service.SearchService;
-import uk.ac.ebi.metabolights.service.StudyService;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -59,11 +55,8 @@ public class FileDispatcherController extends AbstractController {
     private static Logger logger = LoggerFactory.getLogger(FileDispatcherController.class);
 
     private static final String URL_4_FILES = "files";
-	@Autowired
-	private StudyService studyService;
 
-	@Autowired
-	private SearchService searchService;
+    private static final String URL_4_ERROR_FILES = "errorFile";
 
 	private  @Value("#{ondemand}") String zipOnDemandLocation;     // To store the zip files requested from the Entry page, both public and private files goes here
 
@@ -71,11 +64,11 @@ public class FileDispatcherController extends AbstractController {
     // Get a single file from a study
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/{fileNamePattern:.+}")
     public ModelAndView getSingleFile(@PathVariable("studyId") String studyId,
-									  @RequestParam(value="token", defaultValue = "0") Long dbId, @PathVariable("fileNamePattern") String fileNamePattern,
+									  @RequestParam(value="token", defaultValue = "0") String obfuscationCode, @PathVariable("fileNamePattern") String fileNamePattern,
 									  HttpServletResponse response) {
 
 
-		// We can receive any regularexpresion pattern...but some of them may not be allowed in the URL:
+		// We can receive any regular expression pattern...but some of them may not be allowed in the URL:
 		//Replace them here
 		//Example (asterisks works): fileNamePattern = fileNamePattern.replace("~", "*");
 
@@ -88,13 +81,13 @@ public class FileDispatcherController extends AbstractController {
 		}
 
         // Stream the file
-        return streamFile(studyId, dbId,fileNamePattern,response);
+        return streamFile(studyId, obfuscationCode,fileNamePattern,response);
 
     }
 
 	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/selection")
 	public ModelAndView getSomeFiles(@PathVariable("studyId") String studyId,
-									 @RequestParam(value="token", defaultValue = "0") Long dbId,
+									 @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
 									  @RequestParam("file") List<String> selectedFiles,
 									  HttpServletResponse response) {
 
@@ -102,7 +95,7 @@ public class FileDispatcherController extends AbstractController {
 		// Join the files to make a regular expression
 		String fileNamePattern = org.apache.commons.lang.StringUtils.join(selectedFiles, "|");
 
-		return getSingleFile(studyId, dbId, fileNamePattern, response);
+		return getSingleFile(studyId, obfuscationCode, fileNamePattern, response);
 	}
 
     // Get the metabolite identification file of an assay
@@ -122,7 +115,7 @@ public class FileDispatcherController extends AbstractController {
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/{assayFileName:.+}/maf")
     public void getMafFile(@PathVariable("studyId") String studyId,
                               @PathVariable("assayFileName") String assayFileName,
-							  @RequestParam(value="token", defaultValue = "0") Long dbId,
+							  @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
                               HttpServletResponse response) {
 
         String mafFileName =  assayFileName.replaceFirst("a_","m_");
@@ -137,7 +130,7 @@ public class FileDispatcherController extends AbstractController {
         }
 
         // Stream the file
-        streamFile(studyId, dbId, mafFileName,response);
+        streamFile(studyId, obfuscationCode, mafFileName,response);
 
     }
 
@@ -182,11 +175,29 @@ public class FileDispatcherController extends AbstractController {
 
     }
 
+
+    // Download the requested error file
+    @RequestMapping(value =  URL_4_ERROR_FILES + "/{errorFileName}")
+    public ModelAndView getErrorFile(@PathVariable("errorFileName") String errorFileName,
+                                     @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
+                                     HttpServletResponse response) {
+        try{
+            String errorFilePath = PropertiesUtil.getProperty("uploadDirectory") + "queueerrors/" + errorFileName + ".zip";
+            File errorFile = new File (errorFilePath);
+            streamFile(errorFile,response);
+            return null;
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            return  new ModelAndView ("redirect:/index?message="+ e.getMessage());
+        }
+    }
+
+
+
     // Returns the download link for a study
-	public static String getDownloadLink(String study, VisibilityStatus status){
+	public static String getDownloadLink(String study){
 
 		String ftpLocation = null;
-
 
     	ftpLocation = study + "/" + URL_4_FILES + "/" + study;  //Private download, file stream
 
@@ -234,14 +245,14 @@ public class FileDispatcherController extends AbstractController {
     }
 
     // Stream the file or folder to the response
-    private ModelAndView streamFile(String studyId, Long dbId, String fileNamePattern, HttpServletResponse response) {
+    private ModelAndView streamFile(String studyId, String obfuscationCode, String fileNamePattern, HttpServletResponse response) {
 
         try{
 			File[] files = null;
 			File fileToStream;
 
             // Get the complete path for the study folder
-			File studyFolder = getPathForFileAndCheckAccess(studyId,dbId, "");
+			File studyFolder = getPathForFileAndCheckAccess(studyId, obfuscationCode, "");
 
             // if file is null...
             if (studyFolder == null) {
@@ -261,7 +272,7 @@ public class FileDispatcherController extends AbstractController {
 				files[0] = studyFolder;
 			}
 
-			// Create a zip file if aply:
+			// Create a zip file if apply:
 			fileToStream = createZipFile(files, studyId);
 
             // Now we have a file (normal file, or zipped folder)
@@ -281,9 +292,9 @@ public class FileDispatcherController extends AbstractController {
 
     // Compose and return the path where the file is meant to be
     // If user has no permission throws an exception...
-    private File getPathForFileAndCheckAccess (String studyId, Long dbId, String fileName){
+    private File getPathForFileAndCheckAccess (String studyId, String obfuscationCode, String fileName){
 
-        // Get where the file is (either PUBLIC or PRIVATE)
+        // Get where the file is (either PUBLIC or SUBMITTED)
         String pathS = getPathForFile(studyId,fileName);
 
         // Check if it exists
@@ -291,11 +302,11 @@ public class FileDispatcherController extends AbstractController {
 
         // if it exists
         // Actually, we could get the study from the database to check the status.
-        // With this approach we are assuming that the files are properly placed based on the study status (PRIVATE/PUBLIC)
+        // With this approach we are assuming that the files are properly placed based on the study status (SUBMITTED/PUBLIC)
         if (file.exists()){
 
             // Check the user has privileges to access the file
-            if (canUserAccessFile(studyId, dbId, file)){
+            if (canUserAccessFile(studyId, obfuscationCode)){
 
                     return file;
             } else {
@@ -310,13 +321,7 @@ public class FileDispatcherController extends AbstractController {
     private String getPathForFile(String studyId, String fileName){
 
         // Try the public folder
-        File file = new File (PropertiesUtil.getProperty("publicFtpLocation") + studyId +"/" + fileName);
-
-        if (file.exists()) return file.getAbsolutePath();
-
-
-        // Try the private folder
-        file = new File(PropertiesUtil.getProperty("privateFtpStageLocation") + studyId + "/" + fileName);
+        File file = new File (PropertiesUtil.getProperty("studiesLocation") + studyId +"/" + fileName);
 
         if (file.exists()) return file.getAbsolutePath();
 
@@ -330,27 +335,23 @@ public class FileDispatcherController extends AbstractController {
 	}
 
     // Returns true if the user is allowed to get the file
-    private boolean canUserAccessFile(String studyId, Long dbId, File file){
-
-
-        // First check if the file is in the public folder...
-        if (file.getAbsolutePath().indexOf(PropertiesUtil.getProperty("publicFtpLocation"))>-1) return true;
-
+    private boolean canUserAccessFile(String studyId, String obfuscationCode){
 
 		// Get the study form the index
-		LuceneSearchResult indexedStudy = searchService.getStudy(studyId);
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
 
-		if (indexedStudy.getDbId().compareTo(dbId) == 0){
-			return true;
-		} else {
+        boolean granted;
+        if (obfuscationCode.equals("0")) {
+            granted= wsClient.canViewStudy(studyId);
+        } else {
+            granted= wsClient.canViewStudyByObfuscationCode(obfuscationCode);
+        }
 
-			// If the dbId does not match
-			logger.info("dbID passed (" + dbId + ") does not match lucene study.dbId: " + studyId + "." + indexedStudy.getDbId());
-			return false;
-		}
+        // if granted...user can access the study...
+        return granted;
 
-    } // End of method
+    }
 
 	public File[] getStudyFileList(String studyId) {
 

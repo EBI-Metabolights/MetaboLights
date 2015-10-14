@@ -19,27 +19,6 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   -->
 
-<!--
-  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
-  ~ Cheminformatics and Metabolism group
-  ~
-  ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
-  ~
-  ~ Last modified: 8/14/14 1:27 PM
-  ~ Modified by:   conesa
-  ~
-  ~
-  ~ ©, EMBL, European Bioinformatics Institute, 2014.
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~    http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-  -->
-
 <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
@@ -52,22 +31,27 @@
 <!--suppress ALL -->
 <tiles-definitions>
 
-	<definition name="twosections.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
-		<put-attribute name="leftmenu" value="" />
-		<put-attribute name="content" value="" />
-	</definition>
+	<!--<definition name="twosections.def" template="/WEB-INF/jsp/frontier/twosections.jsp">-->
+		<!--<put-attribute name="leftmenu" value="" />-->
+		<!--<put-attribute name="content" value="" />-->
+	<!--</definition>-->
+
+    <!--<definition name="twosections" extends="default">-->
+    <!--<put-attribute name="body" value="twosections.def"/>-->
+    <!--</definition>-->
+    <!--<definition name="searchResult.def" template="/WEB-INF/jsp/frontier/twosections.jsp">-->
+    <!--<put-attribute name="leftmenu" value="/WEB-INF/jsp/searchFilter.jsp" />-->
+    <!--<put-attribute name="content" value="/WEB-INF/jsp/searchResults.jsp" />-->
+    <!--</definition>-->
 
 
-	<definition name="default" template="/WEB-INF/jsp/frontier/layout.jsp">
+
+    <definition name="default" template="/WEB-INF/jsp/frontier/layout.jsp">
 		<put-attribute name="head" value="/WEB-INF/jsp/frontier/head.jsp" />
 		<put-attribute name="header" value="/WEB-INF/jsp/frontier/header.jsp" />
 		<put-attribute name="localheader" value="/WEB-INF/jsp/frontier/localheader.jsp" />
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/WEB-INF/jsp/frontier/footer.jsp" />
-	</definition>
-
-	<definition name="twosections" extends="default">
-		<put-attribute name="body" value="twosections.def"/>
 	</definition>
 
 
@@ -84,6 +68,11 @@
     <definition name="altcompound" extends="default">
         <put-attribute name="title" value="Beta Compound page" />
         <put-attribute name="body" value="/WEB-INF/jsp/compound.jsp" />
+    </definition>
+
+    <definition name="referencespectraupload" extends="default">
+        <put-attribute name="title" value="Compound Reference Spectra Upload Page" />
+        <put-attribute name="body" value="/WEB-INF/jsp/uploadReferenceSpectra.jsp" />
     </definition>
 
 	<definition name="index" extends="default">
@@ -146,21 +135,6 @@
 
     <definition name="metabolitesIdentified" template="/WEB-INF/jsp/metabolitesIdentified.jsp"/>
 
-	<definition name="searchResult.def" template="/WEB-INF/jsp/frontier/twosections.jsp">
-        <put-attribute name="leftmenu" value="/WEB-INF/jsp/searchFilter.jsp" />
-		<put-attribute name="content" value="/WEB-INF/jsp/searchResults.jsp" />
-	</definition>
-
-	<definition name="searchResult" extends="default">
-		<put-attribute name="title" value="Search" />
-		<put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp"/>
-	</definition>
-
-	<definition name="browse" extends="searchResult">
-		<put-attribute name="title" value="Browse" />
-	</definition>
-
-
     <definition name="entry" extends="default">
         <!--<put-attribute name="title" value="Study" />-->
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
@@ -218,11 +192,6 @@
 	<definition name="proxy" template="/WEB-INF/jsp/proxy.jsp"/>
 
 	<definition name="html" template="/WEB-INF/jsp/html.jsp"/>
-
-    <definition name="ebeyehelp" extends="default">
-		<put-attribute name="title" value="Ebi-eye test" />
-		<put-attribute name="body" value="/WEB-INF/jsp/ebeyehelp.jsp" />
-	</definition>
 
 	<definition name="message" extends="default">
         <put-attribute name="title" value="Message" />
@@ -282,7 +251,21 @@
         <put-attribute name="body" value="/WEB-INF/jsp/importmetabolitesstatus.jsp" />
     </definition>
 
-    <!--Alternative search pages: useing WS and elastic search-->
+    <!-- Standard search pages: JSP-->
+    <definition name="search" extends="default">
+        <put-attribute name="title" value="Search" />
+        <put-attribute name="body" value="/WEB-INF/jsp/searchResults.jsp"/>
+    </definition>
+
+    <definition name="browse" extends="search">
+        <put-attribute name="title" value="Browse" />
+    </definition>
+
+    <definition name="mysubmissions" extends="search">
+        <put-attribute name="title" value="My submissions" />
+    </definition>
+
+    <!--Alternative search pages: using WS and polymer, not working on IE-->
     <definition name="wsSearchResult" extends="default">
         <put-attribute name="title" value="Search" />
         <put-attribute name="body" value="/WEB-INF/jsp/wssearchResults.jsp"/>
@@ -292,6 +275,9 @@
         <put-attribute name="title" value="Browse" />
     </definition>
 
+    <definition name="wsMySubmissions" extends="wsSearchResult">
+        <put-attribute name="title" value="My submissions" />
+    </definition>
 
 
 </tiles-definitions>

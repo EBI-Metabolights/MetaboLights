@@ -1,6 +1,9 @@
 <link rel="import" href="../polymer/bower_components/core-style/core-style.html">
 <core-style id="facets_layout">  
 	<style>
+		:host {
+			padding-left: 4px;
+		}
 		* {
 			-webkit-box-sizing: border-box;
 			-moz-box-sizing: border-box;
@@ -8,6 +11,8 @@
 		}
 		.facetlist{
 			padding: 0;
+			max-height: 250px;
+			overflow: auto;
 		}
 		.facet h4{
 			margin-bottom: 5px;

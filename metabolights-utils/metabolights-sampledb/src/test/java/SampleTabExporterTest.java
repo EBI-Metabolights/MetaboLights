@@ -21,6 +21,7 @@
 
 import org.isatools.isacreator.model.Investigation;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.utils.sampletab.ISATabReader;
 import uk.ac.ebi.metabolights.utils.sampletab.SampleTabExporter;
 
@@ -44,13 +45,13 @@ public class SampleTabExporterTest {
     Investigation investigation;
 
 
-    private Investigation getInvestigation(){
+    private Investigation getInvestigation() throws IsaTabException {
         investigation = isaTabReader.getInvestigation(configDirectory, isatabDirectory);
         return investigation;
     }
 
     @Test
-    public void testGetInvestigation(){
+    public void testGetInvestigation() throws IsaTabException {
 
         getInvestigation();
         assertNotNull(investigation);
@@ -58,7 +59,7 @@ public class SampleTabExporterTest {
     }
 
     @Test
-    public void testWriteSampleTab(){
+    public void testWriteSampleTab() throws IsaTabException {
         sampleTabExporter.exportSampleFile(configDirectory, isatabDirectory, sampleTabFile);
     }
 

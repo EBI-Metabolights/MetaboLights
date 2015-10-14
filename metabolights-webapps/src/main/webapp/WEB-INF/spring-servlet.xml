@@ -97,37 +97,20 @@
 	-->
 	<bean id="contextApplicationContextProvider" class="uk.ac.ebi.metabolights.service.ApplicationContextProvider"></bean>
 
-    <!--For EBI tomcat server deployment  -->
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="java:comp/env/jdbc/metabolights"/>
-        <property name="resourceRef" value="true" />
-    </bean>
 
-
-    <jee:jndi-lookup id="privateFtpStageLocation"   jndi-name="java:comp/env/privateFtpStageLocation" />
+    <jee:jndi-lookup id="studiesLocation"   jndi-name="java:comp/env/studiesLocation" />
     <jee:jndi-lookup id="urlConfirmNewAccount"      jndi-name="java:comp/env/urlConfirmNewAccount" />
     <jee:jndi-lookup id="urlActivateNewAccount"     jndi-name="java:comp/env/urlActivateNewAccount" />
     <jee:jndi-lookup id="uploadDirectory"           jndi-name="java:comp/env/uploadDirectory" />
-    <jee:jndi-lookup id="luceneIndexDirectoryShort" jndi-name="java:comp/env/luceneIndexDirectoryShort" />
     <jee:jndi-lookup id="ftpServer"                 jndi-name="java:comp/env/ftpServer" />
-    <jee:jndi-lookup id="filebase"                  jndi-name="java:comp/env/filebase" />
     <jee:jndi-lookup id="ondemand"                  jndi-name="java:comp/env/ondemand" />
     <jee:jndi-lookup id="headerURL"                 jndi-name="java:comp/env/headerURL" />
     <jee:jndi-lookup id="localHeaderURL"            jndi-name="java:comp/env/localHeaderURL" />
     <jee:jndi-lookup id="footerURL"                 jndi-name="java:comp/env/footerURL" />
-    <jee:jndi-lookup id="ebiServiceURL"				jndi-name="java:comp/env/ebiServiceURL"/>
-    <jee:jndi-lookup id="EUPMCWebServiceURL"		jndi-name="java:comp/env/EUPMCWebServiceURL"/>
     <jee:jndi-lookup id="mailServer"		        jndi-name="java:comp/env/mailServer"/>
     <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
-
-    <!-- Global ones...coming from global tomcat-->
-    <jee:jndi-lookup id="publicFtpStageLocation"    jndi-name="java:comp/env/publicFtpStageLocation" />
-    <jee:jndi-lookup id="publicFtpLocation"         jndi-name="java:comp/env/publicFtpLocation" />
-    <jee:jndi-lookup id="isatabuploaderconfig"		jndi-name="java:comp/env/isatabuploaderconfig"/>
-    <jee:jndi-lookup id="userSpace"		            jndi-name="java:comp/env/userSpace"/>
-
-
+    <jee:jndi-lookup id="userSpace" jndi-name="java:comp/env/userSpace"/>
 
 
     <!--  register the application properties -->
@@ -136,68 +119,46 @@
 		<property name="locations">
 			<list>
                 <value>classpath:application.properties</value>
-				<!--<value>"file:#{isatabuploaderconfig}hibernate.properties"</value>-->
 			</list>
 		</property>
 	</bean>
-
-
-   <!-- Callback filter for Frontier template addition -->
- <!--
-   <bean id="frontierTemplateReferenceLayerFilter" class="uk.ac.ebi.pride.web.util.frontier.FrontierTemplateFilter">
-        <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
-   </bean>
- -->
-
-    <tx:annotation-driven />
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-
-    <!-- read settings from application.properties file
-         NB! only for local testing
-	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" scope="singleton" destroy-method="close">
-		<property name="driverClass" value="${hibernate.connection.driver_class}"/>
-		<property name="user" value="${hibernate.connection.username}"/>
-		<property name="password" value="${hibernate.connection.password}"/>
-		<property name="jdbcUrl" value="${hibernate.connection.url}"/>
-		<property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
-		<property name="minPoolSize" value="${jdbc.minPoolSize}"/>
-		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
-		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
-		<property name="autoCommitOnClose" value="${jdbc.autoCommitOnClose}"/>
-	</bean>   -->
-
-	<!--bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${hibernate.connection.driver_class}"/>
-		<property name="username" value="${hibernate.connection.username}"/>
-		<property name="password" value="${hibernate.connection.password}"/>
-		<property name="url" value="${hibernate.connection.url}"/>
-	</bean-->
 
     <bean id="modelAndViewFactory" class="uk.ac.ebi.metabolights.webapp.StyleMAVFactory">
         <property name="jsonConfig" value="classpath:rl_frontier_config.json"/>
         <property name="localHeaderURL" value="#{localHeaderURL}"/>
         <property name="headerURL" value="#{headerURL}"/>
         <property name="footerURL" value="#{footerURL}"/>
-   	</bean>
+    </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <!-- Database connectivity configuration -->
+    <!-- Get the data source from tomcat (JNDI resource)  -->
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/metabolights"/>
+        <property name="resourceRef" value="true" />
+    </bean>
+
+
+    <tx:annotation-driven />
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation">
             <value>classpath:hibernate.cfg.xml</value>
         </property>
-        <property name="configurationClass">
-            <value>org.hibernate.cfg.AnnotationConfiguration</value>
-        </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
                 <!--prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop-->
-                <prop key="hibernate.search.default.indexBase">#{luceneIndexDirectoryShort}</prop>
+                <!--<prop key="hibernate.search.default.indexBase">#{luceneIndexDirectoryShort}</prop>-->
             </props>
         </property>
     </bean>
+
+
 
     <!--
     The security department
@@ -205,6 +166,7 @@
     <sec:http use-expressions="true" auto-config='true'>
         <sec:intercept-url pattern="/updatepublicreleasedate" access="isAuthenticated()" />
         <sec:intercept-url pattern="/updatepublicreleasedateform" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/updatestatus" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/updatestudy" access="isAuthenticated()" />
         <sec:intercept-url pattern="/updatestudyform" access="isAuthenticated()" />
         <sec:intercept-url pattern="/makestudyprivateform" access="isAuthenticated()" />
@@ -212,6 +174,7 @@
 		<sec:intercept-url pattern="/submit" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/biisubmit" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/submittoqueue" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/referencespectraupload" access="isAuthenticated()" />
         <sec:intercept-url pattern="/mysubmissions" access="isAuthenticated()" />
         <sec:intercept-url pattern="/privatefiles" access="isAuthenticated()" />
         <sec:intercept-url pattern="/updateAccount" access="isAuthenticated()" />
@@ -248,10 +211,28 @@
     </sec:authentication-manager>
     <bean id="isaTabAuthenticationProv" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
 
-    <!-- Email stuff  -->
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="#{mailServer}"/>
+
+    <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+
+        <property name="host"><value>#{mailServer}</value></property>
+
+        <!-- Gmail email settings -->
+        <!--<property name="port"><value>587</value></property>-->
+        <!--<property name="protocol"><value>smtp</value></property>-->
+        <!--<property name="username"><value>p.conesa.mingo</value></property>-->
+        <!--<property name="password"><value>#{mailpassword}</value></property>-->
+        <!--<property name="javaMailProperties">-->
+            <!--<props>-->
+                <!--<prop key="mail.smtp.auth">true</prop>-->
+                <!--<prop key="mail.smtp.starttls.enable">true</prop>-->
+                <!--<prop key="mail.smtp.quitwait">false</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+        <!-- End gmail settings-->
     </bean>
+
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
         <property name="velocityProperties">
             <value>
@@ -261,22 +242,6 @@
         </property>
     </bean>
 
-
-    <!--
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="465" />
-		<property name="username" value="" />
-		<property name="password" value="" />
-
-		<property name="javaMailProperties">
-		   <props>
-	       	      <prop key="mail.smtp.auth">true</prop>
-	       	      <prop key="mail.smtp.starttls.enable">true</prop>
-	       	   </props>
-		</property>
-	</bean>
-    -->
 
 	<bean id="reminderTemplate" class="org.springframework.mail.SimpleMailMessage">
 	  <property name="from" value="${replyTo}"/>
@@ -310,5 +275,5 @@
       <property name="to"><list><value>${mtblAdminEmailAddress}</value></list></property>
     </bean>
 
-    <bean id="queueManager" class="uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager"/>
+    <!--<bean id="queueManager" class="uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager"/>-->
 </beans>

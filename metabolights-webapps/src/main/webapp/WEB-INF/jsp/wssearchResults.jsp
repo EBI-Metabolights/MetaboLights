@@ -52,11 +52,14 @@
                 {
                     "name": "organism.organismPart"
                 },
-                {
-                    "name": "assays.measurement"
-                },
+//                {
+//                    "name": "assays.measurement"
+//                },
                 {
                     "name":"users.fullName"
+                    <c:if test="${not empty usersFullName}">
+                        ,"lines":[{"value":"${usersFullName}","checked":true}]
+                    </c:if>
                 },
                 {
                     "name":"factors.name"
@@ -68,8 +71,19 @@
             "pagination":{
                 "page":1,
                 "pageSize":10
-            }
+            },
+            "boosters":[
+                {
+                    "fieldName": "title",
+                    "boost": 1
+                }
+            ]
         };
+
+
+        <c:if test="${not empty freeTextQuery}">
+            emptyQuery.text = "${freeTextQuery}";
+        </c:if>
 
         return emptyQuery;
     };
@@ -82,7 +96,7 @@
 
         if (hash){
 
-            // Remove hash
+            // Remove the hash
             hash = hash.substring(1);
 
             return JSON.parse(hash);
@@ -98,13 +112,22 @@
     var pager;
     var query = getQuery();
     var asideText;
+    var results;
+    var facets;
+    var searchBox;
+
+    var searchActive = false;
 
     document.addEventListener('polymer-ready', function() {
 
-        pager = document.querySelector("page-er");
-        pager.perpage = query.pagination.pageSize;
+        window.onpopstate = function(event) {
+            query = getQuery();
+            search(true);
+        };
 
-        asideText = document.querySelector("#search-extras-info");
+        populateVariables();
+
+        pager.perpage = query.pagination.pageSize;
 
         document.addEventListener('pager-change', function(e) {
             query.pagination.page = e.detail.page+1;
@@ -112,23 +135,19 @@
         });
 
         // Hijack the submit
-        $("#local-search").attr("onsubmit", "return searchFromForm()");
+        $(searchBox).attr("onsubmit", "return searchFromForm()");
 
         search();
 
+
     });
 
-    window.onpopstate = function(event) {
-        query = getQuery();
-        search(true);
-    };
 
 
     function searchFromForm(){
 
         query = getEmptyQuery();
-        var searchbox = document.querySelector('#local-searchbox') ;
-        query.text= searchbox.value ;
+        query.text= searchBox.value ;
         search();
 
         return false;
@@ -160,6 +179,20 @@
 
     function search(keepPage){
 
+
+        if (searchActive) {
+            return;
+        } else {
+
+            // Indicate we are searching...
+            searchActive = true;
+            pager.hidden = true;
+            results.hidden = true;
+            facets.hidden = true;
+
+        }
+
+
         if (query.pagination != undefined){
             if (!keepPage) query.pagination.page = 1;
         }
@@ -180,12 +213,18 @@
 
         }).done(function(data) {
 
+            if (data.err != undefined){
+
+                results.noresultmessage = data.message;
+            }
+
+            results.searchresponse = data.content;
+
             query = data.content.query;
 
-            document.querySelector('search-result').searchresponse = data.content;
-            var facets = document.querySelector('metabolights-facets');
 
-            document.querySelector('input').value = query.text;
+            if (searchBox != undefined) searchBox.value = query.text;
+
             $('html, body').animate({ scrollTop: 0 }, 'fast');
 
             // Hide element when no if no results
@@ -199,10 +238,11 @@
                 // Configure pager, fake whole set of data based on item count
                 pager.data = new Array(query.pagination.itemsCount);
                 pager.changePage(query.pagination.page-1);
-                pager.hidden = false;
+                pager.hidden = query.pagination.itemsCount <= query.pagination.pageSize;
 
                 facets.query =query
                 facets.hidden = false;
+
 
             }
 
@@ -215,11 +255,35 @@
                 asideText.parentElement.parentElement.hidden = true;
             }
 
+            results.hidden=false;
+
+            searchActive = false;
 
         }).fail(function() {
-            console.info("ajax failed")
+            console.info("ajax failed, can't search.");
+            searchActive = false;
+
         });
+
+
     };
+
+    function populateVariables() {
+
+        pager = fillVarWithElement(pager,"page-er");
+        asideText = fillVarWithElement(asideText ,"#search-extras-info");
+        results = fillVarWithElement(results, 'search-result');
+        facets = fillVarWithElement(facets,'metabolights-facets');
+        searchBox = fillVarWithElement(searchBox ,'#local-searchbox');
+
+    }
+    function fillVarWithElement(variable, element){
+        if (variable == undefined){
+            return document.querySelector(element);
+        }
+
+        return variable;
+    }
 </script>
 
 <aside class="grid_6 omega shortcuts expander" id="search-extras">
@@ -228,28 +292,14 @@
     </div>
 </aside>
 <div layout horizontal>
-    <metabolights-facets auto-vertical></metabolights-facets>
-    <search-result auto-vertical></search-result>
+    <metabolights-facets auto-vertical hidden></metabolights-facets>
+    <search-result auto-vertical hidden header="${sHeader}" noresultmessage='${noresultsmessage}'></search-result>
 </div>
-<%--<nav class="facets">--%>
-<%--<metabolights-facets></metabolights-facets>--%>
-<%--</nav>--%>
-<%--<section class="search_results">--%>
-<%--<search-result></search-result>--%>
-<%--</section>--%>
-<page-er perpage="10"></page-er>
+<page-er hidden perpage="10"></page-er>
 
 
 <script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
 <script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
-
-<%-- TODO:
- welcome message / searched term
- Highlight
- My studies mode
-
---%>
-
 
 
 <%--TODO EBI search integration

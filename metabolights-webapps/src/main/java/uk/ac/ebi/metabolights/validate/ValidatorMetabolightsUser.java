@@ -21,11 +21,13 @@
 
 package uk.ac.ebi.metabolights.validate;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.service.EmailService;
+
 
 /**
  * Validator for validation of (form) submission of user account details.
@@ -35,6 +37,7 @@ import uk.ac.ebi.metabolights.service.EmailService;
 public class ValidatorMetabolightsUser implements Validator {
 
 	public final static int MIN_PASSWORD_LEN=6;
+	public static final int ORCID_DIGITS_COUNT = 16;
 	//public final static int MIN_USERNAME_LEN=3;
 
 	/**
@@ -61,6 +64,9 @@ public class ValidatorMetabolightsUser implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "apiToken", "NotEmpty.metabolightsUser.apiToken");
 
 
+
+
+
 		// Check email valid pattern (TODO: better use regex)
 		if (e.getFieldError("email")==null)
 	    	if (!EmailService.isValidEmailAddress(user.getEmail()))
@@ -75,12 +81,58 @@ public class ValidatorMetabolightsUser implements Validator {
 				e.rejectValue("dbPassword", "Size.metabolightsUser.password");
 			}
 		}
-		//if (e.getFieldError("userName")==null) {
-			// Check minimum size user name
-		//	if (user.getUserName().length()<MIN_USERNAME_LEN) {
-		//		e.rejectValue("userName", "Size.metabolightsUser.username");
-		//	}
-		//}
+
+
+		if (!user.getOrcid().equals("")) {
+
+			String validation = validateORCID(user.getOrcid());
+
+			if (validation != null) {
+				e.rejectValue("orcid", null,validation);
+			}
+
+		}
+	}
+
+	public static String validateORCID(String formattedOrcid){
+
+		String cleanOrcid = formattedOrcidToNumbers(formattedOrcid);
+
+		// Size should be 16
+		if (cleanOrcid.length()!= ORCID_DIGITS_COUNT){
+			return "ORCID doesn't seem to be valid. It must be 16 digits length (hyphens not included in the count).";
+		}
+
+		if (!StringUtils.isNumeric(cleanOrcid.substring(0,ORCID_DIGITS_COUNT-1))){
+			return "ORCID doesn't seem to be valid. It must have 15 digits + 1(char)(hyphens not included in the count).";
+		}
+
+
+		return checkOrcid(cleanOrcid);
+
+	}
+
+	public static String checkOrcid(String cleanOrcid) {
+		int total = 0;
+		for (int i = 0; i < cleanOrcid.length()-1; i++) {
+			int digit = Character.getNumericValue(cleanOrcid.charAt(i));
+			total = (total + digit) * 2;
+		}
+		int remainder = total % 11;
+		int result = (12 - remainder) % 11;
+		String expectedCheckDigit = result == 10 ? "X" : String.valueOf(result);
+
+		// If last digit does not match...
+		if(!cleanOrcid.endsWith(expectedCheckDigit)){
+			return "ORCID doesn't seem to be valid. It doesn't pass the checksum calculations.";
+		}
+
+		return null;
+
+	}
+
+	public static String formattedOrcidToNumbers(String formattedOrcid){
+		return formattedOrcid.replace("-", "");
 	}
 
 	@Override

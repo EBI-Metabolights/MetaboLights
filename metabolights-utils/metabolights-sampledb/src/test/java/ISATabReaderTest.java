@@ -24,6 +24,7 @@ import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Study;
 import org.junit.Test;
 import uk.ac.ebi.arrayexpress2.sampletab.parser.SampleTabParser;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.utils.sampletab.ISATabReader;
 
 import java.util.List;
@@ -42,14 +43,14 @@ public class ISATabReaderTest {
     private static String configDirectory = "/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations";
 
 
-    private Investigation getInvestigation(){
+    private Investigation getInvestigation() throws IsaTabException {
         investigation = isaTabReader.getInvestigation(configDirectory, isatabDirectory);
         return investigation;
     }
 
 
     @Test
-    public void testGetContactsFromInvestigation(){
+    public void testGetContactsFromInvestigation() throws IsaTabException {
 
         Map<String, Study> studyMap = getInvestigation().getStudies();
         assertNotNull(studyMap);

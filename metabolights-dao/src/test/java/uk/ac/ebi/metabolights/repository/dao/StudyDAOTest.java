@@ -21,9 +21,10 @@
 
 package uk.ac.ebi.metabolights.repository.dao;
 
-import junit.framework.Assert;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
@@ -32,10 +33,13 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserDataTest;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
 import java.util.Date;
 import java.util.List;
+
+import static junit.framework.Assert.*;
 
 public class StudyDAOTest extends DAOTest {
 
@@ -47,6 +51,8 @@ public class StudyDAOTest extends DAOTest {
 	private StudyData privateStudy;
 	private StudyDAO studyDAO;
 	private StudyData dbOnlyStudy;
+	// DB data plus folder with wrong isatab files....(so metadata doesn't load)
+	private StudyData inconsistent;
 
 	@Before
 	public void initData() throws DAOException {
@@ -64,27 +70,37 @@ public class StudyDAOTest extends DAOTest {
 		dbOnlyStudy.setStatus(Study.StudyStatus.PUBLIC.ordinal());
 
 
-		// Get users: curator and owner and not owner (persisted already)
-		curator = UserDataTest.addUserToDB(AppRole.ROLE_SUPER_USER);
-		owner = UserDataTest.addUserToDB(AppRole.ROLE_SUBMITTER);
-		notOwner = UserDataTest.addUserToDB(AppRole.ROLE_SUBMITTER);
+		// Add inconsistent (wrong isatab files or empty)
+		inconsistent = new StudyData();
+		inconsistent.setAcc("inconsistent");
+		inconsistent.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
+
 
 		// Add MTBLS3 to the database
 		privateStudy = new StudyData();
 		privateStudy.setAcc("MTBLS3");
-		privateStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+		privateStudy.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
 
 		// Add MTBLS2 to the database
 		StudyData curatorsStudy = new StudyData();
 		curatorsStudy.setAcc("MTBLS5");
-		curatorsStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+		curatorsStudy.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
 
+		// Get users: curator and owner and not owner (persisted already)
+		curator = UserDataTest.addUserToDB(AppRole.ROLE_SUPER_USER);
+		owner = UserDataTest.addUserToDB(AppRole.ROLE_SUBMITTER);
+		notOwner = UserDataTest.addUserToDB(AppRole.ROLE_SUBMITTER);
 
 
 		// Add the owner
 		privateStudy.getUsers().add(owner);
 		// Add the curator to have 2 owner and test unique results in getList().
 		privateStudy.getUsers().add(curator);
+
+
+		// Add owner to the inconsistent
+		inconsistent.getUsers().add(owner);
+
 
 		// Save all
 		SessionWrapper session = HibernateUtil.getSession();
@@ -93,23 +109,24 @@ public class StudyDAOTest extends DAOTest {
 		session.saveOrUpdate(privateStudy);
 		session.saveOrUpdate(curatorsStudy);
 		session.saveOrUpdate(dbOnlyStudy);
-		session.noNeedSession();
+		session.saveOrUpdate(inconsistent);
 
+		session.noNeedSession();
 
 		// Initialise de DAO
 		studyDAO = DAOFactory.getInstance().getStudyDAO();
 	}
 
 	@Test
-	public void testGetPublicStudy() throws DAOException {
+	public void testGetPublicStudy() throws DAOException, IsaTabException {
 
 
 		Study study = studyDAO.getStudy(publicStudy.getAcc());
 
-		Assert.assertEquals("Test DB part it's been populated: obfuscation code", publicStudy.getObfuscationcode(), study.getObfuscationCode());
-		Assert.assertEquals("Test DB part it's been populated: study status", publicStudy.getStatus(), study.getStudyStatus().ordinal());
-		Assert.assertNotNull("Test FS part it's been populated: study title", study.getTitle());
-		Assert.assertEquals("Test Relase date is the one fomr the DB and not from the file", publicStudy.getReleaseDate(), study.getStudyPublicReleaseDate());
+		assertEquals("Test DB part it's been populated: obfuscation code", publicStudy.getObfuscationcode(), study.getObfuscationCode());
+		assertEquals("Test DB part it's been populated: study status", publicStudy.getStatus(), study.getStudyStatus().ordinal());
+		assertNotNull("Test FS part it's been populated: study title", study.getTitle());
+		assertTrue("Test release date is the one from the DB and not from the file", DateUtils.isSameDay(publicStudy.getReleaseDate(), study.getStudyPublicReleaseDate()));
 
 	}
 
@@ -126,6 +143,8 @@ public class StudyDAOTest extends DAOTest {
 
 		} catch (DAOException e) {
 			logger.info("Expected exception accessing non existing study");
+		} catch (IsaTabException e) {
+			e.printStackTrace();
 		}
 
 
@@ -143,15 +162,15 @@ public class StudyDAOTest extends DAOTest {
 
 		} catch (DAOException e) {
 			logger.info("Expected exception accessing db only existing study");
+		} catch (IsaTabException e) {
+			e.printStackTrace();
 		}
 
 
 	}
 
-
-
 	@Test
-	public void testGetPrivateStudy() throws DAOException {
+	public void testGetPrivateStudy() throws DAOException, IsaTabException {
 
 
 		Study study = null;
@@ -198,17 +217,14 @@ public class StudyDAOTest extends DAOTest {
 	}
 
 	@Test
-	public void testGetStudyByObfuscationCode() throws DAOException {
+	public void testGetStudyByObfuscationCode() throws DAOException, IsaTabException {
 
+		// Try with the obfuscation code
+		Study study = studyDAO.getStudyByObfuscationCode(privateStudy.getObfuscationcode());
 
-		Study study = null;
-
-		// Try with the obfuscationcode
-		study = studyDAO.getStudyByObfuscationCode(privateStudy.getObfuscationcode());
-
-		Assert.assertEquals("Test DB part it's been populated: obfuscation code", privateStudy.getObfuscationcode(), study.getObfuscationCode());
-		Assert.assertEquals("Test DB part it's been populated: study status", privateStudy.getStatus(), study.getStudyStatus().ordinal());
-		Assert.assertNotNull("Test FS part it's been populated: study title", study.getTitle());
+		assertEquals("Test DB part it's been populated: obfuscation code", privateStudy.getObfuscationcode(), study.getObfuscationCode());
+		assertEquals("Test DB part it's been populated: study status", privateStudy.getStatus(), study.getStudyStatus().ordinal());
+		assertNotNull("Test FS part it's been populated: study title", study.getTitle());
 
 	}
 
@@ -216,13 +232,162 @@ public class StudyDAOTest extends DAOTest {
 	public void testGetStudyListForUser() throws Exception {
 
 		List studies = studyDAO.getList(owner.getApiToken());
-		Assert.assertEquals("Owner can access 3 out of 4 studies (2 public and owned private)", 3, studies.size());
+		assertEquals("Owner can access 3 out of 4 studies (2 public and owned private)", 3, studies.size());
 
 		studies = studyDAO.getList(curator.getApiToken());
-		Assert.assertEquals("Curator should access 4 (all) studies" , 4, studies.size());
+		assertEquals("Curator should access 4 (all) studies", 4, studies.size());
 
 		studies = studyDAO.getList(notOwner.getApiToken());
-		Assert.assertEquals("not Owner should access 2 studies (public ones)" , 2, studies.size());
+		assertEquals("not Owner should access 2 studies (public ones)", 2, studies.size());
+
+
+	}
+	
+	@Test
+	public void testStatusesForSubmitter() throws Exception {
+
+
+		// Get the full study
+		Study study = studyDAO.getStudy(inconsistent.getAcc(), owner.getApiToken());
+
+		assertEquals("Default status of a study must be submitted", LiteStudy.StudyStatus.SUBMITTED, study.getStudyStatus());
+
+		// Change the statuses as owner
+		Study savedStudy = updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, false);
+		updateStatus(study, owner, LiteStudy.StudyStatus.INREVIEW, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PUBLIC, true);
+
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.SUBMITTED, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.INREVIEW, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PUBLIC, true);
+		assertFalse("Public release date has been changed", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
+
+		// Change the status as curator
+		updateStatus(study, curator, LiteStudy.StudyStatus.INCURATION, false);
+
+		// Change the statuses as owner, shouldn't be allowed.
+		updateStatus(study, owner, LiteStudy.StudyStatus.SUBMITTED, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.INREVIEW, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PUBLIC, true);
+
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.SUBMITTED, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.INREVIEW, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PUBLIC, true);
+		assertFalse("Public release date has been changed", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
+
+
+		updateStatus(study, curator, LiteStudy.StudyStatus.INREVIEW, false);
+		// Change the statuses as owner, shouldn't be allowed.
+		updateStatus(study, owner, LiteStudy.StudyStatus.SUBMITTED, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.INREVIEW, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PUBLIC, true);
+
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.SUBMITTED, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.INREVIEW, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PUBLIC, true);
+
+		assertFalse("Public release date has been changed", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
+
+
+		// Make it public
+		savedStudy = updateStatus(study, curator, LiteStudy.StudyStatus.PUBLIC, false);
+
+		assertTrue("Public release date not updated when changing study to public", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
+
+		// Change the statuses as owner, shouldn't be allowed.
+		updateStatus(study, owner, LiteStudy.StudyStatus.SUBMITTED, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.INREVIEW, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PUBLIC, true);
+
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.SUBMITTED, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.INREVIEW, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PUBLIC, true);
+
+
+		// Make study Private again
+		updateStatus(study, curator, LiteStudy.StudyStatus.SUBMITTED, false);
+
+		// Change the release date to yesterday
+		studyDAO.updateReleaseDate(inconsistent.getAcc(), new Date(new Date().getTime()-DateUtils.MILLIS_PER_DAY),owner.getApiToken());
+
+		// Make study INCURATION again
+		savedStudy = updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, false);
+
+		assertFalse("Public release date updated when changing study to INCURATION and date has passed", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
+
+		// Make study READY again this should change de public release date to today and the status to public
+		updateStatus(savedStudy, curator, LiteStudy.StudyStatus.INREVIEW, false);
+
+
+	}
+
+	private Study updateStatus(Study study, UserData user, LiteStudy.StudyStatus newStatus, boolean exceptionExpected) throws IsaTabException {
+		try {
+			// Should fail
+			// Change the status to PUBLIC.
+			studyDAO.updateStatus(study.getStudyIdentifier(), newStatus, user.getApiToken());
+
+			if (exceptionExpected) {
+				throw new AssertionError("User " + user.getUserName() + " should NOT be allowed to update the study status from " + study.getStudyStatus() + " to " + newStatus);
+			} else {
+
+				// Check status has changed
+				Study savedStudy = studyDAO.getStudy(study.getStudyIdentifier(), user.getApiToken());
+
+				// For approved we need to check promotion to public.
+				if (newStatus == LiteStudy.StudyStatus.INREVIEW && study.getStudyPublicReleaseDate().before(new Date())) {
+
+					assertTrue("Public release not updated when changing study to INREVIEW and date has passed", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
+					assertEquals("Status not promoted to PUBLIC when changing study to INREVIEW and date has passed", LiteStudy.StudyStatus.PUBLIC, savedStudy.getStudyStatus());
+
+
+				} else {
+					assertEquals("Study status hasn't been persisted", newStatus, savedStudy.getStudyStatus());
+				}
+
+
+				return savedStudy;
+			}
+
+		} catch (DAOException e) {
+
+			if (exceptionExpected) {
+				logger.info("Security exception expected");
+			} else {
+				throw new AssertionError("User " + user.getUserName() + " should be allowed to update the study status from " + study.getStudyStatus() + " to " + newStatus);
+			}
+		}
+
+		return null;
+	}
+	@Test
+	public void testGetStudiesToGoLive() throws DAOException {
+
+
+		// Change status ot the 2 public studies
+		studyDAO.updateStatus(dbOnlyStudy.getAcc(), LiteStudy.StudyStatus.INREVIEW, curator.getApiToken());
+
+		List<String> studiesToGoLive = studyDAO.getStudiesToGoLiveList(curator.getApiToken());
+
+		assertEquals("Wrong number of studies to go live for a curator", 0, studiesToGoLive.size());
+
+
+	}
+
+	@Test
+	public void testGetStudyIdByObfuscationCode() throws IsaTabException, DAOException {
+
+		String studyId = studyDAO.getStudyIdByObfuscationCode(privateStudy.getObfuscationcode());
+
+		assertEquals("StudyId returned by obfuscation code is wrong", privateStudy.getAcc(),studyId);
+
 
 
 	}

@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.model.Field;
@@ -40,7 +41,7 @@ public class StudyDAOTest extends DAOTest {
 	public void initialiseTests() {
 
 
-		studyDAO = new StudyDAO(configRoot,publicStudiesLocation,privateStudiesLocation);
+		studyDAO = new StudyDAO(configRoot, studiesLocation);
 
 	}
 
@@ -85,6 +86,8 @@ public class StudyDAOTest extends DAOTest {
 		// 214 lines +  single pipes in 4 of them + 1 duuble pipe in 1 line = 220.
 		assertEquals("Check MTBSL1 metabolites lines number", 220,study.getAssays().get(0).getMetaboliteAssignment().getMetaboliteAssignmentLines().size());
 
+		assertEquals("Backups are not populated properly", 2, study.getBackups().size());
+
 
         study = studyDAO.getStudy("MTBLS2", false);
         assertEquals("MTBLS2 loaded?", study.getStudyIdentifier(),"MTBLS2");
@@ -107,7 +110,7 @@ public class StudyDAOTest extends DAOTest {
     }
 
 	@Test
-	public void testTechnologyNormalization() throws DAOException {
+	public void testTechnologyNormalization() throws DAOException, IsaTabException {
 
 		Study study = studyDAO.getStudy("MTBLS114", false);
 

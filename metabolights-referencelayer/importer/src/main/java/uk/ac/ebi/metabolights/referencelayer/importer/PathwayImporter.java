@@ -29,7 +29,7 @@ import uk.ac.ebi.metabolights.referencelayer.DAO.db.DatabaseDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
-import uk.ac.ebi.metabolights.referencelayer.domain.*;
+import uk.ac.ebi.metabolights.referencelayer.model.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -192,7 +192,7 @@ public class PathwayImporter {
         }
 
         // Compose the metabolite accession:
-        String acc = chebiId.replace("CHEBI:", "MTBLC");
+        String acc = MetaboLightsCompoundDAO.chebiID2MetaboLightsID(chebiId);
 
 
         // We need to copy the file to the compound folder + ACC: compoundFolder/MTBLC1234

@@ -49,6 +49,7 @@ public class UserData extends DataModel<User> {
 	private int status;
 	private String affiliationUrl;
 	private String apiToken = java.util.UUID.randomUUID().toString();
+	private String orcid;
 	private Set<StudyData> studies = new HashSet<>();
 
 
@@ -150,6 +151,14 @@ public class UserData extends DataModel<User> {
 		this.apiToken = apiToken;
 	}
 
+	public String getOrcid() {
+		return orcid;
+	}
+
+	public void setOrcid(String orcid) {
+		this.orcid = orcid;
+	}
+
 	@ManyToMany
 	@JoinTable(name="study_user", joinColumns=@JoinColumn(name="userid"), inverseJoinColumns=@JoinColumn(name="studyid"))
 	public Set<StudyData> getStudies() {
@@ -181,6 +190,7 @@ public class UserData extends DataModel<User> {
 		this.status =businessModelEntity.getStatus().ordinal();
 		this.affiliationUrl =businessModelEntity.getAffiliationUrl();
 		this.apiToken =businessModelEntity.getApiToken();
+		this.orcid = businessModelEntity.getOrcid();
 
 	}
 
@@ -192,7 +202,7 @@ public class UserData extends DataModel<User> {
 		businessModelEntity.setUserId(this.id);
 		businessModelEntity.setAddress(this.address);
 		businessModelEntity.setEmail(this.email);
-		businessModelEntity.setJoinDate(this.joinDate);
+		if (this.joinDate!=null) businessModelEntity.setJoinDate(new Date(this.joinDate.getTime()));
 		businessModelEntity.setDbPassword(this.password);
 		businessModelEntity.setRole(AppRole.values()[this.role]);
 		businessModelEntity.setUserName(this.userName);
@@ -202,6 +212,7 @@ public class UserData extends DataModel<User> {
 		businessModelEntity.setStatus(User.UserStatus.values()[this.status]);
 		businessModelEntity.setAffiliationUrl(this.affiliationUrl);
 		businessModelEntity.setApiToken(this.apiToken);
+		businessModelEntity.setOrcid(this.orcid);
 
 		// Studies associated as Study Lite elements (Don't want the full studies pending from an user)
 		businessModelEntity.setStudies(StudyData.studyDataToLiteStudy(studies));

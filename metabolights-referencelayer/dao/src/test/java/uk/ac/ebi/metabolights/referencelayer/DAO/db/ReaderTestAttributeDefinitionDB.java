@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.AttributeDefinition;
+import uk.ac.ebi.metabolights.referencelayer.model.AttributeDefinition;
 
 import java.sql.Connection;
 
@@ -126,7 +126,7 @@ public class ReaderTestAttributeDefinitionDB extends TestCase{
 
 		assertNotNull(ad);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id", Long.parseLong(expectedvalues[0]), ad.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id", Long.parseLong(expectedvalues[0]), ad.getId().longValue());
 		assertEquals("Checking attibuteDfinition name" , expectedvalues[1] , ad.getName());
         assertEquals("Checking attibuteDfinition description" , expectedvalues[2] , ad.getDescription());
 

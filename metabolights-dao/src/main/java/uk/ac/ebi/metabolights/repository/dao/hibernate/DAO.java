@@ -38,7 +38,7 @@ import java.util.Set;
 public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	protected String dataModelName;
-	private static Logger logger = LoggerFactory.getLogger(DAO.class);
+	protected static Logger logger = LoggerFactory.getLogger(DAO.class);
 
 	// Wrapper for the session
 	protected SessionWrapper session = HibernateUtil.getSession();
@@ -82,10 +82,12 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
             // We are bypassing any lazy initialization with this. So far it's fine.
             businessEntities = convertDataModelToBusinessModel(dataModels);
 
-            session.noNeedSession();
         } catch (Exception e) {
+
             logger.error("ERROR: Could not query the database: " + e.getMessage());
-        }
+        } finally {
+			session.noNeedSession();
+		}
 
 		return  businessEntities;
 
@@ -147,10 +149,14 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 		// Invoke the conversion
 		datamodel.setBussinesModelEntity(bussinessEntity);
 
+		session.needSession();
+
 		// Pre save will trigger the save of parent objects if any.
 		preSave(datamodel);
 
 		saveDataModel(datamodel);
+
+		session.noNeedSession();
 
 	}
 

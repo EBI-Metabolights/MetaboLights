@@ -23,31 +23,20 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.xml_cml.schema.cml2.react.Reaction;
-import uk.ac.ebi.cdb.webservice.ResponseWrapper;
-import uk.ac.ebi.cdb.webservice.Result;
 import uk.ac.ebi.cdb.webservice.WSCitationImpl;
-import uk.ac.ebi.cdb.webservice.WSCitationImplService;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.DataItem;
-import uk.ac.ebi.metabolights.referencelayer.domain.Pathway;
-import uk.ac.ebi.metabolights.referencelayer.domain.Spectra;
+import uk.ac.ebi.metabolights.model.WebCompound;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
-import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
-import uk.ac.ebi.rhea.ws.client.RheaFetchDataException;
-import uk.ac.ebi.rhea.ws.client.RheasResourceClient;
+import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
+import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 //import uk.ac.ebi.rhea.ws.response.sbml1.cmlreact.Reaction;
 
@@ -59,9 +48,8 @@ import java.util.List;
 public class CompoundController extends AbstractController {
 
     private static Logger logger = LoggerFactory.getLogger(CompoundController.class);
-    private @Value("#{EUPMCWebServiceURL}") String PMCurl;
 
-    public static final String METABOLIGHTS_COMPOUND_ID_REG_EXP = "(?:MTBLC|mtblc).+";
+    public static final String METABOLIGHTS_COMPOUND_ID_REG_EXP = "(?:MTBLC|compoundId).+";
 
     //String PMCurl = "http://www.ebi.ac.uk/webservices/citexplore/v3.0.1/service?wsdl";
     private WSCitationImpl PMCSearchService;
@@ -76,82 +64,43 @@ public class CompoundController extends AbstractController {
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
-        Compound compound = ModelObjectFactory.getCompound(mtblc);
-        if (compound == null)
-            return printMessage("Error","The requested compound does not exist: "+ mtblc);
+//        Compound compound = ModelObjectFactory.getCompound(mtblc);
+        RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
 
-        mav.addObject("compound", compound);
-		mav.addObject("pageTitle", mtblc + " - " + compound.getMc().getName());
+        Compound compound = response.getContent();
+
+        if (compound == null)
+            return printMessage("Couldn't get the requested compound: "+ mtblc, response.getErr().getMessage());
+
+        // We need the species grouped
+        WebCompound webCompound = new WebCompound(compound);
+
+
+        mav.addObject("compound", webCompound);
+		mav.addObject("pageTitle", mtblc + " - " + webCompound.getMc().getName());
 
         return mav;
 
     }
 
-    @RequestMapping(value = "/spectra/{spectraId}/json")
-    public void getJsonSpectra(@PathVariable("spectraId") String spectraIdS, HttpServletResponse response) {
-
-
-        // Convert the id to a long...
-        long spectraId = Long.parseLong(spectraIdS);
-
-        Spectra spectra = ModelObjectFactory.getSpectra(spectraId);
-
-        FileDispatcherController.streamFile(spectra.getPathToJsonSpectra(), response);
-
-
-    }
-
-    @RequestMapping(value = "/pathway/{pathwayId}/svg")
-    public void getPathwayFilePng(@PathVariable("pathwayId") String pathwayIdS, HttpServletResponse response) {
-
-
-        // Convert the id to a long...
-        long pathwayId = Long.parseLong(pathwayIdS);
-
-        Pathway pathway = ModelObjectFactory.getPathway(pathwayId);
-
-        FileDispatcherController.streamFile(pathway.getPathToPathwayFile(), response, "image/svg+xml");
-
-
-    }
-
-	@RequestMapping(value = "/pathway/{pathwayId}/png")
-	public void getPathwayFileSvg(@PathVariable("pathwayId") String pathwayIdS, HttpServletResponse response) {
-
-
-		// Convert the id to a long...
-		long pathwayId = Long.parseLong(pathwayIdS);
-
-		Pathway pathway = ModelObjectFactory.getPathway(pathwayId);
-
-		FileDispatcherController.streamFile(pathway.getPathToPathwayFile(), response, "image/png");
-
-
-	}
     @RequestMapping(value = "/reactions")
     private ModelAndView showReactions(
-            @RequestParam(required = false, value = "chebiId") String compound) {
+            @RequestParam(required = false, value = "compoundId") String compoundId) {
 
         //Instantiate Model and view
         ModelAndView mav = new ModelAndView("reaction");
 
-        //Setting up resource client
-        RheasResourceClient client = new RheasResourceClient();
+        //Initialising and passing chebi Id as compoundId to Rhea
+        ReactionsList reactions = null;
 
-//        //Initialising and passing chebi Id as compound to Rhea
-//        List<RheaReaction> reactions = null;
-//
-//		reactions = client.search(compound);
-//
+        RestResponse<ReactionsList> response = EntryController.getMetabolightsWsClient().getCompoundReactions(compoundId);
 
-		//Initialising and passing chebi Id as compound to Rhea
-		List<Reaction> reactions = null;
+        if (response.getErr() != null) {
+            logger.error("Can't get reaction for {}: {}", compoundId,response.getErr().getMessage(), response.getErr());
+        } else {
 
-		try {
-			reactions = client.getRheasInCmlreact(compound);
-		} catch (RheaFetchDataException e) {
-			e.printStackTrace();
-		}
+            reactions = response.getContent();
+        }
 
 		mav.addObject("reactions", reactions);
 
@@ -160,53 +109,26 @@ public class CompoundController extends AbstractController {
 
     @RequestMapping(value = "/citations")
     private ModelAndView showCitations(
-            @RequestParam(required = false, value = "mtblc") String mtblc) {
-
-        //String localException = null;
+            @RequestParam(required = false, value = "compoundId") String compoundId) {
 
         //Instantiate Model and view
         ModelAndView mav = new ModelAndView("citations");
 
-        try {
-            PMCSearchService = new WSCitationImplService(new URL(PMCurl)).getWSCitationImplPort();
-        } catch (Exception e) {
-            mav.addObject("errortext", e.getMessage());
-            return mav;
+        //Initialising and passing chebi Id as compoundId to Rhea
+        CitationsList citations = null;
+
+        RestResponse<CitationsList> response = EntryController.getMetabolightsWsClient().getCompoundCitations(compoundId);
+
+        if (response.getErr() != null) {
+            logger.error("Can't get citations for {}: {}", compoundId,response.getErr().getMessage(), response.getErr());
+        } else {
+
+            citations = response.getContent();
         }
 
-        //Initialising ResponseWrapper
-        ResponseWrapper rslt = null;
-
-        //Passing MTBLC cmound id to Modelobjectfactory class
-        Compound cmpd = ModelObjectFactory.getCompound(mtblc);
-        if (cmpd == null)
-            return printMessage("Error","The requested compound does not exist: "+ mtblc);
-
-        //Creating a list object for DataItems
-        List<DataItem> pmid = cmpd.getChebiEntity().getCitations();
-
-        //Creating a list object for ResponseWrapper
-        List<Result> rsltItems = new ArrayList<Result>();
-
-        //Iterating the dataitems to get the citation object
-        for (int x = 0; x < pmid.size(); x++) {
-            String query = pmid.get(x).getData();
-            String dataset = "metadata";
-            String resultType = "core";
-            int offSet = 0;
-            String email = "";
-
-            try {
-
-                rslt = PMCSearchService.searchPublications(query, dataset, resultType, offSet, false, email);
-                rsltItems.addAll(x, rslt.getResultList().getResult());
-            } catch (Exception e) {
-                mav.addObject("errortext", e.getMessage());
-            }
-        }
-
-        mav.addObject("citationList", rsltItems);
+        mav.addObject("citationList", citations);
 
         return mav;
+
     }
 }

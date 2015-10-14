@@ -21,16 +21,18 @@
 
 package uk.ac.ebi.metabolights.webservice.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import junit.framework.Assert;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
-import uk.ac.ebi.metabolights.repository.model.Field;
-import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.Table;
+import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedList;
 
 public class StudySerializationTest {
 
@@ -41,6 +43,18 @@ public class StudySerializationTest {
 		test.setTitle("title");
 
 		test.setSampleTable(getTestTable());
+		// Has to be without timestamp
+		test.setStudyPublicReleaseDate(IsaTab2MetaboLightsConverter.isaTabDate2Date("2015-07-01"));
+
+		User user = new User();
+		test.getUsers().add(user);
+
+		Backup newBackup = new Backup(new File("."), new Date());
+
+		LinkedList<Backup> backups = new LinkedList<>();
+		backups.add(newBackup);
+		test.setBackups(backups);
+
 
 		return test;
 	}
@@ -61,23 +75,32 @@ public class StudySerializationTest {
 
 
 	@Test
-	public void testSerialization() throws JsonProcessingException {
+	public void testSerialization() throws IOException {
 
 
 		Study study = getTestStudy();
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
 		String studyString = mapper.writeValueAsString(study);
 
-
 		Assert.assertTrue("Test serialization of a title", studyString.contains("\"title\":\"title\""));
-
 
 		// Test serialization of fields
 		Assert.assertTrue("Test serialization of a fields", studyString.contains("\"header\":\"Field1\""));
 
+		// Test serialization of users
+		Assert.assertTrue("Test serialization of a users", studyString.contains("\"users\":[{"));
+
+		// Test serialization of users, listofallstatus not serialized
+		Assert.assertFalse("listofstatus is being serialized!", studyString.contains("listOfAllStatus"));
+
+
+		// Test deserialisation now
+		Study deserializedStudy = mapper.readValue(studyString,Study.class);
+
+		Assert.assertTrue("Public release date is not properly kept during serialization and parsing.", DateUtils.isSameDay(study.getStudyPublicReleaseDate(),deserializedStudy.getStudyPublicReleaseDate()));
 
 	}
 
@@ -88,7 +111,6 @@ public class StudySerializationTest {
 		Table table = getTestTable();
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GuavaModule());
 
 		String tableString = mapper.writeValueAsString(table);
 
@@ -109,5 +131,7 @@ public class StudySerializationTest {
 		Assert.assertEquals("Test field 1", field1.getHeader(), newField1.getHeader());
 
 	}
+
+
 
 }

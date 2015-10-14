@@ -42,10 +42,9 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
 import junit.framework.TestCase;
-import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 
@@ -68,8 +67,7 @@ public class ImporterTests extends TestCase{
 		connectionProvider = new ConnectionProvider() {
 			@Override
 			public Connection getConnection() {
-				// Set up a simple configuration that logs on the console.
-				BasicConfigurator.configure();
+
 
 				DatabaseInstance dbi = null;
 				try {

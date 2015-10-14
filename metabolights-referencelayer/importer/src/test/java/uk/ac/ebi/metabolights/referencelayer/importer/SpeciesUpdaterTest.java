@@ -21,21 +21,18 @@
 
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 
 import java.sql.Connection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * User: conesa
@@ -52,8 +49,6 @@ public class SpeciesUpdaterTest {
     @BeforeClass
     public static void setUp() throws Exception {
 
-        // Set up a simple configuration that logs on the console.
-        BasicConfigurator.configure();
 
         DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
 		//DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");

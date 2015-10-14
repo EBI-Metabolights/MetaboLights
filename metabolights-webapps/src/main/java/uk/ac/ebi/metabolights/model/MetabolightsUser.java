@@ -27,6 +27,7 @@ import uk.ac.ebi.metabolights.authenticate.AppRole;
 import uk.ac.ebi.metabolights.service.CountryService;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
 
@@ -36,10 +37,11 @@ import java.util.*;
  *
  */
 @Entity
-@Table(name = "USER_DETAIL")
+//@Table(name = "USER_DETAIL")
+@Table(name = "users")
 //Oracle sequence, comment this *out* for MySQL
-@SequenceGenerator(name="userSeq", sequenceName="USER_DETAIL_SEQ", allocationSize=1)
-
+//@SequenceGenerator(name="userSeq", sequenceName="USER_DETAIL_SEQ", allocationSize=1)
+//
 public class MetabolightsUser implements Serializable{
 
 	public static enum UserStatus {
@@ -60,18 +62,17 @@ public class MetabolightsUser implements Serializable{
 	public MetabolightsUser() {
 		//Some default values
 		this.authorities = EnumSet.of(AppRole.ROLE_SUBMITTER);
-		this.objectType="Person";
-		this.status=UserStatus.NEW.getValue();
+		this.status=UserStatus.NEW;
 		this.joinDate=new java.util.Date();
 		this.apiToken = UUID.randomUUID().toString();
 		this.role = AppRole.ROLE_SUBMITTER.ordinal();
-
 	}
 
 	@Id
 	@Column(name="ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
     // Use this line for ORACLE DB
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="userSeq")
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="userSeq")
 
     // Use this for MYSQL
     // @GeneratedValue
@@ -90,14 +91,11 @@ public class MetabolightsUser implements Serializable{
 	private String dbPassword;
 
 	@Transient
-    @NotEmpty
+//    @NotEmpty
     private String userVerifyDbPassword;
 
 	@Transient
 	private Set<AppRole> authorities;
-
-	@Column(name="OBJ_TYPE")
-	private String objectType;
 
 	@Column(name="JOINDATE")
 	private Date joinDate;
@@ -118,34 +116,30 @@ public class MetabolightsUser implements Serializable{
     @NotEmpty
 	private String affiliation;
 
-	@Column(name="AFFILIATION_URL")
+	@Column(name="AFFILIATIONURL")
 	@NotEmpty
     private String affiliationUrl;
 
 	// Extra Metabolights column to be able to create a user account
 	// that still needs approval.
 	@Column(name="STATUS")
-    @NotEmpty
-	private String status;
+    @NotNull
+	private UserStatus status;
 
     @Column(name="ROLE")
     private Integer role;
 
-    @Column(name="API_TOKEN")
+    @Column(name="APITOKEN")
     @NotEmpty
     private String apiToken;
+
+	@Column(name="ORCID")
+	private String orcid;
+
 
 	//_______________________________________________
 	// Getters and setters
 	//_______________________________________________
-
-	public String getObjectType() {
-		return objectType;
-	}
-
-	public void setObjectType(String objectType) {
-		this.objectType = objectType;
-	}
 
 	public Date getJoinDate() {
 		return joinDate;
@@ -268,11 +262,11 @@ public class MetabolightsUser implements Serializable{
 		return UserStatus.values();
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(UserStatus status) {
 		this.status = status;
 	}
 
-	public String getStatus() {
+	public UserStatus getStatus() {
 		return status;
 	}
 
@@ -302,4 +296,19 @@ public class MetabolightsUser implements Serializable{
     public void setApiToken(String apiToken) {
         this.apiToken = apiToken;
     }
+
+	public String getOrcid() {
+		return orcid;
+	}
+
+	public void setOrcid(String orcid) {
+		this.orcid = orcid;
+	}
+
+	public String getFullName(){
+		return  (
+				(firstName == null?"":firstName) + " " +
+						(lastName == null?"":lastName)
+		).trim();
+	}
 }

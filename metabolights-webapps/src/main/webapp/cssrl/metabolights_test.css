@@ -57,6 +57,18 @@ div#local-title.logo-title span {
     padding-right: 0px;
 }
 
+.iconTick {
+    color : darkgreen;
+}
+
+.iconCross {
+    color : indianred;
+}
+
+.iconCrossNeutral {
+    color : orange;
+}
+
 div .box {
     background-color: #ffffff;
     margin: 3px 0px 3px 0px;
@@ -636,7 +648,7 @@ H4 span.icon {
 }
 
 section {
-    padding-top: 50px;
+    padding-top: 20px;
 }
 
 section h3,
@@ -705,4 +717,161 @@ legend span.ebiicon{
 }
 legend span.ebiicon:hover{
     background-color: #ffffff;
+}
+
+
+/*Study statuses progress*/
+ol.progtrckr {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+ol.progtrckr li {
+    display: inline-block;
+    text-align: center;
+    line-height: 3em;
+}
+
+ol.progtrckr[data-progtrckr-steps="2"] li { width: 49%; }
+ol.progtrckr[data-progtrckr-steps="3"] li { width: 33%; }
+ol.progtrckr[data-progtrckr-steps="4"] li { width: 24%; }
+ol.progtrckr[data-progtrckr-steps="5"] li { width: 19%; }
+ol.progtrckr[data-progtrckr-steps="6"] li { width: 16%; }
+ol.progtrckr[data-progtrckr-steps="7"] li { width: 14%; }
+ol.progtrckr[data-progtrckr-steps="8"] li { width: 12%; }
+ol.progtrckr[data-progtrckr-steps="9"] li { width: 11%; }
+
+ol.progtrckr li.progtrckr-done {
+    color: black;
+    border-bottom: 4px solid #C58A4D;
+}
+ol.progtrckr li.progtrckr-todo {
+    color: silver;
+    border-bottom: 4px solid silver;
+}
+
+ol.progtrckr li:after {
+    content: "\00a0\00a0";
+}
+ol.progtrckr li:before {
+    position: relative;
+    bottom: -2.5em;
+    float: left;
+    left: 50%;
+    line-height: 1em;
+}
+ol.progtrckr li.progtrckr-done:before {
+    content: "\2713";
+    color: white;
+    background-color: #C58A4D;
+    height: 1.2em;
+    width: 1.2em;
+    line-height: 1.2em;
+    border: none;
+    border-radius: 1.2em;
+}
+ol.progtrckr li.progtrckr-todo:before {
+    content: "\039F";
+    color: silver;
+    background-color: white;
+    font-size: 1.5em;
+    bottom: -1.6em;
+}
+
+
+/* Study actions*/
+/*Css menu*/
+#cssmenu
+{
+    margin-top:15px;
+    z-index : 1;
+    display: inline;
+    background-color: #804D19;
+}
+
+#cssmenu ul
+{
+    list-style:none;
+    position:relative;
+    float:left;
+    margin:0;
+    padding:0;
+    background-color: inherit;
+
+}
+
+#cssmenu ul a
+{
+    display:block;
+    /*color:#333;*/
+    text-decoration:none;
+    /*font-weight:700;*/
+    font-size:13px;
+    /*line-height:32px;*/
+    padding:0 15px;
+    /*font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif*/
+}
+
+#cssmenu ul li
+{
+    position:relative;
+    float:left;
+    margin:0;
+    padding:0;
+    z-index: 1;
+
+}
+
+#cssmenu ul li.current-menu-item
+{
+    background:inherit;
+}
+
+#cssmenu ul li:hover
+{
+    background-color:inherit;
+    opacity: 1;
+}
+
+#cssmenu ul ul
+{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    background-color:inherit;
+    padding:0;
+    z-index : 1;
+}
+
+#cssmenu ul ul li
+{
+    float:none;
+    width:200px;
+    background-color: inherit;
+
+}
+
+#cssmenu ul ul a
+{
+    line-height:120%;
+    padding:10px 15px;
+}
+
+#cssmenu ul ul ul
+{
+    top:0;
+    left:100%
+}
+
+#cssmenu ul li:hover > ul
+{
+    display:block
+}
+
+
+
+#search-extras {
+ top: -50px;
 }

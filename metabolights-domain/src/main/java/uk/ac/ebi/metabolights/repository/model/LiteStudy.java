@@ -21,14 +21,18 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.utils.json.NumberUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -40,140 +44,208 @@ import java.util.List;
  * Date: 24/02/15
  * Time: 09:38
  */
-public class LiteStudy extends LiteEntity {
 
-	public enum StudyStatus{
-		PRIVATE, PENDING, APPROVED, PUBLIC
-	}
+@JsonTypeName("LiteStudy")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Study.class, name = "Study")
 
-	private static final Logger logger = LoggerFactory.getLogger(LiteStudy.class);
+})
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class LiteStudy extends Entity {
 
-	private String studyIdentifier;
-	private String title;
+    public enum StudyStatus {
+        SUBMITTED("Submitted", "The study is private to you only. You are able to make any changes, including deletion of the study. This submission will have to pass our initial automated validation checks before we can start our curation."),
+        INCURATION("In curation", "At this stage you cannot make any changes. Be advised that further information may be required, and we may contact you to obtain this"),
+        INREVIEW("In review", "Approved by our curation team. Ready to be shared with journals and reviewers."),
+        PUBLIC("Public", "Anyone can view and download you study. It is searchable and will be exported to other search engines, such as http://metabolomexchange.org/");
+        private final String descriptiveName;
 
-	// Database fields
-	private Study.StudyStatus studyStatus = Study.StudyStatus.PRIVATE;
-	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	private Date studyPublicReleaseDate;
-	private String obfuscationCode = java.util.UUID.randomUUID().toString();
+        public String getDescription() {
+            return description;
+        }
 
+        public String getDescriptiveName() {
+            return descriptiveName;
+        }
 
-	// Collections
-	private Collection<StudyFactor> factors;
-	private Collection<Organism> organism;
-	@JsonProperty
-	private List<User> users = new ArrayList<>();
-	private ObservableList<User> usersObserver = FXCollections.observableList(users);
+        private final String description;
 
-	public LiteStudy(){
+        StudyStatus(String descriptiveName, String description) {
+            this.descriptiveName = descriptiveName;
+            this.description = description;
+        }
+    }
 
-		initialize();
-	}
+    private static final Logger logger = LoggerFactory.getLogger(LiteStudy.class);
 
-	private void initialize(){
+    private String studyIdentifier;
+    private String title;
 
-		// Configure the user listener collection.
-		listenToUsersListChanges();
+    // Database fields
+    private Study.StudyStatus studyStatus = Study.StudyStatus.SUBMITTED;
 
-	}
+    // Dates
+    private Date studyPublicReleaseDate;
+    private Date updateDate;
+    private Date studySubmissionDate;
 
-	private void listenToUsersListChanges() {
-
-		usersObserver.addListener(new ListChangeListener<User>() {
-			@Override
-			public void onChanged(Change<? extends User> change) {
-
-				change.next();
-
-				if (change.wasAdded()) {
-					//Add the study to the user
-					addStudyToUsers(change.getAddedSubList());
-				}
-			}
-		});
-
-	}
-
-	private void addStudyToUsers(List<? extends User> addedUsers) {
-		for (User addedUser : addedUsers) {
-			addedUser.getStudies().add(this);
-		}
-	}
-
-	public String getStudyIdentifier() {
-		return studyIdentifier;
-	}
-
-	public void setStudyIdentifier(String studyIdentifier) {
-		this.studyIdentifier = studyIdentifier;
-	}
-
-	public Date getStudyPublicReleaseDate() {
-		return studyPublicReleaseDate;
-	}
-
-	public void setStudyPublicReleaseDate(Date studyPublicReleaseDate) {
-		this.studyPublicReleaseDate = studyPublicReleaseDate;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    private String obfuscationCode = java.util.UUID.randomUUID().toString();
+    private BigDecimal studySize = new BigDecimal(0);
 
 
-	public boolean isPublicStudy() {
-		return studyStatus.equals(StudyStatus.PUBLIC);
-	}
+    // Collections
+    private Collection<StudyFactor> factors;
+    @JsonProperty
+    private List<User> users = new ArrayList<>();
+    private ObservableList<User> usersObserver = FXCollections.observableList(users);
 
-	public StudyStatus getStudyStatus() {
-		return studyStatus;
-	}
+    private List<String> isatabErrorMessages = new ArrayList<>();
 
-	public void setStudyStatus(StudyStatus studyStatus) {
-		this.studyStatus = studyStatus;
-	}
 
-	public Collection<StudyFactor> getFactors() {
-		return factors;
-	}
+    private String studyHumanReadable = "";
 
-	public void setFactors(Collection<StudyFactor> factors) {
-		this.factors = factors;
-	}
+    public LiteStudy() {
 
-	public Collection<Organism> getOrganism() {
-		return organism;
-	}
+        initialize();
+    }
 
-	public void setOrganism(Collection<Organism> organism) {
-		this.organism = organism;
-	}
+    private void initialize() {
 
-	public List<User> getUsers() {
-		return usersObserver;
-	}
+        // Configure the user listener collection.
+        listenToUsersListChanges();
 
-	public void setUsers(List<User> users) {
+    }
 
-		// To keep observableList in sync, do not overwrite the users, since the observer will not observe the new list
+    private void listenToUsersListChanges() {
+
+        usersObserver.addListener(new ListChangeListener<User>() {
+            @Override
+            public void onChanged(Change<? extends User> change) {
+
+                change.next();
+
+                if (change.wasAdded()) {
+                    //Add the study to the user
+                    addStudyToUsers(change.getAddedSubList());
+                }
+            }
+        });
+
+    }
+
+    private void addStudyToUsers(List<? extends User> addedUsers) {
+        for (User addedUser : addedUsers) {
+            addedUser.getStudies().add(this);
+        }
+    }
+
+    public String getStudyIdentifier() {
+        return studyIdentifier;
+    }
+
+    public void setStudyIdentifier(String studyIdentifier) {
+        this.studyIdentifier = studyIdentifier;
+    }
+
+    public Date getStudyPublicReleaseDate() {
+        return studyPublicReleaseDate;
+    }
+
+    public void setStudyPublicReleaseDate(Date studyPublicReleaseDate) {
+
+
+        this.studyPublicReleaseDate = studyPublicReleaseDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Date getStudySubmissionDate() {
+        return studySubmissionDate;
+    }
+
+    public void setStudySubmissionDate(Date studySubmissionDate) {
+        this.studySubmissionDate = studySubmissionDate;
+    }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isPublicStudy() {
+        return studyStatus.equals(StudyStatus.PUBLIC);
+    }
+
+    public StudyStatus getStudyStatus() {
+        return studyStatus;
+    }
+
+    public void setStudyStatus(StudyStatus studyStatus) {
+        this.studyStatus = studyStatus;
+    }
+
+    public Collection<StudyFactor> getFactors() {
+        return factors;
+    }
+
+    public void setFactors(Collection<StudyFactor> factors) {
+        this.factors = factors;
+    }
+
+    public List<User> getUsers() {
+        return usersObserver;
+    }
+
+    public void setUsers(List<User> users) {
+
+        // To keep observableList in sync, do not overwrite the users, since the observer will not observe the new list
 //		this.users = users;
 
-		usersObserver.clear();
-		usersObserver.addAll(users);
-	}
+        usersObserver.clear();
+        usersObserver.addAll(users);
+    }
 
-	public String getObfuscationCode() {
-		return obfuscationCode;
-	}
+    public String getObfuscationCode() {
+        return obfuscationCode;
+    }
 
-	public void setObfuscationCode(String obfuscationCode) {
-		this.obfuscationCode = obfuscationCode;
-	}
+    public void setObfuscationCode(String obfuscationCode) {
+        this.obfuscationCode = obfuscationCode;
+    }
 
+    public BigDecimal getStudySize() {
+        return studySize;
+    }
+
+    public void setStudySize(BigDecimal studysize) {
+        this.studySize = studysize;
+        this.setStudyHumanReadable(NumberUtils.getHumanReadableByteSize(studysize));
+    }
+
+    public String getStudyHumanReadable() {
+        return studyHumanReadable;
+    }
+
+    public void setStudyHumanReadable(String studyHumanReadable) {
+        this.studyHumanReadable = studyHumanReadable;
+    }
+    public List<String> getIsatabErrorMessages() {
+        return isatabErrorMessages;
+    }
+
+    public void setIsatabErrorMessages(List<String> isatabErrorMessages) {
+        this.isatabErrorMessages = isatabErrorMessages;
+    }
 
 
 }

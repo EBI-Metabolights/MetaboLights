@@ -13,7 +13,8 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IMetPathwayDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.*;
+import uk.ac.ebi.metabolights.referencelayer.model.*;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 import java.io.File;
 import java.io.IOException;
@@ -269,7 +270,7 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 	 * <br>
 	 * @throws java.sql.SQLException
 	 */
-	public void delete(Identifier pathway) throws DAOException {
+	public void delete(Entity pathway) throws DAOException {
 
 		// Delete the Pathway
 		deletePathway(pathway);
@@ -280,7 +281,7 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 	 * <br>
 	 * @throws java.sql.SQLException
 	 */
-	private void deletePathway(Identifier pathway)	throws DAOException {
+	private void deletePathway(Entity pathway)	throws DAOException {
 		try {
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--delete.pathway", "--where.pathway.by.id");
 			stm.clearParameters();

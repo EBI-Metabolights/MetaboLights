@@ -11,13 +11,12 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import junit.framework.TestCase;
-import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 
 import java.sql.Connection;
 import java.util.Collection;
@@ -37,9 +36,6 @@ public class ReaderTestSpeciesDB extends TestCase{
 	@Override
 	@BeforeClass
 	protected void setUp() throws Exception {
-
-		// Set up a simple configuration that logs on the console.
-	    BasicConfigurator.configure();
 
 		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();
@@ -175,7 +171,7 @@ public class ReaderTestSpeciesDB extends TestCase{
 
 		assertNotNull(species);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id", Long.parseLong(expectedvalues[0]), species.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id", Long.parseLong(expectedvalues[0]), species.getId().longValue());
 		assertEquals("Checking Species name" , expectedvalues[1] , species.getSpecies());
         assertEquals("Checking Species description" , expectedvalues[2] , species.getDescription());
         assertEquals("Checking Species taxon" , expectedvalues[3] , species.getTaxon());

@@ -22,9 +22,8 @@
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
 import junit.framework.TestCase;
-import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
 import org.junit.BeforeClass;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -46,8 +45,6 @@ public class RheaMatcherTest extends TestCase {
     @BeforeClass
     protected void setUp() throws Exception {
 
-        // Set up a simple configuration that logs on the console.
-        BasicConfigurator.configure();
 
     }
 

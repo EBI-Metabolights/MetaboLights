@@ -21,18 +21,25 @@
 
 package uk.ac.ebi.metabolights.search.service;
 
+import uk.ac.ebi.metabolights.repository.model.Entity;
+
+import java.util.List;
+
 /**
  * User: conesa
  * Date: 02/12/14
  * Time: 09:00
  */
-public interface SearchService<E,L> {
+public interface SearchService<E extends Entity> {
+
+
 
 
 	// Abstract methods
-	public String getStatus();
+	public List<String> getStatus();
 	public void delete(String id) throws IndexingFailureException;
 	public void resetIndex() throws IndexingFailureException;
-	public SearchResult<L> search(SearchQuery query);
+	public void deleteIndex();
+	public SearchResult<E> search(SearchQuery query);
 	public void index(E entity) throws IndexingFailureException;
 }

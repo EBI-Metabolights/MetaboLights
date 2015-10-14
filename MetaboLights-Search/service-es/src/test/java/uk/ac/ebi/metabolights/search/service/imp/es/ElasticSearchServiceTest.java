@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
@@ -49,8 +50,7 @@ public class ElasticSearchServiceTest {
 	ElasticSearchService elasticSearchService = new ElasticSearchService();
 	StudyDAO studyDAO;
 	private static String ISATAB_CONFIG_FOLDER;
-	private static String PRIVATE_FOLDER;
-	private static String PUBLIC_FOLDER;
+	private static String STUDIES_FOLDER;
 	private UserData notOwner;
 	private UserData curator;
 	private UserData owner;
@@ -65,17 +65,16 @@ public class ElasticSearchServiceTest {
 
 
 		String studiesFolderName = System.getenv("STUDIES_FOLDER");
-		Assert.assertNotNull("STUDIES_FOLDER: Studies folder variable provided.", studiesFolderName);
+		Assert.assertNotNull("STUDIES_FOLDER: Studies folder variable NOT provided.", studiesFolderName);
 
 		curatorToken = System.getenv("CURATOR_TOKEN");
 
-		PRIVATE_FOLDER = studiesFolderName + "/private";
-		PUBLIC_FOLDER = studiesFolderName + "/public";
+		STUDIES_FOLDER = studiesFolderName ;
 
 
 		ISATAB_CONFIG_FOLDER = System.getenv("ISATAB_CONFIG_FOLDER");
 
-		Assert.assertNotNull("ISATAB_CONFIG_FOLDER: ISA Configuration folder variable provided.", ISATAB_CONFIG_FOLDER);
+		Assert.assertNotNull("ISATAB_CONFIG_FOLDER: ISA Configuration folder variable NOT provided.", ISATAB_CONFIG_FOLDER);
 
 
 		// Configure database connection
@@ -86,7 +85,7 @@ public class ElasticSearchServiceTest {
 
 		configuration.setProperties(hibernateProperties);
 
-		DAOFactory.initialize(ISATAB_CONFIG_FOLDER, PUBLIC_FOLDER, PRIVATE_FOLDER, configuration);
+		DAOFactory.initialize(ISATAB_CONFIG_FOLDER, STUDIES_FOLDER, configuration);
 
 		// Get the studyDAO.
 		studyDAO = DAOFactory.getInstance().getStudyDAO();
@@ -116,10 +115,10 @@ public class ElasticSearchServiceTest {
 		session.save(owner);
 
 		// Add study data
-		uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO dbStudyDAO = new uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO();
+//		uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO dbStudyDAO = new uk.ac.ebi.metabolights.repository.dao.hibernate.StudyDAO();
 
 		privateStudy = new StudyData();
-		privateStudy.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+		privateStudy.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
 		privateStudy.setAcc("MTBLS5");
 		privateStudy.getUsers().add(owner);
 		session.save(privateStudy);
@@ -136,9 +135,7 @@ public class ElasticSearchServiceTest {
 		publicStudy2.getUsers().add(curator);
 		session.save(publicStudy2);
 
-
 		session.noNeedSession();
-
 
 	}
 
@@ -167,7 +164,7 @@ public class ElasticSearchServiceTest {
 
 		SearchQuery query = new SearchQuery(publicStudy.getAcc());
 
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Entity> result = elasticSearchService.search(query);
 
 		Assert.assertTrue(publicStudy.getAcc() + " study is found" ,result.getResults().size() ==1);
 
@@ -175,14 +172,17 @@ public class ElasticSearchServiceTest {
 
 		Assert.assertEquals(publicStudy.getAcc() + " LiteStudy id populated", publicStudy.getAcc() , mtbls1.getStudyIdentifier());
 		Assert.assertNotNull(publicStudy.getAcc() + " LiteStudy title populated", mtbls1.getTitle());
+
+		// With dates
 		Assert.assertEquals(publicStudy.getAcc() + " LiteStudy public release date populated", publicStudy.getReleaseDate(), mtbls1.getStudyPublicReleaseDate());
 
+		// Users collection has one user
+		Assert.assertEquals(publicStudy.getAcc() + " LiteStudy users collection should have 1 user", 1, mtbls1.getUsers().size() );
 
 	}
 
 	@Test
 	public void testSecureSearch(){
-
 
 		// Test a not owner
 		SearchQuery query = new SearchQuery(SEARCH_TO_HIT_ALL);
@@ -190,7 +190,7 @@ public class ElasticSearchServiceTest {
 
 		// Test notOwner all available
 		// This should return all
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Entity> result = elasticSearchService.search(query);
 		Assert.assertTrue(" Only public studies should be found" ,result.getResults().size() ==2);
 
 
@@ -237,7 +237,7 @@ public class ElasticSearchServiceTest {
 		query.setUser(new SearchUser(curator.getUserName(), true));
 		query.getPagination().setPageSize(PAGE_SIZE);
 
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Entity> result = elasticSearchService.search(query);
 
 		Assert.assertEquals("Results size should fit pageSize",PAGE_SIZE, result.getResults().size());
 		Assert.assertEquals("Total count test", STUDIES_COUNT, result.getQuery().getPagination().getItemsCount());
@@ -264,7 +264,7 @@ public class ElasticSearchServiceTest {
 		Facet technologyFacet = new Facet("assays.technology");
 		query.getFacets().add(technologyFacet);
 
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Entity> result = elasticSearchService.search(query);
 
 		// There should be two lines in the technology facet
 		Assert.assertEquals("1 facet group",1 , result.getQuery().getFacets().size());
@@ -326,7 +326,7 @@ public class ElasticSearchServiceTest {
 
 		query.getFacets().add(technologyFacet);
 
-		SearchResult<LiteEntity> result = elasticSearchService.search(query);
+		SearchResult<Entity> result = elasticSearchService.search(query);
 
 		// There should be two lines in the technology facet
 		Assert.assertEquals("1 facet group",1 , result.getQuery().getFacets().size());
@@ -409,7 +409,7 @@ public class ElasticSearchServiceTest {
 
 
 	@Test
-	public void testResetIndex() throws IndexingFailureException, DAOException {
+	public void testResetIndex() throws IndexingFailureException, DAOException, IsaTabException {
 
 		// Call reset index...
 		elasticSearchService.resetIndex();
@@ -446,10 +446,11 @@ public class ElasticSearchServiceTest {
 
 	}
 
-	private void indexStudy(String accession, String userToken) throws IndexingFailureException, DAOException {
+	private void indexStudy(String accession, String userToken) throws IndexingFailureException, DAOException, IsaTabException {
 
 		Study study = studyDAO.getStudy(accession, userToken);
 
 		elasticSearchService.index(study);
 	}
+
 }

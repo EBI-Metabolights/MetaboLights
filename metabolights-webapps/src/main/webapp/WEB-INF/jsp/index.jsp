@@ -25,78 +25,29 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<script>
+<%--<script>--%>
 
-    // increase the default animation speed to exaggerate the effect
-    $.fx.speeds._default = 1500;
-    $(function() {
-        $( "#dialog" ).dialog({
-            autoOpen: true,
-            show: "slide",
-            position: ['center',200]
-        });
+<%--// increase the default animation speed to exaggerate the effect--%>
+<%--$.fx.speeds._default = 1500;--%>
+<%--$(function() {--%>
+<%--$( "#dialog" ).dialog({--%>
+<%--autoOpen: true,--%>
+<%--show: "slide",--%>
+<%--position: ['center',200]--%>
+<%--});--%>
 
-    });
+<%--});--%>
 
-</script>
+<%--</script>--%>
 <br/>
-<c:if test="${not empty message}">
-    <div id="dialog" title="MetaboLights message">
-        <p><b><c:out value="${message}"/></b></p>
+<div class="grid_24">
+    <div class="grid_6 alpha lp20">
+        <h2><spring:message code="title.serviceName" /></h2>
+        <p><spring:message code="msg.metabolightsAbout1" />&nbsp;<spring:message code="msg.metabolightsAbout" /></p>
     </div>
-</c:if>
 
 
-<c:if test="${not empty gallery}">
-	<br/>
-	<div id="boxes" class="grid_14 alpha omega mb-wrapper">
-	 	<c:forEach var="item" items="${gallery}">
-
-            <c:set var="title" value="${item.title}"/>
-            <c:set var="description" value="${item.description}"/>
-
-            <div>
-			<a href="${item.url}">
-			<table>
-                <tr>
-                    <c:if test="${not empty item.imgUrl}">
-                        <c:if test="${fn:length(title) gt 55}"><c:set var="title" value="${fn:substring(title, 0, 52)}..."/></c:if>
-                        <c:if test="${fn:length(description) gt 90}"><c:set var="description" value="${fn:substring(description, 0, 87)}..."/></c:if>
-                        <td style="width:150px;"><img src="${item.imgUrl}" onerror="this.src='img/large_noImage.gif';"/></td>
-                        <td>
-                            <a href="${item.url}">
-                            <h6 title="${item.title}">${title}</h6>
-                            <p>${description}</p>
-                            </a>
-                        </td>
-                    </c:if>
-                    <c:if test="${empty item.imgUrl}">
-                        <c:if test="${fn:length(title) gt 40}"><c:set var="title" value="${fn:substring(title, 0, 37)}..."/></c:if>
-                        <c:if test="${fn:length(description) gt 120}"><c:set var="description" value="${fn:substring(description, 0, 117)}..."/></c:if>
-                        <td>
-                            <a href="${item.url}">
-                            <h6>${title}</h6>
-                            <p>${description}</p>
-                            </a>
-                        </td>
-                    </c:if>
-                </tr>
-			</table>
-
-			</a>
-			</div>
-	 	</c:forEach>
-	</div>
-
-</c:if>
-
-<br/><br/>
-<div class="grid_5 alpha">
-    <h2><spring:message code="title.serviceName" /></h2>
-    <p><spring:message code="msg.metabolightsAbout1" />&nbsp;<spring:message code="msg.metabolightsAbout" /></p>
-</div>
-
-<div class="grid_11">
+    <div class="grid_10">
         <h2><spring:message code="title.download" /></h2>
         <p>
             <a class="icon icon-generic bigfont" data-icon="T" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
@@ -107,12 +58,22 @@
             <a class="icon icon-functional bigfont" data-icon="A" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
             <spring:message code="msg.metabolightsAbout7" />
         </p>
-</div>
+    </div>
 
-<div class="grid_8 omega">
+    <div class="grid_7">
+        <a class="twitter-timeline"  href="https://twitter.com/MetaboLights" data-widget-id="642268788906422272">Tweets by @MetaboLights</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+</div>
+<br/>
+
+<br/><br/>
+
+
+<div class="grid_24">
     <%--<h2><spring:message code="title.submit"/> </h2>--%>
     <br/><br/><br/>
-    <div class='grid_20 alpha omega prefix_2'>
+    <div class='grid_8 prefix_3 postfix_2'>
         <a href="submittoqueue">
             <div class="bigbutton maincolorI">
                 <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
@@ -120,37 +81,16 @@
             </div>
         </a>
     </div>
-    <div class="grid_24"><p>&nbsp;</p></div>
-    <div class='grid_20 alpha omega prefix_2'>
+    <div class='grid_8 prefix_2 postfix_2'>
         <a href="mysubmissions?status=PRIVATE">
             <div class="bigbutton seccolorI">
 
                 <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
                 <span><spring:message code="label.updateOldStudySub"/></span>
+                </br>
             </div>
         </a>
     </div>
 </div>
-
-
-
-<script>
-	/* $('.coolframe').shadow('lifted'); */
-
-	$(function(){
-	 $('#boxes').movingBoxes({
-		 startPanel: 1,
-		 currentPanel: 'current',
-		 speed: 0,
-		 initialized: function(e, slider, tar){
-		 	slider.options.speed = 500;
-		 },
-		 reducedSize:1,
-		 wrap: true,
-		 fixedHeight: true
-	 }); // add any non-default options inside here
-	});
-
-</script>
 
 

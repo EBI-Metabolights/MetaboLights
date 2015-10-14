@@ -47,10 +47,10 @@ import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
-import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.domain.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
+import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 import uk.ac.ebi.rhea.ws.client.RheaResourceClient;
 import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 
@@ -65,7 +65,7 @@ import java.util.*;
 
 public class ReferenceLayerImporter {
 
-    private Logger LOGGER = LoggerFactory.getLogger(ReferenceLayerImporter.class);
+	private Logger LOGGER = LoggerFactory.getLogger(ReferenceLayerImporter.class);
 
 	private ConnectionProvider connectionProvider;
     private MetaboLightsCompoundDAO mcd;
@@ -254,7 +254,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 	 */
 	public void refreshMTBLC() throws DAOException, IOException {
 
-		// Get all the MTBLC items
+		// Get all the MTBLC_PREFIX items
 		Set<MetaboLightsCompound> mtblcToRefresh = mcd.getAllCompounds();
 
 		// For each compound
@@ -333,7 +333,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 		try {
 
-			String accession = chebiID2MetaboLightsID(entity.getChebiId());
+			String accession = MetaboLightsCompoundDAO.chebiID2MetaboLightsID(entity.getChebiId());
 
 
 			// Check if we have already the Metabolite (since querying the WS is what takes more...)
@@ -366,7 +366,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 			}
 
-			mc.setAccession(chebiID2MetaboLightsID(entity.getChebiId()));
+			mc.setAccession(MetaboLightsCompoundDAO.chebiID2MetaboLightsID(entity.getChebiId()));
 			mc.setChebiId(entity.getChebiId());
 			mc.setName(entity.getChebiAsciiName());
 
@@ -609,11 +609,6 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
         }
 
         return null;
-    }
-
-
-    private String chebiID2MetaboLightsID(String chebiID){
-        return (chebiID.replaceFirst("CHEBI:", "MTBLC"));
     }
 }
 

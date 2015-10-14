@@ -51,7 +51,7 @@ public class User {
 //
 	public User() {
 		//Some default values
-		this.role = AppRole.ROLE_SUBMITTER;
+		this.role = AppRole.ANONYMOUS;
 		this.status= UserStatus.NEW;
 		this.joinDate=new Date();
 	}
@@ -85,6 +85,8 @@ public class User {
 	private AppRole role;
 
 	private String apiToken = java.util.UUID.randomUUID().toString();
+
+	private String orcid;
 
 	private Set<LiteStudy> studies = new HashSet<LiteStudy>();
 
@@ -225,6 +227,14 @@ public class User {
 
 	public void setApiToken(String api_token) {
 		this.apiToken = api_token;
+	}
+
+	public String getOrcid() {
+		return orcid;
+	}
+
+	public void setOrcid(String orcid) {
+		this.orcid = orcid;
 	}
 
 	@JsonIgnore

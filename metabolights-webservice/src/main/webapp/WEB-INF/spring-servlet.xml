@@ -35,70 +35,98 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+
+
     <context:component-scan base-package="uk.ac.ebi.metabolights.webservice" />
     <!--<context:annotation-config/>-->
 
     <!--  this makes references to picture and style sheets work -->
     <mvc:annotation-driven/>
 
-    <!-- JSON parser configuration-->
-    <!--<bean id="guavaObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>-->
-
-    <!--<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
-        <!--<property name="targetObject"><ref local="guavaObjectMapper" /></property>-->
-        <!--<property name="targetMethod"><value>registerModule</value></property>-->
-        <!--<property name="arguments">-->
-            <!--<list>-->
-                <!--<bean id="guavaModule" class="com.fasterxml.jackson.datatype.guava.GuavaModule"/>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
-
-
-    <!--<mvc:annotation-driven>-->
-        <!--<mvc:message-converters register-defaults="true">-->
-            <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
-                <!--<property name="objectMapper">-->
-                    <!--<ref  local="guavaObjectMapper"/>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</mvc:message-converters>-->
-    <!--</mvc:annotation-driven>-->
-
     <mvc:default-servlet-handler/>
 
-    <jee:jndi-lookup id="isatabConfigurationLocation" jndi-name="java:comp/env/isatabConfigurationLocation" />
-    <jee:jndi-lookup id="publicStudiesLocation" jndi-name="java:comp/env/publicStudiesLocation" />
-    <jee:jndi-lookup id="privateStudiesLocation" jndi-name="java:comp/env/privateStudiesLocation" />
+    <!--
+	Provider of SpringApplication Context
+	Source: http://blog.jdevelop.eu/2008/07/06/access-the-spring-applicationcontext-from-everywhere-in-your-application/
+	-->
+    <bean id="contextApplicationContextProvider" class="uk.ac.ebi.metabolights.webservice.services.ApplicationContextProvider"></bean>
+
+    <!--  register the application properties -->
+    <bean id="propertyConfigurer" class="uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <!--<value>classpath:application.properties</value>-->
+                <!--<value>"file:#{isatabuploaderconfig}hibernate.properties"</value>-->
+            </list>
+        </property>
+    </bean>
+
     <jee:jndi-lookup id="dataSource" jndi-name="dataSource" resource-ref="true" />
 
+    <!--JNDI variable from tomcat context files-->
+    <jee:jndi-lookup id="isatabConfigurationLocation" jndi-name="java:comp/env/isatabConfigurationLocation" />
+    <jee:jndi-lookup id="studiesLocation" jndi-name="java:comp/env/studiesLocation" />
+    <jee:jndi-lookup id="uploadDirectory" jndi-name="java:comp/env/uploadDirectory" />
+    <jee:jndi-lookup id="ondemand" jndi-name="java:comp/env/ondemand" />
 
-    <!--&lt;!&ndash;Configure the DAOFactory initialize method&ndash;&gt;-->
-    <!--<bean id="DAOFactoryInitializer" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
-        <!--<property name="targetClass">-->
-            <!--<value>uk.ac.ebi.metabolights.repository.dao.DAOFactory</value>-->
-        <!--</property>-->
-        <!--<property name="targetMethod">-->
-            <!--<value>initializeWithDataSource</value>-->
-        <!--</property>-->
-        <!--<property name="arguments">-->
-            <!--<list>-->
-                <!--<ref bean="isatabConfigurationLocation"/>-->
-                <!--<ref bean="publicStudiesLocation"/>-->
-                <!--<ref bean="privateStudiesLocation"/>-->
-                <!--<ref bean="dataSource"/>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
+    <!-- Email service settings-->
+    <jee:jndi-lookup id="mailServer" jndi-name="java:comp/env/mailServer"/>
+    <jee:jndi-lookup id="EBIHost" jndi-name="java:comp/env/EBIHost"/>
+    <jee:jndi-lookup id="curationEmailAddress" jndi-name="java:comp/env/curationEmailAddress"/>
 
+    <jee:jndi-lookup id="stableIdPrefix" jndi-name="java:comp/env/stableIdPrefix"/>
+
+    <!-- Queue -->
+    <jee:jndi-lookup id="queueRunner" jndi-name="java:comp/env/queueRunner"/>
+
+    <jee:jndi-lookup id="userSpace" jndi-name="java:comp/env/userSpace"/>
+
+    <jee:jndi-lookup id="EUPMCWebServiceURL" jndi-name="java:comp/env/EUPMCWebServiceURL"/>
+
+
+
+    <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+
+        <property name="host"><value>#{mailServer}</value></property>
+
+        <!-- Gmail email settings -->
+        <!--<property name="port"><value>587</value></property>-->
+        <!--<property name="protocol"><value>smtp</value></property>-->
+        <!--<property name="username"><value>p.conesa.mingo</value></property>-->
+        <!--<property name="password"><value>#{mailpassword}</value></property>-->
+        <!--<property name="javaMailProperties">-->
+            <!--<props>-->
+                <!--<prop key="mail.smtp.auth">true</prop>-->
+                <!--<prop key="mail.smtp.starttls.enable">true</prop>-->
+                <!--<prop key="mail.smtp.quitwait">false</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+        <!-- End gmail settings-->
+    </bean>
+
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <value>
+                resource.loader=class
+                class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+            </value>
+        </property>
+    </bean>
+
+
+    <!-- Configure the DAOFactory-->
     <bean id="DAOFactory"
           class="uk.ac.ebi.metabolights.repository.dao.DAOFactory"
           factory-method="initializeWithDataSource">
         <constructor-arg index="0" ref="isatabConfigurationLocation"/>
-        <constructor-arg index="1" ref="publicStudiesLocation"/>
-        <constructor-arg index="2" ref="privateStudiesLocation"/>
-        <constructor-arg index="3" ref="dataSource"/>
+        <constructor-arg index="1" ref="studiesLocation"/>
+        <constructor-arg index="2" ref="dataSource"/>
+        <constructor-arg index="3" ref="stableIdPrefix"/>
     </bean>
+
 
     <bean id="userDAO"
           class="uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO"
@@ -107,26 +135,12 @@
           factory-method="getUserDAO"/>
 
 
-
-
-    <!-- Hibernate congiguration-->
-    <!--<tx:annotation-driven />-->
-    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">-->
-        <!--<property name="sessionFactory" ref="sessionFactory" />-->
-    <!--</bean>-->
-
-    <!--<bean id="sessionFactory"-->
-          <!--class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">-->
-        <!--<property name="dataSource" ref="dataSource" />-->
-        <!--<property name="packagesToScan"-->
-                  <!--value="uk.ac.ebi.metabolights.webservice.model" />-->
-        <!--<property name="hibernateProperties">-->
-            <!--<props>-->
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
-            <!--</props>-->
-        <!--</property>-->
-    <!--</bean>-->
-
     <import resource="spring-security.xml"/>
+
+
+    <bean id="searchService" class="uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService">
+        <property name="studyPrefix" value="#{stableIdPrefix}"/>
+    </bean>
+    <bean id="queueManager" class="uk.ac.ebi.metabolights.webservice.queue.SubmissionQueueManager"/>
 
 </beans>

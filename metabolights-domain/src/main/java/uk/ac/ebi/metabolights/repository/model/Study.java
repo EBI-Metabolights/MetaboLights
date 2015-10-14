@@ -21,17 +21,18 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
+
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
+@JsonTypeName("Study")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Study extends LiteStudy {
 
-public class Study extends LiteStudy{
-
-    private Date studySubmissionDate;
     private String description;
     private String studyLocation;
-
-    private Long id;
 
 
     // Collections
@@ -40,10 +41,11 @@ public class Study extends LiteStudy{
     private Collection<Publication> publications;
     private Collection<Protocol> protocols;
     private List<Assay> assays;
-
+    private Collection<Backup> backups;
+    private Validations validations = new Validations();
 
     // Tables Sample & Assays
-	private Table sampleTable;
+    private Table sampleTable;
 
     public List<Assay> getAssays() {
         return assays;
@@ -51,14 +53,6 @@ public class Study extends LiteStudy{
 
     public void setAssays(List<Assay> assays) {
         this.assays = assays;
-    }
-
-    public Date getStudySubmissionDate() {
-        return studySubmissionDate;
-    }
-
-    public void setStudySubmissionDate(Date studySubmissionDate) {
-        this.studySubmissionDate = studySubmissionDate;
     }
 
     public String getDescription() {
@@ -75,14 +69,6 @@ public class Study extends LiteStudy{
 
     public void setStudyLocation(String studyLocation) {
         this.studyLocation = studyLocation;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     // Collections
@@ -120,11 +106,26 @@ public class Study extends LiteStudy{
     }
 
     public Table getSampleTable() {
-		return sampleTable;
-	}
+        return sampleTable;
+    }
 
-	public void setSampleTable(Table sampleTable) {
-		this.sampleTable = sampleTable;
-	}
+    public void setSampleTable(Table sampleTable) {
+        this.sampleTable = sampleTable;
+    }
 
+    public Collection<Backup> getBackups() {
+        return backups;
+    }
+
+    public void setBackups(Collection<Backup> backups) {
+        this.backups = backups;
+    }
+
+    public Validations getValidations() {
+        return validations;
+    }
+
+    public void setValidations(Validations validations) {
+        this.validations = validations;
+    }
 }

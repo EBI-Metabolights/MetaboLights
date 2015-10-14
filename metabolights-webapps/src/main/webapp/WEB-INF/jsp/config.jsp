@@ -67,10 +67,14 @@ $(function() {
 
     function toggleQueue(instance) {
       $.ajax({
-        url: "proxy?url=http://" + instance + '/metabolights/togglequeue',
+        url: "togglequeue",
+        data:{
+           'user_token': '${user_token}',
+           'instance': instance
+        },
         success: function(data) {
 
-            $("[instance='" + instance + "']").html(data);
+            $("[instance='" + instance + "']").html(data.toString());
 
         }
       });
@@ -81,9 +85,13 @@ $(function() {
         var instance = statusTD.getAttribute("instance");
 
         $.ajax({
-            url: "proxy?url=http://" + instance + '/metabolights/queuestatus',
+            url: "queuestatus",
+            data:{
+                'user_token': '${user_token}',
+                'instance': instance
+            },
             success: function(data) {
-                $(statusTD).html(data);
+                $(statusTD).html(data.toString());
             }
         });
     }
@@ -111,9 +119,9 @@ $(function() {
             <li hash="properties"><a class="noLine" href="#appTab">Application Properties</a></li>
 			<li hash="queue"><a class="noLine" href="#queueTab">Queue</a></li>
 			<li hash="health"><a class="noLine" href="#studyHealthTab">Study Health</a></li>
+            <li hash="index"><a class="noLine" href="#indexTab">Index maintenace</a></li>
             <li hash="referencelayer"><a class="noLine" href="#referencelayerTab">Reference Layer</a></li>
             <li hash="parameters"><a class="noLine" href="#MetaboLightsParameters">MetaboLights Parameters</a></li>
-            <li hash="reindex"><a class="noLine" href="#reindexStudies">Reindex Studies</a></li>
 		</ul>
         <div id="valTab">
             <br/>
@@ -139,7 +147,7 @@ $(function() {
                 <table cellpadding="5px" cellspacing="0px">
                     <tr><th>DataSource - metabolights</th><th>Value</th></tr>
                     <tr>
-                        <td>url</td><td>${connection.poolProperties.url}</td>
+                        <td>url</td><td>${connection}</td>
                     </tr>
 
                 </table>
@@ -248,7 +256,7 @@ $(function() {
                         </tr>
                     </thead>
                 <c:forEach var="file" items="${errorFolder}">
-                    <tr><td>${file.name}</td></tr>
+                    <tr><td><a href="errorFile/${file.name}">${file.name}</a></td></tr>
                 </c:forEach>
                 </table>
             </c:if>
@@ -267,7 +275,7 @@ $(function() {
                 </table>
             </c:if>
             <br/><br/>
-            <c:if test="${not empty queuerunnig}">
+            <c:if test="${not empty queueRunning}">
 
                 <c:if test="${not empty instances}">
                     <table id="instances">
@@ -293,82 +301,52 @@ $(function() {
 
         <div id="studyHealthTab">
             <br/>
-            <form method="post" action="setgalleryItems">
-                <label>Gallery Items (comma separated ID):</label>
-                <input type=text value="${galleryIds}" name="galleryitems" size="60"/>
-                <input name="submit" type="submit" class="submit" value="Change gallery Items">
-            </form>
-            <br/>
+
             <c:if test="${not empty studiesHealth}">
                 <table cellpadding="5px" cellspacing="0px">
-                    <tr><th>Study</th><th>is Public?</th><th>Must be under</th><th>is it there?</th></tr>
+                    <tr><th>Study</th><th>Has folder?</th><th>In the DB</th><th>Indexed?</th><th>is Ok?</th></tr>
                     <c:forEach var="study" items="${studiesHealth}">
                         <tr>
-                            <td><a href="reindex?study=${study.identifier}" title="Reindex this study">${study.identifier}</a></td>
-                            <td>${study.isPublic}</td>
-                            <td>${study.studyPath}</td>
-                            <td <c:if test="${not study.isThere}">class="error"</c:if> >
-                                ${study.isThere}
-                            </td>
-
+                            <td><a href="reindexstudies?study=${study.identifier}" title="Reindex this study">${study.identifier}</a></td>
+                            <td>${study.itInTheFileSystem}</td>
+                            <td>${study.itInTheDB}</td>
+                            <td>${study.itInTheIndex}</td>
+                            <td <c:if test="${not(study.itInTheIndex && study.itInTheDB && study.itInTheFileSystem && true)}">class="error"</c:if>>${study.itInTheIndex && study.itInTheDB && study.itInTheFileSystem && true}</td>
                         </tr>
                     </c:forEach>
                 </table>
             </c:if>
+        </div>
 
-            <c:if test="${not empty publicFtpLocation}">
-                <br/><b>publicFtpLocation</b>
-                <table cellpadding="5px" cellspacing="0px">
-                    <thead class='text_header'>
-                    <tr>
-                        <th>File name</th>
-                    </tr>
-                    </thead>
-                    <c:forEach var="file" items="${publicFtpLocation}">
-                        <tr><td>${file.name}</td></tr>
-                    </c:forEach>
-                </table>
-            </c:if>
+        <div id="indexTab">
 
-            <c:if test="${not empty publicFtpStageLocation}">
-                <br/><b>publicFtpStageLocation</b>
-                <table cellpadding="5px" cellspacing="0px">
-                    <thead class='text_header'>
-                    <tr>
-                        <th>File name</th>
-                    </tr>
-                    </thead>
-                    <c:forEach var="file" items="${publicFtpStageLocation}">
-                        <tr><td>${file.name}</td></tr>
-                    </c:forEach>
-                </table>
-            </c:if>
+            <h3>Studies</h3>
+            <a href="deleteindexedstudies" title="Delete all indexed studies">Delete all indexed studies</a><br/>
 
-            <c:if test="${not empty privateFtpStageLocation}">
-                <br/><b>privateFtpStageLocation</b>
-                <table cellpadding="5px" cellspacing="0px">
-                    <thead class='text_header'>
-                    <tr>
-                        <th>File name</th>
-                    </tr>
-                    </thead>
-                    <c:forEach var="file" items="${privateFtpStageLocation}">
-                        <tr><td>${file.name}</td></tr>
-                    </c:forEach>
-                </table>
-            </c:if>
+            <a href="resetIndex" title="Reset index: Delete, rebuild and re-apply the mappings for studies and compounds">Reset index</a> (delete, rebuild and re-apply the mappings)<br/>
+
+            <form method="get" action="reindexstudies">
+                <label>Study to re/index:</label><input type="text" name="study"> <input type="submit" value="Index">
+            </form>
+
+            <a href="reindexstudies" title="Reindex all the studies">Reindex all the studies</a><br/>
+
+            <h3>Compounds</h3>
+            <a href="deleteindexedcompounds" title="Delete all indexed compounds">Delete all indexed compounds</a><br/>
+            <a href="reindexcompounds" title="Reindex all the compounds">Reindex all the compounds</a><br/>
+
+            <form method="get" action="reindexcompounds">
+                <label>Compound to re/index:</label><input type="text" name="compound"> <input type="submit" value="Index">
+            </form>
+
+            <h3>Status</h3>
+            <c:forEach var="message" items="${status}">
+                <p>${message}</p>
+            </c:forEach>
 
         </div>
 
         <div class="refLayerBox" id="referencelayerTab">
-            <div class="grid_24 ">
-                <div class="grid_24 title">
-                    Clear cache
-                </div>
-                <div class="grid_24">
-                    <a href="clearreflayercache">Click to clear cache</a>
-                </div>
-            </div>
             <div class="grid_24 ">
                 <div class="grid_24 title">
                     Import metabolites
@@ -388,23 +366,6 @@ $(function() {
                 </div>
                 <div class="grid_24">
                     <a href="parameters">Click here for MetaboLights Parameters</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="refLayerBox" id="reindexStudies">
-            <div class="grid_24">
-                <div class="grid_24 title">
-                    Reindex studies
-                </div>
-                <div class="grid_24">
-                    <spring:message code="msg.studies.reindex"/>
-                    <br/>
-                    <br/>
-                    <ul id="reindexStudiesatOnce">
-                        <li><a href="reindex" title="Reindex one-by-one">Reindex studies one-by-one</a></li>
-                        <li><a href="reindexall" title="Reindex all">Reindex all studies</a></li>
-                    </ul>
                 </div>
             </div>
         </div>

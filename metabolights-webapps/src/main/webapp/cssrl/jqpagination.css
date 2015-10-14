@@ -1,0 +1,41 @@
+.pagination {
+
+  vertical-align: middle;
+  margin-right: 2px;
+
+}
+.pagination a {
+  display: block;
+  float: left;
+  outline: none;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 3px 0 3px
+  }
+  .pagination a:hover, .pagination a:focus, .pagination a:active {
+
+  }
+  .pagination a.disabled, .pagination a.disabled:hover, .pagination a.disabled:focus, .pagination a.disabled:active {
+    color: #A8A8A8;
+    cursor: default;
+  }
+
+.pagination a:first-child {
+}
+
+.pagination a:last-child {
+}
+
+.pagination input {
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 120px;
+  height: 25px;
+  outline: none;
+  border: none;
+  text-align: center;
+  font-size: smaller;
+}

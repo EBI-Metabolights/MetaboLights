@@ -21,10 +21,13 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
+import org.apache.commons.lang.time.DateUtils;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,6 +76,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		// NOTE: Here we only save the users that do not exist. Any update of users should be done through usersDAO.save.
 		// Save new users first
 		usersDAO.save(study.getUsers(), true);
+		study.setUpdateDate(new Date());
 
 	}
 
@@ -107,5 +111,87 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		List<String> studies = this.getList(query, filter);
 
 		return studies;
+	}
+
+	// Gets all studies to go live that the user is granted to access.
+	public List<String> getStudiesToGoLiveList(String userToken) throws DAOException {
+
+		return getStudiesToGoLiveList(userToken, 0);
+	}
+
+		// Gets all studies to go live that the user is granted to access.
+	public List<String> getStudiesToGoLiveList(String userToken, int numberOfDays) throws DAOException {
+
+		// Hibernate left join:
+		// from Cat as cat left join cat.mate.kittens as kittens
+		// https://docs.jboss.org/hibernate/orm/4.3/manual/en-US/html/ch16.html#queryhql-joins
+
+		String query = "select study.acc from " + StudyData.class.getSimpleName() + " study" +
+				" left join study.users user";
+
+		// is the user a curator?
+		boolean isCurator = usersDAO.hasUserThisRole(AppRole.ROLE_SUPER_USER, userToken);
+
+		// Query to check date...
+		StudyData study = new StudyData();
+
+
+		// Calculate the date limits
+		Date todayMidNight = DateUtils.round(new Date(), Calendar.DAY_OF_MONTH);
+
+		// 0 will get all studies until today
+		Date lLimit = null;
+
+		if (numberOfDays!=0){
+			lLimit = DateUtils.addDays(todayMidNight,numberOfDays);
+		} else {
+			lLimit = DateUtils.addDays(todayMidNight, -3000);
+		}
+
+		Date uLimit = DateUtils.addDays(todayMidNight,numberOfDays+1);
+
+		query = query + " where (study.releaseDate <:ulimit and study.releaseDate >=:llimit and study.status= " + Study.StudyStatus.INREVIEW.ordinal() + ")";
+
+		// Create an empty filter
+		Filter filter = new Filter();
+
+		// Add the date filter.
+		filter.fieldValuePairs.put("ulimit", uLimit);
+		filter.fieldValuePairs.put("llimit", lLimit);
+
+		// If not...
+		if (!isCurator) {
+
+			query = query + " AND (user.apiToken=:apiToken) ";
+
+			// Add clause to where..
+			filter.fieldValuePairs.put("apiToken", userToken);
+		}
+
+		List<String> studies = this.getList(query, filter);
+
+		return studies;
+
+	}
+
+	public String findStudyIdByObfuscationCode(String obfuscationCode) throws DAOException {
+
+		// No security here since the obfuscation code...if exist grants itself access to the resource
+
+		String query = "select acc from " + StudyData.class.getSimpleName() ;
+
+		query = query + " where obfuscationcode =:oc";
+
+		// Create an empty filter
+		Filter filter = new Filter();
+
+		// Add the date filter.
+		filter.fieldValuePairs.put("oc", obfuscationCode);
+
+
+		String studyId = (String) this.getUniqueValue(query, filter);
+
+		return studyId;
+
 	}
 }

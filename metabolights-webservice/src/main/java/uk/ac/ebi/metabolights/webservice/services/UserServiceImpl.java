@@ -4,26 +4,6 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2015-May-07
- * Modified by:   kenneth
- *
- * Copyright 2015 EMBL - European Bioinformatics Institute
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
- */
-
-/*
- * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
- * Cheminformatics and Metabolism group
- *
- * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
- *
  * Last modified: 6/10/14 5:12 PM
  * Modified by:   conesa
  *
@@ -45,9 +25,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
@@ -60,7 +40,7 @@ import javax.annotation.Resource;
  * It is appropriate to annotate the service-layer classes with @Service to facilitate processing by tools or anticipating any future
  * service-specific capabilities that may be added to this annotation.
  */
-@Service
+//@Service
 public class UserServiceImpl implements UserService{
 
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -105,27 +85,38 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 //	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String userToken) throws UsernameNotFoundException {
 
-		User user= null;
-		if (s != null && !s.isEmpty()) {
-			try {
-				user = userDAO.findByToken(s);
-
-			} catch (DAOException e) {
-				logger.error("Can't find user by token.", e);
-			}
-		}
-
-		if (user == null){
-			user = new User();
-			user.setUserName(s);
-			user.setStatus(User.UserStatus.ACTIVE);
-		}
+		User user = getUser(userToken);
 
 		SpringUser sUser = new SpringUser(user);
 
 		return sUser;
 
+	}
+
+	private User getUser(String userToken) {
+		User user = null ;
+		try {
+			user = userDAO.findByToken(userToken);
+
+			if (user == null){
+				user = new User();
+				user.setUserName(userToken);
+				user.setStatus(User.UserStatus.ACTIVE);
+				user.setRole(AppRole.ANONYMOUS);
+				user.setApiToken(userToken);
+			}
+
+
+		} catch (DAOException e) {
+			logger.error("Can't find user by token {}",userToken, e);
+		}
+		return user;
+	}
+
+	@Override
+	public User lookupByToken(String userToken) {
+		return getUser(userToken);
 	}
 }

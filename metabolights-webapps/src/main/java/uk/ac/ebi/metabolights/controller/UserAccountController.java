@@ -136,7 +136,7 @@ public class UserAccountController extends AbstractController{
 
     	try {
 			//Store the user information in the database, status NEW means still inactive (to be authorized).
-			metabolightsUser.setStatus(MetabolightsUser.UserStatus.NEW.getValue()); // make account non usable yet
+			metabolightsUser.setStatus(MetabolightsUser.UserStatus.NEW); // make account non usable yet
 			metabolightsUser.setDbPassword(IsaTabAuthenticationProvider.encode(metabolightsUser.getDbPassword()));
             metabolightsUser.setApiToken(UUID.randomUUID().toString());
 			newUserId = userService.insert(metabolightsUser);
@@ -230,10 +230,10 @@ public class UserAccountController extends AbstractController{
 	public ModelAndView confirmAccountRequested(@RequestParam("usr") String userName, @RequestParam("key") String key) {
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
 		MetabolightsUser user = userService.lookupByUserName(userName);
-		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.NEW.getValue())
+		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.NEW)
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
 			//Set user status to Verified
-			user.setStatus(MetabolightsUser.UserStatus.VERIFIED.getValue());
+			user.setStatus(MetabolightsUser.UserStatus.VERIFIED);
 			userService.update(user);
 			mav.addObject("message", PropertyLookup.getMessage("msg.verifiedAccount")+" "+userName+".");
 
@@ -257,9 +257,9 @@ public class UserAccountController extends AbstractController{
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
 
 		MetabolightsUser user = userService.lookupById(usrId);
-		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.VERIFIED.getValue())
+		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.VERIFIED)
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
-			user.setStatus(MetabolightsUser.UserStatus.ACTIVE.getValue());
+			user.setStatus(MetabolightsUser.UserStatus.ACTIVE);
 			userService.update(user);
 			mav.addObject("message", PropertyLookup.getMessage("msg.activatedAccount")+" "+user.getUserName()+".");
 			emailService.sendAccountHasbeenActivated(user);

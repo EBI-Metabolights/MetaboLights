@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
@@ -141,7 +142,7 @@ public class StudyDataTest  extends DAOTest {
 		// Test default values of StudyData
 		StudyData studyData = new StudyData();
 
-		Date expectedreleaseDate = new Date();
+		Date expectedreleaseDate = DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH);
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(expectedreleaseDate);
@@ -156,7 +157,7 @@ public class StudyDataTest  extends DAOTest {
 		StudyData studyData = DataModelFactory.getStudyDataInstance(new Study());
 		studyData.setAcc (ACC + System.currentTimeMillis());
 		studyData.setObfuscationcode (OCODE);
-		studyData.setStatus(Study.StudyStatus.PRIVATE.ordinal());
+		studyData.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
 
 		return studyData;
 	}

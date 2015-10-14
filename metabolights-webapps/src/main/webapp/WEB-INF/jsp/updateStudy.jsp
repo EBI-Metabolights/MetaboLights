@@ -1,6 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
@@ -86,13 +86,15 @@
 
 	$(function() {
 		$( "#datepicker" ).datepicker( {
-	          changeMonth: true,
-	          changeYear: true,
-	          showOtherMonths: true,
-	          buttonText: 'Choose Date',
-	          dateFormat: 'dd-M-yy',
-	          minDate: '+14',
-	          maxDate: '+1y'
+	        changeMonth: true,
+	        changeYear: true,
+	        showOtherMonths: true,
+	        buttonText: 'Choose Date',
+	        dateFormat: 'dd-M-yy'
+			<sec:authorize access="!hasRole('ROLE_SUPER_USER')">
+				,minDate: '+7',
+				maxDate: '+1y'
+			</sec:authorize>
 	      });
 	});
 
@@ -125,11 +127,11 @@
 
 <p><span class="ui-state-highlight ui-corner-all"><spring:message code="msg.contactMetabolightsAboutReleaseDate" /></span></p>
 
-<c:if test="${not empty searchResult}">
+<c:if test="${not empty liteStudy}">
     <br/>
 	<c:set var="nopublish" value="true"/>
 	<div class="grid_22 prefix_1 alpha omega">
-		<%@include file="entrySummary.jsp" %>
+		<%@include file="studySummary.jsp" %>
 	</div>
 	<p/>
 </c:if>
@@ -149,7 +151,7 @@
 
 		<div class="grid_6 alpha prefix_1"><spring:message code="label.publicDate"/>:</div>
 		<div class="grid_17 omega">
-            <input type="hidden" name="owner" value="${searchResult.submitter.userName}">
+            <%--<input type="hidden" name="owner" value="${searchResult.submitter.userName}">--%>
             <input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
 			<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
 			<span id="dateError" class="error"></span>

@@ -69,7 +69,7 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.incorrUserPw"));
 
 		// Is this user active?
-		if (!mtblUser.getStatus().equals(MetabolightsUser.UserStatus.ACTIVE.getValue()))
+		if (!mtblUser.getStatus().equals(MetabolightsUser.UserStatus.ACTIVE))
 			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.accountInactive"));
 
 

@@ -16,25 +16,6 @@
   ~      http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-  -->  <!--
-  ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
-  ~ Cheminformatics and Metabolism group
-  ~
-  ~ European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
-  ~
-  ~ Last modified: 6/13/14 2:51 PM
-  ~ Modified by:   conesa
-  ~
-  ~
-  ~ ©, EMBL, European Bioinformatics Institute, 2014.
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~    http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   -->
 
 <GlobalNamingResources>
@@ -60,10 +41,23 @@
 	      maxActive="50"
 	      maxIdle="10"
 	      maxWait="-1"/>
-   <Environment name="isatabConfigurationLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations/" type="java.lang.String"/>
-   <Environment name="publicStudiesLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/studies/ftp/public/" type="java.lang.String"/>
-   <Environment name="privateStudiesLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/studies/stage/private/" type="java.lang.String"/>
+
+    <Environment name="isatabConfigurationLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations/" type="java.lang.String"/>
+    <Environment name="studiesLocation" value="/nfs/public/rw/homes/tc_cm01/metabolights/dev/studies/" type="java.lang.String"/>
+
+    <!-- uploadDirectory is used the by the metabolights-uploader module, for BII submissions -->
+    <Environment name="uploadDirectory" value="/nfs/production/panda/metabolights/isatab/upload/" type="java.lang.String"/>
+    <Environment name="ondemand" value="/nfs/public/rw/homes/tc_cm01/zip_ondemand/" type="java.lang.String"/>
+
     <!-- This is where the new web app looks for the users upload directory (LABS) -->
     <Environment name="userSpace" value="<some large file system>" type="java.lang.String"/>
+
+    <!-- Mail settings-->
+    <Environment name="mailServer" value="xxxx" type="java.lang.String"/>
+    <Environment name="EBIHost" value="http://www.ebi.ac.uk/metabolights/" type="java.lang.String"/>
+    <Environment name="curationEmailAddress" value="xxx@xxx.xx" type="java.lang.String"/>
+
+    <!-- Queue -->
+    <Environment name="queueRunner" value="xxxx" type="java.lang.String"/>
 
 </GlobalNamingResources>

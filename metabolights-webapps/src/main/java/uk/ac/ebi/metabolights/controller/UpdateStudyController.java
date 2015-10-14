@@ -32,22 +32,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
-import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.search.LuceneSearchResult;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
-import uk.ac.ebi.metabolights.service.SearchService;
-import uk.ac.ebi.metabolights.service.StudyService;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Make a study public. THis implies to change the status in the database, reindex, and move the zip file to the public ftp.
@@ -60,16 +58,8 @@ public class UpdateStudyController extends AbstractController {
 	private static Logger logger = LoggerFactory.getLogger(UpdateStudyController.class);
 
 	//Ftp locations
-	private @Value("#{publicFtpStageLocation}") String publicFtpLocation;
-	private @Value("#{privateFtpStageLocation}") String privateFtpLocation;         //TODO, short term fix until filesystem is mounted RW
 	private @Value("#{uploadDirectory}") String uploadDirectory;
 	
-	@Autowired
-	private SearchService searchService;
-	
-	@Autowired
-	private StudyService studyService;
-
 	@Autowired
 	private EntryController entryController;
 	
@@ -92,7 +82,6 @@ public class UpdateStudyController extends AbstractController {
 												@RequestParam(required=false,value="date") String defaultDate,
 												HttpServletRequest request) throws Exception{
 
-
 		//Check access
 		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
 
@@ -100,25 +89,7 @@ public class UpdateStudyController extends AbstractController {
 		return getModelAndView(study, defaultDate, false, false);
 
 
-
 	}
-
-    @RequestMapping(value = { "/makestudyprivateform"})
-    public ModelAndView makeStudyPrivate(
-            @RequestParam(required=true,value="study") String study,
-            @RequestParam(required=false,value="date") String defaultDate,
-            HttpServletRequest request)
-            throws Exception{
-
-
-		//Check access
-		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
-
-
-        // Get the correspondent ModelAndView
-        return getModelAndView(study, defaultDate, false, true);
-
-    }
 
 	/**
 	 * Receives the study that is going to be updated and shows the updateStudy Page to let the user to set the public release date and upload the new file.
@@ -147,25 +118,24 @@ public class UpdateStudyController extends AbstractController {
     @RequestMapping(value = { "/findstudiesgoinglive"})
     public ModelAndView findStudiesGoingLive(){
 
-        List <String> studiesList = studyService.findStudiesGoingLive();
-        Iterator iter = studiesList.iterator();
-        while (iter.hasNext()){
-            String acc = (String) iter.next();
-            try {
-                LuceneSearchResult study = getStudy(acc);
-                emailService.sendStudyGoingPublicNotification(study.getSubmitter().getUserName(), study.getReleaseDate(), acc);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return new ModelAndView ("index");
+//        List<String> studiesList = studyService.findStudiesGoingLive();
+//        Iterator iter = studiesList.iterator();
+//        while (iter.hasNext()){
+//            String acc = (String) iter.next();
+//            try {
+//                LiteStudy study = getStudy(acc);
+//                emailService.sendStudyGoingPublicNotification(study);
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        return new ModelAndView ("index");
+		return toBeImplemented();
 
     }
 
-
-	
 	/**
 	 * Return the model and view ready to be rendered in the jsp that share 2 modes. Update and MakeStudyPublic
 	 * @param study
@@ -177,11 +147,11 @@ public class UpdateStudyController extends AbstractController {
 
 
 		//Get the study data
-		LuceneSearchResult luceneStudy = getStudy(study);
+		LiteStudy liteStudy = getStudy(study);
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateStudyForm");
 		
 		// Add objects to the model and view
-		mav.addObject("searchResult", luceneStudy);
+		mav.addObject("liteStudy", liteStudy);
 		mav.addObject("isUpdateMode", isUpdateMode);
 		mav.addObject("study", study);
 
@@ -190,7 +160,7 @@ public class UpdateStudyController extends AbstractController {
 		
 		String title ="", msg ="", action="", submitText="";
 		
-		String studyShortTitle = luceneStudy.getTitle();
+		String studyShortTitle = liteStudy.getTitle();
 		if (studyShortTitle.length() > 50) studyShortTitle = (studyShortTitle.substring(0, 47) + "...");
 		
 		// Fill the output title, msg, ...depending on the mode
@@ -205,7 +175,7 @@ public class UpdateStudyController extends AbstractController {
 			
 			
 			// Get the DownloadLink
-			String ftpLocation = FileDispatcherController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );
+			String ftpLocation = FileDispatcherController.getDownloadLink(liteStudy.getStudyIdentifier());
 			mav.addObject("ftpLocation", ftpLocation);
 			
 		} else if(isPublic){
@@ -217,7 +187,7 @@ public class UpdateStudyController extends AbstractController {
             logger.info("Method for making studies private, action: "+action);
 
             // Link to download the study
-            String ftpLocation = FileDispatcherController.getDownloadLink(luceneStudy.getAccStudy(), luceneStudy.getIsPublic()? VisibilityStatus.PUBLIC: VisibilityStatus.PRIVATE );
+            String ftpLocation = FileDispatcherController.getDownloadLink(liteStudy.getStudyIdentifier());
             mav.addObject("ftpLocation", ftpLocation);
         } else {
 			
@@ -253,7 +223,7 @@ public class UpdateStudyController extends AbstractController {
 		}
 				
 		// Calculate the date and status
-		params.calculateStatusAndDate();
+		params.calculateDate();
 		
 		return null;
 	}
@@ -261,8 +231,7 @@ public class UpdateStudyController extends AbstractController {
     @RequestMapping(value = { "/updatepublicreleasedate" })
 	public ModelAndView changePublicReleaseDate(
 								@RequestParam(required=true,value="study") String study,
-								@RequestParam(required=true, value="pickdate") String publicReleaseDateS,
-								HttpServletRequest request) throws Exception {
+								@RequestParam(required=true, value="pickdate") String publicReleaseDateS) throws Exception {
 
 
 		//Check access
@@ -280,17 +249,22 @@ public class UpdateStudyController extends AbstractController {
 		// If there is validation view...return it
 		if (mav != null){return mav;}
 
-        //Create the view
-        //mav = AppContext.getMAVFactory().getFrontierMav("updateStudyForm");
-
         try{
 
             // Use de submitter user name in the study instead of the User (could be a curator).
-        	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.study.getSubmitter().getUserName());
+//        	mav = queuePublicReleaseDate(request,study, params.publicReleaseDate, params.study.getSubmitter().getUserName());
 
-			//Return the ModelAndView
-			return mav;
+			MetabolightsWsClient wsClient =EntryController.getMetabolightsWsClient();
 
+			RestResponse<String> response = wsClient.updatePublicReleaseDate(params.publicReleaseDate, study);
+
+			if (response.getErr() == null)
+				return this.printMessage("Study public release updated", study + " public release date has been updated successfully to " + publicReleaseDateS);
+
+			else {
+
+				throw new Exception(response.getErr().getMessage());
+			}
 
 		} catch (Exception e) {
 			
@@ -306,145 +280,111 @@ public class UpdateStudyController extends AbstractController {
 		
 
 	}
-    
-     
+
+	@RequestMapping(value = { "/updatestatus" })
+	public ModelAndView updateStatus(
+			@RequestParam(required=true,value="study") String study,
+			@RequestParam(required=true, value="newStatus") LiteStudy.StudyStatus newStatus) throws Exception {
+
+
+		//Check access
+		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
+
+		MetabolightsUser user = LoginController.getLoggedUser();
+
+		// Log start
+		logger.info("Updating status of the study " + study + " owned by " + user.getUserName());
+
+
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<String> response = wsClient.updateStatus(newStatus, study);
+
+		if (response.getErr() == null)
+			//return this.printMessage("Study status updated", response.getMessage());
+			return this.redirect(study);
+
+		else {
+
+			logger.error("There's been a problem while updating {} study: {} ", study, response.getErr().getMessage() );
+			throw new Exception(response.getErr().getMessage());
+		}
+
+	}
+
+	@RequestMapping(value = { "/restore" })
+	public ModelAndView restore(
+			@RequestParam(required=true,value="study") String study,
+			@RequestParam(required=true, value="backupidentifier") String backupIdentifier) throws Exception {
+
+
+		//Check access
+		if (!EntryController.canUserEditStudy(study)) return getResctrictedAccessPage();
+
+		MetabolightsUser user = LoginController.getLoggedUser();
+
+		// Log start
+		logger.info("Restoring backup ({}) of the study {}.", backupIdentifier, study);
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<String> response = wsClient.restore(study, backupIdentifier);
+
+		if (response.getErr() == null)
+			//return this.printMessage("Study status updated", response.getMessage());
+			return this.redirect(study);
+
+		else {
+
+			logger.error("There's been a problem while restoring the backup ({}) of {}:{} ", backupIdentifier,study, response.getErr().getMessage() );
+			throw new Exception(response.getErr().getMessage());
+		}
+
+	}
+
+
+
     @RequestMapping(value = { "/deleteStudy" })
- 	public ModelAndView deleteStudy(
- 								@RequestParam(required=true,value="study") String studyId,
- 								HttpServletRequest request) throws Exception {
+ 	public ModelAndView deleteStudy(@RequestParam(required=true,value="study") String studyIdentifier) throws Exception {
 
-    	MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-    	LuceneSearchResult study = getStudy(studyId);
-    	
- 		// Log start
- 		logger.info("Deletion request of " + study + " by " + user.getUserName());
- 		
- 		// Validate the parameters...
- 		String validationMsg = "";
 
- 		// Check the user is the owner
- 		if (!user.getUserName().equals(study.getSubmitter().getUserName()))
- 		{
- 			// User must match
- 			validationMsg =  PropertyLookup.getMessage("msg.deleteStudy.userValidation", user.getUserName(), studyId,study.getSubmitter().getUserName());
- 		}
- 		
- 		// Check if it's public
- 		if (study.getIsPublic())
- 		{
- 			validationMsg = validationMsg + PropertyLookup.getMessage("msg.deleteStudy.statusValidation",studyId);
- 		}
- 		
- 		// If there is validation view...return it. Curators still delete a study regardless
- 		if (!user.isCurator() && validationMsg != ""){
-            return printMessage(PropertyLookup.getMessage("msg.deleteStudy.titleValidation"), validationMsg);
-        }
+		MetabolightsUser user = LoginController.getLoggedUser();
 
- 		
- 		ModelAndView mav;
- 		
-        try{
+		// Log start
+		logger.info("Deletion request of " + studyIdentifier + " by " + user.getUserName());
 
-             //Create the view
-             mav = queueDeleteStudy(request, studyId, user);
- 		
- 		} catch (Exception e) {
- 			
- 			String message = "There's been a problem while deleting the study " + studyId + "\n" + e.getMessage();
- 			
- 			// Auto-generated catch block
- 			logger.error(message);
- 			
- 			// Add the error to the page
- 			throw new Exception (message);
- 			
- 		}
- 		
- 		//Return the ModelAndView
- 		return mav;
- 		
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<String> response = wsClient.deleteStudy(studyIdentifier);
+
+		if (response.getErr() == null)
+			return this.printMessage("Study " + studyIdentifier + " deleted.", response.getMessage());
+
+
+		else {
+
+			logger.error("There's been a problem while deleting {} study: {} ", studyIdentifier, response.getErr().getMessage() );
+			throw new Exception(response.getErr().getMessage());
+		}
+
+
  	}
-     
-    /**
-     * This method will create a file in the queue folder that represent the task of updating the public release date of a single study.
-     * @param request
-     * @param accession
-     * @param publicReleaseDate
-     * @param user
-     * @return
-     * @throws IOException
-     * @throws IllegalStateException 
-     */
-    private ModelAndView queuePublicReleaseDate(HttpServletRequest request, String accession, Date publicReleaseDate, String user) throws IllegalStateException, IOException{
-    	 
-    	String hostName = java.net.InetAddress.getLocalHost().getHostName();
-    	
-    	SubmissionItem si = new SubmissionItem(null,user,publicReleaseDate,accession, false);
-    	si.submitToQueue();
-    	
-		// Cannot load the queue
-		emailService.sendQueuedPRLUpdate(si.getUserId(), si.getPublicReleaseDate(), hostName, accession);
-		
-        logger.info("Queued study for Public Release Date update: " + accession);
-		HttpSession httpSession = request.getSession();
-		httpSession.setAttribute("itemQueued", "msg.PRDUpdateQueued");
-		
-    	return new ModelAndView("redirect:itemQueued");
 
-    	 
-    }
-    /**
-     * This method will create a file in the queue folder that represent the task for deleting a single study.
-     * @param request
-     * @param accession
-     * @param user
-     * @return
-     * @throws IOException
-     * @throws IllegalStateException 
-     */
-    private ModelAndView queueDeleteStudy(HttpServletRequest request, String accession, MetabolightsUser user) throws IllegalStateException, IOException{
-    	 
-    	String hostName = java.net.InetAddress.getLocalHost().getHostName();
-    	
-    	SubmissionItem si = new SubmissionItem(null,user.getUserName(),null,accession, false);
-		si.submitToQueue();
-
-		// Cannot load the queue
-		emailService.sendQueuedDeletion(si.getUserId(),  hostName, accession);
-		
-        logger.info("Queued delete study: " + accession);
-		HttpSession httpSession = request.getSession();
-		httpSession.setAttribute("itemQueued", "msg.deleteStudyQueued");
-    	return new ModelAndView("redirect:itemQueued");
-
-    	 
-    }
-	
 	/**
 	 * Gets the study that has just been published.
 	 * @param study
 	 * @return
 	 * @throws Exception 
 	 */
-	public LuceneSearchResult getStudy(String study) throws Exception{
+	public LiteStudy getStudy(String study) throws Exception{
 		
-		//Search results
-		HashMap<Integer, List<LuceneSearchResult>> searchResultHash = new HashMap<Integer, List<LuceneSearchResult>>(); // Number of documents and the result list found
 
-		//Get the query...	
-		String luceneQuery = "acc:"+ study;
-		
-		logger.info("Searching for "+ luceneQuery);
-		
-		//Get the search result...
-		searchResultHash = searchService.search(luceneQuery); 
-		
-		// Get the result (Study)
-		// There must be only one
-		LuceneSearchResult result = searchResultHash.values().iterator().next().get(0); 
-		
-		return result;
-			
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		return wsClient.searchStudy(study);
+
 	
 	}
 	
@@ -457,12 +397,11 @@ public class UpdateStudyController extends AbstractController {
 		
 		String publicReleaseDateS;
 		Date publicReleaseDate;
-		VisibilityStatus status;
 		MultipartFile file;
 		String studyId;
 		String validationmsg;
 		Boolean isUpdateStudyMode;
-		LuceneSearchResult study;
+		LiteStudy study;
 		MetabolightsUser user;
 		
 		/**
@@ -523,7 +462,7 @@ public class UpdateStudyController extends AbstractController {
             // If the user is not a curator
             if (!user.isCurator()){
                 // Double check the user owns the study or the user is a curator
-                if (!study.getSubmitter().getUserName().equals(user.getUserName())){
+                if (!doesUserOwnsStudy()){
                     // ... user do not own the study
                     validationmsg = validationmsg +  PropertyLookup.getMessage("msg.validation.studynotowned");
                 }
@@ -538,23 +477,25 @@ public class UpdateStudyController extends AbstractController {
 
 		}
 
-		public void calculateStatusAndDate() throws ParseException {
-			
-			//Check if the study is public today
-            status = VisibilityStatus.PRIVATE;   //Defaults to a private study
+		private boolean doesUserOwnsStudy(){
+
+			for (User owner : study.getUsers()) {
+				if (owner.getUserName().equals(user.getUserName())) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public void calculateDate() throws ParseException {
+
             publicReleaseDate = DateUtils.truncate(new Date(),Calendar.DAY_OF_MONTH); //Defaults to today.  Should come from the form, so just to be sure
             
             if (!publicReleaseDateS.isEmpty()) {
             	publicReleaseDate = new SimpleDateFormat("dd-MMM-yyyy").parse(publicReleaseDateS);  //Date from the form             
 
-                if (publicReleaseDate.before(new Date())){  //The date received from the form does not contain time, so this should always be before "now"
-                    status = VisibilityStatus.PUBLIC;
-                }
             }
-
 		}
-		
 	}
-
-
 }

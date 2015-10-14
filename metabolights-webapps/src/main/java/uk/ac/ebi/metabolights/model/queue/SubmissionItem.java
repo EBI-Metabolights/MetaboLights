@@ -25,7 +25,6 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
-import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +52,8 @@ public class SubmissionItem {
 	private static Logger logger = LoggerFactory.getLogger(SubmissionItem.class);
 	
 	static final String FILE_NAME_SEP = "~";
-	static final String FILE_NAME_FOR_PRD_UPDATES = "PRDupdatedate.zip";
+	// Not needed anymore...done through the WS...no need to queue.
+//	static final String FILE_NAME_FOR_PRD_UPDATES = "PRDupdatedate.zip";
 	static final String FILE_NAME_FOR_DELETIONS = "DELETE.zip";
     //static final String FILE_NAME_FOR_PUBLIC_TO_PRIVATE = "PTPStudy.zip";
 	
@@ -75,8 +75,6 @@ public class SubmissionItem {
 			if (publicReleaseDate == null)
 			{
 				this.originalFileName = FILE_NAME_FOR_DELETIONS;
-			} else {
-				this.originalFileName = FILE_NAME_FOR_PRD_UPDATES;
 			}
 		}else{
 			this.originalFileName = file.getOriginalFilename();
@@ -209,13 +207,6 @@ public class SubmissionItem {
 		
 	}
 
-	public VisibilityStatus getStatus(){
-		
-		// If there is no public release date is because it is a deletion..return private.
-		if (publicReleaseDate == null) return VisibilityStatus.PRIVATE;
-		
-		return (getPublicReleaseDate().before(new Date())?VisibilityStatus.PUBLIC:VisibilityStatus.PRIVATE);
-	}
 
 	@Override
 	public String toString(){

@@ -24,9 +24,13 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.internal.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.DataModel;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * User: conesa
@@ -54,6 +58,35 @@ public class SessionWrapper {
 
     public Session needSession() {
 
+		// If we have a session ...
+		if (session != null){
+
+
+			boolean valid = false;
+
+			Connection connection = null;
+			try {
+
+				// but it's useless
+				connection = ((SessionImpl)session).connection();
+
+				valid = connection.isValid(1);
+
+			} catch (SQLException e) {
+				logger.warn("Exception at connection.isInvalid() invocation: {}.", e.getMessage());
+			} catch (Exception e){
+				logger.warn("Cannot establish a connection with the current session: " + e.getMessage());
+
+			} finally {
+				if (!valid){
+					logger.warn("Invalid connection. Resetting the session.");
+					sessionCount = 0;
+					session = null;
+				}
+			}
+
+		}
+
 		// If empty..
 		if (session == null) {
 
@@ -61,7 +94,7 @@ public class SessionWrapper {
 
 			if (session.isOpen()) {
 				session.beginTransaction();
-				logger.info("Starting a new Hibernate session in SessionWrapper");
+				logger.debug("Starting a new Hibernate session in SessionWrapper");
 			}
 			else {
 				logger.error("Could not get a session from the Hibernate SessionFactory");
@@ -70,21 +103,27 @@ public class SessionWrapper {
 		}
 
 		sessionCount++;
+
+		logger.debug("Session count incremented to {}", sessionCount);
 		return session;
 
 	}
 
 	public void noNeedSession() {
 
+		if (sessionCount <= 0) logger.warn("Wrong session count at noNeedSession: {}", sessionCount);
+
 		// Decrease the count
 		sessionCount--;
 
+		logger.debug("Session count decremented to {}", sessionCount);
+
 		// If 0 close it
 		if (sessionCount == 0) {
-			logger.info("sessionCount is 0, try to commit and close the Hibernate session");
+			logger.debug("sessionCount is 0, try to commit and close the Hibernate session");
 
 			if (session.isOpen()) {
-				logger.info("Session is open but no longer required, trying to commit and close");
+				logger.debug("Session is open but no longer required, trying to commit and close");
 				session.getTransaction().commit();
 				session.close();
 				session = null;

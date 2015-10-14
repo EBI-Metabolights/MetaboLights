@@ -56,14 +56,16 @@
 
 	$(function() {
 		$( "#datepicker" ).datepicker( {
-	          changeMonth: true,
-	          changeYear: true,
-	          showOtherMonths: true,
-	          buttonText: 'Choose Date',
-	          dateFormat: 'dd-M-yy',
-	          minDate: '+28d',
-	          maxDate: '+1y'
-	      });
+			changeMonth: true,
+			changeYear: true,
+	        showOtherMonths: true,
+	        buttonText: 'Choose Date',
+	        dateFormat: 'dd-M-yy'
+			<sec:authorize access="!hasRole('ROLE_SUPER_USER')">
+				,minDate: '+7',
+				maxDate: '+1y'
+			</sec:authorize>
+		});
 	});
 
 	function toggleDate() {

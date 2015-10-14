@@ -25,7 +25,15 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<div class="grid_24">
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.orcid" />:</div>
+		<div class="grid_18 omega">
+			<form:input path="orcid"  maxlength="20" />
+			<span class="error"><form:errors path="orcid" /></span>
+		</div>
+	</div>
+
+	<div class="grid_24">
 		<div class="grid_6 alpha"><spring:message code="label.firstName" />*:</div>
 		<div class="grid_18 omega"><form:input path="firstName" maxlength="255" size="40" />
 			<span class="error"><form:errors path="firstName" /></span>
@@ -56,7 +64,15 @@
 			<span class="error"><form:errors path="userVerifyDbPassword" /></span>
         </div>
 	</div>
-	
+
+	<div class="grid_24">
+		<div class="grid_6 alpha"><spring:message code="label.country" />*:</div>
+		<div class="grid_18 omega">
+			<form:select path="address" items="${metabolightsUser.listOfAllCountries}"/>
+			<span class="error"><form:errors path="address" /></span>
+		</div>
+	</div>
+
 	<div class="grid_24">
 		<div class="grid_6 alpha"><spring:message code="label.affili" />*:</div>
 		<div class="grid_18 omega">
@@ -71,14 +87,6 @@
 			<form:input path="affiliationUrl"  maxlength="4000" size="66" />
 			<span class="error"><form:errors path="affiliationUrl" /></span>
 		</div>
-	</div>
-
-	<div class="grid_24">
-		<div class="grid_6 alpha"><spring:message code="label.country" />*:</div>
-		<div class="grid_18 omega">
-			<form:select path="address" items="${metabolightsUser.listOfAllCountries}"/>
-			<span class="error"><form:errors path="address" /></span>
-        </div>
 	</div>
 
 <sec:authorize ifAnyGranted="ROLE_SUPER_USER" >

@@ -36,16 +36,20 @@
 	<link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/contents.css" type="text/css">
     <link rel="stylesheet" href="//www.ebi.ac.uk/web_guidelines/css/compliance/mini/ebi-fluid-embl.css">
     <link rel="stylesheet" href='<spring:url value="/cssrl/test-scheme.css"/>' type="text/css" media="screen">
+
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/metabolights_test.css"/>' media="screen" />
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/jquery-ui-1.9.2.custom.min.css"/>' media="all" />
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/icons.css"/>' media="all" />
- 	<link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/movingboxes.css"/>' media="screen" />
+    <link rel="stylesheet" type="text/css" href='<spring:url value="/css/metabolights.css"/>' media="screen">
+ 	<%--<link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/movingboxes.css"/>' media="screen" />--%>
 
     <script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.min.js" ></script>
     <script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
 
-	<script type="text/javascript" src='<spring:url value="/javascript/jquery.movingboxes.js"/>' charset="utf-8"></script>
+	<%--<script type="text/javascript" src='<spring:url value="/javascript/jquery.movingboxes.js"/>' charset="utf-8"></script>--%>
 	<script type="text/javascript" src='<spring:url value="/javascript/menu.js"/>'></script>
+
+
     <script type="text/javascript" src="//www.ebi.ac.uk/web_guidelines/js/libs/modernizr.custom.49274.js"></script>
 
     <%

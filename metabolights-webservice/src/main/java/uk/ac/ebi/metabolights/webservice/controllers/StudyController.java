@@ -18,94 +18,85 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-/*
- * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
- * Cheminformatics and Metabolism group
- *
- * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
- *
- * Last modified: 7/11/14 3:39 PM
- * Modified by:   conesa
- *
- *
- * ©, EMBL, European Bioinformatics Institute, 2014.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
- */
-
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.Assay;
-import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
-import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
-import uk.ac.ebi.metabolights.webservice.security.SpringUser;
+import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
+import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
+import uk.ac.ebi.metabolights.webservice.services.EmailService;
+import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequestMapping("study")
-public class StudyController {
+public class StudyController extends BasicController{
+
+	@Autowired
+	private EmailService emailService;
+	@Autowired
+	private IndexingService indexingService;
 
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
 	private final static Logger logger = LoggerFactory.getLogger(StudyController.class.getName());
 	private StudyDAO studyDAO;
 
-    @RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}")
+    @RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}", method = RequestMethod.GET)
 	@ResponseBody
-	public RestResponse<Study> getStudyById(@PathVariable("accession") String accession) {
+	public StudyRestResponse getStudyById(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
 
-		logger.info("Requesting " + accession + " to the webservice");
+		logger.info("Requesting " + studyIdentifier + " to the webservice");
 
-		return getStudy(accession, false);
+		return getStudy(studyIdentifier, false, null);
 	}
 
-	@RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}/full")
+	@RequestMapping("obfuscationcode/{obfuscationcode}")
 	@ResponseBody
-	public RestResponse<Study> getFullStudyById(@PathVariable("accession") String accession) {
+	public StudyRestResponse getStudyByObfuscationCode(@PathVariable("obfuscationcode") String obfuscationCode) throws DAOException {
 
-		logger.info("Requesting full study " + accession + " to the webservice");
+		logger.info("Requesting study by obfuscation code " + obfuscationCode + " to the webservice");
 
-		return getStudy(accession, true);
+
+		return getStudy(null, false, obfuscationCode);
+	}
+
+
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/full")
+	@ResponseBody
+	public RestResponse<Study> getFullStudyById(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+		logger.info("Requesting full study " + studyIdentifier + " to the webservice");
+
+		return getStudy(studyIdentifier, true, null);
 
 	}
 
 	@RequestMapping("list")
 	@ResponseBody
-	public RestResponse<String[]> getAllStudyAccessions() {
+	public RestResponse<String[]> getAllStudyIdentifiers() throws DAOException {
 
 		logger.info("Requesting a list of all public studies from the webservice");
 
 		RestResponse<String[]> response = new RestResponse<>();
 
-		try {
-			studyDAO = getStudyDAO();
+		studyDAO = getStudyDAO();
 
-		} catch (DAOException e) {
-			logger.error("Can't instantiate StudyDAO", e);
-			return null;
-		}
 
 		try {
 			List<String> studyList = studyDAO.getList(getUser().getApiToken());
@@ -122,24 +113,197 @@ public class StudyController {
 
 	}
 
-	private RestResponse<Study> getStudy (String accession, boolean includeMAFFiles)  {
+	@RequestMapping("goinglive/{days}")
+	@ResponseBody
+	public RestResponse<String[]> getAllStudyIdentifiersGoingLive(@PathVariable("days") int numberOfDays) throws DAOException {
 
-		RestResponse<Study> response = new RestResponse<Study>();
+		logger.info("Requesting a list of all public studies that should go live to the webservice");
+
+		RestResponse<String[]> response = new RestResponse<>();
+
+		studyDAO = getStudyDAO();
+
 
 		try {
-			studyDAO= getStudyDAO();
+			List<String> studyList = studyDAO.getStudiesToGoLiveList(getUser().getApiToken(), numberOfDays);
 
+			String[] strarray = studyList.toArray(new String[0]);
+			response.setContent(strarray);
 		} catch (DAOException e) {
-			logger.error("Can't instantiate StudyDAO", e);
-			return null;
+			logger.error("Can't get the list of studies going live", e);
+			response.setMessage("Can't get the studies requested.");
+			response.setErr(e);
+		}
+
+		return response;
+
+	}
+
+	@RequestMapping("makestudiespublic")
+	@ResponseBody
+	public RestResponse<ArrayList<String>> makeStudiesPublic() throws DAOException {
+
+		logger.info("Making studies public");
+
+		RestResponse<ArrayList<String>> response = new RestResponse<>();
+		response.setContent(new ArrayList<String>());
+
+		studyDAO = getStudyDAO();
+
+		List<String> studyList = studyDAO.getStudiesToGoLiveList(getUser().getApiToken());
+
+		String itemLog;
+		int errors = 0;
+
+		for (String studyIdentifier : studyList) {
+
+			try {
+				updateStatus(studyIdentifier, LiteStudy.StudyStatus.PUBLIC);
+				itemLog = "Study " + studyIdentifier + " made PUBLIC.";
+
+			} catch (Exception e) {
+
+				itemLog = "Can't make " + studyIdentifier + " PUBLIC: " + e.getMessage();
+				logger.error(itemLog, studyIdentifier,e);
+				errors++;
+				response.setErr(e);
+			}
+
+			response.getContent().add(itemLog);
+
+		}
+
+		if (errors > 0) {
+			response.setMessage("There were " + errors + " errors out of " + studyList.size() + ". Check content for details. Last error is in the error object.");
+		} else {
+			if (studyList.size()== 0){
+				response.setMessage("There isn't any study due to be public today.");
+			} else {
+
+				response.setMessage("All studies were made public. See content for list.");
+			}
+		}
+
+		return response;
+
+	}
+
+
+	/**
+	 * To update the public release date of a study.
+	 * @param studyIdentifier
+	 * @param newPublicReleaseDate
+	 * @return
+	 */
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/publicreleasedate", method= RequestMethod.PUT)
+	@ResponseBody
+	public RestResponse<Boolean> updatePublicReleaseDate(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody Date newPublicReleaseDate) throws Exception {
+
+		User user = getUser();
+
+		logger.info("User {} requested to update {} public release date to {}", user.getFullName(),studyIdentifier, newPublicReleaseDate);
+
+		studyDAO= getStudyDAO();
+
+		// Update the public release date
+		studyDAO.updateReleaseDate(studyIdentifier, newPublicReleaseDate, user.getApiToken());
+
+		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
+		// Like this we might have concurrency issues?
+		Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
+
+		indexingService.indexStudy(study);
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		restResponse.setContent(true);
+		restResponse.setMessage("Public release date for " + studyIdentifier + " updated to " + study.getStudyPublicReleaseDate() );
+
+		logger.info("public release date updated.");
+
+
+		// Email about this
+		emailService.sendPublicReleaseDateUpdated(study);
+
+		return restResponse;
+
+	}
+
+	/**
+	 * To update the status of a study.
+	 * @param studyIdentifier
+	 * @param newStatus
+	 * @return
+	 */
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/status", method= RequestMethod.PUT)
+	@ResponseBody
+	public RestResponse<Boolean> updateStatusUrl(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody LiteStudy.StudyStatus newStatus) {
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+
+		try {
+			newStatus = updateStatus(studyIdentifier, newStatus);
+
+			restResponse.setContent(true);
+			restResponse.setMessage("Status for " + studyIdentifier + " updated to " + newStatus );
+
+		} catch (Exception e) {
+
+			restResponse.setMessage("Couldn't update status for " + studyIdentifier + ": " + e.getMessage());
+			restResponse.setErr(e);
 		}
 
 
+		return restResponse;
+
+	}
+
+
+	private LiteStudy.StudyStatus updateStatus(String studyIdentifier, LiteStudy.StudyStatus newStatus) throws DAOException, IsaTabException, IndexingFailureException {
+
+		User user = getUser();
+
+		logger.info("User {} requested to update {} status to {}", user.getFullName(),studyIdentifier, newStatus.name());
+
+		studyDAO= getStudyDAO();
+
+		// Update the status
+		Study study = studyDAO.updateStatus(studyIdentifier, newStatus, user.getApiToken());
+
+		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
+		// Like this we might have concurrency issues?
+
+		indexingService.indexStudy(study);
+
+		logger.info("{} study status updated." , studyIdentifier);
+
+		// Email about this
+		emailService.sendStatusChanged(study);
+
+		return study.getStudyStatus();
+	}
+
+
+	private StudyRestResponse getStudy(String studyIdentifier, boolean includeMAFFiles, String obfuscationCode) throws DAOException {
+
+		StudyRestResponse response = new StudyRestResponse();
+
+		studyDAO= getStudyDAO();
+
 		// Get the study
 		try {
-			response.setContent(studyDAO.getStudy(accession.toUpperCase(), getUser().getApiToken(), includeMAFFiles));           //Do not include metabolites (MAF) when loading this from the webapp.  This is added on later as an AJAX call
+
+			Study study = null;
+
+			if (obfuscationCode == null) {
+				study = studyDAO.getStudy(studyIdentifier.toUpperCase(), getUser().getApiToken(), includeMAFFiles);
+			} else {
+				study = studyDAO.getStudyByObfuscationCode(obfuscationCode, includeMAFFiles);
+			}
+
+			response.setContent(study);
+
 		} catch (DAOException e) {
-			logger.error("Can't get the study requested " + accession, e);
+			logger.error("Can't get the study requested " + studyIdentifier, e);
 			response.setMessage("Can't get the study requested.");
 			response.setErr(e);
 		}
@@ -148,42 +312,26 @@ public class StudyController {
 
 	}
 
-	private User getUser(){
-
-		User user ;
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!auth.getPrincipal().equals(new String("anonymousUser"))){
-
-			 user = ((SpringUser) auth.getPrincipal()).getMetaboLightsUser();
-
-		} else {
-
-			user = new User();
-			user.setUserName(auth.getPrincipal().toString());
-		}
-
-		return user;
-	}
-
 	private uk.ac.ebi.metabolights.repository.dao.StudyDAO getStudyDAO() throws DAOException {
 
 		if (studyDAO == null){
 
 			studyDAO = DAOFactory.getInstance().getStudyDAO();
+
 		}
 		return studyDAO;
 	}
 
-	@RequestMapping("{accession:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/maf")
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/maf")
 	@ResponseBody
-	public RestResponse<MetaboliteAssignment> getMetabolites(@PathVariable("accession") String accession, @PathVariable("assayIndex") String assayIndex){
+	public RestResponse<MetaboliteAssignment> getMetabolites(@PathVariable("studyIdentifier") String studyIdentifier, @PathVariable("assayIndex") String assayIndex) throws DAOException {
 
 
-		logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + accession + " to the webservice");
+		logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + studyIdentifier + " to the webservice");
 
 		// Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
-		RestResponse<Study> response = getStudy(accession, false);
+		RestResponse<Study> response = getStudy(studyIdentifier, false, null);
 
 		// Get the assay based on the index
 		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);
@@ -207,6 +355,22 @@ public class StudyController {
 		return new RestResponse<MetaboliteAssignment>(metaboliteAssignment);
 	}
 
+	@RequestMapping("obfuscationcode/{obfuscationcode}/assay/{assayIndex}/maf")
+	@ResponseBody
+	public RestResponse<MetaboliteAssignment> getMetabolitesByObfuscationCode(@PathVariable("obfuscationcode") String obfuscationCode, @PathVariable("assayIndex") String assayIndex) throws DAOException, IsaTabException {
+
+		logger.info("Requesting maf file of the assay " + assayIndex + " by obfuscationcode " + obfuscationCode + " to the webservice");
+
+		studyDAO = getStudyDAO();
+
+		String studyIdentifier = studyDAO.getStudyIdByObfuscationCode(obfuscationCode);
+
+
+		return getMetabolites(studyIdentifier, assayIndex);
+
+	}
+
+
 	private boolean checkFileExists(String filePath){
 
 		if (filePath == null || filePath.isEmpty())
@@ -220,4 +384,80 @@ public class StudyController {
 		return false;
 
 	}
+
+	/**
+	 * To update the status of a study.
+	 * @param studyIdentifier
+	 * @return
+	 */
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}", method= RequestMethod.DELETE)
+	@ResponseBody
+	public RestResponse<Boolean> deleteStudy(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException, IsaTabException, IndexingFailureException, IOException {
+
+		User user = getUser();
+
+		logger.info("User {} requested to delete {}", user.getFullName(), studyIdentifier);
+
+		studyDAO= getStudyDAO();
+
+		// Get the study
+		Study studyToDelete = studyDAO.getStudy(studyIdentifier,user.getApiToken());
+
+		// Update the status
+		studyDAO.delete(studyIdentifier, user.getApiToken());
+
+		indexingService.deleteStudy(studyIdentifier);
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		restResponse.setContent(true);
+		restResponse.setMessage("Study " + studyIdentifier + " deleted." );
+
+		logger.info("{} study deleted.", studyIdentifier);
+
+		// Email about this
+		emailService.sendStudyDeleted(studyToDelete);
+
+		return restResponse;
+
+
+	}
+
+	/**
+	 * To update the public release date of a study.
+	 * @param studyIdentifier
+	 * @param backupIdentifier
+	 * @return
+	 */
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/restore", method= RequestMethod.PUT)
+	@ResponseBody
+	public RestResponse<Boolean> restore(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody String backupIdentifier) throws Exception {
+
+		User user = getUser();
+
+		logger.info("User {} requested to restore {} backup of {}", user.getFullName(),backupIdentifier,studyIdentifier);
+
+		studyDAO= getStudyDAO();
+
+		// Update the public release date
+		studyDAO.restoreBackup(studyIdentifier, user.getApiToken(), backupIdentifier);
+
+		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
+		// Like this we might have concurrency issues?
+		Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
+
+		indexingService.indexStudy (study);
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		restResponse.setContent(true);
+		restResponse.setMessage("Backup (" + backupIdentifier + ") of " + studyIdentifier + " restored.");
+
+		logger.info("Backup restored.");
+
+		return restResponse;
+
+
+	}
+
+
+
 }

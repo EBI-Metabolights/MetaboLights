@@ -28,7 +28,11 @@ import org.isatools.isacreator.model.StudyDesign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabReplacer;
 import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.io.File;
 import java.text.ParseException;
@@ -87,69 +91,104 @@ public class IsaTab2MetaboLightsConverter {
 
     private static Study isaTabInvestigation2MetaboLightsStudy(org.isatools.isacreator.model.Investigation source, String studyFolder, boolean includeMetabolites, Study studyToFill) {
 
-        // Instantiate new MetaboLights investigation object
-        Study metStudy = studyToFill;
-
 
         // Get the first and unique study
         org.isatools.isacreator.model.Study isaStudy = source.getStudies().values().iterator().next();
 
+        IsaTabReplacer isaTabIdReplacer = new IsaTabReplacer(new File(studyFolder).getAbsolutePath());
 
-        // Populate direct study members
-        metStudy.setStudyIdentifier(isaStudy.getStudyId());
-        metStudy.setTitle(isaStudy.getStudyTitle());
-        metStudy.setDescription(isaStudy.getStudyDesc());
+        try {
+            if (!isaTabIdReplacer.execute()) {
 
-        if (isaStudy.getPublicReleaseDate() != null){
+                for (Exception exception : isaTabIdReplacer.getExceptions()) {
+                    studyToFill.getIsatabErrorMessages().add(exception.getMessage());
 
-            // Give precedence to existing date
-            // Fill it if it doesn't exist.
-            if (metStudy.getStudyPublicReleaseDate() == null) {
-                metStudy.setStudyPublicReleaseDate(isaTabDate2Date(isaStudy.getPublicReleaseDate()));
+                }
             }
         }
+        catch(Exception e){
 
-        // If release dates do not match...
-        if (!isaStudy.getPublicReleaseDate().equals(metStudy.getStudyPublicReleaseDate())){
-
-            logger.warn(studyToFill.getStudyIdentifier() + " release date from the DB (" + studyToFill.getStudyPublicReleaseDate() + ") doesn't match the same in the file (" + isaStudy.getPublicReleaseDate() + ")");
-
+            studyToFill.getIsatabErrorMessages().add(e.getMessage());
         }
 
+        // Populate direct study members
+        if (studyToFill.getStudyIdentifier() == null || studyToFill.getStudyIdentifier().isEmpty())
+        {
+            studyToFill.setStudyIdentifier(isaStudy.getStudyId());
+        }
+        studyToFill.setTitle(isaStudy.getStudyTitle());
+        studyToFill.setDescription(isaStudy.getStudyDesc());
+        studyToFill.setStudyLocation(studyFolder);
 
-        if (isaStudy.getDateOfSubmission() != null)
-            metStudy.setStudySubmissionDate(isaTabDate2Date(isaStudy.getDateOfSubmission()));
 
-        metStudy.setStudyLocation(studyFolder);
+        // Public release date (prioritise DB)
+        studyToFill.setStudyPublicReleaseDate(chooseDate(studyToFill.getStudyPublicReleaseDate(),isaStudy.getPublicReleaseDate(),"Release date", studyToFill));
+
+        // Submission date..(prioritise DB)
+        studyToFill.setStudySubmissionDate(chooseDate(studyToFill.getStudySubmissionDate(), isaStudy.getDateOfSubmission(), "Submission date", studyToFill));
+
 
 
         // Now collections
         // Contacts
-        metStudy.setContacts(isaTabContacts2MetaboLightsContacts(isaStudy));
+        studyToFill.setContacts(isaTabContacts2MetaboLightsContacts(isaStudy));
 
         // Study design descriptors
-        metStudy.setDescriptors(isaTabStudyDesign2MetaboLightsStudiesDesignDescriptors(isaStudy));
+        studyToFill.setDescriptors(isaTabStudyDesign2MetaboLightsStudiesDesignDescriptors(isaStudy));
 
         // Study factors
-        metStudy.setFactors(isaTabStudyFactors2MetaboLightsStudyFactors(isaStudy));
+        studyToFill.setFactors(isaTabStudyFactors2MetaboLightsStudyFactors(isaStudy));
 
         // Publications
-        metStudy.setPublications(isaTabPublications2MetaboLightsPublications(isaStudy));
+        studyToFill.setPublications(isaTabPublications2MetaboLightsPublications(isaStudy));
 
         // Protocols
-        metStudy.setProtocols(isaTabProtocols2MetaboLightsProtocols(isaStudy));
+        studyToFill.setProtocols(isaTabProtocols2MetaboLightsProtocols(isaStudy));
 
         //Assays
-        metStudy.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, metStudy, includeMetabolites));
+        studyToFill.setAssays(isaTabAssays2MetabolightsAssays(isaStudy, studyToFill, includeMetabolites));
 
         //Samples
-        metStudy.setSampleTable(isaTabSamples2MetabolightsSamples(isaStudy, metStudy));
+        studyToFill.setSampleTable(isaTabSamples2MetabolightsSamples(isaStudy, studyToFill));
 
         //Organism and Organism part
-        metStudy.setOrganism(sampleOrg2organism(metStudy));
+        studyToFill.setOrganism(sampleOrg2organism(studyToFill));
+
+        return studyToFill;
+    }
 
 
-        return metStudy;
+    private static Date chooseDate(Date firstOption, String secondOption, String field, Study studyToFill){
+
+        Validation validation = new Validation(field + " synchronization", Requirement.OPTIONAL, Group.ISATAB);
+
+        Date chosenOne = firstOption;
+
+        // Date from isatab file.
+        if (secondOption == null) {
+            validation.setMessage(studyToFill.getStudyIdentifier() + " " + field + " from the filesystem is null");
+            validation.setPassedRequirement(false);
+
+        } else if (firstOption == null) {
+            validation.setMessage(studyToFill.getStudyIdentifier() + " " + field + " from the DB is null");
+            validation.setPassedRequirement(false);
+            chosenOne = isaTabDate2Date(secondOption);
+
+        // If second option does not match the first one....
+        } else if (!secondOption.equals(date2IsaTabDate(firstOption))) {
+                validation.setMessage(studyToFill.getStudyIdentifier() + " " + field + " from the DB (" + firstOption + ") doesn't match the same in the file (" + secondOption + ")");
+                validation.setPassedRequirement(false);
+
+        } else {
+            validation.setMessage(studyToFill.getStudyIdentifier() + " " + field + " from the DB (" + firstOption + ") matches the same in the file (" + secondOption + ")");
+            validation.setPassedRequirement(true);
+        }
+
+        validation.setStatus();
+        studyToFill.getValidations().getEntries().add(validation);
+
+        return chosenOne;
+
     }
 
     private static Collection<Organism> sampleOrg2organism(Study metStudy) {
@@ -475,5 +514,10 @@ public class IsaTab2MetaboLightsConverter {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    public static String date2IsaTabDate(Date date) {
+
+        return isaTabDateFormat.format(date.getTime());
     }
 }

@@ -11,16 +11,16 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import junit.framework.TestCase;
-import org.apache.log4j.BasicConfigurator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.*;
+import uk.ac.ebi.metabolights.referencelayer.model.*;
 
 import java.io.File;
 import java.sql.Connection;
+import java.util.List;
 
 public class ReaderTestCompoundDB extends TestCase{
 
@@ -37,8 +37,6 @@ public class ReaderTestCompoundDB extends TestCase{
 	@BeforeClass
 	protected void setUp() throws Exception {
 
-		// Set up a simple configuration that logs on the console.
-	    BasicConfigurator.configure();
 
         DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();
@@ -192,6 +190,15 @@ public class ReaderTestCompoundDB extends TestCase{
 //
 //    }
 
+    public void testGetAllCompoundIds() throws Exception {
+
+        List<String> ids = mcd.getAllCompoundsIds();
+
+        assertNotNull("ids collection is null", ids);
+        assertFalse("No compound ids were returned", ids.size()==0);
+    }
+
+
     public  void testExistCompound() throws Exception{
 
         boolean exists = mcd.doesCompoundExists(Long.parseLong(expected[0]));
@@ -245,7 +252,7 @@ public class ReaderTestCompoundDB extends TestCase{
 
 		assertNotNull(mc);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , mc.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id" , Long.parseLong(expectedvalues[0]) , mc.getId().longValue());
 		assertEquals("Checking " + expectedvalues[1] + " accesion" , expectedvalues[1] , mc.getAccession());
 		assertEquals("Checking " + expectedvalues[1] + " name" , expectedvalues[2] , mc.getName());
 		assertEquals("Checking " + expectedvalues[1] + " description" , expectedvalues[3] , mc.getDescription());

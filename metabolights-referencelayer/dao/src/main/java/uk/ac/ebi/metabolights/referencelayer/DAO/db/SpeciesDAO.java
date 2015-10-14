@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.ISpeciesDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.Species;
-import uk.ac.ebi.metabolights.referencelayer.domain.SpeciesMembers;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
+import uk.ac.ebi.metabolights.referencelayer.model.SpeciesMembers;
 
 import java.io.IOException;
 import java.sql.*;

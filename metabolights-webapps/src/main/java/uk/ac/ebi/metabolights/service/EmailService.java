@@ -21,6 +21,9 @@
 
 package uk.ac.ebi.metabolights.service;
 
+import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,10 +34,9 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import uk.ac.ebi.metabolights.form.ContactValidation;
-import uk.ac.ebi.metabolights.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import org.apache.velocity.app.VelocityEngine;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -53,6 +55,8 @@ import java.util.Map;
  */
 @Service
 public class EmailService {
+
+	private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     private @Value("#{EBIHost}") String prodURL;
     private @Value("#{curationEmailAddress}") String curationEmailAddress;
@@ -186,20 +190,41 @@ public class EmailService {
 
     /**
      * Sends an email to the submitter and the curators that a study will go public
-     * @param submitterEmail
-     * @param publicDate
-     * @param acc
+     * @param study
      */
-    public void sendStudyGoingPublicNotification(String submitterEmail, Date publicDate, String acc){
+    public void sendStudyGoingPublicNotification(LiteStudy study){
         SimpleMailMessage msg = new SimpleMailMessage(this.studySoonLiveTemplate);
-        String body = PropertyLookup.getMessage("msg.studySoonLive", acc, new SimpleDateFormat("dd-MM-yyyy").format(publicDate));
-        String[] emailTo = new String[] {submitterEmail,curationEmailAddress};
+        String body = PropertyLookup.getMessage("msg.studySoonLive", study.getStudyIdentifier(), new SimpleDateFormat("dd-MM-yyyy").format(study.getStudyPublicReleaseDate()));
+        String[] emailTo = getRecipientsForStudy(study);
         msg.setTo(emailTo);
         msg.setText(body);
         //mailSender.send(msg);
 		sendHTMLEmail(msg);
 
     }
+
+	private String[] getRecipientsForStudy(LiteStudy study) {
+
+		if (study == null){
+			return new String[]{curationEmailAddress};
+		} else {
+
+			int recipientsNumber = study.getUsers().size() + 1;
+
+			String[] recipients = new String[recipientsNumber];
+
+			for (int i = 0; i < study.getUsers().size(); i++) {
+
+				String email = study.getUsers().get(i).getEmail();
+				recipients[i] = email;
+			}
+
+			// Add the curators emailaddress
+			recipients[recipientsNumber-1] = curationEmailAddress;
+			return recipients;
+		}
+	}
+
 
 	private void sendHTMLEmail(SimpleMailMessage msg){
 		sendHTMLEmail(msg.getFrom(),msg.getTo(),msg.getSubject(),msg.getText(),"");
@@ -280,18 +305,18 @@ public class EmailService {
 
 	}
 
-	/*
-	 * Email to send when a study is been successfully updated ...
-	 */
-	public void sendQueuedStudyUpdated(String userEmail,String ID, Date publicReleaseDate){
-		String from = PropertyLookup.getMessage("mail.noreplyaddress");
-		String[] to = {userEmail, curationEmailAddress};
-		String subject = PropertyLookup.getMessage("mail.updateStudy.subject", ID);
-		String body = PropertyLookup.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
-
-		sendSimpleEmail(from, to, subject, body);
-
-	}
+//	/*
+//	 * Email to send when a study is been successfully updated ...
+//	 */
+//	public void sendQueuedStudyUpdated(String userEmail,String ID, Date publicReleaseDate){
+//		String from = PropertyLookup.getMessage("mail.noreplyaddress");
+//		String[] to = {userEmail, curationEmailAddress};
+//		String subject = PropertyLookup.getMessage("mail.updateStudy.subject", ID);
+//		String body = PropertyLookup.getMessage("mail.updateStudy.body", new String[]{  ID, publicReleaseDate.toString(), prodURL});
+//
+//		sendSimpleEmail(from, to, subject, body);
+//
+//	}
 
 	/*
 	 * Email to send when a study's public release date is been successfully updated ...
@@ -316,37 +341,37 @@ public class EmailService {
 
 	}
 
-	/*
-	 * Email to send when the submission process fails...
-	 */
-	public void sendSubmissionError(String userEmail, String fileName, Exception error) throws Exception {
-		String from = curationEmailAddress;
-		String[] to = {userEmail, curationEmailAddress};
-		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
-        String hostName = java.net.InetAddress.getLocalHost().getHostName();
-        String body;
-
-        if(error instanceof IsaTabException){
-            IsaTabException ie = (IsaTabException) error;
-            String[] errorChunks = null;
-            String errorMessage = null;
-            if (ie.geTechnicalInfo().contains("\tat "))
-                errorChunks = ie.geTechnicalInfo().split("\tat ");
-
-            if (errorChunks != null)
-                errorMessage = errorChunks[0];
-
-            if (errorMessage != null)
-                errorMessage = errorMessage.replace("/nfs/public/rw/homes/tc_cm01/metabolights","MetaboLightsHomeFolder");
-
-            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, errorMessage});
-        } else {
-            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, error.getMessage()});
-        }
-		//sendSimpleEmail(from, to, subject, body);
-		sendHTMLEmail(from, to, subject, body, exceptionToString(error));
-
-	}
+//	/*
+//	 * Email to send when the submission process fails...
+//	 */
+//	public void sendSubmissionError(String userEmail, String fileName, Exception error) throws Exception {
+//		String from = curationEmailAddress;
+//		String[] to = {userEmail, curationEmailAddress};
+//		String subject = PropertyLookup.getMessage("mail.errorInStudy.subject", fileName );
+//        String hostName = java.net.InetAddress.getLocalHost().getHostName();
+//        String body;
+//
+//        if(error instanceof IsaTabException){
+//            IsaTabException ie = (IsaTabException) error;
+//            String[] errorChunks = null;
+//            String errorMessage = null;
+//            if (ie.geTechnicalInfo().contains("\tat "))
+//                errorChunks = ie.geTechnicalInfo().split("\tat ");
+//
+//            if (errorChunks != null)
+//                errorMessage = errorChunks[0];
+//
+//            if (errorMessage != null)
+//                errorMessage = errorMessage.replace("/nfs/public/rw/homes/tc_cm01/metabolights","MetaboLightsHomeFolder");
+//
+//            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, errorMessage});
+//        } else {
+//            body = PropertyLookup.getMessage("mail.errorInStudy.body", new String[]{fileName, error.getMessage(), hostName, error.getMessage()});
+//        }
+//		//sendSimpleEmail(from, to, subject, body);
+//		sendHTMLEmail(from, to, subject, body, exceptionToString(error));
+//
+//	}
 
 	private void sendHTMLEmail(final String from, final String[] to, final String subject,  final String body,  final String technicalInfo) {
 
@@ -366,10 +391,19 @@ public class EmailService {
 				model.put("technicalInfo", HTMLtechnicalInfo);
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, "email_template/htmlemail.vm", model);
+
+
 				message.setText(text, true);
 			}
 		};
-		this.mailSender.send(preparator);
+
+		try {
+
+			this.mailSender.send(preparator);
+		} catch (Exception e) {
+
+			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Body:\n{}\n\nTechnical info:\n{}",subject,body,technicalInfo ,e);
+		}
 	}
 
 	private String exceptionToString(Exception error){

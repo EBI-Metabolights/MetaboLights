@@ -13,7 +13,10 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IAttributeDAO;
-import uk.ac.ebi.metabolights.referencelayer.domain.*;
+import uk.ac.ebi.metabolights.referencelayer.model.Attribute;
+import uk.ac.ebi.metabolights.referencelayer.model.AttributeDefinition;
+import uk.ac.ebi.metabolights.referencelayer.model.Spectra;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 
 import java.io.IOException;
 import java.sql.*;
@@ -152,7 +155,7 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
     }
 
     @Override
-    public void savePathwayAttribute(Attribute attribute, Identifier pathway) throws DAOException {
+    public void savePathwayAttribute(Attribute attribute, Entity pathway) throws DAOException {
 
         // Validate:
         // Pathway must exist

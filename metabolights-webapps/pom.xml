@@ -38,7 +38,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <org.spring.version>3.2.5.RELEASE</org.spring.version>
         <org.spring.security.version>3.2.5.RELEASE</org.spring.security.version>
+
+        <!-- Maximum version compatible with spring 3.x: http://www.mkyong.com/hibernate/java-lang-classnotfoundexception-org-hibernate-service-jta-platform-spi-jtaplatform/-->
+        <!--<org.hibernate.version>4.3.8.Final</org.hibernate.version>-->
+        <org.hibernate.version>4.2.11.Final</org.hibernate.version>
+
     </properties>
+
 
     <build>
         <plugins>
@@ -82,10 +88,130 @@
     </build>
 
     <dependencies>
+
+
+        <!--Own dependencies-->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.7</version>
+            <groupId>uk.ac.ebi</groupId>
+            <artifactId>ebinocle</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.biobabel</groupId>
+            <artifactId>ebeye-client</artifactId>
+            <version>2.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
+            <artifactId>metabolights-referencelayer-dao</artifactId>
+            <version>4.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.biobabel</groupId>
+            <artifactId>biobabel-citations</artifactId>
+            <version>2.0.3</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <artifactId>metabolights-ws-client</artifactId>
+            <groupId>uk.ac.ebi.metabolights</groupId>
+            <version>4.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>metabolights-isatab-utils</artifactId>
+            <groupId>uk.ac.ebi.metabolights</groupId>
+            <version>1.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
+            <artifactId>referencelayer-importer</artifactId>
+            <version>0.4-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-fileupload</artifactId>
+                    <groupId>commons-fileupload</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>activation</artifactId>
+                    <groupId>javax.activation</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.rcloud</groupId>
+            <artifactId>rcloud-server-api</artifactId>
+            <version>1.2.0-rcloud</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>ojdbc6</artifactId>
+                    <groupId>com.oracle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+
+        <!--Logging stuff-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-web</artifactId>
+            <version>2.2</version>
+            <!--<scope>runtime</scope>-->
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -98,6 +224,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+
+        <!-- Third party dependencies-->
+
+
+        <!--Spring-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -246,6 +378,36 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${org.hibernate.version}</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-annotations</artifactId>-->
+            <!--<version>3.4.0.GA</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-commons-annotations</artifactId>-->
+            <!--<version>3.3.0.ga</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-entitymanager</artifactId>-->
+            <!--<version>3.4.0.GA</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.3.2.Final</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>oracle</groupId>
             <artifactId>ojdbc6</artifactId>
@@ -298,54 +460,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>4.0.2.GA</version>
-            <type>jar</type>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-analyzers</artifactId>
-            <version>3.4.0.Final</version>
-            <type>jar</type>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>commons-io</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>lucene-core</artifactId>
-                    <groupId>org.apache.lucene</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>rhino</groupId>
             <artifactId>js</artifactId>
             <version>1.7R2</version>
@@ -360,133 +474,6 @@
             <type>jar</type>
             <scope>test</scope>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.jwebunit</groupId>
-            <artifactId>jwebunit-htmlunit-plugin</artifactId>
-            <version>2.5</version>
-            <type>jar</type>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-io</artifactId>
-                    <groupId>org.apache.commons</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>httpclient</artifactId>
-                    <groupId>org.apache.httpcomponents</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jcl-over-slf4j</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.12.1.GA</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.isatools</groupId>
-            <artifactId>import_layer_MTBLS_API</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-io</artifactId>
-                    <groupId>org.apache.commons</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-beanutils</artifactId>
-                    <groupId>commons-beanutils</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-dbcp</artifactId>
-                    <groupId>commons-dbcp</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>ojdbc5</artifactId>
-                    <groupId>com.oracle</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>h2</artifactId>
-                    <groupId>com.h2database</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <dependency>
-            <groupId>uk.ac.ebi</groupId>
-            <artifactId>ebinocle</artifactId>
-            <version>1.0.4</version>
-        </dependency>
-        <dependency>
-            <groupId>uk.ac.ebi.biobabel</groupId>
-            <artifactId>ebeye-client</artifactId>
-            <version>2.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
-            <artifactId>metabolights-referencelayer-dao</artifactId>
-            <version>0.92-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-		<dependency>
-			<groupId>uk.ac.ebi.biobabel</groupId>
-			<artifactId>biobabel-citations</artifactId>
-			<version>2.0.3</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>uk.ac.ebi.pride.web</groupId>
@@ -544,16 +531,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <artifactId>metabolights-ws-client</artifactId>
-            <groupId>uk.ac.ebi.metabolights</groupId>
-            <version>3.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <artifactId>metabolights-isatab-utils</artifactId>
-            <groupId>uk.ac.ebi.metabolights</groupId>
-            <version>1.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
@@ -564,66 +541,73 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jdbc</artifactId>
-            <version>7.0.19</version>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+
+        <!-- Tomcat stuff-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <type>jar</type>
             <scope>provided</scope>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.tomcat</groupId>-->
+            <!--<artifactId>tomcat-jdbc</artifactId>-->
+            <!--<version>7.0.19</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+
+        <!-- Test stuff-->
         <dependency>
-            <groupId>uk.ac.ebi.metabolights.referencelayer</groupId>
-            <artifactId>referencelayer-importer</artifactId>
-            <version>0.4-SNAPSHOT</version>
+            <groupId>net.sourceforge.jwebunit</groupId>
+            <artifactId>jwebunit-htmlunit-plugin</artifactId>
+            <version>2.5</version>
+            <type>jar</type>
+            <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <artifactId>commons-fileupload</artifactId>
-                    <groupId>commons-fileupload</groupId>
+                    <artifactId>commons-io</artifactId>
+                    <groupId>org.apache.commons</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
+                    <artifactId>httpclient</artifactId>
+                    <groupId>org.apache.httpcomponents</groupId>
                 </exclusion>
-                <exclusion>
-                    <artifactId>activation</artifactId>
-                    <groupId>javax.activation</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>uk.ac.ebi.rcloud</groupId>
-            <artifactId>rcloud-server-api</artifactId>
-            <version>1.2.0-rcloud</version>
-            <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
                     <groupId>org.slf4j</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>ojdbc6</artifactId>
-                    <groupId>com.oracle</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-log4j12</artifactId>
+                    <artifactId>jcl-over-slf4j</artifactId>
                     <groupId>org.slf4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>15.0</version>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

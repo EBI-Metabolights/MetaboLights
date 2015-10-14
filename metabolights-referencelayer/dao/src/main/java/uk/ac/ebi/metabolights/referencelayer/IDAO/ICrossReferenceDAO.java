@@ -10,11 +10,11 @@
 
 package uk.ac.ebi.metabolights.referencelayer.IDAO;
 
-import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;
+import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
 
 
 /**
- * Reader for {@link uk.ac.ebi.metabolights.referencelayer.domain.CrossReference} objects from MetaboLights reference layer.
+ * Reader for {@link uk.ac.ebi.metabolights.referencelayer.model.CrossReference} objects from MetaboLights reference layer.
  * @author Pablo Conesa
  */
 

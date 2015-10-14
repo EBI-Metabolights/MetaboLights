@@ -22,24 +22,25 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.metabolights.repository.model.LiteEntity;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
-import uk.ac.ebi.metabolights.search.service.SearchService;
 import uk.ac.ebi.metabolights.search.service.SearchUser;
+import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
 
 @Controller
 @RequestMapping("search")
 public class SearchController extends BasicController {
 
-	private SearchService <Object,LiteEntity>searchService = IndexController.searchService;
+	@Autowired
+	ElasticSearchService searchService;
 
     @RequestMapping(method= RequestMethod.GET)
 	@ResponseBody
@@ -66,7 +67,17 @@ public class SearchController extends BasicController {
 			query = new SearchQuery("");
 		}
 
-		response.setContent(searchService.search(query));
+		try{
+			response.setContent(searchService.search(query));
+		} catch (Exception e){
+
+			// In case of an error...
+			SearchResult result = new SearchResult();
+			result.setQuery(query);
+			response.setContent(result);
+			response.setErr(e);
+			response.setMessage("Search service is not working properly");
+		}
 
 		return response;
 

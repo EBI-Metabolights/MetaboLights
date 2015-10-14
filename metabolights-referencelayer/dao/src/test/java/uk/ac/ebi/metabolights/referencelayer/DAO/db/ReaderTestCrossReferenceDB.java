@@ -11,14 +11,13 @@
 package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 
 import junit.framework.TestCase;
-import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
-import uk.ac.ebi.metabolights.referencelayer.domain.CrossReference;
-import uk.ac.ebi.metabolights.referencelayer.domain.Database;
+import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
+import uk.ac.ebi.metabolights.referencelayer.model.Database;
 
 import java.sql.Connection;
 
@@ -37,8 +36,6 @@ public class ReaderTestCrossReferenceDB extends TestCase{
 	@BeforeClass
 	protected void setUp() throws Exception {
 
-		// Set up a simple configuration that logs on the console.
-	    BasicConfigurator.configure();
 
 		DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 		con = dbi.getConnection();
@@ -132,7 +129,7 @@ public class ReaderTestCrossReferenceDB extends TestCase{
 
 		assertNotNull(cr);
 		// If the id is not null
-		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id", Long.parseLong(expectedvalues[0]), cr.getId());
+		if (expectedvalues[0] != null) 	assertEquals("Checking " + expectedvalues[1] + " id", Long.parseLong(expectedvalues[0]), cr.getId().longValue());
 		assertEquals("Checking CrossRefererence accession" , expectedvalues[1] , cr.getAccession());
 
         // If the id is not null (compound is saved)...
