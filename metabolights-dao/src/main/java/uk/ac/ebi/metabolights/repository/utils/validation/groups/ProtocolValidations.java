@@ -32,7 +32,7 @@ public class ProtocolValidations implements IValidationProcess {
         if (!study.getSampleTable().getData().isEmpty()) {
             protocolValidations.add(getSampleCollectionProtocolValidation(study));
         }
-        if (minimumProtocolValidation.getPassedRequirement()) {
+        if (!study.getProtocols().isEmpty()) {
             protocolValidations.add(protocolsDecodeIsSuccessfulValidation(study));
         }
         return protocolValidations;

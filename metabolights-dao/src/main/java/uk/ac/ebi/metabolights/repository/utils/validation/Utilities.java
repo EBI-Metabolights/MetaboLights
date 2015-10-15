@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class Utilities {
 
+    public static final int[] exceptionalOtherSymbols = {8482, 176, 8451, 8457, 8480, 8482};
+
     public static Status checkOverallStatus(Collection<Validation> validations) {
         int red = 0;
         int orange = 0;
@@ -57,12 +59,23 @@ public class Utilities {
             int other_Symbol = Character.OTHER_SYMBOL;
             int this_ = Character.getType(character.charAt(0));
 
-            // 0x003F is for ? mark
             if (other_Symbol == this_ || Arrays.equals(character.toCharArray(), Character.toChars(0x003F))) {
-                result.add(character);
+                int codePoint = character.codePointAt(0);
+                if (!exceptional(codePoint)) {
+                    result.add(character);
+                }
             }
 
         }
         return result;
+    }
+
+    private static boolean exceptional(int code) {
+        for (int i : exceptionalOtherSymbols) {
+            if (i == code) {
+                return true;
+            }
+        }
+        return false;
     }
 }
