@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Utilities {
 
-    public static final int[] exceptionalOtherSymbols = {8482, 176, 8451, 8457, 8480, 8482};
+    public static final int[] exceptionalOtherSymbols = {8482, 176, 174, 8451, 8457, 8480, 8482, 9702, 9474};
 
     public static Status checkOverallStatus(Collection<Validation> validations) {
         int red = 0;
