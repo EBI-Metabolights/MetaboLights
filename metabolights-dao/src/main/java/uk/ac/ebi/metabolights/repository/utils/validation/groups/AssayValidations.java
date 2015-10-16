@@ -202,9 +202,9 @@ public class AssayValidations implements IValidationProcess {
         List<String> possibleRawFiles = new ArrayList<>();
 
         for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
+           // if (listOfFiles[i].isFile()) {
                 possibleRawFiles.add(listOfFiles[i].getName());
-            }
+          //  }
         }
         return possibleRawFiles;
     }
