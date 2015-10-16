@@ -53,6 +53,7 @@ import uk.ac.ebi.metabolights.repository.utils.StringUtils;
 
 import javax.naming.ConfigurationException;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 
 
@@ -323,6 +324,8 @@ public class IsaTabReplacer
 
 		try {
 			//Use a buffered reader
+			logger.warn(String.format("file.encoding: %s", System.getProperty("file.encoding")));
+			logger.warn(String.format("defaultCharset: %s", Charset.defaultCharset().name()));
 			BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
 			String line = "", text = "";
 
@@ -370,7 +373,7 @@ public class IsaTabReplacer
 			//Save the file
 			// NOT we are not making a back up here!! If needed we will need to call
 			//FileAuditUtil.backUpAuditedFolder(fileWithId.getParent());
-			FileUtil.String2File(text, fileWithId.getPath(),false);
+		 FileUtil.String2File(text, fileWithId.getPath(),false);
 
 		} catch (FileNotFoundException e) {
 			annotateError(e);
