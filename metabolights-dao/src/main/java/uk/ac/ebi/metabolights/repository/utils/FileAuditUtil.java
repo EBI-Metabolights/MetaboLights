@@ -75,6 +75,12 @@ public class FileAuditUtil {
 
 	public static void moveFileToAuditedFolder(File fileToMove, File auditedFolder, File backUpFolder, boolean copy, boolean backup) throws IOException {
 
+		// Do not allow empty files
+		if (fileToMove.length() == 0) {
+			logger.info("{} is and empty file. It will not be moved.", fileToMove.getName());
+			return;
+		}
+
 		// Compose the file to back up
 		File fileToSave = new File (auditedFolder,fileToMove.getName());
 
@@ -146,7 +152,7 @@ public class FileAuditUtil {
 
 		} else {
 
-			// For each file/folder under the folderwith content
+			// For each file/folder under the folder with content
 			for (File file : folderWithFilesToMove.listFiles()) {
 				moveFileToAuditedFolder(file, auditedFolder,backUpFolder, copy, false);
 			}

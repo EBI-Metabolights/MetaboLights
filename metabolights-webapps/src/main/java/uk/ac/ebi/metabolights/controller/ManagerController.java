@@ -238,12 +238,14 @@ public class ManagerController extends AbstractController{
 
 		for (File studyFolder : studiesLocations) {
 
-			StudyHealth studyHealth = getStudyHealth(studyFolder.getName(), studiesHealth);
+			// if file is directory (ignoring files).
+			if (studyFolder.isDirectory()) {
 
-			studyHealth.setStudyFolder(studyFolder);
+				StudyHealth studyHealth = getStudyHealth(studyFolder.getName(), studiesHealth);
+
+				studyHealth.setStudyFolder(studyFolder);
+			}
 		}
-
-
 	}
 
 
