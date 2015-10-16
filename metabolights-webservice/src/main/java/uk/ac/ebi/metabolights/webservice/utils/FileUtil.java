@@ -28,6 +28,9 @@ import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.util.List;
 
 
 public class FileUtil {
@@ -95,7 +98,7 @@ public class FileUtil {
         writer.close();
 	}
 	/**
-	 * Deletes all files and subdirectories under dir.
+	 * Deletes all fileNames and subdirectories under dir.
 	 * 
 	 * @param dir to delete
 	 * @return Returns true if all deletions were successful.
@@ -130,7 +133,7 @@ public class FileUtil {
 
 	public static boolean filesExists(File[] files, boolean throwException) throws FileNotFoundException{
 
-		//Check existence of the files or folders
+		//Check existence of the fileNames or folders
 		for (File file:files)
 		{
 			if (fileExists(file, true))
@@ -194,4 +197,55 @@ public class FileUtil {
 			throw new RuntimeException(PropertyLookUpService.getMessage("Entry.fileMissing"));
 		}
 	}
+
+
+	/**
+	 * Delete a single file
+	 * @param fileName
+	 * @return success status
+	 * @throws IOException, in case the file does not exists
+	 * @author jrmacias
+	 * @date 20151012
+	 */
+	public static boolean deleteFile(String fileName) throws IOException {
+
+		boolean result = false;
+
+		try{
+			// try to delete the file
+			result = Files.deleteIfExists(FileSystems.getDefault().getPath(fileName));
+		}catch (IOException ex){
+			logger.error("Error deleting file: {}", ex.getMessage());
+			throw (new IOException(ex));
+		}finally {
+
+		}
+
+		return result;
+	}
+
+	/**
+	 * Delete a list of fileNames
+	 * @param fileNames
+	 * @return
+	 * @author jrmacias
+	 * @date 20151012
+	 */
+	public static boolean deleteFiles(List<String> fileNames){
+		boolean result = false;
+
+		try {
+			for (String fileName : fileNames) {
+				deleteFile(fileName);
+			}
+			result = true;
+		}
+		catch(IOException ex){
+			logger.error("Error. Some files could not be deleted");
+		}
+		finally {
+			return result;
+		}
+	}
+
 }

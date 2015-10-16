@@ -606,7 +606,16 @@
                         </tbody>
                     </table>
 
-                    <p><input name="submit" type="submit" class="submit" value="<spring:message code="label.downloadSelectedFiles"/>"/></p>
+
+                    <div style="position: relative; width: 100%;">
+                        <div style="float: left; padding: 10px;">
+                            <input name="submit" type="submit" class="submit" value="<spring:message code="label.downloadSelectedFiles"/>"/>
+                        </div>
+                        <div style="float: right; padding: 10px;">
+                            <input name="deleteSelFiles" type="button" class="submit cancel" value="<spring:message code="label.deleteSelectedFiles"/>"
+                                   confirmationText="This will delete all selected files from the system, no way back!." onclick="return confirmAction(this);"/>
+                        </div>
+                    </div>
 
                     <%--Show instructions--%>
                     <div class="ui-state-highlight ui-corner-all">

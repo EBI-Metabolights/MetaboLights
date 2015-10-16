@@ -30,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
@@ -40,6 +41,7 @@ import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,11 +87,55 @@ public class FileDispatcherController extends AbstractController {
 
     }
 
-	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/selection")
+    /**
+     * Deletes a series of files selected from the Study Files tab in a study.
+     * Must be a Curator to have access.
+     * Requires confirmation.
+     *
+     * @param studyId the ID of the study
+     * @param obfuscationCode, the user credentials
+     * @param requestedFiles, the list of files to be deleted
+     * @param response
+     * @author: jrmacias
+     * @date: 20151012
+     */
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteFilesFromStudy")
+    public HttpServletResponse deleteSelectedFiles(@PathVariable("studyId") String studyId,
+                                    @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
+                                    @RequestParam("file") List<String> requestedFiles,
+                                    HttpServletResponse response){
+
+        // check if the user have access to all of the files requested
+        boolean canAccess = false;
+        for(String fileName:requestedFiles){
+            canAccess = canUserAccessFile(studyId, obfuscationCode);
+        }
+        if(!canAccess){
+            return response;
+        }
+        // Join the files to make a regular expression
+        String fileNamePattern = org.apache.commons.lang.StringUtils.join(requestedFiles, "|");
+        logger.info(MessageFormat.format("Deleting selected files from study . {0}{1}", studyId, fileNamePattern));
+
+        // Using the WebService-client to actually delete the files
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+        wsClient.deleteFilesFromStudy(studyId,obfuscationCode, requestedFiles);
+
+        return response;
+    }
+
+	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/selection",
+            method = RequestMethod.POST)
 	public ModelAndView getSomeFiles(@PathVariable("studyId") String studyId,
 									 @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
-									  @RequestParam("file") List<String> selectedFiles,
+                                     @RequestParam("file") List<String> selectedFiles,
+                                     @RequestParam(value = "download") String btnPressed,
 									  HttpServletResponse response) {
+
+        if (btnPressed.equalsIgnoreCase("delete"))
+            return null;
+
+
 
 
 		// Join the files to make a regular expression
