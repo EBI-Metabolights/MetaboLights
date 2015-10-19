@@ -102,7 +102,7 @@ public class AssayValidations implements IValidationProcess {
     public static Validation getAssayHasFilesValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAY_FILES, Requirement.MANDATORY, Group.FILES);
         for (Assay assay : study.getAssays()) {
-            List<String> fileFields = getFileFieldsFrom(assay.getAssayTable().getFields());
+            List<String> fileFields = getFileFieldsExceptMAFFrom(assay.getAssayTable().getFields());
             List<String> fileColumnsThatAreEmpty = new ArrayList<>();
             for (String fileField : fileFields) {
                 if (!thisFileColumnHasFilesReferenced(fileField, assay.getAssayTable().getData())) {
@@ -133,6 +133,18 @@ public class AssayValidations implements IValidationProcess {
 
     private static boolean containsFileKeyword(String field) {
         return field.contains(" file");
+    }
+
+    private static List<String> getFileFieldsExceptMAFFrom(LinkedHashMap<String, Field> tableFields) {
+        List<String> fileFields = new ArrayList<>();
+        for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
+            if (containsFileKeyword(entry.getKey())) {
+                if(!getfieldName(entry.getKey()).equalsIgnoreCase("metabolite assignment file")){
+                    fileFields.add(entry.getKey());
+                }
+            }
+        }
+        return fileFields;
     }
 
     private static List<String> getFileFieldsThatHasRefValue(List<String> fileFields, Table assayData) {
