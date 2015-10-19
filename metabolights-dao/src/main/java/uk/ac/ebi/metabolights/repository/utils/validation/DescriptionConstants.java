@@ -42,6 +42,7 @@ public class DescriptionConstants {
     public static final String ASSAY_FILES_IN_FILESYSTEM = "Assay referenced raw files are present in filesystem";
     public static final String ASSAY_MAF_REFERENCE = "Metabolite Assignment File is referenced in Assays";
     public static final String ASSAY_MAF_FILE = "Metabolite Assignment File is present in study folder";
+    public static final String ASSAY_CORRECT_MAF_FILE = "Metabolite Assignment File is of correct format";
 
 
     public static final String SAMPLES = "Sample(s)";

@@ -324,8 +324,6 @@ public class IsaTabReplacer
 
 		try {
 			//Use a buffered reader
-			logger.warn(String.format("file.encoding: %s", System.getProperty("file.encoding")));
-			logger.warn(String.format("defaultCharset: %s", Charset.defaultCharset().name()));
 			BufferedReader reader = new BufferedReader(new FileReader(fileWithId));
 			String line = "", text = "";
 

@@ -139,7 +139,7 @@ public class AssayValidations implements IValidationProcess {
         List<String> fileFields = new ArrayList<>();
         for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
             if (containsFileKeyword(entry.getKey())) {
-                if(!getfieldName(entry.getKey()).equalsIgnoreCase("metabolite assignment file")){
+                if (!getfieldName(entry.getKey()).equalsIgnoreCase("metabolite assignment file")) {
                     fileFields.add(entry.getKey());
                 }
             }
@@ -222,11 +222,11 @@ public class AssayValidations implements IValidationProcess {
             if (file.isFile()) {
 
                 // Test the size
-                if (file.length() > 0){
+                if (file.length() > 0) {
                     possibleRawFiles.add(file.getName());
                 }
 
-            // It's a directory
+                // It's a directory
             } else {
                 // Add it...
                 possibleRawFiles.add(file.getName());
@@ -325,6 +325,8 @@ public class AssayValidations implements IValidationProcess {
         Collection<Validation> mafValidations = new ArrayList<>();
         Validation maf_reference_validation = new Validation(DescriptionConstants.ASSAY_MAF_REFERENCE, Requirement.MANDATORY, Group.FILES);
         Validation maf_file_validation = new Validation(DescriptionConstants.ASSAY_MAF_FILE, Requirement.MANDATORY, Group.FILES);
+        Validation maf_file_correct_format_validation = new Validation(DescriptionConstants.ASSAY_CORRECT_MAF_FILE, Requirement.MANDATORY, Group.FILES);
+
         List<Assay> assaysWithNoMaf = new ArrayList<>();
         Map<Integer, Assay> mafIndex_assaysWithMaf_map = new LinkedHashMap<>();
         //TODO
@@ -349,6 +351,15 @@ public class AssayValidations implements IValidationProcess {
             }
             maf_file_validation.setStatus();
             mafValidations.add(maf_file_validation);
+            if (maf_file_validation.getPassedRequirement()) {
+                Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map = getIncorrectMafFileNames(mafIndex_assaysWithMaf_map);
+                if (mafIndex_assaysWithIncorrectMaf_map.size() > 0) {
+                    maf_file_correct_format_validation.setPassedRequirement(false);
+                    maf_file_correct_format_validation.setMessage(getIncorrectMafErrMsg(mafIndex_assaysWithIncorrectMaf_map));
+                }
+                maf_file_correct_format_validation.setStatus();
+                mafValidations.add(maf_file_correct_format_validation);
+            }
         }
         maf_reference_validation.setStatus();
         mafValidations.add(maf_reference_validation);
@@ -423,4 +434,30 @@ public class AssayValidations implements IValidationProcess {
         }
         return errMessage;
     }
+
+    private static Map<Integer, Assay> getIncorrectMafFileNames(Map<Integer, Assay> mafIndex_assaysWithMaf_map) {
+        Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map = new LinkedHashMap<>();
+
+        for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithMaf_map.entrySet()) {
+            int index = entry.getKey().intValue();
+            String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
+            if (!maf_file_name.isEmpty()) {
+                if (!maf_file_name.startsWith("m_")) {
+                    mafIndex_assaysWithIncorrectMaf_map.put(entry.getKey(),entry.getValue());
+                }
+            }
+        }
+        return mafIndex_assaysWithIncorrectMaf_map;
+    }
+
+    private static String getIncorrectMafErrMsg(Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map) {
+        String message = "The following MAF file(s) are of incorrect format: ";
+        for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithIncorrectMaf_map.entrySet()) {
+            int index = entry.getKey().intValue();
+            String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
+            message += maf_file_name + " (Assay " + entry.getValue().getAssayNumber() + ");";
+        }
+        return message;
+    }
+
 }
