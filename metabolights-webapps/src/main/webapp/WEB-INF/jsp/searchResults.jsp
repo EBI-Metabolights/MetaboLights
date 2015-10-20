@@ -89,7 +89,7 @@
         </aside>
 
         <script>
-            $('[name="freeTextQuery"]').val('${query.text}');
+            $("[name='freeTextQuery']").val("${query.text}");
         </script>
     </c:if>
     <section class="grid_18 push_6" id="search-results">

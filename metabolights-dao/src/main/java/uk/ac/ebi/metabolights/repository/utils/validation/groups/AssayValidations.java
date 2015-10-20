@@ -425,7 +425,7 @@ public class AssayValidations implements IValidationProcess {
     }
 
     private static String getMafFileErrMessage(List<String> notPresentInStudyFolder) {
-        String errMessage = "The following referenced MAF files are not present in study folder:";
+        String errMessage = "The following referenced MAF files are not present in the study folder:";
         for (int i = 0; i < notPresentInStudyFolder.size(); i++) {
             errMessage += " " + notPresentInStudyFolder.get(i);
             if (i < notPresentInStudyFolder.size() - 1) {
@@ -451,7 +451,7 @@ public class AssayValidations implements IValidationProcess {
     }
 
     private static String getIncorrectMafErrMsg(Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map) {
-        String message = "The following MAF file(s) are of incorrect format: ";
+        String message = "The following MAF file(s) are in an incorrect format: ";
         for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithIncorrectMaf_map.entrySet()) {
             int index = entry.getKey().intValue();
             String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
