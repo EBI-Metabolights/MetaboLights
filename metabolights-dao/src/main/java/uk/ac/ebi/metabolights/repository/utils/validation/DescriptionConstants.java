@@ -40,7 +40,9 @@ public class DescriptionConstants {
     public static final String ASSAY_PLATFORM = "Assay platform information";
     public static final String ASSAY_FILES = "Assay has raw files referenced";
     public static final String ASSAY_FILES_IN_FILESYSTEM = "Assay referenced raw files are present in filesystem";
-    public static final String ASSAY_MAF_REFERENCE = "Metabolite Assignment File is referenced in Assays";
+    public static final String ASSAY_ALL_MAF_REFERENCE = "All Assays have Metabolite Assignment File referenced";
+    public static final String ASSAY_ATLEAST_SOME_MAF_REFERENCE = "Atleast some assays have Metabolite Assignment Files referenced";
+
     public static final String ASSAY_MAF_FILE = "Metabolite Assignment File is present in study folder";
     public static final String ASSAY_CORRECT_MAF_FILE = "Metabolite Assignment File is of correct format";
 

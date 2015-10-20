@@ -6,6 +6,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Table;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 
@@ -301,7 +302,7 @@ public class AssayValidations implements IValidationProcess {
     }
 
     private static Validation mafFileReferencedValidation(Study study) {
-        Validation validation = new Validation(DescriptionConstants.ASSAY_MAF_REFERENCE, Requirement.MANDATORY, Group.FILES);
+        Validation validation = new Validation(DescriptionConstants.ASSAY_ALL_MAF_REFERENCE, Requirement.MANDATORY, Group.FILES);
         List<Assay> assaysWithNoMaf = new ArrayList<>();
         //TODO
         for (Assay assay : study.getAssays()) {
@@ -323,7 +324,10 @@ public class AssayValidations implements IValidationProcess {
 
     private static Collection<Validation> mafFileReferencedValidations(Study study) {
         Collection<Validation> mafValidations = new ArrayList<>();
-        Validation maf_reference_validation = new Validation(DescriptionConstants.ASSAY_MAF_REFERENCE, Requirement.MANDATORY, Group.FILES);
+        Validation all_assays_have_maf_reference_validation = new Validation(DescriptionConstants.ASSAY_ALL_MAF_REFERENCE, Requirement.OPTIONAL, Group.FILES);
+        Validation some_assays_have_maf_reference_validation = new Validation(DescriptionConstants.ASSAY_ATLEAST_SOME_MAF_REFERENCE, Requirement.MANDATORY, Group.FILES);
+
+
         Validation maf_file_validation = new Validation(DescriptionConstants.ASSAY_MAF_FILE, Requirement.MANDATORY, Group.FILES);
         Validation maf_file_correct_format_validation = new Validation(DescriptionConstants.ASSAY_CORRECT_MAF_FILE, Requirement.MANDATORY, Group.FILES);
 
@@ -340,10 +344,24 @@ public class AssayValidations implements IValidationProcess {
                 }
             }
         }
-        if (assaysWithNoMaf.size() > 0) {
-            maf_reference_validation.setPassedRequirement(false);
-            maf_reference_validation.setMessage(getMafErrMessage(assaysWithNoMaf, study.getAssays().size()));
+        if (assaysWithNoMaf.size() == study.getAssays().size()) {
+            some_assays_have_maf_reference_validation.setPassedRequirement(false);
+            some_assays_have_maf_reference_validation.setMessage("Metabolite annotation file is not referenced in the assay(s)");
+            some_assays_have_maf_reference_validation.setStatus();
+            mafValidations.add(some_assays_have_maf_reference_validation);
         } else {
+            if (assaysWithNoMaf.size() == 0) {
+                all_assays_have_maf_reference_validation.setStatus(Status.GREEN);
+                mafValidations.add(all_assays_have_maf_reference_validation);
+            }
+            if (assaysWithNoMaf.size() > 0) {
+                all_assays_have_maf_reference_validation.setPassedRequirement(false);
+                all_assays_have_maf_reference_validation.setStatus();
+                all_assays_have_maf_reference_validation.setMessage(getMafErrMessage(assaysWithNoMaf, study.getAssays().size()));
+                mafValidations.add(all_assays_have_maf_reference_validation);
+                some_assays_have_maf_reference_validation.setStatus();
+                mafValidations.add(some_assays_have_maf_reference_validation);
+            }
             List<String> notPresentInStudyFolder = referencedMafFilesNotPresentInFileSystem(mafIndex_assaysWithMaf_map, study);
             if (notPresentInStudyFolder.size() > 0) {
                 maf_file_validation.setPassedRequirement(false);
@@ -360,9 +378,10 @@ public class AssayValidations implements IValidationProcess {
                 maf_file_correct_format_validation.setStatus();
                 mafValidations.add(maf_file_correct_format_validation);
             }
+
+
         }
-        maf_reference_validation.setStatus();
-        mafValidations.add(maf_reference_validation);
+
         return mafValidations;
 
     }
@@ -443,7 +462,7 @@ public class AssayValidations implements IValidationProcess {
             String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
             if (!maf_file_name.isEmpty()) {
                 if (!maf_file_name.startsWith("m_")) {
-                    mafIndex_assaysWithIncorrectMaf_map.put(entry.getKey(),entry.getValue());
+                    mafIndex_assaysWithIncorrectMaf_map.put(entry.getKey(), entry.getValue());
                 }
             }
         }
