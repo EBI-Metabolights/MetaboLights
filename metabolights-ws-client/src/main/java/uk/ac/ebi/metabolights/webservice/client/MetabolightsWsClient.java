@@ -482,7 +482,8 @@ public class MetabolightsWsClient {
                                                      String obfuscationCode,
                                                      List<String> selectedFiles){
 
-        String response = makePostRequest(studyId,selectedFiles);
+        String response = makePostRequest(STUDY_PATH + studyId + "/deleteFiles",selectedFiles);
+        logger.info("Deleting files from study {} by user request", obfuscationCode, studyId);
 
         return deserializeJSONString(response, String.class);
     }

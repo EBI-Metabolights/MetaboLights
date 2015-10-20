@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
@@ -45,6 +46,7 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -88,55 +90,43 @@ public class FileDispatcherController extends AbstractController {
     }
 
     /**
-     * Deletes a series of files selected from the Study Files tab in a study.
-     * Must be a Curator to have access.
+     * Delete a series of files selected from the 'Study Files' tab
      * Requires confirmation.
+     * Only Curators (ROLE_SUPER_USER) should be accessing this
      *
      * @param studyId the ID of the study
      * @param obfuscationCode, the user credentials
-     * @param requestedFiles, the list of files to be deleted
+     * @param selectedFiles, the list of files to be deleted
      * @param response
      * @author: jrmacias
      * @date: 20151012
      */
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteFilesFromStudy")
-    public HttpServletResponse deleteSelectedFiles(@PathVariable("studyId") String studyId,
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteSelFiles")
+    public ModelAndView deleteSelectedFiles(@PathVariable("studyId") String studyId,
                                     @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
-                                    @RequestParam("file") List<String> requestedFiles,
+                                    @RequestParam("file") List<String> selectedFiles,
                                     HttpServletResponse response){
-
-        // check if the user have access to all of the files requested
-        boolean canAccess = false;
-        for(String fileName:requestedFiles){
-            canAccess = canUserAccessFile(studyId, obfuscationCode);
-        }
-        if(!canAccess){
-            return response;
-        }
-        // Join the files to make a regular expression
-        String fileNamePattern = org.apache.commons.lang.StringUtils.join(requestedFiles, "|");
-        logger.info(MessageFormat.format("Deleting selected files from study . {0}{1}", studyId, fileNamePattern));
 
         // Using the WebService-client to actually delete the files
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        wsClient.deleteFilesFromStudy(studyId,obfuscationCode, requestedFiles);
+        String rslt = wsClient.deleteFilesFromStudy(studyId, obfuscationCode, selectedFiles).getMessage();
 
-        return response;
+        // parse WS response for user feedback
+        List<String> msg = new LinkedList<>();
+        String[] str = rslt.split("\\|");
+        for (String line:str){
+            msg.add(line);
+        }
+
+        return printMessage("Deleting files from study...", msg);
     }
 
-	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/selection",
+	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/downloadSelFiles",
             method = RequestMethod.POST)
 	public ModelAndView getSomeFiles(@PathVariable("studyId") String studyId,
 									 @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
                                      @RequestParam("file") List<String> selectedFiles,
-                                     @RequestParam(value = "download") String btnPressed,
 									  HttpServletResponse response) {
-
-        if (btnPressed.equalsIgnoreCase("delete"))
-            return null;
-
-
-
 
 		// Join the files to make a regular expression
 		String fileNamePattern = org.apache.commons.lang.StringUtils.join(selectedFiles, "|");

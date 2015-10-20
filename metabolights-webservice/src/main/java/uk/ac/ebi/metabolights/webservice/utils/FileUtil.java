@@ -30,13 +30,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class FileUtil {
 
 	private static Logger logger = LoggerFactory.getLogger (FileUtil.class);
-	
+
 	public static void replace (String fileToSearchIn, String textToSearch, String textToReplace) throws IOException{
 		String text;
 		
@@ -201,51 +203,43 @@ public class FileUtil {
 
 	/**
 	 * Delete a single file
-	 * @param fileName
-	 * @return success status
-	 * @throws IOException, in case the file does not exists
+	 *
+	 * @param fileName to be deleted
+	 * @return success/fail status
 	 * @author jrmacias
 	 * @date 20151012
 	 */
-	public static boolean deleteFile(String fileName) throws IOException {
+	public static boolean deleteFile(String fileName) {
 
 		boolean result = false;
 
 		try{
 			// try to delete the file
 			result = Files.deleteIfExists(FileSystems.getDefault().getPath(fileName));
+			logger.info("File {} have {} been deleted.",fileName, result?"successfully":"not");
 		}catch (IOException ex){
 			logger.error("Error deleting file: {}", ex.getMessage());
-			throw (new IOException(ex));
-		}finally {
-
 		}
-
 		return result;
 	}
 
 	/**
-	 * Delete a list of fileNames
-	 * @param fileNames
-	 * @return
+	 * Delete a list of files
+	 *
+	 * @param fileNames, a list of file names to be deleted
+	 * @return a string with a list of filenames and whether they were deleted ot not
 	 * @author jrmacias
 	 * @date 20151012
 	 */
-	public static boolean deleteFiles(List<String> fileNames){
-		boolean result = false;
+	public static String deleteFiles(List<String> fileNames){
 
-		try {
-			for (String fileName : fileNames) {
-				deleteFile(fileName);
-			}
-			result = true;
+		boolean result;
+		StringBuffer resp = new StringBuffer();
+
+		for (String fileName : fileNames) {
+			resp.append(new File(fileName).getName()).append(", ").append("file was ").append(deleteFile(fileName) ? "":"NOT ").append("deleted.").append("|");
 		}
-		catch(IOException ex){
-			logger.error("Error. Some files could not be deleted");
-		}
-		finally {
-			return result;
-		}
+		return resp.toString();
 	}
 
 }
