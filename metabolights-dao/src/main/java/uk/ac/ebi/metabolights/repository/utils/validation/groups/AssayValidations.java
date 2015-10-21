@@ -6,8 +6,10 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Table;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
+import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
 
 import java.io.File;
 import java.util.*;
@@ -30,14 +32,6 @@ public class AssayValidations implements IValidationProcess {
         Collection<Validation> assayValidations = new LinkedList<>();
         //assayValidations.add(getAssayValidation(study));
         assayValidations.addAll(getAssayValidations(study));
-        if (ProtocolValidations.metaboliteIdentificationProtocolIsPresent(study)) {
-//            Validation mafValidation = mafFileReferencedValidation(study);
-//            assayValidations.add(mafValidation);
-//            if (mafValidation.getPassedRequirement()) {
-//
-//            }
-            assayValidations.addAll(mafFileReferencedValidations(study));
-        }
         return assayValidations;
     }
 
@@ -195,7 +189,7 @@ public class AssayValidations implements IValidationProcess {
             validation.setPassedRequirement(false);
             validation.setMessage("No assay raw files are referenced");
         } else {
-            List<String> rawFilesListFromFilesystem = getFileNamesInDirectory(study.getStudyLocation());
+            List<String> rawFilesListFromFilesystem = Utilities.getFileNamesInDirectory(study.getStudyLocation());
             Map<Boolean, List<String>> booleanListMap = allAssayColumnsHasFilesMatchedInFileSystem(rawFilesListFromFilesystem, study.getAssays());
             for (Map.Entry<Boolean, List<String>> result : booleanListMap.entrySet()) {
                 if (!result.getKey()) {
@@ -208,35 +202,10 @@ public class AssayValidations implements IValidationProcess {
         return validation;
     }
 
-    private static List<String> getFileNamesInDirectory(String studyDirectory) {
-        File folder = new File(studyDirectory);
-        File[] listOfFiles = folder.listFiles();
-        List<String> possibleRawFiles = new ArrayList<>();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-
-
-            File file = listOfFiles[i];
-
-            // If it's a file
-            if (file.isFile()) {
-
-                // Test the size
-                if (file.length() > 0) {
-                    possibleRawFiles.add(file.getName());
-                }
-
-                // It's a directory
-            } else {
-                // Add it...
-                possibleRawFiles.add(file.getName());
-            }
-        }
-        return possibleRawFiles;
-    }
 
     private static Map<Boolean, List<String>> allAssayColumnsHasFilesMatchedInFileSystem(List<String> rawFilesList, List<Assay> assays) {
-        Map<Boolean, List<String>> hasPassed_FailedFilNamesMap = new LinkedHashMap<>();
+        Map<Boolean, List<String>> hasPassed_FailedFileNamesMap = new LinkedHashMap<>();
         List<String> noPhysicalReference = new ArrayList<>();
 
         for (Assay assay : assays) {
@@ -244,29 +213,29 @@ public class AssayValidations implements IValidationProcess {
             //int[] indexesToBeLookedUpon = getAllIndexes(fileFields);
             for (int i = 0; i < fileFields.size(); i++) {
                 if (thisFileColumnHasFilesReferenced(fileFields.get(i), assay.getAssayTable().getData())) {
-                    HashSet<String> uniqueNames = new HashSet();
+                    HashSet<String> uniqueFileNames = new HashSet();
 
                     for (List<String> data : assay.getAssayTable().getData()) {
-                        String tableRowEntry = data.get(indexToCheck(fileFields.get(i)));
-                        if (!tableRowEntry.isEmpty()) {
-                            uniqueNames.add(tableRowEntry);
+                        String rawFileName = data.get(indexToCheck(fileFields.get(i)));
+                        if (!rawFileName.isEmpty()) {
+                            uniqueFileNames.add(rawFileName);
                         }
                     }
 
-                    for (String uniqName : uniqueNames) {
-                        if (!match(uniqName, rawFilesList)) {
-                            noPhysicalReference.add(uniqName);
+                    for (String uniqFileName : uniqueFileNames) {
+                        if (!match(uniqFileName, rawFilesList)) {
+                            noPhysicalReference.add(uniqFileName);
                         }
                     }
                 }
             }
         }
         if (noPhysicalReference.size() > 0) {
-            hasPassed_FailedFilNamesMap.put(false, noPhysicalReference);
-            return hasPassed_FailedFilNamesMap;
+            hasPassed_FailedFileNamesMap.put(false, noPhysicalReference);
+            return hasPassed_FailedFileNamesMap;
         }
-        hasPassed_FailedFilNamesMap.put(true, new ArrayList<String>());
-        return hasPassed_FailedFilNamesMap;
+        hasPassed_FailedFileNamesMap.put(true, new ArrayList<String>());
+        return hasPassed_FailedFileNamesMap;
     }
 
     private static HashSet<String> getUniqueFileNames(List<String> fileDataColumn) {
@@ -299,165 +268,4 @@ public class AssayValidations implements IValidationProcess {
         }
         return errMessage;
     }
-
-    private static Validation mafFileReferencedValidation(Study study) {
-        Validation validation = new Validation(DescriptionConstants.ASSAY_MAF_REFERENCE, Requirement.MANDATORY, Group.FILES);
-        List<Assay> assaysWithNoMaf = new ArrayList<>();
-        //TODO
-        for (Assay assay : study.getAssays()) {
-            int mafIndex = getMAFIndex(assay.getAssayTable().getFields());
-            if (mafIndex != -1) {
-                if (!isMafReferenced(mafIndex, assay.getAssayTable().getData())) {
-                    assaysWithNoMaf.add(assay);
-                }
-            }
-        }
-        if (assaysWithNoMaf.size() > 0) {
-            validation.setPassedRequirement(false);
-            validation.setMessage(getMafErrMessage(assaysWithNoMaf, study.getAssays().size()));
-        }
-        validation.setStatus();
-        return validation;
-
-    }
-
-    private static Collection<Validation> mafFileReferencedValidations(Study study) {
-        Collection<Validation> mafValidations = new ArrayList<>();
-        Validation maf_reference_validation = new Validation(DescriptionConstants.ASSAY_MAF_REFERENCE, Requirement.MANDATORY, Group.FILES);
-        Validation maf_file_validation = new Validation(DescriptionConstants.ASSAY_MAF_FILE, Requirement.MANDATORY, Group.FILES);
-        Validation maf_file_correct_format_validation = new Validation(DescriptionConstants.ASSAY_CORRECT_MAF_FILE, Requirement.MANDATORY, Group.FILES);
-
-        List<Assay> assaysWithNoMaf = new ArrayList<>();
-        Map<Integer, Assay> mafIndex_assaysWithMaf_map = new LinkedHashMap<>();
-        //TODO
-        for (Assay assay : study.getAssays()) {
-            int mafIndex = getMAFIndex(assay.getAssayTable().getFields());
-            if (mafIndex != -1) {
-                if (!isMafReferenced(mafIndex, assay.getAssayTable().getData())) {
-                    assaysWithNoMaf.add(assay);
-                } else {
-                    mafIndex_assaysWithMaf_map.put(new Integer(mafIndex), assay);
-                }
-            }
-        }
-        if (assaysWithNoMaf.size() > 0) {
-            maf_reference_validation.setPassedRequirement(false);
-            maf_reference_validation.setMessage(getMafErrMessage(assaysWithNoMaf, study.getAssays().size()));
-        } else {
-            List<String> notPresentInStudyFolder = referencedMafFilesNotPresentInFileSystem(mafIndex_assaysWithMaf_map, study);
-            if (notPresentInStudyFolder.size() > 0) {
-                maf_file_validation.setPassedRequirement(false);
-                maf_file_validation.setMessage(getMafFileErrMessage(notPresentInStudyFolder));
-            }
-            maf_file_validation.setStatus();
-            mafValidations.add(maf_file_validation);
-            if (maf_file_validation.getPassedRequirement()) {
-                Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map = getIncorrectMafFileNames(mafIndex_assaysWithMaf_map);
-                if (mafIndex_assaysWithIncorrectMaf_map.size() > 0) {
-                    maf_file_correct_format_validation.setPassedRequirement(false);
-                    maf_file_correct_format_validation.setMessage(getIncorrectMafErrMsg(mafIndex_assaysWithIncorrectMaf_map));
-                }
-                maf_file_correct_format_validation.setStatus();
-                mafValidations.add(maf_file_correct_format_validation);
-            }
-        }
-        maf_reference_validation.setStatus();
-        mafValidations.add(maf_reference_validation);
-        return mafValidations;
-
-    }
-
-    private static int getMAFIndex(LinkedHashMap<String, Field> tableFields) {
-        int i = -1;
-        for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
-            i++;
-            if (entry.getKey().contains("metabolite assignment file")) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private static boolean isMafReferenced(int index, List<List<String>> tableData) {
-        for (List<String> data : tableData) {
-            if (!data.get(index).isEmpty()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static String getMafErrMessage(List<Assay> assaysWithNoMaf, int assaySize) {
-        if (assaySize == 1) return "Metabolite identification protocol is described" +
-                " but no MAF file is referenced in the Assay table";
-        String errMessage = "Metabolite identification protocol is described " +
-                "but the following assay(s) have no MAF file reference:";
-        for (int i = 0; i < assaysWithNoMaf.size(); i++) {
-            errMessage += " Assay " + assaysWithNoMaf.get(i).getAssayNumber();
-            if (i < assaysWithNoMaf.size() - 1) {
-                errMessage += ",";
-            }
-        }
-        return errMessage;
-    }
-
-    public static List<String> referencedMafFilesNotPresentInFileSystem(Map<Integer, Assay> mafIndex_assaysWithMaf_map, Study study) {
-        List<String> notPresentInStudyFolder = new ArrayList<>();
-        List<String> fileNames = getFileNamesInDirectory(study.getStudyLocation());
-        for (String maf_file : getMafFileNames(mafIndex_assaysWithMaf_map)) {
-            if (!fileNames.contains(maf_file)) {
-                notPresentInStudyFolder.add(maf_file);
-            }
-        }
-        return notPresentInStudyFolder;
-    }
-
-    private static List<String> getMafFileNames(Map<Integer, Assay> mafIndex_assaysWithMaf_map) {
-        List<String> mafFileNames = new ArrayList<>();
-        for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithMaf_map.entrySet()) {
-            int index = entry.getKey().intValue();
-            String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
-            if (!maf_file_name.isEmpty()) {
-                mafFileNames.add(maf_file_name);
-            }
-        }
-        return mafFileNames;
-    }
-
-    private static String getMafFileErrMessage(List<String> notPresentInStudyFolder) {
-        String errMessage = "The following referenced MAF files are not present in the study folder:";
-        for (int i = 0; i < notPresentInStudyFolder.size(); i++) {
-            errMessage += " " + notPresentInStudyFolder.get(i);
-            if (i < notPresentInStudyFolder.size() - 1) {
-                errMessage += ",";
-            }
-        }
-        return errMessage;
-    }
-
-    private static Map<Integer, Assay> getIncorrectMafFileNames(Map<Integer, Assay> mafIndex_assaysWithMaf_map) {
-        Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map = new LinkedHashMap<>();
-
-        for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithMaf_map.entrySet()) {
-            int index = entry.getKey().intValue();
-            String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
-            if (!maf_file_name.isEmpty()) {
-                if (!maf_file_name.startsWith("m_")) {
-                    mafIndex_assaysWithIncorrectMaf_map.put(entry.getKey(),entry.getValue());
-                }
-            }
-        }
-        return mafIndex_assaysWithIncorrectMaf_map;
-    }
-
-    private static String getIncorrectMafErrMsg(Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map) {
-        String message = "The following MAF file(s) are in an incorrect format: ";
-        for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithIncorrectMaf_map.entrySet()) {
-            int index = entry.getKey().intValue();
-            String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
-            message += maf_file_name + " (Assay " + entry.getValue().getAssayNumber() + ");";
-        }
-        return message;
-    }
-
 }
