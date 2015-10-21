@@ -33,6 +33,7 @@ public class StudyValidationUtilities {
             invokeValidationProcess(new OrganismValidations(), study);
             invokeValidationProcess(new FactorValidations(), study);
             invokeValidationProcess(new AssayValidations(), study);
+            invokeValidationProcess(new MafValidations(), study);
             invokeValidationProcess(new IsatabValidations(), study);
 
         } catch (Exception e) {
