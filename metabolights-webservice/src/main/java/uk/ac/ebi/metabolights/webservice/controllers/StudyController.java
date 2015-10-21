@@ -24,6 +24,7 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
@@ -37,12 +38,11 @@ import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 import uk.ac.ebi.metabolights.webservice.services.IndexingService;
+import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("study")
@@ -420,6 +420,47 @@ public class StudyController extends BasicController{
 		return restResponse;
 
 
+	}
+
+
+	/**
+	 *
+	 * @param studyIdentifier
+	 * @param fileNames
+	 * @return
+	 * @author jrmacias
+	 * @date 20151012
+	 */
+	@PreAuthorize( "hasRole('ROLE_SUPER_USER')")
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/deleteFiles", method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<Boolean> deleteFiles(@PathVariable("studyIdentifier") String studyIdentifier,
+											 @RequestBody List<String> fileNames) {
+
+		User user = getUser();
+		logger.info("User {} requested to delete files from study {}", user.getFullName(), studyIdentifier);
+
+		// look for the study path
+		String studyLocation = "";
+		try{
+			 studyLocation = getStudyById(studyIdentifier).getContent().getStudyLocation();
+		}  catch (DAOException ex) {
+			logger.error("Error looking for study {}: {}", studyIdentifier, ex.getMessage());
+		}
+
+		// compose full file pathnames
+		List<String> filePaths = new LinkedList<>();
+		for (String filename:fileNames){
+			filePaths.add(studyLocation + File.separator + filename);
+		}
+
+		// delete the files
+		String result = FileUtil.deleteFiles(filePaths);
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		restResponse.setContent(true);
+		restResponse.setMessage(result);
+		return restResponse;
 	}
 
 	/**
