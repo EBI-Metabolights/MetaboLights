@@ -623,7 +623,7 @@
                     <div class="ui-state-highlight ui-corner-all">
                         <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/></p>
                         <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
-                            <p><spring:message code="label.fileListTableInstructions"/></p>
+                            <p><spring:message code="label.fileListTableDelInstructions"/></p>
                         </sec:authorize>
                     </div>
                 </form>
