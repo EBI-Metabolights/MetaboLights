@@ -1,7 +1,7 @@
 #!/bin/sh
 #export DEPLOY="deploy"
 export DEPLOY=""
-cd $ML
+#cd $ML
 mvn clean
 rm metabolights-webapps/src/main/webapp/WEB-INF/lib/*.jar
 rm -rf /nfs/public/rw/homes/tc_cm01/dev/upload/process/*

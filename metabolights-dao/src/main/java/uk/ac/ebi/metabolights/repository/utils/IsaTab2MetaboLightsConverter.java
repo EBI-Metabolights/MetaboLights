@@ -185,7 +185,8 @@ public class IsaTab2MetaboLightsConverter {
         }
 
         validation.setStatus();
-        studyToFill.getValidations().getEntries().add(validation);
+        // Do not add this validation....ignore them
+        //studyToFill.getValidations().getEntries().add(validation);
 
         return chosenOne;
 
