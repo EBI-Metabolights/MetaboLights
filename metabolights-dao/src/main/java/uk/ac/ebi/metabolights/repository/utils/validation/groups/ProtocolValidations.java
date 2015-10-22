@@ -26,10 +26,14 @@ public class ProtocolValidations implements IValidationProcess {
 
     public Collection<Validation> getValidations(Study study) {
         Collection<Validation> protocolValidations = new LinkedList<>();
-        protocolValidations.add(getMinimumProtocolValidation(study));
+        Validation minimumProtocolValidation = getMinimumProtocolValidation(study);
+        protocolValidations.add(minimumProtocolValidation);
         protocolValidations.add(getComprehensiveProtocolValidation(study));
         if (!study.getSampleTable().getData().isEmpty()) {
             protocolValidations.add(getSampleCollectionProtocolValidation(study));
+        }
+        if (!study.getProtocols().isEmpty()) {
+            protocolValidations.add(protocolsDecodeIsSuccessfulValidation(study));
         }
         return protocolValidations;
 
@@ -128,13 +132,35 @@ public class ProtocolValidations implements IValidationProcess {
             return false;
         }
         for (Protocol protocol : protocols) {
-            if (protocol.getName().equals(fieldName)) {
+            if (protocol.getName().equalsIgnoreCase(fieldName)) {
                 if (protocol.getDescription().length() > 3) {
                     return true;
                 }
             }
         }
         return false;
+
+    }
+
+    public static Validation protocolsDecodeIsSuccessfulValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PROTOCOLS_TEXT, Requirement.OPTIONAL, Group.PROTOCOLS);
+        String message = "";
+        for (Protocol protocol : study.getProtocols()) {
+            if (!protocol.getDescription().isEmpty()) {
+                List<String> notCoded = Utilities.getNonUnicodeCharacters(protocol.getDescription());
+                if (notCoded.size() > 0) {
+                    message += protocol.getName() + ",\n";
+                }
+            }
+        }
+        if (!message.isEmpty()) {
+            validation.setPassedRequirement(false);
+            message += "contains characters that cannot be successfully decoded.";
+            validation.setMessage(message);
+        }
+
+        validation.setStatus();
+        return validation;
 
     }
 

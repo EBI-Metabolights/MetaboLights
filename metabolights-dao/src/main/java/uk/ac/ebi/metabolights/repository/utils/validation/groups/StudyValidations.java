@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 
+import uk.ac.ebi.metabolights.repository.model.Contact;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
@@ -13,7 +14,7 @@ import java.util.LinkedList;
 /**
  * Created by kalai on 18/09/15.
  */
-public class StudyValidations implements IValidationProcess{
+public class StudyValidations implements IValidationProcess {
 
 
     @Override
@@ -25,6 +26,8 @@ public class StudyValidations implements IValidationProcess{
         Collection<Validation> studyValidations = new LinkedList<>();
         studyValidations.add(getStudyTitleValidation(study));
         studyValidations.add(getStudyDescriptionValidation(study));
+        studyValidations.add(studyDecodeIsSuccessfulValidation(study));
+        studyValidations.add(allContactsHaveEmailValidation(study));
 
         return studyValidations;
 
@@ -55,6 +58,58 @@ public class StudyValidations implements IValidationProcess{
    /*
    TODO: StudyDesignDescriptorsValidation, MinimumStudyValidation
     */
+
+    public static Validation studyDecodeIsSuccessfulValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.STUDY_TEXT, Requirement.OPTIONAL, Group.STUDY);
+        String message = "";
+        if (Utilities.getNonUnicodeCharacters(study.getTitle()).size() > 0) {
+            message += "Study title, \n";
+        }
+        if (Utilities.getNonUnicodeCharacters(study.getDescription()).size() > 0) {
+            message += "Study description,\n";
+        }
+        if (Utilities.getNonUnicodeCharacters(getContactAsString(study.getContacts())).size() > 0) {
+            message += "Study contact,\n";
+        }
+        if (!message.isEmpty()) {
+            validation.setPassedRequirement(false);
+            message += "contains characters that cannot be successfully decoded";
+            validation.setMessage(message);
+        }
+        validation.setStatus();
+        return validation;
+
+    }
+
+    private static String getContactAsString(Collection<Contact> contacts) {
+        String c = "";
+        for (Contact contact : contacts) {
+            c += contact.getFirstName() +
+                    contact.getLastName() +
+                    contact.getMidInitial() +
+                    contact.getAffiliation() +
+                    contact.getAddress() +
+                    contact.getRole();
+        }
+        return c;
+    }
+
+    public static Validation allContactsHaveEmailValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.STUDY_CONTACT_EMAIL, Requirement.MANDATORY, Group.CONTACT);
+        Collection<Contact> contacts = study.getContacts();
+        int noEmail = 0;
+        for (Contact contact : contacts) {
+            if (contact.getEmail().isEmpty()) {
+                noEmail++;
+            }
+        }
+        if (noEmail > 0) {
+            validation.setPassedRequirement(false);
+            validation.setMessage("Not all study contacts have their email linked");
+        }
+        validation.setStatus();
+        return validation;
+    }
 
 
 }

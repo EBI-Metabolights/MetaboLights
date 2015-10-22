@@ -564,7 +564,7 @@
             </c:if>
 
             <div id="tabs-files" class="tab"> <!-- Study files -->
-                <form action="${study.studyIdentifier}/files/selection" method="post">
+                <form id="selFilesForm" action="${study.studyIdentifier}/files/downloadSelFiles" method="post">
                     <h5>
                         <a class="noLine" rel="nofollow" href="${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
                             <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
@@ -606,11 +606,25 @@
                         </tbody>
                     </table>
 
-                    <p><input name="submit" type="submit" class="submit" value="<spring:message code="label.downloadSelectedFiles"/>"/></p>
+
+                    <div style="position: relative; width: 100%;">
+                        <div style="float: left; padding: 10px;">
+                            <input name="btnSubmit" type="submit" class="submit" value="<spring:message code="label.downloadSelectedFiles"/>"/>
+                        </div>
+                        <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
+                            <div style="float: right; padding: 10px;">
+                                <input id="deleteSelFiles" name="deleteSelFiles" type="button" class="submit cancel" value="<spring:message code="label.deleteSelectedFiles"/>"
+                                       confirmationText="This will delete all selected files from the system, no way back!." onclick="return confirmDeleteFiles(this);"/>
+                            </div>
+                        </sec:authorize>
+                    </div>
 
                     <%--Show instructions--%>
                     <div class="ui-state-highlight ui-corner-all">
                         <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/></p>
+                        <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
+                            <p><spring:message code="label.fileListTableDelInstructions"/></p>
+                        </sec:authorize>
                     </div>
                 </form>
             </div> <!--  ends tabs-files files -->
@@ -662,6 +676,49 @@
             </c:if>
         </div>
         <!-- ends tabs-Validations -->
+
+        <!-- confirmation dialog, just for deleting selected files -->
+        <script type="text/javascript">
+            function confirmDeleteFiles(element){
+
+                var dialog = $("#confirmaction");
+
+                // Fill dialog
+                ///var targetUrl = $(element).attr("href");
+                var text = $(element).attr("confirmationText");
+
+                dialog.text(text);
+
+                $(dialog).dialog({
+//           autoOpen: false,
+                    modal: true,
+                    buttons : {
+                        "Confirm" : function() {
+                            ///window.location.href = targetUrl;
+
+                            var frm = element.form;
+                            // change action for deleting files
+                            frm.action = "${study.studyIdentifier}/files/deleteSelFiles";
+                            frm.method ="post";
+                            frm.submit();
+
+                            // change action back to download files (default)
+                            frm.reset();
+                            frm.action = "${study.studyIdentifier}/files/downloadSelFiles";
+                            frm.method ="post";
+
+                        },
+                        "Cancel" : function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+
+//       $(dialog).dialog("open");
+
+                return false;
+            }
+        </script>
 
     </div> <!-- end configuring tabs -->
 </div>

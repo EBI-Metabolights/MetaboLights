@@ -53,6 +53,7 @@ import uk.ac.ebi.metabolights.repository.utils.StringUtils;
 
 import javax.naming.ConfigurationException;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 
 
@@ -370,7 +371,7 @@ public class IsaTabReplacer
 			//Save the file
 			// NOT we are not making a back up here!! If needed we will need to call
 			//FileAuditUtil.backUpAuditedFolder(fileWithId.getParent());
-			FileUtil.String2File(text, fileWithId.getPath(),false);
+		 	if (replacing()) FileUtil.String2File(text, fileWithId.getPath(),false);
 
 		} catch (FileNotFoundException e) {
 			annotateError(e);
@@ -378,6 +379,10 @@ public class IsaTabReplacer
 			annotateError(e);
 		}
 
+	}
+
+	private boolean replacing(){
+		return (studyIdentifier != null);
 	}
 
 	private String getAccessionNumber() throws DAOException {
@@ -403,7 +408,7 @@ public class IsaTabReplacer
 	    	  logger.info("Line with identifiers found: " + line);
 
 			  // If studyIdentifier is null, don't need to replace it
-			  if (studyIdentifier != null) {
+			  if (replacing()) {
 
 				  //Get the Id Value (i.e.: BII-1-S)
 				  String idInitialValue = StringUtils.replace(line, id + "\t\"", "");
