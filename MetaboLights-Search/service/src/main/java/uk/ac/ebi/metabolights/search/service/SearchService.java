@@ -38,6 +38,7 @@ public interface SearchService<E extends Entity> {
 	// Abstract methods
 	public List<String> getStatus();
 	public void delete(String id) throws IndexingFailureException;
+	void delete(String[] ids) throws IndexingFailureException;
 	public void resetIndex() throws IndexingFailureException;
 	public void deleteIndex();
 	public SearchResult<E> search(SearchQuery query);

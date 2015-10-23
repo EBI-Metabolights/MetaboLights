@@ -517,8 +517,6 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 		if (documentType !=null) {
 
-
-
 			// Kind of a hack: If the there is a * we assume you want to delete all documents of that type.
 			// Example: MTBLS*....warning: MTBLS12* will delete all documents as well and not only those that match the pattern.
 			if (id.indexOf("*") != -1) {
@@ -527,7 +525,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 				deleteDocumentType(documentType);
 
 
-				// Delete by id
+			// Delete by id
 			} else {
 
 				DeleteResponse response = client.prepareDelete(indexName, documentType, id).execute().actionGet();
@@ -537,12 +535,24 @@ public class ElasticSearchService implements SearchService <Entity> {
 				}
 
 			}
+		} else {
 
-
+			throw new IndexingFailureException("Elastic search couldn't match the document type of " + id + ": expecting " + studyPrefix + " or " + compoundPrefix + " prefixes.");
 		}
 	}
 
-	public void deleteStudies() throws IndexingFailureException {
+	@Override
+	public void delete(String[] ids) throws IndexingFailureException {
+
+		for (String id : ids) {
+			delete(id);
+		}
+
+	}
+
+
+
+		public void deleteStudies() throws IndexingFailureException {
 
 		deleteDocumentType(STUDY_TYPE_NAME);
 
@@ -577,11 +587,38 @@ public class ElasticSearchService implements SearchService <Entity> {
 		} else if (isACompound(id)){
 			return COMPOUND_TYPE_NAME;
 		} else {
-			logger.warn("Can't resolve elastic search document type for id " + id );
-			return null;
+
+			logger.warn("Can't resolve elastic search document type for id " + id + "  trying search.");
+			return searchDocumentTypeById(id);
+
 		}
 
 	}
+
+	private String searchDocumentTypeById (String identifier){
+
+		SearchQuery query = new SearchQuery(NO_ESCAPING_CHAR + "_id:" + identifier);
+		SearchUser user = new SearchUser();
+		user.setAdmin(true);
+		query.setUser(user);
+		SearchResponse result = searchToElasticSearchResponse(query);
+
+		// If there are hits...
+		if (result.getHits().getTotalHits() > 0) {
+
+			return result.getHits().iterator().next().getType();
+
+		} else {
+
+			// Nothing hit
+			logger.info("Nothing was hit by the query: " + query.toString());
+
+			// Default to Study!
+			return STUDY_TYPE_NAME;
+
+		}
+	}
+
 
 	private boolean isAStudy(String id) {
 		return id.indexOf(studyPrefix) == 0;
@@ -594,7 +631,21 @@ public class ElasticSearchService implements SearchService <Entity> {
 	public SearchResult<Entity> search(SearchQuery query) {
 
 
-		// Initilize the client
+		SearchResponse response = searchToElasticSearchResponse(query);
+
+
+		if (response.getHits().getTotalHits() == 0) {
+			// Nothing hit
+			logger.info("Nothing was hit by the query: " + query.toString());
+		}
+
+		return convertElasticSearchResponse2SearchResult(response, query);
+
+	}
+
+	private SearchResponse searchToElasticSearchResponse(SearchQuery query) {
+
+		// Initialise the client
 		initialiseElasticSearchClient();
 
 		// Get a SearchRequest
@@ -614,15 +665,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 		// Elastic search first element starts at 0
 		setPagination(query, searchRequestBuilder);
 
-		SearchResponse response = searchRequestBuilder.execute().actionGet();
-
-		if (response.getHits().getTotalHits() == 0) {
-			// Nothing hit
-			logger.info("Nothing was hit by the query: " + query.toString());
-		}
-
-		return convertElasticSearchResponse2SearchResult(response, query);
-
+		return searchRequestBuilder.execute().actionGet();
 	}
 
 	private void setPagination(SearchQuery query, SearchRequestBuilder searchRequestBuilder) {

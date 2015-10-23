@@ -23,11 +23,12 @@ package uk.ac.ebi.metabolights;
 import junit.framework.TestCase;
 import uk.ac.ebi.metabolights.utils.exporter.StudyXMLExporter;
 
+@Deprecated
 public class StudyXMLExporterTest  extends TestCase{
 
     StudyXMLExporter xmlExporter = new StudyXMLExporter();
     String ISATabRootDirectory = StudyXMLExporterTest.class.getClassLoader().getResource(".").getPath();
-    String fileName = ISATabRootDirectory + "ml_export.xml";
+    String fileName = ISATabRootDirectory + "ml_study_export.xml";
     String wsURL = "http://www.ebi.ac.uk/metabolights/webservice/";
 
     public void testXMLExporter(){

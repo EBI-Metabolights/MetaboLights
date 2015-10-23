@@ -26,8 +26,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.TextUtils;
+import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,28 +53,48 @@ public abstract class AbstractController {
 		mav.addObject("errorMainMessage", ex.getMessage());
 		return mav;
 	}
-	public ModelAndView printMessage(String title, Collection<String> message){
+	public ModelAndView printMessage(String title, Collection<String> message, Exception e){
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("message");
 		mav.addObject("title",title);
 		mav.addObject("message", message);
+		mav.addObject("exception", e);
 
 		return mav;
 
 	}
+
+	public ModelAndView printMessage(String title, Collection<String> message){
+
+		return printMessage(title,message,null);
+
+	}
+	public ModelAndView printMessage(RestResponse<ArrayListOfStrings> restResponse){
+
+		return printMessage(restResponse.getMessage(),restResponse.getContent(),restResponse.getErr());
+
+	}
+
+	public ModelAndView printSingleMessage(RestResponse<String> response) {
+		return printMessage(response.getMessage(),response.getContent(), null);
+	}
+
 	public ModelAndView printMessage(String title, String message){
+
+		return printMessage(title, message,null);
+
+	}
+	public ModelAndView printMessage(String title, String message, Exception e){
 
 		ArrayList<String> messages = new ArrayList<>();
 		messages.add(message);
 
-		return printMessage(title, messages);
+		return printMessage(title, messages, e);
 
 	}
 
-	// To add to the todo task....when everything is refactored we should remove this method and no reference to it should be left.
-	public ModelAndView toBeImplemented(){
-		return printMessage("Not implemented", "this methos is not implemented yet wuth the new arquitecture.");
-	}
+
+
 	public ModelAndView printMessageFromLookup(String titleTag, String messageTag){
 		
 		return printMessage(PropertyLookup.getMessage(titleTag), PropertyLookup.getMessage(messageTag));
