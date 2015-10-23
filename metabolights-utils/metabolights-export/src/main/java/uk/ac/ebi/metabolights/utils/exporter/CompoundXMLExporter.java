@@ -30,12 +30,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.repository.model.Organism;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
-import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,9 +48,9 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
+@Deprecated
 public class CompoundXMLExporter {
 
     private final static Logger logger = LoggerFactory.getLogger(CompoundXMLExporter.class.getName());

@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Deprecated
 public class StudyXMLExporter {
 
     private final static Logger logger = LoggerFactory.getLogger(StudyXMLExporter.class.getName());
@@ -145,7 +146,6 @@ public class StudyXMLExporter {
 
         }
     }
-
 
     public static boolean writeFile(String fileName, String wsClientURL) throws Exception {
         try {
@@ -406,7 +406,6 @@ public class StudyXMLExporter {
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
-            break;
 
         }
 
