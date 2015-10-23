@@ -22,7 +22,7 @@ public class Validation {
 
     private String description;
 
-    private Status status = Status.RED;
+    private Status status = Status.GREEN;
 
     private Group group;
 

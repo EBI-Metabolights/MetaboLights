@@ -3,6 +3,7 @@ package uk.ac.ebi.metabolights.repository.utils.validation;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -77,5 +78,32 @@ public class Utilities {
             }
         }
         return false;
+    }
+
+    public static List<String> getFileNamesInDirectory(String studyDirectory) {
+        File folder = new File(studyDirectory);
+        File[] listOfFiles = folder.listFiles();
+        List<String> possibleRawFiles = new ArrayList<>();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+
+
+            File file = listOfFiles[i];
+
+            // If it's a file
+            if (file.isFile()) {
+
+                // Test the size
+                if (file.length() > 0) {
+                    possibleRawFiles.add(file.getName());
+                }
+
+                // It's a directory
+            } else {
+                // Add it...
+                possibleRawFiles.add(file.getName());
+            }
+        }
+        return possibleRawFiles;
     }
 }

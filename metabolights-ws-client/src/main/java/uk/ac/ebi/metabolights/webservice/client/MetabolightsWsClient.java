@@ -475,6 +475,25 @@ public class MetabolightsWsClient {
 
     }
 
+    /**
+     * Deletes a series of files selected from the Study Files tab in a study.
+     * @param studyId
+     * @param obfuscationCode, the user credentials
+     * @param selectedFiles, the list of files to be deleted
+     * @return
+     * @author: jrmacias
+     * @date: 20151012
+     */
+    public RestResponse<String> deleteFilesFromStudy(String studyId,
+                                                     String obfuscationCode,
+                                                     List<String> selectedFiles){
+
+        String response = makePostRequest(STUDY_PATH + studyId + "/deleteFiles",selectedFiles);
+        logger.info("Deleting files from study {} by user request", obfuscationCode, studyId);
+
+        return deserializeJSONString(response, String.class);
+    }
+
     public RestResponse<String> restore(String studyIdentifier, String backupIdentifier) {
 
         logger.debug("Restoring {} for {} requested to MetaboLights WS client.", backupIdentifier, studyIdentifier);

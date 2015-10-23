@@ -27,6 +27,7 @@ public class StudyValidations implements IValidationProcess {
         studyValidations.add(getStudyTitleValidation(study));
         studyValidations.add(getStudyDescriptionValidation(study));
         studyValidations.add(studyDecodeIsSuccessfulValidation(study));
+        studyValidations.add(allContactsHaveEmailValidation(study));
 
         return studyValidations;
 
@@ -91,6 +92,23 @@ public class StudyValidations implements IValidationProcess {
                     contact.getRole();
         }
         return c;
+    }
+
+    public static Validation allContactsHaveEmailValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.STUDY_CONTACT_EMAIL, Requirement.MANDATORY, Group.CONTACT);
+        Collection<Contact> contacts = study.getContacts();
+        int noEmail = 0;
+        for (Contact contact : contacts) {
+            if (contact.getEmail().isEmpty()) {
+                noEmail++;
+            }
+        }
+        if (noEmail > 0) {
+            validation.setPassedRequirement(false);
+            validation.setMessage("Not all study contacts have their email linked");
+        }
+        validation.setStatus();
+        return validation;
     }
 
 
