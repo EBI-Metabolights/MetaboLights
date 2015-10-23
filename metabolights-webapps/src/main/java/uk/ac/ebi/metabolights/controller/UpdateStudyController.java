@@ -113,30 +113,6 @@ public class UpdateStudyController extends AbstractController {
 	}
 
 	/**
-     * Send an email (each day) for 7 days before the study goes live.  Let's hope this is not too much for the submitter!
-     */
-    @RequestMapping(value = { "/findstudiesgoinglive"})
-    public ModelAndView findStudiesGoingLive(){
-
-//        List<String> studiesList = studyService.findStudiesGoingLive();
-//        Iterator iter = studiesList.iterator();
-//        while (iter.hasNext()){
-//            String acc = (String) iter.next();
-//            try {
-//                LiteStudy study = getStudy(acc);
-//                emailService.sendStudyGoingPublicNotification(study);
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        return new ModelAndView ("index");
-		return toBeImplemented();
-
-    }
-
-	/**
 	 * Return the model and view ready to be rendered in the jsp that share 2 modes. Update and MakeStudyPublic
 	 * @param study
 	 * @param isUpdateMode
