@@ -189,13 +189,21 @@
 
         if (toInitialise.length >0){
 
+            // Get attributes
+            var order = eval($(toInitialise).attr("order"));
+
+            if (typeof order === typeof undefined || order === false) {
+                order = [];
+            }
+
             $(toInitialise).dataTable( {
                 "scrollX": true,
                 "order": [],
                 "language": {
                     "search": "Filter:"
                 },
-                "pageLength": 25
+                "pageLength": 25,
+                "order": order
             } );
 
         }
@@ -623,7 +631,7 @@
                     <div class="ui-state-highlight ui-corner-all">
                         <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/></p>
                         <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
-                            <p><spring:message code="label.fileListTableInstructions"/></p>
+                            <p><spring:message code="label.fileListTableDelInstructions"/></p>
                         </sec:authorize>
                     </div>
                 </form>
@@ -633,7 +641,7 @@
 
         <div id="tabs-validations" class="tab">
             <c:if test="${not empty study.validations.entries}">
-                <table class="display clean">
+                <table class="display clean" order="[ 1, 'asc' ]">
                     <thead class='text_header'>
                     <tr>
                         <th>Condition</th>

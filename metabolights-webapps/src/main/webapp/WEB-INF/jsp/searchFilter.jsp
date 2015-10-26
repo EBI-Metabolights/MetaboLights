@@ -44,7 +44,10 @@ facets[].facet.lines[].FacetLine.checked
 	<script>
 		function fillAutocomplete(id, availableTags) {
 
-			id = id.replace(".", "\\.");
+			// this was not catching all the occurrences in the string, just the first one
+			// id = id.replace(".", "\\.");
+			// lets use regular expressions, instead
+			id = id.replace(/\./g, "\\.");
 
 			$( "#"+id ).autocomplete({
 				source: availableTags,

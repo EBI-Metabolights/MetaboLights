@@ -29,4 +29,9 @@
     <p>${line}</p>
   </c:forEach>
 
+  <c:if test="${not empty exception}">
+      <h3>There's been an error:</h3>
+    <p>${exception.message}</p>
+  </c:if>
+
 </div>

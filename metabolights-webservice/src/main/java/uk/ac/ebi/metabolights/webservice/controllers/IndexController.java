@@ -138,9 +138,21 @@ public class IndexController extends BasicController {
 	@ResponseBody
 	public RestResponse<ArrayList<String>>  deleteIndex(@RequestBody(required = false) List<String> ids) throws IndexingFailureException {
 
+		// Forward this to the post version
+
+		return deleteIndexPost(ids);
+
+	}
+
+	@RequestMapping(value="delete",method = RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<ArrayList<String>>  deleteIndexPost(@RequestBody(required = false) List<String> ids) throws IndexingFailureException {
+
 		logger.info("Deleting index");
 
 		RestResponse<ArrayList<String>> response = new RestResponse<>();
+		response.setContent(new ArrayList<String>());
+
 		boolean allOk = true;
 
 		if (ids == null) {
