@@ -20,6 +20,8 @@ public class Validation {
     public Validation() {
     }
 
+    private Long id;
+
     private String description;
 
     private Status status = Status.GREEN;
@@ -80,6 +82,15 @@ public class Validation {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
     public void setStatus() {
         if (getPassedRequirement()) {
