@@ -37,211 +37,194 @@ import java.util.Set;
  * User: conesa
  * Date: 16/01/15
  * Time: 11:30
- * <p/>
+ *
  * This class is meant to represent a row in the study table..it's an intermediate data structure
  * more DB like than the actual Study model.
  */
 @Entity
 @Table(name = Constants.STUDIES_TABLE)
-public class StudyData extends DataModel<Study> {
+public class StudyData  extends DataModel<Study> {
 
-    private String acc;
-    private String obfuscationcode = java.util.UUID.randomUUID().toString();
-    private int status;
-    // Initialise release date to 30 days after today.
-    private Date releaseDate = new Date(DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH).getTime() + (1000L * 60L * 60L * 24L * 30L));
+	private String acc;
+	private String obfuscationcode = java.util.UUID.randomUUID().toString();
+	private int status;
+	// Initialise release date to 30 days after today.
+	private Date releaseDate =  new Date(DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH).getTime() + (1000L*60L*60L*24L*30L));
 
-    @Column(name = "updatedate")
-    private Date updateDate = new Date();
-    private Date submissionDate = new Date();
-    private Set<UserData> users = new HashSet<>();
-    private BigDecimal studysize = new BigDecimal(0);
+    @Column(name="updatedate")
+	private Date updateDate =  new Date();
+	private Date submissionDate =  new Date();
+	private Set<UserData> users = new HashSet<>();
+	private BigDecimal studysize = new BigDecimal(0);
 
+	@Column(name="studysize")
+	public BigDecimal getStudysize() {
+		return studysize;
+	}
 
-    private Set<ValidationData> validationsData = new HashSet<>();
-
-    @Column(name = "studysize")
-    public BigDecimal getStudysize() {
-        return studysize;
-    }
-
-    public void setStudysize(BigDecimal studysize) {
-        this.studysize = studysize;
-    }
+	public void setStudysize(BigDecimal studysize) {
+		this.studysize = studysize;
+	}
 
 
-    @Column(unique = true)
-    public String getAcc() {
-        return acc;
-    }
 
-    public void setAcc(String acc) {
-        this.acc = acc;
-    }
+	@Column(unique = true)
+	public String getAcc() {
+		return acc;
+	}
 
-    @Column(unique = true)
-    public String getObfuscationcode() {
-        return obfuscationcode;
-    }
+	public void setAcc(String acc) {
+		this.acc = acc;
+	}
 
-    public void setObfuscationcode(String obfuscationcode) {
-        this.obfuscationcode = obfuscationcode;
-    }
+	@Column(unique = true)
+	public String getObfuscationcode() {
+		return obfuscationcode;
+	}
 
-    public int getStatus() {
-        return status;
-    }
+	public void setObfuscationcode(String obfuscationcode) {
+		this.obfuscationcode = obfuscationcode;
+	}
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
+	public int getStatus() {
+		return status;
+	}
 
-    @Type(type = "date")
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
+	@Type(type="date")
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
 
-    @Type(type = "timestamp")
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
 
-    @Type(type = "timestamp")
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+	@Type(type="timestamp")
+	public Date getUpdateDate() {
+		return updateDate;
+	}
 
-    @Type(type = "timestamp")
-    public Date getSubmissionDate() {
-        return submissionDate;
-    }
+	@Type(type="timestamp")
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
 
-    public void setSubmissionDate(Date submissionDate) {
-        this.submissionDate = submissionDate;
-    }
+	@Type(type="timestamp")
+	public Date getSubmissionDate() {
+		return submissionDate;
+	}
 
-    @ManyToMany
-    @JoinTable(name = "study_user", joinColumns = @JoinColumn(name = "studyid"), inverseJoinColumns = @JoinColumn(name = "userid"))
-    public Set<UserData> getUsers() {
-        return users;
-    }
+	public void setSubmissionDate(Date submissionDate) {
+		this.submissionDate = submissionDate;
+	}
 
-    public void setUsers(Set<UserData> users) {
-        this.users = users;
-    }
+	@ManyToMany
+	@JoinTable(name="study_user", joinColumns=@JoinColumn(name="studyid"), inverseJoinColumns=@JoinColumn(name="userid"))
+	public Set<UserData> getUsers() {
+		return users;
+	}
 
-    @ManyToMany
-    @JoinTable(name = "validation", joinColumns = @JoinColumn(name = "studyid"), inverseJoinColumns = @JoinColumn(name = "validationid"))
-    public Set<ValidationData> getValidationsData() {
-        return validationsData;
-    }
-
-    public void setValidationsData(Set<ValidationData> validationsData) {
-        this.validationsData = validationsData;
-    }
+	public void setUsers(Set<UserData> users) {
+		this.users = users;
+	}
 
 
-    @Override
-    protected void setBusinessModelId(Long id) {
+	@Override
+	protected void setBusinessModelId(Long id) {
 
-        businessModelEntity.setId(id);
-    }
-
-
-    @Override
-    protected void businessModelToDataModel() {
-
-        this.id = businessModelEntity.getId();
-        this.obfuscationcode = businessModelEntity.getObfuscationCode();
-        this.acc = businessModelEntity.getStudyIdentifier();
-        this.status = businessModelEntity.getStudyStatus().ordinal();
-        this.releaseDate = businessModelEntity.getStudyPublicReleaseDate();
-        this.updateDate = businessModelEntity.getUpdateDate();
-        this.submissionDate = businessModelEntity.getStudySubmissionDate();
-        this.studysize = businessModelEntity.getStudySize();
-
-        // Convert Users...
-        this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
-
-        //convert validations..
-        this.validationsData = ValidationData.businessModelToDataModel(businessModelEntity.getValidationList());
-
-    }
-
-    @Override
-    public Study dataModelToBusinessModel() {
-
-        businessModelEntity = new Study();
-
-        studyDataToLiteStudy(businessModelEntity);
-
-        // Fill users
-        businessModelEntity.setUsers(UserData.dataModelToBusinessModel(users));
-
-        //Fill Validations
-        businessModelEntity.setValidationList(ValidationData.dataModelToBusinessModel(validationsData));
-
-        return businessModelEntity;
-    }
-
-    public LiteStudy studyDataToLiteStudy() {
-
-        LiteStudy studyLite = new LiteStudy();
-
-        studyDataToLiteStudy(studyLite);
-
-        return studyLite;
-    }
-
-    private void studyDataToLiteStudy(LiteStudy study) {
-
-        study.setId(this.id);
-        study.setObfuscationCode(this.obfuscationcode);
-        study.setStudyIdentifier(this.acc);
-        study.setStudyStatus(Study.StudyStatus.values()[this.status]);
-        study.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
-        study.setUpdateDate(new Date(this.updateDate.getTime()));
-        study.setStudySubmissionDate(new Date(this.getSubmissionDate().getTime()));
-        study.setStudySize(this.studysize);
-
-    }
-
-    public static Set<Study> dataModelToBusinessModel(Set<StudyData> dataStudies) {
-
-        Set<Study> studies = new HashSet<Study>();
-
-        for (StudyData studyData : dataStudies) {
-
-            Study studyLite = studyData.dataModelToBusinessModel();
-
-            // Add it to the collection
-            studies.add(studyLite);
-        }
-
-        return studies;
+		businessModelEntity.setId(id);
+	}
 
 
-    }
+	@Override
+	protected void businessModelToDataModel() {
+
+		this.id = businessModelEntity.getId();
+		this.obfuscationcode = businessModelEntity.getObfuscationCode();
+		this.acc = businessModelEntity.getStudyIdentifier();
+		this.status = businessModelEntity.getStudyStatus().ordinal();
+		this.releaseDate = businessModelEntity.getStudyPublicReleaseDate();
+		this.updateDate = businessModelEntity.getUpdateDate();
+		this.submissionDate = businessModelEntity.getStudySubmissionDate();
+		this.studysize = businessModelEntity.getStudySize();
+
+		// Convert Users...
+		this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
+
+	}
+
+	@Override
+	public Study dataModelToBusinessModel() {
+
+		businessModelEntity = new Study();
+
+		studyDataToLiteStudy(businessModelEntity);
+
+		// Fill users
+		businessModelEntity.setUsers(UserData.dataModelToBusinessModel(users));
+
+		return businessModelEntity;
+	}
+
+	public LiteStudy studyDataToLiteStudy() {
+
+		LiteStudy studyLite = new LiteStudy();
+
+		studyDataToLiteStudy(studyLite);
+
+		return studyLite;
+	}
+
+	private void studyDataToLiteStudy(LiteStudy study){
+
+		study.setId(this.id);
+		study.setObfuscationCode(this.obfuscationcode);
+		study.setStudyIdentifier(this.acc);
+		study.setStudyStatus(Study.StudyStatus.values()[this.status]);
+		study.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
+		study.setUpdateDate(new Date(this.updateDate.getTime()));
+		study.setStudySubmissionDate(new Date(this.getSubmissionDate().getTime()));
+		study.setStudySize(this.studysize);
+
+	}
+
+	public static Set<Study> dataModelToBusinessModel(Set<StudyData> dataStudies) {
+
+		Set<Study>studies = new HashSet<Study>();
+
+		for (StudyData studyData :dataStudies){
+
+			Study studyLite = studyData.dataModelToBusinessModel();
+
+			// Add it to the collection
+			studies.add(studyLite);
+		}
+
+		return studies;
 
 
-    public static Set<LiteStudy> studyDataToLiteStudy(Set<StudyData> studies) {
-
-        Set<LiteStudy> liteStudies = new HashSet<LiteStudy>();
-
-        for (StudyData studyData : studies) {
-
-            LiteStudy studyLite = studyData.studyDataToLiteStudy();
-
-            // Add it to the collection
-            liteStudies.add(studyLite);
-        }
-
-        return liteStudies;
+	}
 
 
-    }
+
+	public static Set<LiteStudy> studyDataToLiteStudy(Set<StudyData> studies) {
+
+		Set<LiteStudy>liteStudies = new HashSet<LiteStudy>();
+
+		for (StudyData studyData :studies){
+
+			LiteStudy studyLite = studyData.studyDataToLiteStudy();
+
+			// Add it to the collection
+			liteStudies.add(studyLite);
+		}
+
+		return liteStudies;
+
+
+	}
 }

@@ -23,13 +23,10 @@ package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 @JsonTypeName("Study")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Study extends LiteStudy {
@@ -45,9 +42,6 @@ public class Study extends LiteStudy {
     private Collection<Protocol> protocols;
     private List<Assay> assays;
     private Collection<Backup> backups;
-
-
-    private List<Validation> validationList = new ArrayList<>();
     private Validations validations = new Validations();
 
     // Tables Sample & Assays
@@ -133,13 +127,5 @@ public class Study extends LiteStudy {
 
     public void setValidations(Validations validations) {
         this.validations = validations;
-    }
-
-    public List<Validation> getValidationList() {
-        return validationList;
-    }
-
-    public void setValidationList(List<Validation> validationList) {
-        this.validationList = validationList;
     }
 }
