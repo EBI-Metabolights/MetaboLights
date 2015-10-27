@@ -42,6 +42,7 @@ import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.utils.UploadProgressListener;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
@@ -54,7 +55,10 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -160,6 +164,7 @@ public class ManagerController extends AbstractController{
 		}
 		mav.addObject("validation", validationResult);
 		mav.addObject("queue", queue);
+		mav.addObject("uploads", UploadProgressListener.getUploads());
 		mav.addObject("processFolder", (getFilesInFolder(new File(SubmissionQueue.getProcessFolder()))));
 		mav.addObject("errorFolder", (getFilesInFolder(new File(SubmissionQueue.getErrorFolder()))));
 		mav.addObject("backUpFolder", (getFilesInFolder(new File(SubmissionQueue.getBackUpFolder()))));
