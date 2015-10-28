@@ -39,7 +39,10 @@ public class UploadProgressListener implements ProgressListener {
 		percentDone = (100 * bytesRead) / contentLength;
 		lastUpdate = new Date();
 
+		logger.debug("UploadListener update invoked");
+
 		if (percentDone == 100) {
+			logger.debug("UploadListener.update file completed");
 			uploads.remove(this);
 		}
 	}
@@ -55,4 +58,6 @@ public class UploadProgressListener implements ProgressListener {
 	public Date getLastUpdate() {
 		return lastUpdate;
 	}
+
+
 }
