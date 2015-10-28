@@ -106,4 +106,23 @@ public class Utilities {
         }
         return possibleRawFiles;
     }
+
+    public static int indexToCheck(String columnValue) {
+        String index = columnValue.split("~")[0];
+        return Integer.parseInt(index);
+    }
+
+    public static String getfieldName(String columnValue) {
+        String fieldname = columnValue.split("~")[1];
+        return fieldname;
+    }
+
+    public static boolean match(String stuff, List<String> list) {
+        return list.contains(stuff);
+    }
+
+    public static boolean containsKeyword(String field, String keyword) {
+        return field.contains(keyword);
+    }
+
 }
