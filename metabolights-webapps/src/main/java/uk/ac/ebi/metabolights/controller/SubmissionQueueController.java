@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
@@ -42,6 +43,7 @@ import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -133,78 +135,15 @@ public class SubmissionQueueController extends AbstractController {
 		return mav;
 	}
 
-// Not used?: commented on 29-04-2015.
-//    public ModelAndView generatePTPFile(
-//            @RequestParam(required=false,value="study") String study,
-//            @RequestParam(required=false,value="owner") String owner,
-//            HttpServletRequest request){
-//
-//        StringBuffer messageBody = new StringBuffer();
-//        String hostName = null;
-//        Date publicDateD = null;
-//
-//        // Get the user
-//        MetabolightsUser user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-//        String submitter = user.getUserName();
-//
-//        try {
-//            hostName = java.net.InetAddress.getLocalHost().getHostName();
-//            messageBody.append("Study submission started from machine " + hostName);
-//
-//            if (user.isCurator()){
-//
-//                // Overwrite the submitter with the owner...
-//                submitter = owner;
-//            }
-//
-//
-//            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-//            publicDateD = sdf.parse(publicDate);
-//
-//            if (publicDate.isEmpty())
-//                throw new BIIException(PropertyLookup.getMessage("BIISubmit.dateEmpty"));
-//
-//
-//
-//        // Extend the message...
-//        messageBody.append("\nUser: " + user.getUserName() + "on behalf of " + submitter);
-//        messageBody.append("\nSTUDY: " + study);
-//        messageBody.append("\nPublic Release Date: " + publicDate);
-//
-//        SubmissionItem si = new SubmissionItem(null, submitter, publicDateD, study, true);
-//        // Submit the item to the queue...
-//        si.submitToQueue();
-//
-//        messageBody.append("\n\n File Successfully queued.");
-//
-//        logger.info("Queued study. Adding data to session");
-//        HttpSession httpSession = request.getSession();
-//        httpSession.setAttribute("itemQueued", "msg.studyQueueSuccesfully");
-//
-//        // Cannot load the queue
-//        emailService.sendQueuedStudyEmail(si.getUserId(),si.getOriginalFileName() , FileUtils.byteCountToDisplaySize(si.getFileQueued().length()), si.getPublicReleaseDate(), hostName, study);
-//
-//        } catch (BIIException e) {
-//            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
-//            logger.error("Submision exception", e);
-//            mav.addObject("error", e);
-//            mav.addObject("studyId", study);
-//            return mav;
-//        } catch (Exception e) {
-//
-//            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
-//            logger.error("Submission exception",e);
-//            mav.addObject("error", e);
-//
-//            // Add the study id...
-//            mav.addObject("studyId", study);
-//            messageBody.append("\n\nERROR!!!!!\n\n" + e.getMessage() );
-//            emailService.sendSimpleEmail( "msg.UpdatePTPFailed " + hostName + " by " + user.getUserName() , messageBody.toString());
-//            return mav;
-//        }
-//
-//        return new ModelAndView("redirect:itemQueued");
-//    }
+    @RequestMapping(value = "/submissionStatus", method = RequestMethod.GET)
+    @ResponseBody
+    public Object handleRequest(HttpServletRequest req,
+                                      HttpServletResponse res) throws Exception {
+
+        Object o = req.getSession().getAttribute("progress");
+
+        return o;
+    }
 	
 	@RequestMapping(value = "/queueExperiment", method = RequestMethod.POST)
 	public ModelAndView queueExperiment(

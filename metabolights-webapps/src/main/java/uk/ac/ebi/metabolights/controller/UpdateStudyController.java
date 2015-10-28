@@ -137,7 +137,7 @@ public class UpdateStudyController extends AbstractController {
 		String title ="", msg ="", action="", submitText="";
 		
 		String studyShortTitle = liteStudy.getTitle();
-		if (studyShortTitle.length() > 50) studyShortTitle = (studyShortTitle.substring(0, 47) + "...");
+		if (studyShortTitle != null && studyShortTitle.length() > 50) studyShortTitle = (studyShortTitle.substring(0, 47) + "...");
 		
 		// Fill the output title, msg, ...depending on the mode
 		if (isUpdateMode){

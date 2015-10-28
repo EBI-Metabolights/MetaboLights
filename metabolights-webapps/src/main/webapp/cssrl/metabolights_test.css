@@ -875,3 +875,25 @@ ol.progtrckr li.progtrckr-todo:before {
 #search-extras {
  top: -50px;
 }
+
+
+.wrong:before{
+
+    content: "\002718";
+    font-weight: bold;
+}
+
+.mandatory {
+    color: red;
+}
+.optional {
+    color: darkorange;
+}
+.ok {
+    color: green;
+}
+
+.ok:before{
+    content: "\002713";
+    font-weight: bold;
+}

@@ -206,6 +206,24 @@ $(function() {
         </div>
         <div id="queueTab">
             <br/>
+            <c:if test="${not empty uploads}">
+
+                <table cellpadding="5px" cellspacing="0px">
+                    <thead class='text_header'>
+                    <tr>
+                        <th>Upload</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <c:forEach var="upload" items="${uploads}">
+                        <tr>
+                            <td>${upload.lastUpdate}</td>
+                            <td>${upload.percentDone}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
+            <br/>
             <c:if test="${not empty queue}">
                 <table cellpadding="5px" cellspacing="0px">
                     <thead class='text_header'>
