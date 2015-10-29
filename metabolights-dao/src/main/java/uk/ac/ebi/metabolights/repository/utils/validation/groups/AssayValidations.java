@@ -118,22 +118,19 @@ public class AssayValidations implements IValidationProcess {
     private static List<String> getFileFieldsFrom(LinkedHashMap<String, Field> tableFields) {
         List<String> fileFields = new ArrayList<>();
         for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
-            if (containsFileKeyword(entry.getKey())) {
+            if (Utilities.containsKeyword(entry.getKey(), " file")) {
                 fileFields.add(entry.getKey());
             }
         }
         return fileFields;
     }
 
-    private static boolean containsFileKeyword(String field) {
-        return field.contains(" file");
-    }
 
     private static List<String> getFileFieldsExceptMAFFrom(LinkedHashMap<String, Field> tableFields) {
         List<String> fileFields = new ArrayList<>();
         for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
-            if (containsFileKeyword(entry.getKey())) {
-                if (!getfieldName(entry.getKey()).equalsIgnoreCase("metabolite assignment file")) {
+            if (Utilities.containsKeyword(entry.getKey()," file")) {
+                if (!Utilities.getfieldName(entry.getKey()).equalsIgnoreCase("metabolite assignment file")) {
                     fileFields.add(entry.getKey());
                 }
             }
@@ -152,7 +149,7 @@ public class AssayValidations implements IValidationProcess {
     }
 
     private static boolean thisFileColumnHasFilesReferenced(String fileColumn, List<List<String>> tableData) {
-        int index = indexToCheck(fileColumn);
+        int index = Utilities.indexToCheck(fileColumn);
         for (List<String> data : tableData) {
             if (!data.get(index).isEmpty()) {
                 return true;
@@ -161,10 +158,6 @@ public class AssayValidations implements IValidationProcess {
         return false;
     }
 
-    private static int indexToCheck(String fileColumn) {
-        String index = fileColumn.split("~")[0];
-        return Integer.parseInt(index);
-    }
 
     private static String getErrMessage(Assay assay, List<String> fileColumnsThatAreEmpty) {
         String errMessage = "";
@@ -172,16 +165,12 @@ public class AssayValidations implements IValidationProcess {
         //TODO Handle one Assay case
         errMessage = "Assay " + assayNumber + " has raw files missing. Column(s):";
         for (String column : fileColumnsThatAreEmpty) {
-            errMessage += " " + getfieldName(column) + ",";
+            errMessage += " " + Utilities.getfieldName(column) + ",";
         }
         errMessage += " has no files referenced";
         return errMessage;
     }
 
-    private static String getfieldName(String fileColumn) {
-        String fieldname = fileColumn.split("~")[1];
-        return fieldname;
-    }
 
     public static Validation referencedFilesArePresentInFileSystem(Study study, boolean assayRawFileValidationHasPassed) {
         Validation validation = new Validation(DescriptionConstants.ASSAY_FILES_IN_FILESYSTEM, Requirement.MANDATORY, Group.FILES);
@@ -216,14 +205,14 @@ public class AssayValidations implements IValidationProcess {
                     HashSet<String> uniqueFileNames = new HashSet();
 
                     for (List<String> data : assay.getAssayTable().getData()) {
-                        String rawFileName = data.get(indexToCheck(fileFields.get(i)));
+                        String rawFileName = data.get(Utilities.indexToCheck(fileFields.get(i)));
                         if (!rawFileName.isEmpty()) {
                             uniqueFileNames.add(rawFileName);
                         }
                     }
 
                     for (String uniqFileName : uniqueFileNames) {
-                        if (!match(uniqFileName, rawFilesList)) {
+                        if (!Utilities.match(uniqFileName, rawFilesList)) {
                             noPhysicalReference.add(uniqFileName);
                         }
                     }
@@ -249,14 +238,11 @@ public class AssayValidations implements IValidationProcess {
     private static int[] getAllIndexes(List<String> fileFields) {
         int[] indexes = new int[fileFields.size()];
         for (int i = 0; i < fileFields.size(); i++) {
-            indexes[i] = indexToCheck(fileFields.get(i));
+            indexes[i] = Utilities.indexToCheck(fileFields.get(i));
         }
         return indexes;
     }
 
-    private static boolean match(String tableRowEntry, List<String> rawFilesList) {
-        return rawFilesList.contains(tableRowEntry);
-    }
 
     private static String getNonMatchedFileMessage(List<String> rawFilesNoMatchList) {
         String errMessage = "Files reported in assay columns, are not present in study folder. Missing:";
