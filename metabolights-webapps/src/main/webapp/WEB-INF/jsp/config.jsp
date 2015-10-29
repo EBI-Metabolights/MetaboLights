@@ -206,6 +206,24 @@ $(function() {
         </div>
         <div id="queueTab">
             <br/>
+            <c:if test="${not empty uploads}">
+
+                <table cellpadding="5px" cellspacing="0px">
+                    <thead class='text_header'>
+                    <tr>
+                        <th>Upload</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <c:forEach var="upload" items="${uploads}">
+                        <tr>
+                            <td>${upload.lastUpdate}</td>
+                            <td>${upload.percentDone}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
+            <br/>
             <c:if test="${not empty queue}">
                 <table cellpadding="5px" cellspacing="0px">
                     <thead class='text_header'>
@@ -307,7 +325,7 @@ $(function() {
                     <tr><th>Study</th><th>Has folder?</th><th>In the DB</th><th>Indexed?</th><th>is Ok?</th></tr>
                     <c:forEach var="study" items="${studiesHealth}">
                         <tr>
-                            <td><a href="reindexstudies?study=${study.identifier}" title="Reindex this study">${study.identifier}</a></td>
+                            <td><a href="indexstudiesaction?study=${study.identifier}" title="Reindex this study">${study.identifier}</a></td>
                             <td>${study.itInTheFileSystem}</td>
                             <td>${study.itInTheDB}</td>
                             <td>${study.itInTheIndex}</td>
@@ -325,11 +343,11 @@ $(function() {
 
             <a href="resetIndex" title="Reset index: Delete, rebuild and re-apply the mappings for studies and compounds">Reset index</a> (delete, rebuild and re-apply the mappings)<br/>
 
-            <form method="get" action="reindexstudies">
-                <label>Study to re/index:</label><input type="text" name="study"> <input type="submit" value="Index">
+            <form method="get" action="indexstudiesaction">
+                <label>Study to re/index:</label><input type="text" name="study"> <input type="submit" value="Index" name="action"> <input type="submit" value="Delete" name="action">
             </form>
 
-            <a href="reindexstudies" title="Reindex all the studies">Reindex all the studies</a><br/>
+            <a href="indexstudiesaction" title="Reindex all the studies">Reindex all the studies</a><br/>
 
             <h3>Compounds</h3>
             <a href="deleteindexedcompounds" title="Delete all indexed compounds">Delete all indexed compounds</a><br/>

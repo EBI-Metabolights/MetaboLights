@@ -42,6 +42,7 @@ import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.utils.UploadProgressListener;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
@@ -160,6 +161,7 @@ public class ManagerController extends AbstractController{
 		}
 		mav.addObject("validation", validationResult);
 		mav.addObject("queue", queue);
+		mav.addObject("uploads", UploadProgressListener.getUploads());
 		mav.addObject("processFolder", (getFilesInFolder(new File(SubmissionQueue.getProcessFolder()))));
 		mav.addObject("errorFolder", (getFilesInFolder(new File(SubmissionQueue.getErrorFolder()))));
 		mav.addObject("backUpFolder", (getFilesInFolder(new File(SubmissionQueue.getBackUpFolder()))));
@@ -367,19 +369,64 @@ public class ManagerController extends AbstractController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/reindexstudies") //must accept parameters else reindex all studies looping through
-	public ModelAndView reindexstudies(@RequestParam(required = false, value = "study") String studyIdentifier){
+	@RequestMapping(value = "/indexstudiesaction") //must accept parameters else reindex all studies looping through
+	public ModelAndView reindexstudies(@RequestParam(required = false, value = "study") String studyIdentifier,
+									   @RequestParam(required = false, value = "action", defaultValue = "Index") String action){
+
+
+		// Split the study identifiers by ,
+		String[] studyIdentifiers = null;
+
+		if (studyIdentifier != null) studyIdentifiers = studyIdentifier.split(",");
+
+		if (action.equals("Index")) {
+
+			return reindexStudies(studyIdentifiers);
+
+		} else {
+
+			return deleteIndexedStudies(studyIdentifiers);
+		}
+	}
+
+
+	private ModelAndView deleteIndexedStudies(String[] studyIdentifiers) {
 
 
 		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
 
 		RestResponse<ArrayListOfStrings> response;
 
-		if(studyIdentifier != null){
+		if(studyIdentifiers != null){
 
-			logger.info("Re-indexing studyIdentifier: " + studyIdentifier);
+			logger.info("Deleting indexed studies: " + Arrays.toString(studyIdentifiers));
 
-			response = wsClient.indexStudy(studyIdentifier);
+			response = wsClient.deleteIndexedEntries(Arrays.asList(studyIdentifiers));
+
+		} else {
+
+			logger.info("Deleting all indexed studies");
+
+			response = wsClient.deleteStudiesIndex();
+
+		}
+
+		return printMessage(response);
+	}
+
+
+	private ModelAndView reindexStudies(String[] studyIdentifiers) {
+
+
+		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+		RestResponse<ArrayListOfStrings> response;
+
+		if(studyIdentifiers != null){
+
+			logger.info("Re-indexing studyIdentifies: " + Arrays.toString(studyIdentifiers));
+
+			response = wsClient.indexStudies(Arrays.asList(studyIdentifiers));
 
 		} else {
 
@@ -389,8 +436,7 @@ public class ManagerController extends AbstractController{
 
 		}
 
-		return printMessage(response.getMessage(), response.getContent());
-
+		return printMessage(response);
 	}
 
 	/**
@@ -407,29 +453,18 @@ public class ManagerController extends AbstractController{
 		logger.info("Reset index: Delete, rebuild and re-apply the mappings for studies and compounds");
 		response = wsClient.resetIndex();
 
-		return printMessage(response.getMessage(), response.getContent());
+		return printSingleMessage(response);
 	}
-
 	/**
 	 * Will delete the studies index, to use carefully.
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/deleteindexedstudies")
-	public ModelAndView deleteindexedstudies(){
+	public ModelAndView deleteIndexedStudies(){
 
 
-		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-
-		RestResponse<ArrayListOfStrings> response;
-
-
-
-		logger.info("Deleting studies index");
-
-		response = wsClient.deleteStudiesIndex();
-
-		return printMessage(response.getMessage(), response.getContent());
+		return deleteIndexedStudies(null);
 
 	}
 
@@ -460,7 +495,7 @@ public class ManagerController extends AbstractController{
 
 		}
 
-		return printMessage(response.getMessage(), response.getContent());
+		return printMessage(response);
 
 	}
 
@@ -481,7 +516,7 @@ public class ManagerController extends AbstractController{
 
 		response = wsClient.deleteCompoundsIndex();
 
-		return printMessage(response.getMessage(), response.getContent());
+		return printMessage(response);
 
 	}
 

@@ -20,9 +20,12 @@ public class Validation {
     public Validation() {
     }
 
+    private Long id;
+
     private String description;
 
     private Status status = Status.GREEN;
+    private String statusExt = "";
 
     private Group group;
 
@@ -81,23 +84,33 @@ public class Validation {
         this.group = group;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
     public void setStatus() {
         if (getPassedRequirement()) {
             setStatus(Status.GREEN);
+            statusExt = (description == null?"":description) + " - PASSED";
         } else {
             if (getType().equals(Requirement.MANDATORY)) {
                 setStatus(Status.RED);
+                statusExt = (description == null?"":description) + " - FAILED";
             } else {
                 setStatus(Status.ORANGE);
+                statusExt = (description == null?"":description) + " - PASSED";
             }
         }
 
     }
 
+
     public String getStatusExt(){
-        return  (
-                (description == null?"":description) + " " +
-                        (passedRequirement == true?"(PASSED)":"(FAILED)")
-        ).trim();
+        return statusExt;
     }
 }

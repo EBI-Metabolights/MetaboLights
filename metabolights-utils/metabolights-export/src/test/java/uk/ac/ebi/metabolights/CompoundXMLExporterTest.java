@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights;
 import junit.framework.TestCase;
 import uk.ac.ebi.metabolights.utils.exporter.CompoundXMLExporter;
 
+@Deprecated
 public class CompoundXMLExporterTest  extends TestCase{
 
     CompoundXMLExporter compoundXMLExporter = new CompoundXMLExporter();

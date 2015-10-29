@@ -27,13 +27,19 @@ public class MetabolightsXMLExporterTest  extends TestCase{
 
     MetabolightsXMLExporter xmlExporter = new MetabolightsXMLExporter();
     String ISATabRootDirectory = MetabolightsXMLExporterTest.class.getClassLoader().getResource(".").getPath();
-    String fileName = ISATabRootDirectory + "ml_export.xml";
+    String fileName = ISATabRootDirectory;
     String wsURL = "http://www.ebi.ac.uk/metabolights/webservice/";
+    Boolean fileExported = false, includeCompounds = false;
 
     public void testXMLExporter(){
-        Boolean fileExported = false;
         try {
-            fileExported = xmlExporter.writeFile(fileName, wsURL);
+
+            if (includeCompounds)
+                fileName = fileName + "ml_complete_export.xml";
+            else
+                fileName = fileName + "ml_study_export.xml";
+
+            fileExported = xmlExporter.writeFile(fileName, includeCompounds, wsURL);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -189,13 +189,21 @@
 
         if (toInitialise.length >0){
 
+            // Get attributes
+            var order = eval($(toInitialise).attr("order"));
+
+            if (typeof order === typeof undefined || order === false) {
+                order = [];
+            }
+
             $(toInitialise).dataTable( {
                 "scrollX": true,
                 "order": [],
                 "language": {
                     "search": "Filter:"
                 },
-                "pageLength": 25
+                "pageLength": 25,
+                "order": order
             } );
 
         }
@@ -338,15 +346,8 @@
 
             <li>
                 <a id="valid-tab" href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/>&nbsp;
-                    <c:if test="${study.validations.status == 'GREEN'}">
-                       <span aria-hidden="true" style="color:darkgreen">&#10004;
-                    </c:if>
-                    <c:if test="${study.validations.status == 'RED'}">
-                        <span aria-hidden="true" style="color:red">&#10008;</span>
-                    </c:if>
-                    <c:if test="${study.validations.status == 'ORANGE'}">
-                        <span aria-hidden="true" style="color:darkorange">&#10008;</span>
-                    </c:if>
+                    <c:set var="validationstatus" value="${study.validations.status}"/>
+                    <%@include file="validation.jsp" %>
                 </a>
             </li>
 
@@ -633,7 +634,7 @@
 
         <div id="tabs-validations" class="tab">
             <c:if test="${not empty study.validations.entries}">
-                <table class="display clean">
+                <table class="display clean" order="[ 1, 'asc' ]">
                     <thead class='text_header'>
                     <tr>
                         <th>Condition</th>
@@ -647,19 +648,18 @@
                     <tbody>
                     <c:forEach var="validation" items="${study.validations.entries}">
                         <tr>
+                            <td>
+                                <c:set var="validationstatus" value="${validation.status}"/>
+                                <%@include file="validation.jsp" %>
+                            </td>
+
                             <c:if test="${validation.status == 'GREEN'}">
-                                    <td><span aria-hidden="true" style="color:darkgreen">&#10004;</span>
-                                    </td>
-                                <td>PASSES</td>
+                               <td>PASSES</td>
                             </c:if>
                             <c:if test="${validation.status == 'RED'}">
-                                <td><span aria-hidden="true" style="color:red">&#10008;</span>
-                                </td>
                                 <td>FAILS</td>
                             </c:if>
                             <c:if test="${validation.status == 'ORANGE'}">
-                                <td><span aria-hidden="true" style="color:darkorange">&#10008;</span>
-                                </td>
                                 <td>INCOMPLETE</td>
                             </c:if>
 

@@ -53,12 +53,11 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
-import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
+import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
-import javax.sound.midi.Soundbank;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -183,16 +182,24 @@ public class MetabolightsWsClient {
 
         } catch (MalformedURLException e) {
 
-            e.printStackTrace();
+            RestResponse response = new RestResponse();
+            response.setMessage("Malformed url: " + path);
+            response.setErr(e);
+            logger.error(response.getMessage(), e);
+
+            return serializeObject(response);
 
 
         } catch (IOException e) {
 
-            e.printStackTrace();
+            RestResponse response = new RestResponse();
+            response.setMessage("IO exception while trying to reach " + path);
+            response.setErr(e);
+            logger.error(response.getMessage(), e);
+
+            return serializeObject(response);
+
         }
-
-        return null;
-
     }
 
 
@@ -204,8 +211,7 @@ public class MetabolightsWsClient {
         return makeRequestSendingData(path, data, "PUT");
     }
 
-    private String makeDeleteRequest(String path) {
-        return makeRequest(path, "DELETE");
+    private String makeDeleteRequest(String path) {return makeRequestSendingData(path, null,"DELETE");
     }
 
     private String makeGetRequest(String path) {
@@ -654,6 +660,13 @@ public class MetabolightsWsClient {
     public RestResponse<ArrayListOfStrings> deleteIndex() {
 
         String response = makeDeleteRequest(getIndexingPath(""));
+
+        return deserializeJSONString(response, ArrayListOfStrings.class);
+    }
+
+    public RestResponse<ArrayListOfStrings> deleteIndexedEntries(List<String> ids) {
+
+        String response = makePostRequest(getIndexingPath("delete"), ids);
 
         return deserializeJSONString(response, ArrayListOfStrings.class);
     }

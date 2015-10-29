@@ -49,9 +49,12 @@
     <!--
     File uploading
      -->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    	<!--property name="maxUploadSize" value="100000"/-->
-	</bean>
+	<!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+    <bean id="multipartResolver" class="uk.ac.ebi.metabolights.utils.AjaxMultipartResolver">
+        <!--property name="maxUploadSize" value="100000"/-->
+    </bean>
+
+
 
 
     <!--
@@ -195,15 +198,6 @@
         <sec:intercept-url pattern="/login" access="permitAll"/>
         <sec:intercept-url pattern="/**" access="permitAll"/>
         <sec:logout logout-success-url="/loggedout" delete-cookies="JSESSIONID" />
-
-
-        <!--remember-me/-->
-        <!-- Uncomment to enable X509 client authentication support <x509 /> -->
-        <!--sec:session-management invalid-session-url="/timeout"-->
-        <!--<sec:session-management invalid-session-url="/index">-->
-            <!--<sec:concurrency-control max-sessions="1" />  &lt;!&ndash;  error-if-maximum-exceeded="true"  &ndash;&gt;-->
-        <!--</sec:session-management>-->
-        <!--  <form-login /> -->
         <sec:form-login login-page='/login' authentication-failure-url="/login?login_error=1" default-target-url="/login-success"  />
     </sec:http>
     <sec:authentication-manager>

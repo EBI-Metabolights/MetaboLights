@@ -116,18 +116,21 @@ public class MetabolightsXMLExporter {
         return str != null && !str.isEmpty();
     }
 
-    private static void initParams(String fileName, String wsClientURL){
+    private static void initParams(String fileName, String wsClientURL, Boolean includeCompounds){
         if (xmlFileName == null)
             xmlFileName = fileName;
 
         if (wsClientURL != null)        //To override the WS URL if passed at startup
             WSCLIENT_URL = wsClientURL;
 
-        validateParams(new String[]{xmlFileName,wsClientURL});
+        validateParams(new String[]{xmlFileName, wsClientURL});
 
         doc = getDoc();                 //Set up builder, parser and document
         allStudies = getAllStudies();
-        allCompounds = getAllCompounds();
+
+        if (includeCompounds)
+            allCompounds = getAllCompounds();
+
         wsClient = getWsClient();
     }
 
@@ -147,34 +150,46 @@ public class MetabolightsXMLExporter {
 
         if (!validateParams(args)){
             System.out.println("Usage:");
-            System.out.println("    Parameter 1: The name of the xml export file ");
+            System.out.println("    Parameter 1: The name of the xml export file (Mandatory)");
+            System.out.println("    Parameter 2: Include metabolites in the export file (y/n) (Default n)");
             System.out.println("    Parameter 2: The URL of the Web Service (optional)");
             System.out.println();
         } else {
 
             xmlFileName = args[0];
+            Boolean includeCompounds = false;
 
-            if (args[1] != null && args[1].startsWith("http"))
+            if (args[1] != null && args[1].equalsIgnoreCase("y"))
+                includeCompounds = true;
+
+            if (args[2] != null && args[2].startsWith("http"))
                 WSCLIENT_URL = args[1];     //Use the WS URL provided by the user
 
             logger.info("Using WS endpoint '" + WSCLIENT_URL + "'. Starting to export XML file '" +xmlFileName + "'");
-            writeFile(xmlFileName, WSCLIENT_URL);
+            writeFile(xmlFileName, includeCompounds, WSCLIENT_URL);
 
         }
     }
 
 
-    public static boolean writeFile(String fileName, String wsClientURL) throws Exception {
+    public static boolean writeFile(String fileName, Boolean includeCompounds, String wsClientURL) throws Exception {
         try {
 
-            initParams(fileName, wsClientURL);
+            initParams(fileName, wsClientURL, includeCompounds);
+
             // create the root element node
-            setRootXmlElements();
+            setRootXmlElements(includeCompounds);
 
             //Loop thorough the studies returned from the WS
             Element entries = doc.createElement(STUDIES);
             addStudies(entries);
-            addCompounds(entries);
+
+            if (includeCompounds)
+                addCompounds(entries);
+
+
+            //Add the complete study list to the entries section
+            doc.getDocumentElement().appendChild(entries);
 
             writeDocument(doc);
             return true;
@@ -190,7 +205,7 @@ public class MetabolightsXMLExporter {
 
         int numberofcompounds = allCompounds.length;
         //Add all the public studies
-        int i =0;
+        int i = 0;
         ArrayList<String> failedCompounds = new ArrayList<String>();
         for (String compoundAcc : allCompounds){
 
@@ -283,7 +298,7 @@ public class MetabolightsXMLExporter {
         }
 
         //Add the complete study list to the entries section
-        doc.getDocumentElement().appendChild(entries);
+        //doc.getDocumentElement().appendChild(entries);        //Moved the calling method
 
         System.out.println("======================================");
         for (String failedCompound : failedCompounds){
@@ -306,25 +321,28 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static void setRootXmlElements(){
+    private static void setRootXmlElements(Boolean includeCompounds){
         // create the root element node
         Element database = doc.createElement("database");
         //element.setAttribute("id", "MetaboLights\" visible=\"true\" order=\"0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance");
         doc.appendChild(database);
 
+        int exportLength = allStudies.length;
+        if (includeCompounds)
+            exportLength = exportLength + allCompounds.length;
+
         //Section for the standard headings
         createRootItemElement("name", "MetaboLights");
         createRootItemElement("description", "MetaboLights is a database for Metabolomics experiments and derived information");
-        createRootItemElement("release", "2");
+        createRootItemElement("release", "3");
         createRootItemElement("release_date", getDateString(new Date()));
-        createRootItemElement("entries_count", String.valueOf(allStudies.length + allCompounds.length));
+        createRootItemElement("entry_count", String.valueOf( + exportLength));
 
     }
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        //return new String[]{"MTBLS1"};
-        //return new String[]{"MTBLS1", "MTBLS2", "MTBLS3"};
+        //return new String[]{"MTBLS90", "MTBLS2", "MTBLS3"};
         return response.getContent();
     }
 
@@ -337,19 +355,21 @@ public class MetabolightsXMLExporter {
 
         for (Protocol protocol : study.getProtocols()) {
             String protocolName = protocol.getName();
-            String protocolDesc = protocol.getDescription();
+            String protocolDesc = tidyNonPrintChars(protocol.getDescription());
+
+            protocolName = protocolName.toLowerCase();
 
             switch (protocolName){
-                case "Sample collection": entry.appendChild(createChildElement(FIELD, "sample_protocol", protocolDesc)); break;
-                case "Data transformation": entry.appendChild(createChildElement(FIELD, "data_protocol", protocolDesc)); break;
-                case "Metabolite identification": entry.appendChild(createChildElement(FIELD, "metabolite_id_protocol", protocolDesc)); break;
-                case "Extraction": entry.appendChild(createChildElement(FIELD, "extraction_protocol", protocolDesc)); break;
-                case "Chromatography": entry.appendChild(createChildElement(FIELD, "chromatography_protocol", protocolDesc)); break;
-                case "Mass spectrometry": entry.appendChild(createChildElement(FIELD, "mass_spec_protocol", protocolDesc)); break;
-                case "NMR spectroscopy":  entry.appendChild(createChildElement(FIELD, "nmr_spec_protocol", protocolDesc)); break;
-                case "NMR assay": entry.appendChild(createChildElement(FIELD, "nmr_assay_protocol", protocolDesc)); break;
-                case "Derivatization": entry.appendChild(createChildElement(FIELD, "derivatization_protocol", protocolDesc)); break;
-                case "Statistical analysis": entry.appendChild(createChildElement(FIELD, "statistical_protocol", protocolDesc)); break;
+                case "sample collection": entry.appendChild(createChildElement(FIELD, "sample_protocol", protocolDesc)); break;
+                case "data transformation": entry.appendChild(createChildElement(FIELD, "data_protocol", protocolDesc)); break;
+                case "metabolite identification": entry.appendChild(createChildElement(FIELD, "metabolite_id_protocol", protocolDesc)); break;
+                case "extraction": entry.appendChild(createChildElement(FIELD, "extraction_protocol", protocolDesc)); break;
+                case "chromatography": entry.appendChild(createChildElement(FIELD, "chromatography_protocol", protocolDesc)); break;
+                case "mass spectrometry": entry.appendChild(createChildElement(FIELD, "mass_spec_protocol", protocolDesc)); break;
+                case "nmr spectroscopy":  entry.appendChild(createChildElement(FIELD, "nmr_spec_protocol", protocolDesc)); break;
+                case "nmr assay": entry.appendChild(createChildElement(FIELD, "nmr_assay_protocol", protocolDesc)); break;
+                case "derivatization": entry.appendChild(createChildElement(FIELD, "derivatization_protocol", protocolDesc)); break;
+                case "statistical analysis": entry.appendChild(createChildElement(FIELD, "statistical_protocol", protocolDesc)); break;
             }
 
         }
@@ -360,6 +380,7 @@ public class MetabolightsXMLExporter {
 
         dateFields.appendChild(createChildElement(DATE, "submission", getDateString(study.getStudySubmissionDate())));
         dateFields.appendChild(createChildElement(DATE, "publication", getDateString(study.getStudyPublicReleaseDate())));
+       // dateFields.appendChild(createChildElement(DATE, "last_modification", getDateString(study.getStudyPublicReleaseDate())));
 
     }
 
@@ -377,6 +398,7 @@ public class MetabolightsXMLExporter {
                     for (MetaboliteAssignmentLine metaboliteAssignmentLine : maf.getMetaboliteAssignmentLines()) {
                         String dbId = metaboliteAssignmentLine.getDatabaseIdentifier();
                         String metName = metaboliteAssignmentLine.getMetaboliteIdentification();
+                        metName = tidyNonPrintChars(metName);
                         dbId = dbId.trim(); //Get rid of spaces
 
                         //To avoid looping throught this data twice, populate the metabolite list here
@@ -415,10 +437,18 @@ public class MetabolightsXMLExporter {
 
     }
 
+    private static String tidyNonPrintChars(String s){
+        String clean = s.replaceAll("\\p{C}", "");
+
+        if (clean != s) {
+            System.out.println("Replaced special character in: " + s);
+            return clean;
+        }
+        return s;
+    }
 
     private static void addStudies(Element entries){
         //First, add the surrounding <entries> tags
-
 
         //Add all the public studies
         for (String studyAcc : allStudies){
@@ -437,8 +467,8 @@ public class MetabolightsXMLExporter {
 
                 Element entry = doc.createElement("entry");
                 entry.setAttribute("id", studyAcc);
-                entry.appendChild(addGenericElement("name", study.getTitle()));
-                entry.appendChild(addGenericElement("description", study.getDescription()));
+                entry.appendChild(addGenericElement("name", tidyNonPrintChars(study.getTitle())));
+                entry.appendChild(addGenericElement("description", tidyNonPrintChars(study.getDescription())));
 
                 //Add the sub tree "cross_references"
                 Element crossRefs = doc.createElement("cross_references");
@@ -481,7 +511,7 @@ public class MetabolightsXMLExporter {
                 additionalField.appendChild(createChildElement(FIELD, "ptm_modification", ""));  //Proteins only?
 
                 for (User user: study.getUsers()){
-                    additionalField.appendChild(createChildElement(FIELD, "submitter", user.getFirstName() + " " + user.getLastName() ));
+                    additionalField.appendChild(createChildElement(FIELD, "submitter", tidyNonPrintChars(user.getFirstName() + " " + user.getLastName() )));
                     additionalField.appendChild(createChildElement(FIELD, "submitter_email", user.getEmail() ));
                     if (hasValue(user.getAffiliation()))
                         additionalField.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
@@ -535,7 +565,8 @@ public class MetabolightsXMLExporter {
 
                 //Add the complete study to the entry section
                 entries.appendChild(entry);
-            }catch (Exception e){
+
+            } catch (Exception e){
                 System.out.println(e.getMessage());
             }
         }
@@ -638,8 +669,15 @@ public class MetabolightsXMLExporter {
             return false;
         }
 
-        if (args.length > 1)
-            if (!args[1].startsWith("http") || args[0].equals("")){
+        if (args[1] == null || args[1].contains("ynYN")){
+            System.out.println("ERROR: Yes or No are indicated by 'y', 'n', 'Y' or 'N'. Not sure what you mean by "+args[1]);
+            System.out.println("----");
+            return false;
+        }
+
+
+        if (args.length > 2)
+            if (!args[2].startsWith("http") || args[2].equals("")){
                 System.out.println("ERROR: You must provide a fully qualified URL for the WebService, starting with 'http'");
                 System.out.println("----");
                 return false;
