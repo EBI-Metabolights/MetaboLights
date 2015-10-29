@@ -201,10 +201,10 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 
 
 		// Before saving the species, we might need to save the species member.
-		if (sp.getSpeciesMember() != null && sp.getSpeciesMember().getId() == 0) DAOFactory.getSpeciesMembersDAO().save(sp.getSpeciesMember());
+		if (sp.getSpeciesMember() != null && sp.getSpeciesMember().getId() == null) DAOFactory.getSpeciesMembersDAO().save(sp.getSpeciesMember());
 
 		// If its a new Species
-		if (sp.getId() == 0) {
+		if (sp.getId() == null) {
 			insert (sp);
 		} else {
 			update(sp);

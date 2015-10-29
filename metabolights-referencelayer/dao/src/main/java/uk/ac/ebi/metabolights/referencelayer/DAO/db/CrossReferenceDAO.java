@@ -143,10 +143,10 @@ public class CrossReferenceDAO extends AbstractDAO implements ICrossReferenceDAO
         }
 
         // Before saving the CrossReference data we need to save the foreign key entities if apply
-        if (crossReference.getDb().getId() == 0) dbd.save(crossReference.getDb());
+        if (crossReference.getDb().getId() == null) dbd.save(crossReference.getDb());
 
 		// If its a new CrossReference
-		if (crossReference.getId() == 0) {
+		if (crossReference.getId() == null) {
 			insert (crossReference);
 		} else {
 			update(crossReference);

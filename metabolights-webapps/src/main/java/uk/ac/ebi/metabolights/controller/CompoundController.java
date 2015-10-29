@@ -62,6 +62,10 @@ public class CompoundController extends AbstractController {
 
 		String view = (alt == null? "compound": "altcompound");
 
+        if (alt != null && alt.equalsIgnoreCase("bm")){
+            view = "bcompound";
+        }
+
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
 //        Compound compound = ModelObjectFactory.getCompound(mtblc);
@@ -98,7 +102,6 @@ public class CompoundController extends AbstractController {
         if (response.getErr() != null) {
             logger.error("Can't get reaction for {}: {}", compoundId,response.getErr().getMessage(), response.getErr());
         } else {
-
             reactions = response.getContent();
         }
 
