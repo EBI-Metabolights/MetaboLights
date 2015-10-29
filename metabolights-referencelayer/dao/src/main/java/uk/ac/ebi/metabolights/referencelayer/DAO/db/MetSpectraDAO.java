@@ -175,7 +175,7 @@ public class MetSpectraDAO extends AbstractDAO implements IMetSpectraDAO {
         }
 
 		// If its a new Spectra
-		if (spectra.getId() == 0) {
+		if (spectra.getId() == null) {
 			insert (spectra,compound);
 		} else {
 			update(spectra,compound);

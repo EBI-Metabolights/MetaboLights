@@ -70,6 +70,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/compound.jsp" />
     </definition>
 
+    <definition name="bcompound" extends="default">
+        <put-attribute name="title" value="Beta Bootstraped Compound page" />
+        <put-attribute name="body" value="/WEB-INF/jsp/bcompound.jsp" />
+    </definition>
+
     <definition name="referencespectraupload" extends="default">
         <put-attribute name="title" value="Compound Reference Spectra Upload Page" />
         <put-attribute name="body" value="/WEB-INF/jsp/uploadReferenceSpectra.jsp" />

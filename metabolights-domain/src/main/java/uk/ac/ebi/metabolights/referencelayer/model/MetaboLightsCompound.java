@@ -16,6 +16,7 @@ import uk.ac.ebi.metabolights.repository.model.Entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.sql.Date;
 
 /**
  * This class represents a MetaboLights reference layer compound.
@@ -63,6 +64,8 @@ public class MetaboLightsCompound extends Entity {
 
     private boolean hasMS;
 
+    private Date updatedDate;
+
     // Species associated with the metabolite
     private ArrayList<MetSpecies> metSpecies = new ArrayList<MetSpecies>();
 
@@ -84,6 +87,20 @@ public class MetaboLightsCompound extends Entity {
      */
     public void setAccession(String accession) {
         this.accession = accession;
+    }
+
+    /**
+     * @return the accession
+     */
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    /**
+     * @param updatedDate the date to set
+     */
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     /**

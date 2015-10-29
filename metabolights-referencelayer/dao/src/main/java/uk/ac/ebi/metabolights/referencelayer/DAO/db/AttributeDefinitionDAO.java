@@ -133,7 +133,7 @@ public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDef
 	public void save(AttributeDefinition attributeDefinition) throws DAOException {
 
 		// If its a new attributedefinition
-		if (attributeDefinition.getId() == 0) {
+		if (attributeDefinition.getId() == null) {
 			insert (attributeDefinition);
 		} else {
 			update(attributeDefinition);

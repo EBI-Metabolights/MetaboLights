@@ -159,11 +159,11 @@ public class MetSpeciesDAO extends AbstractDAO implements IMetSpeciesDAO{
 
         // Before saving the MetSpecies data we need to save the foreign key entities if apply
         // We are assuming the compound it's been saved and the compound DAO is the ona calling this method
-        if (metSpecies.getCrossReference().getId() == 0) crd.save(metSpecies.getCrossReference());
-        if (metSpecies.getSpecies().getId() == 0) spd.save(metSpecies.getSpecies());
+        if (metSpecies.getCrossReference().getId() == null) crd.save(metSpecies.getCrossReference());
+        if (metSpecies.getSpecies().getId() == null) spd.save(metSpecies.getSpecies());
 
 		// If its a new MetSpecies
-		if (metSpecies.getId() == 0) {
+		if (metSpecies.getId() == null) {
 			insert (metSpecies,compound);
 		} else {
 			update(metSpecies,compound);

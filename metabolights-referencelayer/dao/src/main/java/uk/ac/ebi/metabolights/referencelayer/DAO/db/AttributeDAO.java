@@ -143,13 +143,13 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
 
         // Validate:
         // Spectra must exist
-        if (spectra == null || spectra.getId() == 0){
+        if (spectra == null || spectra.getId() == null){
             String msg = "Attribute can't be saved without a Spectra object associated and without an id (saved)";
             LOGGER.error(msg);
             throw new DAOException(msg);
         }
 
-        saveGeneric(attribute, spectra.getId(), 0);
+        saveGeneric(attribute, spectra.getId(), null);
 
 
     }
@@ -159,17 +159,17 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
 
         // Validate:
         // Pathway must exist
-        if (pathway == null || pathway.getId() == 0){
+        if (pathway == null || pathway.getId() == null){
             String msg = "Attribute can't be saved without a Pathway object associated and without an id (saved)";
             LOGGER.error(msg);
             throw new DAOException(msg);
         }
 
-        saveGeneric(attribute, 0,pathway.getId());
+        saveGeneric(attribute, null ,pathway.getId());
 
     }
 
-    private void saveGeneric(Attribute attribute, long spectraId, long pathwayId) throws DAOException {
+    private void saveGeneric(Attribute attribute, Long spectraId, Long pathwayId) throws DAOException {
 
         // Attribute definition must exist
         if (attribute.getAttributeDefinition() == null ){
@@ -181,10 +181,10 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
 
         // Before saving the Attribute data we need to save the foreign key entities if apply
         // We are assuming the Spectra, Pathway it's been saved and the correspondent DAO is the one calling this method
-        if (attribute.getAttributeDefinition().getId() == 0) add.save(attribute.getAttributeDefinition());
+        if (attribute.getAttributeDefinition().getId() == null) add.save(attribute.getAttributeDefinition());
 
         // If it's a new attribute
-        if (attribute.getId() == 0) {
+        if (attribute.getId() == null) {
             insert (attribute,spectraId, pathwayId);
         } else {
             update(attribute,spectraId,pathwayId);
@@ -197,20 +197,20 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
 	 * @param attribute
 	 * @throws uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException
 	 */
-	private void update(Attribute attribute, long spectraId, long pathwayId ) throws DAOException {
+	private void update(Attribute attribute, Long spectraId, Long pathwayId ) throws DAOException {
 		try {
 
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--update.attribute");
 			stm.clearParameters();
             stm.setLong(1, attribute.getAttributeDefinition().getId());
 
-            if (spectraId == 0){
+            if (spectraId == null){
                 stm.setNull(2, Types.INTEGER);
             }else{
                 stm.setLong(2, spectraId);
             }
 
-            if (pathwayId == 0){
+            if (pathwayId == null){
                 stm.setNull(3, Types.INTEGER);
             }else{
                 stm.setLong(3, pathwayId);
@@ -231,19 +231,19 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
 	 * <br>
 	 * @throws java.sql.SQLException
 	 */
-	private void insert(Attribute attribute, long spectraId, long pathwayId) throws DAOException {
+	private void insert(Attribute attribute, Long spectraId, Long pathwayId) throws DAOException {
 		try {
 			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.attribute", new String[]{"ID"}, null);
 			stm.clearParameters();
             stm.setLong(1, attribute.getAttributeDefinition().getId());
 
-            if (spectraId == 0){
+            if (spectraId == null){
                 stm.setNull(2, Types.INTEGER);
             }else{
                 stm.setLong(2, spectraId);
             }
 
-            if (pathwayId == 0){
+            if (pathwayId == null){
                 stm.setNull(3, Types.INTEGER);
             }else{
                 stm.setLong(3, pathwayId);

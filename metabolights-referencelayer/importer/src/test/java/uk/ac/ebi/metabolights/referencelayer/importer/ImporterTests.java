@@ -71,8 +71,8 @@ public class ImporterTests extends TestCase{
 
 				DatabaseInstance dbi = null;
 				try {
-//					dbi = DatabaseInstance.getInstance("metabolightsDEV");
-					dbi = DatabaseInstance.getInstance("metabolightsPROD");
+					dbi = DatabaseInstance.getInstance("metabolightsDEV");
+//					dbi = DatabaseInstance.getInstance("metabolightsPROD");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -102,13 +102,15 @@ public class ImporterTests extends TestCase{
         //rli.setImportOptions(ReferenceLayerImporter.ImportOptions.REFRESH_MET_SPECIES);
 
 		// By deafeult use "metabolite"
-		String chebiId= rli.getChebiIDRoot();
+		//String chebiId= rli.getChebiIDRoot();
 
 		// Bile Acid metabolites
 		//String chebiId = "CHEBI:48887";
 
 		// Plant metabolite: CHEBI:76924
 		//String chebiId = "CHEBI:76924";
+
+		String chebiId = "CHEBI:72058";
 
 		rli.setChebiIDRoot(chebiId);
 

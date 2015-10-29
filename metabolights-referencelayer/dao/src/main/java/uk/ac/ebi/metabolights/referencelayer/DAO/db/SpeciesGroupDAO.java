@@ -189,7 +189,7 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 	public void save(SpeciesGroup spg) throws DAOException {
 
 		// If its a new speciesGroup
-		if (spg.getId() == 0) {
+		if (spg.getId() == null) {
 			insert (spg);
 		} else {
 			update(spg);

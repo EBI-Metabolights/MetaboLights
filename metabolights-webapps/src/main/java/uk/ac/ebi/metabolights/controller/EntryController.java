@@ -77,6 +77,7 @@ public class EntryController extends AbstractController {
 	public static MetabolightsWsClient getMetabolightsWsClient() {
 		return  getMetabolightsWsClient( LoginController.getLoggedUser());
 	}
+
 	public static MetabolightsWsClient getMetabolightsWsClient(MetabolightsUser user) {
 
 		//compose the ws url..

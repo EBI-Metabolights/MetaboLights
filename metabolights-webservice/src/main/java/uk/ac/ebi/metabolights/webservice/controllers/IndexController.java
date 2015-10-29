@@ -65,6 +65,19 @@ public class IndexController extends BasicController {
 
 	}
 
+	@RequestMapping(value = "compounds/full", method = RequestMethod.GET)
+	@ResponseBody
+	public RestResponse<ArrayList<String>> reindexCompounds() throws DAOException {
+
+		logger.info("full Compounds reindex requested to the webservice");
+
+		RestResponse<ArrayList<String>> response = new RestResponse<>();
+		response.setContent(new ArrayList<String>());
+
+		return response;
+
+	}
+
 
 	@RequestMapping(value = "{studyIdentifier:" + StudyController.METABOLIGHTS_ID_REG_EXP +"}", method = RequestMethod.GET)
 	@ResponseBody
