@@ -28,6 +28,8 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -156,8 +158,20 @@ public class StudyDataTest  extends DAOTest {
 
 		StudyData studyData = DataModelFactory.getStudyDataInstance(new Study());
 		studyData.setAcc (ACC + System.currentTimeMillis());
-		studyData.setObfuscationcode (OCODE);
+		studyData.setObfuscationcode(OCODE);
 		studyData.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
+		studyData.setReleaseDate(new Date());
+		studyData.setUpdateDate(new Date());
+		studyData.setSubmissionDate(new Date());
+
+		// Add validations
+		ValidationData vd = DataModelFactory.getValidationDataInstance(new Validation());
+		vd.setPassed(true);
+		vd.setRequirement(Requirement.OPTIONAL);
+		vd.setValidationid(new Integer(3));
+		//studyData.getId();
+		studyData.getValidationsDataSet().add(vd);
+		vd.setStudyData(studyData);
 
 		return studyData;
 	}

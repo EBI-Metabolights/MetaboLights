@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StableId;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.UserData;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.ValidationData;
 
 import javax.sql.DataSource;
 
@@ -107,6 +108,7 @@ public class HibernateUtil {
 		configuration.addAnnotatedClass(StudyData.class);
 		configuration.addAnnotatedClass(UserData.class);
 		configuration.addAnnotatedClass(StableId.class);
+		configuration.addAnnotatedClass(ValidationData.class);
 
 	}
 

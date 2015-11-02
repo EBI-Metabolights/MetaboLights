@@ -1,4 +1,4 @@
-package uk.ac.ebi.metabolights.repository.dao.hibernate;
+package uk.ac.ebi.metabolights.repository.model.studyvalidator;
 
 /**
  * Created by kalai on 18/09/15.

@@ -1,6 +1,11 @@
 package uk.ac.ebi.metabolights.repository.model.studyvalidator;
 
 
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by kalai on 18/09/15.
  */
@@ -22,6 +27,11 @@ public class Validation {
 
     private Long id;
 
+    private Integer validationid;
+
+
+    private Integer studyid;
+
     private String description;
 
     private Status status = Status.GREEN;
@@ -35,6 +45,7 @@ public class Validation {
 
 
     private String message = "OK";
+
 
     public String getDescription() {
         return description;
@@ -92,25 +103,41 @@ public class Validation {
         this.id = id;
     }
 
+    public Integer getValidationid() {
+        return validationid;
+    }
+
+    public void setValidationid(Integer validationid) {
+        this.validationid = validationid;
+    }
+
+
+    public Integer getStudyid() {
+        return studyid;
+    }
+
+    public void setStudyid(Integer studyid) {
+        this.studyid = studyid;
+    }
 
     public void setStatus() {
         if (getPassedRequirement()) {
             setStatus(Status.GREEN);
-            statusExt = (description == null?"":description) + " - PASSED";
+            statusExt = (description == null ? "" : description) + " - PASSED";
         } else {
             if (getType().equals(Requirement.MANDATORY)) {
                 setStatus(Status.RED);
-                statusExt = (description == null?"":description) + " - FAILED";
+                statusExt = (description == null ? "" : description) + " - FAILED";
             } else {
                 setStatus(Status.ORANGE);
-                statusExt = (description == null?"":description) + " - PASSED";
+                statusExt = (description == null ? "" : description) + " - PASSED";
             }
         }
 
     }
 
 
-    public String getStatusExt(){
+    public String getStatusExt() {
         return statusExt;
     }
 }

@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 /**
  * User: conesa
@@ -53,6 +54,16 @@ public class DataModelFactory {
 		initializeDataModel(userData, user);
 
 		return userData;
+
+	}
+
+	public static ValidationData getValidationDataInstance(Validation validation) {
+
+		ValidationData validationData = new ValidationData();
+
+		initializeDataModel(validationData, validation);
+
+		return validationData;
 
 	}
 }
