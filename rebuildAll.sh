@@ -1,5 +1,5 @@
 #!/bin/sh
-export ML="/Users/kenneth/Development/metabolights"
+export ML="/Users/`whoami`/Development/metabolights"
 #export DEPLOY="install -DskipTests=true"
 export DEPLOY=" -DskipTests=true"
 cd $ML
