@@ -351,27 +351,65 @@ public class MetabolightsXMLExporter {
         return response.getContent();
     }
 
+    private static String tidyProtocolName(String protocolName){
+
+        protocolName = protocolName.toLowerCase();
+        protocolName = protocolName.trim();
+
+        if (protocolName.equalsIgnoreCase("derivatization") || protocolName.equalsIgnoreCase("chemical derivatization"))
+            protocolName = "derivatisation";
+
+        if (protocolName.equalsIgnoreCase("normalization"))
+            protocolName = "normalisation";
+
+        if (protocolName.equalsIgnoreCase("nmr sample") || protocolName.equalsIgnoreCase("ms sample") || protocolName.equalsIgnoreCase("sample"))
+            protocolName = "sample collection";
+
+        if (protocolName.equalsIgnoreCase("fia") || protocolName.equalsIgnoreCase("flow injection"))
+            protocolName = "flow injection analysis";
+
+        if (protocolName.equalsIgnoreCase("installation"))
+            protocolName = "software";
+
+        if (protocolName.equalsIgnoreCase("analysis"))
+            protocolName = "data analysis";
+
+        if (protocolName.equalsIgnoreCase("metabolite identification"))
+            protocolName = "metabolite id";
+
+        if (protocolName.equalsIgnoreCase("nmr spectroscopy"))
+            protocolName = "nmr spec";
+
+        if (protocolName.equalsIgnoreCase("software"))
+            protocolName = "software processing";
+
+        protocolName = protocolName.replaceAll("/","_");
+        protocolName = protocolName.replaceAll("-","_");
+
+        if (protocolName.equalsIgnoreCase("gc_ms derivatization"))
+            protocolName = "derivatisation";
+
+        if (protocolName.contains("mass spectrometry"))
+            protocolName = "mass spec";
+
+        if (protocolName.contains("chromatography"))
+            protocolName = "chromatography";
+
+        protocolName = protocolName.replaceAll(" ","_");
+        protocolName = protocolName.replaceAll(",","_");
+        protocolName = protocolName.replaceAll("__","_");
+        protocolName = protocolName.replace("\\&amp;","_");
+        protocolName = protocolName.replaceAll("\\s+","");
+
+        return protocolName +"_protocol";
+    }
+
     private static void addProtocols(Element entry, Study study){
 
         for (Protocol protocol : study.getProtocols()) {
             String protocolName = protocol.getName();
-            String protocolDesc = tidyNonPrintChars(protocol.getDescription());
-
-            protocolName = protocolName.toLowerCase();
-
-            switch (protocolName){
-                case "sample collection": entry.appendChild(createChildElement(FIELD, "sample_protocol", protocolDesc)); break;
-                case "data transformation": entry.appendChild(createChildElement(FIELD, "data_protocol", protocolDesc)); break;
-                case "metabolite identification": entry.appendChild(createChildElement(FIELD, "metabolite_id_protocol", protocolDesc)); break;
-                case "extraction": entry.appendChild(createChildElement(FIELD, "extraction_protocol", protocolDesc)); break;
-                case "chromatography": entry.appendChild(createChildElement(FIELD, "chromatography_protocol", protocolDesc)); break;
-                case "mass spectrometry": entry.appendChild(createChildElement(FIELD, "mass_spec_protocol", protocolDesc)); break;
-                case "nmr spectroscopy":  entry.appendChild(createChildElement(FIELD, "nmr_spec_protocol", protocolDesc)); break;
-                case "nmr assay": entry.appendChild(createChildElement(FIELD, "nmr_assay_protocol", protocolDesc)); break;
-                case "derivatization": entry.appendChild(createChildElement(FIELD, "derivatization_protocol", protocolDesc)); break;
-                case "statistical analysis": entry.appendChild(createChildElement(FIELD, "statistical_protocol", protocolDesc)); break;
-            }
-
+            String protocolDesc = tidyNonPrintChars(protocol.getDescription(), "Protocol "+protocolName);
+            entry.appendChild(createChildElement(FIELD, tidyProtocolName(protocolName), protocolDesc));
         }
 
     }
@@ -380,12 +418,18 @@ public class MetabolightsXMLExporter {
 
         dateFields.appendChild(createChildElement(DATE, "submission", getDateString(study.getStudySubmissionDate())));
         dateFields.appendChild(createChildElement(DATE, "publication", getDateString(study.getStudyPublicReleaseDate())));
-       // dateFields.appendChild(createChildElement(DATE, "last_modification", getDateString(study.getStudyPublicReleaseDate())));
 
     }
 
     private static void addXrefs(Element crossRefs, Study study){
         List<String> xrefList = new ArrayList<>();
+
+        //PubMed
+        for (Publication publication : study.getPublications()) {
+            String pmid = null;
+            if (hasValue(publication.getPubmedId()))
+                crossRefs.appendChild(createChildElement(REF, publication.getPubmedId(), "pubmed"));
+        }
 
 
         for (int i = 0; i < study.getAssays().size(); i++) {
@@ -398,7 +442,7 @@ public class MetabolightsXMLExporter {
                     for (MetaboliteAssignmentLine metaboliteAssignmentLine : maf.getMetaboliteAssignmentLines()) {
                         String dbId = metaboliteAssignmentLine.getDatabaseIdentifier();
                         String metName = metaboliteAssignmentLine.getMetaboliteIdentification();
-                        metName = tidyNonPrintChars(metName);
+                        metName = tidyNonPrintChars(metName, "Metabolite name: ");
                         dbId = dbId.trim(); //Get rid of spaces
 
                         //To avoid looping throught this data twice, populate the metabolite list here
@@ -437,11 +481,11 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static String tidyNonPrintChars(String s){
+    private static String tidyNonPrintChars(String s, String description){
         String clean = s.replaceAll("\\p{C}", "");
 
         if (clean != s) {
-            System.out.println("Replaced special character in: " + s);
+            System.out.println("Replaced special character in: " + description);
             return clean;
         }
         return s;
@@ -458,7 +502,6 @@ public class MetabolightsXMLExporter {
                 logger.info("Processing study " + studyAcc);
 
                 //TODO, add ontologies
-                //TODO, add pubmed
 
                 // Empty the metabolites list
                 setMetaboliteList(new ArrayList<String>());
@@ -467,8 +510,8 @@ public class MetabolightsXMLExporter {
 
                 Element entry = doc.createElement("entry");
                 entry.setAttribute("id", studyAcc);
-                entry.appendChild(addGenericElement("name", tidyNonPrintChars(study.getTitle())));
-                entry.appendChild(addGenericElement("description", tidyNonPrintChars(study.getDescription())));
+                entry.appendChild(addGenericElement("name", tidyNonPrintChars(study.getTitle(),"Study title")));
+                entry.appendChild(addGenericElement("description", tidyNonPrintChars(study.getDescription(),"Study description")));
 
                 //Add the sub tree "cross_references"
                 Element crossRefs = doc.createElement("cross_references");
@@ -511,7 +554,7 @@ public class MetabolightsXMLExporter {
                 additionalField.appendChild(createChildElement(FIELD, "ptm_modification", ""));  //Proteins only?
 
                 for (User user: study.getUsers()){
-                    additionalField.appendChild(createChildElement(FIELD, "submitter", tidyNonPrintChars(user.getFirstName() + " " + user.getLastName() )));
+                    additionalField.appendChild(createChildElement(FIELD, "submitter", tidyNonPrintChars(user.getFirstName() + " " + user.getLastName(),"Submitter name" )));
                     additionalField.appendChild(createChildElement(FIELD, "submitter_email", user.getEmail() ));
                     if (hasValue(user.getAffiliation()))
                         additionalField.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
