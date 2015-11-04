@@ -24,15 +24,15 @@ package uk.ac.ebi.metabolights.webservice.utils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.*;
+import java.nio.file.attribute.*;
+import java.util.*;
 
 
 public class FileUtil {
@@ -242,4 +242,56 @@ public class FileUtil {
 		return resp.toString();
 	}
 
+
+	private static @Value("#{privateFTPDirectory}") String privateFTPRoot;
+	private static @Value("#{privateFTPUser}") String privateFTPUser;
+	private static @Value("#{privateFTPGroup}") String privateFTPGroup;
+	/**
+	 * Create a private FTP folder for uploading big study files
+	 *
+	 * @param folder
+	 * @return success
+	 * @author jrmacias
+	 * @date 20151102
+	 */
+	@PostConstruct
+	public static Path createFTPFolder(String folder) throws IOException {
+
+		// TODO delete this
+		if(privateFTPRoot == null) privateFTPRoot = "/Users/jrmacias/Projects/Deploy-local/ebi/ftp/private/mtblight/private";
+		if(privateFTPUser == null) privateFTPUser = "jrmacias";
+		if(privateFTPGroup == null) privateFTPGroup = "staff";
+
+		// create the folder
+		File ftpFolder = new File(privateFTPRoot + File.separator + folder);
+		Path folderPath = ftpFolder.toPath();
+		ftpFolder.mkdir();
+
+		// set folder owner, group and access permissions
+		// 'chmod 770'
+		String ownerName = privateFTPUser;
+		String groupName = privateFTPGroup;
+		UserPrincipalLookupService lookupService = FileSystems.getDefault().getUserPrincipalLookupService();
+		Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
+
+		// owner permissions
+		perms.add(PosixFilePermission.OWNER_READ);
+		perms.add(PosixFilePermission.OWNER_WRITE);
+		perms.add(PosixFilePermission.OWNER_EXECUTE);
+		// group permissions
+		perms.add(PosixFilePermission.GROUP_READ);
+		perms.add(PosixFilePermission.GROUP_WRITE);
+		perms.add(PosixFilePermission.GROUP_EXECUTE);
+
+		// get the actual user and group from System
+		UserPrincipal owner = lookupService.lookupPrincipalByName(ownerName);
+		GroupPrincipal group = lookupService.lookupPrincipalByGroupName(groupName);
+
+		// apply changes
+		Files.getFileAttributeView(folderPath, PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS).setOwner(owner);
+		Files.getFileAttributeView(folderPath, PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS).setGroup(group);
+		Files.getFileAttributeView(folderPath, PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS).setPermissions(perms);
+
+		return folderPath;
+	}
 }

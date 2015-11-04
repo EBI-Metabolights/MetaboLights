@@ -500,5 +500,55 @@ public class StudyController extends BasicController{
 	}
 
 
+	/**
+	 * Get the private FTP folder for a Study
+	 * The folder is created if it does not exists
+	 *
+	 * @param studyIdentifier
+	 * @return
+	 * @throws DAOException
+	 * @author jrmacias
+	 * @date 20151102
+	 */
+
+	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/requestFTPFolder")
+	@ResponseBody
+	public RestResponse<String> getStudyPrivateFTPFolder(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+		User user = getUser();
+		String obfuscationCode = "";
+		try {
+			obfuscationCode = getStudyDAO().getStudy(studyIdentifier).getObfuscationCode();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		logger.info("[WS] User {0} has requested a private FTP folder for the study {1}", user.getUserName(),studyIdentifier);
+
+		// FTP folder is composed with the user identifier + the obfuscation code of the study
+		String ftpFolder = user.getApiToken() + "_" + obfuscationCode;
+
+		RestResponse<String> restResponse = new RestResponse<>();
+
+		// create the folder
+		try {
+			FileUtil.createFTPFolder(ftpFolder);
+		} catch (IOException e) {
+			e.printStackTrace();
+
+			restResponse.setMessage("Error creating FTP folder.");
+			restResponse.setErr(e);
+			return restResponse;
+		}
+
+		restResponse.setContent("Private FTP folder for Study.");
+		restResponse.setMessage("Your requested FTP folder is being created. Details for access will be mailed to you shortly.");
+
+		// send FTP folder details by email
+		emailService.sendCreatedFTPFolderEmail(user.getEmail(), studyIdentifier, ftpFolder);
+		logger.info("FTP folder details sent to user: {0}, by email: {1} .", user.getUserName(), user.getEmail());
+
+		return restResponse;
+	}
 
 }
