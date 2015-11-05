@@ -35,9 +35,9 @@ public class MetabolightsXMLExporterTest  extends TestCase{
         try {
 
             if (includeCompounds)
-                fileName = fileName + "ml_complete_export.xml";
+                fileName = fileName + "eb-eye_metabolights.xml";
             else
-                fileName = fileName + "ml_study_export.xml";
+                fileName = fileName + "eb-eye_metabolights_studies.xml";
 
             fileExported = xmlExporter.writeFile(fileName, includeCompounds, wsURL);
         } catch (Exception e) {

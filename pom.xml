@@ -139,14 +139,6 @@
             </snapshots>
         </repository>
         <repository>
-            <id>oerc</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases/</url>
-        </repository>
-        <repository>
-            <id>oerc-2</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/groups/oerc</url>
-        </repository>
-        <repository>
             <id>chebi-repo-snapshot</id>
             <name>ChEBI Repository</name>
             <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>

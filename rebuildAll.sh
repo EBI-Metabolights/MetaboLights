@@ -1,9 +1,9 @@
 #!/bin/sh
 export ML="/Users/`whoami`/Development/metabolights"
 #export DEPLOY="install -DskipTests=true"
-export DEPLOY=" -DskipTests=true"
-#export MVNOPTS=""
-export MVNOPTS="--offline"
+export DEPLOY=" deploy -DskipTests=true"
+export MVNOPTS=""
+#export MVNOPTS="--offline"
 cd $ML
 mvn clean
 rm metabolights-webapps/src/main/webapp/WEB-INF/lib/*.jar
