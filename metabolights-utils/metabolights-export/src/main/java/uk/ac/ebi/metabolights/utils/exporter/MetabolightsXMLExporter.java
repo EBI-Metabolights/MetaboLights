@@ -187,7 +187,6 @@ public class MetabolightsXMLExporter {
             if (includeCompounds)
                 addCompounds(entries);
 
-
             //Add the complete study list to the entries section
             doc.getDocumentElement().appendChild(entries);
 
@@ -214,7 +213,6 @@ public class MetabolightsXMLExporter {
                 logger.info("Processing Compound " + compoundAcc);
 
                 //TODO, add ontologies
-                //TODO, add pubmed
 
                 MetaboLightsCompound compound = getCompound(compoundAcc).getMc();
 
@@ -231,8 +229,6 @@ public class MetabolightsXMLExporter {
                 additionalField.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
                 additionalField.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
                 additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
-
-
 
                 Element crossreferences = doc.createElement("cross_references");
                 try {
@@ -342,7 +338,7 @@ public class MetabolightsXMLExporter {
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        //return new String[]{"MTBLS90", "MTBLS2", "MTBLS3"};
+        //return new String[]{"MTBLS1", "MTBLS67"};
         return response.getContent();
     }
 
@@ -491,6 +487,38 @@ public class MetabolightsXMLExporter {
         return s;
     }
 
+    private static String tidyAutors(Contact contact){
+
+        String completeAuthor = "";
+
+        if (contact == null)
+            return completeAuthor;
+
+        String name = contact.getFirstName() + " " + contact.getMidInitial() + " " + contact.getLastName();
+        String affiliation = contact.getAffiliation();
+        String address = contact.getAddress();
+        String email = contact.getEmail();
+        String phone = contact.getPhone();
+
+
+        if (hasValue(name))
+            completeAuthor =  name + ". ";
+
+        if (hasValue(affiliation))
+            completeAuthor = completeAuthor + affiliation + ". ";
+
+        if (hasValue(address))
+            completeAuthor = completeAuthor + address + ". ";
+
+        if (hasValue(email))
+            completeAuthor = completeAuthor + contact.getEmail() + ". ";
+
+        if (hasValue(phone))
+            completeAuthor = completeAuthor + contact.getPhone() + ". ";
+
+        return completeAuthor.trim();
+    }
+
     private static void addStudies(Element entries){
         //First, add the surrounding <entries> tags
 
@@ -529,6 +557,10 @@ public class MetabolightsXMLExporter {
 
                 additionalField.appendChild(createChildElement(FIELD, "repository", "MetaboLights"));
                 additionalField.appendChild(createChildElement(FIELD, "omics_type", "Metabolomics"));
+
+                for (Contact contact : study.getContacts()) {
+                    additionalField.appendChild(createChildElement(FIELD, "author", tidyAutors(contact) ));
+                }
 
                 //Add all protocols to the "additional_fields" tree
                 addProtocols(additionalField, study);
@@ -622,6 +654,7 @@ public class MetabolightsXMLExporter {
         if (hasValue(publication.getTitle()))
             completePublication = publication.getTitle().trim();
 
+        assert completePublication != null;
         if (hasValue(completePublication) && !completePublication.endsWith(sep))
             completePublication = completePublication + sep;
 
