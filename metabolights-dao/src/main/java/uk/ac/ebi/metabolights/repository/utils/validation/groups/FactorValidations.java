@@ -38,7 +38,7 @@ public class FactorValidations implements IValidationProcess{
                 }
             }
         } else {
-            validation.setMessage("No study factor information is provided");
+            validation.setMessage("No Study Factor information is provided");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
