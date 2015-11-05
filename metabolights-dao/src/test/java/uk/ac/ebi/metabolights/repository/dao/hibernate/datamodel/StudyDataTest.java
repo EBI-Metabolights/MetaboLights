@@ -48,6 +48,19 @@ public class StudyDataTest  extends DAOTest {
 		session.needSession();
 		StudyData studyData = getStudyData();
 
+		// add validation
+
+		// Add validations
+		ValidationData vd = DataModelFactory.getValidationDataInstance(new Validation());
+		vd.setPassed(true);
+		vd.setRequirement(Requirement.OPTIONAL);
+		vd.setValidationid(new Integer(3));
+		vd.setStudyData(studyData);
+
+		session.save(vd);
+		studyData.getValidationsDataSet().add(vd);
+
+
 
 		// Add an user
 		UserData user = UserDataTest.getNewUserData();
@@ -73,9 +86,13 @@ public class StudyDataTest  extends DAOTest {
 		// Check some values..
 		Assert.assertEquals("StudyData retrieved test: Obfuscation code", OCODE,studyData.getObfuscationcode());
 		Assert.assertTrue("Accession starts with test:", studyData.getAcc().startsWith(ACC));
+		logger.info("New studies id populated: " + studyData.getId());
 
 		// Check users collection is retrieved
 		Assert.assertEquals("Are study users populated?", 1,studyData.getUsers().size());
+
+		Assert.assertEquals("Are study validations populated?", 1,studyData.getValidationsDataSet().size());
+		logger.info("Validations populated: " + studyData.getValidationsDataSet().size());
 
 		// Test deletion
 		session.delete(studyData);
@@ -164,14 +181,7 @@ public class StudyDataTest  extends DAOTest {
 		studyData.setUpdateDate(new Date());
 		studyData.setSubmissionDate(new Date());
 
-		// Add validations
-		ValidationData vd = DataModelFactory.getValidationDataInstance(new Validation());
-		vd.setPassed(true);
-		vd.setRequirement(Requirement.OPTIONAL);
-		vd.setValidationid(new Integer(3));
-		//studyData.getId();
-		studyData.getValidationsDataSet().add(vd);
-		vd.setStudyData(studyData);
+
 
 		return studyData;
 	}
