@@ -19,8 +19,8 @@ public class DescriptionConstants {
     public static final String FACTOR_TYPE = "Study Factor Type";
 
     //ORGANISM
-    public static final String ORGANISM_NAME= "Organism Name";
-    public static final String ORGANISM_PART = "Organism Part";
+    public static final String ORGANISM_NAME= "Organism name";
+    public static final String ORGANISM_PART = "Organism part";
 
 
     //PUBLICATIONS
