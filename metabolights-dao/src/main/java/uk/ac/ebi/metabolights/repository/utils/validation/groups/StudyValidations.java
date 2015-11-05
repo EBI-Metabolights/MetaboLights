@@ -36,7 +36,7 @@ public class StudyValidations implements IValidationProcess {
     public static Validation getStudyTitleValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.STUDY_TITLE, Requirement.MANDATORY, Group.STUDY);
         if (!Utilities.minCharRequirementPassed(
-                study.getTitle(), 70)) {
+                study.getTitle(), 65)) {
             validation.setMessage("Study title lacks detail");
             validation.setPassedRequirement(false);
         }
