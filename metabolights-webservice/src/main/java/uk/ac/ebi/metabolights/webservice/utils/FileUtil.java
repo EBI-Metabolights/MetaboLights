@@ -25,8 +25,9 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
-
+import static java.nio.file.StandardCopyOption.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -233,13 +234,13 @@ public class FileUtil {
 	 */
 	public static String deleteFiles(List<String> fileNames){
 
-		boolean result;
-		StringBuffer resp = new StringBuffer();
+		StringBuffer result = new StringBuffer();
 
 		for (String fileName : fileNames) {
-			resp.append(new File(fileName).getName()).append(", ").append("file was ").append(deleteFile(fileName) ? "":"NOT ").append("deleted.").append("|");
+			result.append(new File(fileName).getName()).append(", ").append("file was ")
+					.append(deleteFile(fileName) ? "":"NOT ").append("deleted.").append("|");
 		}
-		return resp.toString();
+		return result.toString();
 	}
 
 
@@ -250,7 +251,7 @@ public class FileUtil {
 	 * Create a private FTP folder for uploading big study files
 	 *
 	 * @param folder
-	 * @return success
+	 * @return a String containing created folder
 	 * @author jrmacias
 	 * @date 20151102
 	 */
@@ -294,4 +295,61 @@ public class FileUtil {
 
 		return folderPath;
 	}
+
+	/**
+	 * Move a single file from a private FTP folder to MetaboLights
+	 *
+	 * @param fileName
+	 * @param ftpFolder
+	 * @param studyFolder
+     * @return
+	 * @author jrmacias
+	 * @date 20151104
+     */
+	private static boolean moveFileFromFTP(String fileName, String ftpFolder, String studyFolder) {
+		boolean result = false;
+
+		// TODO delete this
+		if(privateFTPRoot == null) privateFTPRoot = "/Users/jrmacias/Projects/Deploy-local/ebi/ftp/private/mtblight/private";
+
+		// move the file
+		Path filePath = Paths.get(
+				privateFTPRoot +
+				File.separator + ftpFolder +
+				File.separator + fileName);
+		Path studyPath  = Paths.get(studyFolder +
+				File.separator + fileName);
+
+		try {
+			Files.move(filePath, studyPath, ATOMIC_MOVE);
+			result = true;
+		} catch (IOException ex) {
+			logger.error("Error: can't move the file. {}", ex.getMessage());
+		}
+
+		return result;
+	}
+
+	/**
+	 * Move a list of files from a private FTP folder to MetaboLights
+	 *
+	 * @param fileNames
+	 * @param ftpFolder
+	 * @param studyFolder
+	 * @return a String with a list of files + status (moved / not moved)
+	 * @author jrmacias
+	 * @date 20151104
+     */
+	public static String moveFilesFromPrivateFTP(List<String> fileNames, String ftpFolder, String studyFolder) {
+
+		StringBuffer result = new StringBuffer();
+
+		for (String fileName : fileNames) {
+			result.append(new File(fileName).getName()).append(", ").append("file was ").
+					append(moveFileFromFTP(fileName, ftpFolder, studyFolder) ? "":"NOT ").append("moved.").append("|");
+		}
+		return result.toString();
+	}
+
+
 }
