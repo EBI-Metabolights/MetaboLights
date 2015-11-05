@@ -34,7 +34,7 @@ public class SampleValidations implements IValidationProcess {
     public static Validation getSampleValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.SAMPLES, Requirement.MANDATORY, Group.SAMPLES);
         if (study.getSampleTable().getData().isEmpty()) {
-            validation.setMessage("No sample data is provided");
+            validation.setMessage("No Sample Names are provided");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -45,7 +45,7 @@ public class SampleValidations implements IValidationProcess {
     public static Validation getSampleNameConsistencyValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAY_SAMPLE_NAMEMATCH, Requirement.MANDATORY, Group.ASSAYS);
         if (study.getSampleTable().getData().isEmpty()) {
-            validation.setMessage("No sample data is provided");
+            validation.setMessage("No Sample Names are provided");
             validation.setPassedRequirement(false);
         } else {
             int sampleNameIndexInSamples = getSampleNameIndexFrom(study.getSampleTable().getFields());
@@ -120,7 +120,7 @@ public class SampleValidations implements IValidationProcess {
     }
 
     private static String getMisMatchErrMsg(Map<Integer, List<String>> assay_SampleNames) {
-        String message = "The following sample names are not consistent: \n";
+        String message = "The following Sample Names are not consistent: \n";
         for (Map.Entry<Integer, List<String>> entry : assay_SampleNames.entrySet()) {
             int index = entry.getKey().intValue();
             message += " Assay " + index + ":";

@@ -35,12 +35,12 @@ public class PublicationValidations implements IValidationProcess{
         if (!study.getPublications().isEmpty()) {
             for (Publication publication : study.getPublications()) {
                 if (!Utilities.minCharRequirementPassed(publication.getTitle(), 15)) {
-                    validation.setMessage("Publication title length is too brief");
+                    validation.setMessage("Study Publication Title length is too short");
                     validation.setPassedRequirement(false);
                 }
             }
         } else {
-            validation.setMessage("Publication is empty");
+            validation.setMessage("Study Publications is empty");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -53,12 +53,12 @@ public class PublicationValidations implements IValidationProcess{
         if (!study.getPublications().isEmpty()) {
             for (Publication publication : study.getPublications()) {
                 if (publication.getPubmedId().isEmpty()) {
-                    validation.setMessage("Pubmed ID is not provided");
+                    validation.setMessage("Study Pubmed ID is not provided");
                     validation.setPassedRequirement(false);
                 }
             }
         } else {
-            validation.setMessage("Publication is empty");
+            validation.setMessage("Study Publications is empty");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
