@@ -152,27 +152,31 @@ public class MetabolightsXMLExporter {
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the xml export file (Mandatory)");
             System.out.println("    Parameter 2: Include metabolites in the export file (y/n) (Default n)");
-            System.out.println("    Parameter 2: The URL of the Web Service (optional)");
+            System.out.println("    Parameter 3: Include detailed author information in the export file (y/n) (Default n)");
+            System.out.println("    Parameter 4: The URL of the Web Service (optional)");
             System.out.println();
         } else {
 
             xmlFileName = args[0];
-            Boolean includeCompounds = false;
+            Boolean includeCompounds = false, detailedAuthors = false;
 
             if (args[1] != null && args[1].equalsIgnoreCase("y"))
                 includeCompounds = true;
 
-            if (args[2] != null && args[2].startsWith("http"))
-                WSCLIENT_URL = args[1];     //Use the WS URL provided by the user
+            if (args[2] != null && args[2].equalsIgnoreCase("y"))
+                detailedAuthors = true;
+
+            if (args[3] != null && args[3].startsWith("http"))
+                WSCLIENT_URL = args[3];     //Use the WS URL provided by the user
 
             logger.info("Using WS endpoint '" + WSCLIENT_URL + "'. Starting to export XML file '" +xmlFileName + "'");
-            writeFile(xmlFileName, includeCompounds, WSCLIENT_URL);
+            writeFile(xmlFileName, includeCompounds, detailedAuthors, WSCLIENT_URL);
 
         }
     }
 
 
-    public static boolean writeFile(String fileName, Boolean includeCompounds, String wsClientURL) throws Exception {
+    public static boolean writeFile(String fileName, Boolean includeCompounds, Boolean detailedAuthors, String wsClientURL) throws Exception {
         try {
 
             initParams(fileName, wsClientURL, includeCompounds);
@@ -182,7 +186,7 @@ public class MetabolightsXMLExporter {
 
             //Loop thorough the studies returned from the WS
             Element entries = doc.createElement(STUDIES);
-            addStudies(entries);
+            addStudies(entries, detailedAuthors);
 
             if (includeCompounds)
                 addCompounds(entries);
@@ -338,7 +342,8 @@ public class MetabolightsXMLExporter {
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        //return new String[]{"MTBLS1", "MTBLS67"};
+        //return new String[]{"MTBLS1", "MTBLS2"};
+        //return new String[]{"MTBLS67"};
         return response.getContent();
     }
 
@@ -494,7 +499,7 @@ public class MetabolightsXMLExporter {
         if (contact == null)
             return completeAuthor;
 
-        String name = contact.getFirstName() + " " + contact.getMidInitial() + " " + contact.getLastName();
+        String name = contact.getFirstName() + " " + contact.getLastName();
         String affiliation = contact.getAffiliation();
         String address = contact.getAddress();
         String email = contact.getEmail();
@@ -519,7 +524,42 @@ public class MetabolightsXMLExporter {
         return completeAuthor.trim();
     }
 
-    private static void addStudies(Element entries){
+    private static Element addDetailedAuthors(Study study){
+        //Add the sub tree "authorship"
+        Element authorshipField = doc.createElement("authorship");
+        for (Contact contact : study.getContacts()) {
+            Element author = doc.createElement("author");
+
+            String name = contact.getFirstName() + " " + contact.getLastName();
+            String affiliation = contact.getAffiliation();
+            String address = contact.getAddress();
+            String email = contact.getEmail();
+            String phone = contact.getPhone();
+
+            if (hasValue(name))
+                author.appendChild(addGenericElement("name", name));
+
+            if (hasValue(affiliation))
+                author.appendChild(addGenericElement("affiliation", affiliation));
+
+            if (hasValue(address))
+                author.appendChild(addGenericElement("address", address));
+
+            if (hasValue(email))
+                author.appendChild(addGenericElement("email", email));
+
+            if (hasValue(phone))
+                author.appendChild(addGenericElement("phone", phone));
+
+            authorshipField.appendChild(author);
+
+        }
+
+        return authorshipField;
+
+    }
+
+    private static void addStudies(Element entries, Boolean detailedAuthors){
         //First, add the surrounding <entries> tags
 
         //Add all the public studies
@@ -551,6 +591,9 @@ public class MetabolightsXMLExporter {
                 entry.appendChild(dateFields);
                 addDates(dateFields, study);
 
+                if (detailedAuthors) // Required for ThomsonReuters feed
+                    entry.appendChild(addDetailedAuthors(study));
+
                 //Add the sub tree "additional_fields"
                 Element additionalField = doc.createElement("additional_fields");
                 entry.appendChild(additionalField);
@@ -558,8 +601,10 @@ public class MetabolightsXMLExporter {
                 additionalField.appendChild(createChildElement(FIELD, "repository", "MetaboLights"));
                 additionalField.appendChild(createChildElement(FIELD, "omics_type", "Metabolomics"));
 
-                for (Contact contact : study.getContacts()) {
-                    additionalField.appendChild(createChildElement(FIELD, "author", tidyAutors(contact) ));
+                if (!detailedAuthors){ // Standard author feed for EBI, DDI and MX
+                    for (Contact contact : study.getContacts()) {
+                        additionalField.appendChild(createChildElement(FIELD, "author", tidyAutors(contact)));
+                    }
                 }
 
                 //Add all protocols to the "additional_fields" tree

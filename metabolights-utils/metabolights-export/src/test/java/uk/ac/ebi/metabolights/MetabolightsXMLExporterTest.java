@@ -29,7 +29,7 @@ public class MetabolightsXMLExporterTest  extends TestCase{
     String ISATabRootDirectory = MetabolightsXMLExporterTest.class.getClassLoader().getResource(".").getPath();
     String fileName = ISATabRootDirectory;
     String wsURL = "http://www.ebi.ac.uk/metabolights/webservice/";
-    Boolean fileExported = false, includeCompounds = false;
+    Boolean fileExported = false, includeCompounds = false, detailedAuthors = true;
 
     public void testXMLExporter(){
         try {
@@ -39,7 +39,11 @@ public class MetabolightsXMLExporterTest  extends TestCase{
             else
                 fileName = fileName + "eb-eye_metabolights_studies.xml";
 
-            fileExported = xmlExporter.writeFile(fileName, includeCompounds, wsURL);
+            if (detailedAuthors)
+                fileName = ISATabRootDirectory + "thomsonreuters_metabolights_studies.xml";
+
+            fileExported = xmlExporter.writeFile(fileName, includeCompounds, detailedAuthors, wsURL);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
