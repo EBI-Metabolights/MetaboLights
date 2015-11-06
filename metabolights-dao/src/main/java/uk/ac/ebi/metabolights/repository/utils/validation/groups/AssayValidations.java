@@ -38,7 +38,7 @@ public class AssayValidations implements IValidationProcess {
     public static Validation getAssayValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAYS, Requirement.MANDATORY, Group.ASSAYS);
         if (study.getAssays().isEmpty()) {
-            validation.setMessage("No assay data is provided");
+            validation.setMessage("No Assay data is provided");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -49,7 +49,7 @@ public class AssayValidations implements IValidationProcess {
         Collection<Validation> assayValidations = new LinkedList<>();
         Validation validation = new Validation(DescriptionConstants.ASSAYS, Requirement.MANDATORY, Group.ASSAYS);
         if (study.getAssays().isEmpty()) {
-            validation.setMessage("No assay data is provided");
+            validation.setMessage("No Assay data is provided");
             validation.setPassedRequirement(false);
         } else {
             assayValidations.add(getAssayHasPlatformInfoValidation(study));
@@ -176,7 +176,7 @@ public class AssayValidations implements IValidationProcess {
         Validation validation = new Validation(DescriptionConstants.ASSAY_FILES_IN_FILESYSTEM, Requirement.MANDATORY, Group.FILES);
         if (!assayRawFileValidationHasPassed) {
             validation.setPassedRequirement(false);
-            validation.setMessage("No assay raw files are referenced");
+            validation.setMessage("No Assay raw files are referenced");
         } else {
             List<String> rawFilesListFromFilesystem = Utilities.getFileNamesInDirectory(study.getStudyLocation());
             Map<Boolean, List<String>> booleanListMap = allAssayColumnsHasFilesMatchedInFileSystem(rawFilesListFromFilesystem, study.getAssays());
@@ -245,7 +245,7 @@ public class AssayValidations implements IValidationProcess {
 
 
     private static String getNonMatchedFileMessage(List<String> rawFilesNoMatchList) {
-        String errMessage = "Files reported in assay columns, are not present in study folder. Missing:";
+        String errMessage = "Files reported in Assay columns, are not present in Study folder. Missing:";
         for (int i = 0; i < rawFilesNoMatchList.size(); i++) {
             errMessage += " " + rawFilesNoMatchList.get(i);
             if (i < rawFilesNoMatchList.size() - 1) {
