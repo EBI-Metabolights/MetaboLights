@@ -116,7 +116,7 @@ public class MetabolightsXMLExporter {
         return str != null && !str.isEmpty();
     }
 
-    private static void initParams(String fileName, String wsClientURL, Boolean includeCompounds){
+    private static void initParams(String fileName, String wsClientURL, Boolean includeCompounds, Boolean detailedTags){
         if (xmlFileName == null)
             xmlFileName = fileName;
 
@@ -176,17 +176,17 @@ public class MetabolightsXMLExporter {
     }
 
 
-    public static boolean writeFile(String fileName, Boolean includeCompounds, Boolean detailedAuthors, String wsClientURL) throws Exception {
+    public static boolean writeFile(String fileName, Boolean includeCompounds, Boolean detailedTags, String wsClientURL) throws Exception {
         try {
 
-            initParams(fileName, wsClientURL, includeCompounds);
+            initParams(fileName, wsClientURL, includeCompounds, detailedTags);
 
             // create the root element node
             setRootXmlElements(includeCompounds);
 
             //Loop thorough the studies returned from the WS
             Element entries = doc.createElement(STUDIES);
-            addStudies(entries, detailedAuthors);
+            addStudies(entries, detailedTags);
 
             if (includeCompounds)
                 addCompounds(entries);
@@ -559,7 +559,7 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static void addStudies(Element entries, Boolean detailedAuthors){
+    private static void addStudies(Element entries, Boolean detailedTags){
         //First, add the surrounding <entries> tags
 
         //Add all the public studies
@@ -591,8 +591,10 @@ public class MetabolightsXMLExporter {
                 entry.appendChild(dateFields);
                 addDates(dateFields, study);
 
-                if (detailedAuthors) // Required for ThomsonReuters feed
+                if (detailedTags) { // Required for ThomsonReuters feed
                     entry.appendChild(addDetailedAuthors(study));
+                    entry.appendChild(addStucturedPublicaitons(study));
+                }
 
                 //Add the sub tree "additional_fields"
                 Element additionalField = doc.createElement("additional_fields");
@@ -601,7 +603,7 @@ public class MetabolightsXMLExporter {
                 additionalField.appendChild(createChildElement(FIELD, "repository", "MetaboLights"));
                 additionalField.appendChild(createChildElement(FIELD, "omics_type", "Metabolomics"));
 
-                if (!detailedAuthors){ // Standard author feed for EBI, DDI and MX
+                if (!detailedTags){ // Standard author feed for EBI, DDI and MX
                     for (Contact contact : study.getContacts()) {
                         additionalField.appendChild(createChildElement(FIELD, "author", tidyAutors(contact)));
                     }
@@ -671,6 +673,7 @@ public class MetabolightsXMLExporter {
                             additionalField.appendChild(createChildElement(FIELD, "Organism Part", organism.getOrganismPart().trim()));
                     }
 
+                if (!detailedTags) //Do not need a structured set of fields for Publication
                 for (Publication publication : study.getPublications()) {
                     String completePublications = composePublications(publication);
 
@@ -692,9 +695,34 @@ public class MetabolightsXMLExporter {
         }
     }
 
+    private static String tidyDoi(String doi){
+        String tidyStr = doi.toLowerCase();
+
+        tidyStr = tidyStr.replaceAll("http://","").replaceFirst("dx.", "");
+        tidyStr = tidyStr.replaceAll("doi.org/","");
+        tidyStr = tidyStr.replaceAll("doi:","");
+        tidyStr = tidyStr.replaceAll("na","");
+        tidyStr = tidyStr.replaceAll("n/a","");
+
+        return tidyStr.trim();
+    }
+
+    private static String tidyPubmed(String pubmed){
+        String tidyStr = pubmed.toLowerCase();
+
+        tidyStr = tidyStr.replaceAll("none","");
+        tidyStr = tidyStr.replaceAll("na","");
+        tidyStr = tidyStr.replaceAll("n/a","");
+
+        return tidyStr.trim();
+    }
+
     private static String composePublications(Publication publication){
         String completePublication = null;
         String sep = ".";
+
+        String pubmed = tidyPubmed(publication.getPubmedId());
+        String doi = tidyDoi(publication.getDoi());
 
         if (hasValue(publication.getTitle()))
             completePublication = publication.getTitle().trim();
@@ -703,14 +731,14 @@ public class MetabolightsXMLExporter {
         if (hasValue(completePublication) && !completePublication.endsWith(sep))
             completePublication = completePublication + sep;
 
-        if (hasValue(publication.getDoi()))
-            completePublication = completePublication + " " + publication.getDoi().replaceAll("http://","").replaceFirst("dx.", "");
+        if (hasValue(doi))
+            completePublication = completePublication + " " + doi;
 
         if (hasValue(completePublication) && !completePublication.endsWith(sep))
             completePublication = completePublication + sep;
 
-        if (hasValue(publication.getPubmedId()))
-            completePublication = completePublication + " " + "PMID:"+publication.getPubmedId();
+        if (hasValue(pubmed))
+            completePublication = completePublication + " " + "PMID:"+pubmed;
 
         if (hasValue(completePublication))
             completePublication = completePublication.trim();
@@ -718,6 +746,33 @@ public class MetabolightsXMLExporter {
         return completePublication;
     }
 
+    private static Element addStucturedPublicaitons(Study study){
+        Element publicationsElement = doc.createElement("publications");
+
+
+        for (Publication publication : study.getPublications()) {
+            Element publicationElement = doc.createElement("publication");
+            String title = publication.getTitle();
+            String doi = tidyDoi(publication.getDoi());
+            String pubmed = tidyPubmed(publication.getPubmedId());
+
+            if (hasValue(title))
+                publicationElement.appendChild(addGenericElement("title", title));
+
+            if (hasValue(doi))
+                publicationElement.appendChild(addGenericElement("doi", doi));
+
+            if (hasValue(pubmed))
+                publicationElement.appendChild(addGenericElement("pubmed", "PMID:" + pubmed));
+
+
+            publicationsElement.appendChild(publicationElement);
+        }
+
+        return publicationsElement;
+
+
+    }
 
     private static Element addGenericElement(String itemName, String itemValue) {
 
