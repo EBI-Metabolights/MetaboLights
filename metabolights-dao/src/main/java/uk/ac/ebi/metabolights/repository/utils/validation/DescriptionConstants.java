@@ -38,6 +38,7 @@ public class DescriptionConstants {
 
 
     public static final String ASSAYS = "Assay(s)";
+    public static final String ASSAYS_EMPTY_COLUMNS = "Missing Study Assay sheet columns";
     public static final String ASSAY_SAMPLE_NAMEMATCH = "Sample Name consistency check";
     public static final String ASSAY_PLATFORM = "Assay platform information";
     public static final String ASSAY_FILES = "Assay has raw files referenced";
