@@ -50,6 +50,9 @@ public class DescriptionConstants {
 
 
     public static final String SAMPLES = "Sample(s)";
+    public static final String SAMPLES_EMPTY_COLUMNS = "Missing Study Sample Definition sheet columns";
+
+
     public static final String PUBLICATIONS = "Publication(s) associated with this Study";
     public static final String ISATAB_INVESTIGATION = "ISA-Tab investigation file check";
 

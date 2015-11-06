@@ -1,13 +1,11 @@
 package uk.ac.ebi.metabolights.repository.utils.validation;
 
+import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by kalai on 18/09/15.
@@ -123,6 +121,47 @@ public class Utilities {
 
     public static boolean containsKeyword(String field, String keyword) {
         return field.contains(keyword);
+    }
+
+
+    public static Set getEmptyDataColumns(List<List<String>> dataTable) {
+        HashSet emptyIndices = new HashSet();
+
+        for (int i = 0; i < dataTable.size(); i++) {
+            List<String> dataColumn = dataTable.get(i);
+            for (int j = 0; j < dataColumn.size(); j++) {
+                String row = dataColumn.get(j);
+                if (row.isEmpty()) {
+                    emptyIndices.add(j);
+                }
+            }
+        }
+        return emptyIndices;
+    }
+
+    public static List<String> getEmptyFieldNames(LinkedHashMap<String, Field> tableFields, HashSet missingIndices) {
+        List<String> missingFieldNames = new ArrayList<>();
+        for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
+            int index = Utilities.indexToCheck(entry.getKey());
+            if (missingIndices.contains(index)) {
+                missingFieldNames.add(entry.getValue().getCleanHeader());
+            }
+
+        }
+        return missingFieldNames;
+    }
+
+    public static String getSampleColumnEmptyErrMsg(List<String> emptyFieldNames, String sheetName) {
+        String message = "The following columns are missing in the " + sheetName + " Definition Sheet: \n";
+        for (int i = 0; i < emptyFieldNames.size(); i++) {
+            message += " " + emptyFieldNames.get(i);
+            if (i == emptyFieldNames.size() - 1) {
+                message += ".\n";
+            } else {
+                message += ";\n";
+            }
+        }
+        return message;
     }
 
 }
