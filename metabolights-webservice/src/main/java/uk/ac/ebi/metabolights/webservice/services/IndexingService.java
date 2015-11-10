@@ -1,3 +1,24 @@
+/*
+ * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
+ * Cheminformatics and Metabolism group
+ *
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ *
+ * Last modified: 2015-Oct-29
+ * Modified by:   venkata
+ *
+ * Copyright 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ *
+ */
+
 package uk.ac.ebi.metabolights.webservice.services;
 
 import org.slf4j.Logger;
@@ -20,11 +41,6 @@ import uk.ac.ebi.metabolights.webservice.controllers.BasicController;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: conesa
- * Date: 06/08/15
- * Time: 09:18
- */
 @Service
 public class IndexingService {
 
@@ -169,7 +185,7 @@ public class IndexingService {
 	 *
 	 */
 
-	public RestResponse<ArrayList<String>> indexCompounds(List<String> ids, RestResponse<ArrayList<String>> response) {
+	public RestResponse<ArrayList<String>> indexCompounds(List<String> ids, RestResponse<ArrayList<String>> response, Boolean force) {
 
 		// If there is no response..
 		if (response == null) {
@@ -189,7 +205,7 @@ public class IndexingService {
 		long indexed = 0;
 
 		for (String id : ids) {
-			if (indexCompound(id, response)){
+			if (indexCompound(id, response, force)){
 				indexed++;
 			}
 		}
@@ -205,18 +221,32 @@ public class IndexingService {
 
 	}
 
-	private boolean indexCompound(String compoundId, RestResponse<ArrayList<String>> response)  {
+	/**
+	 *
+	 * COMPOUNDS INDEXING
+	 *
+	 */
 
-		// Get it from the index
-		// ' Avoid search service to remove the colon.
-		SearchQuery query = new SearchQuery("'_id:" + compoundId);
+	public RestResponse<ArrayList<String>> indexCompounds(List<String> ids, RestResponse<ArrayList<String>> response) {
 
-		SearchResult result =searchService.search(query);
+		return indexCompounds(ids,response, false);
 
-		// If there is any hit
-		if ((result.getResults().size() != 0)) {
-			response.getContent().add(compoundId + " already indexed.");
-			return true;
+	}
+
+	private boolean indexCompound(String compoundId, RestResponse<ArrayList<String>> response, Boolean force)  {
+
+		if (!force) {
+			// Get it from the index
+			// ' Avoid search service to remove the colon.
+			SearchQuery query = new SearchQuery("'_id:" + compoundId);
+
+			SearchResult result =searchService.search(query);
+
+			// If there is any hit
+			if ((result.getResults().size() != 0)) {
+				response.getContent().add(compoundId + " already indexed.");
+				return true;
+			}
 		}
 
 		Compound mc = ModelObjectFactory.getCompound(compoundId);
