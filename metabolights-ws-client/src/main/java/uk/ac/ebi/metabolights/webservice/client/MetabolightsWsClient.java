@@ -477,6 +477,7 @@ public class MetabolightsWsClient {
 
     /**
      * Deletes a series of files selected from the Study Files tab in a study.
+     *
      * @param studyId
      * @param obfuscationCode, the user credentials
      * @param selectedFiles, the list of files to be deleted
@@ -489,7 +490,7 @@ public class MetabolightsWsClient {
                                                      List<String> selectedFiles){
 
         String response = makePostRequest(STUDY_PATH + studyId + "/deleteFiles",selectedFiles);
-        logger.info("Deleting files from study {} by user request", obfuscationCode, studyId);
+        logger.info("Deleting files from study {} by user request.", studyId);
 
         return deserializeJSONString(response, String.class);
     }
@@ -766,5 +767,41 @@ public class MetabolightsWsClient {
 
         return deserializeJSONString(responseS, Boolean.class);
 
+    }
+
+    /**
+     * Create a private FTP folder for a Study, so the user can upload big files using ftp.
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151105
+     */
+    public RestResponse<String> requestFTPFolder(String studyId){
+
+        String jsonData = serializeObject("Request FTP Folder");
+
+        String response = makePostRequest(STUDY_PATH + studyId +
+                "/files/requestFTPFolder", jsonData);
+
+        return deserializeJSONString(response, String.class);
+    }
+
+    /**
+     * Move files from private FTP folder for a Study.
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151105
+     */
+    public RestResponse<String> moveFilesfromFTPFolder(String studyId, List<String> selFiles){
+
+        String jsonData = serializeObject(selFiles);
+
+        String response = makePostRequest(STUDY_PATH + studyId +
+                "/files/moveFilesfromFTPFolder", jsonData);
+
+        return deserializeJSONString(response, String.class);
     }
 }

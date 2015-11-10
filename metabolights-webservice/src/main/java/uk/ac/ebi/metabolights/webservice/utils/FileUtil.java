@@ -25,7 +25,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
 import static java.nio.file.StandardCopyOption.*;
 import javax.annotation.PostConstruct;
@@ -244,9 +243,10 @@ public class FileUtil {
 	}
 
 
-	private static @Value("#{privateFTPDirectory}") String privateFTPRoot;
+	private static @Value("#{privateFTPRoot}") String privateFTPRoot;
+	private static @Value("#{privateFTPGroup}") String fileSystemGroup;
+	private static @Value("#{fileSystemUser}") String fileSystemUser;
 	private static @Value("#{privateFTPUser}") String privateFTPUser;
-	private static @Value("#{privateFTPGroup}") String privateFTPGroup;
 	/**
 	 * Create a private FTP folder for uploading big study files
 	 *
@@ -260,18 +260,20 @@ public class FileUtil {
 
 		// TODO delete this
 		if(privateFTPRoot == null) privateFTPRoot = "/Users/jrmacias/Projects/Deploy-local/ebi/ftp/private/mtblight/private";
-		if(privateFTPUser == null) privateFTPUser = "jrmacias";
-		if(privateFTPGroup == null) privateFTPGroup = "staff";
+		if(fileSystemUser == null) fileSystemUser = "jrmacias";	// tc_cm01
+		if(privateFTPUser == null) privateFTPUser = "jrmacias";	// mtblight
+		if(fileSystemGroup == null) fileSystemGroup = "staff";	// cheminf
+
 
 		// create the folder
 		File ftpFolder = new File(privateFTPRoot + File.separator + folder);
 		Path folderPath = ftpFolder.toPath();
-		ftpFolder.mkdir();
+		if (!ftpFolder.mkdir()) throw new IOException();
 
 		// set folder owner, group and access permissions
 		// 'chmod 770'
 		String ownerName = privateFTPUser;
-		String groupName = privateFTPGroup;
+		String groupName = fileSystemGroup;
 		UserPrincipalLookupService lookupService = FileSystems.getDefault().getUserPrincipalLookupService();
 		Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
 

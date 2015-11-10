@@ -24,6 +24,7 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -500,6 +501,10 @@ public class StudyController extends BasicController{
 	}
 
 
+	private static @Value("#{privateFTPServer}") String privateFTPServer;	// ftp-private.ebi.ac.uk
+	private static @Value("#{privateFTPUser}") String privateFTPUser;		// mtblight
+	private static @Value("#{privateFTPPass}") String privateFTPPass;		// gs4qYabh
+	private static @Value("#{linkFTPUploadDoc}") String linkFTPUploadDoc;	// ...
 	/**
 	 * Create a private FTP folder for a Study,
 	 * so the user can upload big files using ftp.
@@ -511,30 +516,40 @@ public class StudyController extends BasicController{
 	 * @date 20151102
 	 */
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
-	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/requestFTPFolder")
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/requestFTPFolder")
 	@ResponseBody
 	public RestResponse<String> getStudyPrivateFTPFolder(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+		// TODO delete this
+		if(privateFTPServer == null) privateFTPServer = "ftp-private.ebi.ac.uk";	// ftp-private.ebi.ac.uk
+		if(privateFTPUser == null) privateFTPUser = "mtblight";						// mtblight
+		if(privateFTPPass == null) privateFTPPass = "gs4qYabh";						// gs4qYabh
+		if(linkFTPUploadDoc == null) linkFTPUploadDoc = "link-to-doc";				// ...
+
+		RestResponse<String> restResponse = new RestResponse<>();
 
 		User user = getUser();
+		String userToken = user.getApiToken();
+		Study study;
 		String obfuscationCode = "";
 		try {
-			obfuscationCode = getStudyDAO().getStudy(studyIdentifier).getObfuscationCode();
-		} catch (Exception ex) {
-			logger.error("Can't get the study", ex);
+			study = getStudyDAO().getStudy(studyIdentifier,userToken);
+			obfuscationCode = study.getObfuscationCode();
+		} catch (IsaTabException e) {
+			e.printStackTrace();
+			restResponse.setErr(e);
+			return restResponse;
 		}
 		logger.info("[WS] User {0} has requested a private FTP folder for the study {1}", user.getUserName(),studyIdentifier);
 
-		// FTP folder is composed with the user identifier + the obfuscation code of the study
-		String ftpFolder = user.getApiToken() + "_" + obfuscationCode;
-
-		RestResponse<String> restResponse = new RestResponse<>();
+		// FTP folder is composed with part of the user identifier + the obfuscation code of the study
+		String userPart = user.getApiToken().split("-")[0];
+		String ftpFolder = userPart + "_" + obfuscationCode;
 
 		// create the folder
 		try {
 			FileUtil.createFTPFolder(ftpFolder);
 		} catch (IOException e) {
 			e.printStackTrace();
-
 			restResponse.setMessage("Error creating FTP folder.");
 			restResponse.setErr(e);
 			return restResponse;
@@ -544,7 +559,26 @@ public class StudyController extends BasicController{
 		restResponse.setMessage("Your requested FTP folder is being created. Details for access will be mailed to you shortly.");
 
 		// send FTP folder details by email
-		emailService.sendCreatedFTPFolderEmail(user.getEmail(), studyIdentifier, ftpFolder);
+		String subject = "Requested Study FTP folder.";
+		StringBuilder body = new StringBuilder().append("We are happy to inform you that your FTP folder for study ")
+				.append("<b>").append(studyIdentifier).append("</b>")
+				.append(" has been successfully created and is now ready for use. To access, please use your favorite FTP client with the following account details:").append('\n').append('\n')
+				.append('\t').append("user: ")
+				.append("<b>").append(privateFTPUser).append("</b>").append('\n')
+				.append('\t').append("password: ")
+				.append("<b>").append(privateFTPPass).append("</b>").append('\n')
+				.append('\t').append("server: ")
+				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
+				.append('\t').append("remote folder: ")
+				.append("<b>").append("/private/").append(ftpFolder).append("</b>").append('\n')
+				.append('\n')
+				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
+				.append("\"").append("<b>").append("cd ").append("/private/").append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
+				.append(" More extensive instructions can be found here: ").append(linkFTPUploadDoc)
+				.append('\n').append('\n')
+				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
+				.append('\n');
+		emailService.sendCreatedFTPFolderEmail(user.getEmail(), subject, body.toString());
 		logger.info("FTP folder details sent to user: {0}, by email: {1} .", user.getUserName(), user.getEmail());
 
 		return restResponse;
@@ -560,7 +594,7 @@ public class StudyController extends BasicController{
 	 * @date 20151104
      */
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
-	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/moveFilesfromFTPFolder", method= RequestMethod.POST)
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/moveFilesfromFTPFolder", method= RequestMethod.POST)
 	@ResponseBody
 	public RestResponse<Boolean> moveFilesFromPrivateFTPFolder(@PathVariable("studyIdentifier") String studyIdentifier,
 															  @RequestBody List<String> fileNames) throws DAOException {
@@ -568,13 +602,16 @@ public class StudyController extends BasicController{
 		RestResponse<Boolean> restResponse = new RestResponse<>();
 
 		// get the study folder
+		Study study;
 		String studyFolder = "";
 		String obfuscationCode = "";
 		User user = getUser();
+		String userPart = user.getApiToken().split("-")[0];
 		studyDAO = getStudyDAO();
 		try {
-			studyFolder = studyDAO.getStudy(studyIdentifier).getStudyLocation();
-			obfuscationCode = getStudyDAO().getStudy(studyIdentifier).getObfuscationCode();
+			study = getStudyDAO().getStudy(studyIdentifier,user.getApiToken());
+			obfuscationCode = study.getObfuscationCode();
+			studyFolder = study.getStudyLocation();
 		} catch (DAOException ex) {
 			logger.error("Can't get the study", ex);
 			restResponse.setMessage("Can't get the study requested.");
@@ -586,7 +623,7 @@ public class StudyController extends BasicController{
 			restResponse.setErr(ex);
 			return restResponse;
 		}
-		String ftpFolder = user.getApiToken() + "_" + obfuscationCode;
+		String ftpFolder = userPart + "_" + obfuscationCode;
 
 		// move the files
 		String result = FileUtil.moveFilesFromPrivateFTP(fileNames, ftpFolder, studyFolder);

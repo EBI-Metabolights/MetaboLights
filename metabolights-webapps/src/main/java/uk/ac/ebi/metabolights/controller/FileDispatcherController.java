@@ -403,4 +403,61 @@ public class FileDispatcherController extends AbstractController {
 
 		return null;
 	}
+
+    /**
+     * Create a private FTP folder for a Study, so the user can upload big files using ftp.
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER)should be accessing this
+     *
+     * @param studyId the ID of the study
+     * @author: jrmacias
+     * @date: 20151105
+     */
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/files/requestFTPFolder")
+    public ModelAndView requestFTPFolder(@PathVariable("studyId") String studyId
+    //                                         , @RequestParam(value="token", defaultValue = "0") String obfuscationCode
+    ){
+        logger.info("Requesting a private FTP folder for the study {}", studyId);
+
+        // Using the WebService-client to do the job
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+        String rslt = wsClient.requestFTPFolder(studyId).getMessage();
+    //        String rslt = wsClient.requestFTPFolder(obfuscationCode).getMessage();
+
+        // parse WS response for user feedback
+        List<String> msg = new LinkedList<>();
+        String[] str = rslt.split("\\|");
+        for (String line:str){
+            msg.add(line);
+        }
+
+        return printMessage("Creating private FTP folder for Study...", msg);
+    }
+
+    /**
+     * Move files from private FTP folder for a Study.
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER)should be accessing this
+     *
+     * @param studyId the ID of the study
+     * @author: jrmacias
+     * @date: 20151105
+     */
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/files/moveFilesfromFTPFolder")
+    public ModelAndView moveFilesfromFTPFolder(@PathVariable("studyId") String studyId,
+                                               @RequestParam("files") List<String> selectedFiles
+    ){
+        logger.info("Moving files from private FTP folder for the study {}", studyId);
+
+        // Using the WebService-client to do the job
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+        String rslt = wsClient.moveFilesfromFTPFolder(studyId, selectedFiles).getMessage();
+
+        // parse WS response for user feedback
+        List<String> msg = new LinkedList<>();
+        String[] str = rslt.split("\\|");
+        for (String line:str){
+            msg.add(line);
+        }
+
+        return printMessage("Moving files from private FTP folder...", msg);
+    }
 }

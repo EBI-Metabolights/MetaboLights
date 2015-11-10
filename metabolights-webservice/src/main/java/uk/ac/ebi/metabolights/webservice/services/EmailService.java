@@ -389,21 +389,13 @@ public class EmailService {
 	 * Email to be sent when a private FTP is created for the Study
 	 *
 	 * @param userEmail
-	 * @param studyID
-	 * @param folderName The private FTP folder created
+	 * @param body
 	 * @author jrmacias
 	 * @date 20151102
 	 */
-	public void sendCreatedFTPFolderEmail(String userEmail, String studyID , String folderName) {
-		String from = PropertyLookUpService.getMessage("mail.noreplyaddress");
+	public void sendCreatedFTPFolderEmail(String userEmail, String subject, String body) {
 		String[] to = {userEmail, curationEmailAddress};
-		String subject = "Requested Study FTP folder.";
 
-		StringBuilder body = new StringBuilder().append("We are happy to inform you that your FTP folder for study ")
-				.append(studyID).
-				append(" has been successfully created and is know ready for use. To access, please use your favorite FTP client with following path:").append('\n')
-				.append(folderName);
-
-		sendSimpleEmail(from, to, subject, body.toString());
+		sendSimpleEmail(to, subject, body);
 	}
 }
