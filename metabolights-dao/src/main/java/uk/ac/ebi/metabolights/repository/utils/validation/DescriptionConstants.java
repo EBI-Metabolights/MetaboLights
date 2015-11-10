@@ -17,6 +17,8 @@ public class DescriptionConstants {
     //FACTORS
     public static final String FACTOR_NAME= "Study Factors";
     public static final String FACTOR_TYPE = "Study Factor Type";
+    public static final String FACTOR_IN_SAMPLES= "No Study Factor columns present in Sample Definition sheet";
+    public static final String FACTOR_IN_ASSAYS= "No Study Factor columns present in Assay sheet(s)";
 
     //ORGANISM
     public static final String ORGANISM_NAME= "Organism name";

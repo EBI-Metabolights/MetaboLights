@@ -28,7 +28,7 @@ public class SampleValidations implements IValidationProcess {
         Validation basic = getSampleValidation(study);
         sampleValidations.add(basic);
         sampleValidations.add(getSampleNameConsistencyValidation(study));
-        if (basic.getPassedRequirement()) {
+            if (basic.getPassedRequirement()) {
             Validation areColumnsEmptyValidation = getEmptyColumnsValidation(study);
             if (!areColumnsEmptyValidation.getPassedRequirement()) {
                 sampleValidations.add(areColumnsEmptyValidation);

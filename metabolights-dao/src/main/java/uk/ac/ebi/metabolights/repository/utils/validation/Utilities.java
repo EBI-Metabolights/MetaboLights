@@ -125,18 +125,28 @@ public class Utilities {
 
 
     public static Set getEmptyDataColumns(List<List<String>> dataTable) {
-        HashSet emptyIndices = new HashSet();
+        HashSet missingIndices = new HashSet();
+        HashSet notEmptyIndices = new HashSet();
+
+        HashSet totallyEmptyColumns = new HashSet();
 
         for (int i = 0; i < dataTable.size(); i++) {
-            List<String> dataColumn = dataTable.get(i);
-            for (int j = 0; j < dataColumn.size(); j++) {
-                String row = dataColumn.get(j);
-                if (row.isEmpty()) {
-                    emptyIndices.add(j);
+            List<String> dataRow = dataTable.get(i);
+            for (int j = 0; j < dataRow.size(); j++) {
+                String cell = dataRow.get(j);
+                if (!cell.isEmpty()) {
+                    notEmptyIndices.add(j);
+                } else {
+                    missingIndices.add(j);
                 }
             }
         }
-        return emptyIndices;
+        for (Object index : missingIndices) {
+            if (!notEmptyIndices.contains(index)) {
+                totallyEmptyColumns.add(index);
+            }
+        }
+        return totallyEmptyColumns;
     }
 
     public static List<String> getEmptyFieldNames(LinkedHashMap<String, Field> tableFields, HashSet missingIndices) {

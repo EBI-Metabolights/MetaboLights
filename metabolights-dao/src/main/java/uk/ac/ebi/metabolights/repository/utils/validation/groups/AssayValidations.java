@@ -313,7 +313,7 @@ public class AssayValidations implements IValidationProcess {
             String missingColumn = entry.getKey();
             message += missingColumn + " (";
             for (Integer assayNumber : entry.getValue()) {
-                message += "Assay " + assayNumber + ";";
+                message += "Assay " + (assayNumber+1) + ";";
             }
             message += ")";
             message += "\n";
