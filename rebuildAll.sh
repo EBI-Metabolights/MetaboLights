@@ -1,7 +1,7 @@
 #!/bin/sh
-export ML="/Users/`whoami`/Development/metabolights"
-#export DEPLOY="install -DskipTests=true"
-export DEPLOY=" deploy -DskipTests=true"
+export ML="/Users/venkata/Development/Metabolights"
+export DEPLOY="-DskipTests=true"
+#export DEPLOY="deploy -DskipTests=true"
 export MVNOPTS=""
 #export MVNOPTS="--offline"
 cd $ML
@@ -17,7 +17,11 @@ cd metabolights-domain
 mvn $MVNOPTS clean install $DEPLOY
 cd ../metabolights-dao
 mvn $MVNOPTS clean install $DEPLOY
-cd ../MetaboLights-Search
+cd ../metabolights-referencelayer/dao
+mvn $MVNOPTS clean install $DEPLOY
+cd ../../metabolights-referencelayer/importer
+mvn $MVNOPTS clean install $DEPLOY
+cd ../../MetaboLights-Search
 mvn $MVNOPTS clean package $DEPLOY
 cd ../metabolights-webservice
 mvn $MVNOPTS clean package $DEPLOY
@@ -25,10 +29,17 @@ cd ../metabolights-ws-client
 mvn $MVNOPTS clean install $DEPLOY
 cd ../metabolights-webapps
 mvn $MVNOPTS compile war:inplace war:war
-cp $ML/metabolights-webapps/target/metabolights-webapp-*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-dev.war
-cp $ML/metabolights-webservice/target/metabolights-webservice*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webservice-dev.war
+
+#Deploy to Development
+#cp $ML/metabolights-webapps/target/metabolights-webapp-*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-dev.war
+#cp $ML/metabolights-webservice/target/metabolights-webservice*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webservice-dev.war
+
 cd ..
-ls -Fla /nfs/public/rw/homes/tc_cm01/metabolights/deploy/
+#Deploy to Test
+#scp metabolights-webapps/target/metabolights-webapp-*.war ebi-003:/nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-test.war
+#scp metabolights-webservice/target/metabolights-webservice-*.war ebi-003:/nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webservice-test.war
+
+#ls -Fla /nfs/public/rw/homes/tc_cm01/metabolights/deploy/
 
 echo "to deploy:"
 echo "    PROD"

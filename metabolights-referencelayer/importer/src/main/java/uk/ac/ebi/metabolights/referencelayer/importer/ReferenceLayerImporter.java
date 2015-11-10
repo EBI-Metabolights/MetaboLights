@@ -41,8 +41,6 @@
 
 package uk.ac.ebi.metabolights.referencelayer.importer;
 
-import org.bridgedb.Xref;
-import org.pathvisio.wikipathways.webservice.WSSearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
@@ -53,22 +51,18 @@ import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
 import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.model.Species;
+import uk.ac.ebi.metabolights.webservice.client.WikipathwaysWsClient;
 import uk.ac.ebi.rhea.ws.client.RheaResourceClient;
 import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
-import org.wikipathways.client.WikiPathwaysClient;
-import org.bridgedb.DataSource;
-import org.bridgedb.bio.DataSourceTxt;
-
 
 import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.rmi.RemoteException;
-import java.sql.*;
+import java.sql.Connection;
 import java.util.*;
-import java.util.Date;
 
 public class ReferenceLayerImporter {
 
@@ -80,11 +74,11 @@ public class ReferenceLayerImporter {
     private SpeciesDAO spd;
 	private MetSpeciesDAO mspd;
 	private DatabaseDAO dbd;
-	private WikiPathwaysClient wpclient;
 
     private RheaResourceClient wsRheaClient;
-
     private ChebiWebServiceClient chebiWS;
+
+    private WikipathwaysWsClient wpWsClient;
 
 	private ArrayList<String> failedCompounds = new ArrayList<String>();
 
@@ -243,6 +237,9 @@ public class ReferenceLayerImporter {
 			if (wsRheaClient == null)
 				this.wsRheaClient = getWsRheaClient();
 
+            if (wpWsClient == null)
+                this.wpWsClient = getWsclient();
+
 			// Now we should have a list of chebi ids...
 			for (Entity  metabolite: metabolitesToImport.values()) {
 
@@ -313,7 +310,6 @@ public class ReferenceLayerImporter {
 	 */
     public int chebiID2MetaboLights(String chebiId) throws DAOException, IOException {
 
-
 		// Get a complete entity....
 		Entity entity = null;
 		try {
@@ -345,7 +341,6 @@ public class ReferenceLayerImporter {
 			return 0;
 		}
 
-
 		try {
 
 			String accession = MetaboLightsCompoundDAO.chebiID2MetaboLightsID(entity.getChebiId());
@@ -372,6 +367,7 @@ public class ReferenceLayerImporter {
 					}
 				}else{
 					LOGGER.info("The compound " + entity.getChebiId() + " is updated recently. Skipping it!");
+					return 1;
 				}
 
 			} else {
@@ -404,7 +400,10 @@ public class ReferenceLayerImporter {
 
 			mc.setHasLiterature(getLiterature(entity));
 			mc.setHasReaction(getReactions(mc.getChebiId()));
-			mc.setHasPathways(getPathways(mc.getChebiId()));
+
+
+
+			mc.setHasPathways(getPathways(mc.getChebiId(), "Ce"));
 			mc.setHasSpecies(mc.getMetSpecies().size() != 0);
 
 			mcd.save(mc);
@@ -495,33 +494,10 @@ public class ReferenceLayerImporter {
 
 
 
-	private boolean getPathways(String chebiID){
+	private boolean getPathways(String chebiID, String code){
 		boolean hasPathways  = false;
 		LOGGER.debug("Initializing and getting pathways from Wikipathways");
-
-		URL wsURL = null;
-		try {
-			wsURL = new URL("http://webservice.wikipathways.org");
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		wpclient = new WikiPathwaysClient(wsURL);
-		DataSourceTxt.init();
-
-		Xref x = new Xref(chebiID, DataSource.getExistingBySystemCode("Ce"));
-
-
-
-		try {
-			WSSearchResult[] result = wpclient.findPathwaysByXref(x);
-			if (result.length != 0)
-				hasPathways = true;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-
-		return hasPathways;
+		return wpWsClient.hasWikiPathways(chebiID,code);
 	}
 
 
@@ -541,6 +517,27 @@ public class ReferenceLayerImporter {
         }
 
         return hasReactions;
+    }
+
+
+    public WikipathwaysWsClient getWsclient(){
+
+        if (wpWsClient instanceof WikipathwaysWsClient) {
+            LOGGER.info("Returning the existing WikipathwaysClient");
+            return wpWsClient;
+        }
+
+        if (wpWsClient == null) {
+            //URL wsURL = null;
+            // try {
+            //     wsURL = new URL("http://webservice.wikipathways.org");
+            // } catch (MalformedURLException e) {
+            //     e.printStackTrace();
+            // }
+            wpWsClient = new WikipathwaysWsClient("http://webservice.wikipathways.org");
+        }
+
+        return wpWsClient;
     }
 
 	public RheaResourceClient getWsRheaClient() {
