@@ -40,6 +40,7 @@ import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
+import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -500,14 +501,8 @@ public class StudyController extends BasicController{
 
 	}
 
-
-	private static @Value("#{privateFTPServer}") String privateFTPServer;	// ftp-private.ebi.ac.uk
-	private static @Value("#{privateFTPUser}") String privateFTPUser;		// mtblight
-	private static @Value("#{privateFTPPass}") String privateFTPPass;		// gs4qYabh
-	private static @Value("#{linkFTPUploadDoc}") String linkFTPUploadDoc;	// ...
 	/**
-	 * Create a private FTP folder for a Study,
-	 * so the user can upload big files using ftp.
+	 * Create a private FTP folder for a Study, so the user can upload big files using ftp.
 	 *
 	 * @param studyIdentifier
 	 * @return
@@ -516,14 +511,13 @@ public class StudyController extends BasicController{
 	 * @date 20151102
 	 */
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
-	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/requestFTPFolder")
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/requestFtpFolder")
 	@ResponseBody
-	public RestResponse<String> getStudyPrivateFTPFolder(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
-		// TODO delete this
-		if(privateFTPServer == null) privateFTPServer = "ftp-private.ebi.ac.uk";	// ftp-private.ebi.ac.uk
-		if(privateFTPUser == null) privateFTPUser = "mtblight";						// mtblight
-		if(privateFTPPass == null) privateFTPPass = "gs4qYabh";						// gs4qYabh
-		if(linkFTPUploadDoc == null) linkFTPUploadDoc = "link-to-doc";				// ...
+	public RestResponse<String> getStudyPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+		String privateFTPServer = PropertiesUtil.getProperty("privateFTPServer");	// ftp-private.ebi.ac.uk
+		String privateFTPUser = PropertiesUtil.getProperty("privateFTPUser");		// mtblight
+		String privateFTPPass = PropertiesUtil.getProperty("privateFTPPass");		// gs4qYabh
+		String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");	// ...
 
 		RestResponse<String> restResponse = new RestResponse<>();
 
@@ -547,7 +541,7 @@ public class StudyController extends BasicController{
 
 		// create the folder
 		try {
-			FileUtil.createFTPFolder(ftpFolder);
+			FileUtil.createFtpFolder(ftpFolder);
 		} catch (IOException e) {
 			e.printStackTrace();
 			restResponse.setMessage("Error creating FTP folder.");
@@ -594,10 +588,10 @@ public class StudyController extends BasicController{
 	 * @date 20151104
      */
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
-	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/moveFilesfromFTPFolder", method= RequestMethod.POST)
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/moveFilesfromFtpFolder", method= RequestMethod.POST)
 	@ResponseBody
-	public RestResponse<Boolean> moveFilesFromPrivateFTPFolder(@PathVariable("studyIdentifier") String studyIdentifier,
-															  @RequestBody List<String> fileNames) throws DAOException {
+	public RestResponse<Boolean> moveFilesFromPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier,
+															   @RequestBody List<String> fileNames) throws DAOException {
 
 		RestResponse<Boolean> restResponse = new RestResponse<>();
 
@@ -626,7 +620,7 @@ public class StudyController extends BasicController{
 		String ftpFolder = userPart + "_" + obfuscationCode;
 
 		// move the files
-		String result = FileUtil.moveFilesFromPrivateFTP(fileNames, ftpFolder, studyFolder);
+		String result = FileUtil.moveFilesFromPrivateFtpFolder(fileNames, ftpFolder, studyFolder);
 
 		restResponse.setContent(true);
 		restResponse.setMessage(result);

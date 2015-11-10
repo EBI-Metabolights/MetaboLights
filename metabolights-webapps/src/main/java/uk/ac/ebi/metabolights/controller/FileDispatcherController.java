@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
@@ -42,7 +41,6 @@ import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -412,16 +410,16 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151105
      */
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/files/requestFTPFolder")
-    public ModelAndView requestFTPFolder(@PathVariable("studyId") String studyId
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/files/requestFtpFolder")
+    public ModelAndView requestFtpFolder(@PathVariable("studyId") String studyId
     //                                         , @RequestParam(value="token", defaultValue = "0") String obfuscationCode
     ){
         logger.info("Requesting a private FTP folder for the study {}", studyId);
 
         // Using the WebService-client to do the job
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        String rslt = wsClient.requestFTPFolder(studyId).getMessage();
-    //        String rslt = wsClient.requestFTPFolder(obfuscationCode).getMessage();
+        String rslt = wsClient.requestFtpFolder(studyId).getMessage();
+    //        String rslt = wsClient.requestFtpFolder(obfuscationCode).getMessage();
 
         // parse WS response for user feedback
         List<String> msg = new LinkedList<>();
@@ -441,15 +439,15 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151105
      */
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/files/moveFilesfromFTPFolder")
-    public ModelAndView moveFilesfromFTPFolder(@PathVariable("studyId") String studyId,
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/files/moveFilesfromFtpFolder")
+    public ModelAndView moveFilesfromFtpFolder(@PathVariable("studyId") String studyId,
                                                @RequestParam("files") List<String> selectedFiles
     ){
         logger.info("Moving files from private FTP folder for the study {}", studyId);
 
         // Using the WebService-client to do the job
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        String rslt = wsClient.moveFilesfromFTPFolder(studyId, selectedFiles).getMessage();
+        String rslt = wsClient.moveFilesfromFtpFolder(studyId, selectedFiles).getMessage();
 
         // parse WS response for user feedback
         List<String> msg = new LinkedList<>();

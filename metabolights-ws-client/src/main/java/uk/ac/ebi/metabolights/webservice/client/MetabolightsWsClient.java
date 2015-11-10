@@ -777,12 +777,12 @@ public class MetabolightsWsClient {
      * @author: jrmacias
      * @date: 20151105
      */
-    public RestResponse<String> requestFTPFolder(String studyId){
+    public RestResponse<String> requestFtpFolder(String studyId){
 
         String jsonData = serializeObject("Request FTP Folder");
 
         String response = makePostRequest(STUDY_PATH + studyId +
-                "/files/requestFTPFolder", jsonData);
+                "/files/requestFtpFolder", jsonData);
 
         return deserializeJSONString(response, String.class);
     }
@@ -795,12 +795,12 @@ public class MetabolightsWsClient {
      * @author: jrmacias
      * @date: 20151105
      */
-    public RestResponse<String> moveFilesfromFTPFolder(String studyId, List<String> selFiles){
+    public RestResponse<String> moveFilesfromFtpFolder(String studyId, List<String> selFiles){
 
         String jsonData = serializeObject(selFiles);
 
         String response = makePostRequest(STUDY_PATH + studyId +
-                "/files/moveFilesfromFTPFolder", jsonData);
+                "/files/moveFilesfromFtpFolder", jsonData);
 
         return deserializeJSONString(response, String.class);
     }

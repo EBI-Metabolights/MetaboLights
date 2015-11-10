@@ -242,11 +242,6 @@ public class FileUtil {
 		return result.toString();
 	}
 
-
-	private static @Value("#{privateFTPRoot}") String privateFTPRoot;
-	private static @Value("#{privateFTPGroup}") String fileSystemGroup;
-	private static @Value("#{fileSystemUser}") String fileSystemUser;
-	private static @Value("#{privateFTPUser}") String privateFTPUser;
 	/**
 	 * Create a private FTP folder for uploading big study files
 	 *
@@ -256,14 +251,9 @@ public class FileUtil {
 	 * @date 20151102
 	 */
 	@PostConstruct
-	public static Path createFTPFolder(String folder) throws IOException {
+	public static Path createFtpFolder(String folder) throws IOException {
 
-		// TODO delete this
-		if(privateFTPRoot == null) privateFTPRoot = "/Users/jrmacias/Projects/Deploy-local/ebi/ftp/private/mtblight/private";
-		if(fileSystemUser == null) fileSystemUser = "jrmacias";	// tc_cm01
-		if(privateFTPUser == null) privateFTPUser = "jrmacias";	// mtblight
-		if(fileSystemGroup == null) fileSystemGroup = "staff";	// cheminf
-
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// /ebi/ftp/private/mtblight/private/
 
 		// create the folder
 		File ftpFolder = new File(privateFTPRoot + File.separator + folder);
@@ -272,11 +262,8 @@ public class FileUtil {
 
 		// set folder owner, group and access permissions
 		// 'chmod 770'
-		String ownerName = privateFTPUser;
-		String groupName = fileSystemGroup;
 		UserPrincipalLookupService lookupService = FileSystems.getDefault().getUserPrincipalLookupService();
 		Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
-
 		// owner permissions
 		perms.add(PosixFilePermission.OWNER_READ);
 		perms.add(PosixFilePermission.OWNER_WRITE);
@@ -285,14 +272,7 @@ public class FileUtil {
 		perms.add(PosixFilePermission.GROUP_READ);
 		perms.add(PosixFilePermission.GROUP_WRITE);
 		perms.add(PosixFilePermission.GROUP_EXECUTE);
-
-		// get the actual user and group from System
-		UserPrincipal owner = lookupService.lookupPrincipalByName(ownerName);
-		GroupPrincipal group = lookupService.lookupPrincipalByGroupName(groupName);
-
 		// apply changes
-		Files.getFileAttributeView(folderPath, PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS).setOwner(owner);
-		Files.getFileAttributeView(folderPath, PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS).setGroup(group);
 		Files.getFileAttributeView(folderPath, PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS).setPermissions(perms);
 
 		return folderPath;
@@ -309,10 +289,8 @@ public class FileUtil {
 	 * @date 20151104
      */
 	private static boolean moveFileFromFTP(String fileName, String ftpFolder, String studyFolder) {
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// /ebi/ftp/private/mtblight/private/
 		boolean result = false;
-
-		// TODO delete this
-		if(privateFTPRoot == null) privateFTPRoot = "/Users/jrmacias/Projects/Deploy-local/ebi/ftp/private/mtblight/private";
 
 		// move the file
 		Path filePath = Paths.get(
@@ -342,7 +320,7 @@ public class FileUtil {
 	 * @author jrmacias
 	 * @date 20151104
      */
-	public static String moveFilesFromPrivateFTP(List<String> fileNames, String ftpFolder, String studyFolder) {
+	public static String moveFilesFromPrivateFtpFolder(List<String> fileNames, String ftpFolder, String studyFolder) {
 
 		StringBuffer result = new StringBuffer();
 
