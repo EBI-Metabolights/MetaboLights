@@ -27,13 +27,9 @@ public class FactorValidations implements IValidationProcess {
         Validation basicValidation = getFactorNameValidation(study);
         factorValidations.add(basicValidation);
         if (basicValidation.getPassedRequirement()) {
-            Validation factorsInSamples = getFactorInSamplesValidation(study);
-            if (!factorsInSamples.getPassedRequirement()) {
-                factorValidations.add(factorsInSamples);
-            }
-            Validation factorsInAssays = getFactorInAssaysValidation(study);
-            if (!factorsInSamples.getPassedRequirement()) {
-                factorValidations.add(factorsInAssays);
+            Collection<Validation> factorsInSamplesAssays = getFactorsPresentInSamplesOrAssaysValidation(study);
+            if(!allPassed(factorsInSamplesAssays)){
+                factorValidations.addAll(factorsInSamplesAssays);
             }
         }
         return factorValidations;
@@ -57,27 +53,69 @@ public class FactorValidations implements IValidationProcess {
         return validation;
     }
 
-    public static Validation getFactorInSamplesValidation(Study study) {
-        Validation validation = new Validation(DescriptionConstants.FACTOR_IN_SAMPLES, Requirement.MANDATORY, Group.FACTORS);
-        if (!study.getFactors().isEmpty()) {
-            Map<String, Integer> map = getMatchingFactorIndices(study.getFactors(), study.getSampleTable().getFields());
-            if (getMissingFactorColumnsCount(map) > 0) {
-                validation.setPassedRequirement(false);
-                validation.setMessage(getMissingFactorsErrMsg(map, "Sample"));
-            } else {
-                List<String> emptyFactorColumns = getEmptyFactorColumns(map, study.getSampleTable().getData());
-                if (emptyFactorColumns.size() > 0) {
-                    validation.setPassedRequirement(false);
-                    validation.setMessage(getEmptyFactorColumnErrMsg(emptyFactorColumns, "Sample"));
-                }
+    public static Collection<Validation> getFactorsPresentInSamplesOrAssaysValidation(Study study) {
+        Collection<Validation> validations = new LinkedList<>();
+        Validation validation1 = new Validation(DescriptionConstants.FACTOR_IN_SAMPLES_ASSAYS, Requirement.MANDATORY, Group.FACTORS);
+        Validation validation2 = new Validation(DescriptionConstants.FACTOR_COLUMNS_SAMPLES_ASSAYS, Requirement.MANDATORY, Group.FACTORS);
 
-            }
+        Map<String, Integer> factorSampleMap = getMatchingFactorIndices(study.getFactors(), study.getSampleTable().getFields());
+        Map<Assay, Map<String, Integer>> factorAssayMap = assayThatHasAllfactors(study.getFactors(), study.getAssays());
+        boolean missingInSamples = someFactorsAreMissingIn(factorSampleMap);
+        boolean presentInAssays = isAtleastFullyPresentInOneAssay(factorAssayMap);
 
+        List<String> emptyFactorColumnsInSamples = new ArrayList<>();
+        Map<Assay, Map<String, Integer>> nonEmptyAssayFactorMap = new HashMap<>();
+
+
+        if (missingInSamples && !presentInAssays) {
+            validation1.setPassedRequirement(false);
+            validation1.setMessage(getMissingFactorsErrMsg(factorSampleMap, "Sample or Assay"));
+            validation1.setStatus();
+            validations.add(validation1);
+            return validations;
         }
-        validation.setStatus();
-        return validation;
+
+        nonEmptyAssayFactorMap = removeAssaysWithEmptyFactorColumns(factorAssayMap);
+
+        if (!missingInSamples) {
+            emptyFactorColumnsInSamples = getEmptyFactorColumns(factorSampleMap, study.getSampleTable().getData());
+            if (emptyFactorColumnsInSamples.size() != 0) {
+                if (!presentInAssays || (presentInAssays && nonEmptyAssayFactorMap.size() == 0)) {
+                    validation2.setPassedRequirement(false);
+                    validation2.setMessage("Empty Study Factor column(s) found in the Sample and Assay sheet(s)");
+                }
+            }
+        } else {
+            if (!presentInAssays || (presentInAssays && nonEmptyAssayFactorMap.size() == 0)) {
+                validation2.setPassedRequirement(false);
+                validation2.setMessage("Empty Study Factor column(s) found in the Sample and Assay sheet(s)");
+            }
+        }
+        validation1.setStatus();
+        validation2.setStatus();
+        validations.add(validation1);
+        validations.add(validation2);
+        return validations;
     }
 
+    private static boolean someFactorsAreMissingIn(Map<String, Integer> map) {
+        return (getMissingFactorColumnsCount(map) > 0);
+    }
+
+    private static Map<Assay, Map<String, Integer>> assayThatHasAllfactors(Collection<StudyFactor> factors, Collection<Assay> assays) {
+        Map<Assay, Map<String, Integer>> assayNumber_factorAssayMap = new HashMap<>();
+        for (Assay assay : assays) {
+            Map<String, Integer> factorAssayMap = getMatchingFactorIndices(factors, assay.getAssayTable().getFields());
+            if (!someFactorsAreMissingIn(factorAssayMap)) {
+                assayNumber_factorAssayMap.put(assay, factorAssayMap);
+            }
+        }
+        return assayNumber_factorAssayMap;
+    }
+
+    private static boolean isAtleastFullyPresentInOneAssay(Map<Assay, Map<String, Integer>> factorAssayMap) {
+        return factorAssayMap.size() > 0;
+    }
     private static int getMissingFactorColumnsCount(Map<String, Integer> map) {
         int count = 0;
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
@@ -109,7 +147,7 @@ public class FactorValidations implements IValidationProcess {
     }
 
     private static String getMissingFactorsErrMsg(Map<String, Integer> map, String type) {
-        String message = "The following Study Factor column(s) are are not present in the " + type + " sheet:";
+        String message = "The following Study Factor column(s) are not present in the " + type + " sheet:";
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             if (entry.getValue().intValue() == -1) {
                 message += " " + entry.getKey() + ";";
@@ -126,6 +164,17 @@ public class FactorValidations implements IValidationProcess {
             }
         }
         return emptyColumns;
+    }
+
+    private static Map<Assay, Map<String, Integer>> removeAssaysWithEmptyFactorColumns(Map<Assay, Map<String, Integer>> factorAssayMap) {
+        Map<Assay, Map<String, Integer>> factorAssayMapWithoutEmptyColumns = new HashMap<>();
+        for (Map.Entry<Assay, Map<String, Integer>> entry : factorAssayMap.entrySet()) {
+            List<String> emptyColumns = getEmptyFactorColumns(entry.getValue(), entry.getKey().getAssayTable().getData());
+            if (emptyColumns.size() == 0) {
+                factorAssayMapWithoutEmptyColumns.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return factorAssayMapWithoutEmptyColumns;
     }
 
     private static boolean thisColumnHasSomething(int columnIndex, List<List<String>> tableData) {
@@ -145,25 +194,14 @@ public class FactorValidations implements IValidationProcess {
         return message;
     }
 
-    public static Validation getFactorInAssaysValidation(Study study) {
-        Validation validation = new Validation(DescriptionConstants.FACTOR_IN_ASSAYS, Requirement.MANDATORY, Group.FACTORS);
-        if (!study.getFactors().isEmpty()) {
-            Map<String, Integer> map = getMatchingFactorIndices(study.getFactors(), study.getAssays().get(0).getAssayTable().getFields());
-            if (getMissingFactorColumnsCount(map) > 0) {
-                validation.setPassedRequirement(false);
-                validation.setMessage(getMissingFactorsErrMsg(map, "Assay"));
-            } else {
-                List<String> emptyFactorColumns = getEmptyFactorColumns(map, study.getAssays().get(0).getAssayTable().getData());
-                if (emptyFactorColumns.size() > 0) {
-                    validation.setPassedRequirement(false);
-                    validation.setMessage(getEmptyFactorColumnErrMsg(emptyFactorColumns, "Assay"));
-                }
-
+    private static boolean allPassed(Collection<Validation> validations) {
+        int pass = 0;
+        for (Validation v : validations) {
+            if (v.getPassedRequirement()) {
+                pass++;
             }
-
         }
-        validation.setStatus();
-        return validation;
+        return validations.size() == pass;
     }
 
 
