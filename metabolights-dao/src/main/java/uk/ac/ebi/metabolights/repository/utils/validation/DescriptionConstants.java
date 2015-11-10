@@ -17,6 +17,10 @@ public class DescriptionConstants {
     //FACTORS
     public static final String FACTOR_NAME= "Study Factors";
     public static final String FACTOR_TYPE = "Study Factor Type";
+    public static final String FACTOR_IN_SAMPLES= "No Study Factor columns present in Sample Definition sheet";
+    public static final String FACTOR_IN_ASSAYS= "No Study Factor columns present in Assay sheet(s)";
+    public static final String FACTOR_IN_SAMPLES_ASSAYS= "Study Factor columns present in Sample Definitions or Assay sheets";
+    public static final String FACTOR_COLUMNS_SAMPLES_ASSAYS= "Study Factor columns present in Sample Definitions or Assay sheets have no values assigned";
 
     //ORGANISM
     public static final String ORGANISM_NAME= "Organism name";
@@ -38,10 +42,11 @@ public class DescriptionConstants {
 
 
     public static final String ASSAYS = "Assay(s)";
+    public static final String ASSAYS_EMPTY_COLUMNS = "Missing Study Assay sheet columns";
     public static final String ASSAY_SAMPLE_NAMEMATCH = "Sample Name consistency check";
     public static final String ASSAY_PLATFORM = "Assay platform information";
     public static final String ASSAY_FILES = "Assay has raw files referenced";
-    public static final String ASSAY_FILES_IN_FILESYSTEM = "Assay referenced raw files are present in filesystem";
+    public static final String ASSAY_FILES_IN_FILESYSTEM = "Assay referenced raw files detection in filesystem";
     public static final String ASSAY_ALL_MAF_REFERENCE = "All Assays have Metabolite Assignment File (MAF) referenced";
     public static final String ASSAY_ATLEAST_SOME_MAF_REFERENCE = "At least one assay has Metabolite Assignment Files (MAFs) referenced";
 
@@ -50,6 +55,9 @@ public class DescriptionConstants {
 
 
     public static final String SAMPLES = "Sample(s)";
+    public static final String SAMPLES_EMPTY_COLUMNS = "Missing Study Sample Definition sheet columns";
+
+
     public static final String PUBLICATIONS = "Publication(s) associated with this Study";
     public static final String ISATAB_INVESTIGATION = "ISA-Tab investigation file check";
 

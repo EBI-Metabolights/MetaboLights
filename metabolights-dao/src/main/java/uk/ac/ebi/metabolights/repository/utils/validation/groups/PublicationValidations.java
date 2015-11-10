@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 
+import org.apache.commons.lang.math.NumberUtils;
 import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
@@ -55,6 +56,12 @@ public class PublicationValidations implements IValidationProcess{
                 if (publication.getPubmedId().isEmpty()) {
                     validation.setMessage("Study Pubmed ID is not provided");
                     validation.setPassedRequirement(false);
+                }
+                else{
+                    if(!NumberUtils.isNumber(publication.getPubmedId())){
+                        validation.setMessage("Study Pubmed ID is not valid");
+                        validation.setPassedRequirement(false);
+                    }
                 }
             }
         } else {
