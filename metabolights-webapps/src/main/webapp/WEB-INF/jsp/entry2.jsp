@@ -628,10 +628,71 @@
                         </sec:authorize>
                     </div>
                 </form>
+
+
+                <br/><br/>
+                <!-- private FTP files -->
+                <c:if test="${!study.publicStudy}">
+                    <fieldset class="box">
+                        <legend><span class="icon icon-generic" data-icon="D"/></span>&nbsp;<spring:message code="label.priavteFtpFolder"/></legend>
+
+                        <form id="selFtpFilesForm" action="${study.studyIdentifier}/files/moveFilesfromFtpFolder" method="post">
+                            <h5>
+
+                                <!--  Request FTP folder -->
+                                <c:if test="${!study.publicStudy}">
+                                    <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                        &nbsp;
+                                        <a class="noLine" rel="nofollow" href="${study.studyIdentifier}/files/requestFtpFolder" title="<spring:message code="label.requestFtpFolder"/>">
+                                            <span class="icon icon-functional" data-icon="D"/><spring:message code="label.requestFtpFolder"/>
+                                        </a>
+                                    </sec:authorize>
+                                </c:if>
+                                <!--  Request FTP folder -->
+
+                            </h5>
+
+                            <br/>
+                            <h5><spring:message code="label.ftpFileListTableExplanation"/></h5>
+                            <p><input class="inputDiscrete resizable" id="ftpFileSelector" class="" type="text" placeholder="<spring:message code='label.ftpFileList.Input.placeholder'/>"></p>
+                            <table id="privFtpFiles" class="clean">
+                                <tr>
+                                    <th>Select</th>
+                                    <th>File</th>
+                                </tr>
+                                <tbody>
+                                <c:forEach var="ftpFile" items="${ftpFiles}">
+                                    <tr>
+                                        <td><input type="checkbox" name="ftpFile" value="${ftpFile.name}"/></td>
+                                        <td>${ftpFile.name}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+
+                            <div style="position: relative; width: 100%;">
+                                <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                    <div style="float: left; padding: 10px;">
+                                        <input name="btnSubmit" type="submit" class="submit" value="<spring:message code="label.moveSelectedFiles"/>"/>
+                                    </div>
+                                </sec:authorize>
+                            </div>
+
+                                <%--Show instructions--%>
+                            <div class="ui-state-highlight ui-corner-all">
+                                <p><strong>Info:</strong><spring:message code="label.moveFileListTableInstructions"/></p>
+                            </div>
+                        </form>
+
+                    </fieldset>
+                </c:if>
+                <!-- private FTP files -->
+
             </div> <!--  ends tabs-files files -->
         </c:if>
-        <!-- TAB: Validations-->
 
+
+        <!-- TAB: Validations-->
         <div id="tabs-validations" class="tab">
             <c:if test="${not empty study.validations.entries}">
                 <table class="display clean" order="[ 1, 'asc' ]">

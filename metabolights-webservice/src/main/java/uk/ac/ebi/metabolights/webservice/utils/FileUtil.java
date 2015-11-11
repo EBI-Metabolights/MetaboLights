@@ -253,7 +253,7 @@ public class FileUtil {
 	@PostConstruct
 	public static Path createFtpFolder(String folder) throws IOException {
 
-		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// /ebi/ftp/private/mtblight/private/
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
 
 		// create the folder
 		File ftpFolder = new File(privateFTPRoot + File.separator + folder);
@@ -289,7 +289,7 @@ public class FileUtil {
 	 * @date 20151104
      */
 	private static boolean moveFileFromFTP(String fileName, String ftpFolder, String studyFolder) {
-		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// /ebi/ftp/private/mtblight/private/
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
 		boolean result = false;
 
 		// move the file
@@ -332,4 +332,10 @@ public class FileUtil {
 	}
 
 
+	public static File[] getFtpFolderList(String ftpFolder) {
+
+		File[] files = new File(ftpFolder).listFiles();
+
+		return files;
+	}
 }

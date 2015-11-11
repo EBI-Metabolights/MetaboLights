@@ -245,6 +245,8 @@ public class EntryController extends AbstractController {
 		// Things that don't come from the web service:
 		mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
 
+		mav.addObject("ftpFiles", new FileDispatcherController().getPrivateFtpFileList(study.getStudyIdentifier()));
+
 		return  mav;
 	}
 

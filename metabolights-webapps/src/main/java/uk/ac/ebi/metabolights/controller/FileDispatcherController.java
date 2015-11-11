@@ -42,10 +42,7 @@ import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Controller for dispatching study files .
@@ -403,8 +400,25 @@ public class FileDispatcherController extends AbstractController {
 	}
 
     /**
+     * Get a list of files from private FTP folder for a Study
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151110
+     */
+    public File[] getPrivateFtpFileList(String studyId) {
+
+        // Using the WebService-client to do the job
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+        return wsClient.getPrivateFtpFileList(studyId).getContent();
+    }
+
+    /**
      * Create a private FTP folder for a Study, so the user can upload big files using ftp.
-     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER)should be accessing this
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
      *
      * @param studyId the ID of the study
      * @author: jrmacias
@@ -419,7 +433,6 @@ public class FileDispatcherController extends AbstractController {
         // Using the WebService-client to do the job
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
         String rslt = wsClient.requestFtpFolder(studyId).getMessage();
-    //        String rslt = wsClient.requestFtpFolder(obfuscationCode).getMessage();
 
         // parse WS response for user feedback
         List<String> msg = new LinkedList<>();
@@ -433,7 +446,7 @@ public class FileDispatcherController extends AbstractController {
 
     /**
      * Move files from private FTP folder for a Study.
-     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER)should be accessing this
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
      *
      * @param studyId the ID of the study
      * @author: jrmacias

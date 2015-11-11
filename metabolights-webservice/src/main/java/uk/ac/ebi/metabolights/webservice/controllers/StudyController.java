@@ -24,7 +24,6 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -624,6 +623,46 @@ public class StudyController extends BasicController{
 
 		restResponse.setContent(true);
 		restResponse.setMessage(result);
+		return restResponse;
+	}
+
+
+	/**
+	 * Create a private FTP folder for a Study, so the user can upload big files using ftp.
+	 *
+	 * @param studyIdentifier
+	 * @return
+	 * @throws DAOException
+	 * @author jrmacias
+	 * @date 20151102
+	 */
+	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/privateFtpFolder/files")
+	@ResponseBody
+	public RestResponse<File[]> getPrivateFtpFileList(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
+
+		RestResponse<File[]> restResponse = new RestResponse<>();
+
+		User user = getUser();
+		String userToken = user.getApiToken();
+		Study study;
+		String obfuscationCode = "";
+		try {
+			study = getStudyDAO().getStudy(studyIdentifier,userToken);
+			obfuscationCode = study.getObfuscationCode();
+		} catch (IsaTabException e) {
+			e.printStackTrace();
+			restResponse.setErr(e);
+			return restResponse;
+		}
+		String userPart = user.getApiToken().split("-")[0];
+		String ftpFolder = userPart + "_" + obfuscationCode;
+
+		// read folder content
+		File[] files = FileUtil.getFtpFolderList(privateFTPRoot + File.separator + ftpFolder);
+		restResponse.setContent(files);
+
 		return restResponse;
 	}
 

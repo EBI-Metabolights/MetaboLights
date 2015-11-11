@@ -58,10 +58,7 @@ import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -803,5 +800,21 @@ public class MetabolightsWsClient {
                 "/files/moveFilesfromFtpFolder", jsonData);
 
         return deserializeJSONString(response, String.class);
+    }
+
+    /**
+     * Get a list of files from private FTP folder for a Study
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151110
+     */
+    public RestResponse<File[]> getPrivateFtpFileList(String studyId) {
+
+        String response = makeGetRequest(STUDY_PATH + studyId +
+                "/files/privateFtpFolder/files");
+
+        return deserializeJSONString(response, File[].class);
     }
 }
