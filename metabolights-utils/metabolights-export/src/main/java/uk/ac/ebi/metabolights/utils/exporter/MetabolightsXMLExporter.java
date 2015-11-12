@@ -20,8 +20,6 @@
 
 package uk.ac.ebi.metabolights.utils.exporter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
@@ -48,7 +46,6 @@ import java.util.List;
 
 public class MetabolightsXMLExporter {
 
-    private final static Logger logger = LoggerFactory.getLogger(MetabolightsXMLExporter.class.getName());
     private final static String STUDIES = "entries";
     private final static String FIELD = "field";
     private final static String REF = "ref";
@@ -146,14 +143,60 @@ public class MetabolightsXMLExporter {
         return response.getContent();
     }
 
+    private static boolean validateParams(String args[]){
+
+        // If there isn't any parameter
+        if (args == null || args.length == 0)
+            return false;
+
+        int paramLength = args.length;
+        if (paramLength < 4)
+            return false;
+
+        String s0 = args[0];
+        String s1 = args[1].toLowerCase();
+        String s2 = args[2].toLowerCase();
+        String s3 = args[3];
+
+        System.out.println("Params: " + s0 + ":" + s1 + ":" + s2 + ":" +s3);
+
+        if (s0 != null && (s0.equals("") || !s0.endsWith(".xml") || !s0.contains(File.separator))){
+            System.out.println("ERROR param 1: You must provide a fully qualified filename with extension '.xml'");
+            System.out.println("----");
+            return false;
+        }
+
+        if (s1 != null && ( !s1.matches("[yn]*")) ){
+            System.out.println("ERROR param 2: Yes or No are indicated by 'y', 'n', 'Y' or 'N'. Not sure what you mean by "+args[1]);
+            System.out.println("----");
+            return false;
+        }
+
+        if (s2 != null && ( !s2.matches("[yn]*")) ){
+            System.out.println("ERROR param 3: Yes or No are indicated by 'y', 'n', 'Y' or 'N'. Not sure what you mean by "+args[2]);
+            System.out.println("----");
+            return false;
+        }
+
+        if (s3 != null && (!s3.startsWith("http") || s3.equals(""))){
+            System.out.println("ERROR param 4: You must provide a fully qualified URL for the WebService, starting with 'http'. Not sure what you mean by "+args[3]);
+            System.out.println("----");
+            return false;
+        }
+
+        return true;
+
+    }
+
+
     public static void main(String[] args) throws Exception {
 
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the xml export file (Mandatory)");
-            System.out.println("    Parameter 2: Include metabolites in the export file (y/n) (Default n)");
-            System.out.println("    Parameter 3: Include detailed author information in the export file (y/n) (Default n)");
-            System.out.println("    Parameter 4: The URL of the Web Service (optional)");
+            System.out.println("    Parameter 2: Include metabolites in the export file (y/n)");
+            System.out.println("    Parameter 3: Include detailed author information in the export file (y/n)");
+            System.out.println("    Parameter 4: The URL of the MetaboLights Web Service");
             System.out.println();
         } else {
 
@@ -166,10 +209,10 @@ public class MetabolightsXMLExporter {
             if (args[2] != null && args[2].equalsIgnoreCase("y"))
                 detailedAuthors = true;
 
-            if (args[3] != null && args[3].startsWith("http"))
-                WSCLIENT_URL = args[3];     //Use the WS URL provided by the user
+                if (args[3] != null && args[3].startsWith("http"))
+                    WSCLIENT_URL = args[3];     //Use the WS URL provided by the user
 
-            logger.info("Using WS endpoint '" + WSCLIENT_URL + "'. Starting to export XML file '" +xmlFileName + "'");
+            System.out.println("Using WS endpoint '" + WSCLIENT_URL + "'. Starting to export XML file '" +xmlFileName + "'");
             writeFile(xmlFileName, includeCompounds, detailedAuthors, WSCLIENT_URL);
 
         }
@@ -197,7 +240,6 @@ public class MetabolightsXMLExporter {
             writeDocument(doc);
             return true;
         } catch (Exception e) {
-            logger.error("Could not create XML document "+fileName);
             System.out.println("Could not create XML document "+fileName);
             return false;
         }
@@ -214,7 +256,6 @@ public class MetabolightsXMLExporter {
 
             try {
                 System.out.println("Processing compound " + compoundAcc);
-                logger.info("Processing Compound " + compoundAcc);
 
                 //TODO, add ontologies
 
@@ -567,7 +608,6 @@ public class MetabolightsXMLExporter {
             try{
 
                 System.out.println("Processing study " + studyAcc);
-                logger.info("Processing study " + studyAcc);
 
                 //TODO, add ontologies
 
@@ -626,6 +666,9 @@ public class MetabolightsXMLExporter {
                         platformList.add(assay.getPlatform());
                         additionalField.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
                     }
+
+                    //TODO, MS: Autosampler model - Chromatography Instrument - Instrument
+                    //TODO, NMR: Autosampler model - Instrument
 
                 }
 
@@ -831,36 +874,6 @@ public class MetabolightsXMLExporter {
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
         transformer.transform(new DOMSource(xml), new StreamResult(new File(xmlFileName)));
-    }
-
-    private static boolean validateParams(String args[]){
-
-        // If there isn't any parameter
-        if (args == null || args.length == 0)
-            return false;
-
-        if (args[0] == null || args[0].equals("") || !args[0].endsWith(".xml") || !args[0].contains(File.separator)){
-            System.out.println("ERROR: You must provide a fully qualified filename with extension '.xml'");
-            System.out.println("----");
-            return false;
-        }
-
-        if (args[1] == null || args[1].contains("ynYN")){
-            System.out.println("ERROR: Yes or No are indicated by 'y', 'n', 'Y' or 'N'. Not sure what you mean by "+args[1]);
-            System.out.println("----");
-            return false;
-        }
-
-
-        if (args.length > 2)
-            if (!args[2].startsWith("http") || args[2].equals("")){
-                System.out.println("ERROR: You must provide a fully qualified URL for the WebService, starting with 'http'");
-                System.out.println("----");
-                return false;
-            }
-
-        return true;
-
     }
 
 }
