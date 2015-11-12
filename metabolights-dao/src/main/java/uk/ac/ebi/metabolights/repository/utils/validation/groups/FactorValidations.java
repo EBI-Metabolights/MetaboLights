@@ -28,7 +28,7 @@ public class FactorValidations implements IValidationProcess {
         factorValidations.add(basicValidation);
         if (basicValidation.getPassedRequirement()) {
             Collection<Validation> factorsInSamplesAssays = getFactorsPresentInSamplesOrAssaysValidation(study);
-            if(!allPassed(factorsInSamplesAssays)){
+            if(!Utilities.allPassed(factorsInSamplesAssays)){
                 factorValidations.addAll(factorsInSamplesAssays);
             }
         }
@@ -192,16 +192,6 @@ public class FactorValidations implements IValidationProcess {
             message += " " + s + ";";
         }
         return message;
-    }
-
-    private static boolean allPassed(Collection<Validation> validations) {
-        int pass = 0;
-        for (Validation v : validations) {
-            if (v.getPassedRequirement()) {
-                pass++;
-            }
-        }
-        return validations.size() == pass;
     }
 
 

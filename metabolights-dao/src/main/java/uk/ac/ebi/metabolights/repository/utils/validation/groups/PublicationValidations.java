@@ -16,7 +16,7 @@ import java.util.LinkedList;
  * Created by kalai on 18/09/15.
  */
 
-public class PublicationValidations implements IValidationProcess{
+public class PublicationValidations implements IValidationProcess {
 
     @Override
     public String getAbout() {
@@ -25,24 +25,62 @@ public class PublicationValidations implements IValidationProcess{
 
     public Collection<Validation> getValidations(Study study) {
         Collection<Validation> publicationValidations = new LinkedList<>();
-        publicationValidations.add(getPublicationTitleValidation(study));
-        publicationValidations.add(getPublicationPubmedIDValidation(study));
+
+        Validation validation = getPublicationValidation(study);
+
+        if (validation.getPassedRequirement()) {
+            Collection<Validation> validations = new LinkedList<>();
+            validations.add(getPublicationDOIValidation(study));
+            validations.add(getPublicationPubmedIDValidation(study));
+            Validation titlevalidation = getPublicationTitleValidation(study);
+            if (titlevalidation.getPassedRequirement()) {
+                int passedCount = Utilities.getPassedCount(validations);
+                if (passedCount == 0) {
+                    validations.addAll(validations);
+                    validations.add(titlevalidation);
+                    validation.setPassedRequirement(false);
+                    validation.setMessage("Study Publication(s) is missing information");
+                } else {
+                    for (Validation v : validations) {
+                        if (!v.getPassedRequirement()) {
+                            publicationValidations.add(v);
+                        }
+                    }
+                }
+            } else {
+                publicationValidations.addAll(validations);
+                publicationValidations.add(titlevalidation);
+                validation.setPassedRequirement(false);
+                validation.setMessage("Study Publication(s) is missing information");
+            }
+
+        }
+        validation.setStatus();
+        publicationValidations.add(validation);
         return publicationValidations;
+    }
+
+    public static Validation getPublicationValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PUBLICATIONS, Requirement.MANDATORY, Group.PUBLICATION);
+        if (study.getPublications().isEmpty()) {
+            validation.setMessage("Study Publications is empty");
+            validation.setPassedRequirement(false);
+        }
+        validation.setStatus();
+        return validation;
     }
 
 
     public static Validation getPublicationTitleValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.PUBLICATION_TITLE, Requirement.MANDATORY, Group.PUBLICATION);
-        if (!study.getPublications().isEmpty()) {
-            for (Publication publication : study.getPublications()) {
-                if (!Utilities.minCharRequirementPassed(publication.getTitle(), 15)) {
-                    validation.setMessage("Study Publication Title length is too short");
-                    validation.setPassedRequirement(false);
-                }
+        for (Publication publication : study.getPublications()) {
+            if (publication.getTitle().isEmpty()) {
+                validation.setMessage("Study Publication Title is not provided");
+                validation.setPassedRequirement(false);
+            } else if (!Utilities.minCharRequirementPassed(publication.getTitle(), 15)) {
+                validation.setMessage("Study Publication Title length is too short");
+                validation.setPassedRequirement(false);
             }
-        } else {
-            validation.setMessage("Study Publications is empty");
-            validation.setPassedRequirement(false);
         }
         validation.setStatus();
         return validation;
@@ -51,30 +89,32 @@ public class PublicationValidations implements IValidationProcess{
 
     public static Validation getPublicationPubmedIDValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.PUBLICATION_IDS, Requirement.OPTIONAL, Group.PUBLICATION);
-        if (!study.getPublications().isEmpty()) {
-            for (Publication publication : study.getPublications()) {
-                if (publication.getPubmedId().isEmpty()) {
-                    validation.setMessage("Study Pubmed ID is not provided");
+        for (Publication publication : study.getPublications()) {
+            if (publication.getPubmedId().isEmpty()) {
+                validation.setMessage("Study Pubmed ID is not provided");
+                validation.setPassedRequirement(false);
+            } else {
+                if (!NumberUtils.isNumber(publication.getPubmedId())) {
+                    validation.setMessage("Study Pubmed ID is not valid");
                     validation.setPassedRequirement(false);
                 }
-                else{
-                    if(!NumberUtils.isNumber(publication.getPubmedId())){
-                        validation.setMessage("Study Pubmed ID is not valid");
-                        validation.setPassedRequirement(false);
-                    }
-                }
             }
-        } else {
-            validation.setMessage("Study Publications is empty");
-            validation.setPassedRequirement(false);
         }
         validation.setStatus();
         return validation;
     }
 
-     /*
-    TODO PublicationAuthorValidation
-    */
+    public static Validation getPublicationDOIValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PUBLICATION_DOI, Requirement.OPTIONAL, Group.PUBLICATION);
+        for (Publication publication : study.getPublications()) {
+            if (publication.getDoi().isEmpty()) {
+                validation.setMessage("Study DOI is not provided");
+                validation.setPassedRequirement(false);
+            }
+        }
+        validation.setStatus();
+        return validation;
+    }
 
 
 }
