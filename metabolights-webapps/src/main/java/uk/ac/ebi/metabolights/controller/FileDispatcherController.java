@@ -424,10 +424,9 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151105
      */
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/files/requestFtpFolder")
-    public ModelAndView requestFtpFolder(@PathVariable("studyId") String studyId
-    //                                         , @RequestParam(value="token", defaultValue = "0") String obfuscationCode
-    ){
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/requestFtpFolder")
+    public ModelAndView requestFtpFolder(@PathVariable("studyId") String studyId) {
+
         logger.info("Requesting a private FTP folder for the study {}", studyId);
 
         // Using the WebService-client to do the job
@@ -452,10 +451,12 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151105
      */
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/files/moveFilesfromFtpFolder")
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/moveFilesfromFtpFolder",
+            method = RequestMethod.POST)
     public ModelAndView moveFilesfromFtpFolder(@PathVariable("studyId") String studyId,
-                                               @RequestParam("files") List<String> selectedFiles
-    ){
+                                               @RequestParam("files") List<String> selectedFiles,
+                                               HttpServletResponse response) {
+
         logger.info("Moving files from private FTP folder for the study {}", studyId);
 
         // Using the WebService-client to do the job
@@ -468,7 +469,52 @@ public class FileDispatcherController extends AbstractController {
         for (String line:str){
             msg.add(line);
         }
-
         return printMessage("Moving files from private FTP folder...", msg);
+    }
+
+    /**
+     *
+     * @param studyId
+     * @return
+     */
+    public boolean hasPrivateFtpFolder(String studyId) {
+
+        // Using the WebService-client to do the job
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+        return wsClient.hasPrivateFtpFolder(studyId);
+    }
+
+    /**
+     * Delete a series of files selected from the private FTP folder for a Study
+     * Requires confirmation.
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
+     *
+     * @param studyId the ID of the study
+     * @param obfuscationCode, the user credentials
+     * @param selectedFiles, the list of files to be deleted
+     * @param response
+     * @author: jrmacias
+     * @date: 20151012
+     */
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteSelFtpFiles",
+            method = RequestMethod.DELETE)
+    public ModelAndView deleteSelectedFtpFiles(@PathVariable("studyId") String studyId,
+                                            @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
+                                            @RequestParam("file") List<String> selectedFiles,
+                                            HttpServletResponse response){
+
+        // Using the WebService-client to actually delete the files
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+        String rslt = wsClient.deletePrivateFtpFiles(studyId, obfuscationCode, selectedFiles).getMessage();
+
+        // parse WS response for user feedback
+        List<String> msg = new LinkedList<>();
+        String[] str = rslt.split("\\|");
+        for (String line:str){
+            msg.add(line);
+        }
+
+        return printMessage("Deleting files from private FTP folder...", msg);
     }
 }

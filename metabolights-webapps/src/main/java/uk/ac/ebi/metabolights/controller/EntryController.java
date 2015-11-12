@@ -243,9 +243,12 @@ public class EntryController extends AbstractController {
 		mav.addObject("studyStatuses", LiteStudy.StudyStatus.values());
 
 		// Things that don't come from the web service:
-		mav.addObject("files", new FileDispatcherController().getStudyFileList(study.getStudyIdentifier()));
+		FileDispatcherController fdController = new FileDispatcherController();
 
-		mav.addObject("ftpFiles", new FileDispatcherController().getPrivateFtpFileList(study.getStudyIdentifier()));
+		mav.addObject("files", fdController.getStudyFileList(study.getStudyIdentifier()));
+
+		mav.addObject("ftpFiles", fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
+		mav.addObject("hasPrivateFtpFolder", fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
 
 		return  mav;
 	}

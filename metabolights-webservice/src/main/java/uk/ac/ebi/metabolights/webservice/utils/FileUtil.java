@@ -331,11 +331,32 @@ public class FileUtil {
 		return result.toString();
 	}
 
-
+	/**
+	 *
+	 * @param ftpFolder
+	 * @return
+     */
 	public static File[] getFtpFolderList(String ftpFolder) {
 
-		File[] files = new File(ftpFolder).listFiles();
+		File[] files = new File(ftpFolder).listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return !file.isHidden();
+			}
+		});
 
 		return files;
+	}
+
+	/**
+	 *
+	 * @param ftpFolder
+	 * @return
+     */
+	public static boolean getFtpFolder(String ftpFolder) {
+
+		File folder = new File(ftpFolder);
+
+		return folder.exists() && folder.isDirectory();
 	}
 }

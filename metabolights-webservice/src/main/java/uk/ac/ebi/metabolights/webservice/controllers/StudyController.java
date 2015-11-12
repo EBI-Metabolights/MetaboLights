@@ -500,6 +500,26 @@ public class StudyController extends BasicController{
 
 	}
 
+
+	/**
+	 * Get the obfuscation code of the study
+	 *
+	 * @param studyId
+	 * @param user
+	 * @return
+	 * @throws DAOException
+	 * @author jrmacias
+	 * @date 20151112
+	 */
+	private String getObfuscationCode(String studyId, User user)
+			throws DAOException, IsaTabException {
+
+		Study study = getStudyDAO().getStudy(studyId,user.getApiToken());
+		String obfuscationCode = study.getObfuscationCode();
+
+		return obfuscationCode;
+	}
+
 	/**
 	 * Create a private FTP folder for a Study, so the user can upload big files using ftp.
 	 *
@@ -512,42 +532,24 @@ public class StudyController extends BasicController{
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
 	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/requestFtpFolder")
 	@ResponseBody
-	public RestResponse<String> getStudyPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+	public RestResponse<String> createPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier)
+			throws DAOException, IOException, IsaTabException {
+
 		String privateFTPServer = PropertiesUtil.getProperty("privateFTPServer");	// ftp-private.ebi.ac.uk
 		String privateFTPUser = PropertiesUtil.getProperty("privateFTPUser");		// mtblight
 		String privateFTPPass = PropertiesUtil.getProperty("privateFTPPass");		// gs4qYabh
 		String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");	// ...
 
-		RestResponse<String> restResponse = new RestResponse<>();
-
 		User user = getUser();
-		String userToken = user.getApiToken();
-		Study study;
-		String obfuscationCode = "";
-		try {
-			study = getStudyDAO().getStudy(studyIdentifier,userToken);
-			obfuscationCode = study.getObfuscationCode();
-		} catch (IsaTabException e) {
-			e.printStackTrace();
-			restResponse.setErr(e);
-			return restResponse;
-		}
 		logger.info("[WS] User {0} has requested a private FTP folder for the study {1}", user.getUserName(),studyIdentifier);
 
 		// FTP folder is composed with part of the user identifier + the obfuscation code of the study
 		String userPart = user.getApiToken().split("-")[0];
-		String ftpFolder = userPart + "_" + obfuscationCode;
+		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
 
 		// create the folder
-		try {
-			FileUtil.createFtpFolder(ftpFolder);
-		} catch (IOException e) {
-			e.printStackTrace();
-			restResponse.setMessage("Error creating FTP folder.");
-			restResponse.setErr(e);
-			return restResponse;
-		}
-
+		FileUtil.createFtpFolder(ftpFolder);
+		RestResponse<String> restResponse = new RestResponse<>();
 		restResponse.setContent("Private FTP folder for Study.");
 		restResponse.setMessage("Your requested FTP folder is being created. Details for access will be mailed to you shortly.");
 
@@ -590,37 +592,19 @@ public class StudyController extends BasicController{
 	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/moveFilesfromFtpFolder", method= RequestMethod.POST)
 	@ResponseBody
 	public RestResponse<Boolean> moveFilesFromPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier,
-															   @RequestBody List<String> fileNames) throws DAOException {
-
-		RestResponse<Boolean> restResponse = new RestResponse<>();
+															   @RequestBody List<String> fileNames)
+			throws DAOException, IsaTabException {
 
 		// get the study folder
-		Study study;
-		String studyFolder = "";
-		String obfuscationCode = "";
 		User user = getUser();
 		String userPart = user.getApiToken().split("-")[0];
-		studyDAO = getStudyDAO();
-		try {
-			study = getStudyDAO().getStudy(studyIdentifier,user.getApiToken());
-			obfuscationCode = study.getObfuscationCode();
-			studyFolder = study.getStudyLocation();
-		} catch (DAOException ex) {
-			logger.error("Can't get the study", ex);
-			restResponse.setMessage("Can't get the study requested.");
-			restResponse.setErr(ex);
-			return restResponse;
-		} catch (IsaTabException ex) {
-			logger.error("Can't get the study", ex);
-			restResponse.setMessage("Can't get the study requested.");
-			restResponse.setErr(ex);
-			return restResponse;
-		}
-		String ftpFolder = userPart + "_" + obfuscationCode;
+		Study study = getStudyDAO().getStudy(studyIdentifier,user.getApiToken());
+		String studyFolder = study.getStudyLocation();
+		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
 
 		// move the files
 		String result = FileUtil.moveFilesFromPrivateFtpFolder(fileNames, ftpFolder, studyFolder);
-
+		RestResponse<Boolean> restResponse = new RestResponse<>();
 		restResponse.setContent(true);
 		restResponse.setMessage(result);
 		return restResponse;
@@ -628,7 +612,35 @@ public class StudyController extends BasicController{
 
 
 	/**
-	 * Create a private FTP folder for a Study, so the user can upload big files using ftp.
+	 * Check if a Study has a private FTP folder
+	 *
+	 * @param studyIdentifier
+	 * @return
+	 * @throws DAOException
+	 * @author jrmacias
+	 * @date 20151112
+     */
+	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/privateFtpFolder")
+	@ResponseBody
+	public RestResponse<Boolean> hasPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier)
+			throws DAOException, IsaTabException {
+
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
+
+		User user = getUser();
+		String userPart = user.getApiToken().split("-")[0];
+		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
+
+		boolean rslt = FileUtil.getFtpFolder(privateFTPRoot + File.separator + ftpFolder);
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		restResponse.setContent(rslt);
+		restResponse.setMessage(rslt?ftpFolder:"");
+		return restResponse;
+	}
+
+	/**
+	 * Get a list of files in the private FTP folder of a Study
 	 *
 	 * @param studyIdentifier
 	 * @return
@@ -637,33 +649,62 @@ public class StudyController extends BasicController{
 	 * @date 20151102
 	 */
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
-	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/privateFtpFolder/files")
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/privateFtpFolder/list")
 	@ResponseBody
-	public RestResponse<File[]> getPrivateFtpFileList(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+	public RestResponse<File[]> getPrivateFtpFileList(@PathVariable("studyIdentifier") String studyIdentifier)
+			throws DAOException, IsaTabException {
+
 		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
 
-		RestResponse<File[]> restResponse = new RestResponse<>();
-
 		User user = getUser();
-		String userToken = user.getApiToken();
-		Study study;
-		String obfuscationCode = "";
-		try {
-			study = getStudyDAO().getStudy(studyIdentifier,userToken);
-			obfuscationCode = study.getObfuscationCode();
-		} catch (IsaTabException e) {
-			e.printStackTrace();
-			restResponse.setErr(e);
-			return restResponse;
-		}
 		String userPart = user.getApiToken().split("-")[0];
-		String ftpFolder = userPart + "_" + obfuscationCode;
+		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
 
 		// read folder content
 		File[] files = FileUtil.getFtpFolderList(privateFTPRoot + File.separator + ftpFolder);
+		RestResponse<File[]> restResponse = new RestResponse<>();
 		restResponse.setContent(files);
+		restResponse.setMessage("List of files in your private FTP folder");
 
 		return restResponse;
+	}
+
+	/**
+	 * To update the status of a study.
+	 * @param studyIdentifier
+	 * @return
+	 */
+	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/deleteFilesfromFtpFolder", method= RequestMethod.DELETE)
+	@ResponseBody
+	public RestResponse<Boolean> deleteFilesFromPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier,
+																 @RequestBody List<String> fileNames)
+			throws DAOException, IsaTabException, IndexingFailureException, IOException {
+
+		User user = getUser();
+		logger.info("User {} requested to delete files from study {} private FTP folder.", user.getFullName(), studyIdentifier);
+
+		// look for the private FTP folder
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
+		String userPart = user.getApiToken().split("-")[0];
+		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
+
+
+		// compose full file pathnames
+		List<String> filePaths = new LinkedList<>();
+		for (String filename:fileNames){
+			filePaths.add(privateFTPRoot + File.separator + ftpFolder + File.separator + filename);
+		}
+
+		// delete the files
+		String result = FileUtil.deleteFiles(filePaths);
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		restResponse.setContent(true);
+		restResponse.setMessage(result);
+		return restResponse;
+
+
 	}
 
 }

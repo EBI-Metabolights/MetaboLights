@@ -149,6 +149,34 @@
 
         });
 
+        $("input#ftpFileSelector").bind("keypress keyup", function(e) {
+
+            var code = e.keyCode || e.which;
+
+            if (code == 13){
+
+                var value = e.target.value;
+
+                var checked = true;
+
+                if(value[0] == "!"){
+                    checked = false;
+                    value = value.substr(1);
+                }
+
+                if (value != ""){
+                    $("input[name='ftpFile'][value*='" + value + "']").attr("checked", checked)
+                }
+
+                e.target.select();
+
+                e.preventDefault();
+
+
+            }
+
+        });
+
 
         $( "#tabs" ).tabs({
             "activate": function(event , ui) {
@@ -636,11 +664,10 @@
                     <fieldset class="box">
                         <legend><span class="icon icon-generic" data-icon="D"/></span>&nbsp;<spring:message code="label.priavteFtpFolder"/></legend>
 
-                        <form id="selFtpFilesForm" action="${study.studyIdentifier}/files/moveFilesfromFtpFolder" method="post">
+                        <form id="selFtpFilesForm" action="">
                             <h5>
-
                                 <!--  Request FTP folder -->
-                                <c:if test="${!study.publicStudy}">
+                                <c:if test="${!hasPrivateFtpFolder}">
                                     <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
                                         &nbsp;
                                         <a class="noLine" rel="nofollow" href="${study.studyIdentifier}/files/requestFtpFolder" title="<spring:message code="label.requestFtpFolder"/>">
@@ -649,10 +676,10 @@
                                     </sec:authorize>
                                 </c:if>
                                 <!--  Request FTP folder -->
-
                             </h5>
 
                             <br/>
+                            <c:if test="${hasPrivateFtpFolder}">
                             <h5><spring:message code="label.ftpFileListTableExplanation"/></h5>
                             <p><input class="inputDiscrete resizable" id="ftpFileSelector" class="" type="text" placeholder="<spring:message code='label.ftpFileList.Input.placeholder'/>"></p>
                             <table id="privFtpFiles" class="clean">
@@ -673,7 +700,12 @@
                             <div style="position: relative; width: 100%;">
                                 <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
                                     <div style="float: left; padding: 10px;">
-                                        <input name="btnSubmit" type="submit" class="submit" value="<spring:message code="label.moveSelectedFiles"/>"/>
+                                        <input id="moveFtpSelFiles" name="moveFtpSelFiles" type="button" class="submit cancel" value="<spring:message code="label.moveSelectedFiles"/>"
+                                               confirmationText="This will move all selected files from your private FTP folder to the Study folder." onclick="return confirmDeleteFtpFiles(this);"/>
+                                    </div>
+                                    <div style="float: right; padding: 10px;">
+                                        <input id="deleteFtpSelFiles" name="deleteFtpSelFiles" type="button" class="submit cancel" value="<spring:message code="label.deleteFtpSelFiles"/>"
+                                               confirmationText="This will delete all selected files from the system, no way back!." onclick="return confirmDeleteFtpFiles(this);"/>
                                     </div>
                                 </sec:authorize>
                             </div>
@@ -682,6 +714,7 @@
                             <div class="ui-state-highlight ui-corner-all">
                                 <p><strong>Info:</strong><spring:message code="label.moveFileListTableInstructions"/></p>
                             </div>
+                            </c:if>
                         </form>
 
                     </fieldset>
@@ -778,6 +811,65 @@
 //       $(dialog).dialog("open");
 
                 return false;
+            }
+
+            function moveFtpSelFiles(element){
+                var dialog = $("#confirmaction");
+
+                // Fill dialog
+                var text = $(element).attr("confirmationText");
+
+                dialog.text(text);
+
+                $(dialog).dialog({
+                    modal: true,
+                    buttons : {
+                        "Confirm" : function() {
+
+                            var frm = element.form;
+                            // change action for moving files
+                            frm.action = "${study.studyIdentifier}/files/moveFilesfromFtpFolder";
+                            frm.method ="post";
+                            frm.submit();
+
+                        },
+                        "Cancel" : function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+
+                return false;
+            }
+
+            function confirmDeleteFtpFiles(element){
+                var dialog = $("#confirmaction");
+
+                // Fill dialog
+                var text = $(element).attr("confirmationText");
+
+                dialog.text(text);
+
+                $(dialog).dialog({
+                    modal: true,
+                    buttons : {
+                        "Confirm" : function() {
+
+                            var frm = element.form;
+                            // change action for deleting files
+                            frm.action = "${study.studyIdentifier}/files/deleteSelFtpFiles";
+                            frm.method ="delete";
+                            frm.submit();
+
+                        },
+                        "Cancel" : function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+
+                return false;
+
             }
         </script>
 

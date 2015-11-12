@@ -210,6 +210,8 @@ public class MetabolightsWsClient {
 
     private String makeDeleteRequest(String path) {return makeRequestSendingData(path, null,"DELETE");
     }
+    private String makeDeleteRequest(String path, Object data) {return makeRequestSendingData(path, data,"DELETE");
+    }
 
     private String makeGetRequest(String path) {
         return makeRequest(path, "GET");
@@ -813,8 +815,38 @@ public class MetabolightsWsClient {
     public RestResponse<File[]> getPrivateFtpFileList(String studyId) {
 
         String response = makeGetRequest(STUDY_PATH + studyId +
-                "/files/privateFtpFolder/files");
+                "/files/privateFtpFolder/list");
 
         return deserializeJSONString(response, File[].class);
+    }
+
+    /**
+     *
+     * @param studyId
+     * @return
+     */
+    public boolean hasPrivateFtpFolder(String studyId) {
+
+        boolean response = deserializeJSONString(makeGetRequest(STUDY_PATH + studyId +
+                "/files/privateFtpFolder"), Boolean.class).getContent();
+
+        return response;
+    }
+
+    /**
+     *
+     * @param studyId
+     * @param obfuscationCode
+     * @param selectedFiles
+     * @return
+     */
+    public RestResponse<String> deletePrivateFtpFiles(String studyId, String obfuscationCode, List<String> selectedFiles) {
+
+        logger.info("Deleting files from study {} private FTP, by user request.", studyId);
+
+        String response = makeDeleteRequest(STUDY_PATH + studyId +
+                "/files/deleteFilesfromFtpFolder", selectedFiles);
+
+        return deserializeJSONString(response, String.class);
     }
 }
