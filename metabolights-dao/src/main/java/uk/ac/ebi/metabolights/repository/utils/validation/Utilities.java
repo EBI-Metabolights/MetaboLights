@@ -174,4 +174,26 @@ public class Utilities {
         return message;
     }
 
+    public static boolean allPassed(Collection<Validation> validations) {
+        int pass = 0;
+        for (Validation v : validations) {
+            if (v.getPassedRequirement()) {
+                pass++;
+            }
+        }
+        return validations.size() == pass;
+    }
+
+    public static int getPassedCount(Collection<Validation> validations) {
+        int pass = 0;
+        for (Validation v : validations) {
+            if (v.getPassedRequirement()) {
+                pass++;
+            }
+        }
+        return pass;
+    }
+
+
+
 }

@@ -28,10 +28,11 @@ public class DescriptionConstants {
 
 
     //PUBLICATIONS
-
+    public static final String PUBLICATIONS = "Publication(s) associated with this Study";
     public static final String PUBLICATION_TITLE = "Publication Title";
     public static final String PUBLICATION_AUTHORS = "Authors of Publication";
-    public static final String PUBLICATION_IDS  = "Publication IDs";
+    public static final String PUBLICATION_DOI  = "Publication DOI";
+    public static final String PUBLICATION_IDS  = "Publication PubMed IDs";
 
 
     public static final String STUDY_FACTORS = "Study factors used in the experiment";
@@ -58,7 +59,6 @@ public class DescriptionConstants {
     public static final String SAMPLES_EMPTY_COLUMNS = "Missing Study Sample Definition sheet columns";
 
 
-    public static final String PUBLICATIONS = "Publication(s) associated with this Study";
     public static final String ISATAB_INVESTIGATION = "ISA-Tab investigation file check";
 
 
