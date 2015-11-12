@@ -36,8 +36,8 @@ public class PublicationValidations implements IValidationProcess {
             if (titlevalidation.getPassedRequirement()) {
                 int passedCount = Utilities.getPassedCount(validations);
                 if (passedCount == 0) {
-                    validations.addAll(validations);
-                    validations.add(titlevalidation);
+                    publicationValidations.addAll(validations);
+                    publicationValidations.add(titlevalidation);
                     validation.setPassedRequirement(false);
                     validation.setMessage("Study Publication(s) is missing information");
                 } else {
