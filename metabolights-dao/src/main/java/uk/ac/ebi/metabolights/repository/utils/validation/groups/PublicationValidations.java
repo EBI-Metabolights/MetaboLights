@@ -57,7 +57,7 @@ public class PublicationValidations implements IValidationProcess {
     public static Validation getPublicationValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.PUBLICATIONS, Requirement.MANDATORY, Group.PUBLICATION);
         if (study.getPublications().isEmpty()) {
-            validation.setMessage("Study Publications is empty");
+            validation.setMessage("Study Publication is missing");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
