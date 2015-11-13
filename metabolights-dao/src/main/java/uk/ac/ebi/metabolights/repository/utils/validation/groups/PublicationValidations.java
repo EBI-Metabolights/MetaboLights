@@ -40,12 +40,6 @@ public class PublicationValidations implements IValidationProcess {
                     publicationValidations.add(titlevalidation);
                     validation.setPassedRequirement(false);
                     validation.setMessage("Study Publication(s) is missing information");
-                } else {
-                    for (Validation v : validations) {
-                        if (!v.getPassedRequirement()) {
-                            publicationValidations.add(v);
-                        }
-                    }
                 }
             } else {
                 publicationValidations.addAll(validations);
