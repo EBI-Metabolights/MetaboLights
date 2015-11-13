@@ -1,7 +1,7 @@
 #!/bin/sh
-export ML="/Users/venkata/Development/Metabolights"
-export DEPLOY="-DskipTests=true"
-#export DEPLOY="deploy -DskipTests=true"
+export ML="/Users/`whoami`/Development/metabolights"
+#export DEPLOY="install -DskipTests=true"
+export DEPLOY=" deploy -DskipTests=true"
 export MVNOPTS=""
 #export MVNOPTS="--offline"
 cd $ML
@@ -29,17 +29,10 @@ cd ../metabolights-ws-client
 mvn $MVNOPTS clean install $DEPLOY
 cd ../metabolights-webapps
 mvn $MVNOPTS compile war:inplace war:war
-
-#Deploy to Development
-#cp $ML/metabolights-webapps/target/metabolights-webapp-*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-dev.war
-#cp $ML/metabolights-webservice/target/metabolights-webservice*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webservice-dev.war
-
+cp $ML/metabolights-webapps/target/metabolights-webapp-*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-dev.war
+cp $ML/metabolights-webservice/target/metabolights-webservice*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webservice-dev.war
 cd ..
-#Deploy to Test
-#scp metabolights-webapps/target/metabolights-webapp-*.war ebi-003:/nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-test.war
-#scp metabolights-webservice/target/metabolights-webservice-*.war ebi-003:/nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webservice-test.war
-
-#ls -Fla /nfs/public/rw/homes/tc_cm01/metabolights/deploy/
+ls -Fla /nfs/public/rw/homes/tc_cm01/metabolights/deploy/
 
 echo "to deploy:"
 echo "    PROD"
