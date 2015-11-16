@@ -247,8 +247,10 @@ public class EntryController extends AbstractController {
 
 		mav.addObject("files", fdController.getStudyFileList(study.getStudyIdentifier()));
 
-		mav.addObject("ftpFiles", fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
-		mav.addObject("hasPrivateFtpFolder", fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
+		if(!study.isPublicStudy()) {
+			mav.addObject("ftpFiles", fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
+			mav.addObject("hasPrivateFtpFolder", fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
+		}
 
 		return  mav;
 	}

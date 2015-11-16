@@ -28,10 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.utils.FileUtil;
@@ -454,7 +451,7 @@ public class FileDispatcherController extends AbstractController {
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/moveFilesfromFtpFolder",
             method = RequestMethod.POST)
     public ModelAndView moveFilesfromFtpFolder(@PathVariable("studyId") String studyId,
-                                               @RequestParam("files") List<String> selectedFiles,
+                                               @RequestParam("ftpFile") List<String> selectedFiles,
                                                HttpServletResponse response) {
 
         logger.info("Moving files from private FTP folder for the study {}", studyId);
@@ -491,22 +488,20 @@ public class FileDispatcherController extends AbstractController {
      * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
      *
      * @param studyId the ID of the study
-     * @param obfuscationCode, the user credentials
      * @param selectedFiles, the list of files to be deleted
      * @param response
      * @author: jrmacias
      * @date: 20151012
      */
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteSelFtpFiles",
-            method = RequestMethod.DELETE)
+            method = RequestMethod.POST)
     public ModelAndView deleteSelectedFtpFiles(@PathVariable("studyId") String studyId,
-                                            @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
-                                            @RequestParam("file") List<String> selectedFiles,
+                                            @RequestParam("ftpFile") List<String> selectedFiles,
                                             HttpServletResponse response){
 
         // Using the WebService-client to actually delete the files
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        String rslt = wsClient.deletePrivateFtpFiles(studyId, obfuscationCode, selectedFiles).getMessage();
+        String rslt = wsClient.deletePrivateFtpFiles(studyId, selectedFiles).getMessage();
 
         // parse WS response for user feedback
         List<String> msg = new LinkedList<>();

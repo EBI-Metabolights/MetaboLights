@@ -425,6 +425,7 @@ public class StudyController extends BasicController{
 
 
 	/**
+	 * Delete a file from the Study folder
 	 *
 	 * @param studyIdentifier
 	 * @param fileNames
@@ -569,6 +570,7 @@ public class StudyController extends BasicController{
 				.append('\n')
 				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
 				.append("\"").append("<b>").append("cd ").append("/private/").append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
+				// TODO Add the actual link to a help doc
 				.append(" More extensive instructions can be found here: ").append(linkFTPUploadDoc)
 				.append('\n').append('\n')
 				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
@@ -670,12 +672,15 @@ public class StudyController extends BasicController{
 	}
 
 	/**
-	 * To update the status of a study.
+	 * Delete a list of files from the private FTP folder of the study
+	 *
 	 * @param studyIdentifier
 	 * @return
+	 * @author jrmacias
+	 * @date 20151112
 	 */
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
-	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/deleteFilesfromFtpFolder", method= RequestMethod.DELETE)
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/deleteFilesfromFtpFolder", method= RequestMethod.POST)
 	@ResponseBody
 	public RestResponse<Boolean> deleteFilesFromPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier,
 																 @RequestBody List<String> fileNames)

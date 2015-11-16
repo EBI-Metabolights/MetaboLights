@@ -821,6 +821,7 @@ public class MetabolightsWsClient {
     }
 
     /**
+     * Check if a Study has a private FTP folder
      *
      * @param studyId
      * @return
@@ -834,17 +835,17 @@ public class MetabolightsWsClient {
     }
 
     /**
+     * Delete a list of files from the private FTP folder of the study
      *
      * @param studyId
-     * @param obfuscationCode
      * @param selectedFiles
      * @return
      */
-    public RestResponse<String> deletePrivateFtpFiles(String studyId, String obfuscationCode, List<String> selectedFiles) {
+    public RestResponse<String> deletePrivateFtpFiles(String studyId, List<String> selectedFiles) {
 
         logger.info("Deleting files from study {} private FTP, by user request.", studyId);
 
-        String response = makeDeleteRequest(STUDY_PATH + studyId +
+        String response = makePostRequest(STUDY_PATH + studyId +
                 "/files/deleteFilesfromFtpFolder", selectedFiles);
 
         return deserializeJSONString(response, String.class);

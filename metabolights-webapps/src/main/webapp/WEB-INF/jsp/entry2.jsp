@@ -149,33 +149,7 @@
 
         });
 
-        $("input#ftpFileSelector").bind("keypress keyup", function(e) {
 
-            var code = e.keyCode || e.which;
-
-            if (code == 13){
-
-                var value = e.target.value;
-
-                var checked = true;
-
-                if(value[0] == "!"){
-                    checked = false;
-                    value = value.substr(1);
-                }
-
-                if (value != ""){
-                    $("input[name='ftpFile'][value*='" + value + "']").attr("checked", checked)
-                }
-
-                e.target.select();
-
-                e.preventDefault();
-
-
-            }
-
-        });
 
 
         $( "#tabs" ).tabs({
@@ -595,6 +569,17 @@
             <div id="tabs-files" class="tab"> <!-- Study files -->
                 <form id="selFilesForm" action="${study.studyIdentifier}/files/downloadSelFiles" method="post">
                     <h5>
+                        <!--  Request FTP folder -->
+                        <c:if test="${!study.publicStudy and !hasPrivateFtpFolder}">
+                            <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                &nbsp;
+                                <a class="noLine" rel="nofollow" href="${study.studyIdentifier}/files/requestFtpFolder" title="<spring:message code="label.requestFtpFolder"/>">
+                                    <span class="icon icon-functional" data-icon="D"/><spring:message code="label.requestFtpFolder"/>
+                                </a>
+                            </sec:authorize>
+                            &nbsp;|&nbsp;
+                        </c:if>
+                        <!--  Request FTP folder -->
                         <a class="noLine" rel="nofollow" href="${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
                             <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
                         </a>
@@ -660,64 +645,60 @@
 
                 <br/><br/>
                 <!-- private FTP files -->
-                <c:if test="${!study.publicStudy}">
-                    <fieldset class="box">
-                        <legend><span class="icon icon-generic" data-icon="D"/></span>&nbsp;<spring:message code="label.priavteFtpFolder"/></legend>
-
-                        <form id="selFtpFilesForm" action="">
-                            <h5>
-                                <!--  Request FTP folder -->
-                                <c:if test="${!hasPrivateFtpFolder}">
-                                    <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
-                                        &nbsp;
-                                        <a class="noLine" rel="nofollow" href="${study.studyIdentifier}/files/requestFtpFolder" title="<spring:message code="label.requestFtpFolder"/>">
-                                            <span class="icon icon-functional" data-icon="D"/><spring:message code="label.requestFtpFolder"/>
-                                        </a>
-                                    </sec:authorize>
-                                </c:if>
-                                <!--  Request FTP folder -->
-                            </h5>
-
-                            <br/>
-                            <c:if test="${hasPrivateFtpFolder}">
+                <c:if test="${!study.publicStudy and hasPrivateFtpFolder}">
+                    <div class="accordion">
+                        <h5 class="ftpFolder"><span class="icon icon-generic" data-icon="D"/></span>&nbsp;<spring:message code="label.priavteFtpFolder"/></h5>
+                        <div>
                             <h5><spring:message code="label.ftpFileListTableExplanation"/></h5>
-                            <p><input class="inputDiscrete resizable" id="ftpFileSelector" class="" type="text" placeholder="<spring:message code='label.ftpFileList.Input.placeholder'/>"></p>
-                            <table id="privFtpFiles" class="clean">
-                                <tr>
-                                    <th>Select</th>
-                                    <th>File</th>
-                                </tr>
-                                <tbody>
-                                <c:forEach var="ftpFile" items="${ftpFiles}">
-                                    <tr>
-                                        <td><input type="checkbox" name="ftpFile" value="${ftpFile.name}"/></td>
-                                        <td>${ftpFile.name}</td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
+                            <c:if test="${empty ftpFiles}">&emsp;&emsp;[EMPTY]</c:if>
 
-                            <div style="position: relative; width: 100%;">
-                                <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
-                                    <div style="float: left; padding: 10px;">
-                                        <input id="moveFtpSelFiles" name="moveFtpSelFiles" type="button" class="submit cancel" value="<spring:message code="label.moveSelectedFiles"/>"
-                                               confirmationText="This will move all selected files from your private FTP folder to the Study folder." onclick="return confirmDeleteFtpFiles(this);"/>
-                                    </div>
-                                    <div style="float: right; padding: 10px;">
-                                        <input id="deleteFtpSelFiles" name="deleteFtpSelFiles" type="button" class="submit cancel" value="<spring:message code="label.deleteFtpSelFiles"/>"
-                                               confirmationText="This will delete all selected files from the system, no way back!." onclick="return confirmDeleteFtpFiles(this);"/>
-                                    </div>
-                                </sec:authorize>
-                            </div>
+                            <c:if test="${!empty ftpFiles}">
+                                <form id="selFtpFilesForm" action="${study.studyIdentifier}/files/moveFilesfromFtpFolder" method="post">
 
-                                <%--Show instructions--%>
-                            <div class="ui-state-highlight ui-corner-all">
-                                <p><strong>Info:</strong><spring:message code="label.moveFileListTableInstructions"/></p>
-                            </div>
+                                    <!-- <p><input class="inputDiscrete resizable" id="ftpFileSelector" class="" type="text" placeholder="<spring:message code='label.ftpFileList.Input.placeholder'/>"></p> -->
+
+                                   <table id="privFtpFiles" class="ftpFiles clean">
+                                        <tr>
+                                            <th>Select</th>
+                                            <th>File</th>
+                                        </tr>
+                                        <tbody>
+                                        <c:forEach var="ftpFile" items="${ftpFiles}">
+                                            <tr>
+                                                <td><input type="checkbox" name="ftpFile" value="${ftpFile.name}"/></td>
+                                                <td>
+                                                   ${ftpFile.name}
+                                                </td>
+
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+
+                                    <div style="position: relative; width: 100%;">
+                                        <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                            <div style="float: left; padding: 10px;">
+                                                <input name="moveFtpSelFilesBtn" type="button" class="submit" value="<spring:message code="label.moveSelectedFiles"/>"
+                                                       onclick="form.submit();" />
+                                            </div>
+                                            <div style="float: right; padding: 10px;">
+                                                <input id="deleteFtpSelFilesBtn" name="deleteFtpSelFilesBtn" type="button" class="submit cancel" value="<spring:message code="label.deleteFtpSelFiles"/>"
+                                                       confirmationText="This will delete all selected files from the system, no way back!." onclick="return confirmDeleteFtpFiles(this);"/>
+                                            </div>
+                                        </sec:authorize>
+                                    </div>
+
+                                        <%--Show instructions--%>
+                                    <div class="ui-state-highlight ui-corner-all">
+                                        <p><strong>Info:</strong><spring:message code="label.moveFileListTableInstructions"/></p>
+                                    </div>
+                                </form>
                             </c:if>
-                        </form>
+                        </div>
 
-                    </fieldset>
+
+
+                    </div>
                 </c:if>
                 <!-- private FTP files -->
 
@@ -813,35 +794,6 @@
                 return false;
             }
 
-            function moveFtpSelFiles(element){
-                var dialog = $("#confirmaction");
-
-                // Fill dialog
-                var text = $(element).attr("confirmationText");
-
-                dialog.text(text);
-
-                $(dialog).dialog({
-                    modal: true,
-                    buttons : {
-                        "Confirm" : function() {
-
-                            var frm = element.form;
-                            // change action for moving files
-                            frm.action = "${study.studyIdentifier}/files/moveFilesfromFtpFolder";
-                            frm.method ="post";
-                            frm.submit();
-
-                        },
-                        "Cancel" : function() {
-                            $(this).dialog("close");
-                        }
-                    }
-                });
-
-                return false;
-            }
-
             function confirmDeleteFtpFiles(element){
                 var dialog = $("#confirmaction");
 
@@ -858,9 +810,13 @@
                             var frm = element.form;
                             // change action for deleting files
                             frm.action = "${study.studyIdentifier}/files/deleteSelFtpFiles";
-                            frm.method ="delete";
+                            frm.method ="post";
                             frm.submit();
 
+                            // change action back to move files (default)
+                            frm.reset();
+                            frm.action = "${study.studyIdentifier}/files/moveFilesfromFtpFolder";
+                            frm.method ="post";
                         },
                         "Cancel" : function() {
                             $(this).dialog("close");
@@ -869,7 +825,6 @@
                 });
 
                 return false;
-
             }
         </script>
 
