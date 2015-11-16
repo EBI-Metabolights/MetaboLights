@@ -51,6 +51,7 @@ import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import javax.naming.Binding;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.io.File;
 import java.sql.SQLException;
@@ -81,6 +82,17 @@ public class ManagerController extends AbstractController{
 	private HomePageController homePageController;
 
 	private static Logger logger = LoggerFactory.getLogger(ManagerController.class);
+
+	@RequestMapping(value = "/tools")
+	public ModelAndView showCompound(HttpServletRequest request) {
+
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("tools");
+
+		mav.addObject("pageTitle", "Curator Tools" );
+
+		return mav;
+
+	}
 
 	@RequestMapping({"/config"})
 	public ModelAndView config() {
