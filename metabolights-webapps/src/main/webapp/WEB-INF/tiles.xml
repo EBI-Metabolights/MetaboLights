@@ -179,6 +179,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
     </definition>
 
+    <definition name="tools" extends="default">
+        <put-attribute name="title" value="Curator Tools" />
+        <put-attribute name="body" value="/WEB-INF/jsp/tools.jsp" />
+    </definition>
+
     <definition name="users" extends="default">
         <put-attribute name="title" value="User admin" />
         <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />

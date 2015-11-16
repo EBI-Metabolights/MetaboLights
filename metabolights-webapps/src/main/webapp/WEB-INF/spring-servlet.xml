@@ -184,6 +184,7 @@
 		<sec:intercept-url pattern="/reindex" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/reindexall" access="hasRole('ROLE_SUPER_USER')" />
 		<sec:intercept-url pattern="/config" access="hasRole('ROLE_SUPER_USER')" />
+        <sec:intercept-url pattern="/tools" access="hasRole('ROLE_SUPER_USER')" />
 		<!--<sec:intercept-url pattern="/togglequeue" access="hasRole('ROLE_SUPER_USER')" />-->
         <!--<sec:intercept-url pattern="/queuestatus" access="hasRole('ROLE_SUPER_USER')" />-->
 		<sec:intercept-url pattern="/users" access="hasRole('ROLE_SUPER_USER')" />

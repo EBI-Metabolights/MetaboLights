@@ -72,3 +72,23 @@ body{
 .nav-tabs {
     margin-bottom: 0;
 }
+
+
+.mltable th {
+    background-color: transparent !important;
+}
+
+.mltable {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.mltable td {
+    overflow-x: hidden;
+}
+
+.wrap-content{
+    word-wrap: break-word;
+    overflow-x: hidden !important;
+    max-width: 500px;
+}
