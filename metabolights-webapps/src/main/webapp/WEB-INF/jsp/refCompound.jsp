@@ -6,13 +6,15 @@
 <script src="javascript/jquery.svganim.js"></script>
 <%--<script type="text/javascript"--%>
 <%--src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
+
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-<script type="text/javascript" src="javascript/st.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/Biojs.Rheaction.js"></script>
-<script type="text/javascript" src="javascript/wiki-pathways.js"></script>
-<link rel="stylesheet"  href="cssrl/biojs.Rheaction.css" type="text/css"/>
-<link rel="stylesheet"  href="css/st.css" type="text/css" />
+<script type="text/javascript" src="../javascript/st.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../javascript/Biojs.js" charset="utf-8"></script>
+<script type="text/javascript" src="../javascript/Biojs.Rheaction.js"></script>
+<script type="text/javascript" src="../javascript/wiki-pathways.js"></script>
+
+<link rel="stylesheet"  href="../cssrl/biojs.Rheaction.css" type="text/css"/>
+<link rel="stylesheet"  href="../css/st.css" type="text/css" />
 
 <script>
     var tabToActivate = 0;
@@ -288,7 +290,7 @@
                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
                     - (${compound.mc.chebiId})</a>
             </p>
-            <p><a href="${compound.mc.accession}?alt" class="icon icon-generic" data-icon="&gt;">BETA</a></p>
+            <p><a href="../${compound.mc.accession}/ALPHA" class="icon icon-generic" data-icon="&lt;">ALPHA</a></p>
             <p><a href="referencespectraupload?cid=${compound.mc.accession}" class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
         </div>
 
@@ -313,7 +315,7 @@
                 </c:if>
                 <c:if test="${compound.mc.hasReactions}">
                     <li hash="reactions">
-                        <a class="noLine" href="reactions?compoundId=${compound.mc.accession}"><spring:message
+                        <a class="noLine" href="../reactions?compoundId=${compound.mc.accession}"><spring:message
                                 code="ref.compound.tab.reactions"/></a>
                     </li>
                 </c:if>
@@ -329,7 +331,7 @@
                 </c:if>
                 <c:if test="${compound.mc.hasLiterature}">
                     <li hash="literature">
-                        <a class="noLine" href="citations?compoundId=${compound.mc.accession}"><spring:message
+                        <a class="noLine" href="../citations?compoundId=${compound.mc.accession}"><spring:message
                                 code="ref.compound.tab.literature"/></a>
                     </li>
                 </c:if>

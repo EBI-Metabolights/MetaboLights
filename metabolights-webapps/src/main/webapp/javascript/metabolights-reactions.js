@@ -36,7 +36,7 @@ var reactions = (function() {
 
     function init(){
         uri = {
-            'metabolights' : 'http://localhost:8080/metabolights/reactions?compoundId='+ compound
+            'metabolights' : '../reactions?compoundId='+ compound
         };
     }
 

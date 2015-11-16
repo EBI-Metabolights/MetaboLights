@@ -7,18 +7,21 @@
 <%--<script type="text/javascript"--%>
 <%--src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-<script type="text/javascript" src="javascript/st.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/Biojs.Rheaction.js"></script>
-<script type="text/javascript" src="javascript/wiki-pathways.js"></script>
-<script type="text/javascript" src="javascript/metabolights-literature.js"></script>
-<script type="text/javascript" src="javascript/metabolights-reactions.js"></script>
+
+<script type="text/javascript" src="../javascript/metabolights-literature.js"></script>
+<script type="text/javascript" src="../javascript/metabolights-reactions.js"></script>
+
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="../javascript/st.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../javascript/Biojs.js" charset="utf-8"></script>
+<script type="text/javascript" src="../javascript/Biojs.Rheaction.js"></script>
+<script type="text/javascript" src="../javascript/wiki-pathways.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="cssrl/biojs.Rheaction.css" type="text/css"/>
-<link rel="stylesheet" href="css/st.css" type="text/css"/>
-<link rel="stylesheet" href="css/metabolights.css" type="text/css"/>
+<link rel="stylesheet" href="../cssrl/biojs.Rheaction.css" type="text/css"/>
+<link rel="stylesheet" href="../css/st.css" type="text/css"/>
+<link rel="stylesheet" href="../css/metabolights.css" type="text/css"/>
 
 <%--  Place holder for the compound --%>
 <div id="content" class="grid_24">
@@ -36,25 +39,10 @@
                             <%--<h5>Structure</h5><br>--%>
                             <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${compound.mc.chebiId}"
                                  class="metabolite-image thumbnail"/>
-
-                            <div class="col-md-12">
-                                <div class="col-md-6">
-                                    <label><input type="radio" name="optradio"> 2D</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label><input type="radio" name="optradio"> 3D</label>
-                                </div>
-                            </div>
-                            <br>
-                            <hr>
                             <p>
                                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
                                     - (${compound.mc.chebiId})</a>
                             </p>
-
-                            <p><a href="${compound.mc.accession}?alt" class="icon icon-generic"
-                                  data-icon="&gt;">BETA</a></p>
-
                             <p><a href="referencespectraupload?cid=${compound.mc.accession}"
                                   class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
                         </div>
