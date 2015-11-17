@@ -55,10 +55,10 @@ public class AssayValidations implements IValidationProcess {
             Validation assayRawFileValidation = getAssayHasFilesValidation(study);
             assayValidations.add(assayRawFileValidation);
             assayValidations.add(referencedFilesArePresentInFileSystem(study, assayRawFileValidation.getPassedRequirement()));
-            Validation areColumnsEmptyValidation = getEmptyColumnsValidation(study);
-            if (!areColumnsEmptyValidation.getPassedRequirement()) {
-                assayValidations.add(areColumnsEmptyValidation);
-            }
+//            Validation areColumnsEmptyValidation = getEmptyColumnsValidation(study);
+//            if (!areColumnsEmptyValidation.getPassedRequirement()) {
+//                assayValidations.add(areColumnsEmptyValidation);
+//            }
         }
         assayValidations.add(validation);
         validation.setStatus();
