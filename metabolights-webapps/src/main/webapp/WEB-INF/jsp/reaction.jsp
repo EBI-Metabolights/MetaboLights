@@ -56,7 +56,7 @@
                         target: 'BioJSReaction',
                         id: id,
                         proxyUrl: undefined,
-                        rheaWsUrl: "../ebi/webservices/rhea/rest/1.0/ws/reaction/cmlreact/"
+                        rheaWsUrl: "${pageContext.request.contextPath}/ebi/webservices/rhea/rest/1.0/ws/reaction/cmlreact/"
 
                     });
 

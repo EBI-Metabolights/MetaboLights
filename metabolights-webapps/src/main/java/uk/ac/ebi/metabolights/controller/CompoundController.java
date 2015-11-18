@@ -83,30 +83,6 @@ public class CompoundController extends AbstractController {
     }
 
 
-    @RequestMapping(value = "/{compoundId:" + METABOLIGHTS_COMPOUND_ID_REG_EXP + "}/ALPHA")
-    public ModelAndView showCompound(@PathVariable("compoundId") String mtblc, HttpServletRequest request) {
-
-        logger.info("requested compound " + mtblc);
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("bcompound");
-        RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
-
-        Compound compound = response.getContent();
-
-        if (compound == null)
-            return printMessage("Couldn't get the requested compound: "+ mtblc, response.getErr().getMessage());
-
-        // We need the species grouped
-        WebCompound webCompound = new WebCompound(compound);
-
-
-        mav.addObject("compound", webCompound);
-        mav.addObject("pageTitle", mtblc + " - " + webCompound.getMc().getName());
-
-        return mav;
-
-    }
-
-
     @RequestMapping(value = "/reactions")
     private ModelAndView showReactions(
             @RequestParam(required = false, value = "compoundId") String compoundId) {

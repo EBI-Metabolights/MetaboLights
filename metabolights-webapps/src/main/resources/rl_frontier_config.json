@@ -4,7 +4,7 @@
         "style": "logo-title",
         "homepageUrl": "index",
         "logo": {
-            "src": "img/MetaboLightsLogo.png",
+            "src": "/metabolights/img/MetaboLightsLogo.png",
             "alt": "MetaboLights",
             "width": "64",
             "height": "64"
@@ -13,37 +13,37 @@
             {
                 "selected": false,
                 "title": "Home",
-                "href": "index",
+                "href": "/metabolights/index",
                 "tooltip": "Home page"
             },
             {
                 "selected": false,
                 "title": "Browse Studies",
-                "href": "studies",
+                "href": "/metabolights/studies",
                 "tooltip": "Browse all Studies/Experiments"
             },
             {
                 "selected": false,
                 "title": "Browse Compounds",
-                "href": "reference",
+                "href": "/metabolights/reference",
                 "tooltip": "Browse all metabolites"
             },
             {
                 "selected": false,
                 "title": "Browse Species",
-                "href": "species",
+                "href": "/metabolights/species",
                 "tooltip": "Browse all species"
             },
             {
                 "selected": false,
                 "title": "Analysis",
-                "href": "analysis",
+                "href": "/metabolights/analysis",
                 "tooltip": "MetaboAnalyst 2.5"
             },
             {
                 "selected": false,
                 "title": "Download",
-                "href": "download",
+                "href": "/metabolights/download",
                 "tooltip": "Download"
             },
             {
@@ -55,13 +55,13 @@
             {
                 "selected": false,
                 "title": "Give us feedback",
-                "href": "contact",
+                "href": "/metabolights/contact",
                 "tooltip": "Please give us feedback"
             },
             {
                 "selected": false,
                 "title": "About",
-                "href": "about",
+                "href": "/metabolights/about",
                 "tooltip": "About MetaboLights"
             }
 
@@ -69,14 +69,14 @@
         "functionalTabs": [
             {
                 "title": "Login",
-                "href": "login",
+                "href": "/metabolights/login",
                 "tooltip": "Log in to MetaboLights",
                 "iconFontSet": "icon-functional",
                 "dataIcon": "l"
             },
             {
                 "title": "Submit Study",
-                "href": "presubmit",
+                "href": "/metabolights/presubmit",
                 "tooltip": "Submit data to MetaboLights",
                 "iconFontSet": "icon-functional",
                 "dataIcon": "_"
@@ -89,19 +89,19 @@
             "examples": [
                 {
                     "title": "alanine",
-                    "href": "search?freeTextQuery%3Dalanine"
+                    "href": "/metabolights/search?freeTextQuery%3Dalanine"
                 },
                 {
                     "title": "human",
-                    "href": "search?freeTextQuery%3Dhuman"
+                    "href": "/metabolights/search?freeTextQuery%3Dhuman"
                 },
                 {
                     "title": "urine",
-                    "href": "search?freeTextQuery%3Durine"
+                    "href": "/metabolights/search?freeTextQuery%3Durine"
                 },
                 {
                     "title": "MTBLS1",
-                    "href": "search?freeTextQuery%3DMTBLS1"
+                    "href": "/metabolights/search?freeTextQuery%3DMTBLS1"
                 }
             ]
         }
