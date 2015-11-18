@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 import uk.ac.ebi.metabolights.repository.utils.validation.StudyValidationUtilities;
@@ -178,8 +179,10 @@ public class StudyDAO {
         // Add Backups
         studyToFill.setBackups(FileAuditUtil.getBackupsCollection(studyFolder));
 
-        StudyValidationUtilities.validate(studyToFill);
-
+        if(studyToFill.getValidations().getEntries().isEmpty()){
+            StudyValidationUtilities.validate(studyToFill);
+        }
+        logger.warn(ClobJsonUtils.parseToJSONString(studyToFill.getValidations()));
 
         logger.info("Study loaded from folder: {}", studyFolder.getAbsolutePath());
 

@@ -27,9 +27,11 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.Constants;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
+import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Clob;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,6 +60,7 @@ public class StudyData extends DataModel<Study> {
     private Set<UserData> users = new HashSet<>();
     private BigDecimal studysize = new BigDecimal(0);
 
+
     private Set<ValidationData> validationsDataSet = new HashSet<>();
 
     @Column(name = "studysize")
@@ -70,10 +73,37 @@ public class StudyData extends DataModel<Study> {
     }
 
 
+
+	private String validations;
+
+
+
+
     @Column(unique = true)
     public String getAcc() {
         return acc;
     }
+//    public Clob getValidations() {
+//        return validations;
+//    }
+//
+//    public void setValidations(Clob validationsClob) {
+//        this.validations = validationsClob;
+//    }
+
+
+	@Column(name="validations", nullable=true)
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    public String getValidations() {
+		return validations;
+	}
+
+	public void setValidations(String validations) {
+		this.validations = validations;
+	}
+
+
 
     public void setAcc(String acc) {
         this.acc = acc;
@@ -166,7 +196,13 @@ public class StudyData extends DataModel<Study> {
         // Convert Users...
         this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
 
+
         this.validationsDataSet = ValidationData.businessModelToDataModel(businessModelEntity.getValidations());
+
+		//convert Validations
+//		this.validations = ClobJsonUtils.convertToClob(
+//				ClobJsonUtils.parseToJSONString(businessModelEntity.getValidations()));
+		this.validations = ClobJsonUtils.parseToJSONString(businessModelEntity.getValidations());
 
     }
 
@@ -193,7 +229,24 @@ public class StudyData extends DataModel<Study> {
         return studyLite;
     }
 
+
     private void studyDataToLiteStudy(LiteStudy study) {
+
+		study.setId(this.id);
+		study.setObfuscationCode(this.obfuscationcode);
+		study.setStudyIdentifier(this.acc);
+		study.setStudyStatus(Study.StudyStatus.values()[this.status]);
+		study.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
+		study.setUpdateDate(new Date(this.updateDate.getTime()));
+		study.setStudySubmissionDate(new Date(this.getSubmissionDate().getTime()));
+		study.setStudySize(this.studysize);
+//        study.setValidations(ClobJsonUtils.parseJson(
+//                ClobJsonUtils.convertToString(this.getValidations()),Validations.class
+//        ));
+		study.setValidations(ClobJsonUtils.parseJson(
+				this.getValidations(),Validations.class
+		));
+
 
         study.setId(this.id);
         study.setObfuscationCode(this.obfuscationcode);
