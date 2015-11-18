@@ -570,7 +570,7 @@
                 <form id="selFilesForm" action="${study.studyIdentifier}/files/downloadSelFiles" method="post">
                     <h5>
                         <!--  Request FTP folder -->
-                        <c:if test="${!study.publicStudy and !hasPrivateFtpFolder}">
+                        <c:if test="${(study.studyStatus == 'SUBMITTED') and !hasPrivateFtpFolder }">
                             <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
                                 &nbsp;
                                 <a class="noLine" rel="nofollow" href="${study.studyIdentifier}/files/requestFtpFolder" title="<spring:message code="label.requestFtpFolder"/>">
@@ -645,7 +645,7 @@
 
                 <br/><br/>
                 <!-- private FTP files -->
-                <c:if test="${!study.publicStudy and hasPrivateFtpFolder}">
+                <c:if test="${(study.studyStatus == 'SUBMITTED') and hasPrivateFtpFolder }">
                     <div class="accordion">
                         <h5 class="ftpFolder"><span class="icon icon-generic" data-icon="D"/></span>&nbsp;<spring:message code="label.priavteFtpFolder"/></h5>
                         <div>
