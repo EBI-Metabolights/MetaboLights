@@ -544,9 +544,8 @@ public class StudyController extends BasicController{
 		User user = getUser();
 		logger.info("[WS] User {0} has requested a private FTP folder for the study {1}", user.getUserName(),studyIdentifier);
 
-		// FTP folder is composed with part of the user identifier + the obfuscation code of the study
-		String userPart = user.getApiToken().split("-")[0];
-		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
+		// FTP folder is composed with the study identifier + the obfuscation code
+		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
 
 		// create the folder
 		FileUtil.createFtpFolder(ftpFolder);
@@ -599,10 +598,10 @@ public class StudyController extends BasicController{
 
 		// get the study folder
 		User user = getUser();
-		String userPart = user.getApiToken().split("-")[0];
 		Study study = getStudyDAO().getStudy(studyIdentifier,user.getApiToken());
 		String studyFolder = study.getStudyLocation();
-		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
+		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
+
 
 		// move the files
 		String result = FileUtil.moveFilesFromPrivateFtpFolder(fileNames, ftpFolder, studyFolder);
@@ -631,13 +630,12 @@ public class StudyController extends BasicController{
 		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
 
 		User user = getUser();
-		String userPart = user.getApiToken().split("-")[0];
-		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
+		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
 
-		boolean rslt = FileUtil.getFtpFolder(privateFTPRoot + File.separator + ftpFolder);
+		boolean result = FileUtil.getFtpFolder(privateFTPRoot + File.separator + ftpFolder);
 		RestResponse<Boolean> restResponse = new RestResponse<>();
-		restResponse.setContent(rslt);
-		restResponse.setMessage(rslt?ftpFolder:"");
+		restResponse.setContent(result);
+		restResponse.setMessage(result?ftpFolder:"");
 		return restResponse;
 	}
 
@@ -653,19 +651,18 @@ public class StudyController extends BasicController{
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
 	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/privateFtpFolder/list")
 	@ResponseBody
-	public RestResponse<File[]> getPrivateFtpFileList(@PathVariable("studyIdentifier") String studyIdentifier)
+	public RestResponse<String[]> getPrivateFtpFileList(@PathVariable("studyIdentifier") String studyIdentifier)
 			throws DAOException, IsaTabException {
 
 		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
 
 		User user = getUser();
-		String userPart = user.getApiToken().split("-")[0];
-		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
+		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
 
 		// read folder content
-		File[] files = FileUtil.getFtpFolderList(privateFTPRoot + File.separator + ftpFolder);
-		RestResponse<File[]> restResponse = new RestResponse<>();
-		restResponse.setContent(files);
+		String[] fileNames = FileUtil.getFtpFolderList(privateFTPRoot + File.separator + ftpFolder);
+		RestResponse<String[]> restResponse = new RestResponse<>();
+		restResponse.setContent(fileNames);
 		restResponse.setMessage("List of files in your private FTP folder");
 
 		return restResponse;
@@ -691,11 +688,10 @@ public class StudyController extends BasicController{
 
 		// look for the private FTP folder
 		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
-		String userPart = user.getApiToken().split("-")[0];
-		String ftpFolder = userPart + "_" + getObfuscationCode(studyIdentifier, user);
+		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
 
 
-		// compose full file pathnames
+		// compose full file path names
 		List<String> filePaths = new LinkedList<>();
 		for (String filename:fileNames){
 			filePaths.add(privateFTPRoot + File.separator + ftpFolder + File.separator + filename);

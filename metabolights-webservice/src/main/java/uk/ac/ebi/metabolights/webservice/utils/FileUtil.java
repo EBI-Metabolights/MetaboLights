@@ -24,7 +24,6 @@ package uk.ac.ebi.metabolights.webservice.utils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
 import static java.nio.file.StandardCopyOption.*;
 import javax.annotation.PostConstruct;
@@ -332,11 +331,14 @@ public class FileUtil {
 	}
 
 	/**
+	 * Get a list of files in the private FTP folder
 	 *
 	 * @param ftpFolder
 	 * @return
+	 * @author jrmacias
+	 * @date 20151102
      */
-	public static File[] getFtpFolderList(String ftpFolder) {
+	public static String[] getFtpFolderList(String ftpFolder) {
 
 		File[] files = new File(ftpFolder).listFiles(new FileFilter() {
 			@Override
@@ -345,13 +347,22 @@ public class FileUtil {
 			}
 		});
 
-		return files;
+		List<String> fileNames = new ArrayList<>();
+		for (File file : files){
+			fileNames.add(file.getName());
+		}
+		String[] names = new String[fileNames.size()];
+
+		return fileNames.toArray(names);
 	}
 
 	/**
+	 * Check if a private FTP folder exists
 	 *
 	 * @param ftpFolder
 	 * @return
+	 * @author jrmacias
+	 * @date 20151102
      */
 	public static boolean getFtpFolder(String ftpFolder) {
 
