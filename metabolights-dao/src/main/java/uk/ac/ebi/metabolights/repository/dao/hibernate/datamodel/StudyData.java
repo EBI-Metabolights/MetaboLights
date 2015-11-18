@@ -61,7 +61,7 @@ public class StudyData extends DataModel<Study> {
     private BigDecimal studysize = new BigDecimal(0);
 
 
-    private Set<ValidationData> validationsDataSet = new HashSet<>();
+   // private Set<ValidationData> validationsDataSet = new HashSet<>();
 
     @Column(name = "studysize")
     public BigDecimal getStudysize() {
@@ -164,14 +164,14 @@ public class StudyData extends DataModel<Study> {
         this.users = users;
     }
 
-   @OneToMany(mappedBy="studyData", cascade=CascadeType.ALL)
-   public Set<ValidationData> getValidationsDataSet() {
-        return validationsDataSet;
-    }
-
-    public void setValidationsDataSet(Set<ValidationData> validationsDataSet) {
-        this.validationsDataSet = validationsDataSet;
-    }
+//   @OneToMany(mappedBy="studyData", cascade=CascadeType.ALL)
+//   public Set<ValidationData> getValidationsDataSet() {
+//        return validationsDataSet;
+//    }
+//
+//    public void setValidationsDataSet(Set<ValidationData> validationsDataSet) {
+//        this.validationsDataSet = validationsDataSet;
+//    }
 
 
     @Override
@@ -197,7 +197,7 @@ public class StudyData extends DataModel<Study> {
         this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
 
 
-        this.validationsDataSet = ValidationData.businessModelToDataModel(businessModelEntity.getValidations());
+       // this.validationsDataSet = ValidationData.businessModelToDataModel(businessModelEntity.getValidations());
 
 		//convert Validations
 //		this.validations = ClobJsonUtils.convertToClob(
@@ -215,7 +215,7 @@ public class StudyData extends DataModel<Study> {
 
         // Fill users
         businessModelEntity.setUsers(UserData.dataModelToBusinessModel(users));
-        businessModelEntity.setValidations(ValidationData.dataModelToBusinessModel(validationsDataSet));
+  //      businessModelEntity.setValidations(ValidationData.dataModelToBusinessModel(validationsDataSet));
 
         return businessModelEntity;
     }
@@ -246,16 +246,6 @@ public class StudyData extends DataModel<Study> {
 		study.setValidations(ClobJsonUtils.parseJson(
 				this.getValidations(),Validations.class
 		));
-
-
-        study.setId(this.id);
-        study.setObfuscationCode(this.obfuscationcode);
-        study.setStudyIdentifier(this.acc);
-        study.setStudyStatus(Study.StudyStatus.values()[this.status]);
-        study.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
-        study.setUpdateDate(new Date(this.updateDate.getTime()));
-        study.setStudySubmissionDate(new Date(this.getSubmissionDate().getTime()));
-        study.setStudySize(this.studysize);
 
     }
 

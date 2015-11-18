@@ -39,7 +39,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 	private List<String> studyList;
 	private UserDAO usersDAO;
-	private ValidationsDAO validationsDAO;
+	//private ValidationsDAO validationsDAO;
 
 	/**
 	 * Find a user by means of the accession number.
@@ -64,8 +64,8 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 		usersDAO = new UserDAO();
 		usersDAO.setSession(this.session);
-		validationsDAO = new ValidationsDAO();
-		validationsDAO.setSession(this.session);
+//		validationsDAO = new ValidationsDAO();
+//		validationsDAO.setSession(this.session);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		// NOTE: Here we only save the users that do not exist. Any update of users should be done through usersDAO.save.
 		// Save new users first
 		usersDAO.save(study.getUsers(), true);
-		validationsDAO.save(study.getValidationsDataSet());
+	//	validationsDAO.save(study.getValidationsDataSet());
 		study.setUpdateDate(new Date());
 
 	}

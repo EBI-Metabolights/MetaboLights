@@ -30,6 +30,8 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
+import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -51,14 +53,26 @@ public class StudyDataTest  extends DAOTest {
 		// add validation
 
 		// Add validations
-		ValidationData vd = DataModelFactory.getValidationDataInstance(new Validation());
-		vd.setPassed(true);
-		vd.setRequirement(Requirement.OPTIONAL);
-		vd.setValidationid(new Integer(3));
-		vd.setStudyData(studyData);
+//		ValidationData vd = DataModelFactory.getValidationDataInstance(new Validation());
+//		vd.setPassed(true);
+//		vd.setRequirement(Requirement.OPTIONAL);
+//		vd.setValidationid(new Integer(3));
+//		vd.setStudyData(studyData);
+//		session.save(vd);
 
-		session.save(vd);
-		studyData.getValidationsDataSet().add(vd);
+		Validation validation = new Validation();
+		validation.setMessage("Hello");
+		validation.setPassedRequirement(true);
+		validation.setStatus();
+		Validations validations = new Validations();
+		validations.getEntries().add(validation);
+
+		studyData.setValidations(ClobJsonUtils.parseToJSONString(validations));
+
+
+
+
+		//studyData.getValidationsDataSet().add(vd);
 
 
 
@@ -90,12 +104,17 @@ public class StudyDataTest  extends DAOTest {
 
 		// Check users collection is retrieved
 		Assert.assertEquals("Are study users populated?", 1,studyData.getUsers().size());
+//
+//		Assert.assertEquals("Are study validations populated?", 1,studyData.getValidationsDataSet().size());
+//		logger.info("Validations populated: " + studyData.getValidationsDataSet().size());
 
-		Assert.assertEquals("Are study validations populated?", 1,studyData.getValidationsDataSet().size());
-		logger.info("Validations populated: " + studyData.getValidationsDataSet().size());
+		// test validation
+		 Validations validations1 = ClobJsonUtils.parseJson(studyData.getValidations(), Validations.class);
+		Assert.assertEquals("Are study validations populated?", 1 , validations1.getEntries().size());
+		logger.info("Validations populated: " + validations1.getEntries().size());
 
 		// Test deletion
-		session.delete(studyData);
+	//	session.delete(studyData);
 
 		session.noNeedSession();
 	}
