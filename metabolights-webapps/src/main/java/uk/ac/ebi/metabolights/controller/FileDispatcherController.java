@@ -470,9 +470,12 @@ public class FileDispatcherController extends AbstractController {
     }
 
     /**
+     * Check if a Study has a private FTP folder
      *
      * @param studyId
      * @return
+     * @author: jrmacias
+     * @date: 20151012
      */
     public boolean hasPrivateFtpFolder(String studyId) {
 

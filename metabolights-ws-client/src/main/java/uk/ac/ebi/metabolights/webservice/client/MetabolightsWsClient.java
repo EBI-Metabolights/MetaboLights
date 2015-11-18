@@ -825,6 +825,8 @@ public class MetabolightsWsClient {
      *
      * @param studyId
      * @return
+     * @author: jrmacias
+     * @date: 20151112
      */
     public boolean hasPrivateFtpFolder(String studyId) {
 
@@ -840,6 +842,8 @@ public class MetabolightsWsClient {
      * @param studyId
      * @param selectedFiles
      * @return
+     * @author: jrmacias
+     * @date: 20151112
      */
     public RestResponse<String> deletePrivateFtpFiles(String studyId, List<String> selectedFiles) {
 
