@@ -2,26 +2,26 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<script src="javascript/jquery.svg.js"></script>
-<script src="javascript/jquery.svganim.js"></script>
+<script src="${pageContext.request.contextPath}/javascript/jquery.svg.js"></script>
+<script src="${pageContext.request.contextPath}/javascript/jquery.svganim.js"></script>
 <%--<script type="text/javascript"--%>
 <%--src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 
-<script type="text/javascript" src="../javascript/metabolights-literature.js"></script>
-<script type="text/javascript" src="../javascript/metabolights-reactions.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/metabolights-literature.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/metabolights-reactions.js"></script>
 
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-<script type="text/javascript" src="../javascript/st.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="../javascript/Biojs.js" charset="utf-8"></script>
-<script type="text/javascript" src="../javascript/Biojs.Rheaction.js"></script>
-<script type="text/javascript" src="../javascript/wiki-pathways.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/st.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.Rheaction.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/wiki-pathways.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="../cssrl/biojs.Rheaction.css" type="text/css"/>
-<link rel="stylesheet" href="../css/st.css" type="text/css"/>
-<link rel="stylesheet" href="../css/metabolights.css" type="text/css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/biojs.Rheaction.css" type="text/css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/st.css" type="text/css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
 <%--  Place holder for the compound --%>
 <div id="content" class="grid_24">
@@ -43,7 +43,7 @@
                                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
                                     - (${compound.mc.chebiId})</a>
                             </p>
-                            <p><a href="referencespectraupload?cid=${compound.mc.accession}"
+                            <p><a href="${pageContext.request.contextPath}/referencespectraupload?cid=${compound.mc.accession}"
                                   class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
                         </div>
                         <div class="col-md-9">
@@ -180,6 +180,7 @@
                                         <div role="tabpanel" class="tab-pane" id="pathways">
                                             <!-- Pathways Container -->
                                             <div id="pathwayContainer" height="100%" width="100%">
+                                                <p class="text-center"><br><br><br><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p>
                                             </div>
                                         </div>
                                     </c:if>
@@ -200,7 +201,7 @@
                                                     {
                                                         "id":${spectra.id},
                                                         "name": "${spectra.name}",
-                                                        "url": "webservice/compounds/spectra/${spectra.id}/json",
+                                                        "url": "${pageContext.request.contextPath}/webservice/compounds/spectra/${spectra.id}/json",
                                                         "type": "${spectra.spectraType}",
                                                         "properties": [
                                                             <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
@@ -238,7 +239,7 @@
                                                     {
                                                         "id":${msspectra.id},
                                                         "name": "${msspectra.name}",
-                                                        "url": "webservice/compounds/spectra/${msspectra.id}/json",
+                                                        "url": "${pageContext.request.contextPath}/webservice/compounds/spectra/${msspectra.id}/json",
                                                         "type": "${msspectra.spectraType}",
                                                         "properties": [
                                                             <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
@@ -261,7 +262,7 @@
                                     <c:if test="${compound.mc.hasReactions}">
                                         <div role="tabpanel" class="tab-pane" id="reactions">
                                             <div id="reactions-content">
-
+                                                <p class="text-center"><br><br><br><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p>
                                             </div>
                                         </div>
                                     </c:if>
@@ -269,7 +270,7 @@
                                     <c:if test="${compound.mc.hasLiterature}">
                                         <div role="tabpanel" class="tab-pane" id="literature">
                                             <div id="literature-content">
-
+                                                <p class="text-center"><br><br><br><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p>
                                             </div>
                                         </div>
                                     </c:if>
