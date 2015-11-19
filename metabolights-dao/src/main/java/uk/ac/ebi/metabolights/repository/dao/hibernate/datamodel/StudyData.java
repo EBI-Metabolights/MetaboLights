@@ -59,9 +59,10 @@ public class StudyData extends DataModel<Study> {
     private Date submissionDate = new Date();
     private Set<UserData> users = new HashSet<>();
     private BigDecimal studysize = new BigDecimal(0);
+    private String validations;
 
 
-   // private Set<ValidationData> validationsDataSet = new HashSet<>();
+
 
     @Column(name = "studysize")
     public BigDecimal getStudysize() {
@@ -73,24 +74,10 @@ public class StudyData extends DataModel<Study> {
     }
 
 
-
-	private String validations;
-
-
-
-
     @Column(unique = true)
     public String getAcc() {
         return acc;
     }
-//    public Clob getValidations() {
-//        return validations;
-//    }
-//
-//    public void setValidations(Clob validationsClob) {
-//        this.validations = validationsClob;
-//    }
-
 
 	@Column(name="validations", nullable=true)
     @Basic(fetch = FetchType.LAZY)
@@ -164,16 +151,6 @@ public class StudyData extends DataModel<Study> {
         this.users = users;
     }
 
-//   @OneToMany(mappedBy="studyData", cascade=CascadeType.ALL)
-//   public Set<ValidationData> getValidationsDataSet() {
-//        return validationsDataSet;
-//    }
-//
-//    public void setValidationsDataSet(Set<ValidationData> validationsDataSet) {
-//        this.validationsDataSet = validationsDataSet;
-//    }
-
-
     @Override
     protected void setBusinessModelId(Long id) {
 
@@ -196,12 +173,7 @@ public class StudyData extends DataModel<Study> {
         // Convert Users...
         this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
 
-
-       // this.validationsDataSet = ValidationData.businessModelToDataModel(businessModelEntity.getValidations());
-
 		//convert Validations
-//		this.validations = ClobJsonUtils.convertToClob(
-//				ClobJsonUtils.parseToJSONString(businessModelEntity.getValidations()));
 		this.validations = ClobJsonUtils.parseToJSONString(businessModelEntity.getValidations());
 
     }
@@ -215,7 +187,6 @@ public class StudyData extends DataModel<Study> {
 
         // Fill users
         businessModelEntity.setUsers(UserData.dataModelToBusinessModel(users));
-  //      businessModelEntity.setValidations(ValidationData.dataModelToBusinessModel(validationsDataSet));
 
         return businessModelEntity;
     }
@@ -240,9 +211,6 @@ public class StudyData extends DataModel<Study> {
 		study.setUpdateDate(new Date(this.updateDate.getTime()));
 		study.setStudySubmissionDate(new Date(this.getSubmissionDate().getTime()));
 		study.setStudySize(this.studysize);
-//        study.setValidations(ClobJsonUtils.parseJson(
-//                ClobJsonUtils.convertToString(this.getValidations()),Validations.class
-//        ));
 		study.setValidations(ClobJsonUtils.parseJson(
 				this.getValidations(),Validations.class
 		));

@@ -35,5 +35,23 @@ public class Validations {
         this.passedMinimumRequirement = passedMinimumRequirement;
     }
 
+    public boolean contains(Validation validation) {
+        for (Validation v : entries) {
+            if (v.getId() == validation.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Validation get(Integer id){
+        for (Validation v : entries) {
+            if (v.getId() == id) {
+                return v;
+            }
+        }
+        return null;
+    }
+
 
 }
