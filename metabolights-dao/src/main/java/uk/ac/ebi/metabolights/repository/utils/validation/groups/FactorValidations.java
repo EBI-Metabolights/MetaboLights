@@ -49,7 +49,6 @@ public class FactorValidations implements IValidationProcess {
             validation.setMessage("No Study Factor information is provided");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -70,7 +69,6 @@ public class FactorValidations implements IValidationProcess {
         if (missingInSamples && !presentInAssays) {
             validation1.setPassedRequirement(false);
             validation1.setMessage(getMissingFactorsErrMsg(factorSampleMap, "Sample or Assay"));
-            validation1.setStatus();
             validations.add(validation1);
             return validations;
         }
@@ -91,8 +89,6 @@ public class FactorValidations implements IValidationProcess {
                 validation2.setMessage("Empty Study Factor column(s) found in the Sample and Assay sheet(s)");
             }
         }
-        validation1.setStatus();
-        validation2.setStatus();
         validations.add(validation1);
         validations.add(validation2);
         return validations;

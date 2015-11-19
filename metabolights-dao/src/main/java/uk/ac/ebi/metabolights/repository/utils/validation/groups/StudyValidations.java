@@ -40,7 +40,6 @@ public class StudyValidations implements IValidationProcess {
             validation.setMessage("Study Title lacks detail");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -51,7 +50,6 @@ public class StudyValidations implements IValidationProcess {
             validation.setMessage("Study Description lacks detail");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -76,7 +74,6 @@ public class StudyValidations implements IValidationProcess {
             message += "contains characters that cannot be successfully parsed";
             validation.setMessage(message);
         }
-        validation.setStatus();
         return validation;
 
     }
@@ -107,7 +104,6 @@ public class StudyValidations implements IValidationProcess {
             validation.setPassedRequirement(false);
             validation.setMessage("Not all Study Contacts have their emails listed");
         }
-        validation.setStatus();
         return validation;
     }
 

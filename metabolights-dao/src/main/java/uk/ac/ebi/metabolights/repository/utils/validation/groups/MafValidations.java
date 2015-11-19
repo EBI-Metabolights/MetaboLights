@@ -83,7 +83,6 @@ public class MafValidations implements IValidationProcess {
             all_assays_have_maf_reference_validation.setPassedRequirement(false);
             all_assays_have_maf_reference_validation.setMessage(getMafErrMessage(assaysWithNoMaf, study.getAssays().size()));
         }
-        all_assays_have_maf_reference_validation.setStatus();
         return all_assays_have_maf_reference_validation;
     }
 
@@ -95,7 +94,6 @@ public class MafValidations implements IValidationProcess {
             some_assays_have_maf_reference_validation.setMessage("Metabolite identification protocol is described \n" +
                     "but no Metabolite Assignment File (MAF) is referenced in the Assay table");
         }
-        some_assays_have_maf_reference_validation.setStatus();
         return some_assays_have_maf_reference_validation;
     }
 
@@ -111,7 +109,6 @@ public class MafValidations implements IValidationProcess {
             maf_file_validation.setPassedRequirement(false);
             maf_file_validation.setMessage(getMafFileErrMessage(notPresentInStudyFolder));
         }
-        maf_file_validation.setStatus();
         return maf_file_validation;
     }
 
@@ -122,7 +119,6 @@ public class MafValidations implements IValidationProcess {
             maf_file_correct_format_validation.setPassedRequirement(false);
             maf_file_correct_format_validation.setMessage(getIncorrectMafErrMsg(mafIndex_assaysWithIncorrectMaf_map));
         }
-        maf_file_correct_format_validation.setStatus();
         return maf_file_correct_format_validation;
     }
 

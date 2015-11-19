@@ -43,7 +43,6 @@ public class OrganismValidations implements IValidationProcess{
             validation.setMessage("Organism is empty");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -61,7 +60,6 @@ public class OrganismValidations implements IValidationProcess{
             validation.setMessage("Organism is empty");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 

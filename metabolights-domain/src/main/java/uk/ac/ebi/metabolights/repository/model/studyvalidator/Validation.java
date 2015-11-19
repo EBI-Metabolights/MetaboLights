@@ -27,11 +27,6 @@ public class Validation {
 
     private Integer id;
 
-    private Integer validationid;
-
-
-    private Integer studyid;
-
     private String description;
 
     private Status status = Status.GREEN;
@@ -45,6 +40,8 @@ public class Validation {
 
 
     private String message = "OK";
+
+    private boolean overriden = false;
 
 
     public String getDescription() {
@@ -61,6 +58,7 @@ public class Validation {
 
     public void setPassedRequirement(boolean passedRequirement) {
         this.passedRequirement = passedRequirement;
+        setStatus();
     }
 
     public Requirement getType() {
@@ -103,23 +101,6 @@ public class Validation {
         this.id = id;
     }
 
-    public Integer getValidationid() {
-        return validationid;
-    }
-
-    public void setValidationid(Integer validationid) {
-        this.validationid = validationid;
-    }
-
-
-    public Integer getStudyid() {
-        return studyid;
-    }
-
-    public void setStudyid(Integer studyid) {
-        this.studyid = studyid;
-    }
-
     public void setStatus() {
         if (getPassedRequirement()) {
             setStatus(Status.GREEN);
@@ -140,4 +121,14 @@ public class Validation {
     public String getStatusExt() {
         return statusExt;
     }
+
+
+    public boolean isOverriden() {
+        return overriden;
+    }
+
+    public void setOverriden(boolean overriden) {
+        this.overriden = overriden;
+    }
+
 }

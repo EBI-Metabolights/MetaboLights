@@ -43,7 +43,6 @@ public class SampleValidations implements IValidationProcess {
             validation.setMessage("No Sample Names are provided");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -70,7 +69,6 @@ public class SampleValidations implements IValidationProcess {
                 validation.setMessage(getMisMatchErrMsg(assay_SampleNames));
             }
         }
-        validation.setStatus();
         return validation;
 
     }
@@ -129,7 +127,6 @@ public class SampleValidations implements IValidationProcess {
             validation.setPassedRequirement(false);
             validation.setMessage(Utilities.getSampleColumnEmptyErrMsg(emptyFieldNames, "Sample"));
         }
-        validation.setStatus();
         return validation;
 
     }

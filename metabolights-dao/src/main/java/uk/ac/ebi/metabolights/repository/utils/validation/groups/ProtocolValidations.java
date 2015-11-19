@@ -64,7 +64,6 @@ public class ProtocolValidations implements IValidationProcess {
             validation.setMessage("Protocols are empty");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
 
     }
@@ -90,7 +89,6 @@ public class ProtocolValidations implements IValidationProcess {
             validation.setMessage("Protocols are empty");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -115,7 +113,6 @@ public class ProtocolValidations implements IValidationProcess {
 
         }
 
-        validation.setStatus();
         return validation;
     }
 
@@ -159,7 +156,6 @@ public class ProtocolValidations implements IValidationProcess {
             validation.setMessage(message);
         }
 
-        validation.setStatus();
         return validation;
 
     }

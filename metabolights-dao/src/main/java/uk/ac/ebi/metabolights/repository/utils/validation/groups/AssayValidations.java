@@ -40,7 +40,6 @@ public class AssayValidations implements IValidationProcess {
             validation.setMessage("No Assay data is provided");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -61,7 +60,6 @@ public class AssayValidations implements IValidationProcess {
 //            }
         }
         assayValidations.add(validation);
-        validation.setStatus();
         return assayValidations;
     }
 
@@ -78,7 +76,6 @@ public class AssayValidations implements IValidationProcess {
             validation.setMessage(getPlatformErrMsg(assaysWithNoPlatform, study.getAssays().size()));
         }
 
-        validation.setStatus();
         return validation;
     }
 
@@ -109,13 +106,10 @@ public class AssayValidations implements IValidationProcess {
             if (fileColumnsThatAreEmpty.size() == fileFields.size()) {
                 validation.setPassedRequirement(false);
                 validation.setMessage(getErrMessage(assay, fileColumnsThatAreEmpty));
-                validation.setStatus();
                 return validation;
             }
         }
-
-        validation.setStatus();
-        return validation;
+      return validation;
     }
 
     private static List<String> getFileFieldsFrom(LinkedHashMap<String, Field> tableFields) {
@@ -190,7 +184,6 @@ public class AssayValidations implements IValidationProcess {
                 }
             }
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -277,7 +270,6 @@ public class AssayValidations implements IValidationProcess {
             validation.setPassedRequirement(false);
             validation.setMessage(Utilities.getSampleColumnEmptyErrMsg(emptyFieldNames, "Assay"));
         }
-        validation.setStatus();
     }
 
     private static void handleMultipleAssayCase(Validation validation, Study study) {
@@ -291,7 +283,6 @@ public class AssayValidations implements IValidationProcess {
                 validation.setMessage(getSampleColumnEmptyErrMsg(columnName_assay_map));
             }
         }
-        validation.setStatus();
     }
 
     private static void fill(Map<String, HashSet<Integer>> columnName_assay_map, List<String> emptyFieldNames, int assayNumber) {

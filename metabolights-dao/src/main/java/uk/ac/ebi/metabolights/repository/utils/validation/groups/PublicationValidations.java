@@ -42,11 +42,9 @@ public class PublicationValidations implements IValidationProcess {
                 }
             }
             else{
-                validation.setStatus();
                 publicationValidations.add(validation);
             }
         } else {
-            validation.setStatus();
             publicationValidations.add(validation);
         }
         return publicationValidations;
@@ -58,7 +56,6 @@ public class PublicationValidations implements IValidationProcess {
             validation.setMessage("Study Publication is missing");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -74,7 +71,6 @@ public class PublicationValidations implements IValidationProcess {
                 validation.setPassedRequirement(false);
             }
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -86,7 +82,6 @@ public class PublicationValidations implements IValidationProcess {
                 validation.setPassedRequirement(false);
             }
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -104,7 +99,6 @@ public class PublicationValidations implements IValidationProcess {
                 }
             }
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -116,7 +110,6 @@ public class PublicationValidations implements IValidationProcess {
                 validation.setPassedRequirement(false);
             }
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -133,7 +126,6 @@ public class PublicationValidations implements IValidationProcess {
                 }
             }
         }
-        validation.setStatus();
         return validation;
     }
 

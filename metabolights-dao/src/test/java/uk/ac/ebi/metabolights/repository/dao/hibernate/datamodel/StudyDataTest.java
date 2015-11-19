@@ -63,7 +63,6 @@ public class StudyDataTest  extends DAOTest {
 		Validation validation = new Validation();
 		validation.setMessage("Hello");
 		validation.setPassedRequirement(true);
-		validation.setStatus();
 		Validations validations = new Validations();
 		validations.getEntries().add(validation);
 

@@ -36,7 +36,6 @@ public class IsatabValidations implements IValidationProcess{
             validation.setMessage(errMsgs);
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 }
