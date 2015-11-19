@@ -163,6 +163,7 @@ public class JSONserialization {
 		Publication publication = new Publication();
 		publication.setTitle("scooby dooby doo scooby dooby doo scooby dooby doo scooby dooby doo scooby dooby doo");
 		publication.setPubmedId("123456");
+		publication.setAuthorList("Salek RM,Maguire ML,Bentley E,Rubtsov DV,Hough T,Cheeseman M,Nunez D,Sweatman BC,Haselden JN,Cox RD,Connor SC,Griffin JL");
 		publicationCollection.add(publication);
 		study.setPublications(publicationCollection);
 

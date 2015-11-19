@@ -30,27 +30,25 @@ public class PublicationValidations implements IValidationProcess {
 
         if (validation.getPassedRequirement()) {
             Collection<Validation> validations = new LinkedList<>();
-            validations.add(getPublicationDOIValidation(study));
-            validations.add(getPublicationPubmedIDValidation(study));
-            Validation titlevalidation = getPublicationTitleValidation(study);
-            if (titlevalidation.getPassedRequirement()) {
-                int passedCount = Utilities.getPassedCount(validations);
-                if (passedCount == 0) {
-                    publicationValidations.addAll(validations);
-                    publicationValidations.add(titlevalidation);
-                    validation.setPassedRequirement(false);
-                    validation.setMessage("Study Publication(s) is missing information");
-                }
-            } else {
-                publicationValidations.addAll(validations);
-                publicationValidations.add(titlevalidation);
-                validation.setPassedRequirement(false);
-                validation.setMessage("Study Publication(s) is missing information");
-            }
+            validations.add(getPublicationTitleValidation(study));
+            validations.add(getPublicationAuthorValidation(study));
+            validations.add(getPublicationPubmedIDAndDOIValidation(study));
 
+            if (!Utilities.allPassed(validations)) {
+                for (Validation v : validations) {
+                    if (!v.getPassedRequirement()) {
+                         publicationValidations.add(v);
+                    }
+                }
+            }
+            else{
+                validation.setStatus();
+                publicationValidations.add(validation);
+            }
+        } else {
+            validation.setStatus();
+            publicationValidations.add(validation);
         }
-        validation.setStatus();
-        publicationValidations.add(validation);
         return publicationValidations;
     }
 
@@ -69,10 +67,22 @@ public class PublicationValidations implements IValidationProcess {
         Validation validation = new Validation(DescriptionConstants.PUBLICATION_TITLE, Requirement.MANDATORY, Group.PUBLICATION);
         for (Publication publication : study.getPublications()) {
             if (publication.getTitle().isEmpty()) {
-                validation.setMessage("Study Publication Title is not provided");
+                validation.setMessage("Please provide Publication Title");
                 validation.setPassedRequirement(false);
             } else if (!Utilities.minCharRequirementPassed(publication.getTitle(), 15)) {
                 validation.setMessage("Study Publication Title length is too short");
+                validation.setPassedRequirement(false);
+            }
+        }
+        validation.setStatus();
+        return validation;
+    }
+
+    public static Validation getPublicationAuthorValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PUBLICATION_AUTHORS, Requirement.MANDATORY, Group.PUBLICATION);
+        for (Publication publication : study.getPublications()) {
+            if (publication.getAuthorList().isEmpty()) {
+                validation.setMessage("Please provide Author List");
                 validation.setPassedRequirement(false);
             }
         }
@@ -104,6 +114,23 @@ public class PublicationValidations implements IValidationProcess {
             if (publication.getDoi().isEmpty()) {
                 validation.setMessage("Study DOI is not provided");
                 validation.setPassedRequirement(false);
+            }
+        }
+        validation.setStatus();
+        return validation;
+    }
+
+    public static Validation getPublicationPubmedIDAndDOIValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.PUBLICATION_IDS_DOI, Requirement.OPTIONAL, Group.PUBLICATION);
+        for (Publication publication : study.getPublications()) {
+            if (publication.getPubmedId().isEmpty() && publication.getDoi().isEmpty()) {
+                validation.setMessage("Please provide Pubmed ID and/or DOI");
+                validation.setPassedRequirement(false);
+            } else {
+                if (!NumberUtils.isNumber(publication.getPubmedId()) && publication.getDoi().isEmpty()) {
+                    validation.setMessage("Publication Pubmed ID provided is not valid. Please provide a valid Pubmed ID and/or DOI");
+                    validation.setPassedRequirement(false);
+                }
             }
         }
         validation.setStatus();
