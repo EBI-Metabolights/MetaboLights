@@ -169,10 +169,10 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
         }
 
         // Before saving the SpeciesMembers data we need to save the foreign key entities if apply
-        if (speciesMember.getSpeciesGroup().getId() == 0) DAOFactory.getSpeciesGroupDAO().save(speciesMember.getSpeciesGroup());
+        if (speciesMember.getSpeciesGroup().getId() == null) DAOFactory.getSpeciesGroupDAO().save(speciesMember.getSpeciesGroup());
 
 		// If its a new SpeciesMembers
-		if (speciesMember.getId() == 0) {
+		if (speciesMember.getId() == null) {
 			insert (speciesMember);
 		} else {
 			update(speciesMember);

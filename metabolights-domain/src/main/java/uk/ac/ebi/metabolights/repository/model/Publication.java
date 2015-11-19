@@ -32,6 +32,7 @@ public class Publication {
     private String title;
     private String doi;
     private String pubmedId;
+    private String authorList;
 
     public String getAbstractText() {
         return abstractText;
@@ -63,5 +64,13 @@ public class Publication {
 
     public void setPubmedId(String pubmedId) {
         this.pubmedId = pubmedId;
+    }
+
+    public String getAuthorList() {
+        return authorList;
+    }
+
+    public void setAuthorList(String authorList) {
+        this.authorList = authorList;
     }
 }

@@ -24,7 +24,6 @@
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
-
 <div class="grid_24 alpha omega box">
 
 	<div class='grid_24 alpha omega'>
@@ -58,7 +57,7 @@
 	</div>
 
 	<div class='grid_6 omega'>
-		<spring:message code="label.expId" />: <strong>${liteStudy.studyIdentifier}</strong><br/>
+		<spring:message code="label.expId" />: <a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.studyIdentifier}</strong></a><br/>
 		<spring:message code="label.filesize" />: <strong>${liteStudy.studyHumanReadable}</strong><br/>
 		<spring:message code="label.subm" />&nbsp;
 		<ul id="resultList">

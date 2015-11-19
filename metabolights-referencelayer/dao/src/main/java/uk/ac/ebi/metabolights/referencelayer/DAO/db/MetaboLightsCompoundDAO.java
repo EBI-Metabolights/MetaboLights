@@ -22,11 +22,9 @@ import uk.ac.ebi.metabolights.referencelayer.model.Pathway;
 import uk.ac.ebi.metabolights.referencelayer.model.Spectra;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
+import java.sql.Date;
 
 
 public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
@@ -237,8 +235,11 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 
     public void save(MetaboLightsCompound compound) throws DAOException {
 
-		// If its a new Compound
-		if (compound.getId() == 0) {
+        java.util.Date date = new java.util.Date();
+        compound.setUpdatedDate(new java.sql.Date(date.getTime()));
+
+        // If its a new Compound
+		if (compound.getId() == null) {
 			insert (compound);
 		} else {
 			update(compound);
@@ -330,6 +331,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         Boolean pathways = rs.getBoolean("HAS_PATHWAYS");
         Boolean NMR = rs.getBoolean("HAS_NMR");
         Boolean MS = rs.getBoolean("HAS_MS");
+        Date updateDate = rs.getDate("UPDATED_DATE");
 
         compound.setId(id);
         compound.setAccession(ACC);
@@ -345,6 +347,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         compound.setHasPathways(pathways);
         compound.setHasNMR(NMR);
         compound.setHasMS(MS);
+        compound.setUpdatedDate(updateDate);
 
         // Load children entities
         loadChildren(compound);
@@ -365,9 +368,9 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         compound.getMetSpectras().addAll(metSpectras);
 
         // Load pathways
-        Collection<Pathway> metPathways = mpd.findByMetId(compound.getId());
+        //Collection<Pathway> metPathways = mpd.findByMetId(compound.getId());
 
-        compound.getMetPathways().addAll(metPathways);
+        //compound.getMetPathways().addAll(metPathways);
 
 
 
@@ -390,12 +393,14 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(5, compound.getChebiId());
             stm.setString(6, compound.getIupacNames());
             stm.setString(7, compound.getFormula());
-            stm.setBoolean(8, (Boolean)compound.getHasLiterature());
-            stm.setBoolean(9, (Boolean)compound.getHasReactions());
+            stm.setBoolean(8, (Boolean) compound.getHasLiterature());
+            stm.setBoolean(9, (Boolean) compound.getHasReactions());
             stm.setBoolean(10, (Boolean)compound.getHasSpecies());
             stm.setBoolean(11, (Boolean)compound.getHasPathways());
             stm.setBoolean(12, (Boolean)compound.getHasNMR());
-            stm.setBoolean(13, (Boolean)compound.getHasMS());
+            stm.setBoolean(13, (Boolean) compound.getHasMS());
+            stm.setDate(14, compound.getUpdatedDate());
+
 			stm.executeUpdate();
 
 			ResultSet keys = stm.getGeneratedKeys();
@@ -430,13 +435,18 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(5, compound.getChebiId());
             stm.setString(6, compound.getIupacNames());
             stm.setString(7, compound.getFormula());
-            stm.setBoolean(8, (Boolean)compound.getHasLiterature());
+            stm.setBoolean(8, (Boolean) compound.getHasLiterature());
             stm.setBoolean(9, (Boolean)compound.getHasReactions());
             stm.setBoolean(10, (Boolean)compound.getHasSpecies());
             stm.setBoolean(11, (Boolean)compound.getHasPathways());
             stm.setBoolean(12, (Boolean)compound.getHasNMR());
             stm.setBoolean(13, (Boolean)compound.getHasMS());
-			stm.setLong(14, compound.getId());
+            stm.setDate(14, compound.getUpdatedDate());
+
+            stm.setLong(15, compound.getId());
+
+
+
 			stm.executeUpdate();
 
 		} catch (SQLException ex) {

@@ -93,7 +93,7 @@ public class MafValidations implements IValidationProcess {
         if (assaysWithNoMaf.size() == study.getAssays().size()) {
             some_assays_have_maf_reference_validation.setPassedRequirement(false);
             some_assays_have_maf_reference_validation.setMessage("Metabolite identification protocol is described \n" +
-                    "but no MAF file is referenced in the Assay(s)");
+                    "but no Metabolite Assignment File (MAF) is referenced in the Assay table");
         }
         some_assays_have_maf_reference_validation.setStatus();
         return some_assays_have_maf_reference_validation;
@@ -148,9 +148,9 @@ public class MafValidations implements IValidationProcess {
 
     private static String getMafErrMessage(List<Assay> assaysWithNoMaf, int assaySize) {
         if (assaySize == 1) return "Metabolite identification protocol is described" +
-                " but no MAF file is referenced in the Assay table";
+                " but no Metabolite Assignment File (MAF) is referenced in the Assay table";
         String errMessage = "Metabolite identification protocol is described " +
-                "but the following assay(s) have no MAF file reference:";
+                "but the following Assay(s) have no Metabolite Assignment File (MAF) reference:";
         for (int i = 0; i < assaysWithNoMaf.size(); i++) {
             errMessage += " Assay " + assaysWithNoMaf.get(i).getAssayNumber();
             if (i < assaysWithNoMaf.size() - 1) {
@@ -184,7 +184,7 @@ public class MafValidations implements IValidationProcess {
     }
 
     private static String getMafFileErrMessage(List<String> notPresentInStudyFolder) {
-        String errMessage = "The following referenced MAF files are not present in study folder:";
+        String errMessage = "The following referenced Metabolite Assignment Files (MAFs) are not present in Study folder:";
         for (int i = 0; i < notPresentInStudyFolder.size(); i++) {
             errMessage += " " + notPresentInStudyFolder.get(i);
             if (i < notPresentInStudyFolder.size() - 1) {
@@ -210,7 +210,7 @@ public class MafValidations implements IValidationProcess {
     }
 
     private static String getIncorrectMafErrMsg(Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map) {
-        String message = "The following MAF file(s) are of incorrect format: ";
+        String message = "The following Metabolite Assignment File(s) (MAF(s)) has wrong format: ";
         for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithIncorrectMaf_map.entrySet()) {
             int index = entry.getKey().intValue();
             String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);

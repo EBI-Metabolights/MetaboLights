@@ -4,19 +4,19 @@
  *
  * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2015-Feb-10
- * Modified by:   conesa
+ * Last modified: 2015-Oct-29
+ * Modified by:   venkata
  *
- *
- * Copyright 2015 EMBL-European Bioinformatics Institute.
+ * Copyright 2015 EMBL - European Bioinformatics Institute
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ *
  */
 
 package uk.ac.ebi.metabolights.webservice.controllers;
@@ -94,6 +94,19 @@ public class IndexController extends BasicController {
 
 	}
 
+	@RequestMapping(value = "{compoundId:" + CompoundController.METABOLIGHTS_COMPOUND_ID_REG_EXP +"}/force", method = RequestMethod.GET)
+	@ResponseBody
+	public RestResponse<ArrayList<String>> forceIndexCompoundUrl(@PathVariable("compoundId") String compoundId) throws IndexingFailureException {
+
+		logger.info("Requesting " + compoundId + " to be force indexed to the webservice");
+
+		ArrayList<String> id = new ArrayList<>();
+		id.add(compoundId);
+
+
+		return indexingService.indexCompounds(id, null, true);
+	}
+
 
 
 	@RequestMapping(value = ALL_COMPOUNDS, method = RequestMethod.POST)
@@ -102,8 +115,17 @@ public class IndexController extends BasicController {
 
 		logger.info("Requesting all compound to be indexed to the webservice");
 
-
 		return indexingService.indexCompounds(ids, null);
+
+	}
+
+	@RequestMapping(value = ALL_COMPOUNDS + "/force", method = RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<ArrayList<String>> forceIndexCompoundsUrl(@RequestBody(required = false) List<String> ids) throws DAOException {
+
+		logger.info("Requesting all compound to be force indexed to the webservice");
+
+		return indexingService.indexCompounds(ids, null, true);
 
 	}
 

@@ -55,16 +55,15 @@ public class CompoundController extends AbstractController {
     private WSCitationImpl PMCSearchService;
 
     @RequestMapping(value = "/{compoundId:" + METABOLIGHTS_COMPOUND_ID_REG_EXP + "}")
-    public ModelAndView showEntry(@PathVariable("compoundId") String mtblc, HttpServletRequest request,
-								  @RequestParam (required = false ,value="alt") String alt ) {
+    public ModelAndView showEntry(@PathVariable("compoundId") String mtblc, HttpServletRequest request) {
 
 		logger.info("requested compound " + mtblc);
 
-		String view = (alt == null? "compound": "altcompound");
+		String view =  "compound";
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
-//        Compound compound = ModelObjectFactory.getCompound(mtblc);
+        // Compound compound = ModelObjectFactory.getCompound(mtblc);
         RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
 
         Compound compound = response.getContent();
@@ -83,6 +82,7 @@ public class CompoundController extends AbstractController {
 
     }
 
+
     @RequestMapping(value = "/reactions")
     private ModelAndView showReactions(
             @RequestParam(required = false, value = "compoundId") String compoundId) {
@@ -98,7 +98,6 @@ public class CompoundController extends AbstractController {
         if (response.getErr() != null) {
             logger.error("Can't get reaction for {}: {}", compoundId,response.getErr().getMessage(), response.getErr());
         } else {
-
             reactions = response.getContent();
         }
 

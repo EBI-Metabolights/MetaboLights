@@ -43,10 +43,18 @@
 
 			var pathwayCanvas = document.createElement("div");
 			pathwayCanvas.id='pathwayCanvas';
+			myDiv.innerHTML="";
 			myDiv.appendChild(pathwayCanvas);
 
 			var selectList = document.createElement("select");
 			selectList.id = "pathwaySelect";
+			selectList.className = "form-control";
+
+			var selectLabel = document.createElement("Label");
+			selectLabel.setAttribute("for","pathwaySelect");
+			selectLabel.innerHTML = "Select pathway: ";
+			pathwayCanvas.appendChild(selectLabel);
+
 			pathwayCanvas.appendChild(selectList);
 
 			for (var key in pathways) {

@@ -51,16 +51,17 @@ import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
 import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.model.Species;
+import uk.ac.ebi.metabolights.webservice.client.WikipathwaysWsClient;
 import uk.ac.ebi.rhea.ws.client.RheaResourceClient;
 import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 
 import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.*;
 
 public class ReferenceLayerImporter {
@@ -75,8 +76,11 @@ public class ReferenceLayerImporter {
 	private DatabaseDAO dbd;
 
     private RheaResourceClient wsRheaClient;
-
     private ChebiWebServiceClient chebiWS;
+
+    private WikipathwaysWsClient wpWsClient;
+
+	private ArrayList<String> failedCompounds = new ArrayList<String>();
 
 	public ChebiWebServiceClient getChebiWS() {
 		if (chebiWS == null)
@@ -112,7 +116,7 @@ public class ReferenceLayerImporter {
 		// COMBOS...
 		public static final int SPECIES_AND_UPDATE_MET = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 //		public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET + DO_FUZZY_SEARCH;
-public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
+		public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 	}
 
 
@@ -216,9 +220,12 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 			LOGGER.error("Can't scan metabolites from chebi", e);
 		}
 
+
 		processReport.oneMore();
 
 		ProcessReport importProcess = processReport.addSubProcess("Importing " + metabolitesToImport.size() + " compounds into MetaboLights", metabolitesToImport.size());
+
+
 		importProcess.started();
 
 		// Now try to save the metabolites
@@ -226,12 +233,17 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 			// Initialize now DAO (will happen only the firs time).
 			initializeDAOs();
+
 			if (wsRheaClient == null)
 				this.wsRheaClient = getWsRheaClient();
+
+            if (wpWsClient == null)
+                this.wpWsClient = getWsclient();
 
 			// Now we should have a list of chebi ids...
 			for (Entity  metabolite: metabolitesToImport.values()) {
 
+				LOGGER.info(metabolite.getChebiId() + "- Started importing");
 				chebiEntity2Metabolights(metabolite);
 				importProcess.oneMore();
 
@@ -282,7 +294,7 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 
 	public void importMetabolitesFromChebiTSV(File chebiTSV) throws DAOException, IOException {
-		importMetabolitesFromChebiTSV(chebiTSV,1);
+		importMetabolitesFromChebiTSV(chebiTSV, 1);
 	}
 
 
@@ -297,7 +309,6 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 	Returns 1 if successful
 	 */
     public int chebiID2MetaboLights(String chebiId) throws DAOException, IOException {
-
 
 		// Get a complete entity....
 		Entity entity = null;
@@ -323,13 +334,12 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 		return 1;
     }
 
-	private int chebiEntity2Metabolights(Entity entity) throws DAOException {
+	private int chebiEntity2Metabolights(Entity entity) throws DAOException, IOException {
 
 		// If the entity has no structure
 		if (entity.getSmiles()== null){
 			return 0;
 		}
-
 
 		try {
 
@@ -341,19 +351,23 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 			if (mc != null){
 
-				// If we don't need to update existing metabolites..
-				if ((importOptions & ImportOptions.UPDATE_EXISTING_MET) == 0){
-					LOGGER.info("The compound " + accession + " already exists and update option not selected.");
-					return 0;
-				}
+				if (!isUpdatedRecently(mc)){
+					// If we don't need to update existing metabolites..
+					if ((importOptions & ImportOptions.UPDATE_EXISTING_MET) == 0){
+						LOGGER.info("The compound " + accession + " already exists and update option not selected.");
+						return 0;
+					}
 
 
-				// ...we already have it...don't do anything..although at some point we may want to update it..
-				LOGGER.info("The compound " + accession + " is already imported into the database. Updating it");
+					// ...we already have it...don't do anything..although at some point we may want to update it..
+					LOGGER.info("The compound " + accession + " is already imported into the database. Updating it");
 
-				if ((importOptions & ImportOptions.REFRESH_MET_SPECIES) == ImportOptions.REFRESH_MET_SPECIES){
-					deleteExistingCHEBISpecies(mc);
-
+					if ((importOptions & ImportOptions.REFRESH_MET_SPECIES) == ImportOptions.REFRESH_MET_SPECIES){
+						deleteExistingCHEBISpecies(mc);
+					}
+				}else{
+					LOGGER.info("The compound " + entity.getChebiId() + " is updated recently. Skipping it!");
+					return 1;
 				}
 
 			} else {
@@ -386,6 +400,10 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 			mc.setHasLiterature(getLiterature(entity));
 			mc.setHasReaction(getReactions(mc.getChebiId()));
+
+
+
+			mc.setHasPathways(getPathways(mc.getChebiId(), "Ce"));
 			mc.setHasSpecies(mc.getMetSpecies().size() != 0);
 
 			mcd.save(mc);
@@ -394,25 +412,49 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 
 		} catch (DAOException e){
 
-			Throwable cause = e.getCause();
+			LOGGER.error(entity.getChebiId() + "failed");
 
-			if (cause instanceof SQLException){
+			failedCompounds.add(entity.getChebiId());
 
-				SQLException sqle = (SQLException) cause;
-				// If it's bacause a duplicate key...
-				//http://stackoverflow.com/questions/1988570/how-to-catch-a-specific-exceptions-in-jdbc
-				if (sqle.getSQLState().startsWith("23")){
-					LOGGER.info("The compound " + entity.getChebiId() + " is already imported into the database (Duplicated primary key)", e);
-					return 0;
-				} else {
-					throw e;
-				}
-			} else {
-				throw e;
-			}
+			mcd = null;
+
+			initializeDAOs();
+
+			return 1;
+
+//			Throwable cause = e.getCause();
+//
+//			if (cause instanceof SQLException){
+//
+//				SQLException sqle = (SQLException) cause;
+//				// If it's bacause a duplicate key...
+//				//http://stackoverflow.com/questions/1988570/how-to-catch-a-specific-exceptions-in-jdbc
+//				if (sqle.getSQLState() != null && sqle.getSQLState().startsWith("23")){
+//					LOGGER.info("The compound " + entity.getChebiId() + " is already imported into the database (Duplicated primary key)", e);
+//					return 0;
+//				} else {
+//					throw e;
+//				}
+//			} else {
+//				throw e;
+//			}
 
 		}
 
+	}
+
+	private boolean isUpdatedRecently(MetaboLightsCompound mc){
+		Date mcUpdatedDate = new Date(mc.getUpdatedDate().getTime());
+		Calendar cal1 = Calendar.getInstance();
+		Calendar cal2 = Calendar.getInstance();
+		cal1.setTime(mcUpdatedDate);
+		cal2.setTime(new Date());
+
+		if(cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private void deleteExistingCHEBISpecies(MetaboLightsCompound mc) throws DAOException {
@@ -451,6 +493,14 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
     }
 
 
+
+	private boolean getPathways(String chebiID, String code){
+		boolean hasPathways  = false;
+		LOGGER.debug("Initializing and getting pathways from Wikipathways");
+		return wpWsClient.hasWikiPathways(chebiID,code);
+	}
+
+
     private boolean getReactions(String chebiID) {
         boolean hasReactions = false;
 
@@ -469,6 +519,27 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
         return hasReactions;
     }
 
+
+    public WikipathwaysWsClient getWsclient(){
+
+        if (wpWsClient instanceof WikipathwaysWsClient) {
+            LOGGER.info("Returning the existing WikipathwaysClient");
+            return wpWsClient;
+        }
+
+        if (wpWsClient == null) {
+            //URL wsURL = null;
+            // try {
+            //     wsURL = new URL("http://webservice.wikipathways.org");
+            // } catch (MalformedURLException e) {
+            //     e.printStackTrace();
+            // }
+            wpWsClient = new WikipathwaysWsClient("http://webservice.wikipathways.org");
+        }
+
+        return wpWsClient;
+    }
+
 	public RheaResourceClient getWsRheaClient() {
 		if (wsRheaClient instanceof RheaResourceClient) {
 			LOGGER.info("Returning the existing RheaResourceClient");
@@ -476,8 +547,8 @@ public static final int ALL = REFRESH_MET_SPECIES + UPDATE_EXISTING_MET;
 		}
 
 		if (wsRheaClient == null) {
-			LOGGER.info("Returning a new RheaResourceClient");
 			wsRheaClient = new RheaResourceClient();
+			LOGGER.info("Returning a new RheaResourceClient");
 		}
 
 		return wsRheaClient;

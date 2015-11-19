@@ -20,8 +20,6 @@
 
 package uk.ac.ebi.metabolights.utils.exporter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
@@ -48,7 +46,6 @@ import java.util.List;
 
 public class MetabolightsXMLExporter {
 
-    private final static Logger logger = LoggerFactory.getLogger(MetabolightsXMLExporter.class.getName());
     private final static String STUDIES = "entries";
     private final static String FIELD = "field";
     private final static String REF = "ref";
@@ -116,7 +113,7 @@ public class MetabolightsXMLExporter {
         return str != null && !str.isEmpty();
     }
 
-    private static void initParams(String fileName, String wsClientURL, Boolean includeCompounds){
+    private static void initParams(String fileName, String wsClientURL, Boolean includeCompounds, Boolean detailedTags){
         if (xmlFileName == null)
             xmlFileName = fileName;
 
@@ -146,47 +143,96 @@ public class MetabolightsXMLExporter {
         return response.getContent();
     }
 
+    private static boolean validateParams(String args[]){
+
+        // If there isn't any parameter
+        if (args == null || args.length == 0)
+            return false;
+
+        int paramLength = args.length;
+        if (paramLength < 4)
+            return false;
+
+        String s0 = args[0];
+        String s1 = args[1].toLowerCase();
+        String s2 = args[2].toLowerCase();
+        String s3 = args[3];
+
+        System.out.println("Params: " + s0 + ":" + s1 + ":" + s2 + ":" +s3);
+
+        if (s0 != null && (s0.equals("") || !s0.endsWith(".xml") || !s0.contains(File.separator))){
+            System.out.println("ERROR param 1: You must provide a fully qualified filename with extension '.xml'");
+            System.out.println("----");
+            return false;
+        }
+
+        if (s1 != null && ( !s1.matches("[yn]*")) ){
+            System.out.println("ERROR param 2: Yes or No are indicated by 'y', 'n', 'Y' or 'N'. Not sure what you mean by "+args[1]);
+            System.out.println("----");
+            return false;
+        }
+
+        if (s2 != null && ( !s2.matches("[yn]*")) ){
+            System.out.println("ERROR param 3: Yes or No are indicated by 'y', 'n', 'Y' or 'N'. Not sure what you mean by "+args[2]);
+            System.out.println("----");
+            return false;
+        }
+
+        if (s3 != null && (!s3.startsWith("http") || s3.equals(""))){
+            System.out.println("ERROR param 4: You must provide a fully qualified URL for the WebService, starting with 'http'. Not sure what you mean by "+args[3]);
+            System.out.println("----");
+            return false;
+        }
+
+        return true;
+
+    }
+
+
     public static void main(String[] args) throws Exception {
 
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the xml export file (Mandatory)");
-            System.out.println("    Parameter 2: Include metabolites in the export file (y/n) (Default n)");
-            System.out.println("    Parameter 2: The URL of the Web Service (optional)");
+            System.out.println("    Parameter 2: Include metabolites in the export file (y/n)");
+            System.out.println("    Parameter 3: Include detailed author information in the export file (y/n)");
+            System.out.println("    Parameter 4: The URL of the MetaboLights Web Service");
             System.out.println();
         } else {
 
             xmlFileName = args[0];
-            Boolean includeCompounds = false;
+            Boolean includeCompounds = false, detailedAuthors = false;
 
             if (args[1] != null && args[1].equalsIgnoreCase("y"))
                 includeCompounds = true;
 
-            if (args[2] != null && args[2].startsWith("http"))
-                WSCLIENT_URL = args[1];     //Use the WS URL provided by the user
+            if (args[2] != null && args[2].equalsIgnoreCase("y"))
+                detailedAuthors = true;
 
-            logger.info("Using WS endpoint '" + WSCLIENT_URL + "'. Starting to export XML file '" +xmlFileName + "'");
-            writeFile(xmlFileName, includeCompounds, WSCLIENT_URL);
+                if (args[3] != null && args[3].startsWith("http"))
+                    WSCLIENT_URL = args[3];     //Use the WS URL provided by the user
+
+            System.out.println("Using WS endpoint '" + WSCLIENT_URL + "'. Starting to export XML file '" +xmlFileName + "'");
+            writeFile(xmlFileName, includeCompounds, detailedAuthors, WSCLIENT_URL);
 
         }
     }
 
 
-    public static boolean writeFile(String fileName, Boolean includeCompounds, String wsClientURL) throws Exception {
+    public static boolean writeFile(String fileName, Boolean includeCompounds, Boolean detailedTags, String wsClientURL) throws Exception {
         try {
 
-            initParams(fileName, wsClientURL, includeCompounds);
+            initParams(fileName, wsClientURL, includeCompounds, detailedTags);
 
             // create the root element node
             setRootXmlElements(includeCompounds);
 
             //Loop thorough the studies returned from the WS
             Element entries = doc.createElement(STUDIES);
-            addStudies(entries);
+            addStudies(entries, detailedTags);
 
             if (includeCompounds)
                 addCompounds(entries);
-
 
             //Add the complete study list to the entries section
             doc.getDocumentElement().appendChild(entries);
@@ -194,7 +240,6 @@ public class MetabolightsXMLExporter {
             writeDocument(doc);
             return true;
         } catch (Exception e) {
-            logger.error("Could not create XML document "+fileName);
             System.out.println("Could not create XML document "+fileName);
             return false;
         }
@@ -211,10 +256,8 @@ public class MetabolightsXMLExporter {
 
             try {
                 System.out.println("Processing compound " + compoundAcc);
-                logger.info("Processing Compound " + compoundAcc);
 
                 //TODO, add ontologies
-                //TODO, add pubmed
 
                 MetaboLightsCompound compound = getCompound(compoundAcc).getMc();
 
@@ -231,8 +274,6 @@ public class MetabolightsXMLExporter {
                 additionalField.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
                 additionalField.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
                 additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
-
-
 
                 Element crossreferences = doc.createElement("cross_references");
                 try {
@@ -342,7 +383,8 @@ public class MetabolightsXMLExporter {
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        //return new String[]{"MTBLS90", "MTBLS2", "MTBLS3"};
+        //return new String[]{"MTBLS1", "MTBLS2"};
+        //return new String[]{"MTBLS67"};
         return response.getContent();
     }
 
@@ -351,27 +393,65 @@ public class MetabolightsXMLExporter {
         return response.getContent();
     }
 
+    private static String tidyProtocolName(String protocolName){
+
+        protocolName = protocolName.toLowerCase();
+        protocolName = protocolName.trim();
+
+        if (protocolName.equalsIgnoreCase("derivatization") || protocolName.equalsIgnoreCase("chemical derivatization"))
+            protocolName = "derivatisation";
+
+        if (protocolName.equalsIgnoreCase("normalization"))
+            protocolName = "normalisation";
+
+        if (protocolName.equalsIgnoreCase("nmr sample") || protocolName.equalsIgnoreCase("ms sample") || protocolName.equalsIgnoreCase("sample"))
+            protocolName = "sample collection";
+
+        if (protocolName.equalsIgnoreCase("fia") || protocolName.equalsIgnoreCase("flow injection"))
+            protocolName = "flow injection analysis";
+
+        if (protocolName.equalsIgnoreCase("installation"))
+            protocolName = "software";
+
+        if (protocolName.equalsIgnoreCase("analysis"))
+            protocolName = "data analysis";
+
+        if (protocolName.equalsIgnoreCase("metabolite identification"))
+            protocolName = "metabolite id";
+
+        if (protocolName.equalsIgnoreCase("nmr spectroscopy"))
+            protocolName = "nmr spec";
+
+        if (protocolName.equalsIgnoreCase("software"))
+            protocolName = "software processing";
+
+        protocolName = protocolName.replaceAll("/","_");
+        protocolName = protocolName.replaceAll("-","_");
+
+        if (protocolName.equalsIgnoreCase("gc_ms derivatization"))
+            protocolName = "derivatisation";
+
+        if (protocolName.contains("mass spectrometry"))
+            protocolName = "mass spec";
+
+        if (protocolName.contains("chromatography"))
+            protocolName = "chromatography";
+
+        protocolName = protocolName.replaceAll(" ","_");
+        protocolName = protocolName.replaceAll(",","_");
+        protocolName = protocolName.replaceAll("__","_");
+        protocolName = protocolName.replace("\\&amp;","_");
+        protocolName = protocolName.replaceAll("\\s+","");
+
+        return protocolName +"_protocol";
+    }
+
     private static void addProtocols(Element entry, Study study){
 
         for (Protocol protocol : study.getProtocols()) {
             String protocolName = protocol.getName();
-            String protocolDesc = tidyNonPrintChars(protocol.getDescription());
-
-            protocolName = protocolName.toLowerCase();
-
-            switch (protocolName){
-                case "sample collection": entry.appendChild(createChildElement(FIELD, "sample_protocol", protocolDesc)); break;
-                case "data transformation": entry.appendChild(createChildElement(FIELD, "data_protocol", protocolDesc)); break;
-                case "metabolite identification": entry.appendChild(createChildElement(FIELD, "metabolite_id_protocol", protocolDesc)); break;
-                case "extraction": entry.appendChild(createChildElement(FIELD, "extraction_protocol", protocolDesc)); break;
-                case "chromatography": entry.appendChild(createChildElement(FIELD, "chromatography_protocol", protocolDesc)); break;
-                case "mass spectrometry": entry.appendChild(createChildElement(FIELD, "mass_spec_protocol", protocolDesc)); break;
-                case "nmr spectroscopy":  entry.appendChild(createChildElement(FIELD, "nmr_spec_protocol", protocolDesc)); break;
-                case "nmr assay": entry.appendChild(createChildElement(FIELD, "nmr_assay_protocol", protocolDesc)); break;
-                case "derivatization": entry.appendChild(createChildElement(FIELD, "derivatization_protocol", protocolDesc)); break;
-                case "statistical analysis": entry.appendChild(createChildElement(FIELD, "statistical_protocol", protocolDesc)); break;
-            }
-
+            String protocolDesc = tidyNonPrintChars(protocol.getDescription(), "Protocol "+protocolName);
+            entry.appendChild(createChildElement(FIELD, tidyProtocolName(protocolName), protocolDesc));
         }
 
     }
@@ -380,12 +460,18 @@ public class MetabolightsXMLExporter {
 
         dateFields.appendChild(createChildElement(DATE, "submission", getDateString(study.getStudySubmissionDate())));
         dateFields.appendChild(createChildElement(DATE, "publication", getDateString(study.getStudyPublicReleaseDate())));
-       // dateFields.appendChild(createChildElement(DATE, "last_modification", getDateString(study.getStudyPublicReleaseDate())));
 
     }
 
     private static void addXrefs(Element crossRefs, Study study){
         List<String> xrefList = new ArrayList<>();
+
+        //PubMed
+        for (Publication publication : study.getPublications()) {
+            String pmid = null;
+            if (hasValue(publication.getPubmedId()))
+                crossRefs.appendChild(createChildElement(REF, publication.getPubmedId(), "pubmed"));
+        }
 
 
         for (int i = 0; i < study.getAssays().size(); i++) {
@@ -398,7 +484,7 @@ public class MetabolightsXMLExporter {
                     for (MetaboliteAssignmentLine metaboliteAssignmentLine : maf.getMetaboliteAssignmentLines()) {
                         String dbId = metaboliteAssignmentLine.getDatabaseIdentifier();
                         String metName = metaboliteAssignmentLine.getMetaboliteIdentification();
-                        metName = tidyNonPrintChars(metName);
+                        metName = tidyNonPrintChars(metName, "Metabolite name: ");
                         dbId = dbId.trim(); //Get rid of spaces
 
                         //To avoid looping throught this data twice, populate the metabolite list here
@@ -437,17 +523,84 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static String tidyNonPrintChars(String s){
+    private static String tidyNonPrintChars(String s, String description){
         String clean = s.replaceAll("\\p{C}", "");
 
         if (clean != s) {
-            System.out.println("Replaced special character in: " + s);
+            System.out.println("Replaced special character in: " + description);
             return clean;
         }
         return s;
     }
 
-    private static void addStudies(Element entries){
+    private static String tidyAutors(Contact contact){
+
+        String completeAuthor = "";
+
+        if (contact == null)
+            return completeAuthor;
+
+        String name = contact.getFirstName() + " " + contact.getLastName();
+        String affiliation = contact.getAffiliation();
+        String address = contact.getAddress();
+        String email = contact.getEmail();
+        String phone = contact.getPhone();
+
+
+        if (hasValue(name))
+            completeAuthor =  name + ". ";
+
+        if (hasValue(affiliation))
+            completeAuthor = completeAuthor + affiliation + ". ";
+
+        if (hasValue(address))
+            completeAuthor = completeAuthor + address + ". ";
+
+        if (hasValue(email))
+            completeAuthor = completeAuthor + contact.getEmail() + ". ";
+
+        if (hasValue(phone))
+            completeAuthor = completeAuthor + contact.getPhone() + ". ";
+
+        return completeAuthor.trim();
+    }
+
+    private static Element addDetailedAuthors(Study study){
+        //Add the sub tree "authorship"
+        Element authorshipField = doc.createElement("authorship");
+        for (Contact contact : study.getContacts()) {
+            Element author = doc.createElement("author");
+
+            String name = contact.getFirstName() + " " + contact.getLastName();
+            String affiliation = contact.getAffiliation();
+            String address = contact.getAddress();
+            String email = contact.getEmail();
+            String phone = contact.getPhone();
+
+            if (hasValue(name))
+                author.appendChild(addGenericElement("name", name));
+
+            if (hasValue(affiliation))
+                author.appendChild(addGenericElement("affiliation", affiliation));
+
+            if (hasValue(address))
+                author.appendChild(addGenericElement("address", address));
+
+            if (hasValue(email))
+                author.appendChild(addGenericElement("email", email));
+
+            if (hasValue(phone))
+                author.appendChild(addGenericElement("phone", phone));
+
+            authorshipField.appendChild(author);
+
+        }
+
+        return authorshipField;
+
+    }
+
+    private static void addStudies(Element entries, Boolean detailedTags){
         //First, add the surrounding <entries> tags
 
         //Add all the public studies
@@ -455,10 +608,8 @@ public class MetabolightsXMLExporter {
             try{
 
                 System.out.println("Processing study " + studyAcc);
-                logger.info("Processing study " + studyAcc);
 
                 //TODO, add ontologies
-                //TODO, add pubmed
 
                 // Empty the metabolites list
                 setMetaboliteList(new ArrayList<String>());
@@ -467,8 +618,8 @@ public class MetabolightsXMLExporter {
 
                 Element entry = doc.createElement("entry");
                 entry.setAttribute("id", studyAcc);
-                entry.appendChild(addGenericElement("name", tidyNonPrintChars(study.getTitle())));
-                entry.appendChild(addGenericElement("description", tidyNonPrintChars(study.getDescription())));
+                entry.appendChild(addGenericElement("name", tidyNonPrintChars(study.getTitle(),"Study title")));
+                entry.appendChild(addGenericElement("description", tidyNonPrintChars(study.getDescription(),"Study description")));
 
                 //Add the sub tree "cross_references"
                 Element crossRefs = doc.createElement("cross_references");
@@ -480,12 +631,23 @@ public class MetabolightsXMLExporter {
                 entry.appendChild(dateFields);
                 addDates(dateFields, study);
 
+                if (detailedTags) { // Required for ThomsonReuters feed
+                    entry.appendChild(addDetailedAuthors(study));
+                    entry.appendChild(addStucturedPublicaitons(study));
+                }
+
                 //Add the sub tree "additional_fields"
                 Element additionalField = doc.createElement("additional_fields");
                 entry.appendChild(additionalField);
 
                 additionalField.appendChild(createChildElement(FIELD, "repository", "MetaboLights"));
                 additionalField.appendChild(createChildElement(FIELD, "omics_type", "Metabolomics"));
+
+                if (!detailedTags){ // Standard author feed for EBI, DDI and MX
+                    for (Contact contact : study.getContacts()) {
+                        additionalField.appendChild(createChildElement(FIELD, "author", tidyAutors(contact)));
+                    }
+                }
 
                 //Add all protocols to the "additional_fields" tree
                 addProtocols(additionalField, study);
@@ -505,13 +667,16 @@ public class MetabolightsXMLExporter {
                         additionalField.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
                     }
 
+                    //TODO, MS: Autosampler model - Chromatography Instrument - Instrument
+                    //TODO, NMR: Autosampler model - Instrument
+
                 }
 
                 additionalField.appendChild(createChildElement(FIELD, "disease", ""));  //We currently do not capture this in a concise way
                 additionalField.appendChild(createChildElement(FIELD, "ptm_modification", ""));  //Proteins only?
 
                 for (User user: study.getUsers()){
-                    additionalField.appendChild(createChildElement(FIELD, "submitter", tidyNonPrintChars(user.getFirstName() + " " + user.getLastName() )));
+                    additionalField.appendChild(createChildElement(FIELD, "submitter", tidyNonPrintChars(user.getFirstName() + " " + user.getLastName(),"Submitter name" )));
                     additionalField.appendChild(createChildElement(FIELD, "submitter_email", user.getEmail() ));
                     if (hasValue(user.getAffiliation()))
                         additionalField.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
@@ -551,6 +716,7 @@ public class MetabolightsXMLExporter {
                             additionalField.appendChild(createChildElement(FIELD, "Organism Part", organism.getOrganismPart().trim()));
                     }
 
+                if (!detailedTags) //Do not need a structured set of fields for Publication
                 for (Publication publication : study.getPublications()) {
                     String completePublications = composePublications(publication);
 
@@ -572,24 +738,50 @@ public class MetabolightsXMLExporter {
         }
     }
 
+    private static String tidyDoi(String doi){
+        String tidyStr = doi.toLowerCase();
+
+        tidyStr = tidyStr.replaceAll("http://","").replaceFirst("dx.", "");
+        tidyStr = tidyStr.replaceAll("doi.org/","");
+        tidyStr = tidyStr.replaceAll("doi:","");
+        tidyStr = tidyStr.replaceAll("na","");
+        tidyStr = tidyStr.replaceAll("n/a","");
+
+        return tidyStr.trim();
+    }
+
+    private static String tidyPubmed(String pubmed){
+        String tidyStr = pubmed.toLowerCase();
+
+        tidyStr = tidyStr.replaceAll("none","");
+        tidyStr = tidyStr.replaceAll("na","");
+        tidyStr = tidyStr.replaceAll("n/a","");
+
+        return tidyStr.trim();
+    }
+
     private static String composePublications(Publication publication){
         String completePublication = null;
         String sep = ".";
 
+        String pubmed = tidyPubmed(publication.getPubmedId());
+        String doi = tidyDoi(publication.getDoi());
+
         if (hasValue(publication.getTitle()))
             completePublication = publication.getTitle().trim();
 
+        assert completePublication != null;
         if (hasValue(completePublication) && !completePublication.endsWith(sep))
             completePublication = completePublication + sep;
 
-        if (hasValue(publication.getDoi()))
-            completePublication = completePublication + " " + publication.getDoi().replaceAll("http://","").replaceFirst("dx.", "");
+        if (hasValue(doi))
+            completePublication = completePublication + " " + doi;
 
         if (hasValue(completePublication) && !completePublication.endsWith(sep))
             completePublication = completePublication + sep;
 
-        if (hasValue(publication.getPubmedId()))
-            completePublication = completePublication + " " + "PMID:"+publication.getPubmedId();
+        if (hasValue(pubmed))
+            completePublication = completePublication + " " + "PMID:"+pubmed;
 
         if (hasValue(completePublication))
             completePublication = completePublication.trim();
@@ -597,6 +789,33 @@ public class MetabolightsXMLExporter {
         return completePublication;
     }
 
+    private static Element addStucturedPublicaitons(Study study){
+        Element publicationsElement = doc.createElement("publications");
+
+
+        for (Publication publication : study.getPublications()) {
+            Element publicationElement = doc.createElement("publication");
+            String title = publication.getTitle();
+            String doi = tidyDoi(publication.getDoi());
+            String pubmed = tidyPubmed(publication.getPubmedId());
+
+            if (hasValue(title))
+                publicationElement.appendChild(addGenericElement("title", title));
+
+            if (hasValue(doi))
+                publicationElement.appendChild(addGenericElement("doi", doi));
+
+            if (hasValue(pubmed))
+                publicationElement.appendChild(addGenericElement("pubmed", "PMID:" + pubmed));
+
+
+            publicationsElement.appendChild(publicationElement);
+        }
+
+        return publicationsElement;
+
+
+    }
 
     private static Element addGenericElement(String itemName, String itemValue) {
 
@@ -655,36 +874,6 @@ public class MetabolightsXMLExporter {
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
         transformer.transform(new DOMSource(xml), new StreamResult(new File(xmlFileName)));
-    }
-
-    private static boolean validateParams(String args[]){
-
-        // If there isn't any parameter
-        if (args == null || args.length == 0)
-            return false;
-
-        if (args[0] == null || args[0].equals("") || !args[0].endsWith(".xml") || !args[0].contains(File.separator)){
-            System.out.println("ERROR: You must provide a fully qualified filename with extension '.xml'");
-            System.out.println("----");
-            return false;
-        }
-
-        if (args[1] == null || args[1].contains("ynYN")){
-            System.out.println("ERROR: Yes or No are indicated by 'y', 'n', 'Y' or 'N'. Not sure what you mean by "+args[1]);
-            System.out.println("----");
-            return false;
-        }
-
-
-        if (args.length > 2)
-            if (!args[2].startsWith("http") || args[2].equals("")){
-                System.out.println("ERROR: You must provide a fully qualified URL for the WebService, starting with 'http'");
-                System.out.println("----");
-                return false;
-            }
-
-        return true;
-
     }
 
 }

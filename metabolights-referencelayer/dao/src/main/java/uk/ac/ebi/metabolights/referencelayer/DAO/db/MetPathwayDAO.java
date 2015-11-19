@@ -183,13 +183,13 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 
         // Before saving the Pathway data we need to save the foreign key entities if apply
         // We are assuming the compound it's been saved and the compound DAO is the one calling this method
-        if (pathway.getDatabase().getId() == 0) dbd.save(pathway.getDatabase());
+        if (pathway.getDatabase().getId() == null) dbd.save(pathway.getDatabase());
 
-        if (pathway.getSpeciesAssociated().getId()==0) spd.save(pathway.getSpeciesAssociated());
+        if (pathway.getSpeciesAssociated().getId()==null) spd.save(pathway.getSpeciesAssociated());
 
 
 		// If its a new Pathway
-		if (pathway.getId() == 0) {
+		if (pathway.getId() == null) {
 			insert (pathway,compound);
 		} else {
 			update(pathway,compound);

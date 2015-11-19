@@ -57,7 +57,7 @@ public class ProtocolValidations implements IValidationProcess {
                 validation.setPassedRequirement(false);
             }
             if (passed < 4) {
-                validation.setMessage("Not enough protocols has descriptions");
+                validation.setMessage("Not enough protocols have descriptions");
                 validation.setPassedRequirement(false);
             }
         } else {
@@ -95,7 +95,7 @@ public class ProtocolValidations implements IValidationProcess {
     }
 
     private static String getErrMessage(List<String> emptyProtocolFields) {
-        String errMessage = "Protocol description is not sufficient or not all required fields are provided. Missing field(s):";
+        String errMessage = "Protocol description is not sufficiently detailed or not all required fields are provided. Missing field(s):";
         for (int i = 0; i < emptyProtocolFields.size(); i++) {
             errMessage += " " + emptyProtocolFields.get(i);
             if (i < emptyProtocolFields.size() - 1) {
@@ -110,7 +110,7 @@ public class ProtocolValidations implements IValidationProcess {
         Validation validation = new Validation(DescriptionConstants.PROTOCOLS_SAMPLE_COLLECTION, Requirement.OPTIONAL, Group.PROTOCOLS);
         if (!sampleCollectionProtocolIsPresent(study)) {
             validation.setPassedRequirement(false);
-            validation.setMessage("Samples data is provided but no \"Sample collection\" protocol is" +
+            validation.setMessage("Sample data is provided but no \"Sample collection\" protocol is" +
                     " described");
 
         }
@@ -155,7 +155,7 @@ public class ProtocolValidations implements IValidationProcess {
         }
         if (!message.isEmpty()) {
             validation.setPassedRequirement(false);
-            message += "contains characters that cannot be successfully decoded.";
+            message += "contains characters that cannot be successfully parsed.";
             validation.setMessage(message);
         }
 

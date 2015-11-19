@@ -42,6 +42,7 @@ import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.utils.UploadProgressListener;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
@@ -50,6 +51,7 @@ import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import javax.naming.Binding;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.io.File;
 import java.sql.SQLException;
@@ -80,6 +82,17 @@ public class ManagerController extends AbstractController{
 	private HomePageController homePageController;
 
 	private static Logger logger = LoggerFactory.getLogger(ManagerController.class);
+
+	@RequestMapping(value = "/tools")
+	public ModelAndView showCompound(HttpServletRequest request) {
+
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("tools");
+
+		mav.addObject("pageTitle", "Curator Tools" );
+
+		return mav;
+
+	}
 
 	@RequestMapping({"/config"})
 	public ModelAndView config() {
@@ -160,6 +173,7 @@ public class ManagerController extends AbstractController{
 		}
 		mav.addObject("validation", validationResult);
 		mav.addObject("queue", queue);
+		mav.addObject("uploads", UploadProgressListener.getUploads());
 		mav.addObject("processFolder", (getFilesInFolder(new File(SubmissionQueue.getProcessFolder()))));
 		mav.addObject("errorFolder", (getFilesInFolder(new File(SubmissionQueue.getErrorFolder()))));
 		mav.addObject("backUpFolder", (getFilesInFolder(new File(SubmissionQueue.getBackUpFolder()))));

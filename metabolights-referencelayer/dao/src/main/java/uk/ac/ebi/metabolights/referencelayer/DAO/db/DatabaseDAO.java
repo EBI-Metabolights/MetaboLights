@@ -129,7 +129,7 @@ public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 	public void save(Database db) throws DAOException {
 
 		// If its a new database
-		if (db.getId() == 0) {
+		if (db.getId() == null) {
 			insert (db);
 		} else {
 			update(db);
