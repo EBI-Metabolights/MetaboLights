@@ -45,7 +45,7 @@ public class StudyValidationUtilities {
 
         try {
             study.getValidations().getEntries().addAll(validationProcess.getValidations(study));
-
+             s
         } catch (Exception e) {
 
             AddValidationFromException(study, validationProcess.getAbout() + " validation failure", "Couldn't run all the " + validationProcess.getAbout() + " validations: " + e.getMessage());

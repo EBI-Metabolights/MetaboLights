@@ -56,14 +56,4 @@ public class DataModelFactory {
 		return userData;
 
 	}
-
-	public static ValidationData getValidationDataInstance(Validation validation) {
-
-		ValidationData validationData = new ValidationData();
-
-		initializeDataModel(validationData, validation);
-
-		return validationData;
-
-	}
 }

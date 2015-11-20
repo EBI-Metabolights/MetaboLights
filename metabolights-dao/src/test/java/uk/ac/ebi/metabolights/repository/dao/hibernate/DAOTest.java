@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.ValidationData;
 
 import java.net.URL;
 import java.util.Properties;
@@ -76,7 +75,6 @@ public abstract class DAOTest {
 		session.createQuery("delete from StudyData").executeUpdate();
 		session.createQuery("delete from UserData").executeUpdate();
 		session.createQuery("delete from StableId").executeUpdate();
-		session.createQuery("delete from " + ValidationData.class.getSimpleName()).executeUpdate();
 
 		session.noNeedSession();
 	}
