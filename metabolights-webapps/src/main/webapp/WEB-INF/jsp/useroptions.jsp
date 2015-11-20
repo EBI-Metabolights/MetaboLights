@@ -73,4 +73,12 @@
     </a>
 </div>
 
+    <div class='grid_6 prefix_2 omega'>
+        <a href="<spring:url value="tools"/>">
+            <div class="bigbutton seccolorI">
+                <span class="bigfont"><spring:message code="menu.toolsCaps" /></span><br/>
+            </div>
+        </a>
+    </div>
+
 </sec:authorize>

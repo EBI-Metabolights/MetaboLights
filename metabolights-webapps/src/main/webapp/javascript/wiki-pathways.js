@@ -43,6 +43,7 @@
 
 			var pathwayCanvas = document.createElement("div");
 			pathwayCanvas.id='pathwayCanvas';
+			myDiv.innerHTML="";
 			myDiv.appendChild(pathwayCanvas);
 
 			var selectList = document.createElement("select");

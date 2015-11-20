@@ -25,16 +25,22 @@ public class SampleValidations implements IValidationProcess {
 
     public Collection<Validation> getValidations(Study study) {
         Collection<Validation> sampleValidations = new LinkedList<>();
-        sampleValidations.add(getSampleValidation(study));
+        Validation basic = getSampleValidation(study);
+        sampleValidations.add(basic);
         sampleValidations.add(getSampleNameConsistencyValidation(study));
+//            if (basic.getPassedRequirement()) {
+//            Validation areColumnsEmptyValidation = getEmptyColumnsValidation(study);
+//            if (!areColumnsEmptyValidation.getPassedRequirement()) {
+//                sampleValidations.add(areColumnsEmptyValidation);
+//            }
+//        }
         return sampleValidations;
-
     }
 
     public static Validation getSampleValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.SAMPLES, Requirement.MANDATORY, Group.SAMPLES);
         if (study.getSampleTable().getData().isEmpty()) {
-            validation.setMessage("No sample data is provided");
+            validation.setMessage("No Sample Names are provided");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -45,7 +51,7 @@ public class SampleValidations implements IValidationProcess {
     public static Validation getSampleNameConsistencyValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAY_SAMPLE_NAMEMATCH, Requirement.MANDATORY, Group.ASSAYS);
         if (study.getSampleTable().getData().isEmpty()) {
-            validation.setMessage("No sample data is provided");
+            validation.setMessage("No Sample Names are provided");
             validation.setPassedRequirement(false);
         } else {
             int sampleNameIndexInSamples = getSampleNameIndexFrom(study.getSampleTable().getFields());
@@ -63,24 +69,6 @@ public class SampleValidations implements IValidationProcess {
                 validation.setPassedRequirement(false);
                 validation.setMessage(getMisMatchErrMsg(assay_SampleNames));
             }
-            // get sample names list
-            // create a map of Integer,List<String> assay number, sampleNames
-
-            /*
-
-            for each assay
-            get the sample name index, and the sample names
-            List of moMatch
-            Look up each name in the above sample names list, if there is mismatch add it to the noMatch list
-            if noMatch is not empty, put this list and assay number into a map
-
-             */
-
-
-            // if the map is not empty, fail the validation
-            // generate error message based on the map information
-
-
         }
         validation.setStatus();
         return validation;
@@ -120,7 +108,7 @@ public class SampleValidations implements IValidationProcess {
     }
 
     private static String getMisMatchErrMsg(Map<Integer, List<String>> assay_SampleNames) {
-        String message = "The following sample names are not consistent: \n";
+        String message = "The following Sample Names are not consistent: \n";
         for (Map.Entry<Integer, List<String>> entry : assay_SampleNames.entrySet()) {
             int index = entry.getKey().intValue();
             message += " Assay " + index + ":";
@@ -131,4 +119,20 @@ public class SampleValidations implements IValidationProcess {
         }
         return message;
     }
+
+
+    private Validation getEmptyColumnsValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.SAMPLES_EMPTY_COLUMNS, Requirement.OPTIONAL, Group.SAMPLES);
+        HashSet emptyIndices = (HashSet) Utilities.getEmptyDataColumns(study.getSampleTable().getData());
+        if (!emptyIndices.isEmpty()) {
+            List<String> emptyFieldNames = Utilities.getEmptyFieldNames(study.getSampleTable().getFields(), emptyIndices);
+            validation.setPassedRequirement(false);
+            validation.setMessage(Utilities.getSampleColumnEmptyErrMsg(emptyFieldNames, "Sample"));
+        }
+        validation.setStatus();
+        return validation;
+
+    }
+
+
 }

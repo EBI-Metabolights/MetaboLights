@@ -65,13 +65,8 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/refCompound.jsp" />
 	</definition>
 
-    <definition name="altcompound" extends="default">
-        <put-attribute name="title" value="Beta Compound page" />
-        <put-attribute name="body" value="/WEB-INF/jsp/compound.jsp" />
-    </definition>
-
     <definition name="bcompound" extends="default">
-        <put-attribute name="title" value="Beta Bootstraped Compound page" />
+        <put-attribute name="title" value="Beta Compound page" />
         <put-attribute name="body" value="/WEB-INF/jsp/bcompound.jsp" />
     </definition>
 
@@ -182,6 +177,11 @@
    	<definition name="config" extends="default">
         <put-attribute name="title" value="Configuration" />
         <put-attribute name="body" value="/WEB-INF/jsp/config.jsp" />
+    </definition>
+
+    <definition name="tools" extends="default">
+        <put-attribute name="title" value="Curator Tools" />
+        <put-attribute name="body" value="/WEB-INF/jsp/tools.jsp" />
     </definition>
 
     <definition name="users" extends="default">

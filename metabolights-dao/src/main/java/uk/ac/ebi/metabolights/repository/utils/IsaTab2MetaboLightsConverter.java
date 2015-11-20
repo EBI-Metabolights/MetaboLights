@@ -480,6 +480,7 @@ public class IsaTab2MetaboLightsConverter {
             publication.setDoi(isaPublication.getPublicationDOI());
             publication.setPubmedId(isaPublication.getPubmedId());
             publication.setTitle(isaPublication.getPublicationTitle());
+            publication.setAuthorList(isaPublication.getPublicationAuthorList());
 
             studyPublications.add(publication);
         }

@@ -53,7 +53,7 @@
 				<c:if test="${empty noBreadCrumb}">
 					<nav id="breadcrumb">
 						<p>
-							<a href="index">MetaboLights</a> &gt; <tiles:insertAttribute name="title" ignore="true" />
+							<a href="${pageContext.request.contextPath}/index">MetaboLights</a> &gt; <tiles:insertAttribute name="title" ignore="true" />
 						</p>
 					</nav>
 				</c:if>

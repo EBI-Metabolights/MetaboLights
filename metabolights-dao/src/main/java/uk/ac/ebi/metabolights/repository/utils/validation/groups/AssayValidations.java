@@ -30,7 +30,6 @@ public class AssayValidations implements IValidationProcess {
 
     public Collection<Validation> getValidations(Study study) {
         Collection<Validation> assayValidations = new LinkedList<>();
-        //assayValidations.add(getAssayValidation(study));
         assayValidations.addAll(getAssayValidations(study));
         return assayValidations;
     }
@@ -38,7 +37,7 @@ public class AssayValidations implements IValidationProcess {
     public static Validation getAssayValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAYS, Requirement.MANDATORY, Group.ASSAYS);
         if (study.getAssays().isEmpty()) {
-            validation.setMessage("No assay data is provided");
+            validation.setMessage("No Assay data is provided");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -49,13 +48,17 @@ public class AssayValidations implements IValidationProcess {
         Collection<Validation> assayValidations = new LinkedList<>();
         Validation validation = new Validation(DescriptionConstants.ASSAYS, Requirement.MANDATORY, Group.ASSAYS);
         if (study.getAssays().isEmpty()) {
-            validation.setMessage("No assay data is provided");
+            validation.setMessage("No Assay data is provided");
             validation.setPassedRequirement(false);
         } else {
             assayValidations.add(getAssayHasPlatformInfoValidation(study));
             Validation assayRawFileValidation = getAssayHasFilesValidation(study);
             assayValidations.add(assayRawFileValidation);
             assayValidations.add(referencedFilesArePresentInFileSystem(study, assayRawFileValidation.getPassedRequirement()));
+//            Validation areColumnsEmptyValidation = getEmptyColumnsValidation(study);
+//            if (!areColumnsEmptyValidation.getPassedRequirement()) {
+//                assayValidations.add(areColumnsEmptyValidation);
+//            }
         }
         assayValidations.add(validation);
         validation.setStatus();
@@ -129,7 +132,7 @@ public class AssayValidations implements IValidationProcess {
     private static List<String> getFileFieldsExceptMAFFrom(LinkedHashMap<String, Field> tableFields) {
         List<String> fileFields = new ArrayList<>();
         for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
-            if (Utilities.containsKeyword(entry.getKey()," file")) {
+            if (Utilities.containsKeyword(entry.getKey(), " file")) {
                 if (!Utilities.getfieldName(entry.getKey()).equalsIgnoreCase("metabolite assignment file")) {
                     fileFields.add(entry.getKey());
                 }
@@ -176,7 +179,7 @@ public class AssayValidations implements IValidationProcess {
         Validation validation = new Validation(DescriptionConstants.ASSAY_FILES_IN_FILESYSTEM, Requirement.MANDATORY, Group.FILES);
         if (!assayRawFileValidationHasPassed) {
             validation.setPassedRequirement(false);
-            validation.setMessage("No assay raw files are referenced");
+            validation.setMessage("No Assay raw files are referenced");
         } else {
             List<String> rawFilesListFromFilesystem = Utilities.getFileNamesInDirectory(study.getStudyLocation());
             Map<Boolean, List<String>> booleanListMap = allAssayColumnsHasFilesMatchedInFileSystem(rawFilesListFromFilesystem, study.getAssays());
@@ -190,7 +193,6 @@ public class AssayValidations implements IValidationProcess {
         validation.setStatus();
         return validation;
     }
-
 
 
     private static Map<Boolean, List<String>> allAssayColumnsHasFilesMatchedInFileSystem(List<String> rawFilesList, List<Assay> assays) {
@@ -245,7 +247,7 @@ public class AssayValidations implements IValidationProcess {
 
 
     private static String getNonMatchedFileMessage(List<String> rawFilesNoMatchList) {
-        String errMessage = "Files reported in assay columns, are not present in study folder. Missing:";
+        String errMessage = "Files reported in Assay columns, are not present in Study folder. Missing:";
         for (int i = 0; i < rawFilesNoMatchList.size(); i++) {
             errMessage += " " + rawFilesNoMatchList.get(i);
             if (i < rawFilesNoMatchList.size() - 1) {
@@ -254,4 +256,73 @@ public class AssayValidations implements IValidationProcess {
         }
         return errMessage;
     }
+
+
+    private static Validation getEmptyColumnsValidation(Study study) {
+        Validation validation = new Validation(DescriptionConstants.ASSAYS_EMPTY_COLUMNS, Requirement.OPTIONAL, Group.ASSAYS);
+
+        if (study.getAssays().size() == 1) {
+            handleSingleAssayCase(validation, study);
+        } else {
+            handleMultipleAssayCase(validation, study);
+        }
+
+        return validation;
+    }
+
+    private static void handleSingleAssayCase(Validation validation, Study study) {
+        HashSet emptyIndices = (HashSet) Utilities.getEmptyDataColumns(study.getAssays().get(0).getAssayTable().getData());
+        if (!emptyIndices.isEmpty()) {
+            List<String> emptyFieldNames = Utilities.getEmptyFieldNames(study.getAssays().get(0).getAssayTable().getFields(), emptyIndices);
+            validation.setPassedRequirement(false);
+            validation.setMessage(Utilities.getSampleColumnEmptyErrMsg(emptyFieldNames, "Assay"));
+        }
+        validation.setStatus();
+    }
+
+    private static void handleMultipleAssayCase(Validation validation, Study study) {
+        Map<String, HashSet<Integer>> columnName_assay_map = new HashMap<>();
+        for (int i = 0; i < study.getAssays().size(); i++) {
+            HashSet emptyIndices = (HashSet) Utilities.getEmptyDataColumns(study.getAssays().get(i).getAssayTable().getData());
+            if (!emptyIndices.isEmpty()) {
+                List<String> emptyFieldNames = Utilities.getEmptyFieldNames(study.getAssays().get(i).getAssayTable().getFields(), emptyIndices);
+                fill(columnName_assay_map, emptyFieldNames, i);
+                validation.setPassedRequirement(false);
+                validation.setMessage(getSampleColumnEmptyErrMsg(columnName_assay_map));
+            }
+        }
+        validation.setStatus();
+    }
+
+    private static void fill(Map<String, HashSet<Integer>> columnName_assay_map, List<String> emptyFieldNames, int assayNumber) {
+        for (String name : emptyFieldNames) {
+            if (!columnName_assay_map.containsKey(name)) {
+                HashSet<Integer> assayIndices = new HashSet<>();
+                assayIndices.add(assayNumber);
+                columnName_assay_map.put(name, assayIndices);
+            } else {
+                columnName_assay_map.get(name).add(assayNumber);
+            }
+        }
+    }
+
+    private static String getSampleColumnEmptyErrMsg(Map<String, HashSet<Integer>> columnName_assay_map) {
+        String message = "The following columns are missing in the Assay Definition Sheet(s): \n";
+
+        for (Map.Entry<String, HashSet<Integer>> entry : columnName_assay_map.entrySet()) {
+            String missingColumn = entry.getKey();
+            message += missingColumn + " (";
+            for (Integer assayNumber : entry.getValue()) {
+                message += "Assay " + (assayNumber+1) + ";";
+            }
+            message += ")";
+            message += "\n";
+
+        }
+
+
+        return message;
+    }
+
+
 }

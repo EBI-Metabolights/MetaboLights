@@ -36,8 +36,8 @@ public class StudyValidations implements IValidationProcess {
     public static Validation getStudyTitleValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.STUDY_TITLE, Requirement.MANDATORY, Group.STUDY);
         if (!Utilities.minCharRequirementPassed(
-                study.getTitle(), 70)) {
-            validation.setMessage("Study title lacks detail");
+                study.getTitle(), 65)) {
+            validation.setMessage("Study Title lacks detail");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -48,7 +48,7 @@ public class StudyValidations implements IValidationProcess {
         Validation validation = new Validation(DescriptionConstants.STUDY_DESCRIPTION, Requirement.MANDATORY, Group.STUDY);
         if (!Utilities.minCharRequirementPassed(
                 study.getDescription(), 200)) {
-            validation.setMessage("Study description lacks detail");
+            validation.setMessage("Study Description lacks detail");
             validation.setPassedRequirement(false);
         }
         validation.setStatus();
@@ -73,7 +73,7 @@ public class StudyValidations implements IValidationProcess {
         }
         if (!message.isEmpty()) {
             validation.setPassedRequirement(false);
-            message += "contains characters that cannot be successfully decoded";
+            message += "contains characters that cannot be successfully parsed";
             validation.setMessage(message);
         }
         validation.setStatus();
@@ -105,7 +105,7 @@ public class StudyValidations implements IValidationProcess {
         }
         if (noEmail > 0) {
             validation.setPassedRequirement(false);
-            validation.setMessage("Not all study contacts have their email linked");
+            validation.setMessage("Not all Study Contacts have their emails listed");
         }
         validation.setStatus();
         return validation;
