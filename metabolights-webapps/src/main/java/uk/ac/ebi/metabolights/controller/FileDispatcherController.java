@@ -28,13 +28,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.utils.FileUtil;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.Zipper;
@@ -42,12 +38,8 @@ import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Controller for dispatching study files .
@@ -403,4 +395,124 @@ public class FileDispatcherController extends AbstractController {
 
 		return null;
 	}
+
+    /**
+     * Get a list of files from private FTP folder for a Study
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151110
+     */
+    public File[] getPrivateFtpFileList(String studyId) {
+
+        // Using the WebService-client to do the job
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+        return wsClient.getPrivateFtpFileList(studyId).getContent();
+    }
+
+    /**
+     * Create a private FTP folder for a Study, so the user can upload big files using ftp.
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
+     *
+     * @param studyId the ID of the study
+     * @author: jrmacias
+     * @date: 20151105
+     */
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/requestFtpFolder")
+    public ModelAndView requestFtpFolder(@PathVariable("studyId") String studyId) {
+
+        logger.info("Requesting a private FTP folder for the study {}", studyId);
+
+        // Using the WebService-client to do the job
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+        String rslt = wsClient.requestFtpFolder(studyId).getMessage();
+
+        // parse WS response for user feedback
+        List<String> msg = new LinkedList<>();
+        String[] str = rslt.split("\\|");
+        for (String line:str){
+            msg.add(line);
+        }
+
+        return printMessage("Creating private FTP folder for Study...", msg);
+    }
+
+    /**
+     * Move files from private FTP folder for a Study.
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
+     *
+     * @param studyId the ID of the study
+     * @author: jrmacias
+     * @date: 20151105
+     */
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/moveFilesfromFtpFolder",
+            method = RequestMethod.POST)
+    public ModelAndView moveFilesfromFtpFolder(@PathVariable("studyId") String studyId,
+                                               @RequestParam("ftpFile") List<String> selectedFiles,
+                                               HttpServletResponse response) {
+
+        logger.info("Moving files from private FTP folder for the study {}", studyId);
+
+        // Using the WebService-client to do the job
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+        String rslt = wsClient.moveFilesfromFtpFolder(studyId, selectedFiles).getMessage();
+
+        // parse WS response for user feedback
+        List<String> msg = new LinkedList<>();
+        String[] str = rslt.split("\\|");
+        for (String line:str){
+            msg.add(line);
+        }
+        return printMessage("Moving files from private FTP folder...", msg);
+    }
+
+    /**
+     * Check if a Study has a private FTP folder
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151012
+     */
+    public boolean hasPrivateFtpFolder(String studyId) {
+
+        // Using the WebService-client to do the job
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+
+        return wsClient.hasPrivateFtpFolder(studyId);
+    }
+
+    /**
+     * Delete a series of files selected from the private FTP folder for a Study
+     * Requires confirmation.
+     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
+     *
+     * @param studyId the ID of the study
+     * @param selectedFiles, the list of files to be deleted
+     * @param response
+     * @author: jrmacias
+     * @date: 20151012
+     */
+    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteSelFtpFiles",
+            method = RequestMethod.POST)
+    public ModelAndView deleteSelectedFtpFiles(@PathVariable("studyId") String studyId,
+                                            @RequestParam("ftpFile") List<String> selectedFiles,
+                                            HttpServletResponse response){
+
+        // Using the WebService-client to actually delete the files
+        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+        String rslt = wsClient.deletePrivateFtpFiles(studyId, selectedFiles).getMessage();
+
+        // parse WS response for user feedback
+        List<String> msg = new LinkedList<>();
+        String[] str = rslt.split("\\|");
+        for (String line:str){
+            msg.add(line);
+        }
+
+        return printMessage("Deleting files from private FTP folder...", msg);
+    }
 }

@@ -25,14 +25,13 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
-
+import static java.nio.file.StandardCopyOption.*;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.*;
+import java.nio.file.attribute.*;
+import java.util.*;
 
 
 public class FileUtil {
@@ -233,13 +232,142 @@ public class FileUtil {
 	 */
 	public static String deleteFiles(List<String> fileNames){
 
-		boolean result;
-		StringBuffer resp = new StringBuffer();
+		StringBuffer result = new StringBuffer();
 
 		for (String fileName : fileNames) {
-			resp.append(new File(fileName).getName()).append(", ").append("file was ").append(deleteFile(fileName) ? "":"NOT ").append("deleted.").append("|");
+			result.append(new File(fileName).getName()).append(", ").append("file was ")
+					.append(deleteFile(fileName) ? "":"NOT ").append("deleted.").append("|");
 		}
-		return resp.toString();
+		return result.toString();
 	}
 
+	/**
+	 * Create a private FTP folder for uploading big study files
+	 *
+	 * @param folder
+	 * @return a String containing created folder
+	 * @author jrmacias
+	 * @date 20151102
+	 */
+	@PostConstruct
+	public static Path createFtpFolder(String folder) throws IOException {
+
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
+
+		// create the folder
+		File ftpFolder = new File(privateFTPRoot + File.separator + folder);
+		Path folderPath = ftpFolder.toPath();
+		if (!ftpFolder.mkdir()) throw new IOException();
+
+		// set folder owner, group and access permissions
+		// 'chmod 770'
+		UserPrincipalLookupService lookupService = FileSystems.getDefault().getUserPrincipalLookupService();
+		Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
+		// owner permissions
+		perms.add(PosixFilePermission.OWNER_READ);
+		perms.add(PosixFilePermission.OWNER_WRITE);
+		perms.add(PosixFilePermission.OWNER_EXECUTE);
+		// group permissions
+		perms.add(PosixFilePermission.GROUP_READ);
+		perms.add(PosixFilePermission.GROUP_WRITE);
+		perms.add(PosixFilePermission.GROUP_EXECUTE);
+		// apply changes
+		Files.getFileAttributeView(folderPath, PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS).setPermissions(perms);
+
+		return folderPath;
+	}
+
+	/**
+	 * Move a single file from a private FTP folder to MetaboLights
+	 *
+	 * @param fileName
+	 * @param ftpFolder
+	 * @param studyFolder
+     * @return
+	 * @author jrmacias
+	 * @date 20151104
+     */
+	private static boolean moveFileFromFTP(String fileName, String ftpFolder, String studyFolder) {
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
+		boolean result = false;
+
+		// move the file
+		Path filePath = Paths.get(
+				privateFTPRoot +
+				File.separator + ftpFolder +
+				File.separator + fileName);
+		Path studyPath  = Paths.get(studyFolder +
+				File.separator + fileName);
+
+		try {
+			Files.move(filePath, studyPath, ATOMIC_MOVE);
+			result = true;
+		} catch (IOException ex) {
+			logger.error("Error: can't move the file. {}", ex.getMessage());
+		}
+
+		return result;
+	}
+
+	/**
+	 * Move a list of files from a private FTP folder to MetaboLights
+	 *
+	 * @param fileNames
+	 * @param ftpFolder
+	 * @param studyFolder
+	 * @return a String with a list of files + status (moved / not moved)
+	 * @author jrmacias
+	 * @date 20151104
+     */
+	public static String moveFilesFromPrivateFtpFolder(List<String> fileNames, String ftpFolder, String studyFolder) {
+
+		StringBuffer result = new StringBuffer();
+
+		for (String fileName : fileNames) {
+			result.append(new File(fileName).getName()).append(", ").append("file was ").
+					append(moveFileFromFTP(fileName, ftpFolder, studyFolder) ? "":"NOT ").append("moved.").append("|");
+		}
+		return result.toString();
+	}
+
+	/**
+	 * Get a list of files in the private FTP folder
+	 *
+	 * @param ftpFolder
+	 * @return
+	 * @author jrmacias
+	 * @date 20151102
+     */
+	public static String[] getFtpFolderList(String ftpFolder) {
+
+		File[] files = new File(ftpFolder).listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return !file.isHidden();
+			}
+		});
+
+		List<String> fileNames = new ArrayList<>();
+		for (File file : files){
+			fileNames.add(file.getName());
+		}
+		String[] names = new String[fileNames.size()];
+
+		return fileNames.toArray(names);
+	}
+
+	/**
+	 * Check if a private FTP folder exists
+	 *
+	 * @param ftpFolder
+	 * @return
+	 * @author jrmacias
+	 * @date 20151102
+     */
+	public static boolean getFtpFolder(String ftpFolder) {
+
+		File folder = new File(ftpFolder);
+
+		return folder.exists() && folder.isDirectory();
+	}
 }
