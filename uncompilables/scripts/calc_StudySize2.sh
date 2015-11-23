@@ -17,15 +17,15 @@ cd $studyfolder
 sum=0;
 size=""
 
-for value in $(du -s */)
+for value in $(find . -maxdepth 1 -type d -mtime 3 -exec du -s {}/ \;)
 
 do  
 if [ $sum -eq 0 ]; then
    size=${value}
-   #echo size $size
+   echo size $size
    sum=$[$sum+1]
 else
-    study=$(echo $value | awk -F'/' '{print $1}')
+    study=$(echo $value | awk -F'/' '{print $2}')
     echo size $size study $study
     sum=$[$sum-1]
     

@@ -107,7 +107,6 @@ public class HibernateUtil {
 		configuration.addAnnotatedClass(StudyData.class);
 		configuration.addAnnotatedClass(UserData.class);
 		configuration.addAnnotatedClass(StableId.class);
-
 	}
 
 	public static SessionWrapper getSession(){

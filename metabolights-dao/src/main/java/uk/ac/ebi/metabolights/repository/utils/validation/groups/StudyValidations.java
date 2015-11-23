@@ -3,6 +3,7 @@ package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 import uk.ac.ebi.metabolights.repository.model.Contact;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
@@ -35,23 +36,23 @@ public class StudyValidations implements IValidationProcess {
 
     public static Validation getStudyTitleValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.STUDY_TITLE, Requirement.MANDATORY, Group.STUDY);
+        validation.setId(ValidationIdentifier.STUDY_TITLE.getID());
         if (!Utilities.minCharRequirementPassed(
                 study.getTitle(), 65)) {
             validation.setMessage("Study Title lacks detail");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
     public static Validation getStudyDescriptionValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.STUDY_DESCRIPTION, Requirement.MANDATORY, Group.STUDY);
+        validation.setId(ValidationIdentifier.STUDY_DESCRIPTION.getID());
         if (!Utilities.minCharRequirementPassed(
                 study.getDescription(), 200)) {
             validation.setMessage("Study Description lacks detail");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -61,6 +62,7 @@ public class StudyValidations implements IValidationProcess {
 
     public static Validation studyDecodeIsSuccessfulValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.STUDY_TEXT, Requirement.OPTIONAL, Group.STUDY);
+        validation.setId(ValidationIdentifier.STUDY_TEXT.getID());
         String message = "";
         if (Utilities.getNonUnicodeCharacters(study.getTitle()).size() > 0) {
             message += "Study title, \n";
@@ -76,7 +78,6 @@ public class StudyValidations implements IValidationProcess {
             message += "contains characters that cannot be successfully parsed";
             validation.setMessage(message);
         }
-        validation.setStatus();
         return validation;
 
     }
@@ -96,6 +97,7 @@ public class StudyValidations implements IValidationProcess {
 
     public static Validation allContactsHaveEmailValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.STUDY_CONTACT_EMAIL, Requirement.MANDATORY, Group.CONTACT);
+        validation.setId(ValidationIdentifier.STUDY_CONTACT_EMAIL.getID());
         Collection<Contact> contacts = study.getContacts();
         int noEmail = 0;
         for (Contact contact : contacts) {
@@ -107,7 +109,6 @@ public class StudyValidations implements IValidationProcess {
             validation.setPassedRequirement(false);
             validation.setMessage("Not all Study Contacts have their emails listed");
         }
-        validation.setStatus();
         return validation;
     }
 

@@ -1,6 +1,11 @@
 package uk.ac.ebi.metabolights.repository.model.studyvalidator;
 
 
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by kalai on 18/09/15.
  */
@@ -20,7 +25,7 @@ public class Validation {
     public Validation() {
     }
 
-    private Long id;
+    private Integer id;
 
     private String description;
 
@@ -36,6 +41,9 @@ public class Validation {
 
     private String message = "OK";
 
+    private boolean overriden = false;
+
+
     public String getDescription() {
         return description;
     }
@@ -50,6 +58,7 @@ public class Validation {
 
     public void setPassedRequirement(boolean passedRequirement) {
         this.passedRequirement = passedRequirement;
+        setStatus();
     }
 
     public Requirement getType() {
@@ -84,33 +93,42 @@ public class Validation {
         this.group = group;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
 
     public void setStatus() {
         if (getPassedRequirement()) {
             setStatus(Status.GREEN);
-            statusExt = (description == null?"":description) + " - PASSED";
+            statusExt = (description == null ? "" : description) + " - PASSED";
         } else {
             if (getType().equals(Requirement.MANDATORY)) {
                 setStatus(Status.RED);
-                statusExt = (description == null?"":description) + " - FAILED";
+                statusExt = (description == null ? "" : description) + " - FAILED";
             } else {
                 setStatus(Status.ORANGE);
-                statusExt = (description == null?"":description) + " - PASSED";
+                statusExt = (description == null ? "" : description) + " - PASSED";
             }
         }
 
     }
 
 
-    public String getStatusExt(){
+    public String getStatusExt() {
         return statusExt;
     }
+
+
+    public boolean isOverriden() {
+        return overriden;
+    }
+
+    public void setOverriden(boolean overriden) {
+        this.overriden = overriden;
+    }
+
 }

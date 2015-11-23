@@ -6,6 +6,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
 
@@ -39,17 +40,18 @@ public class SampleValidations implements IValidationProcess {
 
     public static Validation getSampleValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.SAMPLES, Requirement.MANDATORY, Group.SAMPLES);
+        validation.setId(ValidationIdentifier.SAMPLES.getID());
         if (study.getSampleTable().getData().isEmpty()) {
             validation.setMessage("No Sample Names are provided");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
 
     public static Validation getSampleNameConsistencyValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAY_SAMPLE_NAMEMATCH, Requirement.MANDATORY, Group.ASSAYS);
+        validation.setId(ValidationIdentifier.ASSAY_SAMPLE_NAMEMATCH.getID());
         if (study.getSampleTable().getData().isEmpty()) {
             validation.setMessage("No Sample Names are provided");
             validation.setPassedRequirement(false);
@@ -70,7 +72,6 @@ public class SampleValidations implements IValidationProcess {
                 validation.setMessage(getMisMatchErrMsg(assay_SampleNames));
             }
         }
-        validation.setStatus();
         return validation;
 
     }
@@ -123,13 +124,13 @@ public class SampleValidations implements IValidationProcess {
 
     private Validation getEmptyColumnsValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.SAMPLES_EMPTY_COLUMNS, Requirement.OPTIONAL, Group.SAMPLES);
+        validation.setId(ValidationIdentifier.SAMPLES_EMPTY_COLUMNS.getID());
         HashSet emptyIndices = (HashSet) Utilities.getEmptyDataColumns(study.getSampleTable().getData());
         if (!emptyIndices.isEmpty()) {
             List<String> emptyFieldNames = Utilities.getEmptyFieldNames(study.getSampleTable().getFields(), emptyIndices);
             validation.setPassedRequirement(false);
             validation.setMessage(Utilities.getSampleColumnEmptyErrMsg(emptyFieldNames, "Sample"));
         }
-        validation.setStatus();
         return validation;
 
     }
