@@ -51,9 +51,9 @@ public abstract class DAOTest {
 
 		initFolders();
 
-		DAOFactory.initialize(configRoot, studiesLocation,configuration);
+		DAOFactory.initialize(configRoot, studiesLocation, configuration);
 
-		cleanDB();
+		//cleanDB();
 
 
 	}
@@ -75,6 +75,7 @@ public abstract class DAOTest {
 		session.createQuery("delete from StudyData").executeUpdate();
 		session.createQuery("delete from UserData").executeUpdate();
 		session.createQuery("delete from StableId").executeUpdate();
+
 		session.noNeedSession();
 	}
 

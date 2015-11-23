@@ -3,10 +3,7 @@ package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
 
@@ -70,6 +67,7 @@ public class MafValidations implements IValidationProcess {
 
     public static Validation comprehensiveMafValidation() {
         Validation comprehensiveMafValidation = new Validation(DescriptionConstants.ASSAY_ALL_MAF_REFERENCE, Requirement.OPTIONAL, Group.FILES);
+        comprehensiveMafValidation.setId(ValidationIdentifier.ASSAY_ALL_MAF_REFERENCE.getID());
         return comprehensiveMafValidation;
     }
 
@@ -83,19 +81,18 @@ public class MafValidations implements IValidationProcess {
             all_assays_have_maf_reference_validation.setPassedRequirement(false);
             all_assays_have_maf_reference_validation.setMessage(getMafErrMessage(assaysWithNoMaf, study.getAssays().size()));
         }
-        all_assays_have_maf_reference_validation.setStatus();
         return all_assays_have_maf_reference_validation;
     }
 
 
     public static Validation minimumMafReferenceValidation(Study study) {
         Validation some_assays_have_maf_reference_validation = new Validation(DescriptionConstants.ASSAY_ATLEAST_SOME_MAF_REFERENCE, Requirement.MANDATORY, Group.FILES);
+        some_assays_have_maf_reference_validation.setId(ValidationIdentifier.ASSAY_ATLEAST_SOME_MAF_REFERENCE.getID());
         if (assaysWithNoMaf.size() == study.getAssays().size()) {
             some_assays_have_maf_reference_validation.setPassedRequirement(false);
             some_assays_have_maf_reference_validation.setMessage("Metabolite identification protocol is described \n" +
                     "but no Metabolite Assignment File (MAF) is referenced in the Assay table");
         }
-        some_assays_have_maf_reference_validation.setStatus();
         return some_assays_have_maf_reference_validation;
     }
 
@@ -106,23 +103,23 @@ public class MafValidations implements IValidationProcess {
 
     public static Validation mafPhysicalFilesValidation(Study study) {
         Validation maf_file_validation = new Validation(DescriptionConstants.ASSAY_MAF_FILE, Requirement.MANDATORY, Group.FILES);
+        maf_file_validation.setId(ValidationIdentifier.ASSAY_MAF_FILE.getID());
         List<String> notPresentInStudyFolder = referencedMafFilesNotPresentInFileSystem(mafIndex_assaysWithMaf_map, study);
         if (notPresentInStudyFolder.size() > 0) {
             maf_file_validation.setPassedRequirement(false);
             maf_file_validation.setMessage(getMafFileErrMessage(notPresentInStudyFolder));
         }
-        maf_file_validation.setStatus();
         return maf_file_validation;
     }
 
     public static Validation correctMafFormatValidation(Study study) {
         Validation maf_file_correct_format_validation = new Validation(DescriptionConstants.ASSAY_CORRECT_MAF_FILE, Requirement.MANDATORY, Group.FILES);
+        maf_file_correct_format_validation.setId(ValidationIdentifier.ASSAY_CORRECT_MAF_FILE.getID());
         Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map = getIncorrectMafFileNames(mafIndex_assaysWithMaf_map);
         if (mafIndex_assaysWithIncorrectMaf_map.size() > 0) {
             maf_file_correct_format_validation.setPassedRequirement(false);
             maf_file_correct_format_validation.setMessage(getIncorrectMafErrMsg(mafIndex_assaysWithIncorrectMaf_map));
         }
-        maf_file_correct_format_validation.setStatus();
         return maf_file_correct_format_validation;
     }
 

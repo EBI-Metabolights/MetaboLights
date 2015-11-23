@@ -55,11 +55,32 @@ public class StudyDAOTest extends DAOTest {
 	private StudyData inconsistent;
 
 	@Before
+	public void init() throws DAOException {
+
+		// Add MTBLS4 to the database (files misplaced intentionally)
+		publicStudy = new StudyData();
+		publicStudy.setAcc("MTBLS1");
+		publicStudy.setStatus(Study.StudyStatus.PUBLIC.ordinal());
+		publicStudy.setReleaseDate(new Date());
+		publicStudy.setUpdateDate(new Date());
+		publicStudy.setSubmissionDate(new Date());
+
+		// Save all
+		SessionWrapper session = HibernateUtil.getSession();
+		session.needSession();
+		session.saveOrUpdate(publicStudy);
+
+		session.noNeedSession();
+
+		// Initialise de DAO
+		studyDAO = DAOFactory.getInstance().getStudyDAO();
+	}
+
 	public void initData() throws DAOException {
 
 		// Add MTBLS4 to the database (files misplaced intentionally)
 		publicStudy = new StudyData();
-		publicStudy.setAcc("MTBLS4");
+		publicStudy.setAcc("MTBLS1");
 		publicStudy.setStatus(Study.StudyStatus.PUBLIC.ordinal());
 		publicStudy.setReleaseDate(new Date());
 
