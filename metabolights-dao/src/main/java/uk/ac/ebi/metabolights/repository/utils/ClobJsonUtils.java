@@ -46,16 +46,15 @@ public class ClobJsonUtils {
     }
 
     public static <T> T parseJson(String jsonString, Class<T> valueType) {
+        if(jsonString==null)return null;
 
         ObjectMapper mapper = new ObjectMapper();
 
         try {
             return mapper.readValue(jsonString, valueType);
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     public static <T> T parseJsonFromCharArray(Character[] jsonString, Class<T> valueType) {
@@ -72,13 +71,12 @@ public class ClobJsonUtils {
     }
 
     public static String parseToJSONString(Object toConvert) {
-
+        if(toConvert == null) return "";
         ObjectMapper mapper = new ObjectMapper();
 
         try {
             return mapper.writeValueAsString(toConvert);
         } catch (IOException e) {
-            e.printStackTrace();
             return "";
         }
 

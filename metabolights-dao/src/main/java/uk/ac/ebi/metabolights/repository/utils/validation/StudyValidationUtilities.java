@@ -1,7 +1,10 @@
 package uk.ac.ebi.metabolights.repository.utils.validation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
+import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 import uk.ac.ebi.metabolights.repository.utils.validation.groups.*;
 
 /**
@@ -9,6 +12,7 @@ import uk.ac.ebi.metabolights.repository.utils.validation.groups.*;
  */
 public class StudyValidationUtilities {
 
+    private final static Logger logger = LoggerFactory.getLogger(StudyValidationUtilities.class.getName());
     private static Validations validationsFromDB = new Validations();
 
     public static void validate(Study study) {
@@ -45,7 +49,6 @@ public class StudyValidationUtilities {
 
         try {
             study.getValidations().getEntries().addAll(validationProcess.getValidations(study));
-             s
         } catch (Exception e) {
 
             AddValidationFromException(study, validationProcess.getAbout() + " validation failure", "Couldn't run all the " + validationProcess.getAbout() + " validations: " + e.getMessage());

@@ -75,11 +75,11 @@ public class StudyDataTest  extends DAOTest {
 
 
 
-		// Add an user
-		UserData user = UserDataTest.getNewUserData();
-		session.save(user);
-		studyData.getUsers().add(user);
-
+		 //Add an user
+//		UserData user = UserDataTest.getNewUserData();
+//		session.save(user);
+//		studyData.getUsers().add(user);
+//
 		session.saveOrUpdate(studyData);
 
 		Assert.assertNotNull("Id it's been populated", studyData.id);
@@ -102,7 +102,7 @@ public class StudyDataTest  extends DAOTest {
 		logger.info("New studies id populated: " + studyData.getId());
 
 		// Check users collection is retrieved
-		Assert.assertEquals("Are study users populated?", 1,studyData.getUsers().size());
+		//Assert.assertEquals("Are study users populated?", 1,studyData.getUsers().size());
 //
 //		Assert.assertEquals("Are study validations populated?", 1,studyData.getValidationsDataSet().size());
 //		logger.info("Validations populated: " + studyData.getValidationsDataSet().size());
@@ -113,7 +113,7 @@ public class StudyDataTest  extends DAOTest {
 		logger.info("Validations populated: " + validations1.getEntries().size());
 
 		// Test deletion
-	//	session.delete(studyData);
+		session.delete(studyData);
 
 		session.noNeedSession();
 	}

@@ -180,6 +180,8 @@ public class StudyDAO {
         studyToFill.setBackups(FileAuditUtil.getBackupsCollection(studyFolder));
 
         StudyValidationUtilities.validate(studyToFill);
+        logger.warn(ClobJsonUtils.parseToJSONString(studyToFill.getValidations()));
+
 
         logger.info("Study loaded from folder: {}", studyFolder.getAbsolutePath());
 

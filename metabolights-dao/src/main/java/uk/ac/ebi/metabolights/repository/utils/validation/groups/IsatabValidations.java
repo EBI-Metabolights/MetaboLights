@@ -2,6 +2,7 @@ package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
@@ -28,6 +29,7 @@ public class IsatabValidations implements IValidationProcess{
 
     public static Validation getIsatabInvestigationFileStructureValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ISATAB_INVESTIGATION, Requirement.MANDATORY, Group.ISATAB);
+        validation.setId(ValidationIdentifier.ISATAB_INVESTIGATION.getID());
         if (!study.getIsatabErrorMessages().isEmpty()) {
             String errMsgs = "";
             for (String msg : study.getIsatabErrorMessages()) {
