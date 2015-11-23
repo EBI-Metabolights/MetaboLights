@@ -15,6 +15,8 @@ public class Validations {
 
     private boolean passedMinimumRequirement = false;
 
+    private boolean overriden = false;
+
     public Collection<Validation> getEntries() {
         return entries;
     }
@@ -33,6 +35,14 @@ public class Validations {
 
     public void setPassedMinimumRequirement(boolean passedMinimumRequirement) {
         this.passedMinimumRequirement = passedMinimumRequirement;
+    }
+
+    public boolean isOverriden() {
+        return overriden;
+    }
+
+    public void setOverriden(boolean overriden) {
+        this.overriden = overriden;
     }
 
     public boolean contains(Validation validation) {

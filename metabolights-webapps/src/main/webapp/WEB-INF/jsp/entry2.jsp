@@ -347,6 +347,7 @@
             <li>
                 <a id="valid-tab" href="#tabs-validations" class="noLine"><spring:message code="label.studyvalidation"/>&nbsp;
                     <c:set var="validationstatus" value="${study.validations.status}"/>
+                    <c:set var="validationoverridden" value="${study.validations.overriden}"/>
                     <%@include file="validation.jsp" %>
                 </a>
             </li>
@@ -634,6 +635,9 @@
 
         <div id="tabs-validations" class="tab">
             <c:if test="${not empty study.validations.entries}">
+                <div class="specs">
+                Validations marked with (*) if any, are specially approved by the MetaboLights Curators
+                </div>
                 <table class="display clean" order="[ 1, 'asc' ]">
                     <thead class='text_header'>
                     <tr>
@@ -650,6 +654,7 @@
                         <tr>
                             <td>
                                 <c:set var="validationstatus" value="${validation.status}"/>
+                                <c:set var="validationoverridden" value="${validation.overriden}"/>
                                 <%@include file="validation.jsp" %>
                             </td>
 

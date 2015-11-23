@@ -79,6 +79,7 @@ public class StudyValidationUtilities {
                     if(overRiddenValue != currentValue){
                          current.setPassedRequirement(overRiddenValue);
                          current.setOverriden(true);
+                        generatedNow.setOverriden(true);
                     }
                 }
              }
