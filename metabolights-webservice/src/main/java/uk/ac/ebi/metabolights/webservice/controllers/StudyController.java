@@ -302,6 +302,10 @@ public class StudyController extends BasicController{
 			}
 
 			response.setContent(study);
+			if(study==null){
+				response.setMessage("Study not found");
+				logger.error("Can't get the study requested " + studyIdentifier);
+			}
 
 		} catch (DAOException e) {
 			logger.error("Can't get the study requested " + studyIdentifier, e);
