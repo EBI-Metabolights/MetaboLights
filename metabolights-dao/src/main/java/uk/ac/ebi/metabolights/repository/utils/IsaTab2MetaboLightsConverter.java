@@ -184,7 +184,6 @@ public class IsaTab2MetaboLightsConverter {
             validation.setPassedRequirement(true);
         }
 
-        validation.setStatus();
         // Do not add this validation....ignore them
         //studyToFill.getValidations().getEntries().add(validation);
 
@@ -480,6 +479,7 @@ public class IsaTab2MetaboLightsConverter {
             publication.setDoi(isaPublication.getPublicationDOI());
             publication.setPubmedId(isaPublication.getPubmedId());
             publication.setTitle(isaPublication.getPublicationTitle());
+            publication.setAuthorList(isaPublication.getPublicationAuthorList());
 
             studyPublications.add(publication);
         }

@@ -28,6 +28,10 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOTest;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
+import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -46,12 +50,36 @@ public class StudyDataTest  extends DAOTest {
 		session.needSession();
 		StudyData studyData = getStudyData();
 
+		// add validation
 
-		// Add an user
-		UserData user = UserDataTest.getNewUserData();
-		session.save(user);
-		studyData.getUsers().add(user);
+		// Add validations
+//		ValidationData vd = DataModelFactory.getValidationDataInstance(new Validation());
+//		vd.setPassed(true);
+//		vd.setRequirement(Requirement.OPTIONAL);
+//		vd.setValidationid(new Integer(3));
+//		vd.setStudyData(studyData);
+//		session.save(vd);
 
+		Validation validation = new Validation();
+		validation.setMessage("Hello");
+		validation.setPassedRequirement(true);
+		Validations validations = new Validations();
+		validations.getEntries().add(validation);
+
+		studyData.setValidations(ClobJsonUtils.parseToJSONString(validations));
+
+
+
+
+		//studyData.getValidationsDataSet().add(vd);
+
+
+
+		 //Add an user
+//		UserData user = UserDataTest.getNewUserData();
+//		session.save(user);
+//		studyData.getUsers().add(user);
+//
 		session.saveOrUpdate(studyData);
 
 		Assert.assertNotNull("Id it's been populated", studyData.id);
@@ -71,9 +99,18 @@ public class StudyDataTest  extends DAOTest {
 		// Check some values..
 		Assert.assertEquals("StudyData retrieved test: Obfuscation code", OCODE,studyData.getObfuscationcode());
 		Assert.assertTrue("Accession starts with test:", studyData.getAcc().startsWith(ACC));
+		logger.info("New studies id populated: " + studyData.getId());
 
 		// Check users collection is retrieved
-		Assert.assertEquals("Are study users populated?", 1,studyData.getUsers().size());
+		//Assert.assertEquals("Are study users populated?", 1,studyData.getUsers().size());
+//
+//		Assert.assertEquals("Are study validations populated?", 1,studyData.getValidationsDataSet().size());
+//		logger.info("Validations populated: " + studyData.getValidationsDataSet().size());
+
+		// test validation
+		 Validations validations1 = ClobJsonUtils.parseJson(studyData.getValidations(), Validations.class);
+		Assert.assertEquals("Are study validations populated?", 1 , validations1.getEntries().size());
+		logger.info("Validations populated: " + validations1.getEntries().size());
 
 		// Test deletion
 		session.delete(studyData);
@@ -156,8 +193,13 @@ public class StudyDataTest  extends DAOTest {
 
 		StudyData studyData = DataModelFactory.getStudyDataInstance(new Study());
 		studyData.setAcc (ACC + System.currentTimeMillis());
-		studyData.setObfuscationcode (OCODE);
+		studyData.setObfuscationcode(OCODE);
 		studyData.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
+		studyData.setReleaseDate(new Date());
+		studyData.setUpdateDate(new Date());
+		studyData.setSubmissionDate(new Date());
+
+
 
 		return studyData;
 	}

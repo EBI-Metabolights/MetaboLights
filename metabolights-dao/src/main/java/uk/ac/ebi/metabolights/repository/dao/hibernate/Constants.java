@@ -31,5 +31,6 @@ public class Constants {
 	public static final String STUDIES_TABLE = "studies";
 	public static final String  STUDY_USER_TABLE ="study_user";
 	public static final String  STABLE_ID_TABLE ="stableid";
+	public static final String VALIDATIONS_TABLE ="validations";
 
 }

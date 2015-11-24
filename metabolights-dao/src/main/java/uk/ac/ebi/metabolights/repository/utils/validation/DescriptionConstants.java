@@ -29,10 +29,11 @@ public class DescriptionConstants {
 
     //PUBLICATIONS
     public static final String PUBLICATIONS = "Publication(s) associated with this Study";
-    public static final String PUBLICATION_TITLE = "Publication Title";
-    public static final String PUBLICATION_AUTHORS = "Authors of Publication";
+    public static final String PUBLICATION_TITLE = "Publication Title is missing";
+    public static final String PUBLICATION_AUTHORS = "Publication Author list is missing";
     public static final String PUBLICATION_DOI  = "Publication DOI";
     public static final String PUBLICATION_IDS  = "Publication PubMed IDs";
+    public static final String PUBLICATION_IDS_DOI  = "Publication PubMed ID and Publication DOI are missing";
 
 
     public static final String STUDY_FACTORS = "Study factors used in the experiment";

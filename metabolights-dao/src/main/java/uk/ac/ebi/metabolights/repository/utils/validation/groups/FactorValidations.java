@@ -5,6 +5,7 @@ import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.StudyFactor;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
@@ -38,6 +39,7 @@ public class FactorValidations implements IValidationProcess {
 
     public static Validation getFactorNameValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.FACTOR_NAME, Requirement.MANDATORY, Group.FACTORS);
+        validation.setId(ValidationIdentifier.FACTOR_NAME.getID());
         if (!study.getFactors().isEmpty()) {
             for (StudyFactor studyFactor : study.getFactors()) {
                 if (!Utilities.minCharRequirementPassed(studyFactor.getName(), 3)) {
@@ -49,14 +51,15 @@ public class FactorValidations implements IValidationProcess {
             validation.setMessage("No Study Factor information is provided");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
     public static Collection<Validation> getFactorsPresentInSamplesOrAssaysValidation(Study study) {
         Collection<Validation> validations = new LinkedList<>();
         Validation validation1 = new Validation(DescriptionConstants.FACTOR_IN_SAMPLES_ASSAYS, Requirement.MANDATORY, Group.FACTORS);
+        validation1.setId(ValidationIdentifier.FACTOR_IN_SAMPLES_ASSAYS.getID());
         Validation validation2 = new Validation(DescriptionConstants.FACTOR_COLUMNS_SAMPLES_ASSAYS, Requirement.MANDATORY, Group.FACTORS);
+        validation2.setId(ValidationIdentifier.FACTOR_COLUMNS_SAMPLES_ASSAYS.getID());
 
         Map<String, Integer> factorSampleMap = getMatchingFactorIndices(study.getFactors(), study.getSampleTable().getFields());
         Map<Assay, Map<String, Integer>> factorAssayMap = assayThatHasAllfactors(study.getFactors(), study.getAssays());
@@ -70,7 +73,6 @@ public class FactorValidations implements IValidationProcess {
         if (missingInSamples && !presentInAssays) {
             validation1.setPassedRequirement(false);
             validation1.setMessage(getMissingFactorsErrMsg(factorSampleMap, "Sample or Assay"));
-            validation1.setStatus();
             validations.add(validation1);
             return validations;
         }
@@ -91,8 +93,6 @@ public class FactorValidations implements IValidationProcess {
                 validation2.setMessage("Empty Study Factor column(s) found in the Sample and Assay sheet(s)");
             }
         }
-        validation1.setStatus();
-        validation2.setStatus();
         validations.add(validation1);
         validations.add(validation2);
         return validations;

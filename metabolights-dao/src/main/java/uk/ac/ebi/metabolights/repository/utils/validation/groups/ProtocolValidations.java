@@ -3,6 +3,7 @@ package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 import uk.ac.ebi.metabolights.repository.model.Protocol;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
@@ -42,6 +43,7 @@ public class ProtocolValidations implements IValidationProcess {
 
     public static Validation getMinimumProtocolValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.PROTOCOLS_MINIMUM, Requirement.MANDATORY, Group.PROTOCOLS);
+        validation.setId(ValidationIdentifier.PROTOCOLS_MINIMUM.getID());
         if (!study.getProtocols().isEmpty()) {
             int notPassed = 0;
             int passed = 0;
@@ -64,7 +66,6 @@ public class ProtocolValidations implements IValidationProcess {
             validation.setMessage("Protocols are empty");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
 
     }
@@ -72,6 +73,7 @@ public class ProtocolValidations implements IValidationProcess {
 
     public static Validation getComprehensiveProtocolValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.PROTOCOLS_ALL, Requirement.OPTIONAL, Group.PROTOCOLS);
+        validation.setId(ValidationIdentifier.PROTOCOLS_ALL.getID());
         if (!study.getProtocols().isEmpty()) {
             List<String> emptyProtocolFields = new ArrayList<>();
             for (Protocol protocol : study.getProtocols()) {
@@ -90,7 +92,6 @@ public class ProtocolValidations implements IValidationProcess {
             validation.setMessage("Protocols are empty");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -108,6 +109,7 @@ public class ProtocolValidations implements IValidationProcess {
 
     public static Validation getSampleCollectionProtocolValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.PROTOCOLS_SAMPLE_COLLECTION, Requirement.OPTIONAL, Group.PROTOCOLS);
+        validation.setId(ValidationIdentifier.PROTOCOLS_SAMPLE_COLLECTION.getID());
         if (!sampleCollectionProtocolIsPresent(study)) {
             validation.setPassedRequirement(false);
             validation.setMessage("Sample data is provided but no \"Sample collection\" protocol is" +
@@ -115,7 +117,6 @@ public class ProtocolValidations implements IValidationProcess {
 
         }
 
-        validation.setStatus();
         return validation;
     }
 
@@ -144,6 +145,7 @@ public class ProtocolValidations implements IValidationProcess {
 
     public static Validation protocolsDecodeIsSuccessfulValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.PROTOCOLS_TEXT, Requirement.OPTIONAL, Group.PROTOCOLS);
+        validation.setId(ValidationIdentifier.PROTOCOLS_TEXT.getID());
         String message = "";
         for (Protocol protocol : study.getProtocols()) {
             if (!protocol.getDescription().isEmpty()) {
@@ -159,7 +161,6 @@ public class ProtocolValidations implements IValidationProcess {
             validation.setMessage(message);
         }
 
-        validation.setStatus();
         return validation;
 
     }
