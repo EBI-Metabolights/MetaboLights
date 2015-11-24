@@ -430,6 +430,8 @@
             }
         } else if (target == '#nmrspectra') {
             initializeNMRSpeckTackle();
+        } else if (target == '#msspectra') {
+            initializeMSSpeckTackle();
         } else if (target == '#reactions') {
             $('#reactions-content').html( reactions.getReactions("${compound.mc.accession}"));
         } else if (target == '#literature') {

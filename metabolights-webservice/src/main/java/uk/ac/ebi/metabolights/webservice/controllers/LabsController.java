@@ -121,6 +121,7 @@ public class LabsController extends BasicController{
                 return restResponse;
             }
 
+            restResponse.setContent(jwt);
             response.setHeader("user", email);
             response.setHeader("jwt", jwt);
             return restResponse;

@@ -6,7 +6,7 @@
 <%@page pageEncoding="UTF-8"%>
 
 <%--<script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>--%>
-<%--<link rel="stylesheet" href="cssrl/iconfont/font_style.css" type="text/css" />--%>
+<link rel="stylesheet" href="cssrl/iconfont/font_style.css" type="text/css" />
 
 
 <div class="grid_24 alpha omega box">

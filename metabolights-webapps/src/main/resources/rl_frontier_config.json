@@ -83,7 +83,7 @@
             }
         ],
         "search": {
-            "action": "search",
+            "action": "/metabolights/search",
             "method": "post",
             "inputName": "freeTextQuery",
             "examples": [
