@@ -56,6 +56,7 @@ public class UserDataTest extends DAOTest {
 
 		StudyData newStudy = StudyDataTest.getStudyData();
 		userData.getStudies().add(newStudy);
+
 		session.save(newStudy);
 
 		// Test persistence

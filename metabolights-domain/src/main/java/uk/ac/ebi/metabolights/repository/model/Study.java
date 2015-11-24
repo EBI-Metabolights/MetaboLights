@@ -42,7 +42,6 @@ public class Study extends LiteStudy {
     private Collection<Protocol> protocols;
     private List<Assay> assays;
     private Collection<Backup> backups;
-    private Validations validations = new Validations();
 
     // Tables Sample & Assays
     private Table sampleTable;
@@ -121,11 +120,4 @@ public class Study extends LiteStudy {
         this.backups = backups;
     }
 
-    public Validations getValidations() {
-        return validations;
-    }
-
-    public void setValidations(Validations validations) {
-        this.validations = validations;
-    }
 }

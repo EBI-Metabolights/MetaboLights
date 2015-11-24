@@ -384,4 +384,18 @@ public class EmailService {
 
 		return message;
 	}
+
+	/**
+	 * Email to be sent when a private FTP is created for the Study
+	 *
+	 * @param userEmail
+	 * @param body
+	 * @author jrmacias
+	 * @date 20151102
+	 */
+	public void sendCreatedFTPFolderEmail(String userEmail, String subject, String body) {
+		String[] to = {userEmail, curationEmailAddress};
+
+		sendSimpleEmail(to, subject, body);
+	}
 }

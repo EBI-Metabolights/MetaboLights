@@ -3,6 +3,7 @@ package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 import uk.ac.ebi.metabolights.repository.model.Organism;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
@@ -31,6 +32,7 @@ public class OrganismValidations implements IValidationProcess{
 
     public static Validation getOrganismNameValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ORGANISM_NAME, Requirement.MANDATORY, Group.ORGANISM);
+        validation.setId(ValidationIdentifier.ORGANISM_NAME.getID());
         if (!study.getOrganism().isEmpty()) {
             for (Organism organism : study.getOrganism()) {
                 if (!Utilities.minCharRequirementPassed(organism.getOrganismName(), 3)) {
@@ -43,12 +45,12 @@ public class OrganismValidations implements IValidationProcess{
             validation.setMessage("Organism is empty");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
     public static Validation getOrganismPartValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ORGANISM_PART, Requirement.MANDATORY, Group.ORGANISM);
+        validation.setId(ValidationIdentifier.ORGANISM_PART.getID());
         if (!study.getOrganism().isEmpty()) {
             for (Organism organism : study.getOrganism()) {
                 if (!Utilities.minCharRequirementPassed(organism.getOrganismPart(), 3)) {
@@ -61,7 +63,6 @@ public class OrganismValidations implements IValidationProcess{
             validation.setMessage("Organism is empty");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 

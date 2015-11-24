@@ -4,10 +4,7 @@ import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Table;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
 
@@ -36,17 +33,18 @@ public class AssayValidations implements IValidationProcess {
 
     public static Validation getAssayValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAYS, Requirement.MANDATORY, Group.ASSAYS);
+        validation.setId(ValidationIdentifier.ASSAYS.getID());
         if (study.getAssays().isEmpty()) {
             validation.setMessage("No Assay data is provided");
             validation.setPassedRequirement(false);
         }
-        validation.setStatus();
         return validation;
     }
 
     public static Collection<Validation> getAssayValidations(Study study) {
         Collection<Validation> assayValidations = new LinkedList<>();
         Validation validation = new Validation(DescriptionConstants.ASSAYS, Requirement.MANDATORY, Group.ASSAYS);
+        validation.setId(ValidationIdentifier.ASSAYS.getID());
         if (study.getAssays().isEmpty()) {
             validation.setMessage("No Assay data is provided");
             validation.setPassedRequirement(false);
@@ -61,12 +59,12 @@ public class AssayValidations implements IValidationProcess {
 //            }
         }
         assayValidations.add(validation);
-        validation.setStatus();
         return assayValidations;
     }
 
     public static Validation getAssayHasPlatformInfoValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAY_PLATFORM, Requirement.OPTIONAL, Group.ASSAYS);
+        validation.setId(ValidationIdentifier.ASSAY_PLATFORM.getID());
         List<Integer> assaysWithNoPlatform = new ArrayList<>();
         for (Assay assay : study.getAssays()) {
             if (assay.getPlatform().isEmpty()) {
@@ -78,7 +76,6 @@ public class AssayValidations implements IValidationProcess {
             validation.setMessage(getPlatformErrMsg(assaysWithNoPlatform, study.getAssays().size()));
         }
 
-        validation.setStatus();
         return validation;
     }
 
@@ -98,6 +95,7 @@ public class AssayValidations implements IValidationProcess {
 
     public static Validation getAssayHasFilesValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAY_FILES, Requirement.MANDATORY, Group.FILES);
+        validation.setId(ValidationIdentifier.ASSAY_FILES.getID());
         for (Assay assay : study.getAssays()) {
             List<String> fileFields = getFileFieldsExceptMAFFrom(assay.getAssayTable().getFields());
             List<String> fileColumnsThatAreEmpty = new ArrayList<>();
@@ -109,13 +107,10 @@ public class AssayValidations implements IValidationProcess {
             if (fileColumnsThatAreEmpty.size() == fileFields.size()) {
                 validation.setPassedRequirement(false);
                 validation.setMessage(getErrMessage(assay, fileColumnsThatAreEmpty));
-                validation.setStatus();
                 return validation;
             }
         }
-
-        validation.setStatus();
-        return validation;
+      return validation;
     }
 
     private static List<String> getFileFieldsFrom(LinkedHashMap<String, Field> tableFields) {
@@ -177,6 +172,7 @@ public class AssayValidations implements IValidationProcess {
 
     public static Validation referencedFilesArePresentInFileSystem(Study study, boolean assayRawFileValidationHasPassed) {
         Validation validation = new Validation(DescriptionConstants.ASSAY_FILES_IN_FILESYSTEM, Requirement.MANDATORY, Group.FILES);
+        validation.setId(ValidationIdentifier.ASSAY_FILES_IN_FILESYSTEM.getID());
         if (!assayRawFileValidationHasPassed) {
             validation.setPassedRequirement(false);
             validation.setMessage("No Assay raw files are referenced");
@@ -190,7 +186,6 @@ public class AssayValidations implements IValidationProcess {
                 }
             }
         }
-        validation.setStatus();
         return validation;
     }
 
@@ -260,6 +255,7 @@ public class AssayValidations implements IValidationProcess {
 
     private static Validation getEmptyColumnsValidation(Study study) {
         Validation validation = new Validation(DescriptionConstants.ASSAYS_EMPTY_COLUMNS, Requirement.OPTIONAL, Group.ASSAYS);
+        validation.setId(ValidationIdentifier.ASSAYS_EMPTY_COLUMNS.getID());
 
         if (study.getAssays().size() == 1) {
             handleSingleAssayCase(validation, study);
@@ -277,7 +273,6 @@ public class AssayValidations implements IValidationProcess {
             validation.setPassedRequirement(false);
             validation.setMessage(Utilities.getSampleColumnEmptyErrMsg(emptyFieldNames, "Assay"));
         }
-        validation.setStatus();
     }
 
     private static void handleMultipleAssayCase(Validation validation, Study study) {
@@ -291,7 +286,6 @@ public class AssayValidations implements IValidationProcess {
                 validation.setMessage(getSampleColumnEmptyErrMsg(columnName_assay_map));
             }
         }
-        validation.setStatus();
     }
 
     private static void fill(Map<String, HashSet<Integer>> columnName_assay_map, List<String> emptyFieldNames, int assayNumber) {

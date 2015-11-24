@@ -58,10 +58,7 @@ import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -212,6 +209,8 @@ public class MetabolightsWsClient {
     }
 
     private String makeDeleteRequest(String path) {return makeRequestSendingData(path, null,"DELETE");
+    }
+    private String makeDeleteRequest(String path, Object data) {return makeRequestSendingData(path, data,"DELETE");
     }
 
     private String makeGetRequest(String path) {
@@ -477,6 +476,7 @@ public class MetabolightsWsClient {
 
     /**
      * Deletes a series of files selected from the Study Files tab in a study.
+     *
      * @param studyId
      * @param obfuscationCode, the user credentials
      * @param selectedFiles, the list of files to be deleted
@@ -489,7 +489,7 @@ public class MetabolightsWsClient {
                                                      List<String> selectedFiles){
 
         String response = makePostRequest(STUDY_PATH + studyId + "/deleteFiles",selectedFiles);
-        logger.info("Deleting files from study {} by user request", obfuscationCode, studyId);
+        logger.info("Deleting files from study {} by user request.", studyId);
 
         return deserializeJSONString(response, String.class);
     }
@@ -766,5 +766,92 @@ public class MetabolightsWsClient {
 
         return deserializeJSONString(responseS, Boolean.class);
 
+    }
+
+    /**
+     * Create a private FTP folder for a Study, so the user can upload big files using ftp.
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151105
+     */
+    public RestResponse<String> requestFtpFolder(String studyId){
+
+        String jsonData = serializeObject("Request FTP Folder");
+
+        String response = makePostRequest(STUDY_PATH + studyId +
+                "/files/requestFtpFolder", jsonData);
+
+        return deserializeJSONString(response, String.class);
+    }
+
+    /**
+     * Move files from private FTP folder for a Study.
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151105
+     */
+    public RestResponse<String> moveFilesfromFtpFolder(String studyId, List<String> selFiles){
+
+        String jsonData = serializeObject(selFiles);
+
+        String response = makePostRequest(STUDY_PATH + studyId +
+                "/files/moveFilesfromFtpFolder", jsonData);
+
+        return deserializeJSONString(response, String.class);
+    }
+
+    /**
+     * Get a list of files from private FTP folder for a Study
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151110
+     */
+    public RestResponse<File[]> getPrivateFtpFileList(String studyId) {
+
+        String response = makeGetRequest(STUDY_PATH + studyId +
+                "/files/privateFtpFolder/list");
+
+        return deserializeJSONString(response, File[].class);
+    }
+
+    /**
+     * Check if a Study has a private FTP folder
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20151112
+     */
+    public boolean hasPrivateFtpFolder(String studyId) {
+
+        boolean response = deserializeJSONString(makeGetRequest(STUDY_PATH + studyId +
+                "/files/privateFtpFolder"), Boolean.class).getContent();
+
+        return response;
+    }
+
+    /**
+     * Delete a list of files from the private FTP folder of the study
+     *
+     * @param studyId
+     * @param selectedFiles
+     * @return
+     * @author: jrmacias
+     * @date: 20151112
+     */
+    public RestResponse<String> deletePrivateFtpFiles(String studyId, List<String> selectedFiles) {
+
+        logger.info("Deleting files from study {} private FTP, by user request.", studyId);
+
+        String response = makePostRequest(STUDY_PATH + studyId +
+                "/files/deleteFilesfromFtpFolder", selectedFiles);
+
+        return deserializeJSONString(response, String.class);
     }
 }

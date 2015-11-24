@@ -114,6 +114,7 @@
 	<div class="grid_17 omega">
 		<input type="file" name="file" />
     </div>
+
 	<div class="grid_6 alpha prefix_1"><spring:message code="label.publicDate"/>:</div>
 	<div class="grid_17 omega">
 		<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>

@@ -30,6 +30,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.utils.json.NumberUtils;
 
 import java.math.BigDecimal;
@@ -91,6 +92,8 @@ public class LiteStudy extends Entity {
 
     private String obfuscationCode = java.util.UUID.randomUUID().toString();
     private BigDecimal studySize = new BigDecimal(0);
+    private Validations validations = new Validations();
+
 
 
     // Collections
@@ -245,6 +248,14 @@ public class LiteStudy extends Entity {
 
     public void setIsatabErrorMessages(List<String> isatabErrorMessages) {
         this.isatabErrorMessages = isatabErrorMessages;
+    }
+
+    public Validations getValidations() {
+        return validations;
+    }
+
+    public void setValidations(Validations validations) {
+        this.validations = validations;
     }
 
 
