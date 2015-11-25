@@ -713,7 +713,7 @@
                 <div class="specs">
                 Validations marked with (*) are specially approved by the MetaboLights Curators
                 </div>
-                <table class="display clean" order="[ 1, 'asc' ]">
+                <table class="display clean" order="[[ 1, 'asc' ],[ 0, 'desc' ]]">
                     <thead class='text_header'>
                     <tr>
                         <th>Condition</th>
@@ -737,11 +737,13 @@
                             <c:if test="${validation.status == 'GREEN'}">
                                <td>PASSES</td>
                             </c:if>
-                            <c:if test="${validation.status == 'RED'}">
-                                <td>FAILS</td>
-                            </c:if>
-                            <c:if test="${validation.status == 'ORANGE'}">
-                                <td>INCOMPLETE</td>
+                            <c:if test="${validationPassedRequirement == 'false'}">
+                                <c:if test="${validationType == 'MANDATORY'}">
+                                    <td>FAILS</td>
+                                </c:if>
+                                <c:if test="${validationType == 'OPTIONAL'}">
+                                    <td>INCOMPLETE</td>
+                                </c:if>
                             </c:if>
 
                             <%--<td>${validation.status}</td>--%>
