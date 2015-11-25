@@ -29,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.metabolights.authenticate.AppRole;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
@@ -259,7 +260,7 @@ public class EntryController extends AbstractController {
 
 		mav.addObject("files", fdController.getStudyFileList(study.getStudyIdentifier()));
 
-		if(!study.isPublicStudy()) {
+		if(!study.isPublicStudy() && (user.isCurator() || user.getRole() == AppRole.ROLE_SUBMITTER.ordinal())) {
 			mav.addObject("ftpFiles", fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
 			mav.addObject("hasPrivateFtpFolder", fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
 		}
