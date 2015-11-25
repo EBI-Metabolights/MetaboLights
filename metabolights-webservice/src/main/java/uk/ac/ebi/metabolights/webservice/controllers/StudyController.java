@@ -547,7 +547,7 @@ public class StudyController extends BasicController{
 		String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");	// ...
 
 		User user = getUser();
-		logger.info("[WS] User {0} has requested a private FTP folder for the study {1}", user.getUserName(),studyIdentifier);
+		logger.info("User {} has requested a private FTP folder for the study {}", user.getUserName(),studyIdentifier);
 
 		// FTP folder is composed with the study identifier + the obfuscation code
 		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
@@ -579,7 +579,7 @@ public class StudyController extends BasicController{
 				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
 				.append('\n');
 		emailService.sendCreatedFTPFolderEmail(user.getEmail(), subject, body.toString());
-		logger.info("FTP folder details sent to user: {0}, by email: {1} .", user.getUserName(), user.getEmail());
+		logger.info("Private FTP folder details sent to user: {}, by email: {} .", user.getUserName(), user.getEmail());
 
 		return restResponse;
 	}
